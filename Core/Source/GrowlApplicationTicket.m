@@ -21,6 +21,7 @@
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
 #define ClickHandlersEnabledKey	@"clickHandlersEnabled"
+#define PositionTypeKey			@"positionType"
 
 #pragma mark -
 
@@ -157,6 +158,18 @@
 			clickHandlersEnabled = [value boolValue];
 		else
 			clickHandlersEnabled = YES;
+		
+		value = getObjectForKey(ticketDict, PositionTypeKey);
+		if (value)
+			positionType = [value intValue];
+		else
+			positionType = 0;	
+		
+		value = getObjectForKey(ticketDict, GROWL_POSITION_PREFERENCE_KEY);
+		if (value)
+			selectedCustomPosition = [value intValue];
+		else
+			selectedCustomPosition = 0;				
 
 		[self setDefaultNotifications:inDefaults];
 		changed = YES;
@@ -243,25 +256,32 @@
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
 	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
+	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInt:positionType];
+	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInt:selectedCustomPosition];
 	NSData *theIconData = iconData;
 	if (!theIconData) {
 		NSImage *theIcon = [self icon];
 		theIconData = theIcon ? [theIcon TIFFRepresentation] : [NSData data];
 	}
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		appName,                   GROWL_APP_NAME,
-		saveNotifications,         GROWL_NOTIFICATIONS_ALL,
-		defaultNotifications,      GROWL_NOTIFICATIONS_DEFAULT,
-		theIconData,               GROWL_APP_ICON,
-		useDefaultsValue,          UseDefaultsKey,
-		ticketEnabledValue,        TicketEnabledKey,
-		clickHandlersEnabledValue, ClickHandlersEnabledKey,
-		location,                  GROWL_APP_LOCATION,
+		appName,						GROWL_APP_NAME,
+		saveNotifications,				GROWL_NOTIFICATIONS_ALL,
+		defaultNotifications,			GROWL_NOTIFICATIONS_DEFAULT,
+		theIconData,					GROWL_APP_ICON,
+		useDefaultsValue,				UseDefaultsKey,
+		ticketEnabledValue,				TicketEnabledKey,
+		clickHandlersEnabledValue,		ClickHandlersEnabledKey,
+		positionTypeValue,				PositionTypeKey,
+		selectedCustomPositionValue,	GROWL_POSITION_PREFERENCE_KEY,
+		location,						GROWL_APP_LOCATION,
 		nil];
-	[useDefaultsValue          release];
-	[ticketEnabledValue        release];
-	[clickHandlersEnabledValue release];
-	[saveNotifications         release];
+	[useDefaultsValue					release];
+	[ticketEnabledValue					release];
+	[clickHandlersEnabledValue			release];
+	[positionTypeValue					release];
+	[selectedCustomPositionValue		release];
+	[saveNotifications					release];
+	
 	if (displayPluginName)
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 
@@ -364,6 +384,24 @@
 
 - (void) setClickHandlersEnabled:(BOOL)inEnabled {
 	clickHandlersEnabled = inEnabled;
+	[self synchronize];
+}
+
+- (int) positionType {
+	return positionType;
+}
+
+- (void) setPositionType:(int)inPositionType {
+	positionType = inPositionType;
+	[self synchronize];
+}
+
+- (int) selectedPosition {
+	return selectedCustomPosition;
+}
+
+- (void) setSelectedPosition:(int)inPosition {
+	selectedCustomPosition = inPosition;
 	[self synchronize];
 }
 

@@ -26,6 +26,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aboutBoxTextView = NSTextView; 
+                appPositionPicker = GrowlPositionPicker; 
                 applicationNameAndIconColumn = NSTableColumn; 
                 applicationsTab = NSTabView; 
                 customMenuButton = NSPopUpButton; 
@@ -37,6 +38,7 @@
                 displayPluginsTable = NSTableView; 
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
+                globalPositionPicker = GrowlPositionPicker; 
                 growlApplications = NSTableView; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 

@@ -136,7 +136,7 @@
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
 	NSPoint idealOrigin;
 	
 	switch(originatingPosition){
@@ -166,7 +166,7 @@
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){
@@ -191,7 +191,7 @@
 }
 
 - (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){

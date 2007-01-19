@@ -11,8 +11,6 @@
 #define GrowlPositionPickerHotCornerInset       3.0f
 #define GrowlPositionPickerHotCornerDiameter    15.f
 
-#define GROWL_POSITION_PREFERENCE_KEY			@"GrowlSelectedPosition"
-
 static NSImage *backgroundImage = nil;
 static NSColor *unselectedColor = nil;
 static NSColor *selectedColor = nil;
@@ -40,6 +38,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     unselectedColor = [[NSColor colorWithDeviceWhite:1.0f alpha:0.7f] retain];
     rolloverColor = [[NSColor grayColor] retain];
     selectedColor = [[NSColor whiteColor] retain];
+	
+	[NSObject exposeBinding:@"selectedPosition"];
 }
 
 - (id) initWithFrame:(NSRect)frame {
@@ -78,7 +78,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     [backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:1.0f];
 	
 	// select the appropriate hotcorner before drawing
-	[self setSelectedPosition:[[preferencePane preferencesController] integerForKey:GROWL_POSITION_PREFERENCE_KEY]];
+	//[self setSelectedPosition:[associatedController selectedPosition]];
     
     // draw the hotcorners...
     [self drawHotCorner:topLeftHotCorner position:GrowlTopLeftCorner];
@@ -181,8 +181,6 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     if (selectedPosition != lastValue) {
         [[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
                                                             object:self];
-		// save selected position as an int into the preferences
-		[[preferencePane preferencesController] setInteger:selectedPosition forKey:GROWL_POSITION_PREFERENCE_KEY];
     }
 }
 

@@ -263,6 +263,10 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 #pragma mark UI
 
+- (int)selectedPosition {
+	return [self integerForKey:GROWL_POSITION_PREFERENCE_KEY];
+}
+
 - (BOOL) isBackgroundUpdateCheckEnabled {
 	return [self boolForKey:GrowlUpdateCheckKey];
 }

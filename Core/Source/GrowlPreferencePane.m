@@ -23,6 +23,7 @@
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
+#include "GrowlPositionPicker.h"
 
 #define PING_TIMEOUT		3
 
@@ -151,7 +152,15 @@
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
+	
+	// bind the global position picker programmatically since its a custom view, register for notification so we can handle updating manually
+	[globalPositionPicker bind:@"selectedPosition" toObject:preferencesController withKeyPath:@"selectedPosition" options:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:globalPositionPicker];
 
+	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
+	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
+	
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 }
@@ -336,6 +345,16 @@
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
 	if (!pidValue || [pidValue intValue] != pid)
 		[self reloadPreferences:[notification object]];
+}
+
+- (void) updatePosition:(NSNotification *)notification {
+	if([notification object] == globalPositionPicker) {
+		[preferencesController setInteger:[globalPositionPicker selectedPosition] forKey:GROWL_POSITION_PREFERENCE_KEY];
+	}
+	else if([notification object] == appPositionPicker) {
+		// a cheap hack around selection not providing a workable object
+		[[[ticketsArrayController selectedObjects] objectAtIndex:0] setSelectedPosition:[appPositionPicker selectedPosition]];
+	}
 }
 
 /*!

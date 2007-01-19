@@ -9,7 +9,7 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin;
+@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin, GrowlPositionPicker;
 
 @interface GrowlPreferencePane : NSPreferencePane {
 	int                             pid;
@@ -45,6 +45,7 @@
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
+	IBOutlet GrowlPositionPicker	*globalPositionPicker;
 
 	// Logging
 	IBOutlet NSMatrix				*logFileType;
@@ -58,6 +59,7 @@
 	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;
+	IBOutlet GrowlPositionPicker	*appPositionPicker;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;

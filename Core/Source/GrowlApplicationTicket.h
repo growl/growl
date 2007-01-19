@@ -29,6 +29,9 @@
 
 	NSString		*displayPluginName;
 	GrowlDisplayPlugin *displayPlugin;		    // Non-nil if this ticket uses a custom display plugin
+	
+	int				positionType;				// Integer that tracks the selected position type (default or custom currently)
+	int				selectedCustomPosition;		// Integer that tracks the selected custom position [int value translated from enum] FRAGILE
 
 	BOOL            changed;
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
@@ -72,6 +75,12 @@
 
 - (BOOL) useDefaults;
 - (void) setUseDefaults:(BOOL)flag;
+
+- (int) positionType;
+- (void) setPositionType:(int)inPositionType;
+
+- (int) selectedPosition;
+- (void) setSelectedPosition:(int)inPosition;
 
 - (NSString *) displayPluginName;
 - (GrowlDisplayPlugin *) displayPlugin;

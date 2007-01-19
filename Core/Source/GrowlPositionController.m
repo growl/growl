@@ -12,6 +12,8 @@
 #import "GrowlDisplayWindowController.h"
 #import "GrowlPreferencesController.h"
 #import "NSMutableStringAdditions.h"
+#import "GrowlDefines.h"
+#import "GrowlTicketController.h"
 
 #import "GrowlLog.h"
 
@@ -38,11 +40,10 @@
 //Read in the stored selection from picker and translate to a properly returned GrowlPosition.
 + (enum GrowlPosition)selectedOriginPosition
 {
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-	enum GrowlPositionOrigin selectedPosition = (enum GrowlPositionOrigin)[preferences integerForKey:@"GrowlSelectedPosition"];
+	enum GrowlPositionOrigin globalSelectedPosition = (enum GrowlPositionOrigin)[[GrowlPreferencesController sharedController] integerForKey:GROWL_POSITION_PREFERENCE_KEY];
 	enum GrowlPosition translatedPosition;
 		
-	switch(selectedPosition){
+	switch(globalSelectedPosition){
 		case GrowlNoOrigin:
 			//Default to middle of the screen if no origin is set, though this case shouldn't be hit.
 			translatedPosition = GrowlMiddleColumnPosition;
@@ -204,6 +205,10 @@
 
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
 	GrowlLog *growlLog = [GrowlLog sharedController];
+	
+	GrowlApplicationTicket *displayTicket = [[GrowlTicketController sharedController] ticketForApplicationName:[[displayController notification] applicationName]];
+	selectedPositionType = [displayTicket positionType];
+	selectedCustomPosition = (enum GrowlPositionOrigin)[displayTicket selectedPosition];
 
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];
@@ -437,6 +442,32 @@
 	}
 
 	return result;
+}
+
+- (enum GrowlPosition) originPosition {
+	if(selectedPositionType == 1) {
+		enum GrowlPosition translatedPosition;
+		switch(selectedCustomPosition){
+			case GrowlNoOrigin:
+				//Default to middle of the screen if no origin is set, though this case shouldn't be hit.
+				translatedPosition = GrowlMiddleColumnPosition;
+				break;
+			case GrowlTopLeftCorner:
+				translatedPosition = GrowlTopLeftPosition;
+				break;
+			case GrowlBottomRightCorner:
+				translatedPosition = GrowlBottomRightPosition;
+				break;
+			case GrowlTopRightCorner:
+				translatedPosition = GrowlTopRightPosition;
+				break;
+			case GrowlBottomLeftCorner:
+				translatedPosition = GrowlBottomLeftPosition;
+				break;
+		}		
+		return translatedPosition;
+	}
+	return [GrowlPositionController selectedOriginPosition];
 }
 
 @end

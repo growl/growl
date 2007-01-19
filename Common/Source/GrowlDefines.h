@@ -355,4 +355,7 @@
  */
 #define GROWL_REG_DICT_EXTENSION		XSTR("growlRegDict")
 
+
+#define GROWL_POSITION_PREFERENCE_KEY			@"GrowlSelectedPosition"
+
 #endif //ndef _GROWLDEFINES_H
