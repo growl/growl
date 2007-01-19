@@ -59,6 +59,8 @@
 		return nil;
 	}
 	if ((self = [super init])) {
+		synchronizeOnChanges = NO;
+
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
 		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
 
@@ -174,6 +176,7 @@
 		[self setDefaultNotifications:inDefaults];
 
 		changed = YES;
+		synchronizeOnChanges = YES;
 	}
 	return self;
 }
@@ -449,6 +452,7 @@
 }
 
 - (void) setDisplayPluginName: (NSString *)name {
+	NSLog(@"%@ %x: is %@, will be %@",NSStringFromClass([self class]),self,displayPluginName,name);
 	if (![displayPluginName isEqualToString:name]) {
 		[displayPluginName release];
 		displayPluginName = [name copy];
