@@ -452,7 +452,6 @@
 }
 
 - (void) setDisplayPluginName: (NSString *)name {
-	NSLog(@"%@ %x: is %@, will be %@",NSStringFromClass([self class]),self,displayPluginName,name);
 	if (![displayPluginName isEqualToString:name]) {
 		[displayPluginName release];
 		displayPluginName = [name copy];
