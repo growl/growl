@@ -143,6 +143,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 		[viewingState release];
 		[messageViewer showAndMakeKey:YES];
 		[messageViewer release];
+		[Library markMessageAsViewed:message];
 	}
 	[NSApp activateIgnoringOtherApps:YES];
 }
