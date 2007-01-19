@@ -279,7 +279,7 @@ static NSBundle *prefPaneBundle;
 	//look for a filename that doesn't exist (with any extension) in the directory.
 	NSString *filename = nil;
 	unsigned long long i;
-  for (i = 1ULL; i < ULLONG_MAX; ++i) {
+	for (i = 1ULL; i < ULLONG_MAX; ++i) {
 		[filename release];
 		filename = [[NSString alloc] initWithFormat:@"Screenshot %llu", i];
 		if (![directoryContents containsObject:filename])
