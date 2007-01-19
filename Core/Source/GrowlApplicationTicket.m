@@ -172,9 +172,9 @@
 			selectedCustomPosition = 0;				
 
 		[self setDefaultNotifications:inDefaults];
+
 		changed = YES;
 	}
-
 	return self;
 }
 
@@ -205,6 +205,7 @@
 		[self release];
 		return nil;
 	}
+
 	self = [self initWithDictionary:ticketDict];
 	[ticketDict release];
 	return self;
@@ -308,20 +309,31 @@
 	changed = NO;
 }
 
-- (void) synchronize {
+- (void) doSynchronize {
 	[self saveTicket];
-	int pid = getpid();
-	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
-	CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
-	CFTypeRef   values[2] = { appName, pidValue };
-	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFRelease(pidValue);
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-										 (CFStringRef)GrowlPreferencesChanged,
-										 /*object*/ CFSTR("GrowlTicketChanged"),
-										 /*userInfo*/ userInfo,
-										 /*deliverImmediately*/ false);
-	CFRelease(userInfo);
+
+	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+		appName, @"TicketName",
+		pid,     @"pid",
+		nil];
+	[pid release];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
+																   object:@"GrowlTicketChanged"
+																 userInfo:userInfo];
+	[userInfo release];	
+}
+
+- (void) synchronize {
+	if (synchronizeOnChanges) {
+		//Coalesce a series of changes into a single message; this makes mass changes (such as registration) much faster.
+		[NSObject cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(doSynchronize)
+												   object:nil];
+		[self performSelector:@selector(doSynchronize)
+				   withObject:nil
+				   afterDelay:0.5];
+	}
 }
 
 #pragma mark -
@@ -374,8 +386,10 @@
 }
 
 - (void) setTicketEnabled:(BOOL)inEnabled {
-	ticketEnabled = inEnabled;
-	[self synchronize];
+	if (ticketEnabled != inEnabled) {
+		ticketEnabled = inEnabled;
+		[self synchronize];
+	}
 }
 
 - (BOOL) clickHandlersEnabled {
@@ -383,8 +397,11 @@
 }
 
 - (void) setClickHandlersEnabled:(BOOL)inEnabled {
-	clickHandlersEnabled = inEnabled;
-	[self synchronize];
+	if (clickHandlersEnabled != inEnabled) {
+		clickHandlersEnabled = inEnabled;
+		
+		[self synchronize];
+	}
 }
 
 - (int) positionType {
@@ -432,10 +449,13 @@
 }
 
 - (void) setDisplayPluginName: (NSString *)name {
-	[displayPluginName release];
-	displayPluginName = [name copy];
-	displayPlugin = nil;
-	[self synchronize];
+	if (![displayPluginName isEqualToString:name]) {
+		[displayPluginName release];
+		displayPluginName = [name copy];
+		displayPlugin = nil;
+		
+		[self synchronize];
+	}
 }
 
 #pragma mark -

@@ -37,6 +37,8 @@
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
+	
+	BOOL			synchronizeOnChanges;
 }
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
