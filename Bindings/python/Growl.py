@@ -174,14 +174,14 @@ class GrowlNotifier(object):
 
     def __init__(self, applicationName=None, notifications=None, defaultNotifications=None, applicationIcon=None, hostname=None, password=None):
         assert(applicationName is not None, 'an application name is required')
-		self.applicationName = applicationName
+        self.applicationName = applicationName
 
         assert(notifications, 'a sequence of one or more notification names is required')
-		self.notifications = list(notifications)
+        self.notifications = list(notifications)
         if defaultNotifications is not None:
             self.defaultNotifications = list(defaultNotifications)
-		else:
-			self.defaultNotifications = list(self.notifications)
+        else:
+            self.defaultNotifications = list(self.notifications)
 
         if applicationIcon is not None:
             self.applicationIcon = self._checkIcon(applicationIcon)
