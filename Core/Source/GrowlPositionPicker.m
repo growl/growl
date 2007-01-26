@@ -33,7 +33,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	if (self != [GrowlPositionPicker class])
 		return;
 	
-	backgroundImage = [[NSImage imageNamed:@"PositionPickerBackground"] retain];
+	backgroundImage = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
 	imageBounds = NSMakeRect(0.0f,0.0f,[backgroundImage size].width,[backgroundImage size].height);
 	unselectedColor = [[NSColor colorWithDeviceWhite:1.0f alpha:0.7f] retain];
 	rolloverColor = [[NSColor grayColor] retain];
