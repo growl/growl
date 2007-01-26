@@ -10,6 +10,8 @@
 
 #define GrowlPositionPickerHotCornerInset	   3.0f
 #define GrowlPositionPickerHotCornerDiameter	15.f
+#define GrowlPositionPickerHotCornerUnselectedAlpha 0.7f
+#define GrowlPositionPickerHotCornerSelectedAlpha   0.7f
 
 static NSImage *backgroundImage = nil;
 static NSColor *unselectedColor = nil;
@@ -35,7 +37,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	
 	backgroundImage = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
 	imageBounds = NSMakeRect(0.0f,0.0f,[backgroundImage size].width,[backgroundImage size].height);
-	unselectedColor = [[NSColor colorWithDeviceWhite:1.0f alpha:0.7f] retain];
+	unselectedColor = [[NSColor colorWithDeviceWhite:1.0f alpha:GrowlPositionPickerHotCornerUnselectedAlpha] retain];
 	rolloverColor = [[NSColor grayColor] retain];
 	selectedColor = [[NSColor whiteColor] retain];
 	
@@ -259,7 +261,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	// stroke the selected corner...
 	if (selected)
 	{
-		[[[NSColor blackColor] colorWithAlphaComponent:0.7f] set];
+		[[[NSColor blackColor] colorWithAlphaComponent:GrowlPositionPickerHotCornerSelectedAlpha] set];
 		[cornerPath setLineWidth:2.0f];
 		[cornerPath setLineJoinStyle:NSMiterLineJoinStyle];
 		[cornerPath stroke];
