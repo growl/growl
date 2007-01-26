@@ -21,7 +21,7 @@ expansion, and origin selection.
  * @constant GrowlTopRowPosition The top oblong (row) of the screen.
  * @constant GrowlCenterRowPosition The center oblong (row) of the screen.
  * @constant GrowlBottomRowPosition The bottom oblong (row) of the screen.
- * @constant GrowlLeftColumnPosition The bottom oblong (column) of the screen.
+ * @constant GrowlLeftColumnPosition The left oblong (column) of the screen.
  * @constant GrowlMiddleColumnPosition The middle oblong (column) of the screen.
  * @constant GrowlRightColumnPosition The right oblong (column) of the screen.
  */
