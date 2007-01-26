@@ -12,23 +12,23 @@
 
 /* Size should be 150 * 100 */
 
-#define GrowlPositionPickerMinWidth     150.0f
-#define GrowlPositionPickerMinHeight    100.0f
+#define GrowlPositionPickerMinWidth	 150.0f
+#define GrowlPositionPickerMinHeight	100.0f
 
 extern NSString *GrowlPositionPickerChangedSelectionNotification;
 
 extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSView {	
-    enum GrowlPositionOrigin    selectedPosition;
-    enum GrowlPositionOrigin    rolloverPosition;
-    unsigned                    trackingRectTag;
-    BOOL                        mouseOverView;
-    BOOL                        windowWatchesMouseMovedEvents;
-    NSBezierPath                *topLeftHotCorner;
-    NSBezierPath                *topRightHotCorner;
-    NSBezierPath                *bottomRightHotCorner;
-    NSBezierPath                *bottomLeftHotCorner;
+	enum GrowlPositionOrigin	selectedPosition;
+	enum GrowlPositionOrigin	rolloverPosition;
+	unsigned					trackingRectTag;
+	BOOL						mouseOverView;
+	BOOL						windowWatchesMouseMovedEvents;
+	NSBezierPath				*topLeftHotCorner;
+	NSBezierPath				*topRightHotCorner;
+	NSBezierPath				*bottomRightHotCorner;
+	NSBezierPath				*bottomLeftHotCorner;
 }
 
 - (enum GrowlPositionOrigin) selectedPosition;
