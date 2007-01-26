@@ -252,17 +252,18 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     BOOL mouseOver = ((rolloverPosition == position));
     BOOL selected  = ((selectedPosition == position));
     
-    // stroke the selected corner...
-    if (selected)
-    {
-        [[NSColor blackColor] set];
-        [cornerPath setLineWidth:1.0f];
-        [cornerPath stroke];
-    }
-    
     // fill the path...
     [(selected ? selectedColor : (mouseOver ? rolloverColor : unselectedColor)) set];
     [cornerPath fill];
+    
+    // stroke the selected corner...
+    if (selected)
+    {
+        [[[NSColor blackColor] colorWithAlphaComponent:0.7f] set];
+        [cornerPath setLineWidth:2.0f];
+        [cornerPath setLineJoinStyle:NSMiterLineJoinStyle];
+        [cornerPath stroke];
+    }
     
     [NSGraphicsContext restoreGraphicsState];
 }
