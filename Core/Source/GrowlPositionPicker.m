@@ -10,8 +10,9 @@
 
 #define GrowlPositionPickerHotCornerInset	   3.0f
 #define GrowlPositionPickerHotCornerDiameter	15.f
-#define GrowlPositionPickerHotCornerUnselectedAlpha 0.7f
-#define GrowlPositionPickerHotCornerSelectedAlpha   0.7f
+#define GrowlPositionPickerHotCornerUnselectedAlpha   0.7f
+#define GrowlPositionPickerHotCornerSelectedAlpha     0.9f
+#define GrowlPositionPickerHotCornerSelectionDotAlpha 0.7f
 
 static NSImage *backgroundImage = nil;
 static NSColor *unselectedColor = nil;
@@ -255,18 +256,54 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	BOOL selected  = ((selectedPosition == position));
 	
 	// fill the path...
-	[(selected ? selectedColor : (mouseOver ? rolloverColor : unselectedColor)) set];
+	[(selected
+	 ? [[NSColor whiteColor] colorWithAlphaComponent:GrowlPositionPickerHotCornerSelectedAlpha]
+	 : (mouseOver
+	   ? rolloverColor
+	   : unselectedColor
+	   )
+	 ) set];
 	[cornerPath fill];
 	
 	// stroke the selected corner...
 	if (selected)
 	{
-		[[[NSColor blackColor] colorWithAlphaComponent:GrowlPositionPickerHotCornerSelectedAlpha] set];
-		[cornerPath setLineWidth:2.0f];
-		[cornerPath setLineJoinStyle:NSMiterLineJoinStyle];
-		[cornerPath stroke];
+		//… and put a black dot in it to make it really obvious that it's selected.
+		[[[NSColor blackColor] colorWithAlphaComponent:GrowlPositionPickerHotCornerSelectionDotAlpha] set];
+		NSBezierPath *dot = [NSBezierPath bezierPath];
+		NSRect cornerPathBounds = [cornerPath bounds];
+		NSPoint centerPoint = NSMakePoint(NSMidX(cornerPathBounds),
+		                                  NSMidY(cornerPathBounds));
+		//Center our dot within the correct quadrant of the corner path's bounding rectangle, by adding or subtracting one-eighth of its bounds on each axis.
+		float xOffset = NSWidth(cornerPathBounds)  * (1.0f / 6.0f);
+		float yOffset = NSHeight(cornerPathBounds) * (1.0f / 6.0f);
+		switch (position) {
+		case GrowlTopLeftCorner:
+			xOffset *= -1.0f;
+			break;
+		case GrowlTopRightCorner:
+			break;
+		case GrowlBottomRightCorner:
+			yOffset *= -1.0f;
+			break;
+		case GrowlBottomLeftCorner:
+			xOffset *= -1.0f;
+			yOffset *= -1.0f;
+			break;
+		}
+		centerPoint.x += xOffset;
+		centerPoint.y += yOffset;
+
+		//Draw the dot.
+		[dot moveToPoint:centerPoint];
+		[dot appendBezierPathWithArcWithCenter:centerPoint
+		                                radius:2.0f
+		                            startAngle:0.0f
+		                              endAngle:360.0f];
+		[dot closePath];
+		[dot fill];
 	}
-	
+
 	[NSGraphicsContext restoreGraphicsState];
 }
 
