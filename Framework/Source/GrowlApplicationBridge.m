@@ -13,7 +13,6 @@
 #endif
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
-#include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
