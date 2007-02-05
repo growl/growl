@@ -29,6 +29,7 @@
                 appPositionPicker = GrowlPositionPicker; 
                 applicationNameAndIconColumn = NSTableColumn; 
                 applicationsTab = NSTabView; 
+                configurationTab = NSTabView; 
                 customMenuButton = NSPopUpButton; 
                 disabledDisplaysList = NSTextView; 
                 disabledDisplaysSheet = NSWindow; 

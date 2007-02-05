@@ -56,6 +56,7 @@
 	IBOutlet NSTableView			*growlApplications;
 	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
 	IBOutlet NSTabView				*applicationsTab;
+	IBOutlet NSTabView				*configurationTab;
 	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;

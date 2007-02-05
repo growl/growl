@@ -812,8 +812,10 @@
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {
-	if ([ticketsArrayController selectionIndex] != NSNotFound)
+	if ([ticketsArrayController selectionIndex] != NSNotFound) {
 		[applicationsTab selectLastTabViewItem:sender];
+		[configurationTab selectFirstTabViewItem:sender];
+	}
 }
 
 #pragma mark NSNetServiceBrowser Delegate Methods
