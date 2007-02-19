@@ -22,6 +22,7 @@
 
 	return data;
 }
+
 - (NSData *) dataWithTIFFInsideRect:(NSRect)rect {
 	[self lockFocus];
 	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];

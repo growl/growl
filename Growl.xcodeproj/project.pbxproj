@@ -224,8 +224,6 @@
 		9574BBAA08392CC500106CA3 /* GrowlSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 9574BBA808392CC500106CA3 /* GrowlSuite.scriptSuite */; };
 		9574BBAB08392CC500106CA3 /* GrowlSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 9574BBA908392CC500106CA3 /* GrowlSuite.scriptTerminology */; };
 		957B4F3A083D139500F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
-		957B4F6A083D147200F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
-		957B4F6B083D147400F562B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		957B5028083D155000F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
@@ -323,10 +321,6 @@
 		DD493B7D084BB07900D1CCCB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD493B7C084BB07900D1CCCB /* Info.plist */; };
 		DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DD493C31084BDF0200D1CCCB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
-		DDF09B1E080AC97A006F4172 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B19080AC97A006F4172 /* main.m */; };
-		DDF09B1F080AC97A006F4172 /* PrefPaneTesting-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */; };
-		DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */; };
-		DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
 		E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -473,13 +467,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD4939CB084BACA700D1CCCB;
 			remoteInfo = SMS;
-		};
-		DDF09BC8080ACA0A006F4172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D202CE80486D31800D8A456;
-			remoteInfo = Growl;
 		};
 		E14410F10A9407680063C4DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -890,7 +877,7 @@
 		C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
 		CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationTicket.h; path = Core/Source/GrowlApplicationTicket.h; sourceTree = "<group>"; };
 		CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationTicket.m; path = Core/Source/GrowlApplicationTicket.m; sourceTree = "<group>"; };
-		CB1C5D95063E523F007052EE /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
+		CB1C5D95063E523F007052EE /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = README.rtf; path = Docs/README.rtf; sourceTree = "<group>"; };
 		CB34BED107E09657001D7D7C /* GrowlApplicationBridgePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridgePathway.h; path = Core/Source/GrowlApplicationBridgePathway.h; sourceTree = "<group>"; };
 		CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationBridgePathway.m; path = Core/Source/GrowlApplicationBridgePathway.m; sourceTree = "<group>"; };
 		CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationTicket.h; path = Core/Source/GrowlNotificationTicket.h; sourceTree = "<group>"; };
@@ -907,12 +894,6 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
-		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
-		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
-		DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefpaneTester.m; path = "Prefpane TestHarness/PrefpaneTester.m"; sourceTree = "<group>"; };
-		DDF09C11080AD264006F4172 /* generateBuildPath.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = generateBuildPath.sh; path = "Prefpane TestHarness/generateBuildPath.sh"; sourceTree = "<group>"; };
 		E14410EF0A94072E0063C4DC /* iCal.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iCal.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14411100A9408840063C4DC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = iCalPrefs.nib; sourceTree = "<group>"; };
 		E14411110A9408840063C4DC /* GrowliCalDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDefines.h; path = Plugins/Displays/iCal/GrowliCalDefines.h; sourceTree = "<group>"; };
@@ -1088,16 +1069,6 @@
 				DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */,
 				DD493B73084BB02A00D1CCCB /* Foundation.framework in Frameworks */,
 				DD493B74084BB02A00D1CCCB /* AppKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDF09B08080AC8F3006F4172 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */,
-				957B4F6A083D147200F562B8 /* AppKit.framework in Frameworks */,
-				957B4F6B083D147400F562B8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1495,7 +1466,6 @@
 				0AB508B40767C87B006EA5CB /* Bezel.growlView */,
 				34F60EAB078E1CD500CECA86 /* Growl.framework */,
 				34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */,
-				DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */,
 				95075AB00817F5DB00D862A5 /* GrowlMenu.app */,
 				DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */,
 				93BC379E095A662B0002B365 /* Nano.growlView */,
@@ -1672,7 +1642,6 @@
 			children = (
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				DDF09B18080AC952006F4172 /* Prefpane Testing */,
 			);
 			name = Prefpane;
 			sourceTree = "<group>";
@@ -1757,18 +1726,6 @@
 				DDB6462607DE034800807F8D /* generateSVNRevision.sh */,
 			);
 			name = ShellScripts;
-			sourceTree = "<group>";
-		};
-		DDF09B18080AC952006F4172 /* Prefpane Testing */ = {
-			isa = PBXGroup;
-			children = (
-				DDF09C11080AD264006F4172 /* generateBuildPath.sh */,
-				DDF09B19080AC97A006F4172 /* main.m */,
-				DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */,
-				DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */,
-				DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */,
-			);
-			name = "Prefpane Testing";
 			sourceTree = "<group>";
 		};
 		E14411090A9408190063C4DC /* iCal */ = {
@@ -2146,26 +2103,6 @@
 			productReference = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */;
 			productType = "com.apple.product-type.bundle";
 		};
-		DDF09B09080AC8F3006F4172 /* PrefpaneTesting */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 95EE27820855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "PrefpaneTesting" */;
-			buildPhases = (
-				DDF09C13080AD2E8006F4172 /* ShellScript */,
-				DDF09B06080AC8F3006F4172 /* Resources */,
-				DDF09B07080AC8F3006F4172 /* Sources */,
-				DDF09B08080AC8F3006F4172 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			comments = "This target allows you to execute and debug the prefpane within xcode.";
-			dependencies = (
-				DDF09BC9080ACA0A006F4172 /* PBXTargetDependency */,
-			);
-			name = PrefpaneTesting;
-			productName = PrefpaneTesting;
-			productReference = DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */;
-			productType = "com.apple.product-type.application";
-		};
 		E14410DE0A94072E0063C4DC /* iCal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */;
@@ -2204,7 +2141,6 @@
 			projectDirPath = "";
 			targets = (
 				8D202CE80486D31800D8A456 /* Growl */,
-				DDF09B09080AC8F3006F4172 /* PrefpaneTesting */,
 				CB61E5170637763C00E0DDC7 /* GrowlHelperApp */,
 				95075AAF0817F5DB00D862A5 /* GrowlMenu */,
 				34F60EAA078E1CD500CECA86 /* Growl.framework */,
@@ -2358,14 +2294,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDF09B06080AC8F3006F4172 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDF09B1F080AC97A006F4172 /* PrefPaneTesting-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E14410DF0A94072E0063C4DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2453,20 +2381,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "source generateSVNRevision.sh";
-		};
-		DDF09C13080AD2E8006F4172 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-				$TARGET_BUILD_DIR/include/generatedBuildPath.h,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source \"Prefpane TestHarness/generateBuildPath.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2741,15 +2655,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDF09B07080AC8F3006F4172 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDF09B1E080AC97A006F4172 /* main.m in Sources */,
-				DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E14410E10A94072E0063C4DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2840,11 +2745,6 @@
 			isa = PBXTargetDependency;
 			target = DD4939CB084BACA700D1CCCB /* SMS */;
 			targetProxy = DD493C92084BE7FB00D1CCCB /* PBXContainerItemProxy */;
-		};
-		DDF09BC9080ACA0A006F4172 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D202CE80486D31800D8A456 /* Growl */;
-			targetProxy = DDF09BC8080ACA0A006F4172 /* PBXContainerItemProxy */;
 		};
 		E14410F20A9407680063C4DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3585,43 +3485,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27830855AA6C0045DB39 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				PRODUCT_NAME = PrefpaneTesting;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-					"-Wpointer-arith",
-					"-Wformat=2",
-					"-Wfloat-equal",
-				);
-			};
-			name = Development;
-		};
-		95EE27840855AA6C0045DB39 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				PRODUCT_NAME = PrefpaneTesting;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-			};
-			name = Deployment;
-		};
 		95EE27880855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4008,15 +3871,6 @@
 			buildConfigurations = (
 				95EE277E0855AA6C0045DB39 /* Development */,
 				95EE277F0855AA6C0045DB39 /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		95EE27820855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "PrefpaneTesting" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				95EE27830855AA6C0045DB39 /* Development */,
-				95EE27840855AA6C0045DB39 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
