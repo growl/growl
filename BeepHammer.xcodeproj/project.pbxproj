@@ -49,8 +49,8 @@
 		073B92C00685626C0068C763 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		07D0C5B6068A470F0076D89A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
 		31DF208E0B1F85320096DEBB /* whistle-red.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-red.icns"; sourceTree = "<group>"; };
-		31DF20A50B1F86170096DEBB /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "../../images/plusminus/minus-8.png"; sourceTree = SOURCE_ROOT; };
-		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../images/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
+		31DF20A50B1F86170096DEBB /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "../../Common/Resources/plusminus/minus-8.png"; sourceTree = SOURCE_ROOT; };
+		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../Common/Resources/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
