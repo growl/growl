@@ -1,0 +1,11 @@
+#!/usr/bin/perl
+
+# grep ps and see if we're running.
+open(PSOUT, "/bin/ps -awwwx |");
+while (<PSOUT>)
+{
+		exit(( 1 << 6 ) | ( 1 << 5 ) | 17) if (m/Mail\.app/)
+}
+close(PSOUT);
+
+exit(0);
