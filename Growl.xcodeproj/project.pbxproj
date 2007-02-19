@@ -824,7 +824,7 @@
 		95BF39000851F83F00873BE1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/WebKit/German.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		95BF39010851F84A00873BE1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/WebKit/Japanese.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		95BF39020851F85400873BE1 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/WebKit/zh_CN.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
-		95BF83760743675700306A77 /* growl-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "growl-icon.icns"; path = "images/icons/growl-icon.icns"; sourceTree = SOURCE_ROOT; };
+		95BF83760743675700306A77 /* growl-icon.icns */ = {isa = PBXFileReference; explicitFileType = image.icns; name = "growl-icon.icns"; path = "Common/Resources/growl-icon.icns"; sourceTree = "<group>"; };
 		95C8779907D9DFC000C69DEE /* NSWindow+Transforms.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSWindow+Transforms.h"; path = "Common/Source/NSWindow+Transforms.h"; sourceTree = "<group>"; };
 		95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+Transforms.m"; path = "Common/Source/NSWindow+Transforms.m"; sourceTree = "<group>"; };
 		95CF98A0082A5B8E001A409D /* cdsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdsa.h; path = Common/Source/cdsa.h; sourceTree = "<group>"; };
