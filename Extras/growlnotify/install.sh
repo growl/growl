@@ -1,6 +1,8 @@
 #!/bin/sh
 sudo mkdir -p /usr/local/bin
 echo "Creating /usr/local/bin"
+sudo mkdir -p /usr/local/man/man1
+echo "Creating /usr/local/man/man1"
 sudo cp growlnotify /usr/local/bin/growlnotify
 sudo cp growlnotify.1 /usr/local/man/man1/growlnotify.1
 
