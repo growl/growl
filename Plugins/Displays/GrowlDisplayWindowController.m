@@ -40,11 +40,11 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	[(GrowlWindowTransition *)context startAnimation];
 	
 	// we release this timer or it will leak
-	/* if (timer) {
+	if (timer) {
 		CFRunLoopTimerInvalidate(timer);
 		CFRelease(timer);
 		timer = NULL;
-	}	*/
+	}
 }
 
 @implementation GrowlDisplayWindowController
