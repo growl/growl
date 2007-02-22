@@ -38,6 +38,13 @@ static void finishedTransitionsAfterDisplay(CFRunLoopTimerRef timer, void *conte
 static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
 	[(GrowlWindowTransition *)context startAnimation];
+	
+	// we release this timer or it will leak
+	/* if (timer) {
+		CFRunLoopTimerInvalidate(timer);
+		CFRelease(timer);
+		timer = NULL;
+	}	*/
 }
 
 @implementation GrowlDisplayWindowController
