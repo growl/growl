@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!--
+//
+//  $Id$
+//
+//  Copyright 2007 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to license.txt for details
+-->
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>growl@growl.info</em:id>
+    <em:version>1.0</em:version>
+    <em:type>2</em:type>
+
+    <!-- Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>1.5</em:minVersion>
+        <em:maxVersion>3.0.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- Front End Metadata -->
+    <em:name>Growl Integration</em:name>
+    <em:description>Makes Growl work with your app</em:description>
+    <em:creator>Shawn Wilsher</em:creator>
+    <em:optionsURL>chrome://growl/content/prefs.xul</em:optionsURL>
+    <em:iconURL>chrome://growl/content/icon.png</em:iconURL>
+  </Description>
+</RDF>
