@@ -10,6 +10,8 @@ topsrcdir = @top_srcdir@
 srcdir    = @srcdir@
 VPATH     = @srcdir@
 
+GROWL_FRAMEWORK_PATH = /Users/sdwilsh/growl/branches/growl-0.7/build/Development
+
 include $(DEPTH)/config/autoconf.mk
 
 IS_COMPONENT = 1
@@ -21,6 +23,7 @@ XPI_NAME = growl
 REQUIRES = \
   xpcom \
   string \
+  alerts \
   $(NULL)
 
 CMMSRCS = \
@@ -31,6 +34,10 @@ CMMSRCS = \
 
 CPPSRCS = \
   module.cpp \
+  $(NULL)
+
+LOCAL_INCLUDES = \
+  -F$(GROWL_FRAMEWORK_PATH) \
   $(NULL)
 
 include $(topsrcdir)/config/rules.mk
