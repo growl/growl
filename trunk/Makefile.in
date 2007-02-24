@@ -23,7 +23,12 @@ USE_EXTENSION_MANIFEST = 1
 
 DIST_FILES = \
   install.rdf \
-  Growl-WithInstaller.framework \
+  license.txt \
   $(NULL)
+
+libs::
+	@@echo Copying Framework
+	rm -rf $(FINAL_TARGET)/Growl-WithInstaller.framework
+	cp -r @srcdir@/Growl-WithInstaller.framework $(FINAL_TARGET)/
 
 include $(topsrcdir)/config/rules.mk
