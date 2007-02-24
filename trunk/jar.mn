@@ -6,4 +6,4 @@ growl.jar:
   content/icon.png                (content/icon.png)
   content/overlay.xul             (content/overlay.xul)
   content/growl.js                (content/growl.js)
-  content/prefs.xul               (content/prefs.js)
+  content/prefs.xul               (content/prefs.xul)
