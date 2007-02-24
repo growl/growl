@@ -18,4 +18,4 @@ static nsModuleComponentInfo components[] =
     nsAlertsServiceMacConstructor },
 };
 
-NS_IMPL_NSGETMODULE("GrowlModule", components)
+NS_IMPL_NSGETMODULE(GrowlNotifications, components)

@@ -14,7 +14,7 @@ include $(DEPTH)/config/autoconf.mk
 
 MODULE = growl
 
-DIRS = src build
+DIRS = src
 
 XPI_NAME 							 = growl
 INSTALL_EXTENSION_ID   = growl@growl.info
