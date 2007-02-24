@@ -10,6 +10,7 @@
 #include "nsAlertsImageLoadListener.h"
 #include "nsIURI.h"
 #include "nsIStreamLoader.h"
+#include "nsIStreamListener.h"
 #include "nsIIOService.h"
 #include "nsIChannel.h"
 #include "nsComponentManagerUtils.h"
@@ -85,16 +86,20 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
                   getter_AddRefs(uri));
   NS_ENSURE_SUCCESS(rv, rv);
 
-  nsCOMPtr<nsIStreamLoader> loader;
-  loader = do_CreateInstance("@mozilla.org/network/stream-loader;1", &rv);
-  NS_ENSURE_SUCCESS(rv, rv);
-  rv = loader->Init(listener);
-  NS_ENSURE_SUCCESS(rv, rv);
- 
   nsCOMPtr<nsIChannel> chan;
   rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
   NS_ENSURE_SUCCESS(rv, rv);
-  rv = chan->AsyncOpen(loader, nsnull);
+
+  nsCOMPtr<nsIStreamLoader> loader;
+  loader = do_CreateInstance("@mozilla.org/network/stream-loader;1", &rv);
+  NS_ENSURE_SUCCESS(rv, rv);
+  rv = loader->Init(chan, listener, nsnull);
+  NS_ENSURE_SUCCESS(rv, rv);
+  
+  nsCOMPtr<nsIStreamListener> list = do_QueryInterface(loader, &rv);
+  NS_ENSURE_SUCCESS(rv, rv);
+ 
+  rv = chan->AsyncOpen(list, nsnull);
   NS_ENSURE_SUCCESS(rv, rv);
   
   return NS_OK;
