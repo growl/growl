@@ -21,6 +21,9 @@ INSTALL_EXTENSION_ID   = growl@growl.info
 XPI_PKGNAME            = growl
 USE_EXTENSION_MANIFEST = 1
 
-DIST_FILES = install.rdf
+DIST_FILES = \
+  install.rdf \
+  Growl-WithInstaller.framework \
+  $(NULL)
 
 include $(topsrcdir)/config/rules.mk

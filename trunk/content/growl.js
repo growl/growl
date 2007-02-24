@@ -8,7 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //// Global Variables
 
-const GROWL_EXTENSION_ID = "growl@growl.info";
+const GROWL_EXTENSION_ID   = "growl@growl.info";
+const GROWL_FRAMEWORK_NAME = "Growl-WithInstaller.framework";
 
 var gGrowl;
 
@@ -68,9 +69,9 @@ GrowlNotifications.prototype =
                         .getService(Components.interfaces.nsIExtensionManager)
                         .getInstallLocation(GROWL_EXTENSION_ID)
                         .getItemLocation(GROWL_EXTENSION_ID);
-    fwk.append("Growl.framework");
+    fwk.append(GROWL_FRAMEWORK_NAME);
 
-    fwk.copyTo(file, "Growl.framework");
+    fwk.copyTo(file, GROWL_FRAMEWORK_NAME);
   },
 
   //////////////////////////////////////////////////////////////////////////////
@@ -89,7 +90,7 @@ GrowlNotifications.prototype =
     file = file.parent;
     file.append("Frameworks");
     if (!file.exists()) return false;
-    file.append("Growl.framework");
+    file.append(GROWL_FRAMEWORK_NAME);
     return file.exists() && file.isDirectory();
   }
 };

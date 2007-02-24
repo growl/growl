@@ -6,7 +6,7 @@
 // This file is under the BSD License, refer to license.txt for details
 
 #include "xpcom-config.h"
-#import <Growl/GrowlApplicationBridge.h>
+#import <Growl-WithInstaller/GrowlApplicationBridge.h>
 #include "nsIObserver.h"
 
 #import <Cocoa/Cocoa.h>
