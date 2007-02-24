@@ -5,31 +5,22 @@
 #
 # This file is under the BSD License, refer to license.txt for details
 
-include conf.mk
-include files.mk
-include content/files.mk
-include components/files.mk
-include platform/files.mk
+DEPTH = ../..
+topsrcdir = @top_srcdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
 
-FILES = $(ROOT_FILES)
-FILES += $(patsubst %,content/%, $(CONTENT_FILES))
-FILES += $(patsubst %,components/%, $(COMPONENT_FILES))
-FILES += $(patsubst %,platform/%, $(PLATFORM_FILES))
-FILES += Growl.framework/*
+include $(DEPTH)/config/autoconf.mk
 
-all: build package
+MODULE = growl
 
-build:
-	@@cd components; $(MAKE)
+DIRS = src build
 
-package: build copy
-	@@cd components; $(MAKE) package
-	zip growl.xpi $(FILES)
+XPI_NAME 							 = growl
+INSTALL_EXTENSION_ID   = growl@growl.info
+XPI_PKGNAME            = growl
+USE_EXTENSION_MANIFEST = 1
 
-copy:
-	cp -rf $(GROWL_FRAMEWORK_LOCATION) .
+DIST_FILES = install.rdf
 
-clean:
-	@@cd components; $(MAKE) clean
-	rm -rf Growl.framework
-	rm -f growl.xpi
+include $(topsrcdir)/config/rules.mk

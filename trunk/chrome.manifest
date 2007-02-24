@@ -1,4 +1,0 @@
-content growl content/
-#locale growl locale/
-overlay chrome://browser/content/browser.xul chrome://growl/content/overlay.xul
-override chrome://mozapps/skin/downloads/downloadIcon.png chrome://growl/content/downloadIcon.png
