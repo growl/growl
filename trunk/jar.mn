@@ -1,9 +1,9 @@
 growl.jar:
-% content growl %content/growl/
+% content growl %content/
 % overlay chrome://growl/content/overlay.xul chrome://browser/content/browser.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 % override chrome://growl/content/downloadIcon.png chrome://mozapps/skin/downloads/downloadIcon.png
-  content/growl/downloadIcon.png (content/downloadIcon.png)
-  content/growl/icon.png              (content/icon.png)
-  content/growl/overlay.xul           (content/overlay.xul)
-  content/growl/growl.js              (content/growl.js)
-  content/prefs.xul                   (content/prefs.js)
+  content/downloadIcon.png (content/downloadIcon.png)
+  content/icon.png                (content/icon.png)
+  content/overlay.xul             (content/overlay.xul)
+  content/growl.js                (content/growl.js)
+  content/prefs.xul               (content/prefs.js)
