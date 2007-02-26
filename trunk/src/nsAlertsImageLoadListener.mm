@@ -7,13 +7,6 @@
 
 #include "nsAlertsImageLoadListener.h"
 
-#ifdef DEBUG
-#include "nsIRequest.h"
-#include "nsIChannel.h"
-#include "nsIURI.h"
-#include "nsCOMPtr.h"
-#endif
-
 NS_IMPL_ISUPPORTS1(nsAlertsImageLoadListener, nsIStreamLoaderObserver)
 
 nsAlertsImageLoadListener::nsAlertsImageLoadListener(const nsAString &aAlertTitle,
@@ -34,24 +27,6 @@ nsAlertsImageLoadListener::OnStreamComplete(nsIStreamLoader* aLoader,
                                             PRUint32 aLength,
                                             const PRUint8* aResult)
 {
-#ifdef DEBUG
-  // print a load error on bad status
-  nsCOMPtr<nsIRequest> request;
-  aLoader->GetRequest(getter_AddRefs(request));
-  nsCOMPtr<nsIChannel> channel = do_QueryInterface(request);
-
-  if (NS_FAILED(aStatus)) {
-    if (channel) {
-      nsCOMPtr<nsIURI> uri;
-      channel->GetURI(getter_AddRefs(uri));
-      if (uri) {
-        nsCAutoString uriSpec;
-        uri->GetSpec(uriSpec);
-        printf("Failed to load %s\n", uriSpec.get());
-      }
-    }
-  }
-#endif
   NSNumber* observer = [NSNumber numberWithUnsignedInt: mAlertListenerKey];
   NSArray* cookie    = [NSArray arrayWithObject:
                         [NSString stringWithCharacters: mAlertCookie.BeginReading()

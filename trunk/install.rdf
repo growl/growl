@@ -27,9 +27,10 @@
     </em:targetApplication>
 
     <!-- Front End Metadata -->
-    <em:name>Growl Integration</em:name>
+    <em:name>Growl Notifications</em:name>
     <em:description>Makes Growl work with your app</em:description>
     <em:creator>Shawn Wilsher</em:creator>
+    <em:contributor>Dave Townsend</em:contributor>
     <em:optionsURL>chrome://growl/content/prefs.xul</em:optionsURL>
     <em:iconURL>chrome://growl/content/icon.png</em:iconURL>
   </Description>

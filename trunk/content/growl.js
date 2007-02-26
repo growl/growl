@@ -42,7 +42,10 @@ GrowlNotifications.prototype =
   {
     // check for mac first!
     if (!/Mac/.test(navigator.platform)) {
-      Components.utils.reportError("Growl Notifications only works on OSX!");  
+      Components.utils.reportError("Growl Notifications only works on OSX!");
+      Components.classes["@mozilla.org/extensions/manager;1"]
+                .getService(Components.interfaces.nsIExtensionManager)
+                .uninstallItem(GROWL_EXTENSION_ID);
       return;
     }
 

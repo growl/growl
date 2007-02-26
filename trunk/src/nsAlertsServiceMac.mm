@@ -96,11 +96,5 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
   rv = loader->Init(chan, listener, nsnull);
   NS_ENSURE_SUCCESS(rv, rv);
   
-  nsCOMPtr<nsIStreamListener> list = do_QueryInterface(loader, &rv);
-  NS_ENSURE_SUCCESS(rv, rv);
- 
-  rv = chan->AsyncOpen(list, nsnull);
-  NS_ENSURE_SUCCESS(rv, rv);
-  
   return NS_OK;
 }
