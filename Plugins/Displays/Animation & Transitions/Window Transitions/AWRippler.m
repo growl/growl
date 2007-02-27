@@ -149,7 +149,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     return self;
 }
 
-- (void)rippleWindow:(NSWindow *)rippleWindow
+- (void) rippleWindow:(NSWindow *)rippleWindow
 {
     CGSConnection cid = _CGSDefaultConnection();
     NSRect rect;
@@ -159,7 +159,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     NSEnumerator *screenEnum;
     NSScreen *screen;
     
-    if (startTime != 0.0)
+    if (!FLOAT_EQ(startTime, 0.0))
         return;
     
     rippleRect = [rippleWindow frame];
@@ -216,7 +216,7 @@ extern CGSConnection _CGSDefaultConnection(void);
 	CGSConnection cid = _CGSDefaultConnection();
     CICGSFilter *oldFilter = windowFilter;
     double scale;
-    CFAbsoluteTime time;
+    CFAbsoluteTime now;
     CGAffineTransform originalTransform;
     
     CGSGetWindowTransform(cid, [ripplingWindow windowNum], &originalTransform);
@@ -224,12 +224,12 @@ extern CGSConnection _CGSDefaultConnection(void);
     pool = [[NSAutoreleasePool alloc] init];
     
     startTime = CFAbsoluteTimeGetCurrent();
-    time = CFAbsoluteTimeGetCurrent();
+    now = CFAbsoluteTimeGetCurrent();
     
-    while (time < (startTime + 2.5) && (time >= startTime))
+    while (now < (startTime + 2.5) && (now >= startTime))
     {
-        if (time - startTime < 1.5) {
-            scale = 1.0 - exp(-2.4 * (time - startTime)) * sin(40.0/M_PI * (time - startTime)) * 0.15;
+        if (now - startTime < 1.5) {
+            scale = 1.0 - exp(-2.4 * (now - startTime)) * sin(40.0/M_PI * (now - startTime)) * 0.15;
             //[ripplingWindow scaleX:scale Y:scale];
         }
         else
@@ -237,12 +237,12 @@ extern CGSConnection _CGSDefaultConnection(void);
             CGSSetWindowTransform(cid, [ripplingWindow windowNum], originalTransform);
         }
         
-        [rippleFilter setValue:[NSNumber numberWithFloat:160*(time - startTime)] forKey:@"inputPhase"];
+        [rippleFilter setValue:[NSNumber numberWithFloat:160*(now - startTime)] forKey:@"inputPhase"];
         windowFilter = [[CICGSFilter filterWithFilter:rippleFilter connectionID:cid] retain];
 		[windowFilter addToWindow:aWindowID flags:0x3001];
         [oldFilter removeFromWindow:aWindowID];
         
-        time = CFAbsoluteTimeGetCurrent();
+        now = CFAbsoluteTimeGetCurrent();
     }
     CGSSetWindowTransform(cid, [ripplingWindow windowNum], originalTransform);
 

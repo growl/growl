@@ -15,8 +15,6 @@
 #import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
-static unsigned brushedDepth = 0U;
-
 @implementation GrowlBrushedDisplay
 
 - (id) init {
@@ -37,7 +35,7 @@ static unsigned brushedDepth = 0U;
 	return preferencePane;
 }
 
-- (BOOL)requiresPositioning {
+- (BOOL) requiresPositioning {
 	return YES;
 }
 
