@@ -117,7 +117,7 @@ static UInt32 newHotKeyValue = 0;
 static UInt32 newHotKeyModifiersValue = 0;
 
 static CFBundleRef growlTunesBundle;
-struct Growl_Notification notification;
+static struct Growl_Notification notification;
 
 /**\
 |**|	exported function prototypes
