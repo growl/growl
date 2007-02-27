@@ -403,4 +403,9 @@ static unsigned webkitWindowDepth = 0U;
 	return paddingY;
 }
 
+- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
+	// We go against the recommendation to not retain here to test if it fixes a memory issue
+	bridge = [theBridge retain];
+}
+
 @end
