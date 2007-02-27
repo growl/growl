@@ -56,6 +56,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 	return [NSBundle bundleWithIdentifier:@"com.growl.GrowlMail"];
 }
 
+
 + (void) initialize {
 	[super initialize];
 
@@ -320,7 +321,7 @@ int GMSummaryMode(void) {
 
 BOOL GMInboxOnly(void) {
 	Boolean keyExistsAndHasValidFormat;
-	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMInboxOnly"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
+	Boolean value = CFPreferencesGetAppBooleanValue(CFSTR("GMInboxOnly"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
 	return keyExistsAndHasValidFormat ? value : FALSE;
 }
 
