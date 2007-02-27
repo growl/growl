@@ -35,7 +35,8 @@
 													  type:@"_growl._tcp."
 													  name:(NSString *)serviceName
 													  port:GROWL_TCP_PORT];
-			CFRelease(serviceName);
+			if (serviceName)
+				CFRelease(serviceName);
 			[service setDelegate:self];
 			[service publish];
 		} else {

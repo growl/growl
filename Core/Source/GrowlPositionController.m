@@ -44,6 +44,7 @@
 	enum GrowlPosition translatedPosition;
 		
 	switch(globalSelectedPosition){
+		default:
 		case GrowlNoOrigin:
 			//Default to middle of the screen if no origin is set, though this case shouldn't be hit.
 			translatedPosition = GrowlMiddleColumnPosition;
@@ -445,9 +446,10 @@
 }
 
 - (enum GrowlPosition) originPosition {
-	if(selectedPositionType == 1) {
+	if (selectedPositionType == 1) {
 		enum GrowlPosition translatedPosition;
-		switch(selectedCustomPosition){
+		switch (selectedCustomPosition) {
+			default:
 			case GrowlNoOrigin:
 				//Default to middle of the screen if no origin is set, though this case shouldn't be hit.
 				translatedPosition = GrowlMiddleColumnPosition;

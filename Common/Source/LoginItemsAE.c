@@ -148,6 +148,7 @@ static OSStatus FindSystemEvents(ProcessSerialNumber *psnPtr)
 
 	assert(psnPtr != NULL);
 
+	found = false;
 	psnPtr->lowLongOfPSN	= kNoProcess;
 	psnPtr->highLongOfPSN	= kNoProcess;
 
