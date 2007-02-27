@@ -100,6 +100,10 @@
 	closeOnMouseExit = flag;
 }
 
+- (void) setCloseBoxVisible:(BOOL)flag {
+	/* not yet implemented, stubbed out due to runtime whining */
+}
+
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
 #pragma unused(event)
 	return YES;
