@@ -54,7 +54,8 @@ nsAlertsServiceMac::nsAlertsServiceMac()
 
 nsAlertsServiceMac::~nsAlertsServiceMac()
 {
-  delete mDelegate;
+  if (mDelegate)
+    delete mDelegate;
 }
 
 NS_IMETHODIMP
