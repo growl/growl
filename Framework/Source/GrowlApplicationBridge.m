@@ -184,9 +184,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			clickContext:(id)clickContext
 {
 	[GrowlApplicationBridge notifyWithTitle:title
-								  titleHTML:nil
 								description:description
-							descriptionHTML:nil
 						   notificationName:notifName
 								   iconData:iconData
 								   priority:priority
@@ -195,36 +193,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 								 identifier:nil];
 }
 
-+ (void) notifyWithTitle:(NSString *)title
-			 description:(NSString *)description
-		notificationName:(NSString *)notifName
-				iconData:(NSData *)iconData
-				priority:(int)priority
-				isSticky:(BOOL)isSticky
-			clickContext:(id)clickContext
-			  identifier:(NSString *)identifier
-{
-	[GrowlApplicationBridge notifyWithTitle:title
-								  titleHTML:nil
-								description:description
-							descriptionHTML:nil
-						   notificationName:notifName
-								   iconData:iconData
-								   priority:priority
-								   isSticky:isSticky
-							   clickContext:clickContext
-								 identifier:identifier];
-}
-
 /* Send a notification to Growl for display.
  * title, description, and notifName are required.
  * All other id parameters may be nil to accept defaults.
- * priority is 0 by default; isSticky and useHTML are NO by default.
+ * priority is 0 by default; isSticky is NO by default.
  */
 + (void) notifyWithTitle:(NSString *)title
-			   titleHTML:(NSString *)titleHTML
 			 description:(NSString *)description
-		 descriptionHTML:(NSString *)descriptionHTML
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData
 				priority:(int)priority
@@ -252,16 +227,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if (priority)		setIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY, priority);
 	if (isSticky)		setBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY, isSticky);
 	if (identifier)		setObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER, identifier);
-	if (titleHTML) {
-		setObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE_HTML, titleHTML);
-		if (!title)
-			setObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE, titleHTML);
-	}
-	if (descriptionHTML) {
-		setObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION_HTML, descriptionHTML);
-		if (!description)
-			setObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION, descriptionHTML);
-	}
 
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];

@@ -19,9 +19,7 @@
 	if ((self = [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
 				   applicationName:[dict objectForKey:GROWL_APP_NAME]
 							 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
-						 HTMLTitle:[dict objectForKey:GROWL_NOTIFICATION_TITLE_HTML]
-					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				   HTMLDescription:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML]])) {
+					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]])) {
 		NSMutableDictionary *mutableDict = [dict mutableCopy];
 		[mutableDict removeObjectsForKeys:[[GrowlApplicationNotification standardKeys] allObjects]];
 		if ([mutableDict count])
@@ -37,33 +35,12 @@
                                           title:(NSString *)newTitle
                                     description:(NSString *)newDesc
 {
-	return [self initWithName:newName
-	          applicationName:newAppName
-	                    title:newTitle
-	                HTMLTitle:nil
-	              description:newDesc
-	          HTMLDescription:nil];
-}
-
-//you can pass nil for description, or for either or both of the HTML properties.
-- (GrowlApplicationNotification *) initWithName:(NSString *)newName
-                                applicationName:(NSString *)newAppName
-                                          title:(NSString *)newTitle
-                                      HTMLTitle:(NSString *)newHTMLTitle
-                                    description:(NSString *)newDesc
-                                HTMLDescription:(NSString *)newHTMLDesc
-{
 	if ((self = [super init])) {
 		name            = [newName      copy];
 		applicationName = [newAppName   copy];
 
 		title           = [newTitle     copy];
-		HTMLTitle       = [newHTMLTitle copy];
 		description     = [newDesc      copy];
-		HTMLDescription = [newHTMLDesc  copy];
-
-		hasHTMLTitle       = HTMLTitle       != nil;
-		hasHTMLDescription = HTMLDescription != nil;
 	}
 	return self;
 }
@@ -72,9 +49,7 @@
 	[name            release];
 	[applicationName release];
 	[title           release];
-	[HTMLTitle       release];
 	[description     release];
-	[HTMLDescription release];
 
 	[dictionary          release];
 	[auxiliaryDictionary release];
@@ -92,9 +67,7 @@
 			GROWL_NOTIFICATION_NAME,
 			GROWL_APP_NAME,
 			GROWL_NOTIFICATION_TITLE,
-			GROWL_NOTIFICATION_TITLE_HTML,
 			GROWL_NOTIFICATION_DESCRIPTION,
-			GROWL_NOTIFICATION_DESCRIPTION_HTML,
 			nil];
 	}
 
@@ -120,11 +93,6 @@
 			description,     GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 
-		if (HTMLTitle)
-			[dict setObject:HTMLTitle       forKey:GROWL_NOTIFICATION_TITLE_HTML];
-		if (HTMLDescription)
-			[dict setObject:HTMLDescription forKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
-
 		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
 		id key;
 		while ((key = [auxKeyEnum nextObject]))
@@ -142,10 +110,6 @@
 			[dict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 		if ([keys containsObject:GROWL_NOTIFICATION_DESCRIPTION])
 			[dict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-		if (HTMLTitle && [keys containsObject:GROWL_NOTIFICATION_TITLE_HTML])
-			[dict setObject:HTMLTitle forKey:GROWL_NOTIFICATION_TITLE_HTML];
-		if (HTMLDescription && [keys containsObject:GROWL_NOTIFICATION_DESCRIPTION_HTML])
-			[dict setObject:HTMLDescription forKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
 
 		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
 		id key;
@@ -181,26 +145,14 @@
 	return title;
 }
 - (NSAttributedString *) attributedTitle {
-	if (HTMLTitle)
-		return [[[NSAttributedString alloc] initWithHTML:[HTMLTitle dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
-	else
-		return [[[NSAttributedString alloc] initWithString:title] autorelease];
-}
-- (NSString *) HTMLTitle {
-	return HTMLTitle;
+	return [[[NSAttributedString alloc] initWithString:title] autorelease];
 }
 
 - (NSString *) notificationDescription {
 	return description;
 }
 - (NSAttributedString *) attributedDescription {
-	if (HTMLDescription)
-		return [[[NSAttributedString alloc] initWithHTML:[HTMLDescription dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
-	else
-		return [[[NSAttributedString alloc] initWithString:[self notificationDescription]] autorelease];
-}
-- (NSString *) HTMLDescription {
-	return HTMLDescription;
+	return [[[NSAttributedString alloc] initWithString:[self notificationDescription]] autorelease];
 }
 
 - (NSDictionary *) auxiliaryDictionary {

@@ -182,9 +182,7 @@
  *	 running.
  *
  *	@param title		The title of the notification displayed to the user.
- *	@param titleHTML	The title of the notification displayed to the user with HTML formatting.
  *	@param description	The full description of the notification displayed to the user.
- *	@param description	The full description of the notification displayed to the user with HTML formatting.
  *	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
  *	@param iconData		<code>NSData</code> object to show with the notification as its icon. If <code>nil</code>, the application's icon will be used instead.
  *	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
@@ -193,9 +191,7 @@
  *	@param identifier	An identifier for this notification. Notifications with equal identifiers are coalesced.
  */
 + (void) notifyWithTitle:(NSString *)title
-			   titleHTML:(NSString *)titleHTML
 			 description:(NSString *)description
-		 descriptionHTML:(NSString *)descriptionHTML
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData
 				priority:(signed int)priority

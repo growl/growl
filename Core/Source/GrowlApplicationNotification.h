@@ -10,14 +10,11 @@
 {
 	NSString *name, *applicationName;
 	NSString *title, *description;
-	NSString *HTMLTitle, *HTMLDescription;
 	NSAttributedString *attributedTitle, *attributedDescription;
 
 	NSDictionary *dictionary, *auxiliaryDictionary;
 
 	unsigned GANReserved: 30;
-	unsigned hasHTMLTitle: 1;
-	unsigned hasHTMLDescription: 1;
 }
 
 + (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict;
@@ -30,13 +27,11 @@
                                           title:(NSString *)newTitle
                                     description:(NSString *)newDesc;
 
-//you can pass nil for description, or for either or both of the HTML properties.
+//you can pass nil for description.
 - (GrowlApplicationNotification *) initWithName:(NSString *)newName
                                 applicationName:(NSString *)newAppName
                                           title:(NSString *)newTitle
-                                      HTMLTitle:(NSString *)newHTMLTitle
-                                    description:(NSString *)newDesc
-                                HTMLDescription:(NSString *)newHTMLDesc;
+                                    description:(NSString *)newDesc;
 
 #pragma mark -
 
@@ -44,9 +39,7 @@
  *	*	GROWL_NOTIFICATION_NAME
  *	*	GROWL_APP_NAME
  *	*	GROWL_NOTIFICATION_TITLE
- *	*	GROWL_NOTIFICATION_TITLE_HTML
  *	*	GROWL_NOTIFICATION_DESCRIPTION
- *	*	GROWL_NOTIFICATION_DESCRIPTION_HTML
  *you can pass this set to -dictionaryRepresentationWithKeys:.
  */
 + (NSSet *) standardKeys;
@@ -69,11 +62,9 @@
 
 - (NSString *) title;
 - (NSAttributedString *) attributedTitle;
-- (NSString *) HTMLTitle;
 
 - (NSString *) notificationDescription;
 - (NSAttributedString *) attributedDescription;
-- (NSString *) HTMLDescription;
 
 - (NSDictionary *) auxiliaryDictionary;
 - (void) setAuxiliaryDictionary:(NSDictionary *)newAuxDict;

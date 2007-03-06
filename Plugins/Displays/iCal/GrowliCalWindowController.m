@@ -102,30 +102,16 @@
 		return;
 
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification HTMLTitle];
-	NSString *text  = [notification HTMLDescription];
+	NSString *title = [notification title];
+	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL textHTML, titleHTML;
 	
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification notificationDescription];
-	}
-
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowliCalWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
-	[view setTitle:title isHTML:titleHTML];
-	[view setText:text isHTML:textHTML];
+	[view setTitle:title];
+	[view setText:text];
 	[view setIcon:icon];
 	[view sizeToFit];
 	[panel setFrame:[view frame] display:NO];

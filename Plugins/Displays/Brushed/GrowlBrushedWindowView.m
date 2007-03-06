@@ -138,7 +138,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setTitle:(NSString *)aTitle isHTML:(BOOL)isHTML {
+- (void) setTitle:(NSString *)aTitle {
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
@@ -170,35 +170,8 @@
 		nil];
 	[paragraphStyle release];
 
-	if (isHTML) {
-		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBrushedTitle"];
-		[webPreferences setJavaEnabled:NO];
-		[webPreferences setJavaScriptEnabled:NO];
-		[webPreferences setPlugInsEnabled:NO];
-		[webPreferences setUserStyleSheetEnabled:NO];
-		[webPreferences setStandardFontFamily:[titleFont familyName]];
-		[webPreferences setDefaultFontSize:GrowlBrushedTitleFontSize];
-		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
-		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
-			useWebKit,      @"UseWebKit",
-			webPreferences, NSWebPreferencesDocumentOption,
-			nil];
-		[useWebKit      release];
-		[webPreferences release];
-
-		NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
-		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
-																					 options:options
-																		  documentAttributes:NULL];
-		[boldTitle release];
-		[options   release];
-		[content addDefaultAttributes:defaultAttributes];
-		[titleStorage setAttributedString:content];
-		[content release];
-	} else {
-		[[titleStorage mutableString] setString:aTitle];
-		[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
-	}
+	[[titleStorage mutableString] setString:aTitle];
+	[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
 
 	[defaultAttributes release];
 
@@ -208,7 +181,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setText:(NSString *)aText isHTML:(BOOL)isHTML {
+- (void) setText:(NSString *)aText {
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
@@ -240,33 +213,8 @@
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	if (isHTML) {
-		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBrushedText"];
-		[webPreferences setJavaEnabled:NO];
-		[webPreferences setJavaScriptEnabled:NO];
-		[webPreferences setPlugInsEnabled:NO];
-		[webPreferences setUserStyleSheetEnabled:NO];
-		[webPreferences setStandardFontFamily:[textFont familyName]];
-		[webPreferences setDefaultFontSize:GrowlBrushedTextFontSize];
-		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
-		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
-			useWebKit,      @"UseWebKit",
-			webPreferences, NSWebPreferencesDocumentOption,
-			nil];
-		[useWebKit      release];
-		[webPreferences release];
-
-		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
-																					 options:options
-																		  documentAttributes:NULL];
-		[options release];
-		[content addDefaultAttributes:defaultAttributes];
-		[textStorage setAttributedString:content];
-		[content release];
-	} else {
-		[[textStorage mutableString] setString:aText];
-		[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
-	}
+	[[textStorage mutableString] setString:aText];
+	[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
 
 	[defaultAttributes release];
 

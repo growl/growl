@@ -34,8 +34,8 @@
 }
 
 - (void) setIcon:(NSImage *)icon;
-- (void) setTitle:(NSString *)title isHTML:(BOOL)isHTML;
-- (void) setText:(NSString *)text isHTML:(BOOL)isHTML;
+- (void) setTitle:(NSString *)title;
+- (void) setText:(NSString *)text;
 
 - (void) setPriority:(int)priority;
 

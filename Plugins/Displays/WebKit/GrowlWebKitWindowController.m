@@ -162,7 +162,7 @@ static unsigned webkitWindowDepth = 0U;
 	[super dealloc];
 }
 
-- (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
+- (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
 	CFStringRef priorityName;
 	switch (priority) {
 		case -2:
@@ -195,24 +195,18 @@ static unsigned webkitWindowDepth = 0U;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
 	opacity *= 0.01f;
 
-	CFStringRef titleHTML = titleIsHTML ? (CFStringRef)title : createStringByEscapingForHTML((CFStringRef)title);
-	CFStringRef textHTML = textIsHTML ? (CFStringRef)text : createStringByEscapingForHTML((CFStringRef)text);
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
 	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,              CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    titleHTML,               CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     textHTML,                CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    title,               CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     text,                CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
 	CFRelease(uuidString);
 	CFRelease(opacityString);
 	CFRelease(baseURL);
-	if (!titleIsHTML)
-		CFRelease(titleHTML);
-	if (!textIsHTML)
-		CFRelease(textHTML);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 	[self retain];							// Needed?
@@ -285,31 +279,15 @@ static unsigned webkitWindowDepth = 0U;
 
 	// Extract the new details from the notification
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification HTMLTitle];
-	NSString *text  = [notification HTMLDescription];
+	NSString *title = [notification title];
+	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	/*BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);*/
-	BOOL textHTML, titleHTML;
-
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification notificationDescription];
-	}
 
 	NSPanel *panel = (NSPanel *)[self window];
 	WebView *view = [panel contentView];
 	[self retain];
-	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
+	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
 	NSRect panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];

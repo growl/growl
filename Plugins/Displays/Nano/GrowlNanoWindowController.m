@@ -120,28 +120,13 @@
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL textHTML, titleHTML;
-
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification notificationDescription];
-	}
 
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlNanoWindowView *view = [panel contentView];
 	[view setPriority:prio];
-	[view setTitle:title];//isHTML:titleHTML];
-	[view setText:text];// isHTML:textHTML];
+	[view setTitle:title];
+	[view setText:text];
 	[view setIcon:icon];
-	//[view sizeToFit];
 
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
