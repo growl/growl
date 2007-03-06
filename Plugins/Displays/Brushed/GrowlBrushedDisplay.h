@@ -14,6 +14,4 @@
 @interface GrowlBrushedDisplay : GrowlDisplayPlugin {
 }
 
-- (void) brushedGone:(NSNotification *)note;
-
 @end

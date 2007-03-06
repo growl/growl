@@ -201,8 +201,8 @@ static unsigned webkitWindowDepth = 0U;
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,              CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    title,               CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     text,                CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)title,      CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)text,       CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
 	CFRelease(uuidString);
 	CFRelease(opacityString);

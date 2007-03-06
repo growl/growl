@@ -290,6 +290,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 			xOffset *= -1.0f;
 			yOffset *= -1.0f;
 			break;
+		case GrowlNoOrigin:
+			break;
 		}
 		centerPoint.x += xOffset;
 		centerPoint.y += yOffset;
