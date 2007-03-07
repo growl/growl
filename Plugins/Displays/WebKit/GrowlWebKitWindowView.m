@@ -100,8 +100,34 @@
 	closeOnMouseExit = flag;
 }
 
+- (BOOL) showsCloseBox {
+	return YES;
+}
+
+- (void) closeBox:(id)sender {
+#pragma unused(sender)
+	mouseOver = NO;
+	if ([target respondsToSelector:@selector(stopDisplay)])
+		[target performSelector:@selector(stopDisplay)];
+}
+
 - (void) setCloseBoxVisible:(BOOL)flag {
-	/* not yet implemented, stubbed out due to runtime whining */
+	if ([self showsCloseBox]) {
+	    NSButton *gCloseButton = [GrowlNotificationView closeButton];
+		// locate the close button in the upper-left corner as do other notification views
+#pragma mark Display style close box positioning override goes HERE.
+// This is where the location modification can be inserted with minimal effort, by reading values in from the display style and adjusting as needed.
+	    [gCloseButton setFrame:NSMakeRect([self bounds].origin.x, 
+										  [self bounds].size.height - [gCloseButton frame].size.height,
+										  [gCloseButton frame].size.width,
+										  [gCloseButton frame].size.height)];
+	    [gCloseButton setTarget:self];
+	    [gCloseButton setAction:@selector(closeBox:)];
+        if (flag)
+            [self addSubview:gCloseButton];
+        else
+            [gCloseButton removeFromSuperview];
+	}
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
