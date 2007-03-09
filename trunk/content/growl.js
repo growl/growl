@@ -75,6 +75,38 @@ GrowlNotifications.prototype =
     fwk.append(GROWL_FRAMEWORK_NAME);
 
     fwk.copyTo(file, GROWL_FRAMEWORK_NAME);
+
+    this.restartApp();
+  },
+
+  /**
+   * Restarts the application
+   */
+  restartApp: function restartApp()
+  {
+    const nsIAppStartup = Components.interfaces.nsIAppStartup;
+
+    var os = Components.classes["@mozilla.org/observer-service;1"]
+                       .getService(Components.interfaces.nsIObserverService);
+    var cancel = Components.classes["@mozilla.org/supports-PRBool;1"]
+                           .createInstance(Components.interfaces.nsISupportsPRBool);
+    os.notifyObservers(cancel, "quit-application-requested", null);
+
+    if (cancel.data) return;
+
+    os.notifyObservers(null, "quit-application-granted", null);
+
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                       .getService(Components.interfaces.nsIWindowMediator);
+    var windows = wm.getEnumerator(null);
+    while (windows.hasMoreElements()) {
+      var win = windows.getNext();
+      if (("tryToClose" in win) && !win.tryToClose()) return;
+    }
+
+    Components.classes["@mozilla.org/toolkit/app-startup;1"]
+              .getService(nsIAppStartup)
+              .quit(nsIAppStartup.eRestart | nsIAppStartup.eAttemptQuit);
   },
 
   //////////////////////////////////////////////////////////////////////////////
