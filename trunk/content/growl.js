@@ -76,15 +76,21 @@ GrowlNotifications.prototype =
 
     fwk.copyTo(file, GROWL_FRAMEWORK_NAME);
 
-    //this.restartApp();
+    this.killAndRestartApp();
   },
 
   /**
-   * Restarts the application
+   * Kills compreg.dat and restarts the application
    */
-  restartApp: function restartApp()
+  killAndRestartApp: function killAndRestartApp()
   {
     const nsIAppStartup = Components.interfaces.nsIAppStartup;
+
+    var file = Components.classes["@mozilla.org/file/directory_service;1"]
+                         .getService(Components.interfaces.nsIProperties)
+                         .get("ProfD", Components.interfaces.nsIFile);
+    file.append("compreg.dat");
+    file.remove(false);
 
     var os = Components.classes["@mozilla.org/observer-service;1"]
                        .getService(Components.interfaces.nsIObserverService);
