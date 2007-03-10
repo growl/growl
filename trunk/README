@@ -7,3 +7,6 @@ framework, which is available from the Growl SDK:
 http://growl.info/downloads_developers.php
 
 Just copy it into the root folder of the extension, and you'll be all set.
+
+When building this, go into your object directory, in extensions/growl and type
+|make && make repackage|.  This will produce the xpi in obj-dir/dist/xpi-stage.
