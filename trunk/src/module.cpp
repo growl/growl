@@ -6,6 +6,7 @@
 // This file is under the BSD License, refer to license.txt for details
 
 #include "nsIGenericFactory.h"
+#include "nsToolkitCompsCID.h"
 #include "nsAlertsServiceMac.h"
 
 NS_GENERIC_FACTORY_CONSTRUCTOR(nsAlertsServiceMac)
@@ -14,7 +15,7 @@ static nsModuleComponentInfo components[] =
 {
   { "Alerts Service",
     NS_ALERTSSERVICE_CID,
-    NS_ALERTSSERVICE_CONTRACTID,
+    NS_ALERTSERVICE_CONTRACTID,
     nsAlertsServiceMacConstructor },
 };
 

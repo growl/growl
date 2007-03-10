@@ -76,7 +76,7 @@ GrowlNotifications.prototype =
 
     fwk.copyTo(file, GROWL_FRAMEWORK_NAME);
 
-    this.restartApp();
+    //this.restartApp();
   },
 
   /**
