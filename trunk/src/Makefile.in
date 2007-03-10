@@ -29,6 +29,7 @@ CMMSRCS = \
   mozGrowlDelegate.mm \
   nsAlertsImageLoadListener.mm \
   nsAlertsServiceMac.mm \
+  grApplicationBridge.mm \
   $(NULL)
 
 CPPSRCS = \
