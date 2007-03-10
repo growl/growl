@@ -9,7 +9,7 @@
 #define __nsAlertsImageLoadListener_H__
 
 #include "xpcom-config.h"
-#import <Growl-WithInstaller/GrowlApplicationBridge.h>
+#import <Growl/GrowlApplicationBridge.h>
 #import "mozGrowlDelegate.h"
 
 #include "nsIStreamLoader.h"

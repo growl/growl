@@ -9,7 +9,7 @@
 //// Global Variables
 
 const GROWL_EXTENSION_ID   = "growl@growl.info";
-const GROWL_FRAMEWORK_NAME = "Growl-WithInstaller.framework";
+const GROWL_FRAMEWORK_NAME = "Growl.framework";
 
 var gGrowl;
 

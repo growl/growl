@@ -2,7 +2,7 @@ This should be checked out into the extensions/growl directory of your Mozilla
 source tree. To enable it to be built, you have to add this to your .mozconfig:
 ac_add_options --enable-extensions=default,growl
 
-In order to build this extension, you must download the Growl-WithInstaller
+In order to build this extension, you must download the Growl
 framework, which is available from the Growl SDK:
 http://growl.info/downloads_developers.php
 

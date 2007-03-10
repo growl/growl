@@ -30,7 +30,7 @@ DIST_FILES = \
 
 libs::
 	@@echo Copying Framework
-	rsync -al $(srcdir)/Growl-WithInstaller.framework $(FINAL_TARGET)/
+	rsync -al $(srcdir)/Growl.framework $(FINAL_TARGET)/
 
 include $(topsrcdir)/config/rules.mk
 

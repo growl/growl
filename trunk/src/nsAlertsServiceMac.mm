@@ -17,7 +17,7 @@
 #include "nsServiceManagerUtils.h"
 
 #import "mozGrowlDelegate.h"
-#import <Growl-WithInstaller/GrowlApplicationBridge.h>
+#import <Growl/GrowlApplicationBridge.h>
 
 NS_IMPL_THREADSAFE_ADDREF(nsAlertsServiceMac)
 NS_IMPL_THREADSAFE_RELEASE(nsAlertsServiceMac)
