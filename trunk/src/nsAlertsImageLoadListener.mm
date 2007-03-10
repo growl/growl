@@ -27,43 +27,13 @@ nsAlertsImageLoadListener::OnStreamComplete(nsIStreamLoader* aLoader,
                                             PRUint32 aLength,
                                             const PRUint8* aResult)
 {
-  NSNumber* observer = [NSNumber numberWithUnsignedInt: mAlertListenerKey];
-  NSArray* cookie    = [NSArray arrayWithObject:
-                        [NSString stringWithCharacters: mAlertCookie.BeginReading()
-                                                length: mAlertCookie.Length()]];
-  if (mAlertListenerKey) {
-    [GrowlApplicationBridge
-     notifyWithTitle: [NSString stringWithCharacters: mAlertTitle.BeginReading()
-                                              length: mAlertTitle.Length()]
-         description: [NSString stringWithCharacters: mAlertText.BeginReading()
-                                              length: mAlertText.Length()]
-    notificationName: NOTIFICATION_NAME
-            iconData: NS_FAILED(aStatus) ? [NSData data] :
-                                           [NSData dataWithBytes: aResult
-                                                          length: aLength]
-            priority: 0
-            isSticky: NO
-        clickContext: [NSDictionary
-                        dictionaryWithObjectsAndKeys: observer,
-                                                      OBSERVER_KEY,
-                                                      cookie,
-                                                      COOKIE_KEY,
-                                                      nil]];
-  } else {
-    // if we don't have an obsever (key is 0), do not send a click context
-    [GrowlApplicationBridge
-     notifyWithTitle: [NSString stringWithCharacters: mAlertTitle.BeginReading()
-                                              length: mAlertTitle.Length()]
-         description: [NSString stringWithCharacters: mAlertText.BeginReading()
-                                              length: mAlertText.Length()]
-    notificationName: NOTIFICATION_NAME
-            iconData: NS_FAILED(aStatus) ? [NSData data] :
-                                           [NSData dataWithBytes: aResult
-                                                          length: aLength]
-            priority: 0
-            isSticky: NO
-        clickContext: nil];
-  }
-  
+  [mozGrowlDelegate title: mAlertTitle
+                     text: mAlertText
+                    image: NS_FAILED(aStatus) ? [NSData data] :
+                                                [NSData dataWithBytes: aResult
+                                                               length: aLength]
+                      key: mAlertListenerKey
+                   cookie: mAlertCookie];
+
   return NS_OK;
 }

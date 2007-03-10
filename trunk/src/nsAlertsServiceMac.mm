@@ -36,7 +36,7 @@ struct GrowlDelegateWrapper
     delegate = [[mozGrowlDelegate alloc] init];
 
     [GrowlApplicationBridge setGrowlDelegate:delegate];
-  
+
     NS_ASSERTION(delegate == [GrowlApplicationBridge growlDelegate],
                  "Growl Delegate was not registered properly.");
   }
@@ -77,15 +77,24 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
   nsCOMPtr<nsAlertsImageLoadListener> listener =
     new nsAlertsImageLoadListener(aAlertTitle, aAlertText, aAlertClickable,
                                   aAlertCookie, ind);
-  
+
   nsCOMPtr<nsIIOService> io;
   io = do_GetService("@mozilla.org/network/io-service;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
-  
+
   nsCOMPtr<nsIURI> uri;
   rv = io->NewURI(NS_ConvertUTF16toUTF8(aImageUrl), nsnull, nsnull,
                   getter_AddRefs(uri));
-  NS_ENSURE_SUCCESS(rv, rv);
+  if (NS_FAILED(rv)) {
+    // image uri failed to resolve, so dispatch to growl with no image
+    [mozGrowlDelegate title: aAlertTitle
+                       text: aAlertText
+                      image: [NSData data]
+                        key: ind
+                     cookie: aAlertCookie];
+
+    return NS_OK;
+  }
 
   nsCOMPtr<nsIChannel> chan;
   rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
@@ -96,6 +105,6 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
   NS_ENSURE_SUCCESS(rv, rv);
   rv = loader->Init(chan, listener, nsnull);
   NS_ENSURE_SUCCESS(rv, rv);
-  
+
   return NS_OK;
 }
