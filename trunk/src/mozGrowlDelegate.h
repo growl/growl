@@ -24,6 +24,21 @@
 }
 
 /**
+ * Dispatches a notification to Growl
+ *
+ * @param aTitle  The title of the notification
+ * @param aText   The body of the notification
+ * @param aImage  The image data, or [NSData data] if no image
+ * @param aKey    The observer key to use as a lookup (or 0 if no observer)
+ * @param aCookie The string to be used as a cookie if there is an observer
+ */
++ (void) title:(const nsAString&)aTitle
+          text:(const nsAString&)aText
+         image:(NSData*)aImage
+           key:(PRUint32)aKey
+        cookie:(const nsAString&)aCookie;
+
+/**
  * Adds an nsIObserver that we can query later for dispatching obsevers.
  *
  * @param aObserver The observer we are adding.
@@ -40,7 +55,7 @@
 /**
  * Informs us that a Growl notification timed out.
  *
- * @param clickContext
+ * @param clickContext The object passed back from growl.
  */
 - (void) growlNotificationTimedOut:(id)clickContext;
 
@@ -49,7 +64,7 @@
  * Growl when the notification sent to Growl is sent with a non-nil
  * clickContext.
  *
- * @param clickContext
+ * @param clickContext The object passed back from growl.
  */
 - (void) growlNotificationWasClicked:(id)clickContext;
 
