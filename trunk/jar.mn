@@ -7,3 +7,5 @@ growl.jar:
   content/overlay.xul             (content/overlay.xul)
   content/growl.js                (content/growl.js)
   content/prefs.xul               (content/prefs.xul)
+  content/download.xul            (content/download.xul)
+  content/download.js             (content/download.js)
