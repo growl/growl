@@ -23,9 +23,15 @@
   <script type="application/javascript"
           src="chrome://growl/content/download.js"/>
 
-  <description>
-    It appears that you do not have Growl installed.  Would you like to be
-    directed to the Growl homepage to download it now?
-  </description>
+  <hbox>
+
+    <image src="chrome://growl/content/icon.png" width="128" height="128"/>
+
+    <description>
+      It appears that you do not have Growl installed.  Would you like to be
+      directed to the Growl homepage to download it now?
+    </description>
+
+  </hbox>
 
 </dialog>
