@@ -25,6 +25,20 @@ REQUIRES = \
   necko \
   $(NULL)
 
+# GROWL FILES
+# These files are part of the Growl Application Bridge.  We need to build them
+# statically due to some strange complications.
+CMSRCS = \
+  GrowlApplicationBridge.m \
+  GrowlPathUtil.m \
+  NSURLAdditions.m \
+  $(NULL)
+
+CSRCS = \
+  CFGrowlAdditions.c \
+  $(NULL)
+# END GROWL FILES
+
 CMMSRCS = \
   mozGrowlDelegate.mm \
   nsAlertsImageLoadListener.mm \
@@ -44,9 +58,10 @@ LOCAL_INCLUDES = \
 include $(topsrcdir)/config/rules.mk
 
 EXTRA_DSO_LDOPTS += \
-  -F$(srcdir)/../ \
-  -framework Growl \
   -framework Cocoa \
+  -framework AppKit \
+  -framework Carbon \
+  -framework Foundation \
   $(XPCOM_GLUE_LDOPTS) \
   $(NSPR_LIBS) \
   $(NULL)

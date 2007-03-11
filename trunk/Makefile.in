@@ -28,13 +28,4 @@ DIST_FILES = \
   license.txt \
   $(NULL)
 
-libs::
-	@@echo Copying Framework
-	rsync -al $(srcdir)/Growl.framework $(FINAL_TARGET)/
-
 include $(topsrcdir)/config/rules.mk
-
-repackage:
-	@@echo Repackaging XPI
-	cd $(FINAL_TARGET) && rm -f ../$(XPI_PKGNAME).xpi
-	cd $(FINAL_TARGET) && $(ZIP) -ry ../$(XPI_PKGNAME).xpi *

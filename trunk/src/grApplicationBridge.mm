@@ -5,7 +5,7 @@
 //
 // This file is under the BSD License, refer to license.txt for details
 
-#import <Growl/GrowlApplicationBridge.h>
+#import "GrowlApplicationBridge.h"
 #import "grApplicationBridge.h"
 
 NS_IMPL_THREADSAFE_ADDREF(grApplicationBridge)
