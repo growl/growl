@@ -6,15 +6,19 @@
 // This file is under the BSD License, refer to license.txt for details
 
 #include "nsAlertsImageLoadListener.h"
+#include "localeKeys.h"
+#import "GrowlApplicationBridge.h"
+#import "mozGrowlDelegate.h"
 
 NS_IMPL_ISUPPORTS1(nsAlertsImageLoadListener, nsIStreamLoaderObserver)
 
-nsAlertsImageLoadListener::nsAlertsImageLoadListener(const nsAString &aAlertTitle,
+nsAlertsImageLoadListener::nsAlertsImageLoadListener(const nsAString &aName,
+                                                     const nsAString &aAlertTitle,
                                                      const nsAString &aAlertText,
                                                      PRBool aAlertClickable,
                                                      const nsAString &aAlertCookie,
                                                      PRUint32 aAlertListenerKey) :
-  mAlertTitle(aAlertTitle), mAlertText(aAlertText),
+  mName(aName), mAlertTitle(aAlertTitle), mAlertText(aAlertText),
   mAlertClickable(aAlertClickable), mAlertCookie(aAlertCookie),
   mAlertListenerKey(aAlertListenerKey)
 {
@@ -27,7 +31,8 @@ nsAlertsImageLoadListener::OnStreamComplete(nsIStreamLoader* aLoader,
                                             PRUint32 aLength,
                                             const PRUint8* aResult)
 {
-  [mozGrowlDelegate title: mAlertTitle
+  [mozGrowlDelegate  name: mName
+                    title: mAlertTitle
                      text: mAlertText
                     image: NS_FAILED(aStatus) ? [NSData data] :
                                                 [NSData dataWithBytes: aResult

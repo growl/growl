@@ -11,8 +11,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-// XXX should this be localized?  probably :(
-#define NOTIFICATION_NAME @"ApplicationNotice"
 #define OBSERVER_KEY      @"ALERT_OBSERVER"
 #define COOKIE_KEY        @"ALERT_COOKIE"
 
@@ -26,13 +24,15 @@
 /**
  * Dispatches a notification to Growl
  *
+ * @param aName   The name of the notification
  * @param aTitle  The title of the notification
  * @param aText   The body of the notification
  * @param aImage  The image data, or [NSData data] if no image
  * @param aKey    The observer key to use as a lookup (or 0 if no observer)
  * @param aCookie The string to be used as a cookie if there is an observer
  */
-+ (void) title:(const nsAString&)aTitle
++ (void)  name:(const nsAString&)aName
+         title:(const nsAString&)aTitle
           text:(const nsAString&)aText
          image:(NSData*)aImage
            key:(PRUint32)aKey

@@ -9,8 +9,6 @@
 #define __nsAlertsImageLoadListener_H__
 
 #include "xpcom-config.h"
-#import "GrowlApplicationBridge.h"
-#import "mozGrowlDelegate.h"
 
 #include "nsIStreamLoader.h"
 #include "nsStringAPI.h"
@@ -18,7 +16,8 @@
 class nsAlertsImageLoadListener : public nsIStreamLoaderObserver
 {
 public:
-  nsAlertsImageLoadListener(const nsAString &aAlertTitle,
+  nsAlertsImageLoadListener(const nsAString &aName,
+                            const nsAString &aAlertTitle,
                             const nsAString &aAlertText,
                             PRBool aAlertClickable,
                             const nsAString &aAlertCookie,
@@ -27,6 +26,7 @@ public:
   NS_DECL_ISUPPORTS
   NS_DECL_NSISTREAMLOADEROBSERVER
 private:
+  nsString mName;
   nsString mAlertTitle;
   nsString mAlertText;
   PRBool   mAlertClickable;

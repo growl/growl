@@ -9,14 +9,14 @@
 #include "nsStringAPI.h"
 #include "nsAlertsImageLoadListener.h"
 #include "nsIURI.h"
-#include "nsIStreamLoader.h"
 #include "nsIStreamListener.h"
 #include "nsIIOService.h"
 #include "nsIChannel.h"
 #include "nsComponentManagerUtils.h"
 #include "nsServiceManagerUtils.h"
+#include "localeKeys.h"
 
-#import "mozGrowlDelegate.h"
+#import "wrapper.h"
 #import "GrowlApplicationBridge.h"
 
 NS_IMPL_THREADSAFE_ADDREF(nsAlertsServiceMac)
@@ -26,26 +26,6 @@ NS_INTERFACE_MAP_BEGIN(nsAlertsServiceMac)
   NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, nsIAlertsService)
   NS_INTERFACE_MAP_ENTRY(nsIAlertsService)
 NS_INTERFACE_MAP_END_THREADSAFE
-
-struct GrowlDelegateWrapper
-{
-  mozGrowlDelegate* delegate;
-
-  GrowlDelegateWrapper()
-  {
-    delegate = [[mozGrowlDelegate alloc] init];
-
-    [GrowlApplicationBridge setGrowlDelegate:delegate];
-
-    NS_ASSERTION(delegate == [GrowlApplicationBridge growlDelegate],
-                 "Growl Delegate was not registered properly.");
-  }
-
-  ~GrowlDelegateWrapper()
-  {
-    [delegate release];
-  }
-};
 
 nsAlertsServiceMac::nsAlertsServiceMac()
 {
@@ -74,8 +54,18 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
     ind = [mDelegate->delegate addObserver: aAlertListener];
   }
 
+  nsCOMPtr<nsIStringBundleService> bundleService =
+    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
+  if (NS_FAILED(rv)) return rv;
+
+  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(mBundle));
+  if (NS_FAILED(rv)) return rv;
+
+  nsString name;
+  mBundle->GetStringFromName(GENERAL_TITLE, getter_Copies(name));
+
   nsCOMPtr<nsAlertsImageLoadListener> listener =
-    new nsAlertsImageLoadListener(aAlertTitle, aAlertText, aAlertClickable,
+    new nsAlertsImageLoadListener(name, aAlertTitle, aAlertText, aAlertClickable,
                                   aAlertCookie, ind);
 
   nsCOMPtr<nsIIOService> io;
@@ -87,7 +77,8 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
                   getter_AddRefs(uri));
   if (NS_FAILED(rv)) {
     // image uri failed to resolve, so dispatch to growl with no image
-    [mozGrowlDelegate title: aAlertTitle
+    [mozGrowlDelegate  name: name
+                      title: aAlertTitle
                        text: aAlertText
                       image: [NSData data]
                         key: ind

@@ -11,6 +11,7 @@
 #include "xpcom-config.h"
 #include "nsIAlertsService.h"
 #include "nsCOMPtr.h"
+#include "nsIStringBundle.h"
 
 struct GrowlDelegateWrapper;
 
@@ -22,8 +23,9 @@ public:
 
   nsAlertsServiceMac();
 private:
+  nsCOMPtr<nsIStringBundle> mBundle;
   GrowlDelegateWrapper* mDelegate;
-  ~nsAlertsServiceMac();
+  virtual ~nsAlertsServiceMac();
 };
 
 #endif // __nsAlertsServiceMac_H__

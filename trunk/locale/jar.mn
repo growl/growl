@@ -1,0 +1,6 @@
+#filter substitution
+
+growl.jar:
+% locale growl @AB_CD@ %locale/@AB_CD@/
+  locale/@AB_CD@/notifications.properties (@AB_CD@/notifications.properties)
+

@@ -23,6 +23,8 @@ REQUIRES = \
   string \
   alerts \
   necko \
+  intl \
+	uriloader \
   $(NULL)
 
 # GROWL FILES
@@ -44,6 +46,7 @@ CMMSRCS = \
   nsAlertsImageLoadListener.mm \
   nsAlertsServiceMac.mm \
   grApplicationBridge.mm \
+  grNotifications.mm \
   $(NULL)
 
 CPPSRCS = \

@@ -21,7 +21,13 @@ INSTALL_EXTENSION_ID   = growl@growl.info
 XPI_PKGNAME            = growl
 USE_EXTENSION_MANIFEST = 1
 
-PREF_JS_EXPORTS = $(srcdir)/defaults/preferences/growl-prefs.js
+ALL_LOCALES = \
+  en-US \
+	$(NULL)
+
+include $(topsrcdir)/config/config.mk
+
+SUBMAKEFILES += locale/Makefile
 
 DIST_FILES = \
   install.rdf \
@@ -29,3 +35,16 @@ DIST_FILES = \
   $(NULL)
 
 include $(topsrcdir)/config/rules.mk
+
+libs realchrome:: locale/Makefile
+	@$(EXIT_ON_ERROR) \
+	for locale in $(ALL_LOCALES); do \
+		$(MAKE) -C locale AB_CD=$$locale; \
+	done
+
+install::
+	@$(EXIT_ON_ERROR) \
+	for locale in $(ALL_LOCALES); do \
+		$(MAKE) -C loacle AB_CD=$$locale install; \
+	done
+
