@@ -20,6 +20,6 @@ XPI_NAME = growl
 XPIDLSRCS = \
   grIApplicationBridge.idl \
   grINotifications.idl \
-	$(NULL)
+  $(NULL)
 
 include $(topsrcdir)/config/rules.mk

@@ -23,7 +23,7 @@ USE_EXTENSION_MANIFEST = 1
 
 ALL_LOCALES = \
   en-US \
-	$(NULL)
+  $(NULL)
 
 include $(topsrcdir)/config/config.mk
 

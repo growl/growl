@@ -24,7 +24,7 @@ REQUIRES = \
   alerts \
   necko \
   intl \
-	uriloader \
+  uriloader \
   $(NULL)
 
 # GROWL FILES
