@@ -43,6 +43,11 @@ static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 		}
 
 		theOneTrueGrowlApplicationBridgePathway = self;
+
+		//Watch a new run loop for incoming messages
+		[aConnection runInNewThread];
+		//Stop watching the current (main) run loop
+		[aConnection removeRunLoop:[NSRunLoop currentRunLoop]];
 	}
 
 	return self;
