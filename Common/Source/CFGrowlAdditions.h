@@ -13,41 +13,41 @@
 #include "CFGrowlDefines.h"
 
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
-extern void NSLog(CFStringRef format, ...);
+extern void NSLog(STRING_TYPE format, ...);
 
-char *createFileSystemRepresentationOfString(CFStringRef str);
-CFStringRef createStringWithDate(CFDateRef date);
+char *createFileSystemRepresentationOfString(STRING_TYPE str);
+STRING_TYPE createStringWithDate(DATE_TYPE date);
 
-CFStringRef createStringWithContentsOfFile(CFStringRef filename, CFStringEncoding encoding);
+STRING_TYPE createStringWithContentsOfFile(STRING_TYPE filename, CFStringEncoding encoding);
 
 //you can leave out any of these three components. to leave out the character, pass 0xffff.
-CFStringRef createStringWithStringAndCharacterAndString(CFStringRef str0, UniChar ch, CFStringRef str1);
+STRING_TYPE createStringWithStringAndCharacterAndString(STRING_TYPE str0, UniChar ch, STRING_TYPE str1);
 
-char *copyCString(CFStringRef str, CFStringEncoding encoding);
+char *copyCString(STRING_TYPE str, CFStringEncoding encoding);
 
-CFStringRef copyCurrentProcessName(void);
-CFURLRef    copyCurrentProcessURL(void);
-CFStringRef copyCurrentProcessPath(void);
+STRING_TYPE copyCurrentProcessName(void);
+URL_TYPE    copyCurrentProcessURL(void);
+STRING_TYPE copyCurrentProcessPath(void);
 
-CFURLRef    copyTemporaryFolderURL(void);
-CFStringRef copyTemporaryFolderPath(void);
+URL_TYPE    copyTemporaryFolderURL(void);
+STRING_TYPE copyTemporaryFolderPath(void);
 
-CFStringRef createStringWithAddressData(CFDataRef aAddressData);
-CFStringRef createHostNameForAddressData(CFDataRef aAddressData);
+STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData);
+STRING_TYPE createHostNameForAddressData(DATA_TYPE aAddressData);
 
-CFDataRef readFile(const char *filename);
-CFURLRef  copyURLForApplication(CFStringRef appName);
+DATA_TYPE readFile(const char *filename);
+URL_TYPE  copyURLForApplication(STRING_TYPE appName);
 
 /*	@function	copyIconDataForPath
  *	@param	path	The POSIX path to the file or folder whose icon you want.
  *	@result	The icon data, in IconFamily format (same as used in the 'icns' resource and in .icns files). You are responsible for releasing this object.
  */
-CFDataRef copyIconDataForPath(CFStringRef path);
+DATA_TYPE copyIconDataForPath(STRING_TYPE path);
 /*	@function	copyIconDataForURL
  *	@param	URL	The URL to the file or folder whose icon you want.
  *	@result	The icon data, in IconFamily format (same as used in the 'icns' resource and in .icns files). You are responsible for releasing this object.
  */
-CFDataRef copyIconDataForURL(CFURLRef URL);
+DATA_TYPE copyIconDataForURL(URL_TYPE URL);
 
 /*	@function	createURLByMakingDirectoryAtURLWithName
  *	@abstract	Create a directory.
@@ -62,14 +62,14 @@ CFDataRef copyIconDataForURL(CFURLRef URL);
  *	@param	name	The name of the directory you want to create. If this is <code>NULL</code>, the directory specified by the URL will be created.
  *	@result	The URL for the directory if it was successfully created (in which case, you are responsible for releasing this object); else, <code>NULL</code>.
  */
-CFURLRef createURLByMakingDirectoryAtURLWithName(CFURLRef parent, CFStringRef name);
+URL_TYPE createURLByMakingDirectoryAtURLWithName(URL_TYPE parent, STRING_TYPE name);
 
 /*	@function	createURLByCopyingFileFromURLToDirectoryURL
  *	@param	file	The file to copy.
  *	@param	dest	The folder to copy it to.
  *	@result	The copy. You are responsible for releasing this object.
  */
-CFURLRef createURLByCopyingFileFromURLToDirectoryURL(CFURLRef file, CFURLRef dest);
+URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE dest);
 
 /*	@function	createPropertyListFromURL
  *	@abstract	Reads a property list from the contents of an URL.
@@ -81,6 +81,6 @@ CFURLRef createURLByCopyingFileFromURLToDirectoryURL(CFURLRef file, CFURLRef des
  *	@param	outErrorString	If an error occurs, this will point to a string (which you are responsible for releasing) describing the error. You may pass NULL if you are not interested in this information. If no error occurs, the value at this pointer will be left unchanged.
  *	@result	The property list. You are responsible for releasing this object.
  */
-CFPropertyListRef createPropertyListFromURL(CFURLRef file, u_int32_t mutability, CFPropertyListFormat *outFormat, CFStringRef *outErrorString);
+PLIST_TYPE createPropertyListFromURL(URL_TYPE file, u_int32_t mutability, CFPropertyListFormat *outFormat, STRING_TYPE *outErrorString);
 
 #endif
