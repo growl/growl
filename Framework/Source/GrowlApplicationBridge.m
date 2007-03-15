@@ -76,6 +76,10 @@
  */
 + (NSData *) _applicationIconDataForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict;
 
+/*! @method growlProxy
+ *  @abstract Obtain (creating a connection if needed) a proxy to the Growl Helper Application
+ */
++ (NSProxy<GrowlNotificationProtocol> *) growlProxy;
 @end
 
 static NSString	*appName = nil;
@@ -83,6 +87,7 @@ static NSData	*appIconData = nil;
 
 static id		delegate = nil;
 static BOOL		growlLaunched = NO;
+static NSProxy<GrowlNotificationProtocol> *growlProxy = nil;
 
 #ifdef GROWL_WITH_INSTALLER
 static NSMutableArray	*queuedGrowlNotifications = nil;
@@ -234,18 +239,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
 	//post it.
-	if (growlLaunched) {
+	if (growlLaunched) {		
+		NSProxy<GrowlNotificationProtocol> *currentGrowlProxy = [self growlProxy];
+
 		//Make sure we have everything that we need (that we can retrieve from the registration dictionary).
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
-		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
-		if (connection) {
+		if (currentGrowlProxy) {
 			//Post to Growl via GrowlApplicationBridgePathway
 			TRY
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				NSProxy<GrowlNotificationProtocol> *growlProxy = (NSProxy<GrowlNotificationProtocol> *)theProxy;
-				[growlProxy postNotificationWithDictionary:userInfo];
+				[currentGrowlProxy postNotificationWithDictionary:userInfo];
 			ENDTRY
 			CATCH
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
@@ -548,6 +551,42 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #pragma mark -
 
+//When a connection dies, release our reference to its proxy
++ (void) connectionDidDie:(NSNotification *)notification {
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:NSConnectionDidDieNotification
+												  object:[notification object]];
+	[growlProxy release]; growlProxy = nil;
+}
+
++ (NSProxy<GrowlNotificationProtocol> *) growlProxy {
+	if (!growlProxy) {
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
+		if (connection) {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(connectionDidDie:)
+														 name:NSConnectionDidDieNotification
+													   object:connection];
+			
+			TRY
+			{
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				growlProxy = [(NSProxy<GrowlNotificationProtocol> *)theProxy retain];
+			}
+			ENDTRY
+				CATCH
+			{
+				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
+				growlProxy = nil;
+			}
+			ENDCATCH
+		}
+	}
+	
+	return growlProxy;
+}
+
 + (void) _growlIsReady:(NSNotification *)notification {
 #pragma unused(notification)
 
@@ -559,13 +598,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		[delegate growlIsReady];
 
 	//Post a notification locally
-	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 (CFStringRef)GROWL_IS_READY,
-										 NULL, NULL, false);
+	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+														object:nil
+													  userInfo:nil];
 
 	//Stop observing for GROWL_IS_READY
-	CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
-	CFNotificationCenterRemoveObserver(distCenter, self, (CFStringRef)GROWL_IS_READY, NULL);
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+															   name:GROWL_IS_READY
+															 object:nil];
 
 	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
 	if (registerWhenGrowlIsReady) {
@@ -578,24 +618,24 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSEnumerator *enumerator = [queuedGrowlNotifications objectEnumerator];
 	NSDictionary *noteDict;
 
-	while ((noteDict = [enumerator nextObject])) {
-		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
-		if (connection) {
+	//Configure the growl proxy if it isn't currently configured
+	NSProxy<GrowlNotificationProtocol> *currentGrowlProxy = [self growlProxy];
+	
+	while ((noteDict = [enumerator nextObject])) {		
+		if (currentGrowlProxy) {
 			//Post to Growl via GrowlApplicationBridgePathway
 			NS_DURING
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				NSProxy <GrowlNotificationProtocol> *growlProxy = (NSProxy<GrowlNotificationProtocol> *)theProxy;
-				[growlProxy postNotificationWithDictionary:noteDict];
+				[currentGrowlProxy postNotificationWithDictionary:noteDict];
 			NS_HANDLER
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
 			NS_ENDHANDLER
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
 			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
-			CFNotificationCenterPostNotification(distCenter,
-												 (CFStringRef)GROWL_NOTIFICATION,
-												 NULL, noteDict, false);
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																		   object:NULL
+																		 userInfo:noteDict
+															   deliverImmediately:FALSE];
 		}
 	}
 
@@ -625,7 +665,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] pathForResource:@"GrowlPrefPaneInfo"
 																												  ofType:@"plist"];
 
-	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, ourGrowlPrefPaneInfoPath, kCFURLPOSIXPathStyle, false);
+	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ourGrowlPrefPaneInfoPath, kCFURLPOSIXPathStyle, false);
 	NSDictionary *infoDict = createPropertyListFromURL(url, kCFPropertyListImmutable, NULL, NULL);
 	CFRelease(url);
 	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
