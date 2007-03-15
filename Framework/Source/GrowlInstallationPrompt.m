@@ -8,6 +8,7 @@
 
 #import "GrowlInstallationPrompt.h"
 #import "GrowlApplicationBridge.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 
@@ -30,17 +31,28 @@
 # define NSAppKitVersionNumber10_3 743
 #endif
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-# define TRY		@try {
-# define ENDTRY		}
-# define CATCH		@catch(NSException *e) {
-# define ENDCATCH	}
+/*!
+* The 10.3+ exception handling can only work if -fobjc-exceptions is enabled
+ */
+#if 0
+	#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+		# define TRY		@try {
+		# define ENDTRY		}
+		# define CATCH		@catch(NSException *localException) {
+		# define ENDCATCH	}
+	#else
+		# define TRY		NS_DURING
+		# define ENDTRY
+		# define CATCH		NS_HANDLER
+		# define ENDCATCH	NS_ENDHANDLER
+	#endif
 #else
-# define TRY		NS_DURING
-# define ENDTRY
-# define CATCH		NS_HANDLER
-# define ENDCATCH	NS_ENDHANDLER
+	# define TRY		NS_DURING
+	# define ENDTRY
+	# define CATCH		NS_HANDLER
+	# define ENDCATCH	NS_ENDHANDLER
 #endif
+
 
 @interface GrowlInstallationPrompt (private)
 - (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
@@ -344,14 +356,26 @@ static BOOL checkOSXVersion(void) {
 				/*Kill the running GrowlHelperApp if necessary by asking it via
 				 *	DNC to shutdown.
 				 */
-				CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-													 GROWL_SHUTDOWN,
-													 /*object*/ NULL,
-													 /*userInfo*/ NULL,
-													 /*deliverImmediately*/ false);
-
+				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN
+																			   object:nil
+																			 userInfo:nil];
 				//tell GAB to register when GHA next launches.
 				[GrowlApplicationBridge setWillRegisterWhenGrowlIsReady:YES];
+
+				//remove the old version of Growl
+				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
+				if (oldGrowlPath) {
+					//ask system preferences to quit if it's open
+					NSAppleScript *quitScript = [[NSAppleScript alloc] initWithSource:@"tell application \"System Preferences\" to quit"];
+					[quitScript executeAndReturnError:nil];
+					[quitScript release];
+					
+					[[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation
+																 source:[oldGrowlPath stringByDeletingLastPathComponent]
+															destination:@""
+																  files:[NSArray arrayWithObject:[oldGrowlPath lastPathComponent]]
+																	tag:NULL];
+				}
 
 				/*Open Growl.prefPane using System Preferences, which will
 				 *	take care of the rest.
