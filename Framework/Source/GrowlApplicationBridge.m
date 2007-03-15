@@ -20,16 +20,27 @@
 
 #import <ApplicationServices/ApplicationServices.h>
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-# define TRY		@try {
-# define ENDTRY		}
-# define CATCH		@catch(NSException *localException) {
-# define ENDCATCH	}
+
+/*!
+ * The 10.3+ exception handling can only work if -fobjc-exceptions is enabled
+ */
+#if 0
+	#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+	# define TRY		@try {
+	# define ENDTRY		}
+	# define CATCH		@catch(NSException *localException) {
+	# define ENDCATCH	}
+	#else
+	# define TRY		NS_DURING
+	# define ENDTRY
+	# define CATCH		NS_HANDLER
+	# define ENDCATCH	NS_ENDHANDLER
+	#endif
 #else
-# define TRY		NS_DURING
-# define ENDTRY
-# define CATCH		NS_HANDLER
-# define ENDCATCH	NS_ENDHANDLER
+	# define TRY		NS_DURING
+	# define ENDTRY
+	# define CATCH		NS_HANDLER
+	# define ENDCATCH	NS_ENDHANDLER
 #endif
 
 @interface GrowlApplicationBridge (PRIVATE)
@@ -665,9 +676,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] pathForResource:@"GrowlPrefPaneInfo"
 																												  ofType:@"plist"];
 
-	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ourGrowlPrefPaneInfoPath, kCFURLPOSIXPathStyle, false);
-	NSDictionary *infoDict = createPropertyListFromURL(url, kCFPropertyListImmutable, NULL, NULL);
-	CFRelease(url);
+	NSObject *infoPropertyList = createPropertyListFromURL([NSURL fileURLWithPath:ourGrowlPrefPaneInfoPath],
+														   kCFPropertyListImmutable,
+														   /* outFormat */ NULL, /* outErrorString */ NULL);
+	NSDictionary *infoDict = ([infoPropertyList isKindOfClass:[NSDictionary class]] ? (NSDictionary *)infoPropertyList : nil);
+
 	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
 
 	infoDictionary = [growlPrefPaneBundle infoDictionary];
