@@ -9,7 +9,8 @@
 #include "nsToolkitCompsCID.h"
 #include "nsAlertsServiceMac.h"
 #include "grApplicationBridge.h"
-#include "grNotifications.h"
+#include "grBrowserNotifications.h"
+#include "grMailNotifications.h"
 
 NS_GENERIC_FACTORY_CONSTRUCTOR(nsAlertsServiceMac)
 NS_GENERIC_FACTORY_CONSTRUCTOR(grApplicationBridge)

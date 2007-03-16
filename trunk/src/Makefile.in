@@ -25,6 +25,7 @@ REQUIRES = \
   necko \
   intl \
   uriloader \
+  xulapp \
   $(NULL)
 
 # GROWL FILES
@@ -46,7 +47,7 @@ CMMSRCS = \
   nsAlertsImageLoadListener.mm \
   nsAlertsServiceMac.mm \
   grApplicationBridge.mm \
-  grNotifications.mm \
+  grBrowserNotifications.mm \
   $(NULL)
 
 CPPSRCS = \

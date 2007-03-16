@@ -5,7 +5,7 @@
 //
 // This file is under the BSD License, refer to license.txt for details
 
-#include "grNotifications.h"
+#include "grBrowserNotifications.h"
 #include "nsAlertsImageLoadListener.h"
 #include "nsServiceManagerUtils.h"
 #include "nsComponentManagerUtils.h"
@@ -20,17 +20,8 @@
 #include "localeKeys.h"
 #import "wrapper.h"
 
-#define DOWNLOAD_START_IMAGE \
-  NS_LITERAL_STRING("chrome://growl/content/downloadIcon.png")
-#define DOWNLOAD_FINISHED_IMAGE \
-  NS_LITERAL_STRING("chrome://growl/content/downloadIcon.png")
-#define DOWNLOAD_CANCELED_IMAGE \
-  NS_LITERAL_STRING("chrome://growl/content/downloadIcon.png")
-#define DOWNLOAD_FAILED_IMAGE \
-  NS_LITERAL_STRING("chrome://growl/content/downloadIcon.png")
-
-NS_IMPL_THREADSAFE_ISUPPORTS2(grBrowserNotifications, grIBrowserNotifications,
-                              nsIObserver)
+NS_IMPL_THREADSAFE_ISUPPORTS2(grBrowserNotifications,
+                              grIBrowserNotifications, nsIObserver)
 
 grBrowserNotifications::grBrowserNotifications() : mObserverService(nsnull)
 {
@@ -71,6 +62,31 @@ grBrowserNotifications::~grBrowserNotifications()
 
   if (mDelegate)
     delete mDelegate;
+}
+
+nsresult
+grBrowserNotifications::RegisterAppWithGrowl()
+{
+  nsString text;
+
+  mBundle->GetStringFromName(DOWNLOAD_START_TITLE, getter_Copies(text));
+  [mDelegate->delegate addNotification: text];
+
+  mBundle->GetStringFromName(DOWNLOAD_FINISHED_TITLE, getter_Copies(text));
+  [mDelegate->delegate addNotification: text];
+
+  mBundle->GetStringFromName(DOWNLOAD_CANCELED_TITLE, getter_Copies(text));
+  [mDelegate->delegate addNotification: text];
+
+  mBundle->GetStringFromName(DOWNLOAD_FAILED_TITLE, getter_Copies(text));
+  [mDelegate->delegate addNotification: text];
+
+  mBundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
+  [mDelegate->delegate addNotification: text];
+
+  [GrowlApplicationBridge registerWithDictionary: nil];
+
+  return NS_OK;
 }
 
 NS_IMETHODIMP

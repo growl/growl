@@ -17,10 +17,8 @@ struct GrowlDelegateWrapper
       delegate = [[mozGrowlDelegate alloc] init];
 
       [GrowlApplicationBridge setGrowlDelegate:delegate];
-
-      [GrowlApplicationBridge registerWithDictionary: nil];
     } else {
-      delegate = [GrowlApplicationBridge growlDelegate];
+      delegate = (mozGrowlDelegate*)[GrowlApplicationBridge growlDelegate];
 
       [delegate retain];
     }

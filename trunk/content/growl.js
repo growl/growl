@@ -58,7 +58,7 @@ GrowlNotifications.prototype =
     if (gBrowser) { // We should be in browser, or someone is a mean mean person
       var bn = Components.classes["@growl.info/notifications;1"]
                          .getService(Components.interfaces.grIBrowserNotifications);
-      // just getting the service is all we need to do - it takes care of it!
+      bn.registerAppWithGrowl();
     }
   },
 

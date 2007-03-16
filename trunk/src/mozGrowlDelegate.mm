@@ -11,8 +11,8 @@
 #include "nsStringAPI.h"
 #include "nscore.h"
 #include "nsCOMPtr.h"
-#include "nsIStringBundle.h"
 #include "nsServiceManagerUtils.h"
+#include "nsIXULAppInfo.h"
 
 #include "localeKeys.h"
 
@@ -22,7 +22,9 @@
 {
   if ((self = [super init])) {
     mKey = 0;
-    mDict = [[NSMutableDictionary dictionaryWithCapacity:8] retain];
+    mDict = [[NSMutableDictionary dictionaryWithCapacity: 8] retain];
+
+    mNotifications = [[NSMutableArray arrayWithCapacity: 8] retain];
   }
 
   return self;
@@ -31,6 +33,8 @@
 - (void) dealloc
 {
   [mDict release];
+
+  [mNotifications release];
 
   [super dealloc];
 }
@@ -77,6 +81,12 @@
   }
 }
 
+- (void)addNotification:(const nsAString&)aName
+{
+  [mNotifications addObject: [NSString stringWithCharacters: aName.BeginReading()
+                                                     length: aName.Length()]];
+}
+
 - (PRUint32) addObserver:(nsIObserver*)aObserver
 {
   mKey++;
@@ -87,45 +97,28 @@
 
 - (NSDictionary *) registrationDictionaryForGrowl
 {
-  nsresult rv;
-  NSMutableArray* objs = [NSMutableArray arrayWithCapacity: 5];
-
-  nsCOMPtr<nsIStringBundleService> bundleService =
-    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
-  if (NS_FAILED(rv)) return nil;
-
-  nsCOMPtr<nsIStringBundle> strBundle;
-  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(strBundle));
-  if (NS_FAILED(rv)) return nil;
-
-  nsString text;
-
-  strBundle->GetStringFromName(DOWNLOAD_START_TITLE, getter_Copies(text));
-  [objs addObject: [NSString stringWithCharacters: text.BeginReading()
-                                           length: text.Length()]];
-
-  strBundle->GetStringFromName(DOWNLOAD_FINISHED_TITLE, getter_Copies(text));
-  [objs addObject: [NSString stringWithCharacters: text.BeginReading()
-                                           length: text.Length()]];
-
-  strBundle->GetStringFromName(DOWNLOAD_CANCELED_TITLE, getter_Copies(text));
-  [objs addObject: [NSString stringWithCharacters: text.BeginReading()
-                                           length: text.Length()]];
-
-  strBundle->GetStringFromName(DOWNLOAD_FAILED_TITLE, getter_Copies(text));
-  [objs addObject: [NSString stringWithCharacters: text.BeginReading()
-                                           length: text.Length()]];
-
-  strBundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
-  [objs addObject: [NSString stringWithCharacters: text.BeginReading()
-                                           length: text.Length()]];
-
   return [NSDictionary dictionaryWithObjectsAndKeys:
-           objs, GROWL_NOTIFICATIONS_ALL,
-           objs, GROWL_NOTIFICATIONS_DEFAULT,
+           mNotifications, GROWL_NOTIFICATIONS_ALL,
+           mNotifications, GROWL_NOTIFICATIONS_DEFAULT,
            nil];
 }
 
+- (NSString*) applicationNameForGrowl
+{
+  nsresult rv;
+
+  nsCOMPtr<nsIXULAppInfo> appInfo =
+    do_GetService("@mozilla.org/xre/app-info;1", &rv);
+  if (NS_FAILED(rv)) return nil;
+
+  nsCString appName;
+  rv = appInfo->GetName(appName);
+  if (NS_FAILED(rv)) return nil;
+
+  nsString name = NS_ConvertUTF8toUTF16(appName);
+  return [NSString stringWithCharacters: name.BeginReading()
+                                 length: name.Length()];
+}
 
 - (void) growlNotificationTimedOut:(id)clickContext
 {

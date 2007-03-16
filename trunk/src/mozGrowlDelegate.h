@@ -8,6 +8,7 @@
 #include "xpcom-config.h"
 #import "GrowlApplicationBridge.h"
 #include "nsIObserver.h"
+#include "nsStringAPI.h"
 
 #import <Cocoa/Cocoa.h>
 
@@ -19,6 +20,7 @@
 @private
   PRUint32 mKey;
   NSMutableDictionary* mDict;
+  NSMutableArray* mNotifications;
 }
 
 /**
@@ -39,6 +41,13 @@
         cookie:(const nsAString&)aCookie;
 
 /**
+ * Adds a notification that we may send to the registration dictionary
+ *
+ * @param aName The name of the notification we are adding.
+ */
+- (void)addNotification:(const nsAString&)aName;
+
+/**
  * Adds an nsIObserver that we can query later for dispatching obsevers.
  *
  * @param aObserver The observer we are adding.
@@ -51,6 +60,11 @@
  * send, and also which notifications should be enabled by default.
  */
 - (NSDictionary *) registrationDictionaryForGrowl;
+
+/**
+ * Gives Growl the application name.
+ */
+- (NSString*) applicationNameForGrowl;
 
 /**
  * Informs us that a Growl notification timed out.

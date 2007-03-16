@@ -10,9 +10,11 @@
 [scriptable, uuid(4d19794c-982c-4259-8da4-413f5c2c4f6b)]
 interface grIBrowserNotifications : nsISupports
 {
+  void registerAppWithGrowl();
 };
 
 [scriptable, uuid(fae8a6b9-98b8-45d9-a8c8-d00466a5f756)]
 interface grIMailNotifications : nsISupports
 {
+  void registerAppWithGrowl();
 };
