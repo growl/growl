@@ -14,8 +14,6 @@
 #include "nsServiceManagerUtils.h"
 #include "nsIXULAppInfo.h"
 
-#include "localeKeys.h"
-
 @implementation mozGrowlDelegate
 
 - (id) init
@@ -46,8 +44,18 @@
            key:(PRUint32)aKey
         cookie:(const nsAString&)aCookie
 {
-  if (aKey) {
-    [GrowlApplicationBridge
+  NSDictionary* clickContext = nil;
+  if (aKey)
+    clickContext = [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithUnsignedInt: aKey],
+      OBSERVER_KEY,
+      [NSArray arrayWithObject:
+        [NSString stringWithCharacters: aCookie.BeginReading()
+                                length: aCookie.Length()]],
+      COOKIE_KEY,
+      nil];
+
+  [GrowlApplicationBridge
      notifyWithTitle: [NSString stringWithCharacters: aTitle.BeginReading()
                                               length: aTitle.Length()]
          description: [NSString stringWithCharacters: aText.BeginReading()
@@ -57,28 +65,7 @@
             iconData: aImage
             priority: 0
             isSticky: NO
-        clickContext: [NSDictionary
-  dictionaryWithObjectsAndKeys: [NSNumber numberWithUnsignedInt: aKey],
-                                OBSERVER_KEY,
-                                [NSArray arrayWithObject:
-                                  [NSString stringWithCharacters: aCookie.BeginReading()
-                                                          length: aCookie.Length()]],
-                                COOKIE_KEY,
-                                nil]];
-  } else {
-    // if we don't have an obsever (aKey is 0), do not send a click context
-    [GrowlApplicationBridge
-     notifyWithTitle: [NSString stringWithCharacters: aTitle.BeginReading()
-                                              length: aTitle.Length()]
-         description: [NSString stringWithCharacters: aText.BeginReading()
-                                              length: aText.Length()]
-    notificationName: [NSString stringWithCharacters: aName.BeginReading()
-                                              length: aName.Length()]
-            iconData: aImage
-            priority: 0
-            isSticky: NO
-        clickContext: nil];
-  }
+        clickContext: clickContext];
 }
 
 - (void)addNotification:(const nsAString&)aName

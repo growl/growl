@@ -127,8 +127,8 @@ grBrowserNotifications::Observe(nsISupports *aSubject, const char *aTopic,
     image = DOWNLOAD_FAILED_IMAGE;
   }
 
-  // TODO: observers for clickback
-  listener = new nsAlertsImageLoadListener(title, title, message, PR_FALSE, nsString(), PRUint32(0));
+  listener = new nsAlertsImageLoadListener(title, title, message, PR_FALSE,
+                                           nsString(), PRUint32(0));
   nsCOMPtr<nsIIOService> io;
   io = do_GetService("@mozilla.org/network/io-service;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
