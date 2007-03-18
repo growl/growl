@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
-//  Copyright 2005 The Growl Project.
+//  Copyright 2005-2007 The Growl Project.
 //
 
 #include <Carbon/Carbon.h>
@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <sys/socket.h>
 #include "CFGrowlAdditions.h"
 
 static CFStringRef _CFURLAliasDataKey  = CFSTR("_CFURLAliasData");
@@ -203,7 +204,7 @@ CFDataRef copyIconDataForURL(CFURLRef URL) {
 			OSStatus err = GetIconRefFromFileInfo(&ref,
 												  /*inFileNameLength*/ 0U, /*inFileName*/ NULL,
 												  kFSCatInfoNone, /*inCatalogInfo*/ NULL,
-												  kIconServicesNoBadgeFlag | kIconServicesUpdateIfNeededFlag,
+												  kIconServicesNormalUsageFlag,
 												  &icon,
 												  &label_noOneCares);
 			if (err != noErr) {
