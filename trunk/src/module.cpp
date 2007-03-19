@@ -10,12 +10,10 @@
 #include "nsAlertsServiceMac.h"
 #include "grApplicationBridge.h"
 #include "grBrowserNotifications.h"
-#include "grMailNotifications.h"
 
 NS_GENERIC_FACTORY_CONSTRUCTOR(nsAlertsServiceMac)
 NS_GENERIC_FACTORY_CONSTRUCTOR(grApplicationBridge)
 NS_GENERIC_FACTORY_CONSTRUCTOR_INIT(grBrowserNotifications, Init)
-//NS_GENERIC_FACTORY_CONSTRUCTOR_INIT(grMailNotifications, Init)
 
 static nsModuleComponentInfo components[] =
 {
@@ -31,10 +29,6 @@ static nsModuleComponentInfo components[] =
     GROWL_BROWSER_NOTIFICATIONS_CID,
     GROWL_NOTIFICATIONS_CONTRACTID,
     grBrowserNotificationsConstructor },
-/*  { "Growl Mail Notifications",
-    GROWL_MAIL_NOTIFICATIONS_CID,
-    GROWL_NOTIFICATIONS_CONTRACTID,
-    grMailNotificationsConstructor },*/
 };
 
 NS_IMPL_NSGETMODULE(GrowlNotifications, components)
