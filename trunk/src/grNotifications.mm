@@ -1,0 +1,100 @@
+//
+//  $Id$
+//
+//  Copyright 2007 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to license.txt for details
+
+#include "grNotifications.h"
+#include "nsAlertsImageLoadListener.h"
+#include "nsServiceManagerUtils.h"
+#include "nsComponentManagerUtils.h"
+#include "nsStringAPI.h"
+#include "nsIURI.h"
+#include "nsIStreamListener.h"
+#include "nsIIOService.h"
+#include "nsIChannel.h"
+
+#import "wrapper.h"
+
+NS_IMPL_THREADSAFE_ADDREF(grNotifications)
+NS_IMPL_THREADSAFE_RELEASE(grNotifications)
+
+NS_INTERFACE_MAP_BEGIN(grNotifications)
+  NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, grINotifications)
+  NS_INTERFACE_MAP_ENTRY(grINotifications)
+NS_INTERFACE_MAP_END_THREADSAFE
+
+nsresult
+grNotifications::Init()
+{
+  if ([GrowlApplicationBridge isGrowlInstalled] == YES) {
+    mDelegate = new GrowlDelegateWrapper();
+
+    return NS_OK;
+  } else {
+    return NS_ERROR_NOT_IMPLEMENTED;
+  }
+}
+
+grNotifications::~grNotifications()
+{
+  if (mDelegate)
+    delete mDelegate;
+}
+
+NS_IMETHODIMP
+grNotifications::AddNotification(const nsAString &aName)
+{
+  [mDelegate->delegate addNotification: aName];
+
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+grNotifications::RegisterAppWithGrowl()
+{
+  [GrowlApplicationBridge registerWithDictionary: nil];
+
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+grNotifications::SendNotification(const nsAString &aName,
+                                  const nsAString &aImage,
+                                  const nsAString &aTitle,
+                                  const nsAString &aMessage,
+                                  nsIObserver* aObserver)
+{
+  nsresult rv;
+  nsCOMPtr<nsAlertsImageLoadListener> listener = nsnull;
+
+  PRUint32 ind = 0;
+  if (aObserver)
+    ind = [mDelegate->delegate addObserver: aObserver];
+
+  listener = new nsAlertsImageLoadListener(aName, aTitle, aMessage,
+                                           aObserver ? PR_TRUE : PR_FALSE,
+                                           nsString(), ind);
+
+  nsCOMPtr<nsIIOService> io;
+  io = do_GetService("@mozilla.org/network/io-service;1", &rv);
+  NS_ENSURE_SUCCESS(rv, rv);
+
+  nsCOMPtr<nsIURI> uri;
+  rv = io->NewURI(NS_ConvertUTF16toUTF8(aImage), nsnull, nsnull,
+                  getter_AddRefs(uri));
+  NS_ENSURE_SUCCESS(rv, rv);
+
+  nsCOMPtr<nsIChannel> chan;
+  rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
+  NS_ENSURE_SUCCESS(rv, rv);
+
+  nsCOMPtr<nsIStreamLoader> loader;
+  loader = do_CreateInstance("@mozilla.org/network/stream-loader;1", &rv);
+  NS_ENSURE_SUCCESS(rv, rv);
+  rv = loader->Init(chan, listener, nsnull);
+  NS_ENSURE_SUCCESS(rv, rv);
+
+  return NS_OK;
+}
