@@ -73,10 +73,6 @@ grNotifications::SendNotification(const nsAString &aName,
   if (aObserver)
     ind = [mDelegate->delegate addObserver: aObserver];
 
-  listener = new nsAlertsImageLoadListener(aName, aTitle, aMessage,
-                                           aObserver ? PR_TRUE : PR_FALSE,
-                                           nsString(), ind);
-
   nsCOMPtr<nsIIOService> io;
   io = do_GetService("@mozilla.org/network/io-service;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
@@ -84,7 +80,19 @@ grNotifications::SendNotification(const nsAString &aName,
   nsCOMPtr<nsIURI> uri;
   rv = io->NewURI(NS_ConvertUTF16toUTF8(aImage), nsnull, nsnull,
                   getter_AddRefs(uri));
-  NS_ENSURE_SUCCESS(rv, rv);
+  if (NS_FAILED(rv)) { // URI failed, dispatch with no image
+    [mDelegate->delegate name: aName
+                        title: aTitle
+                         text: aMessage
+                        image: [NSData data]
+                          key: ind
+                       cookie: nsString()];
+    return NS_OK;
+  }
+
+  listener = new nsAlertsImageLoadListener(aName, aTitle, aMessage,
+                                           aObserver ? PR_TRUE : PR_FALSE,
+                                           nsString(), ind);
 
   nsCOMPtr<nsIChannel> chan;
   rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));

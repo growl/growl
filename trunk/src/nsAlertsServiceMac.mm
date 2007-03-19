@@ -49,10 +49,8 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
   nsresult rv;
 
   PRUint32 ind = 0;
-  if (aAlertListener) {
-    NS_ADDREF(aAlertListener);
+  if (aAlertListener)
     ind = [mDelegate->delegate addObserver: aAlertListener];
-  }
 
   nsCOMPtr<nsIStringBundleService> bundleService =
     do_GetService("@mozilla.org/intl/stringbundle;1", &rv);

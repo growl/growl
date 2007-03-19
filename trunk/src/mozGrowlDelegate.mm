@@ -76,6 +76,8 @@
 
 - (PRUint32) addObserver:(nsIObserver*)aObserver
 {
+  NS_ADDREF(aObserver);  // We now own a reference to this!
+
   mKey++;
   [mDict setObject: [NSValue valueWithPointer: aObserver]
             forKey: [NSNumber numberWithUnsignedInt: mKey]];
