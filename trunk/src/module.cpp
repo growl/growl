@@ -9,11 +9,11 @@
 #include "nsToolkitCompsCID.h"
 #include "nsAlertsServiceMac.h"
 #include "grApplicationBridge.h"
-#include "grBrowserNotifications.h"
+#include "grNotifications.h"
 
 NS_GENERIC_FACTORY_CONSTRUCTOR(nsAlertsServiceMac)
 NS_GENERIC_FACTORY_CONSTRUCTOR(grApplicationBridge)
-NS_GENERIC_FACTORY_CONSTRUCTOR_INIT(grBrowserNotifications, Init)
+NS_GENERIC_FACTORY_CONSTRUCTOR_INIT(grNotifications, Init)
 
 static nsModuleComponentInfo components[] =
 {
@@ -25,10 +25,10 @@ static nsModuleComponentInfo components[] =
     GROWL_APPLICATION_BRIDGE_CID,
     GROWL_APPLICATION_BRIDGE_CONTRACTID,
     grApplicationBridgeConstructor },
-  { "Growl Browser Notifications",
-    GROWL_BROWSER_NOTIFICATIONS_CID,
+  { "Growl Notifications",
+    GROWL_NOTIFICATIONS_CID,
     GROWL_NOTIFICATIONS_CONTRACTID,
-    grBrowserNotificationsConstructor },
+    grNotificationsConstructor },
 };
 
 NS_IMPL_NSGETMODULE(GrowlNotifications, components)

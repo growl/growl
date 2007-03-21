@@ -8,8 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 //// Global Variables
 
-const GROWL_EXTENSION_ID   = "growl@growl.info";
-const GROWL_FRAMEWORK_NAME = "Growl.framework";
+const GROWL_EXTENSION_ID    = "growl@growl.info";
+const GROWL_FRAMEWORK_NAME  = "Growl.framework";
+const GROWL_BUNDLE_LOCATION = "chrome://growl/locale/notifications.properties";
 
 var gGrowl;
 
@@ -29,6 +30,15 @@ function Growl_init()
 
 function GrowlNotifications()
 {
+  const nsIObserverService = Components.interfaces.nsIObserverService;
+  const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
+
+  this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
+                                    .getService(nsIObserverService);
+
+  var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
+                      .getService(nsIStringBundleService);
+  this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
 }
 GrowlNotifications.prototype =
 {
@@ -49,17 +59,27 @@ GrowlNotifications.prototype =
       return;
     }
 
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                          .getService(Components.interfaces.nsIPrefBranch);
+    var init = prefs.getBoolPref("extensions.growl.initialized.notifications");
+    if (init) return; // we already did this, so exit gracefully
+
+    this.mObserverService.addObserver(this, "quit-application-granted", false);
+
     var gab = Components.classes["@growl.info/application-bridge;1"]
                         .getService(Components.interfaces.grIApplicationBridge);
     if (!gab.growlInstalled) {
       window.setTimeout(this.promptForGrowlDownload, 5000);
+
+      return;
     }
 
-    if (gBrowser) { // We should be in browser, or someone is a mean mean person
-      var bn = Components.classes["@growl.info/notifications;1"]
-                         .getService(Components.interfaces.grIBrowserNotifications);
-      bn.registerAppWithGrowl();
-    }
+    var grn = Components.classes["@growl.info/notifications;1"]
+                        .getService(Components.interfaces.grINotifications);
+    grn.addNotification(this.mBundle.GetStringFromName("general.title"));
+
+    grn.registerAppWithGrowl();
+    prefs.setBoolPref("extensions.growl.initialized.notifications", true);
   },
 
   promptForGrowlDownload: function promptForGrowlDownload()
@@ -88,6 +108,21 @@ GrowlNotifications.prototype =
                           .createInstance(Components.interfaces.nsIExternalProtocolService);
 
       eps.loadUrl(uri);
+    }
+  },
+
+  observe: function observe(aSubject, aTopic, aData)
+  {
+    switch (aTopic) {
+      case "quit-application-granted":
+        var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                              .getService(Components.interfaces.nsIPrefBranch);
+        prefs.setBoolPref("extensions.growl.initialized.notifications", false);
+
+        this.mObserverService.removeObserver(this, "quit-application");
+        break;
+      default:
+        Components.utils.reportError("Unexpected topic for growl - " + aTopic);
     }
   }
 };

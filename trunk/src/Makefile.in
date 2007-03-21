@@ -47,7 +47,7 @@ CMMSRCS = \
   nsAlertsImageLoadListener.mm \
   nsAlertsServiceMac.mm \
   grApplicationBridge.mm \
-  grBrowserNotifications.mm \
+  grNotifications.mm \
   $(NULL)
 
 CPPSRCS = \
@@ -55,7 +55,6 @@ CPPSRCS = \
   $(NULL)
 
 LOCAL_INCLUDES = \
-  -F$(srcdir)/.. \
   -I$(topsrcdir)/toolkit/components/build \
   $(NULL)
 
