@@ -21,6 +21,8 @@ INSTALL_EXTENSION_ID   = growl@growl.info
 XPI_PKGNAME            = growl
 USE_EXTENSION_MANIFEST = 1
 
+PREF_JS_EXPORTS = $(srcdir)/growl-prefs.js
+
 ALL_LOCALES = \
   en-US \
   $(NULL)
