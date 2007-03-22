@@ -125,8 +125,10 @@
 	    [gCloseButton setAction:@selector(closeBox:)];
         if (flag)
             [self addSubview:gCloseButton];
-        else
-            [gCloseButton removeFromSuperview];
+        else {
+			[gCloseButton removeFromSuperview];
+			[gCloseButton setFrame:NSMakeRect(0,0,30,30)]; // restore the default frame
+		}
 	}
 }
 
