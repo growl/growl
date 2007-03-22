@@ -17,6 +17,7 @@
                 openGrowlForum = id; 
                 openGrowlTrac = id; 
                 openGrowlWebSite = id; 
+                playSound = id; 
                 resolveService = id; 
                 showDisabledDisplays = id; 
                 showPreview = id; 

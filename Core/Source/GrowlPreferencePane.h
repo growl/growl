@@ -107,6 +107,7 @@
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
+- (IBAction)playSound:(id)sender;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;

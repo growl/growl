@@ -646,7 +646,7 @@
 			unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 			///	Hmm... This doesn't work for some reason....
-			//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
+			//	Even though the same method definitely (?) probably works in the appRegistered: method...
 
 			//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
 
@@ -661,6 +661,12 @@
 			[ticketsArrayController setSelectionIndex:oldSelectionIndex];
 		}
 	}
+}
+
+-(IBAction)playSound:(id)sender
+{
+	if([sender indexOfSelectedItem] > 0) // The 0 item is "None"
+		[[NSSound soundNamed:[[sender selectedItem] title]] play];
 }
 
 #pragma mark "Display" tab pane
