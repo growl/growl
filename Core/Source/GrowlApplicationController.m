@@ -43,7 +43,7 @@
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
-@interface GrowlApplicationController (private)
+@interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
@@ -886,7 +886,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
-@implementation GrowlApplicationController (private)
+@implementation GrowlApplicationController (PRIVATE)
 
 #pragma mark Click feedback from displays
 

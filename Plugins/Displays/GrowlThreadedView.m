@@ -9,7 +9,7 @@
 #import "GrowlThreadedView.h"
 #import "GrowlApplicationController.h"
 
-@interface GrowlThreadedView (private)
+@interface GrowlThreadedView (PRIVATE)
 - (void) threadedDrawRectWithRectValue:(NSValue *)aRect;
 @end
 

@@ -17,7 +17,7 @@
 
 #import "GrowlLog.h"
 
-@interface GrowlPositionController (private)
+@interface GrowlPositionController (PRIVATE)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
 @end
 

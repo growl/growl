@@ -54,7 +54,7 @@
 #endif
 
 
-@interface GrowlInstallationPrompt (private)
+@interface GrowlInstallationPrompt (PRIVATE)
 - (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
 - (void) performInstallGrowl;
 - (void) releaseAndClose;

@@ -9,7 +9,7 @@
 #import "GrowlPlugin.h"
 
 
-@interface GrowlPlugin (private)
+@interface GrowlPlugin (PRIVATE)
 - (void) setDescription:(NSString *)newDesc;
 @end
 

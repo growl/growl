@@ -10,7 +10,7 @@
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
-@interface GrowlAnimation (private)
+@interface GrowlAnimation (PRIVATE)
 - (void) doAnimationStep;
 
 - (void) setStartAnimation:(GrowlAnimation *)animation;
