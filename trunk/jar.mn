@@ -2,7 +2,8 @@ growl.jar:
 % content growl %content/
 % overlay chrome://browser/content/browser.xul chrome://growl/content/overlay.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 % overlay chrome://browser/content/browser.xul chrome://growl/content/browser.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-  content/downloadIcon.png (content/downloadIcon.png)
+% overlay chrome://messenger/content/messenger.xul chrome://growl/content/overlay.xul application={3550f703-e582-4d05-9a08-453d09bdfdc6}
+% overlay chrome://messenger/content/messenger.xul chrome://growl/content/mail.xul application={3550f703-e582-4d05-9a08-453d09bdfdc6}
   content/icon.png                (content/icon.png)
   content/overlay.xul             (content/overlay.xul)
   content/growl.js                (content/growl.js)
@@ -10,3 +11,7 @@ growl.jar:
   content/download.js             (content/download.js)
   content/browser.xul             (content/browser.xul)
   content/browser.js              (content/browser.js)
+  content/downloadIcon.png        (content/downloadIcon.png)
+  content/mail.xul                (content/mail.xul)
+  content/mail.js                 (content/mail.js)
+  content/new-mail-alert.png      (content/new-mail-alert.png)
