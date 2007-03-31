@@ -10,15 +10,16 @@
 -->
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<!DOCTYPE dialog SYSTEM "chrome://growl/locale/download.dtd">
 
 <dialog id="download-growl-prompt"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         buttons="accept,cancel"
-        buttonlabelaccept="Yes"
-        buttonlabelcancel="No"
+        buttonlabelaccept="&Download.yes;"
+        buttonlabelcancel="&Download.no;"
         ondialogaccept="dialog.accept();"
         maxwidth="300"
-        title="Growl is not installed!">
+        title="&Download.title;">
 
   <script type="application/javascript"
           src="chrome://growl/content/download.js"/>
@@ -27,10 +28,7 @@
 
     <image src="chrome://growl/content/icon.png" width="128" height="128"/>
 
-    <description>
-      It appears that you do not have Growl installed.  Would you like to be
-      directed to the Growl homepage to download it now?
-    </description>
+    <description>&Download.text;</description>
 
   </hbox>
 
