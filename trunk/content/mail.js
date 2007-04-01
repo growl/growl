@@ -66,13 +66,14 @@ GrowlMailNotifications.prototype =
 
     if (header.flags & GROWL_MSG_FLAG_NEW) {
       var name = this.mBundle.GetStringFromName("mail.new.title");
+      var ttle = name + " - " + folder.prettiestName;
       var data = [header.subject, header.author];
       var msg  = this.mBundle.formatStringFromName("mail.new.text", data, 2);
       var img  = "chrome://growl/content/new-mail-alert.png";
 
       var grn = Components.classes["@growl.info/notifications;1"]
                           .getService(Components.interfaces.grINotifications);
-      grn.sendNotification(name, img, name, msg, null);
+      grn.sendNotification(name, img, ttle, msg, null);
     }
   },
 
