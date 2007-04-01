@@ -61,7 +61,7 @@ GrowlMailNotifications.prototype =
 
   OnItemAdded: function OnItemAdded(aParentItem, aItem)
   {
-		var header = aItem.QueryInterface(Components.interfaces.nsIMsgDBHdr);
+    var header = aItem.QueryInterface(Components.interfaces.nsIMsgDBHdr);
     var folder = header.folder;
 
     if (header.flags & GROWL_MSG_FLAG_NEW) {
