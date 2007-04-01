@@ -23,6 +23,11 @@ USE_EXTENSION_MANIFEST = 1
 
 PREF_JS_EXPORTS = $(srcdir)/growl-prefs.js
 
+EXTRA_COMPONENTS = \
+  components/grBrowserNotifications.js \
+  components/grMailNotifications.js \
+  $(NULL)
+
 ALL_LOCALES = \
   en-US \
   $(NULL)
