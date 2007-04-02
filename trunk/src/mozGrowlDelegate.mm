@@ -13,6 +13,8 @@
 #include "nsCOMPtr.h"
 #include "nsServiceManagerUtils.h"
 #include "nsIXULAppInfo.h"
+#include "nsIStringBundle.h"
+#include "localeKeys.h"
 
 @implementation mozGrowlDelegate
 
@@ -23,6 +25,20 @@
     mDict = [[NSMutableDictionary dictionaryWithCapacity: 8] retain];
 
     mNotifications = [[NSMutableArray arrayWithCapacity: 8] retain];
+
+    nsresult rv;
+    nsCOMPtr<nsIStringBundleService> bundleService =
+ 	    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
+ 	  if (NS_FAILED(rv)) return self;
+
+    nsCOMPtr<nsIStringBundle> bundle;
+ 	  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(bundle));
+ 	  if (NS_FAILED(rv)) return self;
+
+    nsString text;
+    bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
+    [self addNotification: text];
+
   }
 
   return self;

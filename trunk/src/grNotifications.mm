@@ -14,8 +14,6 @@
 #include "nsIStreamListener.h"
 #include "nsIIOService.h"
 #include "nsIChannel.h"
-#include "nsIStringBundle.h"
-#include "localeKeys.h"
 
 #import "wrapper.h"
 
@@ -31,21 +29,7 @@ nsresult
 grNotifications::Init()
 {
   if ([GrowlApplicationBridge isGrowlInstalled] == YES) {
-    nsresult rv;
-
     mDelegate = new GrowlDelegateWrapper();
-
-    nsCOMPtr<nsIStringBundleService> bundleService =
- 	    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
- 	  if (NS_FAILED(rv)) return rv;
-
-    nsCOMPtr<nsIStringBundle> bundle;
- 	  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(bundle));
- 	  if (NS_FAILED(rv)) return rv;
-
-    nsString text;
-    bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
-    [mDelegate->delegate addNotification: text];
 
     return NS_OK;
   } else {

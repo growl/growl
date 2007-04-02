@@ -6,6 +6,7 @@
 // This file is under the BSD License, refer to license.txt for details
 
 #import "mozGrowlDelegate.h"
+#include "nsStringAPI.h"
 
 struct GrowlDelegateWrapper
 {
