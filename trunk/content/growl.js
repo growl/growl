@@ -74,11 +74,6 @@ GrowlNotifications.prototype =
       return;
     }
 
-    var grn = Components.classes["@growl.info/notifications;1"]
-                        .getService(Components.interfaces.grINotifications);
-    grn.addNotification(this.mBundle.GetStringFromName("general.title"));
-
-    grn.registerAppWithGrowl();
     prefs.setBoolPref("extensions.growl.initialized.notifications", true);
   },
 
