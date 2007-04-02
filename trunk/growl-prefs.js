@@ -7,5 +7,3 @@
 
 pref("extensions.growl@growl.info.description", "chrome://growl/locale/text.properties");
 pref("extensions.growl.initialized.notifications", false);
-pref("extensions.growl.initialized.browser", false);
-pref("extensions.growl.initialized.mail", false);
