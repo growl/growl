@@ -8,7 +8,7 @@
 
 #import "GrowlAbstractSingletonObject.h"
 
-@interface GrowlAbstractSingletonObject (_private)
+@interface GrowlAbstractSingletonObject (PRIVATE)
 - (void) setIsInitialized:(BOOL)flag;
 @end
 
