@@ -31,7 +31,7 @@ const GROWL_BUNDLE_LOCATION = "chrome://growl/locale/notifications.properties";
 function grBrowserNotifications()
 {
   this.grn = Components.classes["@growl.info/notifications;1"]
-                      .getService(Components.interfaces.grINotifications);
+                       .getService(Components.interfaces.grINotifications);
 
   this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
                                     .getService(nsIObserverService);
