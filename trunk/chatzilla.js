@@ -22,8 +22,10 @@ function init(glob)
           plugin.id + ' plugin version ' + plugin.version + ' loaded.');
 
   // Registering handlers
-  client.eventPump.addHook([{set: "user", type: "privmsg"}], growlPrivMsg,
+  client.eventPump.addHook([{set: "user", type: "privmsg"}], growlPrivateMsg,
                            "grow-private-message-hook");
+  client.eventPump.addHook([{set: "channel", type: "privmsg"}],
+                           growlChannelMessage, "grow-channel-message-hook");
 }
 
 
@@ -70,13 +72,26 @@ function growlSendNotification(aName, aImg, aTitle, aMsg, aObserver)
   grn.sendNotification(aName, aImg, aTitle, aMsg, aObserver);
 }
 
-function growlPrivMsg(e)
+function growlPrivateMsg(e)
 {
   var evt = getObjectDetails(e.destObject);
 
   var name  = growlGetString("irc.pm.name");
   var img   = "chrome://chatzilla/skin/images/logo.png";
   var title = growlGetFormattedString("irc.pm.title", [evt.user.unicodeName]);
+  var msg   = e.msg;
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelMsg(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.message.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = growlGetFormattedString("irc.channel.message.title",
+                                      [evt.channelName, "foo"]);
   var msg   = e.msg;
 
   growlSendNotification(name, img, title, msg, null);

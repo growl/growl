@@ -81,7 +81,12 @@ grChatzillaNotifications.prototype = {
 
       this.registerHook()
 
-      const notifications = ["irc.pm.name"];
+      const notifications = ["irc.pm.name",
+                             "irc.channel.message.name",
+                             "irc.channel.join.name",
+                             "irc.channel.leave.name"
+                             "irc.channel.invite.name",
+                             "irc.channel.kick.name"];
 
       for (var i = notifications.length - 1; i >= 0; i--)
         this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
@@ -98,7 +103,9 @@ grChatzillaNotifications.prototype = {
                          .getService(Components.interfaces.nsIExtensionManager)
                          .getInstallLocation(ID).getItemLocation(ID);
     file.append("chatzilla.js");
-    var path = "file://" + escape(file.path);
+    var fph = Components.classes["@mozilla.org/network/protocol;1?name=file"]
+                        .getService(Components.interfaces.nsIFileProtocolHandler);
+    var path = fph.getURLSpecFromFile(file);
 
     var prefs = Components.classes["@mozilla.org/preferences-service;1"]
                           .getService(Components.interfaces.nsIPrefBranch);
