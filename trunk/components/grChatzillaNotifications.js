@@ -50,7 +50,7 @@ grChatzillaNotifications.prototype = {
 
     var ary = string.split(/\s*;\s*/);
     for (var i = 0; i < ary.length; ++i)
-      ary[i] = toUnicode(unescape(ary[i]), PREF_CHARSET);
+      ary[i] = unescape(ary[i]);
 
      return ary;
   },
@@ -58,7 +58,7 @@ grChatzillaNotifications.prototype = {
   {
     var escapedAry = new Array()
     for (var i = 0; i < ary.length; ++i)
-      escapedAry[i] = escape(fromUnicode(ary[i], PREF_CHARSET));
+      escapedAry[i] = escape(ary[i]);
 
     return escapedAry.join("; ");
   },
@@ -74,15 +74,17 @@ grChatzillaNotifications.prototype = {
                          .getService(Components.interfaces.nsIExtensionManager);
 
       var installed = em.getInstallLocation(CHATZILLA_ID);
-      if (appInfo.ID != CHATZILLA_ID && !installed && !this.registerHook()) {
+      if (appInfo.ID != CHATZILLA_ID && !installed) {
         Components.utils.reportError("not registering");
         return; // we don't want to register anymore!
       }
 
-      const notifications = ["chatzilla.start.title"];
+      this.registerHook()
+
+      const notifications = ["irc.pm.name"];
 
       for (var i = notifications.length - 1; i >= 0; i--)
-        this.grn.addNotification(/*this.mBundle.GetStringFromName(notifications[i])*/"foo");
+        this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
 
       this.grn.registerAppWithGrowl();
     }
@@ -90,8 +92,13 @@ grChatzillaNotifications.prototype = {
 
   registerHook: function registerHook()
   {
-    const PATH = "chrome://growl/content/chatzilla.js";
+    const ID = "growl@growl.info";
     const PREF = "extensions.irc.initialScripts";
+    var file = Components.classes["@mozilla.org/extensions/manager;1"]
+                         .getService(Components.interfaces.nsIExtensionManager)
+                         .getInstallLocation(ID).getItemLocation(ID);
+    file.append("chatzilla.js");
+    var path = "file://" + escape(file.path);
 
     var prefs = Components.classes["@mozilla.org/preferences-service;1"]
                           .getService(Components.interfaces.nsIPrefBranch);
@@ -99,18 +106,18 @@ grChatzillaNotifications.prototype = {
     try {
       value = prefs.getCharPref(PREF);
     } catch (e) {
-      return false;
+      // it doesn't exist, so there is nothing
+      value = "";
     }
     var arr = this.stringToArray(value);
 
     for (var i = arr.length - 1; i >= 0; i--) {
-      if (arr[i] == PATH)
-        return true; // already registered
+      if (arr[i] == path)
+        return; // already registered
     }
 
-    arr.pop(PATH);
+    arr.push(path);
     prefs.setCharPref(PREF, this.arrayToString(arr));
-    return true;
   },
 
   QueryInterface: function(aIID)

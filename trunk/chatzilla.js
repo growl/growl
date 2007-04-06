@@ -1,3 +1,10 @@
+//
+//  $Id$
+//
+//  Copyright 2007 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to license.txt for details
+
 plugin.id = 'growl';
 
 const GROWL_BUNDLE_LOCATION = "chrome://growl/locale/notifications.properties";
@@ -40,6 +47,7 @@ function disable()
 
 function growlGetString(aName)
 {
+  const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
   var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
                       .getService(nsIStringBundleService);
   var bundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
@@ -48,6 +56,7 @@ function growlGetString(aName)
 
 function growlGetFormattedString(aName, aValues)
 {
+  const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
   var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
                       .getService(nsIStringBundleService);
   var bundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
@@ -66,8 +75,8 @@ function growlPrivMsg(e)
   var evt = getObjectDetails(e.destObject);
 
   var name  = growlGetString("irc.pm.name");
-  var img   = "";
-  var title = growlGetFormattedString("irc.pm.title", [evt.nick]);
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = growlGetFormattedString("irc.pm.title", [evt.user.unicodeName]);
   var msg   = e.msg;
 
   growlSendNotification(name, img, title, msg, null);

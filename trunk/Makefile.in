@@ -40,7 +40,8 @@ SUBMAKEFILES += locale/Makefile
 DIST_FILES = \
   install.rdf \
   license.txt \
-  $(NULL)
+  chatzilla.js \
+	$(NULL)
 
 include $(topsrcdir)/config/rules.mk
 
