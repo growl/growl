@@ -84,7 +84,7 @@ grChatzillaNotifications.prototype = {
       const notifications = ["irc.pm.name",
                              "irc.channel.message.name",
                              "irc.channel.join.name",
-                             "irc.channel.leave.name"
+                             "irc.channel.part.name",
                              "irc.channel.invite.name",
                              "irc.channel.kick.name"];
 

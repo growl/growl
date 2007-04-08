@@ -25,7 +25,7 @@ function init(glob)
   client.eventPump.addHook([{set: "user", type: "privmsg"}], growlPrivateMsg,
                            "grow-private-message-hook");
   client.eventPump.addHook([{set: "channel", type: "privmsg"}],
-                           growlChannelMessage, "grow-channel-message-hook");
+                           growlChannelMsg, "grow-channel-message-hook");
 }
 
 
@@ -91,7 +91,7 @@ function growlChannelMsg(e)
   var name  = growlGetString("irc.channel.message.name");
   var img   = "chrome://chatzilla/skin/images/logo.png";
   var title = growlGetFormattedString("irc.channel.message.title",
-                                      [evt.channelName, "foo"]);
+                                      [evt.channelName, e.user.unicodeName]);
   var msg   = e.msg;
 
   growlSendNotification(name, img, title, msg, null);
