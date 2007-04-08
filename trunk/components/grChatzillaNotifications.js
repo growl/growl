@@ -82,6 +82,7 @@ grChatzillaNotifications.prototype = {
       this.registerHook()
 
       const notifications = ["irc.pm.name",
+                             "irc.channel.imessage.name",
                              "irc.channel.message.name",
                              "irc.channel.join.name",
                              "irc.channel.part.name",

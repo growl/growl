@@ -88,7 +88,11 @@ function growlChannelMsg(e)
 {
   var evt = getObjectDetails(e.destObject);
 
-  var name  = growlGetString("irc.channel.message.name");
+  var name;
+  if (msgIsImportant(e.msg, e.user.unicodeName, evt.network))
+    name = growlGetString("irc.channel.imessage.name");
+  else
+    name = growlGetString("irc.channel.message.name");
   var img   = "chrome://chatzilla/skin/images/logo.png";
   var title = growlGetFormattedString("irc.channel.message.title",
                                       [evt.channelName, e.user.unicodeName]);
