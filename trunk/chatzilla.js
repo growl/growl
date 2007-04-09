@@ -32,6 +32,10 @@ function init(glob)
                            growlChannelPart, "grow-channel-part-hook");
   client.eventPump.addHook([{set: "channel", type: "quit"}],
                            growlChannelQuit, "grow-channel-quit-hook");
+  client.eventPump.addHook([{set: "network", type: "invite"}],
+                           growlChannelInvite, "grow-channel-invite-hook");
+  client.eventPump.addHook([{set: "channel", type: "kick"}],
+                           growlChannelKick, "grow-channel-kick-hook");
 }
 
 
@@ -142,6 +146,34 @@ function growlChannelQuit(e)
   var title = evt.network.unicodeName;
   var msg   = growlGetFormattedString("irc.channel.quit.msg",
                                       [e.user.unicodeName, title]);
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelInvite(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.invite.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = evt.network.unicodeName;
+  var msg   = growlGetFormattedString("irc.channel.invite.msg",
+                                      [e.user.unicodeName, "user who was kicked",
+                                       e.channel.unicodeName]);
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelKick(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.kick.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = evt.network.unicodeName;
+  var msg   = growlGetFormattedString("irc.channel.kick.msg",
+                                      [e.user.unicodeName, "user who was kicked",
+                                       e.channel.unicodeName]);
 
   growlSendNotification(name, img, title, msg, null);
 }
