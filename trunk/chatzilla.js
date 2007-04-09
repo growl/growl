@@ -26,6 +26,12 @@ function init(glob)
                            "grow-private-message-hook");
   client.eventPump.addHook([{set: "channel", type: "privmsg"}],
                            growlChannelMsg, "grow-channel-message-hook");
+  client.eventPump.addHook([{set: "channel", type: "join"}],
+                           growlChannelJoin, "grow-channel-join-hook");
+  client.eventPump.addHook([{set: "channel", type: "part"}],
+                           growlChannelPart, "grow-channel-part-hook");
+  client.eventPump.addHook([{set: "channel", type: "quit"}],
+                           growlChannelQuit, "grow-channel-quit-hook");
 }
 
 
@@ -97,6 +103,45 @@ function growlChannelMsg(e)
   var title = growlGetFormattedString("irc.channel.message.title",
                                       [evt.channelName, e.user.unicodeName]);
   var msg   = e.msg;
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelJoin(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.join.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = evt.network.unicodeName;
+  var msg   = growlGetFormattedString("irc.channel.join.msg",
+                                      [e.user.unicodeName, evt.channelName]);
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelPart(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.part.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = evt.network.unicodeName;
+  var msg   = growlGetFormattedString("irc.channel.part.msg",
+                                      [e.user.unicodeName, e.channel.unicodeName]);
+
+  growlSendNotification(name, img, title, msg, null);
+}
+
+function growlChannelQuit(e)
+{
+  var evt = getObjectDetails(e.destObject);
+
+  var name  = growlGetString("irc.channel.quit.name");
+  var img   = "chrome://chatzilla/skin/images/logo.png";
+  var title = evt.network.unicodeName;
+  var msg   = growlGetFormattedString("irc.channel.quit.msg",
+                                      [e.user.unicodeName, title]);
 
   growlSendNotification(name, img, title, msg, null);
 }

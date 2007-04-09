@@ -74,10 +74,8 @@ grChatzillaNotifications.prototype = {
                          .getService(Components.interfaces.nsIExtensionManager);
 
       var installed = em.getInstallLocation(CHATZILLA_ID);
-      if (appInfo.ID != CHATZILLA_ID && !installed) {
-        Components.utils.reportError("not registering");
+      if (appInfo.ID != CHATZILLA_ID && !installed)
         return; // we don't want to register anymore!
-      }
 
       this.registerHook()
 
@@ -86,6 +84,7 @@ grChatzillaNotifications.prototype = {
                              "irc.channel.message.name",
                              "irc.channel.join.name",
                              "irc.channel.part.name",
+                             "irc.channel.quit.name",
                              "irc.channel.invite.name",
                              "irc.channel.kick.name"];
 
