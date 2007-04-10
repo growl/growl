@@ -226,15 +226,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
 
-	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
-
 	// Build our noteDict from all passed parameters
 	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		pid,         GROWL_APP_PID,
 		notifName,	 GROWL_NOTIFICATION_NAME,
 		nil];
-
-	[pid release];
 
 	if (title)			setObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE, title);
 	if (description)	setObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION, description);
@@ -490,6 +485,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			[mNotifDict setObject:appIconData
 			               forKey:GROWL_APP_ICON];
 		}
+	}
+
+	//Only include the PID when there's a click context. We do this because NSDNC imposes a 15-MiB limit on the serialized notification, and we wouldn't want to overrun it because of a 4-byte PID.
+	if ([mNotifDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && ![mNotifDict objectForKey:GROWL_APP_PID]) {
+		NSNumber *pidNum = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+
+		[mNotifDict setObject:pidNum
+		               forKey:GROWL_APP_PID];
+
+		[pidNum release];
 	}
 
 	return [mNotifDict autorelease];
