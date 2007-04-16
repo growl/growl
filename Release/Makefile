@@ -8,7 +8,6 @@ BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
 ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWL_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
-	GROWLCTL_BUILD_DIR=$(SRC_DIR)/Extras/growlctl/build/$(BUILDSTYLE)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
 	GROWLTUNES_BUILD_DIR=$(SRC_DIR)/Extras/GrowlTunes/build/$(BUILDSTYLE)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
@@ -18,7 +17,6 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
-	GROWLCTL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLNOTIFY_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLTUNES_BUILD_DIR=$(TARGET_BUILD_DIR)
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -50,7 +48,6 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlctl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlWidget
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
@@ -106,10 +103,6 @@ release:
 	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
-	mkdir $(GROWL_DIR)/Extras/growlctl
-	cp $(GROWLCTL_BUILD_DIR)/growlctl $(GROWL_DIR)/Extras/growlctl
-	cp $(SRC_DIR)/Extras/growlctl/growlctl.1 $(GROWL_DIR)/Extras/growlctl
-	cp $(SRC_DIR)/Extras/growlctl/install.sh $(GROWL_DIR)/Extras/growlctl
 	mkdir $(GROWL_DIR)/Extras/growlnotify
 	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
