@@ -70,7 +70,6 @@ static const char usage[] =
 "    -c,--crypt      Encrypt UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "       --progress   Set a progress value for this notification.\n"
-"       --html       Use HTML markup in the title and message.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -138,7 +137,6 @@ int main(int argc, const char **argv) {
 	BOOL         haveProgress = NO;
 	BOOL         useUDP = NO;
 	BOOL         crypt = NO;
-	BOOL         useHTML = NO;
 	int          flag;
 	char        *port = NULL;
 	int          code = EXIT_SUCCESS;
@@ -259,7 +257,6 @@ int main(int argc, const char **argv) {
 					progress = strtod(optarg, NULL);
 					break;
 				case 4:
-					useHTML = YES;
 					break;
 			}
 			break;
@@ -375,8 +372,8 @@ int main(int argc, const char **argv) {
 	CFMutableDictionaryRef notificationInfo = CFDictionaryCreateMutable(kCFAllocatorDefault ,9, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_NAME, name);
 	CFDictionarySetValue(notificationInfo, GROWL_APP_NAME, applicationName);
-	CFDictionarySetValue(notificationInfo, useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE, title);
-	CFDictionarySetValue(notificationInfo, useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION, desc);
+	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_TITLE, title);
+	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_DESCRIPTION, desc);
 	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_PRIORITY, priorityNumber);
 	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_STICKY, stickyValue);
 	CFDictionarySetValue(notificationInfo, GROWL_NOTIFICATION_ICON, icon);
