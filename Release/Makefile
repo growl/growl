@@ -8,7 +8,6 @@ BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
 ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWL_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
-	GROWLCTL_BUILD_DIR=$(SRC_DIR)/Extras/growlctl/build/$(BUILDSTYLE)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
 	GROWLTUNES_BUILD_DIR=$(SRC_DIR)/Extras/GrowlTunes/build/$(BUILDSTYLE)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
@@ -18,7 +17,6 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
-	GROWLCTL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLNOTIFY_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLTUNES_BUILD_DIR=$(TARGET_BUILD_DIR)
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -34,10 +32,10 @@ endif
 #       - Core/Resources/Info.plist
 #       - Core/Resources/GrowlHelperApp-Info.plist
 
-.PHONY: all assertnochanges assertnoconflicts compile clean release source
+.PHONY: all assertnochanges assertnoconflicts compile clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-Rawr-jour copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
 
-all: assertnochanges compile release source
-all-withlocalchanges: assertnoconflicts compile release source
+all: assertnochanges compile release diskimages source
+all-withlocalchanges: assertnoconflicts compile release diskimages source
 
 assertnochanges:
 	exit `svn st $(SRC_DIR) | wc -l`
@@ -50,13 +48,14 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlctl
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlWidget
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
 
 clean:
-	rm -rf $(BUILD_DIR)
+	-mv $(BUILD_DIR) build-old
+	if test -e build-old; then \
+		rm -Rf build-old & \
+	fi
 
 realclean: clean
 	../build.sh clean
@@ -90,42 +89,87 @@ source:
 	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
 	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
 
-release:
-	@# clean build directory
-	rm -rf $(BUILD_DIR)
+$(BUILD_DIR):
 	mkdir $(BUILD_DIR)
+$(GROWL_DIR): $(BUILD_DIR)
 	mkdir $(GROWL_DIR)
-	@# copy uninstaller
+$(SDK_DIR): $(BUILD_DIR)
+	mkdir $(SDK_DIR)
+
+release-Growl: $(GROWL_DIR)/Uninstall\ Growl.app copy-weblocs $(GROWL_DIR)/Growl.prefPane copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-Rawr-jour copy-GrowlMail copy-GrowlSafari
+release-SDK: copy-sdk-weblocs $(SRC_DIR)/Scripts copy-sdk-builtin copy-sdk-frameworks $(SDK_DIR)/Bindings
+# The two disk-image targets depend on release-Growl and release-SDK, respectively. Thus, making release will make release-Growl and release-SDK, then the disk images.
+release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg
+
+# copy uninstaller
+$(GROWL_DIR)/Uninstall\ Growl.app: $(GROWL_DIR)
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
-	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
-	@# copy webloc files
-	cp "Growl Documentation.webloc" "Growl version history.webloc" "Get more styles.webloc" $(GROWL_DIR)
-	@# hide extensions of webloc files
-	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
-	@# copy the prefpane
+	/Developer/Tools/SetFile -a E $@
+
+# copy webloc files
+copy-weblocs: $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc 
+$(GROWL_DIR)/Growl\ Documentation.webloc: $(GROWL_DIR)
+	cp "Growl Documentation.webloc" $(GROWL_DIR)
+	@# hide extension of webloc file
+	/Developer/Tools/SetFile -a E $@
+$(GROWL_DIR)/Growl\ version\ history.webloc: $(GROWL_DIR)
+	cp "Growl version history.webloc" $(GROWL_DIR)
+	@# hide extension of webloc file
+	/Developer/Tools/SetFile -a E $@
+$(GROWL_DIR)/Get\ more\ styles.webloc: $(GROWL_DIR)
+	cp "Get more styles.webloc" $(GROWL_DIR)
+	@# hide extension of webloc file
+	/Developer/Tools/SetFile -a E $@
+
+# copy the prefpane
+$(GROWL_DIR)/Growl.prefPane: $(GROWL_DIR)
 	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
-	@# copy the extras
+
+# copy the extras
+$(GROWL_DIR)/Extras: $(GROWL_DIR)
 	mkdir $(GROWL_DIR)/Extras
-	mkdir $(GROWL_DIR)/Extras/growlctl
-	cp $(GROWLCTL_BUILD_DIR)/growlctl $(GROWL_DIR)/Extras/growlctl
-	cp $(SRC_DIR)/Extras/growlctl/growlctl.1 $(GROWL_DIR)/Extras/growlctl
-	cp $(SRC_DIR)/Extras/growlctl/install.sh $(GROWL_DIR)/Extras/growlctl
+
+copy-growlnotify: $(GROWL_DIR)/Extras/growlnotify $(GROWL_DIR)/Extras/growlnotify/growlnotify $(GROWL_DIR)/Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify/README.txt
+$(GROWL_DIR)/Extras/growlnotify: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/growlnotify
+$(GROWL_DIR)/Extras/growlnotify/growlnotify: $(GROWL_DIR)/Extras/growlnotify
 	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
+$(GROWL_DIR)/Extras/growlnotify/growlnotify.1: $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
+$(GROWL_DIR)/Extras/growlnotify/install.sh: $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify
+$(GROWL_DIR)/Extras/growlnotify/README.txt: $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/README.txt $(GROWL_DIR)/Extras/growlnotify
+
+copy-GrowlTunes: $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/GrowlTunes/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes/ReadMe.rtfd
+$(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlTunes
+$(GROWL_DIR)/Extras/GrowlTunes/GrowlTunes.app: $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
+$(GROWL_DIR)/Extras/GrowlTunes/ReadMe.rtfd: $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R $(SRC_DIR)/Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
+
+copy-HardwareGrowler: $(GROWL_DIR)/Extras/HardwareGrowler
+$(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
+$(GROWL_DIR)/Extras/HardwareGrowler/HardwareGrowler.app: $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
+$(GROWL_DIR)/Extras/HardwareGrowler/readme.txt: $(GROWL_DIR)/Extras/HardwareGrowler
 	cp $(SRC_DIR)/Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
+
+copy-Rawr-jour: $(GROWL_DIR)/Extras/Rawr-jour $(GROWL_DIR)/Extras/Rawr-jour/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour/Readme.rtf
+$(GROWL_DIR)/Extras/Rawr-jour: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/Rawr-jour
+$(GROWL_DIR)/Extras/Rawr-jour/Rawr-jour.app: $(GROWL_DIR)/Extras/Rawr-jour
 	cp -R $(RAWRJOUR_BUILD_DIR)/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour
+$(GROWL_DIR)/Extras/Rawr-jour/Readme.rtf: $(GROWL_DIR)/Extras/Rawr-jour
 	cp $(SRC_DIR)/Extras/Rawr-jour/Icon\ and\ Readme/Readme.rtf $(GROWL_DIR)/Extras/Rawr-jour
-	@# build GrowlMail package
+
+# build GrowlMail package
+copy-GrowlMail: $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg $(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf
+$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
+$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg: $(GROWL_DIR)/Extras/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail-Resources
 	cp -R $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(BUILD_DIR)/GrowlMail
@@ -135,67 +179,113 @@ release:
 	cp -R GrowlMail/German.lproj $(BUILD_DIR)/GrowlMail-Resources
 	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlMail
 	sudo chmod -R g+w $(BUILD_DIR)/GrowlMail
-	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
+	/Developer/Tools/packagemaker -build -p $@ -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
 	sudo rm -rf $(BUILD_DIR)/GrowlMail
 	rm -rf $(BUILD_DIR)/GrowlMail-Resources
+$(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf: $(GROWL_DIR)/Extras/GrowlMail
 	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
-	@# build GrowlSafari package
+
+# build GrowlSafari package
+copy-GrowlSafari: $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg $(GROWL_DIR)/Extras/GrowlSafari/README.txt
+$(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
+$(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg: $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(BUILD_DIR)/GrowlSafari
 	cp GrowlSafari/postupgrade $(BUILD_DIR)/GrowlSafari-Resources
 	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
 	sudo chmod -R g+w $(BUILD_DIR)/GrowlSafari
-	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
+	/Developer/Tools/packagemaker -build -p $@ -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
 	sudo rm -rf $(BUILD_DIR)/GrowlSafari
 	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
+$(GROWL_DIR)/Extras/GrowlSafari/README.txt: $(GROWL_DIR)/Extras/GrowlSafari
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
-	@# build the SDK
-	mkdir $(SDK_DIR)
-	@# copy the webloc files
-	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
-	@# hide extensions of webloc files
-	/Developer/Tools/SetFile -a E $(SDK_DIR)/*.webloc
-	@# copy the scripts
+
+# copy the SDK webloc files
+copy-sdk-weblocs: $(SDK_DIR)/Growl\ Developer\ Documentation.webloc $(SDK_DIR)/Growl\ version\ history\ for\ developers.webloc
+$(SDK_DIR)/Growl\ Developer\ Documentation.webloc: $(SDK_DIR)
+	cp "Growl Developer Documentation.webloc" $(SDK_DIR)
+	@# hide extension of webloc file
+	/Developer/Tools/SetFile -a E $@
+$(SDK_DIR)/Growl\ version\ history\ for\ developers.webloc: $(SDK_DIR)
+	cp "Growl version history for developers.webloc" $(SDK_DIR)
+	@# hide extension of webloc file
+	/Developer/Tools/SetFile -a E $@
+
+# copy the scripts
+$(SRC_DIR)/Scripts: $(SDK_DIR)
 	cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
-	@# copy over relevant files to compile directly into app
+
+# copy over relevant files to compile directly into app
+copy-sdk-builtin: $(SDK_DIR)/Built-In $(SDK_DIR)/Built-In/GrowlApplicationBridge.h $(SDK_DIR)/Built-In/GrowlApplicationBridge.m $(SDK_DIR)/Built-In/GrowlDefines.h $(SDK_DIR)/Built-In/GrowlDefinesInternal.h $(SDK_DIR)/Built-In/GrowlPathUtilities.h $(SDK_DIR)/Built-In/GrowlPathUtilities.m $(SDK_DIR)/Built-In/CFGrowlAdditions.h $(SDK_DIR)/Built-In/CFGrowlAdditions.c $(SDK_DIR)/Built-In/CFGrowlDefines.h $(SDK_DIR)/Built-In/CFURLAdditions.h $(SDK_DIR)/Built-In/CFURLAdditions.c $(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.h $(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.c $(SDK_DIR)/Built-In/GrowlPreferencesController.h $(SDK_DIR)/Built-In/GrowlTicketController.h 
+
+$(SDK_DIR)/Built-In: $(SDK_DIR)
 	mkdir $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlApplicationBridge.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Framework/Source/GrowlApplicationBridge.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlApplicationBridge.m: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Framework/Source/GrowlApplicationBridge.m $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlDefines.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/GrowlDefines.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlDefinesInternal.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/GrowlDefinesInternal.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlPathUtilities.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/GrowlPathUtilities.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlPathUtilities.m: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/GrowlPathUtilities.m $(SDK_DIR)/Built-In 
+$(SDK_DIR)/Built-In/CFGrowlAdditions.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFGrowlAdditions.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFGrowlAdditions.c: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFGrowlAdditions.c $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFGrowlDefines.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFGrowlDefines.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFURLAdditions.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFURLAdditions.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFURLAdditions.c: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFURLAdditions.c $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFMutableDictionaryAdditions.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.c: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Common/Source/CFMutableDictionaryAdditions.c $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlPreferencesController.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Core/Source/GrowlPreferencesController.h $(SDK_DIR)/Built-In
+$(SDK_DIR)/Built-In/GrowlTicketController.h: $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Core/Source/GrowlTicketController.h $(SDK_DIR)/Built-In
-	@# copy the frameworks
+
+# copy the frameworks
+copy-sdk-frameworks: $(SDK_DIR)/Frameworks $(SDK_DIR)/Frameworks/Growl.framework $(SDK_DIR)/Frameworks/Growl-WithInstaller.framework
+$(SDK_DIR)/Frameworks: $(SDK_DIR)
 	mkdir $(SDK_DIR)/Frameworks
-	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
-	@# copy the bindings
+$(SDK_DIR)/Frameworks/Growl.framework: $(SDK_DIR)/Frameworks
+	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(SDK_DIR)/Frameworks
+$(SDK_DIR)/Frameworks/Growl-WithInstaller.framework: $(SDK_DIR)/Frameworks
+	cp -R $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
+
+# copy the bindings
+$(SDK_DIR)/Bindings: $(SDK_DIR)
 	cp -R $(SRC_DIR)/Bindings $(SDK_DIR)
 	@# remove the AppleScript binding
-	rm -rf $(SDK_DIR)/Bindings/applescript
+	rm -rf $@/applescript
 	@# remove some symlinks
-	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
-	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
-	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
-	@# delete svn and backup files
+	rm $@/tcl/GrowlDefines.h
+	rm $@/tcl/GrowlApplicationBridge.h
+	rm $@/tcl/GrowlApplicationBridge.m
+
+# delete svn and backup files
+clean-out-garbage:
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store -or -name classes.nib -or -name info.nib \) -type f -delete
-	@# make Growl disk image
+
+# make Growl disk image
+$(BUILD_DIR)/$(RELEASE_NAME).dmg: release-Growl clean-out-garbage
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growl08DMGBackground.png $(GROWL_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.scpt
-	@# make SDK disk image
+	./make-diskimage.sh $@ $(GROWL_DIR) Growl dmg_growl.scpt
+
+# make SDK disk image
+$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg: release-SDK clean-out-garbage
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.scpt
+	./make-diskimage.sh $@ $(SDK_DIR) Growl-SDK dmg_sdk.scpt
 	@echo Build finished
