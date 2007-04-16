@@ -48,7 +48,6 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlWidget
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
 
