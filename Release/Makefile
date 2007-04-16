@@ -34,9 +34,15 @@ endif
 #       - Core/Resources/Info.plist
 #       - Core/Resources/GrowlHelperApp-Info.plist
 
-.PHONY: all compile clean release source
+.PHONY: all assertnochanges assertnoconflicts compile clean release source
 
-all: compile release source
+all: assertnochanges compile release source
+all-withlocalchanges: assertnoconflicts compile release source
+
+assertnochanges:
+	exit `svn st $(SRC_DIR) | wc -l`
+assertnoconflicts:
+	exit `svn st $(SRC_DIR) | egrep '^C' | wc -l`
 
 compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
