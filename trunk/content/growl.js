@@ -114,7 +114,7 @@ GrowlNotifications.prototype =
                               .getService(Components.interfaces.nsIPrefBranch);
         prefs.setBoolPref("extensions.growl.initialized.notifications", false);
 
-        this.mObserverService.removeObserver(this, "quit-application");
+        this.mObserverService.removeObserver(this, "quit-application-granted");
         break;
       default:
         Components.utils.reportError("Unexpected topic for growl - " + aTopic);

@@ -20,11 +20,6 @@ interface grINotifications : nsISupports
   void addNotification(in AString aName);
 
   /**
-   * Requests Growl to reregister our application with our new dictionary.
-   */
-  void registerAppWithGrowl();
-
-  /**
    * Dispatches a notification to Growl.
    *
    * @param aName The name of the notification.

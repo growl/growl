@@ -41,22 +41,10 @@ function grBrowserNotifications()
   this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
 
   this.mObserverService.addObserver(this, "quit-application-granted", false);
+  this.mObserverService.addObserver(this, "profile-after-change", false);
 
-  const notifications = ["download.start.title",
-                         "download.finished.title",
-                         "download.canceled.title",
-                         "download.failed.title"];
-
-  for (var i = notifications.length - 1; i >= 0; i--)
-    this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
-
-  // Adding observers
-  this.mObserverService.addObserver(this, "dl-start", false);
-  this.mObserverService.addObserver(this, "dl-done", false);
-  this.mObserverService.addObserver(this, "dl-cancel", false);
-  this.mObserverService.addObserver(this, "dl-failed", false);
-
-  this.grn.registerAppWithGrowl();
+  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
+                                        null);
 }
 
 grBrowserNotifications.prototype = {
@@ -64,6 +52,30 @@ grBrowserNotifications.prototype = {
   observe: function observer(aSubject, aTopic, aData)
   {
     switch (aTopic) {
+      case "profile-after-change":
+        this.mObserverService.removeObserver(this, "profile-after-change");
+
+        const notifications = ["download.start.title",
+                               "download.finished.title",
+                               "download.canceled.title",
+                               "download.failed.title"];
+
+        for (var i = notifications.length - 1; i >= 0; i--) {
+          var name = this.mBundle.GetStringFromName(notifications[i]);
+          this.grn.addNotification(name);
+        }
+
+        // Adding observers
+        this.mObserverService.addObserver(this, "dl-start", false);
+        this.mObserverService.addObserver(this, "dl-done", false);
+        this.mObserverService.addObserver(this, "dl-cancel", false);
+        this.mObserverService.addObserver(this, "dl-failed", false);
+
+        // we need to tell everyone that we've done all we need to do with
+        // registering
+        this.mObserverService.notifyObservers(null, "growl-I'm done registering",
+                                              null);
+        break;
       case "quit-application-granted":
         this.mObserverService.removeObserver(this, "quit-application-granted");
 

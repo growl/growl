@@ -12,6 +12,7 @@ const nsISupports = Components.interfaces.nsISupports;
 const nsIComponentRegistrar = Components.interfaces.nsIComponentRegistrar;
 const nsICategoryManager = Components.interfaces.nsICategoryManager;
 const nsIObserverService = Components.interfaces.nsIObserverService;
+const nsIObserver = Components.interfaces.nsIObserver;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIFolderListener = Components.interfaces.nsIFolderListener;
 
@@ -32,24 +33,46 @@ function grMailNotifications()
   this.grn = Components.classes["@growl.info/notifications;1"]
                       .getService(Components.interfaces.grINotifications);
 
+  this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
+                                    .getService(nsIObserverService);
+
   var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
                       .getService(nsIStringBundleService);
   this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
 
-  const notifications = ["mail.new.title"];
+  this.mObserverService.addObserver(this, "profile-after-change", false);
 
-  for (var i = notifications.length - 1; i >= 0; i--)
-    this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
+  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
+                                        null);
 
-  // registering listeners
-  var mms = Components.classes["@mozilla.org/messenger/services/session;1"]
-                      .getService(Components.interfaces.nsIMsgMailSession);
-  mms.AddFolderListener(this, nsIFolderListener.added);
-
-  this.grn.registerAppWithGrowl();
 }
 
 grMailNotifications.prototype = {
+  // nsIObserver
+  observe: function observer(aSubject, aTopic, aData)
+  {
+    switch (aTopic) {
+      case "profile-after-change":
+        this.mObserverService.removeObserver(this, "profile-after-change");
+
+        const notifications = ["mail.new.title"];
+
+        for (var i = notifications.length - 1; i >= 0; i--)
+          this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
+
+        // registering listeners
+        var mms = Components.classes["@mozilla.org/messenger/services/session;1"]
+                            .getService(Components.interfaces.nsIMsgMailSession);
+        mms.AddFolderListener(this, nsIFolderListener.added);
+
+        // we need to tell everyone that we've done all we need to do with
+        // registering
+        this.mObserverService.notifyObservers(null, "growl-I'm done registering",
+                                              null);
+        break;
+    }
+  },
+
   // nsIFolderListener
   OnItemAdded: function OnItemAdded(aParentItem, aItem)
   {
@@ -69,7 +92,8 @@ grMailNotifications.prototype = {
 
   QueryInterface: function(aIID)
   {
-    if (aIID.equals(nsISupports) || aIID.equals(nsIFolderListener))
+    if (aIID.equals(nsISupports) || aIID.equals(nsIObserver) ||
+        aIID.equals(nsIFolderListener))
       return this;
 
     throw Components.results.NS_ERROR_NO_INTERFACE;

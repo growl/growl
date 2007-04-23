@@ -17,15 +17,12 @@ struct GrowlDelegateWrapper
     if ([GrowlApplicationBridge growlDelegate] == nil) {
       delegate = [[mozGrowlDelegate alloc] init];
 
-      [GrowlApplicationBridge setGrowlDelegate:delegate];
+      //[GrowlApplicationBridge setGrowlDelegate:delegate];
     } else {
       delegate = (mozGrowlDelegate*)[GrowlApplicationBridge growlDelegate];
 
       [delegate retain];
     }
-
-    NS_ASSERTION(delegate == [GrowlApplicationBridge growlDelegate],
-                 "Growl Delegate was not registered properly.");
   }
 
   ~GrowlDelegateWrapper()

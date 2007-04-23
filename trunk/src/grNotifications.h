@@ -10,6 +10,7 @@
 
 #include "xpcom-config.h"
 #include "grINotifications.h"
+#include "nsIObserver.h"
 
 #define GROWL_NOTIFICATIONS_CID \
   { 0xf2dea461, 0xbd96, 0x47d1, \
@@ -20,17 +21,20 @@
 
 struct GrowlDelegateWrapper;
 
-class grNotifications : public grINotifications
+class grNotifications : public grINotifications,
+                        public nsIObserver
 {
 public:
   NS_DECL_ISUPPORTS
   NS_DECL_GRINOTIFICATIONS
+  NS_DECL_NSIOBSERVER
 
-  grNotifications() : mDelegate(nsnull) { }
+  grNotifications() : mDelegate(nsnull), mCount(0) { }
   nsresult Init();
 protected:
   virtual ~grNotifications();
   GrowlDelegateWrapper* mDelegate;
+  PRUint32 mCount;
 };
 
 #endif // grNotifications_h_

@@ -14,6 +14,8 @@
 #include "nsIStreamListener.h"
 #include "nsIIOService.h"
 #include "nsIChannel.h"
+#include "nsIObserverService.h"
+#include "nsCRT.h"
 
 #import "wrapper.h"
 
@@ -22,6 +24,7 @@ NS_IMPL_THREADSAFE_RELEASE(grNotifications)
 
 NS_INTERFACE_MAP_BEGIN(grNotifications)
   NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, grINotifications)
+  NS_INTERFACE_MAP_ENTRY(nsIObserver)
   NS_INTERFACE_MAP_ENTRY(grINotifications)
 NS_INTERFACE_MAP_END_THREADSAFE
 
@@ -31,10 +34,17 @@ grNotifications::Init()
   if ([GrowlApplicationBridge isGrowlInstalled] == YES) {
     mDelegate = new GrowlDelegateWrapper();
 
-    return NS_OK;
   } else {
     return NS_ERROR_NOT_IMPLEMENTED;
   }
+
+  nsresult rv;
+  nsCOMPtr<nsIObserverService> os =
+    do_GetService("@mozilla.org/observer-service;1", &rv);
+  if (NS_FAILED(rv)) return rv;
+
+  os->AddObserver(this, "growl-Wait for me to register", PR_FALSE);
+  os->AddObserver(this, "growl-I'm done registering", PR_FALSE);
 }
 
 grNotifications::~grNotifications()
@@ -47,14 +57,6 @@ NS_IMETHODIMP
 grNotifications::AddNotification(const nsAString &aName)
 {
   [mDelegate->delegate addNotification: aName];
-
-  return NS_OK;
-}
-
-NS_IMETHODIMP
-grNotifications::RegisterAppWithGrowl()
-{
-  [GrowlApplicationBridge registerWithDictionary: nil];
 
   return NS_OK;
 }
@@ -103,6 +105,32 @@ grNotifications::SendNotification(const nsAString &aName,
   NS_ENSURE_SUCCESS(rv, rv);
   rv = loader->Init(chan, listener, nsnull);
   NS_ENSURE_SUCCESS(rv, rv);
+
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+grNotifications::Observe(nsISupports *aSubject, const char *aTopic,
+                         const PRUnichar *data)
+{
+#ifdef DEBUG
+  printf("\nI'm observering this:%s\n\n", aTopic);
+#endif
+  if (nsCRT::strcmp(aTopic, "growl-Wait for me to register") == 0) {
+    mCount++;
+#ifdef DEBUG
+    printf("\n*** %s, mCount=%d\n", aTopic, mCount);
+#endif
+  } else if (nsCRT::strcmp(aTopic, "growl-I'm done registering") == 0) {
+    mCount--;
+#ifdef DEBUG
+    printf("\n*** %s, mCount=%d\n", aTopic, mCount);
+#endif
+
+    if (mCount == 0) { // Time to register with growl
+      [GrowlApplicationBridge setGrowlDelegate: mDelegate->delegate];
+    }
+  }
 
   return NS_OK;
 }

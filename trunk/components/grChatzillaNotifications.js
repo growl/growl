@@ -39,6 +39,9 @@ function grChatzillaNotifications()
   this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
                                     .getService(nsIObserverService);
   this.mObserverService.addObserver(this, "profile-after-change", false);
+
+  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
+                                        null);
 }
 
 grChatzillaNotifications.prototype = {
@@ -91,7 +94,10 @@ grChatzillaNotifications.prototype = {
       for (var i = notifications.length - 1; i >= 0; i--)
         this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
 
-      this.grn.registerAppWithGrowl();
+      // we need to tell everyone that we've done all we need to do with
+      // registering
+      this.mObserverService.notifyObservers(null, "growl-I'm done registering",
+                                            null);
     }
   },
 
