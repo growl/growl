@@ -66,10 +66,6 @@ grMailNotifications.prototype = {
                             .getService(Components.interfaces.nsIMsgMailSession);
         mms.AddFolderListener(this, nsIFolderListener.added);
 
-        // we need to tell everyone that we've done all we need to do with
-        // registering
-        this.mObserverService.notifyObservers(null, "growl-I'm done registering",
-                                              null);
         break;
     }
   },
