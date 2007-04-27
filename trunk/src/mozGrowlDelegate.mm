@@ -24,20 +24,27 @@
     mKey = 0;
     mDict = [[NSMutableDictionary dictionaryWithCapacity: 8] retain];
 
-    mNotifications = [[NSMutableArray arrayWithCapacity: 8] retain];
+    mNames   = [[NSMutableArray arrayWithCapacity: 8] retain];
+    mEnabled = [[NSMutableArray arrayWithCapacity: 8] retain];
 
     nsresult rv;
     nsCOMPtr<nsIStringBundleService> bundleService =
  	    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
- 	  if (NS_FAILED(rv)) return self;
+ 	  NS_ENSURE_SUCCESS(rv, self);
 
     nsCOMPtr<nsIStringBundle> bundle;
  	  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(bundle));
- 	  if (NS_FAILED(rv)) return self;
+ 	  NS_ENSURE_SUCCESS(rv, self);
 
     nsString text;
     bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
-    [self addNotification: text];
+    
+    NSArray * arr = [NSArray arrayWithObject:
+      [NSString stringWithCharacters: text.BeginReading()
+                              length: text.Length()]];
+    
+    [self addNotificationNames: arr];
+    [self addEnabledNotifications: arr];
 
   }
 
@@ -48,7 +55,8 @@
 {
   [mDict release];
 
-  [mNotifications release];
+  [mNames release];
+  [mEnabled release];
 
   [super dealloc];
 }
@@ -84,10 +92,14 @@
         clickContext: clickContext];
 }
 
-- (void)addNotification:(const nsAString&)aName
+- (void) addNotificationNames:(NSArray*)aNames
 {
-  [mNotifications addObject: [NSString stringWithCharacters: aName.BeginReading()
-                                                     length: aName.Length()]];
+  [mNames addObjectsFromArray: aNames];
+}
+
+- (void) addEnabledNotifications:(NSArray*)aEnabled
+{
+  [mEnabled addObjectsFromArray: aEnabled];
 }
 
 - (PRUint32) addObserver:(nsIObserver*)aObserver
@@ -103,8 +115,8 @@
 - (NSDictionary *) registrationDictionaryForGrowl
 {
   return [NSDictionary dictionaryWithObjectsAndKeys:
-           mNotifications, GROWL_NOTIFICATIONS_ALL,
-           mNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+           mNames, GROWL_NOTIFICATIONS_ALL,
+           mEnabled, GROWL_NOTIFICATIONS_DEFAULT,
            nil];
 }
 
@@ -114,11 +126,11 @@
 
   nsCOMPtr<nsIXULAppInfo> appInfo =
     do_GetService("@mozilla.org/xre/app-info;1", &rv);
-  if (NS_FAILED(rv)) return nil;
+  NS_ENSURE_SUCCESS(rv, nil);
 
   nsCString appName;
   rv = appInfo->GetName(appName);
-  if (NS_FAILED(rv)) return nil;
+  NS_ENSURE_SUCCESS(rv, nil);
 
   nsString name = NS_ConvertUTF8toUTF16(appName);
   return [NSString stringWithCharacters: name.BeginReading()

@@ -15,6 +15,7 @@ const nsICategoryManager = Components.interfaces.nsICategoryManager;
 const nsIObserverService = Components.interfaces.nsIObserverService;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIDownload = Components.interfaces.nsIDownload;
+const grINotificationsList = Components.interfaces.grINotificationsList;
 
 const CLASS_ID = Components.ID("81777557-253a-43bc-bb54-7727af7b9980");
 const CLASS_NAME = "Browser Notifications";
@@ -41,10 +42,7 @@ function grBrowserNotifications()
   this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
 
   this.mObserverService.addObserver(this, "quit-application-granted", false);
-  this.mObserverService.addObserver(this, "profile-after-change", false);
-
-  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
-                                        null);
+  this.mObserverService.addObserver(this, "before-growl-registration", false);
 }
 
 grBrowserNotifications.prototype = {
@@ -52,17 +50,19 @@ grBrowserNotifications.prototype = {
   observe: function observer(aSubject, aTopic, aData)
   {
     switch (aTopic) {
-      case "profile-after-change":
-        this.mObserverService.removeObserver(this, "profile-after-change");
+      case "before-growl-registration":
+        this.mObserverService.removeObserver(this, "before-growl-registration");
 
-        const notifications = ["download.start.title",
-                               "download.finished.title",
-                               "download.canceled.title",
-                               "download.failed.title"];
+        var nl = aSubject.QueryInterface(grINotificationsList);
+
+        const notifications = [{key:"download.start.title", enabled:false},
+                               {key:"download.finished.title", enabled:true},
+                               {key:"download.canceled.title", enabled:false},
+                               {key:"download.failed.title", enabled:true}];
 
         for (var i = notifications.length - 1; i >= 0; i--) {
-          var name = this.mBundle.GetStringFromName(notifications[i]);
-          this.grn.addNotification(name);
+          var name = this.mBundle.GetStringFromName(notifications[i].key);
+          nl.addNotification(name, notifications[i].enabled);
         }
 
         // Adding observers
@@ -70,11 +70,6 @@ grBrowserNotifications.prototype = {
         this.mObserverService.addObserver(this, "dl-done", false);
         this.mObserverService.addObserver(this, "dl-cancel", false);
         this.mObserverService.addObserver(this, "dl-failed", false);
-
-        // we need to tell everyone that we've done all we need to do with
-        // registering
-        this.mObserverService.notifyObservers(null, "growl-I'm done registering",
-                                              null);
         break;
       case "quit-application-granted":
         this.mObserverService.removeObserver(this, "quit-application-granted");

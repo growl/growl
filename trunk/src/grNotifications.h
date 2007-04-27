@@ -29,12 +29,11 @@ public:
   NS_DECL_GRINOTIFICATIONS
   NS_DECL_NSIOBSERVER
 
-  grNotifications() : mDelegate(nsnull), mCount(0) { }
+  grNotifications() : mDelegate(nsnull) { }
   nsresult Init();
 protected:
   virtual ~grNotifications();
   GrowlDelegateWrapper* mDelegate;
-  PRUint32 mCount;
 };
 
 #endif // grNotifications_h_

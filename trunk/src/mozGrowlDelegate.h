@@ -19,8 +19,9 @@
 {
 @private
   PRUint32 mKey;
-  NSMutableDictionary* mDict;
-  NSMutableArray* mNotifications;
+  NSMutableDictionary *mDict;
+  NSMutableArray *mNames;
+  NSMutableArray *mEnabled;
 }
 
 /**
@@ -41,11 +42,18 @@
         cookie:(const nsAString&)aCookie;
 
 /**
- * Adds a notification that we may send to the registration dictionary
+ * Adds notifications to the registration dictionary.
  *
- * @param aName The name of the notification we are adding.
+ * @param aNames An NSArray of names of notifications.
  */
-- (void)addNotification:(const nsAString&)aName;
+- (void) addNotificationNames:(NSArray*)aNames;
+
+/**
+ * Adds enabled notifications to the regitration dictionary.
+ *
+ * @param aEnabled An NSArray of names of enabled notifications.
+ */
+- (void) addEnabledNotifications:(NSArray*)aEnabled;
 
 /**
  * Adds an nsIObserver that we can query later for dispatching obsevers.

@@ -15,6 +15,7 @@ const nsIObserverService = Components.interfaces.nsIObserverService;
 const nsIObserver = Components.interfaces.nsIObserver;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIFolderListener = Components.interfaces.nsIFolderListener;
+const grINotificationsList = Components.interfaces.grINotificationsList;
 
 const CLASS_ID = Components.ID("33f659ee-9334-4f28-a742-344d95a520c4");
 const CLASS_NAME = "Mail Notifications";
@@ -40,11 +41,7 @@ function grMailNotifications()
                       .getService(nsIStringBundleService);
   this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
 
-  this.mObserverService.addObserver(this, "profile-after-change", false);
-
-  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
-                                        null);
-
+  this.mObserverService.addObserver(this, "before-growl-registration", false);
 }
 
 grMailNotifications.prototype = {
@@ -52,13 +49,17 @@ grMailNotifications.prototype = {
   observe: function observer(aSubject, aTopic, aData)
   {
     switch (aTopic) {
-      case "profile-after-change":
-        this.mObserverService.removeObserver(this, "profile-after-change");
+      case "before-growl-registration":
+        this.mObserverService.removeObserver(this, "before-growl-registration");
 
-        const notifications = ["mail.new.title"];
+        var nl = aSubject.QueryInterface(grINotificationsList);
 
-        for (var i = notifications.length - 1; i >= 0; i--)
-          this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
+        const notifications = [{key:"mail.new.title", enabled:true}];
+
+        for (var i = notifications.length - 1; i >= 0; i--) {
+          var name = this.mBundle.GetStringFromName(notifications[i].key);
+          nl.addNotification(name, notifications[i].enabled);
+        }
 
         // registering listeners
         var mms = Components.classes["@mozilla.org/messenger/services/session;1"]

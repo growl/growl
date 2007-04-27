@@ -16,8 +16,32 @@
 #include "nsIChannel.h"
 #include "nsIObserverService.h"
 #include "nsCRT.h"
+#include "nsAutoPtr.h"
 
 #import "wrapper.h"
+
+class grNotificationsList : public grINotificationsList
+{
+public:
+  NS_DECL_ISUPPORTS
+  NS_DECL_GRINOTIFICATIONSLIST
+
+  grNotificationsList();
+  ~grNotificationsList();
+
+  void informController(mozGrowlDelegate *cont);
+private:
+  NSMutableArray *mNames;
+  NSMutableArray *mEnabled;
+};
+
+NS_IMPL_ADDREF(grNotificationsList)
+NS_IMPL_RELEASE(grNotificationsList)
+
+NS_INTERFACE_MAP_BEGIN(grNotificationsList)
+  NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, grINotificationsList)
+  NS_INTERFACE_MAP_ENTRY(grINotificationsList)
+NS_INTERFACE_MAP_END
 
 NS_IMPL_THREADSAFE_ADDREF(grNotifications)
 NS_IMPL_THREADSAFE_RELEASE(grNotifications)
@@ -31,34 +55,25 @@ NS_INTERFACE_MAP_END_THREADSAFE
 nsresult
 grNotifications::Init()
 {
-  if ([GrowlApplicationBridge isGrowlInstalled] == YES) {
+  if ([GrowlApplicationBridge isGrowlInstalled] == YES)
     mDelegate = new GrowlDelegateWrapper();
-
-  } else {
+  else
     return NS_ERROR_NOT_IMPLEMENTED;
-  }
 
   nsresult rv;
   nsCOMPtr<nsIObserverService> os =
     do_GetService("@mozilla.org/observer-service;1", &rv);
-  if (NS_FAILED(rv)) return rv;
+  NS_ENSURE_SUCCESS(rv, rv);
 
-  os->AddObserver(this, "growl-Wait for me to register", PR_FALSE);
-  os->AddObserver(this, "growl-I'm done registering", PR_FALSE);
+  os->AddObserver(this, "profile-after-change", PR_FALSE);
+
+  return NS_OK;
 }
 
 grNotifications::~grNotifications()
 {
   if (mDelegate)
     delete mDelegate;
-}
-
-NS_IMETHODIMP
-grNotifications::AddNotification(const nsAString &aName)
-{
-  [mDelegate->delegate addNotification: aName];
-
-  return NS_OK;
 }
 
 NS_IMETHODIMP
@@ -116,21 +131,69 @@ grNotifications::Observe(nsISupports *aSubject, const char *aTopic,
 #ifdef DEBUG
   printf("\nI'm observering this:%s\n\n", aTopic);
 #endif
-  if (nsCRT::strcmp(aTopic, "growl-Wait for me to register") == 0) {
-    mCount++;
-#ifdef DEBUG
-    printf("\n*** %s, mCount=%d\n", aTopic, mCount);
-#endif
-  } else if (nsCRT::strcmp(aTopic, "growl-I'm done registering") == 0) {
-    mCount--;
-#ifdef DEBUG
-    printf("\n*** %s, mCount=%d\n", aTopic, mCount);
-#endif
+  if (nsCRT::strcmp(aTopic, "profile-after-change") == 0) {
+    // get any extra notifications, then register with Growl
+    nsRefPtr<grNotificationsList> notifications = new grNotificationsList();
 
-    if (mCount == 0) { // Time to register with growl
-      [GrowlApplicationBridge setGrowlDelegate: mDelegate->delegate];
-    }
+    nsresult rv;
+    nsCOMPtr<nsIObserverService> os =
+      do_GetService("@mozilla.org/observer-service;1", &rv);
+    NS_ENSURE_SUCCESS(rv, rv);
+
+    os->NotifyObservers(notifications, "before-growl-registration", nsnull);
+
+    notifications->informController(mDelegate->delegate);
+
+    [GrowlApplicationBridge setGrowlDelegate: mDelegate->delegate];
   }
 
   return NS_OK;
+}
+
+grNotificationsList::grNotificationsList()
+{
+  mNames   = [[NSMutableArray arrayWithCapacity: 8] retain];
+  mEnabled = [[NSMutableArray arrayWithCapacity: 8] retain];
+}
+
+grNotificationsList::~grNotificationsList()
+{
+  [mNames release];
+  [mEnabled release];
+}
+
+NS_IMETHODIMP
+grNotificationsList::AddNotification(const nsAString &aName, PRBool aEnabled)
+{
+  NSString * name = [NSString stringWithCharacters: aName.BeginReading()
+                                            length: aName.Length()];
+
+  [mNames addObject: name];
+
+  if (aEnabled)
+    [mEnabled addObject: name];
+
+  return NS_OK;
+}
+
+NS_IMETHODIMP
+grNotificationsList::IsNotification(const nsAString &aName, PRBool *retVal)
+{
+  NSString * name = [NSString stringWithCharacters: aName.BeginReading()
+                                            length: aName.Length()];
+
+  if ([mNames containsObject: name])
+    *retVal = PR_TRUE;
+  else
+    *retVal = PR_FALSE;
+
+  return NS_OK;
+}
+
+void
+grNotificationsList::informController(mozGrowlDelegate *delegate)
+{
+  [delegate addNotificationNames: mNames];
+
+  [delegate addEnabledNotifications: mEnabled];
 }

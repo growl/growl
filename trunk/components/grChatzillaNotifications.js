@@ -15,6 +15,7 @@ const nsICategoryManager = Components.interfaces.nsICategoryManager;
 const nsIObserverService = Components.interfaces.nsIObserverService;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIInstallLocation = Components.interfaces.nsIInstallLocation;
+const grINotificationsList = Components.interfaces.grINotificationsList;
 
 const CLASS_ID = Components.ID("07127806-ff59-413b-85c0-ccf9bca9a30c");
 const CLASS_NAME = "Chatzilla Notifications";
@@ -38,10 +39,7 @@ function grChatzillaNotifications()
 
   this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
                                     .getService(nsIObserverService);
-  this.mObserverService.addObserver(this, "profile-after-change", false);
-
-  this.mObserverService.notifyObservers(null, "growl-Wait for me to register",
-                                        null);
+  this.mObserverService.addObserver(this, "before-growl-registration", false);
 }
 
 grChatzillaNotifications.prototype = {
@@ -69,8 +67,8 @@ grChatzillaNotifications.prototype = {
   // nsIObserver
   observe: function observe(aSubject, aTopic, aData)
   {
-    if (aTopic == "profile-after-change") {
-      this.mObserverService.removeObserver(this, "profile-after-change");
+    if (aTopic == "before-growl-registration") {
+      this.mObserverService.removeObserver(this, "before-growl-registration");
       var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
                               .getService(Components.interfaces.nsIXULAppInfo);
       var em = Components.classes["@mozilla.org/extensions/manager;1"]
@@ -80,24 +78,23 @@ grChatzillaNotifications.prototype = {
       if (appInfo.ID != CHATZILLA_ID && !installed)
         return; // we don't want to register anymore!
 
-      this.registerHook()
+      this.registerHook();
 
-      const notifications = ["irc.pm.name",
-                             "irc.channel.imessage.name",
-                             "irc.channel.message.name",
-                             "irc.channel.join.name",
-                             "irc.channel.part.name",
-                             "irc.channel.quit.name",
-                             "irc.channel.invite.name",
-                             "irc.channel.kick.name"];
+      var nl = aSubject.QueryInterface(grINotificationsList);
 
-      for (var i = notifications.length - 1; i >= 0; i--)
-        this.grn.addNotification(this.mBundle.GetStringFromName(notifications[i]));
+      const notifications = [{key:"irc.pm.name", enabled:true},
+                             {key:"irc.channel.imessage.name", enabled:true},
+                             {key:"irc.channel.message.name", enabled:false},
+                             {key:"irc.channel.join.name", enabled:true},
+                             {key:"irc.channel.part.name", enabled:true},
+                             {key:"irc.channel.quit.name", enabled:true},
+                             {key:"irc.channel.invite.name", enabled:true},
+                             {key:"irc.channel.kick.name", enabled:true}];
 
-      // we need to tell everyone that we've done all we need to do with
-      // registering
-      this.mObserverService.notifyObservers(null, "growl-I'm done registering",
-                                            null);
+      for (var i = notifications.length - 1; i >= 0; i--) {
+        var name = this.mBundle.GetStringFromName(notifications[i].key);
+        nl.addNotification(name, notifications[i].enabled);
+      }
     }
   },
 

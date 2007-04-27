@@ -12,14 +12,6 @@
 interface grINotifications : nsISupports
 {
   /**
-   * Adds a notification to the registration dictionary.  This method should be
-   * called prior to calling registerAppWithGrowl()
-   *
-   * @param aName The name of the notification we might be sending
-   */
-  void addNotification(in AString aName);
-
-  /**
    * Dispatches a notification to Growl.
    *
    * @param aName The name of the notification.
@@ -30,4 +22,23 @@ interface grINotifications : nsISupports
    */
   void sendNotification(in AString aName, in AString aImage, in AString aTitle,
                         in AString aMessage, in nsIObserver aObserver);
+};
+
+[scriptable, uuid(11e0176a-4a2d-4a90-8dcc-1590eeb1769d)]
+interface grINotificationsList : nsISupports
+{
+  /**
+   * Adds a notification to the registration dictionary.
+   *
+   * @param aName The name of the notification we might be sending.
+   * @param aEnabled Indicates if the notification is enabled by default.
+   */
+  void addNotification(in AString aName, in boolean aEnabled);
+
+  /**
+   * Checks to see if a paticular notification has already been registered.
+   *
+   * @param aName The name of the notification we are checking against.
+   */
+  boolean isNotification(in AString aName);
 };

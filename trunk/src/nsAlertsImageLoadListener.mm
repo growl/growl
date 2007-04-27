@@ -6,7 +6,6 @@
 // This file is under the BSD License, refer to license.txt for details
 
 #include "nsAlertsImageLoadListener.h"
-#include "localeKeys.h"
 #import "GrowlApplicationBridge.h"
 #import "mozGrowlDelegate.h"
 
