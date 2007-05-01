@@ -30,8 +30,8 @@ function init(glob)
                            growlChannelJoin, "grow-channel-join-hook");
   client.eventPump.addHook([{set: "channel", type: "part"}],
                            growlChannelPart, "grow-channel-part-hook");
-  client.eventPump.addHook([{set: "channel", type: "quit"}],
-                           growlChannelQuit, "grow-channel-quit-hook");
+  client.eventPump.addHook([{set: "server", type: "quit"}],
+                           growlNetworkQuit, "grow-channel-quit-hook");
   client.eventPump.addHook([{set: "network", type: "invite"}],
                            growlChannelInvite, "grow-channel-invite-hook");
   client.eventPump.addHook([{set: "channel", type: "kick"}],
@@ -137,15 +137,15 @@ function growlChannelPart(e)
   growlSendNotification(name, img, title, msg, null);
 }
 
-function growlChannelQuit(e)
+function growlNetworkQuit(e)
 {
   var evt = getObjectDetails(e.destObject);
 
-  var name  = growlGetString("irc.channel.quit.name");
+  var name  = growlGetString("irc.network.quit.name");
   var img   = "chrome://chatzilla/skin/images/logo.png";
-  var title = evt.network.unicodeName;
-  var msg   = growlGetFormattedString("irc.channel.quit.msg",
-                                      [e.user.unicodeName, title]);
+  var title = "";//evt.server.unicodeName;
+  var msg   = growlGetFormattedString("irc.network.quit.msg",
+                                      [e.user.unicodeName, e.decodeParam(1)]);
 
   growlSendNotification(name, img, title, msg, null);
 }

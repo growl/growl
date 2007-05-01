@@ -87,7 +87,7 @@ grChatzillaNotifications.prototype = {
                              {key:"irc.channel.message.name", enabled:false},
                              {key:"irc.channel.join.name", enabled:true},
                              {key:"irc.channel.part.name", enabled:true},
-                             {key:"irc.channel.quit.name", enabled:true},
+                             {key:"irc.network.quit.name", enabled:true},
                              {key:"irc.channel.invite.name", enabled:true},
                              {key:"irc.channel.kick.name", enabled:true}];
 
