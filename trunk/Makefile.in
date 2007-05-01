@@ -26,7 +26,6 @@ PREF_JS_EXPORTS = $(srcdir)/growl-prefs.js
 EXTRA_COMPONENTS = \
   components/grBrowserNotifications.js \
   components/grMailNotifications.js \
-  components/grChatzillaNotifications.js \
   $(NULL)
 
 ALL_LOCALES = \
@@ -40,7 +39,6 @@ SUBMAKEFILES += locale/Makefile
 DIST_FILES = \
   install.rdf \
   license.txt \
-  chatzilla.js \
 	$(NULL)
 
 include $(topsrcdir)/config/rules.mk
