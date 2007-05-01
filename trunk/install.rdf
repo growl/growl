@@ -14,7 +14,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>growl@growl.info</em:id>
-    <em:version>1.0</em:version>
+    <em:version>1.0.1pre</em:version>
     <em:type>2</em:type>
 
     <!-- Firefox -->
