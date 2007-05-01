@@ -1,0 +1,25 @@
+#
+#  $Id$
+#
+#  Copyright 2007 The Growl Project. All rights reserved.
+#
+# This file is under the BSD License, refer to license.txt for details
+
+DEPTH     = ../../..
+topsrcdir = @top_srcdir@
+srcdir    = @srcdir@
+VPATH     = @srcdir@
+
+include $(DEPTH)/config/autoconf.mk
+
+MODULE       = growl
+XPIDL_MODULE = growl
+
+XPI_NAME = growl
+
+XPIDLSRCS = \
+  grIApplicationBridge.idl \
+  grINotifications.idl \
+  $(NULL)
+
+include $(topsrcdir)/config/rules.mk

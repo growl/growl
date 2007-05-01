@@ -1,0 +1,22 @@
+//
+//  $Id$
+//
+//  Copyright 2007 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to license.txt for details
+
+#include "nsISupports.idl"
+
+[scriptable, uuid(45f13a35-93f7-4d72-8447-75cfa43b2c9c)]
+interface grIApplicationBridge : nsISupports
+{
+  /**
+   * Calls the Growl Application Bridge and determines if Growl is installed.
+   */
+  readonly attribute boolean growlInstalled;
+
+  /**
+   * Calls the Growl Application Bridge and determines if Growl is running.
+   */
+  readonly attribute boolean growlRunning;
+};

@@ -1,0 +1,57 @@
+#
+#  $Id$
+#
+#  Copyright 2007 The Growl Project. All rights reserved.
+#
+# This file is under the BSD License, refer to license.txt for details
+
+DEPTH = ../..
+topsrcdir = @top_srcdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+include $(DEPTH)/config/autoconf.mk
+
+MODULE = growl
+
+DIRS = public src
+
+XPI_NAME 							 = growl
+INSTALL_EXTENSION_ID   = growl@growl.info
+XPI_PKGNAME            = growl
+USE_EXTENSION_MANIFEST = 1
+
+PREF_JS_EXPORTS = $(srcdir)/growl-prefs.js
+
+EXTRA_COMPONENTS = \
+  components/grBrowserNotifications.js \
+  components/grMailNotifications.js \
+  $(NULL)
+
+ALL_LOCALES = \
+  en-US \
+  $(NULL)
+
+include $(topsrcdir)/config/config.mk
+
+SUBMAKEFILES += locale/Makefile
+
+DIST_FILES = \
+  install.rdf \
+  license.txt \
+	$(NULL)
+
+include $(topsrcdir)/config/rules.mk
+
+libs realchrome:: locale/Makefile
+	@$(EXIT_ON_ERROR) \
+	for locale in $(ALL_LOCALES); do \
+		$(MAKE) -C locale AB_CD=$$locale; \
+	done
+
+install::
+	@$(EXIT_ON_ERROR) \
+	for locale in $(ALL_LOCALES); do \
+		$(MAKE) -C locale AB_CD=$$locale install; \
+	done
+

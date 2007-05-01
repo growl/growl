@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<!--
+//
+//  $Id$
+//
+//  Copyright 2007 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to license.txt for details
+-->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<!DOCTYPE dialog SYSTEM "chrome://growl/locale/download.dtd">
+
+<dialog id="download-growl-prompt"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept,cancel"
+        buttonlabelaccept="&Download.yes;"
+        buttonlabelcancel="&Download.no;"
+        ondialogaccept="dialog.accept();"
+        maxwidth="300"
+        title="&Download.title;">
+
+  <script type="application/javascript"
+          src="chrome://growl/content/download.js"/>
+
+  <hbox>
+
+    <image src="chrome://growl/content/icon.png" width="128" height="128"/>
+
+    <description>&Download.text;</description>
+
+  </hbox>
+
+</dialog>

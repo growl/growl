@@ -1,0 +1,70 @@
+#
+#  $Id$
+#
+#  Copyright 2007 The Growl Project. All rights reserved.
+#
+# This file is under the BSD License, refer to license.txt for details
+
+DEPTH     = ../../..
+topsrcdir = @top_srcdir@
+srcdir    = @srcdir@
+VPATH     = @srcdir@
+
+include $(DEPTH)/config/autoconf.mk
+
+IS_COMPONENT = 1
+MODULE       = growl
+LIBRARY_NAME = growlNotifications
+
+XPI_NAME = growl
+
+REQUIRES = \
+  xpcom \
+  string \
+  alerts \
+  necko \
+  intl \
+  uriloader \
+  xulapp \
+  $(NULL)
+
+# GROWL FILES
+# These files are part of the Growl Application Bridge.  We need to build them
+# statically due to some strange complications.
+CMSRCS = \
+  GrowlApplicationBridge.m \
+  GrowlPathUtil.m \
+  NSURLAdditions.m \
+  $(NULL)
+
+CSRCS = \
+  CFGrowlAdditions.c \
+  $(NULL)
+# END GROWL FILES
+
+CMMSRCS = \
+  mozGrowlDelegate.mm \
+  nsAlertsImageLoadListener.mm \
+  nsAlertsServiceMac.mm \
+  grApplicationBridge.mm \
+  grNotifications.mm \
+  $(NULL)
+
+CPPSRCS = \
+  module.cpp \
+  $(NULL)
+
+LOCAL_INCLUDES = \
+  -I$(topsrcdir)/toolkit/components/build \
+  $(NULL)
+
+include $(topsrcdir)/config/rules.mk
+
+EXTRA_DSO_LDOPTS += \
+  -framework Cocoa \
+  -framework AppKit \
+  -framework Carbon \
+  -framework Foundation \
+  $(XPCOM_GLUE_LDOPTS) \
+  $(NSPR_LIBS) \
+  $(NULL)
