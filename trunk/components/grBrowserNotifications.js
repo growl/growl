@@ -16,6 +16,8 @@ const nsIObserverService = Components.interfaces.nsIObserverService;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIDownload = Components.interfaces.nsIDownload;
 const grINotificationsList = Components.interfaces.grINotificationsList;
+const nsIWindowWatcher = Components.interfaces.nsIWindowWatcher;
+const nsIDownloadManager = Components.interfaces.nsIDownloadManager;
 
 const CLASS_ID = Components.ID("81777557-253a-43bc-bb54-7727af7b9980");
 const CLASS_NAME = "Browser Notifications";
@@ -83,25 +85,41 @@ grBrowserNotifications.prototype = {
         var name = this.mBundle.GetStringFromName("download.start.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, null);
+        this.grn.sendNotification(name, img, name, msg, this);
         break;
       case "dl-done":
         var name = this.mBundle.GetStringFromName("download.finished.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, null);
+        this.grn.sendNotification(name, img, name, msg, this);
         break;
       case "dl-cancel":
         var name = this.mBundle.GetStringFromName("download.canceled.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, null);
+        this.grn.sendNotification(name, img, name, msg, this);
         break;
       case "dl-failed":
         var name = this.mBundle.GetStringFromName("download.failed.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, null);
+        this.grn.sendNotification(name, img, name, msg, this);
+        break;
+      case "alertclickcallback":
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                           .getService(Components.interfaces.nsIWindowMediator);
+        var win = wm.getMostRecentWindow("Download:Manager");
+        if (win) {
+          win.focus();
+        } else {
+          var dm = Components.classes["@mozilla.org/download-manager;1"]
+                             .getService(nsIDownloadManager);
+          var ww = Components.classes["@mozilla.org/embedcomp/window-watcher;1"]
+                             .getService(nsIWindowWatcher);
+          var params = [dm.datasource];
+          ww.openWindow(null, "chrome://mozapps/content/downloads/downloads.xul",
+                        "_blank", "chrome,dialog=no,resizable", params);
+        }
         break;
       default:
     }
