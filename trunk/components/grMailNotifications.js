@@ -32,7 +32,7 @@ const MSG_FLAG_NEW = 0x10000;
 function grMailNotifications()
 {
   this.grn = Components.classes["@growl.info/notifications;1"]
-                      .getService(Components.interfaces.grINotifications);
+                       .getService(Components.interfaces.grINotifications);
 
   this.mObserverService = Components.classes["@mozilla.org/observer-service;1"]
                                     .getService(nsIObserverService);
@@ -67,6 +67,22 @@ grMailNotifications.prototype = {
         mms.AddFolderListener(this, nsIFolderListener.added);
 
         break;
+      case "alertclickcallback":
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                           .getService(Components.interfaces.nsIWindowMediator);
+        var win = wm.getMostRecentWindow("mail:3pane");
+        if (win) {
+          win.focus();
+        } else {
+          var ww = Components.classes["@mozilla.org/embedcomp/window-watcher;1"]
+                             .getService(nsIWindowWatcher);
+          ww.openWindow(null, "chrome://messenger/content/messenger.xul",
+                        "_blank", "chrome,dialog=no,resizable");
+        }
+
+        this.grn.makeAppFocused();
+        break;
+      default:
     }
   },
 
@@ -83,7 +99,7 @@ grMailNotifications.prototype = {
       var msg  = this.mBundle.formatStringFromName("mail.new.text", data, 2);
       var img  = "chrome://growl/content/new-mail-alert.png";
 
-      this.grn.sendNotification(name, img, ttle, msg, null);
+      this.grn.sendNotification(name, img, ttle, msg, this);
     }
   },
 
