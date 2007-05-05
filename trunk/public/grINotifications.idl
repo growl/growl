@@ -22,6 +22,11 @@ interface grINotifications : nsISupports
    */
   void sendNotification(in AString aName, in AString aImage, in AString aTitle,
                         in AString aMessage, in nsIObserver aObserver);
+
+  /**
+   * Grabs focus for the application from the operating system
+   */
+   void makeAppFocused();
 };
 
 [scriptable, uuid(11e0176a-4a2d-4a90-8dcc-1590eeb1769d)]

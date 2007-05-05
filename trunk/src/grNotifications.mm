@@ -125,6 +125,21 @@ grNotifications::SendNotification(const nsAString &aName,
 }
 
 NS_IMETHODIMP
+grNotifications::MakeAppFocused()
+{
+  OSErr err;
+
+  ProcessSerialNumber psn;
+  err = ::GetCurrentProcess(&psn);
+  if (err != 0) return NS_ERROR_FAILURE;
+
+  err = ::SetFrontProcess(&psn);
+  if (err != 0) return NS_ERROR_FAILURE;
+
+  return NS_OK;
+}
+
+NS_IMETHODIMP
 grNotifications::Observe(nsISupports *aSubject, const char *aTopic,
                          const PRUnichar *data)
 {

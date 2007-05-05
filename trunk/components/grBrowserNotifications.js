@@ -120,6 +120,8 @@ grBrowserNotifications.prototype = {
           ww.openWindow(null, "chrome://mozapps/content/downloads/downloads.xul",
                         "_blank", "chrome,dialog=no,resizable", params);
         }
+
+        this.grn.makeAppFocused();
         break;
       default:
     }
