@@ -106,26 +106,34 @@
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
+	GrowlNotificationDisplayBridge *theBridge;
+
 	if(queue)
 	{
+		[bridge removeWindowController:wc];
+
 		if ([queue count] > 0U) {
-			GrowlNotificationDisplayBridge *theBridge = [queue objectAtIndex:0U];
+			theBridge = [queue objectAtIndex:0U];
 			[[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-			if ([queue count] > 0U)
-				bridge = [theBridge retain];
-			else
-				bridge = nil;
+
+#warning	leaking bridge
+//			[bridge release];
+			bridge = [theBridge retain];
 			[queue removeObjectAtIndex:0U];		
 		}
 		else
+		{
+#warning	leaking bridge
+//			[bridge release];
 			bridge = nil;
-	}
-	
-	if (bridge)
-		[bridge removeWindowController:wc];
-	else
-		[[activeBridges bridgeForWindowController:wc] removeWindowController:wc];
+		}
+	} else {
+#warning activeBridges leaks every used display bridge... uncommenting the below breaks positioning
 
+		theBridge = [activeBridges bridgeForWindowController:wc];
+		[theBridge removeWindowController:wc];
+//		[activeBridges removeObjectIdenticalTo:theBridge];
+	}
 }
 
 @end
