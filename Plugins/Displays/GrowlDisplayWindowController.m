@@ -388,6 +388,17 @@ static NSMutableDictionary *existingInstances;
 		[self stopTransition:transition];
 }
 
+- (void)growlAnimationDidEnd:(GrowlAnimation *)animation
+{
+	if ([animation isKindOfClass:[GrowlWindowTransition class]] &&
+		([(GrowlWindowTransition *)animation window] == [self window]) &&
+		([(GrowlWindowTransition *)animation direction] == GrowlReverseTransition) &&
+		![animation repeats]) {
+		//A fade out nonrepeating animation finished. We don't need to wait on our timeout; we know we finished displaying a notification.
+		[self didFinishTransitionsAfterDisplay];
+	}
+}
+
 #pragma mark -
 #pragma mark Accessors
 
