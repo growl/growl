@@ -14,7 +14,7 @@
 
 @implementation MD5Authenticator
 - (id) initWithPassword:(NSString *)pwd {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		password = [pwd copy];
 	}
 	return self;

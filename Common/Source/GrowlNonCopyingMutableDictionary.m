@@ -193,7 +193,7 @@
 @implementation GrowlNonCopyingDictionaryEnumerator
 
 - (id) initWithMapEnumerator:(NSMapEnumerator)newMapEnum enumerateKeys:(BOOL)flag {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		mapEnum = newMapEnum;
 		yieldKeys = (flag != NO);
 	}

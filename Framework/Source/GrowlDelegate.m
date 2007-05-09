@@ -10,7 +10,7 @@
 
 @implementation GrowlDelegate
 - (id) initWithAllNotifications:(NSArray *)allNotifications defaultNotifications:(NSArray *)defaultNotifications {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		registrationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
 			allNotifications,     GROWL_NOTIFICATIONS_ALL,
 			defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,

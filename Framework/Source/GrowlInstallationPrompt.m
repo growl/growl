@@ -79,7 +79,7 @@ static BOOL checkOSXVersion(void) {
 }
 
 - (id) initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion {
-	if ((self = [super initWithWindowNibName:nibName])) {
+	if ((self = [self initWithWindowNibName:nibName])) {
 		updateVersion = [inUpdateVersion retain];
 	}
 
