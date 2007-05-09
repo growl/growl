@@ -71,7 +71,7 @@
 						 displayPluginName:(NSString *)display
 									 sound:(NSString *)inSound
 {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		name					= [inName retain];
 		humanReadableName		= [inHumanReadableName retain];
 		notificationDescription = [inNotificationDescription retain];

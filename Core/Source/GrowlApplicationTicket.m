@@ -58,7 +58,7 @@
 		NSParameterAssert(ticketDict != nil);
 		return nil;
 	}
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		synchronizeOnChanges = NO;
 
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
