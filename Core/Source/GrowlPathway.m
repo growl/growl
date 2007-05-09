@@ -23,15 +23,19 @@ static GrowlApplicationController *applicationController = nil;
 }
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[applicationController performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
 											withObject:dict
 										 waitUntilDone:NO];
+	[pool release];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[applicationController performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
 											withObject:dict
 										 waitUntilDone:NO];
+	[pool release];
 }
 
 - (NSString *) growlVersion {
