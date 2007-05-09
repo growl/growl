@@ -11,6 +11,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlLog.h"
 #import "GrowlPluginController.h"
+#import "GrowlPlugin.h"
 
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlTCPPathway.h"

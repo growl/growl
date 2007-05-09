@@ -53,3 +53,8 @@ extern NSString *GrowlPathwayNotificationKey;
 - (BOOL) loadPathwaysFromPlugin:(GrowlPlugin <GrowlPathwayPlugin> *)plugin;
 
 @end
+
+@interface GrowlPathwayController (Private_ForApplicationControllerOnly)
+- (void)setServerEnabledFromPreferences;
+@end
+
