@@ -295,6 +295,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Guts
 
 - (void) showPreview:(NSNotification *) note {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString *displayName = [note object];
 	GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName author:nil version:nil type:nil];
 
@@ -317,6 +318,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[info release];
 	[displayPlugin displayNotification:notification];
 	[notification release];
+	[pool release];
 }
 
 - (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
