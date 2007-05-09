@@ -124,7 +124,7 @@ static NSMutableDictionary *existingInstances;
 	if ([self respondsToSelector:@selector(idealOriginInRect:)])
 		foundSpace = [pc positionDisplay:self];
 	else
-		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplay:self]);
+		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
 
 	if (foundSpace) {
 		[self willDisplayNotification];
