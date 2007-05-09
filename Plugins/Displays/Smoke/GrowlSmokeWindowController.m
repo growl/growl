@@ -75,14 +75,6 @@
 }
 
 - (void) dealloc {
-#warning needs looking at
-	//[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	//extern unsigned smokeWindowDepth;
-//	NSLog(@"smokeController deallocking");
-	//if ( depth == smokeWindowDepth )
-	// 	smokeWindowDepth = 0;
-
 	NSWindow *myWindow = [self window];
 	[[myWindow contentView] release];
 	[myWindow release];
