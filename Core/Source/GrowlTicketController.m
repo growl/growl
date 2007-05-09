@@ -99,7 +99,7 @@
 }
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName {
-	return getObjectForKey(ticketsByApplicationName, appName);
+	return [ticketsByApplicationName objectForKey:appName];
 }
 - (void) addTicket:(GrowlApplicationTicket *) newTicket {
 	NSString *appName = [newTicket applicationName];
