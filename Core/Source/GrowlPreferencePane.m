@@ -695,9 +695,8 @@
 
 - (IBAction) showPreview:(id)sender {
 #pragma unused(sender)
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-										 (CFStringRef)GrowlPreview,
-										 [currentPlugin objectForKey:(NSString *)kCFBundleNameKey], NULL, false);
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+																   object:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
