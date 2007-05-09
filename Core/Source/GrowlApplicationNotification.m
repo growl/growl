@@ -35,7 +35,7 @@
                                           title:(NSString *)newTitle
                                     description:(NSString *)newDesc
 {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		name            = [newName      copy];
 		applicationName = [newAppName   copy];
 
