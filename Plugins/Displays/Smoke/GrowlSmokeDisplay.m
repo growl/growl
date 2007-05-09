@@ -78,24 +78,4 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 }
 
-/*- (void) displayNotification:(GrowlApplicationNotification *)notification {
-	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
-		initWithNotification:notification
-					   depth:smokeDepth];
-
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	[controller setTarget:self];
-	[controller setNotifyingApplicationName:[notification applicationName]];
-	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
-	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
-	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
-	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
-	[controller setProgress:getObjectForKey(noteDict, GROWL_NOTIFICATION_PROGRESS)];
-
-	// update the depth for the next notification with the depth given by this new one
-	// which will take into account the new notification's height
-	smokeDepth = [controller depth] + GrowlSmokePadding;
-	[controller startDisplay];
-	[controller release];
-}*/
 @end
