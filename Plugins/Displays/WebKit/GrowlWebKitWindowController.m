@@ -160,12 +160,6 @@ static unsigned webkitWindowDepth = 0U;
 	[super dealloc];
 }
 
-- (BOOL)windowShouldClose:(id)sender
-{
-	NSLog(@"should close... %@",self);
-	return [super windowShouldClose:sender];
-}
-
 - (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
 	CFStringRef priorityName;
 	switch (priority) {
@@ -259,14 +253,10 @@ static unsigned webkitWindowDepth = 0U;
 		NSRect panelFrame = [view frame];
 		NSRect screen = [[self screen] visibleFrame];
 		
-		//Unregister from our previously reserved frame
-		NSLog(@"&&&& --- repositioning display");
-		[[GrowlPositionController sharedInstance] clearReservedRect:[myWindow frame] inScreen:[myWindow screen]];
 		//Set the new frame
 		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
 												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
-		//Register for our new frame
-		NSLog(@"&&&& +++ repositioning display");
+		//Update our new frame
 		[[GrowlPositionController sharedInstance] positionDisplay:self];
 
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
@@ -283,13 +273,6 @@ static unsigned webkitWindowDepth = 0U;
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
     if (notification == theNotification)
 		return;
-
-	if (notification) {
-		//Unregister from our previously reserved frame
-		NSLog(@"&&&& ---- setnotification repositioning display");
-
-		[[GrowlPositionController sharedInstance] clearReservedRect:[[self window] frame] inScreen:[[self window] screen]];
-	}
 
 	[super setNotification:theNotification];
 
@@ -309,7 +292,6 @@ static unsigned webkitWindowDepth = 0U;
 	[panel setFrame:panelFrame display:NO];
 
 	//Register for our new frame
-	NSLog(@"&&&& ++++ setnotification repositioning display");
 	[[GrowlPositionController sharedInstance] positionDisplay:self];
 }
 
