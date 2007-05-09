@@ -124,7 +124,7 @@ static NSMutableDictionary *existingInstances;
 	if ([self respondsToSelector:@selector(idealOriginInRect:)])
 		foundSpace = [pc positionDisplay:self];
 	else
-		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen]]);
+		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplay:self]);
 
 	if (foundSpace) {
 		[self willDisplayNotification];
@@ -198,7 +198,7 @@ static NSMutableDictionary *existingInstances;
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
-	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];
+	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
 
 	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
 		[[bridge display] displayWindowControllerDidTakeDownWindow:self];
