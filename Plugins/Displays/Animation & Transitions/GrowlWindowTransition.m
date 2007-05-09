@@ -15,7 +15,7 @@
 }
 
 - (id) initWithWindow:(NSWindow *)inWindow direction:(GrowlTransitionDirection)theDirection {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		[self setWindow:inWindow];
 		[self setDirection:theDirection];
 	}

@@ -105,7 +105,7 @@
 
 @implementation AWRippleWindow
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
-	
+#pragma unused (aStyle)
     NSWindow* result = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [result setBackgroundColor: [NSColor clearColor]];
     [result setAlphaValue:1.0];
@@ -212,6 +212,7 @@ extern CGSConnection _CGSDefaultConnection(void);
 
 - (void)animationLoop:(id)sender
 {
+#pragma unused (sender)
     NSAutoreleasePool *pool;
 	CGSConnection cid = _CGSDefaultConnection();
     CICGSFilter *oldFilter = windowFilter;

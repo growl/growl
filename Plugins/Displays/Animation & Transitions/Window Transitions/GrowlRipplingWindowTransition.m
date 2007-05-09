@@ -10,9 +10,7 @@
 
 @implementation GrowlRipplingWindowTransition
 
-
 - (id) initWithWindow:(NSWindow *)inWindow {
-NSLog(@"%s", __FUNCTION__);	
 	if((self = [super initWithWindow:inWindow])) {
 		rippler = [[AWRippler alloc] init];
 		win = inWindow;	
@@ -21,7 +19,6 @@ NSLog(@"%s", __FUNCTION__);
 }
 
 - (void) animationDidStart {
-	NSLog(@"%s", __FUNCTION__);	
 	[super animationDidStart];
 	[rippler rippleWindow:win];
 	[rippler release];
