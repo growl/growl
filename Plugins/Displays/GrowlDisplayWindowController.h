@@ -30,10 +30,6 @@
 	NSMutableDictionary              *windowTransitions;
 	id					             delegate;
 
-	CFRunLoopTimerRef	             displayTimer;
-	CFRunLoopTimerRef				 delayTimer;
-	CFRunLoopTimerRef				 transitionTimer;
-
 	BOOL				             ignoresOtherNotifications;
 
 	CFTimeInterval                   transitionDuration;
@@ -72,14 +68,9 @@
 - (void) willTakeDownNotification;
 - (void)  didTakeDownNotification;
 
-/* provate method called when all transitions finish running */
+/* private method called when all transitions finish running */
 - (void) didFinishTransitionsBeforeDisplay;
 - (void) didFinishTransitionsAfterDisplay;
-
-#pragma mark -
-
-- (void) startDisplayTimer;
-- (void) stopDisplayTimer;
 
 #pragma mark -
 

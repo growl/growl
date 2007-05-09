@@ -19,32 +19,9 @@
 
 static NSMutableDictionary *existingInstances;
 
-extern CFRunLoopRef CFRunLoopGetMain(void);
-
-static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
-#pragma unused(timer)
-	[(GrowlDisplayWindowController *)context stopDisplay];
-}
-
-static void finishedTransitionsBeforeDisplay(CFRunLoopTimerRef timer, void *context) {
-#pragma unused(timer)
-	[(GrowlDisplayWindowController *)context didFinishTransitionsBeforeDisplay];
-}
-static void finishedTransitionsAfterDisplay(CFRunLoopTimerRef timer, void *context) {
-#pragma unused(timer)
-	[(GrowlDisplayWindowController *)context didFinishTransitionsAfterDisplay];
-}
-
-static void startAnimation(CFRunLoopTimerRef timer, void *context) {
-	[(GrowlWindowTransition *)context startAnimation];
-	
-	// we release this timer or it will leak per display window created
-	if (timer) {
-		CFRunLoopTimerInvalidate(timer);
-		CFRelease(timer);
-		timer = NULL;
-	}
-}
+@interface GrowlDisplayWindowController (PRIVATE)
+- (void)cancelDisplayDelayedPerforms;
+@end
 
 @implementation GrowlDisplayWindowController
 
@@ -97,7 +74,6 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {
-		[self bind:@"notification" toObject:self withKeyPath:@"bridge.notification" options:nil];
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 		bridge = nil;
@@ -110,20 +86,13 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) dealloc {
-	[self stopDisplayTimer];
 	[self setDelegate:nil];
-	NSLog(@"Telling %@ to not notify me", [self bridge]);
 	[[self bridge] removeObserver:self forKeyPath:@"notification"];
-	[self unbind:@"notification"];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
-	GrowlLog *growlLog = [GrowlLog sharedController];
-
-	[growlLog writeToLog:@"releasing bridge %@", bridge];
-	[bridge              release];
-	[growlLog writeToLog:@"released"];
+	[bridge				 release];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -161,10 +130,9 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
 		if ([self startAllTransitions]) {
-			CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-			delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0, 0, 0, finishedTransitionsBeforeDisplay, &context);
-			CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
-			//[self performSelector:@selector(didFinishTransitionsBeforeDisplay) withObject:nil afterDelay:transitionDuration];
+			[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
+					   withObject:nil
+					   afterDelay:transitionDuration];
 		} else {
 			[self didFinishTransitionsBeforeDisplay];
 		}
@@ -178,13 +146,13 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) stopDisplay {
-	[self stopDisplayTimer];
+	[self cancelDisplayDelayedPerforms];
+
 	[self willTakeDownNotification];
 	if ([self startAllTransitions]) {
-		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-		delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+transitionDuration, 0, 0, 0, finishedTransitionsAfterDisplay, &context);
-		CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
-		//[self performSelector:@selector(didFinishTransitionsAfterDisplay) withObject:nil afterDelay:transitionDuration];
+		[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
+				   withObject:nil
+				   afterDelay:transitionDuration];
 	} else {
 		[self didFinishTransitionsAfterDisplay];
 	}
@@ -194,27 +162,39 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Display stages
 
+- (void)cancelDisplayDelayedPerforms
+{
+	[[self class] cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(didFinishTransitionsBeforeDisplay) 
+												   object:nil];
+	
+	[[self class] cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(didFinishTransitionsAfterDisplay) 
+												   object:nil];
+
+	[[self class] cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(stopDisplay) 
+												   object:nil];	
+}
+
 - (void) willDisplayNotification {
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification
 														object:self];
 }
 
 - (void) didFinishTransitionsBeforeDisplay {
-	if (delayTimer) {
-		CFRunLoopTimerInvalidate(delayTimer);
-		CFRelease(delayTimer);
-		delayTimer = NULL;
+	[self cancelDisplayDelayedPerforms];
+
+	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]) {
+		[self performSelector:@selector(stopDisplay)
+				   withObject:nil
+				   afterDelay:(displayDuration+transitionDuration)];		
 	}
-	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue])
-		[self startDisplayTimer];
 }
 
 - (void) didFinishTransitionsAfterDisplay {
-	if (delayTimer) {
-		CFRunLoopTimerInvalidate(delayTimer);
-		CFRelease(delayTimer);
-		delayTimer = NULL;
-	}
+	[self cancelDisplayDelayedPerforms];
+
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
@@ -222,6 +202,9 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
 		[[bridge display] displayWindowControllerDidTakeDownWindow:self];
+	else {
+		NSLog(@"%@ bridge does not respond to display",bridge);
+	}
 }
 
 - (void) didDisplayNotification {
@@ -250,26 +233,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		clickContext = nil;
 	}
-	[nc postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
+	[nc postNotificationName:GrowlDisplayWindowControllerDidTakeWindowDownNotification object:self];
 }
-
-#pragma mark -
-#pragma mark Display timer
-
-- (void) startDisplayTimer {
-	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration+transitionDuration, 0, 0, 0, stopDisplay, &context);
-	CFRunLoopAddTimer(CFRunLoopGetMain(), displayTimer, kCFRunLoopCommonModes);
-}
-
-- (void) stopDisplayTimer {
-	if (displayTimer) {
-		CFRunLoopTimerInvalidate(displayTimer);
-		CFRelease(displayTimer);
-		displayTimer = NULL;
-	}
-}
-
 #pragma mark -
 #pragma mark Click feedback
 
@@ -388,10 +353,9 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
-	CFRunLoopTimerContext context = {0, transition, NULL, NULL, NULL};
-	transitionTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+startTime, 0, 0, 0, startAnimation, &context);
-	CFRunLoopAddTimer(CFRunLoopGetMain(), transitionTimer, kCFRunLoopCommonModes);
-	//[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
+	[transition performSelector:@selector(startAnimation) 
+					 withObject:nil
+					 afterDelay:startTime];
 
 	return YES;
 }
@@ -412,14 +376,10 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
 	[transition stopAnimation];
-	if (transitionTimer) {
-		CFRunLoopTimerInvalidate(transitionTimer);
-		CFRelease(transitionTimer);
-		transitionTimer = NULL;
-	}
-	//[[self class] cancelPreviousPerformRequestsWithTarget:transition
-	//											 selector:@selector(startAnimation)
-	//											   object:nil];
+	
+	[[self class] cancelPreviousPerformRequestsWithTarget:transition
+												 selector:@selector(startAnimation)
+												   object:nil];
 }
 
 - (void) stopTransitionOfKind:(Class)transitionClass {
@@ -446,14 +406,31 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 - (GrowlNotificationDisplayBridge *) bridge {
-    //NSLog(@"in -bridge, returned bridge = %@", bridge);
-
     return bridge;
 }
 
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	//This must not retain the bridge, because the bridge retains us.
-	bridge = theBridge;
+	if (bridge != theBridge) {
+		if (bridge) {
+			NSLog(@"*** This may be an error. %@ had its bridge reset", self);
+			[bridge removeObserver:self forKeyPath:@"notification"];
+		}
+		
+		bridge = [theBridge retain];
+		
+		[bridge addObserver:self forKeyPath:@"notification" options:NSKeyValueObservingOptionNew context:NULL];
+		[self observeValueForKeyPath:@"notification" ofObject:bridge change:nil context:NULL];
+	}
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+#pragma unused(change)
+#pragma unused(context)
+	if ((object == bridge) &&
+		[keyPath isEqualToString:@"notification"]) {
+		[self setNotification:[bridge notification]];
+	}
 }
 
 #pragma mark -
@@ -622,28 +599,28 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		if ([observer respondsToSelector:@selector(displayWindowControllerWillDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillDisplayWindow:)
-					   name:(NSString *)GrowlDisplayWindowControllerWillDisplayWindowNotification
+					   name:GrowlDisplayWindowControllerWillDisplayWindowNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerDidDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidDisplayWindow:)
-					   name:(NSString *)GrowlDisplayWindowControllerDidDisplayWindowNotification
+					   name:GrowlDisplayWindowControllerDidDisplayWindowNotification
 					 object:self];
 
 		if ([observer respondsToSelector:@selector(displayWindowControllerWillTakeDownWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillTakeWindowDown:)
-					   name:(NSString *)GrowlDisplayWindowControllerWillTakeWindowDownNotification
+					   name:GrowlDisplayWindowControllerWillTakeWindowDownNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeWindowDown:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidTakeWindowDown:)
-					   name:(NSString *)GrowlDisplayWindowControllerDidTakeWindowDownNotification
+					   name:GrowlDisplayWindowControllerDidTakeWindowDownNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerNotificationBlocked:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerNotificationBlocked:)
-					   name:(NSString *)GrowlDisplayWindowControllerNotificationBlockedNotification
+					   name:GrowlDisplayWindowControllerNotificationBlockedNotification
 					 object:self];
 	}
 }
