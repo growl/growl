@@ -37,7 +37,9 @@
 	[super stopAnimation];
 }
 
-- (void) animationDidEnd {
+- (void) animationDidEnd {	
+	[super animationDidEnd];
+
 	if (autoReverses)
 		[self setDirection:![self direction]];
 }

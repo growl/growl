@@ -295,7 +295,7 @@ static NSMutableDictionary *existingInstances;
 #pragma mark-
 
 - (NSArray *) allTransitions {
-	return (NSArray *)windowTransitions;
+	return [windowTransitions allValues];
 }
 
 - (NSArray *) activeTransitions {
@@ -310,7 +310,7 @@ static NSMutableDictionary *existingInstances;
 			[result addObject:transition];
 	}
 
-	return (NSArray *)result;
+	return result;
 }
 
 - (NSArray *) inactiveTransitions {
@@ -325,7 +325,7 @@ static NSMutableDictionary *existingInstances;
 			[result addObject:transition];
 	}
 
-	return (NSArray *)result;
+	return result;
 }
 
 - (BOOL) startAllTransitions {
