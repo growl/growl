@@ -54,7 +54,6 @@ static unsigned webkitWindowDepth = 0U;
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
-
 	if (!(self = [super initWithWindow:panel]))
 		return nil;
 
@@ -75,8 +74,6 @@ static unsigned webkitWindowDepth = 0U;
 		return nil;
 	}
 	baseURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)[displayBundle resourcePath], kCFURLPOSIXPathStyle, true);
-
-	[self setDelegate:self]; // Needed???
 
 	// Read the prefs for the plugin...
 	unsigned theScreenNo = 0U;
@@ -122,6 +119,7 @@ static unsigned webkitWindowDepth = 0U;
 	[panel useOptimizedDrawing:YES];
 	[panel disableCursorRects];
 	[panel setHasShadow:hasShadow];
+	[panel setDelegate:self];
 
 	// Configure the view
 	NSRect panelFrame = [panel frame];
@@ -160,6 +158,12 @@ static unsigned webkitWindowDepth = 0U;
 	[templateHTML release];
 
 	[super dealloc];
+}
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	NSLog(@"should close... %@",self);
+	return [super windowShouldClose:sender];
 }
 
 - (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
@@ -209,7 +213,7 @@ static unsigned webkitWindowDepth = 0U;
 	CFRelease(baseURL);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
-	[self retain];							// Needed?
+
 	[webFrame loadHTMLString:(NSString *)htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	CFRelease(htmlString);
@@ -254,8 +258,16 @@ static unsigned webkitWindowDepth = 0U;
 	if (!positioned) {
 		NSRect panelFrame = [view frame];
 		NSRect screen = [[self screen] visibleFrame];
+		
+		//Unregister from our previously reserved frame
+		NSLog(@"&&&& --- repositioning display");
+		[[GrowlPositionController sharedInstance] clearReservedRect:[myWindow frame] inScreen:[myWindow screen]];
+		//Set the new frame
 		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
 												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
+		//Register for our new frame
+		NSLog(@"&&&& +++ repositioning display");
+		[[GrowlPositionController sharedInstance] positionDisplay:self];
 
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
 		if (NSMinY(panelFrame) < 0.0f)
@@ -265,15 +277,19 @@ static unsigned webkitWindowDepth = 0U;
 		positioned = YES;
 	}
 	[myWindow invalidateShadow];
-	[self startDisplay];			//-> Hopefuly this will handle all the transitions etc and know what state we are already in.
-	[self release];	// we retained before loadHTMLString
+	//[self startDisplay];			//-> Hopefuly this will handle all the transitions etc and know what state we are already in.
 }
 
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
-    //NSLog(@"in -setNotification:, old value of notification: %@, changed to: %@", notification, theNotification);
-
     if (notification == theNotification)
 		return;
+
+	if (notification) {
+		//Unregister from our previously reserved frame
+		NSLog(@"&&&& ---- setnotification repositioning display");
+
+		[[GrowlPositionController sharedInstance] clearReservedRect:[[self window] frame] inScreen:[[self window] screen]];
+	}
 
 	[super setNotification:theNotification];
 
@@ -286,11 +302,15 @@ static unsigned webkitWindowDepth = 0U;
 
 	NSPanel *panel = (NSPanel *)[self window];
 	WebView *view = [panel contentView];
-	[self retain];
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
 	NSRect panelFrame = [view frame];
+	
 	[panel setFrame:panelFrame display:NO];
+
+	//Register for our new frame
+	NSLog(@"&&&& ++++ setnotification repositioning display");
+	[[GrowlPositionController sharedInstance] positionDisplay:self];
 }
 
 #pragma mark -
@@ -379,11 +399,6 @@ static unsigned webkitWindowDepth = 0U;
 
 - (float) requiredDistanceFromExistingDisplays {
 	return paddingY;
-}
-
-- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	// We go against the recommendation to not retain here to test if it fixes a memory issue
-	bridge = [theBridge retain];
 }
 
 @end
