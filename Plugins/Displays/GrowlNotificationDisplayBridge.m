@@ -44,7 +44,7 @@
 }
 
 - (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc  {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		windowControllerClass = (wcc ? wcc : NSClassFromString(@"GrowlDisplayWindowController"));
 		display               =  newDisplay;
 		notification          = [newNotification retain];
@@ -56,6 +56,7 @@
 }
 
 - (void) dealloc {
+	NSLog(@"++++++ -[%@ dealloc]", self);
 	[windowControllers release];
 
 	[notification release];
@@ -111,8 +112,9 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
-	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
 	[windowControllerToRemove removeNotificationObserver:self];
+
+	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);
@@ -120,7 +122,8 @@
 
 - (NSArray *) windowControllers {
 #warning should this call -makeWindowControllers? discuss. --boredzo
-	return [[windowControllers copy] autorelease];
+	/* If this is [[windowControllers copy] autorelease], all the contained objects end up being leaked! Why? */
+	return windowControllers;
 }
 
 @end
