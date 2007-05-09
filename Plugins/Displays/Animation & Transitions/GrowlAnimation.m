@@ -63,7 +63,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 	BOOL shouldStart = YES;
 
 	//Ask for permission to start from our delegate
-	if (delegate)
+	if (delegate && [delegate respondsToSelector:@selector(growlAnimationShouldStart:)])
 		shouldStart = [delegate growlAnimationShouldStart:self];
 
 	if (shouldStart) {
@@ -252,7 +252,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 
 - (void) doAnimationStep {
 	//The delegate may want to change our progress
-	if (delegate)
+	if (delegate && [delegate respondsToSelector:@selector(growlAnimation:valueForProgress:)])
 		progress = [delegate growlAnimation:self valueForProgress:progress];
 
 	//Draw the animation
@@ -306,47 +306,18 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) animationIsInMiddle {
-	[delegate growlAnimationIsInMiddle:self];
+	if (delegate && [delegate respondsToSelector:@selector(growlAnimationIsInMiddle:)])
+		[delegate growlAnimationIsInMiddle:self];
 }
 
 - (void) animationDidStop {
-	[delegate growlAnimationDidStop:self];
+	if (delegate && [delegate respondsToSelector:@selector(growlAnimationDidStop:)])
+		[delegate growlAnimationDidStop:self];
 }
 
 - (void) animationDidEnd {
-	[delegate growlAnimationDidEnd:self];
-}
-
-@end
-
-#pragma mark -
-
-@implementation NSObject (GrowlAnimationDelegate)
-
-- (BOOL) growlAnimationShouldStart:(GrowlAnimation *)animation {
-#pragma unused(animation)
-	return YES;
-}
-
-- (void) growlAnimationDidStart:(GrowlAnimation*)animation {
-#pragma unused(animation)
-}
-
-- (void) growlAnimationIsInMiddle:(GrowlAnimation *)animation {
-#pragma unused(animation)
-}
-
-- (void) growlAnimationDidStop:(GrowlAnimation *)animation {
-#pragma unused(animation)
-}
-
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation {
-#pragma unused(animation)
-}
-
-- (float) growlAnimation:(GrowlAnimation *)animation valueForProgress:(GrowlAnimationProgress)progress {
-#pragma unused(animation)
-	return progress;
+	if (delegate && [delegate respondsToSelector:@selector(growlAnimationDidEnd:)])
+		[delegate growlAnimationDidEnd:self];
 }
 
 @end
