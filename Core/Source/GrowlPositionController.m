@@ -27,6 +27,7 @@
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
 		reservedRects = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		reservedRectsByController = [[NSMutableDictionary alloc] init];
 	}
 
 	return self;
@@ -225,6 +226,10 @@
 	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
 		[growlLog writeToLog:@"got a position the first time"];
 		[[displayController window] setFrameOrigin:displayFrame.origin];
+		
+		[self clearReservedRectForDisplayController:displayController];
+		[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
+									  forKey:[NSValue valueWithPointer:displayController]];
 		return YES;
 	}
 
@@ -367,6 +372,10 @@
 		// otherwise try and reserve the rect...
 		if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
 			[[displayController window] setFrameOrigin:displayFrame.origin];
+
+			[self clearReservedRectForDisplayController:displayController];
+			[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
+										  forKey:[NSValue valueWithPointer:displayController]];
 			return YES;
 		}
 	}
@@ -406,7 +415,18 @@
 				[reservedRectsOfScreen addObject:newRectValue];
 		}
 	}
+	if (result) NSLog(@"++ Reserved %@",NSStringFromRect(inRect));
+	return result;
+}
 
+- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen forDisplayController:(GrowlDisplayWindowController *)displayController
+{
+	BOOL result = [self reserveRect:inRect inScreen:inScreen];
+	if (result) {
+		[self clearReservedRectForDisplayController:displayController];
+		[reservedRectsByController setObject:[NSValue valueWithRect:inRect]
+									  forKey:[NSValue valueWithPointer:displayController]];
+	}
 	return result;
 }
 
@@ -417,8 +437,19 @@
 
 	@synchronized(reservedRectsOfScreen) {
 		//Remove the rect
-		if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]]))
+		if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]])) {
 			[reservedRectsOfScreen removeObject:value];
+			NSLog(@"-- cleared reserve for %@",NSStringFromRect(inRect));
+		}
+	}	
+}
+
+- (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
+{
+	NSValue *value = [reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]];
+	if (value) {
+		[self clearReservedRect:[value rectValue] inScreen:[[displayController window] screen]];
+		[reservedRectsByController removeObjectForKey:[NSValue valueWithPointer:displayController]];
 	}
 }
 

@@ -39,6 +39,8 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
 	int selectedPositionType;
 	enum GrowlPositionOrigin selectedCustomPosition;
 	CFMutableDictionaryRef	reservedRects;
+	
+	NSMutableDictionary	*reservedRectsByController;
 }
 
 /*!
@@ -56,6 +58,19 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  */
 + (enum GrowlPosition)selectedOriginPosition;
 
+/*!
+ * @method positionDisplay
+ * @abstract Reserves a rect for a notification in a specific screen.
+ * @discussion Preferred method for reserving a rect on the screen
+ * Before a notification is displayed, it should reserve the rect of screen it's going to use.
+ * When a rect is reserved, no other notification can use it so you must clear it when you're done with it. See
+ * clearReservedRectForDisplayController: for doing so.
+ * The precise location of displayController may change as a result of this method, which will move it
+ * to avoid intersecting with currently reserved rects. Because positionDisplay will only fail if the screen is completely
+ * filled with notifications, this is the preferred way to reserve a rect for a display controller.
+ * Any previously reserved rect for this displayController will be automatically cleared.
+ * @result YES or NO.  If the result is NO, you should go watch Heroes reruns instead, as there is currently no way to display a notification.
+ */
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController;
 
 /*!
@@ -71,15 +86,13 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  * @param inScreen The screen which contains inRect. If inScreen is nil, the main screen will be used.
  * @result YES or NO. If the result is NO, you should display your notification in a different rect/screen.
  */
-- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
+- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen forDisplayController:(GrowlDisplayWindowController *)displayController;
 
 /*!
- * @method clearReservedRect:inScreen:
- * @abstract Clear a reserved notification rect.
- * @param inRect The reserved rect that should be cleared.
- * @param inScreen The screen which contains inRect. If inScreen is nil, the main screen will be used.
+ * @method clearReservedRectForDisplayController
+ * @abstract Clear the reserved notification rect previously allotted to a display controller
  */
-- (void) clearReservedRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
+- (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController;
 
 - (enum GrowlPosition) originPosition;
 
