@@ -18,7 +18,7 @@
 
 //designated initialiser.
 - (id) initWithName:(NSString *)name author:(NSString *)author version:(NSString *)version pathname:(NSString *)pathname {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		pluginName     = [name     copy];
 		pluginAuthor   = [author   copy];
 		pluginVersion  = [version  copy];
