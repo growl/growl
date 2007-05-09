@@ -14,7 +14,7 @@
 @implementation GrowlBrowserEntry
 
 - (id) initWithDictionary:(NSDictionary *)dict {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		properties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, (CFDictionaryRef)dict);
 	}
 
@@ -22,7 +22,7 @@
 }
 
 - (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 		CFDictionarySetValue(properties, CFSTR("computer"), name);
 		CFDictionarySetValue(properties, CFSTR("netservice"), service);
