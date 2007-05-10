@@ -148,10 +148,6 @@
 	[panel setFrame:[view frame] display:NO];
 }
 
-- (NSString *) identifier {
-	return identifier;
-}
-
 #pragma mark -
 
 - (void) dealloc {
