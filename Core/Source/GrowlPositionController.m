@@ -238,8 +238,6 @@
 	enum GrowlExpansionDirection primaryDirection = [displayController primaryExpansionDirection];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
 
-	BOOL isOnScreen = YES;
-	
 	[growlLog writeToLog:@"---"];
 	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
@@ -315,6 +313,7 @@
 								NSMinX(usedRects[i]) < bestSecondaryOrigin) {
 								haveBestSecondaryOrigin = YES;
 								bestSecondaryOrigin = NSMinX(usedRects[i]) - NSWidth(displayFrame);
+								NSLog(@"New best secondary is %f",bestSecondaryOrigin);
 							}
 							break;
 						}
@@ -333,66 +332,60 @@
 							return NO;
 							break;
 					}
-					
-					break;
 				}
 			}
 			
 			if (!intersects) break;
 		}
 
-		// make sure the new rect still fits on screen...
-		BOOL lastAttemptWasOnScreen = isOnScreen;
-		isOnScreen = (NSContainsRect(screenFrame,displayFrame) ? YES : NO);
-
-		// If the last two attempts were offscreen we've exausted all possibilities
-		if (!isOnScreen && !lastAttemptWasOnScreen)
-			break;
-
-		if (isOnScreen) {
-			// Try to reserve the resulting rect
+		if (NSContainsRect(screenFrame,displayFrame)) {
+			//The rect is on the screen! Try to reserve it.
 			if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
 				[[displayController window] setFrameOrigin:displayFrame.origin];
 				
 				[self clearReservedRectForDisplayController:displayController];
 				[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
 											  forKey:[NSValue valueWithPointer:displayController]];
+				free(usedRects);
 				return YES;
 			}
-			
-		} else {
-			// If we've run offscreen, use the secondary direction after resetting from our previous efforts
-			switch (primaryDirection) {
-				case GrowlDownExpansionDirection:
-				case GrowlUpExpansionDirection:
-					displayFrame.origin.y = idealFrame.origin.y;
-					break;
-				case GrowlLeftExpansionDirection:
-				case GrowlRightExpansionDirection:
-					displayFrame.origin.x = idealFrame.origin.x;
-					break;
-				case GrowlNoExpansionDirection:
-					NSLog(@"This should never happen");
-					free(usedRects);
-					return NO;
-					break;
-			}
-
-			switch (secondaryDirection) {
-				case GrowlDownExpansionDirection:
-				case GrowlUpExpansionDirection:
-					displayFrame.origin.y = bestSecondaryOrigin;
-					break;
-				case GrowlLeftExpansionDirection:
-				case GrowlRightExpansionDirection:
-					displayFrame.origin.x = bestSecondaryOrigin;
-					break;
-				case GrowlNoExpansionDirection:
-					NSLog(@"This should never happen");
-					free(usedRects);
-					return NO;
-					break;
-			}			
+		}
+		// If we've run offscreen or couldn't reserve that rect, use the secondary direction after resetting from our previous efforts
+		switch (primaryDirection) {
+			case GrowlDownExpansionDirection:
+			case GrowlUpExpansionDirection:
+				displayFrame.origin.y = idealFrame.origin.y;
+				break;
+			case GrowlLeftExpansionDirection:
+			case GrowlRightExpansionDirection:
+				displayFrame.origin.x = idealFrame.origin.x;
+				break;
+			case GrowlNoExpansionDirection:
+				NSLog(@"This should never happen");
+				free(usedRects);
+				return NO;
+				break;
+		}
+		
+		switch (secondaryDirection) {
+			case GrowlDownExpansionDirection:
+			case GrowlUpExpansionDirection:
+				displayFrame.origin.y = bestSecondaryOrigin;
+				break;
+			case GrowlLeftExpansionDirection:
+			case GrowlRightExpansionDirection:
+				displayFrame.origin.x = bestSecondaryOrigin;
+				break;
+			case GrowlNoExpansionDirection:
+				NSLog(@"This should never happen");
+				free(usedRects);
+				return NO;
+				break;
+		}
+		
+		if (!NSContainsRect(screenFrame,displayFrame)) {
+			NSLog(@"Could not display Growl notification; no screen space available.");
+			break;
 		}
 	}
 	
