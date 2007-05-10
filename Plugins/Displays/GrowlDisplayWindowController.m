@@ -99,6 +99,7 @@ static NSMutableDictionary *existingInstances;
 	[appName             release];
 	[appPid              release];
 	[windowTransitions   release];
+	[notification        release];
 
 	[super dealloc];
 }
@@ -410,7 +411,7 @@ static NSMutableDictionary *existingInstances;
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
     if (notification != theNotification) {
 		[notification release];
-		notification = [theNotification retain]; // should this be a weak ref?
+		notification = [theNotification retain];
 	}
 }
 
