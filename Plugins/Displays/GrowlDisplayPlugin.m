@@ -116,23 +116,21 @@
 			theBridge = [queue objectAtIndex:0U];
 			[[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
 
-#warning	leaking bridge
-//			[bridge release];
-			bridge = [theBridge retain];
+			if (bridge != theBridge) {
+				[bridge release];
+				bridge = [theBridge retain];
+			}
 			[queue removeObjectAtIndex:0U];		
 		}
 		else
 		{
-#warning	leaking bridge
-//			[bridge release];
+			[bridge release];
 			bridge = nil;
 		}
 	} else {
-#warning activeBridges leaks every used display bridge... uncommenting the below breaks positioning
-
 		theBridge = [activeBridges bridgeForWindowController:wc];
 		[theBridge removeWindowController:wc];
-//		[activeBridges removeObjectIdenticalTo:theBridge];
+		[activeBridges removeObjectIdenticalTo:theBridge];
 	}
 }
 
