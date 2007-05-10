@@ -14,10 +14,8 @@
 	float						frameHeight;
 	float						frameY;
 	int							priority;
-	NSString					*identifier;
 	bool						doFadeIn;
 	unsigned					depth;
 }
 
-- (NSString *) identifier;
 @end
