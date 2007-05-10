@@ -313,7 +313,6 @@
 								NSMinX(usedRects[i]) < bestSecondaryOrigin) {
 								haveBestSecondaryOrigin = YES;
 								bestSecondaryOrigin = NSMinX(usedRects[i]) - NSWidth(displayFrame);
-								NSLog(@"New best secondary is %f",bestSecondaryOrigin);
 							}
 							break;
 						}
