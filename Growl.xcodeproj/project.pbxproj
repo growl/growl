@@ -135,7 +135,6 @@
 		743EE18D0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 070C1AE50912D16600884E7D /* GrowlNonCopyingMutableDictionary.h */; };
 		743EE18E0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 070C1AE60912D16600884E7D /* GrowlNonCopyingMutableDictionary.m */; };
 		743EE1910927A866002A9670 /* GrowlDisplayWindowController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07803B8E08E7E75600299E08 /* GrowlDisplayWindowController.h */; };
-		743EE1920927A866002A9670 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
 		743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */; };
 		745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
 		745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
@@ -2521,7 +2520,6 @@
 				743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */,
 				743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */,
 				743EE18E0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.m in Sources */,
-				743EE1920927A866002A9670 /* GrowlDisplayWindowController.m in Sources */,
 				743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */,
 				C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */,
 				34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */,
