@@ -361,19 +361,6 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 @implementation GrowlUDPPathway
 
-- (id) init {
-	if ((self = [super init])) {
-		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
-			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-		// the icon has moved on 10.4
-		if (!notificationIcon)
-			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
-				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-	}
-
-	return self;
-}
-
 - (void) dealloc {
 	[self setEnabled:NO];
 	[notificationIcon release];
@@ -400,6 +387,15 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 #pragma mark -
 
 - (NSImage *) notificationIcon {
+	if (!notificationIcon) {
+		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+		// the icon has moved on 10.4
+		if (!notificationIcon)
+			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+	}
+
 	return notificationIcon;
 }
 
