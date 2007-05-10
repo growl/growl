@@ -20,6 +20,7 @@
 @interface GrowlPositionController (PRIVATE)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding;
 @end
 
 @implementation GrowlPositionController
@@ -225,7 +226,6 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
-		[growlLog writeToLog:@"got a position the first time"];
 		[[displayController window] setFrameOrigin:displayFrame.origin];
 		
 		[self clearReservedRectForDisplayController:displayController];
@@ -234,108 +234,111 @@
 		return YES;
 	}
 
-	// Something was blocking the display...try to find the next position for the display...
+	// Something was blocking the display...try to find the next position for the display.
 	enum GrowlExpansionDirection primaryDirection = [displayController primaryExpansionDirection];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
-	enum GrowlExpansionDirection directionToTry = primaryDirection;
 
-	BOOL usingSecondaryDirection = NO;
-	unsigned secondaryCount = 0U;
 	BOOL isOnScreen = YES;
 	
 	[growlLog writeToLog:@"---"];
 	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
-
 	
-	//XXX Sort and search!
+	int			numberOfRects;
+	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding];
 
-	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
-	NSValue *rectValue;
-	while (directionToTry) {
-		[growlLog writeToLog:@"*** top of loop"];
-		[growlLog writeToLog:@"directionToTry: %@", NSStringFromGrowlExpansionDirection(directionToTry)];
-		[growlLog writeToLog:@"usingSecondaryDirection: %hhi (secondaryDirection: %@)", usingSecondaryDirection, NSStringFromGrowlExpansionDirection(secondaryDirection)];
+	/* This will loop until the display is placed or we run off the screen entirely
+	 * A more 'efficient' implementation might sort all of the usedRects, then look at them iteratively.  I (evands) found it to be
+	 * thoroughly nontrivial to do such a sort in a robust fashion. While the below code does loop more than an 'efficient' search,
+	 * it ends up being a whole bunch of simple float comparisons in the worst case, which any modern computer can handle with ease. Let's
+	 * not over-optimize unless this is an actual bottleneck. :)
+	 */
+	while (1) {
+		BOOL haveBestSecondaryOrigin = NO;
+		float bestSecondaryOrigin = 0;
 
-		// adjust the rect...
-		NSEnumerator *rectEnum = [reservedRectsOfScreen objectEnumerator];
-		NSRect unionRect = NSZeroRect;
-		switch (directionToTry) {
-			case GrowlDownExpansionDirection:
-				if (secondaryDirection == GrowlLeftExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMaxX(rect) <= NSMaxX(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
+		while (NSContainsRect(screenFrame,displayFrame)) {
+			//Adjust in our primary direction
+			switch (primaryDirection) {
+				case GrowlDownExpansionDirection:
+					displayFrame.origin.y -= 1;
+					break;
+				case GrowlUpExpansionDirection:
+					displayFrame.origin.y += 1;
+					break;
+				case GrowlLeftExpansionDirection:
+					displayFrame.origin.x -= 1;
+					break;
+				case GrowlRightExpansionDirection:
+					displayFrame.origin.x += 1;
+					break;
+				case GrowlNoExpansionDirection:
+					NSLog(@"This should never happen");
+					free(usedRects);
+					return NO;
+					break;
+			}
+			
+			BOOL intersects = NO;
+			//Check to see if the proposed displayFrame intersects with any used rect
+			for (int i = 0; i < numberOfRects; i++) {
+				if (NSIntersectsRect(displayFrame, usedRects[i])) {
+					//We intersected. Sadness.
+					intersects = YES;
+					
+					/* Determine, based on this intersection, how far we should shift if we end up moving in
+					 * our secondary direction.
+					 */
+					switch (secondaryDirection) {
+						case GrowlDownExpansionDirection:
+						{
+							if (!haveBestSecondaryOrigin ||
+								NSMinY(usedRects[i]) > bestSecondaryOrigin) {
+								haveBestSecondaryOrigin = YES;
+								bestSecondaryOrigin = NSMinY(usedRects[i]) - NSHeight(displayFrame);
+							}
+							break;
+						}
+						case GrowlUpExpansionDirection:
+						{
+							if (!haveBestSecondaryOrigin ||
+								NSMaxY(usedRects[i]) < bestSecondaryOrigin) {
+								haveBestSecondaryOrigin = YES;
+								bestSecondaryOrigin = NSMaxY(usedRects[i]);
+							}
+							break;
+						}
+						case GrowlLeftExpansionDirection:
+						{
+							if (!haveBestSecondaryOrigin ||
+								NSMinX(usedRects[i]) < bestSecondaryOrigin) {
+								haveBestSecondaryOrigin = YES;
+								bestSecondaryOrigin = NSMinX(usedRects[i]) - NSWidth(displayFrame);
+							}
+							break;
+						}
+						case GrowlRightExpansionDirection:
+						{
+							if (!haveBestSecondaryOrigin ||
+								NSMaxX(usedRects[i]) < bestSecondaryOrigin) {
+								haveBestSecondaryOrigin = YES;
+								bestSecondaryOrigin = NSMaxX(usedRects[i]);
+							}
+							break;
+						}
+						case GrowlNoExpansionDirection:
+							NSLog(@"This should never happen");
+							free(usedRects);
+							return NO;
+							break;
 					}
-				} else if (secondaryDirection == GrowlRightExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMinX(rect) >= NSMinX(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else {
-					unionRect = displayFrame;
+					
+					break;
 				}
-				displayFrame.origin.y = NSMinY(unionRect) - padding - displayFrame.size.height;
-				break;
-			case GrowlUpExpansionDirection:
-				if (secondaryDirection == GrowlLeftExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMaxX(rect) <= NSMaxX(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else if (secondaryDirection == GrowlRightExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMinX(rect) >= NSMinX(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else {
-					unionRect = displayFrame;
-				}
-				displayFrame.origin.y = NSMaxY(unionRect) + padding;
-				break;
-			case GrowlLeftExpansionDirection:
-				if (secondaryDirection == GrowlUpExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMinY(rect) >= NSMinY(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else if (secondaryDirection == GrowlDownExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMaxY(rect) <= NSMaxY(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else {
-					unionRect = displayFrame;
-				}
-				displayFrame.origin.x = NSMinX(unionRect) - padding - displayFrame.size.width;
-				break;
-			case GrowlRightExpansionDirection:
-				if (secondaryDirection == GrowlUpExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMinY(rect) >= NSMinY(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else if (secondaryDirection == GrowlDownExpansionDirection) {
-					while ((rectValue = [rectEnum nextObject])) {
-						NSRect rect = [rectValue rectValue];
-						if (NSMaxY(rect) <= NSMaxY(displayFrame))
-							unionRect = NSUnionRect(unionRect, rect);
-					}
-				} else {
-					unionRect = displayFrame;
-				}
-				displayFrame.origin.x = NSMaxX(unionRect) + padding;
-				break;
-			default:
-				break;
+			}
+			
+			if (!intersects) break;
 		}
 
 		// make sure the new rect still fits on screen...
@@ -345,14 +348,6 @@
 		// If the last two attempts were offscreen we've exausted all possibilities
 		if (!isOnScreen && !lastAttemptWasOnScreen)
 			break;
-
-		// If we were using the secondary direction, switch back to the primary now...
-		if (usingSecondaryDirection) {
-			[growlLog writeToLog:@"switching from secondary direction %@ to primary direction %@", NSStringFromGrowlExpansionDirection(secondaryDirection), NSStringFromGrowlExpansionDirection(primaryDirection)];
-			
-			directionToTry = primaryDirection;
-			usingSecondaryDirection = NO;
-		}
 
 		if (isOnScreen) {
 			// Try to reserve the resulting rect
@@ -367,7 +362,7 @@
 			
 		} else {
 			// If we've run offscreen, use the secondary direction after resetting from our previous efforts
-			switch (directionToTry) {
+			switch (primaryDirection) {
 				case GrowlDownExpansionDirection:
 				case GrowlUpExpansionDirection:
 					displayFrame.origin.y = idealFrame.origin.y;
@@ -376,15 +371,33 @@
 				case GrowlRightExpansionDirection:
 					displayFrame.origin.x = idealFrame.origin.x;
 					break;
-				default:
+				case GrowlNoExpansionDirection:
+					NSLog(@"This should never happen");
+					free(usedRects);
+					return NO;
 					break;
 			}
-			directionToTry = secondaryDirection;
-			secondaryCount++;
-			usingSecondaryDirection = YES;
-			[growlLog writeToLog:@"now using secondary direction for the %uth time", secondaryCount];
+
+			switch (secondaryDirection) {
+				case GrowlDownExpansionDirection:
+				case GrowlUpExpansionDirection:
+					displayFrame.origin.y = bestSecondaryOrigin;
+					break;
+				case GrowlLeftExpansionDirection:
+				case GrowlRightExpansionDirection:
+					displayFrame.origin.x = bestSecondaryOrigin;
+					break;
+				case GrowlNoExpansionDirection:
+					NSLog(@"This should never happen");
+					free(usedRects);
+					return NO;
+					break;
+			}			
 		}
 	}
+	
+	free(usedRects);
+
 	return NO;
 }
 
@@ -436,14 +449,43 @@
 
 - (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
 {
+	NSValue *controllerKey = [NSValue valueWithPointer:displayController];
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[[displayController window] screen]];
-	NSValue *value = [reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]];
-	[reservedRectsOfScreen removeObject:value];
+	NSValue *value = [reservedRectsByController objectForKey:controllerKey];
 
-	[reservedRectsByController removeObjectForKey:[NSValue valueWithPointer:displayController]];
+	if (value) {
+		[reservedRectsOfScreen removeObject:value];
+		[reservedRectsByController removeObjectForKey:controllerKey];
+	}
 }
 
-//Returns the set of reserved rect for a specific screen
+/*!
+ * @method copyRectsInSet:count:padding
+ * @brief Returns a malloc'd array of NSRect structs which were contained as values in rectSet
+ *
+ * @param rectSet An NSSet which must contain only NSValues representing rects via -[NSValue rectValue]
+ * @param outCount If non-NULL, on return will have the number of rects in the returned array
+ * @param padding Padding to add to each returned rect in the rect array
+ * @result A malloc'd NSRectArray. This value should be freed after use.
+ */
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding
+{
+	NSEnumerator *enumerator = [rectSet objectEnumerator];
+	NSValue		 *value;
+	int			count = [rectSet count];
+	
+	if (outCount) *outCount = count;
+
+	NSRectArray gridRects = (NSRectArray)malloc(sizeof(NSRect) * count);
+	int i = 0;
+	while ((value = [enumerator nextObject])) {
+		gridRects[i++] = NSInsetRect([value rectValue], -padding, -padding);
+	}
+	
+	return gridRects;
+}
+
+//Returns the set of reserved rect for a specific screen. The return value *is* the storage!
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)screen {
 	NSMutableSet *result = nil;
 
