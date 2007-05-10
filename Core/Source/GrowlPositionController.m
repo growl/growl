@@ -19,6 +19,7 @@
 
 @interface GrowlPositionController (PRIVATE)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
+- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
 @end
 
 @implementation GrowlPositionController
@@ -233,7 +234,7 @@
 		return YES;
 	}
 
-	// Something was blocking the display...try and find the next position for the display...
+	// Something was blocking the display...try to find the next position for the display...
 	[growlLog writeToLog:@"---"];
 	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
@@ -348,8 +349,19 @@
 			usingSecondaryDirection = NO;
 		}
 
-		// If we've run offscreen see if we have a secondary direction...
-		if (!isOnScreen) {
+		if (isOnScreen) {
+			// Try to reserve the resulting rect
+			if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
+				[[displayController window] setFrameOrigin:displayFrame.origin];
+				
+				[self clearReservedRectForDisplayController:displayController];
+				[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
+											  forKey:[NSValue valueWithPointer:displayController]];
+				return YES;
+			}
+			
+		} else {
+			// If we've run offscreen see if we have a secondary direction...
 			switch (directionToTry) {
 				case GrowlDownExpansionDirection:
 				case GrowlUpExpansionDirection:
@@ -366,17 +378,6 @@
 			secondaryCount++;
 			usingSecondaryDirection = YES;
 			[growlLog writeToLog:@"now using secondary direction for the %uth time", secondaryCount];
-			continue;
-		}
-
-		// otherwise try and reserve the rect...
-		if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
-			[[displayController window] setFrameOrigin:displayFrame.origin];
-
-			[self clearReservedRectForDisplayController:displayController];
-			[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
-										  forKey:[NSValue valueWithPointer:displayController]];
-			return YES;
 		}
 	}
 	return NO;
@@ -392,28 +393,26 @@
 		NSEnumerator	*rectValuesEnumerator;
 		NSValue			*value;
 
-		@synchronized(reservedRectsOfScreen) {
-			//Make sure the rect is not already reserved
-			if ([reservedRectsOfScreen member:newRectValue]) {
-				result = NO;
-			} else {
-				rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
-
-				// Loop through all the values in reservedRects and make sure
-				// that the new rect does not intersect with any of the already
-				// reserved rects.
-				while ((value = [rectValuesEnumerator nextObject])) {
-					if (NSIntersectsRect(inRect, [value rectValue])) {
-						result = NO;
-						break;
-					}
+		//Make sure the rect is not already reserved
+		if ([reservedRectsOfScreen member:newRectValue]) {
+			result = NO;
+		} else {
+			rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
+			
+			// Loop through all the values in reservedRects and make sure
+			// that the new rect does not intersect with any of the already
+			// reserved rects.
+			while ((value = [rectValuesEnumerator nextObject])) {
+				if (NSIntersectsRect(inRect, [value rectValue])) {
+					result = NO;
+					break;
 				}
 			}
-
-			// Add the new rect if it passed the intersection test
-			if (result)
-				[reservedRectsOfScreen addObject:newRectValue];
 		}
+		
+		// Add the new rect if it passed the intersection test
+		if (result)
+			[reservedRectsOfScreen addObject:newRectValue];
 	}
 	if (result) NSLog(@"++ Reserved %@",NSStringFromRect(inRect));
 	return result;
@@ -430,27 +429,14 @@
 	return result;
 }
 
-//Clear a reserved rect from a specific screen.
-- (void) clearReservedRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
-	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
-	NSValue		 *value;
-
-	@synchronized(reservedRectsOfScreen) {
-		//Remove the rect
-		if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]])) {
-			[reservedRectsOfScreen removeObject:value];
-			NSLog(@"-- cleared reserve for %@",NSStringFromRect(inRect));
-		}
-	}	
-}
-
 - (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
 {
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[[displayController window] screen]];
 	NSValue *value = [reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]];
-	if (value) {
-		[self clearReservedRect:[value rectValue] inScreen:[[displayController window] screen]];
-		[reservedRectsByController removeObjectForKey:[NSValue valueWithPointer:displayController]];
-	}
+	[reservedRectsOfScreen removeObject:value];
+	NSLog(@"-- cleared reserve for %@",NSStringFromRect(inRect));
+
+	[reservedRectsByController removeObjectForKey:[NSValue valueWithPointer:displayController]];
 }
 
 //Returns the set of reserved rect for a specific screen
@@ -466,11 +452,9 @@
 
 	//Make sure the set exists. If not, create it.
 	if (!result) {
-		@synchronized((NSMutableDictionary *)reservedRects) {
-			result = [[NSMutableSet alloc] init];
-			CFDictionarySetValue(reservedRects, screen, result);
-			[result release];
-		}
+		result = [[NSMutableSet alloc] init];
+		CFDictionarySetValue(reservedRects, screen, result);
+		[result release];
 	}
 
 	return result;
