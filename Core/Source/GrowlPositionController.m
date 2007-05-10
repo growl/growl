@@ -235,17 +235,22 @@
 	}
 
 	// Something was blocking the display...try to find the next position for the display...
-	[growlLog writeToLog:@"---"];
-	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
-	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
-	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
+	enum GrowlExpansionDirection primaryDirection = [displayController primaryExpansionDirection];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
-	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
-
 	enum GrowlExpansionDirection directionToTry = primaryDirection;
+
 	BOOL usingSecondaryDirection = NO;
 	unsigned secondaryCount = 0U;
 	BOOL isOnScreen = YES;
+	
+	[growlLog writeToLog:@"---"];
+	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
+	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
+	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
+
+	
+	//XXX Sort and search!
+
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
 	NSValue *rectValue;
 	while (directionToTry) {
@@ -361,7 +366,7 @@
 			}
 			
 		} else {
-			// If we've run offscreen see if we have a secondary direction...
+			// If we've run offscreen, use the secondary direction after resetting from our previous efforts
 			switch (directionToTry) {
 				case GrowlDownExpansionDirection:
 				case GrowlUpExpansionDirection:
@@ -414,7 +419,7 @@
 		if (result)
 			[reservedRectsOfScreen addObject:newRectValue];
 	}
-	if (result) NSLog(@"++ Reserved %@",NSStringFromRect(inRect));
+
 	return result;
 }
 
@@ -434,7 +439,6 @@
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[[displayController window] screen]];
 	NSValue *value = [reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]];
 	[reservedRectsOfScreen removeObject:value];
-	NSLog(@"-- cleared reserve for %@",NSStringFromRect(inRect));
 
 	[reservedRectsByController removeObjectForKey:[NSValue valueWithPointer:displayController]];
 }
