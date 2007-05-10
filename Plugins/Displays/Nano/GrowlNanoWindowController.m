@@ -146,16 +146,8 @@
 
 - (void) dealloc {
 	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
-	[identifier  release];
 	[myWindow    release];
 	[super dealloc];
-}
-
-#pragma mark Accessors
-
-- (NSString *) identifier {
-	return identifier;
 }
 
 @end

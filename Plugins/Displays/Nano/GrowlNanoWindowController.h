@@ -15,11 +15,9 @@
 	float						frameHeight;
 	float						frameY;
 	int							priority;
-	NSString					*identifier;
 	bool						doFadeIn;
 	unsigned					depth;
 }
 
-- (NSString *) identifier;
 - (void) setDisplayMode:(BOOL)mode;
 @end
