@@ -12,7 +12,6 @@
 
 @interface GrowlBrushedWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
-	NSString	*identifier;
 	unsigned	uid;
 }
 

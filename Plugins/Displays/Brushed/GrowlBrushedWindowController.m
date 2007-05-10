@@ -72,6 +72,7 @@
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
+	[view release];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
@@ -94,14 +95,8 @@
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	//extern unsigned BrushedWindowDepth;
-	//if ( depth == brushedWindowDepth )
-	// 	brushedWindowDepth = 0;
-
 	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
 	[myWindow release];
-	[identifier release];
 
 	[super dealloc];
 }

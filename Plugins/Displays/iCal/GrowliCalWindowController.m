@@ -71,6 +71,7 @@
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
+	[view release];
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
@@ -87,9 +88,7 @@
 
 - (void) dealloc {
 	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
 	[myWindow release];
-	[identifier release];
 
 	[super dealloc];
 }

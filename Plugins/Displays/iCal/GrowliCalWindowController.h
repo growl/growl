@@ -13,7 +13,6 @@
 @class GrowlApplicationNotification;
 
 @interface GrowliCalWindowController : GrowlDisplayWindowController {
-	NSString	*identifier;
 	unsigned	uid;
 }
 

@@ -11,7 +11,6 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlSmokeWindowController : GrowlDisplayWindowController {
-	NSString	*identifier;
 	unsigned	uid;
 }
 

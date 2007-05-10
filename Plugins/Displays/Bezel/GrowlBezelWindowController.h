@@ -8,8 +8,6 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class GrowlBezelWindowView, GrowlAnimation;
-
 @interface GrowlBezelWindowController : GrowlDisplayWindowController {
 
 	int						priority;
@@ -17,12 +15,6 @@
 	BOOL					flipOut;
 	BOOL					shrinkEnabled;
 	BOOL					flipEnabled;
-	NSString				*identifier;
 }
-
-- (id) init;
-- (void) setNotification: (GrowlApplicationNotification *) theNotification;
-- (NSString *) identifier;
-- (void) dealloc;
 
 @end

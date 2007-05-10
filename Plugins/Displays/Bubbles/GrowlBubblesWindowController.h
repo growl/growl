@@ -12,7 +12,6 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlBubblesWindowController : GrowlDisplayWindowController {
-	NSString	*identifier;
 	unsigned	uid;
 }
 

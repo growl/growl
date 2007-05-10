@@ -86,7 +86,9 @@
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
-	panelFrame = [view frame];
+	[view release];
+
+	panelFrame = [[panel contentView] frame];
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
@@ -154,8 +156,6 @@
 
 - (void) dealloc {
 	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
-	[identifier  release];
 	[myWindow    release];
 	[super dealloc];
 }
