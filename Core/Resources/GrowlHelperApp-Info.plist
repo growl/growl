@@ -82,7 +82,7 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>GrowlApplication</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

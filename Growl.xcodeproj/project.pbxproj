@@ -104,6 +104,8 @@
 		343354E60792FAFF00C84B15 /* GrowlApplicationBridge-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */; };
 		343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
+		34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */; };
+		34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34422F700BF3ED2E001DA9ED /* GrowlApplication.m */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		34B2755808423BE80092A5A0 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
@@ -501,6 +503,7 @@
 				072DE9BA09A10DEB006516DD /* GrowlTCPPathway.h in CopyFiles */,
 				070C5DAF09A7978F004F1E8C /* GrowlPathwayController.h in CopyFiles */,
 				93CD92BC0B5AF8CA000C39CD /* AWRippler.h in CopyFiles */,
+				34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +633,8 @@
 		343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "GrowlApplicationBridge-Carbon.h"; path = "Framework/Source/GrowlApplicationBridge-Carbon.h"; sourceTree = "<group>"; };
 		343354B20792F84B00C84B15 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
+		34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplication.h; path = Core/Source/GrowlApplication.h; sourceTree = "<group>"; };
+		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
 		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		349B3FA40A620F2D008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
@@ -1648,6 +1653,8 @@
 		CB5F836E0638B69900EADD7A /* HelperApp */ = {
 			isa = PBXGroup;
 			children = (
+				34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */,
+				34422F700BF3ED2E001DA9ED /* GrowlApplication.m */,
 				CB5F83A60638B8C800EADD7A /* HelperMain.m */,
 				07C2F34707D6F54E00B18524 /* SVNRevision.h */,
 				CB5F847F0638BD6200EADD7A /* Classes */,
@@ -2640,6 +2647,7 @@
 				070C5DB009A7978F004F1E8C /* GrowlPathwayController.m in Sources */,
 				93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */,
 				93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */,
+				34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

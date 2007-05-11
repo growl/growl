@@ -8,17 +8,15 @@
  */
 
 #import "GrowlApplicationController.h"
+#import "GrowlApplication.h"
 
-int main(void) {
+int main(int argc, const char *argv[]) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[NSApplication sharedApplication];
-
+	[GrowlApplication sharedApplication];
 	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
 	[pool release];
 
-	pool = [[NSAutoreleasePool alloc] init];
 	[NSApp run];
-	[pool release];
 
 	return EXIT_SUCCESS;
 }
