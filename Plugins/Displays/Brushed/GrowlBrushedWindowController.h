@@ -15,9 +15,6 @@
 	unsigned	uid;
 }
 
-- (id) init;
-- (void) dealloc;
-
 - (unsigned) depth;
 - (void) setNotification: (GrowlApplicationNotification *) theNotification;
 
