@@ -127,9 +127,11 @@ static NSMutableDictionary *existingInstances;
 	else
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
 
+	[self willDisplayNotification];
+
 	if (foundSpace) {
-		[self willDisplayNotification];
 		[window orderFront:nil];
+		
 		if ([self startAllTransitions]) {
 			[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
 					   withObject:nil
@@ -137,13 +139,17 @@ static NSMutableDictionary *existingInstances;
 		} else {
 			[self didFinishTransitionsBeforeDisplay];
 		}
-		[self didDisplayNotification];
-		return YES;
-	} else {
+	}
+
+	[self didDisplayNotification];
+
+	if (!foundSpace) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
 															object:self];
-		return NO;
+		[self stopDisplay];
 	}
+
+	return foundSpace;
 }
 
 - (void) stopDisplay {
