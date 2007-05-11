@@ -131,9 +131,7 @@
 	} else {
 		theBridge = [activeBridges bridgeForWindowController:wc];
 		[theBridge removeWindowController:wc];
-		NSLog(@"The bridge %@ has %i",theBridge,[theBridge retainCount]);
 		[activeBridges removeObjectIdenticalTo:theBridge];
-		NSLog(@"active bridges is now %@",activeBridges);
 	}
 	
 	[pool release];
