@@ -52,6 +52,17 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 	return self;
 }
 
+- (void)dealloc
+{
+	if (animationTimer) {
+		CFRunLoopTimerInvalidate(animationTimer);
+		CFRelease(animationTimer);
+		animationTimer = NULL;
+	}
+	
+	[super dealloc];
+}
+
 - (void) drawFrame:(GrowlAnimationProgress)progress {
 #pragma unused(progress)
 	//Override this in your subclass in order to draw your animation.
