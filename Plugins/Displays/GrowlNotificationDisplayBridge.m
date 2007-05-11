@@ -124,7 +124,6 @@
 
 - (NSArray *) windowControllers {
 #warning should this call -makeWindowControllers? discuss. --boredzo
-	/* If this is [[windowControllers copy] autorelease], all the contained objects end up being leaked! Why? */
 	return windowControllers;
 }
 
