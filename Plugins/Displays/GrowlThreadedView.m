@@ -15,7 +15,6 @@
 
 @implementation GrowlThreadedView
 
-#if 0
 //init and store the main thread
 - (id) initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect]))
@@ -61,5 +60,5 @@
 	[self unlockFocus];
 	--numberOfThreads;
 }
-#endif
+
 @end
