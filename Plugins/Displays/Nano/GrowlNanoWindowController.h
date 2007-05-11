@@ -16,7 +16,6 @@
 	float						frameY;
 	int							priority;
 	bool						doFadeIn;
-	unsigned					depth;
 }
 
 - (void) setDisplayMode:(BOOL)mode;

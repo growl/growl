@@ -11,11 +11,7 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlBrushedWindowController : GrowlDisplayWindowController {
-	unsigned	depth;
 	unsigned	uid;
 }
-
-- (unsigned) depth;
-- (void) setNotification: (GrowlApplicationNotification *) theNotification;
 
 @end

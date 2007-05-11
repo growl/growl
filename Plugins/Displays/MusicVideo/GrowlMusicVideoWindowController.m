@@ -145,8 +145,4 @@
 	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];
 }
 
-- (unsigned) depth {
-	return depth;
-}
-
 @end

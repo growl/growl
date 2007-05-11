@@ -15,7 +15,6 @@
 	float						frameY;
 	int							priority;
 	bool						doFadeIn;
-	unsigned					depth;
 }
 
 @end

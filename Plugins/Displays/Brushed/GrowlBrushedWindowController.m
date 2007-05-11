@@ -26,7 +26,6 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-	NSRect screen = [[self screen] visibleFrame];
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
@@ -76,8 +75,6 @@
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlBrushedPadding,
-											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
@@ -94,10 +91,6 @@
 }
 
 #pragma mark -
-
-- (unsigned) depth {
-	return depth;
-}
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
 	[super setNotification:theNotification];
@@ -120,10 +113,6 @@
 
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
-	NSRect screen = [[self screen] visibleFrame];
-		
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - GrowlBrushedPadding,
-											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 }
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {

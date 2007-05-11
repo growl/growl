@@ -136,10 +136,6 @@
 	[panel setFrameOrigin:NSMakePoint( NSMinX(screen), NSMaxY(screen))];
 }
 
-- (unsigned) depth {
-	return depth;
-}
-
 - (void) setDisplayMode:(BOOL)mode {
 #pragma unused(mode)
 }
