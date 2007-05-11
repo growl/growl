@@ -56,7 +56,6 @@
 }
 
 - (void) dealloc {
-	NSLog(@"++++++ -[%@ dealloc]", self);
 	[windowControllers release];
 
 	[notification release];
@@ -112,9 +111,12 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
-	[windowControllerToRemove removeNotificationObserver:self];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+	[windowControllerToRemove removeNotificationObserver:self];
 	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
+
+	[pool release];
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);
