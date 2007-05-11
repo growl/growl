@@ -389,6 +389,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Dispatching notifications
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
 
 	// Make sure this notification is actually registered
@@ -515,6 +517,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		else
 			[self forwardNotification:dict];
 	}
+
+	[pool release];
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
@@ -820,6 +824,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (!userInfo)
 		return;
 
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString *appPath = [userInfo objectForKey:@"NSApplicationPath"];
 
 	if (appPath) {
@@ -883,6 +888,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			CFRelease(ticketURL);
 		}
 	}
+
+	[pool release];
 }
 
 @end
