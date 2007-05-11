@@ -108,7 +108,6 @@
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
-	NSLog(@"%@\n", destinations);
 	NSEnumerator *destEnum = [destinations objectEnumerator];
 	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
 	NSDictionary *destination;
@@ -797,7 +796,6 @@
 #pragma unused(aTableView)
 	if(aTableColumn == servicePasswordColumn) {
 		[[services objectAtIndex:rowIndex] setPassword:anObject];
-		NSLog(@"%@\n", [[services objectAtIndex:rowIndex] password]);
 	}
 
 }
