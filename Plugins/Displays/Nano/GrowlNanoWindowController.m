@@ -106,8 +106,10 @@
 			[wiper release];
 		}
 	}
-	return self;
+	
+	[panel release];
 
+	return self;
 }
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
@@ -143,11 +145,5 @@
 }
 
 #pragma mark -
-
-- (void) dealloc {
-	NSWindow *myWindow = [self window];
-	[myWindow    release];
-	[super dealloc];
-}
 
 @end

@@ -77,7 +77,6 @@
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
 	[panel setAlphaValue:0.0f];
-	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	[panel setDelegate:self];
 
 	GrowlBezelWindowView *view = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
@@ -123,6 +122,8 @@
 			[flipper release];
 		}
 	}
+	[panel release];
+
 	return self;
 }
 
@@ -147,15 +148,6 @@
 	[view setIcon:icon];
 	[panel setFrame:[view frame] display:NO];
 }
-
-#pragma mark -
-
-- (void) dealloc {
-	NSWindow *myWindow = [self window];
-	[myWindow    release];
-	[super dealloc];
-}
-
 
 #pragma mark -
 #pragma mark positioning methods

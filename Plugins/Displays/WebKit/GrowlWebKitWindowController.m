@@ -144,6 +144,8 @@ static unsigned webkitWindowDepth = 0U;
 	[fader setAutoReverses:YES];
 	[fader release];
 	
+	[panel release];
+
 	return self;
 }
 

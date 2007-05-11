@@ -71,15 +71,9 @@
 		[fader setAutoReverses:YES];
 		[fader release];
 	}
+	[panel release];
 
 	return self;
-}
-
-- (void) dealloc {
-	NSWindow *myWindow = [self window];
-	[myWindow release];
-
-	[super dealloc];
 }
 
 #pragma mark -

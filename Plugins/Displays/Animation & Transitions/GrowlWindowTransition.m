@@ -74,8 +74,11 @@
 }
 
 - (void) dealloc {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self setDelegate:nil];	//Remove the delegate from the notification center
 	[window release];
+	[pool release];
+
 	[super dealloc];
 }
 

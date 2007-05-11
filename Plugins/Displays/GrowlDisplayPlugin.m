@@ -106,6 +106,7 @@
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	GrowlNotificationDisplayBridge *theBridge;
 
 	if(queue)
@@ -130,8 +131,12 @@
 	} else {
 		theBridge = [activeBridges bridgeForWindowController:wc];
 		[theBridge removeWindowController:wc];
+		NSLog(@"The bridge %@ has %i",theBridge,[theBridge retainCount]);
 		[activeBridges removeObjectIdenticalTo:theBridge];
+		NSLog(@"active bridges is now %@",activeBridges);
 	}
+	
+	[pool release];
 }
 
 @end

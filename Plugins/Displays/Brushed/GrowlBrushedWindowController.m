@@ -88,17 +88,9 @@
 		[self addTransition:fader];
 		[fader release];
 	}
+	[panel release];
 
 	return self;
-}
-
-- (void) dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	NSWindow *myWindow = [self window];
-	[myWindow release];
-
-	[super dealloc];
 }
 
 #pragma mark -

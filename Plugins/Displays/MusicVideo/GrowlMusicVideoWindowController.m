@@ -115,6 +115,9 @@
 			//[wiper release];
 		}
 	}
+	
+	[panel release];
+
 	return self;
 
 }
@@ -144,14 +147,6 @@
 
 - (unsigned) depth {
 	return depth;
-}
-
-#pragma mark -
-
-- (void) dealloc {
-	NSWindow *myWindow = [self window];
-	[myWindow    release];
-	[super dealloc];
 }
 
 @end
