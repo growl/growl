@@ -37,8 +37,6 @@
 }
 @end
 
-static unsigned webkitWindowDepth = 0U;
-
 @implementation GrowlWebKitWindowController
 
 #define MIN_DISPLAY_TIME				4.0
@@ -150,9 +148,6 @@ static unsigned webkitWindowDepth = 0U;
 }
 
 - (void) dealloc {
-	if (depth == webkitWindowDepth)
-		webkitWindowDepth = 0U;
-
 	WebView *webView = [[self window] contentView];
 	[webView      setPolicyDelegate:nil];
 	[webView      setFrameLoadDelegate:nil];
@@ -250,26 +245,14 @@ static unsigned webkitWindowDepth = 0U;
 
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
-#warning all this needs to be handled by super or the positioning controller, left in for now
-	if (!positioned) {
-		NSRect panelFrame = [view frame];
-		NSRect screen = [[self screen] visibleFrame];
-		
-		//Set the new frame
-		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
-												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
-		//Update our new frame
-		[[GrowlPositionController sharedInstance] positionDisplay:self];
 
-		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-		if (NSMinY(panelFrame) < 0.0f)
-			depth = webkitWindowDepth = 0U;
-		else
-			depth = webkitWindowDepth += NSHeight(panelFrame) + paddingY;
+	if (!positioned) {
+		//Update our new frame
+		[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+		[[GrowlPositionController sharedInstance] positionDisplay:self];
 		positioned = YES;
 	}
 	[myWindow invalidateShadow];
-	//[self startDisplay];			//-> Hopefuly this will handle all the transitions etc and know what state we are already in.
 }
 
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
@@ -292,9 +275,6 @@ static unsigned webkitWindowDepth = 0U;
 	NSRect panelFrame = [view frame];
 	
 	[panel setFrame:panelFrame display:NO];
-
-	//Register for our new frame
-	[[GrowlPositionController sharedInstance] positionDisplay:self];
 }
 
 #pragma mark -

@@ -14,9 +14,8 @@
 	NSString                        *templateHTML;
 	CFURLRef                        baseURL;
 
-	unsigned	                    depth;
 	NSImage		                    *image;
-	BOOL		                    positioned;		// This should live in the super class
+	BOOL		                    positioned;
 	float		                    paddingX;
 	float		                    paddingY;
 }
