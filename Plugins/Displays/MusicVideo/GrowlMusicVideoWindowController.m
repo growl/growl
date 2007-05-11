@@ -78,46 +78,57 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-		int effect = 0;
+		MusicVideoEffectType effect = MUSICVIDEO_EFFECT_SLIDE;
 		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
-		if (effect == 0) {
-			//slider effect
-			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-			[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
-			[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-			[slider setAutoReverses:YES];
-			[self addTransition:slider];
-			[slider release];
-			
-		} else if (effect == MUSICVIDEO_EFFECT_FADING) {
-			GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-			[self addTransition:fader];
-			[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-			[fader setAutoReverses:YES];
-			[fader release];
-
-			// I am adding in a sliding transition from screen,screen to screen,screen to make sure the window is properly positioned during the animation - swr
-			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+		switch (effect)
+		{
+			case MUSICVIDEO_EFFECT_SLIDE:
+			{
+				//slider effect
+				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+				[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
+				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+				[slider setAutoReverses:YES];
+				[self addTransition:slider];
+				[slider release];
+				break;
+			}
+			case MUSICVIDEO_EFFECT_FADING:
+			{
+				GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+				[self addTransition:fader];
+				[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+				[fader setAutoReverses:YES];
+				[fader release];
+				
+				// I am adding in a sliding transition from screen,screen to screen,screen to make sure the window is properly positioned during the animation - swr
+				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
 				[slider setFromOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen)) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
 				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
 				[slider setAutoReverses:YES];
 				[self addTransition:slider];
 				[slider release];
-		} else {
-			//wipe effect
-			//[panel setFrameOrigin:NSMakePoint( 0, 0)];
-			//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-			// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-			//[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-			//[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-			//[wiper setAutoReverses:YES];
-			//[self addTransition:wiper];
-			//[wiper release];
+				break;
+			}
+			case MUSICVIDEO_EFFECT_WIPE:
+			{
+				//wipe effect
+#warning Wipe is not implemented. Remove it from the UI or implement it.
+				//[panel setFrameOrigin:NSMakePoint( 0, 0)];
+				//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+				// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+				//[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+				//[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+				//[wiper setAutoReverses:YES];
+				//[self addTransition:wiper];
+				//[wiper release];
+				break;
+			}
 		}
 	}
 	
 	[panel release];
-
+	
 	return self;
 
 }

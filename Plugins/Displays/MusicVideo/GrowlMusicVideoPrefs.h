@@ -23,9 +23,12 @@
 #define MUSICVIDEO_SIZE_HUGE			1
 
 #define MUSICVIDEO_EFFECT_PREF			@"Transition effect"
-#define MUSICVIDEO_EFFECT_SLIDE			0
-#define MUSICVIDEO_EFFECT_WIPE			1
-#define MUSICVIDEO_EFFECT_FADING		2
+typedef enum
+{
+	MUSICVIDEO_EFFECT_SLIDE	= 0,
+	MUSICVIDEO_EFFECT_WIPE = 1,
+	MUSICVIDEO_EFFECT_FADING = 2
+} MusicVideoEffectType;
 
 
 #define GrowlMusicVideoVeryLowBackgroundColor	@"MusicVideo-Priority-VeryLow-Color"
