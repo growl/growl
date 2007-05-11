@@ -14,8 +14,10 @@ int main(void) {
 	[NSApplication sharedApplication];
 
 	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
-	[NSApp run];
+	[pool release];
 
+	pool = [[NSAutoreleasePool alloc] init];
+	[NSApp run];
 	[pool release];
 
 	return EXIT_SUCCESS;
