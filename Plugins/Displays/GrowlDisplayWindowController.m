@@ -199,6 +199,10 @@ static NSMutableDictionary *existingInstances;
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
+
+	//Release all window transitions immediately; they may have retained our window.
+	[windowTransitions release]; windowTransitions = nil;
+
 	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
 
 	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
@@ -276,9 +280,10 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) removeTransition:(GrowlWindowTransition *)transition {
-	[windowTransitions removeObjectForKey:[transition class]];
 	[transition setDelegate:nil];
 	[transition setWindow:nil];
+	
+	[windowTransitions removeObjectForKey:[transition class]];
 }
 
 - (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition {
@@ -377,7 +382,8 @@ static NSMutableDictionary *existingInstances;
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
 	[transition stopAnimation];
-	
+	[self removeTransition:transition];
+
 	[[self class] cancelPreviousPerformRequestsWithTarget:transition
 												 selector:@selector(startAnimation)
 												   object:nil];
