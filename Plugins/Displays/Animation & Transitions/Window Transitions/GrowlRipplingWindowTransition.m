@@ -20,9 +20,12 @@
 
 - (void) animationDidStart {
 	[super animationDidStart];
-	[rippler rippleWindow:win];
-	[rippler release];
-	//[self setCurrentProgress:1.0f];
+	
+	if ([self currentProgress] < 1.0f) {
+		[rippler rippleWindow:win];
+		[rippler release]; rippler = nil;
+	}
+	[self setCurrentProgress:1.0f];
 	//[self stopAnimation];
 		
 }

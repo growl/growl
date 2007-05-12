@@ -59,7 +59,10 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 		CFRelease(animationTimer);
 		animationTimer = NULL;
 	}
-	
+
+	[startAnimation release];
+	[stopAnimation release];
+
 	[super dealloc];
 }
 
@@ -237,7 +240,10 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Private
 
 - (void) setStartAnimation:(GrowlAnimation *)animation {
-	startAnimation = animation;
+	if (startAnimation != animation) {
+		[startAnimation release];
+		startAnimation = [animation retain];
+	}
 }
 
 - (void) setStartAnimationProgress:(GrowlAnimationProgress)animationProgress {
@@ -247,7 +253,10 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 - (void) setStopAnimation:(GrowlAnimation *)animation {
-	stopAnimation = animation;
+	if (stopAnimation != animation) {
+		[stopAnimation release];
+		stopAnimation = [animation retain];
+	}
 }
 
 - (void) setStopAnimationProgress:(GrowlAnimationProgress)animationProgress {
