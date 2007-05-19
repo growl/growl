@@ -46,25 +46,30 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
                                           const nsAString &aAlertCookie,
                                           nsIObserver* aAlertListener)
 {
-  nsresult rv;
+  NS_ASSERTION(mDelegate->delegate == [GrowlApplicationBridge growlDelegate],
+               "Growl Delegate was not registered properly.");
 
   PRUint32 ind = 0;
   if (aAlertListener)
     ind = [mDelegate->delegate addObserver: aAlertListener];
 
+  nsresult rv;
   nsCOMPtr<nsIStringBundleService> bundleService =
     do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
-  if (NS_FAILED(rv)) return rv;
 
-  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(mBundle));
-  if (NS_FAILED(rv)) return rv;
+  nsString name = NS_LITERAL_STRING("General Notification");
+  if (NS_SUCCEEDED(rv)) {
+    nsCOMPtr<nsIStringBundle> bundle;
+    rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION,
+                                     getter_AddRefs(bundle));
 
-  nsString name;
-  mBundle->GetStringFromName(GENERAL_TITLE, getter_Copies(name));
+    if (NS_SUCCEEDED(rv)) {
+      rv = bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(name));
 
-  nsCOMPtr<nsAlertsImageLoadListener> listener =
-    new nsAlertsImageLoadListener(name, aAlertTitle, aAlertText, aAlertClickable,
-                                  aAlertCookie, ind);
+      if (NS_FAILED(rv))
+        name = NS_LITERAL_STRING("General Notification");
+    }
+  }
 
   nsCOMPtr<nsIIOService> io;
   io = do_GetService("@mozilla.org/network/io-service;1", &rv);
@@ -88,6 +93,12 @@ nsAlertsServiceMac::ShowAlertNotification(const nsAString &aImageUrl,
   nsCOMPtr<nsIChannel> chan;
   rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
   NS_ENSURE_SUCCESS(rv, rv);
+
+  nsCOMPtr<nsAlertsImageLoadListener> listener =
+    new nsAlertsImageLoadListener(name, aAlertTitle, aAlertText,
+                                  aAlertClickable, aAlertCookie, ind);
+  if (!listener)
+    return NS_ERROR_OUT_OF_MEMORY;
 
   nsCOMPtr<nsIStreamLoader> loader;
   loader = do_CreateInstance("@mozilla.org/network/stream-loader;1", &rv);

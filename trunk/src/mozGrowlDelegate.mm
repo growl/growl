@@ -24,28 +24,37 @@
     mKey = 0;
     mDict = [[NSMutableDictionary dictionaryWithCapacity: 8] retain];
 
-    mNames   = [[NSMutableArray arrayWithCapacity: 8] retain];
-    mEnabled = [[NSMutableArray arrayWithCapacity: 8] retain];
+    mNames   = [[NSMutableArray alloc] init];
+    mEnabled = [[NSMutableArray alloc] init];
 
     nsresult rv;
     nsCOMPtr<nsIStringBundleService> bundleService =
  	    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
- 	  NS_ENSURE_SUCCESS(rv, self);
 
-    nsCOMPtr<nsIStringBundle> bundle;
- 	  rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION, getter_AddRefs(bundle));
- 	  NS_ENSURE_SUCCESS(rv, self);
+    if (NS_SUCCEEDED(rv)) {
+      nsCOMPtr<nsIStringBundle> bundle;
+ 	    rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION,
+                                       getter_AddRefs(bundle));
 
-    nsString text;
-    bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
+      if (NS_SUCCEEDED(rv)) {
+        nsString text;
+        rv = bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(text));
+   
+        if (NS_SUCCEEDED(rv)) { 
+          NSString *s = [NSString stringWithCharacters: text.BeginReading()
+                                                length: text.Length()];
+
+          [mNames addObject: s];
+          [mEnabled addObject: s];
+
+          return self;
+        }
+      }
+    }
     
-    NSArray * arr = [NSArray arrayWithObject:
-      [NSString stringWithCharacters: text.BeginReading()
-                              length: text.Length()]];
-    
-    [self addNotificationNames: arr];
-    [self addEnabledNotifications: arr];
-
+    // Fallback
+    [mNames addObject: @"General Notification"];
+    [mEnabled addObject: @"General Notification"];
   }
 
   return self;
@@ -68,6 +77,8 @@
            key:(PRUint32)aKey
         cookie:(const nsAString&)aCookie
 {
+  NS_ASSERTION(aName.Length(), "No name specified for the alert!");
+
   NSDictionary* clickContext = nil;
   if (aKey)
     clickContext = [NSDictionary dictionaryWithObjectsAndKeys:

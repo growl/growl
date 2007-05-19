@@ -65,7 +65,7 @@ grNotifications::Init()
     do_GetService("@mozilla.org/observer-service;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
 
-  os->AddObserver(this, "profile-after-change", PR_FALSE);
+  os->AddObserver(this, "final-ui-startup", PR_FALSE);
 
   return NS_OK;
 }
@@ -143,10 +143,7 @@ NS_IMETHODIMP
 grNotifications::Observe(nsISupports *aSubject, const char *aTopic,
                          const PRUnichar *data)
 {
-#ifdef DEBUG
-  printf("\nI'm observering this:%s\n\n", aTopic);
-#endif
-  if (nsCRT::strcmp(aTopic, "profile-after-change") == 0) {
+  if (strcmp(aTopic, "final-ui-startup") == 0) {
     // get any extra notifications, then register with Growl
     nsRefPtr<grNotificationsList> notifications = new grNotificationsList();
 

@@ -23,7 +23,6 @@ public:
 
   nsAlertsServiceMac();
 private:
-  nsCOMPtr<nsIStringBundle> mBundle;
   GrowlDelegateWrapper* mDelegate;
   virtual ~nsAlertsServiceMac();
 };
