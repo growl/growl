@@ -33,7 +33,7 @@ public:
   nsresult Init();
 protected:
   virtual ~grNotifications();
-  GrowlDelegateWrapper* mDelegate;
+  GrowlDelegateWrapper *mDelegate;
 };
 
 #endif // grNotifications_h_

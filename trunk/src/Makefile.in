@@ -48,10 +48,7 @@ CMMSRCS = \
   nsAlertsServiceMac.mm \
   grApplicationBridge.mm \
   grNotifications.mm \
-  $(NULL)
-
-CPPSRCS = \
-  module.cpp \
+  module.mm \
   $(NULL)
 
 LOCAL_INCLUDES = \

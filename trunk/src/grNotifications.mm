@@ -15,10 +15,11 @@
 #include "nsIIOService.h"
 #include "nsIChannel.h"
 #include "nsIObserverService.h"
-#include "nsCRT.h"
 #include "nsAutoPtr.h"
 
 #import "wrapper.h"
+
+NSAutoreleasePool *gGrowlAutoreleasePool;
 
 class grNotificationsList : public grINotificationsList
 {
@@ -55,6 +56,8 @@ NS_INTERFACE_MAP_END_THREADSAFE
 nsresult
 grNotifications::Init()
 {
+  gGrowlAutoreleasePool = [[NSAutoreleasePool alloc] init];
+
   if ([GrowlApplicationBridge isGrowlInstalled] == YES)
     mDelegate = new GrowlDelegateWrapper();
   else
@@ -74,6 +77,8 @@ grNotifications::~grNotifications()
 {
   if (mDelegate)
     delete mDelegate;
+
+  [gGrowlAutoreleasePool release];
 }
 
 NS_IMETHODIMP
@@ -110,6 +115,8 @@ grNotifications::SendNotification(const nsAString &aName,
   listener = new nsAlertsImageLoadListener(aName, aTitle, aMessage,
                                            aObserver ? PR_TRUE : PR_FALSE,
                                            nsString(), ind);
+  if (!listener)
+    return NS_ERROR_OUT_OF_MEMORY;
 
   nsCOMPtr<nsIChannel> chan;
   rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
