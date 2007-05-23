@@ -1,0 +1,4 @@
+<!ENTITY Download.yes "Yes">
+<!ENTITY Download.no "No">
+<!ENTITY Download.title "Growl is not installed!">
+<!ENTITY Download.text "It appears that you do not have Growl installed.  Would you like to be directed to the Growl homepage to download it now?">
