@@ -16,6 +16,7 @@ const nsIObserver = Components.interfaces.nsIObserver;
 const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIFolderListener = Components.interfaces.nsIFolderListener;
 const grINotificationsList = Components.interfaces.grINotificationsList;
+const nsIWindowWatcher = Components.interfaces.nsIWindowWatcher;
 
 const CLASS_ID = Components.ID("33f659ee-9334-4f28-a742-344d95a520c4");
 const CLASS_NAME = "Mail Notifications";
@@ -77,7 +78,7 @@ grMailNotifications.prototype = {
           var ww = Components.classes["@mozilla.org/embedcomp/window-watcher;1"]
                              .getService(nsIWindowWatcher);
           ww.openWindow(null, "chrome://messenger/content/messenger.xul",
-                        "_blank", "chrome,dialog=no,resizable");
+                        "_blank", "chrome,dialog=no,resizable", null);
         }
 
         this.grn.makeAppFocused();
