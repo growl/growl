@@ -13,8 +13,8 @@ plugin.init =
 function init(glob)
 {
   /* This function is called when Chatzilla first loads the plugin. */
-  plugin.major = 0;
-  plugin.minor = 1;
+  plugin.major = 1;
+  plugin.minor = 0;
   plugin.version = plugin.major + "." + plugin.minor;
   plugin.description = "Displays growl notifications for chatzilla."
 
@@ -57,6 +57,27 @@ function disable()
   return true;
 }
 
+var growlObserver =
+{
+  observe: function observer(aSubject, aTopic, aData)
+  {
+    switch (aTopic) {
+      case "alertclickcallback":
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                           .getService(Components.interfaces.nsIWindowMediator);
+        var win = wm.getMostRecentWindow("irc:chatzilla");
+        if (win)
+          win.focus();
+
+        var grn = Components.classes["@growl.info/notifications;1"]
+                            .getService(Components.interfaces.grINotifications);
+        grn.makeAppFocused();
+        break;
+      default:
+    }
+  }
+}
+
 function growlGetString(aName)
 {
   const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
@@ -91,7 +112,7 @@ function growlPrivateMsg(e)
   var title = growlGetFormattedString("irc.pm.title", [evt.user.unicodeName]);
   var msg   = e.msg;
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlChannelMsg(e)
@@ -108,7 +129,7 @@ function growlChannelMsg(e)
                                       [evt.channelName, e.user.unicodeName]);
   var msg   = e.msg;
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlChannelJoin(e)
@@ -121,7 +142,7 @@ function growlChannelJoin(e)
   var msg   = growlGetFormattedString("irc.channel.join.msg",
                                       [e.user.unicodeName, evt.channelName]);
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlChannelPart(e)
@@ -134,7 +155,7 @@ function growlChannelPart(e)
   var msg   = growlGetFormattedString("irc.channel.part.msg",
                                       [e.user.unicodeName, e.channel.unicodeName]);
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlNetworkQuit(e)
@@ -147,7 +168,7 @@ function growlNetworkQuit(e)
   var msg   = growlGetFormattedString("irc.network.quit.msg",
                                       [e.user.unicodeName, e.decodeParam(1)]);
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlChannelInvite(e)
@@ -158,10 +179,10 @@ function growlChannelInvite(e)
   var img   = "chrome://chatzilla/skin/images/logo.png";
   var title = evt.network.unicodeName;
   var msg   = growlGetFormattedString("irc.channel.invite.msg",
-                                      [e.user.unicodeName, "user who was kicked",
+                                      [e.user.unicodeName, e.decodeParam(1),
                                        e.channel.unicodeName]);
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
 
 function growlChannelKick(e)
@@ -172,8 +193,8 @@ function growlChannelKick(e)
   var img   = "chrome://chatzilla/skin/images/logo.png";
   var title = evt.network.unicodeName;
   var msg   = growlGetFormattedString("irc.channel.kick.msg",
-                                      [e.user.unicodeName, "user who was kicked",
-                                       e.channel.unicodeName]);
+                                      [e.user.unicodeName, e.lamer.unicodeName,
+                                       e.channel.unicodeName, e.reason]);
 
-  growlSendNotification(name, img, title, msg, null);
+  growlSendNotification(name, img, title, msg, growlObserver);
 }
