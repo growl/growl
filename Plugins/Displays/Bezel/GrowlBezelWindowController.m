@@ -146,7 +146,6 @@
 	[view setTitle:title];
 	[view setText:text];
 	[view setIcon:icon];
-	[panel setFrame:[view frame] display:NO];
 }
 
 #pragma mark -

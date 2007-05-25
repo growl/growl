@@ -78,7 +78,6 @@
 
 #pragma mark -
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
-	NSLog(@"Updating to %@",theNotification);
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
@@ -95,7 +94,6 @@
 	[view setText:text];
 	[view setIcon:icon];
 	[view sizeToFit];
-	[view display];
 }
 
 - (void) stopDisplay {

@@ -108,7 +108,6 @@
 	[view setText:text];
 	[view setIcon:icon];
 	[view sizeToFit];
-	[panel setFrame:[view frame] display:NO];
 }
 
 #pragma mark -

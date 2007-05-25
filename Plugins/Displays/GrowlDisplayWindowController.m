@@ -116,9 +116,10 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 #pragma mark Display control
 
-- (BOOL) startDisplay {
+- (BOOL)reposition_startingDisplay:(BOOL)shouldStartDisplay
+{
 	NSWindow *window = [self window];
-
+	
 	//Make sure we don't cover any other notification (or not)
 	BOOL foundSpace = NO;
 	GrowlPositionController *pc = [GrowlPositionController sharedInstance];
@@ -126,33 +127,49 @@ static NSMutableDictionary *existingInstances;
 		foundSpace = [pc positionDisplay:self];
 	else
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
-
+	
 	if (foundSpace) {
-		[self cancelDisplayDelayedPerforms];
-
-		[self willDisplayNotification];
-		
-		[window orderFront:nil];
-
-		if ([self startAllTransitions]) {
-			[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
-					   withObject:nil
-					   afterDelay:transitionDuration];
-		} else {
-			[self didFinishTransitionsBeforeDisplay];
+		if (shouldStartDisplay) {
+			[self cancelDisplayDelayedPerforms];
+			
+			[self willDisplayNotification];
+			
+			[window orderFront:nil];
+			
+			if ([self startAllTransitions]) {
+				[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
+						   withObject:nil
+						   afterDelay:transitionDuration];
+			} else {
+				[self didFinishTransitionsBeforeDisplay];
+			}
+			
+			[self didDisplayNotification];
 		}
 		
-		[self didDisplayNotification];
-
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
 															object:self];
-
+		
 		//Try again in 10 seconds
+		if (!shouldStartDisplay) {
+			//If we're restarting, get this display off-screen while we wait
+			//XXX This should be more fluid
+			NSWindow *window = [self window];
+			[window orderOut:nil];
+
+			[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+			
+		}
 		[self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
 	}
-
+	
 	return foundSpace;		
+	
+}
+
+- (BOOL) startDisplay {
+	[self reposition_startingDisplay:YES];
 }
 
 - (void) stopDisplay {
@@ -461,6 +478,8 @@ static NSMutableDictionary *existingInstances;
 			[self didFinishTransitionsBeforeDisplay];
 			break;
 	}
+
+	[self reposition_startingDisplay:NO];
 }
 
 #pragma mark -

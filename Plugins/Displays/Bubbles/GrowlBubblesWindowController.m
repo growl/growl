@@ -100,14 +100,12 @@
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	
-	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBubblesWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
 	[view setTitle:title];
 	[view setText:text];
 	[view setIcon:icon];
 	[view sizeToFit];
-	[panel setFrame:[view frame] display:NO];
 }
 
 #pragma mark -

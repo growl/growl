@@ -103,16 +103,12 @@
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 
-	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBrushedWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
 	[view setTitle:title];
 	[view setText:text];
 	[view setIcon:icon];
 	[view sizeToFit];
-
-	NSRect viewFrame = [view frame];
-	[panel setFrame:viewFrame display:NO];
 }
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
