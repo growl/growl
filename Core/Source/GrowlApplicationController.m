@@ -400,6 +400,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
+		[pool release];
 		return;
 	}
 
