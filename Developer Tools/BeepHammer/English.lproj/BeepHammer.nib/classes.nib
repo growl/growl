@@ -6,7 +6,6 @@
                 cancelNotification = id; 
                 clearImage = id; 
                 editNotification = id; 
-                registerBeep = id; 
                 removeAllNotifications = id; 
                 removeNotification = id; 
                 sendNotification = id; 
@@ -26,6 +25,7 @@
                 mainWindow = NSWindow; 
                 notificationDefault = NSButton; 
                 notificationDescription = NSTextField; 
+                notificationIdentifier = NSTextField; 
                 notificationImage = NSImageView; 
                 notificationPanel = NSPanel; 
                 notificationPriority = NSPopUpButton; 

@@ -83,9 +83,9 @@
 	[notificationSticky      setState:NSOffState];
 	[notificationPriority    selectItemAtIndex:2]; //middle item: 'Normal' priority
 	[notificationImage       setImage:nil];
-	static NSString *empty = @"";
-	[notificationDescription setStringValue:empty];
-	[notificationTitle       setStringValue:empty];
+	[notificationDescription setStringValue:@""];
+	[notificationTitle       setStringValue:@""];
+	[notificationIdentifier  setStringValue:@""];
 
 	[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
 	[addEditButton setTitle:addButtonTitle];
@@ -110,6 +110,9 @@
 		[notificationImage       setImage:      [dict objectForKey:GROWL_NOTIFICATION_ICON]];
 		[notificationDescription setStringValue:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 		[notificationTitle       setStringValue:[dict objectForKey:GROWL_NOTIFICATION_TITLE]];
+		[notificationIdentifier  setStringValue:([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER] ?
+												 [dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
+												 @"")];
 
 		[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
 		[addEditButton setTitle:editButtonTitle];
@@ -166,7 +169,10 @@
 											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
 											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-										   clickContext:nil];							
+										   clickContext:nil
+											 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
+														 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
+														 nil)];	
 				
 				batchCount--;
 			}
@@ -187,7 +193,10 @@
 												   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
 												   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 												   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-											   clickContext:nil];					
+											   clickContext:nil
+												 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
+															 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
+															 nil)];
 				}
 				
 				batchCount--;
@@ -218,15 +227,17 @@
 		NSImage  *image        = [notificationImage image];
 		NSString *title        = [notificationTitle       stringValue];
 		NSString *desc         = [notificationDescription stringValue];
+		NSString *identifier   = [notificationIdentifier  stringValue];
 
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			title,         GROWL_NOTIFICATION_NAME,
 			title,         GROWL_NOTIFICATION_TITLE,
 			desc,          GROWL_NOTIFICATION_DESCRIPTION,
+			identifier,    GROWL_NOTIFICATION_IDENTIFIER,
 			priority,      GROWL_NOTIFICATION_PRIORITY,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
-			image,         GROWL_NOTIFICATION_ICON,
+			image,         GROWL_NOTIFICATION_ICON, /* May be nil, ending the dict */
 			nil];
 
 		NSNumber *indexNum = contextInfo;
