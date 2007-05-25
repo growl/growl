@@ -73,7 +73,7 @@
 	NSRect windowRect = [window frame];
 	windowRect.origin.y -= rect.size.height - windowRect.size.height;
 	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:NO];
+	[window setFrame:windowRect display:YES animate:YES];
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
