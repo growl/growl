@@ -155,7 +155,6 @@ static NSMutableDictionary *existingInstances;
 		if (!shouldStartDisplay) {
 			//If we're restarting, get this display off-screen while we wait
 			//XXX This should be more fluid
-			NSWindow *window = [self window];
 			[window orderOut:nil];
 
 			[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
