@@ -150,10 +150,6 @@
 	[view setTitle:title];
 	[view setText:text];
 	[view setIcon:icon];
-
-	NSRect viewFrame = [view frame];
-	[panel setFrame:viewFrame display:NO];
-	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];
 }
 
 @end

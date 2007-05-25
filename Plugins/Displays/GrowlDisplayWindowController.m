@@ -127,7 +127,7 @@ static NSMutableDictionary *existingInstances;
 		foundSpace = [pc positionDisplay:self];
 	else
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
-	
+
 	if (foundSpace) {
 		if (shouldStartDisplay) {
 			[self cancelDisplayDelayedPerforms];
@@ -213,7 +213,8 @@ static NSMutableDictionary *existingInstances;
 - (void) didFinishTransitionsBeforeDisplay {
 	[self cancelDisplayDelayedPerforms];
 
-	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]) {
+	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue] ||
+		![self supportsStickyNotifications]) {
 		[self performSelector:@selector(stopDisplay)
 				   withObject:nil
 				   afterDelay:(displayDuration+transitionDuration)];		
@@ -475,6 +476,7 @@ static NSMutableDictionary *existingInstances;
 			[self willDisplayNotification];
 			[self reverseAllTransitions];
 			[self didFinishTransitionsBeforeDisplay];
+
 			break;
 	}
 
@@ -562,6 +564,11 @@ static NSMutableDictionary *existingInstances;
 	[self willChangeValueForKey:@"screenNumber"];
 	screenNumber = newScreenNumber;
 	[self  didChangeValueForKey:@"screenNumber"];
+}
+
+- (BOOL)supportsStickyNotifications
+{
+	return ![[self window] ignoresMouseEvents];
 }
 
 #pragma mark -

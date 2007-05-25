@@ -183,6 +183,7 @@ typedef enum {
  */
 - (void) setFrameRate:(float)value;
 
+- (NSTimeInterval) animationDuration;
 
 /*!
  * @method delegate
@@ -195,6 +196,8 @@ typedef enum {
  * @abstract Sets the delegate of the receiver.
  */
 - (void) setDelegate:(id)newDelegate;
+
+- (void) setFramesPassed:(unsigned)inFramesPassed;
 
 /*!
  * @method framesPassed

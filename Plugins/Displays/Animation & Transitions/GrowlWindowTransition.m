@@ -108,6 +108,7 @@
 {
 	[self setDirection:![self direction]];
 	[self setCurrentProgress:(1.0 - [self currentProgress])];
+	[self setFramesPassed:(([self frameRate] * [self animationDuration]) * [self currentProgress])];
 
 	didAutoReverse = !didAutoReverse;
 }

@@ -129,15 +129,6 @@
 	[view setTitle:title];
 	[view setText:text];
 	[view setIcon:icon];
-
-	NSRect viewFrame = [view frame];
-	[panel setFrame:viewFrame display:NO];
-	NSRect screen = [[self screen] visibleFrame];
-	[panel setFrameOrigin:NSMakePoint( NSMinX(screen), NSMaxY(screen))];
-}
-
-- (void) setDisplayMode:(BOOL)mode {
-#pragma unused(mode)
 }
 
 #pragma mark -

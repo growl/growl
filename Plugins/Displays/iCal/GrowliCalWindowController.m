@@ -101,7 +101,6 @@
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	
-	NSPanel *panel = (NSPanel *)[self window];
 	GrowliCalWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
 	[view setTitle:title];

@@ -18,5 +18,4 @@
 	bool						doFadeIn;
 }
 
-- (void) setDisplayMode:(BOOL)mode;
 @end

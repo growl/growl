@@ -245,8 +245,18 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
+- (void) setFramesPassed:(unsigned)inFramesPassed
+{
+	framesPassed = inFramesPassed;
+}
+
 - (unsigned) framesPassed {
 	return framesPassed;
+}
+
+- (NSTimeInterval) animationDuration
+{
+	return animationDuration;
 }
 
 //===============================================================================//

@@ -140,7 +140,6 @@
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int myPriority  = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 
-	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBezelWindowView *view = [[self window] contentView];
 	[view setPriority:myPriority];
 	[view setTitle:title];
