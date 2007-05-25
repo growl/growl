@@ -222,9 +222,32 @@
 	NSPoint idealOrigin;
 	NSRect idealFrame;
 
+	enum GrowlExpansionDirection primaryDirection = [displayController primaryExpansionDirection];
+	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
+	
 	if ([reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]]) {
-		idealOrigin = [[reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]] rectValue].origin;
-		idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+		NSRect currentlyReservedRect = [[reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]] rectValue];
+		idealOrigin = currentlyReservedRect.origin;
+		
+		//The expansion direction determines which origins should be kept constant
+		switch (primaryDirection) {
+			case GrowlDownExpansionDirection:
+				idealOrigin.y += (currentlyReservedRect.size.height - displaySize.height);
+				break;
+			case GrowlUpExpansionDirection:
+				break;
+			case GrowlLeftExpansionDirection:
+				idealOrigin.x += (currentlyReservedRect.size.width - displaySize.width);
+				break;
+			case GrowlRightExpansionDirection:
+				break;
+			case GrowlNoExpansionDirection:
+				break;
+		}
+
+		idealFrame = NSMakeRect(idealOrigin.x, idealOrigin.y,
+								displaySize.width, displaySize.height);
+
 		if (!NSContainsRect(screenFrame,idealFrame)) {
 			idealOrigin = [displayController idealOriginInRect:screenFrame];
 			idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
@@ -237,13 +260,11 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-		[[displayController window] setFrameOrigin:displayFrame.origin];		
+		[[displayController window] setFrame:displayFrame display:YES animate:YES];		
 		return YES;
 	}
 
 	// Something was blocking the display...try to find the next position for the display.
-	enum GrowlExpansionDirection primaryDirection = [displayController primaryExpansionDirection];
-	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
 
 	[growlLog writeToLog:@"---"];
 	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
@@ -347,7 +368,7 @@
 		if (NSContainsRect(screenFrame,displayFrame)) {
 			//The rect is on the screen! Try to reserve it.
 			if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-				[[displayController window] setFrameOrigin:displayFrame.origin];				
+				[[displayController window] setFrame:displayFrame display:YES animate:YES];		
 				free(usedRects);
 				return YES;
 			}
