@@ -105,13 +105,6 @@ static NSButton *gCloseButton;
 	mouseOver = NO;
 	if ([delegate respondsToSelector:@selector(stopDisplay)])
 		[delegate performSelector:@selector(stopDisplay)];
-
-	/* NSButton can mess up our display in its rect after mouseUp,
-	 * so do a re-display on the next run loop.
-	 */
-	[self performSelector:@selector(display)
-			   withObject:nil
-			   afterDelay:0];
 }
 
 - (void) setCloseBoxVisible:(BOOL)yorn {
