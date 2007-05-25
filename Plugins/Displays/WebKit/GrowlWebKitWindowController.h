@@ -11,13 +11,13 @@
 @class WebView, GrowlApplicationNotification, GrowlNotificationDisplayBridge;
 
 @interface GrowlWebKitWindowController : GrowlDisplayWindowController {
-	NSString                        *templateHTML;
-	CFURLRef                        baseURL;
+	NSString		*templateHTML;
+	NSURL			*baseURL;
 
-	NSImage		                    *image;
-	BOOL		                    positioned;
-	float		                    paddingX;
-	float		                    paddingY;
+	NSImage			*image;
+	BOOL			positioned;
+	float			paddingX;
+	float			paddingY;
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;

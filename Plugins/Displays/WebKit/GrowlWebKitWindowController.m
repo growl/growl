@@ -71,7 +71,7 @@
 		[self release];
 		return nil;
 	}
-	baseURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)[displayBundle resourcePath], kCFURLPOSIXPathStyle, true);
+	baseURL = [[NSURL fileURLWithPath:[displayBundle resourcePath]] retain];
 
 	// Read the prefs for the plugin...
 	unsigned theScreenNo = 0U;
@@ -153,7 +153,8 @@
 	[webView      setFrameLoadDelegate:nil];
 	[image        release];
 	[templateHTML release];
-
+	[baseURL	  release];
+	
 	[super dealloc];
 }
 
@@ -182,6 +183,8 @@
 	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
 	CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 	CFRelease(uuid);
+	
+	[image release];
 	image = [icon retain];
 	[image setName:(NSString *)uuidString];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
@@ -192,16 +195,15 @@
 
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
-	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,              CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)title,      CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)text,       CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,					 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)title,			 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)text,			 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
 	CFRelease(uuidString);
 	CFRelease(opacityString);
-	CFRelease(baseURL);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 
@@ -246,12 +248,9 @@
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
 
-	if (!positioned) {
-		//Update our new frame
-		[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
-		[[GrowlPositionController sharedInstance] positionDisplay:self];
-		positioned = YES;
-	}
+	//Update our new frame
+	[[GrowlPositionController sharedInstance] positionDisplay:self];
+
 	[myWindow invalidateShadow];
 }
 
@@ -272,9 +271,9 @@
 	WebView *view = [panel contentView];
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
-	NSRect panelFrame = [view frame];
+//	NSRect panelFrame = [view frame];
 	
-	[panel setFrame:panelFrame display:NO];
+//	[panel setFrame:panelFrame display:NO];
 }
 
 #pragma mark -

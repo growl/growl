@@ -18,6 +18,10 @@
  */
 @interface GrowlDisplayPlugin : GrowlPlugin {
 	Class          windowControllerClass;
+	
+	//for all displays
+	NSMutableDictionary *coalescableBridges;
+	
 	//for non-queueing displays
 	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
 

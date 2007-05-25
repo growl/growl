@@ -127,6 +127,18 @@
 	return windowControllers;
 }
 
+#pragma mark -
+- (void)setNotification:(GrowlApplicationNotification *)inNotification
+{
+	if (notification != inNotification) {
+		[notification release];
+		notification = [inNotification retain];
+	}
+
+	[windowControllers makeObjectsPerformSelector:@selector(updateToNotification:)
+									   withObject:notification];
+}
+
 @end
 
 @implementation NSArray (GrowlDisplaySearching)

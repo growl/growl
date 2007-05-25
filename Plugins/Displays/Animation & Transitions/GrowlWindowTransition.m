@@ -104,4 +104,12 @@
 	}
 }
 
+- (void)reverse
+{
+	[self setDirection:![self direction]];
+	[self setCurrentProgress:(1.0 - [self currentProgress])];
+
+	didAutoReverse = !didAutoReverse;
+}
+
 @end

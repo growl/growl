@@ -37,16 +37,22 @@ typedef enum {
 - (id) initWithWindow:(NSWindow *)inWindow direction:(GrowlTransitionDirection)theDirection;
 
 /*!
-* @method window
+* @method autoReverses
 * @abstract Returns whether the receiver autoreverses its direction on finishing a transition.
 */
 - (BOOL) autoReverses;
 
 /*!
-* @method window
+* @method setAutoReverses
 * @abstract Sets whether the receiver autoreverses its direction on finishing a transition.
 */
 - (void) setAutoReverses: (BOOL) flag;
+
+/*!
+ * @method reverse
+ * @abstract Reverse the receiver
+ */
+- (void)reverse;
 
 /*!
 * @method window

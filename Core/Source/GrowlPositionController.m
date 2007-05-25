@@ -19,8 +19,7 @@
 
 @interface GrowlPositionController (PRIVATE)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
-- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
-- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding;
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController;
 @end
 
 @implementation GrowlPositionController
@@ -220,17 +219,25 @@
 	float padding = [displayController requiredDistanceFromExistingDisplays];
 
 	// Ask the display where it wants to be displayed in the first instance....
-	NSPoint idealOrigin = [displayController idealOriginInRect:screenFrame];
-	NSRect idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+	NSPoint idealOrigin;
+	NSRect idealFrame;
 
+	if ([reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]]) {
+		idealOrigin = [[reservedRectsByController objectForKey:[NSValue valueWithPointer:displayController]] rectValue].origin;
+		idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+		if (!NSContainsRect(screenFrame,idealFrame)) {
+			idealOrigin = [displayController idealOriginInRect:screenFrame];
+			idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+		}
+	} else {
+		idealOrigin = [displayController idealOriginInRect:screenFrame];
+		idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+	}
+	
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
-	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
-		[[displayController window] setFrameOrigin:displayFrame.origin];
-		
-		[self clearReservedRectForDisplayController:displayController];
-		[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
-									  forKey:[NSValue valueWithPointer:displayController]];
+	if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
+		[[displayController window] setFrameOrigin:displayFrame.origin];		
 		return YES;
 	}
 
@@ -244,7 +251,7 @@
 	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 	
 	int			numberOfRects;
-	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding];
+	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
 
 	/* This will loop until the display is placed or we run off the screen entirely
 	 * A more 'efficient' implementation might sort all of the usedRects, then look at them iteratively.  I (evands) found it to be
@@ -339,12 +346,8 @@
 
 		if (NSContainsRect(screenFrame,displayFrame)) {
 			//The rect is on the screen! Try to reserve it.
-			if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
-				[[displayController window] setFrameOrigin:displayFrame.origin];
-				
-				[self clearReservedRectForDisplayController:displayController];
-				[reservedRectsByController setObject:[NSValue valueWithRect:displayFrame]
-											  forKey:[NSValue valueWithPointer:displayController]];
+			if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
+				[[displayController window] setFrameOrigin:displayFrame.origin];				
 				free(usedRects);
 				return YES;
 			}
@@ -394,8 +397,9 @@
 }
 
 //Reserve a rect in a specific screen.
-- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
+- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen forDisplayController:(GrowlDisplayWindowController *)displayController {
 	BOOL result = YES;
+	NSValue *displayControllerValue = (displayController ? [NSValue valueWithPointer:displayController] : nil);
 
 	if (NSContainsRect([inScreen visibleFrame], inRect)) {	//inRect must be inside our screen
 		NSMutableSet	*reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
@@ -403,17 +407,19 @@
 		NSEnumerator	*rectValuesEnumerator;
 		NSValue			*value;
 
-		//Make sure the rect is not already reserved
-		if ([reservedRectsOfScreen member:newRectValue]) {
+		//Make sure the rect is not already reserved. However, if it is reserved by displayController, that's fine (it is just rerequesting its current space).
+		if ([reservedRectsOfScreen member:newRectValue] &&
+			(!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:newRectValue]))) {
 			result = NO;
 		} else {
 			rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
 			
 			// Loop through all the values in reservedRects and make sure
 			// that the new rect does not intersect with any of the already
-			// reserved rects.
-			while ((value = [rectValuesEnumerator nextObject])) {
-				if (NSIntersectsRect(inRect, [value rectValue])) {
+			// reserved rects, excepting if the displayController itself is reserving the rect.
+			while ((value = [rectValuesEnumerator nextObject])) {	
+				if ((NSIntersectsRect(inRect, [value rectValue])) && 
+					(!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:value]))) {
 					result = NO;
 					break;
 				}
@@ -421,23 +427,19 @@
 		}
 		
 		// Add the new rect if it passed the intersection test
-		if (result)
+		if (result) {
+			[self clearReservedRectForDisplayController:displayController];
+			[reservedRectsByController setObject:[NSValue valueWithRect:inRect]
+										  forKey:displayControllerValue];
 			[reservedRectsOfScreen addObject:newRectValue];
+		}
+	} else {
+		result = NO;
 	}
 
 	return result;
 }
 
-- (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen forDisplayController:(GrowlDisplayWindowController *)displayController
-{
-	BOOL result = [self reserveRect:inRect inScreen:inScreen];
-	if (result) {
-		[self clearReservedRectForDisplayController:displayController];
-		[reservedRectsByController setObject:[NSValue valueWithRect:inRect]
-									  forKey:[NSValue valueWithPointer:displayController]];
-	}
-	return result;
-}
 
 - (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
 {
@@ -458,20 +460,24 @@
  * @param rectSet An NSSet which must contain only NSValues representing rects via -[NSValue rectValue]
  * @param outCount If non-NULL, on return will have the number of rects in the returned array
  * @param padding Padding to add to each returned rect in the rect array
+ * @param displayController A display controller whose rect(s) should not be included. Pass nil to include all rects.
  * @result A malloc'd NSRectArray. This value should be freed after use.
  */
-- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController
 {
 	NSEnumerator *enumerator = [rectSet objectEnumerator];
 	NSValue		 *value;
-	int			count = [rectSet count];
+	NSValue		 *displayControllerValue = [NSValue valueWithPointer:displayController];
+	int			  count = [rectSet count];
 	
 	if (outCount) *outCount = count;
 
 	NSRectArray gridRects = (NSRectArray)malloc(sizeof(NSRect) * count);
 	int i = 0;
 	while ((value = [enumerator nextObject])) {
-		gridRects[i++] = NSInsetRect([value rectValue], -padding, -padding);
+		if (!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:value])) {
+			gridRects[i++] = NSInsetRect([value rectValue], -padding, -padding);
+		}
 	}
 	
 	return gridRects;

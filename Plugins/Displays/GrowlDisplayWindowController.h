@@ -17,6 +17,13 @@
 
 @class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification, GrowlNotificationView;
 
+typedef enum {
+	GrowlDisplayUnknownStatus = 0,
+	GrowlDisplayTransitioningInStatus,
+	GrowlDisplayOnScreenStatus,
+	GrowlDisplayTransitioningOutStatus
+} GrowlDisplayStatus;
+
 @interface GrowlDisplayWindowController : NSWindowController {
 	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
@@ -36,6 +43,8 @@
 	NSMapTable                       *startTimes;
 	NSMapTable                       *endTimes;
 
+	GrowlDisplayStatus				 displayStatus;
+	
 	CFTimeInterval		             displayDuration;
 	unsigned			             screenNumber;
 	unsigned			             screenshotMode: 1;
@@ -98,6 +107,9 @@
 /* Not to be called directly...these are managed via bindings */
 - (GrowlApplicationNotification *) notification;
 - (void) setNotification:(GrowlApplicationNotification *)theNotification;
+
+/* Used to make an existing window controller update to a new or modified notification */
+- (void) updateToNotification:(GrowlApplicationNotification *)theNotification;
 
 /* Not to be called directly...for KVO compliance only */
 - (GrowlNotificationDisplayBridge *)bridge;

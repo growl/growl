@@ -204,6 +204,13 @@
  */
 - (NSArray *) windowControllers;
 
+/*! @fn setNotification
+ *  @brief Sets the notification associated with this display
+ *
+ * @par
+ * The notification
+ */
+- (void)setNotification:(GrowlApplicationNotification *)inNotification;
 @end
 
 @interface NSArray (GrowlDisplaySearching)

@@ -128,10 +128,12 @@ static NSMutableDictionary *existingInstances;
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
 
 	if (foundSpace) {
+		[self cancelDisplayDelayedPerforms];
+
 		[self willDisplayNotification];
 		
 		[window orderFront:nil];
-		
+
 		if ([self startAllTransitions]) {
 			[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
 					   withObject:nil
@@ -186,6 +188,8 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) willDisplayNotification {
+	displayStatus = GrowlDisplayTransitioningInStatus;
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification
 														object:self];
 }
@@ -198,6 +202,8 @@ static NSMutableDictionary *existingInstances;
 				   withObject:nil
 				   afterDelay:(displayDuration+transitionDuration)];		
 	}
+	
+	displayStatus = GrowlDisplayOnScreenStatus;
 }
 
 - (void) didFinishTransitionsAfterDisplay {
@@ -230,6 +236,7 @@ static NSMutableDictionary *existingInstances;
 - (void) willTakeDownNotification {
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeWindowDownNotification
 														object:self];
+	displayStatus = GrowlDisplayTransitioningOutStatus;
 }
 
 - (void) didTakeDownNotification {
@@ -413,8 +420,13 @@ static NSMutableDictionary *existingInstances;
 	}
 }
 
+- (void)reverseAllTransitions
+{
+	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(reverse)];
+}
+
 #pragma mark -
-#pragma mark Accessors
+#pragma mark Notifications
 
 - (GrowlApplicationNotification *) notification {
 	// Only here for binding conformance
@@ -425,6 +437,29 @@ static NSMutableDictionary *existingInstances;
     if (notification != theNotification) {
 		[notification release];
 		notification = [theNotification retain];
+	}
+}
+
+- (void) updateToNotification:(GrowlApplicationNotification *)theNotification {
+	[self setNotification:theNotification];
+
+	switch (displayStatus) {
+		case GrowlDisplayUnknownStatus:
+		case GrowlDisplayTransitioningInStatus:
+			//Do nothing; we're still transitioning in
+			break;
+			
+		case GrowlDisplayOnScreenStatus:
+			//We're on screen; reset our timer for transitioning out
+			[self didFinishTransitionsBeforeDisplay];
+			break;
+			
+		case GrowlDisplayTransitioningOutStatus:
+			//We're transitioning out; we need to go back to transitioning in
+			[self willDisplayNotification];
+			[self reverseAllTransitions];
+			[self didFinishTransitionsBeforeDisplay];
+			break;
 	}
 }
 
