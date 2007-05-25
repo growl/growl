@@ -21,6 +21,7 @@ static NSMutableDictionary *existingInstances;
 
 @interface GrowlDisplayWindowController (PRIVATE)
 - (void)cancelDisplayDelayedPerforms;
+- (BOOL)supportsStickyNotifications;
 @end
 
 @implementation GrowlDisplayWindowController
@@ -168,7 +169,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (BOOL) startDisplay {
-	[self reposition_startingDisplay:YES];
+	return [self reposition_startingDisplay:YES];
 }
 
 - (void) stopDisplay {
