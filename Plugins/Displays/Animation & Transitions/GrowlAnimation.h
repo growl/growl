@@ -207,6 +207,12 @@ typedef enum {
 - (void) animationDidStop;
 - (void) animationDidEnd;
 
+/*!
+ * @method reset
+ * @abstract Return this animation to its original settings
+ */
+- (void)reset;
+
 @end
 
 

@@ -41,8 +41,10 @@
 	[self retain];
 	[super animationDidEnd];
 
-	if (autoReverses)
+	if (autoReverses) {
 		[self setDirection:![self direction]];
+		didAutoReverse = !didAutoReverse;
+	}
 	[self release];
 }
 
@@ -89,6 +91,17 @@
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
 #pragma unused(aWindow, progress)
 	//
+}
+
+- (void)reset
+{
+	[super reset];
+	
+	//If we autoreversed, reset to our original direction
+	if (autoReverses && didAutoReverse) {
+		[self setDirection:![self direction]];
+		didAutoReverse = NO;
+	}
 }
 
 @end

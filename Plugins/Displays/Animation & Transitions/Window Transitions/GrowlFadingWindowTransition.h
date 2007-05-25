@@ -11,6 +11,4 @@
 @interface GrowlFadingWindowTransition : GrowlWindowTransition {
 }
 
-- (void) reset;
-
 @end

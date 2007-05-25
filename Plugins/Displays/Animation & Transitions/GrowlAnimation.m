@@ -140,6 +140,22 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 	return (animationTimer && CFRunLoopTimerIsValid(animationTimer));
 }
 
+#pragma mark -
+
+- (void)reset
+{
+	//Reset our progress
+	progress = 0.0f;
+	framesPassed = 0U;
+	passedMiddleOfAnimation = NO;
+	
+	if (animationTimer) {
+		CFRunLoopTimerInvalidate(animationTimer);
+		CFRelease(animationTimer);
+		animationTimer = NULL;
+	}
+}
+
 //===============================================================================//
 //===============================================================================//
 //===============================================================================//

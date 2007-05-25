@@ -18,9 +18,10 @@ typedef enum {
  * @abstract Base class for window transitions.
  */
 @interface GrowlWindowTransition : GrowlAnimation {
-	NSWindow                   *window;
-	GrowlTransitionDirection   direction;
-	BOOL                       autoReverses;
+	NSWindow					*window;
+	GrowlTransitionDirection	direction;
+	BOOL						autoReverses;
+	BOOL						didAutoReverse;
 }
 
 /* calls initWithWindow:direction: passing GrowlForwardTransition */

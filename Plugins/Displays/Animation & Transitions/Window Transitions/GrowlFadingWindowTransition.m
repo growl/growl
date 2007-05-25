@@ -10,10 +10,6 @@
 
 @implementation GrowlFadingWindowTransition
 
-- (void) reset {
-	[[self window] setAlphaValue:1.0];
-}
-
 #pragma mark -
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
