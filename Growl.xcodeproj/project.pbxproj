@@ -106,8 +106,6 @@
 		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */; };
 		34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34422F700BF3ED2E001DA9ED /* GrowlApplication.m */; };
-		344231720BF4044D001DA9ED /* NSConnectionLeakHack.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 344231700BF4044D001DA9ED /* NSConnectionLeakHack.h */; };
-		344231730BF4044D001DA9ED /* NSConnectionLeakHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 344231710BF4044D001DA9ED /* NSConnectionLeakHack.m */; };
 		34725B140C0678AC00499F50 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; };
 		34725B150C0678AC00499F50 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; };
 		34725B160C0678AC00499F50 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; };
@@ -525,7 +523,6 @@
 				070C5DAF09A7978F004F1E8C /* GrowlPathwayController.h in CopyFiles */,
 				93CD92BC0B5AF8CA000C39CD /* AWRippler.h in CopyFiles */,
 				34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */,
-				344231720BF4044D001DA9ED /* NSConnectionLeakHack.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,8 +654,6 @@
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
 		34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplication.h; path = Core/Source/GrowlApplication.h; sourceTree = "<group>"; };
 		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
-		344231700BF4044D001DA9ED /* NSConnectionLeakHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSConnectionLeakHack.h; path = Core/Source/NSConnectionLeakHack.h; sourceTree = "<group>"; };
-		344231710BF4044D001DA9ED /* NSConnectionLeakHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSConnectionLeakHack.m; path = Core/Source/NSConnectionLeakHack.m; sourceTree = "<group>"; };
 		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34725B060C06788200499F50 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<group>"; };
 		34725B0F0C0678A000499F50 /* Growl.dylib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1713,8 +1708,6 @@
 				A1CC412609E37A65009EF9BD /* closebox.png */,
 				954F013B074135D400EA8AB5 /* Localizable.strings */,
 				CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */,
-				344231700BF4044D001DA9ED /* NSConnectionLeakHack.h */,
-				344231710BF4044D001DA9ED /* NSConnectionLeakHack.m */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2736,7 +2729,6 @@
 				93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */,
 				93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */,
 				34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */,
-				344231730BF4044D001DA9ED /* NSConnectionLeakHack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
