@@ -11,6 +11,8 @@
 #import "GrowlApplication.h"
 
 int main(int argc, const char *argv[]) {
+#pragma unused (argc)
+#pragma unused (argv)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[GrowlApplication sharedApplication];
 	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
