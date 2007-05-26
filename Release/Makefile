@@ -74,7 +74,7 @@ source:
 	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
+	#cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
 	cp $(SRC_DIR)/HACKING.txt $(BUILD_DIR)/source
 	cp $(SRC_DIR)/License.txt $(BUILD_DIR)/source
@@ -150,7 +150,7 @@ release:
 	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(SDK_DIR)/*.webloc
 	@# copy the scripts
-	cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
+	#cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
 	@# copy over relevant files to compile directly into app
 	mkdir $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Framework/Source/GrowlApplicationBridge.h $(SDK_DIR)/Built-In
