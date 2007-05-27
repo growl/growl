@@ -185,9 +185,9 @@ release:
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growl08DMGBackground.png $(GROWL_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.scpt
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.applescript
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.scpt
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.applescript
 	@echo Build finished
