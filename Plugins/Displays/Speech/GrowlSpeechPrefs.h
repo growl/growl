@@ -11,7 +11,9 @@
 @interface GrowlSpeechPrefs : NSPreferencePane {
 	IBOutlet NSTableView	*voiceList;
 	NSArray					*voices;
+	NSSpeechSynthesizer		*lastPreview;
 }
+- (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
 - (NSArray *) voices;
 - (void) setVoices:(NSArray *)theVoices;

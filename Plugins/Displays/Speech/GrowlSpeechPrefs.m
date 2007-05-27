@@ -37,6 +37,7 @@
 	}
 	[voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 	[voiceList scrollRowToVisible:row];
+	[voiceList setDoubleAction:@selector(previewVoice:)];
 }
 
 - (NSArray *) voices {
@@ -53,10 +54,26 @@
 	[super dealloc];
 }
 
+- (IBAction) previewVoice:(id)sender {
+	
+	int row = [sender selectedRow];
+	
+	if (row != -1) {
+		if(lastPreview != nil && [lastPreview isSpeaking]) {
+			[lastPreview stopSpeaking];
+		}
+		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
+		NSSpeechSynthesizer *quickVoice = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
+#warning This text should be localized.
+		[quickVoice startSpeakingString:[NSString stringWithFormat:@"This is a preview of the %@ voice.", [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
+		lastPreview = quickVoice;
+	}
+}
+
 - (IBAction) voiceClicked:(id)sender {
 	int row = [sender selectedRow];
 
-	if (-1 != row) {
+	if (row != -1) {
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
 		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, voice, GrowlSpeechPrefDomain);
 		UPDATE_GROWL_PREFS();
