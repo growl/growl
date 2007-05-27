@@ -14,6 +14,9 @@
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
 
+NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
+NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
+
 @implementation GrowlDisplayPlugin
 
 - (id) init {
@@ -25,10 +28,11 @@
 		windowControllerClass    = nil;
 
 		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:@"GrowlDisplayUsesQueue"];
+		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyUsesQueue];
 		if (queuesNotificationsObject) {
 			NSAssert3([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
-					  @"object for GrowlDisplayUsesQueue in Info.plist of %@ is a %@ and therefore has no Boolean value (description follows)\n%@",
+					  @"object for %@ in Info.plist of %@ is a %@ and therefore has no Boolean value (description follows)\n%@",
+					  GrowlDisplayPluginInfoKeyUsesQueue,
 					  bundle, [queuesNotificationsObject class], queuesNotificationsObject);
 			queuesNotifications = [queuesNotificationsObject boolValue];
 		}
@@ -112,10 +116,11 @@
 - (NSString *) windowNibName {
 	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 
-	NSString *windowNibName = [bundle objectForInfoDictionaryKey:@"GrowlDisplayWindowNibName"];
+	NSString *windowNibName = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyWindowNibName];
 	if (windowNibName) {
 		NSAssert3([windowNibName isKindOfClass:[NSString class]],
-				  @"object for GrowlDisplayWindowNibName in Info.plist of %@ is a %@, not a string (description follows)\n%@",
+				  @"object for %@ in Info.plist of %@ is a %@, not a string (description follows)\n%@",
+				  GrowlDisplayPluginInfoKeyWindowNibName,
 				  bundle, [windowNibName class], windowNibName);
 	}
 
