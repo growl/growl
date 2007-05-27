@@ -32,8 +32,8 @@ endif
 
 .PHONY: all assertnochanges assertnoconflicts compile clean release source
 
-all: assertnochanges compile release source
-all-withlocalchanges: assertnoconflicts compile release source
+all: assertnochanges compile release
+all-withlocalchanges: assertnoconflicts compile release
 
 assertnochanges:
 	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
@@ -60,34 +60,34 @@ clean:
 realclean: clean
 	../build.sh clean
 
-source:
-	rm -rf $(BUILD_DIR)/source
-	mkdir $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Bindings $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Common $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Core $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Plugins $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Docs $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Examples $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Framework $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
-	#cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
-	cp $(SRC_DIR)/HACKING.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/License.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/Makefile $(BUILD_DIR)/source
-	cp $(SRC_DIR)/README.rtf $(BUILD_DIR)/source
-	cp $(SRC_DIR)/build.sh $(BUILD_DIR)/source
-	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
-	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
-	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
-	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
-	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
-	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
+#source:
+#	rm -rf $(BUILD_DIR)/source
+#	mkdir $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Bindings $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Common $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Core $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Plugins $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Docs $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Examples $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Framework $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
+#	#cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
+#	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/HACKING.txt $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/License.txt $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/Makefile $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/README.rtf $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/build.sh $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
+#	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
+#	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
+#	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
+#	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
+#	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
 
 release:
 	@# clean build directory
