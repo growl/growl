@@ -12,6 +12,10 @@
 @class GrowlApplicationNotification, GrowlNotificationDisplayBridge;
 @class GrowlDisplayWindowController;
 
+//Info.plist keys for plug-in bundles.
+extern NSString *GrowlDisplayPluginInfoKeyUsesQueue;
+extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
+
 /*!
  * @class GrowlDisplayPlugin
  * @abstract Base class for all display plugins.
