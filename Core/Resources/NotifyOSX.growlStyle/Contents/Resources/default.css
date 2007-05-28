@@ -1,0 +1,35 @@
+html, body {
+	padding: 0;
+	margin: 0;
+	max-width: 300px;
+}
+#background {
+	background: #eee url(sidetitle.png) no-repeat top left;
+	min-height: 48px;
+}
+#icon {
+	position: absolute;
+	height: 32px;
+	width: 32px;
+	left: 20px;
+	top: 8px;
+	/* background: red; */
+}
+#icon img {
+	width: 32px;
+	height: 32px;
+}
+#title {
+	padding-left: 60px;
+	padding-top: 8px;
+	padding-right: 8px;
+	font: 11px lucida grande;
+	font-weight: bold;
+}
+#text {
+	padding-left: 60px;
+	padding-top: 4px;
+	padding-bottom: 8px;
+	padding-right: 8px;
+	font: 11px lucida grande;
+}
