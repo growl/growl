@@ -11,6 +11,13 @@
 
 @implementation GrowlNotificationView
 
+- (id) init {
+	if( (self = [super init ]) ) {
+		closeBoxOrigin = NSMakePoint(0,0);
+	}
+	return self;
+}
+
 - (id) delegate {
 	return delegate;
 }
@@ -116,14 +123,19 @@ static NSButton *gCloseButton;
 
 - (void) setCloseBoxVisible:(BOOL)yorn {
 	if ([self showsCloseBox]) {
-	    [GrowlNotificationView closeButton];
-	    [gCloseButton setFrame:[gCloseButton frame]];
-	    [gCloseButton setTarget:self];
-	    [gCloseButton setAction:@selector(closeBox:)];
-        if (yorn)
-            [self addSubview:gCloseButton];
-        else
-            [gCloseButton removeFromSuperview];
+		[GrowlNotificationView closeButton];
+		[gCloseButton setTarget:self];
+		[gCloseButton setAction:@selector(closeBox:)];
+		[gCloseButton setFrameOrigin:closeBoxOrigin];
+		if(yorn)
+			[self addSubview:gCloseButton];
+		else 
+			[gCloseButton removeFromSuperview];
 	}
 }
+
+- (void) setCloseBoxOrigin:(NSPoint)inOrigin {
+	closeBoxOrigin = inOrigin;
+}
+
 @end

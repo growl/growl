@@ -11,6 +11,7 @@
 @interface GrowlNotificationView : GrowlThreadedView {
 	BOOL				mouseOver;
 	BOOL				closeOnMouseExit;
+	NSPoint				closeBoxOrigin;
 	SEL					action;
 	id					target;
 	id                  delegate;
@@ -33,6 +34,7 @@
 - (BOOL) showsCloseBox;
 - (void) closeBox:(id)sender;
 - (void) setCloseBoxVisible:(BOOL)yorn;
+- (void) setCloseBoxOrigin:(NSPoint)inOrigin;
 @end
 
 @interface NSObject (GrowlNotificationViewDelegate)
