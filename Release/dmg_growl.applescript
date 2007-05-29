@@ -23,8 +23,8 @@ tell application "Finder"
 		set position of item "Uninstall Growl.app" to {383, 123}
 		update without registering applications
 		tell container window
-			set the bounds to {31, 50, 579, 4000}
-			set the bounds to {30, 50, 579, 4000}
+			set the bounds to {31, 50, 579, 350}
+			set the bounds to {30, 50, 579, 350}
 		end tell
 		update without registering applications
 	end tell
