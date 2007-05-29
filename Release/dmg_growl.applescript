@@ -13,7 +13,7 @@ tell application "Finder"
 			set icon size to 56
 			set arrangement to not arranged
 		end tell
-		set background picture of opts to file ".background:growl08DMGBackground.png"
+		set background picture of opts to file ".background:growlDMGBackground.png"
 		set position of item "Growl.prefPane" to {45, 41}
 		set position of item "Extras" to {162, 33}
 		--set position of item "Scripts" to {36, 153}

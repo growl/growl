@@ -184,7 +184,7 @@ release:
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store -or -name classes.nib -or -name info.nib \) -type f -delete
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
-	cp $(SRC_DIR)/images/dmg/growl08DMGBackground.png $(GROWL_DIR)/.background
+	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.applescript
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
