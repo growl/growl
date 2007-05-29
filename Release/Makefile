@@ -2,7 +2,7 @@ SRC_DIR=..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
-RELEASE_NAME=Growl-0.8
+RELEASE_NAME=Growl-1.1b1
 BUILDSTYLE=Deployment
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
