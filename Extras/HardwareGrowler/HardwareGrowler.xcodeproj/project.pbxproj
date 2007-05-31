@@ -53,6 +53,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		319838500C0F5F8B002C7607 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC /* iCal.growlView */;
+			remoteInfo = iCal;
+		};
 		9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
@@ -66,13 +73,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8D202CF80486D31800D8A456;
 			remoteInfo = Growl;
-		};
-		9533C29B085C3ED6009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DDF09B0A080AC8F3006F4172;
-			remoteInfo = PrefpaneTesting;
 		};
 		9533C29D085C3ED6009F8046 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -198,7 +198,7 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950445A309B57BED000EAB59 /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
@@ -362,7 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				9533C29A085C3ED6009F8046 /* Growl.prefPane */,
-				9533C29C085C3ED6009F8046 /* PrefpaneTesting.app */,
 				9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */,
 				9533C2A0085C3ED6009F8046 /* GrowlMenu.app */,
 				9533C2A2085C3ED6009F8046 /* Growl.framework */,
@@ -370,6 +369,7 @@
 				9533C2A6085C3ED6009F8046 /* Speech.growlView */,
 				9533C2A8085C3ED6009F8046 /* Brushed.growlView */,
 				9533C2AA085C3ED6009F8046 /* Bubbles.growlView */,
+				319838510C0F5F8B002C7607 /* iCal.growlView */,
 				9533C2AC085C3ED6009F8046 /* Bezel.growlView */,
 				9533C2AE085C3ED6009F8046 /* Smoke.growlView */,
 				9504459009B57BB5000EAB59 /* Nano.growlView */,
@@ -410,7 +410,6 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -428,7 +427,6 @@
 				},
 			);
 			projectRoot = "";
-			shouldCheckCompatibility = 1;
 			targets = (
 				8D1107260486CEB800E47090 /* HardwareGrowler */,
 				9533C229085C3E8C009F8046 /* External Frameworks */,
@@ -437,6 +435,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		319838510C0F5F8B002C7607 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = 319838500C0F5F8B002C7607 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9504459009B57BB5000EAB59 /* Nano.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -449,13 +454,6 @@
 			fileType = wrapper.cfbundle;
 			path = Growl.prefPane;
 			remoteRef = 9533C299085C3ED6009F8046 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9533C29C085C3ED6009F8046 /* PrefpaneTesting.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PrefpaneTesting.app;
-			remoteRef = 9533C29B085C3ED6009F8046 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */ = {
