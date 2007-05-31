@@ -25,7 +25,13 @@ const CONTRACT_ID = "@growl.info/mail-notifications;1";
 const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
 
 const GROWL_BUNDLE_LOCATION = "chrome://growl/locale/notifications.properties";
+
 const MSG_FLAG_NEW = 0x10000;
+const FLR_FLAG_TRASH = 0x0100;
+const FLR_FLAG_JUNK = 0x40000000;
+const FLR_FLAG_SENTMAIL = 0x0200;
+const FLR_FLAG_IMAP_NOSELECT = 0x1000000;
+const FLR_FLAG_CHECK_NEW = 0x20000000;
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Implementation
@@ -93,15 +99,79 @@ grMailNotifications.prototype = {
     var header = aItem.QueryInterface(Components.interfaces.nsIMsgDBHdr);
     var folder = header.folder;
 
+    if (!this.checkFolder(folder))
+      return;
+
     if (header.flags & MSG_FLAG_NEW) {
       var name = this.mBundle.GetStringFromName("mail.new.title");
       var ttle = name + " - " + folder.prettiestName;
-      var data = [header.subject, header.author];
+      var data = [header.mime2DecodedSubject, header.mime2DecodedAuthor];
       var msg  = this.mBundle.formatStringFromName("mail.new.text", data, 2);
       var img  = "chrome://growl/content/new-mail-alert.png";
 
       this.grn.sendNotification(name, img, ttle, msg, this);
     }
+  },
+
+  OnItemBoolPropertyChanged: function OnItemBoolPropertyChanged(aItem,
+                                                                aProperty,
+                                                                aOldValue,
+                                                                aNewValue)
+  {
+  },
+
+  OnItemEvent: function OnItemEvent(aItem, aEvent)
+  {
+  },
+
+  OnItemIntPropertyChanged: function OnItemIntPropertyChanged(aItem, aProperty,
+                                                              aOldValue,
+                                                              aNewValue)
+  {
+  },
+
+  OnItemPropertyChanged: function OnItemPropertyChanged(aItem, aProperty,
+                                                        aOldValue, aNewValue)
+  {
+  },
+
+  OnItemPropertyFlagChanged: function OnItemPropertyFlagChanged(aItem,
+                                                                aProperty,
+                                                                aOldFlag,
+                                                                aNewFlag)
+  {
+  },
+
+  OnItemRemoved: function OnItemRemoved(aParentItem, aItem)
+  {
+  },
+
+  OnItemUnicharPropertyChanged: function OnItemUnicharPropertyChanged(aItem,
+                                                                      aProperty,
+                                                                      aOldValue,
+                                                                      aNewValue)
+  {
+  },
+
+  //////////////////////////////////////////////////////////////////////////////
+  //// Helper Methods
+
+  /**
+   * This determines if this folder should even be checked to send a
+   * notification to growl.
+   *
+   * @param aFolder The folder that we are checking
+   * @return True if we need to check this folder, false otherwise.
+   */
+  checkFolder: function checkFolder(aFolder)
+  {
+    // We don't check certain folders because they don't contain useful stuff
+    if ((aFolder.flags & FLR_FLAG_TRASH) == FLR_FLAG_TRASH ||
+        (aFolder.flags & FLR_FLAG_JUNK) == FLR_FLAG_JUNK ||
+        (aFolder.flags & FLR_FLAG_SENTMAIL) == FLR_FLAG_SENTMAIL)
+      return false;
+
+    return true;
   },
 
   QueryInterface: function(aIID)
