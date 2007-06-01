@@ -33,8 +33,23 @@
 
 @class CICGSFilter;
 
-typedef int CGSConnection;
-typedef int CGSWindow;
+/* These functions all return a status code. Typical CoreGraphics replies are:
+	kCGErrorSuccess = 0,
+	kCGErrorFirst = 1000,
+	kCGErrorFailure = kCGErrorFirst,
+	kCGErrorIllegalArgument = 1001,
+	kCGErrorInvalidConnection = 1002,
+*/
+
+// Internal CoreGraphics typedefs
+typedef int             CGSConnection;
+typedef int             CGSWindow;
+
+/* Get the default connection for the current process. */
+extern CGSConnection _CGSDefaultConnection(void);
+
+extern OSStatus CGSSetWindowTransform(const CGSConnection cid, const CGSWindow wid, CGAffineTransform transform);
+extern OSStatus CGSGetWindowTransform(const CGSConnection cid, const CGSWindow wid, CGAffineTransform * outTransform);
 
 @interface NSWindow(AWRipple)
 - (void)ripple;

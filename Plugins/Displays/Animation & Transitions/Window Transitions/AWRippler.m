@@ -105,7 +105,7 @@
 
 @implementation AWRippleWindow
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
-#pragma unused (aStyle)
+#pragma unused (aStyle, bufferingType, flag)
     NSWindow* result = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [result setBackgroundColor: [NSColor clearColor]];
     [result setAlphaValue:1.0];

@@ -53,6 +53,7 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
  *we [will] use this to notice, and turn on auto-sticky or something (perhaps
  *	to be decided by the user), when this happens.
  */
+#if 0
 static BOOL isAnyDisplayCaptured(void) {
 	BOOL result = NO;
 
@@ -80,6 +81,7 @@ static BOOL isAnyDisplayCaptured(void) {
 
 	return result;
 }
+#endif
 
 //static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 static struct Version version = { 1U, 1U, 0U, releaseType_beta, 1U, };
