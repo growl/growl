@@ -22,12 +22,10 @@ tell application "Finder"
 		set position of item "Get more styles.webloc" to {415, 215}
 		set position of item "Uninstall Growl.app" to {415, 315}
 		update without registering applications
-		tell container window
-			set the bounds to {31, 50, 579, 600}
-			--set the bounds to {30, 50, 579, 600}
-		end tell
+		set the_window_id to id of container window
 		update without registering applications
 	end tell
+	set bounds of window id the_window_id to {30, 50, 579, 900}
 	--give the finder some time to write the .DS_Store file
 	delay 5
 end tell
