@@ -15,12 +15,12 @@ tell application "Finder"
 		end tell
 		set background picture of opts to file ".background:growlDMGBackground.png"
 		set position of item "Growl.prefPane" to {147, 75}
-		set position of item "Extras" to {80, 315}
+		set position of item "Extras" to {100, 320}
 		--set position of item "Scripts" to {36, 153}
-		set position of item "Growl Documentation.webloc" to {100, 215}
-		set position of item "Growl version history.webloc" to {275, 215}
-		set position of item "Get more styles.webloc" to {415, 215}
-		set position of item "Uninstall Growl.app" to {415, 315}
+		set position of item "Growl Documentation.webloc" to {100, 218}
+		set position of item "Growl version history.webloc" to {275, 218}
+		set position of item "Get more styles.webloc" to {415, 218}
+		set position of item "Uninstall Growl.app" to {415, 320}
 		update without registering applications
 		tell container window
 			open
@@ -28,7 +28,7 @@ tell application "Finder"
 		end tell
 		update without registering applications
 	end tell
-	set bounds of window id the_window_id to {30, 50, 579, 462}
+	set bounds of window id the_window_id to {30, 50, 479, 1500}
 	--give the finder some time to write the .DS_Store file
 	delay 5
 end tell
