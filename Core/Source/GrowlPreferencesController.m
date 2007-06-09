@@ -161,20 +161,32 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	[self setStartAtLogin:pathToGHA enabled:flag];
 }
 
-- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag {
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
 	OSStatus status;
 	CFArrayRef loginItems = NULL;
-	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, kCFURLPOSIXPathStyle, true);
+	NSURL *url = [NSURL fileURLWithPath:path];
+	int existingLoginItemIndex = -1;
+
 	status = LIAECopyLoginItems(&loginItems);
+
 	if (status == noErr) {
-		CFIndex idx = CFArrayGetFirstIndexOfValue(loginItems, CFRangeMake(0, CFArrayGetCount(loginItems)), url);
-		if (idx != -1)
-			LIAERemove(idx);
-		CFRelease(loginItems);
+		NSEnumerator *enumerator = [(NSArray *)loginItems objectEnumerator];
+		NSDictionary *loginItemDict;
+
+		while ((loginItemDict = [enumerator nextObject])) {
+			if ([[loginItemDict objectForKey:(NSString *)kLIAEURL] isEqual:url]) {
+				existingLoginItemIndex = [(NSArray *)loginItems indexOfObjectIdenticalTo:loginItemDict];
+				break;
+			}
+		}
 	}
-	if (flag)
-		LIAEAddURLAtEnd(url, false);
-	CFRelease(url);
+
+	if (enabled && (existingLoginItemIndex == -1))
+		LIAEAddURLAtEnd((CFURLRef)url, false);
+	else if (!enabled && (existingLoginItemIndex != -1))
+		LIAERemove(existingLoginItemIndex);
+
+	CFRelease(loginItems);
 }
 
 #pragma mark -
