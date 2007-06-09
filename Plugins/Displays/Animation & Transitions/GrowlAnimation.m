@@ -328,7 +328,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 				break;
 			case GrowlAnimationEaseInOut:
 				//y=sin(x*pi)
-				progress = sinf(completedPercentage * M_PI);
+				progress = sinf(completedPercentage * (M_PI/2));
 				break;
 			case GrowlAnimationEaseOut:
 				//y=x^2
