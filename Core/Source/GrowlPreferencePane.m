@@ -162,6 +162,35 @@
 	
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
+	
+	// Select the default style if possible. 
+	{
+		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
+		int count = [arrangedObjects count];
+		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
+		int defaultStyleRow = NSNotFound;
+		for (int i = 0; i < count; i++) {
+			if ([[[arrangedObjects objectAtIndex:i] valueForKey:@"CFBundleName"] isEqualToString:defaultDisplayPluginName]) {
+				defaultStyleRow = i;
+				break;
+			}
+		}
+
+		if (defaultStyleRow != NSNotFound) {
+			/* Wait until the next run loop; otherwise everything isn't finished loading and we throw an exception.
+			* This is setting the view for the Displays tab, which isn't initially visible, so the user won't see
+			* the flicker. I'm don't know why this is necessary. -evands
+			*/
+			[self performSelector:@selector(selectRow:)
+					   withObject:[NSIndexSet indexSetWithIndex:defaultStyleRow]
+					   afterDelay:0];
+		}
+	}
+}
+
+- (void)selectRow:(NSIndexSet *)indexSet
+{
+	[displayPluginsTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }
 
 - (void) mainViewDidLoad {
