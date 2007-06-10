@@ -135,7 +135,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	CFArrayRef loginItems = NULL;
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get the file url to GHA.
 	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
 
@@ -157,7 +157,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	[self setStartAtLogin:pathToGHA enabled:flag];
 }
 

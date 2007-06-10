@@ -232,7 +232,7 @@
 	CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
 		(CFStringRef)[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]], NULL);
 	/*
-	 NSLog([[[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
+	 NSLog([[[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	 NSLog(currVersionNumber);
 	 NSLog(latestVersionNumber);
 	 */
@@ -284,6 +284,7 @@
 		}
 		[preferencesController setObject:currentVersion forKey:LastKnownVersionKey];
 	}
+
 	[self checkGrowlRunning];
 }
 
