@@ -121,6 +121,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		[[self window] setAcceptsMouseMovedEvents:NO];
 	}
 	mouseOverView = NO;
+	rolloverPosition = GrowlNoOrigin;
 	[self setNeedsDisplay:YES];
 }
 
