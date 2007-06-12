@@ -28,15 +28,22 @@
 
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	int row;
+	int row = NSNotFound;
 	if (voice) {
 		row = [availableVoices indexOfObject:voice];
 		[voice release];
-	} else {
+    }
+
+	if (row == NSNotFound)
 		row = [availableVoices indexOfObject:[NSSpeechSynthesizer defaultVoice]];
-	}
-	[voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-	[voiceList scrollRowToVisible:row];
+
+    if ((row == NSNotFound) && ([availableVoices count]))
+        row = 1;
+
+    if (row != NSNotFound) {
+	   [voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	   [voiceList scrollRowToVisible:row];
+    }
 	[voiceList setDoubleAction:@selector(previewVoice:)];
 }
 
