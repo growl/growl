@@ -52,6 +52,8 @@ div#text
 	overflow: hidden;
 
 	background: url("images/row_shadow.png") repeat-x top;
+	
+	position: relative;
 }
 
 div#spacer
