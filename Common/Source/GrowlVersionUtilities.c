@@ -181,7 +181,7 @@ CFStringRef createVersionDescription(const struct Version v) {
 		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hhu"), v.incremental);
 	}
 	if (v.releaseType != releaseType_release) {
-		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%hu"), v.development);
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%u"), v.development);
 	}
 	return str;
 }
