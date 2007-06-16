@@ -17,14 +17,14 @@
 	<key>CFBundleSignature</key>
 	<string>G♫</string>
 	<key>CFBundleVersion</key>
-	<string>0.7</string>
+	<string>1.1</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSAppleScriptEnabled</key>
-    <string>YES</string>
 </dict>
 </plist>

@@ -14,12 +14,12 @@
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>sfri</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSafari</string>
 </dict>

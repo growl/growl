@@ -23,9 +23,9 @@
 	<string>Utility</string>
 	<key>AMDefaultParameters</key>
 	<dict>
-		<key>notificationTitle</key>
-		<string></string>
 		<key>notificationDescription</key>
+		<string></string>
+		<key>notificationTitle</key>
 		<string></string>
 		<key>priority</key>
 		<integer>0</integer>
@@ -100,7 +100,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>NSPrincipalClass</key>
 	<string>AMAppleScriptAction</string>
 </dict>
