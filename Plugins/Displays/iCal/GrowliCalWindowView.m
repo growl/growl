@@ -43,10 +43,10 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 
 	// SIMD could come in handy here
 	// outData[0..3] = a_coeff * colors[4..7] + a * colors[0..3]
-	outData[0] = a_coeff * colors[4] + a * colors[0];
-	outData[1] = a_coeff * colors[5] + a * colors[1];
-	outData[2] = a_coeff * colors[6] + a * colors[2];
-	outData[3] = a_coeff * colors[7] + a * colors[3];
+	outData[0] = (a_coeff * colors[4]) + (a * colors[0]);
+	outData[1] = (a_coeff * colors[5]) + (a * colors[1]);
+	outData[2] = (a_coeff * colors[6]) + (a * colors[2]);
+	outData[3] = (a_coeff * colors[7]) + (a * colors[3]);
 }
 
 static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float radius) {
