@@ -119,8 +119,6 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 		float opacityPref = Nano_DEFAULT_OPACITY;
 		READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
 		float alpha = opacityPref * 0.01f;
-		[backgroundColor release];
-		backgroundColor = [NSColor blackColor];
 		[[backgroundColor colorWithAlphaComponent:alpha] set];
 		CGContextFillPath(cgContext);
 
