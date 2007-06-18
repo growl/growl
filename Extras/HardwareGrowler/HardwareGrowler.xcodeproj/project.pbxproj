@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
 		3423607209D8888A009FF634 /* PowerNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -30,7 +31,6 @@
 		9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
-		9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9522B89108BC57F20000DC20 /* DiskArbitration.framework */; };
 		9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.c */; };
 		958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.c */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
@@ -44,8 +44,6 @@
 		DDF9B2B007BBD4600007B5B7 /* USBNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2AE07BBD4600007B5B7 /* USBNotifier.c */; };
 		DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.c */; };
 		DDF9B33A07BBDAA40007B5B7 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */; };
-		DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */; };
-		DDF9B6B407BC10C80007B5B7 /* eject.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6B207BC10C80007B5B7 /* eject.icns */; };
 		DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
 		DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
 		DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
@@ -53,11 +51,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		179B92760C14D0C3004FB187 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
+			remoteInfo = Growl.dylib;
+		};
 		319838500C0F5F8B002C7607 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E14410EF0A94072E0063C4DC /* iCal.growlView */;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
 			remoteInfo = iCal;
 		};
 		9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */ = {
@@ -190,6 +195,7 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		179B928F0C14D110004FB187 /* VolumeNotifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = VolumeNotifier.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -198,11 +204,10 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950445A309B57BED000EAB59 /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
-		9522B89108BC57F20000DC20 /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = /System/Library/Frameworks/DiskArbitration.framework; sourceTree = "<absolute>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9586EF0108C9C3A40039789E /* SyncNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncNotifier.h; sourceTree = "<group>"; };
 		9586EF0208C9C3A40039789E /* SyncNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SyncNotifier.c; sourceTree = "<group>"; };
@@ -228,8 +233,6 @@
 		DDF9B2FD07BBD9020007B5B7 /* BluetoothNotifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BluetoothNotifier.h; sourceTree = "<group>"; };
 		DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = /System/Library/Frameworks/IOBluetooth.framework; sourceTree = "<absolute>"; };
 		DDF9B63707BC07B30007B5B7 /* VolumeNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeNotifier.h; sourceTree = "<group>"; };
-		DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VolumeNotifier.c; sourceTree = "<group>"; };
-		DDF9B6B207BC10C80007B5B7 /* eject.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = eject.icns; sourceTree = "<group>"; };
 		DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FireWireLogo.png; sourceTree = "<group>"; };
 		DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbLogo.png; sourceTree = "<group>"; };
 		DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbLogoWhite.png; sourceTree = "<group>"; };
@@ -246,7 +249,6 @@
 				DDF9B33A07BBDAA40007B5B7 /* IOBluetooth.framework in Frameworks */,
 				9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */,
 				958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */,
-				9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +269,7 @@
 				DDF9B2FD07BBD9020007B5B7 /* BluetoothNotifier.h */,
 				DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.c */,
 				DDF9B63707BC07B30007B5B7 /* VolumeNotifier.h */,
-				DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */,
+				179B928F0C14D110004FB187 /* VolumeNotifier.m */,
 				958AB93507C69DE000F56B45 /* NetworkNotifier.h */,
 				958AB93607C69DE000F56B45 /* NetworkNotifier.c */,
 				9586EF0108C9C3A40039789E /* SyncNotifier.h */,
@@ -281,7 +283,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9522B89108BC57F20000DC20 /* DiskArbitration.framework */,
 				958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				9324AE7807BD77DB001CB55C /* Growl.framework */,
@@ -341,7 +342,6 @@
 				DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */,
 				DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */,
 				DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */,
-				DDF9B6B207BC10C80007B5B7 /* eject.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -365,6 +365,7 @@
 				9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */,
 				9533C2A0085C3ED6009F8046 /* GrowlMenu.app */,
 				9533C2A2085C3ED6009F8046 /* Growl.framework */,
+				179B92770C14D0C3004FB187 /* Growl.dylib.dylib */,
 				9533C2A4085C3ED6009F8046 /* Growl-WithInstaller.framework */,
 				9533C2A6085C3ED6009F8046 /* Speech.growlView */,
 				9533C2A8085C3ED6009F8046 /* Brushed.growlView */,
@@ -435,6 +436,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		179B92770C14D0C3004FB187 /* Growl.dylib.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = Growl.dylib.dylib;
+			remoteRef = 179B92760C14D0C3004FB187 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		319838510C0F5F8B002C7607 /* iCal.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -549,7 +557,6 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				DDF9B6B407BC10C80007B5B7 /* eject.icns in Resources */,
 				DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */,
 				DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */,
 				DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */,
@@ -589,11 +596,11 @@
 				DDE55D2807BAEDE2000631AC /* FireWireNotifier.c in Sources */,
 				DDF9B2B007BBD4600007B5B7 /* USBNotifier.c in Sources */,
 				DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.c in Sources */,
-				DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.c in Sources */,
 				958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */,
 				9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */,
 				3423607209D8888A009FF634 /* PowerNotifier.c in Sources */,
 				95F4FC5809F16BA300666FA8 /* CFGrowlAdditions.c in Sources */,
+				179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

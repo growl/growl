@@ -13,8 +13,6 @@ void AppController_usbDidConnect(CFStringRef deviceName);
 void AppController_usbDidDisconnect(CFStringRef deviceName);
 void AppController_bluetoothDidConnect(CFStringRef device);
 void AppController_bluetoothDidDisconnect(CFStringRef device);
-void AppController_volumeDidMount(CFStringRef name, CFStringRef path);
-void AppController_volumeDidUnmount(CFStringRef name);
 void AppController_airportConnect(CFStringRef networkName, const unsigned char *bssidBytes);
 void AppController_airportDisconnect(CFStringRef networkName);
 void AppController_linkUp(CFStringRef description);
@@ -30,6 +28,9 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 
 #import <Foundation/Foundation.h>
 #import <Growl/Growl.h>
+
+void AppController_volumeDidMount(NSString *path);
+void AppController_volumeDidUnmount(NSString *path);
 
 @interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
 }

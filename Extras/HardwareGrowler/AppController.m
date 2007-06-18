@@ -114,24 +114,27 @@ static CFDataRef bluetoothLogo(void)
 	return bluetoothLogoData;
 }
 
-static CFDataRef ejectLogo(void)
+static CFDataRef ejectIcon(void)
 {
-	static CFDataRef ejectLogoData = NULL;
-	char imagePath[PATH_MAX];
+	static CFDataRef ejectIconData = NULL;
 
-	if (!ejectLogoData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("eject"),
-													CFSTR("icns"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			ejectLogoData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+	if (!ejectIconData) {
+		ejectIconData = (CFDataRef)[[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kEjectMediaIcon)] TIFFRepresentation] retain];
 	}
 
-	return ejectLogoData;
+	return ejectIconData;
 }
 
+static CFDataRef mountIcon(void)
+{
+	static CFDataRef mountIconData = NULL;
+	
+	if (!mountIconData) {
+		mountIconData = (CFDataRef)[[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericRemovableMediaIcon)] TIFFRepresentation] retain];
+	}
+	
+	return mountIconData;
+}
 
 static CFDataRef airportIcon(void)
 {
@@ -266,30 +269,43 @@ void AppController_bluetoothDidDisconnect(CFStringRef device) {
 
 #pragma mark Volumes
 
-void AppController_volumeDidMount(CFStringRef name, CFStringRef path) {
+void AppController_volumeDidMount(NSString *path) {
 	//NSLog(@"volume Mount: %@", name);
 
 	CFStringRef title = NotifierVolumeMountedTitle();
-	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:(NSString *)path] TIFFRepresentation];
-
+	NSData *iconData = (NSData *)mountIcon();
+	NSString *name = nil;
+	NSDictionary *context = nil;
+	
+	if (path) {
+		iconData = [[[NSWorkspace sharedWorkspace] iconForFile:(NSString *)path] TIFFRepresentation];
+		name = [[NSFileManager defaultManager] displayNameAtPath:path];
+		context = [NSDictionary dictionaryWithObjectsAndKeys:
+								(NSString *)NotifierVolumeMountedNotification, @"notification",
+								path, @"path",
+								nil];
+	}
+	
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-							description:(NSString *)name
+							description:name
 							notificationName:(NSString *)NotifierVolumeMountedNotification
 							iconData:iconData
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:context];
 	CFRelease(title);
 }
 
-void AppController_volumeDidUnmount(CFStringRef name) {
+void AppController_volumeDidUnmount(NSString *path) {
 	//NSLog(@"volume Unmount: %@", name);
 
 	CFStringRef title = NotifierVolumeUnmountedTitle();
+	NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
+	
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-							description:(NSString *)name
+							description:name
 							notificationName:(NSString *)NotifierVolumeUnmountedNotification
-							iconData:(NSData *)ejectLogo()
+							iconData:(NSData *)ejectIcon()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -623,6 +639,11 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	CFRelease(notifications);
 
 	return regDict;
+}
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+	if ([[clickContext objectForKey:@"notification"] isEqualToString:(NSString *)NotifierVolumeMountedNotification])
+		[[NSWorkspace sharedWorkspace] openFile:[clickContext objectForKey:@"path"]];
 }
 
 - (IBAction) doSimpleHelp:(id)sender {
