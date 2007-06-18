@@ -30,7 +30,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 #import <Growl/Growl.h>
 
 void AppController_volumeDidMount(NSString *path);
-void AppController_volumeDidUnmount(NSString *path);
+void AppController_volumeWillUnmount(NSString *path);
 
 @interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
 }

@@ -114,15 +114,17 @@ static CFDataRef bluetoothLogo(void)
 	return bluetoothLogoData;
 }
 
-static CFDataRef ejectIcon(void)
+//This function returns an NSImage rather than NSData (for VolumeWillUnmount's benefit). That's why its name ends with “Image”, unlike the others'.
+static NSImage *ejectIconImage(void)
 {
-	static CFDataRef ejectIconData = NULL;
+	//Named with an underscore to prevent name conflict with the function. Be aware of which one you use here.
+	static NSImage *_ejectIconImage = NULL;
 
-	if (!ejectIconData) {
-		ejectIconData = (CFDataRef)[[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kEjectMediaIcon)] TIFFRepresentation] retain];
+	if (!_ejectIconImage) {
+		_ejectIconImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kEjectMediaIcon)] retain];
 	}
 
-	return ejectIconData;
+	return _ejectIconImage;
 }
 
 static CFDataRef mountIcon(void)
@@ -296,16 +298,41 @@ void AppController_volumeDidMount(NSString *path) {
 	CFRelease(title);
 }
 
-void AppController_volumeDidUnmount(NSString *path) {
+void AppController_volumeWillUnmount(NSString *path) {
 	//NSLog(@"volume Unmount: %@", name);
 
 	CFStringRef title = NotifierVolumeUnmountedTitle();
 	NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
-	
+
+	//Get the icon for the volume.
+	NSData *iconData = [copyIconDataForPath(path) autorelease];
+	NSImage *icon = [[[NSImage alloc] initWithData:iconData] autorelease];
+	NSSize iconSize = [icon size];
+	//Also get the standard Eject icon.
+	NSImage *ejectIcon = ejectIconImage();
+	[ejectIcon setScalesWhenResized:NO]; //Use the high-res rep instead.
+	NSSize ejectIconSize = [ejectIcon size];
+
+	//Badge the volume icon with the Eject icon. This is what we'll pass off te Growl.
+	//The badge's width and height are 2/3 of the overall icon's width and height. If they were 1/2, it would look small (so I found in testing —boredzo). This looks pretty good.
+	[icon lockFocus];
+
+	[ejectIcon drawInRect:NSMakeRect( /*origin.x*/ iconSize.width * (1.0f / 3.0f), /*origin.y*/ 0.0f, /*width*/ iconSize.width * (2.0f / 3.0f), /*height*/ iconSize.height * (2.0f / 3.0f) )
+				 fromRect:(NSRect){ NSZeroPoint, ejectIconSize }
+				operation:NSCompositeSourceOver
+				 fraction:1.0f];
+
+	//For some reason, passing [icon TIFFRepresentation] only passes the unbadged volume icon to Growl, even though writing the same TIFF data out to a file and opening it in Preview does show the badge. If anybody can figure that out, you're welcome to do so. Until then:
+	//We get a NSBIR for the current focused view (the image), and make PNG data from it. (There is no reason why this could not be TIFF if we wanted it to be. I just generally prefer PNG. —boredzo)
+	NSBitmapImageRep *imageRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){ NSZeroPoint, iconSize }] autorelease];
+	iconData = [imageRep representationUsingType:NSPNGFileType properties:nil];
+
+	[icon unlockFocus];
+
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:name
 							notificationName:(NSString *)NotifierVolumeUnmountedNotification
-							iconData:(NSData *)ejectIcon()
+							iconData:iconData
 							priority:0
 							isSticky:NO
 							clickContext:nil];

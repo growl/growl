@@ -14,7 +14,7 @@
 }
 
 + (void) volumeDidMount:(NSNotification *)aNotification;
-+ (void) volumeDidUnmount:(NSNotification *)aNotification;
++ (void) volumeWillUnmount:(NSNotification *)aNotification;
 
 @end
 
@@ -24,8 +24,8 @@
 	AppController_volumeDidMount([[aNotification userInfo] objectForKey:@"NSDevicePath"]);
 }
 
-+ (void) volumeDidUnmount:(NSNotification *)aNotification {
-	AppController_volumeDidUnmount([[aNotification userInfo] objectForKey:@"NSDevicePath"]);
++ (void) volumeWillUnmount:(NSNotification *)aNotification {
+	AppController_volumeWillUnmount([[aNotification userInfo] objectForKey:@"NSDevicePath"]);
 }
 
 @end
@@ -35,7 +35,8 @@ void VolumeNotifier_init(void) {
 	NSNotificationCenter *center = [workspace notificationCenter];
 	
 	[center addObserver:[VolumeNotifier class] selector:@selector(volumeDidMount:) name:NSWorkspaceDidMountNotification object:nil];
-	[center addObserver:[VolumeNotifier class] selector:@selector(volumeDidUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+	//Note that we must use WILL unmount, not DID unmount, because we can only get the volume's icon before the volume has finished unmounting.
+	[center addObserver:[VolumeNotifier class] selector:@selector(volumeWillUnmount:) name:NSWorkspaceWillUnmountNotification object:nil];
 
 	Boolean keyExistsAndHasValidFormat;
 	if (CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat)) {
@@ -50,7 +51,7 @@ void VolumeNotifier_init(void) {
 void VolumeNotifier_dealloc(void) {
 	NSNotificationCenter *center = [[NSWorkspace sharedWorkspace] notificationCenter];
 	
-	[center removeObserver:[VolumeNotifier class] name:NSWorkspaceDidUnmountNotification object:nil];
+	[center removeObserver:[VolumeNotifier class] name:NSWorkspaceWillUnmountNotification object:nil];
 	[center removeObserver:[VolumeNotifier class] name:NSWorkspaceDidMountNotification object:nil];
 }
 
