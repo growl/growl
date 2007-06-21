@@ -122,7 +122,8 @@
 @implementation AWRippleView
 -(void)drawRect:(NSRect)rect
 {
-NSLog(@"%s", __FUNCTION__);	
+#pragma unused (rect)
+	NSLog(@"%s", __FUNCTION__);	
 	
 	[[NSColor clearColor] set];
     NSRectFill([self frame]);
