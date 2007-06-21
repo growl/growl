@@ -21,16 +21,11 @@
 - (id) init {
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 
-	displayDuration = GrowlBubblesDurationPrefDefault;
-
 	CFNumberRef prefsDuration = NULL;
-	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
-	if (prefsDuration) {
-		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-		if (value > 0.0f)
-			displayDuration = value;
-	}
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  GrowlBubblesDurationPrefDefault)];
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);

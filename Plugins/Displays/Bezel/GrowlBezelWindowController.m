@@ -30,17 +30,11 @@
 	shrinkEnabled = NO;
 	flipEnabled = NO;
 
-	displayDuration = MIN_DISPLAY_TIME;
-
 	CFNumberRef prefsDuration = NULL;
-	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(GrowlBezelDuration, GrowlBezelPrefDomain, CFNumberRef, &prefsDuration);
-	if (prefsDuration) {
-		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-		//NSLog(@"%lf\n", value);
-		if (value > 0.0f)
-			displayDuration = value;
-	}
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  MIN_DISPLAY_TIME)];
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];

@@ -28,15 +28,10 @@
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	CFNumberRef prefsDuration = NULL;
-	CFTimeInterval value = -1.0f;
-
-	displayDuration = GrowlSmokeDurationPrefDefault;
 	READ_GROWL_PREF_VALUE(GrowlSmokeDurationPref, GrowlSmokePrefDomain, CFNumberRef, &prefsDuration);
-	if (prefsDuration) {
-		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-		if (value > 0.0f)
-			displayDuration = value;
-	}
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  GrowlSmokeDurationPrefDefault)];
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask

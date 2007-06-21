@@ -22,15 +22,11 @@
 	int sizePref = Nano_SIZE_NORMAL;
 
 	//define our duration
-	displayDuration = GrowlNanoDurationPrefDefault;
 	CFNumberRef prefsDuration = NULL;
-	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(Nano_DURATION_PREF, GrowlNanoPrefDomain, CFNumberRef, &prefsDuration);
-	if (prefsDuration) {
-		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-		if (value > 0.0f)
-			displayDuration = value;
-	}
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  GrowlNanoDurationPrefDefault)];
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &screenNumber);

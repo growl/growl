@@ -35,15 +35,10 @@
 	}
 
 	CFNumberRef prefsDuration = NULL;
-	CFTimeInterval value = -1.0f;
-
-	displayDuration = GrowlBrushedDurationPrefDefault;
 	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
-	if (prefsDuration) {
-		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-		if (value > 0.0f)
-			displayDuration = value;
-	}
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  GrowlBrushedDurationPrefDefault)];
 
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
