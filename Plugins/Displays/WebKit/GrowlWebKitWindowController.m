@@ -79,7 +79,7 @@
 	[self setScreenNumber:theScreenNo];
 
 	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(Nano_DURATION_PREF, GrowlNanoPrefDomain, CFNumberRef, &prefsDuration);
+	READ_GROWL_PREF_VALUE(GrowlWebKitDurationPref, [plugin prefDomain], CFNumberRef, &prefsDuration);
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlWebKitDurationPrefDefault)];
