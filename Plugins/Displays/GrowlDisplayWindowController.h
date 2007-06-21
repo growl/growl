@@ -49,7 +49,9 @@ typedef enum {
 	unsigned			             screenNumber;
 	unsigned			             screenshotMode: 1;
 
-	unsigned			             WCReserved: 31;
+	BOOL							 userRequestedClose;
+
+	unsigned			             WCReserved: 30;
 }
 
 - (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
@@ -202,16 +204,5 @@ typedef enum {
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
 - (void) displayWindowControllerNotificationBlocked:(NSNotification *)notification;
-
-@end
-
-#pragma mark -
-
-@interface GrowlDisplayWindowController (GrowlNotificationViewDelegate)
-
-/*
- * A default implementation for the view delegate method that calls stopDisplay:
- */
-- (void) mouseExitedNotificationView:(GrowlNotificationView *)view;
 
 @end

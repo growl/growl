@@ -142,9 +142,10 @@
 }
 
 - (void) dealloc {
-	WebView *webView = [[self window] contentView];
+	GrowlWebKitWindowView *webView = [[self window] contentView];
 	[webView      setPolicyDelegate:nil];
 	[webView      setFrameLoadDelegate:nil];
+	[webView      setTarget:nil];
 	[image        release];
 	[templateHTML release];
 	[baseURL	  release];

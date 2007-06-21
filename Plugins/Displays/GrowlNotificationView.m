@@ -18,14 +18,6 @@
 	return self;
 }
 
-- (id) delegate {
-	return delegate;
-}
-
-- (void) setDelegate: (id) theDelegate {
-	delegate = theDelegate;
-}
-
 #pragma mark -
 
 - (id) target {
@@ -72,6 +64,10 @@
     [self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
+	
+	if ([[[self window] windowController] respondsToSelector:@selector(mouseEnteredNotificationView:)])
+		[[[self window] windowController] performSelector:@selector(mouseEnteredNotificationView:)
+											   withObject:self];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
@@ -82,11 +78,13 @@
 	
 	// abuse the target object
 	if (closeOnMouseExit) {
-		if ([delegate respondsToSelector:@selector(mouseExitedNotificationView:)])
-			[delegate performSelector:@selector(mouseExitedNotificationView:) withObject:self];
-		if ([target respondsToSelector:@selector(stopDisplay)])
-			[target performSelector:@selector(stopDisplay)];
+		if ([[[self window] windowController] respondsToSelector:@selector(stopDisplay)])
+			[[[self window] windowController] performSelector:@selector(stopDisplay)];
 	}
+	
+	if ([[[self window] windowController] respondsToSelector:@selector(mouseExiteddNotificationView:)])
+		[[[self window] windowController] performSelector:@selector(mouseExitedNotificationView:)
+											   withObject:self];
 }
 
 - (void) mouseDown:(NSEvent *)event {
@@ -117,8 +115,8 @@ static NSButton *gCloseButton;
 - (void) clickedCloseBox:(id)sender {
 #pragma unused(sender)
 	mouseOver = NO;
-	if ([delegate respondsToSelector:@selector(stopDisplay)])
-		[delegate performSelector:@selector(stopDisplay)];
+	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
+		[[[self window] windowController] performSelector:@selector(clickedClose)];
 
 	/* NSButton can mess up our display in its rect after mouseUp,
 	 * so do a re-display on the next run loop.

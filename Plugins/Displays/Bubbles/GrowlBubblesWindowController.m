@@ -61,7 +61,6 @@
 	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
-	[view setDelegate:self];
 	[panel setContentView:view];
 	[view release];
 

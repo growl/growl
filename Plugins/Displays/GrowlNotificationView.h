@@ -14,12 +14,8 @@
 	NSPoint				closeBoxOrigin;
 	SEL					action;
 	id					target;
-	id                  delegate;
 	NSTrackingRectTag	trackingRectTag;
 }
-
-- (id) delegate;
-- (void) setDelegate: (id) theDelegate;
 
 - (id) target;
 - (void) setTarget:(id)object;
@@ -34,8 +30,4 @@
 - (BOOL) showsCloseBox;
 - (void) setCloseBoxVisible:(BOOL)yorn;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin;
-@end
-
-@interface NSObject (GrowlNotificationViewDelegate)
-- (void) mouseExitedNotificationView:(GrowlNotificationView *)view;
 @end

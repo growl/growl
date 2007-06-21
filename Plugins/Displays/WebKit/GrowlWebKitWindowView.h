@@ -21,6 +21,8 @@
 	SEL					action;
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
+	
+	NSRect				closeButtonRect;
 }
 
 - (void) sizeToFit;

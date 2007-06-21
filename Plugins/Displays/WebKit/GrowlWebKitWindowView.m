@@ -19,6 +19,7 @@
 - (id) initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
 	if ((self = [super initWithFrame:frameRect frameName:frameName groupName:groupName])) {
 		[self setUIDelegate:self];
+		closeButtonRect = NSZeroRect;
 	}
 	return self;
 }
@@ -107,8 +108,14 @@
 - (void) clickedCloseBox:(id)sender {
 #pragma unused(sender)
 	mouseOver = NO;
-	if ([target respondsToSelector:@selector(stopDisplay)])
-		[target performSelector:@selector(stopDisplay)];
+	
+	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
+		[[[self window] windowController] performSelector:@selector(clickedClose)];
+
+	if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
+															object:nil];
+	}
 }
 
 - (void) setCloseBoxVisible:(BOOL)flag {
@@ -123,11 +130,14 @@
 										  [gCloseButton frame].size.height)];
 	    [gCloseButton setTarget:self];
 	    [gCloseButton setAction:@selector(clickedCloseBox:)];
-        if (flag)
+        if (flag) {
             [self addSubview:gCloseButton];
-        else {
+			closeButtonRect = [gCloseButton frame];
+
+        } else {
 			[gCloseButton removeFromSuperview];
 			[gCloseButton setFrame:NSMakeRect(0,0,30,30)]; // restore the default frame
+			closeButtonRect = NSZeroRect;
 		}
 	}
 }
@@ -140,9 +150,13 @@
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	[self updateFocusState];
-    [self setCloseBoxVisible:YES];
+	[self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
+	
+	if ([[[self window] windowController] respondsToSelector:@selector(mouseEnteredNotificationView:)])
+		[[[self window] windowController] performSelector:@selector(mouseEnteredNotificationView:)
+											   withObject:self];	
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
@@ -153,8 +167,14 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(stopDisplay)])
-		[target performSelector:@selector(stopDisplay)];
+	if (closeOnMouseExit) {
+		if ([[[self window] windowController] respondsToSelector:@selector(stopDisplay)])
+			[[[self window] windowController] performSelector:@selector(stopDisplay)];
+	}
+	
+	if ([[[self window] windowController] respondsToSelector:@selector(mouseExiteddNotificationView:)])
+		[[[self window] windowController] performSelector:@selector(mouseExitedNotificationView:)
+											   withObject:self];
 }
 
 - (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
@@ -170,8 +190,14 @@
 - (void) mouseDown:(NSEvent *)event {
 #pragma unused(event)
 	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action])
-		[target performSelector:action withObject:self];
+
+	if (NSPointInRect([event locationInWindow], closeButtonRect)) {
+		[[GrowlNotificationView closeButton] mouseDown:event];
+
+	} else {
+		if (target && action && [target respondsToSelector:action])
+			[target performSelector:action withObject:self];
+	}
 }
 
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {

@@ -97,6 +97,7 @@ static NSMutableDictionary *existingInstances;
 	[self setDelegate:nil];
 	[[self bridge] removeObserver:self forKeyPath:@"notification"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[self stopAllTransitions];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
@@ -128,7 +129,7 @@ static NSMutableDictionary *existingInstances;
 - (BOOL)reposition_startingDisplay:(BOOL)shouldStartDisplay
 {
 	NSWindow *window = [self window];
-	
+
 	//Make sure we don't cover any other notification (or not)
 	BOOL foundSpace = NO;
 	GrowlPositionController *pc = [GrowlPositionController sharedInstance];
@@ -173,7 +174,6 @@ static NSMutableDictionary *existingInstances;
 	}
 	
 	return foundSpace;		
-	
 }
 
 - (BOOL) startDisplay {
@@ -183,23 +183,32 @@ static NSMutableDictionary *existingInstances;
 - (void) stopDisplay {	
 	id contentView = [[self window] contentView];
 	if ([contentView respondsToSelector:@selector(mouseOver)] &&
-		[contentView mouseOver]) {
+		[contentView mouseOver] &&
+		!userRequestedClose) {
 		//The mouse is currently within the view; close when it exits
 		[contentView setCloseOnMouseExit:YES];
 
 	} else {
-		[self cancelDisplayDelayedPerforms];
-		
-		[self willTakeDownNotification];
-		if ([self startAllTransitions]) {
-			[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
-					   withObject:nil
-					   afterDelay:transitionDuration];
-		} else {
-			[self didFinishTransitionsAfterDisplay];
+		//If we're already transitioning out, just keep doing our thing
+		if (displayStatus != GrowlDisplayTransitioningOutStatus) {
+			[self cancelDisplayDelayedPerforms];
+			
+			[self willTakeDownNotification];
+			if ([self startAllTransitions]) {
+				[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
+						   withObject:nil
+						   afterDelay:transitionDuration];
+			} else {
+				[self didFinishTransitionsAfterDisplay];
+			}
+			[self didTakeDownNotification];
 		}
-		[self didTakeDownNotification];
 	}
+}
+
+- (void) clickedClose {
+	userRequestedClose = YES;
+	[self stopDisplay];
 }
 
 #pragma mark -
@@ -248,6 +257,7 @@ static NSMutableDictionary *existingInstances;
 	[window orderOut:nil];
 
 	//Release all window transitions immediately; they may have retained our window.
+	[self stopAllTransitions];
 	[windowTransitions release]; windowTransitions = nil;
 
 	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
@@ -311,7 +321,8 @@ static NSMutableDictionary *existingInstances;
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
 
-	[self stopDisplay];
+	//Now that we've notified the clickContext and target, it's as if the user just clicked the close button
+	[self clickedClose];
 }
 
 #pragma mark -
@@ -460,6 +471,28 @@ static NSMutableDictionary *existingInstances;
 }
 
 #pragma mark -
+- (void)mouseEnteredNotificationView:(GrowlNotificationView *)notificationView
+{
+#pragma unused (notificationView)
+	if (!userRequestedClose &&
+		(displayStatus == GrowlDisplayTransitioningOutStatus)) {
+		// We're transitioning out; we need to go back to transitioning in...
+		[self willDisplayNotification];
+		[self reverseAllTransitions];
+		[self didFinishTransitionsBeforeDisplay];
+
+		// ...but when the mouse leaves, transition out again
+		[self stopDisplay];
+	}
+}
+
+- (void)mouseExitedNotificationView:(GrowlNotificationView *)notificationView
+{
+#pragma unused (notificationView)
+	// Notifies us that the mouse left the notification view.
+}
+
+#pragma mark -
 #pragma mark Notifications
 
 - (GrowlApplicationNotification *) notification {
@@ -489,7 +522,9 @@ static NSMutableDictionary *existingInstances;
 			break;
 			
 		case GrowlDisplayTransitioningOutStatus:
-			//We're transitioning out; we need to go back to transitioning in
+			//Reset userRequestedClose in case we were transitioning out via the user's request; we have new information!
+			userRequestedClose = NO;
+
 			[self willDisplayNotification];
 			[self reverseAllTransitions];
 			[self didFinishTransitionsBeforeDisplay];
@@ -728,17 +763,6 @@ static NSMutableDictionary *existingInstances;
 }
 - (void) removeNotificationObserver:(id)observer {
 	[[NSNotificationCenter defaultCenter] removeObserver:observer];
-}
-
-@end
-
-#pragma mark -
-
-@implementation GrowlDisplayWindowController (GrowlNotificationViewDelegate)
-
-- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
-#pragma unused (view)
-
 }
 
 @end
