@@ -39,7 +39,7 @@
 
 @implementation GrowlWebKitWindowController
 
-#define MIN_DISPLAY_TIME				4.0
+#define GrowlWebKitDurationPrefDefault				4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
 #define GrowlWebKitPadding				5.0f
@@ -78,19 +78,13 @@
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, [plugin prefDomain], &theScreenNo);
 	[self setScreenNumber:theScreenNo];
 
-	// the visibility time for this bubble should be the minimum display time plus
-	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
-	int rowCount = 2;
-	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, [plugin prefDomain], &limitPref);
-	float duration = MIN_DISPLAY_TIME;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, [plugin prefDomain], &duration);
-	if (limitPref)
-		[self setDisplayDuration:duration];
-	else
-		[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
-									 MAX_DISPLAY_TIME)];
-
+	CFNumberRef prefsDuration = NULL;
+	READ_GROWL_PREF_VALUE(Nano_DURATION_PREF, GrowlNanoPrefDomain, CFNumberRef, &prefsDuration);
+	[self setDisplayDuration:(prefsDuration ?
+							  [(NSNumber *)prefsDuration doubleValue] :
+							  GrowlWebKitDurationPrefDefault)];
+	
+	
 	// Read the plugin specifics from the info.plist
 	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
 	BOOL hasShadow = NO;
