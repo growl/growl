@@ -71,8 +71,7 @@
 		}
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
 		NSSpeechSynthesizer *quickVoice = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
-#warning This text should be localized.
-		[quickVoice startSpeakingString:[NSString stringWithFormat:@"This is a preview of the %@ voice.", [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
+		[quickVoice startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"This is a preview of the %@ voice.", nil), [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
 		lastPreview = quickVoice;
 	}
 }
