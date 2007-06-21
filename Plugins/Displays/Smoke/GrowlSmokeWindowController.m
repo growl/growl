@@ -91,14 +91,6 @@
 	[view sizeToFit];
 }
 
-- (void) stopDisplay {
-	GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[self window] contentView];
-	if ([view mouseOver])
-		[view setCloseOnMouseExit:YES];
-	else
-		[super stopDisplay];
-}
-
 #pragma mark -
 #pragma mark positioning methods
 

@@ -391,10 +391,4 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		return rowCount;
 }
 
-- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
-#pragma unused (view)
-	//do nothing, this gets called when a user mouses in and back out of our view
-	//we could choose to end the notification, or do something else
-}
-
 @end

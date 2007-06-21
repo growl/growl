@@ -14,6 +14,7 @@
 #import "NSViewAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationView.h"
 
 #include "GrowlLog.h"
 
@@ -172,18 +173,26 @@ static NSMutableDictionary *existingInstances;
 	return [self reposition_startingDisplay:YES];
 }
 
-- (void) stopDisplay {
-	[self cancelDisplayDelayedPerforms];
+- (void) stopDisplay {	
+	id contentView = [[self window] contentView];
+	if ([contentView respondsToSelector:@selector(mouseOver)] &&
+		[contentView mouseOver]) {
+		//The mouse is currently within the view; close when it exits
+		[contentView setCloseOnMouseExit:YES];
 
-	[self willTakeDownNotification];
-	if ([self startAllTransitions]) {
-		[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
-				   withObject:nil
-				   afterDelay:transitionDuration];
 	} else {
-		[self didFinishTransitionsAfterDisplay];
+		[self cancelDisplayDelayedPerforms];
+		
+		[self willTakeDownNotification];
+		if ([self startAllTransitions]) {
+			[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
+					   withObject:nil
+					   afterDelay:transitionDuration];
+		} else {
+			[self didFinishTransitionsAfterDisplay];
+		}
+		[self didTakeDownNotification];
 	}
-	[self didTakeDownNotification];
 }
 
 #pragma mark -

@@ -153,8 +153,8 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
-		[target performSelector:@selector(startFadeOut)];
+	if (closeOnMouseExit && [target respondsToSelector:@selector(stopDisplay)])
+		[target performSelector:@selector(stopDisplay)];
 }
 
 - (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
@@ -178,12 +178,6 @@
 #pragma unused(sender, element, defaultMenuItems)
 	// disable context menu
 	return nil;
-}
-
-- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
-#pragma unused (view)
-	//do nothing, this gets called when a user mouses in and back out of our view
-	//we could choose to end the notification, or do something else
 }
 
 @end

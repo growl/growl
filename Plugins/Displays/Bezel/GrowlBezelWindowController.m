@@ -77,7 +77,6 @@
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[view setDelegate:self];
-	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
 	[view release];
 

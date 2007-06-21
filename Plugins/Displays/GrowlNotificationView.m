@@ -62,27 +62,34 @@
 	closeOnMouseExit = flag;
 }
 
-- (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
+- (BOOL) acceptsFirstMouse:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
+    [self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
-	[self setCloseBoxVisible:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	mouseOver = NO;
+    [self setCloseBoxVisible:NO];
 	[self setNeedsDisplay:YES];
-	if (closeOnMouseExit && [delegate respondsToSelector:@selector(mouseExitedNotificationView:)])
-		[delegate performSelector:@selector(mouseExitedNotificationView:) withObject:self];
+	
+	// abuse the target object
+	if (closeOnMouseExit) {
+		if ([delegate respondsToSelector:@selector(mouseExitedNotificationView:)])
+			[delegate performSelector:@selector(mouseExitedNotificationView:) withObject:self];
+		if ([target respondsToSelector:@selector(stopDisplay)])
+			[target performSelector:@selector(stopDisplay)];
+	}
 }
 
-- (void) mouseDown:(NSEvent *) event {
+- (void) mouseDown:(NSEvent *)event {
 #pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action])
@@ -137,5 +144,6 @@ static NSButton *gCloseButton;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin {
 	closeBoxOrigin = inOrigin;
 }
+
 
 @end
