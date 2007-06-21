@@ -114,7 +114,7 @@ static NSButton *gCloseButton;
 	return YES;
 }
 
-- (void) closeBox:(id)sender {
+- (void) clickedCloseBox:(id)sender {
 #pragma unused(sender)
 	mouseOver = NO;
 	if ([delegate respondsToSelector:@selector(stopDisplay)])
@@ -126,13 +126,18 @@ static NSButton *gCloseButton;
 	[self performSelector:@selector(display)
 			   withObject:nil
 			   afterDelay:0];
+	
+	if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
+															object:nil];
+	}
 }
 
 - (void) setCloseBoxVisible:(BOOL)yorn {
 	if ([self showsCloseBox]) {
 		[GrowlNotificationView closeButton];
 		[gCloseButton setTarget:self];
-		[gCloseButton setAction:@selector(closeBox:)];
+		[gCloseButton setAction:@selector(clickedCloseBox:)];
 		[gCloseButton setFrameOrigin:closeBoxOrigin];
 		if(yorn)
 			[self addSubview:gCloseButton];

@@ -104,7 +104,7 @@
 	return YES;
 }
 
-- (void) closeBox:(id)sender {
+- (void) clickedCloseBox:(id)sender {
 #pragma unused(sender)
 	mouseOver = NO;
 	if ([target respondsToSelector:@selector(stopDisplay)])
@@ -122,7 +122,7 @@
 										  [gCloseButton frame].size.width,
 										  [gCloseButton frame].size.height)];
 	    [gCloseButton setTarget:self];
-	    [gCloseButton setAction:@selector(closeBox:)];
+	    [gCloseButton setAction:@selector(clickedCloseBox:)];
         if (flag)
             [self addSubview:gCloseButton];
         else {

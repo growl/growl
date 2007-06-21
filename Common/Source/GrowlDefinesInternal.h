@@ -405,6 +405,14 @@ struct GrowlNetworkNotification {
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
 	CFRelease(floatValue); } while(0)
 
+
+/*!	@defined	GROWL_CLOSE_ALL_NOTIFICATIONS
+ *	@abstract	Notification to close all Growl notifications
+ *	@discussion	Should be posted to the default notification center when a close widget is option+clicked.
+ *    All notifications should close in response. 
+ */
+#define GROWL_CLOSE_ALL_NOTIFICATIONS XSTR("GrowlCloseAllNotifications")
+
 #pragma mark Small utilities
 
 /*!

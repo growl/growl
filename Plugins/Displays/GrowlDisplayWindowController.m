@@ -82,6 +82,12 @@ static NSMutableDictionary *existingInstances;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		transitionDuration = 1.0;
+	
+		//Respond to 'close all notifications' by closing
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(stopDisplay)
+													 name:GROWL_CLOSE_ALL_NOTIFICATIONS
+												   object:nil];
 	}
 
 	return self;
@@ -90,6 +96,7 @@ static NSMutableDictionary *existingInstances;
 - (void) dealloc {
 	[self setDelegate:nil];
 	[[self bridge] removeObserver:self forKeyPath:@"notification"];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);

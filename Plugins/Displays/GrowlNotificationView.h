@@ -32,7 +32,6 @@
 
 + (NSButton *) closeButton;
 - (BOOL) showsCloseBox;
-- (void) closeBox:(id)sender;
 - (void) setCloseBoxVisible:(BOOL)yorn;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin;
 @end
