@@ -13,6 +13,8 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
+#import "GrowlFadingWindowTransition.h"
+
 #import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
@@ -81,25 +83,50 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-		int effect = 0;
+		NanoEffectType effect = Nano_EFFECT_SLIDE;
 		READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
-		if (effect == 0) {
-			//slider effect
-			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-			[slider setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
-			[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-			[slider setAutoReverses:YES];
-			[self addTransition:slider];
-			[slider release];
-		} else {
-			//wipe effect
-			[panel setFrameOrigin:NSMakePoint(xPosition, NSMaxY(screen))];
-			GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-			[wiper setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
-			[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-			[wiper setAutoReverses:YES];
-			[self addTransition:wiper];
-			[wiper release];
+
+		switch (effect) {
+			case Nano_EFFECT_SLIDE:
+			{
+				//slider effect
+				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+				[slider setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
+				[slider setAutoReverses:YES];
+				[self addTransition:slider];
+				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+
+				[slider release];
+				
+				break;
+			}
+			case Nano_EFFECT_WIPE:
+			{
+				//wipe effect
+				[panel setFrameOrigin:NSMakePoint(xPosition, NSMaxY(screen))];
+				GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+				[wiper setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
+				[wiper setAutoReverses:YES];
+				[self addTransition:wiper];
+				[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+
+				[wiper release];
+				
+				NSLog(@"Wipe not implemented");
+				break;
+			}
+			case Nano_EFFECT_FADE:
+			{
+				[panel setAlphaValue:0.0];
+				[panel setFrameOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
+
+				GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+				[self addTransition:fader];
+				[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+				[fader setAutoReverses:YES];
+				[fader release];
+				break;
+			}
 		}
 	}
 	

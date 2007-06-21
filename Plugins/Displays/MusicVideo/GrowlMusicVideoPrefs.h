@@ -19,8 +19,11 @@
 #define GrowlBubblesDurationPrefDefault		4.0f
 
 #define MUSICVIDEO_SIZE_PREF			@"Size"
-#define MUSICVIDEO_SIZE_NORMAL			0
-#define MUSICVIDEO_SIZE_HUGE			1
+typedef enum
+{
+	MUSICVIDEO_SIZE_NORMAL = 0,
+	MUSICVIDEO_SIZE_HUGE =1
+} MusicVideoSize;
 
 #define MUSICVIDEO_EFFECT_PREF			@"Transition effect"
 typedef enum

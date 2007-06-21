@@ -68,11 +68,12 @@
 - (void) setEffect:(unsigned)newEffect {
 	switch (newEffect) {
 		default:
-			NSLog(@"(Music Video) Invalid effect number %u (slide is %u; wipe is %u)", newEffect, Nano_EFFECT_SLIDE, Nano_EFFECT_WIPE);
+			NSLog(@"(Nano) Invalid effect number %u", newEffect);
 			break;
 
 		case Nano_EFFECT_SLIDE:
 		case Nano_EFFECT_WIPE:
+		case Nano_EFFECT_FADE:
 			WRITE_GROWL_PREF_INT(Nano_EFFECT_PREF, newEffect, GrowlNanoPrefDomain);
 			UPDATE_GROWL_PREFS();
 	}

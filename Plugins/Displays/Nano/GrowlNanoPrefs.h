@@ -19,12 +19,17 @@
 #define GrowlNanoDurationPrefDefault		4.0f
 
 #define Nano_SIZE_PREF			@"Size"
-#define Nano_SIZE_NORMAL			0
-#define Nano_SIZE_HUGE			1
+typedef enum {
+	Nano_SIZE_NORMAL = 0,
+	Nano_SIZE_HUGE = 1
+} NanoSize;
 
 #define Nano_EFFECT_PREF			@"Transition effect"
-#define Nano_EFFECT_SLIDE			0
-#define Nano_EFFECT_WIPE			1
+typedef enum {
+	Nano_EFFECT_SLIDE = 0,
+	Nano_EFFECT_WIPE,
+	Nano_EFFECT_FADE
+} NanoEffectType;
 
 #define GrowlNanoVeryLowBackgroundColor	@"Nano-Priority-VeryLow-Color"
 #define GrowlNanoModerateBackgroundColor	@"Nano-Priority-Moderate-Color"

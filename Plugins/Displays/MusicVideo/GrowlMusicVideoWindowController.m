@@ -107,8 +107,8 @@
 			}
 			case MUSICVIDEO_EFFECT_WIPE:
 			{
+				NSLog(@"Wipe not implemented");
 				//wipe effect
-#warning Wipe is not implemented. Remove it from the UI or implement it.
 				//[panel setFrameOrigin:NSMakePoint( 0, 0)];
 				//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
 				// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
