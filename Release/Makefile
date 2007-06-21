@@ -101,22 +101,22 @@ release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_
 # copy uninstaller
 $(GROWL_DIR)/Uninstall\ Growl.app: $(GROWL_DIR)
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 
 # copy webloc files
 copy-weblocs: $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc 
 $(GROWL_DIR)/Growl\ Documentation.webloc: $(GROWL_DIR)
 	cp "Growl Documentation.webloc" $(GROWL_DIR)
 	@# hide extension of webloc file
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 $(GROWL_DIR)/Growl\ version\ history.webloc: $(GROWL_DIR)
 	cp "Growl version history.webloc" $(GROWL_DIR)
 	@# hide extension of webloc file
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 $(GROWL_DIR)/Get\ more\ styles.webloc: $(GROWL_DIR)
 	cp "Get more styles.webloc" $(GROWL_DIR)
 	@# hide extension of webloc file
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 
 # copy the prefpane
 $(GROWL_DIR)/Growl.prefPane: $(GROWL_DIR)
@@ -196,11 +196,11 @@ copy-sdk-weblocs: $(SDK_DIR)/Growl\ Developer\ Documentation.webloc $(SDK_DIR)/G
 $(SDK_DIR)/Growl\ Developer\ Documentation.webloc: $(SDK_DIR)
 	cp "Growl Developer Documentation.webloc" $(SDK_DIR)
 	@# hide extension of webloc file
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 $(SDK_DIR)/Growl\ version\ history\ for\ developers.webloc: $(SDK_DIR)
 	cp "Growl version history for developers.webloc" $(SDK_DIR)
 	@# hide extension of webloc file
-	/Developer/Tools/SetFile -a E $@
+	/Developer/Tools/SetFile -a E "$@"
 
 # copy the scripts
 $(SRC_DIR)/Scripts: $(SDK_DIR)
