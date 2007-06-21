@@ -13,7 +13,6 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
 	GROWLMAIL_BUILD_DIR=$(SRC_DIR)/Extras/GrowlMail/build/$(BUILDSTYLE)
 	GROWLSAFARI_BUILD_DIR=$(SRC_DIR)/Extras/GrowlSafari/build/$(BUILDSTYLE)
-	RAWRJOUR_BUILD_DIR=$(SRC_DIR)/Extras/Rawr-jour/build/$(BUILDSTYLE)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -22,7 +21,6 @@ else
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
-	RAWRJOUR_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 
 # What to do before running this script:
@@ -32,7 +30,7 @@ endif
 #       - Core/Resources/Info.plist
 #       - Core/Resources/GrowlHelperApp-Info.plist
 
-.PHONY: all assertnochanges assertnoconflicts compile clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-Rawr-jour copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
+.PHONY: all assertnochanges assertnoconflicts compile clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
 
 all: assertnochanges compile release diskimages source
 all-withlocalchanges: assertnoconflicts compile release diskimages source
@@ -49,7 +47,6 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
 
 clean:
 	-mv $(BUILD_DIR) build-old
@@ -96,7 +93,7 @@ $(GROWL_DIR): $(BUILD_DIR)
 $(SDK_DIR): $(BUILD_DIR)
 	mkdir $(SDK_DIR)
 
-release-Growl: $(GROWL_DIR)/Uninstall\ Growl.app copy-weblocs $(GROWL_DIR)/Growl.prefPane copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-Rawr-jour copy-GrowlMail copy-GrowlSafari
+release-Growl: $(GROWL_DIR)/Uninstall\ Growl.app copy-weblocs $(GROWL_DIR)/Growl.prefPane copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari
 release-SDK: copy-sdk-weblocs $(SRC_DIR)/Scripts copy-sdk-builtin copy-sdk-frameworks $(SDK_DIR)/Bindings
 # The two disk-image targets depend on release-Growl and release-SDK, respectively. Thus, making release will make release-Growl and release-SDK, then the disk images.
 release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg
@@ -156,14 +153,6 @@ $(GROWL_DIR)/Extras/HardwareGrowler/HardwareGrowler.app: $(GROWL_DIR)/Extras/Har
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 $(GROWL_DIR)/Extras/HardwareGrowler/readme.txt: $(GROWL_DIR)/Extras/HardwareGrowler
 	cp $(SRC_DIR)/Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
-
-copy-Rawr-jour: $(GROWL_DIR)/Extras/Rawr-jour $(GROWL_DIR)/Extras/Rawr-jour/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour/Readme.rtf
-$(GROWL_DIR)/Extras/Rawr-jour: $(GROWL_DIR)/Extras
-	mkdir $(GROWL_DIR)/Extras/Rawr-jour
-$(GROWL_DIR)/Extras/Rawr-jour/Rawr-jour.app: $(GROWL_DIR)/Extras/Rawr-jour
-	cp -R $(RAWRJOUR_BUILD_DIR)/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour
-$(GROWL_DIR)/Extras/Rawr-jour/Readme.rtf: $(GROWL_DIR)/Extras/Rawr-jour
-	cp $(SRC_DIR)/Extras/Rawr-jour/Icon\ and\ Readme/Readme.rtf $(GROWL_DIR)/Extras/Rawr-jour
 
 # build GrowlMail package
 copy-GrowlMail: $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg $(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf
