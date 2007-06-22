@@ -1,6 +1,8 @@
 SRC_DIR=..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
+SRC_BUILD_DIR_FILENAME=$(RELEASE_NAME)-src
+SRC_BUILD_DIR=$(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME)
 SDK_DIR=$(BUILD_DIR)/SDK
 RELEASE_NAME=Growl-0.8
 BUILDSTYLE=Deployment
@@ -57,34 +59,66 @@ clean:
 realclean: clean
 	../build.sh clean
 
-source:
-	rm -rf $(BUILD_DIR)/source
-	mkdir $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Bindings $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Common $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Core $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Plugins $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Docs $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Examples $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Framework $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
-	cp $(SRC_DIR)/HACKING.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/License.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/Makefile $(BUILD_DIR)/source
-	cp $(SRC_DIR)/README.rtf $(BUILD_DIR)/source
-	cp $(SRC_DIR)/build.sh $(BUILD_DIR)/source
-	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
-	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
-	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
-	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
-	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
-	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
-	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
+source: $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
+# We need this directory to be empty, so blow it away every time. That's why this is a phony target, rather than a real $(SRC_BUILD_DIR) target.
+reset-source-dir:
+	-rm -rf $(SRC_BUILD_DIR)
+	mkdir $(SRC_BUILD_DIR)
+
+# These targets all copy items from the source tree ($SRCDIR) into $(SRC_BUILD_DIR.
+copy-all-sources: $(SRC_BUILD_DIR)/Bindings $(SRC_BUILD_DIR)/Common $(SRC_BUILD_DIR)/Core $(SRC_BUILD_DIR)/Plugins $(SRC_BUILD_DIR)/Docs $(SRC_BUILD_DIR)/Examples $(SRC_BUILD_DIR)/Extras $(SRC_BUILD_DIR)/Framework $(SRC_BUILD_DIR)/Growl Readme.rtfd $(SRC_BUILD_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)/Prefpane TestHarness $(SRC_BUILD_DIR)/Scripts $(SRC_BUILD_DIR)/images $(SRC_BUILD_DIR)/HACKING.TXT $(SRC_BUILD_DIR)/License.txt $(SRC_BUILD_DIR)/Makefile $(SRC_BUILD_DIR)/README.rtf $(SRC_BUILD_DIR)/build.sh $(SRC_BUILD_DIR)/changes.txt $(SRC_BUILD_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)/headerDoc2HTML.config
+
+$(SRC_BUILD_DIR)/Bindings: reset-source-dir
+	cp -R $(SRC_DIR)/Bindings $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Common: reset-source-dir
+	cp -R $(SRC_DIR)/Common $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Core: reset-source-dir
+	cp -R $(SRC_DIR)/Core $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Plugins: reset-source-dir
+	cp -R $(SRC_DIR)/Plugins $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Docs: reset-source-dir
+	cp -R $(SRC_DIR)/Docs $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Examples: reset-source-dir
+	cp -R $(SRC_DIR)/Examples $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Extras: reset-source-dir
+	cp -R $(SRC_DIR)/Extras $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Framework: reset-source-dir
+	cp -R $(SRC_DIR)/Framework $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Growl Readme.rtfd: reset-source-dir
+	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Growl.xcodeproj: reset-source-dir
+	cp -R $(SRC_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Prefpane TestHarness: reset-source-dir
+	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Scripts: reset-source-dir
+	cp -R $(SRC_DIR)/Scripts $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/images: reset-source-dir
+	cp -R $(SRC_DIR)/images $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/HACKING.TXT: reset-source-dir
+	cp $(SRC_DIR)/HACKING.txt $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/License.txt: reset-source-dir
+	cp $(SRC_DIR)/License.txt $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/Makefile: reset-source-dir
+	cp $(SRC_DIR)/Makefile $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/README.rtf: reset-source-dir
+	cp $(SRC_DIR)/README.rtf $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/build.sh: reset-source-dir
+	cp $(SRC_DIR)/build.sh $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/changes.txt: reset-source-dir
+	cp $(SRC_DIR)/changes.txt $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/generateSVNRevision.sh: reset-source-dir
+	cp $(SRC_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)
+$(SRC_BUILD_DIR)/headerDoc2HTML.config: reset-source-dir
+	cp $(SRC_DIR)/headerDoc2HTML.config $(SRC_BUILD_DIR)
+
+# Remove files that we don't really want to distribute.
+clean-up-sources: copy-all-sources
+	find $(SRC_BUILD_DIR) \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
+	find $(SRC_BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
+
+$(SRC_BUILD_DIR).tar.bz2: copy-all-sources clean-up-sources
+	cd $(BUILD_DIR)
+	tar cjf "$@" "$(SRC_BUILD_DIR_FILENAME)"
 
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
