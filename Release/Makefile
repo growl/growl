@@ -206,10 +206,10 @@ $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg: $(GROWL_DIR)/Extras/GrowlMail
 	cp GrowlMail/postflight $(BUILD_DIR)/GrowlMail-Resources
 	cp -R GrowlMail/English.lproj $(BUILD_DIR)/GrowlMail-Resources
 	cp -R GrowlMail/German.lproj $(BUILD_DIR)/GrowlMail-Resources
-	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlMail
-	sudo chmod -R g+w $(BUILD_DIR)/GrowlMail
+	-sudo chown -Rh root:admin $(BUILD_DIR)/GrowlMail
+	-sudo chmod -R g+w $(BUILD_DIR)/GrowlMail
 	/Developer/Tools/packagemaker -build -p $@ -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
-	sudo rm -rf $(BUILD_DIR)/GrowlMail
+	-sudo rm -rf $(BUILD_DIR)/GrowlMail
 	rm -rf $(BUILD_DIR)/GrowlMail-Resources
 $(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf: $(GROWL_DIR)/Extras/GrowlMail
 	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
@@ -223,10 +223,10 @@ $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg: $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(BUILD_DIR)/GrowlSafari
 	cp GrowlSafari/postupgrade $(BUILD_DIR)/GrowlSafari-Resources
-	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
-	sudo chmod -R g+w $(BUILD_DIR)/GrowlSafari
+	-sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
+	-sudo chmod -R g+w $(BUILD_DIR)/GrowlSafari
 	/Developer/Tools/packagemaker -build -p $@ -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
-	sudo rm -rf $(BUILD_DIR)/GrowlSafari
+	-sudo rm -rf $(BUILD_DIR)/GrowlSafari
 	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
 $(GROWL_DIR)/Extras/GrowlSafari/README.txt: $(GROWL_DIR)/Extras/GrowlSafari
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
