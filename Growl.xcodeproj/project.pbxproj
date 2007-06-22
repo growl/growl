@@ -89,8 +89,6 @@
 		0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */; };
 		0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */; };
 		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
-		341BE9380C109B4B00386983 /* GrowlPref.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 341BE9360C109B4B00386983 /* GrowlPref.h */; };
-		341BE9390C109B4B00386983 /* GrowlPref.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BE9370C109B4B00386983 /* GrowlPref.m */; };
 		342157BF0C2AE377004003BB /* PriorityTransformer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 342157BD0C2AE377004003BB /* PriorityTransformer.h */; };
 		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		3433456E0790E39200C84B15 /* Bubbles.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */; };
@@ -557,7 +555,6 @@
 				C4FB57260B17FC43004474C8 /* GrowlPositioningDefines.h in CopyFiles */,
 				93CD92990B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h in CopyFiles */,
 				347262870C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h in CopyFiles */,
-				341BE9380C109B4B00386983 /* GrowlPref.h in CopyFiles */,
 				342157BF0C2AE377004003BB /* PriorityTransformer.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,8 +660,6 @@
 		0AB508B40767C87B006EA5CB /* Bezel.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bezel.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
-		341BE9360C109B4B00386983 /* GrowlPref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPref.h; path = Core/Source/GrowlPref.h; sourceTree = "<group>"; };
-		341BE9370C109B4B00386983 /* GrowlPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPref.m; path = Core/Source/GrowlPref.m; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
 		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
 		343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = "GrowlApplicationBridge-Carbon.c"; path = "Framework/Source/GrowlApplicationBridge-Carbon.c"; sourceTree = "<group>"; };
@@ -1345,8 +1340,6 @@
 				95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */,
 				347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */,
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
-				341BE9360C109B4B00386983 /* GrowlPref.h */,
-				341BE9370C109B4B00386983 /* GrowlPref.m */,
 				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
 				342157BE0C2AE377004003BB /* PriorityTransformer.m */,
 			);
@@ -2647,7 +2640,6 @@
 				07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */,
 				7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */,
 				347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
-				341BE9390C109B4B00386983 /* GrowlPref.m in Sources */,
 				342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
