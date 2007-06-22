@@ -4,7 +4,7 @@ GROWL_DIR=$(BUILD_DIR)/Growl
 SRC_BUILD_DIR_FILENAME=$(RELEASE_NAME)-src
 SRC_BUILD_DIR=$(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME)
 SDK_DIR=$(BUILD_DIR)/SDK
-RELEASE_NAME=Growl-0.8
+RELEASE_NAME=Growl-1.1b1
 BUILDSTYLE=Deployment
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
@@ -38,9 +38,15 @@ all: assertnochanges compile release diskimages source
 all-withlocalchanges: assertnoconflicts compile release diskimages source
 
 assertnochanges:
-	exit `svn st $(SRC_DIR) | wc -l`
+	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
+		echo 'You have local changes. Please do not build releases from an unclean checkout. You must revert the changes, commit them, or check out another working copy and build from that.' 1>&2; \
+		exit 1; \
+	fi
 assertnoconflicts:
-	exit `svn st $(SRC_DIR) | egrep '^C' | wc -l`
+	if [[ 0 -ne `svn st $(SRC_DIR) | egrep '^C' | wc -l` ]]; then \
+		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "svn resolved"; otherwise, svn will still believe the files are conflicted.' 1>&2; \
+		exit 2; \
+	fi
 
 compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
@@ -303,12 +309,12 @@ clean-out-garbage:
 # make Growl disk image
 $(BUILD_DIR)/$(RELEASE_NAME).dmg: release-Growl clean-out-garbage
 	mkdir $(GROWL_DIR)/.background
-	cp $(SRC_DIR)/images/dmg/growl08DMGBackground.png $(GROWL_DIR)/.background
-	./make-diskimage.sh $@ $(GROWL_DIR) Growl dmg_growl.scpt
+	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
+	./make-diskimage.sh $@ $(GROWL_DIR) Growl dmg_growl.applescript
 
 # make SDK disk image
 $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg: release-SDK clean-out-garbage
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
-	./make-diskimage.sh $@ $(SDK_DIR) Growl-SDK dmg_sdk.scpt
+	./make-diskimage.sh $@ $(SDK_DIR) Growl-SDK dmg_sdk.applescript
 	@echo Build finished
