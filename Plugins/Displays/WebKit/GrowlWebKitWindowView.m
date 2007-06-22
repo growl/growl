@@ -172,7 +172,7 @@
 			[[[self window] windowController] performSelector:@selector(stopDisplay)];
 	}
 	
-	if ([[[self window] windowController] respondsToSelector:@selector(mouseExiteddNotificationView:)])
+	if ([[[self window] windowController] respondsToSelector:@selector(mouseExitedNotificationView:)])
 		[[[self window] windowController] performSelector:@selector(mouseExitedNotificationView:)
 											   withObject:self];
 }
