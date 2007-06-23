@@ -1,0 +1,64 @@
+body
+{
+	color: rgba(0, 0, 0, .9);
+	text-shadow: 0px 1px 2px #fff;
+	font-family: Lucida Grande;
+	font-size: 11px;
+	line-height: 14px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+#top {
+  height: 22px;
+  background: url(images/top.png) no-repeat left top;
+}
+
+#bottom {
+  height: 21px;
+  background: url(images/bottom.png) no-repeat left top;
+}
+
+#content {
+  background: url(images/background.png) repeat-y left top;
+  min-height: 23px;
+}
+
+div#icon
+{
+  position: absolute;
+  top: 17px;
+  left: 17px;
+
+  width: 32px;
+  height: 32px;
+  z-index:2;
+}
+
+div#icon img
+{
+  width: 32px;
+  height: 32px;
+}
+
+div#title, div#text {
+  float: left;
+  clear: both;
+  padding: 0 12px 0 63px;
+  width: 185px;
+  overflow: hidden;
+}
+
+div#title {
+  font-weight: bold;
+  margin: -9px 0 1px;
+}
+
+div#text {
+  margin-bottom: -8px;
+}
+
+div.clear {
+  clear: both;
+}
