@@ -186,7 +186,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	else if (!enabled && (existingLoginItemIndex != -1))
 		LIAERemove(existingLoginItemIndex);
 
-	CFRelease(loginItems);
+	if(loginItems)
+		CFRelease(loginItems);
 }
 
 #pragma mark -
