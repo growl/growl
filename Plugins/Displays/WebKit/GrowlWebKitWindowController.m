@@ -188,17 +188,21 @@
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
 	opacity *= 0.01f;
 
+	CFStringRef titleHTML = createStringByEscapingForHTML((CFStringRef)title);
+	CFStringRef textHTML = createStringByEscapingForHTML((CFStringRef)text);
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
 	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,					 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)title,			 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)text,			 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)titleHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)textHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
 	CFRelease(uuidString);
 	CFRelease(opacityString);
+	CFRelease(titleHTML);
+	CFRelease(textHTML);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 
