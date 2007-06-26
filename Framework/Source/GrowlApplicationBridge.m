@@ -514,15 +514,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {
 	NSString *applicationNameForGrowl = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)]) {
+	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)])
 		applicationNameForGrowl = [delegate applicationNameForGrowl];
 
-		if (!applicationNameForGrowl) {
-			applicationNameForGrowl = [regDict objectForKey:GROWL_APP_NAME];
+	if (!applicationNameForGrowl) {
+		applicationNameForGrowl = [regDict objectForKey:GROWL_APP_NAME];
 
-			if (!applicationNameForGrowl)
-				applicationNameForGrowl = [[NSProcessInfo processInfo] processName];
-		}
+		if (!applicationNameForGrowl)
+			applicationNameForGrowl = [[NSProcessInfo processInfo] processName];
 	}
 
 	return applicationNameForGrowl;
