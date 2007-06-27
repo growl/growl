@@ -186,7 +186,7 @@ static NSData *mountIconData(void)
 		// need to invalidate the timer for a previous item if it exists
 		NSArray *cacheItem = [ejectCache objectForKey:path];
 		if (cacheItem)
-			[[[ejectCache objectForKey:path] objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
+			[[cacheItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
 		
 		[ejectCache setObject:[NSArray arrayWithObjects:info, timer, nil] forKey:path];
 	}
@@ -204,7 +204,7 @@ static NSData *mountIconData(void)
 
 	AppController_volumeDidUnmount(info);
 
-	if (isCached) {
+	if (cacheItem) {
 		[[cacheItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
 		// we need to remove the item from the cache AFTER calling volumeDidUnmount so that "info" stays
 		// retained long enough to be useful. After this next call, "info" is no longer valid.
@@ -246,9 +246,9 @@ void VolumeNotifier_dealloc(void) {
 	[center removeObserver:[VolumeNotifier class] name:NSWorkspaceDidMountNotification object:nil];
 
 	// loop through the eject cache and invalidate all the timers
-	NSEnumerator *ejectItemEnum = [ejectCache objectEnumerator];
-	for (NSArray *ejectItem = [ejectItemEnum nextObject]; ejectItem != nil; ejectItem = [ejectItemEnum nextObject])
-		[[ejectItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
+	NSEnumerator *cacheItemEnum = [ejectCache objectEnumerator];
+	for (NSArray *cacheItem = [cacheItemEnum nextObject]; cacheItem != nil; cacheItem = [cacheItemEnum nextObject])
+		[[cacheItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
 	
 	[ejectCache release];
 	ejectCache = nil;
