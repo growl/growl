@@ -589,7 +589,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		NSNumber *releaseType = [[NSNumber alloc] initWithUnsignedChar:version.releaseType];
 		NSNumber *development = [[NSNumber alloc] initWithUnsignedShort:version.development];
 
-		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+		versionInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[GrowlApplicationController growlVersion], (NSString *)kCFBundleVersionKey,
 
 			major,                                     @"Major version",
