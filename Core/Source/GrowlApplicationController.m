@@ -583,8 +583,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (version.releaseType == releaseType_svn)
 			version.development = strtoul(SVN_REVISION, /*endptr*/ NULL, 10);
 
-		const unsigned long long *versionNum = (const unsigned long long *)&version;
-		NSNumber *complete = [[NSNumber alloc] initWithUnsignedLongLong:*versionNum];
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
 		NSNumber *incremental = [[NSNumber alloc] initWithUnsignedChar:version.incremental];
@@ -592,7 +590,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		NSNumber *development = [[NSNumber alloc] initWithUnsignedShort:version.development];
 
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-			complete,                                  @"Complete version",
 			[GrowlApplicationController growlVersion], (NSString *)kCFBundleVersionKey,
 
 			major,                                     @"Major version",
@@ -604,7 +601,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 			nil];
 
-		[complete    release];
 		[major       release];
 		[minor       release];
 		[incremental release];
