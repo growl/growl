@@ -34,9 +34,6 @@ struct Version {
 
 #pragma options align=reset
 
-#define   STRUCT_VERSION_TO_64_BIT(v) (*(unsigned long long *)&(v))
-#define STRUCT_VERSION_FROM_64_BIT(v) (*(struct Version *)&(v))
-
 /*returns false if the version could not be parsed.
  *legend: 0.7.1svn1558
  *        A B CDDDEEEE
