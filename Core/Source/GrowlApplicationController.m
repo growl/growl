@@ -554,7 +554,18 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		}
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
+
+		//We'll be writing the file to ~/Library/Logs/Failed Growl registrations.
+		NSFileManager *mgr = [NSFileManager defaultManager];
+		NSString *userLibraryFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) lastObject];
+		NSString *logsFolder = [userLibraryFolder stringByAppendingPathComponent:@"Logs"];
+		[mgr createDirectoryAtPath:logsFolder attributes:nil];
+		NSString *failedTicketsFolder = [logsFolder stringByAppendingPathComponent:@"Failed Growl registrations"];
+		[mgr createDirectoryAtPath:failedTicketsFolder attributes:nil];
+		NSString *path = [failedTicketsFolder stringByAppendingPathComponent:filename];
+
+		//NSFileHandle will not create the file for us, so we must create it separately.
+		[mgr createFileAtPath:path contents:nil attributes:nil];
 
 		NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:path];
 		[fh seekToEndOfFile];
