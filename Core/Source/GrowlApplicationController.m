@@ -880,7 +880,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 					NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 				} else {
-					NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
+					NSNumber *versionNum = [ticket objectForKey:GROWL_TICKET_VERSION];
+					if (versionNum)
+						NSLog(@"%@ (located at %@) contains a ticket whose format version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [versionNum intValue], [self stringWithVersionDictionary:nil]);
+					else
+						NSLog(@"%@ (located at %@) contains a ticket with no format version number; Growl requires that a registration dictionary include a format version number, so that Growl knows whether it will understand the dictionary's format. This ticket will be ignored.", appName, appPath);
 				}
 				[ticket release];
 			}
