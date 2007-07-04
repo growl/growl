@@ -32,7 +32,6 @@
 		939DA4AF0AD9799C00DEBBDA /* Amazon.c in Sources */ = {isa = PBXBuildFile; fileRef = 939DA48E0AD9785500DEBBDA /* Amazon.c */; };
 		939DA4B60AD979CA00DEBBDA /* GTPPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 939DA4B50AD979CA00DEBBDA /* GTPPlugin.h */; };
 		939DA4E90AD979FE00DEBBDA /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
-		93A4CE180B59D3F500CA1924 /* growl.png in Resources */ = {isa = PBXBuildFile; fileRef = 93A4CE170B59D3F400CA1924 /* growl.png */; };
 		93A4CFF20B5AAACC00CA1924 /* GrowlLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A4CFF10B5AAACC00CA1924 /* GrowlLog.h */; };
 		95EB40540AF4449200035504 /* GrowlTunes.c in Sources */ = {isa = PBXBuildFile; fileRef = 95EB40520AF4449200035504 /* GrowlTunes.c */; };
 		95EB40550AF4449200035504 /* HotKey.c in Sources */ = {isa = PBXBuildFile; fileRef = 95EB40530AF4449200035504 /* HotKey.c */; };
@@ -46,13 +45,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8D202CF80486D31800D8A456;
 			remoteInfo = Growl;
-		};
-		9335488F093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DDF09B0A080AC8F3006F4172;
-			remoteInfo = PrefpaneTesting;
 		};
 		93354891093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -166,6 +158,13 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
+		E1BE109C0C3BBDCB005ACA72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50 /* Growl.dylib.dylib */;
+			remoteInfo = Growl.dylib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -184,7 +183,6 @@
 		939DA4A90AD9794900DEBBDA /* Amazon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Amazon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		939DA4AA0AD9794900DEBBDA /* Amazon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Amazon-Info.plist"; sourceTree = "<group>"; };
 		939DA4B50AD979CA00DEBBDA /* GTPPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GTPPlugin.h; sourceTree = "<group>"; };
-		93A4CE170B59D3F400CA1924 /* growl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growl.png; path = ../../images/icons/growl.png; sourceTree = SOURCE_ROOT; };
 		93A4CFF10B5AAACC00CA1924 /* GrowlLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlLog.h; sourceTree = "<group>"; };
 		95EB40520AF4449200035504 /* GrowlTunes.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GrowlTunes.c; sourceTree = "<group>"; };
 		95EB40530AF4449200035504 /* HotKey.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = HotKey.c; sourceTree = "<group>"; };
@@ -247,7 +245,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				93A4CE170B59D3F400CA1924 /* growl.png */,
 				E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */,
 				93353EAA093A133E007C8B10 /* Info-GrowlTunes.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
@@ -281,10 +278,10 @@
 			isa = PBXGroup;
 			children = (
 				9335488E093A9D0D007C8B10 /* Growl.prefPane */,
-				93354890093A9D0D007C8B10 /* PrefpaneTesting.app */,
 				93354892093A9D0D007C8B10 /* GrowlHelperApp.app */,
 				93354894093A9D0D007C8B10 /* GrowlMenu.app */,
 				93354896093A9D0D007C8B10 /* Growl.framework */,
+				E1BE109D0C3BBDCB005ACA72 /* Growl.dylib.dylib */,
 				9335489A093A9D0D007C8B10 /* Growl-WithInstaller.framework */,
 				9335489E093A9D0D007C8B10 /* Speech.growlView */,
 				933548A0093A9D0D007C8B10 /* Brushed.growlView */,
@@ -423,13 +420,6 @@
 			remoteRef = 9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		93354890093A9D0D007C8B10 /* PrefpaneTesting.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PrefpaneTesting.app;
-			remoteRef = 9335488F093A9D0D007C8B10 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		93354892093A9D0D007C8B10 /* GrowlHelperApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -528,6 +518,13 @@
 			remoteRef = E1B3D1710967235D00021266 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E1BE109D0C3BBDCB005ACA72 /* Growl.dylib.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = Growl.dylib.dylib;
+			remoteRef = E1BE109C0C3BBDCB005ACA72 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -537,7 +534,6 @@
 			files = (
 				93353E9C093A133E007C8B10 /* InfoPlist.strings in Resources */,
 				E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */,
-				93A4CE180B59D3F500CA1924 /* growl.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
