@@ -1,8 +1,23 @@
+##########################
+### Versioning:
+###   * Set the VERSION below
+###   * Update the version struct in Core/Source/GrowlApplicationController.m 
+###       (needed for proper version checking)
+###   * Update the version string in Extras/growlnotify/main.m
+#
+VERSION=1.1b2
+#
+#########################
+#
+# No changes should be needed below this line
+#
+#########################
+RELEASE_NAME=Growl-$VERSION
+
 SRC_DIR=..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
-RELEASE_NAME=Growl-1.1b1
 BUILDSTYLE=Deployment
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
@@ -23,17 +38,12 @@ else
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 
-# What to do before running this script:
-# - Set version number in GHA. You can do this in GrowlController.m. Look for the "static struct Version version" line.
-# - Set RELEASE_NAME
-# - Edit the following two plist keys
-#       - Core/Resources/Info.plist
-#       - Core/Resources/GrowlHelperApp-Info.plist
+#########################
 
-.PHONY: all assertnochanges assertnoconflicts compile clean release source
+.PHONY: all assertnochanges assertnoconflicts compile clean release source version
 
-all: assertnochanges compile release
-all-withlocalchanges: assertnoconflicts compile release
+all: assertnochanges version compile release
+all-withlocalchanges: assertnoconflicts version compile release
 
 assertnochanges:
 	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
@@ -45,6 +55,37 @@ assertnoconflicts:
 		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "svn resolved"; otherwise, svn will still believe the files are conflicted.' 1>&2; \
 		exit 2; \
 	fi
+
+version:
+	@# update the CFBundleVersion
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlCode/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleVersion '$(VERSION)'
+
+	@# update the CFBundleShortVersionString
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlCode/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleShortVersionString '$(VERSION)'
+
+	@# Convert back to XML plist, since defaults creates binary plists
+	plutil -convert xml1 $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Core/Resources/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlCode/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlMail/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlSafari/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlTunes/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/HardwareGrowler/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist
 
 compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
