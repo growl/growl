@@ -189,15 +189,29 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 static void airportStatusChange(CFDictionaryRef newValue) {
 //	NSLog(CFSTR("AirPort event"));
 	CFDataRef newBSSID = CFDictionaryGetValue(newValue, CFSTR("BSSID"));
-	if (!(airportStatus && CFEqual(CFDictionaryGetValue(airportStatus, CFSTR("BSSID")), newBSSID))) {
+	CFDataRef oldBSSID = CFDictionaryGetValue(airportStatus, CFSTR("BSSID"));
+	if (!(airportStatus && newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
 		int status;
 		CFNumberRef linkStatus = CFDictionaryGetValue(newValue, CFSTR("Link Status"));
-		if (linkStatus) {
-			CFNumberGetValue(linkStatus, kCFNumberIntType, &status);
-			if (status == AIRPORT_DISCONNECTED)
-				AppController_airportDisconnect(CFDictionaryGetValue(airportStatus, CFSTR("SSID")));
-			else
-				AppController_airportConnect(CFDictionaryGetValue(newValue, CFSTR("SSID")), CFDataGetBytePtr(newBSSID));
+		CFNumberRef powerStatus = CFDictionaryGetValue(newValue, CFSTR("Power Status"));
+		if (linkStatus || powerStatus) {
+			if (linkStatus) {
+				CFNumberGetValue(linkStatus, kCFNumberIntType, &status);
+			} else if (powerStatus) {
+				CFNumberGetValue(powerStatus, kCFNumberIntType, &status);
+				status = !status;
+			}
+			if (status == AIRPORT_DISCONNECTED) {
+				CFStringRef networkName = CFDictionaryGetValue(airportStatus, CFSTR("SSID_STR"));
+				if (!networkName)
+					networkName = CFDictionaryGetValue(airportStatus, CFSTR("SSID"));
+				AppController_airportDisconnect(networkName);
+			} else {
+				CFStringRef networkName = CFDictionaryGetValue(newValue, CFSTR("SSID_STR"));
+				if (!networkName)
+					networkName = CFDictionaryGetValue(newValue, CFSTR("SSID"));
+				AppController_airportConnect(networkName, CFDataGetBytePtr(newBSSID));
+			}
 		}
 	}
 	if (airportStatus)
