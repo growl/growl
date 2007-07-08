@@ -45,7 +45,6 @@ CSRCS = \
 CMMSRCS = \
   mozGrowlDelegate.mm \
   nsAlertsImageLoadListener.mm \
-  nsAlertsServiceMac.mm \
   grApplicationBridge.mm \
   grNotifications.mm \
   module.mm \

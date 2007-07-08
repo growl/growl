@@ -17,6 +17,7 @@ const nsIStringBundleService = Components.interfaces.nsIStringBundleService;
 const nsIFolderListener = Components.interfaces.nsIFolderListener;
 const grINotificationsList = Components.interfaces.grINotificationsList;
 const nsIWindowWatcher = Components.interfaces.nsIWindowWatcher;
+const nsIMsgFolder = Components.interfaces.nsIMsgFolder;
 
 const CLASS_ID = Components.ID("33f659ee-9334-4f28-a742-344d95a520c4");
 const CLASS_NAME = "Mail Notifications";
@@ -47,12 +48,17 @@ function grMailNotifications()
   var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
                       .getService(nsIStringBundleService);
   this.mBundle = sbs.createBundle(GROWL_BUNDLE_LOCATION);
+    
+  var as = Components.classes["@mozilla.org/atom-service;1"]
+                     .getService(Components.interfaces.nsIAtomService);
+  this.BiffStateAtom = as.getAtom("BiffState");
 
   this.mObserverService.addObserver(this, "before-growl-registration", false);
 }
 
 grMailNotifications.prototype = {
-  // nsIObserver
+  //////////////////////////////////////////////////////////////////////////////
+  //// nsIObserver
   observe: function observer(aSubject, aTopic, aData)
   {
     switch (aTopic) {
@@ -93,7 +99,8 @@ grMailNotifications.prototype = {
     }
   },
 
-  // nsIFolderListener
+  //////////////////////////////////////////////////////////////////////////////
+  //// nsIFolderListener
   OnItemAdded: function OnItemAdded(aParentItem, aItem)
   {
     var header = aItem.QueryInterface(Components.interfaces.nsIMsgDBHdr);
@@ -109,7 +116,7 @@ grMailNotifications.prototype = {
       var msg  = this.mBundle.formatStringFromName("mail.new.text", data, 2);
       var img  = "chrome://growl/content/new-mail-alert.png";
 
-      this.grn.sendNotification(name, img, ttle, msg, this);
+      this.grn.sendNotification(name, img, ttle, msg, "", this);
     }
   },
 
@@ -128,6 +135,11 @@ grMailNotifications.prototype = {
                                                               aOldValue,
                                                               aNewValue)
   {
+    if (this.BiffStateAtom != aProperty) return;
+    if (aNewValue != nsIMsgFolder.nsMsgBiffState_NewMail) return;
+
+    var folder = aItem.QueryInterface(nsIMsgFolder);
+    if (!folder.server.performingBiff) return;
   },
 
   OnItemPropertyChanged: function OnItemPropertyChanged(aItem, aProperty,

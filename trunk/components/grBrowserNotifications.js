@@ -85,25 +85,25 @@ grBrowserNotifications.prototype = {
         var name = this.mBundle.GetStringFromName("download.start.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, this);
+        this.grn.sendNotification(name, img, name, msg, "", this);
         break;
       case "dl-done":
         var name = this.mBundle.GetStringFromName("download.finished.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, this);
+        this.grn.sendNotification(name, img, name, msg, "", this);
         break;
       case "dl-cancel":
         var name = this.mBundle.GetStringFromName("download.canceled.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, this);
+        this.grn.sendNotification(name, img, name, msg, "", this);
         break;
       case "dl-failed":
         var name = this.mBundle.GetStringFromName("download.failed.title");
         var img  = "chrome://growl/content/downloadIcon.png";
         var msg  = aSubject.QueryInterface(nsIDownload).displayName;
-        this.grn.sendNotification(name, img, name, msg, this);
+        this.grn.sendNotification(name, img, name, msg, "", this);
         break;
       case "alertclickcallback":
         var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]

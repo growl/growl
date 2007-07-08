@@ -15,11 +15,16 @@
 #include "nsIIOService.h"
 #include "nsIChannel.h"
 #include "nsIObserverService.h"
+#include "nsIStringBundle.h"
 #include "nsAutoPtr.h"
+#include "localeKeys.h"
 
 #import "wrapper.h"
 
 NSAutoreleasePool *gGrowlAutoreleasePool;
+
+////////////////////////////////////////////////////////////////////////////////
+//// grNotificationsList
 
 class grNotificationsList : public grINotificationsList
 {
@@ -44,6 +49,29 @@ NS_INTERFACE_MAP_BEGIN(grNotificationsList)
   NS_INTERFACE_MAP_ENTRY(grINotificationsList)
 NS_INTERFACE_MAP_END
 
+grNotificationsList::grNotificationsList()
+{
+  mNames   = [[NSMutableArray arrayWithCapacity: 8] retain];
+  mEnabled = [[NSMutableArray arrayWithCapacity: 8] retain];
+}
+
+grNotificationsList::~grNotificationsList()
+{
+  [mNames release];
+  [mEnabled release];
+}
+
+void
+grNotificationsList::informController(mozGrowlDelegate *delegate)
+{
+  [delegate addNotificationNames: mNames];
+
+  [delegate addEnabledNotifications: mEnabled];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//// grNotifications
+
 NS_IMPL_THREADSAFE_ADDREF(grNotifications)
 NS_IMPL_THREADSAFE_RELEASE(grNotifications)
 
@@ -52,6 +80,26 @@ NS_INTERFACE_MAP_BEGIN(grNotifications)
   NS_INTERFACE_MAP_ENTRY(nsIObserver)
   NS_INTERFACE_MAP_ENTRY(grINotifications)
 NS_INTERFACE_MAP_END_THREADSAFE
+
+grNotifications *grNotifications::gNotificationsService = nsnull;
+
+grNotifications *
+grNotifications::GetSingleton()
+{
+  if (gNotificationsService) {
+    NS_ADDREF(gNotificationsService);
+    return gNotificationsService;
+  }
+
+  gNotificationsService = new grNotifications();
+  if (gNotificationsService) {
+    NS_ADDREF(gNotificationsService);
+    if (NS_FAILED(gNotificationsService->Init()))
+      NS_RELEASE(gNotificationsService);
+  }
+
+  return gNotificationsService;
+}
 
 nsresult
 grNotifications::Init()
@@ -81,20 +129,58 @@ grNotifications::~grNotifications()
   [gGrowlAutoreleasePool release];
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//// nsIAlertsService
+
+NS_IMETHODIMP
+grNotifications::ShowAlertNotification(const nsAString &aImageUrl,
+                                       const nsAString &aAlertTitle,
+                                       const nsAString &aAlertText,
+                                       PRBool aAlertClickable,
+                                       const nsAString &aAlertCookie,
+                                       nsIObserver* aAlertListener)
+{
+  nsresult rv;
+  nsCOMPtr<nsIStringBundleService> bundleService =
+    do_GetService("@mozilla.org/intl/stringbundle;1", &rv);
+
+  nsString name = NS_LITERAL_STRING("General Notification");
+  if (NS_SUCCEEDED(rv)) {
+    nsCOMPtr<nsIStringBundle> bundle;
+    rv = bundleService->CreateBundle(GROWL_BUNDLE_LOCATION,
+                                     getter_AddRefs(bundle));
+
+    if (NS_SUCCEEDED(rv)) {
+      rv = bundle->GetStringFromName(GENERAL_TITLE, getter_Copies(name));
+
+      if (NS_FAILED(rv))
+        name = NS_LITERAL_STRING("General Notification");
+    }
+  }
+
+  return SendNotification(name, aImageUrl, aAlertTitle, aAlertText,
+                          aAlertCookie, aAlertListener);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//// grINotifications
+
 NS_IMETHODIMP
 grNotifications::SendNotification(const nsAString &aName,
                                   const nsAString &aImage,
                                   const nsAString &aTitle,
                                   const nsAString &aMessage,
+                                  const nsAString &aData,
                                   nsIObserver* aObserver)
 {
-  nsresult rv;
-  nsCOMPtr<nsAlertsImageLoadListener> listener = nsnull;
+  NS_ASSERTION(mDelegate->delegate == [GrowlApplicationBridge growlDelegate],
+               "Growl Delegate was not registered properly.");
 
   PRUint32 ind = 0;
   if (aObserver)
     ind = [mDelegate->delegate addObserver: aObserver];
 
+  nsresult rv;
   nsCOMPtr<nsIIOService> io;
   io = do_GetService("@mozilla.org/network/io-service;1", &rv);
   NS_ENSURE_SUCCESS(rv, rv);
@@ -108,19 +194,20 @@ grNotifications::SendNotification(const nsAString &aName,
                          text: aMessage
                         image: [NSData data]
                           key: ind
-                       cookie: nsString()];
+                       cookie: aData];
     return NS_OK;
   }
 
+  nsCOMPtr<nsIChannel> chan;
+  rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
+  NS_ENSURE_SUCCESS(rv, rv);
+
+  nsCOMPtr<nsAlertsImageLoadListener> listener = nsnull;
   listener = new nsAlertsImageLoadListener(aName, aTitle, aMessage,
                                            aObserver ? PR_TRUE : PR_FALSE,
                                            nsString(), ind);
   if (!listener)
     return NS_ERROR_OUT_OF_MEMORY;
-
-  nsCOMPtr<nsIChannel> chan;
-  rv = io->NewChannelFromURI(uri, getter_AddRefs(chan));
-  NS_ENSURE_SUCCESS(rv, rv);
 
   nsCOMPtr<nsIStreamLoader> loader;
   loader = do_CreateInstance("@mozilla.org/network/stream-loader;1", &rv);
@@ -169,17 +256,8 @@ grNotifications::Observe(nsISupports *aSubject, const char *aTopic,
   return NS_OK;
 }
 
-grNotificationsList::grNotificationsList()
-{
-  mNames   = [[NSMutableArray arrayWithCapacity: 8] retain];
-  mEnabled = [[NSMutableArray arrayWithCapacity: 8] retain];
-}
-
-grNotificationsList::~grNotificationsList()
-{
-  [mNames release];
-  [mEnabled release];
-}
+////////////////////////////////////////////////////////////////////////////////
+//// grINotifications
 
 NS_IMETHODIMP
 grNotificationsList::AddNotification(const nsAString &aName, PRBool aEnabled)
@@ -207,12 +285,4 @@ grNotificationsList::IsNotification(const nsAString &aName, PRBool *retVal)
     *retVal = PR_FALSE;
 
   return NS_OK;
-}
-
-void
-grNotificationsList::informController(mozGrowlDelegate *delegate)
-{
-  [delegate addNotificationNames: mNames];
-
-  [delegate addEnabledNotifications: mEnabled];
 }

@@ -172,6 +172,30 @@
   }
 }
 
+- (void) growlNotificationNotDisplayed:(id)clickContext
+{
+  NS_ASSERTION([clickContext valueForKey: OBSERVER_KEY] != nil,
+               "OBSERVER_KEY not found!");
+  NS_ASSERTION([clickContext valueForKey: COOKIE_KEY] != nil,
+               "COOKIE_KEY not found!");
+
+  nsIObserver* observer = NS_STATIC_CAST(nsIObserver*,
+    [[mDict objectForKey: [clickContext valueForKey: OBSERVER_KEY]]
+      pointerValue]);
+  [mDict removeObjectForKey: [clickContext valueForKey: OBSERVER_KEY]];
+  NSString* cookie = [[clickContext valueForKey: COOKIE_KEY] objectAtIndex: 0];
+
+  if (observer) {
+    nsString tmp;
+    tmp.SetLength([cookie length]);
+    [cookie getCharacters:tmp.BeginWriting()];
+
+    observer->Observe(nsnull, "alertfailed", tmp.get());
+
+    NS_RELEASE(observer);
+  }
+}
+
 - (void) growlNotificationWasClicked:(id)clickContext
 {
   NS_ASSERTION([clickContext valueForKey: OBSERVER_KEY] != nil,

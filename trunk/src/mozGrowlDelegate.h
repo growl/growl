@@ -82,6 +82,13 @@
 - (void) growlNotificationTimedOut:(id)clickContext;
 
 /**
+ * Informs us that a Growl notification was not displayed.
+ *
+ * @param clickContext The object passed back from growl.
+ */
+- (void) growlNotificationNotDisplayed:(id)clickContext;
+
+/**
  * Informs us that a Growl notification was clicked.  It is only called when
  * Growl when the notification sent to Growl is sent with a non-nil
  * clickContext.

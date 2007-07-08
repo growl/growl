@@ -9,6 +9,7 @@
 #define grNotifications_h_
 
 #include "xpcom-config.h"
+#include "nsIAlertsService.h"
 #include "grINotifications.h"
 #include "nsIObserver.h"
 
@@ -22,18 +23,24 @@
 struct GrowlDelegateWrapper;
 
 class grNotifications : public grINotifications,
+                        public nsIAlertsService,
                         public nsIObserver
 {
 public:
   NS_DECL_ISUPPORTS
+  NS_DECL_NSIALERTSSERVICE
   NS_DECL_GRINOTIFICATIONS
   NS_DECL_NSIOBSERVER
+
+  static grNotifications *GetSingleton();
 
   grNotifications() : mDelegate(nsnull) { }
   nsresult Init();
 protected:
   virtual ~grNotifications();
   GrowlDelegateWrapper *mDelegate;
+
+  static grNotifications *gNotificationsService;
 };
 
 #endif // grNotifications_h_

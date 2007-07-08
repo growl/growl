@@ -100,7 +100,7 @@ function growlSendNotification(aName, aImg, aTitle, aMsg, aObserver)
 {
   var grn = Components.classes["@growl.info/notifications;1"]
                       .getService(Components.interfaces.grINotifications);
-  grn.sendNotification(aName, aImg, aTitle, aMsg, aObserver);
+  grn.sendNotification(aName, aImg, aTitle, aMsg, "", aObserver);
 }
 
 function growlPrivateMsg(e)

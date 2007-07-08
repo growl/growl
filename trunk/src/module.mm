@@ -7,16 +7,15 @@
 
 #include "nsIGenericFactory.h"
 #include "nsToolkitCompsCID.h"
-#include "nsAlertsServiceMac.h"
 #include "grApplicationBridge.h"
 #include "grNotifications.h"
 #include "nsICategoryManager.h"
 #include "nsServiceManagerUtils.h"
 #include "nsMemory.h"
 
-NS_GENERIC_FACTORY_CONSTRUCTOR(nsAlertsServiceMac)
 NS_GENERIC_FACTORY_CONSTRUCTOR(grApplicationBridge)
-NS_GENERIC_FACTORY_CONSTRUCTOR_INIT(grNotifications, Init)
+NS_GENERIC_FACTORY_SINGLETON_CONSTRUCTOR(grNotifications,
+                                         grNotifications::GetSingleton)
 
 static
 NS_METHOD
@@ -65,7 +64,7 @@ static nsModuleComponentInfo components[] =
   { "Alerts Service",
     NS_ALERTSSERVICE_CID,
     NS_ALERTSERVICE_CONTRACTID,
-    nsAlertsServiceMacConstructor },
+    grNotificationsConstructor },
   { "Growl Application Bridge",
     GROWL_APPLICATION_BRIDGE_CID,
     GROWL_APPLICATION_BRIDGE_CONTRACTID,
