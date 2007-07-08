@@ -33,6 +33,7 @@ const FLR_FLAG_JUNK = 0x40000000;
 const FLR_FLAG_SENTMAIL = 0x0200;
 const FLR_FLAG_IMAP_NOSELECT = 0x1000000;
 const FLR_FLAG_CHECK_NEW = 0x20000000;
+const SRV_RSS = "rss";
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Implementation
@@ -177,10 +178,14 @@ grMailNotifications.prototype = {
    */
   checkFolder: function checkFolder(aFolder)
   {
+    // XXX at least until I come up with some kind of message queue that slowly
+    // displays messages, we ignore RSS feeds.
+    
     // We don't check certain folders because they don't contain useful stuff
     if ((aFolder.flags & FLR_FLAG_TRASH) == FLR_FLAG_TRASH ||
         (aFolder.flags & FLR_FLAG_JUNK) == FLR_FLAG_JUNK ||
-        (aFolder.flags & FLR_FLAG_SENTMAIL) == FLR_FLAG_SENTMAIL)
+        (aFolder.flags & FLR_FLAG_SENTMAIL) == FLR_FLAG_SENTMAIL ||
+        aFolder.server.type == SRV_RSS))
       return false;
 
     return true;
