@@ -185,7 +185,7 @@ grMailNotifications.prototype = {
     if ((aFolder.flags & FLR_FLAG_TRASH) == FLR_FLAG_TRASH ||
         (aFolder.flags & FLR_FLAG_JUNK) == FLR_FLAG_JUNK ||
         (aFolder.flags & FLR_FLAG_SENTMAIL) == FLR_FLAG_SENTMAIL ||
-        aFolder.server.type == SRV_RSS))
+        aFolder.server.type == SRV_RSS)
       return false;
 
     return true;
