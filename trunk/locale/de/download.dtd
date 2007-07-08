@@ -1,0 +1,7 @@
+<!--
+  - Translated by Philipp Kewisch <mozilla@kewis.ch>
+  -->
+<!ENTITY Download.yes "Ja">
+<!ENTITY Download.no "Nein">
+<!ENTITY Download.title "Growl ist nicht installiert!">
+<!ENTITY Download.text "Es scheint Sie haben Growl nicht installiert. Möchten Sie auf die Growl Webseite weitergeleitet werden um es jetzt herunterzuladen?">

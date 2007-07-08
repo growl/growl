@@ -31,6 +31,7 @@ EXTRA_COMPONENTS = \
 
 ALL_LOCALES = \
   en-US \
+  de \
   $(NULL)
 
 include $(topsrcdir)/config/config.mk
