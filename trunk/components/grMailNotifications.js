@@ -8,6 +8,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 //// Constants
 
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+const Cr = Components.results;
+
 const nsISupports = Components.interfaces.nsISupports;
 const nsIComponentRegistrar = Components.interfaces.nsIComponentRegistrar;
 const nsICategoryManager = Components.interfaces.nsICategoryManager;
@@ -81,21 +85,6 @@ grMailNotifications.prototype = {
         mms.AddFolderListener(this, nsIFolderListener.added);
 
         break;
-      case "alertclickcallback":
-        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                           .getService(Components.interfaces.nsIWindowMediator);
-        var win = wm.getMostRecentWindow("mail:3pane");
-        if (win) {
-          win.focus();
-        } else {
-          var ww = Components.classes["@mozilla.org/embedcomp/window-watcher;1"]
-                             .getService(nsIWindowWatcher);
-          ww.openWindow(null, "chrome://messenger/content/messenger.xul",
-                        "_blank", "chrome,dialog=no,resizable", null);
-        }
-
-        this.grn.makeAppFocused();
-        break;
       default:
     }
   },
@@ -117,7 +106,8 @@ grMailNotifications.prototype = {
       var msg  = this.mBundle.formatStringFromName("mail.new.text", data, 2);
       var img  = "chrome://growl/content/new-mail-alert.png";
 
-      this.grn.sendNotification(name, img, ttle, msg, "", this);
+      let observer = new MailObserver(header, this.grn);
+      this.grn.sendNotification(name, img, ttle, msg, "", observer);
     }
   },
 
@@ -200,6 +190,77 @@ grMailNotifications.prototype = {
     throw Components.results.NS_ERROR_NO_INTERFACE;
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//// Mail Observer
+
+/**
+ * The clickback observer for the notification.  Opens up the message.
+ *
+ * @param aMessageHeader
+ *        The message header for the message we want to open.
+ * @param aGRN
+ *        The Growl notifications service.  We pass this in to have less
+ *        overhead for each time a user could click us.
+ */
+function MailObserver(aMessageHeader, aGRN)
+{
+  this.mMessageURI = aMessageHeader.folder.getUriForMsg(aMessageHeader);
+  this.mFolderURI = aMessageHeader.folder.folderURL;
+  this.mMessageKey = aMessageHeader.messageKey;
+  this.grn = aGRN;
+}
+MailObserver.prototype =
+{
+  mMessageURI: null,
+  mFolderUIR: null,
+  mMessageKey: null,
+  grn: null,
+
+  //////////////////////////////////////////////////////////////////////////////
+  //// nsIObserver
+  
+  observe: function MailObserverObserve(aSubject, aTopic, aData)
+  {
+    if (aTopic != "alertclickcallback") return;
+
+    let mms = Cc["@mozilla.org/messenger/services/session;1"].
+              getService(Ci.nsIMsgMailSession);
+    let win = null;
+    try {
+      win = mms.topmostMsgWindow;
+    } catch (e) { /* we don't care if this fails */ }
+
+    if (win) {
+      // SelectFolder throws an exception if the folder is not in the current
+      // folder view, so we wrap it in a try catch block
+      try {
+        win.SelectFolder(this.mFolderURI);
+        win.SelectMessage(this.mMessageURI);
+      } catch (e) { }
+    } else {
+      let mws = Cc["@mozilla.org/messenger/windowservice;1"].
+                getService(Ci.nsIMessengerWindowService);
+      mws.openMessengerWindowWithUri("mail:3pane", this.mFolderURI,
+                                     this.mMessageKey);
+    }
+
+    this.grn.makeAppFocused();
+  },
+
+  //////////////////////////////////////////////////////////////////////////////
+  //// nsISupports
+  QueryInterface: function(aIID)
+  {
+    if (aIID.equals(Ci.nsISupports) || aIID.equals(Ci.nsIObserver))
+      return this;
+
+    throw Cr.NS_ERROR_NO_INTERFACE;
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//// Boilerplate
 
 var grMailNotificationsFactory = {
   singleton: null,
