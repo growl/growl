@@ -876,7 +876,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 					 *	GHA, rather than some other.
 					 */
 					CFURLRef myURL      = (CFURLRef)copyCurrentProcessURL();
-					NSArray *URLsToOpen = [NSArray arrayWithObject:(NSURL *)ticketURL];
+					NSArray *URLsToOpen = [NSArray arrayWithObject:[NSURL fileURLWithPath:ticketPath]];
 					struct LSLaunchURLSpec spec = {
 						.appURL = myURL,
 						.itemURLs = (CFArrayRef)URLsToOpen,
