@@ -188,13 +188,20 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 
 static void airportStatusChange(CFDictionaryRef newValue) {
 //	NSLog(CFSTR("AirPort event"));
-	CFDataRef newBSSID = CFDictionaryGetValue(newValue, CFSTR("BSSID"));
-	CFDataRef oldBSSID = CFDictionaryGetValue(airportStatus, CFSTR("BSSID"));
-	if (!(airportStatus && newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
-		int status;
+
+	CFDataRef newBSSID = NULL;
+	if (newValue)
+		newBSSID = CFDictionaryGetValue(newValue, CFSTR("BSSID"));
+
+	CFDataRef oldBSSID = NULL;
+	if (airportStatus)
+		oldBSSID = CFDictionaryGetValue(airportStatus, CFSTR("BSSID"));
+
+	if (newValue && oldBSSID != newBSSID && !(newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
 		CFNumberRef linkStatus = CFDictionaryGetValue(newValue, CFSTR("Link Status"));
 		CFNumberRef powerStatus = CFDictionaryGetValue(newValue, CFSTR("Power Status"));
 		if (linkStatus || powerStatus) {
+			int status;
 			if (linkStatus) {
 				CFNumberGetValue(linkStatus, kCFNumberIntType, &status);
 			} else if (powerStatus) {
@@ -214,9 +221,14 @@ static void airportStatusChange(CFDictionaryRef newValue) {
 			}
 		}
 	}
+
 	if (airportStatus)
 		CFRelease(airportStatus);
-	airportStatus = CFRetain(newValue);
+
+	if (newValue)
+		airportStatus = CFRetain(newValue);
+	else
+		airportStatus = NULL;
 }
 
 static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
