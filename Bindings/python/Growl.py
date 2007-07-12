@@ -7,13 +7,11 @@ __author__ = "Mark Rowe <bdash@users.sourceforge.net>"
 __copyright__ = "(C) 2003 Mark Rowe <bdash@users.sourceforge.net>. Released under the BSD license."
 __contributors__ = ["Ingmar J Stein (Growl Team)", 
                     "Rui Carmo (http://the.taoofmac.com)",
-                    "Jeremy Rossi <jeremy@jeremyrossi.com>"
+                    "Jeremy Rossi <jeremy@jeremyrossi.com>",
+					"Peter Hosey <http://boredzo.org/> (Growl Team)",
                    ]
 
-try:
-    import _growl
-except:
-    _growl = False
+import _growl
 import types
 import struct
 import md5
