@@ -383,7 +383,7 @@
 	else if([notification object] == appPositionPicker) {
 		// a cheap hack around selection not providing a workable object
 		NSArray *selection = [ticketsArrayController selectedObjects];
-		if ([selection count])
+		if ([selection count] > 0)
 			[[selection objectAtIndex:0] setSelectedPosition:[appPositionPicker selectedPosition]];
 	}
 }
