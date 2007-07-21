@@ -188,6 +188,17 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	}
 }
 
+#pragma mark KVC
+
+//When the table view of applications is empty, Cocoa Bindings tries to set the selected position of the per-application position picker to nil. With the stock KVC behavior, that raises an assertion failure. This implementation accepts nil for that key, preventing that assertion failure.
+- (void)setNilValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"selectedPosition"])
+		[self setSelectedPosition:GrowlNoOrigin];
+	else
+		return [super setNilValueForKey:key];
+}
+
 @end
 
 #pragma mark -
