@@ -673,7 +673,7 @@
 		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
 		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34725B060C06788200499F50 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<group>"; };
-		34725B0F0C0678A000499F50 /* Growl.dylib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		34725B0F0C0678A000499F50 /* Growl.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppNameClickNotificationTransformer.h; path = Core/Source/GrowlAppNameClickNotificationTransformer.h; sourceTree = "<group>"; };
 		347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppNameClickNotificationTransformer.m; path = Core/Source/GrowlAppNameClickNotificationTransformer.m; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
@@ -930,7 +930,7 @@
 		CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationTicket.h; path = Core/Source/GrowlNotificationTicket.h; sourceTree = "<group>"; };
 		CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationTicket.m; path = Core/Source/GrowlNotificationTicket.m; sourceTree = "<group>"; };
 		CB5F83A60638B8C800EADD7A /* HelperMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelperMain.m; path = Core/Source/HelperMain.m; sourceTree = "<group>"; };
-		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "GrowlHelperApp-Info.plist"; path = "Core/Resources/GrowlHelperApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CB910DA6074E0A3A00278FC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlSMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1532,7 +1532,7 @@
 				DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */,
 				93BC379E095A662B0002B365 /* Nano.growlView */,
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
-				34725B0F0C0678A000499F50 /* Growl.dylib.dylib */,
+				34725B0F0C0678A000499F50 /* Growl.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2036,7 +2036,7 @@
 			);
 			name = Growl.dylib;
 			productName = Growl.dylib;
-			productReference = 34725B0F0C0678A000499F50 /* Growl.dylib.dylib */;
+			productReference = 34725B0F0C0678A000499F50 /* Growl.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		34F60EAA078E1CD500CECA86 /* Growl.framework */ = {
