@@ -201,7 +201,6 @@ static NSMutableDictionary *existingInstances;
 			} else {
 				[self didFinishTransitionsAfterDisplay];
 			}
-			[self didTakeDownNotification];
 		}
 	}
 }
@@ -261,6 +260,8 @@ static NSMutableDictionary *existingInstances;
 	[windowTransitions release]; windowTransitions = nil;
 
 	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+
+	[self didTakeDownNotification];
 
 	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
 		[[bridge display] displayWindowControllerDidTakeDownWindow:self];
