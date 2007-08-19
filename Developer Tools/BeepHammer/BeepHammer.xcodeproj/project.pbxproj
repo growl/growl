@@ -227,7 +227,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build/Deployment,
+					"../../build/$(CONFIGURATION)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -257,7 +257,7 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build/Deployment,
+					"../../build/$(CONFIGURATION)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -286,7 +286,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build/Deployment,
+					"../../build/$(CONFIGURATION)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
