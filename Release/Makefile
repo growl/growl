@@ -1,11 +1,13 @@
 ##########################
 ### Versioning:
-###   * Set the VERSION below
+###   * Set VERSION and BETA below. BETA should be TRUE or FALSE.
 ###   * Update the version struct in Core/Source/GrowlApplicationController.m 
 ###       (needed for proper version checking)
 ###   * Update the version string in Extras/growlnotify/main.m
 #
-VERSION=1.1b2
+VERSION=1.1b3
+BETA=TRUE
+
 #
 #########################
 #
@@ -135,15 +137,20 @@ release:
 	rm -rf $(BUILD_DIR)
 	mkdir $(BUILD_DIR)
 	mkdir $(GROWL_DIR)
+	
 	@# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
+	
 	@# copy webloc files
 	cp "Growl Documentation.webloc" "Growl version history.webloc" "Get more styles.webloc" $(GROWL_DIR)
+	
 	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
+	
 	@# copy the prefpane
 	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
+	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/growlnotify
@@ -157,6 +164,7 @@ release:
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 	cp $(SRC_DIR)/Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
+	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail
@@ -172,6 +180,7 @@ release:
 	sudo rm -rf $(BUILD_DIR)/GrowlMail
 	rm -rf $(BUILD_DIR)/GrowlMail-Resources
 	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
+	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari
@@ -184,14 +193,19 @@ release:
 	sudo rm -rf $(BUILD_DIR)/GrowlSafari
 	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
+	
 	@# build the SDK
 	mkdir $(SDK_DIR)
+	
 	@# copy the webloc files
 	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
+	
 	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(SDK_DIR)/*.webloc
+	
 	@# copy the scripts
 	#cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
+	
 	@# copy over relevant files to compile directly into app
 	mkdir $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Framework/Source/GrowlApplicationBridge.h $(SDK_DIR)/Built-In
@@ -209,26 +223,38 @@ release:
 	cp $(SRC_DIR)/Common/Source/CFMutableDictionaryAdditions.c $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Core/Source/GrowlPreferencesController.h $(SDK_DIR)/Built-In
 	cp $(SRC_DIR)/Core/Source/GrowlTicketController.h $(SDK_DIR)/Built-In
+	
 	@# copy the frameworks
 	mkdir $(SDK_DIR)/Frameworks
 	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
+	
 	@# copy the bindings
 	cp -R $(SRC_DIR)/Bindings $(SDK_DIR)
 	@# remove the AppleScript binding
 	rm -rf $(SDK_DIR)/Bindings/applescript
+	
 	@# remove some symlinks
 	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
+	
 	@# delete svn and backup files
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
-	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store -or -name classes.nib -or -name info.nib \) -type f -delete
+	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
+	
+	@# optimize nib files, making them uneditable, for releases only
+ifeq ($(BETA),FALSE)
+	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib \) -type f -delete
+endif
+
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.applescript
+	
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.applescript
+	
 	@echo Build finished
