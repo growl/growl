@@ -108,6 +108,7 @@
 		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */; };
 		34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34422F700BF3ED2E001DA9ED /* GrowlApplication.m */; };
+		345B7D170C80A91E005F7F96 /* iCalPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 345B7D160C80A91E005F7F96 /* iCalPrefs.nib */; };
 		34725B140C0678AC00499F50 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; };
 		34725B150C0678AC00499F50 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; };
 		34725B160C0678AC00499F50 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; };
@@ -352,14 +353,13 @@
 		DD493B7D084BB07900D1CCCB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD493B7C084BB07900D1CCCB /* Info.plist */; };
 		DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DD493C31084BDF0200D1CCCB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
-		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
+		DDFADA6C084D1C770055DBC8 /* SMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* SMS.growlView */; };
 		E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		E14410E90A94072E0063C4DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		E14410EA0A94072E0063C4DC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		E14410EB0A94072E0063C4DC /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		E14411080A9407EA0063C4DC /* iCal.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = E14410EF0A94072E0063C4DC /* iCal.growlView */; };
-		E144111B0A9408840063C4DC /* iCalPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = E144110F0A9408840063C4DC /* iCalPrefs.nib */; };
 		E144111C0A9408840063C4DC /* GrowliCalDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411130A9408840063C4DC /* GrowliCalDisplay.m */; };
 		E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411150A9408840063C4DC /* GrowliCalPrefsController.m */; };
 		E144111E0A9408840063C4DC /* GrowliCalWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411170A9408840063C4DC /* GrowliCalWindowController.m */; };
@@ -530,7 +530,7 @@
 				343345890790E3D600C84B15 /* MailMe.growlView in CopyFiles */,
 				3433458C0790E3D600C84B15 /* MusicVideo.growlView in CopyFiles */,
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
-				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
+				DDFADA6C084D1C770055DBC8 /* SMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
 				07B7CD23099EB19200744461 /* NSMutableStringAdditions.h in CopyFiles */,
 				072DE9BA09A10DEB006516DD /* GrowlTCPPathway.h in CopyFiles */,
@@ -674,6 +674,13 @@
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
 		34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplication.h; path = Core/Source/GrowlApplication.h; sourceTree = "<group>"; };
 		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
+		345B7D110C80A919005F7F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/iCal/English.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D180C80A923005F7F96 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/iCal/German.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D190C80A927005F7F96 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Plugins/Displays/iCal/French.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D1C0C80A930005F7F96 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Plugins/Displays/iCal/Russian.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D1D0C80A936005F7F96 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/iCal/Japanese.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D1E0C80A93F005F7F96 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/iCal/zh_CN.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		345B7D1F0C80A942005F7F96 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Plugins/Displays/iCal/cs.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
 		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34725B060C06788200499F50 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<group>"; };
 		34725B0F0C0678A000499F50 /* Growl.dylib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -994,7 +1001,7 @@
 		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "GrowlHelperApp-Info.plist"; path = "Core/Resources/GrowlHelperApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CB910DA6074E0A3A00278FC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
-		DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlSMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD4939CC084BACA700D1CCCB /* SMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4939FB084BAD4500D1CCCB /* GrowlSMSDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSDisplay.h; path = Plugins/Displays/SMS/GrowlSMSDisplay.h; sourceTree = "<group>"; };
 		DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = Plugins/Displays/SMS/GrowlSMSDisplay.m; sourceTree = "<group>"; };
 		DD4939FD084BAD4500D1CCCB /* GrowlSMSPrefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSPrefs.h; path = Plugins/Displays/SMS/GrowlSMSPrefs.h; sourceTree = "<group>"; };
@@ -1003,7 +1010,6 @@
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
 		E14410EF0A94072E0063C4DC /* iCal.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iCal.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
-		E14411100A9408840063C4DC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = iCalPrefs.nib; sourceTree = "<group>"; };
 		E14411110A9408840063C4DC /* GrowliCalDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDefines.h; path = Plugins/Displays/iCal/GrowliCalDefines.h; sourceTree = "<group>"; };
 		E14411120A9408840063C4DC /* GrowliCalDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDisplay.h; path = Plugins/Displays/iCal/GrowliCalDisplay.h; sourceTree = "<group>"; };
 		E14411130A9408840063C4DC /* GrowliCalDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowliCalDisplay.m; path = Plugins/Displays/iCal/GrowliCalDisplay.m; sourceTree = "<group>"; };
@@ -1594,7 +1600,7 @@
 				34F60EAB078E1CD500CECA86 /* Growl.framework */,
 				34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */,
 				95075AB00817F5DB00D862A5 /* GrowlMenu.app */,
-				DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */,
+				DD4939CC084BACA700D1CCCB /* SMS.growlView */,
 				93BC379E095A662B0002B365 /* Nano.growlView */,
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
 				34725B0F0C0678A000499F50 /* Growl.dylib.dylib */,
@@ -1865,7 +1871,6 @@
 		E14411090A9408190063C4DC /* iCal */ = {
 			isa = PBXGroup;
 			children = (
-				E144110F0A9408840063C4DC /* iCalPrefs.nib */,
 				E14411110A9408840063C4DC /* GrowliCalDefines.h */,
 				E14411120A9408840063C4DC /* GrowliCalDisplay.h */,
 				E14411130A9408840063C4DC /* GrowliCalDisplay.m */,
@@ -1875,6 +1880,7 @@
 				E14411170A9408840063C4DC /* GrowliCalWindowController.m */,
 				E14411180A9408840063C4DC /* GrowliCalWindowView.h */,
 				E14411190A9408840063C4DC /* GrowliCalWindowView.m */,
+				345B7D160C80A91E005F7F96 /* iCalPrefs.nib */,
 				E144111A0A9408840063C4DC /* Info.plist */,
 			);
 			name = iCal;
@@ -2264,7 +2270,7 @@
 			);
 			name = SMS;
 			productName = SMS;
-			productReference = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */;
+			productReference = DD4939CC084BACA700D1CCCB /* SMS.growlView */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E14410DE0A94072E0063C4DC /* iCal */ = {
@@ -2463,7 +2469,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E144111B0A9408840063C4DC /* iCalPrefs.nib in Resources */,
+				345B7D170C80A91E005F7F96 /* iCalPrefs.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3051,6 +3057,20 @@
 			name = GrowlMusicVideoPrefs.nib;
 			sourceTree = "<group>";
 		};
+		345B7D160C80A91E005F7F96 /* iCalPrefs.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				345B7D110C80A919005F7F96 /* English */,
+				345B7D180C80A923005F7F96 /* German */,
+				345B7D190C80A927005F7F96 /* French */,
+				345B7D1C0C80A930005F7F96 /* Russian */,
+				345B7D1D0C80A936005F7F96 /* Japanese */,
+				345B7D1E0C80A93F005F7F96 /* zh_CN */,
+				345B7D1F0C80A942005F7F96 /* cs */,
+			);
+			name = iCalPrefs.nib;
+			sourceTree = "<group>";
+		};
 		34B2756B08423FA30092A5A0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3191,15 +3211,6 @@
 				34A88D380C7F8A5200F01CB8 /* cs */,
 			);
 			name = GrowlSMSPrefs.nib;
-			sourceTree = "<group>";
-		};
-		E144110F0A9408840063C4DC /* iCalPrefs.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E14411100A9408840063C4DC /* English */,
-			);
-			name = iCalPrefs.nib;
-			path = Plugins/Displays/iCal/English.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -3644,7 +3655,7 @@
 					dynamic_lookup,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = GrowlSMS;
+				PRODUCT_NAME = SMS;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
@@ -3670,7 +3681,7 @@
 					dynamic_lookup,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = GrowlSMS;
+				PRODUCT_NAME = SMS;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
