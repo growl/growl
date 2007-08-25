@@ -173,8 +173,6 @@
 		7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
 		7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */; };
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
-		8321E9A00C0B75F3008C441B /* NotifyOS9.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
-		8321E9AB0C0B760C008C441B /* NotifyOSX.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
 		83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
@@ -334,7 +332,6 @@
 		95FC347807E0458E00BD8674 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412509E37A65009EF9BD /* closebox_pressed.png */; };
 		A1CC412809E37A65009EF9BD /* closebox.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412609E37A65009EF9BD /* closebox.png */; };
-		C4169BF00C2CE4A800D07B91 /* Pseudo-Coda.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4B868E40957D8C00056FC54 /* ACImageAndTextCell.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */; };
 		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
@@ -2403,9 +2400,6 @@
 				950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */,
 				95BF38FE0851F82200873BE1 /* WebKitPrefs.nib in Resources */,
 				7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */,
-				8321E9A00C0B75F3008C441B /* NotifyOS9.growlStyle in Resources */,
-				8321E9AB0C0B760C008C441B /* NotifyOSX.growlStyle in Resources */,
-				C4169BF00C2CE4A800D07B91 /* Pseudo-Coda.growlStyle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
