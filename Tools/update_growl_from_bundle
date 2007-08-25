@@ -24,6 +24,16 @@ SOURCE=$1
 # Functions
 ########
 
+# Update a nib. First argument is the name of the nib,
+# with the .nib extension. Second argument is the destination folder.
+# The nib must already exist in the destination.
+update_nib()
+{
+    for file in $1/*.nib ; do
+        cp $file $2/$1
+    done
+}
+
 # Copy all nibs and other files in the current directory to a given destination
 loc_copy()
 {
@@ -32,7 +42,6 @@ loc_copy()
     for file in * ; do
         if [ -f  $file ] ; then
             cp $file $1
-            echo $file
         fi
     done
 }
@@ -63,6 +72,8 @@ update_language()
     # Main resources (PrefPane)
     silent_pushd $LANG
         loc_copy "$REPO/Core/Resources/$LANG"
+        rm "$REPO/Core/Resources/$LANG/WebKitPrefs.nib"
+        update_nib WebKitPrefs.nib "$REPO/Plugins/Displays/WebKit/$LANG"
     silent_popd
     
     # Growl Helper App (which includes all the display plugins)
