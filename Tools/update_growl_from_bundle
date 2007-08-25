@@ -17,8 +17,6 @@ REPO=~/growl
 SOURCE=$1
 LANG=$2.lproj
 
-cd "$SOURCE/Contents/Resources"
-
 ########
 # Functions
 ########
@@ -28,35 +26,60 @@ loc_copy()
 {
     find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';'
     find . '(' -name "*.nib" ')' -prune -execdir cp "{}/keyedobjects.nib" "$1/{}" ';'
-    cp * $1
+    for file in * ; do
+        if [ -f  $file ] ; then
+            cp $file $1
+            echo $file
+        fi
+    done
 }
 
+silent_pushd()
+{
+    pushd $1 >/dev/null
+}
+
+silent_popd()
+{
+    popd $1 >/dev/null
+}
+
+#####
+# Begin!
+#####
+
+silent_pushd "$SOURCE/Contents/Resources"
 
 # Main resources (PrefPane)
-pushd $LANG
-loc_copy "$REPO/Core/Resources/$LANG"
-popd
+silent_pushd $LANG
+    loc_copy "$REPO/Core/Resources/$LANG"
+silent_popd
 
 # Growl Helper App (which includes all the display plugins)
-pushd GrowlHelperApp.app/Contents
-pushd Resources/$LANG
-    #GHA's localizable.strings goes to the same place as the prefpanne's
-    cp Localizable.strings "$REPO/Core/Resources/$LANG"
-popd
+silent_pushd GrowlHelperApp.app/Contents
+    echo "**** Updating Growl Helper App"
+    silent_pushd Resources/$LANG
+        #GHA's localizable.strings goes to the same place as the prefpanne's
+        cp Localizable.strings "$REPO/Core/Resources/$LANG"
+    silent_popd
 
     # Plugins
-    pushd PlugIns
-    for plugin in *.growlView do
-        pushd $plugin/Contents/Resources/$LANG
+    echo "**** Updating Display Plugins"
+    silent_pushd PlugIns
+    for plugin in *.growlView ; do
+        silent_pushd $plugin/Contents/Resources/$LANG
             PLUGIN_NAME=`echo $plugin | cut -f1 -d .`
+            echo "**** Updating Display Plugin $PLUGIN_NAME"
             loc_copy "$REPO/Plugins/Displays/$PLUGIN_NAME/$LANG"
-        popd
-    fi
-    popd
+        silent_popd
+    done
+    silent_popd
+silent_popd
 
 # GrowlMenu
-pushd GrowlMenu.app/Contents/Resources/$LANG
+echo "**** Updating GrowlMenu"
+silent_pushd GrowlMenu.app/Contents/Resources/$LANG
     loc_copy "$REPO/StatusItem/Resources/$LANG"
-popd
+silent_popd
 
-
+silent_popd
