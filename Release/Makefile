@@ -16,7 +16,7 @@ BETA=TRUE
 #########################
 RELEASE_NAME=Growl-$(VERSION)
 
-SRC_DIR=..
+SRC_DIR=`pwd`/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
@@ -60,24 +60,24 @@ assertnoconflicts:
 
 version:
 	@# update the CFBundleVersion
-	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlCode/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleVersion '$(VERSION)'
 
 	@# update the CFBundleShortVersionString
-	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlCode/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleShortVersionString '$(VERSION)'
 
 	@# Convert back to XML plist, since defaults creates binary plists
 	plutil -convert xml1 $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist
