@@ -41,6 +41,11 @@
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
+//Notifications posted by GrowlApplicationController
+#define UPDATE_AVAILABLE_NOTIFICATION	@"Growl update available"
+#define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
+#define USER_RETURNED_NOTIFICATION		@"User returned"
+
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
 @interface GrowlApplicationController (PRIVATE)
@@ -111,18 +116,15 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (downloadURLString && latestVersionNumber) {
 		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
 		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
-			CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
-														 (CFStringRef)downloadURLString,
-														 /*baseURL*/ NULL);
 			CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
 			CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
 			[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 				                        description:(NSString *)description
-				                   notificationName:@"Growl update available"
+				                   notificationName:UPDATE_AVAILABLE_NOTIFICATION
 			                               iconData:[appController applicationIconDataForGrowl]
 			                               priority:1
 			                               isSticky:YES
-			                           clickContext:(id)downloadURL
+			                           clickContext:downloadURLString
 										 identifier:nil];
 			CFRelease(title);
 			CFRelease(description);
@@ -182,6 +184,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		ticketController = [GrowlTicketController sharedController];
 
+		[GrowlApplicationBridge setGrowlDelegate:self];
+		
 		[self versionDictionary];
 
 		NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
@@ -248,7 +252,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", nil)
 									description:description
-							   notificationName:@"User went idle"
+							   notificationName:USER_WENT_IDLE_NOTIFICATION
 									   iconData:growlIconData
 									   priority:-1
 									   isSticky:NO
@@ -257,7 +261,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	} else {
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
 									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
-							   notificationName:@"User returned"
+							   notificationName:USER_RETURNED_NOTIFICATION
 									   iconData:growlIconData
 									   priority:-1
 									   isSticky:NO
@@ -904,6 +908,52 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 
 	[pool release];
+}
+
+#pragma mark Growl Application Bridge delegate
+/*!
+ * @brief Returns the application name Growl will use
+ */
+- (NSString *)applicationNameForGrowl
+{
+	return @"Growl";
+}
+
+- (NSDictionary *)registrationDictionaryForGrowl
+{	
+	NSDictionary *descriptions = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSLocalizedString(@"A Growl update is available", nil), UPDATE_AVAILABLE_NOTIFICATION,
+		NSLocalizedString(@"You are now considered idle by Growl", nil), USER_WENT_IDLE_NOTIFICATION,
+		NSLocalizedString(@"You are no longer considered idle by Growl", nil), USER_RETURNED_NOTIFICATION,
+		nil];
+
+	NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSLocalizedString(@"Growl update available", nil), UPDATE_AVAILABLE_NOTIFICATION,
+		NSLocalizedString(@"User went idle", nil), USER_WENT_IDLE_NOTIFICATION,
+		NSLocalizedString(@"User returned", nil), USER_RETURNED_NOTIFICATION,
+		nil];
+	
+	NSDictionary	*growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
+		[NSArray arrayWithObject:UPDATE_AVAILABLE_NOTIFICATION], GROWL_NOTIFICATIONS_DEFAULT,
+		humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+		descriptions, GROWL_NOTIFICATIONS_DESCRIPTIONS,
+		nil];
+	
+	return growlReg;
+}
+
+- (NSImage *)applicationIconDataForGrowl
+{
+	return [NSImage imageNamed:@"growl-icon"];
+}
+
+- (void)growlNotificationWasClicked:(id)clickContext
+{
+	if (clickContext && [clickContext isKindOfClass:[NSString class]]) {
+		NSURL *downloadURL = [NSURL URLWithString:clickContext];
+		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
+	}
 }
 
 @end
