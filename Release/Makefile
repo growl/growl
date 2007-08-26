@@ -14,7 +14,7 @@ BETA=TRUE
 # No changes should be needed below this line
 #
 #########################
-RELEASE_NAME=Growl-$VERSION
+RELEASE_NAME=Growl-$(VERSION)
 
 SRC_DIR=..
 BUILD_DIR=build
