@@ -346,7 +346,7 @@
  If the delegate implements this method, the download will suspend until [challenge sender] is sent one of the following messages: useCredential:forAuthenticationChallenge:, continueWithoutCredentialForAuthenticationChallenge: or cancelAuthenticationChallenge:.
  If the delegate does not implement this method the default implementation is used. If a valid credential for the request is provided as part of the URL, or is available from the NSURLCredentialStorage the [challenge sender] is sent a useCredential:forAuthenticationChallenge: with the credential. If the challenge has no credential or the credentials fail to authorize access, then continueWithoutCredentialForAuthenticationChallenge: is sent to [challenge sender] instead.
 
- See Also: Ð cancelAuthenticationChallenge:, Ð continueWithoutCredentialForAuthenticationChallenge:, Ð useCredential:forAuthenticationChallenge:
+ See Also: â€“ cancelAuthenticationChallenge:, â€“ continueWithoutCredentialForAuthenticationChallenge:, â€“ useCredential:forAuthenticationChallenge:
  */
 - (void) connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
 	NSLog(@"didReceiveAuthenticationChallenge: %@", challenge);
@@ -401,12 +401,12 @@
  The delegate should inspect the redirected request specified by request and copy and modify request as necessary to change its attributes, or return request unmodified.
  The NSURLResponse that caused the redirect is specified by redirectResponse.
  The redirectResponse will be nil in cases where this method is not being sent as a result of involving the delegate in redirect processing.
- If the delegate wishes to cancel the redirect, it should call the connection objectÕs cancel method.
+ If the delegate wishes to cancel the redirect, it should call the connection objectâ€™s cancel method.
  Alternatively, the delegate method can return nil to cancel the redirect, and the connection will continue to process.
  This has special relevance in the case where redirectResponse is not nil.
  In this case, any data that is loaded for the connection will be sent to the delegate, and the delegate will receive a connectionDidFinishLoading or connection:didFailLoadingWithError: message, as appropriate.
 
- The delegate can receive this message as a result of transforming a requestÕs URL to its canonical form, or for protocol-specific reasons, such as an HTTP redirect.
+ The delegate can receive this message as a result of transforming a requestâ€™s URL to its canonical form, or for protocol-specific reasons, such as an HTTP redirect.
  The delegate implementation should be prepared to receive this message multiple times.
 
  */

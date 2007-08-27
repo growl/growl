@@ -75,6 +75,7 @@ uninstall:
 
 localizable-strings:
 	genstrings -o Core/Resources/English.lproj Core/Source/*.h Core/Source/*.m
+	genstrings -o StatusItem/Resources/English.lproj StatusItem/Source/*.h StatusItem/Source/*.m
 	genstrings -o Plugins/Displays/Bezel/English.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m
 	genstrings -o Plugins/Displays/Brushed/English.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m
 	genstrings -o Plugins/Displays/Bubbles/English.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m
