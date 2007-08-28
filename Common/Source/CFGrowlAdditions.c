@@ -19,6 +19,7 @@
 #endif
 
 extern Boolean CFStringGetFileSystemRepresentation() __attribute__((weak_import));
+extern CFIndex CFStringGetMaximumSizeOfFileSystemRepresentation(CFStringRef string) __attribute__((weak_import));
 
 char *createFileSystemRepresentationOfString(CFStringRef str) {
 	char *buffer;
