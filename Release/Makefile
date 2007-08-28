@@ -150,17 +150,7 @@ release:
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
 	@# build the prefpane package
-	mkdir $(BUILD_DIR)/Growl
-	mkdir $(BUILD_DIR)/Growl-Resources
-	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(BUILD_DIR)/Growl
-	cp Growl/preflight $(BUILD_DIR)/Growl-Resources
-	cp Growl/postflight $(BUILD_DIR)/Growl-Resources
-	cp -R Growl/*.lproj $(BUILD_DIR)/Growl-Resources
-	sudo chown -Rh root:admin $(BUILD_DIR)/Growl
-	sudo chmod -R g+w $(BUILD_DIR)/Growl
-	$(PACKAGE_MAKER) --out $(GROWL_DIR)/Growl.pkg --root $(BUILD_DIR)/Growl --info Growl/Info.plist --resources $(BUILD_DIR)/Growl-Resources --scripts $(BUILD_DIR)/Growl-Resources --target Growl --version $(VERSION) --target 10.4 --domain user --domain system --verbose
-	sudo rm -rf $(BUILD_DIR)/Growl
-	rm -rf $(BUILD_DIR)/Growl-Resources
+	$(PACKAGE_MAKER) --doc Growl/Growl.mpkg --out $(GROWL_DIR)/Growl.pkg --target Growl --version $(VERSION)
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
