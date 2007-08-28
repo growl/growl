@@ -987,7 +987,7 @@
 		A1CC412609E37A65009EF9BD /* closebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = closebox.png; path = Core/Resources/closebox.png; sourceTree = "<group>"; };
 		C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Pseudo-Coda.growlStyle"; path = "Core/Resources/Pseudo-Coda.growlStyle"; sourceTree = "<group>"; };
 		C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
-		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
+		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
 		C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
 		CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationTicket.h; path = Core/Source/GrowlApplicationTicket.h; sourceTree = "<group>"; };
 		CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationTicket.m; path = Core/Source/GrowlApplicationTicket.m; sourceTree = "<group>"; };
@@ -1002,7 +1002,7 @@
 		CB910DA6074E0A3A00278FC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		DD4939CC084BACA700D1CCCB /* SMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4939FB084BAD4500D1CCCB /* GrowlSMSDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSDisplay.h; path = Plugins/Displays/SMS/GrowlSMSDisplay.h; sourceTree = "<group>"; };
-		DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = Plugins/Displays/SMS/GrowlSMSDisplay.m; sourceTree = "<group>"; };
+		DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = Plugins/Displays/SMS/GrowlSMSDisplay.m; sourceTree = "<group>"; };
 		DD4939FD084BAD4500D1CCCB /* GrowlSMSPrefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSPrefs.h; path = Plugins/Displays/SMS/GrowlSMSPrefs.h; sourceTree = "<group>"; };
 		DD4939FE084BAD4500D1CCCB /* GrowlSMSPrefs.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSPrefs.m; path = Plugins/Displays/SMS/GrowlSMSPrefs.m; sourceTree = "<group>"; };
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
@@ -2295,6 +2295,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2308,6 +2309,7 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D202CE80486D31800D8A456 /* Growl */,
 				CB61E5170637763C00E0DDC7 /* GrowlHelperApp */,
@@ -3792,16 +3794,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -3828,16 +3826,12 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -3860,8 +3854,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
@@ -3898,15 +3890,12 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.2;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
 					"-fconstant-cfstrings",
@@ -3936,6 +3925,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = NO;
@@ -3979,6 +3969,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = NO;
