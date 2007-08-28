@@ -39,6 +39,7 @@ else
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
+PACKAGE_MAKER=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
 
 #########################
 
@@ -148,8 +149,18 @@ release:
 	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
-	@# copy the prefpane
-	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
+	@# build the prefpane package
+	mkdir $(BUILD_DIR)/Growl
+	mkdir $(BUILD_DIR)/Growl-Resources
+	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(BUILD_DIR)/Growl
+	cp Growl/preflight $(BUILD_DIR)/Growl-Resources
+	cp Growl/postflight $(BUILD_DIR)/Growl-Resources
+	cp -R Growl/*.lproj $(BUILD_DIR)/Growl-Resources
+	sudo chown -Rh root:admin $(BUILD_DIR)/Growl
+	sudo chmod -R g+w $(BUILD_DIR)/Growl
+	$(PACKAGE_MAKER) --out $(GROWL_DIR)/Growl.pkg --root $(BUILD_DIR)/Growl --info Growl/Info.plist --resources $(BUILD_DIR)/Growl-Resources --scripts $(BUILD_DIR)/Growl-Resources --target Growl --version $(VERSION) --target 10.4 --domain user --domain system --verbose
+	sudo rm -rf $(BUILD_DIR)/Growl
+	rm -rf $(BUILD_DIR)/Growl-Resources
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
@@ -176,7 +187,7 @@ release:
 	cp -R GrowlMail/German.lproj $(BUILD_DIR)/GrowlMail-Resources
 	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlMail
 	sudo chmod -R g+w $(BUILD_DIR)/GrowlMail
-	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
+	$(PACKAGE_MAKER) -build -p $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
 	sudo rm -rf $(BUILD_DIR)/GrowlMail
 	rm -rf $(BUILD_DIR)/GrowlMail-Resources
 	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
@@ -189,7 +200,7 @@ release:
 	cp GrowlSafari/postupgrade $(BUILD_DIR)/GrowlSafari-Resources
 	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
 	sudo chmod -R g+w $(BUILD_DIR)/GrowlSafari
-	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
+	$(PACKAGE_MAKER) -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
 	sudo rm -rf $(BUILD_DIR)/GrowlSafari
 	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
