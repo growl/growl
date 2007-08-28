@@ -305,13 +305,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSString *displayName = [note object];
 	GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName author:nil version:nil type:nil];
 
-	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
+	NSString *desc = [[NSString alloc] initWithFormat:NSLocalizedString(@"This is a preview of the %@ display", "Preview message shown when clicking Preview in the system preferences pane. %@ becomes the name of the display style being used."), displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
 	NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
 		@"Growl",   GROWL_APP_NAME,
 		@"Preview", GROWL_NOTIFICATION_NAME,
-		@"Preview", GROWL_NOTIFICATION_TITLE,
+		NSLocalizedString(@"Preview", "Title of the Preview notification shown to demonstrate Growl displays"), GROWL_NOTIFICATION_TITLE,
 		desc,       GROWL_NOTIFICATION_DESCRIPTION,
 		priority,   GROWL_NOTIFICATION_PRIORITY,
 		sticky,     GROWL_NOTIFICATION_STICKY,
