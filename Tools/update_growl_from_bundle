@@ -48,12 +48,12 @@ loc_copy()
 
 silent_pushd()
 {
-    pushd $1 >/dev/null
+    pushd $1
 }
 
 silent_popd()
 {
-    popd $1 >/dev/null
+    popd $1
 }
 
 #####

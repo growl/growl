@@ -685,6 +685,21 @@
 		34725B0F0C0678A000499F50 /* Growl.dylib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppNameClickNotificationTransformer.h; path = Core/Source/GrowlAppNameClickNotificationTransformer.h; sourceTree = "<group>"; };
 		347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppNameClickNotificationTransformer.m; path = Core/Source/GrowlAppNameClickNotificationTransformer.m; sourceTree = "<group>"; };
+		34792F7E0C84864F007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Framework/Resources/Dutch.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		34792F7F0C848654007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = "Framework/Resources/Dutch.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
+		34792F800C848659007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Framework/Resources/Dutch.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		347930190C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/Brushed/Dutch.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
+		3479301A0C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
+		3479301B0C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
+		3479301C0C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
+		3479301D0C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
+		3479301E0C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/Nano/Dutch.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
+		347930200C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/SMS/Dutch.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
+		347930210C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
+		347930220C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/iCal/Dutch.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		347930230C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		347930240C848725007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/WebKit/Dutch.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		347930400C848741007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Core/Resources/Dutch.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		349B3FA40A620F2D008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginNameWithDefaultTransformer.h; path = Core/Source/DisplayPluginNameWithDefaultTransformer.h; sourceTree = "<group>"; };
@@ -2306,6 +2321,7 @@
 				zh_CN,
 				Russian,
 				pl,
+				Dutch,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -2955,6 +2971,7 @@
 				34ECC2800C7F89E900EE7F9B /* French */,
 				34A88D210C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D320C7F8A5200F01CB8 /* cs */,
+				34792F7F0C848654007ADCAA /* Dutch */,
 			);
 			name = "GrowlInstallationPrompt-Carbon.nib";
 			sourceTree = "<group>";
@@ -2983,6 +3000,7 @@
 				34ECC2770C7F89D500EE7F9B /* Russian */,
 				34A88D280C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D390C7F8A5200F01CB8 /* cs */,
+				347930210C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlSpeechPrefs.nib;
 			sourceTree = "<group>";
@@ -2997,6 +3015,7 @@
 				34ECC26F0C7F89D400EE7F9B /* Russian */,
 				34A88D1E0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D2F0C7F8A5200F01CB8 /* cs */,
+				3479301A0C848724007ADCAA /* Dutch */,
 			);
 			name = BubblesPrefs.nib;
 			sourceTree = "<group>";
@@ -3011,6 +3030,7 @@
 				34ECC2700C7F89D400EE7F9B /* Russian */,
 				34A88D1F0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D300C7F8A5200F01CB8 /* cs */,
+				3479301B0C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlBezelPrefs.nib;
 			sourceTree = "<group>";
@@ -3025,6 +3045,7 @@
 				34ECC2790C7F89DA00EE7F9B /* Russian */,
 				34A88D2A0C7F8A4B00F01CB8 /* zh_CN */,
 				34A88D3C0C7F8A5300F01CB8 /* cs */,
+				347930230C848724007ADCAA /* Dutch */,
 			);
 			name = SmokePrefs.nib;
 			sourceTree = "<group>";
@@ -3039,6 +3060,7 @@
 				34ECC2720C7F89D400EE7F9B /* Russian */,
 				34A88D230C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D340C7F8A5200F01CB8 /* cs */,
+				3479301C0C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlMailMePrefs.nib;
 			sourceTree = "<group>";
@@ -3053,6 +3075,7 @@
 				34ECC2730C7F89D500EE7F9B /* Russian */,
 				34A88D240C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D350C7F8A5200F01CB8 /* cs */,
+				3479301D0C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlMusicVideoPrefs.nib;
 			sourceTree = "<group>";
@@ -3067,6 +3090,7 @@
 				345B7D1D0C80A936005F7F96 /* Japanese */,
 				345B7D1E0C80A93F005F7F96 /* zh_CN */,
 				345B7D1F0C80A942005F7F96 /* cs */,
+				347930220C848724007ADCAA /* Dutch */,
 			);
 			name = iCalPrefs.nib;
 			sourceTree = "<group>";
@@ -3109,6 +3133,7 @@
 				34ECC2740C7F89D500EE7F9B /* Russian */,
 				34A88D250C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D360C7F8A5200F01CB8 /* cs */,
+				3479301E0C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlNanoPrefs.nib;
 			sourceTree = "<group>";
@@ -3124,6 +3149,7 @@
 				34ECC2810C7F89EA00EE7F9B /* French */,
 				34A88D220C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D330C7F8A5200F01CB8 /* cs */,
+				34792F800C848659007ADCAA /* Dutch */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
@@ -3138,6 +3164,7 @@
 				34A88D140C7F8A3700F01CB8 /* Japanese */,
 				34A88D260C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D370C7F8A5200F01CB8 /* cs */,
+				347930400C848741007ADCAA /* Dutch */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
@@ -3153,6 +3180,7 @@
 				34ECC27F0C7F89E900EE7F9B /* French */,
 				34A88D200C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D310C7F8A5200F01CB8 /* cs */,
+				34792F7E0C84864F007ADCAA /* Dutch */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
@@ -3181,6 +3209,7 @@
 				95BF39020851F85400873BE1 /* zh_CN */,
 				955A4E5908617637009B6EA5 /* French */,
 				34ECC27A0C7F89DA00EE7F9B /* Russian */,
+				347930240C848725007ADCAA /* Dutch */,
 			);
 			name = WebKitPrefs.nib;
 			sourceTree = "<group>";
@@ -3195,6 +3224,7 @@
 				34ECC26E0C7F89D400EE7F9B /* Russian */,
 				34A88D1D0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D2E0C7F8A5200F01CB8 /* cs */,
+				347930190C848724007ADCAA /* Dutch */,
 			);
 			name = BrushedPrefs.nib;
 			sourceTree = "<group>";
@@ -3209,6 +3239,7 @@
 				34A88D150C7F8A3700F01CB8 /* Japanese */,
 				34A88D270C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D380C7F8A5200F01CB8 /* cs */,
+				347930200C848724007ADCAA /* Dutch */,
 			);
 			name = GrowlSMSPrefs.nib;
 			sourceTree = "<group>";
