@@ -5,7 +5,7 @@
 ###       (needed for proper version checking)
 ###   * Update the version string in Extras/growlnotify/main.m
 #
-VERSION=1.1b3
+VERSION=1.1b4
 BETA=TRUE
 
 #
@@ -14,7 +14,9 @@ BETA=TRUE
 # No changes should be needed below this line
 #
 #########################
-RELEASE_NAME=Growl-$(VERSION)
+RELEASE_FILENAME=Growl-$(VERSION)
+RELEASE_NAME="Growl $(VERSION)"
+RELEASE_SDK_NAME="Growl $(VERSION) SDK"
 
 SRC_DIR=`pwd`/..
 BUILD_DIR=build
@@ -40,6 +42,7 @@ else
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 PACKAGE_MAKER=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
+ART_DIR=Artwork
 
 #########################
 
@@ -130,8 +133,8 @@ realclean: clean
 #	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
 #	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
 #	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
-#	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
-#	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
+#	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_FILENAME)-src.tar .
+#	bzip2 $(BUILD_DIR)/$(RELEASE_FILENAME)-src.tar
 
 release:
 	@# clean build directory
@@ -150,7 +153,7 @@ release:
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
 	@# build the prefpane package
-	$(PACKAGE_MAKER) --doc Growl/Growl.mpkg --out $(GROWL_DIR)/Growl.pkg --target Growl --version $(VERSION)
+	$(PACKAGE_MAKER) --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.mpkg --version $(VERSION) -v
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
@@ -251,11 +254,12 @@ endif
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.applescript
+	./ensureCustomIconsExtracted $(ART_DIR)
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME).dmg $(GROWL_DIR) $(RELEASE_NAME) dmg_growl.applescript $(ART_DIR)
 	
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.applescript
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
 	
 	@echo Build finished
