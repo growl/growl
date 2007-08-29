@@ -23,11 +23,17 @@ extern CFIndex CFStringGetMaximumSizeOfFileSystemRepresentation(CFStringRef stri
 
 char *createFileSystemRepresentationOfString(CFStringRef str) {
 	char *buffer;
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
+	/* CFStringGetFileSystemRepresentation will cause a link error despite the weak_import attribute above on 10.5 when compiling with 10.2 compatibility using gcc 3.3.
+	 * PPC will therefore always use the 10.3 and below method of creating a file system representation.
+	 */
 	if (CFStringGetFileSystemRepresentation) {
 		CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(str);
 		buffer = malloc(size);
 		CFStringGetFileSystemRepresentation(str, buffer, size);
-	} else {
+	} else 
+#endif
+	{
 		buffer = malloc(512);
 		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, str, kCFURLPOSIXPathStyle, false);
 		if (!CFURLGetFileSystemRepresentation(url, false, (UInt8 *)buffer, 512)) {
