@@ -37,9 +37,9 @@ update_nib()
 # Copy all nibs and other files in the current directory to a given destination
 loc_copy()
 {
-    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';'
+    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';' 
     find . '(' -name "*.nib" ')' -prune -execdir cp "{}/keyedobjects.nib" "$1/{}" ';'
-    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/objects.xib" "$1/{}" ';'
+    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/objects.xib" "$1/{}" ';' 
 
     for file in * ; do
         if [ -f  $file ] ; then
@@ -50,12 +50,12 @@ loc_copy()
 
 silent_pushd()
 {
-    pushd "$1" >/dev/null
+    pushd $1 >/dev/null
 }
 
 silent_popd()
 {
-    popd >/dev/null
+    popd $1 >/dev/null
 }
 
 #####
@@ -69,43 +69,14 @@ update_language()
     
     echo "+++++ Updating $LANG"
 
-    silent_pushd "$SOURCE/Contents/Resources"
+    silent_pushd "$SOURCE/Versions/A/Resources"
     
     # Main resources (PrefPane)
     silent_pushd $LANG
-        loc_copy "$REPO/Core/Resources/$LANG"
-        rm "$REPO/Core/Resources/$LANG/WebKitPrefs.nib"
-        update_nib WebKitPrefs.nib "$REPO/Plugins/Displays/WebKit/$LANG"
-    silent_popd
-    
-    # Growl Helper App (which includes all the display plugins)
-    silent_pushd GrowlHelperApp.app/Contents
-        echo "**** Updating Growl Helper App"
-        silent_pushd Resources/$LANG
-            #GHA's localizable.strings goes to the same place as the prefpanne's
-            cp Localizable.strings "$REPO/Core/Resources/$LANG"
-        silent_popd
-    
-        # Plugins
-        echo "**** Updating Display Plugins"
-        silent_pushd PlugIns
-        for plugin in *.growlView ; do
-            silent_pushd $plugin/Contents/Resources/$LANG
-                PLUGIN_NAME=`echo $plugin | cut -f1 -d .`
-                echo "**** Updating Display Plugin $PLUGIN_NAME"
-                loc_copy "$REPO/Plugins/Displays/$PLUGIN_NAME/$LANG"
-            silent_popd
-        done
-        silent_popd
-    silent_popd
-    
-    # GrowlMenu
-    echo "**** Updating GrowlMenu"
-    silent_pushd GrowlMenu.app/Contents/Resources/$LANG
-        loc_copy "$REPO/StatusItem/Resources/$LANG"
-    silent_popd
-    
-    silent_popd
+        loc_copy "$REPO/Framework/Resources/$LANG"
+        cp GrowlInstallation.strings "$REPO/Framework/Resources/$LANG"
+   silent_popd
+     silent_popd
 }
 
 if [ "$2" = "all" ]  ; then
