@@ -700,6 +700,25 @@
 		347930230C848724007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		347930240C848725007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Plugins/Displays/WebKit/Dutch.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		347930400C848741007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Core/Resources/Dutch.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		3479306A0C85E28F007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = zh_TW; path = Core/Resources/zh_TW.lproj/About.rtf; sourceTree = "<group>"; };
+		3479306B0C85E28F007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/Brushed/zh_TW.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
+		3479306C0C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
+		3479306D0C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
+		3479306E0C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Framework/Resources/zh_TW.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		3479306F0C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = "Framework/Resources/zh_TW.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
+		347930700C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Framework/Resources/zh_TW.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		347930710C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
+		347930720C85E290007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
+		347930730C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/Nano/zh_TW.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
+		347930740C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Core/Resources/zh_TW.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		347930750C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/SMS/zh_TW.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
+		347930760C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
+		347930770C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/iCal/zh_TW.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		347930780C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Core/Resources/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347930790C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Core/Resources/zh_TW.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		3479307A0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = StatusItem/Resources/zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3479307B0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		3479307C0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/WebKit/zh_TW.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		349B3FA40A620F2D008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginNameWithDefaultTransformer.h; path = Core/Source/DisplayPluginNameWithDefaultTransformer.h; sourceTree = "<group>"; };
@@ -2322,6 +2341,7 @@
 				Russian,
 				pl,
 				Dutch,
+				zh_TW,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -2972,6 +2992,7 @@
 				34A88D210C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D320C7F8A5200F01CB8 /* cs */,
 				34792F7F0C848654007ADCAA /* Dutch */,
+				3479306F0C85E290007ADCAA /* zh_TW */,
 			);
 			name = "GrowlInstallationPrompt-Carbon.nib";
 			sourceTree = "<group>";
@@ -2986,6 +3007,7 @@
 				34A88D160C7F8A3800F01CB8 /* Japanese */,
 				34A88D290C7F8A4B00F01CB8 /* zh_CN */,
 				34A88D3A0C7F8A5300F01CB8 /* cs */,
+				347930780C85E291007ADCAA /* zh_TW */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3001,6 +3023,7 @@
 				34A88D280C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D390C7F8A5200F01CB8 /* cs */,
 				347930210C848724007ADCAA /* Dutch */,
+				347930760C85E291007ADCAA /* zh_TW */,
 			);
 			name = GrowlSpeechPrefs.nib;
 			sourceTree = "<group>";
@@ -3016,6 +3039,7 @@
 				34A88D1E0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D2F0C7F8A5200F01CB8 /* cs */,
 				3479301A0C848724007ADCAA /* Dutch */,
+				3479306C0C85E290007ADCAA /* zh_TW */,
 			);
 			name = BubblesPrefs.nib;
 			sourceTree = "<group>";
@@ -3031,6 +3055,7 @@
 				34A88D1F0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D300C7F8A5200F01CB8 /* cs */,
 				3479301B0C848724007ADCAA /* Dutch */,
+				3479306D0C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlBezelPrefs.nib;
 			sourceTree = "<group>";
@@ -3046,6 +3071,7 @@
 				34A88D2A0C7F8A4B00F01CB8 /* zh_CN */,
 				34A88D3C0C7F8A5300F01CB8 /* cs */,
 				347930230C848724007ADCAA /* Dutch */,
+				3479307B0C85E291007ADCAA /* zh_TW */,
 			);
 			name = SmokePrefs.nib;
 			sourceTree = "<group>";
@@ -3061,6 +3087,7 @@
 				34A88D230C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D340C7F8A5200F01CB8 /* cs */,
 				3479301C0C848724007ADCAA /* Dutch */,
+				347930710C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlMailMePrefs.nib;
 			sourceTree = "<group>";
@@ -3076,6 +3103,7 @@
 				34A88D240C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D350C7F8A5200F01CB8 /* cs */,
 				3479301D0C848724007ADCAA /* Dutch */,
+				347930720C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlMusicVideoPrefs.nib;
 			sourceTree = "<group>";
@@ -3091,6 +3119,7 @@
 				345B7D1E0C80A93F005F7F96 /* zh_CN */,
 				345B7D1F0C80A942005F7F96 /* cs */,
 				347930220C848724007ADCAA /* Dutch */,
+				347930770C85E291007ADCAA /* zh_TW */,
 			);
 			name = iCalPrefs.nib;
 			sourceTree = "<group>";
@@ -3105,6 +3134,7 @@
 				955A4EDC08617747009B6EA5 /* French */,
 				951152BA08753ADA00DBB3EA /* Russian */,
 				34A88D3B0C7F8A5300F01CB8 /* cs */,
+				3479307A0C85E291007ADCAA /* zh_TW */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3119,6 +3149,7 @@
 				34A88D130C7F8A3700F01CB8 /* Japanese */,
 				34A88D1C0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D2D0C7F8A5200F01CB8 /* cs */,
+				3479306A0C85E28F007ADCAA /* zh_TW */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3134,6 +3165,7 @@
 				34A88D250C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D360C7F8A5200F01CB8 /* cs */,
 				3479301E0C848724007ADCAA /* Dutch */,
+				347930730C85E291007ADCAA /* zh_TW */,
 			);
 			name = GrowlNanoPrefs.nib;
 			sourceTree = "<group>";
@@ -3150,6 +3182,7 @@
 				34A88D220C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D330C7F8A5200F01CB8 /* cs */,
 				34792F800C848659007ADCAA /* Dutch */,
+				347930700C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
@@ -3165,6 +3198,7 @@
 				34A88D260C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D370C7F8A5200F01CB8 /* cs */,
 				347930400C848741007ADCAA /* Dutch */,
+				347930740C85E291007ADCAA /* zh_TW */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
@@ -3181,6 +3215,7 @@
 				34A88D200C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D310C7F8A5200F01CB8 /* cs */,
 				34792F7E0C84864F007ADCAA /* Dutch */,
+				3479306E0C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
@@ -3195,6 +3230,7 @@
 				95B00A3108468941004A8623 /* zh_CN */,
 				955A4E5D0861767F009B6EA5 /* French */,
 				951152B808753AA700DBB3EA /* Russian */,
+				347930790C85E291007ADCAA /* zh_TW */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3210,6 +3246,7 @@
 				955A4E5908617637009B6EA5 /* French */,
 				34ECC27A0C7F89DA00EE7F9B /* Russian */,
 				347930240C848725007ADCAA /* Dutch */,
+				3479307C0C85E291007ADCAA /* zh_TW */,
 			);
 			name = WebKitPrefs.nib;
 			sourceTree = "<group>";
@@ -3225,6 +3262,7 @@
 				34A88D1D0C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D2E0C7F8A5200F01CB8 /* cs */,
 				347930190C848724007ADCAA /* Dutch */,
+				3479306B0C85E28F007ADCAA /* zh_TW */,
 			);
 			name = BrushedPrefs.nib;
 			sourceTree = "<group>";
@@ -3240,6 +3278,7 @@
 				34A88D270C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D380C7F8A5200F01CB8 /* cs */,
 				347930200C848724007ADCAA /* Dutch */,
+				347930750C85E291007ADCAA /* zh_TW */,
 			);
 			name = GrowlSMSPrefs.nib;
 			sourceTree = "<group>";

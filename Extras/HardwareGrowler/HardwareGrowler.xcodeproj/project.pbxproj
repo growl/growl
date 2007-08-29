@@ -203,6 +203,9 @@
 		32CA4F630368D1EE00C91783 /* HardwareNotifier_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareNotifier_Prefix.pch; sourceTree = "<group>"; };
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
+		347931350C85E5D1007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347931360C85E5D1007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
+		347931370C85E5D2007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -411,6 +414,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -418,6 +422,7 @@
 				French,
 				German,
 				zh_CN,
+				Dutch,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* HarwareNotifier */;
 			projectDirPath = "";
@@ -439,7 +444,7 @@
 		179B92770C14D0C3004FB187 /* Growl.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
-			path = Growl.dylib;
+			path = Growl.dylib.dylib;
 			remoteRef = 179B92760C14D0C3004FB187 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -544,7 +549,7 @@
 		9533C2B4085C3ED6009F8046 /* GrowlSMS.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = GrowlSMS.growlView;
+			path = SMS.growlView;
 			remoteRef = 9533C2B3085C3ED6009F8046 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -624,6 +629,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
+				347931350C85E5D1007ADCAA /* Dutch */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -634,6 +640,7 @@
 				29B97319FDCFA39411CA2CEA /* English */,
 				DD43C6EF0840C0100022A0D1 /* German */,
 				95B00A8C08468A62004A8623 /* zh_CN */,
+				347931370C85E5D2007ADCAA /* Dutch */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -644,6 +651,7 @@
 				95AC163B0858A3BF008213B8 /* English */,
 				95AC16450858A3ED008213B8 /* German */,
 				950445A309B57BED000EAB59 /* French */,
+				347931360C85E5D1007ADCAA /* Dutch */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

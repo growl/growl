@@ -1,0 +1,92 @@
+{
+    IBClasses = (
+        {
+            CLASS = DisplayPluginsWithDefaultArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = GrowlPositionPicker; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {preferencePane = GrowlPreferencePane; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {
+                checkVersion = id; 
+                deleteTicket = id; 
+                endDisabledDisplays = id; 
+                openGrowlDonate = id; 
+                openGrowlForum = id; 
+                openGrowlTrac = id; 
+                openGrowlWebSite = id; 
+                playSound = id; 
+                resolveService = id; 
+                showDisabledDisplays = id; 
+                showPreview = id; 
+                startStopGrowl = id; 
+            }; 
+            CLASS = GrowlPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                aboutBoxTextView = NSTextView; 
+                appPositionPicker = GrowlPositionPicker; 
+                applicationNameAndIconColumn = NSTableColumn; 
+                applicationsTab = NSTabView; 
+                configurationTab = NSTabView; 
+                customMenuButton = NSPopUpButton; 
+                disabledDisplaysList = NSTextView; 
+                disabledDisplaysSheet = NSWindow; 
+                displayAuthor = NSTextField; 
+                displayDefaultPrefView = NSView; 
+                displayPluginsArrayController = NSArrayController; 
+                displayPluginsTable = NSTableView; 
+                displayPrefView = NSView; 
+                displayVersion = NSTextField; 
+                globalPositionPicker = GrowlPositionPicker; 
+                growlApplications = NSTableView; 
+                growlRunningProgress = NSProgressIndicator; 
+                growlRunningStatus = NSTextField; 
+                growlVersionProgress = NSProgressIndicator; 
+                logFileType = NSMatrix; 
+                networkTableView = NSTableView; 
+                notificationPriorityMenu = NSMenu; 
+                notificationsArrayController = NSArrayController; 
+                previewButton = NSButton; 
+                servicePasswordColumn = NSTableColumn; 
+                servicesArrayController = NSArrayController; 
+                startStopGrowl = NSButton; 
+                ticketsArrayController = TicketsArrayController; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = id; 
+                "_initialKeyView" = id; 
+                "_lastKeyView" = id; 
+                "_window" = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = NotificationsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            ACTIONS = {search = id; }; 
+            CLASS = TicketsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

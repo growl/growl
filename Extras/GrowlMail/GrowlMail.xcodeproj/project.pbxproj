@@ -38,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		347930E20C85E3EC007ADCAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50 /* Growl.dylib.dylib */;
+			remoteInfo = Growl.dylib;
+		};
 		9598A04B086F4C790014C386 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
@@ -58,13 +65,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8D202CF80486D31800D8A456;
 			remoteInfo = Growl;
-		};
-		95AE2754085C44A600271F5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DDF09B0A080AC8F3006F4172;
-			remoteInfo = PrefpaneTesting;
 		};
 		95AE2756085C44A600271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -184,6 +184,9 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		347930EB0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		347930EC0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347930ED0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4B2E729506B5776B00386BF2 /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
 		4B7E5EA206B6AC1700137892 /* GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail.h; sourceTree = "<group>"; };
 		4B7E5EA306B6AC1700137892 /* GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlMail.m; sourceTree = "<group>"; };
@@ -327,10 +330,10 @@
 			isa = PBXGroup;
 			children = (
 				95AE2753085C44A600271F5F /* Growl.prefPane */,
-				95AE2755085C44A600271F5F /* PrefpaneTesting.app */,
 				95AE2757085C44A600271F5F /* GrowlHelperApp.app */,
 				95AE2759085C44A600271F5F /* GrowlMenu.app */,
 				95AE275B085C44A600271F5F /* Growl.framework */,
+				347930E30C85E3EC007ADCAA /* Growl.dylib.dylib */,
 				95AE275D085C44A600271F5F /* Growl-WithInstaller.framework */,
 				95AE275F085C44A600271F5F /* Speech.growlView */,
 				95AE2761085C44A600271F5F /* Brushed.growlView */,
@@ -341,7 +344,7 @@
 				95AD1E5C0970955A00D6E4BA /* Nano.growlView */,
 				95AE2769085C44A600271F5F /* MailMe.growlView */,
 				95AE276B085C44A600271F5F /* MusicVideo.growlView */,
-				95AE276D085C44A600271F5F /* GrowlSMS.growlView */,
+				95AE276D085C44A600271F5F /* SMS.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				French,
 				German,
 				zh_CN,
+				nl,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* MailGrowl */;
 			projectDirPath = "";
@@ -393,7 +397,6 @@
 				},
 			);
 			projectRoot = "";
-			shouldCheckCompatibility = 1;
 			targets = (
 				8D5B49AC048680CD000E48DA /* GrowlMail */,
 				95AE2770085C44B600271F5F /* External Frameworks */,
@@ -402,6 +405,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		347930E30C85E3EC007ADCAA /* Growl.dylib.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = Growl.dylib.dylib;
+			remoteRef = 347930E20C85E3EC007ADCAA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95AD1E5C0970955A00D6E4BA /* Nano.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -414,13 +424,6 @@
 			fileType = wrapper.cfbundle;
 			path = Growl.prefPane;
 			remoteRef = 95AE2752085C44A600271F5F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AE2755085C44A600271F5F /* PrefpaneTesting.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PrefpaneTesting.app;
-			remoteRef = 95AE2754085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95AE2757085C44A600271F5F /* GrowlHelperApp.app */ = {
@@ -500,10 +503,10 @@
 			remoteRef = 95AE276A085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE276D085C44A600271F5F /* GrowlSMS.growlView */ = {
+		95AE276D085C44A600271F5F /* SMS.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = GrowlSMS.growlView;
+			path = SMS.growlView;
 			remoteRef = 95AE276C085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -581,6 +584,7 @@
 				089C167EFE841241C02AAC07 /* English */,
 				950DAC1A0737B0550096F066 /* German */,
 				955A4E24086175B6009B6EA5 /* French */,
+				347930EC0C85E3F4007ADCAA /* nl */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -593,6 +597,7 @@
 				9556E69907F4354600D42745 /* Japanese */,
 				95B00A56084689D0004A8623 /* zh_CN */,
 				955A4E23086175AD009B6EA5 /* French */,
+				347930ED0C85E3F4007ADCAA /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				9528EFE607F5A60600061D90 /* Japanese */,
 				95B00A55084689C4004A8623 /* zh_CN */,
 				955A4E25086175BE009B6EA5 /* French */,
+				347930EB0C85E3F4007ADCAA /* nl */,
 			);
 			name = GrowlMailPreferencesPanel.nib;
 			sourceTree = "<group>";
