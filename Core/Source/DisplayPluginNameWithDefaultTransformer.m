@@ -7,6 +7,7 @@
 
 #import "DisplayPluginNameWithDefaultTransformer.h"
 
+#define DEFAULT_STRING NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], @"")
 
 @implementation DisplayPluginNameWithDefaultTransformer
 + (void)load
@@ -34,14 +35,14 @@
 	if ([value isKindOfClass:[NSArray class]]) {
 		NSMutableArray *transformedArray = [[value mutableCopy] autorelease];
 		[transformedArray replaceObjectAtIndex:[transformedArray indexOfObject:[NSNull null]]
-									withObject:NSLocalizedString(@"Default", nil)];
+									withObject:DEFAULT_STRING];
 		
 		return transformedArray;
 
 	} else if (!value ||
 			   [value isKindOfClass:[NSNull class]]) {
 		//A nil or NSNull value is the default itself
-		return NSLocalizedString(@"Default", nil);
+		return DEFAULT_STRING;
 
 	} else {
 		return value;
@@ -51,7 +52,7 @@
 - (id)reverseTransformedValue:(id)value
 {	
 	if ([value isKindOfClass:[NSString class]]) {
-		return ([value isEqualToString:NSLocalizedString(@"Default", nil)] ? nil : value);
+		return ([value isEqualToString:DEFAULT_STRING] ? nil : value);
 	} else {
 		//We don't need to reverse transform the array
 		return value;
