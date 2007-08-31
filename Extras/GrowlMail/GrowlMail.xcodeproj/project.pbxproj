@@ -42,7 +42,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 34725B0F0C0678A000499F50 /* Growl.dylib.dylib */;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
 		};
 		9598A04B086F4C790014C386 /* PBXContainerItemProxy */ = {
@@ -187,6 +187,15 @@
 		347930EB0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		347930EC0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347930ED0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD982C0C87C8AA0040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD982D0C87C8AA0040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98310C87C8C60040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		34CD98AD0C87CA370040C77F /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		34CD98AE0C87CA370040C77F /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98AF0C87CA370040C77F /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98B00C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		34CD98B10C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98B20C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4B2E729506B5776B00386BF2 /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
 		4B7E5EA206B6AC1700137892 /* GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail.h; sourceTree = "<group>"; };
 		4B7E5EA306B6AC1700137892 /* GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlMail.m; sourceTree = "<group>"; };
@@ -387,6 +396,9 @@
 				German,
 				zh_CN,
 				nl,
+				Swedish,
+				Dutch,
+				pt_BR,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* MailGrowl */;
 			projectDirPath = "";
@@ -585,6 +597,9 @@
 				950DAC1A0737B0550096F066 /* German */,
 				955A4E24086175B6009B6EA5 /* French */,
 				347930EC0C85E3F4007ADCAA /* nl */,
+				34CD982C0C87C8AA0040C77F /* Swedish */,
+				34CD98AE0C87CA370040C77F /* Dutch */,
+				34CD98B10C87CA590040C77F /* pt_BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -598,6 +613,9 @@
 				95B00A56084689D0004A8623 /* zh_CN */,
 				955A4E23086175AD009B6EA5 /* French */,
 				347930ED0C85E3F4007ADCAA /* nl */,
+				34CD982D0C87C8AA0040C77F /* Swedish */,
+				34CD98AF0C87CA370040C77F /* Dutch */,
+				34CD98B20C87CA590040C77F /* pt_BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -611,6 +629,9 @@
 				95B00A55084689C4004A8623 /* zh_CN */,
 				955A4E25086175BE009B6EA5 /* French */,
 				347930EB0C85E3F4007ADCAA /* nl */,
+				34CD98310C87C8C60040C77F /* Swedish */,
+				34CD98AD0C87CA370040C77F /* Dutch */,
+				34CD98B00C87CA590040C77F /* pt_BR */,
 			);
 			name = GrowlMailPreferencesPanel.nib;
 			sourceTree = "<group>";

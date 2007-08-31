@@ -206,6 +206,12 @@
 		347931350C85E5D1007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347931360C85E5D1007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
 		347931370C85E5D2007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		34CD98520C87C8F10040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98530C87C8F10040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98540C87C8F10040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		34CD98C90C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98CA0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98CB0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,7 +374,7 @@
 				9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */,
 				9533C2A0085C3ED6009F8046 /* GrowlMenu.app */,
 				9533C2A2085C3ED6009F8046 /* Growl.framework */,
-				179B92770C14D0C3004FB187 /* Growl.dylib */,
+				179B92770C14D0C3004FB187 /* Growl.dylib.dylib */,
 				9533C2A4085C3ED6009F8046 /* Growl-WithInstaller.framework */,
 				9533C2A6085C3ED6009F8046 /* Speech.growlView */,
 				9533C2A8085C3ED6009F8046 /* Brushed.growlView */,
@@ -379,7 +385,7 @@
 				9504459009B57BB5000EAB59 /* Nano.growlView */,
 				9533C2B0085C3ED6009F8046 /* MailMe.growlView */,
 				9533C2B2085C3ED6009F8046 /* MusicVideo.growlView */,
-				9533C2B4085C3ED6009F8046 /* GrowlSMS.growlView */,
+				9533C2B4085C3ED6009F8046 /* SMS.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -423,6 +429,8 @@
 				German,
 				zh_CN,
 				Dutch,
+				Swedish,
+				pt_BR,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* HarwareNotifier */;
 			projectDirPath = "";
@@ -441,7 +449,7 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		179B92770C14D0C3004FB187 /* Growl.dylib */ = {
+		179B92770C14D0C3004FB187 /* Growl.dylib.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = Growl.dylib.dylib;
@@ -546,7 +554,7 @@
 			remoteRef = 9533C2B1085C3ED6009F8046 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9533C2B4085C3ED6009F8046 /* GrowlSMS.growlView */ = {
+		9533C2B4085C3ED6009F8046 /* SMS.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SMS.growlView;
@@ -630,6 +638,8 @@
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
 				347931350C85E5D1007ADCAA /* Dutch */,
+				34CD98520C87C8F10040C77F /* Swedish */,
+				34CD98C90C87CA7F0040C77F /* pt_BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -641,6 +651,8 @@
 				DD43C6EF0840C0100022A0D1 /* German */,
 				95B00A8C08468A62004A8623 /* zh_CN */,
 				347931370C85E5D2007ADCAA /* Dutch */,
+				34CD98540C87C8F10040C77F /* Swedish */,
+				34CD98CB0C87CA7F0040C77F /* pt_BR */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -652,6 +664,8 @@
 				95AC16450858A3ED008213B8 /* German */,
 				950445A309B57BED000EAB59 /* French */,
 				347931360C85E5D1007ADCAA /* Dutch */,
+				34CD98530C87C8F10040C77F /* Swedish */,
+				34CD98CA0C87CA7F0040C77F /* pt_BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

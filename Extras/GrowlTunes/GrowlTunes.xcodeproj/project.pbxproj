@@ -263,6 +263,10 @@
 		347930C60C85E36B007ADCAA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
 		347931140C85E5A3007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347931150C85E5A3007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98800C87C9240040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98810C87C9250040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98C50C87CA770040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98C60C87CA770040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52F5774906872B3A0068B46C /* GrowlTunesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesController.h; sourceTree = "<group>"; };
 		52F5774A06872B3A0068B46C /* GrowlTunesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesController.m; sourceTree = "<group>"; };
 		74B408DA090BBC5A0054876D /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = ../../Core/Source/GrowlAbstractSingletonObject.h; sourceTree = SOURCE_ROOT; };
@@ -523,6 +527,8 @@
 				zh_CN,
 				Russian,
 				Dutch,
+				Swedish,
+				pt_BR,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* GrowlTunes */;
 			projectDirPath = "";
@@ -800,6 +806,8 @@
 				955A4DE80861758B009B6EA5 /* French */,
 				347930C60C85E36B007ADCAA /* Russian */,
 				347931150C85E5A3007ADCAA /* Dutch */,
+				34CD98810C87C9250040C77F /* Swedish */,
+				34CD98C60C87CA770040C77F /* pt_BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -811,6 +819,8 @@
 				955A4DE708617580009B6EA5 /* French */,
 				347930C50C85E36B007ADCAA /* Russian */,
 				347931140C85E5A3007ADCAA /* Dutch */,
+				34CD98800C87C9240040C77F /* Swedish */,
+				34CD98C50C87CA770040C77F /* pt_BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
