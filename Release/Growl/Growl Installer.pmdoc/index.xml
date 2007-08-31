@@ -64,4 +64,36 @@ Para maiores informa\'e7\'f5es, veja a p\'e1gina http://growl.info/about.php (em
 \
 Clique em Continuar para iniciar a instala\'e7\'e3o. \
 \
-NoMac OS X 10.5 ou vers\'e3o mais recente, voc\'ea vai ter a op\'e7\'e3o de escolher a instala\'e7\'e3o para todos os usu\'e1rios ou apenas para voc\'ea. J\'e1 no Mac OS X 10.4, o Growl ser\'e1 instalado em /Library/PreferencePanes/Growl.prefPane e estar\'e1 dispon\'edvel para todos os usu\'e1rios.}]]></resource></locale></resources><flags/><preinstall><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.apple.systempreferences</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.GrowlHelperApp</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.MenuExtra</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/></preinstall><postinstall><action id="com.apple.packagemaker.actions.openfile"><value>com.Growl.GrowlHelperApp</value><type>component</type></action></postinstall><item type="file">01growl.xml</item><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.anywhereDomain</mod><mod>properties.customizeOption</mod><mod>properties.systemDomain</mod><mod>properties.title</mod><mod>description</mod><mod>postinstallActions.actions</mod></pkmkdoc>
+NoMac OS X 10.5 ou vers\'e3o mais recente, voc\'ea vai ter a op\'e7\'e3o de escolher a instala\'e7\'e3o para todos os usu\'e1rios ou apenas para voc\'ea. J\'e1 no Mac OS X 10.4, o Growl ser\'e1 instalado em /Library/PreferencePanes/Growl.prefPane e estar\'e1 dispon\'edvel para todos os usu\'e1rios.}]]></resource></locale><locale lang="Dutch"><resource relative="true" mod="true" type="background">growl-400.jpg</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf929
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 Copyright (c) The Growl Project, 2004-2007\
+All rights reserved.\
+\
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\
+\
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\
+3. Neither the name of Growl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\
+\
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}]]></resource><resource mime-type="text/rtf" kind="embedded" type="welcome"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf929
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\deftab720
+\pard\pardeftab720\ql\qnatural
+
+\f0\fs24 \cf0 Welkom bij Growl!\
+\
+Growl is een centraal meldingssysteem voor OS X. \'a0\
+\
+Programma's die het ondersteunen, kunnen u hiermee voorzien van informatie op een prettige en aanpasbare manier, zonder dat u hoeft te schakelen van wat u op dat moment aan het doen bent.\
+\
+Sommige programma's kunnen ondersteuning hebben voor Growl met plugins of "extra's". U kunt "extra's" vinden voor Safari, Apple Mail en meer in de map Extras die bij dit installatieprogramma zat.\
+\
+Zie http://growl.info/about.php voor meer informatie.\
+\
+Druk op Ga door om te installeren.\
+\
+Onder Mac OS X 10.5 en hoger, krijgt u de keuze voor een installatie voor alle gebruikers of alleen voor uzelf. Onder Mac OS X 10.4, zal Growl worden ge nstalleerd in /Bibliotheek/PreferencePanes/Growl.prefPane en beschikbaar zijn voor alle gebruikers.}]]></resource></locale></resources><flags/><preinstall><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.apple.systempreferences</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.GrowlHelperApp</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.MenuExtra</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/></preinstall><postinstall><action id="com.apple.packagemaker.actions.openfile"><value>com.Growl.GrowlHelperApp</value><type>component</type></action></postinstall><item type="file">01growl.xml</item><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.anywhereDomain</mod><mod>properties.customizeOption</mod><mod>properties.systemDomain</mod><mod>properties.title</mod><mod>description</mod><mod>postinstallActions.actions</mod></pkmkdoc>
