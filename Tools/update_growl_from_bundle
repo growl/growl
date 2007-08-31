@@ -111,11 +111,15 @@ update_language()
 if [ "$2" = "all" ]  ; then
     for lang in \
         cs \
+        Dutch \
         French \
         German \
         Japanese \
+        pt_BR \
         Russian \
+        Swedish \
         zh_CN \
+        zh_TW \
         ; do
             update_language $lang
     done
