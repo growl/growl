@@ -6,6 +6,7 @@
             SUPERCLASS = NSArrayController; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = GrowlPositionPicker; 
             LANGUAGE = ObjC; 
@@ -61,6 +62,7 @@
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             CLASS = NSPreferencePane; 
@@ -73,8 +75,6 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = NSView; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
-        {CLASS = NSWindow; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
         {
             CLASS = NotificationsArrayController; 
             LANGUAGE = ObjC; 

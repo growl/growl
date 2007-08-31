@@ -1,188 +1,92 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>CLASS</key>
-			<string>NotificationsArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>DisplayPluginsWithDefaultArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSPreferencePane</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_firstKeyView</key>
-				<string>id</string>
-				<key>_initialKeyView</key>
-				<string>id</string>
-				<key>_lastKeyView</key>
-				<string>id</string>
-				<key>_window</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>search</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>TicketsArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>GrowlPositionPicker</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>preferencePane</key>
-				<string>GrowlPreferencePane</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>RRTableView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTableView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>checkVersion</key>
-				<string>id</string>
-				<key>deleteTicket</key>
-				<string>id</string>
-				<key>endDisabledDisplays</key>
-				<string>id</string>
-				<key>openGrowlDonate</key>
-				<string>id</string>
-				<key>openGrowlForum</key>
-				<string>id</string>
-				<key>openGrowlTrac</key>
-				<string>id</string>
-				<key>openGrowlWebSite</key>
-				<string>id</string>
-				<key>playSound</key>
-				<string>id</string>
-				<key>resolveService</key>
-				<string>id</string>
-				<key>showDisabledDisplays</key>
-				<string>id</string>
-				<key>showPreview</key>
-				<string>id</string>
-				<key>startStopGrowl</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>GrowlPreferencePane</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>aboutBoxTextView</key>
-				<string>NSTextView</string>
-				<key>appPositionPicker</key>
-				<string>GrowlPositionPicker</string>
-				<key>applicationNameAndIconColumn</key>
-				<string>NSTableColumn</string>
-				<key>applicationsTab</key>
-				<string>NSTabView</string>
-				<key>configurationTab</key>
-				<string>NSTabView</string>
-				<key>customMenuButton</key>
-				<string>NSPopUpButton</string>
-				<key>disabledDisplaysList</key>
-				<string>NSTextView</string>
-				<key>disabledDisplaysSheet</key>
-				<string>NSWindow</string>
-				<key>displayAuthor</key>
-				<string>NSTextField</string>
-				<key>displayDefaultPrefView</key>
-				<string>NSView</string>
-				<key>displayPluginsArrayController</key>
-				<string>NSArrayController</string>
-				<key>displayPluginsTable</key>
-				<string>NSTableView</string>
-				<key>displayPrefView</key>
-				<string>NSView</string>
-				<key>displayVersion</key>
-				<string>NSTextField</string>
-				<key>globalPositionPicker</key>
-				<string>GrowlPositionPicker</string>
-				<key>growlApplications</key>
-				<string>NSTableView</string>
-				<key>growlRunningProgress</key>
-				<string>NSProgressIndicator</string>
-				<key>growlRunningStatus</key>
-				<string>NSTextField</string>
-				<key>growlVersionProgress</key>
-				<string>NSProgressIndicator</string>
-				<key>logFileType</key>
-				<string>NSMatrix</string>
-				<key>networkTableView</key>
-				<string>NSTableView</string>
-				<key>notificationPriorityMenu</key>
-				<string>NSMenu</string>
-				<key>notificationsArrayController</key>
-				<string>NSArrayController</string>
-				<key>previewButton</key>
-				<string>NSButton</string>
-				<key>servicePasswordColumn</key>
-				<string>NSTableColumn</string>
-				<key>servicesArrayController</key>
-				<string>NSArrayController</string>
-				<key>startStopGrowl</key>
-				<string>NSButton</string>
-				<key>ticketsArrayController</key>
-				<string>TicketsArrayController</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSPreferencePane</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses = (
+        {
+            CLASS = DisplayPluginsWithDefaultArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = GrowlPositionPicker; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {preferencePane = GrowlPreferencePane; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {
+                checkVersion = id; 
+                deleteTicket = id; 
+                endDisabledDisplays = id; 
+                openGrowlDonate = id; 
+                openGrowlForum = id; 
+                openGrowlTrac = id; 
+                openGrowlWebSite = id; 
+                playSound = id; 
+                resolveService = id; 
+                showDisabledDisplays = id; 
+                showPreview = id; 
+                startStopGrowl = id; 
+            }; 
+            CLASS = GrowlPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                aboutBoxTextView = NSTextView; 
+                appPositionPicker = GrowlPositionPicker; 
+                applicationNameAndIconColumn = NSTableColumn; 
+                applicationsTab = NSTabView; 
+                configurationTab = NSTabView; 
+                customMenuButton = NSPopUpButton; 
+                disabledDisplaysList = NSTextView; 
+                disabledDisplaysSheet = NSWindow; 
+                displayAuthor = NSTextField; 
+                displayDefaultPrefView = NSView; 
+                displayPluginsArrayController = NSArrayController; 
+                displayPluginsTable = NSTableView; 
+                displayPrefView = NSView; 
+                displayVersion = NSTextField; 
+                globalPositionPicker = GrowlPositionPicker; 
+                growlApplications = NSTableView; 
+                growlRunningProgress = NSProgressIndicator; 
+                growlRunningStatus = NSTextField; 
+                growlVersionProgress = NSProgressIndicator; 
+                logFileType = NSMatrix; 
+                networkTableView = NSTableView; 
+                notificationPriorityMenu = NSMenu; 
+                notificationsArrayController = NSArrayController; 
+                previewButton = NSButton; 
+                servicePasswordColumn = NSTableColumn; 
+                servicesArrayController = NSArrayController; 
+                startStopGrowl = NSButton; 
+                ticketsArrayController = TicketsArrayController; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = id; 
+                "_initialKeyView" = id; 
+                "_lastKeyView" = id; 
+                "_window" = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = NotificationsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            ACTIONS = {search = id; }; 
+            CLASS = TicketsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
