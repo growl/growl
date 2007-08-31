@@ -1,22 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>Cancel</key>
-	<string>Отмена</string>
-	<key>Don't Ask Again</key>
-	<string>Больше не показывать</string>
-	<key>Growl Installation Recommended</key>
-	<string>Рекомендуется установить Growl</string>
-	<key>Growl Update Available</key>
-	<string>Доступна новая версия Growl</string>
-	<key>Install</key>
-	<string>Установить</string>
-	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
-	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. В данную поставку включена более новая версия Growl, чем установленная на Вашем компьютере. Рекомендуется установить это обновление. Подключение к сети Интернет не требуется.</string>
-	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
-	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. Подтвердите установку Growl, если хотите воспользоваться её возможностями. Подключение к сети Интернет не требуется.</string>
-	<key>Update</key>
-	<string>Обновить</string>
-</dict>
-</plist>
+/* Button title for canceling installation of Growl */
+"Cancel" = "Отмена";
+
+/* Don't ask again checkbox title for installation of Growl */
+"Don't Ask Again" = "Больше не показывать";
+
+/* Growl installation window title */
+"Growl Installation Recommended" = "Рекомендуется установить Growl";
+
+/* Growl update window title */
+"Growl Update Available" = "Доступна новая версия Growl";
+
+/* Button title for installing Growl */
+"Install" = "Установить";
+
+/* Default Growl update explanation */
+"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required." = "Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. В данную поставку включена более новая версия Growl, чем установленная на Вашем компьютере. Рекомендуется установить это обновление. Подключение к сети Интернет не требуется.";
+
+/* Default Growl installation explanation */
+"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required." = "Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. Подтвердите установку Growl, если хотите воспользоваться её возможностями. Подключение к сети Интернет не требуется.";
+
+/* Button title for updating Growl */
+"Update" = "Обновить";
+

@@ -764,6 +764,44 @@
 		34A88D3A0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34A88D3B0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = StatusItem/Resources/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34A88D3C0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		34B02AC90C87911200DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt_BR; path = Core/Resources/pt_BR.lproj/About.rtf; sourceTree = "<group>"; };
+		34B02ACA0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/Brushed/pt_BR.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
+		34B02ACB0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
+		34B02ACC0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
+		34B02ACD0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = Framework/Resources/pt_BR.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		34B02ACE0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = "Framework/Resources/pt_BR.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
+		34B02ACF0C87911300DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Framework/Resources/pt_BR.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		34B02AD00C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
+		34B02AD10C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
+		34B02AD20C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/Nano/pt_BR.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
+		34B02AD30C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Core/Resources/pt_BR.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		34B02AD40C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/SMS/pt_BR.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
+		34B02AD50C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
+		34B02AD60C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/iCal/pt_BR.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		34B02AD70C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = Core/Resources/pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34B02AD80C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = StatusItem/Resources/pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34B02AD90C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = Core/Resources/pt_BR.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		34B02ADA0C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		34B02ADB0C87911500DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/WebKit/pt_BR.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		34B02B030C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Swedish; path = Core/Resources/Swedish.lproj/About.rtf; sourceTree = "<group>"; };
+		34B02B040C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Plugins/Displays/Brushed/Swedish.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
+		34B02B050C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
+		34B02B060C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
+		34B02B070C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Framework/Resources/Swedish.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		34B02B080C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = "Framework/Resources/Swedish.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
+		34B02B090C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Framework/Resources/Swedish.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		34B02B0A0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
+		34B02B0B0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
+		34B02B0C0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Plugins/Displays/Nano/Swedish.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
+		34B02B0D0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Core/Resources/Swedish.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		34B02B0E0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Plugins/Displays/SMS/Swedish.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
+		34B02B0F0C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
+		34B02B100C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Plugins/Displays/iCal/Swedish.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
+		34B02B110C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Core/Resources/Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34B02B120C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = StatusItem/Resources/Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34B02B130C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Core/Resources/Swedish.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		34B02B140C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Swedish.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		34B02B150C8791F600DD25D6 /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Swedish; path = Plugins/Displays/WebKit/Swedish.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		34B2755208423BE80092A5A0 /* growlmenu-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "growlmenu-alt.png"; path = "StatusItem/Resources/growlmenu-alt.png"; sourceTree = "<group>"; };
 		34B2755308423BE80092A5A0 /* growlmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growlmenu.png; path = StatusItem/Resources/growlmenu.png; sourceTree = "<group>"; };
 		34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "MenuExtra-Info.plist"; path = "StatusItem/Resources/MenuExtra-Info.plist"; sourceTree = "<group>"; };
@@ -2346,6 +2384,8 @@
 				pl,
 				Dutch,
 				zh_TW,
+				pt_BR,
+				Swedish,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -2997,6 +3037,8 @@
 				34A88D320C7F8A5200F01CB8 /* cs */,
 				34792F7F0C848654007ADCAA /* Dutch */,
 				3479306F0C85E290007ADCAA /* zh_TW */,
+				34B02ACE0C87911300DD25D6 /* pt_BR */,
+				34B02B080C8791F600DD25D6 /* Swedish */,
 			);
 			name = "GrowlInstallationPrompt-Carbon.nib";
 			sourceTree = "<group>";
@@ -3013,6 +3055,8 @@
 				34A88D3A0C7F8A5300F01CB8 /* cs */,
 				347930780C85E291007ADCAA /* zh_TW */,
 				347935930C864534007ADCAA /* Dutch */,
+				34B02AD70C87911400DD25D6 /* pt_BR */,
+				34B02B110C8791F600DD25D6 /* Swedish */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3029,6 +3073,8 @@
 				34A88D390C7F8A5200F01CB8 /* cs */,
 				347930210C848724007ADCAA /* Dutch */,
 				347930760C85E291007ADCAA /* zh_TW */,
+				34B02AD50C87911400DD25D6 /* pt_BR */,
+				34B02B0F0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlSpeechPrefs.nib;
 			sourceTree = "<group>";
@@ -3045,6 +3091,8 @@
 				34A88D2F0C7F8A5200F01CB8 /* cs */,
 				3479301A0C848724007ADCAA /* Dutch */,
 				3479306C0C85E290007ADCAA /* zh_TW */,
+				34B02ACB0C87911300DD25D6 /* pt_BR */,
+				34B02B050C8791F600DD25D6 /* Swedish */,
 			);
 			name = BubblesPrefs.nib;
 			sourceTree = "<group>";
@@ -3061,6 +3109,8 @@
 				34A88D300C7F8A5200F01CB8 /* cs */,
 				3479301B0C848724007ADCAA /* Dutch */,
 				3479306D0C85E290007ADCAA /* zh_TW */,
+				34B02ACC0C87911300DD25D6 /* pt_BR */,
+				34B02B060C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlBezelPrefs.nib;
 			sourceTree = "<group>";
@@ -3077,6 +3127,8 @@
 				34A88D3C0C7F8A5300F01CB8 /* cs */,
 				347930230C848724007ADCAA /* Dutch */,
 				3479307B0C85E291007ADCAA /* zh_TW */,
+				34B02ADA0C87911400DD25D6 /* pt_BR */,
+				34B02B140C8791F600DD25D6 /* Swedish */,
 			);
 			name = SmokePrefs.nib;
 			sourceTree = "<group>";
@@ -3093,6 +3145,8 @@
 				34A88D340C7F8A5200F01CB8 /* cs */,
 				3479301C0C848724007ADCAA /* Dutch */,
 				347930710C85E290007ADCAA /* zh_TW */,
+				34B02AD00C87911400DD25D6 /* pt_BR */,
+				34B02B0A0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlMailMePrefs.nib;
 			sourceTree = "<group>";
@@ -3109,6 +3163,8 @@
 				34A88D350C7F8A5200F01CB8 /* cs */,
 				3479301D0C848724007ADCAA /* Dutch */,
 				347930720C85E290007ADCAA /* zh_TW */,
+				34B02AD10C87911400DD25D6 /* pt_BR */,
+				34B02B0B0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlMusicVideoPrefs.nib;
 			sourceTree = "<group>";
@@ -3125,6 +3181,8 @@
 				345B7D1F0C80A942005F7F96 /* cs */,
 				347930220C848724007ADCAA /* Dutch */,
 				347930770C85E291007ADCAA /* zh_TW */,
+				34B02AD60C87911400DD25D6 /* pt_BR */,
+				34B02B100C8791F600DD25D6 /* Swedish */,
 			);
 			name = iCalPrefs.nib;
 			sourceTree = "<group>";
@@ -3141,6 +3199,8 @@
 				34A88D3B0C7F8A5300F01CB8 /* cs */,
 				3479307A0C85E291007ADCAA /* zh_TW */,
 				347935950C864534007ADCAA /* Dutch */,
+				34B02AD80C87911400DD25D6 /* pt_BR */,
+				34B02B120C8791F600DD25D6 /* Swedish */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3157,6 +3217,8 @@
 				34A88D2D0C7F8A5200F01CB8 /* cs */,
 				3479306A0C85E28F007ADCAA /* zh_TW */,
 				347935920C864534007ADCAA /* Dutch */,
+				34B02AC90C87911200DD25D6 /* pt_BR */,
+				34B02B030C8791F600DD25D6 /* Swedish */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3173,6 +3235,8 @@
 				34A88D360C7F8A5200F01CB8 /* cs */,
 				3479301E0C848724007ADCAA /* Dutch */,
 				347930730C85E291007ADCAA /* zh_TW */,
+				34B02AD20C87911400DD25D6 /* pt_BR */,
+				34B02B0C0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlNanoPrefs.nib;
 			sourceTree = "<group>";
@@ -3190,6 +3254,8 @@
 				34A88D330C7F8A5200F01CB8 /* cs */,
 				34792F800C848659007ADCAA /* Dutch */,
 				347930700C85E290007ADCAA /* zh_TW */,
+				34B02ACF0C87911300DD25D6 /* pt_BR */,
+				34B02B090C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
@@ -3206,6 +3272,8 @@
 				34A88D370C7F8A5200F01CB8 /* cs */,
 				347930400C848741007ADCAA /* Dutch */,
 				347930740C85E291007ADCAA /* zh_TW */,
+				34B02AD30C87911400DD25D6 /* pt_BR */,
+				34B02B0D0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
@@ -3223,6 +3291,8 @@
 				34A88D310C7F8A5200F01CB8 /* cs */,
 				34792F7E0C84864F007ADCAA /* Dutch */,
 				3479306E0C85E290007ADCAA /* zh_TW */,
+				34B02ACD0C87911300DD25D6 /* pt_BR */,
+				34B02B070C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
@@ -3239,6 +3309,8 @@
 				951152B808753AA700DBB3EA /* Russian */,
 				347930790C85E291007ADCAA /* zh_TW */,
 				347935940C864534007ADCAA /* Dutch */,
+				34B02AD90C87911400DD25D6 /* pt_BR */,
+				34B02B130C8791F600DD25D6 /* Swedish */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3255,6 +3327,8 @@
 				34ECC27A0C7F89DA00EE7F9B /* Russian */,
 				347930240C848725007ADCAA /* Dutch */,
 				3479307C0C85E291007ADCAA /* zh_TW */,
+				34B02ADB0C87911500DD25D6 /* pt_BR */,
+				34B02B150C8791F600DD25D6 /* Swedish */,
 			);
 			name = WebKitPrefs.nib;
 			sourceTree = "<group>";
@@ -3271,6 +3345,8 @@
 				34A88D2E0C7F8A5200F01CB8 /* cs */,
 				347930190C848724007ADCAA /* Dutch */,
 				3479306B0C85E28F007ADCAA /* zh_TW */,
+				34B02ACA0C87911300DD25D6 /* pt_BR */,
+				34B02B040C8791F600DD25D6 /* Swedish */,
 			);
 			name = BrushedPrefs.nib;
 			sourceTree = "<group>";
@@ -3287,6 +3363,8 @@
 				34A88D380C7F8A5200F01CB8 /* cs */,
 				347930200C848724007ADCAA /* Dutch */,
 				347930750C85E291007ADCAA /* zh_TW */,
+				34B02AD40C87911400DD25D6 /* pt_BR */,
+				34B02B0E0C8791F600DD25D6 /* Swedish */,
 			);
 			name = GrowlSMSPrefs.nib;
 			sourceTree = "<group>";
