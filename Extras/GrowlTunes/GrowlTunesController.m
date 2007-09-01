@@ -176,12 +176,18 @@ enum {
 //		ITUNES_STOPPED,
 		ITUNES_PLAYING,
 		nil];
+	NSDictionary *readableNames = [NSDictionary dictionaryWithObjectsAndKeys:
+								   NSLocalizedString(@"Changed Tracks", nil), ITUNES_TRACK_CHANGED,
+								   NSLocalizedString(@"Started Playing", nil), ITUNES_PLAYING,
+								   nil];
+	
 	NSImage			*iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:ITUNES_APP_NAME];
 	NSDictionary	*regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		APP_NAME,                        GROWL_APP_NAME,
 		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
 		allNotes,                        GROWL_NOTIFICATIONS_ALL,
 		allNotes,                        GROWL_NOTIFICATIONS_DEFAULT,
+		readableNames,					 GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 		nil];
 	[allNotes release];
 	return regDict;
@@ -432,7 +438,7 @@ enum {
 			curDescriptor = [theDescriptor descriptorAtIndex:1L];
 			const OSType type = [curDescriptor typeCodeValue];
 
-			if (type != nil)
+			if (type != 0)
 				artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		}
 
@@ -465,7 +471,7 @@ enum {
 			//If we're streaming music, display only the name of the station and genre
 			NSLog(@"new track URL: %@", newTrackURL);
 			if (!streamTitle) streamTitle = @"";
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, genre];
+			displayString = [[NSString alloc] initWithFormat:@"%@\n%@", streamTitle, genre];
 		} else {
 			if (!length)		length			= @"";
 			if (!ratingString)	ratingString	= @"";
@@ -473,7 +479,7 @@ enum {
 			if (!genre)			genre			= @"";
 			if (!composer)		composer		= @"";
 			if (!artist)		artist			= composer;
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, composer, album, genre];
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@ — %@\n%@ (Composed by %@)\n%@\n%@", "This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre"), length, ratingString, artist, composer, album, genre];
 		}
 
 		[noteDict release];
@@ -669,7 +675,7 @@ enum {
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.png"]];
 			[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.png"]];
-			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
+			[statusItem setToolTip:NSLocalizedString(@"GrowlTunes’ control status item.", /*comment*/ nil)];
 		}
 	}
 }
@@ -685,13 +691,13 @@ enum {
 - (NSMenu *) statusItemMenu {
 	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"GrowlTunes"];
 	if (menu) {
-		id <NSMenuItem> item;
+		NSMenuItem * item;
 		NSString *empty = @""; //used for the key equivalent of all the menu items.
 
 		item = [menu addItemWithTitle:NSLocalizedString(@"Online Help", @"") action:@selector(onlineHelp:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:onlineHelpTag];
-		[item setToolTip:NSLocalizedString(@"Status item Online Help item tooltip", /*comment*/ nil)];
+		[item setToolTip:NSLocalizedString(@"Opens the webpage for GrowlTunes help on the Growl website in your selected browser.", "Online help's tooltip")];
 
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
@@ -715,7 +721,7 @@ enum {
 		item = [menu addItemWithTitle:NSLocalizedString(@"Quit Both", @"") action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
-		[item setToolTip:NSLocalizedString(@"Status item Quit Both item tooltip", /*comment*/ nil)];
+		[item setToolTip:NSLocalizedString(@"Quits both iTunes and GrowlTunes", /*comment*/ nil)];
 
 		if (polling) {
 			item = [NSMenuItem separatorItem];
@@ -724,7 +730,7 @@ enum {
 			item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
 			[item setTarget:self];
 			[item setTag:togglePollingTag];
-			[item setToolTip:NSLocalizedString(@"Status item Toggle Polling item tooltip", /*comment*/ nil)];
+			[item setToolTip:NSLocalizedString(@"Turns on or off GrowlTunes' periodic asking of iTunes for track information.", "Toggle polling tooltip")];
 		}
 	}
 
@@ -740,7 +746,7 @@ enum {
 }
 
 - (NSMenu *) buildiTunesSubmenu {
-	id <NSMenuItem> item;
+	NSMenuItem * item;
 	if (!iTunesSubMenu)
 		iTunesSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"iTunes"] autorelease];
 
@@ -763,7 +769,7 @@ enum {
 		[item setTarget:self];
 		[item setIndentationLevel:1];
 		[item setTag:k++];
-		[item setToolTip:NSLocalizedString(@"Status item recent track tooltip", /*comment*/ nil)];
+		[item setToolTip:NSLocalizedString(@"Tells iTunes to play this track again.", "Tooltip for recent tracks")];
 	}
 
 	[iTunesSubMenu addItem:[NSMenuItem separatorItem]];
@@ -776,7 +782,7 @@ enum {
 }
 
 - (NSMenu *) buildRatingSubmenu {
-	id <NSMenuItem> item;
+	NSMenuItem * item;
 	if (!ratingSubMenu) {
 		ratingSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Rating"] autorelease];
 		NSString *rating0 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86"];
@@ -834,10 +840,10 @@ enum {
 		case togglePollingTag:
 			if (pollTimer) {
 				[item setTitle:NSLocalizedString(@"Stop Polling", @"")];
-				[item setToolTip:NSLocalizedString(@"Status item Stop Polling item tooltip", /*comment*/ nil)];
+				[item setToolTip:NSLocalizedString(@"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes.", "Tooltip for 'stop polling'")];
 			} else {
 				[item setTitle:NSLocalizedString(@"Start Polling", @"")];
-				[item setToolTip:NSLocalizedString(@"Status item Start Polling item tooltip", /*comment*/ nil)];
+				[item setToolTip:NSLocalizedString(@"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes.", "Tooltip for 'start polling'")];
 			}
 
 		case quitGrowlTunesTag:
