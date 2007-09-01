@@ -242,7 +242,7 @@ static void setDownloadFinished(id dl) {
 			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
 			setDownloadFinished(self);
 			NSString *description = [[NSString alloc] initWithFormat:
-				NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
+				NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, "Message shown when a download is complete, where %@ becomes the filename"),
 				[self filename]];
 			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
 										description:description
