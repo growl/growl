@@ -7,7 +7,7 @@
   <array count="9" name="allObjects">
     <object class="IBCarbonWindow" id="166">
       <string name="windowRect">248 247 448 667 </string>
-      <string name="title">Growl Installer</string>
+      <string name="title">Growl インストーラー</string>
       <object name="rootControl" class="IBCarbonRootControl" id="167">
         <string name="bounds">0 0 200 420 </string>
         <string name="viewFrame">0 0 420 200 </string>
