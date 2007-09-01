@@ -96,4 +96,35 @@ Zie http://growl.info/about.php voor meer informatie.\
 \
 Druk op Ga door om te installeren.\
 \
-Onder Mac OS X 10.5 en hoger, krijgt u de keuze voor een installatie voor alle gebruikers of alleen voor uzelf. Onder Mac OS X 10.4, zal Growl worden ge nstalleerd in /Bibliotheek/PreferencePanes/Growl.prefPane en beschikbaar zijn voor alle gebruikers.}]]></resource></locale></resources><flags/><preinstall><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.apple.systempreferences</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.GrowlHelperApp</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.MenuExtra</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/></preinstall><postinstall><action id="com.apple.packagemaker.actions.openfile"><value>com.Growl.GrowlHelperApp</value><type>component</type></action></postinstall><item type="file">01growl.xml</item><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.anywhereDomain</mod><mod>properties.customizeOption</mod><mod>properties.systemDomain</mod><mod>properties.title</mod><mod>description</mod><mod>postinstallActions.actions</mod></pkmkdoc>
+Onder Mac OS X 10.5 en hoger, krijgt u de keuze voor een installatie voor alle gebruikers of alleen voor uzelf. Onder Mac OS X 10.4, zal Growl worden ge nstalleerd in /Bibliotheek/PreferencePanes/Growl.prefPane en beschikbaar zijn voor alle gebruikers.}]]></resource></locale><locale lang="Swedish"><resource relative="true" mod="true" type="background">growl-400.jpg</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf929
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 Copyright (c) The Growl Project, 2004-2007\
+All rights reserved.\
+\
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\
+\
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\
+3. Neither the name of Growl nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\
+\
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}]]></resource><resource mime-type="text/rtf" kind="embedded" type="welcome"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf929
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 V\'e4lkommen till Growl!  \
+\
+Growl \'e4r ett centraliserat meddelandesystem for OS X.  \
+\
+Growl ger applikationer m\'f6jlighet att tillhandah\'e5lla information p\'e5 ett enkelt, snyggt och anpassningsbart s\'e4tt.\
+\
+Vissa program kan f\'e5 st\'f6d f\'f6r Growl genom hj\'e4lpprogram, s\'e5 kallade "extras". Du hittar hj\'e4lpprogram f\'f6r Safari, Apple Mail och diverse andra program i katalogen Extras, som f\'f6ljde med detta installationsprogram.\
+\
+Bes\'f6k g\'e4rna http://growl.info/about.php f\'f6r mer information.\
+\
+Klicka Forts\'e4tt f\'f6r att installera.\
+\
+I Mac OS X 10.5 och nyare kommer du f\'e5 valet att installera f\'f6r alla anv\'e4ndare eller enbart f\'f6r dig. I Mac OS X 10.4 kommer Growl installeras i /Library/PreferencePanes/Growl.prefPane och vara tillg\'e4ngligt f\'f6r alla anv\'e4ndare.}]]></resource></locale></resources><flags/><preinstall><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.apple.systempreferences</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.GrowlHelperApp</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/><action id="com.apple.packagemaker.actions.getapplication"><item1-title>com.Growl.MenuExtra</item1-title></action><action id="com.apple.packagemaker.actions.quitapplication"/></preinstall><postinstall><action id="com.apple.packagemaker.actions.openfile"><value>com.Growl.GrowlHelperApp</value><type>component</type></action></postinstall><item type="file">01growl.xml</item><mod>properties.userDomain</mod><mod>properties.systemDomain</mod><mod>properties.anywhereDomain</mod><mod>properties.customizeOption</mod><mod>preinstallActions.actions</mod><mod>properties.title</mod><mod>description</mod><mod>postinstallActions.actions</mod></pkmkdoc>
