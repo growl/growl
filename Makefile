@@ -88,5 +88,6 @@ localizable-strings:
 	genstrings -o Plugins/Displays/Speech/English.lproj Plugins/Displays/Speech/*.h Plugins/Displays/Speech/*.m
 	genstrings -o Plugins/Displays/WebKit/English.lproj Plugins/Displays/WebKit/*.h Plugins/Displays/WebKit/*.m
 	genstrings -o Framework/Resources/English.lproj Framework/Source/*.h Framework/Source/*.m Framework/Source/*.c
-	genstrings - Extras/GrowlTunes/English.lproj Extras/GrowlTunes/*.h Extras/GrowlTunes/*.m
+	genstrings -o Extras/GrowlTunes/English.lproj Extras/GrowlTunes/*.h Extras/GrowlTunes/*.m
+	genstrings -o Extras/GrowlSafari/English.lproj Extras/GrowlSafari/*.h Extras/GrowlSafari/*.m
 
