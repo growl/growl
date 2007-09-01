@@ -91,13 +91,13 @@ int main(void) {
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	CFStringRef notificationName = CFSTR("Display changed");
-	CFArrayRef notifications = CFArrayCreate(kCFAllocatorDefault, (const void **)&notificationName, 1, &kCFTypeArrayCallBacks);
+	NSArray *notifications = [NSArray arrayWithObject:@"Display changed"];
 	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		(id)notifications, GROWL_NOTIFICATIONS_ALL,
-		(id)notifications, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-	CFRelease(notifications);
+											notifications, GROWL_NOTIFICATIONS_ALL,
+											notifications, GROWL_NOTIFICATIONS_DEFAULT,
+											[NSDictionary dictionaryWithObject:NSLocalizedString(@"Display changed", "Notification posted by GrowlMenu when the display style changes")
+																		forKey:@"Display changed"], GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+											nil];
 
 	return registrationDictionary;
 }
