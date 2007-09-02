@@ -107,10 +107,14 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 				// Register ourselves as a Growl delegate
 				[GrowlApplicationBridge setGrowlDelegate:self];
 				pthread_mutex_init(&queueLock, /*attr*/ NULL);
-				NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
-				NSLog(@"Using Growl.framework %@ (%@)",
-					  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
-					  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+				if ([GrowlApplicationBridge respondsToSelector:@selector(frameworkInfoDictionary)]) {
+					NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
+					NSLog(@"Using Growl.framework %@ (%@)",
+						  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
+						  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+				} else {
+					NSLog(@"Using a version of Growl.framework older than 1.1. One of the other installed Mail plugins should be updated to Growl.framework 1.1 or later.");
+				}
 			}
 			CFRelease(growlBundle);
 		} else {
