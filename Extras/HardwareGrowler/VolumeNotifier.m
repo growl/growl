@@ -77,7 +77,7 @@ static NSData *mountIconData(void)
 			NSSize ejectIconSize = [ejectIcon size];
 			
 			//Badge the volume icon with the Eject icon. This is what we'll pass off te Growl.
-			//The badge's width and height are 2/3 of the overall icon's width and height. If they were 1/2, it would look small (so I found in testing Ñboredzo). This looks pretty good.
+			//The badge's width and height are 2/3 of the overall icon's width and height. If they were 1/2, it would look small (so I found in testing â€”boredzo). This looks pretty good.
 			[icon lockFocus];
 			
 			[ejectIcon drawInRect:NSMakeRect( /*origin.x*/ iconSize.width * (1.0f / 3.0f), /*origin.y*/ 0.0f, /*width*/ iconSize.width * (2.0f / 3.0f), /*height*/ iconSize.height * (2.0f / 3.0f) )
@@ -86,7 +86,7 @@ static NSData *mountIconData(void)
 						 fraction:1.0f];
 			
 			//For some reason, passing [icon TIFFRepresentation] only passes the unbadged volume icon to Growl, even though writing the same TIFF data out to a file and opening it in Preview does show the badge. If anybody can figure that out, you're welcome to do so. Until then:
-			//We get a NSBIR for the current focused view (the image), and make PNG data from it. (There is no reason why this could not be TIFF if we wanted it to be. I just generally prefer PNG. Ñboredzo)
+			//We get a NSBIR for the current focused view (the image), and make PNG data from it. (There is no reason why this could not be TIFF if we wanted it to be. I just generally prefer PNG. â€”boredzo)
 			NSBitmapImageRep *imageRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){ NSZeroPoint, iconSize }] autorelease];
 			iconData = [[imageRep representationUsingType:NSPNGFileType properties:nil] retain];
 			

@@ -11,25 +11,25 @@
 #include "SyncNotifier.h"
 #include "PowerNotifier.h"
 
-#define NotifierUSBConnectionNotification				CFSTR("USB Device Connected")
-#define NotifierUSBDisconnectionNotification			CFSTR("USB Device Disconnected")
-#define NotifierVolumeMountedNotification				CFSTR("Volume Mounted")
-#define NotifierVolumeUnmountedNotification				CFSTR("Volume Unmounted")
-#define NotifierBluetoothConnectionNotification			CFSTR("Bluetooth Device Connected")
-#define NotifierBluetoothDisconnectionNotification		CFSTR("Bluetooth Device Disconnected")
-#define NotifierFireWireConnectionNotification			CFSTR("FireWire Device Connected")
-#define NotifierFireWireDisconnectionNotification		CFSTR("FireWire Device Disconnected")
-#define NotifierNetworkLinkUpNotification				CFSTR("Link-Up")
-#define NotifierNetworkLinkDownNotification				CFSTR("Link-Down")
-#define NotifierNetworkIpAcquiredNotification			CFSTR("IP-Acquired")
-#define NotifierNetworkIpReleasedNotification			CFSTR("IP-Released")
-#define NotifierNetworkAirportConnectNotification		CFSTR("AirPort-Connect")
-#define NotifierNetworkAirportDisconnectNotification	CFSTR("AirPort-Disconnect")
-#define NotifierSyncStartedNotification					CFSTR("Sync started")
-#define NotifierSyncFinishedNotification				CFSTR("Sync finished")
-#define NotifierPowerOnACNotification					CFSTR("Switched to A/C Power")
-#define NotifierPowerOnBatteryNotification				CFSTR("Switched to Battery Power")
-#define NotifierPowerOnUPSNotification					CFSTR("Switched to UPS Power")
+#define NotifierUSBConnectionNotification				NSLocalizedString(@"USB Device Connected", "")
+#define NotifierUSBDisconnectionNotification			NSLocalizedString(@"USB Device Disconnected", "")
+#define NotifierVolumeMountedNotification				NSLocalizedString(@"Volume Mounted", "")
+#define NotifierVolumeUnmountedNotification				NSLocalizedString(@"Volume Unmounted", "")
+#define NotifierBluetoothConnectionNotification			NSLocalizedString(@"Bluetooth Device Connected", "")
+#define NotifierBluetoothDisconnectionNotification		NSLocalizedString(@"Bluetooth Device Disconnected", "")
+#define NotifierFireWireConnectionNotification			NSLocalizedString(@"FireWire Device Connected", "")
+#define NotifierFireWireDisconnectionNotification		NSLocalizedString(@"FireWire Device Disconnected", "")
+#define NotifierNetworkLinkUpNotification				NSLocalizedString(@"Network Link Up", "")
+#define NotifierNetworkLinkDownNotification				NSLocalizedString(@"Network Link Down", "")
+#define NotifierNetworkIpAcquiredNotification			NSLocalizedString(@"IP Acquired", "")
+#define NotifierNetworkIpReleasedNotification			NSLocalizedString(@"IP Released", "")
+#define NotifierNetworkAirportConnectNotification		NSLocalizedString(@"AirPort Connected", "")
+#define NotifierNetworkAirportDisconnectNotification	NSLocalizedString(@"AirPort Disconnected", "")
+#define NotifierSyncStartedNotification					NSLocalizedString(@"Sync started", "")
+#define NotifierSyncFinishedNotification				NSLocalizedString(@"Sync finished", "")
+#define NotifierPowerOnACNotification					NSLocalizedString(@"Switched to A/C Power", "")
+#define NotifierPowerOnBatteryNotification				NSLocalizedString(@"Switched to Battery Power", "")
+#define NotifierPowerOnUPSNotification					NSLocalizedString(@"Switched to UPS Power", "")
 
 #define NotifierFireWireConnectionTitle()				CFCopyLocalizedString(CFSTR("FireWire Connection"), "")
 #define NotifierFireWireDisconnectionTitle()			CFCopyLocalizedString(CFSTR("FireWire Disconnection"), "")
@@ -387,14 +387,12 @@ void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 
 	CFStringRef title = NotifierNetworkIpAcquiredTitle();
 	CFStringRef format = NotifierNetworkIpAcquiredDescription();
-	CFStringRef localizedType = CFCopyLocalizedString(type, "");
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
 													   NULL,
 													   format,
 													   ip,
-													   localizedType);
+													   type);
 	CFRelease(format);
-	CFRelease(localizedType);
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkIpAcquiredNotification
@@ -550,7 +548,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	VolumeNotifier_init();
 	SyncNotifier_init();
 	BluetoothNotifier_init();
-	NetworkNotifier_init();
+	networkNotifier = [[NetworkNotifier alloc] init];
 	PowerNotifier_init();
 }
 
@@ -560,7 +558,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	VolumeNotifier_dealloc();
 	SyncNotifier_dealloc();
 	BluetoothNotifier_dealloc();
-	NetworkNotifier_dealloc();
+	[networkNotifier release];
 
 	if (powerConnection) {
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
@@ -575,34 +573,28 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-#define NUMBER_OF_NOTIFICATIONS 19
-	static const CFStringRef notificationNames[NUMBER_OF_NOTIFICATIONS] = {
-		NotifierBluetoothConnectionNotification,
-		NotifierBluetoothDisconnectionNotification,
-		NotifierFireWireConnectionNotification,
-		NotifierFireWireDisconnectionNotification,
-		NotifierUSBConnectionNotification,
-		NotifierUSBDisconnectionNotification,
-		NotifierVolumeMountedNotification,
-		NotifierVolumeUnmountedNotification,
-		NotifierNetworkLinkUpNotification,
-		NotifierNetworkLinkDownNotification,
-		NotifierNetworkIpAcquiredNotification,
-		NotifierNetworkIpReleasedNotification,
-		NotifierNetworkAirportConnectNotification,
-		NotifierNetworkAirportDisconnectNotification,
-		NotifierSyncStartedNotification,
-		NotifierSyncFinishedNotification,
-		NotifierPowerOnACNotification,
-		NotifierPowerOnBatteryNotification,
-		NotifierPowerOnUPSNotification
-	};
-
-	CFArrayRef notifications = CFArrayCreate(kCFAllocatorDefault,
-											 (const void **)notificationNames,
-											 NUMBER_OF_NOTIFICATIONS,
-											 &kCFTypeArrayCallBacks);
-
+	NSArray *notifications = [NSArray arrayWithObjects:
+							  NotifierBluetoothConnectionNotification,
+							  NotifierBluetoothDisconnectionNotification,
+							  NotifierFireWireConnectionNotification,
+							  NotifierFireWireDisconnectionNotification,
+							  NotifierUSBConnectionNotification,
+							  NotifierUSBDisconnectionNotification,
+							  NotifierVolumeMountedNotification,
+							  NotifierVolumeUnmountedNotification,
+							  NotifierNetworkLinkUpNotification,
+							  NotifierNetworkLinkDownNotification,
+							  NotifierNetworkIpAcquiredNotification,
+							  NotifierNetworkIpReleasedNotification,
+							  NotifierNetworkAirportConnectNotification,
+							  NotifierNetworkAirportDisconnectNotification,
+							  NotifierSyncStartedNotification,
+							  NotifierSyncFinishedNotification,
+							  NotifierPowerOnACNotification,
+							  NotifierPowerOnBatteryNotification,
+							  NotifierPowerOnUPSNotification,
+							  nil];
+	
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"HardwareGrowler", GROWL_APP_NAME,
 		notifications,      GROWL_NOTIFICATIONS_ALL,

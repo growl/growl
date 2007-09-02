@@ -6,5 +6,9 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-void NetworkNotifier_init(void);
-void NetworkNotifier_dealloc(void);
+@interface NetworkNotifier : NSObject
+{
+	
+}
+
+@end

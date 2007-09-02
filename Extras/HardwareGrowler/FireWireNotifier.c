@@ -39,7 +39,7 @@ static CFStringRef nameForFireWireObject(io_object_t thisObject) {
 	if (tempDeviceName)
 		return tempDeviceName;
 
-	return CFSTR("Unnamed FireWire Device");
+	return CFCopyLocalizedString(CFSTR("Unnamed FireWire Device"), "");
 }
 
 #pragma mark Callbacks

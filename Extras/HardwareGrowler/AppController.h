@@ -29,11 +29,13 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 #import <Foundation/Foundation.h>
 #import <Growl/Growl.h>
 #import "VolumeNotifier.h"
+#import "NetworkNotifier.h"
 
 void AppController_volumeDidMount(VolumeInfo *info);
 void AppController_volumeDidUnmount(VolumeInfo *info);
 
 @interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
+	NetworkNotifier *networkNotifier;
 }
 
 - (IBAction) doSimpleHelp:(id)sender;
