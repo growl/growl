@@ -72,7 +72,25 @@
 #pragma mark -
 
 - (IBAction) colorChanged:(id)sender {
-	NSString *color = [sender titleOfSelectedItem];
+	switch([sender indexOfSelectedItem){
+	case 1:
+		NSString *color = @"Purple";
+		break;
+	case 2:
+		NSString *color = @"Pink";
+		break;
+	case 3:
+		NSString *color = @"Green";
+		break;
+	case 4:
+		NSString *color = @"Blue";
+		break;
+	case 5:
+		NSString *color = @"Orange";
+		break;
+	case 6:
+		NSString *color = @"Red";
+	}
 	WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, color, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
