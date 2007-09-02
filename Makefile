@@ -90,4 +90,5 @@ localizable-strings:
 	genstrings -o Framework/Resources/English.lproj Framework/Source/*.h Framework/Source/*.m Framework/Source/*.c
 	genstrings -o Extras/GrowlTunes/English.lproj Extras/GrowlTunes/*.h Extras/GrowlTunes/*.m
 	genstrings -o Extras/GrowlSafari/English.lproj Extras/GrowlSafari/*.h Extras/GrowlSafari/*.m
+	genstrings -o Extras/GrowlMail/English.lproj Extras/GrowlMail/*.h Extras/GrowlMail/*.m
 	genstrings -o Extras/HardwareGrowler/English.lproj Extras/HardwareGrowler/*.h Extras/HardwareGrowler/*.m Extras/HardwareGrowler/*.c
