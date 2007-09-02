@@ -171,9 +171,16 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	if (!image)
 		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
-	CFStringRef notificationName = CFCopyLocalizedStringFromTableInBundle(
-		[self isJunk] ? CFSTR("New junk mail") : ([self respondsToSelector:@selector(type)] && [self type] == MESSAGE_TYPE_NOTE) ? CFSTR("New note") : CFSTR("New mail"),
-		NULL, GetGrowlMailBundle(), "");
+	CFStringRef notificationName;
+	if ([self isJunk]) {
+		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, GetGrowlMailBundle(), "");
+	} else {
+		if ([self respondsToSelector:@selector(type)] && [self type] == MESSAGE_TYPE_NOTE) {
+			notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New note"), NULL, GetGrowlMailBundle(), "");
+		} else {
+			notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, GetGrowlMailBundle(), "");
+		}
+	}
 
 	NSString *clickContext = [self messageID];
 

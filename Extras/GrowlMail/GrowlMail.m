@@ -237,27 +237,36 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 			CFBundleRef bundle = GetGrowlMailBundle();
 			CFStringRef title = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
 			CFStringRef titleJunk = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
-			CFStringRef format = CFCopyLocalizedStringFromTableInBundle(CFSTR("%@ \n%u new mail(s)"), NULL, bundle, "");
 			id icon = [NSImage imageNamed:@"NSApplicationIcon"];
 			for (CFIndex i=0; i<accountsCount; ++i) {
 				MailAccount *account = (MailAccount *)CFArrayGetValueAtIndex(accounts, i);
 				CFIndex summaryCount = CFBagGetCountOfValue(accountSummary, account);
 				if (summaryCount) {
-					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], summaryCount);
+					NSString *description;
+					if (summaryCount == 1) {
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, (NSBundle *)bundle, "%@ is an account name"), [account displayName]];
+					} else {
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, (NSBundle *)bundle, "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
+					}
 					[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-												description:(NSString *)description
+												description:description
 										   notificationName:(NSString *)title
 												   iconData:icon
 												   priority:0
 												   isSticky:NO
 											   clickContext:@""];	// non-nil click context
-					CFRelease(description);
 				}
 				summaryCount = CFBagGetCountOfValue(accountJunkSummary, account);
 				if (summaryCount) {
-					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], summaryCount);
+					NSString *description;
+
+					if (summaryCount == 1) {
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, (NSBundle *)bundle, "%@ is an account name"), [account displayName]];
+					} else {
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, (NSBundle *)bundle, "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
+					}					
 					[GrowlApplicationBridge notifyWithTitle:(NSString *)titleJunk
-												description:(NSString *)description
+												description:description
 										   notificationName:(NSString *)titleJunk
 												   iconData:icon
 												   priority:0
@@ -268,7 +277,6 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 			}
 			CFRelease(title);
 			CFRelease(titleJunk);
-			CFRelease(format);
 			CFRelease(accountSummary);
 			break;
 		}
