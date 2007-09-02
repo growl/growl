@@ -244,9 +244,9 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 				if (summaryCount) {
 					NSString *description;
 					if (summaryCount == 1) {
-						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, (NSBundle *)bundle, "%@ is an account name"), [account displayName]];
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, [[self class] bundle], "%@ is an account name"), [account displayName]];
 					} else {
-						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, (NSBundle *)bundle, "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, [[self class] bundle], "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
 					}
 					[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 												description:description
@@ -261,9 +261,9 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 					NSString *description;
 
 					if (summaryCount == 1) {
-						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, (NSBundle *)bundle, "%@ is an account name"), [account displayName]];
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, [[self class] bundle], "%@ is an account name"), [account displayName]];
 					} else {
-						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, (NSBundle *)bundle, "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
+						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n %u new mails", NULL, [[self class] bundle], "%@ is an account name; %u becomes a number"), [account displayName], summaryCount];
 					}					
 					[GrowlApplicationBridge notifyWithTitle:(NSString *)titleJunk
 												description:description
