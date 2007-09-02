@@ -79,6 +79,7 @@ localizable-strings:
 	genstrings -o Plugins/Displays/Bezel/English.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m
 	genstrings -o Plugins/Displays/Brushed/English.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m
 	genstrings -o Plugins/Displays/Bubbles/English.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m
+	genstrings -o Plugins/Displays/iCal/English.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m
 	genstrings -o Plugins/Displays/Log/English.lproj Plugins/Displays/Log/*.h Plugins/Displays/Log/*.m
 	genstrings -o Plugins/Displays/MailMe/English.lproj Plugins/Displays/MailMe/*.h Plugins/Displays/MailMe/*.m
 	genstrings -o Plugins/Displays/MusicVideo/English.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m
