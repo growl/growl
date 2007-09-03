@@ -221,11 +221,14 @@ int main(void) {
 
 	[m addItem:[NSMenuItem separatorItem]];
 
+	/*
+	 //Squelch mode is "log-only" mode... but logging was removed from Growl 1.1.
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:4];
 	[tempMenuItem setToolTip:kSquelchModeTooltip];
-
+	 */
+	
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStickyWhenAwayMenu action:@selector(stickyWhenIdle:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:6];
