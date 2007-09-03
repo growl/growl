@@ -1,14 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>New mail</key>
-	<string>Nouveau courrier</string>
-	<key>New junk mail</key>
-	<string>New junk mail</string>
-	<key>New note</key>
-	<string>New note</string>
-	<key>%@ - %d new mail(s)</key>
-	<string>%@ - %d Nouveaux mails</string>
-</dict>
-</plist>
+"New junk mail" - "New junk mail";
+"New mail" - "Nouveau courrier";
+"New note" - "New note";
+"%@ - %d new mail(s)" - "%@ - %d Nouveaux mails";

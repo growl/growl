@@ -1,38 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>Compression Status</key>
-	<string>Komprimeringsstatus</string>
-	<key>Copying Disk Image</key>
-	<string>Kopierar skivavbild</string>
-	<key>Decompressing File</key>
-	<string>Packar upp fil</string>
-	<key>Disk Image Status</key>
-	<string>Skivavbildsstatus</string>
-	<key>Download Complete</key>
-	<string>Nedladdning avslutad</string>
-	<key>Short Download Complete</key>
-	<string>Kort nedladdning avslutad</string>
-	<key>Mounting Disk Image</key>
-	<string>Monterar skivavbild</string>
-	<key>%@ decompression started</key>
-	<string>%@ uppackning påbörjad</string>
-	<key>Mounting %@</key>
-	<string>Monterar %@</string>
-	<key>Copying application from %@</key>
-	<string>Kopierar applikation från %@</string>
-	<key>%@ download complete</key>
-	<string>%@ nedladdning klar</string>
-	<key>New feed entry</key>
-	<string>Ny nyhetspost</string>
-	<key>New feed entry</key>
-	<string>Ny nyhetspost</string>
-	<key>%d new entry</key>
-	<string>%d ny post</string>
-	<key>%d new entries</key>
-	<string>%d nya poster</string>
-	<key> (%d unread)</key>
-	<string> (%d olästa)</string>
-</dict>
-</plist>
+"%@ decompression started" - "%@ uppackning påbörjad";
+"%@ download complete" - "%@ nedladdning klar";
+"Short Download Complete" - "Kort nedladdning avslutad";
+"Copying application from %@" - "Kopierar applikation från %@";
+"%d new entries" - "%d nya poster";
+"Mounting %@" - "Monterar %@";
+"Mounting Disk Image" - "Monterar skivavbild";
+"Disk Image Status" - "Skivavbildsstatus";
+"New feed entry" - "Ny nyhetspost";
+" (%d unread)" - " (%d olästa)";
+"Download Complete" - "Nedladdning avslutad";
+"%d new entry" - "%d ny post";
+"Compression Status" - "Komprimeringsstatus";
+"Decompressing File" - "Packar upp fil";
+"Copying Disk Image" - "Kopierar skivavbild";
