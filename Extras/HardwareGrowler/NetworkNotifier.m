@@ -199,7 +199,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		NSNumber *linkStatus = [newValue objectForKey:@"Link Status"];
 		NSNumber *powerStatus = [newValue objectForKey:@"Power Status"];
 		if (linkStatus || powerStatus) {
-			int status;
+			int status = 0;
 			if (linkStatus) {
 				status = [linkStatus intValue];
 			} else if (powerStatus) {
