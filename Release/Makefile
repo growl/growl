@@ -171,31 +171,12 @@ release:
 	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	mkdir $(BUILD_DIR)/GrowlMail
-	mkdir $(BUILD_DIR)/GrowlMail-Resources
-	cp -R $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(BUILD_DIR)/GrowlMail
-	cp GrowlMail/InstallationCheck $(BUILD_DIR)/GrowlMail-Resources
-	cp GrowlMail/postflight $(BUILD_DIR)/GrowlMail-Resources
-	cp -R GrowlMail/English.lproj $(BUILD_DIR)/GrowlMail-Resources
-	cp -R GrowlMail/German.lproj $(BUILD_DIR)/GrowlMail-Resources
-	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlMail
-	sudo chmod -R g+w $(BUILD_DIR)/GrowlMail
-	$(PACKAGE_MAKER) -build -p $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg -f $(BUILD_DIR)/GrowlMail -ds -v -i GrowlMail/Info.plist -d GrowlMail/Description.plist -r $(BUILD_DIR)/GrowlMail-Resources
-	sudo rm -rf $(BUILD_DIR)/GrowlMail
-	rm -rf $(BUILD_DIR)/GrowlMail-Resources
+	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) -v	
 	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-	mkdir $(BUILD_DIR)/GrowlSafari
-	mkdir $(BUILD_DIR)/GrowlSafari-Resources
-	cp -R $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(BUILD_DIR)/GrowlSafari
-	cp GrowlSafari/postupgrade $(BUILD_DIR)/GrowlSafari-Resources
-	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
-	sudo chmod -R g+w $(BUILD_DIR)/GrowlSafari
-	$(PACKAGE_MAKER) -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari/Info.plist -d GrowlSafari/Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
-	sudo rm -rf $(BUILD_DIR)/GrowlSafari
-	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
+	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg --version $(VERSION) -v	
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
 	
 	@# build the SDK
