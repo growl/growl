@@ -1,0 +1,3 @@
+growlnotify é uma ferramenta de linha-de-comando que serve para postar notificaçòes do Growl. Você pode controlar todos os aspectos da notificação (Com todas as possibilidades configuradas no painél do Growl das Preferências do Sistema). Pode ser bastante útil com roteiros shell.
+
+Informações de uso estão disponíveis no manpage. Apenas digite 'man 1 growlnotify' após fazer a instalação. (em inglês)

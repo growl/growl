@@ -1,0 +1,22 @@
+GrowlSafari
+
+O GrowlSafari é uma extensão do Safari para que sejam postadas notificações sobre os eventos relativos aos downloads de arquivos.
+
+Atualmente o GrowlSafari posta notificações para os seguintes eventos:
+* Início de uma descompactação
+* Copiando uma imagem de disco
+* Download concluído
+* Montagem de uma imagem de disco
+
+O GrowlSafari funciona em todas as versões do Safari (excto 1.0) do Mac OS X 10.3 ou posterior.
+
+
+Instalação:
+
+Essa extenção requer SIMBL (http://culater.net/software/SIMBL/SIMBL.php)
+
+Assim que o SIMBL estiver instalado, bote o GrowlSafari.bundle em /Library/Application Support/SIMBL/Plugins
+Então reinicie o Safari.
+
+Você então deverá receber notificações quando os seus downloads forem concluídos.
+

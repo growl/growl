@@ -107,35 +107,6 @@ clean:
 realclean: clean
 	../build.sh clean
 
-#source:
-#	rm -rf $(BUILD_DIR)/source
-#	mkdir $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Bindings $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Common $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Core $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Plugins $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Docs $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Examples $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Framework $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
-#	#cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
-#	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/HACKING.txt $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/License.txt $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/Makefile $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/README.rtf $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/build.sh $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
-#	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
-#	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
-#	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
-#	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_FILENAME)-src.tar .
-#	bzip2 $(BUILD_DIR)/$(RELEASE_FILENAME)-src.tar
-
 release:
 	@# clean build directory
 	rm -rf $(BUILD_DIR)
@@ -161,23 +132,23 @@ release:
 	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify
-	cp $(SRC_DIR)/Extras/growlnotify/README.txt $(GROWL_DIR)/Extras/growlnotify
+	cp $(SRC_DIR)/Extras/growlnotify/*.txt $(GROWL_DIR)/Extras/growlnotify
 	mkdir $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
-	cp -R $(SRC_DIR)/Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
+	cp -R $(SRC_DIR)/Extras/GrowlTunes/*.rtfd $(GROWL_DIR)/Extras/GrowlTunes
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
-	cp $(SRC_DIR)/Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
+	cp $(SRC_DIR)/Extras/HardwareGrowler/*.txt $(GROWL_DIR)/Extras/HardwareGrowler
 	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
 	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) -v	
-	cp $(SRC_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
+	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
 	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg --version $(VERSION) -v	
-	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
+	cp -R $(SRC_DIR)/Extras/GrowlSafari/*.txt $(GROWL_DIR)/Extras/GrowlSafari
 	
 	@# build the SDK
 	mkdir $(SDK_DIR)

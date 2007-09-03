@@ -1,0 +1,21 @@
+GrowlSafari
+
+GrowlSafari is een plugin voor Safari om deze Growl meldingen te laten geven bij downloadgerelateerde gebeurtenissen.
+
+Momenteel geeft GrowlSafari meldingen bij deze gebeurtenissen:
+* Uitpakken begonnen
+* Kopi‘ren schijfkopiebestand
+* Download voltooid
+* Activeren schijfkopiebestand
+
+GrowlSafari werkt in alle versies van Safari (behalve 1.0) onder Mac OS X 10.3 of hoger.
+
+
+Installatie:
+
+Vereist SIMBL (http://culater.net/software/SIMBL/SIMBL.php)
+
+Als SIMBL is ge•nstalleerd, plaatst u de GrowlSafari.bundle in /Library/Application Support/SIMBL/Plugins en herstart u Safari.
+
+U zou nu Growl meldingen moeten ontvangen bij downloads.
+

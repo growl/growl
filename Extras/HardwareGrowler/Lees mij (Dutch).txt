@@ -1,0 +1,26 @@
+HardwareGrowler
+***************
+
+Oorspronkelijk door Diggory Laycock (http://www.monkeyfood.com)
+10 februari 2005
+
+
+Over:
+	HardwareGrowler zal Growl meldingen sturen wanneer apparaten 
+	verbonden met of verbroken worden van de Mac.
+
+Ondersteunde 'apparaten':
+	¥ FireWire
+	¥ USB
+	¥ Bluetooth
+	¥ Bestandssysteem volumes
+	¥ Netwerkinterfaces
+
+Bugs:
+	Ik kan van veel apparaten de naam niet krijgen
+		- misschien hebben ze die niet eens.
+
+	Waarschijnlijk zou het een optie moeten hebben om niet
+	zichtbaar in het Dock te zijn.
+
+	Het programmasymbool kan beter.

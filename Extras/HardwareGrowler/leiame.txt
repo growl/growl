@@ -1,0 +1,24 @@
+HardwareGrowler
+***************
+
+Inicialmente feito por Diggory Laycock (http://www.monkeyfood.com)
+10 de Fev 2005
+
+
+Sobre:
+	O HardwareGrowler irá enviar informações ao Growl quando um dispositivo for conectado ou desconectado ao Mac.
+
+Dispositivos suportados:
+	• FireWire
+	• USB
+	• Bluetooth
+	• Volumes do sistema
+	• Interfaces de Rede
+
+Bugs:
+	Eu não consigo obter o nome de muitos dispositivos FireWire.
+		- Talvez seja porque você não tenha um?.
+
+	Provavelmente teremos uma opção de rodar o utilitário pela dock
+
+	Ha, o ícone não é dos melhores.
