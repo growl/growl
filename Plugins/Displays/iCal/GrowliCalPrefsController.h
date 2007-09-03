@@ -24,6 +24,5 @@
 - (void) setScreen:(int)value;
 - (int) size;
 - (void) setSize:(int)value;
-- (IBAction) colorChanged:(id)sender;
 
 @end

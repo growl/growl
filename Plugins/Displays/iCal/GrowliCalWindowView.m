@@ -211,81 +211,88 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 #pragma mark -
 
 - (void) setPriority:(int)priority {
+	/* What is going on here? setPriority is the preference reader and completely ignores the priority? */
+	/* This method is completely ridiculous */
 	float backgroundAlpha = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
 	backgroundAlpha *= 0.01f;
-	textColor = [NSColor whiteColor];
 
-	NSString *color = nil;
-	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSString *, &color);
-	if ([color isEqualToString:@"Purple"]) {
-		bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
-		lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];		
-	} else if ([color isEqualToString:@"Pink"]) {
-		bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];		
-		lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
-	} else if ([color isEqualToString:@"Green"]) {
-		bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];		
-		lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
-	} else if ([color isEqualToString:@"Blue"]) {
-		bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];		
-		lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
-	} else if ([color isEqualToString:@"Orange"]) {
-		bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
-		lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
-	} else if ([color isEqualToString:@"Red"]) {
-		bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-		lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
-		borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
-	} else {
-		if (priority == -2) {
+	[textColor release];
+	textColor = [[NSColor whiteColor] retain];
+
+	[bgColor release];
+	[lightColor release];
+	[borderColor release];
+
+	GrowliCalColorType color = GrowliCalPurple;
+	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
+	switch (color) {
+		case GrowliCalPurple:
 			bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
 			lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
-		} else if (priority == -1) {
-			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
+			break;
+		
+		case GrowliCalPink:
+			bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
+			break;
+
+		case GrowliCalGreen:
+			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];		
 			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
-		} else if (priority == 1) {
+			break;
+
+		case GrowliCalBlue:
+			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+			break;
+
+		case GrowliCalOrange:
 			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
 			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
-		} else if (priority == 2) {
+			break;
+
+		case GrowliCalRed:
 			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
 			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-		} else {
-			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
-			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+			break;
+
+		default:
+		{
+			/* When could this ever happen?!? -eds */
+			if (priority == -2) {
+				bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
+				lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
+			} else if (priority == -1) {
+				bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
+			} else if (priority == 1) {
+				bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
+			} else if (priority == 2) {
+				bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+			} else {
+				bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+			}
 		}
-		[bgColor retain];
-		[lightColor retain];
-		[borderColor retain];
 	}
+	
+	[bgColor retain];
+	[lightColor retain];
+	[borderColor retain];
 }
 
 - (void) setIcon:(NSImage *) anIcon {

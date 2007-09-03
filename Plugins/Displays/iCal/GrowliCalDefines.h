@@ -22,7 +22,16 @@
 #define GrowliCalHighBorderColor		@"iCal-Priority-High-Border-Color"
 #define GrowliCalEmergencyBorderColor	@"iCal-Priority-Emergency-Border-Color"*/
 
-#define GrowliCalOverallColor			@"iCal-Overall-Color"
+typedef enum {
+	GrowliCalPurple = 0,
+	GrowliCalPink,
+	GrowliCalGreen,
+	GrowliCalBlue,
+	GrowliCalOrange,
+	GrowliCalRed
+} GrowliCalColorType;
+
+#define GrowliCalColor			@"iCal-Color"
 
 #define GrowliCalOpacity				@"iCal-Opacity"
 #define GrowliCalDuration			@"iCal-Duration"

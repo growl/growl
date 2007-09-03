@@ -18,15 +18,6 @@
 
 //make sure we set up our settings prior to the PrefPane view actually loading, or we risk not having our controls display correctly
 - (void) willSelect {
-	NSString *color = nil;
-	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSString *, &color);
-	if(color)
-		[overall_color selectItemWithTitle:color];
-	else
-	{
-		[overall_color selectItemWithTitle:@"Purple"];
-		WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, @"Purple", GrowliCalPrefDomain);
-	}
 	[slider_opacity setAltIncrementValue:0.05];
 }
 
@@ -70,30 +61,15 @@
 }
 
 #pragma mark -
-
-- (IBAction) colorChanged:(id)sender {
-	NSString *color = [NSString init];
-	switch ([sender indexOfSelectedItem]) {
-	case 1:
-		color = @"Purple";
-		break;
-	case 2:
-		color = @"Pink";
-		break;
-	case 3:
-		color = @"Green";
-		break;
-	case 4:
-		color = @"Blue";
-		break;
-	case 5:
-		color = @"Orange";
-		break;
-	case 6:
-		color = @"Red";
-		break;
-	}
-	WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, color, GrowliCalPrefDomain);
+- (GrowliCalColorType)color
+{
+	GrowliCalColorType color = GrowliCalPurple;
+	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
+	return color;
+}
+- (void)setColor:(GrowliCalColorType)color
+{
+	WRITE_GROWL_PREF_INT(GrowliCalColor, color, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
