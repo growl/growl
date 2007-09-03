@@ -681,7 +681,6 @@
 		345B7D1E0C80A93F005F7F96 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/iCal/zh_CN.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
 		345B7D1F0C80A942005F7F96 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Plugins/Displays/iCal/cs.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
 		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
-		34725B060C06788200499F50 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<group>"; };
 		34725B0F0C0678A000499F50 /* Growl.dylib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = Growl.dylib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppNameClickNotificationTransformer.h; path = Core/Source/GrowlAppNameClickNotificationTransformer.h; sourceTree = "<group>"; };
 		347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppNameClickNotificationTransformer.m; path = Core/Source/GrowlAppNameClickNotificationTransformer.m; sourceTree = "<group>"; };
@@ -1711,7 +1710,6 @@
 				3433500C079275A300C84B15 /* Growl-WithInstaller.framework */,
 				95812DB808118FB9004FF8F5 /* GrowlDelegate.h */,
 				95812DB908118FB9004FF8F5 /* GrowlDelegate.m */,
-				34725B060C06788200499F50 /* Growl.framework-Info copy.plist */,
 			);
 			name = Growl.framework;
 			sourceTree = "<group>";
