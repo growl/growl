@@ -1,0 +1,164 @@
+﻿/* Type of IP address */
+"6to4 relay" = "Преобразование 6в4";
+
+/* No comment provided by engineer. */
+"AirPort Connected" = "AirPort подключился";
+
+/* No comment provided by engineer. */
+"Airport connected" = "Airport подключился";
+
+/* No comment provided by engineer. */
+"Airport disconnected" = "Airport отключился";
+
+/* No comment provided by engineer. */
+"AirPort Disconnected" = "AirPort отключился";
+
+/* No comment provided by engineer. */
+"Battery charging..." = "Батарея заряжается…";
+
+/* Type of IP address */
+"Benchmark" = "Оценка производительности";
+
+/* No comment provided by engineer. */
+"Bluetooth Connection" = "Подключение bluetooth";
+
+/* No comment provided by engineer. */
+"Bluetooth Device Connected" = "Устройство bluetooth подключилось";
+
+/* No comment provided by engineer. */
+"Bluetooth Device Disconnected" = "Устройство bluetooth отключилось";
+
+/* No comment provided by engineer. */
+"Bluetooth Disconnection" = "Отключение bluetooth";
+
+/* No comment provided by engineer. */
+"Current charge: %d%%" = "Уровень заряда: %d%%";
+
+/* No comment provided by engineer. */
+"Ethernet activated" = "Ethernet активирован";
+
+/* No comment provided by engineer. */
+"Ethernet deactivated" = "Ethernet деактивирован";
+
+/* No comment provided by engineer. */
+"FireWire Connection" = "Подключение firewire";
+
+/* No comment provided by engineer. */
+"FireWire Device Connected" = "Устройство firewire подключено";
+
+/* No comment provided by engineer. */
+"FireWire Device Disconnected" = "Устройство firewire отключено";
+
+/* No comment provided by engineer. */
+"FireWire Disconnection" = "Отключение firewire";
+
+/* No comment provided by engineer. */
+"Interface:\ten0" = "Интерфейс:\ten0";
+
+/* The %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex' */
+"Interface:\ten0\nMedia:\t%@" = "Интерфейс:\ten0\nДанные:\t%@";
+
+/* No comment provided by engineer. */
+"IP Acquired" = "Необходим IP";
+
+/* No comment provided by engineer. */
+"IP address acquired" = "Необходим IP адрес";
+
+/* No comment provided by engineer. */
+"IP address released" = "IP адрес освобождён";
+
+/* No comment provided by engineer. */
+"IP Released" = "IP освобождён";
+
+/* No comment provided by engineer. */
+"Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X" = "Присоединился к сети.\nSSID:\t\t%1$@\nBSSID:\t%2$X:%3$X:%4$X:%5$X:%6$X:%7$X";
+
+/* No comment provided by engineer. */
+"Left network %@." = "Покинул сеть %@.";
+
+/* Type of IP address */
+"Link-local" = "Локальный";
+
+/* Type of IP address */
+"Loopback" = "Обратная петля";
+
+/* No comment provided by engineer. */
+"Network Link Down" = "Сетевое соединение не работает";
+
+/* No comment provided by engineer. */
+"Network Link Up" = "Сетевое соединение работает";
+
+/* No comment provided by engineer. */
+"New primary IP: %@ (%@)" = "Первичный IP: %1$@ (%2$@)";
+
+/* No comment provided by engineer. */
+"No IP address now" = "Без IP адреса";
+
+/* No comment provided by engineer. */
+"On A/C power" = "Питание от сети";
+
+/* No comment provided by engineer. */
+"On battery power" = "Питание от батареи";
+
+/* No comment provided by engineer. */
+"On UPS power" = "Питание от ИБП";
+
+/* Type of IP address */
+"Private" = "Частный";
+
+/* Type of IP address */
+"Public" = "Публичный";
+
+/* Type of IP address */
+"Reserved" = "Резервный";
+
+/* No comment provided by engineer. */
+"Switched to A/C Power" = "Переключился на питание от сети";
+
+/* No comment provided by engineer. */
+"Switched to Battery Power" = "Переключился на питание от батареи";
+
+/* No comment provided by engineer. */
+"Switched to UPS Power" = "Переключился на питание от ИБП";
+
+/* No comment provided by engineer. */
+"Sync finished" = "Синхронизация завершена";
+
+/* No comment provided by engineer. */
+"Sync started" = "Синхронизация началась";
+
+/* Type of IP address */
+"Test" = "Тестовый";
+
+/* No comment provided by engineer. */
+"Time remaining: %i minutes" = "Осталось: %i мин.";
+
+/* No comment provided by engineer. */
+"Time to charge: %i" = "До зарядки: %i";
+
+/* No comment provided by engineer. */
+"Unnamed FireWire Device" = "Безымянное устройство firewire";
+
+/* No comment provided by engineer. */
+"USB 2.0 Bus" = "Шина USB 2.0";
+
+/* No comment provided by engineer. */
+"USB Bus" = "Шина USB";
+
+/* No comment provided by engineer. */
+"USB Connection" = "Подключение USB";
+
+/* No comment provided by engineer. */
+"USB Device Connected" = "Устройство USB подключено";
+
+/* No comment provided by engineer. */
+"USB Device Disconnected" = "Устройство USB отключено";
+
+/* No comment provided by engineer. */
+"USB Disconnection" = "Отключение USB";
+
+/* No comment provided by engineer. */
+"Volume Mounted" = "Том смонтирован";
+
+/* No comment provided by engineer. */
+"Volume Unmounted" = "Том размонтирован";

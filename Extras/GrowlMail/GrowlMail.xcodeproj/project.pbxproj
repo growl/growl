@@ -196,6 +196,9 @@
 		34CD98B00C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		34CD98B10C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD98B20C87CA590040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CF44E20C8D7E1100A2EFA4 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Russian.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		34CF44E30C8D7E1100A2EFA4 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CF44E40C8D7E1100A2EFA4 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4B2E729506B5776B00386BF2 /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
 		4B7E5EA206B6AC1700137892 /* GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail.h; sourceTree = "<group>"; };
 		4B7E5EA306B6AC1700137892 /* GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlMail.m; sourceTree = "<group>"; };
@@ -399,6 +402,7 @@
 				Swedish,
 				Dutch,
 				pt_BR,
+				Russian,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* MailGrowl */;
 			projectDirPath = "";
@@ -600,6 +604,7 @@
 				34CD982C0C87C8AA0040C77F /* Swedish */,
 				34CD98AE0C87CA370040C77F /* Dutch */,
 				34CD98B10C87CA590040C77F /* pt_BR */,
+				34CF44E30C8D7E1100A2EFA4 /* Russian */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				34CD982D0C87C8AA0040C77F /* Swedish */,
 				34CD98AF0C87CA370040C77F /* Dutch */,
 				34CD98B20C87CA590040C77F /* pt_BR */,
+				34CF44E40C8D7E1100A2EFA4 /* Russian */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -632,6 +638,7 @@
 				34CD98310C87C8C60040C77F /* Swedish */,
 				34CD98AD0C87CA370040C77F /* Dutch */,
 				34CD98B00C87CA590040C77F /* pt_BR */,
+				34CF44E20C8D7E1100A2EFA4 /* Russian */,
 			);
 			name = GrowlMailPreferencesPanel.nib;
 			sourceTree = "<group>";

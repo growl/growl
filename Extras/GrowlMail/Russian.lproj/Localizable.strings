@@ -1,0 +1,14 @@
+﻿/* %@ is an account name; %u becomes a number */
+"%@ \n %u new mails" = "%1$@ \n %2$u новых писем";
+
+/* %@ is an account name */
+"%@ \n 1 new mail" = "%@ \n 1 новое письмо";
+
+/* No comment provided by engineer. */
+"New junk mail" = "Новый спам";
+
+/* No comment provided by engineer. */
+"New mail" = "Новая почта";
+
+/* No comment provided by engineer. */
+"New note" = "Новая заметка";

@@ -4,6 +4,9 @@
 /* No comment provided by engineer. */
 "Default display changed to %@" = "Тема по умолчанию изменена на %@";
 
+/* Notification posted by GrowlMenu when the display style changes */
+"Display changed" = "Тема изменена";
+
 /* No comment provided by engineer. */
 "Don't show notifications, but still log them" = "Не отображать предупреждения, но записывать их в журнал";
 
