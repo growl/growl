@@ -1,3 +1,3 @@
 #!/bin/sh
-defaults write /Library/Preferences/com.apple.mail EnableBundles 1
-defaults write /Library/Preferences/com.apple.mail BundleCompatibilityVersion 2
+defaults write com.apple.mail EnableBundles -bool YES
+defaults write com.apple.mail BundleCompatibilityVersion -int 2
