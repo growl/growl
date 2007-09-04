@@ -69,7 +69,6 @@
 #define NotifierSyncStartedTitle()						CFCopyLocalizedString(CFSTR("Sync started"), "")
 #define NotifierSyncFinishedTitle()						CFCopyLocalizedString(CFSTR("Sync finished"), "")
 
-#define NotifierNetworkAirportConnectDescription()		CFCopyLocalizedString(CFSTR("Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X"), "")
 #define NotifierNetworkAirportDisconnectDescription()	CFCopyLocalizedString(CFSTR("Left network %@."), "")
 #define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@ (%@)"), "")
 #define NotifierNetworkIpReleasedDescription()			CFCopyLocalizedString(CFSTR("No IP address now"), "")
@@ -315,29 +314,26 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 		return;
 
 	CFStringRef title = NotifierNetworkAirportConnectTitle();
-	CFStringRef format = NotifierNetworkAirportConnectDescription();
-	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
-													   NULL,
-													   format,
-													   networkName,
-													   bssidBytes[0],
-													   bssidBytes[1],
-													   bssidBytes[2],
-													   bssidBytes[3],
-													   bssidBytes[4],
-													   bssidBytes[5]);
-	CFRelease(format);
+	
+	NSString *bssid = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+					   bssidBytes[0],
+					   bssidBytes[1],
+					   bssidBytes[2],
+					   bssidBytes[3],
+					   bssidBytes[4],
+					   bssidBytes[5]];
+	NSString *description = [NSString stringWithFormat:NSLocalizedString(@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@", "")
+							 networkName,
+							 bssid];
 
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-								description:(NSString *)description
+								description:description
 						   notificationName:(NSString *)NotifierNetworkAirportConnectNotification
 								   iconData:(NSData *)airportIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
-
 	CFRelease(title);
-	CFRelease(description);
 }
 
 void AppController_airportDisconnect(CFStringRef networkName) {

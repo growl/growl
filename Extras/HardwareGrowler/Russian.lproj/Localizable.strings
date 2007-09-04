@@ -71,7 +71,7 @@
 "IP Released" = "IP освобождён";
 
 /* No comment provided by engineer. */
-"Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X" = "Присоединился к сети.\nSSID:\t\t%1$@\nBSSID:\t%2$X:%3$X:%4$X:%5$X:%6$X:%7$X";
+"Joined network.\nSSID:\t\t%@\nBSSID:\t%@" = "Присоединился к сети.\nSSID:\t\t%1$@\nBSSID:\t%2$@";
 
 /* No comment provided by engineer. */
 "Left network %@." = "Покинул сеть %@.";
