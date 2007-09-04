@@ -44,12 +44,12 @@
 
 	NSApp = [NSApplication sharedApplication];
 	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)]) {
-		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
-
-		if (NSRunInformationalAlertPanel(@"Growl requires Panther...", msg, @"Quit", @"Get Panther...", nil) == NSAlertAlternateReturn) {
-			CFURLRef pantherURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://www.apple.com/macosx/"), NULL);
-			[[NSWorkspace sharedWorkspace] openURL:(NSURL *)pantherURL];
-			CFRelease(pantherURL);
+		if (NSRunInformationalAlertPanel(NSLocalizedStringFromTableInBundle(@"System requirements not met", nil, bundle, "Title for the dialogue shown if attempting to run Growl on 10.2 or earlier"),
+										 NSLocalizedStringFromTableInBundle(@"Mac OS X 10.3 \"Panther\" or greater is required.", nil, bundle, nil), 
+										 NSLocalizedStringFromTableInBundle(@"Quit", nil, bundle, "Quit button title"), 
+										 NSLocalizedStringFromTableInBundle(@"Upgrade Mac OS X...", nil, bundle, "Button title"), 
+										 nil) == NSAlertAlternateReturn) {
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.apple.com/macosx/"]];
 		}
 		[NSApp terminate:nil];
 	}
@@ -643,11 +643,12 @@
 - (void) deleteTicket:(id)sender {
 #pragma unused(sender)
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
-	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove %@?", appName]
-									 defaultButton:@"Remove"
-								   alternateButton:@"Cancel"
+	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [self bundle], nil), appName]
+									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [self bundle], "Button title for removing something")
+								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [self bundle], "Button title for canceling")
 									   otherButton:nil
-						 informativeTextWithFormat:[NSString stringWithFormat:@"Removing %@ from this list will reset your settings and %@ will need to re-register when it uses Growl the next time.", appName, appName]];
+						 informativeTextWithFormat:[NSString stringWithFormat:
+													NSLocalizedStringFromTableInBundle(@"This will remove all Growl settings for %@.", nil, [self bundle], ""), appName]];
 	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
 	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
