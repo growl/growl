@@ -123,7 +123,7 @@ reset-source-dir:
 	mkdir $(SRC_BUILD_DIR)
 
 # These targets all copy items from the source tree ($SRCDIR) into $(SRC_BUILD_DIR.
-copy-all-sources: $(SRC_BUILD_DIR)/Bindings $(SRC_BUILD_DIR)/Common $(SRC_BUILD_DIR)/Core $(SRC_BUILD_DIR)/Plugins $(SRC_BUILD_DIR)/Docs $(SRC_BUILD_DIR)/Examples $(SRC_BUILD_DIR)/Extras $(SRC_BUILD_DIR)/Framework $(SRC_BUILD_DIR)/Growl Readme.rtfd $(SRC_BUILD_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)/Prefpane TestHarness $(SRC_BUILD_DIR)/Scripts $(SRC_BUILD_DIR)/images $(SRC_BUILD_DIR)/HACKING.TXT $(SRC_BUILD_DIR)/License.txt $(SRC_BUILD_DIR)/Makefile $(SRC_BUILD_DIR)/README.rtf $(SRC_BUILD_DIR)/build.sh $(SRC_BUILD_DIR)/changes.txt $(SRC_BUILD_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)/headerDoc2HTML.config
+copy-all-sources: $(SRC_BUILD_DIR)/Bindings $(SRC_BUILD_DIR)/Common $(SRC_BUILD_DIR)/Core $(SRC_BUILD_DIR)/Plugins $(SRC_BUILD_DIR)/Docs $(SRC_BUILD_DIR)/Extras $(SRC_BUILD_DIR)/Framework $(SRC_BUILD_DIR)/Growl Readme.rtfd $(SRC_BUILD_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)/Prefpane TestHarness $(SRC_BUILD_DIR)/Scripts $(SRC_BUILD_DIR)/images $(SRC_BUILD_DIR)/HACKING.TXT $(SRC_BUILD_DIR)/License.txt $(SRC_BUILD_DIR)/Makefile $(SRC_BUILD_DIR)/README.rtf $(SRC_BUILD_DIR)/build.sh $(SRC_BUILD_DIR)/changes.txt $(SRC_BUILD_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)/headerDoc2HTML.config
 
 $(SRC_BUILD_DIR)/Bindings: reset-source-dir
 	cp -R $(SRC_DIR)/Bindings $(SRC_BUILD_DIR)
@@ -135,8 +135,6 @@ $(SRC_BUILD_DIR)/Plugins: reset-source-dir
 	cp -R $(SRC_DIR)/Plugins $(SRC_BUILD_DIR)
 $(SRC_BUILD_DIR)/Docs: reset-source-dir
 	cp -R $(SRC_DIR)/Docs $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Examples: reset-source-dir
-	cp -R $(SRC_DIR)/Examples $(SRC_BUILD_DIR)
 $(SRC_BUILD_DIR)/Extras: reset-source-dir
 	cp -R $(SRC_DIR)/Extras $(SRC_BUILD_DIR)
 $(SRC_BUILD_DIR)/Framework: reset-source-dir
