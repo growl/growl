@@ -42,10 +42,10 @@ endif
 
 #########################
 
-.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release source updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
+.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
 
-all: assertnochanges updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source
-all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source
+all: assertnochanges updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
+all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
 
 assertnochanges:
 	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
@@ -120,60 +120,9 @@ source: $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
 # We need this directory to be empty, so blow it away every time. That's why this is a phony target, rather than a real $(SRC_BUILD_DIR) target.
 reset-source-dir:
 	-rm -rf $(SRC_BUILD_DIR)
-	mkdir $(SRC_BUILD_DIR)
-
-# These targets all copy items from the source tree ($SRCDIR) into $(SRC_BUILD_DIR.
-copy-all-sources: $(SRC_BUILD_DIR)/Bindings $(SRC_BUILD_DIR)/Common $(SRC_BUILD_DIR)/Core $(SRC_BUILD_DIR)/Plugins $(SRC_BUILD_DIR)/Docs $(SRC_BUILD_DIR)/Extras $(SRC_BUILD_DIR)/Framework $(SRC_BUILD_DIR)/Growl Readme.rtfd $(SRC_BUILD_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)/Prefpane TestHarness $(SRC_BUILD_DIR)/Scripts $(SRC_BUILD_DIR)/images $(SRC_BUILD_DIR)/HACKING.TXT $(SRC_BUILD_DIR)/License.txt $(SRC_BUILD_DIR)/Makefile $(SRC_BUILD_DIR)/README.rtf $(SRC_BUILD_DIR)/build.sh $(SRC_BUILD_DIR)/changes.txt $(SRC_BUILD_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)/headerDoc2HTML.config
-
-$(SRC_BUILD_DIR)/Bindings: reset-source-dir
-	cp -R $(SRC_DIR)/Bindings $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Common: reset-source-dir
-	cp -R $(SRC_DIR)/Common $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Core: reset-source-dir
-	cp -R $(SRC_DIR)/Core $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Plugins: reset-source-dir
-	cp -R $(SRC_DIR)/Plugins $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Docs: reset-source-dir
-	cp -R $(SRC_DIR)/Docs $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Extras: reset-source-dir
-	cp -R $(SRC_DIR)/Extras $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Framework: reset-source-dir
-	cp -R $(SRC_DIR)/Framework $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Growl Readme.rtfd: reset-source-dir
-	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Growl.xcodeproj: reset-source-dir
-	cp -R $(SRC_DIR)/Growl.xcodeproj $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Prefpane TestHarness: reset-source-dir
-	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Scripts: reset-source-dir
-	cp -R $(SRC_DIR)/Scripts $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/images: reset-source-dir
-	cp -R $(SRC_DIR)/images $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/HACKING.TXT: reset-source-dir
-	cp $(SRC_DIR)/HACKING.txt $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/License.txt: reset-source-dir
-	cp $(SRC_DIR)/License.txt $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/Makefile: reset-source-dir
-	cp $(SRC_DIR)/Makefile $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/README.rtf: reset-source-dir
-	cp $(SRC_DIR)/README.rtf $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/build.sh: reset-source-dir
-	cp $(SRC_DIR)/build.sh $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/changes.txt: reset-source-dir
-	cp $(SRC_DIR)/changes.txt $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/generateSVNRevision.sh: reset-source-dir
-	cp $(SRC_DIR)/generateSVNRevision.sh $(SRC_BUILD_DIR)
-$(SRC_BUILD_DIR)/headerDoc2HTML.config: reset-source-dir
-	cp $(SRC_DIR)/headerDoc2HTML.config $(SRC_BUILD_DIR)
-
-# Remove files that we don't really want to distribute.
-clean-up-sources: copy-all-sources
-	find $(SRC_BUILD_DIR) \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
-	find $(SRC_BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
-
-$(SRC_BUILD_DIR).tar.bz2: copy-all-sources clean-up-sources
-	cd $(BUILD_DIR)
-	tar cjf "$@" "$(SRC_BUILD_DIR_FILENAME)"
+	svn export $(SRC_DIR) $(SRC_BUILD_DIR)
+$(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2: $(BUILD_DIR) reset-source-dir
+	cd $(BUILD_DIR) && tar cjf "$(SRC_BUILD_DIR_FILENAME).tar.bz2" "$(SRC_BUILD_DIR_FILENAME)"
 
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
