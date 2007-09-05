@@ -191,7 +191,7 @@ release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_
 
 # copy uninstaller
 $(GROWL_DIR)/Uninstall\ Growl.app: $(GROWL_DIR)
-	cp -R "Uninstall Growl.app" $(GROWL_DIR)
+	svn export "Uninstall Growl.app" $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E "$@"
 
 # copy webloc files
@@ -235,7 +235,7 @@ $(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras
 $(GROWL_DIR)/Extras/GrowlTunes/GrowlTunes.app: $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
 $(GROWL_DIR)/Extras/GrowlTunes/ReadMe.rtfd: $(GROWL_DIR)/Extras/GrowlTunes
-	cp -R $(SRC_DIR)/Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
+	svn export $(SRC_DIR)/Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
 
 copy-HardwareGrowler: $(GROWL_DIR)/Extras/HardwareGrowler
 $(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras
@@ -280,7 +280,7 @@ $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg: $(GROWL_DIR)/Extras/GrowlSafari
 	-sudo rm -rf $(BUILD_DIR)/GrowlSafari
 	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
 $(GROWL_DIR)/Extras/GrowlSafari/README.txt: $(GROWL_DIR)/Extras/GrowlSafari
-	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
+	cp $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
 
 # copy the SDK webloc files
 copy-sdk-weblocs: $(SDK_DIR)/Growl\ Developer\ Documentation.webloc $(SDK_DIR)/Growl\ version\ history\ for\ developers.webloc
@@ -344,7 +344,7 @@ $(SDK_DIR)/Frameworks/Growl-WithInstaller.framework: $(SDK_DIR)/Frameworks
 
 # copy the bindings
 $(SDK_DIR)/Bindings: $(SDK_DIR)
-	cp -R $(SRC_DIR)/Bindings $(SDK_DIR)
+	svn export $(SRC_DIR)/Bindings $(SDK_DIR)
 	@# remove the AppleScript binding
 	rm -rf $@/applescript
 	@# remove some symlinks
