@@ -1,10 +1,25 @@
+########################## 
+### Versioning: 
+###   * Set the VERSION below 
+###   * Update the version struct in Core/Source/GrowlApplicationController.m  
+###       (needed for proper version checking) 
+###   * Update the version string in Extras/growlnotify/main.m 
+# 
+VERSION=1.1b2 
+# 
+######################### 
+# 
+# No changes should be needed below this line 
+# 
+######################### 
+RELEASE_NAME=Growl-$(VERSION)
+
 SRC_DIR=..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SRC_BUILD_DIR_FILENAME=$(RELEASE_NAME)-src
 SRC_BUILD_DIR=$(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME)
 SDK_DIR=$(BUILD_DIR)/SDK
-RELEASE_NAME=Growl-1.1b1
 BUILDSTYLE=Deployment
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
@@ -25,17 +40,12 @@ else
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 
-# What to do before running this script:
-# - Set version number in GHA. You can do this in GrowlController.m. Look for the "static struct Version version" line.
-# - Set RELEASE_NAME
-# - Edit the following two plist keys
-#       - Core/Resources/Info.plist
-#       - Core/Resources/GrowlHelperApp-Info.plist
+#########################
 
-.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
+.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release source updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
 
-all: assertnochanges compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release diskimages source
-all-withlocalchanges: assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release diskimages source
+all: assertnochanges updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source
+all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source
 
 assertnochanges:
 	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
@@ -48,19 +58,54 @@ assertnoconflicts:
 		exit 2; \
 	fi
 
-compile-Growl:
+# Update CFBundleVersion and CFBundleShortVersionString.
+updateversion-Growl:
+	# First, GHA's.
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist 
+	# Then, Growl.prefPane's.
+	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Core/Resources/Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Core/Resources/Info.plist 
+	# Then, GrowlMenu's.
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist 
+
+updateversion-GrowlMail:
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Extras/GrowlMail/Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlMail/Info.plist 
+
+updateversion-GrowlSafari:
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlSafari/Info.plist 
+
+updateversion-GrowlTunes:
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlTunes/Info.plist 
+
+updateversion-HardwareGrowler:
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleVersion '$(VERSION)' 
+	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info.plist CFBundleShortVersionString '$(VERSION)' 
+	plutil -convert xml1 $(SRC_DIR)/Extras/HardwareGrowler/Info.plist 
+
+compile-Growl: updateversion-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 
-compile-GrowlMail: compile-Growl
+compile-GrowlMail: compile-Growl updateversion-GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
-compile-GrowlSafari: compile-Growl
+compile-GrowlSafari: compile-Growl updateversion-GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 compile-growlnotify: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
-compile-HardwareGrowler: compile-Growl
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
-compile-GrowlTunes: compile-Growl
+compile-GrowlTunes: compile-Growl updateversion-GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+compile-HardwareGrowler: compile-Growl updateversion-Growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 
 clean:
 	-mv $(BUILD_DIR) build-old
