@@ -32,10 +32,10 @@ endif
 #       - Core/Resources/Info.plist
 #       - Core/Resources/GrowlHelperApp-Info.plist
 
-.PHONY: all assertnochanges assertnoconflicts compile clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
+.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release source copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
 
-all: assertnochanges compile release diskimages source
-all-withlocalchanges: assertnoconflicts compile release diskimages source
+all: assertnochanges compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release diskimages source
+all-withlocalchanges: assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release diskimages source
 
 assertnochanges:
 	if [[ 0 -ne `svn st $(SRC_DIR) | wc -l` ]]; then \
@@ -48,12 +48,18 @@ assertnoconflicts:
 		exit 2; \
 	fi
 
-compile:
+compile-Growl:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
+
+compile-GrowlMail: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
+compile-GrowlSafari: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
+compile-growlnotify: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
+compile-HardwareGrowler: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
+compile-GrowlTunes: compile-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
 
 clean:
