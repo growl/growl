@@ -1,11 +1,12 @@
 ########################## 
 ### Versioning: 
-###   * Set the VERSION below 
+###   * Set VERSION and BETA below. BETA should be TRUE or FALSE. 
 ###   * Update the version struct in Core/Source/GrowlApplicationController.m  
 ###       (needed for proper version checking) 
 ###   * Update the version string in Extras/growlnotify/main.m 
 # 
 VERSION=1.1b8
+BETA=TRUE
 # 
 ######################### 
 # 
@@ -42,7 +43,7 @@ endif
 
 #########################
 
-.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage
+.PHONY: all assertnochanges assertnoconflicts compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage source
 
 all: assertnochanges updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
 all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
@@ -302,7 +303,12 @@ $(SDK_DIR)/Bindings: $(SDK_DIR)
 # delete svn and backup files
 clean-out-garbage:
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
-	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store -or -name classes.nib -or -name info.nib \) -type f -delete
+	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete 
+	
+	@# optimize nib files, making them uneditable, for releases only 
+ifeq ($(BETA),FALSE) 
+	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib \) -type f -delete
+endif 
 
 # make Growl disk image
 $(BUILD_DIR)/$(RELEASE_NAME).dmg: release-Growl clean-out-garbage
