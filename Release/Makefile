@@ -133,7 +133,7 @@ $(SDK_DIR): $(BUILD_DIR)
 	mkdir $(SDK_DIR)
 
 release-Growl: $(GROWL_DIR)/Uninstall\ Growl.app copy-weblocs $(GROWL_DIR)/Growl.prefPane copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari
-release-SDK: copy-sdk-weblocs $(SRC_DIR)/Scripts copy-sdk-builtin copy-sdk-frameworks $(SDK_DIR)/Bindings
+release-SDK: copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks $(SDK_DIR)/Bindings
 # The two disk-image targets depend on release-Growl and release-SDK, respectively. Thus, making release will make release-Growl and release-SDK, then the disk images.
 release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg
 
@@ -240,10 +240,6 @@ $(SDK_DIR)/Growl\ version\ history\ for\ developers.webloc: $(SDK_DIR)
 	cp "Growl version history for developers.webloc" $(SDK_DIR)
 	@# hide extension of webloc file
 	/Developer/Tools/SetFile -a E "$@"
-
-# copy the scripts
-$(SRC_DIR)/Scripts: $(SDK_DIR)
-	cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
 
 # copy over relevant files to compile directly into app
 copy-sdk-builtin: $(SDK_DIR)/Built-In $(SDK_DIR)/Built-In/GrowlApplicationBridge.h $(SDK_DIR)/Built-In/GrowlApplicationBridge.m $(SDK_DIR)/Built-In/GrowlDefines.h $(SDK_DIR)/Built-In/GrowlDefinesInternal.h $(SDK_DIR)/Built-In/GrowlPathUtilities.h $(SDK_DIR)/Built-In/GrowlPathUtilities.m $(SDK_DIR)/Built-In/CFGrowlAdditions.h $(SDK_DIR)/Built-In/CFGrowlAdditions.c $(SDK_DIR)/Built-In/CFGrowlDefines.h $(SDK_DIR)/Built-In/CFURLAdditions.h $(SDK_DIR)/Built-In/CFURLAdditions.c $(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.h $(SDK_DIR)/Built-In/CFMutableDictionaryAdditions.c $(SDK_DIR)/Built-In/GrowlPreferencesController.h $(SDK_DIR)/Built-In/GrowlTicketController.h 
