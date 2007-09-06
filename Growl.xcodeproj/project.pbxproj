@@ -724,6 +724,9 @@
 		347935950C864534007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = StatusItem/Resources/Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		349B3FA40A620F2D008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
+		34A0931F0C90B0DA00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
+		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginNameWithDefaultTransformer.h; path = Core/Source/DisplayPluginNameWithDefaultTransformer.h; sourceTree = "<group>"; };
 		34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayPluginNameWithDefaultTransformer.m; path = Core/Source/DisplayPluginNameWithDefaultTransformer.m; sourceTree = "<group>"; };
 		34A883470C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginsWithDefaultArrayController.h; path = Core/Source/DisplayPluginsWithDefaultArrayController.h; sourceTree = "<group>"; };
@@ -2384,6 +2387,7 @@
 				zh_TW,
 				pt_BR,
 				Swedish,
+				sv,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -3037,6 +3041,7 @@
 				3479306F0C85E290007ADCAA /* zh_TW */,
 				34B02ACE0C87911300DD25D6 /* pt_BR */,
 				34B02B080C8791F600DD25D6 /* Swedish */,
+				34A0931F0C90B0DA00A82168 /* sv */,
 			);
 			name = "GrowlInstallationPrompt-Carbon.nib";
 			sourceTree = "<group>";
@@ -3254,6 +3259,7 @@
 				347930700C85E290007ADCAA /* zh_TW */,
 				34B02ACF0C87911300DD25D6 /* pt_BR */,
 				34B02B090C8791F600DD25D6 /* Swedish */,
+				34A0931E0C90B0D500A82168 /* sv */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
@@ -3291,6 +3297,7 @@
 				3479306E0C85E290007ADCAA /* zh_TW */,
 				34B02ACD0C87911300DD25D6 /* pt_BR */,
 				34B02B070C8791F600DD25D6 /* Swedish */,
+				34A093200C90B0DF00A82168 /* sv */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
