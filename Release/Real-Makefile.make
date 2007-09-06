@@ -138,7 +138,7 @@ release: clean $(GROWL_DIR) $(SDK_DIR) $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_
 
 # copy uninstaller
 $(GROWL_DIR)/Uninstall\ Growl.app: $(GROWL_DIR)
-	svn export "Uninstall Growl.app" $@
+	svn export "Uninstall Growl.app" "$@"
 	/Developer/Tools/SetFile -a E "$@"
 
 # copy webloc files
