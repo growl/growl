@@ -53,10 +53,10 @@ endif
 
 #########################
 
-.PHONY: all compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage source
+.PHONY: all clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage source
 
-all: updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
-all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler compile-Growl compile-GrowlMail compile-GrowlSafari compile-growlnotify compile-HardwareGrowler compile-GrowlTunes release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
+all: updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
+all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
 
 # Update CFBundleVersion and CFBundleShortVersionString in Info.plist files.
 updateversion-Growl:
@@ -93,18 +93,18 @@ updateversion-HardwareGrowler:
 	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleShortVersionString '$(VERSION)' 
 	plutil -convert xml1 $(SRC_DIR)/Extras/HardwareGrowler/Info.plist 
 
-compile-Growl: updateversion-Growl
+$(GROWL_BUILD_DIR)/Growl.prefPane: updateversion-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 
-compile-GrowlMail: compile-Growl updateversion-GrowlMail
+$(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle: $(GROWL_BUILD_DIR)/Growl.prefPane updateversion-GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
-compile-GrowlSafari: compile-Growl updateversion-GrowlSafari
+$(GROWLSAFARI_BUILD_DIR)/GrowlSafari: $(GROWL_BUILD_DIR)/Growl.prefPane updateversion-GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
-compile-growlnotify: compile-Growl
+$(GROWLNOTIFY_BUILD_DIR)/growlnotify: $(GROWL_BUILD_DIR)/Growl.prefPane
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
-compile-GrowlTunes: compile-Growl updateversion-GrowlTunes
+$(GROWLTUNES_BUILD_DIR)/GrowlTunes.app: $(GROWL_BUILD_DIR)/Growl.prefPane updateversion-GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
-compile-HardwareGrowler: compile-Growl updateversion-Growl
+$(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app: $(GROWL_BUILD_DIR)/Growl.prefPane updateversion-HardwareGrowler
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 
 clean:
@@ -157,7 +157,7 @@ $(GROWL_DIR)/Get\ more\ styles.webloc: $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E "$@"
 
 # copy the prefpane
-$(GROWL_DIR)/Growl.prefPane: $(GROWL_DIR)
+$(GROWL_DIR)/Growl.prefPane: $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
 	cp -R $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWL_DIR)
 
 # copy the extras
@@ -167,7 +167,7 @@ $(GROWL_DIR)/Extras: $(GROWL_DIR)
 copy-growlnotify: $(GROWL_DIR)/Extras/growlnotify $(GROWL_DIR)/Extras/growlnotify/growlnotify $(GROWL_DIR)/Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify/README.txt
 $(GROWL_DIR)/Extras/growlnotify: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/growlnotify
-$(GROWL_DIR)/Extras/growlnotify/growlnotify: $(GROWL_DIR)/Extras/growlnotify
+$(GROWL_DIR)/Extras/growlnotify/growlnotify: $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
 	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
 $(GROWL_DIR)/Extras/growlnotify/growlnotify.1: $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
@@ -177,7 +177,7 @@ $(GROWL_DIR)/Extras/growlnotify/README.txt: $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/README.txt $(GROWL_DIR)/Extras/growlnotify
 
 copy-GrowlTunes: $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/GrowlTunes/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes/ReadMe.rtfd
-$(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras
+$(GROWL_DIR)/Extras/GrowlTunes: $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlTunes
 $(GROWL_DIR)/Extras/GrowlTunes/GrowlTunes.app: $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
@@ -185,7 +185,7 @@ $(GROWL_DIR)/Extras/GrowlTunes/ReadMe.rtfd: $(GROWL_DIR)/Extras/GrowlTunes
 	svn export $(SRC_DIR)/Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
 
 copy-HardwareGrowler: $(GROWL_DIR)/Extras/HardwareGrowler
-$(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras
+$(GROWL_DIR)/Extras/HardwareGrowler: $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
 $(GROWL_DIR)/Extras/HardwareGrowler/HardwareGrowler.app: $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
@@ -196,7 +196,7 @@ $(GROWL_DIR)/Extras/HardwareGrowler/readme.txt: $(GROWL_DIR)/Extras/HardwareGrow
 copy-GrowlMail: $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg $(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf
 $(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg: $(GROWL_DIR)/Extras/GrowlMail
+$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg: $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(GROWL_DIR)/Extras/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail-Resources
 	cp -R $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(BUILD_DIR)/GrowlMail
@@ -216,7 +216,7 @@ $(GROWL_DIR)/Extras/GrowlMail/GrowlMail\ Installation.rtf: $(GROWL_DIR)/Extras/G
 copy-GrowlSafari: $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg $(GROWL_DIR)/Extras/GrowlSafari/README.txt
 $(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-$(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg: $(GROWL_DIR)/Extras/GrowlSafari
+$(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg: $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(BUILD_DIR)/GrowlSafari
