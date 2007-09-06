@@ -95,6 +95,10 @@ updateversion-HardwareGrowler:
 
 $(GROWL_BUILD_DIR)/Growl.prefPane: updateversion-Growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
+$(GROWL_BUILD_DIR)/Growl.framework:
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR) growlapplicationbridge
+$(GROWL_BUILD_DIR)/Growl-WithInstaller.framework:
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR) growlapplicationbridge-withinstaller
 
 $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle: $(GROWL_BUILD_DIR)/Growl.prefPane updateversion-GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
@@ -280,9 +284,9 @@ $(SDK_DIR)/Built-In/GrowlTicketController.h: $(SDK_DIR)/Built-In
 copy-sdk-frameworks: $(SDK_DIR)/Frameworks $(SDK_DIR)/Frameworks/Growl.framework $(SDK_DIR)/Frameworks/Growl-WithInstaller.framework
 $(SDK_DIR)/Frameworks: $(SDK_DIR)
 	mkdir $(SDK_DIR)/Frameworks
-$(SDK_DIR)/Frameworks/Growl.framework: $(SDK_DIR)/Frameworks
+$(SDK_DIR)/Frameworks/Growl.framework: $(GROWL_BUILD_DIR)/Growl.framework $(SDK_DIR)/Frameworks
 	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(SDK_DIR)/Frameworks
-$(SDK_DIR)/Frameworks/Growl-WithInstaller.framework: $(SDK_DIR)/Frameworks
+$(SDK_DIR)/Frameworks/Growl-WithInstaller.framework: $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
 	cp -R $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
 
 # copy the bindings
