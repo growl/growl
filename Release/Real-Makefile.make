@@ -56,7 +56,6 @@ endif
 .PHONY: all clean release updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler copy-weblocs copy-growlnotify copy-GrowlTunes copy-HardwareGrowler copy-GrowlMail copy-GrowlSafari copy-sdk-weblocs copy-sdk-builtin copy-sdk-frameworks clean-out-garbage source
 
 all: updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
-all-withlocalchanges: assertnoconflicts updateversion-Growl updateversion-GrowlMail updateversion-GrowlSafari updateversion-GrowlTunes updateversion-HardwareGrowler $(GROWL_BUILD_DIR)/Growl.prefPane $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app release $(BUILD_DIR)/$(RELEASE_NAME).dmg $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg source $(BUILD_DIR)/$(SRC_BUILD_DIR_FILENAME).tar.bz2
 
 # Update CFBundleVersion and CFBundleShortVersionString in Info.plist files.
 updateversion-Growl:
