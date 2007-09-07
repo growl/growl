@@ -322,7 +322,7 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 					   bssidBytes[3],
 					   bssidBytes[4],
 					   bssidBytes[5]];
-	NSString *description = [NSString stringWithFormat:NSLocalizedString(@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@", "")
+	NSString *description = [NSString stringWithFormat:NSLocalizedString(@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@", ""),
 							 networkName,
 							 bssid];
 
