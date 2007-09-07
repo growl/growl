@@ -92,11 +92,13 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 		if (messageBody) {
 			NSString *originalBody = nil;
 			/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
-			/* messageBody isn't right for the current message in 10.5... */
+			/* messageBody isn't right for the current message in 10.5 when multiple messages are received at once... */
 #warning This is broken in 10.5 as of 9a527. messageBody yields the text for the wrong message.
-			//NSLog(@"%@: messageBody is %@.",subject, messageBody);
-			//NSLog(@"%@: attributed is %@. textHtmlPart is %@",subject,[messageBody attributedString],
+			/*
+			 NSLog(@"%@: messageBody is %@.",subject, messageBody);
+			 NSLog(@"%@: attributed is %@. textHtmlPart is %@",subject,[messageBody attributedString],
 				  [messageBody textHtmlPart]);
+			 */
 			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
 				originalBody = [messageBody stringForIndexing];
 			else if ([messageBody respondsToSelector:@selector(attributedString)])
