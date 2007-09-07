@@ -77,10 +77,10 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 		if (!messageBody) {
 			/* No message body available yet, but we need one */
 			if ([attempt intValue] < 3) {
-				/* Try again in 0.5 seconds so as not to block */
+				/* Try again in (0.5 * attempts) seconds so as not to block */
 				[self performSelector:@selector(showNotification:)
 					withObject:[NSNumber numberWithInt:[attempt intValue]+1]
-					afterDelay:0.5];
+					afterDelay:0.5 * ([attempt intValue] + 1)];
 				CFRelease(titleFormat);
 				CFRelease(descriptionFormat);
 				return;
@@ -90,24 +90,35 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 		}
 
 		if (messageBody) {
-			NSString *originalBody;
-			/* The stringForIndexing selector is not available in Mail.app 2.0. */
+			NSString *originalBody = nil;
+			/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
+			/* messageBody isn't right for the current message in 10.5... */
+#warning This is broken in 10.5 as of 9a527. messageBody yields the text for the wrong message.
+			//NSLog(@"%@: messageBody is %@.",subject, messageBody);
+			//NSLog(@"%@: attributed is %@. textHtmlPart is %@",subject,[messageBody attributedString],
+				  [messageBody textHtmlPart]);
 			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
 				originalBody = [messageBody stringForIndexing];
-			else
+			else if ([messageBody respondsToSelector:@selector(attributedString)])
+				originalBody = [[messageBody attributedString] string];
+			else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
 				originalBody = [messageBody stringValueForJunkEvaluation:NO];
-			CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
-			CFStringTrimWhitespace(transformedBody);
-			CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
-			trimStringToFirstNLines(transformedBody, 4);
-			CFIndex length = CFStringGetLength(transformedBody);
-			if (length > 200) {
-				CFStringDelete(transformedBody, CFRangeMake(200, length-200));
-				length = 200;
+			if (originalBody) {
+				CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
+				CFStringTrimWhitespace(transformedBody);
+				CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
+				trimStringToFirstNLines(transformedBody, 4);
+				CFIndex length = CFStringGetLength(transformedBody);
+				if (length > 200) {
+					CFStringDelete(transformedBody, CFRangeMake(200, length-200));
+					length = 200;
+				}
+				if (length != lengthWithoutWhitespace)
+					CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
+				body = (CFStringRef)transformedBody;
+			} else {
+				body = CFSTR("");	
 			}
-			if (length != lengthWithoutWhitespace)
-				CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
-			body = (CFStringRef)transformedBody;
 		} else {
 			body = CFSTR("");
 		}

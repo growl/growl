@@ -726,8 +726,8 @@ typedef struct {
 - (id)attributedString;
 - (BOOL)isHTML;
 - (BOOL)isRich;
-- (NSString *)stringForIndexing;
-- (NSString *)stringValueForJunkEvaluation:(BOOL)fp8;
+- (NSString *)stringForIndexing; //10.4, but not 10.5
+- (NSString *)stringValueForJunkEvaluation:(BOOL)fp8; //10.3, but not 10.4 or 10.5
 - (void)setMessage:(id)fp8;
 - (id)message;
 - (void)calculateNumberOfAttachmentsIfNeeded;
