@@ -89,8 +89,8 @@ version:
 
 	@# Convert back to XML plist, since defaults creates binary plists
 	plutil -convert xml1 $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info
-	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl.framework-Info 
+	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl.framework-Info.plist 
 	plutil -convert xml1 $(SRC_DIR)/Core/Resources/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlCode/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlMail/Info.plist
