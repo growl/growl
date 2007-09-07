@@ -65,6 +65,8 @@ assertnoconflicts:
 version:
 	@# update the CFBundleVersion
 	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Framework/Resources/Growl.framework-Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleVersion '$(VERSION)'
@@ -75,6 +77,8 @@ version:
 
 	@# update the CFBundleShortVersionString
 	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Framework/Resources/Growl.framework-Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleShortVersionString '$(VERSION)'
