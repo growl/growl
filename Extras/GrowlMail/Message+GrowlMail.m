@@ -76,7 +76,7 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 
 		if (!messageBody) {
 			/* No message body available yet, but we need one */
-			if ([attempt intValue] < 3) {
+			if ([attempt intValue] < 10) {
 				/* Try again in (0.5 * attempts) seconds so as not to block */
 				[self performSelector:@selector(showNotification:)
 					withObject:[NSNumber numberWithInt:[attempt intValue]+1]
@@ -86,7 +86,7 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 				return;
 			}
 			/* Already tried three times (1.5 seconds); this time, block to get it. */ 
-			messageBody = [self messageBody];
+			//messageBody = [self messageBody];
 		}
 
 		if (messageBody) {
