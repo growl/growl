@@ -15,7 +15,7 @@
 #pragma unused(from,to)
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
 #pragma unused(progress)
 	if (aWindow) {
 		switch (direction) {

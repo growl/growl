@@ -11,16 +11,16 @@
 @implementation GrowlRipplingWindowTransition
 
 - (id) initWithWindow:(NSWindow *)inWindow {
-	if((self = [super initWithWindow:inWindow])) {
+	if ((self = [super initWithWindow:inWindow])) {
 		rippler = [[AWRippler alloc] init];
 		win = inWindow;	
 	}
 	return self;
 }
 
-- (void) animationDidStart {
-	[super animationDidStart];
-	
+- (void) animationShouldStart:(NSAnimation *)animation {
+	[super animationShouldStart:animation];
+
 	if ([self currentProgress] < 1.0f) {
 		[rippler rippleWindow:win];
 		[rippler release]; rippler = nil;
@@ -34,7 +34,7 @@
 #pragma unused(startingOrigin, endingOrigin)
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 #pragma unused(aWindow, inProgress)
 NSLog(@"%s", __FUNCTION__);	
 }

@@ -16,7 +16,7 @@
 	//scaleFactor = 1.0f;
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:

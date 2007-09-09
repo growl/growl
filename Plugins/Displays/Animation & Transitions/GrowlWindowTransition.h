@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlAnimation.h"
+#import <Cocoa/Cocoa.h>
 
 typedef enum {
 	GrowlForwardTransition = 0,
@@ -17,7 +17,7 @@ typedef enum {
  * @class GrowlWindowTransition
  * @abstract Base class for window transitions.
  */
-@interface GrowlWindowTransition : GrowlAnimation {
+@interface GrowlWindowTransition : NSAnimation {
 	NSWindow					*window;
 	GrowlTransitionDirection	direction;
 	BOOL						autoReverses;
@@ -85,6 +85,6 @@ typedef enum {
  * @discussion This method is called for each frame update.
  * You should override it in your subclass to draw your transition.
  */
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress;
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress;
 
 @end

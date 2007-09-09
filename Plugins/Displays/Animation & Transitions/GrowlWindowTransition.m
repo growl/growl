@@ -18,6 +18,7 @@
 	if ((self = [self init])) {
 		[self setWindow:inWindow];
 		[self setDirection:theDirection];
+		[self setDelegate:self];
 	}
 
 	return self;
@@ -37,15 +38,13 @@
 	[super stopAnimation];
 }
 
-- (void) animationDidEnd {
-	[self retain];
-	[super animationDidEnd];
-
+- (void) animationDidEnd:(NSAnimation *)animation {
 	if (autoReverses) {
+		[self retain];
 		[self setDirection:![self direction]];
 		didAutoReverse = !didAutoReverse;
+		[self release];
 	}
-	[self release];
 }
 
 - (BOOL) autoReverses {
@@ -84,18 +83,18 @@
 	[super dealloc];
 }
 
-- (void) drawFrame:(GrowlAnimationProgress)inProgress {
-	[self drawTransitionWithWindow:window progress:inProgress];
+- (void) setCurrentProgress:(NSAnimationProgress)progress {
+	[self drawTransitionWithWindow:window progress:progress];
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
 #pragma unused(aWindow, progress)
 	//
 }
 
-- (void)reset
+- (void) reset
 {
-	[super reset];
+	[self setCurrentProgress:0.0];
 	
 	//If we autoreversed, reset to our original direction
 	if (autoReverses && didAutoReverse) {
@@ -104,11 +103,10 @@
 	}
 }
 
-- (void)reverse
+- (void) reverse
 {
 	[self setDirection:![self direction]];
 	[self setCurrentProgress:(1.0 - [self currentProgress])];
-	[self setFramesPassed:(([self frameRate] * [self animationDuration]) * [self currentProgress])];
 
 	didAutoReverse = !didAutoReverse;
 }

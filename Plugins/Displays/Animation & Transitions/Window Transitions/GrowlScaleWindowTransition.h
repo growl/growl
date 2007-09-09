@@ -15,5 +15,5 @@
 }
 
 - (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to;
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress;
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress;
 @end

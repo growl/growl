@@ -17,7 +17,7 @@
 	yDistance = (endingOrigin.y - startingOrigin.y);
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 	NSPoint newOrigin;
 	if (aWindow) {
 

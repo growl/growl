@@ -12,7 +12,7 @@
 
 @implementation GrowlScaleWindowTransition
 
-- (id) initWithDuration:(NSTimeInterval)duration animationCurve:(GrowlAnimationCurve)curve {
+- (id) initWithDuration:(NSTimeInterval)duration animationCurve:(NSAnimationCurve)curve {
 	if((self = [self initWithDuration:duration animationCurve:curve])) {
 		[self setFrameRate:(1.0 / duration)];
 	}
@@ -24,7 +24,7 @@
 	endingPoint   = to;
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 	if (aWindow) {
 		NSRect newFrame = [aWindow frame];
 		if (inProgress < FLT_EPSILON) 
