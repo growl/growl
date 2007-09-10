@@ -67,7 +67,7 @@
 		READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
 		[self setDisplayDuration:(prefsDuration ?
 								  [(NSNumber *)prefsDuration doubleValue] :
-								  GrowlBubblesDurationPrefDefault)];
+								  GrowlMusicVideoDurationPrefDefault)];
 		
 		//The default duration for transitions is far too long for the music video effect.
 		[self setTransitionDuration:0.3];

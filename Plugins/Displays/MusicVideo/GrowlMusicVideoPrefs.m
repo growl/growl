@@ -42,7 +42,7 @@
 #pragma mark Accessors
 
 - (float) duration {
-	float value = GrowlBubblesDurationPrefDefault;
+	float value = GrowlMusicVideoDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
