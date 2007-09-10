@@ -18,7 +18,7 @@
 	return self;
 }
 
-- (void) animationShouldStart:(NSAnimation *)animation {
+- (void) animationShouldStart:(GrowlWindowTransition *)animation {
 	[super animationShouldStart:animation];
 
 	if ([self currentProgress] < 1.0f) {

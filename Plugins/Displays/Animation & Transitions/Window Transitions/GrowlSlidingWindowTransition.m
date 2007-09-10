@@ -20,7 +20,6 @@
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 	NSPoint newOrigin;
 	if (aWindow) {
-
 		switch (direction) {
 			case GrowlForwardTransition:
 				newOrigin.x = startingPoint.x + (inProgress * xDistance);

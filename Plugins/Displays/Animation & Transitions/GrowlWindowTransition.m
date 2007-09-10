@@ -15,10 +15,11 @@
 }
 
 - (id) initWithWindow:(NSWindow *)inWindow direction:(GrowlTransitionDirection)theDirection {
-	if ((self = [self init])) {
+	if ((self = [super init])) {
 		[self setWindow:inWindow];
 		[self setDirection:theDirection];
-		[self setDelegate:self];
+		//we do this so we get awesome animations
+		[self setAnimationBlockingMode:NSAnimationNonblockingThreaded];
 	}
 
 	return self;
@@ -28,6 +29,7 @@
 - (void) startAnimation {
 	if (!window)
 		NSLog(@"Trying to start window transition with no window. Transition: %@", self);
+
 	[super startAnimation];
 }
 
@@ -36,15 +38,6 @@
 		NSLog(@"Trying to stop window transition with no window. Transition: %@", self);
 
 	[super stopAnimation];
-}
-
-- (void) animationDidEnd:(NSAnimation *)animation {
-	if (autoReverses) {
-		[self retain];
-		[self setDirection:![self direction]];
-		didAutoReverse = !didAutoReverse;
-		[self release];
-	}
 }
 
 - (BOOL) autoReverses {
@@ -57,6 +50,14 @@
 
 - (GrowlTransitionDirection) direction {
 	return direction;
+}
+
+- (BOOL) didAutoReverse {
+	return didAutoReverse;
+}
+
+- (void) setDidAutoReverse: (BOOL) flag {
+	didAutoReverse = flag;
 }
 
 - (void) setDirection: (GrowlTransitionDirection) theDirection {
@@ -76,7 +77,6 @@
 
 - (void) dealloc {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self setDelegate:nil];	//Remove the delegate from the notification center
 	[window release];
 	[pool release];
 
@@ -90,25 +90,6 @@
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
 #pragma unused(aWindow, progress)
 	//
-}
-
-- (void) reset
-{
-	[self setCurrentProgress:0.0];
-	
-	//If we autoreversed, reset to our original direction
-	if (autoReverses && didAutoReverse) {
-		[self setDirection:![self direction]];
-		didAutoReverse = NO;
-	}
-}
-
-- (void) reverse
-{
-	[self setDirection:![self direction]];
-	[self setCurrentProgress:(1.0 - [self currentProgress])];
-
-	didAutoReverse = !didAutoReverse;
 }
 
 @end

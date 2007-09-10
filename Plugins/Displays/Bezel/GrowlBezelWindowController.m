@@ -11,7 +11,6 @@
 #import "GrowlBezelPrefs.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
-#import "GrowlAnimation.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
