@@ -11,6 +11,9 @@
 "A newer version of Growl is available online. Would you like to download it now?" = "Доступна новая версия Growl. Не желаете ли скачать её?";
 
 /* No comment provided by engineer. */
+"Are you sure you want to remove %@?" = "Вы уверены в том, что хотите удалить %@?";
+
+/* No comment provided by engineer. */
 "Browse menu item title" = "Browse menu item title";
 
 /* No comment provided by engineer. */
@@ -47,6 +50,9 @@
 "Launching Growl..." = "Growl запускается…";
 
 /* No comment provided by engineer. */
+"Mac OS X 10.3 \"Panther\" or greater is required." = "Для работы программы необходима Mac OS X 10.3 \"Panther\" или выше.";
+
+/* No comment provided by engineer. */
 "No" = "Нет";
 
 /* No comment provided by engineer. */
@@ -73,11 +79,20 @@
 /* Title of the Preview notification shown to demonstrate Growl displays */
 "Preview" = "Пример";
 
+/* Quit button title */
+"Quit" = "Завершить";
+
+/* Button title for removing something */
+"Remove" = "Удалить";
+
 /* No comment provided by engineer. */
 "Start Growl" = "Вкл. Growl";
 
 /* No comment provided by engineer. */
 "Stop Growl" = "Выкл. Growl";
+
+/* Title for the dialogue shown if attempting to run Growl on 10.2 or earlier */
+"System requirements not met" = "Обновите Mac OS X…";
 
 /* No comment provided by engineer. */
 "Terminating Growl..." = "Growl завершается…";
@@ -89,7 +104,13 @@
 "This is a preview of the %@ display" = "Это предварительный просмотр темы %@";
 
 /* No comment provided by engineer. */
+"This will remove all Growl settings for %@." = "Все настройки Growl для %@ будут удалены.";
+
+/* No comment provided by engineer. */
 "Update Available" = "Доступно обновление";
+
+/* Button title */
+"Upgrade Mac OS X..." = "Обновите Mac OS X…";
 
 /* No comment provided by engineer. */
 "User activity detected. New notifications will not be sticky by default." = "Обнаружена деятельность пользователя. Новые оповещения больше не будут постоянными по умолчанию.";

@@ -232,6 +232,8 @@
 		0A17E73907333A22008CCDC5 /* GrowlSafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSafari.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* GrowlSafari_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSafari_Prefix.pch; sourceTree = "<group>"; };
+		34A96D750C95F2F400F46006 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34A96D760C95F2F400F46006 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98A50C87C9500040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD98A60C87C9500040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98AB0C87C9DE0040C77F /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				Swedish,
 				Dutch,
 				pt_BR,
+				Russian,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* GrowlSafari */;
 			projectDirPath = "";
@@ -651,6 +654,7 @@
 				34CD98A50C87C9500040C77F /* Swedish */,
 				34CD98AB0C87C9DE0040C77F /* Dutch */,
 				34CD98B50C87CA630040C77F /* pt_BR */,
+				34A96D750C95F2F400F46006 /* Russian */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -664,6 +668,7 @@
 				34CD98A60C87C9500040C77F /* Swedish */,
 				34CD98AC0C87C9DE0040C77F /* Dutch */,
 				34CD98B60C87CA630040C77F /* pt_BR */,
+				34A96D760C95F2F400F46006 /* Russian */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
