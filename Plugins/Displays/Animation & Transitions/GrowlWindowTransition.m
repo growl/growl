@@ -18,8 +18,7 @@
 	if ((self = [super init])) {
 		[self setWindow:inWindow];
 		[self setDirection:theDirection];
-		//we do this so we get awesome animations
-		[self setAnimationBlockingMode:NSAnimationNonblockingThreaded];
+		[self setAnimationBlockingMode:NSAnimationNonblocking];
 	}
 
 	return self;
@@ -50,6 +49,10 @@
 
 - (GrowlTransitionDirection) direction {
 	return direction;
+}
+
+- (void)reverse {
+	[self setDirection:(([self direction] == GrowlForwardTransition) ? GrowlReverseTransition : GrowlForwardTransition)];
 }
 
 - (BOOL) didAutoReverse {
@@ -83,8 +86,27 @@
 	[super dealloc];
 }
 
+- (void)animationDidEnd
+{
+	if (![self isAnimating] && [self autoReverses]) {
+		[self reverse];
+		[self setDidAutoReverse:![self didAutoReverse]];
+	}
+}
+
 - (void) setCurrentProgress:(NSAnimationProgress)progress {
 	[self drawTransitionWithWindow:window progress:progress];
+	
+	[super setCurrentProgress:progress];
+
+	if (progress >= 1.0) {
+		/* NSAnimation will notify the delegate in the next run loop; we want to trigger our own didEnd after that happens
+		 * so we don't falsely appear to be reversed if we're supposed to autoreverse.
+		 */
+		[self performSelector:@selector(animationDidEnd)
+				   withObject:nil
+				   afterDelay:0];
+	}
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
