@@ -455,7 +455,7 @@ static NSMutableDictionary *existingInstances;
 		[self stopTransition:transition];
 }
 
-- (void)animationDidEnd:(GrowlWindowTransition *)animation
+- (void) animationDidEnd:(NSAnimation *)animation
 {
 	if ([animation isKindOfClass:[GrowlWindowTransition class]] &&
 		([(GrowlWindowTransition *)animation window] == [self window]) &&
@@ -463,26 +463,17 @@ static NSMutableDictionary *existingInstances;
 		//A fade out nonrepeating animation finished. We don't need to wait on our timeout; we know we finished displaying a notification.
 		[self didFinishTransitionsAfterDisplay];
 	}
-	else
-	{
-		if ([animation autoReverses]) 
-		{
-			[animation retain];
-			[animation setDirection:![animation direction]];
-			[animation setDidAutoReverse:[animation didAutoReverse]];
-			[animation release];
-		}
-		
-	}
+
+	[animation animationDidEnd:animation];
 }
 
-- (void)reverseAllTransitions
+- (void) reverseAllTransitions
 {
 	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(reverse)];
 }
 
 #pragma mark -
-- (void)mouseEnteredNotificationView:(GrowlNotificationView *)notificationView
+- (void) mouseEnteredNotificationView:(GrowlNotificationView *)notificationView
 {
 #pragma unused (notificationView)
 	if (!userRequestedClose &&
@@ -497,7 +488,7 @@ static NSMutableDictionary *existingInstances;
 	}
 }
 
-- (void)mouseExitedNotificationView:(GrowlNotificationView *)notificationView
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)notificationView
 {
 #pragma unused (notificationView)
 	// Notifies us that the mouse left the notification view.
