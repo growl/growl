@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		9340E2E90C94D48000A1F682 /* SystemPreferencesTesting */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9340E3050C94D4B300A1F682 /* Build configuration list for PBXAggregateTarget "SystemPreferencesTesting" */;
+			buildPhases = (
+				9340E2EE0C94D48E00A1F682 /* CopyFiles */,
+			);
+			dependencies = (
+				9340E2EB0C94D48300A1F682 /* PBXTargetDependency */,
+			);
+			name = SystemPreferencesTesting;
+			productName = SystemPreferencesTesting;
+		};
 		95E17B8F085E216A00990AB3 /* SVNRevision */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */;
@@ -455,6 +467,13 @@
 			remoteGlobalIDString = 95075AAF0817F5DB00D862A5;
 			remoteInfo = GrowlMenu;
 		};
+		9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D202CE80486D31800D8A456 /* Growl */;
+			remoteInfo = Growl;
+		};
 		93BC37D5095A67340002B365 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -535,6 +554,15 @@
 				070C5DAF09A7978F004F1E8C /* GrowlPathwayController.h in CopyFiles */,
 				93CD92BC0B5AF8CA000C39CD /* AWRippler.h in CopyFiles */,
 				34422F710BF3ED2E001DA9ED /* GrowlApplication.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9340E2EE0C94D48E00A1F682 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "~/Library/PreferencePanes";
+			dstSubfolderSpec = 0;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2404,6 +2432,7 @@
 				0A7F5FE80767C7B300E1C1E4 /* MusicVideo */,
 				DD4939CB084BACA700D1CCCB /* SMS */,
 				95E17B8F085E216A00990AB3 /* SVNRevision */,
+				9340E2E90C94D48000A1F682 /* SystemPreferencesTesting */,
 			);
 		};
 /* End PBXProject section */
@@ -2982,6 +3011,11 @@
 			target = 95075AAF0817F5DB00D862A5 /* GrowlMenu */;
 			targetProxy = 933532A1093643DA007C8B10 /* PBXContainerItemProxy */;
 		};
+		9340E2EB0C94D48300A1F682 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D202CE80486D31800D8A456 /* Growl */;
+			targetProxy = 9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */;
+		};
 		93BC37D6095A67340002B365 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 93BC378E095A662B0002B365 /* Nano */;
@@ -3416,6 +3450,28 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Growl.dylib;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		9340E3060C94D4B300A1F682 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = SystemPreferencesTesting;
+			};
+			name = Development;
+		};
+		9340E3070C94D4B300A1F682 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = SystemPreferencesTesting;
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
@@ -4204,6 +4260,15 @@
 			buildConfigurations = (
 				34725DCA0C0678C800499F50 /* Development */,
 				34725DCB0C0678C800499F50 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		9340E3050C94D4B300A1F682 /* Build configuration list for PBXAggregateTarget "SystemPreferencesTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9340E3060C94D4B300A1F682 /* Development */,
+				9340E3070C94D4B300A1F682 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
