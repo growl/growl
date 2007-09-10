@@ -18,6 +18,8 @@
 
 #include "GrowlLog.h"
 
+#define DEFAULT_TRANSITION_DURATION	0.75
+
 static NSMutableDictionary *existingInstances;
 
 @interface GrowlDisplayWindowController (PRIVATE)
@@ -81,8 +83,8 @@ static NSMutableDictionary *existingInstances;
 		bridge = nil;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
-		transitionDuration = 1.0;
-	
+		transitionDuration = DEFAULT_TRANSITION_DURATION;
+
 		//Respond to 'close all notifications' by closing
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(stopDisplay)
@@ -141,9 +143,9 @@ static NSMutableDictionary *existingInstances;
 	if (foundSpace) {
 		if (shouldStartDisplay) {
 			[self cancelDisplayDelayedPerforms];
-			
+
 			[self willDisplayNotification];
-			
+
 			[window orderFront:nil];
 			
 			if ([self startAllTransitions]) {
@@ -192,7 +194,7 @@ static NSMutableDictionary *existingInstances;
 		//If we're already transitioning out, just keep doing our thing
 		if (displayStatus != GrowlDisplayTransitioningOutStatus) {
 			[self cancelDisplayDelayedPerforms];
-			
+
 			[self willTakeDownNotification];
 			if ([self startAllTransitions]) {
 				[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
@@ -414,8 +416,8 @@ static NSMutableDictionary *existingInstances;
 		return NO;
 
 	// Work out the start and the end times...
-	CFTimeInterval startTime = startPercentage * (transitionDuration * 0.01);
-	CFTimeInterval endTime = endPercentage * (transitionDuration * 0.01);
+	CFTimeInterval startTime = (float)startPercentage * ((float)transitionDuration * 0.01);
+	CFTimeInterval endTime = (float)endPercentage * ((float)transitionDuration * 0.01);
 
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
@@ -463,8 +465,6 @@ static NSMutableDictionary *existingInstances;
 		//A fade out nonrepeating animation finished. We don't need to wait on our timeout; we know we finished displaying a notification.
 		[self didFinishTransitionsAfterDisplay];
 	}
-
-	[animation animationDidEnd:animation];
 }
 
 - (void) reverseAllTransitions
