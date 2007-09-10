@@ -27,32 +27,6 @@
 		65942E120711D4310089E4F1 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AABA78056AB2A5006CE269 /* Automator.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		014CEA420018CDE011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		014CEA430018CDE011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_OSAFLAGS = "-x";
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -167,25 +141,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_OSAFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Show Growl Notification";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = action;
-			};
 			dependencies = (
 			);
 			name = GrowlAction;
@@ -200,15 +155,11 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA420018CDE011CA2923 /* Development */,
-				014CEA430018CDE011CA2923 /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				65942E070711D4310089E4F1 /* GrowlAction */,
 			);
@@ -307,29 +258,6 @@
 			};
 			name = Deployment;
 		};
-		95EE279D0855AA6E0045DB39 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_OSAFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Show Growl Notification";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = action;
-			};
-			name = Default;
-		};
 		95EE279F0855AA6E0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -342,12 +270,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27A10855AA6E0045DB39 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Default;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -356,20 +278,18 @@
 			buildConfigurations = (
 				95EE279B0855AA6E0045DB39 /* Development */,
 				95EE279C0855AA6E0045DB39 /* Deployment */,
-				95EE279D0855AA6E0045DB39 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE279F0855AA6E0045DB39 /* Development */,
 				95EE27A00855AA6E0045DB39 /* Deployment */,
-				95EE27A10855AA6E0045DB39 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
