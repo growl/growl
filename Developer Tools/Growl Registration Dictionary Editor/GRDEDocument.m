@@ -28,9 +28,6 @@
 - (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet;
 - (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet;
 
-- (void)delayedRevertValueForKeyPath:(NSDictionary *)dict;
-- (void)scheduleReversionOfValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change;
-
 @end
 
 @implementation GRDEDocument
@@ -40,6 +37,8 @@
 		notifications     = [[NSMutableArray alloc] init];
 		notificationNames = [[NSMutableSet   alloc] init];
 		plistFormat = NSPropertyListBinaryFormat_v1_0;
+
+		selectionChangeAllowed = YES;
 	}
 	return self;
 }
@@ -538,19 +537,25 @@
 
 	if (![old length]) {
 		//Adding a value.
-		if ([notificationNames containsObject:new]) 
-			[self scheduleReversionOfValueForKeyPath:keyPath ofObject:obj change:change];
-		else if ([new length])
+		//If we already have a notification by this name, GRDENotification's implementation of KVV will refuse the value, and we'll return NO from -selectionShouldChangeInTableView: to make sure that edit focus remains on this row.
+		if ([new length] && ![notificationNames containsObject:new]) {
 			[notificationNames addObject:new];
+			selectionChangeAllowed = YES;
+		} else {
+			selectionChangeAllowed = NO;
+		}
 	} else if (![new length]) {
 		//Removing a value.
 		[notificationNames removeObject:old];
 	} else if (![old isEqualToString:new]) {
 		//Changing a value.
-		if ([notificationNames containsObject:new])
-			[self scheduleReversionOfValueForKeyPath:keyPath ofObject:obj change:change];
-		else {
+
+		//If we already have a notification by this name, GRDENotification's implementation of KVV will refuse the value, and we'll return NO from -selectionShouldChangeInTableView: to make sure that edit focus remains on this row.
+		if (![notificationNames containsObject:new]) {
 			[notificationNames addObject:new];
+			selectionChangeAllowed = YES;
+		} else {
+			selectionChangeAllowed = NO;
 		}
 	}
 }
@@ -619,22 +624,15 @@
 	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 }
 
-- (void)delayedRevertValueForKeyPath:(NSDictionary *)dict {
-	NSObject *obj = [dict objectForKey:@"GRDEObject"];
-	NSString *keyPath = [dict objectForKey:@"GRDEKeyPath"];
-	NSObject *oldValue = [dict objectForKey:NSKeyValueChangeOldKey];
-	if (!oldValue)
-		oldValue = nil;
-	[obj setValue:oldValue forKeyPath:keyPath];
-}
-- (void)scheduleReversionOfValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change {
-	NSMutableDictionary *dict = [change mutableCopy];
-	[dict setObject:obj     forKey:@"GRDEObject"];
-	[dict setObject:keyPath forKey:@"GRDEKeyPath"];
-	[self performSelector:@selector(delayedRevertValueForKeyPath:)
-			   withObject:dict
-			   afterDelay:0.01];
-	[dict release];
+#pragma mark NSTableView delegate conformance
+
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView {
+	//Make sure this is the right table view. Other table views asking us about their selection means a bug is afoot.
+	NSParameterAssert(aTableView == tableView);
+
+	BOOL returnValue = selectionChangeAllowed;
+	selectionChangeAllowed = YES;
+	return returnValue;
 }
 
 @end

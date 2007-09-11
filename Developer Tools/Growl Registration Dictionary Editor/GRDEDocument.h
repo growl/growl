@@ -23,6 +23,8 @@
 	NSPropertyListFormat plistFormat;
 
 	BOOL wasReadFromGrowlTicket;
+	//This is set to NO when the user tries to change a notification's name to one already possessed by another notification in the same document. When that happens, the table view delegate method -selectionShouldChange: sets it back to YES before returning NO.
+	BOOL selectionChangeAllowed;
 }
 
 #pragma mark Actions

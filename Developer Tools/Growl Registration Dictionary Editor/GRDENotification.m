@@ -70,6 +70,14 @@
 	document = [newDocument retain];
 }
 
+- (BOOL)validateName:(NSString **)ioName error:(out NSError *)outError {
+	NSArray *notifications = [document notifications];
+	if ([notifications containsObject:*ioName]) {
+		return NO;
+	}
+
+	return YES;
+}
 - (NSString *)name {
 	return name;
 }
