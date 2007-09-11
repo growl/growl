@@ -9,7 +9,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>plist</string>
+				<string>growlRegDict</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
@@ -45,12 +45,12 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>growlRegDict</string>
+				<string>plist</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>GrowlApplicationBridge temporary registration dictionary file</string>
+			<string>Property list</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array/>
 			<key>CFBundleTypeRole</key>

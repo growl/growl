@@ -18,7 +18,7 @@
 #define DRAG_INDICES_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notificationIndices"
 
 #define NATIVE_DOCUMENT_TYPE @"Growl auto-registration property list"
-#define NATIVE_DOCUMENT_EXTENSION @"plist"
+#define NATIVE_DOCUMENT_EXTENSION GROWL_REG_DICT_EXTENSION
 #define GROWL_TICKET_TYPE @"Growl saved ticket"
 
 //Methods used as a callback to perform or revert undo.
@@ -70,7 +70,7 @@
 			[textField setDrawsBackground:NO];
 			[textField setBezeled:NO];
 
-			[textField setStringValue:NSLocalizedString(@"Note: You must name your file \"Growl Registration Ticket.plist\" for Growl to notice it on launch.  You can do this automatically with a shell script phase in Xcode.", /*comment*/ nil)];
+			[textField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Note: You must name your file \"Growl Registration Ticket.%@\" for Growl to notice it on launch.  You can do this automatically with a shell script phase in Xcode.", /*comment*/ nil), NATIVE_DOCUMENT_EXTENSION]];
 			[savePanel setAccessoryView:textField];
 			[textField release];
 		}
