@@ -282,7 +282,7 @@ id STRING			= nil;
 - (NSAppleEventDescriptor *)sendWithImmediateReply
 {
 	AppleEvent reply;
-	OSStatus err = AESendMessage([self aeDesc], &reply, kAEWaitReply, kAEDefaultTimeout);
+	OSStatus err = AESendMessage([self aeDesc], &reply, kAEWaitReply, 300);
 	NSAppleEventDescriptor *replyDescriptor = nil;
 	
 	if(err == noErr)
@@ -292,5 +292,21 @@ id STRING			= nil;
 	
 	return replyDescriptor;
 }
+
+- (NSAppleEventDescriptor *)sendWithImmediateReplyWithTimeout:(NSTimeInterval)timeoutInSeconds
+{
+	AppleEvent reply;
+	OSStatus err = AESendMessage([self aeDesc], &reply, kAEWaitReply, (timeoutInSeconds * 60.0));
+	NSAppleEventDescriptor *replyDescriptor = nil;
+	
+	if(err == noErr)
+	{
+		replyDescriptor = [[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&reply] autorelease];
+	}
+	
+	return replyDescriptor;
+}
+
+
 
 @end

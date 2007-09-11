@@ -74,5 +74,6 @@ extern id <AEStringBuilding> STRING;
 @interface NSAppleEventDescriptor (AEVTConvenienceMethods)
 
 - (NSAppleEventDescriptor *)sendWithImmediateReply;
+- (NSAppleEventDescriptor *)sendWithImmediateReplyWithTimeout:(NSTimeInterval)timeoutInSeconds;
 
 @end
