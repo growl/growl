@@ -456,7 +456,7 @@
 		179B92770C14D0C3004FB187 /* Growl.dylib.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
-			path = Growl.dylib.dylib;
+			path = Growl.dylib;
 			remoteRef = 179B92760C14D0C3004FB187 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

@@ -612,14 +612,21 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	 NotifierPowerOnUPSHumanReadableDescription, NotifierPowerOnUPSNotification,				
 	 nil];
 
-	NSArray *notifications = [notificationsWithDescriptions allKeys];
-
+	NSArray *allNotifications = [notificationsWithDescriptions allKeys];
+	
+	//Don't turn the sync notiifications on by default; they're noisy and not all that interesting.
+	NSMutableArray *defaultNotifications = [allNotifications mutableCopy];
+	[defaultNotifications removeObject:NotifierSyncStartedNotification];
+	[defaultNotifications removeObject:NotifierSyncFinishedNotification];
+	
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 							 @"HardwareGrowler", GROWL_APP_NAME,
-							 notifications, GROWL_NOTIFICATIONS_ALL,
-							 notifications,	GROWL_NOTIFICATIONS_DEFAULT,
+							 allNotifications, GROWL_NOTIFICATIONS_ALL,
+							 defaultNotifications,	GROWL_NOTIFICATIONS_DEFAULT,
 							 notificationsWithDescriptions,	GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 							 nil];
+
+	[defaultNotifications release];
 
 	return regDict;
 }
