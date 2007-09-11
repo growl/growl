@@ -117,7 +117,7 @@ typedef enum {
 - (GrowlNotificationDisplayBridge *)bridge;
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
-/* Subclasses should call this *after* calling -[super initWithWindw:] to set the overall transition duration ... could offer a user perf as well */
+/* Subclasses should call this *after* calling -[super initWithWindw:] to set the overall transition duration ... could offer a user pref as well */
 - (CFTimeInterval) transitionDuration;
 - (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration;
 
