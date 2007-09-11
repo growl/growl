@@ -131,12 +131,14 @@
 	CGSWindowID wid;
 
 	wid = [self windowNumber];
-	cid = _CGSDefaultConnection();
-	int tags[2] = { 0, 0 };
-
-	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
-		tags[0] = flag ? (tags[0] | 0x00000800) : (tags[0] & ~0x00000800);
-		CGSSetWindowTags(cid, wid, tags, 32);
+	if (wid > 0) {
+		cid = _CGSDefaultConnection();
+		int tags[2] = { 0, 0 };
+		
+		if (!CGSGetWindowTags(cid, wid, tags, 32)) {
+			tags[0] = flag ? (tags[0] | 0x00000800) : (tags[0] & ~0x00000800);
+			CGSSetWindowTags(cid, wid, tags, 32);
+		}
 	}
 }
 
