@@ -29,7 +29,7 @@ int main (int argc, const char * argv[]) {
 
 	NSAppleEventDescriptor *descriptor;
 	/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
-	descriptor = [AEVT class:'aevt' id:'quit'
+	descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
 					  target:[[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"],
 				  ENDRECORD];
 	[descriptor sendWithImmediateReply];	
