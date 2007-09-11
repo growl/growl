@@ -332,7 +332,9 @@
 	}
 
 	if(!dictionaryRepresentation)
-		dictionaryRepresentation = [[NSMutableDictionary alloc] initWithCapacity:6U];
+		dictionaryRepresentation = [[NSMutableDictionary alloc] initWithCapacity:7U];
+
+	[dictionaryRepresentation setObject:[NSNumber numberWithUnsignedInt:1U] forKey:GROWL_TICKET_VERSION];
 
 	if(applicationName && [applicationName length])
 		[dictionaryRepresentation setObject:applicationName  forKey:GROWL_APP_NAME];
