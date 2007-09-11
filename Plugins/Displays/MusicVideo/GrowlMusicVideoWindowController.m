@@ -21,6 +21,10 @@
 - (id) init {
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 
+	screenNumber = 0U;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+	
 	NSRect sizeRect;
 	NSRect screen = [[self screen] frame];
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
@@ -59,7 +63,7 @@
 	[panel setContentView:view]; // retains subview
 	[view release];
 
-	[panel setFrameTopLeftPoint:NSMakePoint( 0,0)];
+	[panel setFrameTopLeftPoint:screen.origin];
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
@@ -71,11 +75,7 @@
 		
 		//The default duration for transitions is far too long for the music video effect.
 		[self setTransitionDuration:0.3];
-		
-		screenNumber = 0U;
-		READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);
-		[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-		
+
 		MusicVideoEffectType effect = MUSICVIDEO_EFFECT_SLIDE;
 		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
 		switch (effect)
@@ -84,7 +84,7 @@
 			{
 				//slider effect
 				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-				[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
+				[slider setFromOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen)-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
 				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
 				[slider setAutoReverses:YES];
 				[self addTransition:slider];
