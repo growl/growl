@@ -347,10 +347,12 @@
 		[dictionaryRepresentation setObject:enabledNotificationNames
 									 forKey:GROWL_NOTIFICATIONS_DEFAULT];
 	}
+	//If the dictionary of human-readable notification names is non-empty, put it in. Conversely, if it is empty, just leave it out.
 	if (humanReadableNotificationNames && [humanReadableNotificationNames count]) {
 		[dictionaryRepresentation setObject:humanReadableNotificationNames
 									 forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	}
+	//If the dictionary of human-readable notification descriptions is non-empty, put it in. Conversely, if it is empty, just leave it out.
 	if (notificationDescriptions && [notificationDescriptions count]) {
 		[dictionaryRepresentation setObject:notificationDescriptions
 									 forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
