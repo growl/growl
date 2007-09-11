@@ -377,7 +377,7 @@
 				9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */,
 				9533C2A0085C3ED6009F8046 /* GrowlMenu.app */,
 				9533C2A2085C3ED6009F8046 /* Growl.framework */,
-				179B92770C14D0C3004FB187 /* Growl.dylib.dylib */,
+				179B92770C14D0C3004FB187 /* Growl.dylib */,
 				9533C2A4085C3ED6009F8046 /* Growl-WithInstaller.framework */,
 				9533C2A6085C3ED6009F8046 /* Speech.growlView */,
 				9533C2A8085C3ED6009F8046 /* Brushed.growlView */,
@@ -453,7 +453,7 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		179B92770C14D0C3004FB187 /* Growl.dylib.dylib */ = {
+		179B92770C14D0C3004FB187 /* Growl.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = Growl.dylib;
