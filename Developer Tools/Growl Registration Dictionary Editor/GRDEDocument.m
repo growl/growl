@@ -338,10 +338,18 @@
 		[dictionaryRepresentation setObject:applicationName  forKey:GROWL_APP_NAME];
 	if(bundleIdentifier && [bundleIdentifier length])
 		[dictionaryRepresentation setObject:bundleIdentifier forKey:GROWL_APP_ID];
-	[dictionaryRepresentation setObject:allNotificationNames           forKey:GROWL_NOTIFICATIONS_ALL];
-	[dictionaryRepresentation setObject:enabledNotificationNames       forKey:GROWL_NOTIFICATIONS_DEFAULT];
-	[dictionaryRepresentation setObject:humanReadableNotificationNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
-	[dictionaryRepresentation setObject:notificationDescriptions       forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+	[dictionaryRepresentation setObject:allNotificationNames
+								 forKey:GROWL_NOTIFICATIONS_ALL];
+	[dictionaryRepresentation setObject:enabledNotificationNames
+								 forKey:GROWL_NOTIFICATIONS_DEFAULT];
+	if (humanReadableNotificationNames && [humanReadableNotificationNames count]) {
+		[dictionaryRepresentation setObject:humanReadableNotificationNames
+									 forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	}
+	if (notificationDescriptions && [notificationDescriptions count]) {
+		[dictionaryRepresentation setObject:notificationDescriptions
+									 forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+	}
 
 	NSString *errorString = nil;
 	NSData *data = [NSPropertyListSerialization dataFromPropertyList:dictionaryRepresentation
