@@ -2,7 +2,7 @@
 " (%d unread)" = " (%d ongelezen)";
 
 /* No comment provided by engineer. */
-"%@ decompression started" = "%@ decompressie begonnen";
+"%@ decompression started" = "%@ decomprimeren begonnen";
 
 /* Message shown when a download is complete, where %@ becomes the filename */
 "%@ download complete" = "%@ download voltooid";
@@ -14,7 +14,7 @@
 "%d new entry" = "%d nieuw onderwerp";
 
 /* No comment provided by engineer. */
-"Compression Status" = "Compressiestatus";
+"Compression Status" = "Status compressie";
 
 /* No comment provided by engineer. */
 "Copying application from %@" = "Kopieert programma van %@";
