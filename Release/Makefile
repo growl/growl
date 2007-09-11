@@ -204,10 +204,8 @@ release:
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 	
-	@# optimize nib files, making them uneditable, for releases only
-ifeq ($(BETA),FALSE)
-	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib \) -type f -delete
-endif
+	@# remove any info.nib files from nib files; they aren't needed
+	find $(BUILD_DIR) \( -name info.nib \) -type f -delete
 
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
