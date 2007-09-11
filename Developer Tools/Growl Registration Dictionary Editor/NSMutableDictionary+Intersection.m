@@ -12,8 +12,8 @@
 - (void)intersectWithSetOfKeys:(NSSet *)keys {
 	NSEnumerator *keyEnumerator = [self keyEnumerator];
 	NSString *key;
-	while((key = [keyEnumerator nextObject])) {
-		if(![keys containsObject:key])
+	while ((key = [keyEnumerator nextObject])) {
+		if (![keys containsObject:key])
 			[self removeObjectForKey:key];
 	}
 }

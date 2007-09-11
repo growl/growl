@@ -36,7 +36,7 @@
 @implementation GRDEDocument
 
 - init {
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		notifications     = [[NSMutableArray alloc] init];
 		notificationNames = [[NSMutableSet   alloc] init];
 		plistFormat = NSPropertyListBinaryFormat_v1_0;
@@ -55,8 +55,8 @@
 
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
 	BOOL success = [super prepareSavePanel:savePanel];
-	if(success) {
-		if(![savePanel accessoryView]) {
+	if (success) {
+		if (![savePanel accessoryView]) {
 			//Messages don't wrap unless you use explicit newlines. This is the next best thing.
 			NSTextField *textField = [[NSTextField alloc] initWithFrame:(NSRect){ { 20.0f, 100.0f }, { 384.0f, 42.0f } }];
 			[textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -84,13 +84,13 @@
 	[arrayController commitEditing];
 
 	unsigned idx = [arrayController selectionIndex];
-	if(idx == NSNotFound)
+	if (idx == NSNotFound)
 		idx = 0U;
 	else
 		++idx;
 
 	id obj = [[[arrayController objectClass] alloc] init];
-	if([obj respondsToSelector:@selector(setDocument:)])
+	if ([obj respondsToSelector:@selector(setDocument:)])
 		[obj setDocument:self];
 	[arrayController insertObject:obj atArrangedObjectIndex:idx];
 	[obj release];
@@ -136,10 +136,10 @@
 
 	NSEnumerator *newValueEnum = [*newValue objectEnumerator];
 	GRDENotification *notification;
-	while((notification = [newValueEnum nextObject])) {
+	while ((notification = [newValueEnum nextObject])) {
 		NSString *name = [notification name];
 		[set addObject:name];
-		if([set countForObject:name] > 1U) {
+		if ([set countForObject:name] > 1U) {
 			//XXX Set *outError
 			return NO;
 		}
@@ -168,7 +168,7 @@
 }
 
 - (void)replaceObjectInNotificationsAtIndex:(unsigned)idx withObject:(GRDENotification *)notification {
-	if([notificationNames containsObject:[notification name]]) {
+	if ([notificationNames containsObject:[notification name]]) {
 		NSLog(@"Can't replace notification %u with %@", idx, notification);
 		NSBeep(); //Assume that we got here by user interaction.
 
@@ -180,7 +180,7 @@
 		[oldNotification removeObserver:self forKeyPath:@"name"];
 		NSString *oldName = [oldNotification name];
 		NSString *newName = [notification name];
-		if(![oldName isEqualToString:newName]) {
+		if (![oldName isEqualToString:newName]) {
 			[notificationNames removeObject:oldName];
 			[notificationNames addObject:newName];
 		}
@@ -197,7 +197,7 @@
 	}
 }
 - (void)insertObject:(GRDENotification *)notification inNotificationsAtIndex:(unsigned)idx {
-	if([notificationNames containsObject:[notification name]]) {
+	if ([notificationNames containsObject:[notification name]]) {
 		//We already have one of these. Pass.
 
 		NSBeep(); //Assume that we got here by user interaction.
@@ -222,7 +222,7 @@
 				  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
 				  context:NULL];
 		NSString *newName = [notification name];
-		if([newName length])
+		if ([newName length])
 			[notificationNames addObject:newName];
 	}
 }
@@ -249,19 +249,19 @@
 	//Get the name and bundle ID, but only keep them if they are non-empty.
 	[self willChangeValueForKey:@"applicationName"];
 	applicationName  = [[dictionaryRepresentation objectForKey:GROWL_APP_NAME] copy];
-	if(applicationName && ![applicationName length])
+	if (applicationName && ![applicationName length])
 		[applicationName release];
 	[self  didChangeValueForKey:@"applicationName"];
 	[self willChangeValueForKey:@"bundleIdentifier"];
 	bundleIdentifier = [[dictionaryRepresentation objectForKey:GROWL_APP_ID] copy];
-	if(bundleIdentifier && ![bundleIdentifier length])
+	if (bundleIdentifier && ![bundleIdentifier length])
 		[bundleIdentifier release];
 	[self  didChangeValueForKey:@"bundleIdentifier"];
 
 	[self willChangeValueForKey:@"notifications"];
 	[notifications removeAllObjects];
 
-	if(!wasReadFromGrowlTicket) {
+	if (!wasReadFromGrowlTicket) {
 		//Reading a .plist or .growlRegDict.
 		NSArray *allNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
 		NSSet *enabledNotificationNames = [NSSet setWithArray:[dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
@@ -270,7 +270,7 @@
 
 		NSEnumerator *namesEnum = [allNotificationNames objectEnumerator];
 		NSString *name;
-		while((name = [namesEnum nextObject])) {
+		while ((name = [namesEnum nextObject])) {
 			GRDENotification *notification = [[GRDENotification alloc] init];
 			[notification setName:name];
 			[notification setEnabled:[enabledNotificationNames containsObject:name]];
@@ -288,7 +288,7 @@
 		NSArray *dictionaries = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
 		NSEnumerator *dictEnum = [dictionaries objectEnumerator];
 		NSDictionary *dict;
-		while((dict = [dictEnum nextObject])) {
+		while ((dict = [dictEnum nextObject])) {
 			GRDENotification *notification = [[GRDENotification alloc] init];
 
 			[notification setName:[dict objectForKey:@"Name"]];
@@ -316,29 +316,29 @@
 
 	NSEnumerator *dictsEnum = [dicts objectEnumerator];
 	GRDENotification *notification;
-	while((notification = [dictsEnum nextObject])) {
+	while ((notification = [dictsEnum nextObject])) {
 #warning XXX need consistency checks
 		NSString *name = [notification name];
 		[allNotificationNames addObject:name];
-		if([notification isEnabled])
+		if ([notification isEnabled])
 			[enabledNotificationNames addObject:name];
 
 		NSString *hrName = [notification humanReadableName];
-		if(hrName)
+		if (hrName)
 			[humanReadableNotificationNames setObject:hrName forKey:name];
 		NSString *desc = [notification humanReadableDescription];
-		if(desc)
+		if (desc)
 			[notificationDescriptions setObject:desc forKey:name];
 	}
 
-	if(!dictionaryRepresentation)
+	if (!dictionaryRepresentation)
 		dictionaryRepresentation = [[NSMutableDictionary alloc] initWithCapacity:7U];
 
 	[dictionaryRepresentation setObject:[NSNumber numberWithUnsignedInt:1U] forKey:GROWL_TICKET_VERSION];
 
-	if(applicationName && [applicationName length])
+	if (applicationName && [applicationName length])
 		[dictionaryRepresentation setObject:applicationName  forKey:GROWL_APP_NAME];
-	if(bundleIdentifier && [bundleIdentifier length])
+	if (bundleIdentifier && [bundleIdentifier length])
 		[dictionaryRepresentation setObject:bundleIdentifier forKey:GROWL_APP_ID];
 	[dictionaryRepresentation setObject:allNotificationNames
 								 forKey:GROWL_NOTIFICATIONS_ALL];
@@ -360,8 +360,8 @@
 	NSData *data = [NSPropertyListSerialization dataFromPropertyList:dictionaryRepresentation
 															  format:plistFormat
 													errorDescription:&errorString];
-	if(errorString) {
-		if(outError)
+	if (errorString) {
+		if (outError)
 			*outError = [NSError errorWithDomain:@"NSPropertyListSerialization" code:2 userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedFailureReasonErrorKey]];
 		NSLog(@"Could not write dictionary:\n%@", dictionaryRepresentation);
 	}
@@ -375,17 +375,17 @@
 														  mutabilityOption:NSPropertyListImmutable
 																	format:&plistFormat
 														  errorDescription:&errorString];
-	if(errorString) {
-		if(outError)
+	if (errorString) {
+		if (outError)
 			*outError = [NSError errorWithDomain:@"NSPropertyListSerialization" code:1 userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedFailureReasonErrorKey]];
 	}
-	if(dict) {
-		if(!dictionaryRepresentation)
+	if (dict) {
+		if (!dictionaryRepresentation)
 			dictionaryRepresentation = [dict mutableCopy];
 		else
 			[dictionaryRepresentation setDictionary:dict];
 
-		if([typeName isEqualToString:NATIVE_DOCUMENT_TYPE])
+		if ([typeName isEqualToString:NATIVE_DOCUMENT_TYPE])
 			wasReadFromGrowlTicket = NO;
 		else {
 			NSSet *ourKeys = [NSSet setWithObjects:
@@ -402,7 +402,7 @@
 			[self updateChangeCount:NSChangeDone];
 
 			NSString *path = [self fileName];
-			if(path)
+			if (path)
 				[self setFileName:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:NATIVE_DOCUMENT_EXTENSION]];
 
 			wasReadFromGrowlTicket = [typeName isEqualToString:GROWL_TICKET_TYPE];
@@ -420,16 +420,16 @@
 	NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
 	NSEnumerator *indicesEnum = [indicesArray objectEnumerator];
 	NSNumber *indexNum;
-	while((indexNum = [indicesEnum nextObject]))
+	while ((indexNum = [indicesEnum nextObject]))
 		[indexSet addIndex:[indexNum unsignedIntValue]];
 
 	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 
 	//We have to do this to compute the delta.
 	indicesEnum = [indicesArray objectEnumerator];
-	while((indexNum = [indicesEnum nextObject])) {
+	while ((indexNum = [indicesEnum nextObject])) {
 		unsigned i = [indexNum unsignedIntValue];
-		if(i < row)
+		if (i < row)
 			++delta;
 
 		[notifications removeObjectAtIndex:i];
@@ -443,16 +443,16 @@
 	NSPasteboard *pboard = [info draggingPasteboard];
 	
 	NSArray *draggedNotifications = [pboard propertyListForType:DRAG_TYPE];
-	if(!draggedNotifications) return NSDragOperationNone;
+	if (!draggedNotifications) return NSDragOperationNone;
 
 	BOOL isMove = ([tableView window] == [[info draggingSource] window]);
 
-	if(!isMove) {
+	if (!isMove) {
 		//Copying from one document to another.
 		NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
 		NSDictionary *dict;
-		while((dict = [notificationsEnum nextObject])) {
-			if([notificationNames containsObject:[GRDENotification notificationNameFromDictionaryRepresentation:dict]]) {
+		while ((dict = [notificationsEnum nextObject])) {
+			if ([notificationNames containsObject:[GRDENotification notificationNameFromDictionaryRepresentation:dict]]) {
 				//Notification names must be unique. Fail the drag.
 				return NSDragOperationNone;
 			}
@@ -470,7 +470,7 @@
 	NSArray *draggedNotifications = [pboard propertyListForType:DRAG_TYPE];
 
 	BOOL isMove = ([tableView window] == [[info draggingSource] window]);
-	if(isMove) {
+	if (isMove) {
 		NSArray *indicesArray = [pboard propertyListForType:DRAG_INDICES_TYPE];
 
 		//If the user is dragging within the same document, this is a move, and we should remove the old ones and adjust the destination index accordingly.
@@ -483,7 +483,7 @@
 			nil];
 		[[self undoManager] registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:undoDict];
 	} else {
-		if(row < 0)
+		if (row < 0)
 			row = [notifications count];
 		NSUndoManager *undoManager = [self undoManager];
 		[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:[NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, [draggedNotifications count] }]];
@@ -494,7 +494,7 @@
 	NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, numNotifications }];
 	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 
-	for(unsigned srcIdx = 0U; srcIdx < numNotifications; ++srcIdx) {
+	for (unsigned srcIdx = 0U; srcIdx < numNotifications; ++srcIdx) {
 		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[draggedNotifications objectAtIndex:srcIdx]];
 
 		[notifications insertObject:notification atIndex:row++];
@@ -511,7 +511,7 @@
 	NSMutableArray *notificationsToCopy = [NSMutableArray arrayWithCapacity:numIndices];
 	NSMutableArray *indicesArray = [NSMutableArray arrayWithCapacity:numIndices];
 	
-	for(unsigned i = firstIdx; i != NSNotFound; i = [rowIndices indexGreaterThanIndex:i]) {
+	for (unsigned i = firstIdx; i != NSNotFound; i = [rowIndices indexGreaterThanIndex:i]) {
 		NSNumber *num = [[NSNumber alloc] initWithUnsignedInt:i];
 		[indicesArray addObject:num];
 		[num release];
@@ -530,22 +530,22 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change context:(void *)context {
 	NSNull *null = [NSNull null];
 	NSString *old = [change objectForKey:NSKeyValueChangeOldKey];
-	if(old == (NSString *)null) old = @"";
+	if (old == (NSString *)null) old = @"";
 	NSString *new = [change objectForKey:NSKeyValueChangeNewKey];
-	if(new == (NSString *)null) new = @"";
+	if (new == (NSString *)null) new = @"";
 
-	if(![old length]) {
+	if (![old length]) {
 		//Adding a value.
-		if([notificationNames containsObject:new]) 
+		if ([notificationNames containsObject:new]) 
 			[self scheduleReversionOfValueForKeyPath:keyPath ofObject:obj change:change];
-		else if([new length])
+		else if ([new length])
 			[notificationNames addObject:new];
-	} else if(![new length]) {
+	} else if (![new length]) {
 		//Removing a value.
 		[notificationNames removeObject:old];
-	} else if(![old isEqualToString:new]) {
+	} else if (![old isEqualToString:new]) {
 		//Changing a value.
-		if([notificationNames containsObject:new])
+		if ([notificationNames containsObject:new])
 			[self scheduleReversionOfValueForKeyPath:keyPath ofObject:obj change:change];
 		else {
 			[notificationNames addObject:new];
@@ -566,7 +566,7 @@
 	NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
 	GRDENotification *notification;
 	NSNumber *num;
-	while((notification = [notificationsEnum nextObject])) {
+	while ((notification = [notificationsEnum nextObject])) {
 		num = [[NSNumber alloc] initWithUnsignedInt:[notifications indexOfObject:notification]];
 		[indicesArrayForRedo addObject:num];
 		[num release];
@@ -579,7 +579,7 @@
 	[undoManager setActionName:NSLocalizedString(@"Relocate Notifications", /*comment*/ nil)];
 
 	notificationsEnum = [indicesArrayForRedo objectEnumerator];
-	while((num = [notificationsEnum nextObject])) {
+	while ((num = [notificationsEnum nextObject])) {
 		unsigned idx = [num unsignedIntValue];
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
 		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
@@ -588,7 +588,7 @@
 		[indexSet release];
 	}
 
-	for(unsigned i = 0U, count = [draggedNotifications count]; i < count; ++i) {
+	for (unsigned i = 0U, count = [draggedNotifications count]; i < count; ++i) {
 		unsigned idx = [[indicesArray objectAtIndex:i] unsignedIntValue];
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
 		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
@@ -621,7 +621,7 @@
 	NSObject *obj = [dict objectForKey:@"GRDEObject"];
 	NSString *keyPath = [dict objectForKey:@"GRDEKeyPath"];
 	NSObject *oldValue = [dict objectForKey:NSKeyValueChangeOldKey];
-	if(!oldValue)
+	if (!oldValue)
 		oldValue = nil;
 	[obj setValue:oldValue forKeyPath:keyPath];
 }

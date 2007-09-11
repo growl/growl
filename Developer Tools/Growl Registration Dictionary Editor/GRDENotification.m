@@ -21,7 +21,7 @@
 #pragma mark -
 
 - init {
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		enabled = YES;
 		name = [@"" retain];
 	}
@@ -37,7 +37,7 @@
 }
 
 - initWithDictionaryRepresentation:(NSDictionary *)dict {
-	if((self = [self init])) {
+	if ((self = [self init])) {
 		[self setName:[dict objectForKey:GRDE_NOTIFICATION_NAME_KEY]];
 		[self setEnabled:[[dict objectForKey:GRDE_NOTIFICATION_ENABLED_KEY] boolValue]];
 		[self setHumanReadableName:[dict objectForKey:GRDE_NOTIFICATION_HUMANREADABLENAME_KEY]];
@@ -49,9 +49,9 @@
 	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:4U];
 	[result setObject:name forKey:GRDE_NOTIFICATION_NAME_KEY];
 	[result setObject:[NSNumber numberWithBool:enabled] forKey:GRDE_NOTIFICATION_ENABLED_KEY];
-	if(humanReadableName)
+	if (humanReadableName)
 		[result setObject:humanReadableName forKey:GRDE_NOTIFICATION_HUMANREADABLENAME_KEY];
-	if(description)
+	if (description)
 		[result setObject:description forKey:GRDE_NOTIFICATION_DESCRIPTION_KEY];
 	return [[result copy] autorelease];
 }
@@ -74,7 +74,7 @@
 	return name;
 }
 - (void)setName:(NSString *)newName {
-	if(!newName) newName = @"";
+	if (!newName) newName = @"";
 
 	NSUndoManager *mgr = [document undoManager];
 	[mgr registerUndoWithTarget:self selector:@selector(setName:) object:name];
@@ -121,9 +121,9 @@
 
 - (NSString *)description {
 	NSMutableString *str = [NSMutableString stringWithFormat:@"<Notification %p, %@abled, with name %@", self, enabled ? @"en" : @"dis", name];
-	if(humanReadableName)
+	if (humanReadableName)
 		[str appendFormat:@", human-readable name %@", humanReadableName];
-	if(description)
+	if (description)
 		[str appendFormat:@", description %@", description];
 	[str appendString:@">"];
 	return [[str copy] autorelease];
