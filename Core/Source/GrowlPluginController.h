@@ -144,6 +144,12 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	//Used for triple-disambiguated names (e.g. 'Smoke (by Matthew Walton, filename Smoke.growlView)'). Multiple equal names become '...', '... 2', '... 3', etc.
 	NSCountedSet          *pluginHumanReadableNames;
 
+	/* A set of the identifiers of all loaded bundles to easily prevent loading the same bundle twice.
+	 * This might be duplicative with one of the dictionaries above.  I can't tell, but we need to avoid
+	 * duplication of bundle loading. -eds
+	 */
+	NSMutableSet	*loadedBundleIdentifiers;
+	
 	NSMutableSet *bundlesToLazilyInstantiateAnInstanceFrom;
 	//GrowlDisplayPlugin instances that have been added as display plugins.
 	//These two arrays are parallel.

@@ -100,6 +100,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		pluginsByType     = [[NSMutableDictionary alloc] init];
 		pluginHumanReadableNames = [[NSCountedSet alloc] init];
 
+		loadedBundleIdentifiers = [[NSMutableSet alloc] init];
+		
 		allPluginHandlers = [[NSMutableArray alloc] init];
 		pluginHandlers  = [[NSMutableDictionary alloc] init];
 		handlersForPlugins = [[GrowlNonCopyingMutableDictionary alloc] init];
@@ -124,17 +126,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		                                    builtInTypesCount,
 		                                    &callbacks);
 
-		//find plug-ins in Library/Application Support/Growl/Plugins directories.
+		//Find plugins inside GHA itself first
+		[self findPluginsInDirectory:[[GrowlPathUtilities helperAppBundle] builtInPlugInsPath]];
+		
+		/* Then find plug-ins in Library/Application Support/Growl/Plugins directories. This allows GHA to override externally installed plugins,
+		 * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
+		 */
 		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 		NSEnumerator *enumerator = [libraries objectEnumerator];
 		NSString *dir;
 		while ((dir = [enumerator nextObject])) {
 			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
 			[self findPluginsInDirectory:dir];
-		}
-
-		//and inside GHA itself.
-		[self findPluginsInDirectory:[[GrowlPathUtilities helperAppBundle] builtInPlugInsPath]];
+		}		
 	}
 
 	return self;
@@ -152,6 +156,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	[pluginsByFilename release];
 	[pluginsByType     release];
 	[pluginHumanReadableNames release];
+
+	[loadedBundleIdentifiers release];
 
 	[bundlesToLazilyInstantiateAnInstanceFrom release];
 	[displayPlugins release];
@@ -324,7 +330,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 //private method.
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
-	//First, look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
+	//If we're passed a bundle, refuse to load it if we've already loaded a bundle with the same identifier, instead returning early.
+	NSString *bundleIdentifier = (bundle ? [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey] : nil);
+	if (bundleIdentifier && [loadedBundleIdentifiers containsObject:[bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]]) {
+		return nil;
+	}
+	
+	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
 	NSString *identifier = nil;
 	if (plugin)
 		identifier = [pluginIdentifiersByInstance objectForKey:plugin];
@@ -333,7 +345,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	else if (path)
 		identifier = [pluginIdentifiersByPath     objectForKey:path];
 
-	//If we have an identifier, look up the plug-in dictionary. If we have a plug-in dictionary but no instance (the identifier was retrieved by bundle or by path), attempt to retrieve the instance from the dictionary.
+	/* If we have an identifier, look up the plug-in dictionary.
+	 * If we have a plug-in dictionary but no instance (the identifier was retrieved by bundle or by path), attempt to retrieve the instance from the dictionary.
+	 */
 	NSMutableDictionary *pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
 	if (pluginDict && !plugin)
 		plugin = [pluginDict pluginInstance];
@@ -508,6 +522,11 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		//Invalidate display plug-in cache.
 		[cache_displayPlugins release];
 		 cache_displayPlugins = nil;
+	}
+
+	//Store the bundle identifier so we know we've loaded it.
+	if (bundleIdentifier) {
+		[loadedBundleIdentifiers addObject:bundleIdentifier];
 	}
 
 	return pluginDict;
