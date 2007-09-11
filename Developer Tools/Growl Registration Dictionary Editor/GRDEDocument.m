@@ -340,8 +340,11 @@
 		[dictionaryRepresentation setObject:bundleIdentifier forKey:GROWL_APP_ID];
 	[dictionaryRepresentation setObject:allNotificationNames
 								 forKey:GROWL_NOTIFICATIONS_ALL];
-	[dictionaryRepresentation setObject:enabledNotificationNames
-								 forKey:GROWL_NOTIFICATIONS_DEFAULT];
+	//If all the notifications are enabled by default, don't bother listing them off. Omitting GROWL_NOTIFICATIONS_DEFAULT means that all notifications are enabled by default.
+	if (![enabledNotificationNames isEqualToArray:allNotificationNames]) {
+		[dictionaryRepresentation setObject:enabledNotificationNames
+									 forKey:GROWL_NOTIFICATIONS_DEFAULT];
+	}
 	if (humanReadableNotificationNames && [humanReadableNotificationNames count]) {
 		[dictionaryRepresentation setObject:humanReadableNotificationNames
 									 forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
