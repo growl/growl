@@ -479,7 +479,12 @@ enum {
 			if (!genre)			genre			= @"";
 			if (!composer)		composer		= @"";
 			if (!artist)		artist			= composer;
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@ — %@\n%@ (Composed by %@)\n%@\n%@", "This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre"), length, ratingString, artist, composer, album, genre];
+			
+			if ([composer length]) {
+				displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@ — %@\n%@ (Composed by %@)\n%@\n%@", "This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre"), length, ratingString, artist, composer, album, genre];
+			} else {
+				displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@ — %@\n%@\n%@\n%@", "This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, album, and genre"), length, ratingString, artist, album, genre];
+			}
 		}
 
 		[noteDict release];
