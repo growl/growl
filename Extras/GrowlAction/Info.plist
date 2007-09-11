@@ -61,11 +61,11 @@
 			<key>Display Name</key>
 			<string></string>
 			<key>Resource</key>
-			<string>/Library/PreferencePanes/Growl.prefPane</string>
+			<string>com.Growl.GrowlHelperApp</string>
 			<key>Type</key>
-			<string>file</string>
+			<string>application</string>
 			<key>Version</key>
-			<string>0.6</string>
+			<string>1.1</string>
 		</dict>
 	</array>
 	<key>AMWarning</key>
