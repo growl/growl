@@ -15,8 +15,7 @@
 {
 	NSString *applicationName, *bundleIdentifier;
 	NSMutableArray *notifications;
-	//Keys: Notification names. Values: GRDENotifications. Used for making sure that a name hasn't been used already.
-	NSMutableDictionary *notificationsByName;
+	NSMutableSet *notificationNames;
 	IBOutlet NSArrayController *arrayController; //Bound to notifications
 	IBOutlet NSTableView *tableView; //Fed by arrayController
 
@@ -49,5 +48,7 @@
 - (void)replaceObjectInNotificationsAtIndex:(unsigned)idx withObject:(GRDENotification *)dict;
 - (void)insertObject:(GRDENotification *)dict inNotificationsAtIndex:(unsigned)idx;
 - (void)removeObjectFromNotificationsAtIndex:(unsigned)idx;
+
+- (NSSet *) notificationNames;
 
 @end
