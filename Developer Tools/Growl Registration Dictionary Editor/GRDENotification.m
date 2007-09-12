@@ -72,6 +72,14 @@
 
 - (BOOL)validateName:(NSString **)ioName error:(out NSError **)outError {
 	if ([[document notificationNames] containsObject:*ioName]) {
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSString stringWithFormat:NSLocalizedString(@"The name \"%@\" is already in use by another notification.", /*comment*/ @"KVV validation-failure error text"), *ioName], NSLocalizedDescriptionKey,
+			NSLocalizedString(@"Notification names must be unique; you cannot use the same name for multiple notifications. Please assign a different name.", /*comment*/ @"KVV validation-failure error text"), NSLocalizedRecoverySuggestionErrorKey,
+			nil];
+		NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain
+											 code:NSKeyValueValidationError
+										 userInfo:userInfo];
+		*outError = error;
 		return NO;
 	}
 
