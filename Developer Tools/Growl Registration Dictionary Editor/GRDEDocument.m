@@ -34,7 +34,7 @@
 
 - init {
 	if ((self = [super init])) {
-		notifications     = [[NSMutableArray      alloc] init];
+		notifications       = [[NSMutableArray      alloc] init];
 		notificationsByName = [[NSMutableDictionary alloc] init];
 		plistFormat = NSPropertyListBinaryFormat_v1_0;
 
