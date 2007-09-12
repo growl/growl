@@ -46,7 +46,7 @@
 	[applicationName release];
 	[bundleIdentifier release];
 	[notifications release];
-	[notificationsByName        release];
+	[notificationsByName release];
 	[dictionaryRepresentation release];
 
 	[super dealloc];
