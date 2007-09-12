@@ -71,8 +71,7 @@
 }
 
 - (BOOL)validateName:(NSString **)ioName error:(out NSError **)outError {
-	NSArray *notifications = [document notifications];
-	if ([notifications containsObject:*ioName]) {
+	if ([[document notificationNames] containsObject:*ioName]) {
 		return NO;
 	}
 
