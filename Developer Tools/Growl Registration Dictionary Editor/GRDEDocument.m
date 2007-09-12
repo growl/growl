@@ -297,7 +297,8 @@
 			[notification setHumanReadableName:[dict objectForKey:@"HumanReadableName"]];
 			[notification setHumanReadableDescription:[dict objectForKey:@"NotificationDescription"]];
 
-			[notifications removeObject:notification];
+			[notifications addObject:notification];
+			[notificationsByName setObject:notification forKey:name];
 			[notification release];
 		}
 	}
