@@ -34,8 +34,8 @@
 
 - init {
 	if ((self = [super init])) {
-		notifications     = [[NSMutableArray alloc] init];
-		notificationNames = [[NSMutableSet   alloc] init];
+		notifications     = [[NSMutableArray      alloc] init];
+		notificationsByName = [[NSMutableDictionary alloc] init];
 		plistFormat = NSPropertyListBinaryFormat_v1_0;
 
 		selectionChangeAllowed = YES;
@@ -46,7 +46,7 @@
 	[applicationName release];
 	[bundleIdentifier release];
 	[notifications release];
-	[notificationNames        release];
+	[notificationsByName        release];
 	[dictionaryRepresentation release];
 
 	[super dealloc];
@@ -167,7 +167,7 @@
 }
 
 - (void)replaceObjectInNotificationsAtIndex:(unsigned)idx withObject:(GRDENotification *)notification {
-	if ([notificationNames containsObject:[notification name]]) {
+	if ([notificationsByName objectForKey:[notification name]]) {
 		NSLog(@"Can't replace notification %u with %@", idx, notification);
 		NSBeep(); //Assume that we got here by user interaction.
 
@@ -180,8 +180,8 @@
 		NSString *oldName = [oldNotification name];
 		NSString *newName = [notification name];
 		if (![oldName isEqualToString:newName]) {
-			[notificationNames removeObject:oldName];
-			[notificationNames addObject:newName];
+			[notificationsByName removeObjectForKey:oldName];
+			[notificationsByName setObject:notification forKey:newName];
 		}
 
 		NSUndoManager *mgr = [self undoManager];
@@ -196,7 +196,7 @@
 	}
 }
 - (void)insertObject:(GRDENotification *)notification inNotificationsAtIndex:(unsigned)idx {
-	if ([notificationNames containsObject:[notification name]]) {
+	if ([notificationsByName objectForKey:[notification name]]) {
 		//We already have one of these. Pass.
 
 		NSBeep(); //Assume that we got here by user interaction.
@@ -222,13 +222,13 @@
 				  context:NULL];
 		NSString *newName = [notification name];
 		if ([newName length])
-			[notificationNames addObject:newName];
+			[notificationsByName setObject:notification forKey:newName];
 	}
 }
 - (void)removeObjectFromNotificationsAtIndex:(unsigned)idx {
 	GRDENotification *oldNotification = [notifications objectAtIndex:idx];
 	[oldNotification removeObserver:self forKeyPath:@"name"];
-	[notificationNames removeObject:[oldNotification name]];
+	[notificationsByName removeObjectForKey:[oldNotification name]];
 
 	NSUndoManager *mgr = [self undoManager];
 	[[mgr prepareWithInvocationTarget:self] insertObject:oldNotification inNotificationsAtIndex:idx];
@@ -280,6 +280,7 @@
 			[notification setDocument:self];
 			
 			[notifications addObject:notification];
+			[notificationsByName setObject:notification forKey:name];
 			[notification release];
 		}
 	} else {
@@ -288,14 +289,15 @@
 		NSEnumerator *dictEnum = [dictionaries objectEnumerator];
 		NSDictionary *dict;
 		while ((dict = [dictEnum nextObject])) {
+			NSString *name = [dict objectForKey:@"Name"];
 			GRDENotification *notification = [[GRDENotification alloc] init];
 
-			[notification setName:[dict objectForKey:@"Name"]];
+			[notification setName:name];
 			[notification setEnabled:[[dict objectForKey:@"Enabled"] boolValue]];
 			[notification setHumanReadableName:[dict objectForKey:@"HumanReadableName"]];
 			[notification setHumanReadableDescription:[dict objectForKey:@"NotificationDescription"]];
 
-			[notifications addObject:notification];
+			[notifications removeObject:notification];
 			[notification release];
 		}
 	}
@@ -453,7 +455,8 @@
 		NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
 		NSDictionary *dict;
 		while ((dict = [notificationsEnum nextObject])) {
-			if ([notificationNames containsObject:[GRDENotification notificationNameFromDictionaryRepresentation:dict]]) {
+			//Do we have a notification by this name already?
+			if ([notificationsByName objectForKey:[GRDENotification notificationNameFromDictionaryRepresentation:dict]]) {
 				//Notification names must be unique. Fail the drag.
 				return NSDragOperationNone;
 			}
@@ -499,7 +502,7 @@
 		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[draggedNotifications objectAtIndex:srcIdx]];
 
 		[notifications insertObject:notification atIndex:row++];
-		[notificationNames addObject:[notification name]];
+		[notificationsByName setObject:notification forKey:[notification name]];
 
 		[notification release];
 	}
@@ -538,21 +541,22 @@
 	if (![old length]) {
 		//Adding a value.
 		//If we already have a notification by this name, GRDENotification's implementation of KVV will refuse the value, and we'll return NO from -selectionShouldChangeInTableView: to make sure that edit focus remains on this row.
-		if ([new length] && ![notificationNames containsObject:new]) {
-			[notificationNames addObject:new];
+		if ([new length] && ![notificationsByName objectForKey:new]) {
+//			[notificationsByName setObject:XXX forKey:new];
 			selectionChangeAllowed = YES;
 		} else {
 			selectionChangeAllowed = NO;
 		}
 	} else if (![new length]) {
 		//Removing a value.
-		[notificationNames removeObject:old];
+		[notificationsByName removeObjectForKey:old];
 	} else if (![old isEqualToString:new]) {
 		//Changing a value.
 
 		//If we already have a notification by this name, GRDENotification's implementation of KVV will refuse the value, and we'll return NO from -selectionShouldChangeInTableView: to make sure that edit focus remains on this row.
-		if (![notificationNames containsObject:new]) {
-			[notificationNames addObject:new];
+		if (![notificationsByName objectForKey:new]) {
+			[notificationsByName setObject:[notificationsByName objectForKey:old] forKey:new];
+			[notificationsByName removeObjectForKey:old];
 			selectionChangeAllowed = YES;
 		} else {
 			selectionChangeAllowed = NO;
