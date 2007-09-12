@@ -543,7 +543,8 @@
 		//Adding a value.
 		//If we already have a notification by this name, GRDENotification's implementation of KVV will refuse the value, and we'll return NO from -selectionShouldChangeInTableView: to make sure that edit focus remains on this row.
 		if ([new length] && ![notificationsByName objectForKey:new]) {
-//			[notificationsByName setObject:XXX forKey:new];
+			NSParameterAssert([obj isKindOfClass:[GRDENotification class]]);
+			[notificationsByName setObject:obj forKey:new];
 			selectionChangeAllowed = YES;
 		} else {
 			selectionChangeAllowed = NO;
