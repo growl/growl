@@ -49,6 +49,6 @@
 - (void)insertObject:(GRDENotification *)dict inNotificationsAtIndex:(unsigned)idx;
 - (void)removeObjectFromNotificationsAtIndex:(unsigned)idx;
 
-- (NSSet *) notificationNames;
+- (NSSet *)notificationNames;
 
 @end

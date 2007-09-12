@@ -237,7 +237,7 @@
 	[notifications removeObjectAtIndex:idx];
 }
 
-- (NSSet *) notificationNames {
+- (NSSet *)notificationNames {
 	return [[notificationNames copy] autorelease];
 }
 
