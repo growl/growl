@@ -130,7 +130,6 @@
 	return notifications;
 }
 - (BOOL)validateNotifications:(inout NSArray **)newValue error:(NSError **)outError {
-	NSLog(@"validating notifications");
 	NSCountedSet *set = [NSCountedSet set];
 
 	NSEnumerator *newValueEnum = [*newValue objectEnumerator];
