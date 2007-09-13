@@ -89,7 +89,8 @@ static BOOL isAnyDisplayCaptured(void) {
 #endif
 
 //static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
-static struct Version version = { 1U, 1U, 0U, releaseType_beta, 1U, };
+#warning Having to update this struct manually is ugly. Use the info.plist.
+static struct Version version = { 1U, 1U, 1U, releaseType_release, 1U, };
 //XXX - update these constants whenever the version changes
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
