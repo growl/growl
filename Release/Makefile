@@ -203,9 +203,6 @@ release:
 	@# delete svn and backup files
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
-	
-	@# remove any info.nib files from nib files; they aren't needed
-	find $(BUILD_DIR) \( -name info.nib \) -type f -delete
 
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
