@@ -89,7 +89,6 @@
 		++idx;
 
 	id obj = [[[arrayController objectClass] alloc] init];
-	NSLog(@"New obj: %@", obj);
 	if ([obj respondsToSelector:@selector(setDocument:)])
 		[obj setDocument:self];
 	[arrayController insertObject:obj atArrangedObjectIndex:idx];
