@@ -1,8 +1,8 @@
 "%@ decompression started" - "%@ descompactação iniciada";
-"%@ download complete" - "%@ download concluído";
+"%@ download complete" - "download de %@ completo";
 "Short Download Complete" - "Download Curto Concluído";
 "Copying application from %@" - "Copiando o aplicativo de %@";
-"%d new entries" - "%d novas entradas";
+"%d new entries" - "%d novas notícias";
 "Mounting %@" - "Montando %@";
 "Mounting Disk Image" - "Mountando Imagem de Disco";
 "Disk Image Status" - "Estado da Imagem de Disco";

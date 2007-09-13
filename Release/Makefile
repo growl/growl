@@ -154,7 +154,6 @@ release:
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
 	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg --version $(VERSION) -v	
-	cp -R $(SRC_DIR)/Extras/GrowlSafari/*.rtf $(GROWL_DIR)/Extras/GrowlSafari
 	
 	@# build the SDK
 	mkdir $(SDK_DIR)
