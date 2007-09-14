@@ -245,13 +245,17 @@
 	//Get the name and bundle ID, but only keep them if they are non-empty.
 	[self willChangeValueForKey:@"applicationName"];
 	applicationName  = [[dictionaryRepresentation objectForKey:GROWL_APP_NAME] copy];
-	if (applicationName && ![applicationName length])
+	if (applicationName && ![applicationName length]) {
 		[applicationName release];
+		applicationName = nil;
+	}
 	[self  didChangeValueForKey:@"applicationName"];
 	[self willChangeValueForKey:@"bundleIdentifier"];
 	bundleIdentifier = [[dictionaryRepresentation objectForKey:GROWL_APP_ID] copy];
-	if (bundleIdentifier && ![bundleIdentifier length])
+	if (bundleIdentifier && ![bundleIdentifier length]) {
 		[bundleIdentifier release];
+		bundleIdentifier = nil;
+	}
 	[self  didChangeValueForKey:@"bundleIdentifier"];
 
 	[self willChangeValueForKey:@"notifications"];
