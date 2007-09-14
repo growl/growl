@@ -260,7 +260,10 @@
 	if (!wasReadFromGrowlTicket) {
 		//Reading a .plist or .growlRegDict.
 		NSArray *allNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
-		NSSet *enabledNotificationNames = [NSSet setWithArray:[dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
+		//If the GROWL_NOTIFICATIONS_DEFAULT array is missing, then they are all enabled by default.
+		NSArray *enabledNotificationNamesArray = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+		if (!enabledNotificationNamesArray) enabledNotificationNamesArray = allNotificationNames;
+		NSSet *enabledNotificationNames = [NSSet setWithArray:enabledNotificationNamesArray];
 		NSDictionary *humanReadableNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 		NSDictionary *notificationDescriptions = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
 
