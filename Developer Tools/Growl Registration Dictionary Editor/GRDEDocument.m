@@ -239,15 +239,9 @@
 	return [[notificationNames copy] autorelease];
 }
 
-#pragma mark NSDocument subclass conformance
+#pragma mark Interpreting user data
 
-- (NSString *)windowNibName {
-	return @"GRDEDocument";
-}
-
-- (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
-	[super windowControllerDidLoadNib:windowController];
-
+- (BOOL)convertDictionaryRepresentationToNotifications:(out NSError **)outError {
 	//Get the name and bundle ID, but only keep them if they are non-empty.
 	[self willChangeValueForKey:@"applicationName"];
 	applicationName  = [[dictionaryRepresentation objectForKey:GROWL_APP_NAME] copy];
@@ -303,6 +297,19 @@
 		}
 	}
 	[self didChangeValueForKey:@"notifications"];
+
+	//No error, so we must have successfully interpreted the dictionary representation.
+	return YES;
+}
+
+#pragma mark NSDocument subclass conformance
+
+- (NSString *)windowNibName {
+	return @"GRDEDocument";
+}
+
+- (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
+	[super windowControllerDidLoadNib:windowController];
 
 	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, nil]];
 }
@@ -411,9 +418,11 @@
 
 			wasReadFromGrowlTicket = [typeName isEqualToString:GROWL_TICKET_TYPE];
 		}
+
+		return [self convertDictionaryRepresentationToNotifications:outError];
 	}
 
-	return (dict != nil);
+	return NO;
 }
 
 #pragma mark NSTableView drag validation (AXCArrayControllerWithDragAndDrop)
