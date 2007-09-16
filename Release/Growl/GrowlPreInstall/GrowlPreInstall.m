@@ -32,7 +32,7 @@ int main (int argc, const char * argv[]) {
 	descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
 					  target:[[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"],
 				  ENDRECORD];
-	[descriptor sendWithImmediateReplyWithTimeout:5];	
+	[descriptor sendWithImmediateReplyWithTimeout:5];
 
 	/* tell application "GrowlHelperApp" to quit */
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/killall" arguments:[NSArray arrayWithObject:@"GrowlHelperApp"]];
