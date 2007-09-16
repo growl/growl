@@ -14,7 +14,7 @@ enum releaseType {
 	releaseType_release,
 	numberOfReleaseTypes //must be last
 };
-extern STRING releaseTypeNames[numberOfReleaseTypes];
+extern STRING_TYPE releaseTypeNames[numberOfReleaseTypes];
 
 #pragma options align=packed
 
@@ -45,10 +45,10 @@ struct Version {
  *spaces are allowed around the release type, and if the release type is svn,
  *	an optional 'r' is allowed immediately before the development version.
  */
-bool parseVersionString(STRING string, struct Version *outVersion);
+bool parseVersionString(STRING_TYPE string, struct Version *outVersion);
 
 //this function follows CF rules for object retention: because it is a 'create' function, you must release the string you receive.
-STRING createVersionDescription(const struct Version v);
+STRING_TYPE createVersionDescription(const struct Version v);
 
 /*these functions return:
  *	kCFCompareLessThan		a <  b
@@ -56,11 +56,11 @@ STRING createVersionDescription(const struct Version v);
  *	kCFCompareGreaterThan	a  > b
  */
 CFComparisonResult compareVersions(const struct Version a, const struct Version b);
-CFComparisonResult compareVersionStrings(STRING a, STRING b);
+CFComparisonResult compareVersionStrings(STRING_TYPE a, STRING_TYPE b);
 /*this version contains brain damage that translates "1.0" to "0.5" (handling
  *	the Growl 0.5 prefpane bundle, whose version was mistakenly set to "1.0").
  *the real Growl 1.0 prefpane bundle will have a version of "1.00".
  */
-CFComparisonResult compareVersionStringsTranslating1_0To0_5(STRING a, STRING b);
+CFComparisonResult compareVersionStringsTranslating1_0To0_5(STRING_TYPE a, STRING_TYPE b);
 
 #endif //ndef _GROWL_VERSIONUTILITIES_H
