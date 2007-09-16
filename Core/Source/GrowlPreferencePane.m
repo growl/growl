@@ -480,12 +480,34 @@
 }
 
 - (NSArray *) sounds {
-	NSArray *systemSounds = [[NSFileManager defaultManager] directoryContentsAtPath:@"/System/Library/Sounds"];
-	NSMutableArray *soundNames = [[NSMutableArray alloc] initWithCapacity:[systemSounds count]];
-	NSEnumerator *e = [systemSounds objectEnumerator];
-	NSString *filename;
-	while ((filename = [e nextObject]))
-		[soundNames addObject:[filename stringByDeletingPathExtension]];
+	NSMutableArray *soundNames = [[NSMutableArray alloc] init];
+	
+	NSArray *paths = [NSArray arrayWithObjects:@"/System/Library/Sounds",
+												@"/Library/Sounds",
+											   [NSString stringWithFormat:@"%@/Library/Sounds", NSHomeDirectory()],
+											   nil];
+
+	NSString *directory;
+	NSEnumerator *dirEnumerator = [paths objectEnumerator];
+	while ((directory = [dirEnumerator nextObject])) {
+		BOOL isDirectory = NO;
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
+			if (isDirectory) {
+				NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:directory];
+
+				NSString *filename = nil;
+				NSEnumerator *fileEnumerator = [files objectEnumerator];
+				while ((filename = [fileEnumerator nextObject])) {
+					NSString *file = [filename stringByDeletingPathExtension];
+			
+					if (![file isEqualToString:@".DS_Store"])
+						[soundNames addObject:file];
+				}
+			}
+		}
+	}
+	
 	return [soundNames autorelease];
 }
 
