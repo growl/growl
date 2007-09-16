@@ -103,13 +103,28 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
 	return libraryMessages;
 }
 
-+ (id) gm_addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles {
++ (id)   gm_addMessages:(NSArray *)messages
+            withMailbox:(NSString *)mailbox
+            fetchBodies:(BOOL)fetchBodies
+        isInitialImport:(BOOL)isInitialImport
+oldMessagesByNewMessage:(id)oldMessagesByNewMessage
+              remoteIDs:(id)remoteIDs
+               setFlags:(unsigned long long)setFlags
+             clearFlags:(unsigned long long)clearFlags
+messageFlagsForMessages:(id)messageFlagsForMessages
+              copyFiles:(BOOL)copyFiles
+{
 	return [Library process:messages
 			libraryMessages:[self gm_addMessages:messages withMailbox:mailbox fetchBodies:fetchBodies isInitialImport:isInitialImport oldMessagesByNewMessage:oldMessagesByNewMessage remoteIDs:remoteIDs setFlags:setFlags clearFlags:clearFlags messageFlagsForMessages:messageFlagsForMessages copyFiles:copyFiles]
 				  inMailbox:mailbox];
 }
 
-+ (id) gm_addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage {
++ (id)   gm_addMessages:(NSArray *)messages
+            withMailbox:(NSString *)mailbox
+            fetchBodies:(BOOL)fetchBodies
+        isInitialImport:(BOOL)isInitialImport
+oldMessagesByNewMessage:(id)oldMessagesByNewMessage
+{
 	return [Library process:messages
 			libraryMessages:[self gm_addMessages:messages withMailbox:mailbox fetchBodies:fetchBodies isInitialImport:isInitialImport oldMessagesByNewMessage:oldMessagesByNewMessage]
 				  inMailbox:mailbox];
