@@ -98,6 +98,7 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
 				}
 			}
 		}
+		[growlMail flushQueue];
 	}
 	return libraryMessages;
 }

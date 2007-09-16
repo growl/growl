@@ -194,12 +194,15 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 	pthread_mutex_lock(&queueLock);
 	if (!collectedMessages) {
 		collectedMessages = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
-		[self performSelectorOnMainThread:@selector(showSummary)
-							   withObject:nil
-							waitUntilDone:NO];
 	}
 	CFArrayAppendValue(collectedMessages, [message messageID]);
 	pthread_mutex_unlock(&queueLock);
+}
+
+- (void) flushQueue {
+	[self performSelectorOnMainThread:@selector(showSummary)
+						   withObject:nil
+						waitUntilDone:NO];
 }
 
 - (void) showSummary {

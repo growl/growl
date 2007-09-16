@@ -52,6 +52,7 @@
 - (NSDictionary *) registrationDictionaryForGrowl;
 
 - (void) queueMessage:(Message *)message;
+- (void) flushQueue;
 - (void) showSummary;
 
 @end
