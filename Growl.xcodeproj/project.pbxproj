@@ -139,6 +139,8 @@
 		34725DA60C0678C200499F50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		347262870C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */; };
 		347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
+		348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */; };
+		348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		34A883350C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */; };
 		34A883360C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */; };
@@ -765,6 +767,8 @@
 		347935930C864534007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Core/Resources/Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347935940C864534007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Core/Resources/Dutch.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		347935950C864534007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = StatusItem/Resources/Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
+		348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = Framework/Source/AEVTBuilder.m; sourceTree = "<group>"; };
+		348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVTBuilder.h; path = Framework/Source/AEVTBuilder.h; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		349B3FA40A620F2D008BE092 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
@@ -1734,6 +1738,8 @@
 				34E9EFB30790926400662E8E /* GrowlInstallationPrompt.h */,
 				34E9EFB40790926400662E8E /* GrowlInstallationPrompt.m */,
 				952EFC9007C2869700952C6B /* GrowlInstallationPrompt.nib */,
+				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
+				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
 				07217173082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h */,
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
@@ -2109,6 +2115,7 @@
 				343354E50792FAFE00C84B15 /* Growl.h in Headers */,
 				343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */,
 				07217175082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h in Headers */,
+				348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2824,6 +2831,7 @@
 				95F97735084A2CB000915BFE /* CFDictionaryAdditions.c in Sources */,
 				95F97736084A2CB300915BFE /* CFMutableDictionaryAdditions.c in Sources */,
 				95D74012084B68C8000D67BC /* GrowlImageAdditions.m in Sources */,
+				348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "AEVTBuilder.h"
 
 #define GROWL_INSTALLATION_NIB     @"GrowlInstallationPrompt"
 
@@ -53,6 +54,10 @@
 	# define ENDCATCH	NS_ENDHANDLER
 #endif
 
+
+@interface NSWorkspace (ProcessSerialNumberFinder)
+- (ProcessSerialNumber)processSerialNumberForApplicationWithIdentifier:(NSString *)identifier;
+@end
 
 @interface GrowlInstallationPrompt (PRIVATE)
 - (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
@@ -365,11 +370,13 @@ static BOOL checkOSXVersion(void) {
 				//remove the old version of Growl
 				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 				if (oldGrowlPath) {
-					//ask system preferences to quit if it's open
-					NSAppleScript *quitScript = [[NSAppleScript alloc] initWithSource:@"tell application \"System Preferences\" to quit"];
-					[quitScript executeAndReturnError:nil];
-					[quitScript release];
-					
+					NSAppleEventDescriptor *descriptor;
+					/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
+					descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
+									  target:[[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"],
+								  ENDRECORD];
+					[descriptor sendWithImmediateReplyWithTimeout:5];
+
 					[[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation
 																 source:[oldGrowlPath stringByDeletingLastPathComponent]
 															destination:@""
@@ -427,4 +434,23 @@ static BOOL checkOSXVersion(void) {
 	[[self window] close];
 }
 
+@end
+
+@implementation NSWorkspace (ProcessSerialNumberFinder)
+- (ProcessSerialNumber)processSerialNumberForApplicationWithIdentifier:(NSString *)identifier
+{
+	ProcessSerialNumber psn = {0, 0};
+	
+	NSEnumerator *enumerator = [[self launchedApplications] objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [enumerator nextObject])) {
+		if ([[dict objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:identifier]) {
+			psn.highLongOfPSN = [[dict objectForKey:@"NSApplicationProcessSerialNumberHigh"] longValue];
+			psn.lowLongOfPSN  = [[dict objectForKey:@"NSApplicationProcessSerialNumberLow"] longValue];
+			break;
+		}
+	}
+	
+	return psn;
+}
 @end
