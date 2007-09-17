@@ -14,10 +14,11 @@
 	NSMutableArray *arrangedObjects = [[[super arrangedObjects] mutableCopy] autorelease];
 
 	//Add a null name/identifier pair. DisplayPluginNameWithDefaultTransformer can turn this into appropriate display as needed
-	[arrangedObjects addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNull null], @"CFBundleName", 
-		[NSNull null], @"CFBundleIdentifier",
-		nil]];
+	[arrangedObjects insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+													[NSNull null], @"CFBundleName", 
+													[NSNull null], @"CFBundleIdentifier",
+													nil]
+						  atIndex:0U];
 	
 	return arrangedObjects;	
 }
