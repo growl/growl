@@ -345,6 +345,7 @@
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4B868E40957D8C00056FC54 /* ACImageAndTextCell.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */; };
 		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
+		C4C58A0C0C9E3C7100F71519 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		C4FB57260B17FC43004474C8 /* GrowlPositioningDefines.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
@@ -1261,6 +1262,7 @@
 				95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */,
 				957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */,
 				957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */,
+				C4C58A0C0C9E3C7100F71519 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2429,7 +2431,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,

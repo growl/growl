@@ -25,6 +25,8 @@
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
 
+#include <Carbon/Carbon.h>
+
 #define PING_TIMEOUT		3
 
 //This is the frame of the preference view that we should get back.
@@ -747,10 +749,18 @@
 	return [pluginController disabledPluginsPresent];
 }
 
+// Popup buttons that post preview notifications support suppressing the preview with the Option key
 - (IBAction) showPreview:(id)sender {
-#pragma unused(sender)
+	if(([sender isKindOfClass:[NSPopUpButton class]]) && (GetCurrentKeyModifiers() & optionKey))
+		return;
+	
+	NSDictionary *pluginToUse = currentPlugin;
+	
+	if([sender isKindOfClass:[NSPopUpButton class]]) 
+		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
+			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
+																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {

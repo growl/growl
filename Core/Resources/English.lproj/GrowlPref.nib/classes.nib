@@ -41,6 +41,7 @@
                 disabledDisplaysSheet = NSWindow; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
+                displayDefaultsPopup = NSPopUpButton; 
                 displayPluginsArrayController = NSArrayController; 
                 displayPluginsTable = NSTableView; 
                 displayPrefView = NSView; 
