@@ -58,140 +58,140 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D202CF80486D31800D8A456 /* Growl.prefPane */;
+			remoteGlobalIDString = 8D202CF80486D31800D8A456;
 			remoteInfo = Growl;
 		};
 		34FBA2DE0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
 			remoteInfo = GrowlHelperApp;
 		};
 		34FBA2E00CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 95075AB00817F5DB00D862A5 /* GrowlMenu.app */;
+			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
 			remoteInfo = GrowlMenu;
 		};
 		34FBA2E20CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 34F60EAB078E1CD500CECA86 /* Growl.framework */;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
 		34FBA2E40CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 34725B0F0C0678A000499F50 /* Growl.dylib */;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
 		};
 		34FBA2E60CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */;
+			remoteGlobalIDString = 34F60EF9078E226300CECA86;
 			remoteInfo = "Growl-WithInstaller.framework";
 		};
 		34FBA2E80CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508B10767C87B006EA5CB /* Speech.growlView */;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
 			remoteInfo = Speech;
 		};
 		34FBA2EA0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 95FC347907E0458E00BD8674 /* Brushed.growlView */;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
 			remoteInfo = Brushed;
 		};
 		34FBA2EC0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
 			remoteInfo = Bubbles;
 		};
 		34FBA2EE0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E14410EF0A94072E0063C4DC /* iCal.growlView */;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
 			remoteInfo = iCal;
 		};
 		34FBA2F00CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508B40767C87B006EA5CB /* Bezel.growlView */;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
 			remoteInfo = Bezel;
 		};
 		34FBA2F20CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB /* Smoke.growlView */;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
 			remoteInfo = Smoke;
 		};
 		34FBA2F40CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 93BC379E095A662B0002B365 /* Nano.growlView */;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
 		34FBA2F60CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB /* MailMe.growlView */;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
 			remoteInfo = MailMe;
 		};
 		34FBA2F80CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 0AB508B30767C87B006EA5CB /* MusicVideo.growlView */;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
 			remoteInfo = MusicVideo;
 		};
 		34FBA2FA0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = DD4939CC084BACA700D1CCCB /* SMS.growlView */;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
 		};
 		34FBA2FC0CA0552D00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86 /* Growl.framework */;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
 		34FBA3200CA0558A00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework */;
+			remoteGlobalIDString = 34F60EF8078E226300CECA86;
 			remoteInfo = "Growl-WithInstaller.framework";
 		};
 		34FBA35E0CA057A600958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 073B925106855E0F0068C763 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */;
+			remoteGlobalIDString = 34FBA34E0CA056E700958660;
 			remoteInfo = LinkifyGrowlFrameworks;
 		};
 		34FBA3730CA059A200958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 073B925106855E0F0068C763 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */;
+			remoteGlobalIDString = 34FBA34E0CA056E700958660;
 			remoteInfo = LinkifyGrowlFrameworks;
 		};
 /* End PBXContainerItemProxy section */
@@ -234,7 +234,7 @@
 		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../Common/Resources/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		34FBA2C70CA0551E00958660 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		34FBA31B0CA0554800958660 /* BeepHammer Growl-WithInstaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BeepHammer Growl-WithInstaller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34FBA31D0CA0554800958660 /* BeepHammer-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BeepHammer-Info copy.plist"; sourceTree = "<group>"; };
+		34FBA31D0CA0554800958660 /* BeepHammer-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeepHammer-Info copy.plist"; sourceTree = "<group>"; };
 		34FBA3360CA0566100958660 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../../../build/Development/Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
