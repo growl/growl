@@ -367,7 +367,7 @@ static BOOL checkOSXVersion(void) {
 				//tell GAB to register when GHA next launches.
 				[GrowlApplicationBridge setWillRegisterWhenGrowlIsReady:YES];
 
-				//remove the old version of Growl
+				//If there's an existing version of Growl, system preferneces must not be running
 				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 				if (oldGrowlPath) {
 					NSAppleEventDescriptor *descriptor;
@@ -376,12 +376,6 @@ static BOOL checkOSXVersion(void) {
 									  target:[[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"],
 								  ENDRECORD];
 					[descriptor sendWithImmediateReplyWithTimeout:5];
-
-					[[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation
-																 source:[oldGrowlPath stringByDeletingLastPathComponent]
-															destination:@""
-																  files:[NSArray arrayWithObject:[oldGrowlPath lastPathComponent]]
-																	tag:NULL];
 				}
 
 				/*Open Growl.prefPane using System Preferences, which will
@@ -391,13 +385,15 @@ static BOOL checkOSXVersion(void) {
 				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 				if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
 					/* Available in 10.3 and above only; preferred since it doesn't matter if System Preferences.app has been renamed */
+					NSArray *identifiers;
 					success = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:tempGrowlPrefPane]]
 											  withAppBundleIdentifier:@"com.apple.systempreferences"
 															  options:NSWorkspaceLaunchDefault
 									   additionalEventParamDescriptor:nil
-													launchIdentifiers:NULL];
+													launchIdentifiers:&identifiers];
 
 				} else {
+					//We should never get here, since Growl doesn't run in 10.2.
 					success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
 													  withApplication:@"System Preferences"
 														andDeactivate:YES];
