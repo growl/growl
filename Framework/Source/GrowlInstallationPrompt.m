@@ -389,16 +389,14 @@ static BOOL checkOSXVersion(void) {
 				 *Growl.prefPane will relaunch the GHA if appropriate.
 				 */
 				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-				NSLog(@"Working with temp growl pref pane %@",tempGrowlPrefPane);
 				if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
 					/* Available in 10.3 and above only; preferred since it doesn't matter if System Preferences.app has been renamed */
-					NSArray *launchIds;
 					success = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:tempGrowlPrefPane]]
 											  withAppBundleIdentifier:@"com.apple.systempreferences"
 															  options:NSWorkspaceLaunchDefault
 									   additionalEventParamDescriptor:nil
-													launchIdentifiers:&launchIds];
-NSLog(@"Ssytem preferences launched: %i; launch id is %@",success,launchIds);
+													launchIdentifiers:NULL];
+
 				} else {
 					success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
 													  withApplication:@"System Preferences"
