@@ -1,6 +1,8 @@
-
-#import <Growl/Growl.h>
-
+#ifdef GROWL_WITH_INSTALLER
+	#import <Growl-WithInstaller/Growl.h>
+#else
+	#import <Growl/Growl.h>
+#endif
 /* BeepController */
 
 
