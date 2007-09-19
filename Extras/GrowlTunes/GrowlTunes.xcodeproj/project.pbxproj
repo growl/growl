@@ -259,12 +259,12 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* GrowlTunes_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunes_Prefix.pch; sourceTree = "<group>"; };
-		347930C50C85E36B007ADCAA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		347930C60C85E36B007ADCAA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
-		347931140C85E5A3007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		347931150C85E5A3007ADCAA /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
-		34CD98800C87C9240040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		34CD98810C87C9250040C77F /* Swedish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Swedish; path = Swedish.lproj/Localizable.strings; sourceTree = "<group>"; };
+		347930C50C85E36B007ADCAA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347930C60C85E36B007ADCAA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		347931140C85E5A3007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347931150C85E5A3007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34CD98800C87C9240040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98810C87C9250040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98C50C87CA770040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD98C60C87CA770040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52F5774906872B3A0068B46C /* GrowlTunesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesController.h; sourceTree = "<group>"; };
@@ -275,10 +275,10 @@
 		8D1107320486CEB800E47090 /* GrowlTunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlTunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		950627B20840D44600C01CD2 /* growlTunes-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growlTunes-selected.png"; sourceTree = "<group>"; };
 		950627B30840D44600C01CD2 /* growlTunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = growlTunes.png; sourceTree = "<group>"; };
-		95100E8B078867E5005DBB70 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9556E6AA07F435FA00D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
-		955A4DE708617580009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		955A4DE80861758B009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		95100E8B078867E5005DBB70 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9556E6AA07F435FA00D42745 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		955A4DE708617580009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4DE80861758B009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9571A436086237E7008AEBB3 /* GrowlTunes.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = GrowlTunes.sdef; sourceTree = "<group>"; };
 		9571A46E086238D6008AEBB3 /* GrowlTunesScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = GrowlTunesScripting.r; sourceTree = "<group>"; };
 		9571A46F086238D6008AEBB3 /* GrowlTunesSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GrowlTunesSuite.scriptSuite; sourceTree = "<group>"; };
@@ -521,13 +521,13 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
-				Japanese,
-				French,
-				German,
+				ja,
+				fr,
+				de,
 				zh_CN,
-				Russian,
-				Dutch,
-				Swedish,
+				ru,
+				nl,
+				sv,
 				pt_BR,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* GrowlTunes */;
@@ -800,13 +800,13 @@
 			isa = PBXVariantGroup;
 			children = (
 				07B1BAB3077D59A600474D89 /* English */,
-				95100E8B078867E5005DBB70 /* German */,
-				9556E6AA07F435FA00D42745 /* Japanese */,
+				95100E8B078867E5005DBB70 /* de */,
+				9556E6AA07F435FA00D42745 /* ja */,
 				95B00A9908468AB7004A8623 /* zh_CN */,
-				955A4DE80861758B009B6EA5 /* French */,
-				347930C60C85E36B007ADCAA /* Russian */,
-				347931150C85E5A3007ADCAA /* Dutch */,
-				34CD98810C87C9250040C77F /* Swedish */,
+				955A4DE80861758B009B6EA5 /* fr */,
+				347930C60C85E36B007ADCAA /* ru */,
+				347931150C85E5A3007ADCAA /* nl */,
+				34CD98810C87C9250040C77F /* sv */,
 				34CD98C60C87CA770040C77F /* pt_BR */,
 			);
 			name = Localizable.strings;
@@ -816,10 +816,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
-				955A4DE708617580009B6EA5 /* French */,
-				347930C50C85E36B007ADCAA /* Russian */,
-				347931140C85E5A3007ADCAA /* Dutch */,
-				34CD98800C87C9240040C77F /* Swedish */,
+				955A4DE708617580009B6EA5 /* fr */,
+				347930C50C85E36B007ADCAA /* ru */,
+				347931140C85E5A3007ADCAA /* nl */,
+				34CD98800C87C9240040C77F /* sv */,
 				34CD98C50C87CA770040C77F /* pt_BR */,
 			);
 			name = InfoPlist.strings;
