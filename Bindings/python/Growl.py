@@ -70,7 +70,7 @@ class netgrowl:
 		if userInfo.has_key(GROWL_NOTIFICATION_STICKY):
 			sticky = userInfo[GROWL_NOTIFICATION_STICKY]
 		else:
-			priority = False
+			sticky = False
 		data = self.encodeNotify(userInfo[GROWL_APP_NAME],
 								 userInfo[GROWL_NOTIFICATION_NAME],
 								 userInfo[GROWL_NOTIFICATION_TITLE],
