@@ -841,9 +841,6 @@
 		34B02B040C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Plugins/Displays/Brushed/sv.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
 		34B02B050C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
 		34B02B060C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
-		34B02B070C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
-		34B02B080C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
-		34B02B090C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34B02B0A0C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
 		34B02B0B0C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		34B02B0C0C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Plugins/Displays/Nano/sv.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
@@ -1742,13 +1739,13 @@
 				95DBBFFC07C284BE00DE4ACA /* Growl-WithInstaller.framework-Info.plist */,
 				34E9EFB30790926400662E8E /* GrowlInstallationPrompt.h */,
 				34E9EFB40790926400662E8E /* GrowlInstallationPrompt.m */,
+				9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */,
 				952EFC9007C2869700952C6B /* GrowlInstallationPrompt.nib */,
 				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
 				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
 				07217173082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h */,
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
-				9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */,
 			);
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
@@ -3120,19 +3117,18 @@
 		07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				07217169082DE85B00F338F7 /* English */,
-				07217170082DEB0700F338F7 /* de */,
-				9574B99A0838FC1E00106CA3 /* ja */,
-				34ECC2710C7F89D400EE7F9B /* ru */,
-				34ECC2800C7F89E900EE7F9B /* fr */,
-				34A88D210C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D320C7F8A5200F01CB8 /* cs */,
-				34792F7F0C848654007ADCAA /* nl */,
-				3479306F0C85E290007ADCAA /* zh_TW */,
-				34B02ACE0C87911300DD25D6 /* pt_BR */,
-				34B02B080C8791F600DD25D6 /* sv */,
-				34A0931F0C90B0DA00A82168 /* sv */,
+				07217170082DEB0700F338F7 /* de */,
+				07217169082DE85B00F338F7 /* English */,
+				34ECC2800C7F89E900EE7F9B /* fr */,
+				9574B99A0838FC1E00106CA3 /* ja */,
 				345DA0970CA0A56A009F1989 /* nb */,
+				34792F7F0C848654007ADCAA /* nl */,
+				34B02ACE0C87911300DD25D6 /* pt_BR */,
+				34ECC2710C7F89D400EE7F9B /* ru */,
+				34A0931F0C90B0DA00A82168 /* sv */,
+				34A88D210C7F8A4A00F01CB8 /* zh_CN */,
+				3479306F0C85E290007ADCAA /* zh_TW */,
 			);
 			name = "GrowlInstallationPrompt-Carbon.nib";
 			sourceTree = "<group>";
@@ -3158,17 +3154,17 @@
 		0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0A7F5D9C0767C13100E1C1E4 /* English */,
-				0A7F5D9D0767C13100E1C1E4 /* de */,
-				9574B99F0838FC8800106CA3 /* ja */,
-				955A4E550861760C009B6EA5 /* fr */,
-				34ECC2770C7F89D500EE7F9B /* ru */,
-				34A88D280C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D390C7F8A5200F01CB8 /* cs */,
+				0A7F5D9D0767C13100E1C1E4 /* de */,
+				0A7F5D9C0767C13100E1C1E4 /* English */,
+				955A4E550861760C009B6EA5 /* fr */,
+				9574B99F0838FC8800106CA3 /* ja */,
 				347930210C848724007ADCAA /* nl */,
-				347930760C85E291007ADCAA /* zh_TW */,
 				34B02AD50C87911400DD25D6 /* pt_BR */,
+				34ECC2770C7F89D500EE7F9B /* ru */,
 				34B02B0F0C8791F600DD25D6 /* sv */,
+				34A88D280C7F8A4A00F01CB8 /* zh_CN */,
+				347930760C85E291007ADCAA /* zh_TW */,
 			);
 			name = GrowlSpeechPrefs.nib;
 			sourceTree = "<group>";
@@ -3338,20 +3334,19 @@
 		952EFC9007C2869700952C6B /* GrowlInstallationPrompt.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				952EFCA507C2869700952C6B /* English */,
-				952EFD0F07C286A700952C6B /* de */,
-				9574B9990838FBEE00106CA3 /* ja */,
-				346F5E1608A47EB70055C610 /* ru */,
-				349B3FA40A620F2D008BE092 /* pl */,
-				34ECC2810C7F89EA00EE7F9B /* fr */,
-				34A88D220C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D330C7F8A5200F01CB8 /* cs */,
-				34792F800C848659007ADCAA /* nl */,
-				347930700C85E290007ADCAA /* zh_TW */,
-				34B02ACF0C87911300DD25D6 /* pt_BR */,
-				34B02B090C8791F600DD25D6 /* sv */,
-				34A0931E0C90B0D500A82168 /* sv */,
+				952EFD0F07C286A700952C6B /* de */,
+				952EFCA507C2869700952C6B /* English */,
+				34ECC2810C7F89EA00EE7F9B /* fr */,
+				9574B9990838FBEE00106CA3 /* ja */,
 				345DA0960CA0A566009F1989 /* nb */,
+				34792F800C848659007ADCAA /* nl */,
+				349B3FA40A620F2D008BE092 /* pl */,
+				34B02ACF0C87911300DD25D6 /* pt_BR */,
+				346F5E1608A47EB70055C610 /* ru */,
+				34A0931E0C90B0D500A82168 /* sv */,
+				34A88D220C7F8A4A00F01CB8 /* zh_CN */,
+				347930700C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
@@ -3377,20 +3372,19 @@
 		9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9542E53107C28C3A0056BAC9 /* English */,
-				9542E65907C28D230056BAC9 /* de */,
-				9574B99B0838FC2E00106CA3 /* ja */,
-				951152B708753A8E00DBB3EA /* ru */,
-				349B3FA10A620F1F008BE092 /* pl */,
-				34ECC27F0C7F89E900EE7F9B /* fr */,
-				34A88D200C7F8A4A00F01CB8 /* zh_CN */,
 				34A88D310C7F8A5200F01CB8 /* cs */,
-				34792F7E0C84864F007ADCAA /* nl */,
-				3479306E0C85E290007ADCAA /* zh_TW */,
-				34B02ACD0C87911300DD25D6 /* pt_BR */,
-				34B02B070C8791F600DD25D6 /* sv */,
-				34A093200C90B0DF00A82168 /* sv */,
+				9542E65907C28D230056BAC9 /* de */,
+				9542E53107C28C3A0056BAC9 /* English */,
+				34ECC27F0C7F89E900EE7F9B /* fr */,
+				9574B99B0838FC2E00106CA3 /* ja */,
 				345DA0980CA0A571009F1989 /* nb */,
+				34792F7E0C84864F007ADCAA /* nl */,
+				349B3FA10A620F1F008BE092 /* pl */,
+				34B02ACD0C87911300DD25D6 /* pt_BR */,
+				951152B708753A8E00DBB3EA /* ru */,
+				34A093200C90B0DF00A82168 /* sv */,
+				34A88D200C7F8A4A00F01CB8 /* zh_CN */,
+				3479306E0C85E290007ADCAA /* zh_TW */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
