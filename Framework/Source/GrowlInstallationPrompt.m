@@ -11,7 +11,9 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+
 #import "AEVTBuilder.h"
+#import	"NSFileManager+Authentication.h"
 
 #define GROWL_INSTALLATION_NIB     @"GrowlInstallationPrompt"
 
@@ -274,13 +276,33 @@ static BOOL checkOSXVersion(void) {
 	return YES;
 }
 
+/*!
+ * @brief Delete any existing Growl installation
+ *
+ * @result YES if delete was successful or not needed; NO if there was an error.
+ */
+- (BOOL) deleteExistingGrowlInstallation
+{
+	NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
+	if (oldGrowlPath) {
+		return [[NSFileManager defaultManager] deletePathWithAuthentication:oldGrowlPath]; 
+	}
+	
+	return YES;
+}
+
+/*!
+ * @brief Install Growl from a temporary directory into which the Growl preference pane has been extracted
+ *
+ * @param tmpDir The directory in which GROWL_PREFPANE_NAME already exists.
+ * @result YES if Growl is succesfully installed. NO if it fails.
+ */
 - (BOOL) installGrowlFromTmpDir:(NSString *)tmpDir
 {
 	BOOL success;
-	NSLog(@"Installings");
-	/*Open Growl.prefPane using System Preferences, which will
-	 *	take care of the rest.
-	 *Growl.prefPane will relaunch the GHA if appropriate.
+	
+	/* Open Growl.prefPane using System Preferences, which will take care of the rest.
+	 * Growl.prefPane will relaunch the GHA if appropriate.
 	 */
 	NSString *tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 	if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
@@ -319,11 +341,18 @@ static BOOL checkOSXVersion(void) {
 - (void) appDidQuit:(NSNotification *)notification
 {
 	if ([[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:@"com.apple.systempreferences"]) {
-		if (![self installGrowlFromTmpDir:temporaryDirectory]) {
-				NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
+		BOOL success = NO;
+		if ([self deleteExistingGrowlInstallation]) {
+			success = [self installGrowlFromTmpDir:temporaryDirectory];
+		} else {
+			NSLog(@"Could not delete the existing Growl installation. Perhaps there was an authorization failure?");
 		}
-		
-		//Retained when we established the observer
+
+		if (!success) {
+			NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
+		}
+
+		//Retained when we established the observer in -[self performInstallGrowl].
 		[self autorelease];
 	}
 }
@@ -429,7 +458,7 @@ static BOOL checkOSXVersion(void) {
 						[temporaryDirectory release];
 						temporaryDirectory = [tmpDir retain];
 						
-						//Will release in appDidQuit:
+						//Will release in -[self appDidQuit:].
 						[self retain];
 						[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
 																			   selector:@selector(appDidQuit:)
@@ -439,7 +468,8 @@ static BOOL checkOSXVersion(void) {
 										  target:psn,
 									  ENDRECORD];
 						[descriptor sendWithImmediateReplyWithTimeout:5];
-						//Whenever system prefs quits, we'll continue in appDidQuit:
+
+						//Whenever system prefs quits, we'll continue in -[self appDidQuit:]. This method will be responsible for further upgrade logic.
 						return;
 					}
 				}
