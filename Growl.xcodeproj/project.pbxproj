@@ -116,6 +116,9 @@
 		343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34422F700BF3ED2E001DA9ED /* GrowlApplication.m */; };
+		344EA4200CA857F70035CB69 /* NSFileManager+Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 344EA41E0CA857F70035CB69 /* NSFileManager+Authentication.h */; };
+		344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */; };
+		344EA5EF0CA85B110035CB69 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		345B7D170C80A91E005F7F96 /* iCalPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 345B7D160C80A91E005F7F96 /* iCalPrefs.nib */; };
 		346F746C0C96F56C000FEAE6 /* Show Growl Notification.action in CopyFiles */ = {isa = PBXBuildFile; fileRef = 346F74470C96F561000FEAE6 /* Show Growl Notification.action */; };
 		34725B140C0678AC00499F50 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; };
@@ -718,6 +721,8 @@
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
 		34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplication.h; path = Core/Source/GrowlApplication.h; sourceTree = "<group>"; };
 		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
+		344EA41E0CA857F70035CB69 /* NSFileManager+Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+Authentication.h"; path = "Framework/Source/NSFileManager+Authentication.h"; sourceTree = "<group>"; };
+		344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+Authentication.m"; path = "Framework/Source/NSFileManager+Authentication.m"; sourceTree = "<group>"; };
 		345B7D110C80A919005F7F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/iCal/English.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
 		345B7D180C80A923005F7F96 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = Plugins/Displays/iCal/de.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
 		345B7D190C80A927005F7F96 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Plugins/Displays/iCal/fr.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
@@ -1244,6 +1249,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				344EA5EF0CA85B110035CB69 /* Security.framework in Frameworks */,
 				3433502B0792769000C84B15 /* ApplicationServices.framework in Frameworks */,
 				343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */,
 				957B502A083D155600F562B8 /* AppKit.framework in Frameworks */,
@@ -1743,6 +1749,8 @@
 				952EFC9007C2869700952C6B /* GrowlInstallationPrompt.nib */,
 				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
 				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
+				344EA41E0CA857F70035CB69 /* NSFileManager+Authentication.h */,
+				344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */,
 				07217173082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h */,
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
@@ -2118,6 +2126,7 @@
 				343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */,
 				07217175082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h in Headers */,
 				348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */,
+				344EA4200CA857F70035CB69 /* NSFileManager+Authentication.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2835,6 +2844,7 @@
 				95F97736084A2CB300915BFE /* CFMutableDictionaryAdditions.c in Sources */,
 				95D74012084B68C8000D67BC /* GrowlImageAdditions.m in Sources */,
 				348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */,
+				344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
