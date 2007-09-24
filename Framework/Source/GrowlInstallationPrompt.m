@@ -274,6 +274,60 @@ static BOOL checkOSXVersion(void) {
 	return YES;
 }
 
+- (BOOL) installGrowlFromTmpDir:(NSString *)tmpDir
+{
+	BOOL success;
+	NSLog(@"Installings");
+	/*Open Growl.prefPane using System Preferences, which will
+	 *	take care of the rest.
+	 *Growl.prefPane will relaunch the GHA if appropriate.
+	 */
+	NSString *tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
+	if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
+		/* Available in 10.3 and above only; preferred since it doesn't matter if System Preferences.app has been renamed */
+		NSArray *identifiers;
+		success = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:tempGrowlPrefPane]]
+								  withAppBundleIdentifier:@"com.apple.systempreferences"
+												  options:NSWorkspaceLaunchDefault
+						   additionalEventParamDescriptor:nil
+										launchIdentifiers:&identifiers];
+		
+	} else {
+		//We should never get here, since Growl doesn't run in 10.2.
+		success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
+										  withApplication:@"System Preferences"
+											andDeactivate:YES];
+	}
+
+	if (!success) {
+		NSLog(@"GrowlInstallationPrompt: Warning: Could not find the System Preferences via NSWorksapce");
+		
+		/*If the System Preferences app could not be found for
+		 *	whatever reason, try opening Growl.prefPane with
+		 *	-openTempFile: so the associated app will launch. This
+		 *	could be the case if an alternative program were being used.
+		 */
+		success = [[NSWorkspace sharedWorkspace] openTempFile:tempGrowlPrefPane];
+		if (!success) {
+			NSLog(@"GrowlInstallationPrompt: Could not open %@",tempGrowlPrefPane);
+		}
+	}
+
+	return success;
+}
+
+- (void) appDidQuit:(NSNotification *)notification
+{
+	if ([[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:@"com.apple.systempreferences"]) {
+		if (![self installGrowlFromTmpDir:temporaryDirectory]) {
+				NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
+		}
+		
+		//Retained when we established the observer
+		[self autorelease];
+	}
+}
+
 - (void) performInstallGrowl {
 	// Obtain the path to the archived Growl.prefPane
 	NSFileManager *mgr = [NSFileManager defaultManager];
@@ -356,8 +410,6 @@ static BOOL checkOSXVersion(void) {
 			}
 
 			if (success) {
-				NSString	*tempGrowlPrefPane;
-
 				/*Kill the running GrowlHelperApp if necessary by asking it via
 				 *	DNC to shutdown.
 				 */
@@ -370,47 +422,30 @@ static BOOL checkOSXVersion(void) {
 				//If there's an existing version of Growl, system preferneces must not be running
 				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 				if (oldGrowlPath) {
-					NSAppleEventDescriptor *descriptor;
-					/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
-					descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
-									  target:[[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"],
-								  ENDRECORD];
-					[descriptor sendWithImmediateReplyWithTimeout:5];
-				}
-
-				/*Open Growl.prefPane using System Preferences, which will
-				 *	take care of the rest.
-				 *Growl.prefPane will relaunch the GHA if appropriate.
-				 */
-				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-				if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
-					/* Available in 10.3 and above only; preferred since it doesn't matter if System Preferences.app has been renamed */
-					NSArray *identifiers;
-					success = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:tempGrowlPrefPane]]
-											  withAppBundleIdentifier:@"com.apple.systempreferences"
-															  options:NSWorkspaceLaunchDefault
-									   additionalEventParamDescriptor:nil
-													launchIdentifiers:&identifiers];
-
-				} else {
-					//We should never get here, since Growl doesn't run in 10.2.
-					success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
-													  withApplication:@"System Preferences"
-														andDeactivate:YES];
-				}
-				if (!success) {
-					NSLog(@"GrowlInstallationPrompt: Warning: Could not find the System Preferences via NSWorksapce");
-
-					/*If the System Preferences app could not be found for
-					 *	whatever reason, try opening Growl.prefPane with
-					 *	-openTempFile: so the associated app will launch. This
-					 *	could be the case if an alternative program were being used.
-					 */
-					success = [[NSWorkspace sharedWorkspace] openTempFile:tempGrowlPrefPane];
-					if (!success) {
-						NSLog(@"GrowlInstallationPrompt: Could not open %@",tempGrowlPrefPane);
+					ProcessSerialNumber psn = [[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"];
+					if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
+						NSAppleEventDescriptor *descriptor;
+						/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
+						[temporaryDirectory release];
+						temporaryDirectory = [tmpDir retain];
+						
+						//Will release in appDidQuit:
+						[self retain];
+						[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+																			   selector:@selector(appDidQuit:)
+																				   name:NSWorkspaceDidTerminateApplicationNotification
+																				 object:nil];
+						descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
+										  target:psn,
+									  ENDRECORD];
+						[descriptor sendWithImmediateReplyWithTimeout:5];
+						//Whenever system prefs quits, we'll continue in appDidQuit:
+						return;
 					}
 				}
+
+				//Install immediately
+				success = [self installGrowlFromTmpDir:tmpDir];
 			} else {
 				NSLog(@"GrowlInstallationPrompt: unzip with %@ failed", launchPath);
 			}

@@ -18,6 +18,8 @@
 	IBOutlet	NSProgressIndicator	*spinner;
 
 	NSString	*updateVersion;
+	
+	NSString	*temporaryDirectory;
 }
 
 /*!
