@@ -164,8 +164,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0703737109F191B800C5F35C /* minus-8.png */,
 				0703737209F191B800C5F35C /* plus-8.png */,
+				0703737109F191B800C5F35C /* minus-8.png */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* GRDEDocument.nib */,
