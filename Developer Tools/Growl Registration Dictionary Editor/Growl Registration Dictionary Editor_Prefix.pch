@@ -5,4 +5,6 @@
 #ifdef __OBJC__
 #	import <Cocoa/Cocoa.h>
 #	include <Carbon/Carbon.h>
+#	define GRDE_CODESAMPLE_FILENAME_EXTENSION @"grdecodesample"
+#	define GRDE_NOTIFY_CODESAMPLE_DIRECTORY @"Notify code samples"
 #endif

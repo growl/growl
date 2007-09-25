@@ -1,0 +1,9 @@
+Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
+	/*title*/ <#title#>
+	/*description*/ <#description#>
+	/*notificationName*/ CFSTR("%%NAME%%")
+	/*iconData*/ <#iconData#>
+	/*priority*/ <#priority#>
+	/*isSticky*/ <#isSticky#>
+	/*clickContext*/ <#clickContext#>
+	);

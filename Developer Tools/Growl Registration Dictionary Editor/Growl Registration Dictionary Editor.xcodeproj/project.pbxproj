@@ -17,6 +17,9 @@
 		072DC3B709F2383600B8D4EC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 072DC3B609F2383600B8D4EC /* Carbon.framework */; };
 		072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */; };
 		0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */; };
+		3181A5540CA87EDE006B6B5D /* Notify code samples in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5500CA87EDE006B6B5D /* Notify code samples */; };
+		3181A5560CA896AB006B6B5D /* GRDECodeSampleIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */; };
+		3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2E0486D014006FF6A4 /* GRDEDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* GRDEDocument.nib */; };
@@ -56,8 +59,12 @@
 		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		3181A5500CA87EDE006B6B5D /* Notify code samples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Notify code samples"; sourceTree = "<group>"; };
+		3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GRDECodeSampleIcon.icns; path = "GRDE Code Sample icon/GRDECodeSampleIcon.icns"; sourceTree = "<group>"; };
+		3181A55F0CA89D0B006B6B5D /* GRDEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDEAppDelegate.h; sourceTree = "<group>"; };
+		3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRDEAppDelegate.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* Growl Registration Dictionary Editor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Growl Registration Dictionary Editor_Prefix.pch"; sourceTree = "<group>"; };
-		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; languageSpecificationIdentifier = html; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Growl Registration Dictionary Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Growl Registration Dictionary Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -139,6 +146,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3181A55F0CA89D0B006B6B5D /* GRDEAppDelegate.h */,
+				3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */,
 				2A37F4AEFDCFA73011CA2CEA /* GRDEDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* GRDEDocument.m */,
 				072DC32809F21DD800B8D4EC /* GRDENotification.h */,
@@ -164,6 +173,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3181A5500CA87EDE006B6B5D /* Notify code samples */,
+				3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */,
 				0703737209F191B800C5F35C /* plus-8.png */,
 				0703737109F191B800C5F35C /* minus-8.png */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
@@ -233,6 +244,8 @@
 				0703737309F191B800C5F35C /* minus-8.png in Resources */,
 				0703737409F191B900C5F35C /* plus-8.png in Resources */,
 				071A885009F8C3B10061AFE5 /* Localizable.strings in Resources */,
+				3181A5540CA87EDE006B6B5D /* Notify code samples in Resources */,
+				3181A5560CA896AB006B6B5D /* GRDECodeSampleIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +264,7 @@
 				072DC32A09F21DD900B8D4EC /* GRDENotification.m in Sources */,
 				072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */,
 				0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */,
+				3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

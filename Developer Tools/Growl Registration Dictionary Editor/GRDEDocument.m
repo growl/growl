@@ -32,6 +32,12 @@
 
 @implementation GRDEDocument
 
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	return [[tableView selectedRowIndexes] count] ? YES : NO;
+}
+
+#pragma mark -
+
 - init {
 	if ((self = [super init])) {
 		notifications     = [[NSMutableArray alloc] init];
@@ -95,6 +101,44 @@
 	[obj release];
 
 	[tableView editColumn:0 row:idx withEvent:nil select:YES];
+}
+
+/*Copying notify statements to the clipboard
+ *
+ *At launch, the app delegate looks inside the app bundle for .grdecodesample files. For each one, it obtains the filename without extension, and considers that to be the programming environment name (e.g., Carbon, Cocoa, Python, or Java); it then creates a menu item with the programming environment name in its title, and sets the path to the code sample file as the representedObject of the menu item.
+ *
+ *When the user chooses the menu item, this action method slurps the file indicated by the representedObject, replaces %%NAME%% with the name of each selected notification, and copies the concatenation of all those results to the clipboard.
+ */
+- (IBAction)writeNotifyStatementToPasteboard:(id)sender {
+	NSString *path = [sender representedObject];
+	NSError *fileReadError = nil;
+	NSString *template = [NSString stringWithContentsOfFile:path
+												   encoding:NSUTF8StringEncoding
+													  error:&fileReadError];
+	if (![template hasSuffix:@"\n"] || [template hasSuffix:@"\r"])
+		template = [template stringByAppendingString:@"\n"];
+
+	NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+	[pboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+
+	NSIndexSet *selection = [tableView selectedRowIndexes];
+	NSMutableString *notifyStatements = [NSMutableString string];
+
+	for (unsigned idx = [selection firstIndex]; idx <= [selection lastIndex]; idx = [selection indexGreaterThanIndex:idx]) {
+		GRDENotification *notification = [notifications objectAtIndex:idx];
+		NSMutableString *statement = [template mutableCopy];
+
+		//Xcode users: Be careful not to clobber the placeholder in this string when you ctrl-/ from one placeholder to the next. This one is supposed to be here.
+		[statement replaceOccurrencesOfString:@"%%NAME%%"
+								   withString:[notification name]
+									  options:NSLiteralSearch
+										range:(NSRange){ 0U, [statement length] }];
+		[notifyStatements appendString:statement];
+
+		[statement release];
+	}
+
+	[pboard setString:notifyStatements forType:NSStringPboardType];
 }
 
 #pragma mark Accessors
