@@ -9,10 +9,7 @@
 #import "GRDEAppDelegate.h"
 
 #import "GRDEDocument.h"
-
-#include <sys/param.h>
-
-static int sortFilenamesLikeFinder(id filenameA, id filenameB, void *context);
+#import "NSString+FinderLikeSorting.h"
 
 @implementation GRDEAppDelegate
 
@@ -48,33 +45,3 @@ static int sortFilenamesLikeFinder(id filenameA, id filenameB, void *context);
 }
 
 @end
-
-//Sorting Like the Finder: http://developer.apple.com/qa/qa2004/qa1159.html
-static int sortFilenamesLikeFinder(id filenameA, id filenameB, void *context) {
-	static UTF16Char filenameA_UTF16[MAXPATHLEN];
-	[filenameA getCharacters:filenameA_UTF16];
-	static UTF16Char filenameB_UTF16[MAXPATHLEN];
-	[filenameB getCharacters:filenameB_UTF16];
-
-	SInt32 comparisonResult;
-	OSStatus err = UCCompareTextDefault(  kUCCollateComposeInsensitiveMask
-	                                    | kUCCollateWidthInsensitiveMask
-	                                    | kUCCollateCaseInsensitiveMask
-	                                    | kUCCollateDigitsOverrideMask
-	                                    | kUCCollateDigitsAsNumberMask
-	                                    | kUCCollatePunctuationSignificantMask,
-	                                    filenameA_UTF16,
-	                                    [filenameA length],
-	                                    filenameB_UTF16,
-	                                    [filenameB length],
-	                                    /*equivalent?*/ NULL,
-	                                    &comparisonResult);
-	
-	/*Quoth the technote:
-	 *
-	 *Return the result.  Conveniently, UCCompareTextDefault
-     *returns -1, 0, or +1, which matches the values for
-     *~~CF~~NSComparisonResult exactly.
-	 */
-    return (NSComparisonResult)comparisonResult;
-}

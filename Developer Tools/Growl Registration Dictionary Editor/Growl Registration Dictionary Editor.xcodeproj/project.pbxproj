@@ -17,6 +17,7 @@
 		072DC3B709F2383600B8D4EC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 072DC3B609F2383600B8D4EC /* Carbon.framework */; };
 		072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */; };
 		0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */; };
+		31135DFC0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m in Sources */ = {isa = PBXBuildFile; fileRef = 31135DFB0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m */; };
 		3181A5540CA87EDE006B6B5D /* Notify code samples in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5500CA87EDE006B6B5D /* Notify code samples */; };
 		3181A5560CA896AB006B6B5D /* GRDECodeSampleIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */; };
 		3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */; };
@@ -59,6 +60,8 @@
 		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		31135DFA0CB13CDD002BD7DA /* NSString+FinderLikeSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FinderLikeSorting.h"; sourceTree = "<group>"; };
+		31135DFB0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FinderLikeSorting.m"; sourceTree = "<group>"; };
 		3181A5500CA87EDE006B6B5D /* Notify code samples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Notify code samples"; sourceTree = "<group>"; };
 		3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GRDECodeSampleIcon.icns; path = "GRDE Code Sample icon/GRDECodeSampleIcon.icns"; sourceTree = "<group>"; };
 		3181A55F0CA89D0B006B6B5D /* GRDEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDEAppDelegate.h; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 			children = (
 				0752F6B809F878A400032AAC /* NSMutableDictionary+Intersection.h */,
 				0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */,
+				31135DFA0CB13CDD002BD7DA /* NSString+FinderLikeSorting.h */,
+				31135DFB0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */,
 				0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */,
 				3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */,
+				31135DFC0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
