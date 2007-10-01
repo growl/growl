@@ -11,6 +11,8 @@
 			<array>
 				<string>grdecodesample</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>GRDECodeSampleIcon.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Registration Dictionary Editor code sample document</string>
 			<key>CFBundleTypeRole</key>
