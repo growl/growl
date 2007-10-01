@@ -27,8 +27,6 @@
 			<array>
 				<string>growlRegDict</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string></string>
 			<key>CFBundleTypeName</key>
 			<string>Growl auto-registration property list</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -45,8 +43,6 @@
 			<array>
 				<string>growlTicket</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string></string>
 			<key>CFBundleTypeName</key>
 			<string>Growl saved ticket</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -63,8 +59,6 @@
 			<array>
 				<string>plist</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string></string>
 			<key>CFBundleTypeName</key>
 			<string>Property list</string>
 			<key>CFBundleTypeOSTypes</key>
