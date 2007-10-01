@@ -23,7 +23,8 @@ struct Version {
 	u_int16_t minor;
 	u_int8_t  incremental;
 	u_int8_t  releaseType; //use one of the constants for enum releaseType
-	u_int32_t development; //for svn, should be the svn revision
+	//The development version is used for SVN builds (in which case, it is automatically set to the SVN revision), and for alpha and beta releases (in which case, it must be set manually in the GrowlApplicationController source file). It is ignored for final releases.
+	u_int32_t development;
 
 	/*this structure can be taken as a 64-bit hexadecimal number:
 	 *	0x0000 0006 00 01 svn_revision
