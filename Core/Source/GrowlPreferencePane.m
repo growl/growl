@@ -104,8 +104,6 @@
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 
-	[self setCanRemoveTicket:NO];
-
 	browser = [[NSNetServiceBrowser alloc] init];
 
 	// create a deep mutable copy of the forward destinations
@@ -447,9 +445,7 @@
 						change:(NSDictionary *)change context:(void *)context {
 #pragma unused(change, context)
 	if ([keyPath isEqualToString:@"selection"]) {
-		if ((object == ticketsArrayController))
-			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
-		else if (object == displayPluginsArrayController)
+		if (object == displayPluginsArrayController)
 			[self reloadDisplayPluginView];
 	}
 }
@@ -656,14 +652,6 @@
 
 #pragma mark "Applications" tab pane
 
-- (BOOL) canRemoveTicket {
-	return canRemoveTicket;
-}
-
-- (void) setCanRemoveTicket:(BOOL)flag {
-	canRemoveTicket = flag;
-}
-
 - (void) deleteTicket:(id)sender {
 #pragma unused(sender)
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
@@ -851,10 +839,6 @@
 		return [[self services] count];
 	}
 	return 0;
-}
-- (void) tableViewDidClickInBody:(NSTableView *)tableView {
-	activeTableView = tableView;
-	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {

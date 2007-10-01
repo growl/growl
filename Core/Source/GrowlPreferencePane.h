@@ -25,7 +25,6 @@
 	NSDictionary					*currentPlugin;
 	GrowlPlugin						*currentPluginController;
 
-	BOOL                            canRemoveTicket;
 	BOOL                            growlIsRunning;
 
 	NSURL							*versionCheckURL;
@@ -57,7 +56,6 @@
 	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
 	IBOutlet NSTabView				*applicationsTab;
 	IBOutlet NSTabView				*configurationTab;
-	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;
 	IBOutlet GrowlPositionPicker	*appPositionPicker;
@@ -104,8 +102,6 @@
 - (GrowlPreferencesController *) preferencesController;
 
 #pragma mark "Applications" tab pane
-- (BOOL) canRemoveTicket;
-- (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
 
