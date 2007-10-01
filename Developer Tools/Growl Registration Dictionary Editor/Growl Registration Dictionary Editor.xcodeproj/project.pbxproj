@@ -18,6 +18,8 @@
 		072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */; };
 		0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */; };
 		31135DFC0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m in Sources */ = {isa = PBXBuildFile; fileRef = 31135DFB0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m */; };
+		3130C6E20CB1212600811B2B /* GRDEImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3130C6E10CB1212600811B2B /* GRDEImporter.m */; };
+		3130C6F10CB1246D00811B2B /* GRDEImport.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3130C6EF0CB1246D00811B2B /* GRDEImport.nib */; };
 		3181A5540CA87EDE006B6B5D /* Notify code samples in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5500CA87EDE006B6B5D /* Notify code samples */; };
 		3181A5560CA896AB006B6B5D /* GRDECodeSampleIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */; };
 		3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */; };
@@ -62,6 +64,9 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		31135DFA0CB13CDD002BD7DA /* NSString+FinderLikeSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FinderLikeSorting.h"; sourceTree = "<group>"; };
 		31135DFB0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FinderLikeSorting.m"; sourceTree = "<group>"; };
+		3130C6E00CB1212600811B2B /* GRDEImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDEImporter.h; sourceTree = "<group>"; };
+		3130C6E10CB1212600811B2B /* GRDEImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRDEImporter.m; sourceTree = "<group>"; };
+		3130C6F00CB1246D00811B2B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GRDEImport.nib; sourceTree = "<group>"; };
 		3181A5500CA87EDE006B6B5D /* Notify code samples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Notify code samples"; sourceTree = "<group>"; };
 		3181A5550CA896AB006B6B5D /* GRDECodeSampleIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GRDECodeSampleIcon.icns; path = "GRDE Code Sample icon/GRDECodeSampleIcon.icns"; sourceTree = "<group>"; };
 		3181A55F0CA89D0B006B6B5D /* GRDEAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDEAppDelegate.h; sourceTree = "<group>"; };
@@ -153,6 +158,8 @@
 			children = (
 				3181A55F0CA89D0B006B6B5D /* GRDEAppDelegate.h */,
 				3181A5600CA89D0B006B6B5D /* GRDEAppDelegate.m */,
+				3130C6E00CB1212600811B2B /* GRDEImporter.h */,
+				3130C6E10CB1212600811B2B /* GRDEImporter.m */,
 				2A37F4AEFDCFA73011CA2CEA /* GRDEDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* GRDEDocument.m */,
 				072DC32809F21DD800B8D4EC /* GRDENotification.h */,
@@ -188,6 +195,7 @@
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				071A884E09F8C3B10061AFE5 /* Localizable.strings */,
+				3130C6EF0CB1246D00811B2B /* GRDEImport.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -251,6 +259,7 @@
 				071A885009F8C3B10061AFE5 /* Localizable.strings in Resources */,
 				3181A5540CA87EDE006B6B5D /* Notify code samples in Resources */,
 				3181A5560CA896AB006B6B5D /* GRDECodeSampleIcon.icns in Resources */,
+				3130C6F10CB1246D00811B2B /* GRDEImport.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +279,7 @@
 				072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */,
 				0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */,
 				3181A5610CA89D0B006B6B5D /* GRDEAppDelegate.m in Sources */,
+				3130C6E20CB1212600811B2B /* GRDEImporter.m in Sources */,
 				31135DFC0CB13CDD002BD7DA /* NSString+FinderLikeSorting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +325,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		3130C6EF0CB1246D00811B2B /* GRDEImport.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3130C6F00CB1246D00811B2B /* English */,
+			);
+			name = GRDEImport.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

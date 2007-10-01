@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {importSelectedTickets = id; orderFrontImportPanel = id; }; 
+            CLASS = GRDEImporter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {importPanel = NSPanel; ticketsTableView = NSTableView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

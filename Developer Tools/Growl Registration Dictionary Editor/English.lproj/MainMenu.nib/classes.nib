@@ -6,6 +6,12 @@
             LANGUAGE = ObjC; 
             OUTLETS = {menuItemToInsertWriteCodeSampleToPasteboardMenuItemsAfter = NSMenuItem; }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {orderFrontImportPanel = id; }; 
+            CLASS = GRDEImporter; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
         }
     ); 
     IBVersion = 1; 
