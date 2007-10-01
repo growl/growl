@@ -424,7 +424,7 @@
 													errorDescription:&errorString];
 	if (errorString) {
 		if (outError)
-			*outError = [NSError errorWithDomain:@"NSPropertyListSerialization" code:2 userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedFailureReasonErrorKey]];
+			*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedRecoverySuggestionErrorKey]];
 		NSLog(@"Could not write dictionary:\n%@", dictionaryRepresentation);
 	}
 
@@ -439,7 +439,7 @@
 														  errorDescription:&errorString];
 	if (errorString) {
 		if (outError)
-			*outError = [NSError errorWithDomain:@"NSPropertyListSerialization" code:1 userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedFailureReasonErrorKey]];
+			*outError = [NSError errorWithDomain:@"NSPropertyListSerialization" code:1 userInfo:[NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedRecoverySuggestionErrorKey]];
 	}
 	if (dict) {
 		if (!dictionaryRepresentation)
