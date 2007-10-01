@@ -18,6 +18,12 @@
 
 @implementation GRDEImporter
 
++ (void) initialize {
+	if (self == [GRDEImporter class]) {
+		[self setKeys:[NSArray arrayWithObject:@"ticketPaths"] triggerChangeNotificationsForDependentKey:@"ticketApplicationNames"];
+	}
+}
+
 #pragma mark Private methods
 
 //Scan the Growl tickets folders. This method is not lazy nor does it cache.
@@ -63,7 +69,13 @@
 	if((self = [super init])) {
 		[self setTicketPaths:[self currentListOfTicketPaths]];
 		[self setSelectedTicketIndices:[NSIndexSet indexSet]];
+
 		[NSBundle loadNibNamed:@"GRDEImport" owner:self];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationDidBecomeActive:)
+													 name:NSApplicationDidBecomeActiveNotification
+												   object:nil];
 	}
 	return self;
 }
@@ -79,6 +91,8 @@
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	[ticketPaths release];
 	[importPanel close];
 
@@ -131,6 +145,29 @@
 	 *That menu item should be enabled whenever Growl has at least one saved ticket for us to import.
 	 */
 	return ([[self currentListOfTicketPaths] count] > 0U);
+}
+
+#pragma mark Automatically updating the list of tickets
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+	NSArray *newTicketPaths = [self currentListOfTicketPaths];
+
+	NSSet *existingNames = [NSSet setWithArray:ticketPaths];
+
+	NSMutableSet *oldNames = [[existingNames mutableCopy] autorelease];
+	NSMutableSet *newNames = [NSMutableSet setWithArray:newTicketPaths];
+	//To find existing tickets that have been deleted, we subtract the set of all current tickets (newNames) from the set of all known tickets at last check (oldNames).
+	[oldNames minusSet:newNames];
+	//To find tickets that have been added, we subtract the set of all known tickets at last check (existingNames) from all new tickets (newNames).
+	[newNames minusSet:existingNames];
+
+	//If any tickets have been added or deleted, update our list and empty the selection.
+	//XXX Someday, perhaps, we should update the selection without deselecting surviving tickets.
+	//(Strangely enough, though, as of Mac OS X 10.4.10, it seems to do the Right Thing despite my explicit orders otherwise. Hm. —boredzo)
+	if ([oldNames count] || [newNames count]) {
+		[self setTicketPaths:newTicketPaths];
+		[self setSelectedTicketIndices:[NSIndexSet indexSet]];
+	}
 }
 
 #pragma mark Actions
