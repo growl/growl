@@ -627,7 +627,7 @@
 }
 
 - (NSArray *) allNotifications {
-	return [[[allNotifications allKeys] retain] autorelease];
+	return [[allNotificationNames retain] autorelease];
 }
 
 - (void) setAllNotifications:(NSArray *)inArray {
