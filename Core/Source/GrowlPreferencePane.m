@@ -844,7 +844,7 @@
  #pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL:growlDonateURL];
 }
-#pragma mark TableView delegate methods
+#pragma mark TableView data source methods
 
 - (int) numberOfRowsInTableView:(NSTableView*)tableView {
 	if(tableView == networkTableView) {
