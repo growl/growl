@@ -32,8 +32,12 @@
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &screenNumber);
-	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-
+	NSArray *screens = [NSScreen screens];
+	unsigned int screensCount = [screens count];
+	if (screensCount) {
+		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
+	}
+				 
 	NSRect sizeRect;
 	NSRect screen = [[self screen] frame];
 	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);

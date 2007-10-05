@@ -44,12 +44,13 @@
     return _windowNum;
 }
 - (void)scaleX:(double)x Y:(double)y {
-        CGAffineTransform original;
-        NSPoint scalePoint;
-        NSRect screenFrame;
-		//NSLog(@"%@", NSStringFromRect(_frame));
-        NSPoint point = NSMakePoint(_frame.size.width / 2.0, _frame.size.height / 2.0);
+	CGAffineTransform original;
+	NSPoint scalePoint;
+	NSRect screenFrame;
+	//NSLog(@"%@", NSStringFromRect(_frame));
+	NSPoint point = NSMakePoint(_frame.size.width / 2.0, _frame.size.height / 2.0);
         
+	if ([[NSScreen screens] count]) {
         screenFrame = [[[NSScreen screens] objectAtIndex:0] frame];
         
         scalePoint.x = _frame.origin.x + point.x;
@@ -65,6 +66,7 @@
         original = CGAffineTransformTranslate(original, -scalePoint.x, -scalePoint.y);
         
         CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, original);
+	}
 }
 
 @end

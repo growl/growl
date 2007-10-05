@@ -25,7 +25,11 @@
 - (id) init {
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
-	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+	NSArray *screens = [NSScreen screens];
+	int screensCount = [screens count];
+	if (screensCount) {
+		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
+	}
 
 	CFNumberRef prefsDuration = NULL;
 	READ_GROWL_PREF_VALUE(GrowlSmokeDurationPref, GrowlSmokePrefDomain, CFNumberRef, &prefsDuration);

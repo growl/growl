@@ -25,7 +25,11 @@
 	// Read prefs...
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
-	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+	NSArray *screens = [NSScreen screens];
+	int screensCount = [screens count];
+	if (screensCount) {
+		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
+	}
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
