@@ -3,15 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>IBFramework Version</key>
-	<string>623</string>
+	<string>628</string>
+	<key>IBLastKnownRelativeProjectPath</key>
+	<string>../../../../Growl.xcodeproj</string>
 	<key>IBOldestOS</key>
 	<integer>5</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>100</integer>
+		<integer>98</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>9A527</string>
+	<string>9A559</string>
 	<key>targetFramework</key>
 	<string>IBCocoaFramework</string>
 </dict>
