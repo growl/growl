@@ -187,6 +187,11 @@
 					   withObject:[NSIndexSet indexSetWithIndex:defaultStyleRow]
 					   afterDelay:0];
 		}
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(translateSeparatorsInSoundMenu:)
+													 name:NSPopUpButtonWillPopUpNotification
+												    object:soundMenuButton];
 	}
 }
 
@@ -496,6 +501,8 @@
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
 			if (isDirectory) {
+				[soundNames addObject:@"-"];
+				
 				NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:directory];
 
 				NSString *filename = nil;
@@ -511,6 +518,20 @@
 	}
 	
 	return [soundNames autorelease];
+}
+
+- (void)translateSeparatorsInSoundMenu:(NSNotification *)notification
+{
+	if ([notification object] == soundMenuButton)	{
+		NSMenu *menu = [soundMenuButton menu];
+	
+		int itemIndex = 0;
+	
+		while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != NSNotFound) {
+			[menu removeItemAtIndex:itemIndex];
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
+		}
+	}
 }
 
 #pragma mark Growl running state

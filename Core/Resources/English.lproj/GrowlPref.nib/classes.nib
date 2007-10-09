@@ -58,6 +58,7 @@
                 previewButton = NSButton; 
                 servicePasswordColumn = NSTableColumn; 
                 servicesArrayController = NSArrayController; 
+                soundMenuButton = NSPopUpButton; 
                 startStopGrowl = NSButton; 
                 ticketsArrayController = TicketsArrayController; 
             }; 
