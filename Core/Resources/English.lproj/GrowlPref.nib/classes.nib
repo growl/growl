@@ -41,7 +41,7 @@
                 disabledDisplaysSheet = NSWindow; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
-                displayDefaultsPopup = NSPopUpButton; 
+                displayMenuButton = NSPopUpButton; 
                 displayPluginsArrayController = NSArrayController; 
                 displayPluginsTable = NSTableView; 
                 displayPrefView = NSView; 
@@ -53,6 +53,7 @@
                 growlVersionProgress = NSProgressIndicator; 
                 logFileType = NSMatrix; 
                 networkTableView = NSTableView; 
+                notificationDisplayMenuButton = NSPopUpButton; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 

@@ -62,6 +62,8 @@
 	IBOutlet TicketsArrayController	*ticketsArrayController;
 	IBOutlet GrowlPositionPicker	*appPositionPicker;
 	IBOutlet NSPopUpButton			*soundMenuButton;
+	IBOutlet NSPopUpButton			*displayMenuButton;
+	IBOutlet NSPopUpButton			*notificationDisplayMenuButton;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;

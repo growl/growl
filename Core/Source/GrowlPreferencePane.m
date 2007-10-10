@@ -189,9 +189,19 @@
 		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInSoundMenu:)
+												 selector:@selector(translateSeparatorsInMenu:)
 													 name:NSPopUpButtonWillPopUpNotification
 												    object:soundMenuButton];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(translateSeparatorsInMenu:)
+													 name:NSPopUpButtonWillPopUpNotification
+												    object:displayMenuButton];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(translateSeparatorsInMenu:)
+													 name:NSPopUpButtonWillPopUpNotification
+												    object:notificationDisplayMenuButton];
 	}
 }
 
@@ -520,17 +530,17 @@
 	return [soundNames autorelease];
 }
 
-- (void)translateSeparatorsInSoundMenu:(NSNotification *)notification
+- (void)translateSeparatorsInMenu:(NSNotification *)notification
 {
-	if ([notification object] == soundMenuButton)	{
-		NSMenu *menu = [soundMenuButton menu];
+	NSPopUpButton * button = [notification object];
 	
-		int itemIndex = 0;
+	NSMenu *menu = [button menu];
 	
-		while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != NSNotFound) {
-			[menu removeItemAtIndex:itemIndex];
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
-		}
+	int itemIndex = 0;
+	
+	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != NSNotFound) {
+		[menu removeItemAtIndex:itemIndex];
+		[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
 	}
 }
 

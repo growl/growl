@@ -19,6 +19,12 @@
 													[NSNull null], @"CFBundleIdentifier",
 													nil]
 						  atIndex:0U];
+
+	[arrangedObjects insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+													@"-", @"CFBundleName", 
+													@"-", @"CFBundleIdentifier",
+													nil]
+						  atIndex:1U];
 	
 	return arrangedObjects;	
 }
