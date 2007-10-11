@@ -28,7 +28,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	int screensCount = [screens count];
+	unsigned screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
