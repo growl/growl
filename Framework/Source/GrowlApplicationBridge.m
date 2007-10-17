@@ -459,7 +459,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		if (![mRegDict objectForKey:GROWL_APP_ID])
 			[mRegDict setObject:(NSString *)CFBundleGetIdentifier(CFBundleGetMainBundle()) forKey:GROWL_APP_ID];
 
-	return mRegDict;
+	return [mRegDict autorelease];
 }
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
