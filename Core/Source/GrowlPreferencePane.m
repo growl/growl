@@ -538,7 +538,7 @@
 	
 	int itemIndex = 0;
 	
-	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != NSNotFound) {
+	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != -1) {
 		[menu removeItemAtIndex:itemIndex];
 		[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
 	}
@@ -787,8 +787,9 @@
 	
 	NSDictionary *pluginToUse = currentPlugin;
 	
+#warning This does not work if the popup button is not using the exact same order as displayPluginsArrayController - a default or separator item breaks it
 	if([sender isKindOfClass:[NSPopUpButton class]]) 
-		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
+		pluginToUse = [ticketsArrayController valueForKey: [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender selectedItem]];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]];
