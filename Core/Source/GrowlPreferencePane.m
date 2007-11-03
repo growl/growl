@@ -782,7 +782,6 @@
 
 // Popup buttons that post preview notifications support suppressing the preview with the Option key
 - (IBAction) showPreview:(id)sender {
-	/*
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && (GetCurrentKeyModifiers() & optionKey))
 		return;
 	
@@ -793,7 +792,7 @@
 		pluginToUse = [ticketsArrayController valueForKey: [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]]];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]]; */
+																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
