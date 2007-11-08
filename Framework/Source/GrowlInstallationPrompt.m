@@ -339,9 +339,10 @@ static BOOL checkOSXVersion(void) {
 	return success;
 }
 
-- (void) appDidQuit:(NSNotification *)notification
+- (void) continuePerformInstallGrowl:(NSNotification *)notification
 {
-	if ([[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:@"com.apple.systempreferences"]) {
+	if (!notification ||
+		[[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:@"com.apple.systempreferences"]) {
 		BOOL success = NO;
 		if ([self deleteExistingGrowlInstallation]) {
 			success = [self installGrowlFromTmpDir:temporaryDirectory];
@@ -353,7 +354,7 @@ static BOOL checkOSXVersion(void) {
 			NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
 		}
 
-		//Retained when we established the observer in -[self performInstallGrowl].
+		//Retained in -[self performInstallGrowl].
 		[self autorelease];
 	}
 }
@@ -449,6 +450,14 @@ static BOOL checkOSXVersion(void) {
 				//tell GAB to register when GHA next launches.
 				[GrowlApplicationBridge setWillRegisterWhenGrowlIsReady:YES];
 
+				[temporaryDirectory release];
+				temporaryDirectory = [tmpDir retain];
+
+				/* Will release in -[self continuePerformInstallGrowl:]. Needed to handle the possibility of a
+				 * notification later calling continuePerformInstallGrowl:
+				 */
+				[self retain];
+				
 				//If there's an existing version of Growl, system preferneces must not be running
 				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 				if (oldGrowlPath) {
@@ -456,13 +465,8 @@ static BOOL checkOSXVersion(void) {
 					if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
 						NSAppleEventDescriptor *descriptor;
 						/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
-						[temporaryDirectory release];
-						temporaryDirectory = [tmpDir retain];
-						
-						//Will release in -[self appDidQuit:].
-						[self retain];
 						[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-																			   selector:@selector(appDidQuit:)
+																			   selector:@selector(continuePerformInstallGrowl:)
 																				   name:NSWorkspaceDidTerminateApplicationNotification
 																				 object:nil];
 						descriptor = [AEVT class:kCoreEventClass id:kAEQuitApplication
@@ -470,13 +474,15 @@ static BOOL checkOSXVersion(void) {
 									  ENDRECORD];
 						[descriptor sendWithImmediateReplyWithTimeout:5];
 
-						//Whenever system prefs quits, we'll continue in -[self appDidQuit:]. This method will be responsible for further upgrade logic.
+						/* Whenever system prefs quits, we'll continue in -[self continuePerformInstallGrowl:].
+						 * This method will be responsible for further upgrade logic.
+						 */
 						return;
 					}
 				}
 
-				//Install immediately
-				success = [self installGrowlFromTmpDir:tmpDir];
+				//Install immediately. This method will be responsible for further upgrade logic.
+				success = [self continuePerformInstallGrowl:nil];
 			} else {
 				NSLog(@"GrowlInstallationPrompt: unzip with %@ failed", launchPath);
 			}
