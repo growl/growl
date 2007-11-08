@@ -339,11 +339,12 @@ static BOOL checkOSXVersion(void) {
 	return success;
 }
 
-- (void) continuePerformInstallGrowl:(NSNotification *)notification
+- (BOOL) continuePerformInstallGrowl:(NSNotification *)notification
 {
+	BOOL success = NO;
+
 	if (!notification ||
 		[[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:@"com.apple.systempreferences"]) {
-		BOOL success = NO;
 		if ([self deleteExistingGrowlInstallation]) {
 			success = [self installGrowlFromTmpDir:temporaryDirectory];
 		} else {
@@ -357,6 +358,8 @@ static BOOL checkOSXVersion(void) {
 		//Retained in -[self performInstallGrowl].
 		[self autorelease];
 	}
+	
+	return success;
 }
 
 - (void) performInstallGrowl {
