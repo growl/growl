@@ -530,6 +530,7 @@ static OSStatus _fillOutIconInWindow(WindowRef window) {
 		NSLog(CFSTR("GrowlInstallationPrompt: could not obtain image view in confirmation dialog: HIViewFindByID returned %li"), (long)err);
 	} else {
 		struct ProcessInfoRec processInfo;
+		memset(&processInfo, 0, sizeof(processInfo));
 		const struct ProcessSerialNumber psn = { 0, kCurrentProcess };
 		err = GetProcessInformation(&psn, &processInfo);
 		if (err != noErr)
