@@ -389,9 +389,16 @@ static BOOL checkOSXVersion(void) {
 		if (tmpDir) {
 			[mgr createDirectoryAtPath:tmpDir attributes:nil];
 			BOOL hasUnzip = YES;
-			BOOL usingBomArchiveHelper = YES;
-			NSString *launchPath = @"/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
+			BOOL usingArchiveUtility = YES;
+			NSString *launchPath;
 			NSArray *arguments = nil;
+
+			//10.5 and later: Try Archive Utility.
+			launchPath = @"/System/Library/CoreServices/Archive Utility.app/Contents/MacOS/Archive Utility";
+			//10.4: Archive Utility was called BOMArchiveHelper back then.
+			if (![mgr fileExistsAtPath:launchPath]) 
+				launchPath = @"/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
+
 			if ([mgr fileExistsAtPath:launchPath]) {
 				//BOMArchiveHelper is more particular than unzip, so we need to do some clean-up first:
 				//(1) copy the zip file into the temporary directory.
@@ -404,10 +411,10 @@ static BOOL checkOSXVersion(void) {
 				//(2) pass BOMArchiveHelper only the path to the archive.
 				arguments = [NSArray arrayWithObject:tmpArchivePath];
 			} else {
-				//no BOMArchiveHelper - fall back on unzip.
+				//10.3: No BOMArchiveHelper - fall back on unzip.
 				launchPath = @"/usr/bin/unzip";
 				hasUnzip = [mgr fileExistsAtPath:launchPath];
-				usingBomArchiveHelper = NO;
+				usingArchiveUtility = NO;
 
 				if (hasUnzip) {
 					arguments = [NSArray arrayWithObjects:
@@ -429,7 +436,7 @@ static BOOL checkOSXVersion(void) {
 					[unzip launch];
 					[unzip waitUntilExit];
 					/* The BOMArchiveHelper, as of 10.4.8, appears to return a termination status of -1 even with success. Weird. */
-					success = (([unzip terminationStatus] == 0) || (usingBomArchiveHelper && ([unzip terminationStatus] == -1)));
+					success = (([unzip terminationStatus] == 0) || (usingArchiveUtility && ([unzip terminationStatus] == -1)));
 					if (!success) {
 						NSLog(@"GrowlInstallationPrompt: unzip task %@ (launchPath %@, arguments %@, currentDir %@) returned termination status of %i",
 							  unzip, launchPath, arguments, tmpDir, [unzip terminationStatus]);
