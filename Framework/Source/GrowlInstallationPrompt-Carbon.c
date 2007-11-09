@@ -709,29 +709,39 @@ static OSStatus _installGrowl(CFRunLoopRef mainThreadRunLoop) {
 											NULL, NULL, NULL,
 										};
 
-										//find BOMArchiveHelper
-										FSRef bomArchiveHelperRef;
-										static const char bomArchiveHelperPath[] = "/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
-										err = FSPathMakeRef((const unsigned char *)bomArchiveHelperPath, &bomArchiveHelperRef, /*isDirectory*/ false);
+										//Find Archive Utility (which was named BOMArchiveHelper on Tiger)
+										FSRef archiveUtilityRef;
+										static const char archiveUtilityPath[] = "/System/Library/CoreServices/Archive Utility.app/Contents/MacOS/Archive Utility";
+										err = FSPathMakeRef((const unsigned char *)archiveUtilityPath, &archiveUtilityRef, /*isDirectory*/ false);
 										if (err == noErr) {
-											//BOMArchiveHelper exists - use it
+											//Archive Utility exists - use it
 
-											args[0] = (char *)bomArchiveHelperPath;
+											args[0] = (char *)archiveUtilityPath;
 											args[1] = zipFilePath;
 											args[2] = NULL;
 										} else {
-											//BOMArchiveHelper doesn't exist or we couldn't get it - use unzip and hope for the best
-											if (err != fnfErr)
-												NSLog(CFSTR("GrowlInstallationPrompt: could not get FSRef for BOMArchiveHelper: FSPathMakeRef returned %li (will try using unzip instead)"), (long)err);
+											static const char bomArchiveHelperPath[] = "/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
+											err = FSPathMakeRef((const unsigned char *)bomArchiveHelperPath, &archiveUtilityRef, /*isDirectory*/ false);
+											if (err == noErr) {
+												//BOMArchiveHelper exists - use it
 
-											args[0] = "/usr/bin/unzip";
-											args[1] = "-o"; //overwrite
-											args[2] = "-q"; //quiet (don't flood the Console log)
-											args[3] = zipFilePath;
-											CFURLGetFileSystemRepresentation(zipFile, /*resolveAgainstBase*/ true, (unsigned char *)zipFilePath, PATH_MAX);
-											args[4] = "-d"; //destination directory follows
-											args[5] = installerDirPath;
-											args[6] = NULL;
+												args[0] = (char *)bomArchiveHelperPath;
+												args[1] = zipFilePath;
+												args[2] = NULL;
+											} else {
+												//BOMArchiveHelper doesn't exist or we couldn't get it - use unzip and hope for the best
+												if (err != fnfErr)
+													NSLog(CFSTR("GrowlInstallationPrompt: could not get FSRef for BOMArchiveHelper: FSPathMakeRef returned %li (will try using unzip instead)"), (long)err);
+
+												args[0] = "/usr/bin/unzip";
+												args[1] = "-o"; //overwrite
+												args[2] = "-q"; //quiet (don't flood the Console log)
+												args[3] = zipFilePath;
+												CFURLGetFileSystemRepresentation(zipFile, /*resolveAgainstBase*/ true, (unsigned char *)zipFilePath, PATH_MAX);
+												args[4] = "-d"; //destination directory follows
+												args[5] = installerDirPath;
+												args[6] = NULL;
+											}
 										}
 
 										//launch whatever we're using
