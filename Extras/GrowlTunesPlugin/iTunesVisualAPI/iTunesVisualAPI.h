@@ -1,19 +1,49 @@
-/*
-     File:       iTunesVisualAPI.h
-
-     Contains:   iTunes Visual Plug-ins interfaces
-
-     Version:    Technology: iTunes
-                 Release:    1.1
-
-     Copyright:  © 2003 by Apple Computer, Inc., all rights reserved.
-
-     Bugs?:      For bug reports, consult the following page on
-                 the World Wide Web:
-
-                     http://developer.apple.com/bugreporter/
-
-*/
+//
+// File:       iTunesVisualAPI.h
+//
+// Abstract:   part of iTunes Visual SDK
+//
+// Version:    1.2
+//
+// Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple Inc. ( "Apple" )
+//             in consideration of your agreement to the following terms, and your use,
+//             installation, modification or redistribution of this Apple software
+//             constitutes acceptance of these terms.  If you do not agree with these
+//             terms, please do not use, install, modify or redistribute this Apple
+//             software.
+//
+//             In consideration of your agreement to abide by the following terms, and
+//             subject to these terms, Apple grants you a personal, non - exclusive
+//             license, under Apple's copyrights in this original Apple software ( the
+//             "Apple Software" ), to use, reproduce, modify and redistribute the Apple
+//             Software, with or without modifications, in source and / or binary forms;
+//             provided that if you redistribute the Apple Software in its entirety and
+//             without modifications, you must retain this notice and the following text
+//             and disclaimers in all such redistributions of the Apple Software. Neither
+//             the name, trademarks, service marks or logos of Apple Inc. may be used to
+//             endorse or promote products derived from the Apple Software without specific
+//             prior written permission from Apple.  Except as expressly stated in this
+//             notice, no other rights or licenses, express or implied, are granted by
+//             Apple herein, including but not limited to any patent rights that may be
+//             infringed by your derivative works or by other works in which the Apple
+//             Software may be incorporated.
+//
+//             The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO
+//             WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED
+//             WARRANTIES OF NON - INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A
+//             PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION
+//             ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
+//
+//             IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR
+//             CONSEQUENTIAL DAMAGES ( INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//             SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//             INTERRUPTION ) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION, MODIFICATION
+//             AND / OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER
+//             UNDER THEORY OF CONTRACT, TORT ( INCLUDING NEGLIGENCE ), STRICT LIABILITY OR
+//             OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Copyright ( C ) 2000-2007 Apple Inc. All Rights Reserved.
+//
 #ifndef ITUNESVISUALAPI_H_
 #define ITUNESVISUALAPI_H_
 
@@ -30,9 +60,9 @@ extern "C" {
 #if PRAGMA_STRUCT_ALIGN
     #pragma options align=power
 #elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
+    #pragma pack(push, 4)
 #elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
+    #pragma pack(4)
 #endif
 
 struct ITTrackInfoV1 {
@@ -92,7 +122,7 @@ typedef struct ITStreamInfoV1 ITStreamInfoV1;
 
 enum {
 	kITVisualPluginMajorMessageVersion = 10,
-	kITVisualPluginMinorMessageVersion = 5
+	kITVisualPluginMinorMessageVersion = 7
 };
 
 enum {
@@ -118,7 +148,7 @@ enum {
 	kVisualPluginUpdateMessage			= 'vupd',	/* Update the window */
 
 	kVisualPluginPlayMessage			= 'vply',	/* Playing a track */
-	kVisualPluginChangeTrackMessage			= 'ctrk',	/* Change track (for CD continuous play) */
+	kVisualPluginChangeTrackMessage		= 'ctrk',	/* Change track (for CD continuous play) or info about currently playing track has changed */
 	kVisualPluginStopMessage			= 'vstp',	/* Stopping a track */
 	kVisualPluginSetPositionMessage			= 'setp',	/* Setting the position of a track */
 
@@ -142,10 +172,17 @@ enum {
 };
 
 enum {
-	/* ShowWindow options */
+	/* Set/ShowWindow options */
 
 	kWindowIsFullScreen = (1L << 0),
 	kWindowIsStretched	= (1L << 1)
+};
+
+enum {
+	/* Initialize options */
+	
+	kVisualDoesNotNeedResolutionSwitch		= (1L << 0),		/* Added in 7.0 */
+	kVisualDoesNotNeedErase				 	= (1L << 1)			/* Added in 7.0 */
 };
 
 struct RenderVisualData {
@@ -171,16 +208,18 @@ struct VisualPluginInitMessage {
 typedef struct VisualPluginInitMessage VisualPluginInitMessage;
 
 struct VisualPluginShowWindowMessage {
-	CGrafPtr						port;					/* Input */
+	GRAPHICS_DEVICE					GRAPHICS_DEVICE_NAME;	/* Input */
 	Rect							drawRect;				/* Input */
 	OptionBits						options;				/* Input */
+	Rect							totalVisualizerRect;	/* Input -- Added in 7.0 */
 };
 typedef struct VisualPluginShowWindowMessage VisualPluginShowWindowMessage;
 
 struct VisualPluginSetWindowMessage {
-	CGrafPtr						port;					/* Input */
+	GRAPHICS_DEVICE					GRAPHICS_DEVICE_NAME;	/* Input */
 	Rect							drawRect;				/* Input */
 	OptionBits						options;				/* Input */
+	Rect							totalVisualizerRect;	/* Input -- Added in 7.0 */
 };
 typedef struct VisualPluginSetWindowMessage VisualPluginSetWindowMessage;
 
@@ -191,9 +230,10 @@ struct VisualPluginPlayMessage {
 
 	UInt32							bitRate;				/* Input */
 
-	SoundComponentData				soundFormat;			/* Input */
+	SoundComponentData				oldSoundFormat;			/* Input -- deprecated in 7.1 */
 	ITTrackInfo *					trackInfoUnicode;		/* Input */
 	ITStreamInfo *					streamInfoUnicode;		/* Input */
+	AudioStreamBasicDescription		audioFormat;			/* Input -- added in 7.1 */
 };
 typedef struct VisualPluginPlayMessage VisualPluginPlayMessage;
 
@@ -208,6 +248,7 @@ typedef struct VisualPluginChangeTrackMessage VisualPluginChangeTrackMessage;
 struct VisualPluginRenderMessage {
 	RenderVisualData *				renderData;				/* Input */
 	UInt32							timeStampID;			/* Input */
+	UInt32							currentPositionInMS;	/* Input -- added in 4.7 */
 };
 typedef struct VisualPluginRenderMessage VisualPluginRenderMessage;
 
@@ -216,21 +257,29 @@ struct VisualPluginSetPositionMessage {
 };
 typedef struct VisualPluginSetPositionMessage VisualPluginSetPositionMessage;
 
+#if TARGET_OS_MAC
 struct VisualPluginEventMessage {
 	EventRecord *					event;					/* Input */
 };
+#endif
 typedef struct VisualPluginEventMessage VisualPluginEventMessage;
 
 enum {
 	kVisualDisplayDepthChanged 	= 1 << 0,					/* the display's depth has changed */
 	kVisualDisplayRectChanged	= 1 << 1,					/* the display's location changed */
-	kVisualWindowMovedMoved 	= 1 << 2					/* the window has moved location */
+	kVisualWindowMovedMoved 	= 1 << 2,					/* the window has moved location */	
+	kVisualDisplayConfigChanged	= 1 << 3,					/* something else about the display changed */
 };
 
 struct VisualPluginDisplayChangedMessage {
 	UInt32							flags;		/* Input */
 };
 typedef struct VisualPluginDisplayChangedMessage VisualPluginDisplayChangedMessage;
+
+struct VisualPluginIdleMessage {
+	UInt32							timeBetweenDataInMS;	/* Output -- added in 4.8 */
+};
+typedef struct VisualPluginIdleMessage VisualPluginIdleMessage;
 
 struct VisualPluginMessageInfo {
 	union {
@@ -241,7 +290,11 @@ struct VisualPluginMessageInfo {
 		VisualPluginChangeTrackMessage		changeTrackMessage;
 		VisualPluginRenderMessage			renderMessage;
 		VisualPluginSetPositionMessage		setPositionMessage;
+#if TARGET_OS_MAC
+		VisualPluginEventMessage			eventMessage;
+#endif
 		VisualPluginDisplayChangedMessage	displayChangedMessage;
+		VisualPluginIdleMessage				idleMessage;
 	} u;
 };
 typedef struct VisualPluginMessageInfo VisualPluginMessageInfo;

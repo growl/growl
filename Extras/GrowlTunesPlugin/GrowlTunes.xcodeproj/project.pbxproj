@@ -162,7 +162,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 34725B0F0C0678A000499F50 /* Growl.dylib.dylib */;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
 		};
 /* End PBXContainerItemProxy section */
@@ -281,7 +281,7 @@
 				93354892093A9D0D007C8B10 /* GrowlHelperApp.app */,
 				93354894093A9D0D007C8B10 /* GrowlMenu.app */,
 				93354896093A9D0D007C8B10 /* Growl.framework */,
-				E1BE109D0C3BBDCB005ACA72 /* Growl.dylib.dylib */,
+				E1BE109D0C3BBDCB005ACA72 /* Growl.dylib */,
 				9335489A093A9D0D007C8B10 /* Growl-WithInstaller.framework */,
 				9335489E093A9D0D007C8B10 /* Speech.growlView */,
 				933548A0093A9D0D007C8B10 /* Brushed.growlView */,
@@ -292,7 +292,7 @@
 				E1B3D1720967235D00021266 /* Nano.growlView */,
 				933548A8093A9D0D007C8B10 /* MailMe.growlView */,
 				933548AA093A9D0D007C8B10 /* MusicVideo.growlView */,
-				933548AC093A9D0D007C8B10 /* GrowlSMS.growlView */,
+				933548AC093A9D0D007C8B10 /* SMS.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -394,6 +394,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
@@ -497,10 +498,10 @@
 			remoteRef = 933548A9093A9D0D007C8B10 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		933548AC093A9D0D007C8B10 /* GrowlSMS.growlView */ = {
+		933548AC093A9D0D007C8B10 /* SMS.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = GrowlSMS.growlView;
+			path = SMS.growlView;
 			remoteRef = 933548AB093A9D0D007C8B10 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -518,10 +519,10 @@
 			remoteRef = E1B3D1710967235D00021266 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E1BE109D0C3BBDCB005ACA72 /* Growl.dylib.dylib */ = {
+		E1BE109D0C3BBDCB005ACA72 /* Growl.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
-			path = Growl.dylib.dylib;
+			path = Growl.dylib;
 			remoteRef = E1BE109C0C3BBDCB005ACA72 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

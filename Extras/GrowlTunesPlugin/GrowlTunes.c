@@ -729,7 +729,7 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 			UniChar dot = 0x00B7;
 			UniChar buf[5] = {dot,dot,dot,dot,dot};
 
-			switch (visualPluginData->trackInfo.userRating) 
+			switch (visualPluginData->trackInfo.trackRating) 
 			{
 				case 100:
 					buf[4] = star;
