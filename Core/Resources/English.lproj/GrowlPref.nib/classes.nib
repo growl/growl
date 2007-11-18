@@ -96,6 +96,8 @@
 			<dict>
 				<key>aboutBoxTextView</key>
 				<string>NSTextView</string>
+				<key>aboutVersionString</key>
+				<string>NSTextField</string>
 				<key>appPositionPicker</key>
 				<string>GrowlPositionPicker</string>
 				<key>applicationNameAndIconColumn</key>

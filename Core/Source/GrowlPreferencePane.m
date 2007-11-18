@@ -854,6 +854,9 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
+	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
+										[[self bundle] objectForInfoDictionaryKey:@"CFBundleName"], 
+										[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
