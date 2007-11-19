@@ -20,6 +20,8 @@
 	if ((self = [super initWithFrame:frameRect frameName:frameName groupName:groupName])) {
 		[self setUIDelegate:self];
 		closeButtonRect = NSZeroRect;
+		// we need a minor delay to allow the window frame to be properly set before testing
+		[self performSelector:@selector(testInitialMouseLocation) withObject:nil afterDelay:0.2];
 	}
 	return self;
 }
@@ -142,6 +144,12 @@
 	}
 }
 
+- (void)testInitialMouseLocation
+{
+	if(NSPointInRect([NSEvent mouseLocation], [[self window] frame]))
+			[self mouseEntered:nil];
+}
+
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
 #pragma unused(event)
 	return YES;
@@ -188,7 +196,6 @@
 }
 
 - (void) mouseDown:(NSEvent *)event {
-#pragma unused(event)
 	mouseOver = NO;
 
 	if (NSPointInRect([event locationInWindow], closeButtonRect)) {

@@ -129,6 +129,7 @@
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
 		[window invalidateShadow];
+		[super drawRect:rect];
 	//}
 }
 

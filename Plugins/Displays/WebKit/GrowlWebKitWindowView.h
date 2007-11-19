@@ -15,6 +15,7 @@
 @end
 
 @interface GrowlWebKitWindowView : WebView {
+	BOOL				initialDisplayTest;
 	BOOL				mouseOver;
 	BOOL				realHitTest;
 	BOOL				closeOnMouseExit;

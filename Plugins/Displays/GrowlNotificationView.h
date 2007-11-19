@@ -9,6 +9,7 @@
 #import "GrowlThreadedView.h"
 
 @interface GrowlNotificationView : GrowlThreadedView {
+	BOOL				initialDisplayTest;
 	BOOL				mouseOver;
 	BOOL				closeOnMouseExit;
 	NSPoint				closeBoxOrigin;

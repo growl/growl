@@ -205,6 +205,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
 		[[self window] invalidateShadow];
+		[super drawRect:rect];
 	//}
 }
 

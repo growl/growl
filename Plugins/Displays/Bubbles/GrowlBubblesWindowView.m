@@ -182,6 +182,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
 		[[self window] invalidateShadow];
+		[super drawRect:rect];
 	//}
 }
 

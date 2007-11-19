@@ -206,6 +206,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		iconRect.size = maxIconSize;
 		[icon setFlipped:NO];
 		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+		[super drawRect:rect];
 	//}
 }
 
