@@ -127,7 +127,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			                               priority:1
 			                               isSticky:YES
 			                           clickContext:downloadURLString
-										 identifier:nil];
+										 identifier:UPDATE_AVAILABLE_NOTIFICATION];
 			CFRelease(title);
 			CFRelease(description);
 		}
