@@ -33,7 +33,10 @@
 @implementation GRDEDocument
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
-	return [[tableView selectedRowIndexes] count] ? YES : NO;
+	if ([menuItem action] == @selector(writeNotifyStatementToPasteboard:))
+		return [[tableView selectedRowIndexes] count] ? YES : NO;
+	else
+		return [super validateMenuItem:menuItem];
 }
 
 #pragma mark -
