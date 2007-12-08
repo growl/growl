@@ -93,6 +93,13 @@ static BOOL checkOSXVersion(void) {
 	return self;
 }
 
+- (void) finalize
+{
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+
+	[super finalize];
+}
+
 - (void) dealloc {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[updateVersion release];
