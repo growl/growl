@@ -654,7 +654,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (NSURL *) versionCheckURL {
 	if (!versionCheckURL)
-		versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
+		versionCheckURL = [[NSURL URLWithString:@"http://growl.info/version.xml"] retain];
 	return versionCheckURL;
 }
 
