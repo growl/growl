@@ -141,7 +141,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	status = LIAECopyLoginItems(&loginItems);
 	if (status == noErr) {
-		for (CFIndex i=0, count=CFArrayGetCount(loginItems); i<count; ++i) {
+    CFIndex i;
+		for (i=0, count=CFArrayGetCount(loginItems); i<count; ++i) {
 			CFDictionaryRef loginItem = CFArrayGetValueAtIndex(loginItems, i);
 			foundIt = CFEqual(CFDictionaryGetValue(loginItem, kLIAEURL), urlToGHA);
 			if (foundIt)
