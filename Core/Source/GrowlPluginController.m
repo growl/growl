@@ -708,6 +708,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (![self pluginWithDictionaryIsDisplayPlugin:pluginDict])
 			[matches removeObject:pluginDict];
 	}
+	[copyForIteration release];
 
 	return matches;
 }
