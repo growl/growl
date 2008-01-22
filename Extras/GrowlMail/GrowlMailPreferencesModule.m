@@ -65,11 +65,16 @@
 	return @"GrowlMailPreferencesPanel";
 }
 
+- (NSView *)preferencesView
+{
+	if (!view_preferences)
+		[NSBundle loadNibNamed:[self preferencesNibName] owner:self];
+	return view_preferences;
+}
+
 - (id) viewForPreferenceNamed:(NSString *)aName {
 #pragma unused(aName)
-	if (!_preferencesView)
-		[NSBundle loadNibNamed:[self preferencesNibName] owner:self];
-	return _preferencesView;
+	return [self preferencesView];
 }
 
 - (NSString *) titleForIdentifier:(NSString *)aName {
@@ -82,7 +87,11 @@
 }
 
 - (NSSize) minSize {
-	return NSMakeSize(298.0f, 215.0f);
+	return [[self preferencesView] frame].size;
+}
+
+- (BOOL) isResizable {
+	return NO;
 }
 
 - (int) numberOfRowsInTableView:(NSTableView *)aTableView {
@@ -94,7 +103,7 @@
 #pragma unused(aTableView)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	if ([[aTableColumn identifier] isEqualToString:@"active"])
-		return [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:[account path]]];
+		return [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:account]];
 	else
 		return [account displayName];
 }
@@ -102,7 +111,7 @@
 - (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(aTableView,aTableColumn)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
-	[[GrowlMail sharedInstance] setAccountEnabled:[anObject boolValue] path:[account path]];
+	[[GrowlMail sharedInstance] setAccount:account enabled:[anObject boolValue]];
 }
 
 @end

@@ -37,68 +37,57 @@
 #import <AddressBook/AddressBook.h>
 #import <Growl/Growl.h>
 
-static CFStringRef createStringByReplacingKeywords(CFStringRef format, CFStringRef *keywords, CFStringRef *values, CFIndex count) {
-	CFMutableStringRef text = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, format);
-	for (CFIndex i=0; i<count; ++i)
-		CFStringFindAndReplace(text, keywords[i], values[i], CFRangeMake(0, CFStringGetLength(text)), 0);
-	return text;
-}
+@interface NSString (GrowlMail_KeywordReplacing)
 
-static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
-	CFRange range;
-	CFIndex end;
-	CFIndex length;
+- (NSString *) stringByReplacingKeywords:(NSArray *)keywords
+                              withValues:(NSArray *)values;
 
-	range.location = 0;
-	range.length = 0;
-	for (unsigned i=0U; i<n; ++i)
-		CFStringGetLineBounds(str, range, NULL, &range.location, &end);
+@end
 
-	length = CFStringGetLength(str);
-	if (length > end)
-		CFStringDelete(str, CFRangeMake(end, length-end));
-}
+@interface NSMutableString (GrowlMail_LineOrientedTruncation)
 
-@implementation Message(GrowlMail)
-- (void) showNotification:(NSNumber *)attempt {
-	CFStringRef account = (CFStringRef)[[[self mailbox] account] displayName];
+- (void) trimStringToFirstNLines:(unsigned)n;
+
+@end
+
+@implementation Message (GrowlMail)
+/*!
+ * @brief Show a Growl notification for this message
+ *
+ * This should be called on an auxiliary thread as it may block.
+ */
+- (void) showNotification
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSString *account = (NSString *)[[[self mailbox] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
-	CFStringRef subject = (CFStringRef)[self subject];
-	CFStringRef body;
-	CFStringRef titleFormat = copyTitleFormatString();
-	CFStringRef descriptionFormat = copyDescriptionFormatString();
+	NSString *subject = (NSString *)[self subject];
+	NSString *body;
+	NSString *titleFormat = (NSString *)GMTitleFormatString();
+	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
 
-	if (CFStringFind(titleFormat, CFSTR("%body"), 0).location != kCFNotFound ||
-			CFStringFind(descriptionFormat, CFSTR("%body"), 0).location != kCFNotFound) {
+	if ([titleFormat rangeOfString:@"%body"].location != NSNotFound ||
+			[descriptionFormat rangeOfString:@"%body"].location != NSNotFound) {
 		/* We will need the body */
 		MessageBody *messageBody = [self messageBodyIfAvailable];
-
-		if (!messageBody) {
+		int nonBlockingAttempts = 0;
+		while (!messageBody && nonBlockingAttempts < 3) {
 			/* No message body available yet, but we need one */
-			if ([attempt intValue] < 10) {
-				/* Try again in (0.5 * attempts) seconds so as not to block */
-				[self performSelector:@selector(showNotification:)
-					withObject:[NSNumber numberWithInt:[attempt intValue]+1]
-					afterDelay:0.5 * ([attempt intValue] + 1)];
-				CFRelease(titleFormat);
-				CFRelease(descriptionFormat);
-				return;
-			}
-			/* Already tried three times (1.5 seconds); this time, block to get it. */ 
-			//messageBody = [self messageBody];
+			nonBlockingAttempts++;
+			[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:(0.5 * nonBlockingAttempts)]];
+			
+			/* We'd prefer to let whatever Mail process might want the message body get it on its own terms rather than blocking on this thread */
+			messageBody = [self messageBodyIfAvailable];
 		}
+
+		/* Already tried three times (3 seconds); this time, block this thread to get it. */ 
+		if (!messageBody) messageBody = [self messageBody];
 
 		if (messageBody) {
 			NSString *originalBody = nil;
 			/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
-			/* messageBody isn't right for the current message in 10.5 when multiple messages are received at once... */
-#warning This is broken in 10.5 as of 9a527. messageBody yields the text for the wrong message.
-			/*
-			 NSLog(@"%@: messageBody is %@.",subject, messageBody);
-			 NSLog(@"%@: attributed is %@. textHtmlPart is %@",subject,[messageBody attributedString],
-				  [messageBody textHtmlPart]);
-			 */
 			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
 				originalBody = [messageBody stringForIndexing];
 			else if ([messageBody respondsToSelector:@selector(attributedString)])
@@ -106,26 +95,25 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 			else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
 				originalBody = [messageBody stringValueForJunkEvaluation:NO];
 			if (originalBody) {
-				CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
-				CFStringTrimWhitespace(transformedBody);
-				CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
-				trimStringToFirstNLines(transformedBody, 4);
-				CFIndex length = CFStringGetLength(transformedBody);
-				if (length > 200) {
-					CFStringDelete(transformedBody, CFRangeMake(200, length-200));
-					length = 200;
+				NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+				unsigned lengthWithoutWhitespace = [transformedBody length];
+				[transformedBody trimStringToFirstNLines:4U];
+				unsigned length = [transformedBody length];
+				if (length > 200U) {
+					[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
+					length = 200U;
 				}
 				if (length != lengthWithoutWhitespace)
-					CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
-				body = (CFStringRef)transformedBody;
+					[transformedBody appendString:[NSString stringWithUTF8String:"\xE2\x80\xA6"]];
+				body = (NSString *)transformedBody;
 			} else {
-				body = CFSTR("");	
+				body = @"";	
 			}
 		} else {
-			body = CFSTR("");
+			body = @"";
 		}
 	} else
-		body = CFSTR("");
+		body = @"";
 
 	/* The fullName selector is not available in Mail.app 2.0. */
 	if ([sender respondsToSelector:@selector(fullName)])
@@ -133,22 +121,20 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	else if ([sender addressComment])
 		sender = [sender addressComment];
 
-	CFStringRef keywords[4] = {
-		CFSTR("%sender"),
-		CFSTR("%subject"),
-		CFSTR("%body"),
-		CFSTR("%account")
-	};
-	CFStringRef values[4] = {
-		(CFStringRef)sender,
-		subject,
-		body,
-		account
-	};
-	CFStringRef title = createStringByReplacingKeywords(titleFormat, keywords, values, 4);
-	CFRelease(titleFormat);
-	CFStringRef description = createStringByReplacingKeywords(descriptionFormat, keywords, values, 4);
-	CFRelease(descriptionFormat);
+	NSArray *keywords = [NSArray arrayWithObjects:
+		@"%sender",
+		@"%subject",
+		@"%body",
+		@"%account",
+		nil];
+	NSArray *values = [NSArray arrayWithObjects:
+		(sender ? sender : @""),
+		(subject ? subject : @""),
+		(body ? body : @""),
+		(account ? account : @""),
+		 nil];
+	NSString *title = [titleFormat stringByReplacingKeywords:keywords withValues:values];
+	NSString *description = [descriptionFormat stringByReplacingKeywords:keywords withValues:values];
 
 	/*
 	NSLog(@"Subject: '%@'", subject);
@@ -156,8 +142,6 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	NSLog(@"Account: '%@'", account);
 	NSLog(@"Body: '%@'", body);
 	*/
-
-	CFRelease(body);
 
 	/*
 	 * MailAddressManager fetches images asynchronously so they might arrive
@@ -184,31 +168,70 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	if (!image)
 		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
-	CFStringRef notificationName;
-	if ([self isJunk]) {
-		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, GetGrowlMailBundle(), "");
+	NSString *notificationName;
+	if ([self isJunk] || ([[MailAccount junkMailboxUids] containsObject:[self mailbox]])) {
+		notificationName = NEW_JUNK_MAIL_NOTIFICATION;
 	} else {
 		if ([self respondsToSelector:@selector(type)] && [self type] == MESSAGE_TYPE_NOTE) {
-			notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New note"), NULL, GetGrowlMailBundle(), "");
+			notificationName = NEW_NOTE_NOTIFICATION;
 		} else {
-			notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, GetGrowlMailBundle(), "");
+			notificationName = NEW_MAIL_NOTIFICATION;
 		}
 	}
 
 	NSString *clickContext = [self messageID];
 
-	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-								description:(NSString *)description
-						   notificationName:(NSString *)notificationName
+	[GrowlApplicationBridge notifyWithTitle:title
+								description:description
+						   notificationName:notificationName
 								   iconData:image
 								   priority:0
 								   isSticky:NO
 							   clickContext:clickContext];	// non-nil click context
-	CFRelease(notificationName);
+
+	[GrowlMail didFinishNotificationForMessage:self];
+
+	[pool release];
 }
 
-- (void) showNotification {
-	[self showNotification:[NSNumber numberWithInt:0]];
+@end
+
+@implementation NSString (GrowlMail_KeywordReplacing)
+
+- (NSString *) stringByReplacingKeywords:(NSArray *)keywords
+                              withValues:(NSArray *)values
+{
+	NSParameterAssert([keywords count] == [values count]);
+	NSMutableString *str = [[self mutableCopy] autorelease];
+
+	NSEnumerator *keywordsEnum = [keywords objectEnumerator], *valuesEnum = [values objectEnumerator];
+	NSString *keyword, *value;
+	while ((keyword = [keywordsEnum nextObject]) && (value = [valuesEnum nextObject])) {
+		[str replaceOccurrencesOfString:keyword
+		                     withString:value
+		                        options:0
+		                          range:NSMakeRange(0, [str length])];
+	}
+	return str;
+}
+
+@end
+
+@implementation NSMutableString (GrowlMail_LineOrientedTruncation)
+
+- (void) trimStringToFirstNLines:(unsigned)n {
+	NSRange range;
+	unsigned end;
+	unsigned length;
+
+	range.location = 0;
+	range.length = 0;
+	for (unsigned i=0U; i<n; ++i)
+		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
+
+	length = [self length];
+	if (length > end)
+		[self deleteCharactersInRange:NSMakeRange(end, length - end)];
 }
 
 @end

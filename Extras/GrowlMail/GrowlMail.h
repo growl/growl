@@ -31,35 +31,38 @@
 #import "MailHeaders.h"
 #include <pthread.h>
 
+#define NEW_MAIL_NOTIFICATION		@"New mail"
+#define NEW_JUNK_MAIL_NOTIFICATION	@"New junk mail"
+#define NEW_NOTE_NOTIFICATION		@"New note"
+
 @interface GrowlMail : MVMailBundle <GrowlApplicationBridgeDelegate>
 {
-	pthread_mutex_t        queueLock;
-	CFMutableArrayRef      collectedMessages;
 }
-+ (void) initialize;
-+ (NSBundle *) bundle;
-+ (BOOL) hasPreferencesPanel;
-+ (NSString *) preferencesOwnerClassName;
-+ (NSString *) preferencesPanelName;
-- (BOOL) isAccountEnabled:(NSString *)path;
-- (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
 
-- (id) init;
+/*!	@brief	Return whether the given account is enabled for notifications
+ *
+ *	@return	\c YES if GrowlMail will post notifications for this account; \c NO if it won't.
+ */
+- (BOOL) isAccountEnabled:(MailAccount *)account;
+/*!	@brief	Change whether the given account is enabled for notifications
+ *
+ *	@param	account	The account to enable or disable.
+ *	@param	yesOrNo	If \c YES, post notifications for messages for \a account in the future; if \c NO, don't post notifications for messages for that account.
+ */
+- (void) setAccount:(MailAccount *)account enabled:(BOOL)yesOrNo;
 
 - (NSString *) applicationNameForGrowl;
 - (NSImage *) applicationIconForGrowl;
 - (void) growlNotificationWasClicked:(NSString *)clickContext;
 - (NSDictionary *) registrationDictionaryForGrowl;
 
-- (void) queueMessage:(Message *)message;
-- (void) flushQueue;
-- (void) showSummary;
++ (void)didFinishNotificationForMessage:(Message *)message;
 
 @end
 
-CFBundleRef GetGrowlMailBundle(void);
 BOOL GMIsEnabled(void);
 int  GMSummaryMode(void);
-CFStringRef copyTitleFormatString(void);
-CFStringRef copyDescriptionFormatString(void);
 BOOL GMInboxOnly(void);
+NSBundle *GMGetGrowlMailBundle(void);
+NSString *GMTitleFormatString(void);
+NSString *GMDescriptionFormatString(void);

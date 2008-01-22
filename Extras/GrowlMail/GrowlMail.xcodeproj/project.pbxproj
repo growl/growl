@@ -33,7 +33,6 @@
 		9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
 		955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */; };
 		955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
-		95A35CEF0973B9210003C754 /* Library+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A35CED0973B9210003C754 /* Library+GrowlMail.m */; };
 		95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
 /* End PBXBuildFile section */
 
@@ -184,9 +183,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		347930EB0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
-		347930EC0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		347930ED0C85E3F4007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD982C0C87C8AA0040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD982D0C87C8AA0040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98310C87C8C60040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
@@ -224,8 +220,6 @@
 		955A4E24086175B6009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4E25086175BE009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail_Prefix.pch; sourceTree = "<group>"; };
-		95A35CEC0973B9210003C754 /* Library+GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Library+GrowlMail.h"; sourceTree = "<group>"; };
-		95A35CED0973B9210003C754 /* Library+GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "Library+GrowlMail.m"; sourceTree = "<group>"; };
 		95AC1E9B08562FFB006241FD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95AE2740085C44A600271F5F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		95B00A55084689C4004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
@@ -292,8 +286,6 @@
 				9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */,
 				95BF5480072FB08000834811 /* Message+GrowlMail.h */,
 				95BF5481072FB08000834811 /* Message+GrowlMail.m */,
-				95A35CEC0973B9210003C754 /* Library+GrowlMail.h */,
-				95A35CED0973B9210003C754 /* Library+GrowlMail.m */,
 				4B7E5EA206B6AC1700137892 /* GrowlMail.h */,
 				4B7E5EA306B6AC1700137892 /* GrowlMail.m */,
 			);
@@ -345,7 +337,7 @@
 				95AE2757085C44A600271F5F /* GrowlHelperApp.app */,
 				95AE2759085C44A600271F5F /* GrowlMenu.app */,
 				95AE275B085C44A600271F5F /* Growl.framework */,
-				347930E30C85E3EC007ADCAA /* Growl.dylib.dylib */,
+				347930E30C85E3EC007ADCAA /* Growl.dylib */,
 				95AE275D085C44A600271F5F /* Growl-WithInstaller.framework */,
 				95AE275F085C44A600271F5F /* Speech.growlView */,
 				95AE2761085C44A600271F5F /* Brushed.growlView */,
@@ -421,10 +413,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		347930E30C85E3EC007ADCAA /* Growl.dylib.dylib */ = {
+		347930E30C85E3EC007ADCAA /* Growl.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
-			path = Growl.dylib.dylib;
+			path = Growl.dylib;
 			remoteRef = 347930E20C85E3EC007ADCAA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -574,7 +566,6 @@
 				95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */,
 				9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */,
 				955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */,
-				95A35CEF0973B9210003C754 /* Library+GrowlMail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +591,6 @@
 				089C167EFE841241C02AAC07 /* English */,
 				950DAC1A0737B0550096F066 /* de */,
 				955A4E24086175B6009B6EA5 /* fr */,
-				347930EC0C85E3F4007ADCAA /* nl */,
 				34CD982C0C87C8AA0040C77F /* sv */,
 				34CD98AE0C87CA370040C77F /* nl */,
 				34CD98B10C87CA590040C77F /* pt_BR */,
@@ -617,7 +607,6 @@
 				9556E69907F4354600D42745 /* ja */,
 				95B00A56084689D0004A8623 /* zh_CN */,
 				955A4E23086175AD009B6EA5 /* fr */,
-				347930ED0C85E3F4007ADCAA /* nl */,
 				34CD982D0C87C8AA0040C77F /* sv */,
 				34CD98AF0C87CA370040C77F /* nl */,
 				34CD98B20C87CA590040C77F /* pt_BR */,
@@ -634,7 +623,6 @@
 				9528EFE607F5A60600061D90 /* ja */,
 				95B00A55084689C4004A8623 /* zh_CN */,
 				955A4E25086175BE009B6EA5 /* fr */,
-				347930EB0C85E3F4007ADCAA /* nl */,
 				34CD98310C87C8C60040C77F /* sv */,
 				34CD98AD0C87CA370040C77F /* nl */,
 				34CD98B00C87CA590040C77F /* pt_BR */,

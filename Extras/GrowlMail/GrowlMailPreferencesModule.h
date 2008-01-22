@@ -37,6 +37,7 @@
 
 @interface GrowlMailPreferencesModule : NSPreferencesModule
 {
+	IBOutlet NSView		 *view_preferences;
 	IBOutlet NSTableView *accountsView;
 }
 - (int) numberOfRowsInTableView:(NSTableView *)aTableView;
