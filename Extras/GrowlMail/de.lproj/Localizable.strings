@@ -1,4 +1,14 @@
-"New junk mail" - "Neue unerwünschte Werbung";
-"New mail" - "Neue Mail";
-"New note" - "Neue Notiz";
-"%@ - %d new mail(s)" - "%@ - %d neue Mail(s)";
+﻿/* %@ is an account name; %u becomes a number */
+"%@ \n %u new mails" = "%1$@ \n %2$u new mails";
+
+/* %@ is an account name */
+"%@ \n 1 new mail" = "%@ \n 1 new mail";
+
+/* No comment provided by engineer. */
+"New junk mail" = "New junk mail";
+
+/* No comment provided by engineer. */
+"New mail" = "New mail";
+
+/* No comment provided by engineer. */
+"New note" = "New note";
