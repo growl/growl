@@ -27,6 +27,10 @@ static NSMutableDictionary *existingInstances;
 - (BOOL)supportsStickyNotifications;
 @end
 
+@interface NSWindow (LeopardMethods)
+- (void)setCollectionBehavior:(int)collectionBehavior;
+@end
+
 @implementation GrowlDisplayWindowController
 
 #pragma mark -
@@ -84,6 +88,12 @@ static NSMutableDictionary *existingInstances;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		transitionDuration = DEFAULT_TRANSITION_DURATION;
+
+		//Show notifications on all Spaces
+		if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
+#define NSWindowCollectionBehaviorCanJoinAllSpaces 1 << 0
+			[window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+		}
 
 		//Respond to 'close all notifications' by closing
 		[[NSNotificationCenter defaultCenter] addObserver:self
