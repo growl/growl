@@ -726,6 +726,8 @@
 					dynamic_lookup,
 					"-weak_framework",
 					Growl,
+					"-seg1addr",
+					0x50000000,
 				);
 				PRODUCT_NAME = GrowlMail;
 				WARNING_CFLAGS = (
@@ -774,6 +776,8 @@
 					dynamic_lookup,
 					"-weak_framework",
 					Growl,
+					"-seg1addr",
+					0x50000000,
 				);
 				PRODUCT_NAME = GrowlMail;
 				WARNING_CFLAGS = (
@@ -824,6 +828,8 @@
 					dynamic_lookup,
 					"-weak_framework",
 					Growl,
+					"-seg1addr",
+					0x50000000,
 				);
 				PRODUCT_NAME = GrowlMail;
 				WARNING_CFLAGS = (
