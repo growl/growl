@@ -152,7 +152,7 @@ static NSButton *gCloseButton;
 {
 	if(!initialDisplayTest) {
 		initialDisplayTest = YES;
-		if(NSPointInRect([[self window] convertScreenToBase:[NSEvent mouseLocation]], [self frame]))
+		if([self showsCloseBox] && NSPointInRect([[self window] convertScreenToBase:[NSEvent mouseLocation]], [self frame]))
 			[self mouseEntered:nil];
 	}
 	[super drawRect:rect];
