@@ -394,7 +394,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
