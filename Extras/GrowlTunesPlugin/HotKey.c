@@ -68,7 +68,7 @@ static void _updateKeyCodeString(hotkey_t *hotkey)
 	void              *KCHRData;
 	SInt32            keyLayoutKind;
 	KeyboardLayoutRef currentLayout;
-	UInt32            keyTranslateState;
+	UInt32            keyTranslateState = 0U;
 	UInt32            deadKeyState;
 	OSStatus          err = noErr;
 	CFLocaleRef       locale = CFLocaleCopyCurrent();
