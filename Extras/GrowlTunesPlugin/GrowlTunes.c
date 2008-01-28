@@ -985,6 +985,31 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginPlayMessage: 
 		{
+			static ITUniStr255 lastFileName = { 0 }; //Empty string (length = 0)
+
+			//Don't post a notification if this is the same track (paused and resumed).
+			UniCharCount newFileNameLength = 0U;
+			UniChar *newFileName = NULL;
+			if(messageInfo->u.playMessage.trackInfoUnicode) {
+				newFileNameLength = messageInfo->u.playMessage.trackInfoUnicode->fileName[0];
+				newFileName       = messageInfo->u.playMessage.trackInfoUnicode->fileName + 1;
+			}
+			Boolean fileNamesEquivalent = false;
+			err = UCCompareTextNoLocale(kUCCollateTypeHFSExtended << kUCCollateTypeShiftBits,
+										lastFileName + 1,
+										lastFileName[0],
+										newFileName,
+										newFileNameLength,
+										&fileNamesEquivalent,
+										/*order*/ NULL);
+			if((err == noErr) && fileNamesEquivalent) {
+				//They are the same file, so don't notify.
+				break;
+			}
+			//Save the filename for the next comparison.
+			lastFileName[0] = newFileNameLength;
+			memcpy(lastFileName + 1, newFileName, sizeof(UniChar) * newFileNameLength);
+
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
