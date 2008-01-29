@@ -537,8 +537,16 @@ int main(int argc, const char **argv) {
 			CFNotificationCenterPostNotificationWithOptions(distCenter, (CFStringRef)GROWL_NOTIFICATION, NULL, notificationInfo, kCFNotificationPostToAllSessions);
 		}
 
-		if (wait)
+		if (wait) {
+			/* Run the run loop until it is manually cancelled in notificationDismissed() */
 			CFRunLoopRun();
+		} else {
+			/* Run the run loop until we don't have any sources to proces
+			 * to ensure the distributed notification is posted */
+			while (CFRunLoopRunInMode(/* mode */ kCFRunLoopDefaultMode,
+									  /* seconds; 0 means single iteration */ 0,
+									  /* returnAfterSourceHandled */ TRUE) == kCFRunLoopRunHandledSource);
+		}
 	}
 
 	if (port)
