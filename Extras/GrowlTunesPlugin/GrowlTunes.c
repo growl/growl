@@ -129,6 +129,7 @@ static void handleClick(CFUserNotificationRef userNotification, CFOptionFlags re
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon);
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
+static CFStringRef createStringForRating(const int rating, const UniChar star);
 static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc);
 static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title);
 static pascal void readPreferences (void);
@@ -608,6 +609,70 @@ static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID it
 */
 
 /*
+	Name: createStringForRating
+	Function: creates a CFString representing an iTunes rating (from 0 to 100) as a series of stars
+*/
+enum {
+	BLACK_STAR  = 0x2605, PINWHEEL_STAR  = 0x272F,
+	SPACE       = 0x0020, MIDDLE_DOT     = 0x00B7,
+	ONE_HALF    = 0x00BD,
+	ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
+	ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
+	ONE_FIFTH   = 0x2155, TWO_FIFTHS     = 0x2156, THREE_FIFTHS = 0x2157, FOUR_FIFTHS   = 0x2158,
+	ONE_SIXTH   = 0x2159, FIVE_SIXTHS    = 0x215a,
+	ONE_EIGHTH  = 0x215b, THREE_EIGHTHS  = 0x215c, FIVE_EIGHTHS = 0x215d, SEVEN_EIGHTHS = 0x215e,
+};
+static CFStringRef createStringForRating(int rating, const UniChar star)
+{
+	enum {
+		//rating <= 0: dot, space, dot, space, dot, space, dot, space, dot (five dots).
+		//higher ratings mean fewer characters. rating >= 100: five black stars.
+		numChars = 9,
+	};
+
+	static const UniChar fractionChars[] = {
+		/*0/20*/ 0,
+		/*1/20*/ ONE_FIFTH, TWO_FIFTHS, THREE_FIFTHS,
+		/*4/20 = 1/5*/ ONE_FIFTH,
+		/*5/20 = 1/4*/ ONE_QUARTER,
+		/*6/20*/ ONE_THIRD, FIVE_EIGHTHS,
+		/*8/20 = 2/5*/ TWO_FIFTHS, TWO_FIFTHS,
+		/*10/20 = 1/2*/ ONE_HALF, ONE_HALF,
+		/*12/20 = 3/5*/ THREE_FIFTHS,
+		/*13/20 = 0.65; 5/8 = 0.625*/ FIVE_EIGHTHS,
+		/*14/20 = 7/10*/ FIVE_EIGHTHS, //highly approximate, of course, but it's as close as I could get :)
+		/*15/20 = 3/4*/ THREE_QUARTERS,
+		/*16/20 = 4/5*/ FOUR_FIFTHS, FOUR_FIFTHS,
+		/*18/20 = 9/10*/ SEVEN_EIGHTHS, SEVEN_EIGHTHS, //another approximation
+	};
+
+	UniChar starBuffer[numChars];
+	int     wholeStarRequirement = 20;
+	unsigned starsRemaining = 5U;
+	unsigned i = 0U;
+	for (; starsRemaining--; ++i) {
+		if (rating >= wholeStarRequirement) {
+			starBuffer[i] = star;
+			rating -= 20;
+		} else {
+			/*examples:
+			 *if the original rating is 95, then rating = 15, and we get 3/4.
+			 *if the original rating is 80, then rating = 0,  and we get MIDDLE DOT.
+			 */
+			starBuffer[i] = fractionChars[rating];
+			if (!starBuffer[i]) {
+				//add a space if this isn't the first 'star'.
+				if (i) starBuffer[i++] = SPACE;
+				starBuffer[i] = MIDDLE_DOT;
+			}
+			rating = 0; //ensure that remaining characters are MIDDLE DOT.
+		}
+	}
+
+	return CFStringCreateWithCharacters(kCFAllocatorDefault, starBuffer, i);
+}
+
+/*
 	Name: setupTitleString
 	Function: configures the title string to be used by the notification based on the user's selected
 			  display settings and the information that is available from iTunes for the new track
@@ -725,27 +790,18 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 		rating = CFSTR("");
 		if (gRatingFlag) 
 		{
-			UniChar star = 0x272F;
-			UniChar dot = 0x00B7;
-			UniChar buf[5] = {dot,dot,dot,dot,dot};
-
-			switch (visualPluginData->trackInfo.trackRating) 
+			CFStringRef starsString = createStringForRating(visualPluginData->trackInfo.trackRating, PINWHEEL_STAR);
+			if (starsString)
 			{
-				case 100:
-					buf[4] = star;
-				case 80:
-					buf[3] = star;
-				case 60:
-					buf[2] = star;
-				case 40:
-					buf[1] = star;
-				case 20:
-					buf[0] = star;
+				CFStringRef separator = CFSTR(" - ");
+				CFIndex tmpLength = CFStringGetLength(separator) + CFStringGetLength(starsString);
+
+				tmp = CFStringCreateMutable(kCFAllocatorDefault, tmpLength);
+				CFStringAppend(tmp, separator);
+				CFStringAppend(tmp, starsString);
+				CFRelease(starsString);
+				rating = tmp;
 			}
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppend(tmp, CFSTR(" - "));
-			CFStringAppendCharacters(tmp, buf, 5);
-			rating = tmp;
 		}
 
 		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
