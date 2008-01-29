@@ -6,8 +6,8 @@
   </object>
   <array count="23" name="allObjects">
     <object class="IBCarbonWindow" id="166">
-      <string name="windowRect">282 771 637 998 </string>
-      <string name="title">PluginSettings</string>
+      <string name="windowRect">299 586 654 813 </string>
+      <string name="title">GrowlTunes Options</string>
       <object name="rootControl" class="IBCarbonRootControl" id="167">
         <string name="bounds">0 0 355 227 </string>
         <array count="4" name="subviews">
