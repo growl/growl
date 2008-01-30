@@ -556,12 +556,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
  *	delegate responds to growlNotificationWasClicked:.
  */
 + (void) growlNotificationWasClicked:(NSNotification *)notification {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[delegate growlNotificationWasClicked:
 		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+	[pool release];
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[delegate growlNotificationTimedOut:
 		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+	[pool release];
 }
 
 #pragma mark -
@@ -604,6 +608,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (void) _growlIsReady:(NSNotification *)notification {
 #pragma unused(notification)
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
 	growlLaunched = YES;
@@ -656,6 +661,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
 #endif
+	
+	[pool release];
 }
 
 #ifdef GROWL_WITH_INSTALLER

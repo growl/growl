@@ -667,6 +667,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Notifications (not the Growl kind)
 
 - (void) preferencesChanged:(NSNotification *) note {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
 	if (!note || (object && [object isEqual:GrowlStartServerKey])) {
@@ -710,6 +712,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			}
 		}
 	}
+	
+	[pool release];
 }
 
 - (void) shutdown:(NSNotification *) note {
@@ -719,10 +723,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) replyToPing:(NSNotification *) note {
 #pragma unused(note)
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG
 	                                                               object:nil
 	                                                             userInfo:nil
 	                                                   deliverImmediately:NO];
+	
+	[pool release];
 }
 
 #pragma mark NSApplication Delegate Methods

@@ -131,9 +131,11 @@ int main(void) {
 
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
 	if (!pidValue || [pidValue intValue] != pid)
 		[self setImage];
+	[pool release];
 }
 
 - (void) openGrowlPreferences:(id)sender {

@@ -439,6 +439,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	NSString *object = [notification object];
 //	NSLog(@"%s: %@\n", __func__, object);
 	SYNCHRONIZE_GROWL_PREFS();
@@ -474,6 +476,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		[self willChangeValueForKey:@"remoteRegistrationAllowed"];
 		[self didChangeValueForKey:@"remoteRegistrationAllowed"];
 	}
+	
+	[pool release];
 }
 
 @end

@@ -35,11 +35,15 @@
 #pragma mark -
 
 - (void) gotGrowlRegistration:(NSNotification *)notification {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self registerApplicationWithDictionary:[notification userInfo]];
+	[pool release];
 }
 
 - (void) gotGrowlNotification:(NSNotification *)notification {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self postNotificationWithDictionary:[notification userInfo]];
+	[pool release];
 }
 
 @end

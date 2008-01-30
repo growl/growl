@@ -388,9 +388,13 @@
  */
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
 	if (!pidValue || [pidValue intValue] != pid)
 		[self reloadPreferences:[notification object]];
+	
+	[pool release];
 }
 
 - (void) updatePosition:(NSNotification *)notification {
@@ -1076,6 +1080,8 @@
  * @brief Refresh preferences when a new application registers with Growl
  */
 - (void) appRegistered: (NSNotification *) note {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
@@ -1103,18 +1109,28 @@
 	[newTicket release];
 
 	[self cacheImages];
+	
+	[pool release];
 }
 
 - (void) growlLaunched:(NSNotification *)note {
 #pragma unused(note)
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	[self setGrowlIsRunning:YES];
 	[self updateRunningStatus];
+	
+	[pool release];
 }
 
 - (void) growlTerminated:(NSNotification *)note {
 #pragma unused(note)
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	[self setGrowlIsRunning:NO];
 	[self updateRunningStatus];
+	
+	[pool release];
 }
 
 @end
