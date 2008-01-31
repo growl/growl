@@ -280,7 +280,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
 	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
-	[displayController release]; displayController = nil;
+	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
 
 	[versionCheckURL release];
 
@@ -490,11 +490,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			display = [ticket displayPlugin];
 
 		if (!display) {
-			if (!displayController) {
+			if (!defaultDisplayPlugin) {
 				NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-				displayController = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
+				defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
 			}
-			display = displayController;
+			display = defaultDisplayPlugin;
 		}
 
 		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
@@ -684,8 +684,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[ticketController loadAllSavedTickets];
 	if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
 		// force reload
-		[displayController release];
-		displayController = nil;
+		[defaultDisplayPlugin release];
+		defaultDisplayPlugin = nil;
 	if (object) {
 		if ([object isEqual:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];

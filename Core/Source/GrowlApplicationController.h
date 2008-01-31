@@ -22,7 +22,7 @@
 	NSConnection				*growlNotificationCenterConnection;
 	GrowlNotificationCenter		*growlNotificationCenter;
 
-	GrowlDisplayPlugin			*displayController;
+	GrowlDisplayPlugin			*defaultDisplayPlugin;
 
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;
