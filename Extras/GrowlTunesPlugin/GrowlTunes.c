@@ -1383,11 +1383,12 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						alert_keys[4] = kCFUserNotificationOtherButtonTitleKey;
 						alert_keys[5] = kCFUserNotificationIconURLKey;
 
-						if (!GrowlTunes_SetDelegate(&delegate))
-						{							
+						if (!GrowlTunes_GrowlIsInstalled()) 
+						{
+							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.														
 							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
-							alert_values[0] = CFSTR("Growl Registration Error");
-							alert_values[1] = CFSTR("Growl notifications aren't available, because your installation of Growl is either broken or out-of-date.");
+							alert_values[0] = CFSTR("Growl is not installed.");
+							alert_values[1] = CFSTR("You must install Growl before you can use GrowlTunes, because Growl is necessary to present GrowlTunes' notifications.");
 							alert_values[2] = CFSTR("OK");
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
@@ -1403,20 +1404,18 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 							if(growlTunesBundleURL)
 								CFRelease(growlTunesBundleURL);
 						}
-						
-						if (!GrowlTunes_GrowlIsInstalled()) 
-						{
-							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.														
+						else if (!GrowlTunes_SetDelegate(&delegate))
+						{							
 							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
-							alert_values[0] = CFSTR("Growl is not installed.");
-							alert_values[1] = CFSTR("You must install Growl before you can use GrowlTunes, because Growl is necessary to present GrowlTunes' notifications.");
+							alert_values[0] = CFSTR("Growl Registration Error");
+							alert_values[1] = CFSTR("Growl notifications aren't available, because your installation of Growl is either broken or out-of-date.");
 							alert_values[2] = CFSTR("OK");
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
 							alert_values[5] = (CFStringRef)CFBundleCopyResourceURLInDirectory (growlTunesBundleURL, CFSTR("growl"), CFSTR("png"), NULL);
 							if(alert_values[5] == NULL)
 								num = 5;
-							
+
 							doNotificationWithKeysAndValues(alert_keys,alert_values,num);
 							if(alert_values[4])
 								CFRelease(alert_values[4]);
