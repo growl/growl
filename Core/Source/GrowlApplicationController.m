@@ -486,12 +486,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
 
-		if (!display) {
-			NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
-			if (displayPluginName)
-				display = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
-		}
-
 		if (!display)
 			display = [ticket displayPlugin];
 
