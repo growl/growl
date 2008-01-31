@@ -1392,10 +1392,14 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
 							alert_values[5] = (CFStringRef)CFBundleCopyResourceURLInDirectory (growlTunesBundleURL, CFSTR("growl"), CFSTR("png"), NULL);
+							if(alert_values[5] == NULL)
+								num = 5;
 
 							doNotificationWithKeysAndValues(alert_keys,alert_values,num);
 							if(alert_values[4])
 								CFRelease(alert_values[4]);
+							if(alert_values[5])
+								CFRelease(alert_values[5]);
 							if(growlTunesBundleURL)
 								CFRelease(growlTunesBundleURL);
 						}
@@ -1410,10 +1414,14 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
 							alert_values[5] = (CFStringRef)CFBundleCopyResourceURLInDirectory (growlTunesBundleURL, CFSTR("growl"), CFSTR("png"), NULL);
+							if(alert_values[5] == NULL)
+								num = 5;
 							
 							doNotificationWithKeysAndValues(alert_keys,alert_values,num);
 							if(alert_values[4])
 								CFRelease(alert_values[4]);
+							if(alert_values[5])
+								CFRelease(alert_values[5]);
 							if(growlTunesBundleURL)
 								CFRelease(growlTunesBundleURL);
 						}
