@@ -216,7 +216,7 @@ static void readPreferences (void)
 	gKey = CFPreferencesGetAppIntegerValue(CFSTR("Key"), GTP, &success);
 	if (success) 
 	{
-		//GrowlLog(1, CFSTR("%ld\n"), gKey);
+		//GrowlLog("%ld\n", gKey);
 	} 
 	else 
 	{
@@ -226,7 +226,7 @@ static void readPreferences (void)
 	gModifier = CFPreferencesGetAppIntegerValue(CFSTR("Modifiers"), GTP, &success);
 	if (success) 
 	{
-		//GrowlLog(1, CFSTR("%ld\n"), gModifier);
+		//GrowlLog("%ld\n", gModifier);
 	} 
 	else 
 	{
@@ -268,7 +268,7 @@ static void writePreferences (void)
 	CFIndex key = hotkey_keyCode(&notificationHotKey);
 	CFIndex modifiers = hotkey_modifierCode(&notificationHotKey);
 
-	//GrowlLog(1, CFSTR("%ld %ld\n"), key, modifiers);
+	//GrowlLog("%ld %ld\n", key, modifiers);
 	//if the key is zero then the selection is defaulted, use key code for k
 	if (key == 0) 
 	{
@@ -317,7 +317,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 	GetControlByID(wind, &groupbox, &artworkGB);
 
 	//char *string = (char *)&controlID.signature;
-	//GrowlLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+	//GrowlLog("%s %c%c%c%c\n", __FUNCTION__, string[0], string[1], string[2], string[3]);
 	switch (controlID.id)
 	{
 		case kGTPSetID:
@@ -363,13 +363,13 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 
 			if (gArtWorkFlag) 
 			{
-				//GrowlLog(1, CFSTR("artwork enabled\n"));
+				//GrowlLog("artwork enabled\n");
 				//enable the Artwork controls since we've enabled artwork gathering
 				EnableControl(artworkDB);
 			} 
 			else 
 			{
-				//GrowlLog(1, CFSTR("artwork disabled\n"));
+				//GrowlLog("artwork disabled\n");
 				//disable the artwork controls since we've turned off artwork gathering
 				DisableControl(artworkDB);
 			}
@@ -383,7 +383,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 			break;
 		case kHotKeySetID:
 			//run the hot key capture sheet
-			//GrowlLog(1, CFSTR("run the capture sheet"));
+			//GrowlLog("run the capture sheet");
 			newNibSheetWindow(wind);
 			CFStringRef hotKeyString = getHotKeyString();
 			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
@@ -459,7 +459,7 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 				hotkey_swapHotKeys(&notificationHotKey);
 				break;
 			case kHotKeySheetOKID:
-				//GrowlLog(1, CFSTR("%d  %d\n"), newHotKeyValue, newHotKeyModifiersValue);
+				//GrowlLog("%d  %d\n", newHotKeyValue, newHotKeyModifiersValue);
 				if ((newHotKeyValue != hotkey_keyCode(&notificationHotKey)) || (newHotKeyModifiersValue != hotkey_modifierCode(&notificationHotKey))) 
 				{
 					hotkey_setKeyCodeAndModifiers(&notificationHotKey, newHotKeyValue, newHotKeyModifiersValue);
@@ -475,7 +475,7 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 				return noErr;
 		}
 		hotKeyString = getHotKeyString();
-		//GrowlLog(1, CFSTR("hotkeySTRINg: %@\n"), hotKeyString);
+		//GrowlLog("hotkeySTRINg: %@\n", hotKeyString);
 		SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 		Draw1Control(hotkeypref);
 		PopSymbolicHotKeyMode(mode);
@@ -851,7 +851,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	if (message != 'vrnd') 
 	{
 		char *string = (char *)&message;
-		GrowlLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+		GrowlLog("%s %c%c%c%c\n", __FUNCTION__, string[0], string[1], string[2], string[3]);
 	}
 	*/
 
@@ -982,7 +982,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				} 
 				else  
 				{
-					//GrowlLog(1, CFSTR("bad bundle reference"));
+					//GrowlLog("bad bundle reference");
 				}
 			}
 
@@ -1079,7 +1079,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					}
 					/*
 					char *string = (char *)&format;
-					GrowlLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+					GrowlLog("%d: %c%c%c%c", err, string[0], string[1], string[2], string[3]);
 					*/
 				}
 				notification.iconData = coverArtDataRef;
@@ -1095,7 +1095,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				GrowlTunes_PostNotification(&notification);
 
 			hotkey_setData(&notificationHotKey, &notification);
-			//GrowlLog(1, notificationHotKey->hotKeyString());
+			//GrowlLog(notificationHotKey->hotKeyString());
 
 			if (coverArt)
 				DisposeHandle(coverArt);
@@ -1150,7 +1150,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					//coverArtDataRef = NULL;
 					/*
 					char *string = (char *)&format;
-					GrowlLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+					GrowlLog("%d: %c%c%c%c", err, string[0], string[1], string[2], string[3]);
 					*/
 				}
 				notification.iconData = coverArtDataRef;
@@ -1223,10 +1223,10 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 {
 	#pragma unused(inHandlerRef)
 	GrowlLog("%s entered", __FUNCTION__);
-	//GrowlLog(1, CFSTR("hot key"));
+	//GrowlLog("hot key");
 	if (GetEventKind(inEvent) == kEventHotKeyReleased) 
 	{
-		//GrowlLog(1, CFSTR("%p\n"), refCon);
+		//GrowlLog("%p\n", refCon);
 		if (!refCon) 
 		{
 			GrowlLog("no notification to display");
@@ -1234,7 +1234,7 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 		else 
 		{
 			//struct Growl_Notification * notif = (struct Growl_Notification *)refCon;
-			//GrowlLog(1, CFSTR("%p\n"), refCon);
+			//GrowlLog("%p\n", refCon);
 			GrowlTunes_PostNotification(&notification);
 		}
 	}
