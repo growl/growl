@@ -81,8 +81,8 @@ static const char usage[] =
 "    -t,--title      Does nothing. Any text following will be treated as the\n"
 "                    title because that's the default argument behaviour\n";
 
-static const char *version = "growlnotify 1.1.2\n"
-"Copyright (c) The Growl Project, 2004-2007";
+static const char *version = "growlnotify 1.1.3\n"
+"Copyright (c) The Growl Project, 2004-2008";
 
 static void notificationDismissed(CFNotificationCenterRef center,
 								  void *observer,
