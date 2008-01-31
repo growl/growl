@@ -1387,7 +1387,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						{							
 							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
 							alert_values[0] = CFSTR("Growl Registration Error");
-							alert_values[1] = CFSTR("Growl notifications aren't available, your install of Growl is either broken or you need to update your Growl install.");
+							alert_values[1] = CFSTR("Growl notifications aren't available, because your installation of Growl is either broken or out-of-date.");
 							alert_values[2] = CFSTR("OK");
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
@@ -1409,7 +1409,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.														
 							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
 							alert_values[0] = CFSTR("Growl is not installed.");
-							alert_values[1] = CFSTR("Growl notifications aren't available, you need to install Growl.");
+							alert_values[1] = CFSTR("You must install Growl before you can use GrowlTunes, because Growl is necessary to present GrowlTunes' notifications.");
 							alert_values[2] = CFSTR("OK");
 							alert_values[3] = CFSTR("Get Growl");
 							alert_values[4] = CFSTR("Open Growl");
