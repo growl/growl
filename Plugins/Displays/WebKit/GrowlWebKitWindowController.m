@@ -41,6 +41,7 @@
 @end
 
 @interface NSImage (PNGRepAddition)
+- (NSBitmapImageRep *)bitmapImageRep;
 - (NSData *)PNGRepresentation;
 @end
 
@@ -438,11 +439,27 @@ static char encodingTable[64] = {
 @end
 
 @implementation NSImage (PNGRepAddition)
+- (NSBitmapImageRep *)bitmapImageRep
+{
+	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
+	NSImageRep *rep;
+	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
+	while ((rep = [repsEnum nextObject])) {
+		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
+			//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
+			return (NSBitmapImageRep *)rep;
+		}
+	}
+
+	//We don't already have one, so forge one from our TIFF representation.
+	return [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+}
+
 - (NSData *)PNGRepresentation
 {
 	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
 	
-	NSBitmapImageRep	*bitmapRep =  [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	NSBitmapImageRep	*bitmapRep =  [self bitmapImageRep];
 	
 	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
 }
