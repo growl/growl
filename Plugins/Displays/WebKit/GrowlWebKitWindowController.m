@@ -127,6 +127,8 @@
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
+	[view release];
+
 	[self setBridge:displayBridge];
 
 	// set up the transitions...
@@ -135,7 +137,7 @@
 	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
 	[fader setAutoReverses:YES];
 	[fader release];
-	
+
 	[panel release];
 
 	return self;
@@ -282,7 +284,7 @@
 	NSRect viewFrame = [[[self window] contentView] frame];
 	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
 	NSPoint idealOrigin;
-	
+
 	switch(originatingPosition){
 		case GrowlTopRightPosition:
 			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - paddingX,
@@ -305,7 +307,7 @@
 									  NSMaxY(rect) - paddingY - NSHeight(viewFrame));
 			break;			
 	}
-	
+
 	return idealOrigin;	
 }
 
