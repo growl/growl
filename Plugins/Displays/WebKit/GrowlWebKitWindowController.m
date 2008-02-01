@@ -185,7 +185,7 @@
 	}
 
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
-
+	NSLog(@"Displaying %@", icon);
 	NSString *growlImageString = [NSString stringWithFormat:@"data:image/png;base64,%@", [[icon PNGRepresentation] base64Encoding]];
 
 	float opacity = 95.0f;
