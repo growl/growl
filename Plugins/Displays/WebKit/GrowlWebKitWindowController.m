@@ -41,7 +41,6 @@
 @end
 
 @interface NSImage (PNGRepAddition)
-- (NSBitmapImageRep *)bitmapImageRep;
 - (NSData *)PNGRepresentation;
 @end
 
@@ -185,7 +184,6 @@
 	}
 
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
-	NSLog(@"Displaying %@", icon);
 	NSString *growlImageString = [NSString stringWithFormat:@"data:image/png;base64,%@", [[icon PNGRepresentation] base64Encoding]];
 
 	float opacity = 95.0f;
@@ -439,8 +437,9 @@ static char encodingTable[64] = {
 @end
 
 @implementation NSImage (PNGRepAddition)
-- (NSBitmapImageRep *)bitmapImageRep
+- (NSBitmapImageRep *)GrowlBitmapImageRep
 {
+	//Assumption: Representations are ordered in descending size, so we get the biggest one. This appears to be true in 10.4 and 10.5...
 	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
 	NSImageRep *rep;
 	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
@@ -452,15 +451,13 @@ static char encodingTable[64] = {
 	}
 
 	//We don't already have one, so forge one from our TIFF representation.
-	return [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	return (NSBitmapImageRep *)[NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
 }
 
 - (NSData *)PNGRepresentation
 {
 	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
-	
-	NSBitmapImageRep	*bitmapRep =  [self bitmapImageRep];
-	
-	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
+	return ([(NSBitmapImageRep *)[self GrowlBitmapImageRep] representationUsingType:NSPNGFileType properties:nil]);
 }
+
 @end
