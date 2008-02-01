@@ -14,7 +14,6 @@
 	NSString		*templateHTML;
 	NSURL			*baseURL;
 
-	NSImage			*image;
 	BOOL			positioned;
 	float			paddingX;
 	float			paddingY;

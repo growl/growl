@@ -302,7 +302,6 @@
 		95D89A95082418DA0068A4BD /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
 		95D89B21082422A00068A4BD /* GrowlWebKitWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F797A080EED5C00CC5F62 /* GrowlWebKitWindowController.m */; };
 		95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */; };
-		95D89B23082422A60068A4BD /* GrowlImageURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */; };
 		95D89B55082422C50068A4BD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950F79C5080EEE2B00CC5F62 /* WebKit.framework */; };
 		95D89BC308242AD80068A4BD /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 9596C4EF081063DB00F43859 /* template.html */; };
 		95D8C1A508B0A07500A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
@@ -976,8 +975,6 @@
 		95125DEB0802D414007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Smoke/Info.plist; sourceTree = "<group>"; };
 		95125DEC0802D41E007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../MailMe/Info.plist; sourceTree = "<group>"; };
 		95125DED0802D428007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../MusicVideo/Info.plist; sourceTree = "<group>"; };
-		951BD0B5081049C700D803CD /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.h; sourceTree = "<group>"; };
-		951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.m; sourceTree = "<group>"; };
 		9523426C0980E461003CEE6E /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = Core/Resources/de.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		9523426D0980E471003CEE6E /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Core/Resources/fr.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		9526BD51081BCC9100B9D0D0 /* MD5Authenticator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MD5Authenticator.h; path = Common/Source/MD5Authenticator.h; sourceTree = "<group>"; };
@@ -1850,8 +1847,6 @@
 				950F797A080EED5C00CC5F62 /* GrowlWebKitWindowController.m */,
 				950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */,
 				950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */,
-				951BD0B5081049C700D803CD /* GrowlImageURLProtocol.h */,
-				951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */,
 				743EDE11092740F5002A9670 /* GrowlWebKitDisplayPlugin.h */,
 				743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */,
 				9596C4EF081063DB00F43859 /* template.html */,
@@ -2960,7 +2955,6 @@
 				953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */,
 				95D89B21082422A00068A4BD /* GrowlWebKitWindowController.m in Sources */,
 				95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */,
-				95D89B23082422A60068A4BD /* GrowlImageURLProtocol.m in Sources */,
 				956D7E85082514B00083D772 /* sha2.c in Sources */,
 				95CF9929082A5EBE001A409D /* cdsa.c in Sources */,
 				95CF9B47082AE3B7001A409D /* GrowlUDPUtils.c in Sources */,

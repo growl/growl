@@ -37,6 +37,14 @@
 }
 @end
 
+@interface NSData (Base64Additions)
+- (NSString *)base64Encoding;
+@end
+
+@interface NSImage (PNGRepAddition)
+- (NSData *)PNGRepresentation;
+@end
+
 @implementation GrowlWebKitWindowController
 
 #define GrowlWebKitDurationPrefDefault				4.0
@@ -149,8 +157,6 @@
 	[webView      setFrameLoadDelegate:nil];
 	[webView      setTarget:nil];
 
-	[image		  setName:nil];
-	[image        release];
 	[templateHTML release];
 	[baseURL	  release];
 	
@@ -179,15 +185,8 @@
 	}
 
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
-	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-	CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-	CFRelease(uuid);
-	
-	[image setName:nil];
-	[image release];
-	image = [icon retain];
-	[image setName:(NSString *)uuidString];
-	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
+
+	NSString *growlImageString = [NSString stringWithFormat:@"data:image/png;base64,%@", [[icon PNGRepresentation] base64Encoding]];
 
 	float opacity = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
@@ -200,11 +199,10 @@
 	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,					 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("growlimage://%image%"), (CFStringRef)growlImageString, CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)titleHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)textHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
-	CFRelease(uuidString);
 	CFRelease(opacityString);
 	CFRelease(titleHTML);
 	CFRelease(textHTML);
@@ -368,4 +366,85 @@
 	return paddingY;
 }
 
+@end
+
+@implementation NSData (Base64Additions)
+
+static char encodingTable[64] = {
+	'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
+	'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
+'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/' };
+
+- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength {
+	const unsigned char	*bytes = [self bytes];
+	NSMutableString *result = [NSMutableString stringWithCapacity:[self length]];
+	unsigned long ixtext = 0;
+	unsigned long lentext = [self length];
+	long ctremaining = 0;
+	unsigned char inbuf[3], outbuf[4];
+	unsigned short i = 0;
+	unsigned short charsonline = 0, ctcopy = 0;
+	unsigned long ix = 0;
+	
+	while( YES ) {
+		ctremaining = lentext - ixtext;
+		if( ctremaining <= 0 ) break;
+		
+		for( i = 0; i < 3; i++ ) {
+			ix = ixtext + i;
+			if( ix < lentext ) inbuf[i] = bytes[ix];
+			else inbuf [i] = 0;
+		}
+		
+		outbuf [0] = (inbuf [0] & 0xFC) >> 2;
+		outbuf [1] = ((inbuf [0] & 0x03) << 4) | ((inbuf [1] & 0xF0) >> 4);
+		outbuf [2] = ((inbuf [1] & 0x0F) << 2) | ((inbuf [2] & 0xC0) >> 6);
+		outbuf [3] = inbuf [2] & 0x3F;
+		ctcopy = 4;
+		
+		switch( ctremaining ) {
+			case 1:
+				ctcopy = 2;
+				break;
+			case 2:
+				ctcopy = 3;
+				break;
+		}
+		
+		for( i = 0; i < ctcopy; i++ )
+			[result appendFormat:@"%c", encodingTable[outbuf[i]]];
+		
+		for( i = ctcopy; i < 4; i++ )
+			[result appendString:@"="];
+		
+		ixtext += 3;
+		charsonline += 4;
+		
+		if( lineLength > 0 ) {
+			if( charsonline >= lineLength ) {
+				charsonline = 0;
+				[result appendString:@"\n"];
+			}
+		}
+	}
+	
+	return result;
+}
+
+- (NSString *) base64Encoding {
+	return [self base64EncodingWithLineLength:0];
+}
+
+@end
+
+@implementation NSImage (PNGRepAddition)
+- (NSData *)PNGRepresentation
+{
+	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
+	
+	NSBitmapImageRep	*bitmapRep =  [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	
+	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
+}
 @end
