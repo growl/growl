@@ -93,6 +93,7 @@
 + (NSProxy<GrowlNotificationProtocol> *) growlProxy;
 @end
 
+static NSDictionary *cachedRegistrationDictionary = nil;
 static NSString	*appName = nil;
 static NSData	*appIconData = nil;
 
@@ -123,11 +124,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		delegate = [inDelegate retain];
 	}
 
-	NSDictionary *regDict = [self bestRegistrationDictionary];
+	[cachedRegistrationDictionary release];
+	cachedRegistrationDictionary = [[self bestRegistrationDictionary] retain];
 
 	//Cache the appName from the delegate or the process name
 	[appName autorelease];
-	appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
+	appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:cachedRegistrationDictionary] retain];
 	if (!appName) {
 		NSLog(@"%@", @"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
 		return;
@@ -137,7 +139,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	 * applicationIconDataForGrowl selector, or the application if not
 	 */
 	[appIconData autorelease];
-	appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+	appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:cachedRegistrationDictionary] retain];
 
 	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
 	[NSDNC addObserver:self
@@ -182,7 +184,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation:Do Not Prompt Again"];
 #endif
 
-	growlLaunched = [self _launchGrowlIfInstalledWithRegistrationDictionary:regDict];
+	growlLaunched = [self _launchGrowlIfInstalledWithRegistrationDictionary:cachedRegistrationDictionary];
 }
 
 + (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate {
@@ -348,6 +350,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
 		regDict = [self bestRegistrationDictionary];
+
+	[cachedRegistrationDictionary release];
+	cachedRegistrationDictionary = [regDict retain];
+
 	return [self _launchGrowlIfInstalledWithRegistrationDictionary:regDict];
 }
 
@@ -463,13 +469,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
-	NSDictionary *regDict = [self bestRegistrationDictionary];
-
 	NSMutableDictionary *mNotifDict = [notifDict mutableCopy];
 
 	if (![mNotifDict objectForKey:GROWL_APP_NAME]) {
 		if (!appName)
-			appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
+			appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:cachedRegistrationDictionary] retain];
 
 		if (appName) {
 			[mNotifDict setObject:appName
@@ -479,7 +483,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	if (![mNotifDict objectForKey:GROWL_APP_ICON]) {
 		if (!appIconData)
-			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:cachedRegistrationDictionary] retain];
 
 		if (appIconData) {
 			[mNotifDict setObject:appIconData
