@@ -148,6 +148,8 @@
 	[webView      setPolicyDelegate:nil];
 	[webView      setFrameLoadDelegate:nil];
 	[webView      setTarget:nil];
+
+	[image		  setName:nil];
 	[image        release];
 	[templateHTML release];
 	[baseURL	  release];
@@ -181,6 +183,7 @@
 	CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 	CFRelease(uuid);
 	
+	[image setName:nil];
 	[image release];
 	image = [icon retain];
 	[image setName:(NSString *)uuidString];

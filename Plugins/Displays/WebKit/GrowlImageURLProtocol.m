@@ -28,12 +28,11 @@
 	NSString *imageName = [url host];
 	NSImage *image = [NSImage imageNamed:imageName];
 	NSData *imageData = [image TIFFRepresentation];
+	NSLog(@"loaded %@", image);
 	NSURLResponse *response = [[NSURLResponse alloc] initWithURL:url
 														MIMEType:@"image/tiff"
 										   expectedContentLength:[imageData length]
 												textEncodingName:nil];
-	[response autorelease];
-
 	id <NSURLProtocolClient> client = [self client];
 	[client URLProtocol:self
 	 didReceiveResponse:response
@@ -41,6 +40,7 @@
 	[client URLProtocol:self
 			didLoadData:imageData];
 	[client URLProtocolDidFinishLoading:self];
+	[response release];
 }
 
 - (void) stopLoading {
