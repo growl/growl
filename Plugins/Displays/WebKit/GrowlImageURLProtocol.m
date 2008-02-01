@@ -10,8 +10,8 @@
 
 @implementation GrowlImageURLProtocol
 + (void) initialize {
-	[super initialize];
-	[NSURLProtocol registerClass:[GrowlImageURLProtocol class]];
+	if (self == [GrowlImageURLProtocol class])
+		[NSURLProtocol registerClass:[GrowlImageURLProtocol class]];
 }
 
 + (BOOL) canInitWithRequest:(NSURLRequest *)request {
