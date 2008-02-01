@@ -67,6 +67,7 @@ static Boolean promptedToUpgradeGrowl     = false;
 static Boolean registerWhenGrowlIsReady   = false;
 
 static struct Growl_Delegate *delegate = NULL;
+static CFDictionaryRef cachedRegistrationDictionary = NULL;
 static Boolean growlLaunched = false;
 
 #pragma mark -
@@ -418,6 +419,10 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict) {
 	if (regDict) regDict = Growl_CreateRegistrationDictionaryByFillingInDictionary(regDict);
 	else         regDict = Growl_CreateBestRegistrationDictionary();
+
+	if (cachedRegistrationDictionary)
+		CFRelease(cachedRegistrationDictionary);
+	cachedRegistrationDictionary = CFRetain(regDict);
 
 	Boolean success = _launchGrowlIfInstalledWithRegistrationDictionary(regDict, /*callback*/ NULL, /*context*/ NULL);
 
