@@ -10,7 +10,6 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitDefines.h"
-#import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
 #import "NSViewAdditions.h"
