@@ -788,7 +788,7 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 		}
 
 		rating = CFSTR("");
-		if (gRatingFlag) 
+		if (gRatingFlag && visualPluginData->trackInfo.trackRating) 
 		{
 			CFStringRef starsString = createStringForRating(visualPluginData->trackInfo.trackRating, PINWHEEL_STAR);
 			if (starsString)
