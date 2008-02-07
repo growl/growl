@@ -752,7 +752,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
 					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 					CFRelease(uuid);
-					regDictFileName = [[[[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] stringByAppendingString:@"-"] stringByAppendingString:(NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					regDictFileName = [[NSString stringWithFormat:@"%@-%u-%@", [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict], getpid(), (NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 					CFRelease(uuidString);
 					if ([regDictFileName length] > NAME_MAX)
 						regDictFileName = [[regDictFileName substringToIndex:(NAME_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
