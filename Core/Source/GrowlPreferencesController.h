@@ -17,7 +17,6 @@
 #define XSTR CFSTR
 #endif
 
-#define HelperAppBundleIdentifier	XSTR("com.Growl.GrowlHelperApp")
 #define GrowlPreferencesChanged		XSTR("GrowlPreferencesChanged")
 #define GrowlPreview				XSTR("GrowlPreview")
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")

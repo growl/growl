@@ -107,7 +107,7 @@ static NSBundle *prefPaneBundle;
 
 + (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
-		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];
+		helperAppBundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 		if (!helperAppBundle) {
 			//look in the prefpane bundle.
 			NSBundle *bundle = [GrowlPathUtilities growlPrefPaneBundle];

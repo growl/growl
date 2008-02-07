@@ -29,12 +29,12 @@ CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 
 int GrowlPreferencesController_integerForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
-	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
+	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
 }
 
 Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
-	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
+	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
 }
 
 @implementation GrowlPreferencesController
@@ -63,29 +63,29 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) registerDefaults:(NSDictionary *)inDefaults {
 	NSUserDefaults *helperAppDefaults = [[NSUserDefaults alloc] init];
-	[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
-	NSDictionary *existing = [helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier];
+	[helperAppDefaults addSuiteNamed:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+	NSDictionary *existing = [helperAppDefaults persistentDomainForName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 	if (existing) {
 		NSMutableDictionary *domain = [inDefaults mutableCopy];
 		[domain addEntriesFromDictionary:existing];
-		[helperAppDefaults setPersistentDomain:domain forName:HelperAppBundleIdentifier];
+		[helperAppDefaults setPersistentDomain:domain forName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 		[domain release];
 	} else {
-		[helperAppDefaults setPersistentDomain:inDefaults forName:HelperAppBundleIdentifier];
+		[helperAppDefaults setPersistentDomain:inDefaults forName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 	}
 	[helperAppDefaults release];
 	SYNCHRONIZE_GROWL_PREFS();
 }
 
 - (id) objectForKey:(NSString *)key {
-	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier);
+	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
 	return [value autorelease];
 }
 
 - (void) setObject:(id)object forKey:(NSString *)key {
 	CFPreferencesSetAppValue((CFStringRef)key,
 							 (CFPropertyListRef)object,
-							 (CFStringRef)HelperAppBundleIdentifier);
+							 (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
 
 	SYNCHRONIZE_GROWL_PREFS();
 

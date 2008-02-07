@@ -233,6 +233,12 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		XSTR("com.growl.prefpanel")
 /*!
+ *	@defined    GROWL_HELPERAPP_BUNDLE_IDENTIFIER
+ *	@discussion The bundle identifier for the Growl background application (GrowlHelperApp).
+ */
+#define HELPER_APP_BUNDLE_IDENTIFIER	XSTR("com.Growl.GrowlHelperApp")
+
+/*!
  *	@defined    GROWL_PREFPANE_NAME
  *	@discussion The file name of the Growl preference pane.
  */
