@@ -23,6 +23,70 @@ static NSBundle *prefPaneBundle;
 
 #pragma mark Bundles
 
+//Searches the process list (as yielded by GetNextProcess) for a process with the given bundle identifier.
+//Returns the oldest matching process.
++ (NSBundle *) bundleForProcessWithBundleIdentifier:(NSString *)identifier
+{
+
+restart:;
+	OSStatus err;
+	NSBundle *bundle = nil;
+	struct ProcessSerialNumber psn = { 0, 0 };
+	UInt32 oldestProcessLaunchDate = UINT_MAX;
+
+	while ((err = GetNextProcess(&psn)) == noErr) {
+		struct ProcessInfoRec info = { .processInfoLength = sizeof(struct ProcessInfoRec) };
+		err = GetProcessInformation(&psn, &info);
+		if (err == noErr) {
+			//Compare the launch dates first, since it's cheaper than comparing bundle IDs.
+			if (info.processLaunchDate < oldestProcessLaunchDate) {
+				//This one is older (fewer ticks since startup), so this is our current prospect to be the result.
+				NSDictionary *dict = (NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+
+				if (dict) {
+					pid_t pid = 0;
+					GetProcessPID(&psn, &pid);
+					if ([[dict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:identifier]) {
+						NSString *bundlePath = [dict objectForKey:@"BundlePath"];
+						if (bundlePath) {
+							bundle = [NSBundle bundleWithPath:bundlePath];
+							oldestProcessLaunchDate = info.processLaunchDate;
+						}
+					}
+
+					[dict release];
+				} else {
+					//ProcessInformationCopyDictionary returning NULL probably means that the process disappeared out from under us (i.e., exited) in between GetProcessInformation and ProcessInformationCopyDictionary. Start over.
+					goto restart;
+				}
+			}
+		} else {
+			if (err != noErr) {
+				//Unexpected failure of GetProcessInformation (Process Manager got confused?). Assume severe breakage and bail.
+				NSLog(@"Couldn't get information about process %lu,%lu: GetProcessInformation returned %i/%s", psn.highLongOfPSN, psn.lowLongOfPSN, err, GetMacOSStatusCommentString(err));
+				err = noErr; //So our NSLog for GetNextProcess doesn't complain. (I wish I had Python's while..else block.)
+				break;
+			} else {
+				//Process disappeared out from under us (i.e., exited) in between GetNextProcess and GetProcessInformation. Start over.
+				goto restart;
+			}
+		}
+	}
+	if (err != procNotFound) {
+		NSLog(@"%s: GetNextProcess returned %i/%s", __PRETTY_FUNCTION__, err, GetMacOSStatusCommentString(err));
+	}
+
+	return bundle;
+}
+
+//Obtains the bundle for the active GrowlHelperApp process. Returns nil if there is no such process.
++ (NSBundle *) runningHelperAppBundle {
+	NSBundle *bundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+	if (!bundle)
+		bundle = [self bundleForProcessWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+	return bundle;
+}
+
 + (NSBundle *) growlPrefPaneBundle {
 	NSArray			*librarySearchPaths;
 	NSString		*path;
@@ -37,6 +101,24 @@ static NSBundle *prefPaneBundle;
  	if (prefPaneBundle)
 		return prefPaneBundle;
 
+	//If GHA is running, the prefpane bundle is the bundle that contains it.
+	NSBundle *runningHelperAppBundle = [self runningHelperAppBundle];
+	NSString *runningHelperAppBundlePath = [runningHelperAppBundle bundlePath];
+	//GHA in Growl.prefPane/Contents/Resources/
+	NSString *possiblePrefPaneBundlePath1 = [runningHelperAppBundlePath stringByDeletingLastPathComponent];
+	//GHA in Growl.prefPane/ (hypothetical)
+	NSString *possiblePrefPaneBundlePath2 = [[possiblePrefPaneBundlePath1 stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+	if ([[[possiblePrefPaneBundlePath1 pathExtension] lowercaseString] isEqualToString:@"prefpane"]) {
+		prefPaneBundle = [NSBundle bundleWithPath:possiblePrefPaneBundlePath1];
+		if (prefPaneBundle)
+			return prefPaneBundle;
+	}
+	if ([[[possiblePrefPaneBundlePath2 pathExtension] lowercaseString] isEqualToString:@"prefpane"]) {
+		prefPaneBundle = [NSBundle bundleWithPath:possiblePrefPaneBundlePath2];
+		if (prefPaneBundle)
+			return prefPaneBundle;
+	}
+	
 	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -107,7 +189,7 @@ static NSBundle *prefPaneBundle;
 
 + (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
-		helperAppBundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+		helperAppBundle = [self runningHelperAppBundle];
 		if (!helperAppBundle) {
 			//look in the prefpane bundle.
 			NSBundle *bundle = [GrowlPathUtilities growlPrefPaneBundle];
