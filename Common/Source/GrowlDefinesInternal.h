@@ -236,7 +236,7 @@ struct GrowlNetworkNotification {
  *	@defined    GROWL_HELPERAPP_BUNDLE_IDENTIFIER
  *	@discussion The bundle identifier for the Growl background application (GrowlHelperApp).
  */
-#define HELPER_APP_BUNDLE_IDENTIFIER	XSTR("com.Growl.GrowlHelperApp")
+#define GROWL_HELPERAPP_BUNDLE_IDENTIFIER	XSTR("com.Growl.GrowlHelperApp")
 
 /*!
  *	@defined    GROWL_PREFPANE_NAME
