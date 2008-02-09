@@ -26,6 +26,7 @@
 
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;
+	BOOL						quitAfterOpen;
 	BOOL						enableForward;
 	NSArray						*destinations;
 
@@ -56,6 +57,12 @@
 
 - (void) shutdown:(NSNotification *)note;
 - (void) replyToPing:(NSNotification *)note;
+
+#pragma mark Accessors
+
+//To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).
+- (BOOL) quitAfterOpen;
+- (void) setQuitAfterOpen:(BOOL)flag;
 
 - (NSThread *)mainThread;
 

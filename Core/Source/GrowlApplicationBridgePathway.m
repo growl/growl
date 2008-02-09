@@ -8,6 +8,8 @@
 
 #import "GrowlApplicationBridgePathway.h"
 
+#import "GrowlApplicationController.h"
+
 static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 
 @implementation GrowlApplicationBridgePathway
@@ -38,8 +40,9 @@ static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 			 *	terminate
 			 */
 			NSLog(@"%@", @"It appears that at least one other instance of Growl is running. This one will quit.");
+			[[GrowlApplicationController sharedController] setQuitAfterOpen:YES];
 			[self release];
-			[NSApp terminate:self];
+			return nil;
 		}
 
 		theOneTrueGrowlApplicationBridgePathway = self;

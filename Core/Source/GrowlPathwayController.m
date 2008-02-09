@@ -16,6 +16,7 @@
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlTCPPathway.h"
 #import "GrowlUDPPathway.h"
+#import "GrowlPropertyListFilePathway.h"
 #import "GrowlApplicationBridgePathway.h"
 
 static GrowlPathwayController *sharedController = nil;
@@ -52,7 +53,13 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 		[self installPathway:pw];
 		[pw release];
 
-		[self installPathway:[GrowlApplicationBridgePathway standardPathway]];
+		pw = [GrowlPropertyListFilePathway standardPathway];
+		if (pw)
+			[self installPathway:pw];
+
+		pw = [GrowlApplicationBridgePathway standardPathway];
+		if (pw)
+			[self installPathway:pw];
 
 		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
 		[self installPathway:rpw];

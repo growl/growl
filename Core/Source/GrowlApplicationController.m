@@ -16,6 +16,7 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
+#import "GrowlPropertyListFilePathway.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
@@ -671,6 +672,15 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return versionCheckURL;
 }
 
+#pragma mark Accessors
+
+- (BOOL) quitAfterOpen {
+	return quitAfterOpen;
+}
+- (void) setQuitAfterOpen:(BOOL)flag {
+	quitAfterOpen = flag;
+}
+
 #pragma mark What NSThread should implement as a class method
 
 - (NSThread *)mainThread {
@@ -754,26 +764,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSString *pathExtension = [filename pathExtension];
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
-		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);
-		NSDictionary *regDict = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-		CFRelease(fileURL);
-
-		/*GrowlApplicationBridge 0.6 communicates registration to Growl by
-		 *	writing a dictionary file to the temporary items folder, then
-		 *	opening the file with GrowlHelperApp.
-		 *we need to delete these, lest we fill up the user's disk or (on Tiger)
-		 *	surprise him with a 'Recovered items' folder in his Trash.
-		 */
-		if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
-			[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
-
-		if (regDict) {
-			//Register this app using the indicated dictionary
-			[self registerApplicationWithDictionary:regDict];
-			[regDict release];
-
-			retVal = YES;
-		}
+		//Have the property-list-file pathway process this registration dictionary file.
+		GrowlPropertyListFilePathway *pathway = [GrowlPropertyListFilePathway standardPathway];
+		[pathway application:theApplication openFile:filename];
 	} else {
 		GrowlPluginController *controller = [GrowlPluginController sharedController];
 		//the set returned by GrowlPluginController is case-insensitive. yay!
@@ -789,8 +782,15 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	 *	preference setting was to click "Stop Growl," setting enabled to NO),
 	 *	quit having registered; otherwise, remain running.
 	 */
-	if (!growlIsEnabled && !growlFinishedLaunching)
-		[NSApp terminate:self];
+	if (!growlIsEnabled && !growlFinishedLaunching) {
+		//Terminate after one second to give us time to process any other openFile: messages.
+		[NSObject cancelPreviousPerformRequestsWithTarget:NSApp
+												 selector:@selector(terminate:)
+												   object:nil];
+		[NSApp performSelector:@selector(terminate:)
+					withObject:nil
+					afterDelay:1.0];
+	}
 
 	return retVal;
 }
@@ -834,6 +834,21 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
 	growlFinishedLaunching = YES;
+
+	if (quitAfterOpen) {
+		//We provide a delay of 1 second to give NSApp time to send us application:openFile: messages for any .growlRegDict files the GrowlPropertyListFilePathway needs to process.
+		[NSApp performSelector:@selector(terminate:)
+					withObject:nil
+					afterDelay:1.0];
+	} else {
+		/*If Growl is not enabled and was not already running before
+		 *	(for example, via an autolaunch even though the user's last
+		 *	preference setting was to click "Stop Growl," setting enabled to NO),
+		 *	quit having registered; otherwise, remain running.
+		 */
+		if (!growlIsEnabled)
+			[NSApp terminate:nil];
+	}
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
