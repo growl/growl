@@ -31,20 +31,36 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
 
 /*!	@method	growlPrefPaneBundle
  *	@abstract	Returns the Growl preference pane bundle.
- *	@discussion	Searches all installed preference pane for the Growl preference
- *	 pane.
+ *	@discussion	First, attempts to retrieve the bundle for a running
+ *	 GrowlHelperApp process using <code>runningHelperAppBundle</code>, and if
+ *	 that was successful, returns the .prefpane bundle that contains it (if any).
+ *	Then, if that failed, searches all installed preference panes for the Growl
+ *	 preference pane.
  *	@result	The <code>NSBundle</code> for the Growl preference pane if it is
  *	 installed; <code>nil</code> otherwise.
  */
 + (NSBundle *) growlPrefPaneBundle;
 /*!	@method	helperAppBundle
  *	@abstract	Returns the GrowlHelperApp bundle.
- *	@discussion	Searches inside the Growl preference pane, if it is installed,
- *	 for GrowlHelperApp.
+ *	@discussion	First, attempts to retrieve the bundle for a running
+ *	 GrowlHelperApp process using <code>runningHelperAppBundle</code>, and
+ *	 returns that if it was successful.
+ *	Then, if it wasn't, searches for a Growl preference pane, and, if one is
+ *	 installed, returns the GrowlHelperApp bundle inside it.
  *	@result	The <code>NSBundle</code> for GrowlHelperApp if it is present;
  *	 <code>nil</code> otherwise.
  */
 + (NSBundle *) helperAppBundle;
+
+/*!	@method	runningHelperAppBundle
+ *	@abstract	Returns the bundle for the running GrowlHelperApp process.
+ *	@discussion	If GrowlHelperApp is running, returns an NSBundle for the .app 
+ *	 bundle it was loaded from.
+ *	If GrowlHelperApp is not running, returns <code>nil</code>.
+ *	@result	The <code>NSBundle</code> for GrowlHelperApp if it is running;
+ *	 <code>nil</code> otherwise.
+ */
++ (NSBundle *) runningHelperAppBundle;
 
 #pragma mark Directories
 
