@@ -17,6 +17,7 @@
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
+#import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
@@ -764,9 +765,28 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSString *pathExtension = [filename pathExtension];
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
-		//Have the property-list-file pathway process this registration dictionary file.
-		GrowlPropertyListFilePathway *pathway = [GrowlPropertyListFilePathway standardPathway];
-		[pathway application:theApplication openFile:filename];
+		//If the auto-quit flag is set, it's probably because we are not the real GHAÑwe're some other GHA that a broken (pre-1.1.3) GAB opened this file with. If that's the case, find the real one and open the file with it.
+		BOOL registerItOurselves = YES;
+		NSString *realHelperAppBundlePath = nil;
+
+		if (quitAfterOpen) {
+			//But, just to make sure we don't infinitely loop, make sure this isn't our own bundle.
+			NSString *ourBundlePath = [[NSBundle mainBundle] bundlePath];
+			realHelperAppBundlePath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
+			if (![ourBundlePath isEqualToString:realHelperAppBundlePath])
+				registerItOurselves = NO;
+		}
+
+		if (registerItOurselves) {
+			//We are the real GHA.
+			//Have the property-list-file pathway process this registration dictionary file.
+			GrowlPropertyListFilePathway *pathway = [GrowlPropertyListFilePathway standardPathway];
+			[pathway application:theApplication openFile:filename];
+		} else {
+			//We're definitely not the real GHA, so pass it to the real GHA to be registered.
+			[[NSWorkspace sharedWorkspace] openFile:filename
+									withApplication:realHelperAppBundlePath];
+		}
 	} else {
 		GrowlPluginController *controller = [GrowlPluginController sharedController];
 		//the set returned by GrowlPluginController is case-insensitive. yay!
