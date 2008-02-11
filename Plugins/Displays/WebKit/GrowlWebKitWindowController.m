@@ -439,19 +439,26 @@ static char encodingTable[64] = {
 @implementation NSImage (PNGRepAddition)
 - (NSBitmapImageRep *)GrowlBitmapImageRep
 {
-	//Assumption: Representations are ordered in descending size, so we get the biggest one. This appears to be true in 10.4 and 10.5...
+	//Find the biggest image
 	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
+	NSBitmapImageRep *bestRep = nil;
 	NSImageRep *rep;
 	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
+	float maxWidth = 0;
 	while ((rep = [repsEnum nextObject])) {
 		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
-			return (NSBitmapImageRep *)rep;
+			if ([rep size].width >= maxWidth) {
+				//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
+				bestRep = (NSBitmapImageRep *)rep;
+			}
 		}
 	}
 
 	//We don't already have one, so forge one from our TIFF representation.
-	return (NSBitmapImageRep *)[NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	if (!bestRep)
+		bestRep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	
+	return bestRep;
 }
 
 - (NSData *)PNGRepresentation
