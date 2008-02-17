@@ -81,10 +81,7 @@ restart:;
 
 //Obtains the bundle for the active GrowlHelperApp process. Returns nil if there is no such process.
 + (NSBundle *) runningHelperAppBundle {
-	NSBundle *bundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
-	if (!bundle)
-		bundle = [self bundleForProcessWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
-	return bundle;
+	return [self bundleForProcessWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 }
 
 + (NSBundle *) growlPrefPaneBundle {
