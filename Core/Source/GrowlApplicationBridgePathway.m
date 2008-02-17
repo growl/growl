@@ -35,12 +35,7 @@ static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 		[aConnection setRootObject:self];
 
 		if (![aConnection registerName:@"GrowlApplicationBridgePathway"]) {
-			/*Considering how important this is, if we are unable to gain this
-			 *	we can assume that another instance of Growl is running and
-			 *	terminate
-			 */
-			NSLog(@"%@", @"It appears that at least one other instance of Growl is running. This one will quit.");
-			[[GrowlApplicationController sharedController] setQuitAfterOpen:YES];
+			NSLog(@"WARNING: Could not register connection for GrowlApplicationBridgePathway");
 			[self release];
 			return nil;
 		}

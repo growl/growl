@@ -200,6 +200,20 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			[defaultDefaults release];
 		}
 
+		if ([GrowlPathUtilities runningHelperAppBundle] != [NSBundle mainBundle]) {
+			/*We are not the real GHA.
+			 *We are another GHA that a pre-1.1.3 GAB has invoked to register an application by a plist file.
+			 *This means that we should not start up the pathway controller; we should, instead, start up the plist-file pathway directly, and wait up to one second for -application:openFile: messages, and forward them to the plist-file pathway (as appropriate), and quit one second after the last one.
+			 */
+			NSLog(@"%@", @"It appears that at least one other instance of Growl is running. This one will quit.");
+			quitAfterOpen = YES;
+		} else {
+			//This class doesn't exist in the prefpane.
+			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+			if (pathwayControllerClass)
+				[pathwayControllerClass sharedController];
+		}
+		
 		[self preferencesChanged:nil];
 
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
@@ -232,11 +246,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
-
-		//this doesn't exist in the prefpane.
-		Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-		if (pathwayControllerClass)
-			[pathwayControllerClass sharedController];
 	}
 
 	return self;
@@ -695,10 +704,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
-	if (!note || (object && [object isEqual:GrowlStartServerKey])) {
-		Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-		if (pathwayControllerClass)
-			[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
+
+	if (!quitAfterOpen) {
+		if (!note || (object && [object isEqual:GrowlStartServerKey])) {
+			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+			if (pathwayControllerClass)
+				[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
+		}
 	}
 	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
@@ -727,7 +739,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[ticketController addTicket:newTicket];
 				[newTicket release];
 			}
-		} else if ([object isEqual:GrowlUDPPortKey]) {
+		} else if ((!quitAfterOpen) && [object isEqual:GrowlUDPPortKey]) {
 			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 			if (pathwayControllerClass) {
 				id pathwayController = [pathwayControllerClass sharedController];
