@@ -48,6 +48,8 @@
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
 #define USER_RETURNED_NOTIFICATION		@"User returned"
 
+static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon);
+
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
 @interface GrowlApplicationController (PRIVATE)
@@ -246,6 +248,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
+
+		soundCompletionCallback = NewSystemSoundCompletionUPP(soundCompletionCallbackProc);
 	}
 
 	return self;
@@ -307,6 +311,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
 
 	cdsaShutdown();
+	
+	DisposeSystemSoundCompletionUPP(soundCompletionCallback);
 
 	[super destroy];
 }
@@ -403,6 +409,97 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) forwardRegistration:(NSDictionary *)dict {
 	[self forwardDictionary:dict withSelector:@selector(registerApplicationWithDictionary:)];
+}
+
+#pragma mark Retrieving sounds
+
+- (OSStatus) getFSRef:(out FSRef *)outRef forSoundNamed:(NSString *)soundName {
+	BOOL foundIt = NO;
+
+	NSArray *soundTypes = [NSSound soundUnfilteredFileTypes];
+
+	//Throw away all the HFS types, leaving only filename extensions.
+	NSPredicate *noHFSTypesPredicate = [NSPredicate predicateWithFormat:@"NOT (self BEGINSWITH \"'\")"];
+	soundTypes = [soundTypes filteredArrayUsingPredicate:noHFSTypesPredicate];
+
+	//If there are no types left, abort.
+	if ([soundTypes count] == 0U)
+		return unknownFormatErr;
+
+	//We only want the filename extensions, not the HFS types.
+	//Also, we want the longest one last so that we can use lastObject's length to allocate the buffer.
+	NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"length" ascending:YES] autorelease];
+	NSArray *sortDescs = [NSArray arrayWithObject:sortDesc];
+	soundTypes = [soundTypes sortedArrayUsingDescriptors:sortDescs];
+
+	NSMutableArray *filenames = [NSMutableArray arrayWithCapacity:[soundTypes count]];
+	NSEnumerator *soundTypeEnum;
+	NSString *soundType;
+	soundTypeEnum = [soundTypes objectEnumerator];
+	while ((soundType = [soundTypeEnum nextObject])) {
+		[filenames addObject:[soundName stringByAppendingPathExtension:soundType]];
+	}
+
+	NSEnumerator *filenamesEnum;
+	NSString *filename;
+
+	//The additions are for appending '.' plus the longest filename extension.
+	size_t filenameLen = [soundName length] + 1U + [[soundTypes lastObject] length];
+	unichar *filenameBuf = malloc(filenameLen * sizeof(unichar));
+	if (!filenameBuf) return memFullErr;
+
+	FSRef folderRef;
+	OSStatus err;
+
+	err = FSFindFolder(kUserDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
+	if (err == noErr) {
+		//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
+		filenamesEnum = [filenames objectEnumerator];
+		while ((filename = [filenamesEnum nextObject])) {
+			[filename getCharacters:filenameBuf];
+			err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
+			if (err == noErr) {
+				foundIt = YES;
+				break;
+			}
+		}
+	}
+
+	if (!foundIt) {
+		err = FSFindFolder(kLocalDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
+		if (err == noErr) {
+			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
+			filenamesEnum = [filenames objectEnumerator];
+			while ((filename = [filenamesEnum nextObject])) {
+				[filename getCharacters:filenameBuf];
+				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
+				if (err == noErr) {
+					foundIt = YES;
+					break;
+				}
+			}
+		}
+	}
+
+	if (!foundIt) {
+		err = FSFindFolder(kSystemDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
+		if (err == noErr) {
+			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
+			filenamesEnum = [filenames objectEnumerator];
+			while ((filename = [filenamesEnum nextObject])) {
+				[filename getCharacters:filenameBuf];
+				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
+				if (err == noErr) {
+					foundIt = YES;
+					break;
+				}
+			}
+		}
+	}
+
+	free(filenameBuf);
+
+	return err;
 }
 
 #pragma mark Dispatching notifications
@@ -531,9 +628,35 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[display displayNotification:appNotification];
 		[appNotification release];
 
-		NSString *sound = [notification sound];
-		if (sound)
-			[[NSSound soundNamed:sound] play];
+		NSString *soundName = [notification sound];
+		if (soundName) {
+			NSError *error = nil;
+			NSDictionary *userInfo;
+
+			FSRef soundRef;
+			OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
+			if (err == noErr) {
+				SystemSoundActionID actionID;
+				err = SystemSoundGetActionID(&soundRef, &actionID);
+				if (err == noErr) {
+					err = SystemSoundSetCompletionRoutine(actionID, CFRunLoopGetCurrent(), /*runLoopMode*/ NULL, soundCompletionCallback, /*refcon*/ NULL);
+					SystemSoundPlay(actionID);
+				} else {
+					userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+						[NSString stringWithFormat:NSLocalizedString(@"Could not load and play sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
+						nil];
+				}					
+			} else {
+				userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+					[NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
+					nil];
+			}
+
+			if (err != noErr) {
+				error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:userInfo];
+				[NSApp presentError:error];
+			}
+		}
 	}
 
 	// send to DO observers
@@ -1108,3 +1231,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 @end
+
+static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) {
+#pragma unused(refcon)
+
+	SystemSoundRemoveCompletionRoutine(actionID);
+
+	return SystemSoundRemoveActionID(actionID);
+}
