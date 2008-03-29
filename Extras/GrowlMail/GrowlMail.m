@@ -309,8 +309,8 @@ static int messageCopies = 0;
 	if (messageCopies) {
 #ifdef GROWL_MAIL_DEBUG
 		NSLog(@"Ignoring because %i message copies are in process", messageCopies);
+#endif
 		return;
-#endif		
 	}
 
 	Library *store = [notification object];
