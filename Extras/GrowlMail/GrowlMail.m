@@ -177,14 +177,20 @@ static int messageCopies = 0;
 
 - (void)monitoredActivityStarted:(NSNotification *)notification
 {
-	if ([[[notification object] description] isEqualToString:@"Copying messages"])
+	if ([[[notification object] description] isEqualToString:@"Copying messages"]) {
 		messageCopies++;
+		if (messageCopies <= 0)
+			[self shutDownGrowlMailAndWarn:@"Number of message-copying operations overflowed. How on earth did you accomplish starting more than 2 billion copying operations at a time?!"];
+	}
 }
 
 - (void)monitoredActivityEnded:(NSNotification *)notification
 {
-	if (([[[notification object] description] isEqualToString:@"Copying messages"]) && messageCopies > 0)
+	if ([[[notification object] description] isEqualToString:@"Copying messages"]) {
+		if (messageCopies <= 0)
+			[self shutDownGrowlMailAndWarn:@"Number of message-copying operations went below 0. It is not possible to have a negative number of copying operations!"];
 		messageCopies--;
+	}
 }
 
 - (void) dealloc {
