@@ -28,13 +28,11 @@ static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 	}
 
 	if ((self = [super init])) {
-		/*This uses the default connection since it's assumed that we need to
-		 *	talk to apps, hence making this connection more important than the rest
-		 */
-		NSConnection *aConnection = [NSConnection defaultConnection];
-		[aConnection setRootObject:self];
+		//We create our own connection, rather than use defaultConnection, because an input manager such as the one in Logitech Control Center may also use defaultConnection, and would thereby steal it away from us.
+		connection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+		[connection setRootObject:self];
 
-		if (![aConnection registerName:@"GrowlApplicationBridgePathway"]) {
+		if (![connection registerName:@"GrowlApplicationBridgePathway"]) {
 			NSLog(@"WARNING: Could not register connection for GrowlApplicationBridgePathway");
 			[self release];
 			return nil;
@@ -43,12 +41,16 @@ static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 		theOneTrueGrowlApplicationBridgePathway = self;
 
 		//Watch a new run loop for incoming messages
-		[aConnection runInNewThread];
+		[connection runInNewThread];
 		//Stop watching the current (main) run loop
-		[aConnection removeRunLoop:[NSRunLoop currentRunLoop]];
+		[connection removeRunLoop:[NSRunLoop currentRunLoop]];
 	}
 
 	return self;
+}
+- (void) dealloc {
+	[connection release];
+	[super dealloc];
 }
 
 @end

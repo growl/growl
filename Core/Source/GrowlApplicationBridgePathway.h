@@ -9,7 +9,7 @@
 #import "GrowlPathway.h"
 
 @interface GrowlApplicationBridgePathway : GrowlPathway {
-
+	NSConnection *connection;
 }
 
 + (GrowlApplicationBridgePathway *) standardPathway;
