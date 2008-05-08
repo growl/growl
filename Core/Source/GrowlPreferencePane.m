@@ -796,7 +796,7 @@
 		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]];
+																   object:[pluginToUse objectForKey:GrowlPluginInfoKeyName]];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
