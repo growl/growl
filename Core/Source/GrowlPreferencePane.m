@@ -793,7 +793,7 @@
 	
 #warning This does not work if the popup button is not using the exact same order as displayPluginsArrayController - a default or separator item breaks it
 	if([sender isKindOfClass:[NSPopUpButton class]]) 
-		pluginToUse = [ticketsArrayController valueForKey: [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]]];
+		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																   object:[pluginToUse objectForKey:(NSString *)kCFBundleNameKey]];
