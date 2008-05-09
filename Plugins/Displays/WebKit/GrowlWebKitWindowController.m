@@ -184,7 +184,15 @@
 	}
 
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
-	NSString *growlImageString = [NSString stringWithFormat:@"data:image/png;base64,%@", [[icon PNGRepresentation] base64Encoding]];
+
+	NSString *imageMediaType = @"image/png";
+	NSData *imageData = [icon PNGRepresentation];
+	if (!imageData) {
+		//Couldn't create a PNG, so fall back on TIFF.
+		imageMediaType = @"image/tiff";
+		imageData = [icon TIFFRepresentation];
+	}
+	NSString *growlImageString = [NSString stringWithFormat:@"data:%@;base64,%@", imageMediaType, [imageData base64Encoding]];
 
 	float opacity = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
@@ -437,7 +445,7 @@ static char encodingTable[64] = {
 @end
 
 @implementation NSImage (PNGRepAddition)
-- (NSBitmapImageRep *)GrowlBitmapImageRep
+- (NSBitmapImageRep *)GrowlBitmapImageRepForPNG
 {
 	//Find the biggest image
 	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
@@ -447,27 +455,26 @@ static char encodingTable[64] = {
 	float maxWidth = 0;
 	while ((rep = [repsEnum nextObject])) {
 		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			float width = [rep size].width;
-			if (width >= maxWidth) {
-				//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
-				bestRep = (NSBitmapImageRep *)rep;
+			//We can't convert a 1-bit image to PNG format (libpng throws an error), so ignore any 1-bit image reps, regardless of size.
+			if ([rep bitsPerSample] > 1) {
+				float width = [rep size].width;
+				if (width >= maxWidth) {
+					//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
+					bestRep = (NSBitmapImageRep *)rep;
 
-				maxWidth = width;
+					maxWidth = width;
+				}
 			}
 		}
 	}
-
-	//We don't already have one, so forge one from our TIFF representation.
-	if (!bestRep)
-		bestRep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
 	
 	return bestRep;
 }
 
 - (NSData *)PNGRepresentation
 {
-	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
-	return ([(NSBitmapImageRep *)[self GrowlBitmapImageRep] representationUsingType:NSPNGFileType properties:nil]);
+	/* PNG is easy; it supports almost everything TIFF does (not 1-bit images), and NSImage's PNG support is great. */
+	return ([(NSBitmapImageRep *)[self GrowlBitmapImageRepForPNG] representationUsingType:NSPNGFileType properties:nil]);
 }
 
 @end
