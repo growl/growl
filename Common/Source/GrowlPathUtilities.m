@@ -18,6 +18,7 @@ static NSBundle *prefPaneBundle;
 #define NAME_OF_SCREENSHOTS_DIRECTORY           @"Screenshots"
 #define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
 #define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
+#define NAME_OF_SAVED_NOTIFICATIONS_DIRECTORY   @"Saved Notifications"
 
 @implementation GrowlPathUtilities
 
@@ -237,6 +238,10 @@ restart:;
 
 			case GrowlPluginsDirectory:
 				subpath = NAME_OF_PLUGINS_DIRECTORY;
+				break;
+
+			case GrowlSavedNotificationsDirectory:
+				subpath = NAME_OF_SAVED_NOTIFICATIONS_DIRECTORY;
 				break;
 
 			default:

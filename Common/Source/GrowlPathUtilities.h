@@ -20,6 +20,7 @@ enum {
 	GrowlScreenshotsDirectory,
 	GrowlTicketsDirectory,
 	GrowlPluginsDirectory,
+	GrowlSavedNotificationsDirectory,
 };
 typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
 
