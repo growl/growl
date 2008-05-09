@@ -447,9 +447,12 @@ static char encodingTable[64] = {
 	float maxWidth = 0;
 	while ((rep = [repsEnum nextObject])) {
 		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			if ([rep size].width >= maxWidth) {
+			float width = [rep size].width;
+			if (width >= maxWidth) {
 				//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
 				bestRep = (NSBitmapImageRep *)rep;
+
+				maxWidth = width;
 			}
 		}
 	}
