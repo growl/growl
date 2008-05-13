@@ -24,9 +24,8 @@
 	<string>GrowlSafari</string>
 	<key>WebPluginName</key>
 	<string>GrowlSafari</string>
-	<key>WebPluginMIMETypes</key>
-	<dict>
-	</dict>
+	<key>WebPluginMIMETypesFilename</key>
+	<string>FileThatDoesntExist.plist</string>
 	<key>WebPluginDescription</key>
 	<string>Posts Growl notifications for completed downloads, new feed items, etc.</string>
 </dict>
