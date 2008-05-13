@@ -10,6 +10,9 @@
 
 @implementation GrowlSafari
 
++ (void) load {
+	NSLog(@"We get signal!!");
+}
 - (void)webPlugInInitialize {
 	[GrowlApplicationBridge setGrowlDelegate:self];
 	
