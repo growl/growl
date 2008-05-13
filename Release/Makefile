@@ -15,7 +15,7 @@ BETA=TRUE
 #
 #########################
 RELEASE_FILENAME=Growl-$(VERSION)
-RELEASE_NAME="Growl $(VERSION)"
+RELEASE_NAME="Growl-$(VERSION)"
 RELEASE_SDK_NAME="Growl $(VERSION) SDK"
 
 SRC_DIR=$(PWD)/..
