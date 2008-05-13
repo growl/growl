@@ -594,8 +594,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			TRY
 			{
 				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				growlProxy = [(NSProxy<GrowlNotificationProtocol> *)theProxy retain];
+				if ([theProxy respondsToSelector:@selector(registerApplicationWithDictionary:)]) {
+					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+					growlProxy = [(NSProxy<GrowlNotificationProtocol> *)theProxy retain];
+				} else {
+					NSLog(@"Received a fake GrowlApplicationBridgePathway object. Some other application is interfering with Growl, or something went horribly wrong. Please file a bug report.");
+					growlProxy = nil;
+				}
 			}
 			ENDTRY
 				CATCH
