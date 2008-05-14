@@ -47,10 +47,12 @@
 - (int) downloadStage;
 - (NSString *) filename;
 - (NSString *) downloadPath;
+- (NSString *) currentPath;
 @end
 
 @interface NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage;
 - (void) myUpdateDiskImageStatus:(NSDictionary *)status;
 - (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16;
+- (NSString *) gsDownloadPath;
 @end
