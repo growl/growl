@@ -381,15 +381,18 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				NSProxy <GrowlNotificationProtocol> *growlProxy = (NSProxy <GrowlNotificationProtocol> *)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
 			} @catch (NSException *e) {
-				if ([[e name] isEqualToString:@"NSFailedAuthenticationException"]) {
-					NSString *addressString = createStringWithAddressData(destAddress);
-					NSString *hostName = createHostNameForAddressData(destAddress);
+				NSString *addressString = createStringWithAddressData(destAddress);
+				NSString *hostName = createHostNameForAddressData(destAddress);
+				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
 					NSLog(@"Authentication failed while forwarding to %@ (%@)",
 						  addressString, hostName);
-					[addressString release];
-					[hostName      release];
-				} else
-					NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
+				} else {
+					NSLog(@"Warning: Exception %@ while forwarding Growl registration or notification (%@) to %@ (%@). Is that system on and connected?",
+						  e, NSStringFromSelector(forwardMethod), addressString, hostName);
+				}
+				[addressString release];
+				[hostName      release];
+
 			} @finally {
 				[connection invalidate];
 				[serverPort invalidate];
