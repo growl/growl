@@ -87,7 +87,7 @@
 											   withObject:self];
 }
 
-- (void) mouseDown:(NSEvent *)event {
+- (void) mouseUp:(NSEvent *)event {
 #pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action])
