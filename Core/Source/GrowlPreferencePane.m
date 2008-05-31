@@ -223,7 +223,7 @@
  * @brief Returns the bundle version of the Growl.prefPane bundle.
  */
 - (NSString *) bundleVersion {
-	return [[[self bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+	return [[self bundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
 /*!
