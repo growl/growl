@@ -742,7 +742,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Version of Growl
 
 + (NSString *) growlVersion {
-	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+	return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
 - (NSDictionary *) versionDictionary {
