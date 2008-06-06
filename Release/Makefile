@@ -6,7 +6,7 @@
 ###   * Update the version string in Extras/growlnotify/main.m
 #
 VERSION=1.1.3
-BETA=TRUE
+BETA=FALSE
 
 #
 #########################
