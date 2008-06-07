@@ -182,17 +182,6 @@ DATA_TYPE readFile(const char *filename)
 	return data;
 }
 
-URL_TYPE copyURLForApplication(STRING_TYPE appName)
-{
-	CFURLRef appURL = NULL;
-	OSStatus err = LSFindApplicationForInfo(/*inCreator*/  kLSUnknownCreator,
-											/*inBundleID*/ NULL,
-											/*inName*/     appName,
-											/*outAppRef*/  NULL,
-											/*outAppURL*/  &appURL);
-	return (err == noErr) ? appURL : NULL;
-}
-
 STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData) {
 	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
 	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
