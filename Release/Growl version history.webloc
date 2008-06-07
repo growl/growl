@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>URL</key>
-	<string>http://growl.info/documentation/version_history.php</string>
+	<string>http://growl.info/versionhistory.php</string>
 </dict>
 </plist>
