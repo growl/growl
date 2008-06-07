@@ -303,10 +303,9 @@ int main(int argc, const char **argv) {
 		CFRelease(app);
 	}
 	if (!icon) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Terminal.app");
+		NSURL *appURL = [NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Terminal"]];
 		if (appURL) {
 			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-			CFRelease(appURL);
 		}
 	}
 
