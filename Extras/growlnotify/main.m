@@ -296,9 +296,9 @@ int main(int argc, const char **argv) {
 	} else if (appIcon) {
 		// get icon data for application name
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		CFURLRef appURL = (CFURLRef)[NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:(NSString *)app]];
+		NSURL *appURL = [NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:(NSString *)app]];
 		if (appURL) {
-			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			icon = (CFDataRef)copyIconDataForURL(appURL);
 		}
 		CFRelease(app);
 	}
