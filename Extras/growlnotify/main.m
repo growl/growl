@@ -51,8 +51,7 @@ static const char usage[] =
 "    -n,--name       Set the name of the application that sends the notification\n"
 "                    [Default: growlnotify]\n"
 "    -s,--sticky     Make the notification sticky\n"
-"    -a,--appIcon    Specify an application name (including the .app suffix)\n"
-"                    to take the icon from\n"
+"    -a,--appIcon    Specify an application name to take the icon from\n"
 "    -i,--icon       Specify a file type or extension to look up for the\n"
 "                    notification icon\n"
 "    -I,--iconpath   Specify a file whose icon will be the notification icon\n"
@@ -297,10 +296,9 @@ int main(int argc, const char **argv) {
 	} else if (appIcon) {
 		// get icon data for application name
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		CFURLRef appURL = (CFURLRef)copyURLForApplication((NSString *)app);
+		CFURLRef appURL = (CFURLRef)[NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:(NSString *)app]];
 		if (appURL) {
 			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-			CFRelease(appURL);
 		}
 		CFRelease(app);
 	}
