@@ -153,7 +153,7 @@ release:
 	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg --version $(VERSION) -v	
+	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) -v	
 	
 	@# build the SDK
 	mkdir $(SDK_DIR)
