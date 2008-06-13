@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31A4F36B0DFF542600015999 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A4F36A0DFF542600015999 /* SystemConfiguration.framework */; };
 		34A96CE20C95E2A700F46006 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A96CE10C95E2A700F46006 /* Cocoa.framework */; };
 		34A96CF40C95E6F800F46006 /* AEVTBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A96CF30C95E6F800F46006 /* AEVTBuilder.m */; };
 		8DD76F9A0486AA7600D96B5E /* GrowlPreInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* GrowlPreInstall.m */; settings = {ATTRIBUTES = (); }; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* GrowlPreInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlPreInstall.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		31A4F36A0DFF542600015999 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* GrowlPreInstall_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlPreInstall_Prefix.pch; sourceTree = "<group>"; };
 		34A96CE10C95E2A700F46006 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		34A96CF20C95E6F800F46006 /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEVTBuilder.h; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
 				34A96CE20C95E2A700F46006 /* Cocoa.framework in Frameworks */,
+				31A4F36B0DFF542600015999 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +81,7 @@
 			children = (
 				34A96CE10C95E2A700F46006 /* Cocoa.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+				31A4F36A0DFF542600015999 /* SystemConfiguration.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
