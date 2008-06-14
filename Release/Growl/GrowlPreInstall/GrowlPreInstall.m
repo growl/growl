@@ -41,7 +41,6 @@ int main (int argc, char **argv) {
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/killall" arguments:[NSArray arrayWithObject:@"GrowlMenu"]];
 
 	/* delete old Growl installations */
-	
 	NSString *homeDirectory = nil;
 	uid_t UID = 0U;
 	//Cast explanation: CFString→NSString. They are toll-free bridged.
