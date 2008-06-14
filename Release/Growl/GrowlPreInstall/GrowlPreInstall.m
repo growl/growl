@@ -45,6 +45,7 @@ int main (int argc, char **argv) {
 	if ([destinationDirectory hasPrefix:@"/Library"]) {
 		//We are installing to /Library/PreferencePanes, so delete a prefpane in the user Library if there is one.
 
+		//Get the home directory for the console (GUI) user from System Configuration, because NSHomeDirectory (at least under Leopard's Installer) will return the home directory for root.
 		NSString *homeDirectory = nil;
 		uid_t UID = 0U;
 		//Cast explanation: CFString→NSString. They are toll-free bridged.
