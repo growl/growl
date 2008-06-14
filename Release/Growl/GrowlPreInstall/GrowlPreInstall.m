@@ -26,8 +26,8 @@
 }
 @end
 
-int main (int argc, const char * argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+int main (int argc, char **argv) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSAppleEventDescriptor *descriptor;
 	/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
@@ -41,6 +41,7 @@ int main (int argc, const char * argv[]) {
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/killall" arguments:[NSArray arrayWithObject:@"GrowlMenu"]];
 
 	/* delete old Growl installations */
+	
 	NSString *homeDirectory = nil;
 	uid_t UID = 0U;
 	//Cast explanation: CFString→NSString. They are toll-free bridged.
@@ -58,8 +59,7 @@ int main (int argc, const char * argv[]) {
 
 	/* We'll be running as root from the installer, so this will have appropriate permissions */
 	[[NSFileManager defaultManager] removeFileAtPath:@"/Library/PreferencePanes/Growl.prefPane" handler:nil];
-	
 
-    [pool release];
-    return 0;
+	[pool release];
+	return 0;
 }
