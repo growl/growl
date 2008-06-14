@@ -39,21 +39,23 @@
 	}
 	
 	/* tell application "System Preferences" to set current pane to pane "preferencePaneName" */
-	NSAppleEventDescriptor *descriptor = [AEVT class:'core' id:'setd'
+	OSType cSysPrefsPane = 'xppb';
+	OSType keySysPrefsCurrentPane = 'xpcp';
+	NSAppleEventDescriptor *descriptor = [AEVT class:kCoreEventClass id:kAESetData
 											  target:psn,
-										  [KEY : 'data'],
-										  [RECORD : 'obj ',
-										   [KEY : 'form'], [ENUM : 'name'],
-										   [KEY : 'want'], [TYPE : 'xppb'],
-										   [KEY : 'seld'], [STRING  : preferencePaneName],
-										   [KEY : 'from'], [DESC null],
+										  [KEY : keyAEData],
+										  [RECORD : cObjectSpecifier,
+										   [KEY : keyAEKeyForm],      [ENUM : formName],
+										   [KEY : keyAEDesiredClass], [TYPE : cSysPrefsPane],
+										   [KEY : keyAEKeyData],      [STRING : preferencePaneName],
+										   [KEY : keyAEContainer],    [DESC null],
 										   ENDRECORD],
-										  [KEY : '----'],
-										  [RECORD : 'obj ',
-										   [KEY : 'form'], [ENUM : 'prop'],
-										   [KEY : 'want'], [TYPE : 'prop'],
-										   [KEY : 'seld'], [TYPE  : 'xpcp'],
-										   [KEY : 'from'], [DESC null],
+										  [KEY : keyDirectObject],
+										  [RECORD : cObjectSpecifier,
+										   [KEY : keyAEKeyForm],      [ENUM : formPropertyID],
+										   [KEY : keyAEDesiredClass], [TYPE : cProperty],
+										   [KEY : keyAEKeyData],      [TYPE : keySysPrefsCurrentPane],
+										   [KEY : keyAEContainer],    [DESC null],
 										   ENDRECORD],
 										   ENDRECORD];
 	[descriptor sendWithImmediateReply];	
