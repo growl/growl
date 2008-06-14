@@ -452,7 +452,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 						  /*didEndSelector*/ NULL,
 						  /*didDismissSelector*/ NULL,
 						  /*contextInfo*/ NULL,
-						  /*msg*/ NSLocalizedString(@"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port.", @""));
+						  /*msg*/ NSLocalizedString(@"Growl was unable to bind the socket for Network notifications. Check to make sure that there aren't any other applications already using the port.", @""));
 
 
 		return NO;

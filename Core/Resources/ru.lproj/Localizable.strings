@@ -38,7 +38,7 @@
 "Growl update available" = "Доступно обновление для Growl";
 
 /* No comment provided by engineer. */
-"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port." = "Growl не смог связаться с сокетом для оповещений по сети. Убедитесь, что другие приложения не используют порт.";
+"Growl was unable to bind the socket for Network notifications. Check to make sure that there aren't any other applications already using the port." = "Growl не смог связаться с сокетом для оповещений по сети. Убедитесь, что другие приложения не используют порт.";
 
 /* No comment provided by engineer. */
 "Growl was unable to create the socket for Network notifications." = "Growl не смог создать сокет для оповещений по сети.";
