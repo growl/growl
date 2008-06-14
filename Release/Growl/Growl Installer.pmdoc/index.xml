@@ -1,4 +1,4 @@
-<pkmkdoc spec="1.12"><properties><title>Growl</title><build>/Users/evands/growl/Release/build/Growl/Growl.mpkg</build><organization>com.growl</organization><userSees ui="easy"/><min-target os="2"/><domain system="true" user="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>Growl is a centralized notification system for OS X.  
+<pkmkdoc spec="1.12"><properties><title>Growl</title><build>/Volumes/RAM Disk/Growl.mpkg</build><organization>com.growl</organization><userSees ui="easy"/><min-target os="2"/><domain system="true" user="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>Growl is a centralized notification system for OS X.  
 
 It allows compatible applications to provide you with information in an attractive and customizable way without you having to switch away from what you are currently doing.
 
