@@ -1,37 +1,100 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {colorChanged = id; textColorChanged = id; }; 
-            CLASS = GrowlSmokePrefsController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "color_emergency" = NSColorWell; 
-                "color_high" = NSColorWell; 
-                "color_moderate" = NSColorWell; 
-                "color_normal" = NSColorWell; 
-                "color_veryLow" = NSColorWell; 
-                "slider_opacity" = NSSlider; 
-                "text_emergency" = NSColorWell; 
-                "text_high" = NSColorWell; 
-                "text_moderate" = NSColorWell; 
-                "text_normal" = NSColorWell; 
-                "text_veryLow" = NSColorWell; 
-            }; 
-            SUPERCLASS = NSPreferencePane; 
-        }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {
-            CLASS = NSPreferencePane; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_firstKeyView" = NSView; 
-                "_initialKeyView" = NSView; 
-                "_lastKeyView" = NSView; 
-                "_window" = NSWindow; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPreferencePane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_firstKeyView</key>
+				<string>NSView</string>
+				<key>_initialKeyView</key>
+				<string>NSView</string>
+				<key>_lastKeyView</key>
+				<string>NSView</string>
+				<key>_window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>colorChanged</key>
+				<string>id</string>
+				<key>textColorChanged</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>GrowlSmokePrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>color_emergency</key>
+				<string>NSColorWell</string>
+				<key>color_high</key>
+				<string>NSColorWell</string>
+				<key>color_moderate</key>
+				<string>NSColorWell</string>
+				<key>color_normal</key>
+				<string>NSColorWell</string>
+				<key>color_veryLow</key>
+				<string>NSColorWell</string>
+				<key>slider_opacity</key>
+				<string>NSSlider</string>
+				<key>text_emergency</key>
+				<string>NSColorWell</string>
+				<key>text_high</key>
+				<string>NSColorWell</string>
+				<key>text_moderate</key>
+				<string>NSColorWell</string>
+				<key>text_normal</key>
+				<string>NSColorWell</string>
+				<key>text_veryLow</key>
+				<string>NSColorWell</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSPreferencePane</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
