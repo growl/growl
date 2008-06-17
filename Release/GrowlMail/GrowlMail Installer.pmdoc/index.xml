@@ -13,4 +13,4 @@ Please quit Mail before continuing; installation will fail if Mail is running.}]
 
 \f0\fs26 \cf0 Dit installatieprogramma zal GrowlMail installeren, welke ondersteuning voor Growl notificaties toevoegt aan Mail.app. Er zal een voorkeurenpaneel worden toegevoegd aan de voorkeuren van Mail voor het instellen van GrowlMail.\
 \
-Stop Mail voordat u doorgaat; de installatie zal mislukken als Mail gestart is.}]]></resource></locale></resources><flags/><item type="file">01growlmail.xml</item><mod>preinstallActions.actions</mod><mod>properties.userDomain</mod><mod>properties.title</mod><mod>properties.systemDomain</mod><mod>properties.anywhereDomain</mod></pkmkdoc>
+Stop Mail voordat u doorgaat; de installatie zal mislukken als Mail gestart is.}]]></resource></locale></resources><flags/><item type="file">01growlmail.xml</item><mod>properties.anywhereDomain</mod><mod>properties.userDomain</mod><mod>properties.title</mod><mod>preinstallActions.actions</mod><mod>properties.systemDomain</mod></pkmkdoc>
