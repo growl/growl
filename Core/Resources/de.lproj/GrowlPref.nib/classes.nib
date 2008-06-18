@@ -139,6 +139,8 @@
 			<dict>
 				<key>aboutBoxTextView</key>
 				<string>NSTextView</string>
+				<key>aboutVersionString</key>
+				<string>NSTextField</string>
 				<key>appPositionPicker</key>
 				<string>GrowlPositionPicker</string>
 				<key>applicationNameAndIconColumn</key>
@@ -157,6 +159,8 @@
 				<string>NSTextField</string>
 				<key>displayDefaultPrefView</key>
 				<string>NSView</string>
+				<key>displayMenuButton</key>
+				<string>NSPopUpButton</string>
 				<key>displayPluginsArrayController</key>
 				<string>NSArrayController</string>
 				<key>displayPluginsTable</key>
@@ -179,6 +183,8 @@
 				<string>NSMatrix</string>
 				<key>networkTableView</key>
 				<string>NSTableView</string>
+				<key>notificationDisplayMenuButton</key>
+				<string>NSPopUpButton</string>
 				<key>notificationPriorityMenu</key>
 				<string>NSMenu</string>
 				<key>notificationsArrayController</key>
@@ -189,6 +195,8 @@
 				<string>NSTableColumn</string>
 				<key>servicesArrayController</key>
 				<string>NSArrayController</string>
+				<key>soundMenuButton</key>
+				<string>NSPopUpButton</string>
 				<key>startStopGrowl</key>
 				<string>NSButton</string>
 				<key>ticketsArrayController</key>
