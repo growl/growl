@@ -232,7 +232,7 @@
 		95F4FC0C09F16A1100666FA8 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
 		95F4FC5709F16BA300666FA8 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
-		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Credits.rtf; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		DD43C6EF0840C0100022A0D1 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		DD54996E07BA5E420010BE54 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		DD54996F07BA5E420010BE54 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
