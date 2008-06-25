@@ -29,7 +29,6 @@
 		0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B6185070B304600593A33 /* GrowlTunes-ARTchive.plugin */; };
 		0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F16070B141D00593A33 /* GrowlTunes-Synergy.plugin */; };
 		52F5774C06872B3A0068B46C /* GrowlTunesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F5774A06872B3A0068B46C /* GrowlTunesController.m */; };
-		74B408DC090BBC5A0054876D /* GrowlAbstractSingletonObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74B408DA090BBC5A0054876D /* GrowlAbstractSingletonObject.h */; };
 		74B408DD090BBC5A0054876D /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B408DB090BBC5A0054876D /* GrowlAbstractSingletonObject.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -41,7 +40,6 @@
 		9571A475086238E1008AEBB3 /* GrowlTunesSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 9571A46F086238D6008AEBB3 /* GrowlTunesSuite.scriptSuite */; };
 		9571A476086238E1008AEBB3 /* GrowlTunesSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 9571A470086238D6008AEBB3 /* GrowlTunesSuite.scriptTerminology */; };
 		9571A47B086238FF008AEBB3 /* GrowlTunesScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 9571A46E086238D6008AEBB3 /* GrowlTunesScripting.r */; };
-		9571A4C908623B2D008AEBB3 /* ShowTrackScriptCommand.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9571A4C708623B2D008AEBB3 /* ShowTrackScriptCommand.h */; };
 		9571A4CA08623B2D008AEBB3 /* ShowTrackScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9571A4C808623B2D008AEBB3 /* ShowTrackScriptCommand.m */; };
 		9574BAB608391F3A00106CA3 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */; };
 		CB57B4CB0711E503001968B0 /* jackItunesInfo.scpt in Resources */ = {isa = PBXBuildFile; fileRef = CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */; };
@@ -224,8 +222,6 @@
 				0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */,
 				0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */,
 				0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */,
-				9571A4C908623B2D008AEBB3 /* ShowTrackScriptCommand.h in CopyFiles */,
-				74B408DC090BBC5A0054876D /* GrowlAbstractSingletonObject.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
