@@ -260,8 +260,8 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 		                                     userInfo,
 		                                     /*deliverImmediately*/ false);
 #endif
-#ifdef GROWL_WITH_INSTALLER
 		CFRelease(userInfo);
+#ifdef GROWL_WITH_INSTALLER
 	} else {
 		/*if Growl launches, and the user hasn't already said NO to installing
 		 *	it, store this notification for posting
