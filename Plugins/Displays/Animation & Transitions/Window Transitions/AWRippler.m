@@ -185,7 +185,7 @@ extern CGSConnection _CGSDefaultConnection(void);
 	[win setBackgroundColor:[NSColor clearColor]];
 	[win setOpaque:NO];
 	[win setHasShadow:NO];
-	[win setContentView:[[AWRippleView alloc] initWithFrame:[win frame]]];
+	[win setContentView:[[[AWRippleView alloc] initWithFrame:[win frame]] autorelease]];
 	
 	[win orderFrontRegardless];
     [rippleWindow orderWindow:NSWindowAbove relativeTo:[win windowNum]];
