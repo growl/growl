@@ -34,7 +34,7 @@ int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
-	GrowlMenu *menu = [[GrowlMenu alloc] init];
+	GrowlMenu *menu = [[[GrowlMenu alloc] init] autorelease];
 	[NSApp setDelegate:menu];
 	[NSApp run];
 
