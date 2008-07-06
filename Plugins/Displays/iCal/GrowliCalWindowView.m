@@ -172,7 +172,10 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		tbcolor[2] = [borderColor blueComponent];
 		tbcolor[3] = [borderColor alphaComponent];
 		CGColorRef barcolor = CGColorCreate(cspace,tbcolor);
-		CGContextSetFillColorWithColor(context,barcolor);
+		if (barcolor) {
+			CGContextSetFillColorWithColor(context,barcolor);
+			CFRelease(barcolor);
+		}
 		CGRect titlebar = CGRectMake(0,CGRectGetMinY(shape),CGRectGetWidth(shape),15);
 		addTopRoundedRectToPath(context,titlebar,BORDER_RADIUS_PX);
 		CGContextFillPath(context);
