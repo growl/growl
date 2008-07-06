@@ -25,6 +25,7 @@
 		NSLog(@"%@ Failed to load: %@",NSStringFromClass([self class]),path);
 		return NO;
 	}
+	[pluginBundle release];
 
 	GrowlWebKitDisplayPlugin *instance = [[GrowlWebKitDisplayPlugin alloc] initWithStyleBundle:pluginBundle];
 	if (!instance) {
@@ -35,6 +36,7 @@
 	}
 
 	[[GrowlPluginController sharedController] addPluginInstance:instance fromBundle:pluginBundle];
+	[instance release];
 	return YES;
 }
 
