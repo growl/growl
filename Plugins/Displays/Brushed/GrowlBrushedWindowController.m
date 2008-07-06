@@ -43,6 +43,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlBrushedDurationPrefDefault)];
+	if (prefsDuration) CFRelease(prefsDuration);
 
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);

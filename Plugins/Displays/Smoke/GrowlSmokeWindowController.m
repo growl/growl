@@ -36,6 +36,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlSmokeDurationPrefDefault)];
+	if (prefsDuration) CFRelease(prefsDuration);
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask

@@ -34,6 +34,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  MIN_DISPLAY_TIME)];
+	if (prefsDuration) CFRelease(prefsDuration);
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];

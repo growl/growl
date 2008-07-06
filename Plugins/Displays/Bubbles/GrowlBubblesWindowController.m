@@ -38,6 +38,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlBubblesDurationPrefDefault)];
+	if (prefsDuration) CFRelease(prefsDuration);
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?

@@ -90,7 +90,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlWebKitDurationPrefDefault)];
-	
+	if (prefsDuration) CFRelease(prefsDuration);
 	
 	// Read the plugin specifics from the info.plist
 	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];

@@ -76,6 +76,7 @@
 		[self setDisplayDuration:(prefsDuration ?
 								  [(NSNumber *)prefsDuration doubleValue] :
 								  GrowlMusicVideoDurationPrefDefault)];
+		if (prefsDuration) CFRelease(prefsDuration);
 		
 		//The default duration for transitions is far too long for the music video effect.
 		[self setTransitionDuration:0.3];

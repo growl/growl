@@ -29,6 +29,7 @@
 	[self setDisplayDuration:(prefsDuration ?
 							  [(NSNumber *)prefsDuration doubleValue] :
 							  GrowlNanoDurationPrefDefault)];
+	if (prefsDuration) CFRelease(prefsDuration);
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &screenNumber);
