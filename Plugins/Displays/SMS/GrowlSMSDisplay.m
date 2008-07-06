@@ -53,8 +53,11 @@
 	NSString	*destinationNumberValue = nil;
 
 	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &destinationNumberValue);
+	[destinationNumberValue autorelease];
 	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &apiIDValue);
+	[apiIDValue autorelease];
 	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &accountNameValue);
+	[accountNameValue autorelease];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
 		NSLog(@"Cannot send SMS - not enough details in preferences.");
@@ -111,10 +114,6 @@
 
 	[self sendXMLCommand:checkBalanceCommand];
 	[checkBalanceCommand release];
-
-	[destinationNumberValue release];
-	[accountAPIIDKey release];
-	[accountNameKey release];
 
 	id clickContext = [noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 	if (clickContext) {
