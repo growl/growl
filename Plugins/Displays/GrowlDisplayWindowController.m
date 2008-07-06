@@ -44,6 +44,7 @@ static NSMutableDictionary *existingInstances;
 	if (!classInstances) {
 		classInstances = [[NSMutableDictionary alloc] init];
 		[existingInstances setObject:classInstances forKey:self];
+		[classInstances release];
 	}
 	[classInstances setValue:instance forKey:ident];
 }
