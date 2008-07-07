@@ -139,10 +139,16 @@ static CFDataRef airportIcon(void)
 	static CFDataRef airportIconData = NULL;
 
 	if (!airportIconData) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Airport Admin Utility.app");
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Airport Utility.app");
 		if (appURL) {
 			airportIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
 			CFRelease(appURL);
+		} else {
+			appURL = (CFURLRef)copyURLForApplication(@"Airport Admin Utility.app");
+			if (appURL) {
+				airportIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+				CFRelease(appURL);
+			}			
 		}
 	}
 
@@ -154,7 +160,7 @@ static CFDataRef ipIcon(void)
 	static CFDataRef ipIconData = NULL;
 
 	if (!ipIconData) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Internet Connect.app");
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Network Utility.app");
 		if (appURL) {
 			ipIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
 			CFRelease(appURL);
