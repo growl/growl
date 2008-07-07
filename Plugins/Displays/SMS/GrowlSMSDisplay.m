@@ -60,7 +60,7 @@
 	[accountNameValue autorelease];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
-		NSLog(@"Cannot send SMS - not enough details in preferences.");
+		NSLog(@"SMS display: Cannot send SMS - not enough details in preferences.");
 		return;
 	}
 
@@ -83,14 +83,14 @@
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
 		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", status);
+			NSLog(@"SMS display: Failed to retrieve SMS Account password from keychain. Error: %d", status);
 		passwordString = CFSTR("");
 	}
 
 
 	NSString *localHostName = [[NSHost currentHost] name];
 	NSString *smsSendCommand = [[NSString alloc] initWithFormat:
-		@"<clickAPI><sendMsg><api_id>%@</api_id><user>%@</user><password>%@</password><to>+%@</to><text>(%@) %@ (%@)</text><from>Growl</from></sendMsg></clickAPI>",
+		@"<clickAPI><sendMsg><api_id>%@</api_id><user>%@</user><password>%@</password><to>+%@</to><text>(%@) %@ (Growl from %@)</text><from>Growl</from></sendMsg></clickAPI>",
 		apiIDValue,
 		accountNameValue,
 		passwordString,
@@ -99,7 +99,7 @@
 		desc,
 		localHostName];
 
-	NSLog(@"SMS Display...  %@" , smsSendCommand);
+//	NSLog(@"SMS Display...  %@" , smsSendCommand);
 	[self sendXMLCommand:smsSendCommand];
 	[smsSendCommand release];
 
@@ -143,7 +143,7 @@
 	[responseData release];
 	responseData = newResponseData;
 
-	NSLog(@"responseData:  %@", responseData);
+//	NSLog(@"SMS display: responseData:  %@", responseData);
 }
 
 
@@ -179,7 +179,7 @@
 	NSMutableURLRequest	*post = [[NSMutableURLRequest alloc] initWithURL:(NSURL *)clickatellURL];
 	CFStringRef			contentLength = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%u"), CFDataGetLength(postData));
 
-	NSLog(@"Sending data: %@", postData);
+//	NSLog(@"SMS display: Sending data: %@", postData);
 
 	[post addValue:(NSString *)contentLength forHTTPHeaderField: @"Content-Length"];
 	[post setHTTPMethod:@"POST"];
@@ -197,24 +197,24 @@
 
 
 - (void) processQueue {
-	// NSLog(@"Processing HTTP Command Queue");
+	// NSLog(@"SMS display: Processing HTTP Command Queue");
 	if (![commandQueue count]) {
-		// NSLog(@"Queue is empty...");
+		// NSLog(@"SMS display: Queue is empty...");
 		return;
 	}
 
 	if (!waitingForResponse) {
 		waitingForResponse = YES;
-		NSLog(@"Beginning Command Request Connection...");
+//		NSLog(@"SMS display: Beginning Command Request Connection...");
 		[NSURLConnection connectionWithRequest:[commandQueue objectAtIndex:0U] delegate: self];
 	} else {
-		NSLog(@"Can't process queue  - we are waiting on an existing command's resonse..");
+		NSLog(@"SMS display: Holding request in queue - we are still waiting for an existing command's resonse..");
 	}
 }
 
 
 - (void) connectionDidRespond {
-	NSLog(@"Request/Response transaction complete...");
+//	NSLog(@"SMS display: Request/Response transaction complete...");
 	waitingForResponse = NO;
 	[commandQueue removeObjectAtIndex:0U];
 	[self processQueue];
@@ -237,21 +237,21 @@
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
 #pragma unused(parser,namespaceURI,qName,attributeDict)
 	if ([elementName isEqualToString:@"clickAPI"]) {
-//		NSLog(@"Found the clickAPI element in the response.  That means we got the HTTP part right.");
+//		NSLog(@"SMS display: Found the clickAPI element in the response.  That means we got the HTTP part right.");
 	} else if ([elementName isEqualToString:@"xmlErrorResp"]) {
-		NSLog(@"Oh Noes! we got an error back from clickatell - we passed them a bad XML request...");
+		NSLog(@"SMS display: Oh Noes! we got an error back from clickatell - we passed them a bad XML request...");
 	} else if ([elementName isEqualToString:@"fault"]) {
-//		NSLog(@"Here comes the fault:...");
+		NSLog(@"SMS display: Here comes the fault:...");
 	} else if ([elementName isEqualToString:@"getBalanceResp"]) {
-//		NSLog(@"Here comes the Balance response:...");
+//		NSLog(@"SMS display: Here comes the Balance response:...");
 		inBalanceResponseElement = YES;
 	} else if ([elementName isEqualToString:@"ok"]) {
-//		NSLog(@"Command Success.");
+//		NSLog(@"SMS display: Command Success.");
 		if (inBalanceResponseElement) {
-//			NSLog(@"Here comes the Balance value:...");
+//			NSLog(@"SMS display: Here comes the Balance value:...");
 		}
 	} else if ([elementName isEqualToString:@"sendMsgResp"]) {
-//		NSLog(@"Here comes the Message Send response:...");
+//		NSLog(@"SMS display: Here comes the Message Send response:...");
 		inMessageSendResponseElement = YES;
 	}
 }
@@ -280,19 +280,25 @@
 		[xmlHoldingStringValue release];
 		xmlHoldingStringValue = nil;
 	} else if ([elementName isEqualToString:@"fault"]) {
-		NSLog(@"The fault was: %@" , [xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] );
+		NSLog(@"SMS display: The fault was: %@" , [xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] );
 		[xmlHoldingStringValue release];
 		xmlHoldingStringValue = nil;
 	} else if ([elementName isEqualToString:@"ok"]) {
 		if (inBalanceResponseElement) {
 			creditBalance = [[xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] floatValue];
-			NSLog(@"Your Balance is: %4.1f 'credits'" , creditBalance);
+			NSLog(@"SMS display: Your Balance is: %4.1f 'credits'" , creditBalance);
 			[xmlHoldingStringValue release];
 			xmlHoldingStringValue = nil;
 		}
 	} else if ([elementName isEqualToString:@"apiMsgId"]) {
 		if (inMessageSendResponseElement) {
-			NSLog(@"SMS Message Sent (messageId: %@)" , [xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]);
+			NSLog(@"SMS display: Your SMS Message has been sent by Clickatell (messageId: %@)" , [xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]);
+			[xmlHoldingStringValue release];
+			xmlHoldingStringValue = nil;
+		}
+	} else if ([elementName isEqualToString:@"sequence_no"]) {
+		if (inMessageSendResponseElement) {
+//			NSLog(@"SMS display: sequence_no: %@" , [xmlHoldingStringValue stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]);
 			[xmlHoldingStringValue release];
 			xmlHoldingStringValue = nil;
 		}
@@ -302,7 +308,7 @@
 }
 
 - (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-	NSLog(@"Error Parsing XML response from SMS Gateway - %i, Description: %@, Line: %i, Column: %i",	[parseError code],
+	NSLog(@"SMS display: Error Parsing XML response from SMS Gateway - %i, Description: %@, Line: %i, Column: %i",	[parseError code],
 		  [[parser parserError] localizedDescription],
 		  [parser lineNumber],
 		  [parser columnNumber]);
@@ -318,7 +324,7 @@
  */
 - (void) connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
 #pragma unused(connection,challenge)
-	NSLog(@"didCancelAuthenticationChallenge:");
+	NSLog(@"SMS display: didCancelAuthenticationChallenge:");
 	[self connectionDidRespond];
 }
 
@@ -329,7 +335,7 @@
  */
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 #pragma unused(connection)
-	NSLog(@"Connection to SMS Web API failed: (%@)", [error localizedDescription]);
+	NSLog(@"SMS display: Connection to SMS Web API failed: (%@)", [error localizedDescription]);
 
 	[self connectionDidRespond];
 }
@@ -348,7 +354,7 @@
  See Also: – cancelAuthenticationChallenge:, – continueWithoutCredentialForAuthenticationChallenge:, – useCredential:forAuthenticationChallenge:
  */
 - (void) connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-	NSLog(@"didReceiveAuthenticationChallenge: %@", challenge);
+	NSLog(@"SMS display: didReceiveAuthenticationChallenge: %@", challenge);
 	//	It doesn't need web auth currently - so we're not going to handle this case.
 	[connection cancel];
 	//	[self connectionDidRespond];
@@ -361,7 +367,7 @@
  */
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 #pragma unused(connection)
-	//	NSLog(@"didReceiveData:  %@", data);
+	//	NSLog(@"SMS display: didReceiveData:  %@", data);
 	[self setResponseData: data];
 	[self handleResponse];
 }
@@ -380,7 +386,7 @@
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 #pragma unused(connection,response)
-//	NSLog(@"didReceiveResponse:  URL(%@) expectedDataLength:(%d)", [response URL], [response expectedContentLength]  );
+//	NSLog(@"SMS display: didReceiveResponse:  URL(%@) expectedDataLength:(%d)", [response URL], [response expectedContentLength]  );
 
 //	NSLog(@" MIME:(%@)" , [response MIMEType]);
 //	NSLog(@" textEncoding:(%@)" , [response textEncodingName]);
@@ -411,17 +417,17 @@
  */
 
 - (NSURLRequest *) connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
-#pragma unused(request,redirectResponse)
-	NSLog(@"redirectResponse:");
-	[connection cancel];
-	return nil;
+#pragma unused(request,redirectResponse, connection)
+//	NSLog(@"SMS display: redirectResponse:");
+//	[connection cancel];
+	return request;
 }
 
 
 // This delegate method is called when connection has finished loading successfully. The delegate will receive no further messages for connection.
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
 #pragma unused(connection)
-	// NSLog(@"connectionDidFinishLoading:");
+	// NSLog(@"SMS display: connectionDidFinishLoading:");
 	[self connectionDidRespond];
 }
 
