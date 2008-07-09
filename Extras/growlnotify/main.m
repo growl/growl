@@ -316,6 +316,9 @@ int main(int argc, const char **argv) {
 		desc = CFStringCreateWithCString(kCFAllocatorDefault, message, kCFStringEncodingUTF8);
 	} else {
 		// Deal with stdin
+		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+			fputs("Enter a notification description, followed by newline, followed by Ctrl-D (End of File). To cancel, press Ctrl-C.\n", stdout);
+
 		char buffer[4096];
 		CFMutableStringRef temp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 		while (!feof(stdin)) {
