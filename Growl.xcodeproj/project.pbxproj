@@ -149,7 +149,6 @@
 		34A8834A0C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883480C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m */; };
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		34B2755808423BE80092A5A0 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
-		34B2755908423BE80092A5A0 /* MenuExtra-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */; };
 		34B2755B08423BE80092A5A0 /* squelch.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755608423BE80092A5A0 /* squelch.png */; };
 		34B2755E08423BFF0092A5A0 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B2755D08423BFF0092A5A0 /* GrowlMenu.m */; };
 		34B2756C08423FA30092A5A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 34B2756B08423FA30092A5A0 /* Localizable.strings */; };
@@ -199,7 +198,6 @@
 		93BC37BE095A66950002B365 /* GrowlNanoPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B1095A66950002B365 /* GrowlNanoPrefs.m */; };
 		93BC37BF095A66950002B365 /* GrowlNanoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B3095A66950002B365 /* GrowlNanoWindowController.m */; };
 		93BC37C0095A66950002B365 /* GrowlNanoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B5095A66950002B365 /* GrowlNanoWindowView.m */; };
-		93BC37C1095A66950002B365 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37B6095A66950002B365 /* Info.plist */; };
 		93BC37C9095A66CD0002B365 /* GrowlNanoPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37C7095A66CD0002B365 /* GrowlNanoPrefs.nib */; };
 		93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
 		93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
@@ -348,7 +346,6 @@
 		DD493A05084BAD7700D1CCCB /* GrowlSMSPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD493A03084BAD7700D1CCCB /* GrowlSMSPrefs.nib */; };
 		DD493B73084BB02A00D1CCCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		DD493B74084BB02A00D1CCCB /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
-		DD493B7D084BB07900D1CCCB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD493B7C084BB07900D1CCCB /* Info.plist */; };
 		DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DD493C31084BDF0200D1CCCB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		DDFADA6C084D1C770055DBC8 /* SMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* SMS.growlView */; };
@@ -2542,7 +2539,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93BC37C1095A66950002B365 /* Info.plist in Resources */,
 				93BC37C9095A66CD0002B365 /* GrowlNanoPrefs.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2554,7 +2550,6 @@
 				9507CE9008C9D62B00209F9E /* growl-icon.icns in Resources */,
 				34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */,
 				34B2755808423BE80092A5A0 /* growlmenu.png in Resources */,
-				34B2755908423BE80092A5A0 /* MenuExtra-Info.plist in Resources */,
 				34B2755B08423BE80092A5A0 /* squelch.png in Resources */,
 				34B2756C08423FA30092A5A0 /* Localizable.strings in Resources */,
 			);
@@ -2589,7 +2584,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD493A05084BAD7700D1CCCB /* GrowlSMSPrefs.nib in Resources */,
-				DD493B7D084BB07900D1CCCB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
