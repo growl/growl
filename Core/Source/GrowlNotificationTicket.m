@@ -89,6 +89,7 @@
 	[humanReadableName release];
 	[displayPluginName release];
 	[notificationDescription release];
+	[sound release];
 
 	[super dealloc];
 }
