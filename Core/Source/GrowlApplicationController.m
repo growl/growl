@@ -346,19 +346,65 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[pool release];
 }
 
+/*!
+ * @brief Get address data for a Growl server
+ *
+ * @param name The name of the server
+ * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
+ */
+- (NSData *)addressDataForGrowlServerWithName:(NSString *)name
+{
+	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:@"_growl._tcp." name:name] autorelease];
+    if (!service) {
+		/* No such service exists. The computer is probably offline. */
+        return nil;
+    }
+
+	/* Work for 8 seconds to resolve the net service to an IP and port. We should be running
+	 * on a thread, so blocking is fine.
+	 */
+    [service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:@"PrivateGrowlMode"];
+    [service resolveWithTimeout:8.0];
+    CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + 8.0;
+    CFTimeInterval remaining;
+    while ((remaining = (deadline - CFAbsoluteTimeGetCurrent())) > 0 && [[service addresses] count] == 0) {
+        CFRunLoopRunInMode((CFStringRef)@"PrivateGrowlMode", remaining, true);
+    }
+    [service stop];
+
+    NSArray *addresses = [service addresses];
+    if (![addresses count]) {
+		/* Lookup failed */
+        return nil;
+    }
+
+	return [addresses objectAtIndex:0];
+}	
+
 - (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
 	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
-
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
 		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
-			NSData *destAddress = [entry objectForKey:@"address"];
+			/* Note: This assumes that all forwarding destinations are within the local network.
+			 * When domain names and IPs can be used, this needs to change.
+			 */
+			NSData *destAddress = [self addressDataForGrowlServerWithName:[entry objectForKey:@"computer"]];
+			if (!destAddress) {
+				/* No destination address. Nothing to see here; move along. */
+#ifdef DEBUG
+				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
+#endif
+				continue;
+			}
 			NSString *password = [entry objectForKey:@"password"];
+
+			/* Send via DO if possible */
 			NSSocketPort *serverPort = [[NSSocketPort alloc]
 				initRemoteWithProtocolFamily:AF_INET
 								  socketType:SOCK_STREAM
@@ -644,6 +690,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				if (err == noErr) {
 					err = SystemSoundSetCompletionRoutine(actionID, CFRunLoopGetCurrent(), /*runLoopMode*/ NULL, soundCompletionCallback, /*refcon*/ NULL);
 					SystemSoundPlay(actionID);
+					userInfo = nil;
 				} else {
 					userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 						[NSString stringWithFormat:NSLocalizedString(@"Could not load and play sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
