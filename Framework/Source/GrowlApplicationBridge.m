@@ -725,78 +725,90 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) _launchGrowlIfInstalledWithRegistrationDictionary:(NSDictionary *)regDict {
-	NSBundle		*growlPrefPaneBundle;
-	BOOL			success = NO;
+	BOOL success = NO;
+	NSBundle *growlPrefPaneBundle;
+	NSString *growlHelperAppPath;
 
+#ifdef DEBUG
+	//For a debug build, first look for a running GHA. It might not actually be within a Growl prefpane bundle.
+	growlHelperAppPath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
+	if (!growlHelperAppPath) {
+		growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
+		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
+														   ofType:@"app"];
+	}
+	NSLog(@"Will use GrowlHelperApp at %@", growlHelperAppPath);
+#else
 	growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
-
-	if (growlPrefPaneBundle) {
-		NSString *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
-																	 ofType:@"app"];
+	growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
+													   ofType:@"app"];
+#endif
 
 #ifdef GROWL_WITH_INSTALLER
+	if (growlPrefPaneBundle) {
 		/* Check against our current version number and ensure the installed Growl pane is the same or later */
 		[self _checkForPackagedUpdateForGrowlPrefPaneBundle:growlPrefPaneBundle];
+	}
 #endif
-		//Houston, we are go for launch.
-		if (growlHelperAppPath) {
-			//Let's launch in the background (unfortunately, requires Carbon on Jaguar)
-			LSLaunchFSRefSpec spec;
-			FSRef appRef;
-			OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
-			if (status == noErr) {
-				FSRef regItemRef;
-				BOOL passRegDict = NO;
 
-				if (regDict) {
-					OSStatus regStatus;
-					NSString *regDictFileName;
-					NSString *regDictPath;
+	//Houston, we are go for launch.
+	if (growlHelperAppPath) {
+		//Let's launch in the background (unfortunately, requires Carbon on Jaguar)
+		LSLaunchFSRefSpec spec;
+		FSRef appRef;
+		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
+		if (status == noErr) {
+			FSRef regItemRef;
+			BOOL passRegDict = NO;
 
-					//Obtain a truly unique file name
-					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-					CFRelease(uuid);
-					regDictFileName = [[NSString stringWithFormat:@"%@-%u-%@", [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict], getpid(), (NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					CFRelease(uuidString);
-					if ([regDictFileName length] > NAME_MAX)
-						regDictFileName = [[regDictFileName substringToIndex:(NAME_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+			if (regDict) {
+				OSStatus regStatus;
+				NSString *regDictFileName;
+				NSString *regDictPath;
 
-					//make sure it's within pathname length constraints
-					regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
-					if ([regDictPath length] > PATH_MAX)
-						regDictPath = [[regDictPath substringToIndex:(PATH_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+				//Obtain a truly unique file name
+				CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+				CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+				CFRelease(uuid);
+				regDictFileName = [[NSString stringWithFormat:@"%@-%u-%@", [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict], getpid(), (NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+				CFRelease(uuidString);
+				if ([regDictFileName length] > NAME_MAX)
+					regDictFileName = [[regDictFileName substringToIndex:(NAME_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 
-					//Write the registration dictionary out to the temporary directory
-					NSData *plistData;
-					NSString *error;
-					plistData = [NSPropertyListSerialization dataFromPropertyList:regDict
-																		   format:NSPropertyListBinaryFormat_v1_0
-																 errorDescription:&error];
-					if (plistData) {
-						if (![plistData writeToFile:regDictPath atomically:NO])
-							NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@", regDictPath);
-					} else {
-						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
-						NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", regDict);
-						[error release];
-					}
+				//make sure it's within pathname length constraints
+				regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
+				if ([regDictPath length] > PATH_MAX)
+					regDictPath = [[regDictPath substringToIndex:(PATH_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 
-					regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
-					if (regStatus == noErr)
-						passRegDict = YES;
+				//Write the registration dictionary out to the temporary directory
+				NSData *plistData;
+				NSString *error;
+				plistData = [NSPropertyListSerialization dataFromPropertyList:regDict
+																	   format:NSPropertyListBinaryFormat_v1_0
+															 errorDescription:&error];
+				if (plistData) {
+					if (![plistData writeToFile:regDictPath atomically:NO])
+						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@", regDictPath);
+				} else {
+					NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
+					NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", regDict);
+					[error release];
 				}
 
-				spec.appRef = &appRef;
-				spec.numDocs = (passRegDict != NO);
-				spec.itemRefs = (passRegDict ? &regItemRef : NULL);
-				spec.passThruParams = NULL;
-				spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
-				spec.asyncRefCon = NULL;
-				status = LSOpenFromRefSpec(&spec, NULL);
-
-				success = (status == noErr);
+				regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
+				if (regStatus == noErr)
+					passRegDict = YES;
 			}
+
+			spec.appRef = &appRef;
+			spec.numDocs = (passRegDict != NO);
+			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
+			spec.passThruParams = NULL;
+			spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
+			spec.asyncRefCon = NULL;
+			status = LSOpenFromRefSpec(&spec, NULL);
+
+			success = (status == noErr);
 		}
 	}
 
