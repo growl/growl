@@ -12,10 +12,12 @@
 
 @interface GrowlBrowserEntry : NSObject {
 	CFMutableDictionaryRef properties;
+	NSString			   *password;
+	BOOL				   didPasswordLookup;
 	GrowlPreferencePane    *owner;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
-- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service;
+- (id) initWithComputerName:(NSString *)name;
 
 - (BOOL) use;
 - (void) setUse:(BOOL)flag;
@@ -26,15 +28,11 @@
 - (NSString *) computerName;
 - (void) setComputerName:(NSString *)name;
 
-- (NSNetService *) netService;
-- (void) setNetService:(NSNetService *)service;
-
 - (NSString *) password;
 - (void) setPassword:(NSString *)password;
 
 - (NSDictionary *) properties;
 
-- (void) setAddress:(NSData *)address;
 - (void) setOwner:(GrowlPreferencePane *)pref;
 
 @end

@@ -478,8 +478,7 @@
 	NSEnumerator *enumerator = [services objectEnumerator];
 	GrowlBrowserEntry *entry;
 	while ((entry = [enumerator nextObject]))
-		if (![entry netService])
-			[destinations addObject:[entry properties]];
+		[destinations addObject:[entry properties]];
 	[preferencesController setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
@@ -949,7 +948,7 @@
 		return;
 
 	// add a new entry at the end
-	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name netService:aNetService];
+	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name];
 	[self willChangeValueForKey:@"services"];
 	[services addObject:entry];
 	[self didChangeValueForKey:@"services"];
@@ -972,52 +971,14 @@
 		}
 	}
 
-	if (serviceBeingResolved && [serviceBeingResolved isEqual:aNetService]) {
-		[serviceBeingResolved stop];
-		[serviceBeingResolved release];
-		serviceBeingResolved = nil;
-	}
-
 	if (!moreComing)
 		[self writeForwardDestinations];
-}
-
-- (void) netServiceDidResolveAddress:(NSNetService *)sender {
-	NSArray *addresses = [sender addresses];
-	if ([addresses count] > 0U) {
-		NSData *address = [addresses objectAtIndex:0U];
-		GrowlBrowserEntry *entry = [services objectAtIndex:currentServiceIndex];
-		[entry setAddress:address];
-		[self writeForwardDestinations];
-	}
 }
 
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
-	int row = [sender selectedRow];
-	if (row != -1) {
-		GrowlBrowserEntry *entry = [services objectAtIndex:row];
-		NSNetService *serviceToResolve = [entry netService];
-		if (serviceToResolve) {
-			// Make sure to cancel any previous resolves.
-			if (serviceBeingResolved) {
-				[serviceBeingResolved stop];
-				[serviceBeingResolved release];
-				serviceBeingResolved = nil;
-			}
-
-			currentServiceIndex = row;
-			serviceBeingResolved = serviceToResolve;
-			[serviceBeingResolved retain];
-			[serviceBeingResolved setDelegate:self];
-			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
-				[serviceBeingResolved resolveWithTimeout:5.0];
-			else
-				// this selector is deprecated in 10.4
-				[serviceBeingResolved resolve];
-		}
-	}
+	NSLog(@"What calls resolveService:?");
 }
 
 - (NSMutableArray *) services {

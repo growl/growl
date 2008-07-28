@@ -10,6 +10,10 @@
 #import "GrowlPreferencePane.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
+#include <Security/SecKeychain.h>
+#include <Security/SecKeychainItem.h>
+
+#define GrowlBrowserEntryKeychainServiceName "GrowlOutgoingNetworkConnection"
 
 @implementation GrowlBrowserEntry
 
@@ -21,11 +25,10 @@
 	return self;
 }
 
-- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service {
+- (id) initWithComputerName:(NSString *)name {
 	if ((self = [self init])) {
 		properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 		CFDictionarySetValue(properties, CFSTR("computer"), name);
-		CFDictionarySetValue(properties, CFSTR("netservice"), service);
 		CFDictionarySetValue(properties, CFSTR("use"), kCFBooleanFalse);
 		CFDictionarySetValue(properties, CFSTR("active"), kCFBooleanTrue);
 	}
@@ -60,29 +63,76 @@
 	[owner writeForwardDestinations];
 }
 
-- (NSNetService *) netService {
-	return (NSNetService *)CFDictionaryGetValue(properties, CFSTR("netservice"));
-}
-
-- (void) setNetService:(NSNetService *)service {
-	CFDictionarySetValue(properties, CFSTR("netservice"), service);
-}
-
 - (NSString *) password {
-	return (NSString *)CFDictionaryGetValue(properties, CFSTR("password"));
+	if (!didPasswordLookup) {
+		unsigned char *passwordChars;
+		UInt32 passwordLength;
+		OSStatus status;
+		const char *computerNameChars = [[self computerName] UTF8String];
+		status = SecKeychainFindGenericPassword(NULL,
+												strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+												strlen(computerNameChars), computerNameChars,
+												&passwordLength, (void **)&passwordChars, NULL);		
+		if (status == noErr) {
+			password = [[NSString alloc] initWithBytes:passwordChars
+												length:passwordLength
+											  encoding:NSUTF8StringEncoding];
+			SecKeychainItemFreeContent(NULL, password);
+		} else {
+			if (status != errSecItemNotFound)
+				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", status);
+			password = nil;
+		}
+		
+		didPasswordLookup = YES;
+	}
+
+	
+	return password;
 }
 
-- (void) setPassword:(NSString *)password {
-	if (password)
-		CFDictionarySetValue(properties, CFSTR("password"), password);
-	else
-		CFDictionaryRemoveValue(properties, CFSTR("password"));
-	[owner writeForwardDestinations];
-}
+- (void) setPassword:(NSString *)inPassword {
+	if (password != inPassword) {
+		[password release];
+		password = [inPassword copy];
+	}
 
-- (void) setAddress:(NSData *)address {
-	CFDictionarySetValue(properties, CFSTR("address"), address);
-	CFDictionaryRemoveValue(properties, CFSTR("netservice"));
+	// Store the password to the keychain
+	// XXX TODO Use AIKeychain
+	const char *passwordChars = password ? [password UTF8String] : "";
+	OSStatus status;
+	SecKeychainItemRef itemRef = nil;
+	const char *computerNameChars = [[self computerName] UTF8String];
+	status = SecKeychainFindGenericPassword(NULL,
+											strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+											strlen(computerNameChars), computerNameChars,
+											NULL, NULL, &itemRef);
+	if (status == errSecItemNotFound) {
+		// add new item
+		status = SecKeychainAddGenericPassword(NULL,
+											   strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+											   strlen(computerNameChars), computerNameChars,
+											   strlen(passwordChars), passwordChars, NULL);
+		if (status)
+			NSLog(@"Failed to add password to keychain.");
+	} else {
+		// change existing password
+		SecKeychainAttribute attrs[] = {
+			{ kSecAccountItemAttr, strlen(computerNameChars), (char *)computerNameChars },
+			{ kSecServiceItemAttr, strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
+		};
+		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
+														&attributes,	// no change to attributes
+														strlen(passwordChars),			// length of password
+														passwordChars		// pointer to password data
+														);
+		if (itemRef)
+			CFRelease(itemRef);
+		if (status)
+			NSLog(@"Failed to change password in keychain.");
+	}
+	
 	[owner writeForwardDestinations];
 }
 
@@ -95,6 +145,8 @@
 }
 
 - (void) dealloc {
+	[password release];
+
 	CFRelease(properties);
 	[super dealloc];
 }

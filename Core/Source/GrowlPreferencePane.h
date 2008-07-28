@@ -80,7 +80,6 @@
 	//"Network" tab pane
 	NSMutableArray					*services;
 	NSNetServiceBrowser				*browser;
-	NSNetService					*serviceBeingResolved;
 	int								currentServiceIndex;
 	IBOutlet NSArrayController		*servicesArrayController;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
