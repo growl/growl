@@ -11,10 +11,10 @@
 @class GrowlPreferencePane;
 
 @interface GrowlBrowserEntry : NSObject {
-	CFMutableDictionaryRef properties;
-	NSString			   *password;
-	BOOL				   didPasswordLookup;
-	GrowlPreferencePane    *owner;
+	NSMutableDictionary		*properties;
+	NSString				*password;
+	BOOL					didPasswordLookup;
+	GrowlPreferencePane		*owner;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name;

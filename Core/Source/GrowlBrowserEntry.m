@@ -19,7 +19,7 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [self init])) {
-		properties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, (CFDictionaryRef)dict);
+		properties = [dict mutableCopy];
 	}
 
 	return self;
@@ -27,39 +27,43 @@
 
 - (id) initWithComputerName:(NSString *)name {
 	if ((self = [self init])) {
-		properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-		CFDictionarySetValue(properties, CFSTR("computer"), name);
-		CFDictionarySetValue(properties, CFSTR("use"), kCFBooleanFalse);
-		CFDictionarySetValue(properties, CFSTR("active"), kCFBooleanTrue);
+		properties = [[NSMutableDictionary alloc] init];
+		[properties setValue:name forKey:@"computer"];
+		[properties setValue:[NSNumber numberWithBool:FALSE] forKey:@"use"];
+		[properties setValue:[NSNumber numberWithBool:TRUE] forKey:@"active"];
 	}
 
 	return self;
 }
 
 - (BOOL) use {
-	return getBooleanForKey((NSDictionary *)properties, @"use");
+	return [[properties valueForKey:@"use"] boolValue];
 }
 
 - (void) setUse:(BOOL)flag {
-	setBooleanForKey((NSMutableDictionary *)properties, @"use", flag);
+	[properties setValue:[NSNumber numberWithBool:flag]
+				  forKey:@"use"];
 	[owner writeForwardDestinations];
 }
 
 - (BOOL) active {
-	return getBooleanForKey((NSDictionary *)properties, @"active");
+	return [[properties valueForKey:@"active"] boolValue];
 }
 
 - (void) setActive:(BOOL)flag {
-	setBooleanForKey((NSMutableDictionary *)properties, @"active", flag);
+	[properties setValue:[NSNumber numberWithBool:flag]
+				  forKey:@"active"];
 	[owner writeForwardDestinations];
 }
 
 - (NSString *) computerName {
-	return (NSString *)CFDictionaryGetValue(properties, CFSTR("computer"));
+	return [properties valueForKey:@"computer"];
 }
 
 - (void) setComputerName:(NSString *)name {
-	CFDictionarySetValue(properties, CFSTR("computer"), name);
+	[properties setValue:name
+				  forKey:@"computer"];
+
 	[owner writeForwardDestinations];
 }
 
@@ -141,13 +145,13 @@
 }
 
 - (NSDictionary *) properties {
-	return (NSDictionary *)properties;
+	return properties;
 }
 
 - (void) dealloc {
 	[password release];
+	[properties release];
 
-	CFRelease(properties);
 	[super dealloc];
 }
 
