@@ -81,7 +81,7 @@
 			password = [[NSString alloc] initWithBytes:passwordChars
 												length:passwordLength
 											  encoding:NSUTF8StringEncoding];
-			SecKeychainItemFreeContent(NULL, password);
+			SecKeychainItemFreeContent(NULL, passwordChars);
 		} else {
 			if (status != errSecItemNotFound)
 				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", status);
