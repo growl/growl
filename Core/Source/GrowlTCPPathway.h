@@ -10,11 +10,16 @@
 
 @class MD5Authenticator;
 
+@class GrowlTCPServer;
+
 @interface GrowlTCPPathway : GrowlRemotePathway {
 	MD5Authenticator           *authenticator;
 	NSNetService               *service;
 	NSPort                     *socketPort;
-	NSConnection               *serverConnection;
+	NSConnection               *remoteDistributedObjectConnection;
+	NSConnection               *localDistributedObjectConnection;
+	
+	GrowlTCPServer				*tcpServer;
 }
 
 @end

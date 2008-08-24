@@ -29,10 +29,15 @@
  *	 GrowlDefines.h.
  */
 
-/*!	@defined	GROWL_TCP_PORT
- *	@abstract	The TCP listen port for Growl notification servers.
+/*!	@defined	GROWL_TCP_DO_PORT
+ *	@abstract	The TCP listen port for Growl's DirectObject-based notification servers.
  */
-#define GROWL_TCP_PORT	23052
+#define GROWL_TCP_DO_PORT	23052
+
+/*!	@defined	GROWL_TCP_PORT
+ *	@abstract	The TCP listen port for Growl's protocol-based notification servers.
+ */
+#define GROWL_TCP_PORT	23053
 
 /*!	@defined	GROWL_UDP_PORT
  *	@abstract	The UDP listen port for Growl notification servers.
