@@ -405,7 +405,10 @@ static int messageCopies = 0;
 				if (![message isKindOfClass:Message_class])
 					[self shutDownGrowlMailAndWarn:[NSString stringWithFormat:@"Message in notification was not a Message; it is %@", message]];
 
-				[[self class] showNotificationForMessage:message];
+				if (![message respondsToSelector:@selector(isRead)] || ![message isRead]) {
+					/* Don't display read messages */
+					[[self class] showNotificationForMessage:message];
+				}
 			}
 			break;
 		}
