@@ -40,6 +40,8 @@
 #include <sys/fcntl.h>
 #include <netinet/in.h>
 
+#import "AsyncSocket.h"
+
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
@@ -352,9 +354,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
  * @param name The name of the server
  * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
  */
-- (NSData *)addressDataForGrowlServerWithName:(NSString *)name
+- (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name
 {
-	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:@"_growl._tcp." name:name] autorelease];
+	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:type name:name] autorelease];
     if (!service) {
 		/* No such service exists. The computer is probably offline. */
         return nil;
@@ -394,7 +396,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			/* Note: This assumes that all forwarding destinations are within the local network.
 			 * When domain names and IPs can be used, this needs to change.
 			 */
-			NSData *destAddress = [self addressDataForGrowlServerWithName:[entry objectForKey:@"computer"]];
+			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_growl._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 #ifdef DEBUG
@@ -452,8 +454,97 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[pool release];
 }
 
+/*
+ This will be called whenever AsyncSocket is about to disconnect. In Echo Server,
+ it does not do anything other than report what went wrong (this delegate method
+ is the only place to get that information), but in a more serious app, this is
+ a good place to do disaster-recovery by getting partially-read data. This is
+ not, however, a good place to do cleanup. The socket must still exist when this
+ method returns.
+ */
+-(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
+{
+	if (err != nil)
+		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
+			   sock,
+			   [err domain], [err code], [err localizedDescription]);
+	else
+		NSLog (@"Socket will disconnect. No error.");
+}
+
+- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+{
+	NSLog(@"Connected to %@ on %@:%hu", sock, host, port);
+}
+
+// Need run loop to run
+// Need to retain AsyncSocket until its work is complete
+- (void)sendDictionaryViaTCP:(NSDictionary *)dict
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSLog(@"Sending....");
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
+//	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
+	NSEnumerator *enumerator = [destinations objectEnumerator];
+	NSDictionary *entry;
+	while ((entry = [enumerator nextObject])) {
+		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
+			/* Note: This assumes that all forwarding destinations are within the local network.
+			 * When domain names and IPs can be used, this needs to change.
+			 */
+			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_growl_protocol._tcp." withName:[entry objectForKey:@"computer"]];
+			if (!destAddress) {
+				/* No destination address. Nothing to see here; move along. */
+				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
+				continue;
+			}
+//			NSString *password = [entry objectForKey:@"password"];
+			NSError *error = nil;
+
+			//Leak
+			AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
+			@try {
+				NSString *serializationError = nil;
+				[outgoingSocket connectToAddress:destAddress error:&error];
+				NSLog(@"Sending %i bytes", outgoingSocket, [[NSPropertyListSerialization dataFromPropertyList:dict
+																									   format:NSPropertyListXMLFormat_v1_0
+																							 errorDescription:&serializationError] length]);
+
+				[outgoingSocket writeData:[NSPropertyListSerialization dataFromPropertyList:dict
+																					 format:NSPropertyListXMLFormat_v1_0
+																		   errorDescription:&serializationError]
+							  withTimeout:-1
+									  tag:0];			 
+//				[outgoingSocket disconnectAfterWriting];
+				
+			} @catch (NSException *e) {
+				NSString *addressString = createStringWithAddressData(destAddress);
+				NSString *hostName = createHostNameForAddressData(destAddress);
+				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
+					NSLog(@"Authentication failed while forwarding to %@ (%@)",
+						  addressString, hostName);
+				} else {
+					NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
+						  e, addressString, hostName);
+				}
+				[addressString release];
+				[hostName      release];
+			} @finally {
+				//Success!
+				NSLog(@"Made it, I think");
+			}
+		}
+	}
+
+	[pool release];	
+}
+
 - (void) forwardNotification:(NSDictionary *)dict {
-	[self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)];
+	/* [self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)]; */
+	[self performSelectorOnMainThread:@selector(sendDictionaryViaTCP:)
+						   withObject:dict
+						waitUntilDone:NO];
 }
 
 - (void) forwardRegistration:(NSDictionary *)dict {
