@@ -59,8 +59,10 @@
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
-	if (!(self = [super initWithWindow:panel]))
+	if (!(self = [super initWithWindow:panel])) {
+		[panel release];
 		return nil;
+	}
 
 	GrowlDisplayPlugin *plugin = [displayBridge display];
 
