@@ -106,7 +106,7 @@ URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
 			if (pathStyleNum)
 				CFNumberGetValue(pathStyleNum, kCFNumberIntType, &pathStyle);
 			else
-				pathStyleNum = kCFURLPOSIXPathStyle;
+				pathStyle = kCFURLPOSIXPathStyle;
 
 			char *filename = createFileSystemRepresentationOfString(path);
 			int fd = open(filename, O_RDONLY, 0);
