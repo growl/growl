@@ -151,8 +151,7 @@ static NSRunLoop *serverLoop = nil;
  - (void) onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
 {
 	NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
-
-	[self readFromSocket:newSocket];
+	[[self delegate] didAcceptNewSocket:newSocket];
 }
 
 /**

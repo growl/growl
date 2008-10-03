@@ -106,24 +106,12 @@
 - (BOOL) authenticateComponents:(NSArray *)components withData:(NSData *)signature {
 	return [authenticator authenticateComponents:components withData:signature];
 }
-
+ 
 #pragma mark -
-/**
- * Called when a socket connects and is ready for reading and writing.
- * The host parameter will be an IP address, not a DNS name.
- **/
-- (void)didConnectToHost:(NSString *)host port:(UInt16)port
-{
-	NSLog(@"We've connected to %@ on %i", host, port);
-}
 
-/**
- * Called when a socket has completed reading the requested data into memory.
- * Not called if there is an error.
- **/
-- (void)didReadData:(NSData *)data withTag:(long)tag
+- (void)didAcceptNewSocket:(AsyncSocket *)sock
 {
-#pragma unused(data, tag)
+	[networkPacketParser didAcceptNewSocket:sock];
 }
 
 @end
