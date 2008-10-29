@@ -9,8 +9,26 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlNetworkPacket.h"
 
-@interface GrowlNotificationNetworkPacket : GrowlNetworkPacket {
+typedef enum {
+	CallbackURLTargetUnknownMethod = 0,
+	CallbackURLTargetPostMethod,
+	CallbackURLTargetGetMethod
+} CallbackURLTargetMethod;
 
+@interface GrowlNotificationNetworkPacket : GrowlNetworkPacket {
+	NSString *applicationName;
+	NSString *notificationName;
+	NSString *title;
+	NSString *notificationIdentifier;
+	NSString *text;
+	BOOL sticky;
+
+	NSString *iconID;
+	NSURL    *iconURL;
+	
+	NSString *callbackContext;
+	NSURL	 *callbackTarget;
+	CallbackURLTargetMethod callbackTargetMethod;
 }
 
 @end

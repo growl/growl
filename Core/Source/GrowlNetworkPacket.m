@@ -13,6 +13,7 @@
 typedef enum {
 	GrowlProtocolIdentifierRead,
 	GrowlHeaderRead,
+	GrowlBinaryHeaderRead,
 	GrowlBinaryDataRead
 } NetworkReadingType;
 
@@ -167,11 +168,22 @@ typedef enum {
 					   tag:GrowlHeaderRead];
 }
 
+/*!
+ * @brief Act on a received header item
+ *
+ * Called by parseHeader, this is abstract in GrowlNetworkPacket and should be implemented in its subclasses
+ * to perform the actual work of handling the passed headerItem
+ */
 - (GrowlReadDirective)receivedHeaderItem:(GrowlNetworkHeaderItem *)headerItem
 {
 	NSLog(@"Header %@; value %@", headerName, headerValue);
 }
 
+/*!
+ * @brief Parse a textual header which forms the body of the packet
+ *
+ * @result The GrowlReadDirective indicating what should be done next
+ */
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
 	NSError *error;
@@ -184,14 +196,61 @@ typedef enum {
 	}
 }
 
+- (NSDictionary *)customHeaders
+{
+	return customHeaders;
+}
+- (void)setCustomHeaderWithName:(NSString *)name value:(NSString *)value
+{
+	[customHeaders setObject:value
+					  forKey:name];
+}
+
 #pragma mark Binary data
-- (void)readHeaderOfNextBinaryChunk
+- (void)readNextHeaderOfBinaryChunk
 {
 	NSLog(@"Read next binary chunk");
 	[socket readDataToData:[AsyncSocket CRLFData]
 			   withTimeout:-1
-					   tag:GrowlHeaderRead];
+					   tag:GrowlBinaryHeaderRead];	
+}
+
+- (void)readBinaryChunk
+{
+	[socket readDataToData:[AsyncSocket CRLFData]
+			   withTimeout:-1
+					   tag:GrowlBinaryDataRead];	
+}	
+
+- (GrowlReadDirective)receivedBinaryHeaderItem:(GrowlNetworkHeaderItem *)headerItem
+{
+	NSString *name = [headerItem headerName];
+	NSString *value = [headerItem headerValue];
 	
+	if (headerItem == [GrowlNetworkHeaderItem separatorHeaderItem]) {
+		return GrowlReadDirective_SectionComplete;
+	} 
+	
+	
+		
+	NSLog(@"Header %@; value %@", headerName, headerValue);
+}
+
+/*!
+ * @brief Parse a binary chunk's header, which will give identifier and length information
+ *
+ * @result The GrowlReadDirective indicating what should be done next
+ */
+- (GrowlReadDirective)parseBinaryHeader:(NSData *)inData
+{
+	NSError *error;
+	GrowlNetworkHeaderItem *headerItem = [GrowlNetworkHeaderItem headerItemFromData:inData error:&error];
+	if (headerItem) {
+		return [self receivedBinaryHeaderItem:headerItem];
+		
+	} else {
+		NSLog(@"Error is %@", error);
+	}
 }
 
 #pragma mark Complete
@@ -232,7 +291,8 @@ typedef enum {
 		case GrowlHeaderRead:
 			switch ([self parseHeader:data]) {
 				case GrowlReadDirective_SectionComplete:
-					[self readNextHeader];
+					/* Done with all headers; time to read binary */
+					[self readNextHeaderOfBinaryChunk];
 					break;
 				case GrowlReadDirective_Continue:
 					[self readNextHeader];
@@ -245,12 +305,32 @@ typedef enum {
 					break;
 			}
 			break;
+		case GrowlBinaryHeaderRead:
+			switch ([self parseBinaryHeader:data]) {
+				case GrowlReadDirective_SectionComplete:
+					/* Done with all binary headers; time to read the binary data */
+					[self readBinaryChunk];
+					break;
+				case GrowlReadDirective_Continue:
+					[self readNextHeaderOfBinaryChunk];
+					break;
+				case GrowlReadDirective_PacketComplete:
+					/* This is probably an error condition; we shouldn't have finished a packet with a binary header */
+					[self networkPacketReadComplete];
+					break;
+				case GrowlReadDirective_Error:
+					[self errorOccurred];
+					break;
+			}
+			break;
 		case GrowlBinaryDataRead:
 			switch ([self parseBinaryData:data]) {
 				case GrowlReadDirective_SectionComplete:
-					[self readNextHeader];
+					/* Done with a binary block; we may have more binary blocks to read */
+					[self readNextHeaderOfBinaryChunk];
 				case GrowlReadDirective_Continue:
-					[self readMoreOfBinaryChunk];
+					/* Continue reading in the same binary block? This shouldn't happen */
+					[self errorOccurred];
 					break;					
 				case GrowlReadDirective_PacketComplete:
 					[self networkPacketReadComplete];

@@ -34,4 +34,7 @@
 - (NSString *)action;
 - (NSString *)encryptionAlgorithm;
 
+- (void)setCustomHeaderWithName:(NSString *)name value:(NSString *)value;
+- (NSDictionary *)customHeaders;
+
 @end
