@@ -137,6 +137,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[productVersionDict release];
 }
 
+@interface NSString (GrowlNetworkingAdditions)
+- (BOOL)isLikelyDomainName;
+- (BOOL)isLikelyIPAddress;
+@end
+
 @implementation GrowlApplicationController
 
 + (GrowlApplicationController *) sharedController {
@@ -351,103 +356,58 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
  */
 - (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name
 {
-	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:type name:name] autorelease];
-    if (!service) {
-		/* No such service exists. The computer is probably offline. */
-        return nil;
-    }
+	if ([name hasSuffix::@".local"])
+		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
 
+	if ([name isLikelyDomainName]) {
+		CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)name);
+		CFStreamError error = noErr;
+		CFHostStartInfoResolution(host, kCFHostAddresses, &error);
+		NSArray *addresses = (NSArray *)CFHostGetAddressing(theHost, &hasBeenResolved);
+
+		if ([addresses count]) {
+			/* DNS lookup success! */
+			return [addresses objectAtIndex:0];
+		}
+		
+	} else if ([name isLikelyIPAddress]) {
+		struct sockaddr_in serverAddr;
+		
+		memset(&serverAddr, 0, sizeof(serverAddr));
+		serverAddr.sin_family = AF_INET;
+		serverAddr.sin_addr = inet_addr([name UTF8String]);
+		serverAddr.sin_port = htons(GROWL_TCP_PORT);
+
+		return [NSData dataWithBytes:&serverAddr length:serverAddr.sa_len];
+	} 
+	
+	/* If we make it here, treat it as a computer name on the local network */ 
+	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:type name:name] autorelease];
+	if (!service) {
+		/* No such service exists. The computer is probably offline. */
+		return nil;
+	}
+	
 	/* Work for 8 seconds to resolve the net service to an IP and port. We should be running
 	 * on a thread, so blocking is fine.
 	 */
-    [service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:@"PrivateGrowlMode"];
-    [service resolveWithTimeout:8.0];
-    CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + 8.0;
-    CFTimeInterval remaining;
-    while ((remaining = (deadline - CFAbsoluteTimeGetCurrent())) > 0 && [[service addresses] count] == 0) {
-        CFRunLoopRunInMode((CFStringRef)@"PrivateGrowlMode", remaining, true);
-    }
-    [service stop];
-
-    NSArray *addresses = [service addresses];
-    if (![addresses count]) {
+	[service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:@"PrivateGrowlMode"];
+	[service resolveWithTimeout:8.0];
+	CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + 8.0;
+	CFTimeInterval remaining;
+	while ((remaining = (deadline - CFAbsoluteTimeGetCurrent())) > 0 && [[service addresses] count] == 0) {
+		CFRunLoopRunInMode((CFStringRef)@"PrivateGrowlMode", remaining, true);
+	}
+	[service stop];
+	
+	NSArray *addresses = [service addresses];
+	if (![addresses count]) {
 		/* Lookup failed */
-        return nil;
-    }
-
+		return nil;
+	}
+	
 	return [addresses objectAtIndex:0];
 }	
-
-- (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
-	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
-	NSEnumerator *enumerator = [destinations objectEnumerator];
-	NSDictionary *entry;
-	while ((entry = [enumerator nextObject])) {
-		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
-			/* Note: This assumes that all forwarding destinations are within the local network.
-			 * When domain names and IPs can be used, this needs to change.
-			 */
-			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_growl._tcp." withName:[entry objectForKey:@"computer"]];
-			if (!destAddress) {
-				/* No destination address. Nothing to see here; move along. */
-#ifdef DEBUG
-				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
-#endif
-				continue;
-			}
-			NSString *password = [entry objectForKey:@"password"];
-
-			/* Send via DO if possible */
-			NSSocketPort *serverPort = [[NSSocketPort alloc]
-				initRemoteWithProtocolFamily:AF_INET
-								  socketType:SOCK_STREAM
-									protocol:IPPROTO_TCP
-									 address:destAddress];
-
-			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
-																		sendPort:serverPort];
-			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
-			[connection setDelegate:auth];
-
-			if (requestTimeout && [requestTimeout respondsToSelector:@selector(floatValue)])
-				[connection setRequestTimeout:[requestTimeout floatValue]];
-			if (replyTimeout && [replyTimeout respondsToSelector:@selector(floatValue)])
-				[connection setReplyTimeout:[replyTimeout floatValue]];
-
-			@try {
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				NSProxy <GrowlNotificationProtocol> *growlProxy = (NSProxy <GrowlNotificationProtocol> *)theProxy;
-				[growlProxy performSelector:forwardMethod withObject:dict];
-			} @catch (NSException *e) {
-				NSString *addressString = createStringWithAddressData(destAddress);
-				NSString *hostName = createHostNameForAddressData(destAddress);
-				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
-					NSLog(@"Authentication failed while forwarding to %@ (%@)",
-						  addressString, hostName);
-				} else {
-					NSLog(@"Warning: Exception %@ while forwarding Growl registration or notification (%@) to %@ (%@). Is that system on and connected?",
-						  e, NSStringFromSelector(forwardMethod), addressString, hostName);
-				}
-				[addressString release];
-				[hostName      release];
-
-			} @finally {
-				[connection invalidate];
-				[serverPort invalidate];
-				[serverPort release];
-				[connection release];
-				[auth release];
-			}
-		}
-	}
-
-	[pool release];
-}
 
 /*
  This will be called whenever AsyncSocket is about to disconnect. In Echo Server,
@@ -478,17 +438,15 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSLog(@"Sending....");
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
 //	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
+
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
 		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
-			/* Note: This assumes that all forwarding destinations are within the local network.
-			 * When domain names and IPs can be used, this needs to change.
-			 */
-			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_growl_protocol._tcp." withName:[entry objectForKey:@"computer"]];
+			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
@@ -536,14 +494,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) forwardNotification:(NSDictionary *)dict {
-	/* [self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)]; */
-	[self performSelectorOnMainThread:@selector(sendDictionaryViaTCP:)
-						   withObject:dict
-						waitUntilDone:NO];
+	[self sendDictionaryViaTCP:dict];
 }
 
 - (void) forwardRegistration:(NSDictionary *)dict {
-	[self forwardDictionary:dict withSelector:@selector(registerApplicationWithDictionary:)];
+	
 }
 
 #pragma mark Retrieving sounds
@@ -1354,3 +1309,39 @@ static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *
 
 	return SystemSoundRemoveActionID(actionID);
 }
+
+@implementation NSString (GrowlNetworkingAdditions)
+
+- (BOOL)isLikelyDomainName
+{
+	unsigned length = [self length];
+	NSString lowerSelf = [self lowercaseString];
+	if (length > 3 &&
+		[self rangeOfString:@"." options:NSLiteralSearch].location != NSNotFound) {
+		static NSArray *TLD2 = nil;
+		static NSArray *TLD3 = nil;
+		static NSArray *TLD4 = nil;
+		if (!TLD2) {
+			TLD2 = [[NSArray arrayWithObjects:@".ac", @".ad", @".ae", @".af", @".ag", @".ai", @".al", @".am", @".an", @".ao", @".aq", @".ar", @".as", @".at", @".au", @".aw", @".az", @".ba", @".bb", @".bd", @".be", @".bf", @".bg", @".bh", @".bi", @".bj", @".bm", @".bn", @".bo", @".br", @".bs", @".bt", @".bv", @".bw", @".by", @".bz", @".ca", @".cc", @".cd", @".cf", @".cg", @".ch", @".ci", @".ck", @".cl", @".cm", @".cn", @".co", @".cr", @".cu", @".cv", @".cx", @".cy", @".cz", @".de", @".dj", @".dk", @".dm", @".do", @".dz", @".ec", @".ee", @".eg", @".eh", @".er", @".es", @".et", @".eu", @".fi", @".fj", @".fk", @".fm", @".fo", @".fr", @".ga", @".gd", @".ge", @".gf", @".gg", @".gh", @".gi", @".gl", @".gm", @".gn", @".gp", @".gq", @".gr", @".gs", @".gt", @".gu", @".gw", @".gy", @".hk", @".hm", @".hn", @".hr", @".ht", @".hu", @".id", @".ie", @".il", @".im", @".in", @".io", @".iq", @".ir", @".is", @".it", @".je", @".jm", @".jo", @".jp", @".ke", @".kg", @".kh", @".ki", @".km", @".kn", @".kp", @".kr", @".kw", @".ky", @".kz", @".la", @".lb", @".lc", @".li", @".lk", @".lr", @".ls", @".lt", @".lu", @".lv", @".ly", @".ma", @".mc", @".md", @".me", @".mg", @".mh", @".mk", @".ml", @".mm", @".mn", @".mo", @".mp", @".mq", @".mr", @".ms", @".mt", @".mu", @".mv", @".mw", @".mx", @".my", @".mz", @".na", @".nc", @".ne", @".nf", @".ng", @".ni", @".nl", @".no", @".np", @".nr", @".nu", @".nz", @".om", @".pa", @".pe", @".pf", @".pg", @".ph", @".pk", @".pl", @".pm", @".pn", @".pr", @".ps", @".pt", @".pw", @".py", @".qa", @".re", @".ro", @".ru", @".rw", @".sa", @".sb", @".sc", @".sd", @".se", @".sg", @".sh", @".si", @".sj", @".sk", @".sl", @".sm", @".sn", @".so", @".sr", @".st", @".sv", @".sy", @".sz", @".tc", @".td", @".tf", @".tg", @".th", @".tj", @".tk", @".tm", @".tn", @".to", @".tp", @".tr", @".tt", @".tv", @".tw", @".tz", @".ua", @".ug", @".uk", @".um", @".us", @".uy", @".uz", @".va", @".vc", @".ve", @".vg", @".vi", @".vn", @".vu", @".wf", @".ws", @".ye", @".yt", @".yu", @".za", @".zm", @".zw", nil] retain];
+			TLD3 = [[NSArray arrayWithObjects:@".com",@".edu",@".gov",@".int",@".mil",@".net",@".org",@".biz",@".",@".pro",@".cat", nil] retain];
+			TLD4 = [[NSArray arrayWithObjects:@".info",@".aero",@".coop",@".mobi",@".jobs",@".arpa", nil] retain];
+		}
+		if ([TLD2 containsObject:[lowerSelf substringFromIndex:length-3]] ||
+			(length > 4 && [TLD3 containsObject:[lowerSelf substringFromIndex:length-4]]) ||
+			(length > 5 && [TLD4 containsObject:[lowerSelf substringFromIndex:length-5]]) ||
+			[lowerSelf hasSuffix:@".museum"] || [lowerSelf hasSuffix:@".travel"]) {
+			return YES;
+		} else {
+			return NO;
+		}
+	}
+	
+	return NO;
+}
+
+- (BOOL)isLikelyIPAddress
+{
+	return ([[self componentsSeparatedByString:@"."] count] == 4);
+}
+
+@end
