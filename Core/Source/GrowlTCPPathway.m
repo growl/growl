@@ -28,7 +28,7 @@
 
 		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
 		[tcpServer setType:@"_gntp._tcp."];
-		[tcpServer setPort:9999 /*GROWL_TCP_PORT*/];
+		[tcpServer setPort:/*9999*/GROWL_TCP_PORT];
 		[tcpServer setDelegate:self];
 		
 		NSError *error = nil;
