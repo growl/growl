@@ -19,11 +19,11 @@
     [super dealloc];
 }
 
-- (id)delegate {
+- (id <GrowlTCPServerDelegate>)delegate {
     return delegate;
 }
 
-- (void)setDelegate:(id)value {
+- (void)setDelegate:(id <GrowlTCPServerDelegate>)value {
     delegate = value;
 }
 

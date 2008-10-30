@@ -11,9 +11,13 @@ typedef enum {
 
 @class AsyncSocket;
 
+@protocol GrowlTCPServerDelegate
+- (void)didAcceptNewSocket:(AsyncSocket *)sock;
+@end
+
 @interface GrowlTCPServer : NSObject {
 @private
-    id delegate;
+    id <GrowlTCPServerDelegate> delegate;
     NSString *domain;
     NSString *name;
     NSString *type;
@@ -23,8 +27,8 @@ typedef enum {
 	AsyncSocket *asyncSocket;
 }
 
-- (id)delegate;
-- (void)setDelegate:(id)value;
+- (id <GrowlTCPServerDelegate>)delegate;
+- (void)setDelegate:(id <GrowlTCPServerDelegate>)value;
 
 - (NSString *)domain;
 - (void)setDomain:(NSString *)value;
