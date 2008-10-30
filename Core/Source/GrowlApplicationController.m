@@ -39,8 +39,12 @@
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
+//XXX Networking; move me
 #import "AsyncSocket.h"
+#import "GrowlGNTPOutgoingPacket.h"
+#import "GrowlTCPPathway.h"
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -348,6 +352,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[pool release];
 }
 
+
+/* XXX This network stuff shouldn't be in GrowlApplicationController! */
+
 /*!
  * @brief Get address data for a Growl server
  *
@@ -356,29 +363,31 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
  */
 - (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name
 {
-	if ([name hasSuffix::@".local"])
+	if ([name hasSuffix:@".local"])
 		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
 
 	if ([name isLikelyDomainName]) {
 		CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)name);
-		CFStreamError error = noErr;
-		CFHostStartInfoResolution(host, kCFHostAddresses, &error);
-		NSArray *addresses = (NSArray *)CFHostGetAddressing(theHost, &hasBeenResolved);
-
-		if ([addresses count]) {
-			/* DNS lookup success! */
-			return [addresses objectAtIndex:0];
+		CFStreamError error;
+		if (CFHostStartInfoResolution(host, kCFHostAddresses, &error)) {
+			NSArray *addresses = (NSArray *)CFHostGetAddressing(host, NULL);
+			
+			if ([addresses count]) {
+				/* DNS lookup success! */
+				return [addresses objectAtIndex:0];
+			}
 		}
+		if (host) CFRelease(host);
 		
 	} else if ([name isLikelyIPAddress]) {
 		struct sockaddr_in serverAddr;
 		
 		memset(&serverAddr, 0, sizeof(serverAddr));
 		serverAddr.sin_family = AF_INET;
-		serverAddr.sin_addr = inet_addr([name UTF8String]);
+		serverAddr.sin_addr.s_addr = inet_addr([name UTF8String]);
 		serverAddr.sin_port = htons(GROWL_TCP_PORT);
 
-		return [NSData dataWithBytes:&serverAddr length:serverAddr.sa_len];
+		return [NSData dataWithBytes:&serverAddr length:serverAddr.sin_len];
 	} 
 	
 	/* If we make it here, treat it as a computer name on the local network */ 
@@ -425,6 +434,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			   [err domain], [err code], [err localizedDescription]);
 	else
 		NSLog (@"Socket will disconnect. No error.");
+	
+	NSLog(@"Releasing %@", sock);
+	[sock release];
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
@@ -432,12 +444,57 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSLog(@"Connected to %@ on %@:%hu", sock, host, port);
 }
 
+- (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
+{
+	NSData *destAddress = [sendingDetails objectForKey:@"Destination"];
+	GrowlGNTPOutgoingPacket *packet = [sendingDetails objectForKey:@"Packet"];
+
+	//			NSString *password = [entry objectForKey:@"password"];
+	
+	/* Will deallocate once sending is complete if we don't care about the reply, or after we get a reply if
+	 * desired.
+	 */
+	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
+	NSLog(@"Created %@", outgoingSocket);
+	@try {
+		NSError *connectionError = nil;
+		[outgoingSocket connectToAddress:destAddress error:&connectionError];
+		if (connectionError)
+			NSLog(@"Failed to connect: %@", connectionError);
+		else {
+			NSEnumerator *enumerator = [packet outgoingItemEnumerator];
+			id <GNTPOutgoingItem> item;
+			while ((item = [enumerator nextObject])) {
+				[outgoingSocket writeData:[item GNTPRepresentation]
+							  withTimeout:-1
+									  tag:0];
+			}
+		}
+		
+	} @catch (NSException *e) {
+		NSString *addressString = createStringWithAddressData(destAddress);
+		NSString *hostName = createHostNameForAddressData(destAddress);
+		if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
+			NSLog(@"Authentication failed while forwarding to %@ (%@)",
+				  addressString, hostName);
+		} else {
+			NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
+				  e, addressString, hostName);
+		}
+		[addressString release];
+		[hostName      release];
+	} @finally {
+		//Success!
+		NSLog(@"Made it, I think");
+	}
+}
+
 // Need run loop to run
 // Need to retain AsyncSocket until its work is complete
-- (void)sendDictionaryViaTCP:(NSDictionary *)dict
+- (void)sendViaTCP:(GrowlGNTPOutgoingPacket *)packet
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSLog(@"Sending....");
+	NSLog(@"Sending %@", packet);
 //	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
 //	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
@@ -445,62 +502,114 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
-		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
+		if ([[entry objectForKey:@"use"] boolValue] && [[entry objectForKey:@"active"] boolValue]) {
 			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
 				continue;
 			}
-//			NSString *password = [entry objectForKey:@"password"];
-			NSError *error = nil;
 
-			//Leak
-			AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
-			@try {
-				NSString *serializationError = nil;
-				[outgoingSocket connectToAddress:destAddress error:&error];
-				NSLog(@"Sending %i bytes", outgoingSocket, [[NSPropertyListSerialization dataFromPropertyList:dict
-																									   format:NSPropertyListXMLFormat_v1_0
-																							 errorDescription:&serializationError] length]);
-
-				[outgoingSocket writeData:[NSPropertyListSerialization dataFromPropertyList:dict
-																					 format:NSPropertyListXMLFormat_v1_0
-																		   errorDescription:&serializationError]
-							  withTimeout:-1
-									  tag:0];			 
-//				[outgoingSocket disconnectAfterWriting];
-				
-			} @catch (NSException *e) {
-				NSString *addressString = createStringWithAddressData(destAddress);
-				NSString *hostName = createHostNameForAddressData(destAddress);
-				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
-					NSLog(@"Authentication failed while forwarding to %@ (%@)",
-						  addressString, hostName);
-				} else {
-					NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
-						  e, addressString, hostName);
-				}
-				[addressString release];
-				[hostName      release];
-			} @finally {
-				//Success!
-				NSLog(@"Made it, I think");
-			}
+			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
+								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
+											   destAddress, @"Destination",
+											   packet, @"Packet",
+											   nil]
+								waitUntilDone:NO];
 		}
 	}
 
 	[pool release];	
 }
 
-- (void) forwardNotification:(NSDictionary *)dict {
-	[self sendDictionaryViaTCP:dict];
-}
-
-- (void) forwardRegistration:(NSDictionary *)dict {
+- (void) forwardNotification:(NSDictionary *)dict
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-}
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+	[outgoingPacket setAction:@"NOTIFY"];
 
+	if ([dict objectForKey:GROWL_APP_NAME])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_NAME])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name" value:[dict objectForKey:GROWL_NOTIFICATION_NAME]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_TITLE])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Title" value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_ICON]) {
+		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON];
+		NSString *identifier = [GrowlGNTPOutgoingPacket identifierForBinaryData:iconData];
+		
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Icon"
+																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
+		[outgoingPacket addBinaryData:iconData withIdentifier:identifier];
+	}
+	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
+	
+	[self sendViaTCP:outgoingPacket];
+	[pool release];
+}
+	
+- (void) forwardRegistration:(NSDictionary *)dict
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+	[outgoingPacket setAction:@"REGISTER"];
+	
+	/* First build the application and number of notifications part */
+	if ([dict objectForKey:GROWL_APP_NAME])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+	if ([dict objectForKey:GROWL_APP_ICON]) {
+		NSData *iconData = [dict objectForKey:GROWL_APP_ICON];
+		NSString *identifier = [GrowlGNTPOutgoingPacket identifierForBinaryData:iconData];
+		
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Icon"
+																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
+		[outgoingPacket addBinaryData:iconData withIdentifier:identifier];
+	}
+	if ([dict objectForKey:GROWL_APP_ID])
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-BundleID" value:[dict objectForKey:GROWL_APP_ID]]];
+	
+	NSArray *allNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notifications-Count"
+																	value:[NSString stringWithFormat:@"%i", [allNotifications count]]]];
+	
+	/* Now add a section for each individual notification */
+	NSString *notificationName;
+	NSEnumerator *enumerator = [allNotifications objectEnumerator];
+	while ((notificationName = [enumerator nextObject])) {
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem separatorHeaderItem]];	
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name"
+																		value:notificationName]];
+		if ([humanReadableNames objectForKey:notificationName])
+			[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
+																			value:[humanReadableNames objectForKey:notificationName]]];			
+		
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Enabled"
+																		value:([defaultNotifications containsObject:notificationName] ?
+																			   @"Yes" :
+																			   @"no")]];
+		
+		/* XXX Could include @"Notification-Icon" if we had per-notification icons */
+	}
+	
+	[self sendViaTCP:outgoingPacket];
+	[pool release];
+}
+	
 #pragma mark Retrieving sounds
 
 - (OSStatus) getFSRef:(out FSRef *)outRef forSoundNamed:(NSString *)soundName {
@@ -757,6 +866,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	// forward to remote destinations
 	if (enableForward && ![dict objectForKey:GROWL_REMOTE_ADDRESS]) {
+		/* XXX Is GROWL_REMOTE_ADDRESS going to prevent sequential forwarding? */
 		if ([NSThread currentThread] == mainThread)
 			[NSThread detachNewThreadSelector:@selector(forwardNotification:)
 									 toTarget:self
@@ -1315,7 +1425,7 @@ static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *
 - (BOOL)isLikelyDomainName
 {
 	unsigned length = [self length];
-	NSString lowerSelf = [self lowercaseString];
+	NSString *lowerSelf = [self lowercaseString];
 	if (length > 3 &&
 		[self rangeOfString:@"." options:NSLiteralSearch].location != NSNotFound) {
 		static NSArray *TLD2 = nil;
@@ -1341,6 +1451,7 @@ static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *
 
 - (BOOL)isLikelyIPAddress
 {
+	/* TODO: Use inet_pton(), which will handle ipv4 and ipv6 */
 	return ([[self componentsSeparatedByString:@"."] count] == 4);
 }
 

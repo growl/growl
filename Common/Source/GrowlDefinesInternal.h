@@ -89,6 +89,9 @@
  */
 #define GROWL_NOTIFICATION_TIMED_OUT	@"GrowlNotificationTimedOut(Internal)"
 
+#define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
+#define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
+
 #define ATTRIBUTE_PACKED __attribute((packed))
 
 /*!	@struct	GrowlNetworkPacket

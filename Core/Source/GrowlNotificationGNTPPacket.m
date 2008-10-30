@@ -117,13 +117,18 @@
 						 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
 
-- (void)setCallbackTarget:(NSURL *)url
+- (void)setCallbackTarget:(NSString *)value
 {
+	[notificationDict setObject:value
+						 forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+
 	[callbackTarget autorelease];
-	callbackTarget = [url retain];
+	callbackTarget = [[NSURL URLWithString:value] retain];
 }
 - (void)setCallbackTargetMethod:(CallbackURLTargetMethod)inMethod
 {
+	[notificationDict setObject:(inMethod == CallbackURLTargetGetMethod ? @"GET" : @"POST")
+						 forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD];
 	callbackTargetMethod = inMethod;
 }
 
@@ -172,7 +177,7 @@
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
 		[self setCallbackContext:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target"] == NSOrderedSame) {
-		[self setCallbackTarget:[NSURL URLWithString:value]];
+		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 		CallbackURLTargetMethod method;
 		if ([value caseInsensitiveCompare:@"GET"]) {

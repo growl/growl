@@ -152,6 +152,8 @@
 		34A43BFA0EB9FFB200809538 /* GrowlRegisterGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */; };
 		34A43BFB0EB9FFB600809538 /* GrowlNotificationGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D38F0E958D2C00629487 /* GrowlNotificationGNTPPacket.m */; };
 		34A43BFC0EB9FFBA00809538 /* GrowlGNTPHeaderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D3850E9587B700629487 /* GrowlGNTPHeaderItem.m */; };
+		34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */; };
+		34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */; };
 		34A883360C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */; };
 		34A8834A0C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883480C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m */; };
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
@@ -764,6 +766,10 @@
 		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A0931F0C90B0DA00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPOutgoingPacket.h; path = Common/Source/GrowlGNTPOutgoingPacket.h; sourceTree = "<group>"; };
+		34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPOutgoingPacket.m; path = Common/Source/GrowlGNTPOutgoingPacket.m; sourceTree = "<group>"; };
+		34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPBinaryChunk.h; path = Core/Source/GrowlGNTPBinaryChunk.h; sourceTree = "<group>"; };
+		34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPBinaryChunk.m; path = Core/Source/GrowlGNTPBinaryChunk.m; sourceTree = "<group>"; };
 		34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginNameWithDefaultTransformer.h; path = Core/Source/DisplayPluginNameWithDefaultTransformer.h; sourceTree = "<group>"; };
 		34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayPluginNameWithDefaultTransformer.m; path = Core/Source/DisplayPluginNameWithDefaultTransformer.m; sourceTree = "<group>"; };
 		34A883470C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginsWithDefaultArrayController.h; path = Core/Source/DisplayPluginsWithDefaultArrayController.h; sourceTree = "<group>"; };
@@ -1894,6 +1900,10 @@
 				3404D3850E9587B700629487 /* GrowlGNTPHeaderItem.m */,
 				31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */,
 				31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */,
+				34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */,
+				34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */,
+				34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */,
+				34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */,
 			);
 			name = Pathways;
 			sourceTree = "<group>";
@@ -2998,6 +3008,8 @@
 				34A43BFA0EB9FFB200809538 /* GrowlRegisterGNTPPacket.m in Sources */,
 				34A43BFB0EB9FFB600809538 /* GrowlNotificationGNTPPacket.m in Sources */,
 				34A43BFC0EB9FFBA00809538 /* GrowlGNTPHeaderItem.m in Sources */,
+				34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */,
+				34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3991,6 +4003,7 @@
 				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_LDFLAGS = "-lcrypto";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;

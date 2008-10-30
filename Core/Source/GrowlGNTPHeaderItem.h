@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlTCPPathway.h"
 
-
-@interface GrowlGNTPHeaderItem : NSObject {
+@interface GrowlGNTPHeaderItem : NSObject <GNTPOutgoingItem> {
 	NSString *headerName;
 	NSString *headerValue;
 }

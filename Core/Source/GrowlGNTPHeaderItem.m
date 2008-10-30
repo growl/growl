@@ -25,7 +25,7 @@
 + (GrowlGNTPHeaderItem *)headerItemWithName:(NSString *)name value:(NSString *)value
 {
 	GrowlGNTPHeaderItem *headerItem = [[[self alloc] init] autorelease];
-	[hedaerItem setHeaderName:name];
+	[headerItem setHeaderName:name];
 	[headerItem setHeaderValue:value];
 	return headerItem;
 }
@@ -99,6 +99,16 @@
 	[headerValue autorelease];
 	headerValue = [string retain];
 }
+
+- (NSData *)GNTPRepresentation
+{
+#define CRLF "\x0D\x0A"
+	if (self == [[self class] separatorHeaderItem])
+		return [AsyncSocket CRLFData];
+	else 
+		return [[NSString stringWithFormat:@"%@: %@" CRLF, headerName, headerValue] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@ %x: name=%@, value=%@>", NSStringFromClass([self class]), self, headerName, headerValue];

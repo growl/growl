@@ -12,6 +12,10 @@
 
 @class MD5Authenticator;
 
+@protocol GNTPOutgoingItem
+- (NSData *)GNTPRepresentation;
+@end
+
 @interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate> {
 	MD5Authenticator           *authenticator;
 	NSNetService               *service;
