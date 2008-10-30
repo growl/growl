@@ -8,6 +8,7 @@
 
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlApplicationController.h"
+#import "GrowlApplicationNotification.h"
 
 @implementation GrowlGNTPPacketParser
 
@@ -15,6 +16,15 @@
 {
 	if ((self = [super init])) {
 		currentNetworkPackets = [[NSMutableDictionary alloc] init];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(notificationClicked:)
+													 name:GROWL_NOTIFICATION_CLICKED
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(notificationTimedOut:)
+													 name:GROWL_NOTIFICATION_TIMED_OUT
+												   object:nil];		
 	}
 	
 	return self;
@@ -23,6 +33,8 @@
 - (void)dealloc
 {
 	[currentNetworkPackets release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	[super dealloc];
 }
 
@@ -42,11 +54,9 @@
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);
 			break;
 		case GrowlNotifyPacketType:
-			NSLog(@"Notifying %@", [packet growlDictionary]);
 			[[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:[packet growlDictionary]];
 			break;
 		case GrowlRegisterPacketType:
-			NSLog(@"Registering %@", [packet growlDictionary]);
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
 	}
@@ -56,5 +66,30 @@
 {
 	[currentNetworkPackets removeObjectForKey:[packet uuid]];
 }
+
+#pragma mark -
+
+- (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
+{
+	NSLog(@"%@ --> %@", [[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID],
+		  [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]]);
+}
+
+- (void)notificationClicked:(NSNotification *)notification
+{
+	GrowlApplicationNotification *growlNotification = [notification object];
+	
+	[self postGrowlNotificationClosed:growlNotification
+				 viaNotificationClick:[[[growlNotification dictionaryRepresentation] objectForKey:GROWL_CLICK_HANDLER_ENABLED] boolValue]];	
+}
+
+- (void)notificationTimedOut:(NSNotification *)notification
+{
+	GrowlApplicationNotification *growlNotification = [notification object];
+	
+	[self postGrowlNotificationClosed:growlNotification
+				 viaNotificationClick:NO];		
+}
+
 
 @end
