@@ -83,7 +83,8 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 													windowControllerClass:windowControllerClass];
 		
 		[thisBridge makeWindowControllers];
-		[self configureBridge:thisBridge];
+		[thisBridge setNotification:notification];
+
 		if (queue) {
 			if (bridge) {
 				//a notification is already up; enqueue the new one
@@ -105,12 +106,6 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 								   forKey:identifier];
 		}
 	}
-}
-
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	// Default implementation does nothing, allows subclasses to configure before display.
-#pragma unused(theBridge)
-	return;
 }
 
 - (NSString *) windowNibName {

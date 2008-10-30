@@ -124,12 +124,12 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 	CFStringRef growlNotificationClickedName = CFStringCreateWithFormat(
 		kCFAllocatorDefault,
 		/*formatOptions*/ NULL,
-		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_NOTIFICATION_CLICKED);
+		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX);
 
 	CFStringRef growlNotificationTimedOutName = CFStringCreateWithFormat(
 		kCFAllocatorDefault,
 		/*formatOptions*/ NULL,
-		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_NOTIFICATION_TIMED_OUT);
+		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX);
 
 	if (delegate) {
 		if (!registeredForClickCallbacks) {

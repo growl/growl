@@ -313,15 +313,26 @@
  *	 registration dictionary supplied by its delegate.
  */
 #define GROWL_IS_READY					XSTR("Lend Me Some Sugar; I Am Your Neighbor!")
-/*!	@defined GROWL_NOTIFICATION_CLICKED
- *	@abstract The distributed notification sent when a supported notification is clicked.
+
+
+/*!	@defined GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX
+ *	@abstract Part of the name of the distributed notification sent when a supported notification is clicked.
  *	@discussion When a Growl notification with a click context is clicked on by
- *	 the user, Growl posts this distributed notification.
- *	 The GrowlApplicationBridge responds to this notification by calling a
- *	 callback in its delegate.
+ *	 the user, Growl posts a distributed notification whose name is in the format:
+ *        [NSString stringWithFormat:@"%@-%d-%@", appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX]
+ *	 The GrowlApplicationBridge responds to this notification by calling a callback in its delegate.
  */
-#define GROWL_NOTIFICATION_CLICKED		XSTR("GrowlClicked!")
-#define GROWL_NOTIFICATION_TIMED_OUT	XSTR("GrowlTimedOut!")
+#define GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX		XSTR("GrowlClicked!")
+
+/*!	@defined GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX
+ *	@abstract Part of the name of the distributed notification sent when a supported notification times out without being clicked.
+ *	@discussion When a Growl notification with a click context times out, Growl posts a distributed notification
+ *	 whose name is in the format:
+ *		  [NSString stringWithFormat:@"%@-%d-%@", appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX]
+ *	 The GrowlApplicationBridge responds to this notification by calling a callback in its delegate.
+ *   NOTE: The user may have actually clicked the 'close' button; this triggers an *immediate* time-out of the notification.
+ */
+#define GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX		XSTR("GrowlTimedOut!")
 
 /*!	@group Other symbols */
 /* Symbols which don't fit into any of the other categories. */

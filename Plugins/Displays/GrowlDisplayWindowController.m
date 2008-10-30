@@ -117,7 +117,6 @@ static NSMutableDictionary *existingInstances;
 
 	[bridge				 release];
 	[target              release];
-	[clickContext        release];
 	[clickHandlerEnabled release];
 	[appName             release];
 	[appPid              release];
@@ -299,16 +298,8 @@ static NSMutableDictionary *existingInstances;
 
 - (void) didTakeDownNotification {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	if (clickContext) {
-		NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2U];
-		[userInfo setValue:clickContext forKey:GROWL_KEY_CLICKED_CONTEXT];
-		if (appPid)
-			[userInfo setValue:appPid forKey:GROWL_APP_PID];
-		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:appName userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
+	if (!didClick) {
+		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:[self notification] userInfo:nil];
 	}
 	[nc postNotificationName:GrowlDisplayWindowControllerDidTakeWindowDownNotification object:self];
 }
@@ -317,24 +308,16 @@ static NSMutableDictionary *existingInstances;
 
 - (void) notificationClicked:(id)sender {
 #pragma unused(sender)
-	if (clickContext) {
-		NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:3U];
-		[userInfo setValue:clickHandlerEnabled forKey:@"ClickHandlerEnabled"];
-		[userInfo setValue:clickContext forKey:GROWL_KEY_CLICKED_CONTEXT];
-		if (appPid)
-			[userInfo setValue:appPid forKey:GROWL_APP_PID];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:appName
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
-	}
-
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
 
+	if (!didClick) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+															object:[self notification]
+														  userInfo:nil];
+		didClick = YES;
+	}
+	
 	//Now that we've notified the clickContext and target, it's as if the user just clicked the close button
 	[self clickedClose];
 }
@@ -518,6 +501,11 @@ static NSMutableDictionary *existingInstances;
 		[notification release];
 		notification = [theNotification retain];
 	}
+	
+	NSDictionary *noteDict = [theNotification dictionaryRepresentation];
+
+	[self setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
 }
 
 - (void) updateToNotification:(GrowlApplicationNotification *)theNotification {
@@ -661,41 +649,8 @@ static NSMutableDictionary *existingInstances;
 
 #pragma mark -
 
-- (NSString *) notifyingApplicationName {
-	return appName;
-}
-
-- (void) setNotifyingApplicationName:(NSString *)inAppName {
-	if (inAppName != appName) {
-		[appName release];
-		appName = [inAppName copy];
-	}
-}
-
-#pragma mark -
-
-- (NSNumber *) notifyingApplicationProcessIdentifier {
-	return appPid;
-}
-
-- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *)inAppPid {
-	if (inAppPid != appPid) {
-		[appPid release];
-		appPid = [inAppPid retain];
-	}
-}
-
-#pragma mark -
-
 - (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	if (clickContext != inClickContext) {
-		[clickContext release];
-		clickContext = [inClickContext retain];
-	}
+	return [[[self notification] dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
 
 #pragma mark -

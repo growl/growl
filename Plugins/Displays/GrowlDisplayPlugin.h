@@ -38,19 +38,9 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
  *	@abstract	Display a notification to the user.
  *	@param	notification	The notification to display.
  *  @discussion Unless you have a specific reason to override this method you should not do so.
- *  All the magic should happen in <code>configureBridge:</code>
+ *  All the magic should happen in the window controller's <code>setNotification:</code>
  */
 - (void) displayNotification:(GrowlApplicationNotification *)notification;
-
-/*!	@method	configureBridge:
- *	@abstract	Configures the chosen bridge before a notificaion is displayed.
- *	@param	bridge	The bridge to configure.
- *  @discussion This is the place where the magic happens.  Override this method and do any
- *  specific configuration here.  This is the last port-of-call before a notification is displayed.
- *  The default implementation does nothing so it is important that you override and provide an
- *  implementation.
- */
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in

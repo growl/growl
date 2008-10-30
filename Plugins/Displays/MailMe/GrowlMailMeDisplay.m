@@ -58,18 +58,7 @@
 
 	[destAddress release];
 
-	id clickContext = [noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (clickContext) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[noteDict objectForKey:@"ClickHandlerEnabled"], @"ClickHandlerEnabled",
-			clickContext,                                   GROWL_KEY_CLICKED_CONTEXT,
-			[noteDict objectForKey:GROWL_APP_PID],          GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-															object:[notification applicationName]
-														  userInfo:userInfo];
-		[userInfo release];
-	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
 }
 
 - (BOOL) requiresPositioning {

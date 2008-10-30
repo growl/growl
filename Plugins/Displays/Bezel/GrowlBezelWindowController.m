@@ -117,6 +117,8 @@
 			[flipper setAutoReverses:YES];
 			[flipper release];
 		}
+		
+		[self setIgnoresOtherNotifications:YES];
 	}
 	[panel release];
 

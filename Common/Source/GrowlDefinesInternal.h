@@ -79,6 +79,16 @@
 */
 #define GROWL_TYPE_NOTIFICATION_NOAUTH	5
 
+/*! @defined GROWL_NOTIFICATION_CLICKED
+ *  @abstract Posted to the default notification center when the user clicks a notification
+ */
+#define GROWL_NOTIFICATION_CLICKED		@"GrowlNotificationClicked(Internal)"
+
+/*! @defined GROWL_NOTIFICATION_TIMED_OUT
+ *  @abstract Posted to the default notification center when a notification times out (or is closed via the close button)
+ */
+#define GROWL_NOTIFICATION_TIMED_OUT	@"GrowlNotificationTimedOut(Internal)"
+
 #define ATTRIBUTE_PACKED __attribute((packed))
 
 /*!	@struct	GrowlNetworkPacket
@@ -217,6 +227,11 @@ struct GrowlNetworkNotification {
  *	 ~/Library/Application\ Support/Growl/Screenshots.
  */
 #define GROWL_SCREENSHOT_MODE			XSTR("ScreenshotMode")
+
+/*!	@defined	GROWL_CLICK_HANDLER_ENABLED
+ *	@abstract	An NSNumber boolean indicating whether click notifications should be sent to the originating application
+ */
+#define GROWL_CLICK_HANDLER_ENABLED		XSTR("ClickHandlerEnabled")
 
 /*!	@defined	GROWL_APP_LOCATION
  *	@abstract	The location of this application.

@@ -13,6 +13,4 @@
 @interface GrowlMusicVideoDisplay : GrowlDisplayPlugin {
 }
 
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
-
 @end

@@ -150,11 +150,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	/* Watch for notification clicks if our delegate responds to the
 	 * growlNotificationWasClicked: selector. Notifications will come in on a
 	 * unique notification name based on our app name, pid and
-	 * GROWL_NOTIFICATION_CLICKED.
+	 * GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX.
 	 */
 	int pid = [[NSProcessInfo processInfo] processIdentifier];
 	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
-		appName, pid, GROWL_NOTIFICATION_CLICKED];
+		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
 	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
@@ -167,7 +167,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	[growlNotificationClickedName release];
 
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
-		appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
+		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
 	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)

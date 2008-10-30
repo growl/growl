@@ -15,6 +15,4 @@
 @interface GrowlNanoDisplay : GrowlDisplayPlugin {
 }
 
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
-
 @end

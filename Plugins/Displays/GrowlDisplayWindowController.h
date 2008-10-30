@@ -30,7 +30,7 @@ typedef enum {
 
 	SEL					             action;
 	id					             target;
-	id					             clickContext;
+	BOOL							 didClick;
 	NSNumber			             *clickHandlerEnabled;
 	NSString			             *appName;
 	NSNumber			             *appPid;
@@ -137,14 +137,7 @@ typedef enum {
 - (SEL) action;
 - (void) setAction:(SEL)selector;
 
-- (NSString *) notifyingApplicationName;
-- (void) setNotifyingApplicationName:(NSString *)inAppName;
-
-- (NSNumber *) notifyingApplicationProcessIdentifier;
-- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *)inAppPid;
-
 - (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 
 - (void) notificationClicked:(id) sender;
 

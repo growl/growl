@@ -12,6 +12,4 @@
 @interface GrowlSmokeDisplay : GrowlDisplayPlugin {
 }
 
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
-
 @end
