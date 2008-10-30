@@ -1,5 +1,5 @@
 //
-//  GrowlNotificationNetworkPacket.h
+//  GrowlNotificationGNTPPacket.h
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlNetworkPacket.h"
+#import "GrowlGNTPPacket.h"
 
 typedef enum {
 	CallbackURLTargetUnknownMethod = 0,
@@ -15,18 +15,12 @@ typedef enum {
 	CallbackURLTargetGetMethod
 } CallbackURLTargetMethod;
 
-@interface GrowlNotificationNetworkPacket : GrowlNetworkPacket {
-	NSString *applicationName;
-	NSString *notificationName;
-	NSString *title;
-	NSString *notificationIdentifier;
-	NSString *text;
-	BOOL sticky;
+@interface GrowlNotificationGNTPPacket : GrowlGNTPPacket {	
+	NSMutableDictionary *notificationDict;
 
 	NSString *iconID;
 	NSURL    *iconURL;
 	
-	NSString *callbackContext;
 	NSURL	 *callbackTarget;
 	CallbackURLTargetMethod callbackTargetMethod;
 }

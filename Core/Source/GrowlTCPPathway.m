@@ -8,6 +8,7 @@
 
 #import "GrowlTCPPathway.h"
 #import "GrowlTCPServer.h"
+#import "GrowlGNTPPacketParser.h"
 
 #include <SystemConfiguration/SystemConfiguration.h>
 
@@ -15,8 +16,33 @@
 
 @implementation GrowlTCPPathway
 
+- (id)init
+{
+	if ((self = [super init])) {
+		networkPacketParser = [[GrowlGNTPPacketParser alloc] init];
+		
+		/* We always want the TCP server to be running to allow localhost connections.
+		 * We'll ultimately ignore connections from outside localhost if networking is not enabled.
+		 */
+		tcpServer = [[GrowlTCPServer alloc] init];
+
+		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
+		[tcpServer setType:@"_gntp._tcp."];
+		[tcpServer setPort:9999 /*GROWL_TCP_PORT*/];
+		[tcpServer setDelegate:self];
+		
+		NSError *error = nil;
+		if (![tcpServer start:&error])
+			NSLog(@"Error starting Growl TCP server: %@", error);
+		[[tcpServer netService] setDelegate:self];
+	}
+		
+	return self;
+}
+
+
 - (BOOL) setEnabled:(BOOL)flag {
-	if (enabled != flag) {
+	if ([self isEnabled] != flag) {
 		if (flag) {
 			authenticator = [[MD5Authenticator alloc] init];
 
@@ -42,25 +68,11 @@
 			}
 
 			NSString *thisHostName = [[NSProcessInfo processInfo] hostName];
-            if ([thisHostName hasSuffix:@".local"]) {
-                thisHostName = [thisHostName substringToIndex:([thisHostName length] - 6)];
-            }
+            if ([thisHostName hasSuffix:@".local"])
+                thisHostName = [thisHostName substringToIndex:([thisHostName length] - [@".local" length])];
 
 			service = [[NSNetService alloc] initWithDomain:@"" type:@"_growl._tcp." name:thisHostName port:GROWL_TCP_DO_PORT];
 			[service publish];
-
-			tcpServer = [[GrowlTCPServer alloc] init];
-			/* GrowlTCPServer will use our host name by default for publishing, which
-			 * is what we want */
-			[tcpServer setType:@"_growl_protocol._tcp."];
-			[tcpServer setPort:GROWL_TCP_PORT];
-			[tcpServer setName:thisHostName];
-			[tcpServer setDelegate:self];
-			
-			NSError *error = nil;
-			if (![tcpServer start:&error])
-				NSLog(@"Error starting Growl TCP server: %@", error);
-			[[tcpServer netService] setDelegate:self];
 
 		} else {
 			[remoteDistributedObjectConnection registerName:nil];	// unregister
@@ -79,10 +91,35 @@
 			
 			[authenticator release];
 		}
-
-		return [super setEnabled:flag];
 	}
-	return YES;
+
+	return [super setEnabled:flag];
+}
+
+- (void)dealloc
+{
+	[remoteDistributedObjectConnection registerName:nil];	// unregister
+	[remoteDistributedObjectConnection invalidate];
+	[remoteDistributedObjectConnection release];
+	
+	[localDistributedObjectConnection registerName:nil];	// unregister
+	[localDistributedObjectConnection invalidate];
+	[localDistributedObjectConnection release];
+	
+	[socketPort invalidate];
+	[socketPort release];
+	
+	[service stop];
+	[service release];
+	
+	[authenticator release];
+	
+	[tcpServer stop];
+	[tcpServer release];
+	
+	[networkPacketParser release];
+	
+	[super dealloc];
 }
 
 #pragma mark -
@@ -109,8 +146,12 @@
  
 #pragma mark -
 
+/*!
+ * @brief The TCP server accepted a new socket. Pass it to the network packet parser.
+ */
 - (void)didAcceptNewSocket:(AsyncSocket *)sock
 {
+	NSLog(@"%@: Telling %@ we accepted", self, networkPacketParser);
 	[networkPacketParser didAcceptNewSocket:sock];
 }
 

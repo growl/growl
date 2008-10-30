@@ -1764,16 +1764,12 @@ Failed:;
 {
 	// If data is available on the stream, but there is no read request, then we don't need to process the data yet.
 	// Also, if there is a read request, but no read stream setup yet, we can't process any data yet.
-	NSLog(@"Current read: %@", theCurrentRead);
-	NSLog(@"read stream: %p", theReadStream);
 	if(theCurrentRead != nil && theReadStream != NULL)
 	{
 		CFIndex totalBytesRead = 0;
 		BOOL error = NO, done = NO;
 		while(!done && !error && CFReadStreamHasBytesAvailable(theReadStream))
 		{
-			NSLog(@"Reading...");
-			
 			// If reading all available data, make sure there's room in the packet buffer.
 			if(theCurrentRead->readAllAvailableData == YES)
 				[theCurrentRead->buffer increaseLengthBy:READALL_CHUNKSIZE];
@@ -1784,11 +1780,9 @@ Failed:;
 			
 			// Number of bytes to read is space left in packet buffer.
 			CFIndex bytesToRead = [theCurrentRead->buffer length] - theCurrentRead->bytesDone;
-			NSLog(@"%i to read", bytesToRead);
 			// Read data into packet buffer
 			UInt8 *packetbuf = (UInt8 *)( [theCurrentRead->buffer mutableBytes] + theCurrentRead->bytesDone );
 			CFIndex bytesRead = CFReadStreamRead(theReadStream, packetbuf, bytesToRead);
-			NSLog(@"Read %i bytes", bytesRead);
 			// Check results
 			if(bytesRead < 0)
 			{
@@ -1814,7 +1808,6 @@ Failed:;
 					{
 						const void *buf = [theCurrentRead->buffer bytes] + (theCurrentRead->bytesDone - termlen);
 						const void *seq = [theCurrentRead->term bytes];
-						NSLog(@"Looking for %@ in %i", theCurrentRead->term, [theCurrentRead->buffer length]);
 						done = (memcmp (buf, seq, termlen) == 0);
 					}
 				}
@@ -1949,7 +1942,6 @@ Failed:;
 			UInt8 *writestart = (UInt8 *)((const char *)[theCurrentWrite->buffer bytes] + theCurrentWrite->bytesDone);
 
 			// Write.
-			NSLog(@"Writing %i bytes; %i remaining", bytesToWrite, bytesRemaining);
 			CFIndex bytesWritten = CFWriteStreamWrite (theWriteStream, writestart, bytesToWrite);
 
 			// Check results.
@@ -2043,14 +2035,12 @@ Failed:;
 	{
 		case kCFSocketConnectCallBack:
 			// The data argument is either NULL or a pointer to an SInt32 error code, if the connect failed.
-			NSLog(@"Socket connected %p (%@)", pData, self);
 			if(pData)
 				[self doSocketOpen:sock withCFSocketError:kCFSocketError];
 			else
 				[self doSocketOpen:sock withCFSocketError:kCFSocketSuccess];
 			break;
 		case kCFSocketAcceptCallBack:
-			NSLog(@"Socket accepted (%@)", self);
 			[self doAcceptWithSocket: *((CFSocketNativeHandle *)pData)];
 			break;
 		default:
@@ -2063,8 +2053,6 @@ Failed:;
 {
 	NSParameterAssert(theReadStream != NULL);
 	
-	NSLog(@"read callback: %i", type);
-
 	CFStreamError err;
 	switch (type)
 	{
@@ -2088,8 +2076,6 @@ Failed:;
 {
 	NSParameterAssert(theWriteStream != NULL);
 	
-	NSLog(@"write callback: %i", type);
-
 	CFStreamError err;
 	switch (type)
 	{

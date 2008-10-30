@@ -1,6 +1,10 @@
 #import "GrowlTCPServer.h"
 #import "AsyncSocket.h"
 
+/*!
+ * @class GrowlTCPServer
+ * @brief Class to manage establishing a listening socket and advertising it
+ */
 @implementation GrowlTCPServer
 
 - (id)init {
@@ -131,6 +135,19 @@ static NSRunLoop *serverLoop = nil;
 
 #pragma mark -
 
+/*!
+ * @brief Our listening socket accepted a new socket. Pass it to our delegate (GrowlTCPPathway) for handling
+ *
+ * This is the only place GrowlTCPServer interacts with the incoming socket; GrowlTCPPathway will take it from here.
+ */
+- (void) onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
+{
+	NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
+	[[self delegate] didAcceptNewSocket:newSocket];
+}
+
+#if 0
+/* Old debug code below here; remove me later */
 - (void)readFromSocket:(AsyncSocket *)socket
 {
 	/*
@@ -148,11 +165,7 @@ static NSRunLoop *serverLoop = nil;
 	return serverLoop;
 }
  */
- - (void) onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
-{
-	NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
-	[[self delegate] didAcceptNewSocket:newSocket];
-}
+
 
 /**
  * Called when a socket connects and is ready for reading and writing.
@@ -202,6 +215,7 @@ static NSRunLoop *serverLoop = nil;
 	else
 		NSLog (@"Socket will disconnect. No error. unread: %@", [sock unreadData]);
 }
+#endif
 
 @end
 

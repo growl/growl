@@ -1,58 +1,62 @@
 //
-//  GrowlNetworkPacket.m
+//  GrowlGNTPPacket.m
 //  Growl
 //
 //  Created by Evan Schoenberg on 9/6/08.
 //  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
 //
 
-#import "GrowlNetworkPacket.h"
-#import "GrowlNotificationNetworkPacket.h"
-#import "GrowlRegisterNetworkPacket.h"
+#import "GrowlGNTPPacket.h"
+#import "GrowlNotificationGNTPPacket.h"
+#import "GrowlRegisterGNTPPacket.h"
+#import "NSStringAdditions.h"
+#import "GrowlGNTPHeaderItem.h"
 
-typedef enum {
-	GrowlProtocolIdentifierRead,
-	GrowlHeaderRead,
-	GrowlBinaryHeaderRead,
-	GrowlBinaryDataRead
-} NetworkReadingType;
 
-typedef enum {
-	GrowlReadDirective_SectionComplete, /* This section (headers, binary chunks) is complete */
-	GrowlReadDirective_Continue, /* This section (headers, binary chunks) should continue reading */
-	GrowlReadDirective_PacketComplete, /* We now have everything we need for this packet; stop reading */
-	GrowlReadDirective_Error /* An error occurred; stop reading */
-} GrowlReadDirective;
+#define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
 
-@implementation GrowlNetworkPacket
+@interface GrowlGNTPPacket ()
+- (id)initForSocket:(AsyncSocket *)inSocket;
+- (void)setAction:(NSString *)inAction;
+- (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
+- (void)readNextHeader;
+@end
 
-+ (GrowlNetworkPacket *)networkPacketForSocket:(AsyncSocket *)inSocket
+@implementation GrowlGNTPPacket
+
++ (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket
 {
 	return [[[self alloc] initForSocket:inSocket] autorelease];
 }
 
 /*!
- * @brief Used by GrowlNetworkPacket to get a GrowlNetworkPacket subclass for further processing
+ * @brief Used by GrowlGNTPPacket to get a GrowlGNTPPacket subclass for further processing
  */
-+ (GrowlNetworkPacket *)specificNetworkPacketForPacket:(GrowlNetworkPacket *)packet
++ (GrowlGNTPPacket *)specificNetworkPacketForPacket:(GrowlGNTPPacket *)packet
 {
 	/* Note that specificPacket takes ownership of the socket, setting the socket's delegate to itself */
-	GrowlNetworkPacket *specificPacket = [[[self alloc] initForSocket:[packet socket]] autorelease];
+	GrowlGNTPPacket *specificPacket = [[[self alloc] initForSocket:[packet socket]] autorelease];
 	[specificPacket setDelegate:packet];
-	[specificPacket setAction:action];
-	[specificPacket setEncryptionAlgorithm:encryptionAlgorithm];
+	[specificPacket setAction:[packet action]];
+	[specificPacket setEncryptionAlgorithm:[packet encryptionAlgorithm]];
 
 	return specificPacket;
 }
 
 - (id)initForSocket:(AsyncSocket *)inSocket
 {
-	if ((self = [super init])) {
+	if ((self = [self init])) {
 		socket = [inSocket retain];
 		[socket setDelegate:self];
+		
+		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
+		
+		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+		uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		CFRelease(uuidRef);
 	}
 	
-	retrun self;
+	return self;
 }
 
 - (void)dealloc
@@ -61,13 +65,39 @@ typedef enum {
 	[specificPacket release];
 	[action release];
 	[encryptionAlgorithm release];
+	[binaryDataByIdentifier release];
+	[uuid release];
 
 	[super dealloc];
 }
 
-- (void)setDelegate:(id)inDelegate
+- (AsyncSocket *)socket
 {
-	delagate = inDelegate;
+	return socket;
+}
+
+- (NSString *)uuid
+{
+	return uuid;
+}
+
+- (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
+{
+	delegate = inDelegate;
+}
+- (id <GrowlGNTPPacketDelegate>)delegate
+{
+	return delegate;
+}
+
+- (GrowlPacketType)packetType
+{
+	if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame)
+		return GrowlNotifyPacketType;
+	else if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame)
+		return GrowlRegisterPacketType;
+	else 
+		return GrowlUnknownPacketType;
 }
 
 - (NSString *)action
@@ -97,6 +127,7 @@ typedef enum {
 
 - (void)beginProcessing
 {
+	NSLog(@"Reading to %@", [AsyncSocket CRLFData]);
 	[socket readDataToData:[AsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlProtocolIdentifierRead];
@@ -112,7 +143,7 @@ typedef enum {
  * where GNTP is the name of the protocol and:
  * 
  * <version> is the version number. currently, the only supported version is '1.0'.
- * <action> identifies the type of message. see below for supported values
+ * <action> identifies the type of message; supported values are NOTIFY and REGISTER
  * <encryptionAlgorithmID> identifies the type of encryption used on the message. see below for supported values
  * <passwordHashAlgorithmID> identifies the type of hashing algorithm used. see below for supported values
  * <passwordHash> is hex-encoded hash of the password
@@ -136,25 +167,25 @@ typedef enum {
 		encryptionAlgorithm = [[items objectAtIndex:2] retain];
 
 		if ([items count] > 3) {
-			NSString *passwordInfo = [items objecAtIndex:3];
-			NSLog(@"Unusued password info %@", passwordInfo);
+			NSString *passwordInfo = [items objectAtIndex:3];
+			NSLog(@"Unusued password info...");
 		}
 		
 		return YES;
 	}
-	
+	NSLog(@"Items were %@; action is %@", items, action);
 	return NO;
 }
 
 - (void)configureToParsePacket
 {
 	if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame) {
-		specificPacket = [[GrowlRegisterNetworkPacket specificNetworkPacketForPacket:self] retain];
+		specificPacket = [[GrowlRegisterGNTPPacket specificNetworkPacketForPacket:self] retain];
 		
 	} else if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
-		specificPacket = [[GrowlNotificationNetworkPacket specificNetworkPacketForPacket:self] retain];
+		specificPacket = [[GrowlNotificationGNTPPacket specificNetworkPacketForPacket:self] retain];
 	}
-	
+	NSLog(@"Reading next header using %@", specificPacket);
 	//Get the specific packet started; it'll take it from there
 	[specificPacket readNextHeader];	
 }
@@ -171,12 +202,13 @@ typedef enum {
 /*!
  * @brief Act on a received header item
  *
- * Called by parseHeader, this is abstract in GrowlNetworkPacket and should be implemented in its subclasses
+ * Called by parseHeader, this is abstract in GrowlGNTPPacket and should be implemented in its subclasses
  * to perform the actual work of handling the passed headerItem
  */
-- (GrowlReadDirective)receivedHeaderItem:(GrowlNetworkHeaderItem *)headerItem
+- (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
-	NSLog(@"Header %@; value %@", headerName, headerValue);
+	NSLog(@"Received %@ in abstract superclass", headerItem);
+	return GrowlReadDirective_Error;
 }
 
 /*!
@@ -187,12 +219,13 @@ typedef enum {
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
 	NSError *error;
-	GrowlNetworkHeaderItem *headerItem = [GrowlNetworkHeaderItem headerItemFromData:inData error:&error];
+	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&error];
 	if (headerItem) {
 		return [self receivedHeaderItem:headerItem];
 	
 	} else {
 		NSLog(@"Error is %@", error);
+		return GrowlReadDirective_Error;
 	}
 }
 
@@ -206,7 +239,7 @@ typedef enum {
 					  forKey:name];
 }
 
-#pragma mark Binary data
+#pragma mark Binary Headers
 - (void)readNextHeaderOfBinaryChunk
 {
 	NSLog(@"Read next binary chunk");
@@ -215,25 +248,45 @@ typedef enum {
 					   tag:GrowlBinaryHeaderRead];	
 }
 
-- (void)readBinaryChunk
+- (void)setCurrentBinaryIdentifier:(NSString *)string
 {
-	[socket readDataToData:[AsyncSocket CRLFData]
-			   withTimeout:-1
-					   tag:GrowlBinaryDataRead];	
-}	
+	[currentBinaryIdentifier autorelease];
+	currentBinaryIdentifier = [string retain];
+}
 
-- (GrowlReadDirective)receivedBinaryHeaderItem:(GrowlNetworkHeaderItem *)headerItem
+- (void)setCurrentBinaryLength:(unsigned long)inLength
 {
+	currentBinaryLength = inLength;
+}
+
+- (GrowlReadDirective)receivedBinaryHeaderItem:(GrowlGNTPHeaderItem *)headerItem
+{
+	NSLog(@"receivedBinaryHeaderItem %@", headerItem);
 	NSString *name = [headerItem headerName];
 	NSString *value = [headerItem headerValue];
 	
-	if (headerItem == [GrowlNetworkHeaderItem separatorHeaderItem]) {
-		return GrowlReadDirective_SectionComplete;
+	if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
+		if (currentBinaryIdentifier && currentBinaryLength) {
+			return GrowlReadDirective_SectionComplete;
+		} else {
+			NSLog(@"Error: Need both identifier (%@) and length (%d)", currentBinaryIdentifier, currentBinaryLength);
+			return GrowlReadDirective_Error;
+		}
+
 	} 
-	
-	
+
+	if ([name caseInsensitiveCompare:@"Identifier"] == NSOrderedSame) {
+		[self setCurrentBinaryIdentifier:value];
+		return GrowlReadDirective_Continue;
 		
-	NSLog(@"Header %@; value %@", headerName, headerValue);
+	} else if ([name caseInsensitiveCompare:@"Length"] == NSOrderedSame) {
+		[self setCurrentBinaryLength:[value unsignedLongValue]];
+		return GrowlReadDirective_Continue;
+
+	} else {
+		NSLog(@"Unknown binary header %@; value %@", name, value);	
+		return GrowlReadDirective_Error;
+	}
 }
 
 /*!
@@ -244,25 +297,61 @@ typedef enum {
 - (GrowlReadDirective)parseBinaryHeader:(NSData *)inData
 {
 	NSError *error;
-	GrowlNetworkHeaderItem *headerItem = [GrowlNetworkHeaderItem headerItemFromData:inData error:&error];
+	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&error];
 	if (headerItem) {
 		return [self receivedBinaryHeaderItem:headerItem];
 		
 	} else {
 		NSLog(@"Error is %@", error);
+		return GrowlReadDirective_Error;
 	}
 }
 
+#pragma mark Binary data
+
+- (void)readBinaryChunk
+{
+	NSLog(@"start binary chunk");
+	[socket readDataToLength:currentBinaryLength
+				 withTimeout:-1
+						 tag:GrowlBinaryDataRead];	
+}
+
+/*!
+ * @brief We received complete binary data
+ *
+ * Note that it was enforced before we began receiving this data that currentBinaryIdentifier is non-nil
+ *
+ * @result GrowlReadDirective_SectionComplete if we have more binary data chunks to read; GrowlReadDirective_PacketComplete if this was the last one and we are done.
+ */
+- (GrowlReadDirective)parseBinaryData:(NSData *)inData
+{
+	[binaryDataByIdentifier setObject:inData
+							   forKey:currentBinaryIdentifier];
+	[pendingBinaryIdentifiers removeObject:currentBinaryIdentifier];
+
+	return ([pendingBinaryIdentifiers count] ? GrowlReadDirective_SectionComplete : GrowlReadDirective_PacketComplete);
+}
+	
 #pragma mark Complete
 - (void)networkPacketReadComplete
 {
 	NSLog(@"Read complete");
+	[[self delegate] packetDidFinishReading:self];
 }
 
 #pragma mark Error
 - (void)errorOccurred
 {
 	NSLog(@"Error occurred");
+}
+
+#pragma mark Dictionary Representation
+- (NSDictionary *)growlDictionary
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			[self uuid], GROWL_NETWORK_PACKET_UUID,
+			nil];
 }
 
 #pragma mark Incoming network processing
@@ -273,6 +362,9 @@ typedef enum {
  **/
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
 {
+	NSLog(@"Did connect to %@", inHost);
+	/* XXX Check (enabled || localhost) */
+	/* XXX Note originating host? */
 	[self beginProcessing];
 }
 
@@ -345,24 +437,49 @@ typedef enum {
 
 - (void)onSocket:(AsyncSocket *)sock didReadPartialDataOfLength:(CFIndex)partialLength tag:(long)tag
 {
-	NSLog(@"didReadPartialDataOfLength: %@ Read %i: tag %i", sock, partialLength, tag);
+	NSLog(@"%@: didReadPartialDataOfLength: %@ Read %i: tag %i",self, sock, partialLength, tag);
 }
 
 /*
- This will be called whenever AsyncSocket is about to disconnect. In Echo Server,
- it does not do anything other than report what went wrong (this delegate method
- is the only place to get that information), but in a more serious app, this is
+ This will be called whenever AsyncSocket is about to disconnect. Tthis is
  a good place to do disaster-recovery by getting partially-read data. This is
  not, however, a good place to do cleanup. The socket must still exist when this
  method returns.
  */
 -(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
-	if (err != nil)
+	if (err != nil) {
 		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
 			   sock,
 			   [err domain], [err code], [err localizedDescription]);
-	else
+		[self errorOccurred];
+	} else
 		NSLog (@"Socket will disconnect. No error. unread: %@", [sock unreadData]);
+	
+	[[self delegate] packetDidDisconnect:self];
 }
+
+#pragma mark GrowlGNTPPacketDelegate
+/*!
+ * @brief Called by our specific packet; we'll pas it on to our delegate
+ *
+ * Note that we pass on the specific packet, as it has all the needed data, not self.
+ */
+- (void)packetDidFinishReading:(GrowlGNTPPacket *)packet
+{
+	[[self delegate] packetDidFinishReading:packet];
+}
+
+- (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
+{
+	[[self delegate] packetDidDisconnect:packet];	
+}
+
+#pragma mark -
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, [self growlDictionary]];
+}
+
 @end

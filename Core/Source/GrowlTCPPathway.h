@@ -7,6 +7,7 @@
 //
 
 #import "GrowlRemotePathway.h"
+#import "GrowlGNTPPacketParser.h"
 
 @class MD5Authenticator;
 
@@ -20,6 +21,8 @@
 	NSConnection               *localDistributedObjectConnection;
 	
 	GrowlTCPServer				*tcpServer;
+	
+	GrowlGNTPPacketParser	*networkPacketParser;
 }
 
 @end

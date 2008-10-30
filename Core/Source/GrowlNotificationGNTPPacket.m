@@ -1,77 +1,95 @@
 //
-//  GrowlNotificationNetworkPacket.m
+//  GrowlNotificationGNTPPacket.m
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
 //  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
 //
 
-#import "GrowlNotificationNetworkPacket.h"
+#import "GrowlNotificationGNTPPacket.h"
+#import "GrowlGNTPHeaderItem.h"
+#import "GrowlDefines.h"
 
-@implementation GrowlNotificationNetworkPacket
+@implementation GrowlNotificationGNTPPacket
+
+- (id)init
+{
+	if ((self = [super init])) {
+		notificationDict = [[NSMutableDictionary alloc] init];
+	} 
+	return self;
+}
+- (void)dealloc
+{
+	[notificationDict release]; notificationDict = nil;
+	[super dealloc];
+}
+
 - (NSString *)applicationName
 {
-	return applicationName;
+	return [notificationDict objectForKey:GROWL_APP_NAME];
 }
 - (void)setApplicationName:(NSString *)string
 {
-	[applicationName autorelease];
-	applicationName = [string retain];
+	[notificationDict setValue:string forKey:GROWL_APP_NAME];
 }
 
 - (NSString *)notificationName
 {
-	return notificationName;
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_NAME];
 }
 - (void)setNotificationName:(NSString *)string
 {
-	[notificationName autorelease];
-	notificationName = [string retain];
+	[notificationDict setObject:string
+						 forKey:GROWL_NOTIFICATION_NAME];
 }
 
 - (NSString *)title
 {
-	return title;
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_TITLE];
 }
 - (void)setTitle:(NSString *)string
 {
-	[title autorelease];
-	title = [string retain];
+	[notificationDict setObject:string
+						 forKey:GROWL_NOTIFICATION_TITLE];
 }
 
 - (NSString *)identifier
 {
-	return identifier;
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 }
 - (void)setIdentifier:(NSString *)string
 {
-	[identifier autorelease];
-	identifier = [string retain];
+	[notificationDict setObject:string
+						 forKey:GROWL_NOTIFICATION_IDENTIFIER];
 }
 
 - (NSString *)text
 {
-	return text;
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 }
 - (void)setText:(NSString *)string
 {
-	[text autorelease];
-	text = [string retain];
+	[notificationDict setObject:string
+						 forKey:GROWL_NOTIFICATION_DESCRIPTION];
 }
 
 - (BOOL)sticky
 {
-	return sticky;
+	return [[notificationDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue];
 }
 - (void)setSticky:(BOOL)inSticky
 {
-	sticky = inSticky;
+	[notificationDict setObject:[NSNumber numberWithBool:inSticky]
+						 forKey:GROWL_NOTIFICATION_STICKY];
 }
+
 
 - (void)setIconID:(NSString *)string
 {
 	[iconID autorelease];
 	iconID = [string retain];
+	[pendingBinaryIdentifiers addObject:iconID];
 }
 - (void)setIconURL:(NSURL *)url
 {
@@ -82,15 +100,23 @@
 }
 - (NSImage *)icon
 {
-	/* XXX retrieve the icon */
-	return nil;
+	NSData *data = nil;
+	if (iconID) {
+		data = [binaryDataByIdentifier objectForKey:iconID];
+	} else if (iconURL) {
+		/* XXX Blocking */
+		data = [NSData dataWithContentsOfURL:iconURL];
+	}
+	
+	return (data ? [[[NSImage alloc] initWithData:data] autorelease] : nil);
 }
 
 - (void)setCallbackContext:(NSString *)value
 {
-	[callbackContext autorelease];
-	callBackContext = [value retain];
+	[notificationDict setObject:value
+						 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
+
 - (void)setCallbackTarget:(NSURL *)url
 {
 	[callbackTarget autorelease];
@@ -101,14 +127,17 @@
 	callbackTargetMethod = inMethod;
 }
 
-- (GrowlReadDirective)receivedHeaderItem:(GrowlNetworkHeaderItem *)headerItem
+- (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
 	NSString *name = [headerItem headerName];
 	NSString *value = [headerItem headerValue];
-	
-	if (headerItem == [GrowlNetworkHeaderItem separatorHeaderItem]) {
+
+	if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
 		/* A notification just has a single section; we're done */
-		return GrowlReadDirective_SectionComplete;
+		if (pendingBinaryIdentifiers.count > 0)
+			return GrowlReadDirective_SectionComplete;
+		else
+			return GrowlReadDirective_PacketComplete;
 	}
 
 	if (!name || !value) {
@@ -127,7 +156,9 @@
 	} else if ([name caseInsensitiveCompare:@"Notification-Text"] == NSOrderedSame) {
 		[self setText:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Sticky"] == NSOrderedSame) {
-		[self setSticky:[value caseInsensitiveCompare:@"yes"]];	
+		BOOL sticky = (([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame) ||
+						([value caseInsensitiveCompare:@"True"] == NSOrderedSame));
+		[self setSticky:sticky];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Icon"] == NSOrderedSame) {
 		if ([value hasPrefix:@"x-growl-resource://"]) {
 			/* Extract the resource ID from the value */
@@ -158,6 +189,23 @@
 	}
 	
 	return GrowlReadDirective_Continue;
+}
+
+/*!
+ * @brief Return a Growl registration dictionary
+ *
+ * Dictionary format as per the documentation for GrowlApplicationBridgeDelegate_InformalProtocol's registrationDictionary
+ * found in GrowlApplicationBridge.h.
+ */
+- (NSDictionary *)growlDictionary
+{
+	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
+	
+	[growlDictionary addEntriesFromDictionary:notificationDict];
+	[growlDictionary setValue:[self icon]
+					   forKey:GROWL_NOTIFICATION_ICON];
+	
+	return growlDictionary;
 }
 
 @end
