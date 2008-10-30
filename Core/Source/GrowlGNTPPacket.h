@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "AsyncSocket.h"
 
+#define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
+
 @class GrowlGNTPPacket;
 
 typedef enum {

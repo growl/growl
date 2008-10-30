@@ -12,14 +12,12 @@
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
 
-
-#define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
-
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
 - (void)setAction:(NSString *)inAction;
 - (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
 - (void)readNextHeader;
+- (void)setUUID:(NSString *)inUUID;
 @end
 
 @implementation GrowlGNTPPacket
@@ -39,6 +37,7 @@
 	[specificPacket setDelegate:packet];
 	[specificPacket setAction:[packet action]];
 	[specificPacket setEncryptionAlgorithm:[packet encryptionAlgorithm]];
+	[specificPacket setUUID:[packet uuid]];
 
 	return specificPacket;
 }
@@ -50,10 +49,6 @@
 		[socket setDelegate:self];
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
-		
-		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-		uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-		CFRelease(uuidRef);
 	}
 	
 	return self;
@@ -78,7 +73,17 @@
 
 - (NSString *)uuid
 {
+	if (!uuid) {
+		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+		uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		CFRelease(uuidRef);
+	}		
 	return uuid;
+}
+- (void)setUUID:(NSString *)inUUID
+{
+	[uuid autorelease];
+	uuid = [inUUID retain];
 }
 
 - (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
