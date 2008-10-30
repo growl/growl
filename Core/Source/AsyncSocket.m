@@ -152,7 +152,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		terminator:(NSData *)e
 	  bufferOffset:(CFIndex)b
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		buffer = [d retain];
 		timeout = t;
@@ -193,7 +193,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 - (id)initWithData:(NSData *)d timeout:(NSTimeInterval)t tag:(long)i;
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		buffer = [d retain];
 		timeout = t;
@@ -656,7 +656,7 @@ Failed:;
 	struct sockaddr *pSockAddr = (struct sockaddr *)[addr bytes];
 	int addressFamily = pSockAddr->sa_family;
 	
-	CFSocketRef socket = CFSocketCreate(kCFAllocatorDefault,
+	CFSocketRef aSocket = CFSocketCreate(kCFAllocatorDefault,
 										addressFamily,
 										SOCK_STREAM,
 										0,
@@ -664,12 +664,12 @@ Failed:;
 										(CFSocketCallBack)&MyCFSocketCallback,  // Callback method
 										&theContext);
 
-	if(socket == NULL)
+	if(aSocket == NULL)
 	{
 		if(errPtr) *errPtr = [self getSocketError];
 	}
 	
-	return socket;
+	return aSocket;
 }
 
 - (BOOL)createSocketForAddress:(NSData *)remoteAddr error:(NSError **)errPtr
@@ -1042,24 +1042,24 @@ Failed:;
 	CFDataGetBytes(nativeProp, CFRangeMake(0, CFDataGetLength(nativeProp)), (UInt8 *)&native);
 	CFRelease(nativeProp);
 	
-	CFSocketRef socket = CFSocketCreateWithNative(kCFAllocatorDefault, native, 0, NULL, NULL);
-	if(socket == NULL)
+	CFSocketRef aSocket = CFSocketCreateWithNative(kCFAllocatorDefault, native, 0, NULL, NULL);
+	if(aSocket == NULL)
 	{
 		if (errPtr) *errPtr = [self getSocketError];
 		return NO;
 	}
 	
 	// Determine whether the connection was IPv4 or IPv6
-	CFDataRef peeraddr = CFSocketCopyPeerAddress(socket);
+	CFDataRef peeraddr = CFSocketCopyPeerAddress(aSocket);
 	struct sockaddr *sa = (struct sockaddr *)CFDataGetBytePtr(peeraddr);
 	
 	if(sa->sa_family == AF_INET)
 	{
-		theSocket = socket;
+		theSocket = aSocket;
 	}
 	else
 	{
-		theSocket6 = socket;
+		theSocket6 = aSocket;
 	}
 	
 	CFRelease(peeraddr);
@@ -1420,13 +1420,13 @@ Failed:;
 		return [self localPort:theSocket6];
 }
 
-- (NSString *)connectedHost:(CFSocketRef)socket
+- (NSString *)connectedHost:(CFSocketRef)aSocket
 {
-	if (socket == NULL) return nil;
+	if (aSocket == NULL) return nil;
 	CFDataRef peeraddr;
 	NSString *peerstr = nil;
 
-	if(socket && (peeraddr = CFSocketCopyPeerAddress(socket)))
+	if(aSocket && (peeraddr = CFSocketCopyPeerAddress(aSocket)))
 	{
 		peerstr = [self addressHost:peeraddr];
 		CFRelease (peeraddr);
@@ -1435,13 +1435,13 @@ Failed:;
 	return peerstr;
 }
 
-- (UInt16)connectedPort:(CFSocketRef)socket
+- (UInt16)connectedPort:(CFSocketRef)aSocket
 {
-	if (socket == NULL) return 0;
+	if (aSocket == NULL) return 0;
 	CFDataRef peeraddr;
 	UInt16 peerport = 0;
 
-	if(socket && (peeraddr = CFSocketCopyPeerAddress(socket)))
+	if(socket && (peeraddr = CFSocketCopyPeerAddress(aSocket)))
 	{
 		peerport = [self addressPort:peeraddr];
 		CFRelease (peeraddr);
@@ -1450,13 +1450,13 @@ Failed:;
 	return peerport;
 }
 
-- (NSString *)localHost:(CFSocketRef)socket
+- (NSString *)localHost:(CFSocketRef)aSocket
 {
-	if (socket == NULL) return nil;
+	if (aSocket == NULL) return nil;
 	CFDataRef selfaddr;
 	NSString *selfstr = nil;
 
-	if(socket && (selfaddr = CFSocketCopyAddress(socket)))
+	if(socket && (selfaddr = CFSocketCopyAddress(aSocket)))
 	{
 		selfstr = [self addressHost:selfaddr];
 		CFRelease (selfaddr);
@@ -1465,13 +1465,13 @@ Failed:;
 	return selfstr;
 }
 
-- (UInt16)localPort:(CFSocketRef)socket
+- (UInt16)localPort:(CFSocketRef)aSocket
 {
-	if (socket == NULL) return 0;
+	if (aSocket == NULL) return 0;
 	CFDataRef selfaddr;
 	UInt16 selfport = 0;
 
-	if (socket && (selfaddr = CFSocketCopyAddress(socket)))
+	if (socket && (selfaddr = CFSocketCopyAddress(aSocket)))
 	{
 		selfport = [self addressPort:selfaddr];
 		CFRelease (selfaddr);
