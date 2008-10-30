@@ -12,12 +12,22 @@
 
 @interface GrowlGNTPHeaderItem (PRIVATE)
 - (id)initForData:(NSData *)inData error:(NSError **)outError;
+- (void)setHeaderName:(NSString *)string;
+- (void)setHeaderValue:(NSString *)string;
 @end
 
 @implementation GrowlGNTPHeaderItem
 + (GrowlGNTPHeaderItem *)headerItemFromData:(NSData *)inData error:(NSError **)outError
 {
 	return [[[self alloc] initForData:inData error:outError] autorelease];
+}
+
++ (GrowlGNTPHeaderItem *)headerItemWithName:(NSString *)name value:(NSString *)value
+{
+	GrowlGNTPHeaderItem *headerItem = [[[self alloc] init] autorelease];
+	[hedaerItem setHeaderName:name];
+	[headerItem setHeaderValue:value];
+	return headerItem;
 }
 
 + (GrowlGNTPHeaderItem *)separatorHeaderItem
@@ -31,8 +41,7 @@
 - (id)initForData:(NSData *)inData error:(NSError **)outError
 {
 	if ([inData isEqualToData:[AsyncSocket CRLFData]]) {
-		/* Blank line received; this separates one section from another */
-		/* GrowlReadDirective_SectionComplete vs. GrowlReadDirective_Continue */
+		/* Blank line received; this separates one section or block from another */
 		[self release];
 		return [[GrowlGNTPHeaderItem separatorHeaderItem] retain];
 	}
@@ -43,6 +52,7 @@
 		
 #define HEADER_DELIMITER @": "
 #define HEADER_DELIMITER_LENGTH 2
+#define CRLF_LENGTH 2
 		
 		int endOfHeaderName = [headerLine rangeOfString:HEADER_DELIMITER options:NSLiteralSearch].location;
 		if (endOfHeaderName == NSNotFound) {
@@ -56,10 +66,9 @@
 			return nil;
 		}
 		
-		headerName = [[headerLine substringToIndex:endOfHeaderName] retain];
-		/* XXX .... is that right? -1 is for the CRLF at the end */
-		headerValue = [[headerLine substringWithRange:NSMakeRange(endOfHeaderName + HEADER_DELIMITER_LENGTH,
-																  [headerLine length] - endOfHeaderName - HEADER_DELIMITER_LENGTH - 2)] retain];
+		[self setHeaderName:[headerLine substringToIndex:endOfHeaderName]];
+		[self setHeaderValue:[headerLine substringWithRange:NSMakeRange(endOfHeaderName + HEADER_DELIMITER_LENGTH,
+																		[headerLine length] - endOfHeaderName - HEADER_DELIMITER_LENGTH - CRLF_LENGTH)]];
 	}
 
 	return self;
@@ -76,12 +85,20 @@
 {
 	return headerName;	
 }
-
+- (void)setHeaderName:(NSString *)string
+{
+	[headerName autorelease];
+	headerName = [string retain];
+}
 - (NSString *)headerValue
 {
 	return headerValue;
 }
-
+- (void)setHeaderValue:(NSString *)string
+{
+	[headerValue autorelease];
+	headerValue = [string retain];
+}
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@ %x: name=%@, value=%@>", NSStringFromClass([self class]), self, headerName, headerValue];

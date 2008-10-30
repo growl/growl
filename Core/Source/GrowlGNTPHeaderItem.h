@@ -23,6 +23,12 @@
 + (GrowlGNTPHeaderItem *)headerItemFromData:(NSData *)inData error:(NSError **)outError;
 
 /*!
+ * @brief Create a GrowlGNTPHeaderItem from name/value
+ */
++ (GrowlGNTPHeaderItem *)headerItemWithName:(NSString *)name value:(NSString *)value;
+
+
+/*!
  * @brief A singleton used to indicate a separator header item
  *
  * A separator header item contained a single CRLF and no other data.
