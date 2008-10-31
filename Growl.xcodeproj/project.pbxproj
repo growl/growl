@@ -3986,6 +3986,7 @@
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
