@@ -116,8 +116,6 @@
 	NSString *name = [headerItem headerName];
 	NSString *value = [headerItem headerValue];
 
-	NSLog(@"Looking at %@", headerItem);
-
 	switch (currentStep) {
 		case GrowlRegisterStepRegistrationHeader:
 		{
@@ -167,7 +165,6 @@
 					[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
-					NSLog(@"Notifications are now %@; I'm looking for %i", notifications, numberOfNotifications);
 					if ([notifications count] == numberOfNotifications) {
 						directive = GrowlReadDirective_SectionComplete;
 					} else {
@@ -226,7 +223,6 @@
 {
 	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
 	
-	NSLog(@"Adding from %@", registrationDict);
 	[growlDictionary addEntriesFromDictionary:registrationDict];
 	[growlDictionary setValue:[self applicationIcon]
 					   forKey:GROWL_APP_ICON];
