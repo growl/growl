@@ -130,13 +130,57 @@
 
 #pragma mark Protocol identifier
 
-- (void)beginProcessing
+- (void)beginProcessingProtocolIdentifier
 {
-	NSLog(@"Reading to %@", [AsyncSocket CRLFData]);
+	[socket readDataToLength:4
+			   withTimeout:-1
+					   tag:GrowlInitialBytesIdentifierRead];
+}
+
+- (void)finishProcessingProtocolIdentifier
+{
 	[socket readDataToData:[AsyncSocket CRLFData]
 			   withTimeout:-1
-					   tag:GrowlProtocolIdentifierRead];
+					   tag:GrowlProtocolIdentifierRead];	
 }
+
+- (GrowlInitialReadResult)parseInitialBytes:(NSData *)data
+{
+	NSString *firstFourOfIdentifierLine = [[[NSString alloc] initWithData:data
+																  encoding:NSUTF8StringEncoding] autorelease];
+	if ([firstFourOfIdentifierLine caseInsensitiveCompare:@"GNTP"] == NSOrderedSame) {
+		return GrowlInitialReadResult_GNTPPacket;
+	} else if ([firstFourOfIdentifierLine caseInsensitiveCompare:@"<pol"] == NSOrderedSame) {
+		return GrowlInitialReadResult_FlashPolicyPacket;
+	} else {
+		NSLog(@"Didn't know what to do with %@", firstFourOfIdentifierLine);
+		return GrowlInitialReadResult_UnknownPacket;
+	}
+}
+
+- (void)finishReadingFlashPolicyRequest
+{
+	[socket readDataToData:[@"\0" dataUsingEncoding:NSUTF8StringEncoding]
+			   withTimeout:-1
+					   tag:GrowlFlashPolicyRequestRead];
+}
+
+- (void)respondToFlashPolicyRequest
+{
+	NSData *responseData = [@"<?xml version=\"1.0\"?>"
+							"<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">"
+							"<cross-domain-policy> "
+							"<site-control permitted-cross-domain-policies=\"master-only\"/>"
+							"<allow-access-from domain=\"*\" to-ports=\"*\" />"
+							"</cross-domain-policy>\0" dataUsingEncoding:NSUTF8StringEncoding];
+	[socket writeData:responseData
+		  withTimeout:-1
+				  tag:0];
+	[socket disconnectAfterWriting];
+	NSLog(@"Allowed Flash access!");
+}
+
+/* 	<policy-file-request/> */
 
 /*!
  * @brief Parse protocol identifier data
@@ -166,7 +210,8 @@
 		return NO;
 	}
 
-	if ([[items objectAtIndex:0] isEqualToString:@"GNTP/1.0"]) {
+	/* GNTP was eaten by our first-four byte read, so we start at the version number, /1.0 */
+	if ([[items objectAtIndex:0] isEqualToString:@"/1.0"]) {
 		/* We only support version 1.0 at this time */
 		action = [[items objectAtIndex:1] retain];
 		encryptionAlgorithm = [[items objectAtIndex:2] retain];
@@ -190,7 +235,7 @@
 	} else if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
 		specificPacket = [[GrowlNotificationGNTPPacket specificNetworkPacketForPacket:self] retain];
 	}
-	NSLog(@"Reading next header using %@", specificPacket);
+
 	//Get the specific packet started; it'll take it from there
 	[specificPacket readNextHeader];	
 }
@@ -198,7 +243,6 @@
 #pragma mark Headers
 - (void)readNextHeader
 {
-	NSLog(@"Read next header");
 	[socket readDataToData:[AsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlHeaderRead];
@@ -247,7 +291,6 @@
 #pragma mark Binary Headers
 - (void)readNextHeaderOfBinaryChunk
 {
-	NSLog(@"Read next binary chunk");
 	[socket readDataToData:[AsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlBinaryHeaderRead];	
@@ -266,7 +309,6 @@
 
 - (GrowlReadDirective)receivedBinaryHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
-	NSLog(@"receivedBinaryHeaderItem %@", headerItem);
 	NSString *name = [headerItem headerName];
 	NSString *value = [headerItem headerValue];
 	
@@ -316,7 +358,6 @@
 
 - (void)readBinaryChunk
 {
-	NSLog(@"start binary chunk");
 	[socket readDataToLength:currentBinaryLength
 				 withTimeout:-1
 						 tag:GrowlBinaryDataRead];	
@@ -341,7 +382,6 @@
 #pragma mark Complete
 - (void)networkPacketReadComplete
 {
-	NSLog(@"Read complete");
 	[[self delegate] packetDidFinishReading:self];
 }
 
@@ -361,16 +401,47 @@
 
 #pragma mark Incoming network processing
 
+- (BOOL)isLocalHost:(NSString *)inHost
+{
+	NSLog(@"Connecting to %@", inHost);
+
+	if ([inHost isEqualToString:@"127.0.0.1"])
+		return YES;
+	else {
+		NSLog(@"%@ doesn't appear to be localhost...", inHost);
+		return NO;
+	}
+#if 0
+	/* resolve localhost to an IP */
+	if ((he = gethostbyname("localhost")) == NULL) {
+		NSLog("@error resolving localhost?");
+	}
+
+	/*
+	 * copy the network address part of the structure to the 
+	 * sockaddr_in structure
+	 */
+	memcpy(&server.sin_addr, he->h_addr_list[0], he->h_length);
+	server.sin_family = AF_INET;
+	server.sin_port = htons(7000);
+#endif
+	
+}
+
 /**
  * Called when a socket connects and is ready for reading and writing.
  * The host parameter will be an IP address, not a DNS name.
  **/
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
 {
-	NSLog(@"Did connect to %@", inHost);
-	/* XXX Check (enabled || localhost) */
-	/* XXX Note originating host? */
-	[self beginProcessing];
+#pragma unused(inPort)
+	
+	if ([self isLocalHost:inHost] ||
+		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey]) {
+		[self beginProcessingProtocolIdentifier];
+	} else {
+		[sock disconnect];
+	}
 }
 
 /**
@@ -380,10 +451,27 @@
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {	
 	switch (tag) {
+		case GrowlInitialBytesIdentifierRead:
+			switch ([self parseInitialBytes:data]) {
+				case GrowlInitialReadResult_UnknownPacket:
+					NSLog(@"Unknown incoming data; dropping the connection to %@", sock);
+					[sock disconnect];
+					break;
+				case GrowlInitialReadResult_GNTPPacket:
+					[self finishProcessingProtocolIdentifier];
+					break;
+				case GrowlInitialReadResult_FlashPolicyPacket:
+					[self finishReadingFlashPolicyRequest];
+					break;
+			}
+			break;
 		case GrowlProtocolIdentifierRead:
 			if ([self parseProtocolIdentifier:data]) {
 				[self configureToParsePacket];
 			}
+			break;			
+		case GrowlFlashPolicyRequestRead:
+			[self respondToFlashPolicyRequest];
 			break;
 		case GrowlHeaderRead:
 			switch ([self parseHeader:data]) {

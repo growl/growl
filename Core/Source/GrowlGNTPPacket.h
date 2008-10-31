@@ -14,7 +14,9 @@
 @class GrowlGNTPPacket;
 
 typedef enum {
+	GrowlInitialBytesIdentifierRead = 1,
 	GrowlProtocolIdentifierRead,
+	GrowlFlashPolicyRequestRead,
 	GrowlHeaderRead,
 	GrowlBinaryHeaderRead,
 	GrowlBinaryDataRead
@@ -26,6 +28,12 @@ typedef enum {
 	GrowlReadDirective_PacketComplete, /* We now have everything we need for this packet; stop reading */
 	GrowlReadDirective_Error /* An error occurred; stop reading */
 } GrowlReadDirective;
+
+typedef enum {
+	GrowlInitialReadResult_UnknownPacket,
+	GrowlInitialReadResult_GNTPPacket,
+	GrowlInitialReadResult_FlashPolicyPacket
+} GrowlInitialReadResult;
 
 typedef enum {
 	GrowlUnknownPacketType,
