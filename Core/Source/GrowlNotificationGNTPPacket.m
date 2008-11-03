@@ -317,7 +317,7 @@
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
 	if ([self customHeaders]) [headersForCallbackResult addObjectsFromArray:[self customHeaders]];
-	
+
 	return headersForCallbackResult;
 }
 

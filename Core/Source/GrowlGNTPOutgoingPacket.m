@@ -104,6 +104,7 @@
 		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
 		[allOutgoingItems addObjectsFromArray:binaryChunks];
 	}
+	[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
 
 	return allOutgoingItems;
 }
