@@ -67,7 +67,7 @@
 			break;
 	}
 	
-	/* Send the success response */
+	/* Send the -OK response */
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 	[outgoingPacket setAction:@"-OK"];
 	[outgoingPacket addHeaderItems:[packet headersForSuccessResult]];
@@ -79,6 +79,11 @@
 	[currentNetworkPackets removeObjectForKey:[packet uuid]];
 }
 
+/*!
+ * @brief A packet failed to be read
+ *
+ * Send the appropriate -ERROR response
+ */
 - (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
 {
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
