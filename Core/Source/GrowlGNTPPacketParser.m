@@ -9,6 +9,7 @@
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlApplicationController.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlGNTPOutgoingPacket.h"
 
 @implementation GrowlGNTPPacketParser
 
@@ -47,6 +48,11 @@
 							  forKey:[packet uuid]];
 }
 
+/*!
+ * @brief Packet finished reading
+ *
+ * We tell Growl to notify or register as appropriate, then we send a success packet to the incoming packet's source
+ */
 - (void)packetDidFinishReading:(GrowlGNTPPacket *)packet
 {
 	switch ([packet packetType]) {
@@ -60,11 +66,26 @@
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
 	}
+	
+	/* Send the success response */
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+	[outgoingPacket setAction:@"-OK"];
+	[outgoingPacket addHeaderItems:[packet headersForSuccessResult]];
+	[outgoingPacket writeToSocket:[packet socket]];
 }
 
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
 	[currentNetworkPackets removeObjectForKey:[packet uuid]];
+}
+
+- (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
+{
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+	[outgoingPacket setAction:@"-ERROR"];
+	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
+																	value:[[inError userInfo] objectForKey:NSLocalizedFailureReasonErrorKey]]];
+	[outgoingPacket writeToSocket:[packet socket]];
 }
 
 #pragma mark -

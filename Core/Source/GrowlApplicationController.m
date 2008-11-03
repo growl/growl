@@ -455,32 +455,21 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	 * desired.
 	 */
 	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
-	NSLog(@"Created %@", outgoingSocket);
+	NSLog(@"Created %@ to send %@", outgoingSocket, packet);
 	@try {
 		NSError *connectionError = nil;
 		[outgoingSocket connectToAddress:destAddress error:&connectionError];
 		if (connectionError)
 			NSLog(@"Failed to connect: %@", connectionError);
 		else {
-			NSEnumerator *enumerator = [packet outgoingItemEnumerator];
-			id <GNTPOutgoingItem> item;
-			while ((item = [enumerator nextObject])) {
-				[outgoingSocket writeData:[item GNTPRepresentation]
-							  withTimeout:-1
-									  tag:0];
-			}
+			[packet writeToSocket:outgoingSocket];
 		}
 		
 	} @catch (NSException *e) {
 		NSString *addressString = createStringWithAddressData(destAddress);
 		NSString *hostName = createHostNameForAddressData(destAddress);
-		if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
-			NSLog(@"Authentication failed while forwarding to %@ (%@)",
-				  addressString, hostName);
-		} else {
-			NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
-				  e, addressString, hostName);
-		}
+		NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
+			  e, addressString, hostName);
 		[addressString release];
 		[hostName      release];
 	} @finally {
