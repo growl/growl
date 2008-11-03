@@ -247,12 +247,12 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_APP_LOCATION				XSTR("AppLocation")
 
-/*!	@defined	GROWL_REMOTE_ADDRESS
+/*!	@defined	GROWL_UDP_REMOTE_ADDRESS
  *	@abstract	The address of the host who sent this notification/registration.
  *	@discussion	Contains an NSData with the address of the remote host who
  *    sent this notification/registration.
  */
-#define GROWL_REMOTE_ADDRESS			XSTR("RemoteAddress")
+#define GROWL_UDP_REMOTE_ADDRESS			XSTR("RemoteAddress")
 
 /*!
  *	@defined    GROWL_PREFPANE_BUNDLE_IDENTIFIER

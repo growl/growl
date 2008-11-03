@@ -257,7 +257,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 										(id)appName,          GROWL_APP_NAME,
 										allNotifications,     GROWL_NOTIFICATIONS_ALL,
 										defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-										address,              GROWL_REMOTE_ADDRESS,
+										address,              GROWL_UDP_REMOTE_ADDRESS,
 										nil];
 									CFRelease(appName);
 									[(GrowlUDPPathway *)info registerApplicationWithDictionary:registerInfo];
@@ -323,7 +323,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 									growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
 									[growlNotificationIcon TIFFRepresentation],     GROWL_NOTIFICATION_ICON_DATA,
-									address,                   GROWL_REMOTE_ADDRESS,
+									address,                   GROWL_UDP_REMOTE_ADDRESS,
 									nil];
 								CFRelease(growlNotificationName);
 								CFRelease(growlAppName);
