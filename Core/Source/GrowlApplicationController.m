@@ -467,7 +467,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
-		if ([[entry objectForKey:@"use"] boolValue] && [[entry objectForKey:@"active"] boolValue]) {
+		if ([[entry objectForKey:@"use"] boolValue]) {
 			NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
 			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
@@ -483,7 +483,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 											   nil]
 								waitUntilDone:NO];
 		} else {
-			NSLog(@"Not sending to destination %@", entry);
+			NSLog(@"6  destination %@", entry);
 		}
 	}
 
@@ -782,9 +782,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	[aDict release];
 
-	// forward to remote destinations
-	if (enableForward && ![dict objectForKey:GROWL_REMOTE_ADDRESS]) {
-		/* XXX Is GROWL_REMOTE_ADDRESS going to prevent sequential forwarding? */
+	// forward to remote destinations. Don't forward a message previously reeceived over UDP.
+	if (enableForward && ![dict objectForKey:GROWL_UDP_REMOTE_ADDRESS]) {
 		if ([NSThread currentThread] == mainThread)
 			[NSThread detachNewThreadSelector:@selector(forwardNotification:)
 									 toTarget:self
@@ -816,7 +815,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			[newApp saveTicket];
 		[ticketController addTicket:newApp];
 
-		if (enableForward && ![userInfo objectForKey:GROWL_REMOTE_ADDRESS]) {
+		// forward to remote destinations. Don't forward a message previously reeceived over UDP.
+		if (enableForward && ![userInfo objectForKey:GROWL_UDP_REMOTE_ADDRESS]) {
 			if ([NSThread currentThread] == mainThread)
 				[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
 										 toTarget:self
