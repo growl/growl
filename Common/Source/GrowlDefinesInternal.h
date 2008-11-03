@@ -93,6 +93,8 @@
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
 #define GROWL_NOTIFICATION_GNTP_ID						@"GNTP Notification ID"
+#define GROWL_NOTIFICATION_GNTP_RECEIVED				@"GNTP Notification Received Headers"
+#define GROWL_NOTIFICATION_GNTP_SENT_BY					@"GNTP Notification Sent-By"
 
 #define ATTRIBUTE_PACKED __attribute((packed))
 
