@@ -106,7 +106,6 @@
 {
 	/* Prevent sending loops */
 	if ([packet hasBeenReceivedPreviously]) {
-		NSLog(@"%@ was previously received! Ignoring.", packet);
 		return;
 	}
 
