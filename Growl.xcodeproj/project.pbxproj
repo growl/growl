@@ -147,6 +147,7 @@
 		348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */; };
 		348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
+		34A269080EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */; };
 		34A43BF80EB9FFA800809538 /* GrowlGNTPPacketParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */; };
 		34A43BF90EB9FFAD00809538 /* GrowlGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 349908A60E7317150073B675 /* GrowlGNTPPacket.m */; };
 		34A43BFA0EB9FFB200809538 /* GrowlRegisterGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */; };
@@ -767,6 +768,8 @@
 		34A0931F0C90B0DA00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
+		34A269060EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Unparsing.h"; path = "Common/Source/NSCalendarDate+ISO8601Unparsing.h"; sourceTree = "<group>"; };
+		34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Unparsing.m"; path = "Common/Source/NSCalendarDate+ISO8601Unparsing.m"; sourceTree = "<group>"; };
 		34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPOutgoingPacket.h; path = Core/Source/GrowlGNTPOutgoingPacket.h; sourceTree = "<group>"; };
 		34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPOutgoingPacket.m; path = Core/Source/GrowlGNTPOutgoingPacket.m; sourceTree = "<group>"; };
 		34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPBinaryChunk.h; path = Core/Source/GrowlGNTPBinaryChunk.h; sourceTree = "<group>"; };
@@ -1435,6 +1438,8 @@
 				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
 				07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */,
 				07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */,
+				34A269060EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.h */,
+				34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -3036,6 +3041,7 @@
 				34A43BFC0EB9FFBA00809538 /* GrowlGNTPHeaderItem.m in Sources */,
 				34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */,
 				34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */,
+				34A269080EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
