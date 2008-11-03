@@ -76,6 +76,11 @@ static GrowlLog *singleton = nil;
 			}
 		}
 	}
+	
+	/* Always log to console for debug builds */
+#ifdef DEBUG
+	NSLogv(format, args);
+#endif
 }
 - (void) writeToLog:(NSString *)format, ... {
 	va_list args;
