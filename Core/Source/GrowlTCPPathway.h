@@ -13,6 +13,11 @@
 @class MD5Authenticator;
 
 @protocol GNTPOutgoingItem
+/*!
+ * @brief Get the GNTP representation of an item
+ *
+ * The returned NSData is CRLF terminated and UTF8 encoded.
+ */
 - (NSData *)GNTPRepresentation;
 @end
 

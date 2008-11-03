@@ -16,6 +16,15 @@
 - (void)setHeaderValue:(NSString *)string;
 @end
 
+/*!
+ * @class GrowlGNTPHeaderItem
+ * @brief Object representing a 'header' for GNTP, comprised of a name and a value
+ *
+ * GrowlGNTPHeaderItem validates that it has a name and value during initialization, so code using
+ * these objects can assume both are non-nil.
+ *
+ * +[GrowlGNTPHeaderItem separatorHeaderItem] returns a singleton representing the blank CRLF line.
+ */
 @implementation GrowlGNTPHeaderItem
 + (GrowlGNTPHeaderItem *)headerItemFromData:(NSData *)inData error:(NSError **)outError
 {
@@ -58,9 +67,10 @@
 		if (endOfHeaderName == NSNotFound) {
 			/* Malformed header; no "name: value" setup */
 			if (outError)
-				*outError = [NSError errorWithDomain:@"GrowlNetwork"
-												code:GrowlHeaderError
-											userInfo:[NSDictionary dictionaryWithObject:@"Malformed header; \"name: value\" not found"
+				*outError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+												code:GrowlGNTPHeaderError
+											userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Malformed header %@; \"name: value\" not found",
+																						 headerLine]
 																				 forKey:NSLocalizedFailureReasonErrorKey]];
 			[self release];
 			return nil;

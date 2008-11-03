@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AsyncSocket.h"
+#import "GrowlGNTPDefines.h"
 
 #define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
 
@@ -65,6 +66,8 @@ typedef enum {
 	unsigned long currentBinaryLength;
 	
 	GrowlGNTPPacket *specificPacket;
+	
+	NSError *error;
 }
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket;
@@ -85,5 +88,8 @@ typedef enum {
 - (NSDictionary *)customHeaders;
 
 - (NSDictionary *)growlDictionary;
+
+- (NSError *)error;
+- (void)setError:(NSError *)error;
 
 @end

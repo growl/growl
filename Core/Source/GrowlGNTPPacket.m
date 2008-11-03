@@ -128,6 +128,20 @@
 	}
 }
 
+
+- (void)setError:(NSError *)inError
+{
+	if (inError != error) {
+		[error autorelease];
+		error = [inError retain];
+	}
+}
+
+- (NSError *)error
+{
+	return error;
+}
+
 #pragma mark Protocol identifier
 
 - (void)beginProcessingProtocolIdentifier
@@ -256,7 +270,11 @@
  */
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
-	NSLog(@"Received %@ in abstract superclass", headerItem);
+	[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+									   code:GrowlGNTPHeaderError
+								   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Received %@ in abstract superclass. Implementation failure.", 
+																				headerItem]
+																		forKey:NSLocalizedFailureReasonErrorKey]]];	
 	return GrowlReadDirective_Error;
 }
 
@@ -267,13 +285,13 @@
  */
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
-	NSError *error;
-	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&error];
+	NSError *anError;
+	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
 	if (headerItem) {
 		return [self receivedHeaderItem:headerItem];
 	
 	} else {
-		NSLog(@"Error is %@", error);
+		[self setError:anError];
 		return GrowlReadDirective_Error;
 	}
 }
@@ -316,7 +334,11 @@
 		if (currentBinaryIdentifier && currentBinaryLength) {
 			return GrowlReadDirective_SectionComplete;
 		} else {
-			NSLog(@"Error: Need both identifier (%@) and length (%d)", currentBinaryIdentifier, currentBinaryLength);
+			[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+											   code:GrowlGNTPHeaderError
+										   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Need both identifier (%@) and length (%d)",
+																						currentBinaryIdentifier, currentBinaryLength]
+																				forKey:NSLocalizedFailureReasonErrorKey]]];			
 			return GrowlReadDirective_Error;
 		}
 
@@ -329,9 +351,13 @@
 	} else if ([name caseInsensitiveCompare:@"Length"] == NSOrderedSame) {
 		[self setCurrentBinaryLength:[value unsignedLongValue]];
 		return GrowlReadDirective_Continue;
-
+		
 	} else {
-		NSLog(@"Unknown binary header %@; value %@", name, value);	
+		[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+										   code:GrowlGNTPHeaderError
+									   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Unknown binary header %@; value %@",
+																					name, value]
+																			forKey:NSLocalizedFailureReasonErrorKey]]];			
 		return GrowlReadDirective_Error;
 	}
 }
@@ -343,13 +369,13 @@
  */
 - (GrowlReadDirective)parseBinaryHeader:(NSData *)inData
 {
-	NSError *error;
-	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&error];
+	NSError *anError;
+	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
 	if (headerItem) {
 		return [self receivedBinaryHeaderItem:headerItem];
 		
 	} else {
-		NSLog(@"Error is %@", error);
+		[self setError:anError];
 		return GrowlReadDirective_Error;
 	}
 }
@@ -388,7 +414,8 @@
 #pragma mark Error
 - (void)errorOccurred
 {
-	NSLog(@"Error occurred");
+	NSLog (@"Error occurred: Error domain %@, code %d (%@).",
+		   [[self error] domain], [[self error] code], [[self error] localizedDescription]);
 }
 
 #pragma mark Dictionary Representation
@@ -454,7 +481,11 @@
 		case GrowlInitialBytesIdentifierRead:
 			switch ([self parseInitialBytes:data]) {
 				case GrowlInitialReadResult_UnknownPacket:
-					NSLog(@"Unknown incoming data; dropping the connection to %@", sock);
+					[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+													   code:GrowlGNTPMalformedProtocolIdentificationError
+												   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Unknown incoming data; dropping the connection to %@",
+																								sock]
+																						forKey:NSLocalizedFailureReasonErrorKey]]];					
 					[sock disconnect];
 					break;
 				case GrowlInitialReadResult_GNTPPacket:
@@ -542,12 +573,11 @@
 -(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
 	if (err != nil) {
-		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
-			   sock,
-			   [err domain], [err code], [err localizedDescription]);
+		[self setError:err];
 		[self errorOccurred];
-	} else
+	} else {
 		NSLog (@"Socket will disconnect. No error. unread: %@", [sock unreadData]);
+	}
 	
 	[[self delegate] packetDidDisconnect:self];
 }

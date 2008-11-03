@@ -766,6 +766,7 @@
 		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A0931F0C90B0DA00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
 		34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPOutgoingPacket.h; path = Core/Source/GrowlGNTPOutgoingPacket.h; sourceTree = "<group>"; };
 		34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPOutgoingPacket.m; path = Core/Source/GrowlGNTPOutgoingPacket.m; sourceTree = "<group>"; };
 		34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPBinaryChunk.h; path = Core/Source/GrowlGNTPBinaryChunk.h; sourceTree = "<group>"; };
@@ -1745,6 +1746,48 @@
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
 		};
+		34A266200EBE3EFE00C66E44 /* UDP */ = {
+			isa = PBXGroup;
+			children = (
+				958294EF074CDE3100EC7AF2 /* GrowlUDPPathway.h */,
+				958294F0074CDE3100EC7AF2 /* GrowlUDPPathway.m */,
+			);
+			name = UDP;
+			sourceTree = "<group>";
+		};
+		34A266230EBE3F0A00C66E44 /* TCP Server (GNTP and DO) */ = {
+			isa = PBXGroup;
+			children = (
+				072DE9B809A10DEB006516DD /* GrowlTCPPathway.h */,
+				072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */,
+				340903260E3DEB8400FCB0F7 /* GrowlTCPServer.h */,
+				340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */,
+			);
+			name = "TCP Server (GNTP and DO)";
+			sourceTree = "<group>";
+		};
+		34A266260EBE3F4100C66E44 /* GNTP */ = {
+			isa = PBXGroup;
+			children = (
+				34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */,
+				346C9F200E71BC23002314EE /* GrowlGNTPPacketParser.h */,
+				346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */,
+				349908A50E7317150073B675 /* GrowlGNTPPacket.h */,
+				349908A60E7317150073B675 /* GrowlGNTPPacket.m */,
+				3404D3890E958D0D00629487 /* GrowlRegisterGNTPPacket.h */,
+				3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */,
+				3404D38E0E958D2C00629487 /* GrowlNotificationGNTPPacket.h */,
+				3404D38F0E958D2C00629487 /* GrowlNotificationGNTPPacket.m */,
+				3404D3840E9587B700629487 /* GrowlGNTPHeaderItem.h */,
+				3404D3850E9587B700629487 /* GrowlGNTPHeaderItem.m */,
+				34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */,
+				34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */,
+				34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */,
+				34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */,
+			);
+			name = GNTP;
+			sourceTree = "<group>";
+		};
 		34A96DDB0C95F61800F46006 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1882,28 +1925,10 @@
 				CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */,
 				074062AA07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.h */,
 				074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */,
-				958294EF074CDE3100EC7AF2 /* GrowlUDPPathway.h */,
-				958294F0074CDE3100EC7AF2 /* GrowlUDPPathway.m */,
-				072DE9B809A10DEB006516DD /* GrowlTCPPathway.h */,
-				072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */,
-				340903260E3DEB8400FCB0F7 /* GrowlTCPServer.h */,
-				340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */,
-				346C9F200E71BC23002314EE /* GrowlGNTPPacketParser.h */,
-				346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */,
-				349908A50E7317150073B675 /* GrowlGNTPPacket.h */,
-				349908A60E7317150073B675 /* GrowlGNTPPacket.m */,
-				3404D3890E958D0D00629487 /* GrowlRegisterGNTPPacket.h */,
-				3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */,
-				3404D38E0E958D2C00629487 /* GrowlNotificationGNTPPacket.h */,
-				3404D38F0E958D2C00629487 /* GrowlNotificationGNTPPacket.m */,
-				3404D3840E9587B700629487 /* GrowlGNTPHeaderItem.h */,
-				3404D3850E9587B700629487 /* GrowlGNTPHeaderItem.m */,
+				34A266200EBE3EFE00C66E44 /* UDP */,
+				34A266230EBE3F0A00C66E44 /* TCP Server (GNTP and DO) */,
 				31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */,
 				31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */,
-				34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */,
-				34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */,
-				34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */,
-				34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */,
 			);
 			name = Pathways;
 			sourceTree = "<group>";
@@ -1961,6 +1986,7 @@
 			isa = PBXGroup;
 			children = (
 				EED7068E08C743EB004651D0 /* Controllers */,
+				34A266260EBE3F4100C66E44 /* GNTP */,
 				070B862D0A087FC50093150E /* Tickets */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				CB34BEC507E09557001D7D7C /* Notifications */,

@@ -101,12 +101,27 @@
 /*!
  * @brief Is currentNotification valid (i.e. does it have all required keys?)
  *
+ * @param error If invalid, will return by reference the NSError describing the invalidating factor
  * @return YES if valid, NO if not
  */
-- (BOOL)validateCurrentNotification
-{	
-	return  ([currentNotification valueForKey:GROWL_NOTIFICATION_NAME] &&
-			 [currentNotification valueForKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME]);
+- (BOOL)validateCurrentNotification:(NSError **)anError
+{
+	NSString *errorString = nil;
+
+	if (![currentNotification valueForKey:GROWL_NOTIFICATION_NAME])
+		errorString = @"Notification-Name is a required header for each notification in a REGISTER request";
+	else if (![currentNotification valueForKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME])
+		errorString = @"Notification-Display-Name is a required header for each notification in a REGISTER request";
+
+	if (errorString)
+		*anError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+									 code:GrowlGNTPRegistrationPacketError
+								 userInfo:[NSDictionary dictionaryWithObject:errorString
+																	  forKey:NSLocalizedFailureReasonErrorKey]];
+	else
+		*anError = nil;
+
+	return (*anError == nil);
 }
 
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
@@ -123,15 +138,26 @@
 				/* Done with the registration header; time to get actual notifications */
 				currentStep = GrowlRegisterStepNotification;
 				
-				if (![self applicationName] || (![self applicationIconID] && ![self applicationIconURL]) || (numberOfNotifications == 0)) {
-					/* If we haven't gotten name, icon, and notification count at this point, throw an error */
-					NSLog(@"%@ error!", self);
+				/* If we haven't gotten name, icon, and notification count at this point, throw an error */
+				NSString *errorString = nil;
+				if (![self applicationName]) {
+					errorString = @"Application-Name is a required header for registration";
+				} else if (![self applicationIconID] && ![self applicationIconURL]) {
+					errorString = @"Application-Icon is a required header for registration";
+				} else if (numberOfNotifications == 0) {
+					errorString = @"Notifications-Count	is a required header for registration and must not be 0";
+				}
+
+				if (errorString) {
+					[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+													   code:GrowlGNTPRegistrationPacketError
+												   userInfo:[NSDictionary dictionaryWithObject:errorString
+																						forKey:NSLocalizedFailureReasonErrorKey]]];
 					directive = GrowlReadDirective_Error;
 				} else {
 					/* Otherwise, prepare to start tracking notifications */
 					currentNotification = [[NSMutableDictionary alloc] init];
 				}
-					
 			} else {
 				/* Process a registration header */
 				if ([name caseInsensitiveCompare:@"Application-Name"] == NSOrderedSame) {
@@ -160,8 +186,8 @@
 			/* Process a header for a specific notification */
 			if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
 				/* Done with this notification; start working on the next or on binary data */
-				
-				if ([self validateCurrentNotification]) {
+				NSError *anError = nil;
+				if ([self validateCurrentNotification:&anError]) {
 					[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
@@ -173,6 +199,7 @@
 					
 				} else {
 					/* Current notification failed to validate; error. */
+					[self setError:anError];
 					directive = GrowlReadDirective_Error;
 				}
 				

@@ -10,10 +10,6 @@
 #import "AsyncSocket.h"
 #import "GrowlGNTPPacket.h"
 
-typedef enum {
-	GrowlHeaderError
-} GrowlGNTPPacketErrorType;
-
 @protocol GrowlGNTPPacketDelegate;
 
 @interface GrowlGNTPPacketParser : NSObject <GrowlGNTPPacketDelegate> {

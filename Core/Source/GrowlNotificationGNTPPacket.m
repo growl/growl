@@ -145,11 +145,6 @@
 			return GrowlReadDirective_PacketComplete;
 	}
 
-	if (!name || !value) {
-		NSLog(@"Missing name or value");
-		return GrowlReadDirective_Error;
-	}
-
 	if ([name caseInsensitiveCompare:@"Application-Name"] == NSOrderedSame) {
 		[self setApplicationName:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Name"] == NSOrderedSame) {
