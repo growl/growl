@@ -536,7 +536,7 @@
 	
 	/* If we're going to ever read anything else on this socket, it must first be preceeded by the GNTP/1.0 END tag */
 #define CRLF "\x0D\x0A"	
-	NSData *endData = [[NSString stringWithFormat:@"" CRLF "GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
+	NSData *endData = [[NSString stringWithFormat:@"GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
 
 	[socket readDataToData:endData
 			   withTimeout:-1
