@@ -109,6 +109,9 @@ typedef enum {
 
 - (NSArray *)headersForSuccessResult;
 
+- (BOOL)shouldSendCallbackResult;
+- (NSArray *)headersForCallbackResult;
+
 - (NSDictionary *)growlDictionary;
 
 - (NSError *)error;

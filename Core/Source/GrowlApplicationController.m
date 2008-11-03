@@ -538,8 +538,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
 		[outgoingPacket addBinaryData:iconData withIdentifier:identifier];
 	}
-	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
+	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]) {
 		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
+		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:@"String"]];
+	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
 		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])

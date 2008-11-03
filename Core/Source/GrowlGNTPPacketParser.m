@@ -43,7 +43,10 @@
 {
 	GrowlGNTPPacket *packet = [GrowlGNTPPacket networkPacketForSocket:socket];
 	[packet setDelegate:self];
-	NSLog(@"Created %@", packet);
+
+	/* Note: We're tracking a GrowlGNTPPacket, but its specific packet (a GrowlNotificationGNTPPacket or 
+	 * GrowlRegisterGNTPPacket) will be where the action hides.
+	 */
 	[currentNetworkPackets setObject:packet
 							  forKey:[packet uuid]];
 }
@@ -74,6 +77,12 @@
 	[outgoingPacket writeToSocket:[packet socket]];
 }
 
+/*!
+ * @brief A packet's socket disconnected
+ *
+ * This is unrelated to success vs. error; all we do here is stop tracking the packet.
+ * Removing it from the currentNetworkPackets dictionary will likely lead to the object being released, as well.
+ */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
 	[currentNetworkPackets removeObjectForKey:[packet uuid]];
@@ -95,10 +104,22 @@
 
 #pragma mark -
 
+/*!
+ * @brief Pass click and closed/timed out notifications back to originating clients
+ *
+ * If the Growl notification is associated with an open socket to an originating client, and it has the appropriate 
+ * Notification-Callback-Context headers, the originating client will be notified.
+ */
 - (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
 {
-	NSLog(@"%@ --> %@", [[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID],
-		  [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]]);
+	GrowlGNTPPacket *existingPacket = [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]];
+	if (existingPacket && [existingPacket shouldSendCallbackResult]) {
+		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+		[outgoingPacket setAction:(viaClick ? @"-CLICKED" : @"-CLOSED")];
+		[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult]];
+		[outgoingPacket writeToSocket:[existingPacket socket]];
+		[[existingPacket socket] disconnectAfterWriting];
+	}
 }
 
 - (void)notificationClicked:(NSNotification *)notification

@@ -317,6 +317,22 @@
 	return customHeaders;
 }
 
+- (BOOL)shouldSendCallbackResult
+{
+	if (specificPacket)
+		return [specificPacket shouldSendCallbackResult];
+	else
+		return NO; /* This abstract superclass has no idea how to send a callback */
+}
+
+- (NSArray *)headersForCallbackResult
+{
+	if (specificPacket)
+		return [specificPacket headersForCallbackResult];
+	else
+		return nil; /* This abstract superclass has no idea how to send a callback */
+}
+
 #pragma mark Binary Headers
 - (void)readNextHeaderOfBinaryChunk
 {

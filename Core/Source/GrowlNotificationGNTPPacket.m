@@ -128,12 +128,24 @@
 	return (data ? [[[NSImage alloc] initWithData:data] autorelease] : nil);
 }
 
+- (NSString *)callbackContext
+{
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+}
 - (void)setCallbackContext:(NSString *)value
 {
 	[notificationDict setObject:value
 						 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
-
+- (NSString *)callbackContextType
+{
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+}
+- (void)setCallbackContextType:(NSString *)value
+{
+	[notificationDict setObject:value
+						 forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+}
 - (void)setCallbackTarget:(NSString *)value
 {
 	[notificationDict setObject:value
@@ -190,6 +202,9 @@
 		}
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
 		[self setCallbackContext:value];
+	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context-Type"] == NSOrderedSame) {
+		[self setCallbackContextType:value];
+
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target"] == NSOrderedSame) {
 		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
@@ -222,6 +237,22 @@
 	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
 
 	return headersForSuccessResult;
+}
+
+- (BOOL)shouldSendCallbackResult
+{
+	return ([self callbackContext] && [self callbackContextType]);
+}
+
+- (NSArray *)headersForCallbackResult
+{
+	NSMutableArray *headersForCallbackResult = [NSMutableArray array];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
+	if (customHeaders) [headersForCallbackResult addObjectsFromArray:customHeaders];
+	
+	return headersForCallbackResult;
 }
 
 /*!

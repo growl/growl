@@ -89,6 +89,7 @@
  */
 #define GROWL_NOTIFICATION_TIMED_OUT	@"GrowlNotificationTimedOut(Internal)"
 
+#define GROWL_NOTIFICATION_CLICK_CONTENT_TYPE			@"NotificationCallbackClickContextType"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
 
