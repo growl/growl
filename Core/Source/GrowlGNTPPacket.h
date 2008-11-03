@@ -104,18 +104,22 @@ typedef enum {
 
 - (NSString *)encryptionAlgorithm;
 
-- (NSArray *)customHeaders;
-- (void)addCustomHeader:(GrowlGNTPHeaderItem *)inItem;
-
-- (NSArray *)headersForSuccessResult;
-
-- (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
-- (NSArray *)headersForCallbackResult;
-- (NSURLRequest *)urlRequestForCallbackResult;
-
 - (NSDictionary *)growlDictionary;
 
 - (NSError *)error;
-- (void)setError:(NSError *)error;
+@end
 
+@interface GrowlGNTPPacket (ForSubclasses)
++ (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray;
+- (void)setError:(NSError *)error;
+- (void)addCustomHeader:(GrowlGNTPHeaderItem *)inItem;
+- (NSArray *)customHeaders;
+@end
+
+@interface GrowlGNTPPacket (GNTPInternal)
+- (NSArray *)headersForSuccessResult;
++ (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers;
+- (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
+- (NSArray *)headersForCallbackResult;
+- (NSURLRequest *)urlRequestForCallbackResult;
 @end

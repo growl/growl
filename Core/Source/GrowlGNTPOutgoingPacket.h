@@ -29,4 +29,6 @@
 
 - (void)writeToSocket:(AsyncSocket *)socket;
 
+- (BOOL)needsPersistentConnectionForCallback;
+
 @end

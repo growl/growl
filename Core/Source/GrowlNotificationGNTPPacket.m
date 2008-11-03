@@ -159,7 +159,21 @@
 						 forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD];
 	callbackTargetMethod = inMethod;
 }
-
+- (void)addReceivedHeader:(NSString *)string
+{
+	NSMutableArray *receivedValues = [notificationDict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	if (!receivedValues) {
+		receivedValues = [NSMutableArray array];
+		[notificationDict setObject:receivedValues
+							 forKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	}
+	
+	[receivedValues addObject:string];
+}
+- (void)setSentBy:(NSString *)string
+{
+	[notificationDict setValue:string forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+}
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
 	NSString *name = [headerItem headerName];
@@ -217,6 +231,10 @@
 		}
 
 		[self setCallbackTargetMethod:method];
+	} else if ([name caseInsensitiveCompare:@"Received"] == NSOrderedSame) {
+		[self addReceivedHeader:value];
+	} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
+		[self setSentBy:value];
 	} else if ([name rangeOfString:@"X-" options:NSLiteralSearch | NSAnchoredSearch].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
@@ -252,13 +270,52 @@
 	}
 }
 
++ (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
+{
+	NSEnumerator *enumerator = [headers objectEnumerator];
+	GrowlGNTPHeaderItem *header;
+	
+	BOOL hasContext = NO, hasContextType = NO, hasTarget = NO;
+	CallbackURLTargetMethod targetMethod = CallbackURLTargetUnknownMethod;
+
+	while ((header = [enumerator nextObject])) {
+		NSString *name = [header headerName];
+		if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
+			hasContext = YES;
+		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context-Type"] == NSOrderedSame) {
+			hasContextType = YES;
+		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target"] == NSOrderedSame) {
+			hasTarget = YES;
+		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
+			NSString *value = [header headerValue];
+			if ([value caseInsensitiveCompare:@"GET"]) {
+				targetMethod = CallbackURLTargetGetMethod;
+			} else if ([value caseInsensitiveCompare:@"POST"]) {
+				targetMethod = CallbackURLTargetPostMethod;
+			} else {
+				targetMethod = CallbackURLTargetUnknownMethod;
+			}
+		}
+	}
+	
+	if (hasContext && hasContextType) {
+		if (hasTarget && (targetMethod != CallbackURLTargetUnknownMethod)) {
+			return GrowlGNTP_URLCallback;
+		} else {
+			return GrowlGNTP_TCPCallback;
+		}
+	} else {
+		return GrowlGNTP_NoCallback;	
+	}
+}
+
 - (NSArray *)headersForCallbackResult
 {
 	NSMutableArray *headersForCallbackResult = [NSMutableArray array];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
-	if (customHeaders) [headersForCallbackResult addObjectsFromArray:customHeaders];
+	if ([self customHeaders]) [headersForCallbackResult addObjectsFromArray:[self customHeaders]];
 	
 	return headersForCallbackResult;
 }
@@ -357,7 +414,9 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
-	
+
+	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
+
 	if (outHeadersArray) *outHeadersArray = headersArray;
 	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
 }

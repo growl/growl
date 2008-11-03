@@ -11,6 +11,7 @@
 #import "GrowlRegisterGNTPPacket.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
+#import "NSCalendarDate+ISO8601Unparsing.h"
 
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
@@ -317,6 +318,33 @@
 	return customHeaders;
 }
 
++ (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
+{
+	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+	if ([hostName hasSuffix:@".local"]) {
+		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
+	}	
+	
+	/* Previous received headers */
+	NSEnumerator *enumerator = [[dict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED] objectEnumerator];
+	NSString *received;
+	while ((received = [enumerator nextObject])) {
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:received]];
+	}
+	/* New received header */
+	if ([dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]) {
+		/* Received: From <hostname> by <hostname> [with Growl] [id <identifier>]; <ISO 8601 date> */
+		received = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
+					[dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY], hostName, 
+					([dict valueForKey:GROWL_NOTIFICATION_GNTP_ID] ? [NSString stringWithFormat:@" id %@", [dict valueForKey:GROWL_NOTIFICATION_GNTP_ID]] : @""),
+					[[NSCalendarDate date] ISO8601DateString]];
+		
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:received]];
+	}
+	
+	/* New Sent-By header: Sent-By: <hostname> */
+	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Sent-By" value:hostName]];	
+}
 
 #pragma mark Callbacks
 - (GrowlGNTPCallbackBehavior)callbackResultSendBehavior
@@ -324,7 +352,11 @@
 	if (specificPacket)
 		return [specificPacket callbackResultSendBehavior];
 	else
-		return NO; /* This abstract superclass has no idea how to send a callback */
+		return GrowlGNTP_NoCallback; /* This abstract superclass has no idea how to send a callback */
+}
++ (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
+{
+	return GrowlGNTP_NoCallback; /* This abstract superclass has no idea how to send a callback */	
 }
 
 - (NSArray *)headersForCallbackResult

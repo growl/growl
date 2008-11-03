@@ -18,7 +18,7 @@
 #define GROWL_NOTIFICATION_ICON_ID					@"NotificationIconID"
 #define GROWL_NOTIFICATION_ICON_URL					@"NotificationIconURL"
 
-/* 
+/*
  * XXX Growl doesn't currently have a per-notification icon mechanism which can be 'registered'
  */
 @implementation GrowlRegisterGNTPPacket
@@ -99,6 +99,22 @@
 	return (data ? [[[NSImage alloc] initWithData:data] autorelease] : nil);
 }
 
+- (void)addReceivedHeader:(NSString *)string
+{
+	NSMutableArray *receivedValues = [registrationDict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	if (!receivedValues) {
+		receivedValues = [NSMutableArray array];
+		[registrationDict setObject:receivedValues
+							 forKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	}
+	
+	[receivedValues addObject:string];
+}
+- (void)setSentBy:(NSString *)string
+{
+	[registrationDict setValue:string forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+}
+
 /*!
  * @brief Is currentNotification valid (i.e. does it have all required keys?)
  *
@@ -177,8 +193,11 @@
 					numberOfNotifications = [value unsignedIntValue];
 				} else if ([name caseInsensitiveCompare:@"X-Application-BundleID"] == NSOrderedSame) {
 					[self setApplicationBundleID:value];
+				} else if ([name caseInsensitiveCompare:@"Received"] == NSOrderedSame) {
+					[self addReceivedHeader:value];
+				} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
+					[self setSentBy:value];
 				}
-				
 			}
 			break;
 		}
@@ -328,6 +347,8 @@
 		/* XXX Could include @"Notification-Icon" if we had per-notification icons */
 	}
 	
+	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
+		 
 	if (outHeadersArray) *outHeadersArray = headersArray;
 	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
 }

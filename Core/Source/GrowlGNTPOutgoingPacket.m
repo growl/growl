@@ -7,8 +7,8 @@
 //
 
 #import "GrowlGNTPOutgoingPacket.h"
+#import "GrowlNotificationGNTPPacket.h"
 #import "GrowlGNTPBinaryChunk.h"
-#include <openssl/md5.h>
 
 /* XXX For GNTPOutgoingItem which should probably move */
 #import "GrowlTCPPathway.h"
@@ -117,6 +117,11 @@
 			  withTimeout:-1
 					  tag:0];
 	}
+}
+
+- (BOOL)needsPersistentConnectionForCallback
+{
+	return ([GrowlNotificationGNTPPacket callbackResultSendBehaviorForHeaders:headerItems] == GrowlGNTP_TCPCallback);
 }
 
 - (NSString *)description

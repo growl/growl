@@ -466,6 +466,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			NSLog(@"Failed to connect: %@", connectionError);
 		else {
 			[packet writeToSocket:outgoingSocket];
+			if (![packet needsPersistentConnectionForCallback])
+				[outgoingSocket disconnectAfterWriting];
 		}
 		
 	} @catch (NSException *e) {
@@ -548,8 +550,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	
 	[outgoingPacket addHeaderItems:headersArray];
 	[outgoingPacket addBinaryChunks:binaryArray];
-	
-	[outgoingPacket addHeaderItems:[GrowlRegisterGNTPPacket headersForRegistrationDict:dict]];	
+
 	[self sendViaTCP:outgoingPacket];
 
 	[pool release];
