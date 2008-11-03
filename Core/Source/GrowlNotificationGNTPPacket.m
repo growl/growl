@@ -114,6 +114,17 @@
 	
 	/* XXX Start loading the URL in the background */
 }
+
+- (void)setPriority:(int)priority
+{
+	[notificationDict setObject:[NSNumber numberWithInt:priority]
+						 forKey:GROWL_NOTIFICATION_PRIORITY];
+}
+- (int)priority
+{
+	return [[notificationDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+}
+
 - (NSData *)iconData
 {
 	NSData *data = nil;
@@ -200,6 +211,10 @@
 		[self setCoalesceIdentifier:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Text"] == NSOrderedSame) {
 		[self setText:value];	
+	} else if ([name caseInsensitiveCompare:@"Notification-Priority"] == NSOrderedSame) {
+		int priority = [value intValue];
+		if (priority >= -2 and priority <= 2)
+			[self setPriority:priority];
 	} else if ([name caseInsensitiveCompare:@"Notification-Sticky"] == NSOrderedSame) {
 		BOOL sticky = (([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame) ||
 						([value caseInsensitiveCompare:@"True"] == NSOrderedSame));
@@ -403,6 +418,8 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_PRIORITY])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Priority" value:[NSString stringWithFormat:@"%i", [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]) {
 		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
 		if ([iconData isKindOfClass:[NSImage class]])
