@@ -62,6 +62,7 @@
 	[encryptionAlgorithm release];
 	[binaryDataByIdentifier release];
 	[uuid release];
+	[customHeaders release];
 
 	[super dealloc];
 }
@@ -296,14 +297,24 @@
 	}
 }
 
-- (NSDictionary *)customHeaders
+- (NSArray *)customHeaders
 {
 	return customHeaders;
 }
-- (void)setCustomHeaderWithName:(NSString *)name value:(NSString *)value
+- (void)addCustomHeader:(GrowlGNTPHeaderItem *)inItem
 {
-	[customHeaders setObject:value
-					  forKey:name];
+	if (!customHeaders) customHeaders = [[NSMutableArray alloc] init];
+	[customHeaders addObject:inItem];
+}
+
+/*!
+ * @brief Headers to be returned via the -OK success result
+ *
+ * In the superclass, we just send any custom headers included in the packet originally
+ */
+- (NSArray *)headersForSuccessResult
+{
+	return customHeaders;
 }
 
 #pragma mark Binary Headers
@@ -412,10 +423,19 @@
 }
 
 #pragma mark Error
+/*!
+ * @brief An error occurred
+ *
+ * 1. Tell the delegate. This is the delegate's last chance to queue reads on our socket!
+ * 2. Disconnect after all queued writing is complete.
+ */
 - (void)errorOccurred
 {
 	NSLog (@"Error occurred: Error domain %@, code %d (%@).",
 		   [[self error] domain], [[self error] code], [[self error] localizedDescription]);
+	[[self delegate] packet:self failedReadingWithError:[self error]];
+
+	[socket disconnectAfterWriting];
 }
 
 #pragma mark Dictionary Representation
@@ -596,6 +616,11 @@
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
 	[[self delegate] packetDidDisconnect:packet];	
+}
+
+- (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
+{
+	[[self delegate] packet:packet failedReadingWithError:inError];	
 }
 
 #pragma mark -

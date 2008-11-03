@@ -12,7 +12,7 @@
 
 #define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
 
-@class GrowlGNTPPacket;
+@class GrowlGNTPPacket, GrowlGNTPHeaderItem;
 
 typedef enum {
 	GrowlInitialBytesIdentifierRead = 1,
@@ -43,7 +43,27 @@ typedef enum {
 } GrowlPacketType;
 
 @protocol GrowlGNTPPacketDelegate
+/*!
+ * @brief A packet was successfully received and parsed
+ *
+ * The delegate should now make use of the packet's data
+ */
 - (void)packetDidFinishReading:(GrowlGNTPPacket *)packet;
+
+/*!
+ * @brief An error occurred while reading a packet
+ *
+ * The NSError's code and userinfo's NSLocalizedFailureReasonErrorKey string will give the type and cause of error.
+ * After this delegate method is called, the socket underlying the packet will be disconnected once all queued
+ * writes are complete, so the delegate should immediately queue any desired response (such as an error result).
+ */
+- (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError;
+
+/*!
+ * @brief The socket underlying the given packet disconnected
+ *
+ * This is called regardless of the cause of disconnection (voluntary or involuntary)
+ */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet;
 @end
 
@@ -56,7 +76,7 @@ typedef enum {
 	NSString *action;
 	NSString *encryptionAlgorithm;
 
-	NSMutableDictionary *customHeaders;
+	NSMutableArray *customHeaders;
 	
 	NSMutableDictionary *binaryDataByIdentifier;
 	NSMutableSet *pendingBinaryIdentifiers;
@@ -84,8 +104,10 @@ typedef enum {
 
 - (NSString *)encryptionAlgorithm;
 
-- (void)setCustomHeaderWithName:(NSString *)name value:(NSString *)value;
-- (NSDictionary *)customHeaders;
+- (NSArray *)customHeaders;
+- (void)addCustomHeader:(GrowlGNTPHeaderItem *)inItem;
+
+- (NSArray *)headersForSuccessResult;
 
 - (NSDictionary *)growlDictionary;
 
