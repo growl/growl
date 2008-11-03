@@ -15,5 +15,5 @@
 - (NSSize) adjustSizeToDrawAtSize:(NSSize)theSize;
 - (NSImageRep *) bestRepresentationForSize:(NSSize)theSize;
 - (NSImageRep *) representationOfSize:(NSSize)theSize;
-
+- (NSData *) PNGRepresentation;
 @end
