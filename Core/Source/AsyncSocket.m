@@ -2007,7 +2007,6 @@ Failed:;
 	{
 		if(([theWriteQueue count] == 0) && (theCurrentWrite == nil))
 		{
-			NSLog(@"%@ disconnecting because no more writes queued", self);
 			[self performSelector:@selector(disconnect) withObject:nil afterDelay:0];
 		}
 	}

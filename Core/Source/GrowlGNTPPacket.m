@@ -59,7 +59,6 @@
 
 - (void)dealloc
 {
-	NSLog(@"Deallocating <%@: %p>", NSStringFromClass([self class]), self);
 	if ([socket delegate] == self)
 		[socket setDelegate:nil];
 
@@ -206,7 +205,6 @@
 		  withTimeout:-1
 				  tag:0];
 	[socket disconnectAfterWriting];
-	NSLog(@"Allowed Flash access!");
 }
 
 /* 	<policy-file-request/> */
@@ -252,7 +250,7 @@
 		
 		return YES;
 	}
-	NSLog(@"Items were %@; action is %@", items, action);
+
 	return NO;
 }
 
@@ -269,8 +267,6 @@
 
 	} else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
 		/* An OK response can be silently dropped */
-		NSLog(@"%@: OK!", self);
-		/* XXX Should disconnect and release at this point? */
 
 	} else if ([action caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
 		NSLog(@"%@: Error :(", self);
@@ -577,29 +573,11 @@
 
 - (BOOL)isLocalHost:(NSString *)inHost
 {
-	NSLog(@"Connecting to %@", inHost);
-
 	if ([inHost isEqualToString:@"127.0.0.1"])
 		return YES;
 	else {
-		NSLog(@"%@ doesn't appear to be localhost...", inHost);
 		return NO;
 	}
-#if 0
-	/* resolve localhost to an IP */
-	if ((he = gethostbyname("localhost")) == NULL) {
-		NSLog("@error resolving localhost?");
-	}
-
-	/*
-	 * copy the network address part of the structure to the 
-	 * sockaddr_in structure
-	 */
-	memcpy(&server.sin_addr, he->h_addr_list[0], he->h_length);
-	server.sin_family = AF_INET;
-	server.sin_port = htons(7000);
-#endif
-	
 }
 
 /**
@@ -609,13 +587,11 @@
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
 {
 #pragma unused(inPort)
-	
 	if ([self isLocalHost:inHost] ||
 		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
 		([sock userData] == GrowlGNTPPacketSocketUserData_WasInitiatedLocally)) {
 		[self startProcessing];
 	} else {
-		NSLog(@"Disconnecting immediately from %@", sock);
 		[sock disconnect];
 	}
 }
@@ -626,6 +602,11 @@
  **/
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
+#ifdef DEBUG
+	NSLog(@"Recv: \"%@\"", [[[NSString alloc] initWithData:data
+												  encoding:NSUTF8StringEncoding] autorelease]);
+#endif
+
 #pragma unused(sock)
 	switch (tag) {
 		case GrowlInitialBytesIdentifierRead:
@@ -633,7 +614,10 @@
 				case GrowlInitialReadResult_UnknownPacket:
 					[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
 													   code:GrowlGNTPMalformedProtocolIdentificationError
-												   userInfo:[NSDictionary dictionaryWithObject:@"Unknown incoming data while expected a GNTP packet; dropping the connection."
+												   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:
+																								@"Unknown incoming data %@ while expected a GNTP packet; dropping the connection.",
+															 [[[NSString alloc] initWithData:data
+																					encoding:NSUTF8StringEncoding] autorelease]]
 																						forKey:NSLocalizedFailureReasonErrorKey]]];
 					[self errorOccurred];
 					break;
@@ -711,11 +695,6 @@
 	}
 }
 
-- (void)onSocket:(AsyncSocket *)sock didReadPartialDataOfLength:(CFIndex)partialLength tag:(long)tag
-{
-	NSLog(@"%@: didReadPartialDataOfLength: %@ Read %i: tag %i",self, sock, partialLength, tag);
-}
-
 /*
  This will be called whenever AsyncSocket is about to disconnect. Tthis is
  a good place to do disaster-recovery by getting partially-read data. This is
@@ -730,7 +709,6 @@
 	} else {
 		/* Treat the packet as complete if it is disconnected without an error. */
 		[self networkPacketReadComplete];
-		NSLog (@"Socket will disconnect. No error. unread: %@", [sock unreadData]);
 	}
 	
 	[[self delegate] packetDidDisconnect:self];

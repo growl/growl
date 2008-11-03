@@ -59,7 +59,6 @@
 	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
 	[outgoingSocket setUserData:GrowlGNTPPacketSocketUserData_WasInitiatedLocally];
 
-	NSLog(@"Created %@ to send %@", outgoingSocket, packet);
 	@try {
 		NSError *connectionError = nil;
 		[outgoingSocket connectToAddress:destAddress error:&connectionError];
@@ -81,7 +80,6 @@
 		[hostName      release];
 	} @finally {
 		//Success!
-		NSLog(@"Made it, I think");
 	}
 }	
 	
