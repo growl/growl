@@ -109,8 +109,9 @@ typedef enum {
 
 - (NSArray *)headersForSuccessResult;
 
-- (BOOL)shouldSendCallbackResult;
+- (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
 - (NSArray *)headersForCallbackResult;
+- (NSURLRequest *)urlRequestForCallbackResult;
 
 - (NSDictionary *)growlDictionary;
 

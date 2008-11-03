@@ -10,3 +10,9 @@ typedef enum {
 	GrowlGNTPMalformedProtocolIdentificationError,
 	GrowlGNTPRegistrationPacketError
 } GrowlGNTPPacketErrorType;
+
+typedef enum {
+	GrowlGNTP_NoCallback,
+	GrowlGNTP_TCPCallback,
+	GrowlGNTP_URLCallback
+} GrowlGNTPCallbackBehavior;

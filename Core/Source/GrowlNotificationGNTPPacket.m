@@ -18,6 +18,7 @@
 {
 	if ((self = [super init])) {
 		notificationDict = [[NSMutableDictionary alloc] init];
+		callbackTargetMethod = CallbackURLTargetUnknownMethod;
 	} 
 	return self;
 }
@@ -27,8 +28,6 @@
 
 	[iconID release];
 	[iconURL release];
-
-	[callbackTarget release];
 
 	[super dealloc];
 }
@@ -146,13 +145,14 @@
 	[notificationDict setObject:value
 						 forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 }
+- (NSString *)callbackTarget
+{
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+}
 - (void)setCallbackTarget:(NSString *)value
 {
 	[notificationDict setObject:value
 						 forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
-
-	[callbackTarget autorelease];
-	callbackTarget = [[NSURL URLWithString:value] retain];
 }
 - (void)setCallbackTargetMethod:(CallbackURLTargetMethod)inMethod
 {
@@ -239,9 +239,18 @@
 	return headersForSuccessResult;
 }
 
-- (BOOL)shouldSendCallbackResult
+#pragma mark Callbacks
+- (GrowlGNTPCallbackBehavior)callbackResultSendBehavior
 {
-	return ([self callbackContext] && [self callbackContextType]);
+	if ([self callbackContext] && [self callbackContextType]) {
+		if ([self callbackTarget] && (callbackTargetMethod != CallbackURLTargetUnknownMethod)) {
+			return GrowlGNTP_URLCallback;
+		} else {
+			return GrowlGNTP_TCPCallback;
+		}
+	} else {
+		return GrowlGNTP_NoCallback;	
+	}
 }
 
 - (NSArray *)headersForCallbackResult
@@ -254,6 +263,48 @@
 	
 	return headersForCallbackResult;
 }
+
+- (NSURLRequest *)urlRequestForCallbackResult
+{
+	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+	[request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+
+	NSMutableString *responsePost = [NSMutableString string];
+	[responsePost appendFormat:@"Notification-ID=%@", [self identifier]];
+	[responsePost appendFormat:@"&Notification-Callback-Context-Type=%@", [self callbackContextType]];
+	[responsePost appendFormat:@"&Notification-Callback-Context=%@", [self callbackContext]];
+
+	NSEnumerator *enumerator = [[self customHeaders] objectEnumerator];
+	GrowlGNTPHeaderItem *headerItem;
+	while ((headerItem = [enumerator nextObject])) {
+		[responsePost appendFormat:@"&%@=%@", [headerItem headerName], [headerItem headerValue]];
+	}
+	
+	if (callbackTargetMethod == CallbackURLTargetPostMethod) {
+		NSData *responsePostData = [responsePost dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+		NSString *responsePostLength = [NSString stringWithFormat:@"%d", [responsePostData length]];
+
+		[request setHTTPMethod:@"POST"];
+		[request setURL:[NSURL URLWithString:[self callbackTarget]]];
+		[request setValue:responsePostLength forHTTPHeaderField:@"Content-Length"];
+		[request setHTTPBody:responsePostData];
+	
+	} else /* CallbackURLTargetGetMethod */ {
+		NSString *urlString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+																				  (CFStringRef)[NSString stringWithFormat:@"%@?%@", [self callbackTarget], responsePost],
+																				  /* charactersToLeaveUnescaped */ NULL,
+																				  /* legalURLCharactersToBeEscaped */ NULL,
+																				  kCFStringEncodingUTF8);
+		
+	    [request setHTTPMethod:@"GET"];
+		[request setURL:[NSURL URLWithString:urlString]];
+		[urlString release];
+	}
+
+	return request;
+}
+
 
 /*!
  * @brief Return a Growl registration dictionary

@@ -21,7 +21,6 @@ typedef enum {
 	NSString *iconID;
 	NSURL    *iconURL;
 	
-	NSURL	 *callbackTarget;
 	CallbackURLTargetMethod callbackTargetMethod;
 }
 

@@ -82,10 +82,13 @@
  *
  * This is unrelated to success vs. error; all we do here is stop tracking the packet.
  * Removing it from the currentNetworkPackets dictionary will likely lead to the object being released, as well.
+ *
+ * If we're going to send a callback later, we'll keep it in our currentNetworkPackets until that is sent.
  */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
-	[currentNetworkPackets removeObjectForKey:[packet uuid]];
+	if ([packet callbackResultSendBehavior] != GrowlGNTP_URLCallback)
+		[currentNetworkPackets removeObjectForKey:[packet uuid]];
 }
 
 /*!
@@ -104,6 +107,19 @@
 
 #pragma mark -
 
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	/* Allocated in postGrowlNotificationClosed:viaNotificationClick: */
+	[connection release];	
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+	/* Allocated in postGrowlNotificationClosed:viaNotificationClick: */
+	NSLog(@"Callback via %@ failed with error %@", connection, error);
+	[connection release];
+}
+
 /*!
  * @brief Pass click and closed/timed out notifications back to originating clients
  *
@@ -113,12 +129,31 @@
 - (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
 {
 	GrowlGNTPPacket *existingPacket = [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]];
-	if (existingPacket && [existingPacket shouldSendCallbackResult]) {
-		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-		[outgoingPacket setAction:(viaClick ? @"-CLICKED" : @"-CLOSED")];
-		[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult]];
-		[outgoingPacket writeToSocket:[existingPacket socket]];
-		[[existingPacket socket] disconnectAfterWriting];
+	if (existingPacket) {
+		
+		switch ([existingPacket callbackResultSendBehavior]) {
+			case GrowlGNTP_NoCallback:
+				/* No-op */
+				break;
+			case GrowlGNTP_TCPCallback:
+			{
+				GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+				[outgoingPacket setAction:(viaClick ? @"-CLICKED" : @"-CLOSED")];
+				[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult]];
+				[outgoingPacket writeToSocket:[existingPacket socket]];
+				[[existingPacket socket] disconnectAfterWriting];
+				break;
+			}				
+			case GrowlGNTP_URLCallback:
+			{
+				/* We'll release this NSURLConnection when the connection finishes sending or fails to do so. */
+				[[NSURLConnection alloc] initWithRequest:[existingPacket urlRequestForCallbackResult]
+												delegate:self];
+
+				 /* We can now stop tracking the packet in currentNetworkPackets. */
+				[currentNetworkPackets removeObjectForKey:[existingPacket uuid]];
+			}
+		}
 	}
 }
 

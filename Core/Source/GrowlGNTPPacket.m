@@ -317,10 +317,12 @@
 	return customHeaders;
 }
 
-- (BOOL)shouldSendCallbackResult
+
+#pragma mark Callbacks
+- (GrowlGNTPCallbackBehavior)callbackResultSendBehavior
 {
 	if (specificPacket)
-		return [specificPacket shouldSendCallbackResult];
+		return [specificPacket callbackResultSendBehavior];
 	else
 		return NO; /* This abstract superclass has no idea how to send a callback */
 }
@@ -329,6 +331,14 @@
 {
 	if (specificPacket)
 		return [specificPacket headersForCallbackResult];
+	else
+		return nil; /* This abstract superclass has no idea how to send a callback */
+}
+
+- (NSURLRequest *)urlRequestForCallbackResult
+{
+	if (specificPacket)
+		return [specificPacket urlRequestForCallbackResult];
 	else
 		return nil; /* This abstract superclass has no idea how to send a callback */
 }
@@ -519,10 +529,9 @@
 				case GrowlInitialReadResult_UnknownPacket:
 					[self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
 													   code:GrowlGNTPMalformedProtocolIdentificationError
-												   userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Unknown incoming data; dropping the connection to %@",
-																								sock]
-																						forKey:NSLocalizedFailureReasonErrorKey]]];					
-					[sock disconnect];
+												   userInfo:[NSDictionary dictionaryWithObject:@"Unknown incoming data while expected a GNTP packet; dropping the connection."
+																						forKey:NSLocalizedFailureReasonErrorKey]]];
+					[self errorOccurred];
 					break;
 				case GrowlInitialReadResult_GNTPPacket:
 					[self finishProcessingProtocolIdentifier];
