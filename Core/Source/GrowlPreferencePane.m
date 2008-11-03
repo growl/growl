@@ -309,9 +309,6 @@
 	[self reloadPreferences:nil];
 }
 
-/*!
- * @brief copy images to avoid resizing the original images stored in the tickets.
- */
 - (void) cacheImages {
 	if (images)
 		CFArrayRemoveAllValues(images);
@@ -321,7 +318,7 @@
 	NSEnumerator *enumerator = [[ticketsArrayController content] objectEnumerator];
 	GrowlApplicationTicket *ticket;
 	while ((ticket = [enumerator nextObject])) {
-		NSImage *icon = [[ticket icon] copy];
+		NSImage *icon = [[NSImage alloc] initWithData:[ticket iconData]];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(32.0f, 32.0f)];
 		CFArrayAppendValue(images, icon);
