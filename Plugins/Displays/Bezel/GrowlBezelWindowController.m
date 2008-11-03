@@ -126,26 +126,6 @@
 }
 
 #pragma mark -
-
-- (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	[super setNotification:theNotification];
-	if (!theNotification)
-		return;
-
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification title];
-	NSString *text  = [notification notificationDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int myPriority  = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-
-	GrowlBezelWindowView *view = [[self window] contentView];
-	[view setPriority:myPriority];
-	[view setTitle:title];
-	[view setText:text];
-	[view setIcon:icon];
-}
-
-#pragma mark -
 #pragma mark positioning methods
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {

@@ -506,6 +506,24 @@ static NSMutableDictionary *existingInstances;
 
 	[self setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
+
+	NSView *view = [[self window] contentView];
+	if ([view isKindOfClass:[GrowlNotificationView class]]) {
+		GrowlNotificationView *notificationView = (GrowlNotificationView *)view;
+		
+		NSImage *icon;	
+		NSData *iconData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+		if ([iconData isKindOfClass:[NSImage class]])
+			icon = (NSImage *)iconData;
+		else
+			icon = (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
+	
+		[notificationView setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+		[notificationView setTitle:[notification title]];
+		[notificationView setText:[notification notificationDescription]];
+		[notificationView setIcon:icon];
+		[notificationView sizeToFit];
+	}
 }
 
 - (void) updateToNotification:(GrowlApplicationNotification *)theNotification {

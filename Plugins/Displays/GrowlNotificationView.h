@@ -31,4 +31,11 @@
 - (BOOL) showsCloseBox;
 - (void) setCloseBoxVisible:(BOOL)yorn;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin;
+
+- (void) setPriority:(int)priority;
+- (void) setTitle:(NSString *) aTitle;
+- (void) setText:(NSString *)aText;
+- (void) setIcon:(NSImage *)anIcon;
+- (void) sizeToFit;
+
 @end

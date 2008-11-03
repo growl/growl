@@ -158,5 +158,19 @@ static NSButton *gCloseButton;
 	[super drawRect:rect];
 }
 
+#pragma mark For subclasses
+- (void) setPriority:(int)priority {
+#pragma unused(priority)
+}
+- (void) setTitle:(NSString *) aTitle {
+#pragma unused(aTitle)
+}
+- (void) setText:(NSString *)aText {
+#pragma unused(aText)
+}
+- (void) setIcon:(NSImage *)anIcon {
+#pragma unused(anIcon)
+}
+- (void) sizeToFit {};
 
 @end

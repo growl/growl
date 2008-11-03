@@ -88,27 +88,6 @@
 	return self;
 }
 
-#pragma mark -
-
-- (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	[super setNotification:theNotification];
-	if (!theNotification)
-		return;
-
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification title];
-	NSString *text  = [notification notificationDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-
-	GrowlBrushedWindowView *view = [[self window] contentView];
-	[view setPriority:priority];
-	[view setTitle:title];
-	[view setText:text];
-	[view setIcon:icon];
-	[view sizeToFit];
-}
-
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
 	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];

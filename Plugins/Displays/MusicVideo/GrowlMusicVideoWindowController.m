@@ -136,23 +136,4 @@
 
 }
 
-- (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	[super setNotification:theNotification];
-	if (!theNotification)
-		return;
-
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification title];
-	NSString *text  = [notification notificationDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-
-	NSPanel *panel = (NSPanel *)[self window];
-	GrowlMusicVideoWindowView *view = [panel contentView];
-	[view setPriority:prio];
-	[view setTitle:title];
-	[view setText:text];
-	[view setIcon:icon];
-}
-
 @end
