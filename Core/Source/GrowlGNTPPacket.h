@@ -130,6 +130,6 @@ typedef enum {
 - (NSArray *)headersForSuccessResult;
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers;
 - (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
-- (NSArray *)headersForCallbackResult;
-- (NSURLRequest *)urlRequestForCallbackResult;
+- (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked;
+- (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked;
 @end

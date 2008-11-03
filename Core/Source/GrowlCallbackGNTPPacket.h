@@ -10,12 +10,13 @@
 #import "GrowlGNTPPacket.h"
 
 typedef enum {
-	GrowlGNTPCallback_Clicked,
-	GrowlGNTPCallback_Closed
+	GrowlGNTPCallback_Closed,
+	GrowlGNTPCallback_Clicked
 } GrowlGNTPCallbackType;
 
 @interface GrowlCallbackGNTPPacket : GrowlGNTPPacket {
 	NSMutableDictionary *callbackDict;
+	GrowlGNTPCallbackType callbackType;
 }
 
 - (GrowlGNTPCallbackType)callbackType;

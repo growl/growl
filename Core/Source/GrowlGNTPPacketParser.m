@@ -207,8 +207,8 @@
 			case GrowlGNTP_TCPCallback:
 			{
 				GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-				[outgoingPacket setAction:(viaClick ? @"-CLICKED" : @"-CLOSED")];
-				[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult]];
+				[outgoingPacket setAction:@"-CALLBACK"];
+				[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult_wasClicked:viaClick]];
 				[outgoingPacket writeToSocket:[existingPacket socket]];
 				[[existingPacket socket] disconnectAfterWriting];
 				break;
@@ -216,7 +216,7 @@
 			case GrowlGNTP_URLCallback:
 			{
 				/* We'll release this NSURLConnection when the connection finishes sending or fails to do so. */
-				[[NSURLConnection alloc] initWithRequest:[existingPacket urlRequestForCallbackResult]
+				[[NSURLConnection alloc] initWithRequest:[existingPacket urlRequestForCallbackResult_wasClicked:viaClick]
 												delegate:self];
 
 				 /* We can now stop tracking the packet in currentNetworkPackets. */

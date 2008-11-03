@@ -34,6 +34,15 @@
 						 forKey:GROWL_NOTIFICATION_GNTP_ID];
 }
 
+- (GrowlGNTPCallbackType)callbackType
+{
+	return callbackType;
+}
+- (void)setCallbackType:(GrowlGNTPCallbackType)inType
+{
+	callbackType = inType;
+}
+
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
 	NSString *name = [headerItem headerName];
@@ -53,18 +62,17 @@
 
 	if ([name caseInsensitiveCompare:@"Notification-ID"] == NSOrderedSame) {
 		[self setIdentifier:value];
+	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Result"] == NSOrderedSame) {
+		if ([value caseInsensitiveCompare:@"CLICKED"] == NSOrderedSame) {
+			[self setCallbackType:GrowlGNTPCallback_Clicked];
+		} else {
+			[self setCallbackType:GrowlGNTPCallback_Closed];			
+		}
 	} else if ([name rangeOfString:@"X-" options:NSLiteralSearch | NSAnchoredSearch].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
 
 	return GrowlReadDirective_Continue;
-}
-
-- (GrowlGNTPCallbackType)callbackType
-{
-	return (([[self action] caseInsensitiveCompare:@"-CLICKED"] == NSOrderedSame) ?
-			GrowlGNTPCallback_Clicked :
-			GrowlGNTPCallback_Closed);
 }
 
 /*!
@@ -77,7 +85,11 @@
 	NSMutableArray *headersForSuccessResult = [[[super headersForSuccessResult] mutableCopy] autorelease];
 	if (!headersForSuccessResult) headersForSuccessResult = [NSMutableArray array];
 	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
-	
+	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
+																		 value:([self callbackType] == GrowlGNTPCallback_Clicked ?
+																				@"CLICKED" :
+																				@"CLOSED")]];
+
 	return headersForSuccessResult;
 }
 

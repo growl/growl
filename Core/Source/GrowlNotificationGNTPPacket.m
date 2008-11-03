@@ -310,10 +310,12 @@
 	}
 }
 
-- (NSArray *)headersForCallbackResult
+- (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
 	NSMutableArray *headersForCallbackResult = [NSMutableArray array];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
+																		  value:(wasClicked ? @"CLICKED" : @"CLOSED")]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
 	if ([self customHeaders]) [headersForCallbackResult addObjectsFromArray:[self customHeaders]];
@@ -321,7 +323,7 @@
 	return headersForCallbackResult;
 }
 
-- (NSURLRequest *)urlRequestForCallbackResult
+- (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked
 {
 	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
 	[request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
@@ -329,6 +331,8 @@
 
 	NSMutableString *responsePost = [NSMutableString string];
 	[responsePost appendFormat:@"Notification-ID=%@", [self identifier]];
+	[responsePost appendFormat:@"&Notification-Callback-Result=%@", (wasClicked ? @"CLICKED" : @"CLOSED")];
+
 	[responsePost appendFormat:@"&Notification-Callback-Context-Type=%@", [self callbackContextType]];
 	[responsePost appendFormat:@"&Notification-Callback-Context=%@", [self callbackContext]];
 

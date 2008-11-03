@@ -109,8 +109,7 @@
 		return GrowlNotifyPacketType;
 	else if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame)
 		return GrowlRegisterPacketType;
-	else if (([action caseInsensitiveCompare:@"-CLICKED"] == NSOrderedSame) ||
-			 ([action caseInsensitiveCompare:@"-CLOSED"] == NSOrderedSame))
+	else if ([action caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame)
 		return GrowlCallbackPacketType;
 	else
 		return GrowlUnknownPacketType;
@@ -265,8 +264,7 @@
 	} else if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
 		specificPacket = [[GrowlNotificationGNTPPacket specificNetworkPacketForPacket:self] retain];
 
-	} else if (([action caseInsensitiveCompare:@"-CLICKED"] == NSOrderedSame) ||
-			   ([action caseInsensitiveCompare:@"-CLOSED"] == NSOrderedSame)){
+	} else if ([action caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame) {
 		specificPacket = [[GrowlCallbackGNTPPacket specificNetworkPacketForPacket:self] retain];
 
 	} else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
@@ -412,18 +410,18 @@
 	return GrowlGNTP_NoCallback; /* This abstract superclass has no idea how to send a callback */	
 }
 
-- (NSArray *)headersForCallbackResult
+- (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
 	if (specificPacket)
-		return [specificPacket headersForCallbackResult];
+		return [specificPacket headersForCallbackResult_wasClicked:wasClicked];
 	else
 		return nil; /* This abstract superclass has no idea how to send a callback */
 }
 
-- (NSURLRequest *)urlRequestForCallbackResult
+- (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked
 {
 	if (specificPacket)
-		return [specificPacket urlRequestForCallbackResult];
+		return [specificPacket urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked];
 	else
 		return nil; /* This abstract superclass has no idea how to send a callback */
 }
