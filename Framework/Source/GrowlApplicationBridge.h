@@ -357,7 +357,7 @@
  *	 Key							             Value
  *	 ---							             -----
  *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
- *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_ICON_DATA</code>            The data of the icon of the application.
  *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
  *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
  *
@@ -378,7 +378,7 @@
  *	 Key							             Value
  *	 ---							             -----
  *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
- *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_ICON_DATA</code>            The data of the icon of the application.
  *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
  *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
  *
@@ -402,7 +402,7 @@
  *	 the keys that it will look for are:
  *
  *	 \li <code>GROWL_APP_NAME</code>
- *	 \li <code>GROWL_APP_ICON</code>
+ *	 \li <code>GROWL_APP_ICON_DATA</code>
  *
  *	@since Growl.framework 1.1
  */

@@ -14,6 +14,7 @@
 #import "GrowlDisplayPlugin.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlImageAdditions.h"
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
@@ -139,7 +140,7 @@
 		appPath = [fullPath retain];
 //		NSLog(@"got appPath: %@", appPath);
 
-		[self setIcon:getObjectForKey(ticketDict, GROWL_APP_ICON)];
+		[self setIconData:[ticketDict objectForKey:GROWL_APP_ICON_DATA]];
 
 		id value = getObjectForKey(ticketDict, UseDefaultsKey);
 		if (value)
@@ -185,7 +186,6 @@
 	[appName                  release];
 	[appId                    release];
 	[appPath                  release];
-	[icon                     release];
 	[iconData                 release];
 	[allNotifications         release];
 	[defaultNotifications     release];
@@ -263,15 +263,11 @@
 	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInt:positionType];
 	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInt:selectedCustomPosition];
 	NSData *theIconData = iconData;
-	if (!theIconData) {
-		NSImage *theIcon = [self icon];
-		theIconData = theIcon ? [theIcon TIFFRepresentation] : [NSData data];
-	}
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,						GROWL_APP_NAME,
 		saveNotifications,				GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications,			GROWL_NOTIFICATIONS_DEFAULT,
-		theIconData,					GROWL_APP_ICON,
+		theIconData,					GROWL_APP_ICON_DATA,
 		useDefaultsValue,				UseDefaultsKey,
 		ticketEnabledValue,				TicketEnabledKey,
 		clickHandlersEnabledValue,		ClickHandlersEnabledKey,
@@ -341,42 +337,29 @@
 
 #pragma mark -
 
-- (NSImage *) icon {
-	if (icon)
-		return icon;
-	if (iconData) {
-		icon = [[NSImage alloc] initWithData:iconData];
-		[iconData release];
-		iconData = nil;
+- (NSData *) iconData {
+	if (!iconData) {
+		if (appPath) {
+			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
+			iconData = [[icon PNGRepresentation] retain];
+		}
+		if (!iconData) {
+			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+			[icon setSize:NSMakeSize(128.0f, 128.0f)];
+			iconData = [[icon PNGRepresentation] retain];
+		}
 	}
-	if (!icon && appPath)
-		icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] retain];
-	if (!icon) {
-		icon = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)] retain];
-		[icon setSize:NSMakeSize(128.0f, 128.0f)];
-	}
-	return icon;
+	return iconData;
 }
 
-- (void) setIcon:(NSImage *)inIcon {
-	if (icon != inIcon) {
-		if ([inIcon isEqual:icon] || [inIcon isEqual:iconData])
+- (void) setIconData:(NSData *)inIconData {
+	if (iconData != inIconData) {
+		if (iconData && [inIconData isEqual:iconData])
 			return;
 		changed = YES;
-		[icon     release];
+
 		[iconData release];
-		if (inIcon) {
-			if ([inIcon isKindOfClass:[NSImage class]]) {
-				icon = [inIcon copy];
-				iconData = nil;
-			} else {
-				icon = nil;
-				iconData = (NSData *)[inIcon retain];
-			}
-		} else {
-			icon = nil;
-			iconData = nil;
-		}
+		iconData = [inIconData retain];
 	}
 }
 
@@ -464,13 +447,13 @@
 #pragma mark -
 
 - (NSString *) description {
-	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon: %@\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@\n}",
-		self, appName, icon, allNotifications, defaultNotifications, [self allowedNotifications], ( useDefaults ? @"YES" : @"NO" )];
+	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon data length: %i\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@\n}",
+		self, appName, [iconData length], allNotifications, defaultNotifications, [self allowedNotifications], ( useDefaults ? @"YES" : @"NO" )];
 }
 
 #pragma mark -
 
-- (void) reregisterWithAllNotifications:(NSArray *)inAllNotes defaults:(id)inDefaults icon:(NSImage *)inIcon {
+- (void) reregisterWithAllNotifications:(NSArray *)inAllNotes defaults:(id)inDefaults iconData:(NSData *)inIconData {
 	if (!useDefaults) {
 		/*We want to respect the user's preferences, but if the application has
 		 *	added new notifications since it last registered, we want to enable those
@@ -546,13 +529,13 @@
 	[self setAllNotifications:inAllNotes];
 	[self setDefaultNotifications:inDefaults];
 
-	[self setIcon:inIcon];
+	[self setIconData:inIconData];
 }
 
 - (void) reregisterWithDictionary:(NSDictionary *)dict {
 	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 
-	NSImage *appIcon = [dict objectForKey:GROWL_APP_ICON];
+	NSData *appIconData = [dict objectForKey:GROWL_APP_ICON_DATA];
 	NSString *bundleId = [dict objectForKey:GROWL_APP_ID];
 
 	if (bundleId != appId && ![bundleId isEqualToString:appId]) {
@@ -561,7 +544,7 @@
 		changed = YES;
 	}
 
-	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
+	//XXX - should assimilate reregisterWithAllNotifications:defaults:iconData: here
 	NSArray	*all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray	*defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 
@@ -582,7 +565,7 @@
 	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
 								defaults:defaults
-									icon:appIcon];
+								iconData:appIconData];
 
 	NSString *fullPath = nil;
 	id location = [dict objectForKey:GROWL_APP_LOCATION];

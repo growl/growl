@@ -14,6 +14,11 @@
 
 @class GrowlGNTPOutgoingPacket;
 
+typedef enum {
+  GrowlGNTPPacketSocketUserData_None = 0,
+	GrowlGNTPPacketSocketUserData_WasInitiatedLocally
+} GrowlGNTPPacketSocketUserData;
+
 @interface GrowlGNTPPacketParser : NSObject <GrowlGNTPPacketDelegate> {
 	NSMutableDictionary *currentNetworkPackets;
 }

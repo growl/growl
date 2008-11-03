@@ -56,7 +56,7 @@
  *   This key is optional.
  */
 #define GROWL_APP_ID					XSTR("ApplicationId")
-/*!	@defined GROWL_APP_ICON
+/*!	@defined GROWL_APP_ICON_DATA
  *	@abstract The image data for your application's icon.
  *	@discussion Image data representing your application's icon. This may be
  *	 superimposed on a notification icon as a badge, used as the notification
@@ -66,7 +66,7 @@
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_APP_ICON					XSTR("ApplicationIcon")
+#define GROWL_APP_ICON_DATA				XSTR("ApplicationIcon")
 /*!	@defined GROWL_NOTIFICATIONS_DEFAULT
  *	@abstract The array of notifications to turn on by default.
  *	@discussion These are the names of the notifications that should be enabled
@@ -144,20 +144,20 @@
  */
 #define GROWL_NOTIFICATION_DESCRIPTION  	XSTR("NotificationDescription")
 /*!	@defined GROWL_NOTIFICATION_ICON
- *	@discussion Image data for the notification icon. Must be in a format
+ *	@discussion Image data for the notification icon. Image data must be in a format
  *	 supported by NSImage, such as TIFF, PNG, GIF, JPEG, BMP, PICT, or PDF.
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_ICON			XSTR("NotificationIcon")
+#define GROWL_NOTIFICATION_ICON_DATA			XSTR("NotificationIcon")
 /*!	@defined GROWL_NOTIFICATION_APP_ICON
  *	@discussion Image data for the application icon, in case GROWL_APP_ICON does
- *	 not apply for some reason. Must be in a format supported by NSImage, such
+ *	 not apply for some reason. Image data be in a format supported by NSImage, such
  *	 as TIFF, PNG, GIF, JPEG, BMP, PICT, or PDF.
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_APP_ICON		XSTR("NotificationAppIcon")
+#define GROWL_NOTIFICATION_APP_ICON_DATA		XSTR("NotificationAppIcon")
 /*!	@defined GROWL_NOTIFICATION_PRIORITY
  *	@discussion The priority of the notification as an integer number from
  *	 -2 to +2 (+2 being highest).
@@ -245,7 +245,7 @@
  *	 The userInfo dictionary for this notification can contain these keys:
  *	 <ul>
  *	 	<li>GROWL_APP_NAME</li>
- *	 	<li>GROWL_APP_ICON</li>
+ *	 	<li>GROWL_APP_ICON_DATA</li>
  *	 	<li>GROWL_NOTIFICATIONS_ALL</li>
  *	 	<li>GROWL_NOTIFICATIONS_DEFAULT</li>
  *	 </ul>

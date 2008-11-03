@@ -11,6 +11,7 @@
 #import "GrowlGNTPBinaryChunk.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
+#import "GrowlImageAdditions.h"
 
 #define GROWL_NOTIFICATION_HUMAN_READABLE_NAME		@"HumanReadableName"
 #define GROWL_NOTIFICATION_ENABLED_BY_DEFAULT		@"EnabledByDefault"
@@ -86,7 +87,7 @@
 	return applicationIconURL;
 }
 
-- (NSImage *)applicationIcon
+- (NSData *)applicationIconData
 {
 	NSData *data = nil;
 	if (applicationIconID) {
@@ -96,7 +97,7 @@
 		data = [NSData dataWithContentsOfURL:applicationIconURL];
 	}
 
-	return (data ? [[[NSImage alloc] initWithData:data] autorelease] : nil);
+	return data;
 }
 
 - (void)addReceivedHeader:(NSString *)string
@@ -271,8 +272,8 @@
 	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
 	
 	[growlDictionary addEntriesFromDictionary:registrationDict];
-	[growlDictionary setValue:[self applicationIcon]
-					   forKey:GROWL_APP_ICON];
+	[growlDictionary setValue:[self applicationIconData]
+					   forKey:GROWL_APP_ICON_DATA];
 
 	NSMutableArray *allNotifications = [NSMutableArray array];
 	NSMutableArray *defaultNotifications = [NSMutableArray array];
@@ -311,8 +312,8 @@
 	/* First build the application and number of notifications part */
 	if ([dict objectForKey:GROWL_APP_NAME])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
-	if ([dict objectForKey:GROWL_APP_ICON]) {
-		NSData *iconData = [dict objectForKey:GROWL_APP_ICON];
+	if ([dict objectForKey:GROWL_APP_ICON_DATA]) {
+		NSData *iconData = [dict objectForKey:GROWL_APP_ICON_DATA];
 		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Icon"

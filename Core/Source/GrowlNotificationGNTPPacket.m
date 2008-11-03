@@ -10,6 +10,7 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlGNTPBinaryChunk.h"
 #import "GrowlDefines.h"
+#import "GrowlImageAdditions.h"
 
 @implementation GrowlNotificationGNTPPacket
 
@@ -113,7 +114,7 @@
 	
 	/* XXX Start loading the URL in the background */
 }
-- (NSImage *)icon
+- (NSData *)iconData
 {
 	NSData *data = nil;
 	if (iconID) {
@@ -123,7 +124,7 @@
 		data = [NSData dataWithContentsOfURL:iconURL];
 	}
 	
-	return (data ? [[[NSImage alloc] initWithData:data] autorelease] : nil);
+	return data;
 }
 
 - (NSString *)callbackContext
@@ -373,8 +374,8 @@
 	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
 	
 	[growlDictionary addEntriesFromDictionary:notificationDict];
-	[growlDictionary setValue:[self icon]
-					   forKey:GROWL_NOTIFICATION_ICON];
+	[growlDictionary setValue:[self iconData]
+					   forKey:GROWL_NOTIFICATION_ICON_DATA];
 	
 	return growlDictionary;
 }
@@ -398,8 +399,10 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_ICON]) {
-		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON];
+	if ([dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]) {
+		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+		if ([iconData isKindOfClass:[NSImage class]])
+			iconData = [(NSImage *)iconData PNGRepresentation];
 		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Icon"

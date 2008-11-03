@@ -10,6 +10,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
+#import "GrowlImageAdditions.h"
 
 #define KEY_APP_NAME					@"asApplication"
 #define KEY_NOTIFICATIONS_ALL			@"allNotifications"
@@ -72,7 +73,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 			if (icon) {
 				[icon setSize:iconSize];
-				[registerDict setObject:icon forKey:GROWL_APP_ICON];
+				[registerDict setObject:[icon PNGRepresentation] forKey:GROWL_APP_ICON_DATA];
 			}
 		}
 

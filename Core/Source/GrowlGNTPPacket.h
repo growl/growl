@@ -106,6 +106,7 @@ typedef enum {
 - (NSString *)encryptionAlgorithm;
 
 - (NSDictionary *)growlDictionary;
+- (BOOL)hasBeenReceivedPreviously;
 
 - (NSError *)error;
 @end

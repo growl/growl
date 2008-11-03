@@ -324,7 +324,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION,
 		GROWL_NOTIFICATION_PRIORITY,
 		GROWL_NOTIFICATION_STICKY,
-		GROWL_NOTIFICATION_ICON,
+		GROWL_NOTIFICATION_ICON_DATA,
 		GROWL_NOTIFICATION_APP_ICON,
 		GROWL_NOTIFICATION_CLICK_CONTEXT,
 		GROWL_NOTIFICATION_IDENTIFIER
@@ -558,13 +558,13 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		}
 	}
 
-	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_ICON)) {
-		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_ICON)) {
+	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_ICON_DATA)) {
+		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_ICON_DATA)) {
 			CFDataRef appIconData = NULL;
 			if (delegate) {
 				appIconData = delegate->applicationIconData;
 				if ((!appIconData) && (delegate->registrationDictionary))
-					appIconData = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_ICON);
+					appIconData = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_ICON_DATA);
 				if (appIconData)
 					appIconData = CFRetain(appIconData);
 			}
@@ -577,7 +577,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 			}
 
 			if (appIconData) {
-				CFDictionarySetValue(mRegDict, GROWL_APP_ICON, appIconData);
+				CFDictionarySetValue(mRegDict, GROWL_APP_ICON_DATA, appIconData);
 				CFRelease(appIconData);
 			}
 		}
@@ -639,11 +639,11 @@ CFDictionaryRef Growl_CreateNotificationDictionaryByFillingInDictionary(CFDictio
 				}
 			}
 
-			if (!CFDictionaryContainsKey(mNotifDict, GROWL_APP_ICON)) {
+			if (!CFDictionaryContainsKey(mNotifDict, GROWL_APP_ICON_DATA)) {
 				CFDataRef appIconData = _copyApplicationIconDataForGrowlSearchingRegistrationDictionary(regDict);
 
 				if (appIconData) {
-					CFDictionarySetValue(mNotifDict, GROWL_APP_ICON, appIconData);
+					CFDictionarySetValue(mNotifDict, GROWL_APP_ICON_DATA, appIconData);
 
 					CFRelease(appIconData);
 				}
@@ -739,7 +739,7 @@ static CFDataRef _copyApplicationIconDataForGrowlSearchingRegistrationDictionary
 		iconData = CFDataCreateCopy(kCFAllocatorDefault, delegate->applicationIconData);
 
 	if (!iconData)
-		iconData = CFDataCreateCopy(kCFAllocatorDefault, CFDictionaryGetValue(regDict, GROWL_APP_ICON));
+		iconData = CFDataCreateCopy(kCFAllocatorDefault, CFDictionaryGetValue(regDict, GROWL_APP_ICON_DATA));
 
 	if (!iconData) {
 		CFURLRef URL = copyCurrentProcessURL();

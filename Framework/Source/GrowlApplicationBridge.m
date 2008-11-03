@@ -17,6 +17,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlPathway.h"
+#import "GrowlImageAdditions.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -235,7 +236,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	if (title)			setObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE, title);
 	if (description)	setObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION, description);
-	if (iconData)		setObjectForKey(noteDict, GROWL_NOTIFICATION_ICON, iconData);
+	if (iconData)		setObjectForKey(noteDict, GROWL_NOTIFICATION_ICON_DATA, iconData);
 	if (clickContext)	setObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT, clickContext);
 	if (priority)		setIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY, priority);
 	if (isSticky)		setBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY, isSticky);
@@ -264,20 +265,20 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		} else {
 			//NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 
-			//DNC needs a plist. this means we must pass data, not an NSImage.
-			Class     NSImageClass = [NSImage class];
-			NSImage          *icon = [userInfo objectForKey:GROWL_NOTIFICATION_ICON];
-			NSImage       *appIcon = [userInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
-			BOOL       iconIsImage =    icon &&    [icon isKindOfClass:NSImageClass];
-			BOOL    appIconIsImage = appIcon && [appIcon isKindOfClass:NSImageClass];
+			//DNC needs a plist. this means we must pass data, not an NSImage. Enforce this.
+			Class    NSImageClass = [NSImage class];
+			NSData	*iconData = [userInfo objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+			NSData	*notificationAppIconData = [userInfo objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+			BOOL	iconIsImage = [iconData isKindOfClass:NSImageClass];
+			BOOL	appIconIsImage = [notificationAppIconData isKindOfClass:NSImageClass];
 			if (iconIsImage || appIconIsImage) {
 				NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
 				//notification icon.
 				if (iconIsImage)
-					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
+					[mUserInfo setObject:[(NSImage *)iconData PNGRepresentation] forKey:GROWL_NOTIFICATION_ICON_DATA];
 				//per-notification application icon.
 				if (appIconIsImage)
-					[mUserInfo setObject:[appIcon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
+					[mUserInfo setObject:[(NSImage *)notificationAppIconData PNGRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
 
 				userInfo = [mUserInfo autorelease];
 			}
@@ -426,12 +427,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		}
 	}
 
-	if ((!keys) || [keys containsObject:GROWL_APP_ICON]) {
-		if (![mRegDict objectForKey:GROWL_APP_ICON]) {
+	if ((!keys) || [keys containsObject:GROWL_APP_ICON_DATA]) {
+		if (![mRegDict objectForKey:GROWL_APP_ICON_DATA]) {
 			if (!appIconData)
 				appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
 			if (appIconData)
-				[mRegDict setObject:appIconData forKey:GROWL_APP_ICON];
+				[mRegDict setObject:appIconData forKey:GROWL_APP_ICON_DATA];
 		}
 	}
 
@@ -481,13 +482,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		}
 	}
 
-	if (![mNotifDict objectForKey:GROWL_APP_ICON]) {
+	if (![mNotifDict objectForKey:GROWL_APP_ICON_DATA]) {
 		if (!appIconData)
 			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:cachedRegistrationDictionary] retain];
 
 		if (appIconData) {
 			[mNotifDict setObject:appIconData
-			               forKey:GROWL_APP_ICON];
+			               forKey:GROWL_APP_ICON_DATA];
 		}
 	}
 
@@ -541,10 +542,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	}
 
 	if (!iconData)
-		iconData = [regDict objectForKey:GROWL_APP_ICON];
+		iconData = [regDict objectForKey:GROWL_APP_ICON_DATA];
 
 	if (iconData && [iconData isKindOfClass:[NSImage class]])
-		iconData = [(NSImage *)iconData TIFFRepresentation];
+		iconData = [(NSImage *)iconData PNGRepresentation];
 
 	if (!iconData) {
 		NSURL *URL = copyCurrentProcessURL();

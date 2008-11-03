@@ -57,6 +57,8 @@
 	 * desired.
 	 */
 	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
+	[outgoingSocket setUserData:GrowlGNTPPacketSocketUserData_WasInitiatedLocally];
+
 	NSLog(@"Created %@ to send %@", outgoingSocket, packet);
 	@try {
 		NSError *connectionError = nil;
@@ -103,6 +105,12 @@
  */
 - (void)packetDidFinishReading:(GrowlGNTPPacket *)packet
 {
+	/* Prevent sending loops */
+	if ([packet hasBeenReceivedPreviously]) {
+		NSLog(@"%@ was previously received! Ignoring.", packet);
+		return;
+	}
+
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);

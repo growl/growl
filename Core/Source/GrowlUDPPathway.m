@@ -322,7 +322,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
 									growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 									growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
-									growlNotificationIcon,     GROWL_NOTIFICATION_ICON,
+									[growlNotificationIcon TIFFRepresentation],     GROWL_NOTIFICATION_ICON_DATA,
 									address,                   GROWL_REMOTE_ADDRESS,
 									nil];
 								CFRelease(growlNotificationName);

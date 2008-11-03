@@ -27,6 +27,7 @@
 #import "SVNRevision.h"
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
+#import "GrowlImageAdditions.h"
 #import "MD5Authenticator.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
@@ -343,7 +344,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		desc,       GROWL_NOTIFICATION_DESCRIPTION,
 		priority,   GROWL_NOTIFICATION_PRIORITY,
 		sticky,     GROWL_NOTIFICATION_STICKY,
-		growlIcon,  GROWL_NOTIFICATION_ICON,
+		[growlIcon PNGRepresentation],  GROWL_NOTIFICATION_ICON_DATA,
 		nil];
 	[desc     release];
 	[priority release];
@@ -451,38 +452,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 {
 	[[GrowlGNTPPacketParser sharedParser] sendPacket:[sendingDetails objectForKey:@"Packet"]
 										   toAddress:[sendingDetails objectForKey:@"Destination"]];
-	NSData *destAddress = [sendingDetails objectForKey:@"Destination"];
-	GrowlGNTPOutgoingPacket *packet = [sendingDetails objectForKey:@"Packet"];
-
-	//			NSString *password = [entry objectForKey:@"password"];
-	
-	/* Will deallocate once sending is complete if we don't care about the reply, or after we get a reply if
-	 * desired.
-	 */
-	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
-	NSLog(@"Created %@ to send %@", outgoingSocket, packet);
-	@try {
-		NSError *connectionError = nil;
-		[outgoingSocket connectToAddress:destAddress error:&connectionError];
-		if (connectionError)
-			NSLog(@"Failed to connect: %@", connectionError);
-		else {
-			[packet writeToSocket:outgoingSocket];
-			if (![packet needsPersistentConnectionForCallback])
-				[outgoingSocket disconnectAfterWriting];
-		}
-		
-	} @catch (NSException *e) {
-		NSString *addressString = createStringWithAddressData(destAddress);
-		NSString *hostName = createHostNameForAddressData(destAddress);
-		NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
-			  e, addressString, hostName);
-		[addressString release];
-		[hostName      release];
-	} @finally {
-		//Success!
-		NSLog(@"Made it, I think");
-	}
 }
 
 // Need run loop to run
@@ -499,19 +468,22 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
 		if ([[entry objectForKey:@"use"] boolValue] && [[entry objectForKey:@"active"] boolValue]) {
+			NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
 			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
 				continue;
 			}
-
+			NSLog(@"Got %@", destAddress);
 			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
 								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 											   destAddress, @"Destination",
 											   packet, @"Packet",
 											   nil]
 								waitUntilDone:NO];
+		} else {
+			NSLog(@"Not sending to destination %@", entry);
 		}
 	}
 
@@ -654,6 +626,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+	GrowlLog_log(@"dispatchNotificationWithDictionary");
+	NSLog(@"dispatchNotificationWithDictionary");
 	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
 
 	// Make sure this notification is actually registered
@@ -663,6 +637,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
+		GrowlLog_log(@"%@ is not registered or not allowed", notificationName);
 		[pool release];
 		return;
 	}
@@ -672,40 +647,31 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	// Check icon
 	Class NSImageClass = [NSImage class];
 	Class NSDataClass  = [NSData  class];
-	NSImage *icon = nil;
-	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
-	if (image) {
-		if ([image isKindOfClass:NSImageClass])
-			icon = [image copy];
-		else if ([image isKindOfClass:NSDataClass])
-			icon = [[NSImage alloc] initWithData:image];
+	NSData *iconData = nil;
+	id sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+	if (sourceIconData) {
+		if ([sourceIconData isKindOfClass:NSImageClass])
+			iconData = [(NSImage *)sourceIconData PNGRepresentation];
+		else if ([sourceIconData isKindOfClass:NSDataClass])
+			iconData = sourceIconData;
 	}
-	if (!icon)
-		icon = [[ticket icon] copy];
+	if (!iconData)
+		iconData = [ticket iconData];
 
-	if (icon) {
-		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
-		[icon release];
-	} else {
-		//We get here when no image existed, and if an NSData existed, an image could not be created from it.
-		//In the latter case, we don't need to keep that non-image NSData around.
-		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
-	}
+	if (iconData)
+		[aDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
 
 	// If app icon present, convert to NSImage
-	icon = nil;
-	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
-	if (image) {
-		if ([image isKindOfClass:NSImageClass])
-			icon = [image copy];
-		else if ([image isKindOfClass:NSDataClass])
-			icon = [[NSImage alloc] initWithData:image];
+	iconData = nil;
+	sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+	if (sourceIconData) {
+		if ([sourceIconData isKindOfClass:NSImageClass])
+			iconData = [(NSImage *)sourceIconData PNGRepresentation];
+		else if ([sourceIconData isKindOfClass:NSDataClass])
+			iconData = sourceIconData;
 	}
-	if (icon) {
-		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
-		[icon release];
-	} else
-		[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
+	if (iconData)
+		[aDict setObject:iconData forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
 
 	// To avoid potential exceptions, make sure we have both text and title
 	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
@@ -737,6 +703,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
 	setBooleanForKey(aDict, GROWL_CLICK_HANDLER_ENABLED, [ticket clickHandlersEnabled]);
+
+	if ([preferences squelchMode]) NSLog(@"Squelching...");
 
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
@@ -771,6 +739,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			display = defaultDisplayPlugin;
 		}
 
+		GrowlLog_log(@"Will display with %@", display);
+		
 		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 		[display displayNotification:appNotification];
 		[appNotification release];

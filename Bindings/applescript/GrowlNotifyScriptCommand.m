@@ -26,6 +26,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
+#import "GrowlImageAdditions.h"
 #include "CFGrowlAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
 
@@ -130,7 +131,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 
 		if (icon) {
 			[icon setSize:iconSize];
-			[noteDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+			[noteDict setObject:[icon PNGRepresentation] forKey:GROWL_NOTIFICATION_ICON_DATA];
 			[icon release];
 		}
 

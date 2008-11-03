@@ -93,7 +93,7 @@ struct Growl_Delegate {
 	 *		Same as the applicationName member of this structure.
 	 *		If both are present, the applicationName member shall prevail.
 	 *		If this key is present, you may omit applicationName (set it to <code>NULL</code>).
-	 *	GROWL_APP_ICON (CFData):
+	 *	GROWL_APP_ICON_DATA (CFData):
 	 *		Same as the iconData member of this structure.
 	 *		If both are present, the iconData member shall prevail.
 	 *		If this key is present, you may omit iconData (set it to <code>NULL</code>).
@@ -663,7 +663,7 @@ GROWL_EXPORT CFDictionaryRef Growl_CreateBestRegistrationDictionary(void);
  *	 Key							             Value
  *	 ---							             -----
  *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
- *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_ICON_DATA</code>            Data of the icon of the application.
  *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
  *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
  *
@@ -684,7 +684,7 @@ GROWL_EXPORT CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictio
  *	 Key							             Value
  *	 ---							             -----
  *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
- *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_ICON_DATA</code>            Data of the icon of the application.
  *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
  *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
  *
@@ -704,7 +704,7 @@ GROWL_EXPORT CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictio
  *	 the keys that it will look for are:
  *
  *	 \li <code>GROWL_APP_NAME</code>
- *	 \li <code>GROWL_APP_ICON</code>
+ *	 \li <code>GROWL_APP_ICON_DATA</code>
  *
  *	@since Growl.framework 1.1
  */
