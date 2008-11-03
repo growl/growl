@@ -214,7 +214,7 @@
 		[self setText:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Priority"] == NSOrderedSame) {
 		int priority = [value intValue];
-		if (priority >= -2 and priority <= 2)
+		if (priority >= -2 && priority <= 2)
 			[self setPriority:priority];
 	} else if ([name caseInsensitiveCompare:@"Notification-Sticky"] == NSOrderedSame) {
 		BOOL sticky = (([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame) ||

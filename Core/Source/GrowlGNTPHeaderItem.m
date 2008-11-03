@@ -69,7 +69,7 @@
 			if (outError)
 				*outError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
 												code:GrowlGNTPHeaderError
-											userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Malformed header %@; \"name: value\" not found",
+											userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Malformed header \"%@\"; \"name: value\" not found",
 																						 headerLine]
 																				 forKey:NSLocalizedFailureReasonErrorKey]];
 			[self release];
