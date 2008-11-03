@@ -351,8 +351,8 @@
 	NSString *hostName = [[NSProcessInfo processInfo] hostName];
 	if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
-	}	
-	
+	}
+
 	/* Previous received headers */
 	NSEnumerator *enumerator = [[dict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED] objectEnumerator];
 	NSString *received;
@@ -372,6 +372,30 @@
 	
 	/* New Sent-By header: Sent-By: <hostname> */
 	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Sent-By" value:hostName]];	
+}
+
+/*!
+ * @brief Return YES if this packet has previously been received by this host
+ *
+ * This is used to prevent infinite sending loops
+ */
+- (BOOL)hasBeenReceivedPreviously
+{
+	NSEnumerator *enumerator = [[[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED] objectEnumerator];
+	NSString *receivedString;
+
+	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+	if ([hostName hasSuffix:@".local"]) {
+		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
+	}
+	
+	NSString *myHostString = [NSString stringWithFormat:@"by %@", hostName];
+	while ((receivedString = [enumerator nextObject])) {
+		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
+			return YES;
+	}
+	
+	return NO;
 }
 
 #pragma mark Callbacks
@@ -571,7 +595,8 @@
 #pragma unused(inPort)
 	
 	if ([self isLocalHost:inHost] ||
-		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey]) {
+		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
+		([sock userData] == GrowlGNTPPacketSocketUserData_WasInitiatedLocally)) {
 		[self beginProcessingProtocolIdentifier];
 	} else {
 		[sock disconnect];
