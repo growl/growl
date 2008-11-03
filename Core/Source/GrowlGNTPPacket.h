@@ -20,7 +20,8 @@ typedef enum {
 	GrowlFlashPolicyRequestRead,
 	GrowlHeaderRead,
 	GrowlBinaryHeaderRead,
-	GrowlBinaryDataRead
+	GrowlBinaryDataRead,
+	GrowlExhaustingRemainingDataRead
 } NetworkReadingType;
 
 typedef enum {
@@ -92,6 +93,13 @@ typedef enum {
 }
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket;
+
+/*!
+ * @brief Start listening for incoming data
+ *
+ * Only needs to be called if the socket was already connected; otherwise will be called automaticaly
+ */
+- (void)startProcessing;
 
 - (AsyncSocket *)socket;
 

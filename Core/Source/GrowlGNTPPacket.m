@@ -59,6 +59,10 @@
 
 - (void)dealloc
 {
+	NSLog(@"Deallocating <%@: %p>", NSStringFromClass([self class]), self);
+	if ([socket delegate] == self)
+		[socket setDelegate:nil];
+
 	[socket release];
 	[specificPacket release];
 	[action release];
@@ -68,15 +72,6 @@
 	[customHeaders release];
 
 	[super dealloc];
-}
-
-- (void)resetToRead
-{
-	[specificPacket release]; specificPacket = nil;
-	[[self socket] setDelegate:self];
-	
-	/* Now await incoming data */
-	[self beginProcessingProtocolIdentifier];
 }
 
 - (AsyncSocket *)socket
@@ -165,6 +160,11 @@
 	[socket readDataToLength:4
 			   withTimeout:-1
 					   tag:GrowlInitialBytesIdentifierRead];
+}
+
+- (void)startProcessing
+{
+	[self beginProcessingProtocolIdentifier];
 }
 
 - (void)finishProcessingProtocolIdentifier
@@ -528,8 +528,26 @@
 }
 	
 #pragma mark Complete
+/*!
+ * @brief A packet was received in its entirety
+ *
+ * It needs to be validated.
+ *
+ * The connected socket, if still connected, will wait for the GNTP/1.0 END sequence before treating incoming data
+ * as a new packet.
+ */
 - (void)networkPacketReadComplete
 {
+	/* XXX We should validate the received packet in its entirey NOW */
+	
+	/* If we're going to ever read anything else on this socket, it must first be preceeded by the GNTP/1.0 END tag */
+#define CRLF "\x0D\x0A"	
+	NSData *endData = [[NSString stringWithFormat:@"" CRLF "GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
+
+	[socket readDataToData:endData
+			   withTimeout:-1
+					   tag:GrowlExhaustingRemainingDataRead];		
+
 	[[self delegate] packetDidFinishReading:self];
 }
 
@@ -597,8 +615,9 @@
 	if ([self isLocalHost:inHost] ||
 		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
 		([sock userData] == GrowlGNTPPacketSocketUserData_WasInitiatedLocally)) {
-		[self beginProcessingProtocolIdentifier];
+		[self startProcessing];
 	} else {
+		NSLog(@"Disconnecting immediately from %@", sock);
 		[sock disconnect];
 	}
 }
@@ -688,6 +707,9 @@
 					break;
 			}					
 			break;
+		case GrowlExhaustingRemainingDataRead:
+			/* No-op */
+			break;
 	}
 }
 
@@ -708,6 +730,8 @@
 		[self setError:err];
 		[self errorOccurred];
 	} else {
+		/* Treat the packet as complete if it is disconnected without an error. */
+		[self networkPacketReadComplete];
 		NSLog (@"Socket will disconnect. No error. unread: %@", [sock unreadData]);
 	}
 	
@@ -726,8 +750,6 @@
 - (void)packetDidFinishReading:(GrowlGNTPPacket *)packet
 {
 	[[self delegate] packetDidFinishReading:packet];
-	
-	[self resetToRead];
 }
 
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet

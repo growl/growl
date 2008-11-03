@@ -67,6 +67,7 @@
 			NSLog(@"Failed to connect: %@", connectionError);
 		else {
 			[packet writeToSocket:outgoingSocket];
+			
 			if (![packet needsPersistentConnectionForCallback])
 				[outgoingSocket disconnectAfterWriting];
 		}
@@ -111,6 +112,8 @@
 		return;
 	}
 
+	NSLog(@"Finished reading %@", packet);
+
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);
@@ -132,6 +135,14 @@
 	[outgoingPacket setAction:@"-OK"];
 	[outgoingPacket addHeaderItems:[packet headersForSuccessResult]];
 	[outgoingPacket writeToSocket:[packet socket]];
+	
+	/* Set up to listen again on the same socket with a new packet */
+	GrowlGNTPPacket *newPacket = [GrowlGNTPPacket networkPacketForSocket:[packet socket]];
+	[newPacket setDelegate:self];	
+	[currentNetworkPackets setObject:newPacket
+							  forKey:[newPacket uuid]];		
+	/* Now await incoming data using the new packet */
+	[newPacket startProcessing];	
 }
 
 /*!
@@ -187,8 +198,8 @@
 - (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
 {
 	GrowlGNTPPacket *existingPacket = [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]];
+
 	if (existingPacket) {
-		
 		switch ([existingPacket callbackResultSendBehavior]) {
 			case GrowlGNTP_NoCallback:
 				/* No-op */

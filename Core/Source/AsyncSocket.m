@@ -268,6 +268,8 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 // The socket may been initialized in a connected state and auto-released, so this should close it down cleanly.
 - (void) dealloc
 {
+	NSLog(@"%@ dealloc", self);
+
 	[self close];
 	[theReadQueue release];
 	[theWriteQueue release];
@@ -2005,6 +2007,7 @@ Failed:;
 	{
 		if(([theWriteQueue count] == 0) && (theCurrentWrite == nil))
 		{
+			NSLog(@"%@ disconnecting because no more writes queued", self);
 			[self performSelector:@selector(disconnect) withObject:nil afterDelay:0];
 		}
 	}

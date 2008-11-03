@@ -110,6 +110,7 @@
 
 - (void)writeToSocket:(AsyncSocket *)socket
 {
+	NSLog(@"Writing %@ to %@", [self outgoingItems], socket);
 	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
 	id <GNTPOutgoingItem> item;
 	while ((item = [enumerator nextObject])) {
