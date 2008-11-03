@@ -12,13 +12,7 @@
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)dict {
 	if (enabled && [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
-		NSMutableDictionary *modifiedDict = [dict mutableCopy];
-		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
-
-		[super registerApplicationWithDictionary:modifiedDict];
-
-		[modifiedDict release];
-		
+		[super registerApplicationWithDictionary:dict];		
 		return YES;
 	} else {
 		return NO;
@@ -27,12 +21,7 @@
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
 	if (enabled) {
-		NSMutableDictionary *modifiedDict = [dict mutableCopy];
-		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
-
-		[super postNotificationWithDictionary:modifiedDict];
-
-		[modifiedDict release];
+		[super postNotificationWithDictionary:dict];
 	}
 }
 
