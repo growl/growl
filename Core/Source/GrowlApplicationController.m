@@ -44,7 +44,10 @@
 //XXX Networking; move me
 #import "AsyncSocket.h"
 #import "GrowlGNTPOutgoingPacket.h"
-#import "GrowlTCPPathway.h"
+//#import "GrowlTCPPathway.h"
+#import "GrowlNotificationGNTPPacket.h"
+#import "GrowlRegisterGNTPPacket.h"
+
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -518,36 +521,16 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 	[outgoingPacket setAction:@"NOTIFY"];
 
-	if ([dict objectForKey:GROWL_APP_NAME])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_NAME])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name" value:[dict objectForKey:GROWL_NOTIFICATION_NAME]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_TITLE])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Title" value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_ICON]) {
-		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON];
-		NSString *identifier = [GrowlGNTPOutgoingPacket identifierForBinaryData:iconData];
-		
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Icon"
-																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
-		[outgoingPacket addBinaryData:iconData withIdentifier:identifier];
-	}
-	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]) {
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:@"String"]];
-	}
-	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
+	NSArray *headersArray = nil;
+	NSArray *binaryArray = nil;
 	
+	[GrowlNotificationGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forNotificationDict:dict];
+
+	[outgoingPacket addHeaderItems:headersArray];
+	[outgoingPacket addBinaryChunks:binaryArray];
+
 	[self sendViaTCP:outgoingPacket];
+
 	[pool release];
 }
 	
@@ -558,46 +541,17 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 	[outgoingPacket setAction:@"REGISTER"];
 	
-	/* First build the application and number of notifications part */
-	if ([dict objectForKey:GROWL_APP_NAME])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
-	if ([dict objectForKey:GROWL_APP_ICON]) {
-		NSData *iconData = [dict objectForKey:GROWL_APP_ICON];
-		NSString *identifier = [GrowlGNTPOutgoingPacket identifierForBinaryData:iconData];
-		
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Icon"
-																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
-		[outgoingPacket addBinaryData:iconData withIdentifier:identifier];
-	}
-	if ([dict objectForKey:GROWL_APP_ID])
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-BundleID" value:[dict objectForKey:GROWL_APP_ID]]];
+	NSArray *headersArray = nil;
+	NSArray *binaryArray = nil;
 	
-	NSArray *allNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
-	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notifications-Count"
-																	value:[NSString stringWithFormat:@"%i", [allNotifications count]]]];
+	[GrowlRegisterGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forRegistrationDict:dict];
 	
-	/* Now add a section for each individual notification */
-	NSString *notificationName;
-	NSEnumerator *enumerator = [allNotifications objectEnumerator];
-	while ((notificationName = [enumerator nextObject])) {
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem separatorHeaderItem]];	
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name"
-																		value:notificationName]];
-		if ([humanReadableNames objectForKey:notificationName])
-			[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
-																			value:[humanReadableNames objectForKey:notificationName]]];			
-		
-		[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Enabled"
-																		value:([defaultNotifications containsObject:notificationName] ?
-																			   @"Yes" :
-																			   @"no")]];
-		
-		/* XXX Could include @"Notification-Icon" if we had per-notification icons */
-	}
+	[outgoingPacket addHeaderItems:headersArray];
+	[outgoingPacket addBinaryChunks:binaryArray];
 	
+	[outgoingPacket addHeaderItems:[GrowlRegisterGNTPPacket headersForRegistrationDict:dict]];	
 	[self sendViaTCP:outgoingPacket];
+
 	[pool release];
 }
 	

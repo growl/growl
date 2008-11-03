@@ -522,7 +522,8 @@
  * Not called if there is an error.
  **/
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{	
+{
+#pragma unused(sock)
 	switch (tag) {
 		case GrowlInitialBytesIdentifierRead:
 			switch ([self parseInitialBytes:data]) {

@@ -27,4 +27,6 @@ typedef enum {
 	unsigned int numberOfNotifications;
 }
 
++ (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict;
+
 @end

@@ -8,6 +8,7 @@
 
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPHeaderItem.h"
+#import "GrowlGNTPBinaryChunk.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
 
@@ -281,6 +282,54 @@
 					   forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	
 	return growlDictionary;
+}
+
++ (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict
+{
+	NSMutableArray *headersArray = [NSMutableArray array];
+	NSMutableArray *binaryChunks = [NSMutableArray array];
+	
+	/* First build the application and number of notifications part */
+	if ([dict objectForKey:GROWL_APP_NAME])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+	if ([dict objectForKey:GROWL_APP_ICON]) {
+		NSData *iconData = [dict objectForKey:GROWL_APP_ICON];
+		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
+		
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Icon"
+																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
+		[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:iconData withIdentifier:identifier]];
+	}
+	if ([dict objectForKey:GROWL_APP_ID])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-BundleID" value:[dict objectForKey:GROWL_APP_ID]]];
+	
+	NSArray *allNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notifications-Count"
+																	value:[NSString stringWithFormat:@"%i", [allNotifications count]]]];
+	
+	/* Now add a section for each individual notification */
+	NSString *notificationName;
+	NSEnumerator *enumerator = [allNotifications objectEnumerator];
+	while ((notificationName = [enumerator nextObject])) {
+		[headersArray addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];	
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name"
+																		value:notificationName]];
+		if ([humanReadableNames objectForKey:notificationName])
+			[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
+																			value:[humanReadableNames objectForKey:notificationName]]];			
+		
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Enabled"
+																		value:([defaultNotifications containsObject:notificationName] ?
+																			   @"Yes" :
+																			   @"no")]];
+		
+		/* XXX Could include @"Notification-Icon" if we had per-notification icons */
+	}
+	
+	if (outHeadersArray) *outHeadersArray = headersArray;
+	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
 }
 
 @end

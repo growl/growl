@@ -71,21 +71,6 @@
 	[super dealloc];
 }
 
-+ (NSString *)identifierForBinaryData:(NSData *)data
-{
-	unsigned char *digest = MD5([data bytes], [data length], NULL);	
-	NSString *identifier = [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-				   digest[0], digest[1], 
-				   digest[2], digest[3],
-				   digest[4], digest[5],
-				   digest[6], digest[7],
-				   digest[8], digest[9],
-				   digest[10], digest[11],
-				   digest[12], digest[13],
-				   digest[14], digest[15]];
-	return identifier;	
-}
-
 - (void)setAction:(NSString *)inAction
 {
 	[action autorelease];
@@ -99,9 +84,13 @@
 {
 	[headerItems addObjectsFromArray:inItems];
 }
-- (void)addBinaryData:(NSData *)inData withIdentifier:(NSString *)inIdentifier
+- (void)addBinaryChunk:(GrowlGNTPBinaryChunk *)inChunk
 {
-	[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:inData withIdentifier:inIdentifier]];
+	[binaryChunks addObject:inChunk];	
+}
+- (void)addBinaryChunks:(NSArray *)inItems
+{
+	[binaryChunks addObjectsFromArray:inItems];
 }
 
 - (NSArray *)outgoingItems

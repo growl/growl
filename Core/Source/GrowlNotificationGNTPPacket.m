@@ -8,9 +8,8 @@
 
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlGNTPHeaderItem.h"
+#import "GrowlGNTPBinaryChunk.h"
 #import "GrowlDefines.h"
-
-#define GROWL_GNTP_NOTIFICATION_ID	@"GNTP Notification ID"
 
 @implementation GrowlNotificationGNTPPacket
 
@@ -63,12 +62,12 @@
 
 - (NSString *)identifier
 {
-	return [notificationDict objectForKey:GROWL_GNTP_NOTIFICATION_ID];
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_GNTP_ID];
 }
 - (void)setIdentifier:(NSString *)string
 {
 	[notificationDict setObject:string
-						 forKey:GROWL_GNTP_NOTIFICATION_ID];
+						 forKey:GROWL_NOTIFICATION_GNTP_ID];
 }
 - (NSString *)coalesceIdentifier
 {
@@ -182,7 +181,7 @@
 		[self setTitle:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-ID"] == NSOrderedSame) {
 		[self setIdentifier:value];	
-	} else if ([name caseInsensitiveCompare:@"Notification-Coalesce-ID"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:@"Notification-Coalescing-ID"] == NSOrderedSame) {
 		[self setCoalesceIdentifier:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Text"] == NSOrderedSame) {
 		[self setText:value];	
@@ -321,6 +320,46 @@
 					   forKey:GROWL_NOTIFICATION_ICON];
 	
 	return growlDictionary;
+}
+
++ (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forNotificationDict:(NSDictionary *)dict
+{
+	NSMutableArray *headersArray = [NSMutableArray array];
+	NSMutableArray *binaryChunks = [NSMutableArray array];
+
+	if ([dict objectForKey:GROWL_APP_NAME])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_NAME])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name" value:[dict objectForKey:GROWL_NOTIFICATION_NAME]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_TITLE])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Title" value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Coalescing-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_GNTP_ID])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[dict objectForKey:GROWL_NOTIFICATION_GNTP_ID]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_ICON]) {
+		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON];
+		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
+		
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Icon"
+																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
+		[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:iconData withIdentifier:identifier]];
+	}
+	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]) {
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:@"String"]];
+	}
+	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
+	
+	if (outHeadersArray) *outHeadersArray = headersArray;
+	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
 }
 
 @end

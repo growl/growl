@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "GrowlGNTPHeaderItem.h"
+#import "GrowlGNTPBinaryChunk.h"
 
 @interface GrowlGNTPOutgoingPacket : NSObject {
 	NSMutableArray *headerItems;
@@ -18,11 +19,13 @@
 
 + (GrowlGNTPOutgoingPacket *)outgoingPacket;
 
-+ (NSString *)identifierForBinaryData:(NSData *)data;
 - (void)setAction:(NSString *)action;
+
 - (void)addHeaderItem:(GrowlGNTPHeaderItem *)inItem;
 - (void)addHeaderItems:(NSArray *)inItems;
-- (void)addBinaryData:(NSData *)inData withIdentifier:(NSString *)inIdentifier;
+
+- (void)addBinaryChunk:(GrowlGNTPBinaryChunk *)inChunk;
+- (void)addBinaryChunks:(NSArray *)inItems;
 
 - (void)writeToSocket:(AsyncSocket *)socket;
 

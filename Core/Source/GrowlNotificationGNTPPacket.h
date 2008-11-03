@@ -24,4 +24,6 @@ typedef enum {
 	CallbackURLTargetMethod callbackTargetMethod;
 }
 
++ (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forNotificationDict:(NSDictionary *)dict;
+
 @end

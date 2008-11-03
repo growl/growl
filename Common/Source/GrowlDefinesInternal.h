@@ -92,6 +92,7 @@
 #define GROWL_NOTIFICATION_CLICK_CONTENT_TYPE			@"NotificationCallbackClickContextType"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
+#define GROWL_NOTIFICATION_GNTP_ID						@"GNTP Notification ID"
 
 #define ATTRIBUTE_PACKED __attribute((packed))
 
