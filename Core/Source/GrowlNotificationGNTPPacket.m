@@ -10,6 +10,8 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlDefines.h"
 
+#define GROWL_GNTP_NOTIFICATION_ID	@"GNTP Notification ID"
+
 @implementation GrowlNotificationGNTPPacket
 
 - (id)init
@@ -22,6 +24,12 @@
 - (void)dealloc
 {
 	[notificationDict release]; notificationDict = nil;
+
+	[iconID release];
+	[iconURL release];
+
+	[callbackTarget release];
+
 	[super dealloc];
 }
 
@@ -56,9 +64,18 @@
 
 - (NSString *)identifier
 {
-	return [notificationDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	return [notificationDict objectForKey:GROWL_GNTP_NOTIFICATION_ID];
 }
 - (void)setIdentifier:(NSString *)string
+{
+	[notificationDict setObject:string
+						 forKey:GROWL_GNTP_NOTIFICATION_ID];
+}
+- (NSString *)coalesceIdentifier
+{
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+}
+- (void)setCoalesceIdentifier:(NSString *)string
 {
 	[notificationDict setObject:string
 						 forKey:GROWL_NOTIFICATION_IDENTIFIER];
@@ -153,6 +170,8 @@
 		[self setTitle:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-ID"] == NSOrderedSame) {
 		[self setIdentifier:value];	
+	} else if ([name caseInsensitiveCompare:@"Notification-Coalesce-ID"] == NSOrderedSame) {
+		[self setCoalesceIdentifier:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Text"] == NSOrderedSame) {
 		[self setText:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Sticky"] == NSOrderedSame) {
@@ -184,11 +203,25 @@
 		}
 
 		[self setCallbackTargetMethod:method];
-	} else {
-		[self setCustomHeaderWithName:name value:value];
+	} else if ([name rangeOfString:@"X-" options:NSLiteralSearch | NSAnchoredSearch].location != NSNotFound) {
+		[self addCustomHeader:headerItem];
 	}
 	
 	return GrowlReadDirective_Continue;
+}
+
+/*!
+ * @brief Headers to be returned via the -OK success result
+ *
+ * In the superclass, we just send any custom headers included in the packet originally
+ */
+- (NSArray *)headersForSuccessResult
+{
+	NSMutableArray *headersForSuccessResult = [[[super headersForSuccessResult] mutableCopy] autorelease];
+	if (!headersForSuccessResult) headersForSuccessResult = [NSMutableArray array];
+	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+
+	return headersForSuccessResult;
 }
 
 /*!
