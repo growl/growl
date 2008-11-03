@@ -791,7 +791,7 @@ Failed:;
 - (void)doAcceptWithSocket:(CFSocketNativeHandle)newNative
 {
 	AsyncSocket *newSocket = [[[AsyncSocket alloc] initWithDelegate:theDelegate] autorelease];
-	NSLog(@"Do accept with socket %i --> %@", newNative, newSocket);
+
 	if(newSocket)
 	{
 		NSRunLoop *runLoop = nil;
@@ -807,7 +807,7 @@ Failed:;
 		if(pass && ![newSocket attachStreamsToRunLoop:runLoop error:nil])    pass = NO;
 		if(pass && ![newSocket configureStreamsAndReturnError:nil])          pass = NO;
 		if(pass && ![newSocket openStreamsAndReturnError:nil])               pass = NO;
-		NSLog(@"Pass %i: newSocket is %@", pass, newSocket);
+
 		if(pass)
 			newSocket->theFlags |= kDidPassConnectMethod;
 		else {
