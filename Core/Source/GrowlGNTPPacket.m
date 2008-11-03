@@ -9,6 +9,7 @@
 #import "GrowlGNTPPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
+#import "GrowlCallbackGNTPPacket.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
 #import "NSCalendarDate+ISO8601Unparsing.h"
@@ -19,6 +20,7 @@
 - (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
 - (void)readNextHeader;
 - (void)setUUID:(NSString *)inUUID;
+- (void)beginProcessingProtocolIdentifier;
 @end
 
 @implementation GrowlGNTPPacket
@@ -68,6 +70,15 @@
 	[super dealloc];
 }
 
+- (void)resetToRead
+{
+	[specificPacket release]; specificPacket = nil;
+	[[self socket] setDelegate:self];
+	
+	/* Now await incoming data */
+	[self beginProcessingProtocolIdentifier];
+}
+
 - (AsyncSocket *)socket
 {
 	return socket;
@@ -103,7 +114,10 @@
 		return GrowlNotifyPacketType;
 	else if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame)
 		return GrowlRegisterPacketType;
-	else 
+	else if (([action caseInsensitiveCompare:@"-CLICKED"] == NSOrderedSame) ||
+			 ([action caseInsensitiveCompare:@"-CLOSED"] == NSOrderedSame))
+		return GrowlCallbackPacketType;
+	else
 		return GrowlUnknownPacketType;
 }
 
@@ -250,6 +264,20 @@
 		
 	} else if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
 		specificPacket = [[GrowlNotificationGNTPPacket specificNetworkPacketForPacket:self] retain];
+
+	} else if (([action caseInsensitiveCompare:@"-CLICKED"] == NSOrderedSame) ||
+			   ([action caseInsensitiveCompare:@"-CLOSED"] == NSOrderedSame)){
+		specificPacket = [[GrowlCallbackGNTPPacket specificNetworkPacketForPacket:self] retain];
+
+	} else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
+		/* An OK response can be silently dropped */
+		NSLog(@"%@: OK!", self);
+		/* XXX Should disconnect and release at this point? */
+
+	} else if ([action caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
+		NSLog(@"%@: Error :(", self);
+		//XXX
+/*		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain]; */
 	}
 
 	//Get the specific packet started; it'll take it from there
@@ -356,6 +384,7 @@
 }
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
 {
+#pragma unused(headers)
 	return GrowlGNTP_NoCallback; /* This abstract superclass has no idea how to send a callback */	
 }
 
@@ -665,10 +694,15 @@
  * @brief Called by our specific packet; we'll pas it on to our delegate
  *
  * Note that we pass on the specific packet, as it has all the needed data, not self.
+ *
+ * After we tell our delegate, we'll reset to be ready to read any response from the other side, including
+ * a click or timeout notification
  */
 - (void)packetDidFinishReading:(GrowlGNTPPacket *)packet
 {
 	[[self delegate] packetDidFinishReading:packet];
+	
+	[self resetToRead];
 }
 
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet

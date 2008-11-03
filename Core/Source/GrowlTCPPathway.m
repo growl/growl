@@ -19,7 +19,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		networkPacketParser = [[GrowlGNTPPacketParser alloc] init];
+		networkPacketParser = [[GrowlGNTPPacketParser sharedParser] retain];
 		
 		/* We always want the TCP server to be running to allow localhost connections.
 		 * We'll ultimately ignore connections from outside localhost if networking is not enabled.

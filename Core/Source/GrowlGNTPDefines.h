@@ -8,7 +8,8 @@
 typedef enum {
 	GrowlGNTPHeaderError,
 	GrowlGNTPMalformedProtocolIdentificationError,
-	GrowlGNTPRegistrationPacketError
+	GrowlGNTPRegistrationPacketError,
+	GrowlGNTPCallbackPacketError
 } GrowlGNTPPacketErrorType;
 
 typedef enum {

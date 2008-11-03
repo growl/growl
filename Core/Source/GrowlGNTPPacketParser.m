@@ -10,8 +10,16 @@
 #import "GrowlApplicationController.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
+#include "CFGrowlAdditions.h"
 
 @implementation GrowlGNTPPacketParser
+
++ (GrowlGNTPPacketParser *)sharedParser
+{
+	static GrowlGNTPPacketParser *sharedParser = nil;
+	if (!sharedParser) sharedParser= [[self alloc] init];
+	return sharedParser;
+}
 
 - (id)init
 {
@@ -38,7 +46,44 @@
 
 	[super dealloc];
 }
+#pragma mark -
 
+/* We get here from GrowlApplicationController, which built the packet and destination address for us */
+- (void)sendPacket:(GrowlGNTPOutgoingPacket *)packet toAddress:(NSData *)destAddress
+{
+	//			NSString *password = [entry objectForKey:@"password"];
+	
+	/* Will deallocate once sending is complete if we don't care about the reply, or after we get a reply if
+	 * desired.
+	 */
+	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
+	NSLog(@"Created %@ to send %@", outgoingSocket, packet);
+	@try {
+		NSError *connectionError = nil;
+		[outgoingSocket connectToAddress:destAddress error:&connectionError];
+		if (connectionError)
+			NSLog(@"Failed to connect: %@", connectionError);
+		else {
+			[packet writeToSocket:outgoingSocket];
+			if (![packet needsPersistentConnectionForCallback])
+				[outgoingSocket disconnectAfterWriting];
+		}
+		
+	} @catch (NSException *e) {
+		NSString *addressString = createStringWithAddressData(destAddress);
+		NSString *hostName = createHostNameForAddressData(destAddress);
+		NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
+			  e, addressString, hostName);
+		[addressString release];
+		[hostName      release];
+	} @finally {
+		//Success!
+		NSLog(@"Made it, I think");
+	}
+}	
+	
+
+#pragma mark -
 - (void)didAcceptNewSocket:(AsyncSocket *)socket
 {
 	GrowlGNTPPacket *packet = [GrowlGNTPPacket networkPacketForSocket:socket];
@@ -68,6 +113,10 @@
 		case GrowlRegisterPacketType:
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
+		case GrowlCallbackPacketType:
+		{
+			
+		}
 	}
 	
 	/* Send the -OK response */
@@ -83,7 +132,8 @@
  * This is unrelated to success vs. error; all we do here is stop tracking the packet.
  * Removing it from the currentNetworkPackets dictionary will likely lead to the object being released, as well.
  *
- * If we're going to send a callback later, we'll keep it in our currentNetworkPackets until that is sent.
+ * If we're going to send a URL callback later, we'll keep it in our currentNetworkPackets until that is sent since we
+ * want to have all its data at that time.
  */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {

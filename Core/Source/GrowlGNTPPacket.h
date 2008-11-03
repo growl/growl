@@ -39,7 +39,8 @@ typedef enum {
 typedef enum {
 	GrowlUnknownPacketType,
 	GrowlNotifyPacketType,
-	GrowlRegisterPacketType
+	GrowlRegisterPacketType,
+	GrowlCallbackPacketType
 } GrowlPacketType;
 
 @protocol GrowlGNTPPacketDelegate

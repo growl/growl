@@ -28,7 +28,6 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
-#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
@@ -47,6 +46,7 @@
 //#import "GrowlTCPPathway.h"
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
+#import "GrowlGNTPPacketParser.h"
 
 
 // check every 24 hours
@@ -449,6 +449,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
 {
+	[[GrowlGNTPPacketParser sharedParser] sendPacket:[sendingDetails objectForKey:@"Packet"]
+										   toAddress:[sendingDetails objectForKey:@"Destination"]];
 	NSData *destAddress = [sendingDetails objectForKey:@"Destination"];
 	GrowlGNTPOutgoingPacket *packet = [sendingDetails objectForKey:@"Packet"];
 

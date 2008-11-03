@@ -12,10 +12,14 @@
 
 @protocol GrowlGNTPPacketDelegate;
 
+@class GrowlGNTPOutgoingPacket;
+
 @interface GrowlGNTPPacketParser : NSObject <GrowlGNTPPacketDelegate> {
 	NSMutableDictionary *currentNetworkPackets;
 }
 
++ (GrowlGNTPPacketParser *)sharedParser;
+- (void)sendPacket:(GrowlGNTPOutgoingPacket *)packet toAddress:(NSData *)destAddress;
 - (void)didAcceptNewSocket:(AsyncSocket *)socket;
 
 @end
