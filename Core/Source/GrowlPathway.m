@@ -22,12 +22,13 @@ static GrowlApplicationController *applicationController = nil;
 	return self;
 }
 
-- (void) registerApplicationWithDictionary:(NSDictionary *)dict {
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *)dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[applicationController performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
 											withObject:dict
 										 waitUntilDone:NO];
 	[pool release];
+	return YES;
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {

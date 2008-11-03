@@ -10,7 +10,7 @@
 
 @implementation GrowlRemotePathway
 
-- (void) registerApplicationWithDictionary:(NSDictionary *)dict {
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *)dict {
 	if (enabled && [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
 		NSMutableDictionary *modifiedDict = [dict mutableCopy];
 		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
@@ -18,6 +18,10 @@
 		[super registerApplicationWithDictionary:modifiedDict];
 
 		[modifiedDict release];
+		
+		return YES;
+	} else {
+		return NO;
 	}
 }
 
