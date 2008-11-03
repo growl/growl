@@ -328,7 +328,8 @@
 	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notifications-Count"
 																	value:[NSString stringWithFormat:@"%i", [allNotifications count]]]];
-	
+	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
+
 	/* Now add a section for each individual notification */
 	NSString *notificationName;
 	NSEnumerator *enumerator = [allNotifications objectEnumerator];
