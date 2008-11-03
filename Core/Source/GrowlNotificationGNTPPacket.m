@@ -11,6 +11,7 @@
 #import "GrowlGNTPBinaryChunk.h"
 #import "GrowlDefines.h"
 #import "GrowlImageAdditions.h"
+#import "NSCalendarDate+ISO8601Unparsing.h"
 
 @implementation GrowlNotificationGNTPPacket
 
@@ -331,6 +332,8 @@
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
 																		  value:(wasClicked ? @"CLICKED" : @"CLOSED")]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Timestamp"
+																		  value:[[NSCalendarDate date] ISO8601DateString]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
 	if ([self customHeaders]) [headersForCallbackResult addObjectsFromArray:[self customHeaders]];
@@ -347,7 +350,7 @@
 	NSMutableString *responsePost = [NSMutableString string];
 	[responsePost appendFormat:@"Notification-ID=%@", [self identifier]];
 	[responsePost appendFormat:@"&Notification-Callback-Result=%@", (wasClicked ? @"CLICKED" : @"CLOSED")];
-
+	[responsePost appendFormat:@"&Notification-Callback-Timestamp=%@", [[NSCalendarDate date] ISO8601DateString]];
 	[responsePost appendFormat:@"&Notification-Callback-Context-Type=%@", [self callbackContextType]];
 	[responsePost appendFormat:@"&Notification-Callback-Context=%@", [self callbackContext]];
 
