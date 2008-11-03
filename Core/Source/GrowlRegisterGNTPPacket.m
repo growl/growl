@@ -206,14 +206,17 @@
 		{
 			/* Process a header for a specific notification */
 			if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
-				/* Done with this notification; start working on the next or on binary data */
+				/* Done with this notification; start working on the next or on binary data if needed */
 				NSError *anError = nil;
 				if ([self validateCurrentNotification:&anError]) {
 					[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
 					if ([notifications count] == numberOfNotifications) {
-						directive = GrowlReadDirective_SectionComplete;
+						if ([pendingBinaryIdentifiers count] == 0)
+							directive = GrowlReadDirective_PacketComplete;
+						else
+							directive = GrowlReadDirective_SectionComplete;
 					} else {
 						currentNotification = [[NSMutableDictionary alloc] init];
 					}
