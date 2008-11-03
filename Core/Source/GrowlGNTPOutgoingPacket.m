@@ -95,13 +95,16 @@
 {
 	[headerItems addObject:inItem];
 }
-
+- (void)addHeaderItems:(NSArray *)inItems
+{
+	[headerItems addObjectsFromArray:inItems];
+}
 - (void)addBinaryData:(NSData *)inData withIdentifier:(NSString *)inIdentifier
 {
 	[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:inData withIdentifier:inIdentifier]];
 }
 
-- (NSEnumerator *)outgoingItemEnumerator
+- (NSArray *)outgoingItems
 {
 	NSMutableArray *allOutgoingItems = [NSMutableArray array];
 
@@ -113,7 +116,18 @@
 		[allOutgoingItems addObjectsFromArray:binaryChunks];
 	}
 
-	return [allOutgoingItems objectEnumerator];
+	return allOutgoingItems;
+}
+
+- (void)writeToSocket:(AsyncSocket *)socket
+{
+	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
+	id <GNTPOutgoingItem> item;
+	while ((item = [enumerator nextObject])) {
+		[socket writeData:[item GNTPRepresentation]
+			  withTimeout:-1
+					  tag:0];
+	}
 }
 
 - (NSString *)description
@@ -121,7 +135,7 @@
 	NSMutableString *description = [NSMutableString string];
 	[description appendFormat:@"<%@: %x: \"", NSStringFromClass([self class]), self];
 	
-	NSEnumerator *enumerator = [self outgoingItemEnumerator];
+	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
 	NSObject<GNTPOutgoingItem> *item;
 
 	while ((item = [enumerator nextObject])) {

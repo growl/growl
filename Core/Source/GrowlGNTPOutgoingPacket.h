@@ -21,9 +21,9 @@
 + (NSString *)identifierForBinaryData:(NSData *)data;
 - (void)setAction:(NSString *)action;
 - (void)addHeaderItem:(GrowlGNTPHeaderItem *)inItem;
+- (void)addHeaderItems:(NSArray *)inItems;
 - (void)addBinaryData:(NSData *)inData withIdentifier:(NSString *)inIdentifier;
 
-/* For use when sending */
-- (NSEnumerator *)outgoingItemEnumerator;
+- (void)writeToSocket:(AsyncSocket *)socket;
 
 @end
