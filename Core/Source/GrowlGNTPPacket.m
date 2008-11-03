@@ -383,12 +383,20 @@
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}
 	
+	/* Check if this host received it previously */
 	NSString *myHostString = [NSString stringWithFormat:@"by %@", hostName];
 	while ((receivedString = [enumerator nextObject])) {
 		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
 			return YES;
 	}
-	
+
+	/* Check if this host sent it previously */
+	NSString *myHostString = [NSString stringWithFormat:@"From %@", hostName];
+	while ((receivedString = [enumerator nextObject])) {
+		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
+			return YES;
+	}
+
 	return NO;
 }
 
