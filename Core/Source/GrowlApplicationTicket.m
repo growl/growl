@@ -187,6 +187,7 @@
 	[appId                    release];
 	[appPath                  release];
 	[iconData                 release];
+	[icon					  release];
 	[allNotifications         release];
 	[defaultNotifications     release];
 	[humanReadableNames       release];
@@ -360,7 +361,21 @@
 
 		[iconData release];
 		iconData = [inIconData retain];
+		[icon release]; icon = nil;
 	}
+}
+
+- (NSImage *)icon {
+	if (!icon && iconData)
+		icon = [[NSImage alloc] initWithData:iconData];
+	
+	return icon;
+}
+- (void)setIcon:(NSImage *)inIcon {
+	[self setIconData:[inIcon PNGRepresentation]];
+
+	[icon autorelease];
+	icon = [inIcon retain];
 }
 
 - (NSString *) applicationName {

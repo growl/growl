@@ -17,6 +17,7 @@
 	NSString		*appId;						// This app's bundle identifier
 	NSString		*appPath;					// This app's location on disk (cached here and in saved tickets)
 	NSData			*iconData;					// This app's icon data
+	NSData			*icon;						// This app's icon
 
 	NSDictionary	*allNotifications;			// All the notifications possible for this app
 	NSArray			*allNotificationNames;		// Keys of allNotifications, in the order in which they were originally passed
