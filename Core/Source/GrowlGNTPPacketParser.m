@@ -109,6 +109,7 @@
 		return;
 	}
 
+	BOOL success = YES;
 	NSLog(@"Finished reading %@", packet);
 
 	switch ([packet packetType]) {
@@ -116,8 +117,37 @@
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);
 			break;
 		case GrowlNotifyPacketType:
-			[[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:[packet growlDictionary]];
+		{
+			GrowlNotificationResult result = [[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:[packet growlDictionary]];
+			switch (result) {
+				case GrowlNotificationResultPosted:
+					success = YES;
+					break;
+				case GrowlNotificationResultNotRegistered:
+				{
+					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+					success = NO;
+					[outgoingPacket setAction:@"-ERROR"];
+					[outgoingPacket addHeaderItems:[packet headersForResult]];
+					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
+																					value:@"Application and notification must be registered before notifying"]];
+					[outgoingPacket writeToSocket:[packet socket]];
+					break;
+				}
+				case GrowlNotificationResultDisabled:
+				{
+					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+					success = NO;
+					[outgoingPacket setAction:@"-ERROR"];
+					[outgoingPacket addHeaderItems:[packet headersForResult]];
+					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
+																					value:@"User has disabled display of this notification, or it is disabled by default and has not been enabled"]];
+					[outgoingPacket writeToSocket:[packet socket]];
+					break;
+				}
+			}
 			break;
+		}
 		case GrowlRegisterPacketType:
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
@@ -128,10 +158,12 @@
 	}
 	
 	/* Send the -OK response */
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-	[outgoingPacket setAction:@"-OK"];
-	[outgoingPacket addHeaderItems:[packet headersForSuccessResult]];
-	[outgoingPacket writeToSocket:[packet socket]];
+	if (success) {
+		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+		[outgoingPacket setAction:@"-OK"];
+		[outgoingPacket addHeaderItems:[packet headersForResult]];
+		[outgoingPacket writeToSocket:[packet socket]];
+	}
 	
 	/* Set up to listen again on the same socket with a new packet */
 	GrowlGNTPPacket *newPacket = [GrowlGNTPPacket networkPacketForSocket:[packet socket]];
