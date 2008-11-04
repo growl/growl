@@ -29,6 +29,7 @@
 	if ((self = [super init])) {
 		registrationDict = [[NSMutableDictionary alloc] init];
 		notifications = [[NSMutableArray alloc] init];
+		numberOfNotifications = -1;
 	}
 	
 	return self;
@@ -164,8 +165,8 @@
 					errorString = @"Application-Name is a required header for registration";
 				} else if (![self applicationIconID] && ![self applicationIconURL]) {
 					errorString = @"Application-Icon is a required header for registration";
-				} else if (numberOfNotifications == 0) {
-					errorString = @"Notifications-Count	is a required header for registration and must not be 0";
+				} else if (numberOfNotifications == -1) {
+					errorString = @"Notifications-Count	is a required header for registration";
 				}
 
 				if (errorString) {
@@ -210,8 +211,9 @@
 			if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
 				/* Done with this notification; start working on the next or on binary data if needed */
 				NSError *anError = nil;
-				if ([self validateCurrentNotification:&anError]) {
-					[notifications addObject:currentNotification];
+				if (numberOfNotifications == 0 || [self validateCurrentNotification:&anError]) {
+					if (numberOfNotifications)
+						[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
 					if ([notifications count] == numberOfNotifications) {

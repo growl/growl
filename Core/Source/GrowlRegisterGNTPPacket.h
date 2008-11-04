@@ -24,7 +24,7 @@ typedef enum {
 	NSString *applicationIconID;
 	NSURL *applicationIconURL;
 	
-	unsigned int numberOfNotifications;
+	int numberOfNotifications;
 }
 
 + (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict;
