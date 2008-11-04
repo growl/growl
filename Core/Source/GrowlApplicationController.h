@@ -14,6 +14,12 @@
 
 @class MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
 
+typedef enum {
+	GrowlNotificationResultPosted,
+	GrowlNotificationResultNotRegistered,
+	GrowlNotificationResultDisabled
+} GrowlNotificationResult;
+
 @interface GrowlApplicationController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
 	MD5Authenticator			*authenticator;
 	GrowlTicketController		*ticketController;
@@ -48,7 +54,7 @@
 
 + (NSString *) growlVersion;
 
-- (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
+- (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo;
 
 - (NSDictionary *) versionDictionary;

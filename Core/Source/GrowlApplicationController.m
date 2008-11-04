@@ -623,23 +623,25 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark Dispatching notifications
 
-- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
+- (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	GrowlLog_log(@"dispatchNotificationWithDictionary");
-	NSLog(@"dispatchNotificationWithDictionary");
 	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
-	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
+	if (!ticket) {
+		[pool release];
+		return GrowlNotificationResultNotRegistered;
+	}
+
+	if (![ticket isNotificationAllowed:notificationName]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
-		GrowlLog_log(@"%@ is not registered or not allowed", notificationName);
 		[pool release];
-		return;
+		return GrowlNotificationResultDisabled;
 	}
 
 	NSMutableDictionary *aDict = [dict mutableCopy];
@@ -739,8 +741,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			display = defaultDisplayPlugin;
 		}
 
-		GrowlLog_log(@"Will display with %@", display);
-		
 		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 		[display displayNotification:appNotification];
 		[appNotification release];
@@ -793,6 +793,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 
 	[pool release];
+	
+	return GrowlNotificationResultPosted;
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
