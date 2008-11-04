@@ -21,7 +21,6 @@
 - (id)initWithAction:(NSString *)inAction;
 @end
 
-
 @implementation GrowlGNTPInitialHeaderItem
 + (GrowlGNTPInitialHeaderItem *)initialHeaderItemWithAction:(NSString *)action
 {
@@ -44,6 +43,22 @@
 {
 #define CRLF "\x0D\x0A"	
 	return [[NSString stringWithFormat:@"GNTP/1.0 %@ NONE NONE" CRLF, action] dataUsingEncoding:NSUTF8StringEncoding];	
+}
+@end
+
+@interface GrowlGNTPEndHeaderItem : NSObject <GNTPOutgoingItem> {};
++ (GrowlGNTPEndHeaderItem *)endHeaderItem;
+@end
+
+@implementation GrowlGNTPEndHeaderItem
++ (GrowlGNTPEndHeaderItem *)endHeaderItem
+{
+	return [[[self alloc] init] autorelease];
+}
+- (NSData *)GNTPRepresentation
+{
+#define CRLF "\x0D\x0A"	
+	return [[NSString stringWithFormat:@"GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
 }
 @end
 
@@ -105,6 +120,7 @@
 		[allOutgoingItems addObjectsFromArray:binaryChunks];
 	}
 	[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
+	[allOutgoingItems addObject:[GrowlGNTPEndHeaderItem endHeaderItem]];
 
 	return allOutgoingItems;
 }
