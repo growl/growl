@@ -340,7 +340,7 @@
 {
 	NSMutableArray *array = [NSMutableArray array];
 	[array addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Response-Action"
-													   value:[packet action]]];
+													   value:[self action]]];
 	if (customHeaders)
 		[array addObjectsFromArray:customHeaders];
 
