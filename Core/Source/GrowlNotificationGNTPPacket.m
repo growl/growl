@@ -330,15 +330,13 @@
 
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
-	NSMutableArray *headersForCallbackResult = [NSMutableArray array];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	NSMutableArray *headersForCallbackResult = [[[self headersForResult] mutableCopy] autorelease];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
 																		  value:(wasClicked ? @"CLICKED" : @"CLOSED")]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Timestamp"
 																		  value:[[NSCalendarDate date] ISO8601DateString]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
-	if ([self customHeaders]) [headersForCallbackResult addObjectsFromArray:[self customHeaders]];
 
 	return headersForCallbackResult;
 }
