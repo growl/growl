@@ -335,7 +335,7 @@
  *
  * In the superclass, we just send any custom headers included in the packet originally
  */
-- (NSArray *)headersForSuccessResult
+- (NSArray *)headersForResult
 {
 	return customHeaders;
 }
@@ -375,8 +375,10 @@
  */
 - (BOOL)hasBeenReceivedPreviously
 {
-	NSEnumerator *enumerator = [[[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED] objectEnumerator];
+	NSArray *receivedHeaders = [[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	NSEnumerator *enumerator;
 	NSString *receivedString;
+	NSString *myHostString;
 
 	NSString *hostName = [[NSProcessInfo processInfo] hostName];
 	if ([hostName hasSuffix:@".local"]) {
@@ -384,14 +386,16 @@
 	}
 	
 	/* Check if this host received it previously */
-	NSString *myHostString = [NSString stringWithFormat:@"by %@", hostName];
+	myHostString = [NSString stringWithFormat:@"by %@", hostName];
+	enumerator = [receivedHeaders objectEnumerator];
 	while ((receivedString = [enumerator nextObject])) {
 		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
 			return YES;
 	}
 
 	/* Check if this host sent it previously */
-	NSString *myHostString = [NSString stringWithFormat:@"From %@", hostName];
+	myHostString = [NSString stringWithFormat:@"From %@", hostName];
+	enumerator = [receivedHeaders objectEnumerator];
 	while ((receivedString = [enumerator nextObject])) {
 		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
 			return YES;
@@ -711,6 +715,7 @@
  */
 -(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
+#pragma unused(sock)
 	if (err != nil) {
 		[self setError:err];
 		[self errorOccurred];
