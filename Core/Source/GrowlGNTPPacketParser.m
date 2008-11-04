@@ -110,7 +110,6 @@
 	}
 
 	BOOL success = YES;
-	NSLog(@"Finished reading %@", packet);
 
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
