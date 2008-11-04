@@ -239,7 +239,6 @@
 				[outgoingPacket setAction:@"-CALLBACK"];
 				[outgoingPacket addHeaderItems:[existingPacket headersForCallbackResult_wasClicked:viaClick]];
 				[outgoingPacket writeToSocket:[existingPacket socket]];
-				[[existingPacket socket] disconnectAfterWriting];
 				break;
 			}				
 			case GrowlGNTP_URLCallback:
