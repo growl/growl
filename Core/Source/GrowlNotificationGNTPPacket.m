@@ -106,6 +106,8 @@
 {
 	[iconID autorelease];
 	iconID = [string retain];
+	
+	if (!pendingBinaryIdentifiers) pendingBinaryIdentifiers = [[NSMutableArray alloc] init];
 	[pendingBinaryIdentifiers addObject:iconID];
 }
 - (void)setIconURL:(NSURL *)url

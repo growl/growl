@@ -52,7 +52,6 @@
 		[socket setDelegate:self];
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
-		pendingBinaryIdentifiers = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -68,6 +67,7 @@
 	[action release];
 	[encryptionAlgorithm release];
 	[binaryDataByIdentifier release];
+	[pendingBinaryIdentifiers release];
 	[uuid release];
 	[customHeaders release];
 
