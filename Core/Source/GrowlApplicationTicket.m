@@ -341,11 +341,13 @@
 - (NSData *) iconData {
 	if (!iconData) {
 		if (appPath) {
-			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
+			[icon release];
+			icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] retain];
 			iconData = [[icon PNGRepresentation] retain];
 		}
 		if (!iconData) {
-			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+			[icon release];
+			icon = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)] retain];
 			[icon setSize:NSMakeSize(128.0f, 128.0f)];
 			iconData = [[icon PNGRepresentation] retain];
 		}
