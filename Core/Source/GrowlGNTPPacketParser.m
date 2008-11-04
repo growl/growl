@@ -160,7 +160,7 @@
 	if (success) {
 		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 		[outgoingPacket setAction:@"-OK"];
-		[outgoingPacket addHeaderItems:[packet headersForResult]];
+		[outgoingPacket addHeaderItems:[packet headersForResult]];		
 		[outgoingPacket writeToSocket:[packet socket]];
 	}
 	
@@ -197,6 +197,7 @@
 {
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 	[outgoingPacket setAction:@"-ERROR"];
+	[outgoingPacket addHeaderItems:[packet headersForResult]];
 	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
 																	value:[[inError userInfo] objectForKey:NSLocalizedFailureReasonErrorKey]]];
 	[outgoingPacket writeToSocket:[packet socket]];

@@ -338,7 +338,13 @@
  */
 - (NSArray *)headersForResult
 {
-	return customHeaders;
+	NSMutableArray *array = [NSMutableArray array];
+	[array addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Response-Action"
+													   value:[packet action]]];
+	if (customHeaders)
+		[array addObjectsFromArray:customHeaders];
+
+	return array;
 }
 
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
