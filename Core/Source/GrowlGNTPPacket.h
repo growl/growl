@@ -127,7 +127,7 @@ typedef enum {
 @end
 
 @interface GrowlGNTPPacket (GNTPInternal)
-- (NSArray *)headersForSuccessResult;
+- (NSArray *)headersForResult;
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers;
 - (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked;

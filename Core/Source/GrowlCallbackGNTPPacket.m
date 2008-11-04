@@ -68,7 +68,7 @@
 		} else {
 			[self setCallbackType:GrowlGNTPCallback_Closed];			
 		}
-	} else if ([name rangeOfString:@"X-" options:NSLiteralSearch | NSAnchoredSearch].location != NSNotFound) {
+	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
 
@@ -80,17 +80,17 @@
  *
  * In the superclass, we just send any custom headers included in the packet originally
  */
-- (NSArray *)headersForSuccessResult
+- (NSArray *)headersForResult
 {
-	NSMutableArray *headersForSuccessResult = [[[super headersForSuccessResult] mutableCopy] autorelease];
-	if (!headersForSuccessResult) headersForSuccessResult = [NSMutableArray array];
-	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
-	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
+	NSMutableArray *headersForResult = [[[super headersForResult] mutableCopy] autorelease];
+	if (!headersForResult) headersForResult = [NSMutableArray array];
+	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
 																		 value:([self callbackType] == GrowlGNTPCallback_Clicked ?
 																				@"CLICKED" :
 																				@"CLOSED")]];
 
-	return headersForSuccessResult;
+	return headersForResult;
 }
 
 @end

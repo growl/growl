@@ -69,6 +69,8 @@
 {
 	[applicationIconID autorelease];
 	applicationIconID = [string retain];
+	
+	if (!pendingBinaryIdentifiers) pendingBinaryIdentifiers = [[NSMutableArray alloc] init];
 	[pendingBinaryIdentifiers addObject:applicationIconID];
 }
 - (NSString *)applicationIconID
@@ -181,7 +183,7 @@
 				if ([name caseInsensitiveCompare:@"Application-Name"] == NSOrderedSame) {
 					[self setApplicationName:value];
 				} else if ([name caseInsensitiveCompare:@"Application-Icon"] == NSOrderedSame) {
-					if ([value hasPrefix:@"x-growl-resource://"]) {
+					if ([value rangeOfString:@"x-growl-resource://" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 						/* Extract the resource ID from the value */
 						[self setApplicationIconID:[value substringFromIndex:[@"x-growl-resource://" length]]];
 					} else {
@@ -242,7 +244,7 @@
 										   forKey:GROWL_NOTIFICATION_ENABLED_BY_DEFAULT];
 					
 				} else if ([name caseInsensitiveCompare:@"Notification-Icon"] == NSOrderedSame) {
-					if ([value hasPrefix:@"x-growl-resource://"]) {
+					if ([value rangeOfString:@"x-growl-resource://" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 						/* Extract the resource ID from the value */
 						[currentNotification setValue:[value substringFromIndex:[@"x-growl-resource://" length]]
 											   forKey:GROWL_NOTIFICATION_ICON_ID];

@@ -221,7 +221,7 @@
 						([value caseInsensitiveCompare:@"True"] == NSOrderedSame));
 		[self setSticky:sticky];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Icon"] == NSOrderedSame) {
-		if ([value hasPrefix:@"x-growl-resource://"]) {
+		if ([value rangeOfString:@"x-growl-resource://" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 			/* Extract the resource ID from the value */
 			[self setIconID:[value substringFromIndex:[@"x-growl-resource://" length]]];
 		} else {
@@ -252,7 +252,7 @@
 		[self addReceivedHeader:value];
 	} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
 		[self setSentBy:value];
-	} else if ([name rangeOfString:@"X-" options:NSLiteralSearch | NSAnchoredSearch].location != NSNotFound) {
+	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
 	
@@ -264,13 +264,13 @@
  *
  * In the superclass, we just send any custom headers included in the packet originally
  */
-- (NSArray *)headersForSuccessResult
+- (NSArray *)headersForResult
 {
-	NSMutableArray *headersForSuccessResult = [[[super headersForSuccessResult] mutableCopy] autorelease];
-	if (!headersForSuccessResult) headersForSuccessResult = [NSMutableArray array];
-	[headersForSuccessResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	NSMutableArray *headersForResult = [[[super headersForResult] mutableCopy] autorelease];
+	if (!headersForResult) headersForResult = [NSMutableArray array];
+	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
 
-	return headersForSuccessResult;
+	return headersForResult;
 }
 
 #pragma mark Callbacks
