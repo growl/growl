@@ -52,6 +52,7 @@
 		[socket setDelegate:self];
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
+		pendingBinaryIdentifiers = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
