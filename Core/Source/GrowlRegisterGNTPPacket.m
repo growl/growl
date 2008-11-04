@@ -201,6 +201,8 @@
 					[self addReceivedHeader:value];
 				} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
 					[self setSentBy:value];
+				} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
+					[self addCustomHeader:headerItem];
 				}
 			}
 			break;

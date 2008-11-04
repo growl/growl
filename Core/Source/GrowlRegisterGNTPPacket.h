@@ -16,14 +16,14 @@ typedef enum {
 
 @interface GrowlRegisterGNTPPacket : GrowlGNTPPacket {
 	GrowlRegisterStep currentStep;
-	
+
 	NSMutableDictionary *registrationDict;
 	NSMutableArray		*notifications;
 	NSMutableDictionary *currentNotification;
-	
+
 	NSString *applicationIconID;
 	NSURL *applicationIconURL;
-	
+
 	int numberOfNotifications;
 }
 
