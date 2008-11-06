@@ -166,9 +166,37 @@ static BOOL		registerWhenGrowlIsReady = NO;
 						 name:growlNotificationClickedName
 					   object:nil];
 	[growlNotificationClickedName release];
+	
+	/* We also look for notifications which arne't pid-specific but which are for our application */
+	growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@",
+									appName, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
+	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+		[NSDNC addObserver:self
+				  selector:@selector(growlNotificationWasClicked:)
+					  name:growlNotificationClickedName
+					object:nil];
+	else
+		[NSDNC removeObserver:self
+						 name:growlNotificationClickedName
+					   object:nil];
+	[growlNotificationClickedName release];
 
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
+	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+		[NSDNC addObserver:self
+				  selector:@selector(growlNotificationTimedOut:)
+					  name:growlNotificationTimedOutName
+					object:nil];
+	else
+		[NSDNC removeObserver:self
+						 name:growlNotificationTimedOutName
+					   object:nil];
+	[growlNotificationTimedOutName release];
+	
+	/* We also look for notifications which arne't pid-specific but which are for our application */
+	growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%@",
+									 appName, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
 	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)
