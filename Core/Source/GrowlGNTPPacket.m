@@ -13,6 +13,7 @@
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
 #import "NSCalendarDate+ISO8601Unparsing.h"
+#import "GrowlApplicationAdditions.h"
 
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
@@ -372,7 +373,29 @@
 	}
 	
 	/* New Sent-By header: Sent-By: <hostname> */
-	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Sent-By" value:hostName]];	
+	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Sent-By" value:hostName]];
+	
+	if (![dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE]) {
+		/* No origin machine --> We are the origin */
+		static BOOL determinedMachineInfo = NO;
+		static NSString *growlVersion = nil;
+		static NSString *platformVersion = nil;
+		
+		if (!determinedMachineInfo) {
+			unsigned major, minor, bugFix;
+			[NSApp getSystemVersionMajor:&major minor:&minor bugFix:&bugFix];
+		
+			platformVersion = [[NSString stringWithFormat:@"%u.%u.%u", major, minor, bugFix] retain];
+			growlVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
+			determinedMachineInfo = YES;
+		}
+		
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Machine-Name" value:hostName]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Name" value:@"Growl"]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Version" value:growlVersion]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Name" value:@"Mac OS X"]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:platformVersion]];
+	}
 }
 
 /*!

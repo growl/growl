@@ -67,6 +67,7 @@
 		else {
 			[packet writeToSocket:outgoingSocket];
 			
+			/* While other implementations may keep the connection open for further use, Growl does not. */
 			if (![packet needsPersistentConnectionForCallback])
 				[outgoingSocket disconnectAfterWriting];
 		}
@@ -152,7 +153,7 @@
 			break;
 		case GrowlCallbackPacketType:
 		{
-			
+			NSLog(@"Received callback notification");
 		}
 	}
 	

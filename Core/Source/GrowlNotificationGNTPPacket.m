@@ -254,6 +254,21 @@
 		[self addReceivedHeader:value];
 	} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
 		[self setSentBy:value];
+	} else if ([name caseInsensitiveCompare:@"Origin-Machine-Name"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_GNTP_ORIGIN_MACHINE];
+	} else if ([name caseInsensitiveCompare:@"Origin-Software-Name"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+	} else if ([name caseInsensitiveCompare:@"Origin-Software-Version"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+	} else if ([name caseInsensitiveCompare:@"Origin-Platform-Name"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
+	} else if ([name caseInsensitiveCompare:@"Origin-Platform-Version"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
 	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
@@ -441,7 +456,17 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
-
+	if ([dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Machine-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE]]];
+	if ([dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME]]];
+	if ([dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Version" value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION]]];
+	if ([dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME]]];
+	if ([dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION]]];
+	
 	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
 
 	if (outHeadersArray) *outHeadersArray = headersArray;

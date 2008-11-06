@@ -218,7 +218,7 @@
 						[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
-					if ([notifications count] == numberOfNotifications) {
+					if ((int)[notifications count] == numberOfNotifications) {
 						if ([pendingBinaryIdentifiers count] == 0)
 							directive = GrowlReadDirective_PacketComplete;
 						else
