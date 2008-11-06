@@ -200,7 +200,7 @@
 		4B7E5EA306B6AC1700137892 /* GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlMail.m; sourceTree = "<group>"; };
 		4BF8974D06B6A7EF00C30E88 /* MailHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailHeaders.h; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		950A023B0737CBDB0075BDE4 /* English */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950A02490737CDDA0075BDE4 /* de */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950DAC0E0737AF630096F066 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
@@ -639,7 +639,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -658,7 +658,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -675,7 +675,7 @@
 		95AE2784085C44FC00271F5F /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
