@@ -357,8 +357,6 @@
 		
 		/* XXX Could include @"Notification-Icon" if we had per-notification icons */
 	}
-	
-	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
 		 
 	if (outHeadersArray) *outHeadersArray = headersArray;
 	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
