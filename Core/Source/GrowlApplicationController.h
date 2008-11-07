@@ -56,6 +56,7 @@ typedef enum {
 
 - (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo;
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal;
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;

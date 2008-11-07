@@ -494,17 +494,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-	[outgoingPacket setAction:@"NOTIFY"];
-
-	NSArray *headersArray = nil;
-	NSArray *binaryArray = nil;
-	
-	[GrowlNotificationGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forNotificationDict:dict];
-
-	[outgoingPacket addHeaderItems:headersArray];
-	[outgoingPacket addBinaryChunks:binaryArray];
-
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType
+																					forDict:dict];
 	[self sendViaTCP:outgoingPacket];
 
 	[pool release];
@@ -514,17 +505,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-	[outgoingPacket setAction:@"REGISTER"];
-	
-	NSArray *headersArray = nil;
-	NSArray *binaryArray = nil;
-	
-	[GrowlRegisterGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forRegistrationDict:dict];
-	
-	[outgoingPacket addHeaderItems:headersArray];
-	[outgoingPacket addBinaryChunks:binaryArray];
-
+	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType
+																					forDict:dict];
 	[self sendViaTCP:outgoingPacket];
 
 	[pool release];
@@ -706,7 +688,15 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
 	setBooleanForKey(aDict, GROWL_CLICK_HANDLER_ENABLED, [ticket clickHandlersEnabled]);
 
-	if ([preferences squelchMode]) NSLog(@"Squelching...");
+	/* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
+	if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
+		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+		NSString *uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		[aDict setValue:uuid
+				 forKey:GROWL_NOTIFICATION_INTERNAL_ID];
+		[uuid release];
+		CFRelease(uuidRef);
+	}
 
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
@@ -780,18 +770,17 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	// send to DO observers
 	[growlNotificationCenter notifyObservers:aDict];
 
-	[aDict release];
-
 	// forward to remote destinations. Don't forward a message previously reeceived over UDP.
 	if (enableForward && ![dict objectForKey:GROWL_UDP_REMOTE_ADDRESS]) {
 		if ([NSThread currentThread] == mainThread)
 			[NSThread detachNewThreadSelector:@selector(forwardNotification:)
 									 toTarget:self
-								   withObject:dict];
+								   withObject:aDict];
 		else
-			[self forwardNotification:dict];
+			[self forwardNotification:aDict];
 	}
 
+	[aDict release];
 	[pool release];
 	
 	return GrowlNotificationResultPosted;
@@ -1270,6 +1259,63 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 }
 
+
+/*click feedback comes here first. GAB picks up the DN and calls our
+ *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
+ *	GHA notification.
+ */
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal
+{
+	static BOOL isClosingFromRemoteClick = NO;
+	/* Don't post a second close notification on the local machine if we close a notification from this method in
+	 * response to a click on a remote machine.
+	 */
+	if (isClosingFromRemoteClick)
+		return;
+
+	id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	if (clickContext) {
+		NSString *suffix, *growlNotificationClickedName;
+		NSDictionary *clickInfo;
+		
+		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
+		GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
+		
+		if (viaClick && [ticket clickHandlersEnabled]) {
+			suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
+		} else {
+			/*
+			 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
+			 * guaranteed to receive feedback for every notification.
+			 */
+			suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
+		}
+		
+		//Build the application-specific notification name
+		NSNumber *pid = [growlNotificationDict objectForKey:GROWL_APP_PID];
+		if (pid)
+			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
+											appName, pid, suffix];
+		else
+			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
+											appName, suffix];
+		clickInfo = [NSDictionary dictionaryWithObject:clickContext
+												forKey:GROWL_KEY_CLICKED_CONTEXT];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
+																	   object:nil
+																	 userInfo:clickInfo
+														   deliverImmediately:YES];
+		[growlNotificationClickedName release];
+	}
+	
+	if (!wasLocal) {
+		isClosingFromRemoteClick = YES;
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_NOTIFICATION
+															object:[growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+		isClosingFromRemoteClick = NO;
+	}
+}
+
 @end
 
 #pragma mark -
@@ -1277,66 +1323,25 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 @implementation GrowlApplicationController (PRIVATE)
 
 #pragma mark Click feedback from displays
-
-/*click feedback comes here first. GAB picks up the DN and calls our
- *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
- *	GHA notification.
- */
-- (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
-{
-	NSString *suffix, *growlNotificationClickedName;
-	NSDictionary *clickInfo;
-
-	if (viaClick) {
-		suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
-	} else {
-		/*
-		 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
-		 * guaranteed to receive feedback for every notification.
-		 */
-		suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
-	}
-	
-	//Build the application-specific notification name
-	NSNumber *pid = [[growlNotification dictionaryRepresentation] objectForKey:GROWL_APP_PID];
-	if (pid)
-		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
-										[growlNotification applicationName], pid, suffix];
-	else
-		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
-										[growlNotification applicationName], suffix];
-	
-	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-				 [[growlNotification dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT], GROWL_KEY_CLICKED_CONTEXT,
-				 nil];
-
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
-	                                                               object:nil
-	                                                             userInfo:clickInfo
-	                                                   deliverImmediately:YES];
-}
-
 - (void) notificationClicked:(NSNotification *)notification {
 	GrowlApplicationNotification *growlNotification = [notification object];
-
-	[self postGrowlNotificationClosed:growlNotification
-				 viaNotificationClick:[[[growlNotification dictionaryRepresentation] objectForKey:GROWL_CLICK_HANDLER_ENABLED] boolValue]];
+	
+	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:YES onLocalMachine:YES];
 }
 
 - (void) notificationTimedOut:(NSNotification *)notification {
 	GrowlApplicationNotification *growlNotification = [notification object];
 	
-	[self postGrowlNotificationClosed:growlNotification
-				 viaNotificationClick:NO];
+	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:NO onLocalMachine:YES];
 }
 
 @end
 
 static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) {
 #pragma unused(refcon)
-
+	
 	SystemSoundRemoveCompletionRoutine(actionID);
-
+	
 	return SystemSoundRemoveActionID(actionID);
 }
 
