@@ -92,9 +92,14 @@
 #define GROWL_NOTIFICATION_CLICK_CONTENT_TYPE			@"NotificationCallbackClickContextType"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
 #define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
-#define GROWL_NOTIFICATION_GNTP_ID						@"GNTP Notification ID"
+#define GROWL_NOTIFICATION_INTERNAL_ID					@"Growl Internal Notification ID"
 #define GROWL_NOTIFICATION_GNTP_RECEIVED				@"GNTP Notification Received Headers"
 #define GROWL_NOTIFICATION_GNTP_SENT_BY					@"GNTP Notification Sent-By"
+#define GROWL_GNTP_ORIGIN_MACHINE						@"GNTP Origin-Machine-Name"
+#define GROWL_GNTP_ORIGIN_SOFTWARE_NAME					@"GNTP Origin-Software-Name"
+#define GROWL_GNTP_ORIGIN_SOFTWARE_VERSION				@"GNTP Origin-Software-Version"
+#define GROWL_GNTP_ORIGIN_PLATFORM_NAME					@"GNTP Origin-Platform-Name"
+#define GROWL_GNTP_ORIGIN_PLATFORM_VERSION				@"GNTP Origin-Platform-Versin"
 
 #define ATTRIBUTE_PACKED __attribute((packed))
 
@@ -438,6 +443,11 @@ struct GrowlNetworkNotification {
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
 	CFRelease(floatValue); } while(0)
 
+/*!	@defined	GROWL_CLOSE_NOTIFICATION
+ *	@abstract	Notification to close a Growl notification
+ *	@discussion	The object of this notification is the GROWL_NOTIFICATION_INTERNAL_ID of the notification
+ */
+#define GROWL_CLOSE_NOTIFICATION XSTR("GrowlCloseNotification")
 
 /*!	@defined	GROWL_CLOSE_ALL_NOTIFICATIONS
  *	@abstract	Notification to close all Growl notifications

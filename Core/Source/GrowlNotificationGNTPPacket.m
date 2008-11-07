@@ -64,12 +64,14 @@
 
 - (NSString *)identifier
 {
-	return [notificationDict objectForKey:GROWL_NOTIFICATION_GNTP_ID];
+	return [notificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
 }
 - (void)setIdentifier:(NSString *)string
 {
 	[notificationDict setObject:string
-						 forKey:GROWL_NOTIFICATION_GNTP_ID];
+						 forKey:GROWL_NOTIFICATION_INTERNAL_ID];
+	/* Now update our identifier and our delegate GrowlGNTPPacket's identifier */
+	[self setPacketID:string];
 }
 - (NSString *)coalesceIdentifier
 {
@@ -269,6 +271,9 @@
 	} else if ([name caseInsensitiveCompare:@"Origin-Platform-Version"] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
+	} else if ([name caseInsensitiveCompare:@"X-Application-PID"] == NSOrderedSame) {
+		[notificationDict setObject:value
+							 forKey:GROWL_APP_PID];
 	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
@@ -278,8 +283,6 @@
 
 /*!
  * @brief Headers to be returned via the -OK success result
- *
- * In the superclass, we just send any custom headers included in the packet originally
  */
 - (NSArray *)headersForResult
 {
@@ -352,7 +355,12 @@
 																		  value:[[NSCalendarDate date] ISO8601DateString]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[self applicationName]]];
 
+	if ([notificationDict objectForKey:GROWL_APP_PID]) {
+		[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-PID" value:[notificationDict objectForKey:GROWL_APP_PID]]];
+	}
+	
 	return headersForCallbackResult;
 }
 
@@ -368,6 +376,7 @@
 	[responsePost appendFormat:@"&Notification-Callback-Timestamp=%@", [[NSCalendarDate date] ISO8601DateString]];
 	[responsePost appendFormat:@"&Notification-Callback-Context-Type=%@", [self callbackContextType]];
 	[responsePost appendFormat:@"&Notification-Callback-Context=%@", [self callbackContext]];
+	[responsePost appendFormat:@"&ApplicationName=%@", [self applicationName]];
 
 	NSEnumerator *enumerator = [[self customHeaders] objectEnumerator];
 	GrowlGNTPHeaderItem *headerItem;
@@ -417,7 +426,7 @@
 	return growlDictionary;
 }
 
-+ (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forNotificationDict:(NSDictionary *)dict
++ (void)getHeaders:(NSArray **)outHeadersArray binaryChunks:(NSArray **)outBinaryChunks notificationID:(NSString **)outNotificationID forNotificationDict:(NSDictionary *)dict
 {
 	NSMutableArray *headersArray = [NSMutableArray array];
 	NSMutableArray *binaryChunks = [NSMutableArray array];
@@ -430,8 +439,6 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Title" value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Coalescing-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_GNTP_ID])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[dict objectForKey:GROWL_NOTIFICATION_GNTP_ID]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
@@ -466,9 +473,21 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION]]];
+	if ([dict objectForKey:GROWL_APP_PID])
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-PID" value:[dict objectForKey:GROWL_APP_PID]]];
 	
+	NSString *notificationID = [dict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+	if (!notificationID) {
+		/* Create a Notification-ID if this dictionary doesn't have one yet */
+		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+		notificationID = [(NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef) autorelease];
+		CFRelease(uuidRef);
+	}
+	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:notificationID]];
+
 	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
 
+	if (outNotificationID) *outNotificationID = notificationID;
 	if (outHeadersArray) *outHeadersArray = headersArray;
 	if (outBinaryChunks) *outBinaryChunks = binaryChunks;
 }

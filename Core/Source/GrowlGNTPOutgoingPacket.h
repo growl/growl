@@ -11,15 +11,24 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlGNTPBinaryChunk.h"
 
+typedef enum {
+	GrowlGNTPOutgoingPacket_OtherType,
+	GrowlGNTPOutgoingPacket_NotifyType,
+	GrowlGNTPOutgoingPacket_RegisterType
+} GrowlGNTPOutgoingPacketType;
+
 @interface GrowlGNTPOutgoingPacket : NSObject {
 	NSMutableArray *headerItems;
 	NSMutableArray *binaryChunks;
 	NSString *action;
+	NSString *packetID;
 }
 
 + (GrowlGNTPOutgoingPacket *)outgoingPacket;
++ (GrowlGNTPOutgoingPacket *)outgoingPacketOfType:(GrowlGNTPOutgoingPacketType)type forDict:(NSDictionary *)dict;
 
 - (void)setAction:(NSString *)action;
+- (NSString *)packetID;
 
 - (void)addHeaderItem:(GrowlGNTPHeaderItem *)inItem;
 - (void)addHeaderItems:(NSArray *)inItems;

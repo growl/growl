@@ -20,8 +20,8 @@
 - (void)setAction:(NSString *)inAction;
 - (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
 - (void)readNextHeader;
-- (void)setUUID:(NSString *)inUUID;
 - (void)beginProcessingProtocolIdentifier;
+- (void)networkPacketReadComplete;
 @end
 
 @implementation GrowlGNTPPacket
@@ -41,7 +41,7 @@
 	[specificPacket setDelegate:packet];
 	[specificPacket setAction:[packet action]];
 	[specificPacket setEncryptionAlgorithm:[packet encryptionAlgorithm]];
-	[specificPacket setUUID:[packet uuid]];
+	[specificPacket setPacketID:[packet packetID]];
 
 	return specificPacket;
 }
@@ -69,7 +69,7 @@
 	[encryptionAlgorithm release];
 	[binaryDataByIdentifier release];
 	[pendingBinaryIdentifiers release];
-	[uuid release];
+	[packetID release];
 	[customHeaders release];
 
 	[super dealloc];
@@ -80,19 +80,21 @@
 	return socket;
 }
 
-- (NSString *)uuid
+- (NSString *)packetID
 {
-	if (!uuid) {
+	if (!packetID) {
 		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-		uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		packetID = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
 		CFRelease(uuidRef);
 	}		
-	return uuid;
+	return packetID;
 }
-- (void)setUUID:(NSString *)inUUID
+- (void)setPacketID:(NSString *)inPacketID
 {
-	[uuid autorelease];
-	uuid = [inUUID retain];
+	if (packetID)
+		[[self delegate] packet:self willChangePacketIDFrom:packetID to:inPacketID];
+	[packetID autorelease];
+	packetID = [inPacketID retain];
 }
 
 - (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
@@ -112,6 +114,8 @@
 		return GrowlRegisterPacketType;
 	else if ([action caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame)
 		return GrowlCallbackPacketType;
+	else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame)
+		return GrowlOKPacketType;
 	else
 		return GrowlUnknownPacketType;
 }
@@ -269,6 +273,7 @@
 
 	} else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
 		/* An OK response can be silently dropped */
+		[self networkPacketReadComplete];
 
 	} else if ([action caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
 		NSLog(@"%@: Error :(", self);
@@ -276,7 +281,7 @@
 /*		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain]; */
 	}
 
-	//Get the specific packet started; it'll take it from there
+	//Get the specific packet started if we made one; it'll take it from there
 	[specificPacket readNextHeader];	
 }
 
@@ -366,7 +371,7 @@
 		/* Received: From <hostname> by <hostname> [with Growl] [id <identifier>]; <ISO 8601 date> */
 		received = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
 					[dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY], hostName, 
-					([dict valueForKey:GROWL_NOTIFICATION_GNTP_ID] ? [NSString stringWithFormat:@" id %@", [dict valueForKey:GROWL_NOTIFICATION_GNTP_ID]] : @""),
+					([dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID] ? [NSString stringWithFormat:@" id %@", [dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]] : @""),
 					[[NSCalendarDate date] ISO8601DateString]];
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:received]];
@@ -606,9 +611,12 @@
 #pragma mark Dictionary Representation
 - (NSDictionary *)growlDictionary
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			[self uuid], GROWL_NETWORK_PACKET_UUID,
-			nil];
+	if (specificPacket)
+		return [specificPacket growlDictionary];
+	else
+		return [NSDictionary dictionaryWithObjectsAndKeys:
+				[self packetID], GROWL_NOTIFICATION_INTERNAL_ID,
+				nil];
 }
 
 #pragma mark Incoming network processing
@@ -622,6 +630,11 @@
 	}
 }
 
+- (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally
+{
+	wasInitiatedLocally = inWasInitiatedLocally;
+}
+
 /**
  * Called when a socket connects and is ready for reading and writing.
  * The host parameter will be an IP address, not a DNS name.
@@ -631,7 +644,7 @@
 #pragma unused(inPort)
 	if ([self isLocalHost:inHost] ||
 		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
-		([sock userData] == GrowlGNTPPacketSocketUserData_WasInitiatedLocally)) {
+		wasInitiatedLocally) {
 		[self startProcessing];
 	} else {
 		[sock disconnect];
@@ -645,8 +658,10 @@
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
 #ifdef DEBUG
-	NSLog(@"Recv: \"%@\"", [[[NSString alloc] initWithData:data
-												  encoding:NSUTF8StringEncoding] autorelease]);
+	NSString *received = [[[NSString alloc] initWithData:data
+												encoding:NSUTF8StringEncoding] autorelease];
+	received = [received stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSLog(@"Recv: \"%@\"", received);
 #endif
 
 #pragma unused(sock)
@@ -781,11 +796,21 @@
 	[[self delegate] packet:packet failedReadingWithError:inError];	
 }
 
+- (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID
+{
+#pragma unused(packet)
+	[[self delegate] packet:self willChangePacketIDFrom:oldPacketID to:newPacketID];
+}
+
 #pragma mark -
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, [self growlDictionary]];
+	if (specificPacket)
+		return [NSString stringWithFormat:@"<%@ %x: %@ --> %@>", NSStringFromClass([self class]), self, [self growlDictionary], specificPacket];
+	else
+		return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, [self growlDictionary]];
 }
 
 @end
+

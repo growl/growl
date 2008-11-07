@@ -10,6 +10,8 @@
 #import "GrowlApplicationController.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
+#import "GrowlCallbackGNTPPacket.h"
+#import "GrowlTicketController.h"
 #include "CFGrowlAdditions.h"
 
 @implementation GrowlGNTPPacketParser
@@ -57,19 +59,24 @@
 	 * desired.
 	 */
 	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
-	[outgoingSocket setUserData:GrowlGNTPPacketSocketUserData_WasInitiatedLocally];
-
+	[outgoingSocket setUserData:(long)[[packet packetID] retain]];
+	NSLog(@"outgoingsocket is %p; userData is %@", outgoingSocket, (NSString *)[outgoingSocket userData]);
 	@try {
 		NSError *connectionError = nil;
 		[outgoingSocket connectToAddress:destAddress error:&connectionError];
-		if (connectionError)
+		if (connectionError) {
 			NSLog(@"Failed to connect: %@", connectionError);
-		else {
+			[(NSString *)[outgoingSocket userData] release];
+			[outgoingSocket setUserData:nil];
+
+		} else {
 			[packet writeToSocket:outgoingSocket];
 			
 			/* While other implementations may keep the connection open for further use, Growl does not. */
-			if (![packet needsPersistentConnectionForCallback])
+			if (![packet needsPersistentConnectionForCallback]) {
+				NSLog(@"will disconnect after writing");
 				[outgoingSocket disconnectAfterWriting];
+			}
 		}
 		
 	} @catch (NSException *e) {
@@ -86,16 +93,39 @@
 	
 
 #pragma mark -
-- (void)didAcceptNewSocket:(AsyncSocket *)socket
+- (GrowlGNTPPacket *)setupPacketForSocket:(AsyncSocket *)socket
 {
 	GrowlGNTPPacket *packet = [GrowlGNTPPacket networkPacketForSocket:socket];
 	[packet setDelegate:self];
-
+	if ([socket userData] && [(NSObject *)[socket userData] isKindOfClass:[NSString class]]) {
+		NSLog(@"Setting packet ID to %@", (NSString *)[socket userData]);
+		[packet setPacketID:(NSString *)[socket userData]];
+		
+		/* Retained in sendPacket:toAddress: */
+		[(NSString *)[socket userData] release];
+		[socket setUserData:nil];
+	}
+	
 	/* Note: We're tracking a GrowlGNTPPacket, but its specific packet (a GrowlNotificationGNTPPacket or 
 	 * GrowlRegisterGNTPPacket) will be where the action hides.
 	 */
 	[currentNetworkPackets setObject:packet
-							  forKey:[packet uuid]];
+							  forKey:[packet packetID]];	
+	
+	return packet;
+}
+
+- (BOOL)onSocketWillConnect:(AsyncSocket *)socket
+{
+	GrowlGNTPPacket *packet = [self setupPacketForSocket:socket];
+	[packet setWasInitiatedLocally:YES];
+
+	return YES;
+}
+
+- (void)didAcceptNewSocket:(AsyncSocket *)socket
+{
+	[self setupPacketForSocket:socket];
 }
 
 /*!
@@ -110,7 +140,7 @@
 		return;
 	}
 
-	BOOL success = YES;
+	BOOL shouldSendOKResponse = YES;
 
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
@@ -121,12 +151,12 @@
 			GrowlNotificationResult result = [[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:[packet growlDictionary]];
 			switch (result) {
 				case GrowlNotificationResultPosted:
-					success = YES;
 					break;
 				case GrowlNotificationResultNotRegistered:
 				{
 					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-					success = NO;
+					shouldSendOKResponse = NO;
+					/* Don't send -OK since we're sending -ERROR */
 					[outgoingPacket setAction:@"-ERROR"];
 					[outgoingPacket addHeaderItems:[packet headersForResult]];
 					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
@@ -137,7 +167,8 @@
 				case GrowlNotificationResultDisabled:
 				{
 					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-					success = NO;
+					/* Don't send -OK since we're sending -ERROR */
+					shouldSendOKResponse = NO;
 					[outgoingPacket setAction:@"-ERROR"];
 					[outgoingPacket addHeaderItems:[packet headersForResult]];
 					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
@@ -152,13 +183,18 @@
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
 		case GrowlCallbackPacketType:
-		{
-			NSLog(@"Received callback notification");
-		}
+			[[GrowlApplicationController sharedInstance] growlNotificationDict:[packet growlDictionary]
+												  didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket *)packet callbackType] == GrowlGNTPCallback_Clicked)
+																onLocalMachine:NO];
+			break;
+		case GrowlOKPacketType:
+			/* Ourobourous is not hungry tonight */ 
+			shouldSendOKResponse = NO;
+			break;
 	}
 	
 	/* Send the -OK response */
-	if (success) {
+	if (shouldSendOKResponse) {
 		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 		[outgoingPacket setAction:@"-OK"];
 		[outgoingPacket addHeaderItems:[packet headersForResult]];		
@@ -169,9 +205,15 @@
 	GrowlGNTPPacket *newPacket = [GrowlGNTPPacket networkPacketForSocket:[packet socket]];
 	[newPacket setDelegate:self];	
 	[currentNetworkPackets setObject:newPacket
-							  forKey:[newPacket uuid]];		
+							  forKey:[newPacket packetID]];
+
+	/* And stop caring about the old packet if we just received a callback */
+	if ([packet packetType] == GrowlCallbackPacketType) {
+		[currentNetworkPackets removeObjectForKey:[packet packetID]];
+	}
+
 	/* Now await incoming data using the new packet */
-	[newPacket startProcessing];	
+	[newPacket startProcessing];
 }
 
 /*!
@@ -186,7 +228,7 @@
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
 	if ([packet callbackResultSendBehavior] != GrowlGNTP_URLCallback)
-		[currentNetworkPackets removeObjectForKey:[packet uuid]];
+		[currentNetworkPackets removeObjectForKey:[packet packetID]];
 }
 
 /*!
@@ -202,6 +244,17 @@
 	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
 																	value:[[inError userInfo] objectForKey:NSLocalizedFailureReasonErrorKey]]];
 	[outgoingPacket writeToSocket:[packet socket]];
+}
+
+- (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID
+{
+#pragma unused(packet)
+	/* Note that it is possible that ([currentNetworkPackets objectForKey:oldPacketID] != packet).
+	 * packet may be [[currentNetworkPackets objectForKey:oldPacketID] specificPacket]. We don't want to release the 
+	 * parent too early! We therefore do the lookup-and-set rather than a more 'direct' setObject:packet.
+	 */
+	[currentNetworkPackets setObject:[currentNetworkPackets objectForKey:oldPacketID] forKey:newPacketID];
+	[currentNetworkPackets removeObjectForKey:oldPacketID];
 }
 
 #pragma mark -
@@ -225,10 +278,20 @@
  * If the Growl notification is associated with an open socket to an originating client, and it has the appropriate 
  * Notification-Callback-Context headers, the originating client will be notified.
  */
-- (void)postGrowlNotificationClosed:(GrowlApplicationNotification *)growlNotification viaNotificationClick:(BOOL)viaClick
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick
 {
-	GrowlGNTPPacket *existingPacket = [currentNetworkPackets objectForKey:[[growlNotification dictionaryRepresentation] objectForKey:GROWL_NETWORK_PACKET_UUID]];
+	if (viaClick) {
+		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
+		GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName];
+		
+		/* Don't advertise that the notification closed via a click if click handlers are disabled */
+		if (ticket && ![ticket clickHandlersEnabled])
+			viaClick = NO;
+	}
 
+	NSString *notificationID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+	GrowlGNTPPacket *existingPacket = (notificationID ? [currentNetworkPackets objectForKey:notificationID] : nil);
+	NSLog(@"didCloseViaNotificationClick --> %@ --> %@", notificationID, existingPacket);
 	if (existingPacket) {
 		switch ([existingPacket callbackResultSendBehavior]) {
 			case GrowlGNTP_NoCallback:
@@ -249,27 +312,22 @@
 												delegate:self];
 
 				 /* We can now stop tracking the packet in currentNetworkPackets. */
-				[currentNetworkPackets removeObjectForKey:[existingPacket uuid]];
+				[currentNetworkPackets removeObjectForKey:[existingPacket packetID]];
 			}
 		}
 	}
 }
 
-- (void)notificationClicked:(NSNotification *)notification
-{
+- (void) notificationClicked:(NSNotification *)notification {
 	GrowlApplicationNotification *growlNotification = [notification object];
 	
-	[self postGrowlNotificationClosed:growlNotification
-				 viaNotificationClick:[[[growlNotification dictionaryRepresentation] objectForKey:GROWL_CLICK_HANDLER_ENABLED] boolValue]];	
+	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:YES];
 }
 
-- (void)notificationTimedOut:(NSNotification *)notification
-{
+- (void) notificationTimedOut:(NSNotification *)notification {
 	GrowlApplicationNotification *growlNotification = [notification object];
 	
-	[self postGrowlNotificationClosed:growlNotification
-				 viaNotificationClick:NO];		
+	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:NO];
 }
-
 
 @end

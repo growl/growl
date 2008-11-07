@@ -10,8 +10,6 @@
 #import "AsyncSocket.h"
 #import "GrowlGNTPDefines.h"
 
-#define GROWL_NETWORK_PACKET_UUID	@"GrowlGNTPPacketUUID"
-
 @class GrowlGNTPPacket, GrowlGNTPHeaderItem;
 
 typedef enum {
@@ -41,6 +39,7 @@ typedef enum {
 	GrowlUnknownPacketType,
 	GrowlNotifyPacketType,
 	GrowlRegisterPacketType,
+	GrowlOKPacketType,
 	GrowlCallbackPacketType
 } GrowlPacketType;
 
@@ -67,6 +66,11 @@ typedef enum {
  * This is called regardless of the cause of disconnection (voluntary or involuntary)
  */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet;
+
+/*!
+ * @brief A packet received information which changed its packet ID
+ */
+- (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID;
 @end
 
 @interface GrowlGNTPPacket : NSObject <GrowlGNTPPacketDelegate> {
@@ -82,13 +86,14 @@ typedef enum {
 	
 	NSMutableDictionary *binaryDataByIdentifier;
 	NSMutableSet *pendingBinaryIdentifiers;
-	NSString *uuid;
+	NSString *packetID;
 	
 	NSString *currentBinaryIdentifier;
 	unsigned long currentBinaryLength;
 	
 	GrowlGNTPPacket *specificPacket;
-	
+
+	BOOL wasInitiatedLocally;
 	NSError *error;
 }
 
@@ -104,7 +109,8 @@ typedef enum {
 - (AsyncSocket *)socket;
 
 - (GrowlPacketType)packetType;
-- (NSString *)uuid;
+- (NSString *)packetID;
+- (void)setPacketID:(NSString *)inPacketID;
 
 - (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
 - (id <GrowlGNTPPacketDelegate>)delegate;
@@ -115,6 +121,8 @@ typedef enum {
 
 - (NSDictionary *)growlDictionary;
 - (BOOL)hasBeenReceivedPreviously;
+
+- (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally;
 
 - (NSError *)error;
 @end

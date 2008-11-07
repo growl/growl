@@ -792,7 +792,8 @@ Failed:;
 **/
 - (void)doAcceptWithSocket:(CFSocketNativeHandle)newNative
 {
-	AsyncSocket *newSocket = [[[AsyncSocket alloc] initWithDelegate:theDelegate] autorelease];
+	/* Changed: Original implementation did not propagate theUserData, calling initWithDelegate: instead */
+	AsyncSocket *newSocket = [[[AsyncSocket alloc] initWithDelegate:theDelegate userData:theUserData] autorelease];
 
 	if(newSocket)
 	{

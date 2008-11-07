@@ -8,6 +8,7 @@
 
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
+#import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPBinaryChunk.h"
 
 /* XXX For GNTPOutgoingItem which should probably move */
@@ -26,6 +27,7 @@
 {
 	return [[[self alloc] initWithAction:action] autorelease];
 }
+
 - (id)initWithAction:(NSString *)inAction
 {
 	if ((self = [self init])) {
@@ -62,10 +64,51 @@
 }
 @end
 
+@interface GrowlGNTPOutgoingPacket (PRIVATE)
+- (void)setPacketID:(NSString *)string;
+@end
+
 @implementation GrowlGNTPOutgoingPacket
 + (GrowlGNTPOutgoingPacket *)outgoingPacket
 {
 	return [[[self alloc] init] autorelease];
+}
+
++ (GrowlGNTPOutgoingPacket *)outgoingPacketOfType:(GrowlGNTPOutgoingPacketType)type forDict:(NSDictionary *)dict
+{
+	GrowlGNTPOutgoingPacket *outgoingPacket = [self outgoingPacket];
+	
+	NSArray *headersArray = nil;
+	NSArray *binaryArray = nil;
+		
+	switch (type) {
+		case GrowlGNTPOutgoingPacket_OtherType:
+			NSLog(@"This shouldn't happen; outgoingPacketOfType called with GrowlGNTPOutgoingPacket_OtherType");
+			break;
+		case GrowlGNTPOutgoingPacket_NotifyType:
+		{
+			NSString *notificationID = nil;
+			[outgoingPacket setAction:@"NOTIFY"];	
+			[GrowlNotificationGNTPPacket getHeaders:&headersArray
+									   binaryChunks:&binaryArray
+									 notificationID:&notificationID
+								forNotificationDict:dict];
+			[outgoingPacket setPacketID:notificationID];
+			NSLog(@"I set %@'s packet ID to %@ (%@)", outgoingPacket, notificationID, [dict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]);
+			break;
+		}
+		case GrowlGNTPOutgoingPacket_RegisterType:
+		{
+			[outgoingPacket setAction:@"REGISTER"];				
+			[GrowlRegisterGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forRegistrationDict:dict];
+			break;
+		}		
+	}
+
+	[outgoingPacket addHeaderItems:headersArray];
+	[outgoingPacket addBinaryChunks:binaryArray];
+	
+	return outgoingPacket;
 }
 
 - (id)init
@@ -82,7 +125,8 @@
 {
 	[headerItems release];
 	[binaryChunks release];
-	
+	[packetID release];
+
 	[super dealloc];
 }
 
@@ -108,6 +152,24 @@
 	[binaryChunks addObjectsFromArray:inItems];
 }
 
+- (NSString *)packetID
+{
+	if (!packetID) {
+		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+		packetID = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		CFRelease(uuidRef);
+	}
+	return packetID;	
+}
+
+- (void)setPacketID:(NSString *)string
+{
+	if (string != packetID) {
+		[packetID release];
+		packetID = [string retain];
+	}
+}
+
 - (NSArray *)outgoingItems
 {
 	NSMutableArray *allOutgoingItems = [NSMutableArray array];
@@ -127,7 +189,6 @@
 
 - (void)writeToSocket:(AsyncSocket *)socket
 {
-	NSLog(@"Writing %@ to %@", [self outgoingItems], socket);
 	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
 	id <GNTPOutgoingItem> item;
 	while ((item = [enumerator nextObject])) {
