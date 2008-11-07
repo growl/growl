@@ -498,6 +498,10 @@ static NSMutableDictionary *existingInstances;
 
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
     if (notification != theNotification) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self
+														name:GROWL_CLOSE_NOTIFICATION
+													  object:[[notification dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+		
 		[notification release];
 		notification = [theNotification retain];
 	}
@@ -524,6 +528,12 @@ static NSMutableDictionary *existingInstances;
 		[notificationView setIcon:icon];
 		[notificationView sizeToFit];
 	}
+
+	//Respond to 'close notification' by closing if our notification matches the one posted
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(stopDisplay)
+												 name:GROWL_CLOSE_NOTIFICATION
+											   object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
 }
 
 - (void) updateToNotification:(GrowlApplicationNotification *)theNotification {
