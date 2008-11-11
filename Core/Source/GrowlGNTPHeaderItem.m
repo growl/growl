@@ -67,6 +67,7 @@
 		if (endOfHeaderName == NSNotFound) {
 			/* Malformed header; no "name: value" setup */
 			if (outError)
+				headerLine = [headerLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 				*outError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
 												code:GrowlGNTPHeaderError
 											userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Malformed header \"%@\"; \"name: value\" not found",
