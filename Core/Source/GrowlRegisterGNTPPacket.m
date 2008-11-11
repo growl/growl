@@ -176,8 +176,16 @@
 																						forKey:NSLocalizedFailureReasonErrorKey]]];
 					directive = GrowlReadDirective_Error;
 				} else {
-					/* Otherwise, prepare to start tracking notifications */
-					currentNotification = [[NSMutableDictionary alloc] init];
+					if (numberOfNotifications > 0) {
+						/* Prepare to start tracking notifications */
+						currentNotification = [[NSMutableDictionary alloc] init];
+					} else {
+						/* Unless we registered 0 notifications */
+						if ([pendingBinaryIdentifiers count] == 0)
+							directive = GrowlReadDirective_PacketComplete;
+						else
+							directive = GrowlReadDirective_SectionComplete;
+					}
 				}
 			} else {
 				/* Process a registration header */
@@ -213,9 +221,8 @@
 			if (headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]) {
 				/* Done with this notification; start working on the next or on binary data if needed */
 				NSError *anError = nil;
-				if (numberOfNotifications == 0 || [self validateCurrentNotification:&anError]) {
-					if (numberOfNotifications)
-						[notifications addObject:currentNotification];
+				if ([self validateCurrentNotification:&anError]) {
+					[notifications addObject:currentNotification];
 					[currentNotification release]; currentNotification = nil;
 
 					if ((int)[notifications count] == numberOfNotifications) {
