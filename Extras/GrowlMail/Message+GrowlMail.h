@@ -35,5 +35,10 @@
 #import "MailHeaders.h"
 
 @interface Message(GrowlMail)
+/*!
+ * @brief Show a Growl notification for this message
+ *
+ * This should be called on an auxiliary thread as it may block.
+ */
 - (void) GMShowNotification;
 @end
