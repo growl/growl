@@ -56,7 +56,7 @@
  *
  * This should be called on an auxiliary thread as it may block.
  */
-- (void) showNotification
+- (void) GMShowNotification
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
