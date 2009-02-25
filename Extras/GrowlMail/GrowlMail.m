@@ -283,7 +283,7 @@ static int messageCopies = 0;
 		 * We're making some assumptions about Mail's internals, but the fact that notifications are posted on auxiliary threads
 		 * and then again with a _inMainThread_ suffix on the main thread indicates that threads are being used for mail access elsewhere.
 		 */
-		[NSThread detachNewThreadSelector:@selector(GMShowNotification)
+		[NSThread detachNewThreadSelector:@selector(GMShowNotificationPart1)
 								 toTarget:message
 							   withObject:nil];
 	} else {

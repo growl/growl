@@ -52,22 +52,18 @@
 
 @implementation Message (GrowlMail)
 
-- (void) GMShowNotification
-{
+- (void) GMShowNotificationPart1 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	NSString *account = (NSString *)[[[self mailbox] account] displayName];
-	NSString *sender = [self sender];
-	NSString *senderAddress = [sender uncommentedAddress];
-	NSString *subject = (NSString *)[self subject];
-	NSString *body;
+	MessageBody *messageBody = nil;
+
 	NSString *titleFormat = (NSString *)GMTitleFormatString();
 	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
 
 	if ([titleFormat rangeOfString:@"%body"].location != NSNotFound ||
 			[descriptionFormat rangeOfString:@"%body"].location != NSNotFound) {
 		/* We will need the body */
-		MessageBody *messageBody = [self messageBodyIfAvailable];
+		messageBody = [self messageBodyIfAvailable];
 		int nonBlockingAttempts = 0;
 		while (!messageBody && nonBlockingAttempts < 3) {
 			/* No message body available yet, but we need one */
@@ -80,42 +76,57 @@
 
 		/* Already tried three times (3 seconds); this time, block this thread to get it. */ 
 		if (!messageBody) messageBody = [self messageBody];
+	}
 
-		if (messageBody) {
-			NSString *originalBody = nil;
-			/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
-			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
-				originalBody = [messageBody stringForIndexing];
-			else if ([messageBody respondsToSelector:@selector(attributedString)])
-				originalBody = [[messageBody attributedString] string];
-			else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
-				originalBody = [messageBody stringValueForJunkEvaluation:NO];
-			if (originalBody) {
-				NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
-				unsigned lengthWithoutWhitespace = [transformedBody length];
-				[transformedBody trimStringToFirstNLines:4U];
-				unsigned length = [transformedBody length];
-				if (length > 200U) {
-					[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
-					length = 200U;
-				}
-				if (length != lengthWithoutWhitespace)
-					[transformedBody appendString:[NSString stringWithUTF8String:"\xE2\x80\xA6"]];
-				body = (NSString *)transformedBody;
-			} else {
-				body = @"";	
-			}
-		} else {
-			body = @"";
-		}
-	} else
-		body = @"";
+	[self performSelectorOnMainThread:@selector(GMShowNotificationPart2:)
+						   withObject:messageBody
+						waitUntilDone:NO];
+
+	[pool release];
+}
+
+- (void) GMShowNotificationPart2:(MessageBody *)messageBody {
+	NSString *account = (NSString *)[[[self mailbox] account] displayName];
+	NSString *sender = [self sender];
+	NSString *senderAddress = [sender uncommentedAddress];
+	NSString *subject = (NSString *)[self subject];
+	NSString *body;
+	NSString *titleFormat = (NSString *)GMTitleFormatString();
+	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
 
 	/* The fullName selector is not available in Mail.app 2.0. */
 	if ([sender respondsToSelector:@selector(fullName)])
 		sender = [sender fullName];
 	else if ([sender addressComment])
 		sender = [sender addressComment];
+
+	if (messageBody) {
+		NSString *originalBody = nil;
+		/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
+		if ([messageBody respondsToSelector:@selector(stringForIndexing)])
+			originalBody = [messageBody stringForIndexing];
+		else if ([messageBody respondsToSelector:@selector(attributedString)])
+			originalBody = [[messageBody attributedString] string];
+		else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
+			originalBody = [messageBody stringValueForJunkEvaluation:NO];
+		if (originalBody) {
+			NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+			unsigned lengthWithoutWhitespace = [transformedBody length];
+			[transformedBody trimStringToFirstNLines:4U];
+			unsigned length = [transformedBody length];
+			if (length > 200U) {
+				[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
+				length = 200U;
+			}
+			if (length != lengthWithoutWhitespace)
+				[transformedBody appendString:[NSString stringWithUTF8String:"\xE2\x80\xA6"]];
+			body = (NSString *)transformedBody;
+		} else {
+			body = @"";	
+		}
+	} else {
+		body = @"";
+	}
 
 	NSArray *keywords = [NSArray arrayWithObjects:
 		@"%sender",
@@ -186,8 +197,6 @@
 							   clickContext:clickContext];	// non-nil click context
 
 	[GrowlMail didFinishNotificationForMessage:self];
-
-	[pool release];
 }
 
 @end

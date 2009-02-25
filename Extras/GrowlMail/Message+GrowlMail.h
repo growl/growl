@@ -36,9 +36,19 @@
 
 @interface Message(GrowlMail)
 /*!
- * @brief Show a Growl notification for this message
+ * @brief Begin to show a Growl notification for this message
  *
  * This should be called on an auxiliary thread as it may block.
+ *
+ * This method calls part 2 on the main thread; you do not need to call part 2 yourself.
  */
-- (void) GMShowNotification;
+- (void) GMShowNotificationPart1;
+/*!
+ * @brief Finish showing a Growl notification for this message
+ *
+ * Don't call this directly - call part 1 instead. Part 1 will call this on the main thread because it will get the attributed string for the message body, which may require going through WebKit (which will throw an exception if we call it on a secondary thread).
+ *
+ *	@param[in]	messageBody	The object containing the body of the message, which part 1 obtained.
+ */
+- (void) GMShowNotificationPart2:(MessageBody *)messageBody;
 @end
