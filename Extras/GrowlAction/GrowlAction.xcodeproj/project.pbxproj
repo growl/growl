@@ -33,7 +33,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		25F078F207CA7BD000C12CF1 /* main.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = main.applescript; sourceTree = "<group>"; };
-		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA19056A9B5C006CE269 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/main.nib; sourceTree = "<group>"; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
@@ -215,7 +215,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_OSAFLAGS = "";
