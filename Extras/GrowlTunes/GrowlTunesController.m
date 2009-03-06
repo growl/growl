@@ -405,7 +405,13 @@ enum {
 		artist      = [userInfo objectForKey:@"Artist"];
 		album       = [userInfo objectForKey:@"Album"];
 		composer	= [userInfo objectForKey:@"Composer"];
-		track       = [[NSString alloc] initWithFormat:@"%@. %@", [userInfo objectForKey:@"Track Number"], [userInfo objectForKey:@"Name"]];
+		
+		if ([userInfo objectForKey:@"Track Number"]) {
+			track = [[NSString alloc] initWithFormat:@"%@. %@", [userInfo objectForKey:@"Track Number"], [userInfo objectForKey:@"Name"]];
+		} else {
+			//track number is nil for radio streams, ignore it
+			track = [userInfo objectForKey:@"Name"];
+		}
 		genre       = [userInfo objectForKey:@"Genre"];
 		streamTitle = [userInfo objectForKey:@"Stream Title"];
 		if(!streamTitle)
@@ -503,7 +509,12 @@ enum {
 			[GrowlApplicationBridge notifyWithDictionary:noteDict];
 
 			// Recent Tracks
-			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+			if (streamTitle && [streamTitle length]) {
+				//streamed song - insert streamTitle (song name) rather than track (radio name)
+				[self addTuneToRecentTracks:streamTitle fromPlaylist:playlistName];
+			} else {
+				[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+			}
 		}
 
 		// set up us some state for next time
