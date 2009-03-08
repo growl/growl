@@ -260,12 +260,14 @@
 		95EE279F0855AA6E0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Development;
 		};
 		95EE27A00855AA6E0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Deployment;
 		};
