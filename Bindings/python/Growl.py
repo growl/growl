@@ -14,7 +14,7 @@ __contributors__ = ["Ingmar J Stein (Growl Team)",
 import _growl
 import types
 import struct
-import md5
+import hashlib
 import socket
 
 GROWL_UDP_PORT=9887
@@ -129,7 +129,7 @@ class netgrowl:
 		return self.encodePassword(data)
 
 	def encodePassword(self, data):
-		checksum = md5.new()
+		checksum = hashlib.md5()
 		checksum.update(data)
 		if self.password:
 		   checksum.update(self.password)
