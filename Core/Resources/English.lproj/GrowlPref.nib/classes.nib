@@ -69,11 +69,11 @@
 				<string>id</string>
 				<key>endDisabledDisplays</key>
 				<string>id</string>
+				<key>openGrowlBugSubmissionPage</key>
+				<string>id</string>
 				<key>openGrowlDonate</key>
 				<string>id</string>
 				<key>openGrowlForum</key>
-				<string>id</string>
-				<key>openGrowlTrac</key>
 				<string>id</string>
 				<key>openGrowlWebSite</key>
 				<string>id</string>

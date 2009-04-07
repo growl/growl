@@ -90,7 +90,7 @@
 	IBOutlet NSTextView				*aboutBoxTextView;
 	NSURL							*growlWebSiteURL;
 	NSURL							*growlForumURL;
-	NSURL							*growlTracURL;
+	NSURL							*growlBugSubmissionURL;
 	NSURL							*growlDonateURL;
 }
 
@@ -149,7 +149,7 @@
 - (void) setupAboutTab;
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlForum:(id)sender;
-- (IBAction) openGrowlTrac:(id)sender;
+- (IBAction) openGrowlBugSubmissionPage:(id)sender;
 - (IBAction) openGrowlDonate:(id)sender;
 
 @end

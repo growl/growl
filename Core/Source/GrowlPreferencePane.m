@@ -92,7 +92,7 @@
 	[versionCheckURL release];
 	[growlWebSiteURL release];
 	[growlForumURL release];
-	[growlTracURL release];
+	[growlBugSubmissionURL release];
 	[growlDonateURL release];
 	CFRelease(images);
 	[super dealloc];
@@ -132,7 +132,7 @@
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info"];
+	growlBugSubmissionURL = [[NSURL alloc] initWithString:@"http://growl.info/reportabug.php"];
 	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
 
 	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
@@ -873,9 +873,9 @@
 	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
 }
 
-- (IBAction) openGrowlTrac:(id)sender {
+- (IBAction) openGrowlBugSubmissionPage:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlTracURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlBugSubmissionURL];
 }
 
 - (IBAction) openGrowlDonate:(id)sender {
