@@ -4,7 +4,7 @@
 PATH="$PATH:/opt/local/bin:/usr/local/bin:/usr/local/subversion/bin:/sw/bin"
 REVISION=`svnversion .`
 echo "*** Building Growl Revision: $REVISION"
-mkdir -p `dirname $SCRIPT_OUTPUT_FILE_0`
+mkdir -p "`dirname $SCRIPT_OUTPUT_FILE_0`"
 #SVN_REVISION is a string because it may look like "4168M" or "4123:4168MS"
-echo "#define SVN_REVISION \"$REVISION\"" > $SCRIPT_OUTPUT_FILE_0
-echo "#define SVN_REVISION_STRING $REVISION" >> $SCRIPT_OUTPUT_FILE_0
+echo "#define SVN_REVISION \"$REVISION\"" > "$SCRIPT_OUTPUT_FILE_0"
+echo "#define SVN_REVISION_STRING $REVISION" >> "$SCRIPT_OUTPUT_FILE_0"
