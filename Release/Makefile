@@ -130,7 +130,7 @@ release:
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
 	@# build the prefpane package
-	$(PACKAGE_MAKER) --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.mpkg --version $(VERSION) -v
+	$(PACKAGE_MAKER) --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.mpkg --version $(VERSION) --id com.growl.growl.mpkg -v
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
@@ -148,7 +148,7 @@ release:
 	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) -v	
+	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) --id com.growl.growlmail.mpkg -v	
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
@@ -158,7 +158,7 @@ release:
 	@echo
 	@echo '*** IMPORTANT: If you want to build Growl as a regular (non-admin) user, hit CTRL-D here without entering a password. (Ctrl-C will stop the build.) Note that the GrowlSafari on the disk image will not be usable on Leopard and later if you do this.'
 	-(sudo chown -R root:admin $(GROWLSAFARI_BUILD_DIR)/GrowlSafari) || echo "WARNING: GrowlSafari will not work on Leopard and later from this disk image" > /dev/stderr
-	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) -v	
+	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
 	@# PackageMaker fails at obeying the permissions that we've set forth in the document. Specifically, it sets g+w on everything, in both the BOM and the archive, in direct contravention of what the document says (go-w).
 	@# Our workaround, then, is to create the BOM and archive ourselves, replacing the full-of-fail ones that PackageMaker creates.
 	mkbom $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg/Contents/Archive.bom
