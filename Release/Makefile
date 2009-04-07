@@ -24,7 +24,7 @@ GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
 BUILDSTYLE=Deployment
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
-PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
+PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXApplicationwideBuildSettings 2> /dev/null | cat > XcodeBuildSettings.plist && defaults read $PWD/XcodeBuildSettings SYMROOT 2> /dev/null)
 ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWL_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
