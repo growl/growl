@@ -52,13 +52,13 @@ all: assertnochanges version compile release
 all-withlocalchanges: assertnoconflicts version compile release
 
 assertnochanges:
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep -v '^X' | wc -l` ]]; then \
-		echo 'You have local changes. Please do not build releases from an unclean checkout. You must revert the changes, commit them, or check out another working copy and build from that.' 1>&2; \
+	if [[ 0 -ne `hg st | wc -l` ]]; then \
+		echo 'You have local changes. Please do not build releases from an unclean working copy. You must revert the changes, commit them, or clone your repository and build from that.' 1>&2; \
 		exit 1; \
 	fi
 assertnoconflicts:
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep '^[CX]' | wc -l` ]]; then \
-		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "svn resolved"; otherwise, svn will still believe the files are conflicted.' 1>&2; \
+	if [[ 0 -ne `hg resolve --list | grep -E '^U' | wc -l` ]]; then \
+		echo 'You have conflicts in your working copy. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "hg resolve" to re-try your last update or merge; otherwise, hg will still believe the files are conflicted.' 1>&2; \
 		exit 2; \
 	fi
 

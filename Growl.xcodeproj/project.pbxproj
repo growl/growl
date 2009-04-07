@@ -19,15 +19,15 @@
 			name = SystemPreferencesTesting;
 			productName = SystemPreferencesTesting;
 		};
-		95E17B8F085E216A00990AB3 /* SVNRevision */ = {
+		95E17B8F085E216A00990AB3 /* hg revision */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */;
+			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "hg revision" */;
 			buildPhases = (
 				95E17B8E085E216A00990AB3 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = SVNRevision;
+			name = "hg revision";
 			productName = SVNRevision;
 		};
 /* End PBXAggregateTarget section */
@@ -2441,7 +2441,7 @@
 				0A7F5FB70767C70600E1C1E4 /* MailMe */,
 				0A7F5FE80767C7B300E1C1E4 /* MusicVideo */,
 				DD4939CB084BACA700D1CCCB /* SMS */,
-				95E17B8F085E216A00990AB3 /* SVNRevision */,
+				95E17B8F085E216A00990AB3 /* hg revision */,
 				9340E2E90C94D48000A1F682 /* SystemPreferencesTesting */,
 			);
 		};
@@ -2669,11 +2669,11 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				$TARGET_BUILD_DIR/include/SVNRevision.h,
+				$TARGET_BUILD_DIR/include/HgRevision.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source generateSVNRevision.sh";
+			shellScript = "source generateHgRevision.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3052,17 +3052,17 @@
 		};
 		95E17BCA085E22B800990AB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
 			targetProxy = 95E17BC9085E22B800990AB3 /* PBXContainerItemProxy */;
 		};
 		95E17BCE085E22FE00990AB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
 			targetProxy = 95E17BCD085E22FE00990AB3 /* PBXContainerItemProxy */;
 		};
 		95E17BEF085E24B500990AB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
 			targetProxy = 95E17BEE085E24B500990AB3 /* PBXContainerItemProxy */;
 		};
 		DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */ = {
@@ -4036,7 +4036,7 @@
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4069,7 +4069,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4098,7 +4098,7 @@
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4135,7 +4135,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4319,7 +4319,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */ = {
+		95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "hg revision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E17B9A085E21C400990AB3 /* Development */,

@@ -24,7 +24,7 @@
 #import "GrowlIdleStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
-#import "SVNRevision.h"
+#import "HgRevision.h"
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
@@ -795,7 +795,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
 		if (version.releaseType == releaseType_svn)
-			version.development = strtoul(SVN_REVISION, /*endptr*/ NULL, 10);
+			version.development = HG_REVISION;
 
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
