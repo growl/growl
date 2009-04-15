@@ -21,7 +21,7 @@ RM=rm
 
 .PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean
 
-all: frameworks
+all:
 	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
 
 growl:
