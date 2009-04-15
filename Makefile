@@ -19,7 +19,7 @@ BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 CP=ditto --rsrc
 RM=rm
 
-.PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean install
+.PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean
 
 all: frameworks
 	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
@@ -41,37 +41,10 @@ growlapplicationbridge-withinstaller:
 clean:
 	xcodebuild -alltargets clean
 
-install: install-growl
-	-$(RM) -rf $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
-
-install-growl: growl
-	killall GrowlHelperApp || true
-	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
-	$(CP) $(BUILD_DIR)/$(BUILDCONFIGURATION)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
-	open $(GROWL_HELPER_APP)
-
 headerdoc:
 	rm -rf $(HEADERDOC_DIR)
 	headerdoc2html -C -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/*.h Common/Source/GrowlPathUtil.h Plugins/Displays/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
 	gatherheaderdoc $(HEADERDOC_DIR)
-
-uninstall:
-	killall GrowlHelperApp || true
-	@if [ -d "/Library/PreferencePanes/Growl.prefPane" ]; then \
-		echo mv "/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
-		mv "/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
-	elif [ -d "$(HOME)/Library/PreferencePanes/Growl.prefPane" ]; then \
-		echo mv "$(HOME)/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
-		mv "$(HOME)/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
-	fi
-
-	@if [ -d "/Library/Frameworks/GrowlAppBridge.framework" ]; then \
-		echo mv "/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
-		mv "/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
-	elif [ -d "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" ]; then \
-		echo mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
-		mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
-	fi
 
 localizable-strings:
 	genstrings -o Core/Resources/English.lproj Core/Source/*.h Core/Source/*.m
