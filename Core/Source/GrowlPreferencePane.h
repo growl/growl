@@ -111,6 +111,9 @@
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
+- (IBAction) showApplicationConfigurationTab:(id)sender;
+- (IBAction) changeNameOfDisplayForApplication:(id)sender;
+- (IBAction) changeNameOfDisplayForNotification:(id)sender;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;

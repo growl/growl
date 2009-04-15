@@ -14,52 +14,9 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>DisplayPluginsWithDefaultArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>NSObject</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSPreferencePane</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_firstKeyView</key>
-				<string>id</string>
-				<key>_initialKeyView</key>
-				<string>id</string>
-				<key>_lastKeyView</key>
-				<string>id</string>
-				<key>_window</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -106,11 +63,17 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>changeNameOfDisplayForApplication</key>
+				<string>id</string>
+				<key>changeNameOfDisplayForNotification</key>
+				<string>id</string>
 				<key>checkVersion</key>
 				<string>id</string>
 				<key>deleteTicket</key>
 				<string>id</string>
 				<key>endDisabledDisplays</key>
+				<string>id</string>
+				<key>openGrowlBugSubmissionPage</key>
 				<string>id</string>
 				<key>openGrowlDonate</key>
 				<string>id</string>
@@ -123,6 +86,8 @@
 				<key>playSound</key>
 				<string>id</string>
 				<key>resolveService</key>
+				<string>id</string>
+				<key>showApplicationConfigurationTab</key>
 				<string>id</string>
 				<key>showDisabledDisplays</key>
 				<string>id</string>
@@ -204,6 +169,41 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSPreferencePane</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPreferencePane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_firstKeyView</key>
+				<string>id</string>
+				<key>_initialKeyView</key>
+				<string>id</string>
+				<key>_lastKeyView</key>
+				<string>id</string>
+				<key>_window</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

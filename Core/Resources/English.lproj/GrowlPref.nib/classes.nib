@@ -63,6 +63,10 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>changeNameOfDisplayForApplication</key>
+				<string>id</string>
+				<key>changeNameOfDisplayForNotification</key>
+				<string>id</string>
 				<key>checkVersion</key>
 				<string>id</string>
 				<key>deleteTicket</key>
@@ -80,6 +84,8 @@
 				<key>playSound</key>
 				<string>id</string>
 				<key>resolveService</key>
+				<string>id</string>
+				<key>showApplicationConfigurationTab</key>
 				<string>id</string>
 				<key>showDisabledDisplays</key>
 				<string>id</string>
@@ -169,14 +175,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>DisplayPluginsWithDefaultArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

@@ -145,8 +145,6 @@
 		348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */; };
 		348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
-		34A883360C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */; };
-		34A8834A0C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A883480C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m */; };
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		34B2755808423BE80092A5A0 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
 		34B2755B08423BE80092A5A0 /* squelch.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755608423BE80092A5A0 /* squelch.png */; };
@@ -743,10 +741,6 @@
 		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34A0931F0C90B0DA00A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Framework/Resources/sv.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
-		34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginNameWithDefaultTransformer.h; path = Core/Source/DisplayPluginNameWithDefaultTransformer.h; sourceTree = "<group>"; };
-		34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayPluginNameWithDefaultTransformer.m; path = Core/Source/DisplayPluginNameWithDefaultTransformer.m; sourceTree = "<group>"; };
-		34A883470C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPluginsWithDefaultArrayController.h; path = Core/Source/DisplayPluginsWithDefaultArrayController.h; sourceTree = "<group>"; };
-		34A883480C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayPluginsWithDefaultArrayController.m; path = Core/Source/DisplayPluginsWithDefaultArrayController.m; sourceTree = "<group>"; };
 		34A88D130C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ja; path = Core/Resources/ja.lproj/About.rtf; sourceTree = "<group>"; };
 		34A88D140C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Core/Resources/ja.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		34A88D150C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Plugins/Displays/SMS/ja.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
@@ -1502,10 +1496,6 @@
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
 				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
 				342157BE0C2AE377004003BB /* PriorityTransformer.m */,
-				34A883330C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.h */,
-				34A883340C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m */,
-				34A883470C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.h */,
-				34A883480C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2839,8 +2829,6 @@
 				7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */,
 				347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
 				342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */,
-				34A883360C778803006EB7D4 /* DisplayPluginNameWithDefaultTransformer.m in Sources */,
-				34A8834A0C778934006EB7D4 /* DisplayPluginsWithDefaultArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

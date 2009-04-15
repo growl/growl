@@ -38,6 +38,12 @@
 
 @end
 
+@interface GrowlPreferencePane (PRIVATE)
+
+- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
+
+@end
+
 @implementation GrowlPreferencePane
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -192,16 +198,6 @@
 												 selector:@selector(translateSeparatorsInMenu:)
 													 name:NSPopUpButtonWillPopUpNotification
 												    object:soundMenuButton];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInMenu:)
-													 name:NSPopUpButtonWillPopUpNotification
-												    object:displayMenuButton];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInMenu:)
-													 name:NSPopUpButtonWillPopUpNotification
-												    object:notificationDisplayMenuButton];
 	}
 }
 
@@ -759,6 +755,27 @@
 		[[NSSound soundNamed:[[sender selectedItem] title]] play];
 }
 
+- (IBAction) showApplicationConfigurationTab:(id)sender {
+	if ([ticketsArrayController selectionIndex] != NSNotFound) {
+		[self populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+		[self populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+
+		[applicationsTab selectLastTabViewItem:sender];
+		[configurationTab selectFirstTabViewItem:sender];
+	}
+}
+
+- (IBAction) changeNameOfDisplayForApplication:(id)sender {
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	[[ticketsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[self showPreview:sender];
+}
+- (IBAction) changeNameOfDisplayForNotification:(id)sender {
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	[[notificationsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[self showPreview:sender];
+}
+
 #pragma mark "Display" tab pane
 
 - (IBAction) showDisabledDisplays:(id)sender {
@@ -789,13 +806,22 @@
 		return;
 	
 	NSDictionary *pluginToUse = currentPlugin;
+	NSString *pluginName = nil;
 	
+	if ([sender isKindOfClass:[NSPopUpButton class]]) {
+		NSPopUpButton *popUp = (NSPopUpButton *)sender;
+		if (sender == displayMenuButton || sender == notificationDisplayMenuButton)
+			pluginName = [[popUp selectedItem] representedObject];
+		else
 #warning This does not work if the popup button is not using the exact same order as displayPluginsArrayController - a default or separator item breaks it
-	if([sender isKindOfClass:[NSPopUpButton class]]) 
-		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
+			pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[popUp indexOfSelectedItem]];
+	}
+
+	if (!pluginName)
+		pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:[pluginToUse objectForKey:GrowlPluginInfoKeyName]];
+																   object:pluginName];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
@@ -918,10 +944,7 @@
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {
-	if ([ticketsArrayController selectionIndex] != NSNotFound) {
-		[applicationsTab selectLastTabViewItem:sender];
-		[configurationTab selectFirstTabViewItem:sender];
-	}
+	[self showApplicationConfigurationTab:sender];
 }
 
 #pragma mark NSNetServiceBrowser Delegate Methods
@@ -1033,6 +1056,43 @@
 		[plugins release];
 		plugins = [thePlugins retain];
 	}
+}
+
+#pragma mark Display pop-up menus
+
+//Empties the pop-up menu and fills it out with a menu item for each display, optionally including a special menu item for the default display, selecting the menu item whose name is nameOfSelectedDisplay.
+- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault {
+	NSMenu *menu = [popUp menu];
+	NSString *nameOfDisplay = nil;
+
+	NSMenuItem *selectedItem = nil;
+
+	[popUp removeAllItems];
+
+	if (includeDefault) {
+		NSMenuItem *item = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display")
+										   action:NULL
+									keyEquivalent:@""];
+		[item setRepresentedObject:nil];
+
+		if (!nameOfSelectedDisplay)
+			selectedItem = item;
+
+		[menu addItem:[NSMenuItem separatorItem]];
+	}
+
+	NSEnumerator *displaysEnum = [[plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectEnumerator];
+	while ((nameOfDisplay = [displaysEnum nextObject])) {
+		NSMenuItem *item = [menu addItemWithTitle:nameOfDisplay
+										   action:NULL
+									keyEquivalent:@""];
+		[item setRepresentedObject:nameOfDisplay];
+
+		if (nameOfSelectedDisplay && [nameOfSelectedDisplay respondsToSelector:@selector(isEqualToString:)] && [nameOfSelectedDisplay isEqualToString:nameOfDisplay])
+			selectedItem = item;
+	}
+
+	[popUp selectItem:selectedItem];
 }
 
 #pragma mark -
