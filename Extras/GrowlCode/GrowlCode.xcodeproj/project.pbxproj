@@ -42,19 +42,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3106DE770F95BE8E00F281B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
+			remoteInfo = Growl.dylib;
+		};
 		95AE279D085C451A00271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8D202CF80486D31800D8A456;
 			remoteInfo = Growl;
-		};
-		95AE279F085C451A00271F5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DDF09B0A080AC8F3006F4172;
-			remoteInfo = PrefpaneTesting;
 		};
 		95AE27A1085C451A00271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -211,7 +211,7 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* GrowlCode_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCode_Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GrowlCode.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlCode.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		950F179C07E0D6D2001723BE /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95AC93AC073A044E007871AB /* English */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95AE278B085C451A00271F5F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -310,10 +310,10 @@
 			isa = PBXGroup;
 			children = (
 				95AE279E085C451A00271F5F /* Growl.prefPane */,
-				95AE27A0085C451A00271F5F /* PrefpaneTesting.app */,
 				95AE27A2085C451A00271F5F /* GrowlHelperApp.app */,
 				95AE27A4085C451A00271F5F /* GrowlMenu.app */,
 				95AE27A6085C451A00271F5F /* Growl.framework */,
+				3106DE780F95BE8E00F281B4 /* Growl.dylib */,
 				95AE27A8085C451A00271F5F /* Growl-WithInstaller.framework */,
 				95AE27AA085C451A00271F5F /* Speech.growlView */,
 				95AE27AC085C451A00271F5F /* Brushed.growlView */,
@@ -324,7 +324,7 @@
 				B59E13C20AD7653B0013EA59 /* Nano.growlView */,
 				95AE27B4085C451A00271F5F /* MailMe.growlView */,
 				95AE27B6085C451A00271F5F /* MusicVideo.growlView */,
-				B59E13C40AD7653B0013EA59 /* GrowlSMS.growlView */,
+				B59E13C40AD7653B0013EA59 /* SMS.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -359,6 +359,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95E4A3430855C15F006B3F45 /* Build configuration list for PBXProject "GrowlCode" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* GrowlCode */;
 			projectDirPath = "";
@@ -368,6 +369,7 @@
 					ProjectRef = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				95D7409F084B984E000D67BC /* GrowlCodeAggregate */,
 				8D5B49AC048680CD000E48DA /* GrowlCode */,
@@ -377,18 +379,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3106DE780F95BE8E00F281B4 /* Growl.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = Growl.dylib;
+			remoteRef = 3106DE770F95BE8E00F281B4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95AE279E085C451A00271F5F /* Growl.prefPane */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Growl.prefPane;
 			remoteRef = 95AE279D085C451A00271F5F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AE27A0085C451A00271F5F /* PrefpaneTesting.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PrefpaneTesting.app;
-			remoteRef = 95AE279F085C451A00271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95AE27A2085C451A00271F5F /* GrowlHelperApp.app */ = {
@@ -482,10 +484,10 @@
 			remoteRef = B59E13C10AD7653B0013EA59 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B59E13C40AD7653B0013EA59 /* GrowlSMS.growlView */ = {
+		B59E13C40AD7653B0013EA59 /* SMS.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = GrowlSMS.growlView;
+			path = SMS.growlView;
 			remoteRef = B59E13C30AD7653B0013EA59 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -568,7 +570,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -587,7 +589,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -604,7 +606,7 @@
 		95AE27CB085C455500271F5F /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
