@@ -1063,14 +1063,15 @@
 //Empties the pop-up menu and fills it out with a menu item for each display, optionally including a special menu item for the default display, selecting the menu item whose name is nameOfSelectedDisplay.
 - (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault {
 	NSMenu *menu = [popUp menu];
-	NSString *nameOfDisplay = nil;
+	NSString *nameOfDisplay = nil, *displayNameOfDisplay;
 
 	NSMenuItem *selectedItem = nil;
 
 	[popUp removeAllItems];
 
 	if (includeDefault) {
-		NSMenuItem *item = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display")
+		displayNameOfDisplay = NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display");
+		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
 										   action:NULL
 									keyEquivalent:@""];
 		[item setRepresentedObject:nil];
@@ -1083,7 +1084,11 @@
 
 	NSEnumerator *displaysEnum = [[plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectEnumerator];
 	while ((nameOfDisplay = [displaysEnum nextObject])) {
-		NSMenuItem *item = [menu addItemWithTitle:nameOfDisplay
+		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
+		if (!displayNameOfDisplay)
+			displayNameOfDisplay = nameOfDisplay;
+
+		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
 										   action:NULL
 									keyEquivalent:@""];
 		[item setRepresentedObject:nameOfDisplay];
