@@ -13,7 +13,3 @@ on run {input_items, parameters}
 	end tell
 	return input_items
 end run
-
-on localized_string(key_string)
-	return localized string key_string in bundle with identifier "com.growl.GrowlAction"
-end localized_string
