@@ -201,13 +201,11 @@
 		95E4A3140855C14B006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = ../../..;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlTunes-Amazon_Prefix.pch";
@@ -245,11 +243,9 @@
 		95E4A3150855C14B006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = ../../..;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlTunes-Amazon_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -288,7 +284,6 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = ../../..;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlTunes-Amazon_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -328,6 +323,7 @@
 					ppc,
 					i386,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -340,8 +336,13 @@
 					ppc,
 					i386,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -352,6 +353,7 @@
 					ppc,
 					i386,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

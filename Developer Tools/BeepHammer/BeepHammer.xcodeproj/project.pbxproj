@@ -664,7 +664,6 @@
 		34FBA3180CA0554800958660 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"../../build/$(CONFIGURATION)",
@@ -695,7 +694,6 @@
 		34FBA3190CA0554800958660 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"../../build/$(CONFIGURATION)",
@@ -784,7 +782,6 @@
 		95E4A38F0855C1A3006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"../../build/$(CONFIGURATION)",
@@ -814,7 +811,6 @@
 		95E4A3900855C1A3006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"../../build/$(CONFIGURATION)",
@@ -873,18 +869,28 @@
 		95E4A3930855C1A3006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
 			name = Development;
 		};
 		95E4A3940855C1A3006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
 		95E4A3950855C1A3006B3F45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
 			name = Default;
 		};

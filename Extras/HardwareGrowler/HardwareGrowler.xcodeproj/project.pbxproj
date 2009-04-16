@@ -755,14 +755,11 @@
 		95E4A2B60855C0DB006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
@@ -798,9 +795,7 @@
 		95E4A2B70855C0DB006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -840,9 +835,7 @@
 		95E4A2B80855C0DB006B3F45 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -886,7 +879,6 @@
 		95E4A2B90855C0DB006B3F45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
@@ -926,6 +918,8 @@
 		95E4A2BB0855C0DB006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
 			name = Development;
 		};
@@ -936,8 +930,14 @@
 					ppc,
 					i386,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -948,6 +948,8 @@
 					ppc,
 					i386,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -960,6 +962,8 @@
 					ppc,
 					i386,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

@@ -623,11 +623,9 @@
 		95E4A3350855C15F006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlCode_Prefix.pch;
@@ -668,9 +666,7 @@
 		95E4A3360855C15F006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -715,9 +711,7 @@
 		95E4A3370855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -838,6 +832,8 @@
 					ppc,
 					i386,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
@@ -851,9 +847,15 @@
 					ppc,
 					i386,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Deployment;
 		};
@@ -864,9 +866,14 @@
 					ppc,
 					i386,
 				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SEPARATE_STRIP = YES;
 			};
 			name = "Deployment - Tiger - G4";
 		};
