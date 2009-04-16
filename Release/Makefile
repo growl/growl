@@ -41,6 +41,7 @@ else
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
+DSYM_DIR=$(BUILD_DIR)/Growl-dSYM-$(VERSION)
 PACKAGE_MAKER=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
 ART_DIR=Artwork
 
@@ -118,6 +119,17 @@ release:
 	rm -rf $(BUILD_DIR)
 	mkdir $(BUILD_DIR)
 	mkdir $(GROWL_DIR)
+	
+	@# Archive dSYM bundles.
+	mkdir $(DSYM_DIR)
+	mv $(GROWL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLTUNES_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLMAIL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	@# Note: -C only applies to the input names, not -f, so it is correct to use notdir on the directory name and leave it off of the tarball name.
+	tar -C $(dir $(DSYM_DIR)) -cjf $(DSYM_DIR).tbz $(notdir $(DSYM_DIR))
 	
 	@# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
