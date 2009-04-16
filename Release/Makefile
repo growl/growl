@@ -101,6 +101,7 @@ version:
 	plutil -convert xml1 $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist
 
 compile:
+	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
