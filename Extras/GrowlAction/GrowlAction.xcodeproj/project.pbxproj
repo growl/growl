@@ -6,33 +6,33 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXAppleScriptBuildPhase section */
-		65942E080711D4310089E4F1 /* AppleScript */ = {
-			isa = PBXAppleScriptBuildPhase;
-			buildActionMask = 2147483647;
-			contextName = "";
-			files = (
-				25F078F307CA7BD000C12CF1 /* main.applescript in AppleScript */,
-			);
-			isSharedContext = 0;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXAppleScriptBuildPhase section */
-
 /* Begin PBXBuildFile section */
-		25F078F307CA7BD000C12CF1 /* main.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 25F078F207CA7BD000C12CF1 /* main.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 314B18D40F98248700ACAFD6 /* main.scpt */; settings = {ATTRIBUTES = (Debug, ); }; };
 		65942E0C0711D4310089E4F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		65942E0D0711D4310089E4F1 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 65AABA18056A9B5C006CE269 /* main.nib */; };
 		65942E110711D4310089E4F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		65942E120711D4310089E4F1 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AABA78056AB2A5006CE269 /* Automator.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		314B196E0F98263B00ACAFD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Scripts;
+			dstSubfolderSpec = 7;
+			files = (
+				314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		25F078F207CA7BD000C12CF1 /* main.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = main.applescript; sourceTree = "<group>"; };
+		314B18D40F98248700ACAFD6 /* main.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = main.scpt; sourceTree = "<group>"; };
 		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA19056A9B5C006CE269 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/main.nib; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		65AABA0F056A9AD1006CE269 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				25F078F207CA7BD000C12CF1 /* main.applescript */,
+				314B18D40F98248700ACAFD6 /* main.scpt */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -135,7 +135,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */;
 			buildPhases = (
-				65942E080711D4310089E4F1 /* AppleScript */,
+				314B196E0F98263B00ACAFD6 /* CopyFiles */,
 				65942E0B0711D4310089E4F1 /* Resources */,
 				65942E100711D4310089E4F1 /* Frameworks */,
 			);

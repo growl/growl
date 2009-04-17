@@ -1,6 +1,8 @@
 -- main.applescript
 -- GrowlAction
 
+-- IMPORTANT: Remember to save the compiled script to main.scpt before committing!
+
 on run {input_items, parameters}
 	set the output_items to {}
 	set the notification_title to (|notificationTitle| of parameters) as string
