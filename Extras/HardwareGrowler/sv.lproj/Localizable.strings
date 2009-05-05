@@ -131,7 +131,7 @@
 "Time remaining: %i minutes" = "Tid kvar: %i minuter";
 
 /* No comment provided by engineer. */
-"Time to charge: %i" = "Laddningstid: %i";
+"Time to charge: %i minutes" = "Laddningstid: %i";
 
 /* No comment provided by engineer. */
 "Unnamed FireWire Device" = "Namnlös FireWire-enhet";

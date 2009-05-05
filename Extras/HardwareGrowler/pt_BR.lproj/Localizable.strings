@@ -134,7 +134,7 @@
 "Time remaining: %i minutes" = "Tempo restante: %i minutos";
 
 /* No comment provided by engineer. */
-"Time to charge: %i" = "Tempo para recarregar: %i";
+"Time to charge: %i minutes" = "Tempo para recarregar: %i";
 
 /* No comment provided by engineer. */
 "Unnamed FireWire Device" = "Dispositivo FireWire Sem nome";

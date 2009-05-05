@@ -548,7 +548,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 		if (isCharging == kCFBooleanTrue) {
 			[description appendString:NSLocalizedString(@"Battery charging...", nil)];
 			if (haveBatteryTime || haveBatteryPercentage) [description appendString:@"\n"];
-			if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time to charge: %i", nil), batteryTime];
+			if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time to charge: %i minutes", nil), batteryTime];
 			if (haveBatteryTime && haveBatteryPercentage) [description appendString:@"\n"];
 			if (haveBatteryPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
 			imageData = powerACChargingIcon();
