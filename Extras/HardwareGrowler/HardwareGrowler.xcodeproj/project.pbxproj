@@ -23,6 +23,9 @@
 
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
+		315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
+		315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
+		315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFF20FB0213C00458E96 /* Power-ACCharging.png */; };
 		3423607209D8888A009FF634 /* PowerNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.c */; };
 		345BD6330C8B12B8005C3DA2 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
@@ -200,6 +203,9 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		315CBFB70FB009AE00458E96 /* Power-AC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-AC.png"; sourceTree = "<group>"; };
+		315CBFB80FB009AE00458E96 /* Power-Battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-Battery.png"; sourceTree = "<group>"; };
+		315CBFF20FB0213C00458E96 /* Power-ACCharging.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-ACCharging.png"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HardwareNotifier_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareNotifier_Prefix.pch; sourceTree = "<group>"; };
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
@@ -354,6 +360,9 @@
 				DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */,
 				DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */,
 				DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */,
+				315CBFB70FB009AE00458E96 /* Power-AC.png */,
+				315CBFF20FB0213C00458E96 /* Power-ACCharging.png */,
+				315CBFB80FB009AE00458E96 /* Power-Battery.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -582,6 +591,9 @@
 				DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */,
 				950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */,
 				95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */,
+				315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */,
+				315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */,
+				315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

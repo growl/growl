@@ -185,6 +185,60 @@ static CFDataRef iSyncIcon(void)
 	return iSyncIconData;
 }
 
+static CFDataRef powerBatteryIcon(void)
+{
+	static CFDataRef batteryIconData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!batteryIconData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("Power-Battery"),
+													CFSTR("png"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			batteryIconData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return batteryIconData;
+}
+
+static CFDataRef powerACIcon(void)
+{
+	static CFDataRef ACPowerIconData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!ACPowerIconData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("Power-AC"),
+													CFSTR("png"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			ACPowerIconData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return ACPowerIconData;
+}
+
+static CFDataRef powerACChargingIcon(void)
+{
+	static CFDataRef ACChargingPowerIconData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!ACChargingPowerIconData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("Power-ACCharging"),
+													CFSTR("png"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			ACChargingPowerIconData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return ACChargingPowerIconData;
+}
+
 #pragma mark Firewire
 
 void AppController_fwDidConnect(CFStringRef deviceName) {
@@ -483,7 +537,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 	NSString		*title = nil;
 	NSMutableString *description = [NSMutableString string];
 	NSString		*notificationName = nil;
-	CFDataRef		imageData = iSyncIcon();
+	CFDataRef		imageData = NULL;
 
 	BOOL		haveBatteryTime = (batteryTime != -1);
 	BOOL		haveBatteryPercentage = (batteryPercentage != -1);
@@ -497,6 +551,9 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 			if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time to charge: %i", nil), batteryTime];
 			if (haveBatteryTime && haveBatteryPercentage) [description appendString:@"\n"];
 			if (haveBatteryPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
+			imageData = powerACChargingIcon();
+		} else {
+			imageData = powerACIcon();
 		}
 
 		notificationName = (NSString *)NotifierPowerOnACNotification;
@@ -509,6 +566,8 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 		if (haveBatteryPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
 
 		notificationName = (NSString *)NotifierPowerOnBatteryNotification;
+
+		imageData = powerBatteryIcon();
 
 	} else if (powerSource == HGUPSPower) {
 		title = NSLocalizedString(@"On UPS power", nil);
