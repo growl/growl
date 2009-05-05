@@ -582,7 +582,8 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 									   iconData:(NSData *)imageData
 									   priority:0
 									   isSticky:NO
-								   clickContext:nil];
+								   clickContext:nil
+									 identifier:title];
 }
 
 static void powerCallback(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
