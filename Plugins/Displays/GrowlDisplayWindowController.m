@@ -18,7 +18,7 @@
 
 #include "GrowlLog.h"
 
-#define DEFAULT_TRANSITION_DURATION	0.75
+#define DEFAULT_TRANSITION_DURATION	0.2
 
 static NSMutableDictionary *existingInstances;
 
