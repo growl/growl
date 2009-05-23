@@ -16,7 +16,7 @@
 #define Nano_DEFAULT_OPACITY		60.0f
 
 #define Nano_DURATION_PREF		@"Duration"
-#define GrowlNanoDurationPrefDefault		4.0f
+#define GrowlNanoDurationPrefDefault		5.0f
 
 #define Nano_SIZE_PREF			@"Size"
 typedef enum {

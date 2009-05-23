@@ -16,7 +16,7 @@
 #define MUSICVIDEO_DEFAULT_OPACITY		60.0f
 
 #define MUSICVIDEO_DURATION_PREF		@"Duration"
-#define GrowlMusicVideoDurationPrefDefault		4.0f
+#define GrowlMusicVideoDurationPrefDefault		5.0f
 
 #define MUSICVIDEO_SIZE_PREF			@"Size"
 typedef enum

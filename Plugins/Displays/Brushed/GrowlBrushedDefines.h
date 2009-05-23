@@ -17,7 +17,7 @@
 // the default value for the opacity preference
 #define GrowlBrushedAlphaPrefDefault		0.75f
 // the default value for the duration preference
-#define GrowlBrushedDurationPrefDefault		4.0f
+#define GrowlBrushedDurationPrefDefault		5.0f
 
 #define GrowlBrushedSizeNormal				0
 #define GrowlBrushedSizeLarge				1

@@ -46,7 +46,7 @@
 
 @implementation GrowlWebKitWindowController
 
-#define GrowlWebKitDurationPrefDefault				4.0
+#define GrowlWebKitDurationPrefDefault				5.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
 #define GrowlWebKitPadding				5.0f

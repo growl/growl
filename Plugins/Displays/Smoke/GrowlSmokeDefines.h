@@ -22,7 +22,7 @@
 // the default value for the opacity preference
 #define GrowlSmokeAlphaPrefDefault		75.0f
 // the default value for the duration preference
-#define GrowlSmokeDurationPrefDefault	4.0f
+#define GrowlSmokeDurationPrefDefault	5.0f
 
 #define GrowlSmokeSizeNormal			0
 #define GrowlSmokeSizeLarge				1
