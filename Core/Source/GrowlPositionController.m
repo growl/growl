@@ -460,11 +460,14 @@
 	return result;
 }
 
+- (BOOL) reserveRect:(NSRect)inRect forDisplayController:(GrowlDisplayWindowController *)displayController {
+	return [self reserveRect:inRect inScreen:[displayController screen] forDisplayController:displayController];
+}
 
 - (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
 {
 	NSValue *controllerKey = [NSValue valueWithPointer:displayController];
-	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[[displayController window] screen]];
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[displayController screen]];
 	NSValue *value = [reservedRectsByController objectForKey:controllerKey];
 
 	if (value) {
