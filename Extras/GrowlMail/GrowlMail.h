@@ -27,42 +27,15 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import <Growl/Growl.h>
 #import "MailHeaders.h"
-#include <pthread.h>
 
-#define NEW_MAIL_NOTIFICATION		@"New mail"
-#define NEW_JUNK_MAIL_NOTIFICATION	@"New junk mail"
-#define NEW_NOTE_NOTIFICATION		@"New note"
+@class GrowlMailNotifier;
 
-@interface GrowlMail : MVMailBundle <GrowlApplicationBridgeDelegate>
+@interface GrowlMail : MVMailBundle
 {
+	GrowlMailNotifier *notifier;
 }
-
-/*!	@brief	Return whether the given account is enabled for notifications
- *
- *	@return	\c YES if GrowlMail will post notifications for this account; \c NO if it won't.
- */
-- (BOOL) isAccountEnabled:(MailAccount *)account;
-/*!	@brief	Change whether the given account is enabled for notifications
- *
- *	@param	account	The account to enable or disable.
- *	@param	yesOrNo	If \c YES, post notifications for messages for \a account in the future; if \c NO, don't post notifications for messages for that account.
- */
-- (void) setAccount:(MailAccount *)account enabled:(BOOL)yesOrNo;
-
-- (NSString *) applicationNameForGrowl;
-- (NSImage *) applicationIconForGrowl;
-- (void) growlNotificationWasClicked:(NSString *)clickContext;
-- (NSDictionary *) registrationDictionaryForGrowl;
-
-+ (void)didFinishNotificationForMessage:(Message *)message;
 
 @end
 
-BOOL GMIsEnabled(void);
-int  GMSummaryMode(void);
-BOOL GMInboxOnly(void);
 NSBundle *GMGetGrowlMailBundle(void);
-NSString *GMTitleFormatString(void);
-NSString *GMDescriptionFormatString(void);

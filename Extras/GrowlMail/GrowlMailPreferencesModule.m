@@ -33,7 +33,7 @@
 //
 
 #import "GrowlMailPreferencesModule.h"
-#import "GrowlMail.h"
+#import "GrowlMailNotifier.h"
 
 @interface MailAccount(GrowlMail)
 + (NSArray *) remoteMailAccounts;
@@ -103,7 +103,7 @@
 #pragma unused(aTableView)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	if ([[aTableColumn identifier] isEqualToString:@"active"])
-		return [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:account]];
+		return [NSNumber numberWithBool:[[GrowlMailNotifier sharedNotifier] isAccountEnabled:account]];
 	else
 		return [account displayName];
 }
@@ -111,7 +111,7 @@
 - (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(aTableView,aTableColumn)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
-	[[GrowlMail sharedInstance] setAccount:account enabled:[anObject boolValue]];
+	[[GrowlMailNotifier sharedNotifier] setAccount:account enabled:[anObject boolValue]];
 }
 
 @end
