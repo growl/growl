@@ -94,4 +94,12 @@ typedef int GrowlMailSummaryMode;
 
 - (void)didFinishNotificationForMessage:(Message *)message;
 
+
+/*!	@brief	Disable GrowlMail and print a warning message
+ *
+ *	GrowlMail is paranoid about changes in Mail's behavior. Whenever it detects such a change, it calls this function, which removes GrowlMail's notification-observer registrations and stops it from posting Growl notifications. We call it the “suicide pill”.
+ *
+ *	@param	specificWarning	Additional information to add to the warning message. Can be \c nil.
+ */
+void GMShutDownGrowlMailAndWarn(NSString *specificWarning);
 @end

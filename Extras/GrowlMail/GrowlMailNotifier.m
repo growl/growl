@@ -33,18 +33,6 @@ static BOOL notifierEnabled = YES;
 - (void) shutDownGrowlMail {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[GrowlApplicationBridge setGrowlDelegate:nil];
-
-	//Prevent ourselves from re-enabling later.
-	notifierEnabled = NO;
-}
-
-//This is a suicide pill. GrowlMail sends itself this message any time it detects a change in Mail's implementation, such as a missing method or an object of the wrong class.
-- (void) shutDownGrowlMailAndWarn:(NSString *)specificWarning {
-	NSLog(NSLocalizedString(@"WARNING: Mail is not behaving in the way that GrowlMail expects. This is probably because GrowlMail is incompatible with the version of Mail you're using. GrowlMail will now turn itself off. Please check the Growl website for a new version. If you're a programmer and want to debug this error, run gdb, load Mail, set a breakpoint on %s, and run.", /*comment*/ nil), __PRETTY_FUNCTION__);
-	if (specificWarning)
-		NSLog(@"Furthermore, the caller provided a more specific message: %@", specificWarning);
-
-	[self shutDownGrowlMail];
 }
 
 #pragma mark The circle of life
@@ -129,11 +117,11 @@ static BOOL notifierEnabled = YES;
 	if ([clickContext length]) {
 		//Make sure we have all the methods we need.
 		if (!class_getClassMethod([Library class], @selector(messageWithMessageID:)))
-			[self shutDownGrowlMailAndWarn:@"Library does not respond to +messageWithMessageID:"];
+			GMShutDownGrowlMailAndWarn(@"Library does not respond to +messageWithMessageID:");
 		if (!class_getInstanceMethod([SingleMessageViewer class], @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
-			[self shutDownGrowlMailAndWarn:@"SingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:"];
+			GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
 		if (!class_getInstanceMethod([SingleMessageViewer class], @selector(showAndMakeKey:)))
-			[self shutDownGrowlMailAndWarn:@"SingleMessageViewer does not respond to -showAndMakeKey:"];
+			GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -showAndMakeKey:");
 
 		Message *message = [Library messageWithMessageID:clickContext];
 		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
@@ -224,7 +212,7 @@ static BOOL notifierEnabled = YES;
 
 	Library *store = [notification object];
 	if (!store) {
-		[self shutDownGrowlMailAndWarn:[NSString stringWithFormat:@"'%@' notification has no object", [notification name]]];
+		GMShutDownGrowlMailAndWarn([NSString stringWithFormat:@"'%@' notification has no object", [notification name]]);
 	}
 	if ([store isKindOfClass:[LibraryStore class]]) {
 		//As of Tiger, this is normal; this notification is posted a couple times (perhaps once per inbox) with a LibraryStore object.
@@ -235,7 +223,7 @@ static BOOL notifierEnabled = YES;
 	//The rest of the handler should be able to work just fine without proving anything else about the store, since it doesn't use the store.
 
 	NSDictionary *userInfo = [notification userInfo];
-	if (!userInfo) [self shutDownGrowlMailAndWarn:@"Notification had no userInfo"];
+	if (!userInfo) GMShutDownGrowlMailAndWarn(@"Notification had no userInfo");
 
 	NSArray *mailboxes = [userInfo objectForKey:@"mailboxes"];
 #ifdef GROWL_MAIL_DEBUG
@@ -248,16 +236,16 @@ static BOOL notifierEnabled = YES;
 	//Ignore a notification if we're ignoring all of the mailboxes involved.
 	Class MailAccount_class = [MailAccount class];
 	if (!class_getClassMethod(MailAccount_class, @selector(draftMailboxUids)))
-		[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +draftMailboxUids"];
+		GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +draftMailboxUids");
 	if (!class_getClassMethod(MailAccount_class, @selector(outboxMailboxUids)))
-		[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +outboxMailboxUids"];
+		GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +outboxMailboxUids");
 	if (!class_getClassMethod(MailAccount_class, @selector(sentMessagesMailboxUids)))
-		[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +sentMessagesMailboxUids"];
+		GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +sentMessagesMailboxUids");
 	if (!class_getClassMethod(MailAccount_class, @selector(trashMailboxUids)))
-		[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +trashMailboxUids"];
+		GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +trashMailboxUids");
 	//We need this method to support the Inbox Only preference.
 	if (!class_getClassMethod(MailAccount_class, @selector(inboxMailboxUids)))
-		[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +inboxMailboxUids"];
+		GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +inboxMailboxUids");
 
 	//Ignore messages being written.
 	NSMutableSet *mailboxesToIgnore = [NSMutableSet setWithArray:[MailAccount draftMailboxUids]];
@@ -274,7 +262,7 @@ static BOOL notifierEnabled = YES;
 		return;
 
 	NSArray *messages = [userInfo objectForKey:@"messages"];
-	if (!messages) [self shutDownGrowlMailAndWarn:@"Notification's userInfo has no messages"];
+	if (!messages) GMShutDownGrowlMailAndWarn(@"Notification's userInfo has no messages");
 	
 #ifdef GROWL_MAIL_DEBUG
 	NSLog(@"%s: Mail added messages [1] to mailboxes [2].\n[1]: %@\n[2]: %@", __PRETTY_FUNCTION__, messages, mailboxes);
@@ -312,7 +300,7 @@ static BOOL notifierEnabled = YES;
 					continue;
 
 				if (![message isKindOfClass:Message_class])
-					[self shutDownGrowlMailAndWarn:[NSString stringWithFormat:@"Message in notification was not a Message; it is %@", message]];
+					GMShutDownGrowlMailAndWarn([NSString stringWithFormat:@"Message in notification was not a Message; it is %@", message]);
 
 				if (![message respondsToSelector:@selector(isRead)] || ![message isRead]) {
 					/* Don't display read messages */
@@ -323,9 +311,9 @@ static BOOL notifierEnabled = YES;
 		}
 		case GrowlMailSummaryModeAlways: {
 			if (!class_getClassMethod([MailAccount class], @selector(mailAccounts)))
-				[self shutDownGrowlMailAndWarn:@"MailAccount does not respond to +mailAccounts"];
+				GMShutDownGrowlMailAndWarn(@"MailAccount does not respond to +mailAccounts");
 			if (!class_getInstanceMethod(Message_class, @selector(mailbox)))
-				[self shutDownGrowlMailAndWarn:@"Message does not respond to -mailbox"];
+				GMShutDownGrowlMailAndWarn(@"Message does not respond to -mailbox");
 
 			NSArray *accounts = [MailAccount mailAccounts];
 			unsigned accountsCount = [accounts count];
@@ -420,7 +408,7 @@ static BOOL notifierEnabled = YES;
 		NSLog(@"Copying a message: messageCopies is now %i", messageCopies);
 #endif
 		if (messageCopies <= 0)
-			[self shutDownGrowlMailAndWarn:@"Number of message-copying operations overflowed. How on earth did you accomplish starting more than 2 billion copying operations at a time?!"];
+			GMShutDownGrowlMailAndWarn(@"Number of message-copying operations overflowed. How on earth did you accomplish starting more than 2 billion copying operations at a time?!");
 	}
 }
 
@@ -428,7 +416,7 @@ static BOOL notifierEnabled = YES;
 {
 	if ([[[notification object] description] isEqualToString:@"Copying messages"]) {
 		if (messageCopies <= 0)
-			[self shutDownGrowlMailAndWarn:@"Number of message-copying operations went below 0. It is not possible to have a negative number of copying operations!"];
+			GMShutDownGrowlMailAndWarn(@"Number of message-copying operations went below 0. It is not possible to have a negative number of copying operations!");
 		messageCopies--;
 #ifdef GROWL_MAIL_DEBUG
 		NSLog(@"Finished copying a message: messageCopies is now %i", messageCopies);
@@ -480,6 +468,20 @@ static BOOL notifierEnabled = YES;
 - (NSString *) descriptionFormat {
 	NSString *descriptionFormat = [[NSUserDefaults standardUserDefaults] stringForKey:@"GMDescriptionFormat"];
 	return descriptionFormat ? descriptionFormat : @"%subject\n%body";
+}
+
+#pragma mark Panic buttons
+
+//This is a suicide pill. GrowlMail calls this function any time it detects a change in Mail's implementation, such as a missing method or an object of the wrong class.
+void GMShutDownGrowlMailAndWarn(NSString *specificWarning) {
+	NSLog(NSLocalizedString(@"WARNING: Mail is not behaving in the way that GrowlMail expects. This is probably because GrowlMail is incompatible with the version of Mail you're using. GrowlMail will now turn itself off. Please check the Growl website for a new version. If you're a programmer and want to debug this error, run gdb, load Mail, set a breakpoint on %s, and run.", /*comment*/ nil), __PRETTY_FUNCTION__);
+	if (specificWarning)
+		NSLog(@"Furthermore, the caller provided a more specific message: %@", specificWarning);
+
+	[sharedNotifier shutDownGrowlMail];
+
+	//Prevent ourselves from re-enabling later.
+	notifierEnabled = NO;
 }
 
 @end
