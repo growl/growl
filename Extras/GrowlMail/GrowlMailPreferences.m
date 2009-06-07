@@ -35,16 +35,63 @@
 #import "GrowlMailPreferences.h"
 #import "GrowlMailPreferencesModule.h"
 #import "GrowlMail.h"
+#import "GrowlMailNotifier.h"
+
+#import <objc/objc-runtime.h>
+
+static void GMExchangeMethodImplementations(Method a, Method b);
+
+@interface NSPreferences (GMSwizzleSticks)
+
++ (id) sharedPreferencesForGrowlMail;
++ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail;
+
+@end
 
 @implementation GrowlMailPreferences
-// we need to do posing as the other mail bundles do that too
+
+//As of Mac OS X 10.5.6, Mail creates the +sharedPreferences object lazily, so the simplest way to install our prefpane is to swizzle the +sharedPreferences method.
+//We used to install our prefpane by posing as NSPreferences, but class-posing doesn't exist in 64-bit, and seemed to cause at least one crash on PowerPC machines in GrowlMail 1.1.5b1.
 + (void) load {
-	[GrowlMailPreferences poseAsClass:[NSPreferences class]];
+	Class NSPreferencesClass = NSClassFromString(@"NSPreferences");
+	if (!NSPreferencesClass)
+		GMShutDownGrowlMailAndWarn(@"Couldn't install GrowlMail prefpane: NSPreferences class missing");
+	else {
+		//+[NSPreferences sharedPreferences]
+		Method sharedPreferencesFromAppKit = class_getClassMethod(NSPreferencesClass, @selector(sharedPreferences));
+		if (!sharedPreferencesFromAppKit)
+			GMShutDownGrowlMailAndWarn(@"Couldn't install GrowlMail prefpane: +[NSPreferences sharedPreferences] method missing");
+		else {
+			//+[GrowlMailPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
+			Method sharedPreferencesFromAppKitFromGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesFromAppKitSwizzledByGrowlMail));
+			//+[GrowlMailPreferences sharedPreferencesForGrowlMail]
+			Method sharedPreferencesForGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesForGrowlMail));
+
+			//Follow the lady!
+			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesFromAppKitFromGrowlMail);
+			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesForGrowlMail);
+			/*Results of the swizzling:
+			 *
+			 *+[NSPreferences sharedPreferences]
+			 *	implemented by former +[NSPreferences sharedPreferencesForGrowlMail]
+			 *
+			 *+[NSPreferences sharedPreferencesForGrowlMail]
+			 *	implemented by former +[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail] (the stub)
+			 *
+			 *+[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
+			 *	implemented by former +[NSPreferences sharedPreferences]
+			 */
+		}
+	}
 }
 
-+ (id) sharedPreferences {
+@end
+
+@implementation NSPreferences (GMSwizzleSticks)
+
++ (id) sharedPreferencesForGrowlMail {
 	static BOOL	added = NO;
-	id preferences = [super sharedPreferences];
+	id preferences = [self sharedPreferencesFromAppKitSwizzledByGrowlMail];
 
 	if (preferences && !added) {
 		added = YES;
@@ -53,4 +100,30 @@
 
 	return preferences;
 }
++ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail {
+	//Stub implementation to swizzle out.
+	return nil;
+}
+
 @end
+
+static void GMExchangeMethodImplementations(Method a, Method b)
+{
+#if __OBJC2__
+	method_exchangeImplementations(a, b);
+#else
+	NSCAssert(a && b, @"Attempt to swizzle fewer than two method implementations");
+
+	//Adapted from ObjC 1 implementation written by an unknown author and posted to http://www.cocoadev.com/index.pl?MethodSwizzling
+	char *tempTypes;
+	IMP tempImp;
+
+	tempTypes = a->method_types;
+	a->method_types = b->method_types;
+	b->method_types = tempTypes;
+
+	tempImp = a->method_imp;
+	a->method_imp = b->method_imp;
+	b->method_imp = tempImp;
+#endif
+}
