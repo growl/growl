@@ -81,7 +81,7 @@ static const char usage[] =
 "                    title because that's the default argument behaviour\n";
 
 static const char *version = "growlnotify 1.1.5b1\n"
-"Copyright (c) The Growl Project, 2004-2008";
+"Copyright (c) The Growl Project, 2004-2009";
 
 static void notificationDismissed(CFNotificationCenterRef center,
 								  void *observer,
