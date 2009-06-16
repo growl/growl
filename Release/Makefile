@@ -72,6 +72,7 @@ version:
 	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleVersion '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/GrowlSafariLoader-Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleVersion '$(VERSION)'
 	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleVersion '$(VERSION)'
@@ -84,6 +85,7 @@ version:
 	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleShortVersionString '$(VERSION)'
+	defaults write $(SRC_DIR)/Extras/GrowlSafari/GrowlSafariLoader-Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleShortVersionString '$(VERSION)'
 	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleShortVersionString '$(VERSION)'
@@ -96,6 +98,7 @@ version:
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlCode/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlMail/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlSafari/Info.plist
+	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlSafari/GrowlSafariLoader-Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlTunes/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/Extras/HardwareGrowler/Info.plist
 	plutil -convert xml1 $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist
