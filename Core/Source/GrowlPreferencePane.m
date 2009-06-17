@@ -416,7 +416,7 @@
 		[self cacheImages];
 	}
 
-	[self setDisplayPlugins:[[GrowlPluginController sharedController] registeredPluginNamesArrayForType:GROWL_VIEW_EXTENSION]];
+	[self setDisplayPlugins:[[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName]];
 
 #ifdef THIS_CODE_WAS_REMOVED_AND_I_DONT_KNOW_WHY
 	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
