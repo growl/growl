@@ -87,6 +87,7 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  * @result YES or NO. If the result is NO, you should display your notification in a different rect/screen.
  */
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen forDisplayController:(GrowlDisplayWindowController *)displayController;
+- (BOOL) reserveRect:(NSRect)inRect forDisplayController:(GrowlDisplayWindowController *)displayController;
 
 /*!
  * @method clearReservedRectForDisplayController

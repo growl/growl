@@ -33,7 +33,7 @@
 //
 
 #import "Message+GrowlMail.h"
-#import "GrowlMail.h"
+#import "GrowlMailNotifier.h"
 #import <AddressBook/AddressBook.h>
 #import <Growl/Growl.h>
 
@@ -57,8 +57,9 @@
 
 	MessageBody *messageBody = nil;
 
-	NSString *titleFormat = (NSString *)GMTitleFormatString();
-	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
+	GrowlMailNotifier *notifier = [GrowlMailNotifier sharedNotifier];
+	NSString *titleFormat = [notifier titleFormat];
+	NSString *descriptionFormat = [notifier descriptionFormat];
 
 	if ([titleFormat rangeOfString:@"%body"].location != NSNotFound ||
 			[descriptionFormat rangeOfString:@"%body"].location != NSNotFound) {
@@ -91,8 +92,9 @@
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = (NSString *)[self subject];
 	NSString *body;
-	NSString *titleFormat = (NSString *)GMTitleFormatString();
-	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
+	GrowlMailNotifier *notifier = [GrowlMailNotifier sharedNotifier];
+	NSString *titleFormat = [notifier titleFormat];
+	NSString *descriptionFormat = [notifier descriptionFormat];
 
 	/* The fullName selector is not available in Mail.app 2.0. */
 	if ([sender respondsToSelector:@selector(fullName)])
@@ -196,7 +198,7 @@
 								   isSticky:NO
 							   clickContext:clickContext];	// non-nil click context
 
-	[GrowlMail didFinishNotificationForMessage:self];
+	[notifier didFinishNotificationForMessage:self];
 }
 
 @end
