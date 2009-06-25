@@ -345,9 +345,11 @@ URL_TYPE createURLByMakingDirectoryAtURLWithName(URL_TYPE parent, STRING_TYPE na
 					NSLog(CFSTR("in createURLByMakingDirectoryAtURLWithName in CFGrowlAdditions: could not create directory '%@' in parent directory at %@: FSCreateDirectoryUnicode returned %li (please tell the Growl developers)"), name, parent, (long)err);
 			}
 
-			CFRelease(parent);
 		} //if (name)
-		CFRelease(name);
+		if(parent)
+			CFRelease(parent);
+		if(name)
+			CFRelease(name);
 	} //if (parent)
 
 end:
