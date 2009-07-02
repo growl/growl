@@ -34,8 +34,19 @@
 #import <objc/objc-runtime.h>
 
 
-#define SAFARI_VERSION_2_0	412
-#define SAFARI_VERSION_3_0  523
+#define SAFARI_VERSION_4_0  5530
+
+enum {
+	GrowlSafariDownloadStageActive = 1,
+	GrowlSafariDownloadStageDecompressing = 2,
+	GrowlSafariDownloadStageDiskImagePreparing = 4,
+	GrowlSafariDownloadStageDiskImageVerifying = 7,
+	GrowlSafariDownloadStageDiskImageVerified = 8,
+	GrowlSafariDownloadStageDiskImageMounting = 9,
+	GrowlSafariDownloadStageDiskImageCleanup = 12,
+	GrowlSafariDownloadStageInactive = 13,
+	GrowlSafariDownloadStageFinished = 14
+};
 
 // How long should we wait (in seconds) before it's a long download?
 static double longDownload = 15.0;
@@ -127,28 +138,29 @@ static void setDownloadFinished(id dl) {
 		safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
 		//  NSLog(@"%d",safariVersion);
 
-		//	NSLog(@"Patching DownloadProgressEntry...");
-		Class class = NSClassFromString(@"DownloadProgressEntry");
-		PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
-				
-		if (safariVersion<SAFARI_VERSION_3_0) 
-			PerformSwizzle(class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
-		else
+		if (safariVersion >= SAFARI_VERSION_4_0) {
+			//	NSLog(@"Patching DownloadProgressEntry...");
+			Class class = NSClassFromString(@"DownloadProgressEntry");
+			PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
+					
 			PerformSwizzle(class, @selector(_updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
-		
-		PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
-					   @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
-					   YES);
-		
-		Class webBookmarkClass = NSClassFromString(@"WebBookmark");
-		if (webBookmarkClass)
-			[[GSWebBookmark class] poseAsClass:webBookmarkClass];
+			
+			PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
+						   @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
+						   YES);
+			
+			Class webBookmarkClass = NSClassFromString(@"WebBookmark");
+			if (webBookmarkClass)
+				[[GSWebBookmark class] poseAsClass:webBookmarkClass];
 
-		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
-		NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
-		NSLog(@"Using Growl.framework %@ (%@)",
-			  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
-			  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+			NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
+			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
+			NSLog(@"Using Growl.framework %@ (%@)",
+				  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
+				  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+		} else {
+			NSLog(@"Safari too old (4.0 required); GrowlSafari disabled.");
+		}
 	} else {
 		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
 	}
@@ -212,12 +224,12 @@ static void setDownloadFinished(id dl) {
 
 @implementation NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage {
-	int oldStage = [self downloadStage];
+	//int oldStage = [self downloadStage];
 	
 	//NSLog(@"mySetDownloadStage:%d -> %d", oldStage, stage);
 	[self mySetDownloadStage:stage];
 	if (dateStarted(self)) {
-		if ( (safariVersion < SAFARI_VERSION_3_0 && stage == 2) || (safariVersion >= SAFARI_VERSION_3_0 && stage == 1) ) {
+		if ( stage == GrowlSafariDownloadStageDecompressing ) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *description = [[NSString alloc] initWithFormat:
 				NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
@@ -230,13 +242,12 @@ static void setDownloadFinished(id dl) {
 										   isSticky:NO
 									   clickContext:nil];
 			[description release];
-		} else if ( (safariVersion < SAFARI_VERSION_3_0 && stage == 9 && oldStage != 9) || 
-			        (safariVersion >= SAFARI_VERSION_3_0 && stage == 8 && oldStage != 8) ) {
+		} else if ( stage == GrowlSafariDownloadStageDiskImageVerifying ) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *description = [[NSString alloc] initWithFormat:
-				NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
-				[[self gsDownloadPath] lastPathComponent]];
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @"")
+									 NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
+									 [[self gsDownloadPath] lastPathComponent]];
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Verifying Disk Image", nil, bundle, @"")
 										description:description
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
 										   iconData:nil
@@ -244,9 +255,7 @@ static void setDownloadFinished(id dl) {
 										   isSticky:NO
 									   clickContext:nil];
 			[description release];
-		} else if ( (safariVersion < SAFARI_VERSION_2_0 && stage == 13) || 
-		            ((safariVersion >= SAFARI_VERSION_2_0 && safariVersion < SAFARI_VERSION_3_0) && stage == 15) ||
-				    (safariVersion >= SAFARI_VERSION_3_0 && stage == 13) ) {
+		} else if ( stage == GrowlSafariDownloadStageFinished ) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
 			setDownloadFinished(self);
@@ -262,7 +271,7 @@ static void setDownloadFinished(id dl) {
 									   clickContext:nil];
 			[description release];
 		}
-	} else if (stage == 0) {
+	} else if (stage == GrowlSafariDownloadStageActive) {
 		setDownloadStarted(self);
 	}
 }
@@ -273,8 +282,8 @@ static void setDownloadFinished(id dl) {
 	//NSLog(@"myUpdateDiskImageStatus:%@ stage=%d -> %d", status, oldStage, [self downloadStage]);
 
 	if (dateStarted(self)
-			&& ( (safariVersion < SAFARI_VERSION_3_0 && oldStage == 3) || (safariVersion >= SAFARI_VERSION_3_0 && oldStage == 7) )
-			&& [self downloadStage] == 8
+			&& oldStage == GrowlSafariDownloadStageDiskImageVerified
+			&& [self downloadStage] == GrowlSafariDownloadStageDiskImageMounting
 			&& [[status objectForKey:@"status-stage"] isEqualToString:@"attach"]) {
 		NSBundle *bundle = [GrowlSafari bundle];
 		NSString *description = [[NSString alloc] initWithFormat:
@@ -299,10 +308,7 @@ static void setDownloadFinished(id dl) {
 }
 
 - (NSString*) gsDownloadPath {
-	if (safariVersion<SAFARI_VERSION_3_0)
-		return [self downloadPath];
-	else
-		return [self currentPath];
+	return [self currentPath];
 }
 
 @end

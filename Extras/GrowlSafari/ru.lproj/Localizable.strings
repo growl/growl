@@ -13,8 +13,6 @@
 	<key>%d new entry</key>
 	<string>новое сообщение - %d</string>
 	<key>Compression Status</key>
-	<string>Архивация</string>
-	<key>Copying Disk Image</key>
 	<string>Копирую образ диска</string>
 	<key>Copying application from %@</key>
 	<string>Копирую приложение из %@</string>
