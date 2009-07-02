@@ -1,11 +1,8 @@
 /* No comment provided by engineer. */
 " (%d unread)" = " (%d unread)";
 
-/* No comment provided by engineer. */
-"%@ decompression started" = "%@ decompression started";
-
 /* Message shown when a download is complete, where %@ becomes the filename */
-"%@ download complete" = "%@ download complete";
+"%@" = "%@";
 
 /* No comment provided by engineer. */
 "%d new entries" = "%d new entries";
@@ -15,9 +12,6 @@
 
 /* No comment provided by engineer. */
 "Compression Status" = "Compression Status";
-
-/* No comment provided by engineer. */
-"Copying application from %@" = "Copying application from %@";
 
 /* No comment provided by engineer. */
 "Copying Disk Image" = "Copying Disk Image";
@@ -30,9 +24,6 @@
 
 /* No comment provided by engineer. */
 "Download Complete" = "Download Complete";
-
-/* No comment provided by engineer. */
-"Mounting %@" = "Mounting %@";
 
 /* No comment provided by engineer. */
 "Mounting Disk Image" = "Mounting Disk Image";
