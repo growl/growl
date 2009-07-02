@@ -632,7 +632,8 @@ NSString *NSStringFromGrowlPosition(enum GrowlPosition pos) {
 		case GrowlMiddleColumnPosition:
 		case GrowlRightColumnPosition:
 			second = @"column";
-
+			break;
+			
 		default:
 			second = nil;
 	};
