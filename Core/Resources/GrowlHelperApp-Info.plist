@@ -74,7 +74,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.1.6b1</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.3.0</string>
+	<string>10.4.0</string>
 	<key>LSUIElement</key>
 	<integer>1</integer>
 	<key>NSAppleScriptEnabled</key>
