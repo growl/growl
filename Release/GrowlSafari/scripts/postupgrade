@@ -4,4 +4,9 @@ echo "Removing old SIMBL plugin..."
 
 rm -rf /Library/Application\ Support/SIMBL/Plugins/GrowlSafari.bundle
 
+echo "Fixing bundle permissions..."
+
+chown -R root:admin $2/GrowlSafari
+chmod -R g-w,o-w $2/GrowlSafari
+
 echo "GrowlSafari postupgrade script done."
