@@ -604,7 +604,7 @@
 		07FCFFC107E2F90C00F0A1CF /* GrowlRemotePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRemotePathway.h; path = Core/Source/GrowlRemotePathway.h; sourceTree = "<group>"; };
 		07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRemotePathway.m; path = Core/Source/GrowlRemotePathway.m; sourceTree = "<group>"; };
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Core/Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Core/Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		0A7F5D9C0767C13100E1C1E4 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
 		0A7F5D9D0767C13100E1C1E4 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
@@ -725,13 +725,13 @@
 		347930750C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/SMS/zh_TW.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		347930760C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
 		347930770C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/iCal/zh_TW.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
-		347930780C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = Core/Resources/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347930780C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_TW; path = Core/Resources/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347930790C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = Core/Resources/zh_TW.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		3479307A0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = StatusItem/Resources/zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3479307B0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		3479307C0C85E291007ADCAA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Plugins/Displays/WebKit/zh_TW.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		347935920C864534007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = Core/Resources/nl.lproj/About.rtf; sourceTree = "<group>"; };
-		347935930C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347935930C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347935940C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		347935950C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = StatusItem/Resources/nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = Framework/Source/AEVTBuilder.m; sourceTree = "<group>"; };
@@ -744,7 +744,7 @@
 		34A88D130C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ja; path = Core/Resources/ja.lproj/About.rtf; sourceTree = "<group>"; };
 		34A88D140C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Core/Resources/ja.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		34A88D150C7F8A3700F01CB8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Plugins/Displays/SMS/ja.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
-		34A88D160C7F8A3800F01CB8 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = Core/Resources/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34A88D160C7F8A3800F01CB8 /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = Core/Resources/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34A88D1C0C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = zh_CN; path = Core/Resources/zh_CN.lproj/About.rtf; sourceTree = "<group>"; };
 		34A88D1D0C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/Brushed/zh_CN.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
 		34A88D1E0C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
@@ -758,7 +758,7 @@
 		34A88D260C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Core/Resources/zh_CN.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		34A88D270C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/SMS/zh_CN.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34A88D280C7F8A4A00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
-		34A88D290C7F8A4B00F01CB8 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = Core/Resources/zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34A88D290C7F8A4B00F01CB8 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = Core/Resources/zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34A88D2A0C7F8A4B00F01CB8 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		34A88D2D0C7F8A5200F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = Core/Resources/cs.lproj/About.rtf; sourceTree = "<group>"; };
 		34A88D2E0C7F8A5200F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Plugins/Displays/Brushed/cs.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
@@ -773,7 +773,7 @@
 		34A88D370C7F8A5200F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Core/Resources/cs.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		34A88D380C7F8A5200F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Plugins/Displays/SMS/cs.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34A88D390C7F8A5200F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
-		34A88D3A0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34A88D3A0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34A88D3B0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = StatusItem/Resources/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34A88D3C0C7F8A5300F01CB8 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlAction.xcodeproj; path = Extras/GrowlAction/GrowlAction.xcodeproj; sourceTree = "<group>"; };
@@ -791,7 +791,7 @@
 		34B02AD40C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/SMS/pt_BR.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34B02AD50C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
 		34B02AD60C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Plugins/Displays/iCal/pt_BR.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
-		34B02AD70C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = Core/Resources/pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34B02AD70C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_BR; path = Core/Resources/pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34B02AD80C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = StatusItem/Resources/pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34B02AD90C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = Core/Resources/pt_BR.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		34B02ADA0C87911400DD25D6 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
@@ -807,7 +807,7 @@
 		34B02B0E0C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Plugins/Displays/SMS/sv.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34B02B0F0C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
 		34B02B100C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Plugins/Displays/iCal/sv.lproj/iCalPrefs.nib; sourceTree = "<group>"; };
-		34B02B110C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34B02B110C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34B02B120C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = StatusItem/Resources/sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34B02B130C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		34B02B140C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
@@ -835,7 +835,7 @@
 		34ECC2750C7F89D500EE7F9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Core/Resources/ru.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		34ECC2760C7F89D500EE7F9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Plugins/Displays/SMS/ru.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34ECC2770C7F89D500EE7F9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
-		34ECC2780C7F89D900EE7F9B /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = Core/Resources/ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34ECC2780C7F89D900EE7F9B /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = Core/Resources/ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34ECC2790C7F89DA00EE7F9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		34ECC27A0C7F89DA00EE7F9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Plugins/Displays/WebKit/ru.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		34ECC27F0C7F89E900EE7F9B /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Framework/Resources/fr.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
@@ -843,7 +843,7 @@
 		34ECC2810C7F89EA00EE7F9B /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Framework/Resources/fr.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34ECC2820C7F89EA00EE7F9B /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Plugins/Displays/SMS/fr.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		34ECC2850C7F89F400EE7F9B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = Core/Resources/de.lproj/About.rtf; sourceTree = "<group>"; };
-		34ECC2860C7F89F500EE7F9B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Core/Resources/de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34ECC2860C7F89F500EE7F9B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = Core/Resources/de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34F427A3095E69D30044B280 /* NotificationsArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationsArrayController.h; path = Core/Source/NotificationsArrayController.h; sourceTree = "<group>"; };
 		34F427A4095E69D30044B280 /* NotificationsArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationsArrayController.m; path = Core/Source/NotificationsArrayController.m; sourceTree = "<group>"; };
 		34F60EAB078E1CD500CECA86 /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -961,7 +961,7 @@
 		955A4E580861762A009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		955A4E5908617637009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = Plugins/Displays/WebKit/fr.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		955A4E5A08617653009B6EA5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = Core/Resources/fr.lproj/About.rtf; sourceTree = "<group>"; };
-		955A4E5C0861766D009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Core/Resources/fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4E5C0861766D009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Core/Resources/fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4E5D0861767F009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = Core/Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955A4EDC08617747009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = StatusItem/Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* CFMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMutableStringAdditions.h; path = Common/Source/CFMutableStringAdditions.h; sourceTree = "<group>"; };
