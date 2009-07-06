@@ -34,7 +34,7 @@
 #import <objc/objc-runtime.h>
 
 
-#define SAFARI_VERSION_4_0  5530
+#define SAFARI_VERSION_4_0  4530
 
 enum {
 	GrowlSafariDownloadStageActive = 1,
