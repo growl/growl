@@ -28,7 +28,7 @@
 
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	int row = NSNotFound;
+	NSUInteger row = NSNotFound;
 	if (voice) {
 		row = [availableVoices indexOfObject:voice];
 		[voice release];
@@ -63,7 +63,7 @@
 
 - (IBAction) previewVoice:(id)sender {
 	
-	int row = [sender selectedRow];
+	NSInteger row = [sender selectedRow];
 	
 	if (row != -1) {
 		if(lastPreview != nil && [lastPreview isSpeaking]) {
@@ -77,7 +77,7 @@
 }
 
 - (IBAction) voiceClicked:(id)sender {
-	int row = [sender selectedRow];
+	NSInteger row = [sender selectedRow];
 
 	if (row != -1) {
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];

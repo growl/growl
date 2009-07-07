@@ -11,7 +11,8 @@
 #define _GROWLBEZIERPATHADDITIONS_H
 
 #include <ApplicationServices/ApplicationServices.h>
+#include "GrowlDefinesInternal.h"	// for CGFloat
 
-void addRoundedRectToPath(CGContextRef context, CGRect rect, float radius);
+void addRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat radius);
 
 #endif

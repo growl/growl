@@ -29,7 +29,7 @@
 		commandQueue = [[NSMutableArray alloc] init];
 		xmlHoldingStringValue = [[NSMutableString alloc] init];
 		waitingForResponse = NO;
-		creditBalance = 0.0f;
+		creditBalance = 0.0;
 	}
 	return self;
 }
@@ -73,8 +73,8 @@
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											&passwordLength, (void **)&password, NULL);
 
 	CFStringRef passwordString;

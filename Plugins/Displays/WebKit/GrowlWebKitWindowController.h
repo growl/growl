@@ -15,8 +15,8 @@
 	NSURL			*baseURL;
 
 	BOOL			positioned;
-	float			paddingX;
-	float			paddingY;
+	CGFloat			paddingX;
+	CGFloat			paddingY;
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;

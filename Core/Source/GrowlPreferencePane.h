@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <PreferencePanes/PreferencePanes.h>
+#import "GrowlDefinesInternal.h"	// for NSInteger/NSUInteger
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin, GrowlPositionPicker;
 
@@ -133,7 +134,7 @@
 
 - (NSMutableArray *) services;
 - (void) setServices:(NSMutableArray *)theServices;
-- (unsigned) countOfServices;
+- (NSUInteger) countOfServices;
 - (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
 - (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
 

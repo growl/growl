@@ -795,7 +795,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
 		if (version.releaseType == releaseType_svn)
-			version.development = HG_REVISION;
+			version.development = (u_int32_t)strtoul(HG_REVISION, /*endptr*/ NULL, 10);
 
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
@@ -1282,7 +1282,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 @end
 
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) {
+static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) 
+{
 #pragma unused(refcon)
 
 	SystemSoundRemoveCompletionRoutine(actionID);

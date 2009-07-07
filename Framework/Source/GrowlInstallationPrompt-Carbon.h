@@ -25,6 +25,7 @@
 #ifndef HAVE_GROWLINSTALLATIONPROMPT_H
 #define HAVE_GROWLINSTALLATIONPROMPT_H
 
+#ifndef __LP64__
 #include <Carbon/Carbon.h>
 
 /*!	@function _Growl_ShowInstallationPrompt
@@ -39,4 +40,5 @@ OSStatus _Growl_ShowInstallationPrompt(void);
  */
 OSStatus _Growl_ShowUpdatePromptForVersion(CFStringRef updateVersion);
 
-#endif
+#endif	// __LP64__
+#endif	// HAVE_GROWLINSTALLATIONPROMPT_H

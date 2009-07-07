@@ -15,7 +15,7 @@
 	NSXMLParser			*responseParser;
 	NSMutableString		*xmlHoldingStringValue;
 
-	float				creditBalance;
+	CGFloat				creditBalance;
 
 	BOOL				waitingForResponse;
 	BOOL				inBalanceResponseElement;

@@ -26,7 +26,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -38,7 +38,7 @@
 							  GrowlSmokeDurationPrefDefault)];
 	if (prefsDuration) CFRelease(prefsDuration);
 
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f)
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, GrowlSmokeNotificationWidth, 65.0)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:YES];
@@ -48,7 +48,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -179,7 +179,7 @@
 	return directionToExpand;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlSmokePadding;
 }
 

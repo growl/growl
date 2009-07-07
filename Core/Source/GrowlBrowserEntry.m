@@ -74,8 +74,8 @@
 		OSStatus status;
 		const char *computerNameChars = [[self computerName] UTF8String];
 		status = SecKeychainFindGenericPassword(NULL,
-												strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-												strlen(computerNameChars), computerNameChars,
+												(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+												(UInt32)strlen(computerNameChars), computerNameChars,
 												&passwordLength, (void **)&passwordChars, NULL);		
 		if (status == noErr) {
 			password = [[NSString alloc] initWithBytes:passwordChars
@@ -108,27 +108,27 @@
 	SecKeychainItemRef itemRef = nil;
 	const char *computerNameChars = [[self computerName] UTF8String];
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											strlen(computerNameChars), computerNameChars,
+											(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+											(UInt32)strlen(computerNameChars), computerNameChars,
 											NULL, NULL, &itemRef);
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword(NULL,
-											   strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											   strlen(computerNameChars), computerNameChars,
-											   strlen(passwordChars), passwordChars, NULL);
+											   (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
+											   (UInt32)strlen(computerNameChars), computerNameChars,
+											   (UInt32)strlen(passwordChars), passwordChars, NULL);
 		if (status)
 			NSLog(@"Failed to add password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen(computerNameChars), (char *)computerNameChars },
-			{ kSecServiceItemAttr, strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
+			{ kSecAccountItemAttr, (UInt32)strlen(computerNameChars), (char *)computerNameChars },
+			{ kSecServiceItemAttr, (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
 		};
-		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
 														&attributes,	// no change to attributes
-														strlen(passwordChars),			// length of password
+														(UInt32)strlen(passwordChars),			// length of password
 														passwordChars		// pointer to password data
 														);
 		if (itemRef)

@@ -11,7 +11,7 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define BORDER_RADIUS 20.0f
+#define BORDER_RADIUS 20.0
 
 @implementation GrowlBezelWindowView
 
@@ -33,22 +33,22 @@
 	[super dealloc];
 }
 
-static void CharcoalShadeInterpolate( void *info, const float *inData, float *outData ) {
-//	const float colors[2] = {0.15f, 0.35f};
-	const float colors[2] = {27.0f / 255.0f * 1.5f, 58.0f / 255.0f};
+static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat *outData ) {
+//	const CGFloat colors[2] = {0.15, 0.35};
+	const CGFloat colors[2] = {27.0 / 255.0 * 1.5, 58.0 / 255.0};
 
-	float a = inData[0] * 2.0f;
-	float a_coeff;
-	float c;
+	CGFloat a = inData[0] * 2.0;
+	CGFloat a_coeff;
+	CGFloat c;
 
-	if (a > 1.0f)
-		a = 2.0f - a;
-	a_coeff = 1.0f - a;
+	if (a > 1.0)
+		a = 2.0 - a;
+	a_coeff = 1.0 - a;
 	c = a * colors[1] + a_coeff * colors[0];
 	outData[0] = c;
 	outData[1] = c;
 	outData[2] = c;
-	outData[3] = *(float *)info;
+	outData[3] = *(CGFloat *)info;
 }
 
 - (void) drawRect:(NSRect)rect {
@@ -62,9 +62,9 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 
 		addRoundedRectToPath(context, bounds, BORDER_RADIUS);
 
-		float opacityPref = BEZEL_OPACITY_DEFAULT;
+		CGFloat opacityPref = BEZEL_OPACITY_DEFAULT;
 		READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
-		float alpha = opacityPref * 0.01f;
+		CGFloat alpha = opacityPref * 0.01;
 
 		int style = 0;
 		READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &style);
@@ -115,43 +115,43 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		int maxRows;
 		NSSize maxIconSize;
 		if (sizePref == BEZEL_SIZE_NORMAL) {
-			titleRect.origin.x = 12.0f;
-			titleRect.origin.y = 90.0f;
-			titleRect.size.width = 187.0f;
-			titleRect.size.height = 30.0f;
-			textRect.origin.x = 12.0f;
-			textRect.origin.y = 4.0f;
-			textRect.size.width = 187.0f;
-			textRect.size.height = 80.0f;
+			titleRect.origin.x = 12.0;
+			titleRect.origin.y = 90.0;
+			titleRect.size.width = 187.0;
+			titleRect.size.height = 30.0;
+			textRect.origin.x = 12.0;
+			textRect.origin.y = 4.0;
+			textRect.size.width = 187.0;
+			textRect.size.height = 80.0;
 			maxRows = 4;
-			maxIconSize.width = 72.0f;
-			maxIconSize.height = 72.0f;
-			iconPoint.x = 70.0f;
-			iconPoint.y = 120.0f;
+			maxIconSize.width = 72.0;
+			maxIconSize.height = 72.0;
+			iconPoint.x = 70.0;
+			iconPoint.y = 120.0;
 		} else {
-			titleRect.origin.x = 8.0f;
-			titleRect.origin.y = 52.0f;
-			titleRect.size.width = 143.0f;
-			titleRect.size.height = 24.0f;
-			textRect.origin.x = 8.0f;
-			textRect.origin.y = 4.0f;
-			textRect.size.width = 143.0f;
-			textRect.size.height = 49.0f;
+			titleRect.origin.x = 8.0;
+			titleRect.origin.y = 52.0;
+			titleRect.size.width = 143.0;
+			titleRect.size.height = 24.0;
+			textRect.origin.x = 8.0;
+			textRect.origin.y = 4.0;
+			textRect.size.width = 143.0;
+			textRect.size.height = 49.0;
 			maxRows = 2;
-			maxIconSize.width = 48.0f;
-			maxIconSize.height = 48.0f;
-			iconPoint.x = 57.0f;
-			iconPoint.y = 83.0f;
+			maxIconSize.width = 48.0;
+			maxIconSize.height = 48.0;
+			iconPoint.x = 57.0;
+			iconPoint.y = 83.0;
 		}
 
 		NSShadow *textShadow = [[NSShadow alloc] init];
-		NSSize shadowSize = {0.0f, -2.0f};
+		NSSize shadowSize = {0.0, -2.0};
 		[textShadow setShadowOffset:shadowSize];
-		[textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowBlurRadius:3.0];
 		[textShadow setShadowColor:[NSColor blackColor]];
 
 		// Draw the title, resize if text too big
-		float titleFontSize = 20.0f;
+		CGFloat titleFontSize = 20.0;
 		NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[parrafo setAlignment:NSCenterTextAlignment];
 		NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -160,21 +160,21 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 			[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
 			textShadow,                                  NSShadowAttributeName,
 			nil];
-		float accumulator = 0.0f;
+		CGFloat accumulator = 0.0;
 		BOOL minFontSize = NO;
 		NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
-		while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5f))) {
-			minFontSize = ( titleFontSize < 12.9f );
+		while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5))) {
+			minFontSize = ( titleFontSize < 12.9 );
 			if (minFontSize)
 				break;
-			titleFontSize -= 1.9f;
-			accumulator += 0.5f;
+			titleFontSize -= 1.9;
+			accumulator += 0.5;
 			[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 			titleSize = [title sizeWithAttributes:titleAttributes];
 		}
 
-		titleRect.origin.y += ceilf(accumulator);
+		titleRect.origin.y += GrowlCGFloatCeiling(accumulator);
 		titleRect.size.height = titleSize.height;
 
 		if (minFontSize)
@@ -182,7 +182,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		[title drawInRect:titleRect withAttributes:titleAttributes];
 		[titleAttributes release];
 
-		NSFont *textFont = [NSFont systemFontOfSize:14.0f];
+		NSFont *textFont = [NSFont systemFontOfSize:14.0];
 		NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 			textColor,  NSForegroundColorAttributeName,
 			parrafo,    NSParagraphStyleAttributeName,
@@ -192,12 +192,12 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		[textShadow release];
 		[parrafo release];
 
-		float height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
-		float lineHeight = [layoutManager defaultLineHeightForFont:textFont];
-		int rowCount = height / lineHeight;
+		CGFloat height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
+		CGFloat lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+		NSInteger rowCount = height / lineHeight;
 
 		if (rowCount > maxRows)
-			[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
+			[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
 		[text drawInRect:textRect withAttributes:textAttributes];
 		[textAttributes release];
 
@@ -205,7 +205,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		iconRect.origin = iconPoint;
 		iconRect.size = maxIconSize;
 		[icon setFlipped:NO];
-		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
 		[super drawRect:rect];
 	//}
 }
@@ -279,23 +279,23 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	[data release];
 }
 
-- (float) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(float)width {
+- (CGFloat) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(CGFloat)width {
 	NSSize containerSize;
 	containerSize.width = width;
 	containerSize.height = FLT_MAX;
 	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:theText attributes:attributes];
 	NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
-	[textContainer setLineFragmentPadding:0.0f];
+	[textContainer setLineFragmentPadding:0.0];
 
 	[layoutManager addTextContainer:textContainer];
 	[textStorage addLayoutManager:layoutManager];
 	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
 
-	float textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	CGFloat textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 	[textContainer release];
 	[textStorage release];
 
-	return MAX (textHeight, 30.0f);
+	return MAX (textHeight, 30.0);
 }
 
 #pragma mark -

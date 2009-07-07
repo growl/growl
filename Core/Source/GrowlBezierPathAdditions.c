@@ -9,13 +9,13 @@
 
 #include "GrowlBezierPathAdditions.h"
 
-void addRoundedRectToPath(CGContextRef context, CGRect rect, float radius) {
-	float minX = CGRectGetMinX(rect);
-	float minY = CGRectGetMinY(rect);
-	float maxX = CGRectGetMaxX(rect);
-	float maxY = CGRectGetMaxY(rect);
-	float midX = CGRectGetMidX(rect);
-	float midY = CGRectGetMidY(rect);
+void addRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat radius) {
+	CGFloat minX = CGRectGetMinX(rect);
+	CGFloat minY = CGRectGetMinY(rect);
+	CGFloat maxX = CGRectGetMaxX(rect);
+	CGFloat maxY = CGRectGetMaxY(rect);
+	CGFloat midX = CGRectGetMidX(rect);
+	CGFloat midY = CGRectGetMidY(rect);
 
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, maxX, midY);

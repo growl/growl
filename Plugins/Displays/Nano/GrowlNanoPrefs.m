@@ -42,12 +42,12 @@
 
 #pragma mark Accessors
 
-- (float) duration {
-	float value = GrowlNanoDurationPrefDefault;
+- (CGFloat) duration {
+	CGFloat value = GrowlNanoDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(Nano_DURATION_PREF, GrowlNanoPrefDomain, &value);
 	return value;
 }
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(Nano_DURATION_PREF, value, GrowlNanoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -79,12 +79,12 @@
 	}
 }
 
-- (float) opacity {
-	float value = Nano_DEFAULT_OPACITY;
+- (CGFloat) opacity {
+	CGFloat value = Nano_DEFAULT_OPACITY;
 	READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &value);
 	return value;
 }
-- (void) setOpacity:(float)value {
+- (void) setOpacity:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, value, GrowlNanoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -101,14 +101,18 @@
 
 #pragma mark Combo box support
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 - (int) screen {

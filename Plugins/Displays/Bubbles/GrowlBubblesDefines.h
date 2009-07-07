@@ -30,4 +30,4 @@
 #define GrowlBubblesPrefDomain			@"com.growl.Bubbles"
 
 // the default value for the duration preference
-#define GrowlBubblesDurationPrefDefault		5.0f
+#define GrowlBubblesDurationPrefDefault		5.0

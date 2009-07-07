@@ -35,7 +35,7 @@ restart:;
 	UInt32 oldestProcessLaunchDate = UINT_MAX;
 
 	while ((err = GetNextProcess(&psn)) == noErr) {
-		struct ProcessInfoRec info = { .processInfoLength = sizeof(struct ProcessInfoRec) };
+		struct ProcessInfoRec info = { .processInfoLength = (UInt32)sizeof(struct ProcessInfoRec) };
 		err = GetProcessInformation(&psn, &info);
 		if (err == noErr) {
 			//Compare the launch dates first, since it's cheaper than comparing bundle IDs.

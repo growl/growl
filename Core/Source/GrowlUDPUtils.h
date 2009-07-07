@@ -18,14 +18,16 @@
 #	define DICTIONARY_TYPE CFDictionaryRef
 #endif
 
+typedef size_t CSSM_SIZE;	// for pre-Leopard SDKs
+
 enum GrowlAuthenticationMethod {
 	GROWL_AUTH_NONE,
 	GROWL_AUTH_MD5,
 	GROWL_AUTH_SHA256
 };
 
-unsigned char *GrowlUDPUtils_registrationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
-unsigned char *GrowlUDPUtils_notificationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
+unsigned char *GrowlUDPUtils_registrationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, CSSM_SIZE *packetSize);
+unsigned char *GrowlUDPUtils_notificationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, CSSM_SIZE *packetSize);
 void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean doEncrypt);
 
 #endif

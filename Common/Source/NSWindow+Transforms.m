@@ -54,38 +54,38 @@
 	return point; // To be completed
 }
 
-- (void) rotate:(double)radians {
+- (void) rotate:(CGFloat)radians {
 	[self rotate:radians about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5)];
 }
 
-- (void) rotate:(double)radians about:(NSPoint)point {
+- (void) rotate:(CGFloat)radians about:(NSPoint)point {
 	CGAffineTransform original;
 	CGSConnectionID connection;
 	NSPoint rotatePoint = [self windowToScreenCoordinates:point];
 
 	connection = _CGSDefaultConnection();
-	CGSGetWindowTransform(connection, _windowNum, &original);
+	CGSGetWindowTransform(connection, (CGSWindowID)_windowNum, &original);
 
 	original = CGAffineTransformTranslate(original, rotatePoint.x, rotatePoint.y);
 	original = CGAffineTransformRotate(original, -radians);
 	original = CGAffineTransformTranslate(original, -rotatePoint.x, -rotatePoint.y);
 
-	CGSSetWindowTransform(connection, _windowNum, original);
+	CGSSetWindowTransform(connection, (CGSWindowID)_windowNum, original);
 }
 
-- (void) scaleBy:(double)scaleFactor {
+- (void) scaleBy:(CGFloat)scaleFactor {
 	[self scaleX:scaleFactor Y:scaleFactor];
 }
 
-- (void) scaleX:(double)x Y:(double)y {
+- (void) scaleX:(CGFloat)x Y:(CGFloat)y {
 	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:YES];
 }
 
-- (void) setScaleX:(double)x Y:(double)y {
+- (void) setScaleX:(CGFloat)x Y:(CGFloat)y {
 	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:NO];
 }
 
-- (void) scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat {
+- (void) scaleX:(CGFloat)x Y:(CGFloat)y about:(NSPoint)point concat:(BOOL)concat {
 	CGAffineTransform original;
 	CGSConnectionID connection;
 	NSPoint scalePoint = [self windowToScreenCoordinates:point];
@@ -93,7 +93,7 @@
 	connection = _CGSDefaultConnection();
 
 	if (concat) {
-		CGSGetWindowTransform(connection, _windowNum, &original);
+		CGSGetWindowTransform(connection, (CGSWindowID)_windowNum, &original);
 	} else {
 		// Get the screen position of the top left corner, by which our window is positioned
 		NSPoint p = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)];
@@ -103,7 +103,7 @@
 	original = CGAffineTransformScale(original, 1.0 / x, 1.0 / y);
 	original = CGAffineTransformTranslate(original, -scalePoint.x, -scalePoint.y);
 
-	CGSSetWindowTransform(connection, _windowNum, original);
+	CGSSetWindowTransform(connection, (CGSWindowID)_windowNum, original);
 }
 
 - (void) reset {
@@ -112,7 +112,7 @@
 	// Get the screen position of the top left corner, by which our window is positioned
 	NSPoint point = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)];
 
-	CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, CGAffineTransformMakeTranslation(-point.x, -point.y));
+	CGSSetWindowTransform(_CGSDefaultConnection(), (CGSWindowID)_windowNum, CGAffineTransformMakeTranslation(-point.x, -point.y));
 }
 
 #pragma mark -
@@ -130,7 +130,7 @@
 	CGSConnectionID cid;
 	CGSWindowID wid;
 
-	wid = [self windowNumber];
+	wid = (CGSWindowID)[self windowNumber];
 	if (wid > 0) {
 		cid = _CGSDefaultConnection();
 		int tags[2] = { 0, 0 };

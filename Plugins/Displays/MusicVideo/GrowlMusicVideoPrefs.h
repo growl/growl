@@ -13,10 +13,10 @@
 #define MUSICVIDEO_SCREEN_PREF			@"Screen"
 
 #define MUSICVIDEO_OPACITY_PREF			@"Opacity"
-#define MUSICVIDEO_DEFAULT_OPACITY		60.0f
+#define MUSICVIDEO_DEFAULT_OPACITY		60.0
 
 #define MUSICVIDEO_DURATION_PREF		@"Duration"
-#define GrowlMusicVideoDurationPrefDefault		5.0f
+#define GrowlMusicVideoDurationPrefDefault		5.0
 
 #define MUSICVIDEO_SIZE_PREF			@"Size"
 typedef enum
@@ -50,12 +50,12 @@ typedef enum
 	IBOutlet NSSlider *slider_opacity;
 }
 
-- (float) duration;
-- (void) setDuration:(float)value;
+- (CGFloat) duration;
+- (void) setDuration:(CGFloat)value;
 - (unsigned) effect;
 - (void) setEffect:(unsigned)newEffect;
-- (float) opacity;
-- (void) setOpacity:(float)value;
+- (CGFloat) opacity;
+- (void) setOpacity:(CGFloat)value;
 - (int) size;
 - (void) setSize:(int)value;
 - (int) screen;

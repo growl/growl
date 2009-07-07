@@ -49,13 +49,13 @@
 #define GrowlWebKitDurationPrefDefault				5.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
-#define GrowlWebKitPadding				5.0f
+#define GrowlWebKitPadding				5.0
 
 #pragma mark -
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
 	// init the window used to init
-	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
+	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 1.0)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
@@ -113,7 +113,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
@@ -196,9 +196,9 @@
 	}
 	NSString *growlImageString = [NSString stringWithFormat:@"data:%@;base64,%@", imageMediaType, [imageData base64Encoding]];
 
-	float opacity = 95.0f;
+	CGFloat opacity = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
-	opacity *= 0.01f;
+	opacity *= 0.01;
 
 	CFStringRef titleHTML = createStringByEscapingForHTML((CFStringRef)title);
 	CFStringRef textHTML = createStringByEscapingForHTML((CFStringRef)text);
@@ -370,7 +370,7 @@
 	return directionToExpand;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return paddingY;
 }
 
@@ -454,12 +454,12 @@ static char encodingTable[64] = {
 	NSBitmapImageRep *bestRep = nil;
 	NSImageRep *rep;
 	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
-	float maxWidth = 0;
+	CGFloat maxWidth = 0.0;
 	while ((rep = [repsEnum nextObject])) {
 		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
 			//We can't convert a 1-bit image to PNG format (libpng throws an error), so ignore any 1-bit image reps, regardless of size.
 			if ([rep bitsPerSample] > 1) {
-				float width = [rep size].width;
+				CGFloat width = [rep size].width;
 				if (width >= maxWidth) {
 					//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
 					bestRep = (NSBitmapImageRep *)rep;

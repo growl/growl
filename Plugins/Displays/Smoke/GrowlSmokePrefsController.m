@@ -33,7 +33,7 @@
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// priority colour settings
-	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
+	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
 
 	[GrowlSmokePrefsController loadColorWell:color_veryLow fromKey:GrowlSmokeVeryLowColor defaultColor:defaultColor];
 	[GrowlSmokePrefsController loadColorWell:color_moderate fromKey:GrowlSmokeModerateColor defaultColor:defaultColor];
@@ -50,24 +50,24 @@
 	[GrowlSmokePrefsController loadColorWell:text_emergency fromKey:GrowlSmokeEmergencyTextColor defaultColor:defaultColor];
 }
 
-- (float) opacity {
-	float value = GrowlSmokeAlphaPrefDefault;
+- (CGFloat) opacity {
+	CGFloat value = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &value);
 	return value;
 }
 
-- (void) setOpacity:(float)value {
+- (void) setOpacity:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, value, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
-- (float) duration {
-	float value = GrowlSmokeDurationPrefDefault;
+- (CGFloat) duration {
+	CGFloat value = GrowlSmokeDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &value);
 	return value;
 }
 
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, value, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -146,14 +146,18 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 - (int) screen {

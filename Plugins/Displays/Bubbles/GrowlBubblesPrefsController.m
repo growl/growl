@@ -32,7 +32,7 @@
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// priority colour settings
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:1.0f];
+	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412 green:0.83147 blue:0.96078 alpha:1.0];
 
 	[GrowlBubblesPrefsController loadColorWell:color_veryLow fromKey:GrowlBubblesVeryLowColor defaultColor:defaultColor];
 	[GrowlBubblesPrefsController loadColorWell:color_moderate fromKey:GrowlBubblesModerateColor defaultColor:defaultColor];
@@ -48,7 +48,7 @@
 	[GrowlBubblesPrefsController loadColorWell:text_high fromKey:GrowlBubblesHighTextColor defaultColor:defaultColor];
 	[GrowlBubblesPrefsController loadColorWell:text_emergency fromKey:GrowlBubblesEmergencyTextColor defaultColor:defaultColor];
 
-	defaultColor = [NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f];
+	defaultColor = [NSColor colorWithCalibratedRed:0.93725 green:0.96863 blue:0.99216 alpha:0.95];
 
 	[GrowlBubblesPrefsController loadColorWell:top_veryLow fromKey:GrowlBubblesVeryLowTopColor defaultColor:defaultColor];
 	[GrowlBubblesPrefsController loadColorWell:top_moderate fromKey:GrowlBubblesModerateTopColor defaultColor:defaultColor];
@@ -72,26 +72,26 @@
 
 #pragma mark -
 
-- (float) opacity {
-	float value = 95.0f;
+- (CGFloat) opacity {
+	CGFloat value = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &value);
 	return value;
 }
 
-- (void) setOpacity:(float)value {
+- (void) setOpacity:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, value, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
-- (float) duration {
-	float value = 4.0f;
+- (CGFloat) duration {
+	CGFloat value = 4.0;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &value);
 	return value;
 }
 
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, value, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -182,14 +182,18 @@
 
 #pragma mark -
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 - (int) screen {

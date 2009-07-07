@@ -37,7 +37,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 //for use as CFSetCallBacks.hash
 static CFHashCode passthroughStringHash(const void *value);
 //for use on array of matching plug-in handlers in -openPluginAtPath:
-int comparePluginHandlerRegistrationOrder(id a, id b, void *context);
+NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context);
 
 #pragma mark -
 
@@ -239,7 +239,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		NSString *type;
 		while ((type = [typeEnum nextObject])) {
 			//normalise: strip leading ., if any.
-			unsigned i = 0U, len = [type length];
+			NSUInteger i = 0U, len = [type length];
 			for (; i < len; ++i) {
 				if ([type characterAtIndex:i] != '.')
 					break;
@@ -315,7 +315,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	while ((ext = [extEnum nextObject])) {
 		NSMutableArray *handlers = [pluginHandlers objectForKey:ext];
 		if (handlers) {
-			unsigned idx = [handlers indexOfObjectIdenticalTo:handler];
+			NSUInteger idx = [handlers indexOfObjectIdenticalTo:handler];
 			if (idx != NSNotFound)
 				[handlers removeObjectAtIndex:idx];
 		}
@@ -654,7 +654,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 					humanReadableName = [NSString stringWithFormat:@"%@ (filename %@)", name, filename]; //XXX LOCALIZEME
 				else {
 					humanReadableName = [NSString stringWithFormat:@"%@ (by %@, filename %@)", name, author, filename]; //XXX LOCALIZEME
-					unsigned count = [pluginHumanReadableNames countForObject:humanReadableName];
+					NSUInteger count = [pluginHumanReadableNames countForObject:humanReadableName];
 					[pluginHumanReadableNames addObject:humanReadableName];
 					if (count > 1U)
 						humanReadableName = [NSString stringWithFormat:@"%@ %u", humanReadableName, count];
@@ -773,11 +773,11 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	while ((handler = [handlersEnum nextObject])) {
 		BOOL success = NO;
 		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
 		else if ([handler respondsToSelector:@selector(loadPluginAtPath:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
 		else if ([handler respondsToSelector:@selector(loadPluginAtURL:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
 		else
 			NSLog(@"warning: while loading plug-in at %@, tried to use plug-in handler %@, but it appears incapable of handling a plug-in", path, handler); //XXX should do this diagnostic when adding the handler
 	}
@@ -917,12 +917,12 @@ static CFHashCode passthroughStringHash(const void *value) {
 													  lineNumber:__LINE__                                \
 													 description:desc, __VA_ARGS__];
 
-int comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
+NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
 	GrowlPluginController *self = (GrowlPluginController *)context;
 	NSArray *allPluginHandlers = [self allPluginHandlers];
 
-	unsigned aIndex = [allPluginHandlers indexOfObjectIdenticalTo:a];
-	unsigned bIndex = [allPluginHandlers indexOfObjectIdenticalTo:b];
+	NSUInteger aIndex = [allPluginHandlers indexOfObjectIdenticalTo:a];
+	NSUInteger bIndex = [allPluginHandlers indexOfObjectIdenticalTo:b];
 
 	ASSERT_IN_FUNCTION(aIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the first object was not a (registered) plug-in handler! Description of object: %@", a);
 	ASSERT_IN_FUNCTION(bIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the second object was not a (registered) plug-in handler! Description of object: %@", b);

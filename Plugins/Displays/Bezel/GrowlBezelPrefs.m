@@ -41,26 +41,26 @@
 
 #pragma mark -
 
-- (float) opacity {
-	float value = BEZEL_OPACITY_DEFAULT;
+- (CGFloat) opacity {
+	CGFloat value = BEZEL_OPACITY_DEFAULT;
 	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
-- (void) setOpacity:(float)value {
+- (void) setOpacity:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
-- (float) duration {
-	float value = 3.0f;
+- (CGFloat) duration {
+	CGFloat value = 3.0;
 	READ_GROWL_PREF_FLOAT(GrowlBezelDuration, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlBezelDuration, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -80,14 +80,18 @@
 
 #pragma mark -
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 - (int) screen {

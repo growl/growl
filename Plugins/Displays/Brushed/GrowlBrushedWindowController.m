@@ -26,7 +26,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -46,7 +46,7 @@
 	if (prefsDuration) CFRelease(prefsDuration);
 
 	// Create window...
-	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
+	NSRect windowFrame = NSMakeRect(0.0, 0.0, GrowlBrushedNotificationWidth, 65.0);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
@@ -56,7 +56,7 @@
 	[panel setHidesOnDeactivate:NO];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -190,7 +190,7 @@
 	return directionToExpand;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBrushedPadding;
 }
 

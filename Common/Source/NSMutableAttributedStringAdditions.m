@@ -16,7 +16,7 @@
  */
 - (void) addDefaultAttributes:(NSDictionary *)defaultAttributes {
 	NSRange range;
-	for (unsigned i=0U, length = [self length]; i<length; i += range.length) {
+	for (NSUInteger i=0U, length = [self length]; i<length; i += range.length) {
 		NSDictionary *currentAttributes = [[self attributesAtIndex:i effectiveRange:&range] retain];
 		NSEnumerator *attributeEnum = [defaultAttributes keyEnumerator];
 		NSString *attributeName;

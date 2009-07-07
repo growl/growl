@@ -29,21 +29,20 @@
  */
 
 #import "AWRippler.h"
-
 #import <math.h>
 
 /* NSWindow Category for our bonus features */
 @interface NSWindow(AWRipplePrivate)
-- (int)windowNum;
-- (void)scaleX:(double)x Y:(double)y;
+- (NSInteger)windowNum;
+- (void)scaleX:(CGFloat)x Y:(CGFloat)y;
 @end
 
 @implementation NSWindow(AWRipplePrivate)
-- (int)windowNum
+- (NSInteger)windowNum
 {
     return _windowNum;
 }
-- (void)scaleX:(double)x Y:(double)y {
+- (void)scaleX:(CGFloat)x Y:(CGFloat)y {
 	CGAffineTransform original;
 	NSPoint scalePoint;
 	NSRect screenFrame;
@@ -65,7 +64,7 @@
         original = CGAffineTransformScale(original, x, y);
         original = CGAffineTransformTranslate(original, -scalePoint.x, -scalePoint.y);
         
-        CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, original);
+        CGSSetWindowTransform(_CGSDefaultConnection(), (CGSWindow)_windowNum, original);
 	}
 }
 
@@ -106,7 +105,7 @@
 @end
 
 @implementation AWRippleWindow
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
 #pragma unused (aStyle, bufferingType, flag)
     NSWindow* result = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [result setBackgroundColor: [NSColor clearColor]];
@@ -169,7 +168,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     ripplingWindow = [rippleWindow retain];
     
     /* create covering window */
-    rect = NSMakeRect(0.0,0.0,0.0,0.0);
+    rect = NSZeroRect;
     screens = [NSScreen screens];
     screenEnum = [screens objectEnumerator];
     
@@ -198,16 +197,16 @@ extern CGSConnection _CGSDefaultConnection(void);
     /* create filter */
     rippleFilter = [[CIFilter filterWithName:@"CIShapedWaterRipple"] retain];
     [rippleFilter setDefaults];
-    [rippleFilter setValue:[NSNumber numberWithFloat:40.0] forKey:@"inputCornerRadius"];
+    [rippleFilter setValue:[NSNumber numberWithFloat:40.0f] forKey:@"inputCornerRadius"];
     [rippleFilter setValue:[CIVector vectorWithX:rippleRect.origin.x-40.0 Y:(rippleRect.origin.y - 40.0)] forKey:@"inputPoint0"];
     [rippleFilter setValue:[CIVector vectorWithX:(rippleRect.origin.x + rippleRect.size.width + 40.0) Y:(rippleRect.origin.y + rippleRect.size.height + 40.0)] forKey:@"inputPoint1"];
 
     
-    [rippleFilter setValue:[NSNumber numberWithFloat:0.0] forKey:@"inputPhase"];
+    [rippleFilter setValue:[NSNumber numberWithFloat:0.0f] forKey:@"inputPhase"];
     
     windowFilter = [[CICGSFilter filterWithFilter:rippleFilter connectionID:cid] retain];
 	[windowFilter addToWindow:aWindowID flags:0x3001];    
-    aWindowID = [win windowNum];
+    aWindowID = (CGSWindow)[win windowNum];
     [self retain];
     
     [NSThread detachNewThreadSelector:@selector(animationLoop:) toTarget:self withObject:self];
@@ -223,7 +222,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     CFAbsoluteTime now;
     CGAffineTransform originalTransform;
     
-    CGSGetWindowTransform(cid, [ripplingWindow windowNum], &originalTransform);
+    CGSGetWindowTransform(cid, (CGSWindow)[ripplingWindow windowNum], &originalTransform);
     
     pool = [[NSAutoreleasePool alloc] init];
     
@@ -238,17 +237,17 @@ extern CGSConnection _CGSDefaultConnection(void);
         }
         else
         {
-            CGSSetWindowTransform(cid, [ripplingWindow windowNum], originalTransform);
+            CGSSetWindowTransform(cid, (CGSWindow)[ripplingWindow windowNum], originalTransform);
         }
         
-        [rippleFilter setValue:[NSNumber numberWithFloat:160*(now - startTime)] forKey:@"inputPhase"];
+        [rippleFilter setValue:[NSNumber numberWithDouble:160.0*(now - startTime)] forKey:@"inputPhase"];
         windowFilter = [[CICGSFilter filterWithFilter:rippleFilter connectionID:cid] retain];
 		[windowFilter addToWindow:aWindowID flags:0x3001];
         [oldFilter removeFromWindow:aWindowID];
         
         now = CFAbsoluteTimeGetCurrent();
     }
-    CGSSetWindowTransform(cid, [ripplingWindow windowNum], originalTransform);
+    CGSSetWindowTransform(cid, (CGSWindow)[ripplingWindow windowNum], originalTransform);
 
     [windowFilter removeFromWindow:aWindowID];
     [rippleFilter release];
