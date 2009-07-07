@@ -64,6 +64,7 @@
 	IBOutlet NSPopUpButton			*soundMenuButton;
 	IBOutlet NSPopUpButton			*displayMenuButton;
 	IBOutlet NSPopUpButton			*notificationDisplayMenuButton;
+	NSIndexSet						*selectedNotificationIndexes;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
@@ -114,6 +115,8 @@
 - (IBAction) showApplicationConfigurationTab:(id)sender;
 - (IBAction) changeNameOfDisplayForApplication:(id)sender;
 - (IBAction) changeNameOfDisplayForNotification:(id)sender;
+- (NSIndexSet *) selectedNotificationIndexes;
+- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
