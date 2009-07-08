@@ -111,6 +111,8 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Developer\ Tools/BeepHammer
+
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -182,6 +184,10 @@ release:
 	
 	@# copy the scripts
 	#cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
+	
+	@# copy over beep hammer
+	mkdir $(SDK_DIR)/BeepHammer
+	cp -R $(SRC_DIR)/Developer\ Tools/BeepHammer/build/Deployment/BeepHammer.app $(SDK_DIR)/BeepHammer
 	
 	@# copy over relevant files to compile directly into app
 	mkdir $(SDK_DIR)/Built-In
