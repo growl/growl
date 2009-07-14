@@ -33,20 +33,44 @@
 #import <Growl/Growl.h>
 #import <objc/objc-runtime.h>
 
+//Note: As of Safari 4.0.x, the build number comes across as four digits (in decimal). The last three are the actual build number; the first one is the minor version of the OS target of that build.
+//Thus, Safari 4.0 for Tiger is 4530, and Safari 4.0 for Leopard is 5530. We check the components separately, so the value here is only the pure-build-number part of the number.
+//(Note: Remember to abolish that if the real build number ever goes above 1000!)
+#define SAFARI_VERSION_4_0 530
 
-#define SAFARI_VERSION_4_0  4530
-
-enum {
-	GrowlSafariDownloadStageActive = 1,
-	GrowlSafariDownloadStageDecompressing = 2,
-	GrowlSafariDownloadStageDiskImagePreparing = 4,
-	GrowlSafariDownloadStageDiskImageVerifying = 7,
-	GrowlSafariDownloadStageDiskImageVerified = 8,
-	GrowlSafariDownloadStageDiskImageMounting = 9,
-	GrowlSafariDownloadStageDiskImageCleanup = 12,
-	GrowlSafariDownloadStageInactive = 13,
-	GrowlSafariDownloadStageFinished = 14
+enum GrowlSafariTigerConstants {
+	GrowlSafariTigerDownloadStageActive = 1,
+	GrowlSafariTigerDownloadStageDecompressing = 2,
+	GrowlSafariTigerDownloadStageDiskImagePreparing = 4,
+	GrowlSafariTigerDownloadStageDiskImageVerifying = 7,
+	GrowlSafariTigerDownloadStageDiskImageVerified = 8,
+	GrowlSafariTigerDownloadStageDiskImageMounting = 9,
+	GrowlSafariTigerDownloadStageDiskImageCleanup = 12,
+	GrowlSafariTigerDownloadStageInactive = 15,
+	GrowlSafariTigerDownloadStageFinished = 16
 };
+enum GrowlSafariLeopardConstants {
+	GrowlSafariLeopardDownloadStageActive = 1,
+	GrowlSafariLeopardDownloadStageDecompressing = 2,
+	GrowlSafariLeopardDownloadStageDiskImagePreparing = 4,
+	GrowlSafariLeopardDownloadStageDiskImageVerifying = 7,
+	GrowlSafariLeopardDownloadStageDiskImageVerified = 8,
+	GrowlSafariLeopardDownloadStageDiskImageMounting = 9,
+	GrowlSafariLeopardDownloadStageDiskImageCleanup = 12,
+	GrowlSafariLeopardDownloadStageInactive = 13,
+	GrowlSafariLeopardDownloadStageFinished = 14
+};
+
+//These default to the Leopard constants, but we redefine them to the Tiger constants in +initialize if we're running on Tiger.
+static int GrowlSafariDownloadStageActive = GrowlSafariLeopardDownloadStageActive;
+static int GrowlSafariDownloadStageDecompressing = GrowlSafariLeopardDownloadStageDecompressing;
+static int GrowlSafariDownloadStageDiskImagePreparing = GrowlSafariLeopardDownloadStageDiskImagePreparing;
+static int GrowlSafariDownloadStageDiskImageVerifying = GrowlSafariLeopardDownloadStageDiskImageVerifying;
+static int GrowlSafariDownloadStageDiskImageVerified = GrowlSafariLeopardDownloadStageDiskImageVerified;
+static int GrowlSafariDownloadStageDiskImageMounting = GrowlSafariLeopardDownloadStageDiskImageMounting;
+static int GrowlSafariDownloadStageDiskImageCleanup = GrowlSafariLeopardDownloadStageDiskImageCleanup;
+static int GrowlSafariDownloadStageInactive = GrowlSafariLeopardDownloadStageInactive;
+static int GrowlSafariDownloadStageFinished = GrowlSafariLeopardDownloadStageFinished;
 
 // How long should we wait (in seconds) before it's a long download?
 static double longDownload = 15.0;
@@ -152,6 +176,21 @@ static void setDownloadFinished(id dl) {
 			Class webBookmarkClass = NSClassFromString(@"WebBookmark");
 			if (webBookmarkClass)
 				[[GSWebBookmark class] poseAsClass:webBookmarkClass];
+
+			//As explained above, safariVersion / 1000 = minor version of targeted Mac OS X version.
+			int operatingSystemTargetOfSafari = (safariVersion / 1000);
+			BOOL tigerVersionOfSafari = (operatingSystemTargetOfSafari == 4);
+			if (tigerVersionOfSafari) {
+				GrowlSafariDownloadStageActive = GrowlSafariTigerDownloadStageActive; 
+				GrowlSafariDownloadStageDecompressing = GrowlSafariTigerDownloadStageDecompressing;
+				GrowlSafariDownloadStageDiskImagePreparing = GrowlSafariTigerDownloadStageDiskImagePreparing;
+				GrowlSafariDownloadStageDiskImageVerifying = GrowlSafariTigerDownloadStageDiskImageVerifying;
+				GrowlSafariDownloadStageDiskImageVerified = GrowlSafariTigerDownloadStageDiskImageVerified;
+				GrowlSafariDownloadStageDiskImageMounting = GrowlSafariTigerDownloadStageDiskImageMounting;
+				GrowlSafariDownloadStageDiskImageCleanup = GrowlSafariTigerDownloadStageDiskImageCleanup;
+				GrowlSafariDownloadStageInactive = GrowlSafariTigerDownloadStageInactive;
+				GrowlSafariDownloadStageFinished = GrowlSafariTigerDownloadStageFinished;
+			}
 
 			NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
 			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
