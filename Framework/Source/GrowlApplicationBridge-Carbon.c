@@ -113,9 +113,13 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		delegate = newDelegate;
 	}
 
-	CFStringRef appName = delegate->applicationName;
-	if ((!appName) && (delegate->registrationDictionary))
-		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	CFStringRef appName = nil;
+	if(delegate) {
+		appName = delegate->applicationName;
+		if ((!appName) && (delegate->registrationDictionary))
+			appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	}
+	
 	if (!appName) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_SetDelegate called, but no application name was found in the delegate"));
 		return false;
@@ -969,6 +973,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 			if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 				growlPrefPaneBundle = prefPaneBundle;
 			}
+			else {
+				CFRelease(prefPaneBundle);
+				prefPaneBundle = nil;
+			}
+
 		}
 
 		if (!growlPrefPaneBundle) {
@@ -980,6 +989,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 				if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 					growlPrefPaneBundle = prefPaneBundle;
 				}
+				else {
+					CFRelease(prefPaneBundle);
+					prefPaneBundle = nil;
+				}
+
 			}
 
 			if (!growlPrefPaneBundle) {
@@ -991,6 +1005,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 					if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 						growlPrefPaneBundle = prefPaneBundle;
 					}
+					else {
+						CFRelease(prefPaneBundle);
+						prefPaneBundle = nil;
+					}
+
 				}
 			}
 		}
