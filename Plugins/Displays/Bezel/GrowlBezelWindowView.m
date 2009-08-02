@@ -261,6 +261,8 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlBezelPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 			backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
