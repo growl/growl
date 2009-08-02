@@ -60,12 +60,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
 															  object:nil];
+		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
 	}
 	return self;
 }
 
 - (void) destroy {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+	CFRelease(loginItems);
 
 	[super destroy];
 }
@@ -158,24 +160,28 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark Start-at-login control
 
 - (BOOL) shouldStartGrowlAtLogin {
-	OSStatus   status;
 	Boolean    foundIt = false;
-	CFArrayRef loginItems = NULL;
 
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get the file url to GHA.
 	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
 
-	status = LIAECopyLoginItems(&loginItems);
-	if (status == noErr) {
-		for (CFIndex i=0, count=CFArrayGetCount(loginItems); i<count; ++i) {
-			CFDictionaryRef loginItem = CFArrayGetValueAtIndex(loginItems, i);
-			foundIt = CFEqual(CFDictionaryGetValue(loginItem, kLIAEURL), urlToGHA);
+	UInt32 seed = 0U;
+	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+	for (id itemObject in currentLoginItems) {
+		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
+
+		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+		CFURLRef URL = NULL;
+		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+		if (err == noErr) {
+			foundIt = CFEqual(URL, urlToGHA);
+			CFRelease(URL);
+
 			if (foundIt)
 				break;
 		}
-		CFRelease(loginItems);
 	}
 
 	CFRelease(urlToGHA);
@@ -191,31 +197,47 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
 	OSStatus status;
-	CFArrayRef loginItems = NULL;
-	NSURL *url = [NSURL fileURLWithPath:path];
-	NSInteger existingLoginItemIndex = -1;
+	CFURLRef URLToToggle = (CFURLRef)[NSURL fileURLWithPath:path];
+	LSSharedFileListItemRef existingItem = NULL;
 
-	status = LIAECopyLoginItems(&loginItems);
+	UInt32 seed = 0U;
+	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+	for (id itemObject in currentLoginItems) {
+		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
 
-	if (status == noErr) {
-		NSEnumerator *enumerator = [(NSArray *)loginItems objectEnumerator];
-		NSDictionary *loginItemDict;
+		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+		CFURLRef URL = NULL;
+		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+		if (err == noErr) {
+			Boolean foundIt = CFEqual(URL, URLToToggle);
+			CFRelease(URL);
 
-		while ((loginItemDict = [enumerator nextObject])) {
-			if ([[loginItemDict objectForKey:(NSString *)kLIAEURL] isEqual:url]) {
-				existingLoginItemIndex = [(NSArray *)loginItems indexOfObjectIdenticalTo:loginItemDict];
+			if (foundIt) {
+				existingItem = item;
 				break;
 			}
 		}
 	}
 
-	if (enabled && (existingLoginItemIndex == -1))
-		LIAEAddURLAtEnd((CFURLRef)url, false);
-	else if (!enabled && (existingLoginItemIndex != -1))
-		LIAERemove(existingLoginItemIndex);
+	if (enabled && (existingItem == NULL)) {
+		NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+		IconRef icon = NULL;
+		FSRef ref;
+		Boolean gotRef = CFURLGetFSRef(URLToToggle, &ref);
+		if (gotRef) {
+			status = GetIconRefFromFileInfo(&ref,
+											/*fileNameLength*/ 0, /*fileName*/ NULL,
+											kFSCatInfoNone, /*catalogInfo*/ NULL,
+											kIconServicesNormalUsageFlag,
+											&icon,
+											/*outLabel*/ NULL);
+			if (status != noErr)
+				icon = NULL;
+		}
 
-	if(loginItems)
-		CFRelease(loginItems);
+		LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, (CFStringRef)displayName, icon, URLToToggle, /*propertiesToSet*/ NULL, /*propertiesToClear*/ NULL);
+	} else if (!enabled && (existingItem != NULL))
+		LSSharedFileListItemRemove(loginItems, existingItem);
 }
 
 #pragma mark -

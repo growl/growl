@@ -50,6 +50,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 #import "GrowlAbstractSingletonObject.h"
 
 @interface GrowlPreferencesController : GrowlAbstractSingletonObject {
+	LSSharedFileListRef loginItems;
 }
 
 + (GrowlPreferencesController *) sharedController;

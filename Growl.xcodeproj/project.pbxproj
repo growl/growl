@@ -329,9 +329,6 @@
 		95EC864C08DDB4D800110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95EC864D08DDB4DD00110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95EC864E08DDB4E600110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
-		95F0A21D0904D7EA00BD679D /* LoginItemsAE.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F0A21B0904D7EA00BD679D /* LoginItemsAE.c */; };
-		95F0A21F0904D7EA00BD679D /* LoginItemsAE.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F0A21B0904D7EA00BD679D /* LoginItemsAE.c */; };
-		95F0A2200904D7EA00BD679D /* LoginItemsAE.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F0A21B0904D7EA00BD679D /* LoginItemsAE.c */; };
 		95F975AE084A23F500915BFE /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
 		95F9767C084A297400915BFE /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95F9771E084A2C7700915BFE /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
@@ -1073,8 +1070,6 @@
 		95E2458008EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationDisplayBridge.m; path = Plugins/Displays/GrowlNotificationDisplayBridge.m; sourceTree = "<group>"; };
 		95E678F307511471002BF4E6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		95EF04F207C77C1500218584 /* CoreGraphicsServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CoreGraphicsServices.h; path = Core/Source/CoreGraphicsServices.h; sourceTree = "<group>"; };
-		95F0A21B0904D7EA00BD679D /* LoginItemsAE.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = LoginItemsAE.c; path = Common/Source/LoginItemsAE.c; sourceTree = "<group>"; };
-		95F0A21C0904D7EA00BD679D /* LoginItemsAE.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoginItemsAE.h; path = Common/Source/LoginItemsAE.h; sourceTree = "<group>"; };
 		95F975AB084A23F500915BFE /* CFMutableDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMutableDictionaryAdditions.h; path = Common/Source/CFMutableDictionaryAdditions.h; sourceTree = "<group>"; };
 		95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CFMutableDictionaryAdditions.c; path = Common/Source/CFMutableDictionaryAdditions.c; sourceTree = "<group>"; };
 		95F97679084A297400915BFE /* CFDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFDictionaryAdditions.h; path = Common/Source/CFDictionaryAdditions.h; sourceTree = "<group>"; };
@@ -1373,8 +1368,6 @@
 				070C1AF80912D1F500884E7D /* Headers */,
 				0790135207D932140023B640 /* GrowlVersionUtilities.h */,
 				0790135507D9321B0023B640 /* GrowlVersionUtilities.c */,
-				95F0A21C0904D7EA00BD679D /* LoginItemsAE.h */,
-				95F0A21B0904D7EA00BD679D /* LoginItemsAE.c */,
 				95CF98A0082A5B8E001A409D /* cdsa.h */,
 				95CF98A1082A5B8E001A409D /* cdsa.c */,
 			);
@@ -2858,7 +2851,6 @@
 				95E2457808EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */,
 				95E2458208EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */,
 				95E246A008EF02E80092EAAC /* GrowlPositionController.m in Sources */,
-				95F0A21D0904D7EA00BD679D /* LoginItemsAE.c in Sources */,
 				743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */,
 				743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */,
 				743EE18E0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.m in Sources */,
@@ -2911,7 +2903,6 @@
 				9507CEA208C9D6C900209F9E /* CFMutableDictionaryAdditions.c in Sources */,
 				9555388808DACC1B00D49CB1 /* CFDictionaryAdditions.c in Sources */,
 				9555388908DACC2500D49CB1 /* CFGrowlAdditions.c in Sources */,
-				95F0A21F0904D7EA00BD679D /* LoginItemsAE.c in Sources */,
 				934EBCB80931F529002C378F /* GrowlApplicationBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2981,7 +2972,6 @@
 				95E2457A08EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */,
 				95E2458408EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */,
 				EE17E56D08EFFCDB0086F0C3 /* GrowlThreadedView.m in Sources */,
-				95F0A2200904D7EA00BD679D /* LoginItemsAE.c in Sources */,
 				070C1AE80912D16600884E7D /* GrowlNonCopyingMutableDictionary.m in Sources */,
 				745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */,
 				745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */,
