@@ -13,7 +13,6 @@
 		9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9526247D074F92F600C5F344 /* GrowlUDPUtils.c */; };
 		9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */; };
 		9526BDA6081BD22600B9D0D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9526BDA5081BD22600B9D0D0 /* Security.framework */; };
-		956D7F0608251E190083D772 /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 956D7F0408251E190083D772 /* sha2.c */; };
 		95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */; };
 		95CF98F5082A5DA5001A409D /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98F3082A5DA5001A409D /* cdsa.c */; };
 /* End PBXBuildFile section */
@@ -31,8 +30,6 @@
 		9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MD5Authenticator.m; path = ../../Common/Source/MD5Authenticator.m; sourceTree = SOURCE_ROOT; };
 		9526BDA5081BD22600B9D0D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../Common/Source/GrowlDefinesInternal.h; sourceTree = SOURCE_ROOT; };
-		956D7F0408251E190083D772 /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = sha2.c; path = ../../Common/Source/sha2.c; sourceTree = SOURCE_ROOT; };
-		956D7F0508251E190083D772 /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sha2.h; path = ../../Common/Source/sha2.h; sourceTree = SOURCE_ROOT; };
 		9595184F07E4859F004A4471 /* GrowlPathway.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathway.h; path = ../../Core/Source/GrowlPathway.h; sourceTree = SOURCE_ROOT; };
 		95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
 		95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
@@ -60,7 +57,6 @@
 			children = (
 				95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */,
 				95CF98F4082A5DA5001A409D /* cdsa.h */,
-				956D7F0508251E190083D772 /* sha2.h */,
 				9595184F07E4859F004A4471 /* GrowlPathway.h */,
 				95C876E007D9DF4100C69DEE /* GrowlDefines.h */,
 				95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */,
@@ -96,7 +92,6 @@
 			children = (
 				95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */,
 				95CF98F3082A5DA5001A409D /* cdsa.c */,
-				956D7F0408251E190083D772 /* sha2.c */,
 				9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */,
 				9526247D074F92F600C5F344 /* GrowlUDPUtils.c */,
 				08FB7796FE84155DC02AAC07 /* main.m */,
@@ -167,7 +162,6 @@
 				8DD76F9A0486AA7600D96B5E /* main.m in Sources */,
 				9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */,
 				9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */,
-				956D7F0608251E190083D772 /* sha2.c in Sources */,
 				95CF98F5082A5DA5001A409D /* cdsa.c in Sources */,
 				95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */,
 			);

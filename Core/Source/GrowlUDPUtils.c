@@ -10,7 +10,6 @@
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
 #include "CFGrowlAdditions.h"
-#include "sha2.h"
 #include "cdsa.h"
 
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
@@ -51,7 +50,6 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 				cssmPerror("CSSM_DigestDataFinal", crtn);
 			break;
 		case GROWL_AUTH_SHA256: {
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 			crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
 			if (crtn)
 				cssmPerror("CSSM_CSP_CreateDigestContext", crtn);
@@ -75,15 +73,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 			CSSM_DeleteContext(ccHandle);
 			if (crtn)
 				cssmPerror("CSSM_DigestDataFinal", crtn);
-#else
-			SHA_CTX sha_ctx;
-			messageLength = packet->Length-SHA256_DIGEST_LENGTH;
-			SHA256_Init(&sha_ctx);
-			SHA256_Update(&sha_ctx, packet->Data, messageLength);
-			if (password->Data && password->Length)
-				SHA256_Update(&sha_ctx, password->Data, password->Length);
-			SHA256_Final(packet->Data + messageLength, &sha_ctx);
-#endif
+
 			break;
 		}
 		case GROWL_AUTH_NONE:

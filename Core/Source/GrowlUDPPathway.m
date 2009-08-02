@@ -14,7 +14,6 @@
 #import "GrowlPreferencesController.h"
 #include "CFDictionaryAdditions.h"
 #include "GrowlUDPUtils.h"
-#include "sha2.h"
 #include "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
