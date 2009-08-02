@@ -186,18 +186,11 @@
 		934EBCB80931F529002C378F /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
+		937F40CE1025C3DE00BE7408 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 937F40711025C3A600BE7408 /* Sparkle.framework */; };
+		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
 		93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
-		93AB0574100C2AC7008D7D30 /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
-		93AB0578100C2ADA008D7D30 /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
-		93AB0579100C2AFB008D7D30 /* GrowlSlidingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */; };
-		93AB057A100C2AFB008D7D30 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
-		93AB057B100C2AFB008D7D30 /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
-		93AB057C100C2AFB008D7D30 /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
-		93AB057D100C2AFB008D7D30 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
 		93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
-		93AB0617100C2E6A008D7D30 /* GrowlThreadedView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */; };
-		93AB061B100C2E79008D7D30 /* GrowlApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27608745B9000EA34BF /* GrowlApplicationController.m */; };
 		93AB061F100C2E8D008D7D30 /* MD5Authenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */; };
 		93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlIdleStatusController.c */; };
 		93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
@@ -500,6 +493,41 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
+		937F40701025C3A600BE7408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
+		937F40721025C3A600BE7408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
+			remoteInfo = "Sparkle Test App";
+		};
+		937F40741025C3A600BE7408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAAEFC960DA571DF0051E0D0;
+			remoteInfo = "relaunch tool";
+		};
+		937F40761025C3A600BE7408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 612279D90DB5470200AB99EA;
+			remoteInfo = "Sparkle Unit Tests";
+		};
+		937F40B61025C3B500BE7408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = Sparkle;
+		};
 		93BC37D5095A67340002B365 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -596,6 +624,17 @@
 			dstSubfolderSpec = 0;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		937F40FB1025C3FD00BE7408 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				937F40CE1025C3DE00BE7408 /* Sparkle.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -911,6 +950,9 @@
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		937E64310817193800AEC1C6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Core/Resources/English.lproj/About.rtf; sourceTree = "<group>"; };
+		937F40661025C3A600BE7408 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = external_dependencies/sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		938841E81025EA7C001DF30F /* GHA-Stubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GHA-Stubs.h"; path = "Core/Source/GHA-Stubs.h"; sourceTree = "<group>"; };
+		938841E91025EA7C001DF30F /* GHA-Stubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GHA-Stubs.m"; path = "Core/Source/GHA-Stubs.m"; sourceTree = "<group>"; };
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93BC379E095A662B0002B365 /* Nano.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nano.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1461,6 +1503,7 @@
 		089C166AFE841209C02AAC07 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
+				937F403C1025C39400BE7408 /* dependencies */,
 				DDB6463707DE04A700807F8D /* ShellScripts */,
 				953C3EFE0747970800F2A737 /* Documentation */,
 				070C1AC00912D0EA00884E7D /* Global Sources */,
@@ -1503,6 +1546,8 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				938841E81025EA7C001DF30F /* GHA-Stubs.h */,
+				938841E91025EA7C001DF30F /* GHA-Stubs.m */,
 				C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */,
 				C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */,
 				9596C5F8081102BE00F43859 /* GrowlBrowserEntry.h */,
@@ -1780,6 +1825,25 @@
 				34B2755D08423BFF0092A5A0 /* GrowlMenu.m */,
 			);
 			name = StatusItem;
+			sourceTree = "<group>";
+		};
+		937F403C1025C39400BE7408 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				937F40661025C3A600BE7408 /* Sparkle.xcodeproj */,
+			);
+			name = dependencies;
+			sourceTree = "<group>";
+		};
+		937F40671025C3A600BE7408 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				937F40711025C3A600BE7408 /* Sparkle.framework */,
+				937F40731025C3A600BE7408 /* Sparkle Test App.app */,
+				937F40751025C3A600BE7408 /* relaunch */,
+				937F40771025C3A600BE7408 /* Sparkle Unit Tests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		93AB058A100C2DB8008D7D30 /* Unused */ = {
@@ -2353,12 +2417,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27730855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlHelperApp" */;
 			buildPhases = (
+				938841181025D4E6001DF30F /* ShellScript */,
 				CB61E5140637763C00E0DDC7 /* Resources */,
 				CB61E5150637763C00E0DDC7 /* Sources */,
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
 				63C060F406C8946E00B0B7D4 /* Rez */,
 				3433456D0790E38B00C84B15 /* CopyFiles */,
 				34A96E300C95F6AE00F46006 /* CopyFiles */,
+				937F40FB1025C3FD00BE7408 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2375,6 +2441,7 @@
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
+				937F40B71025C3B500BE7408 /* PBXTargetDependency */,
 			);
 			name = GrowlHelperApp;
 			productName = GrowlHelperApp;
@@ -2446,6 +2513,10 @@
 					ProductGroup = 34A96DDB0C95F61800F46006 /* Products */;
 					ProjectRef = 34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */;
 				},
+				{
+					ProductGroup = 937F40671025C3A600BE7408 /* Products */;
+					ProjectRef = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2477,6 +2548,34 @@
 			fileType = wrapper.cfbundle;
 			path = "Show Growl Notification.action";
 			remoteRef = 34A96DE10C95F61800F46006 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		937F40711025C3A600BE7408 /* Sparkle.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sparkle.framework;
+			remoteRef = 937F40701025C3A600BE7408 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		937F40731025C3A600BE7408 /* Sparkle Test App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Sparkle Test App.app";
+			remoteRef = 937F40721025C3A600BE7408 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		937F40751025C3A600BE7408 /* relaunch */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = relaunch;
+			remoteRef = 937F40741025C3A600BE7408 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		937F40771025C3A600BE7408 /* Sparkle Unit Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Sparkle Unit Tests.octest";
+			remoteRef = 937F40761025C3A600BE7408 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2686,6 +2785,20 @@
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
 		};
+		938841181025D4E6001DF30F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -d $BUILT_PRODUCTS_DIR ]; then\n\trm -rf $BUILT_PRODUCTS_DIR/Sparkle.framework \nfi\n\ncp -R $SRCROOT/external_dependencies/sparkle/build/$CONFIGURATION/Sparkle.framework $BUILT_PRODUCTS_DIR";
+			showEnvVarsInLog = 0;
+		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2831,11 +2944,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93AB0579100C2AFB008D7D30 /* GrowlSlidingWindowTransition.m in Sources */,
-				93AB057A100C2AFB008D7D30 /* GrowlFlippingWindowTransition.m in Sources */,
-				93AB057B100C2AFB008D7D30 /* GrowlShrinkingWindowTransition.m in Sources */,
-				93AB057C100C2AFB008D7D30 /* GrowlScaleWindowTransition.m in Sources */,
-				93AB057D100C2AFB008D7D30 /* GrowlWipeWindowTransition.m in Sources */,
 				525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */,
 				CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */,
 				5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */,
@@ -2870,11 +2978,7 @@
 				347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
 				342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */,
 				93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */,
-				93AB0574100C2AC7008D7D30 /* GrowlWindowTransition.m in Sources */,
-				93AB0578100C2ADA008D7D30 /* GrowlFadingWindowTransition.m in Sources */,
 				93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */,
-				93AB0617100C2E6A008D7D30 /* GrowlThreadedView.m in Sources */,
-				93AB061B100C2E79008D7D30 /* GrowlApplicationController.m in Sources */,
 				93AB061F100C2E8D008D7D30 /* MD5Authenticator.m in Sources */,
 				93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */,
 				93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */,
@@ -2884,6 +2988,7 @@
 				93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */,
 				93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */,
 				93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */,
+				938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3081,6 +3186,11 @@
 			isa = PBXTargetDependency;
 			target = 8D202CE80486D31800D8A456 /* Growl */;
 			targetProxy = 9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */;
+		};
+		937F40B71025C3B500BE7408 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Sparkle;
+			targetProxy = 937F40B61025C3B500BE7408 /* PBXContainerItemProxy */;
 		};
 		93BC37D6095A67340002B365 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3470,7 +3580,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		34725DCA0C0678C800499F50 /* Development */ = {
+		34725DCA0C0678C800499F50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3493,9 +3603,9 @@
 				PRODUCT_NAME = Growl;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		34725DCB0C0678C800499F50 /* Deployment */ = {
+		34725DCB0C0678C800499F50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3516,9 +3626,9 @@
 				PRODUCT_NAME = Growl;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		9340E3060C94D4B300A1F682 /* Development */ = {
+		9340E3060C94D4B300A1F682 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -3527,9 +3637,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = SystemPreferencesTesting;
 			};
-			name = Development;
+			name = Debug;
 		};
-		9340E3070C94D4B300A1F682 /* Deployment */ = {
+		9340E3070C94D4B300A1F682 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -3538,9 +3648,9 @@
 				PRODUCT_NAME = SystemPreferencesTesting;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		93BC379C095A662B0002B365 /* Development */ = {
+		93BC379C095A662B0002B365 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3557,9 +3667,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		93BC379D095A662B0002B365 /* Deployment */ = {
+		93BC379D095A662B0002B365 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3580,9 +3690,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E17B9A085E21C400990AB3 /* Development */ = {
+		95E17B9A085E21C400990AB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -3599,9 +3709,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E17B9B085E21C400990AB3 /* Deployment */ = {
+		95E17B9B085E21C400990AB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -3618,9 +3728,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE274C0855AA6C0045DB39 /* Development */ = {
+		95EE274C0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3637,9 +3747,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE274D0855AA6C0045DB39 /* Deployment */ = {
+		95EE274D0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3660,9 +3770,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27510855AA6C0045DB39 /* Development */ = {
+		95EE27510855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3679,9 +3789,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27520855AA6C0045DB39 /* Deployment */ = {
+		95EE27520855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3702,9 +3812,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27560855AA6C0045DB39 /* Development */ = {
+		95EE27560855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3721,9 +3831,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27570855AA6C0045DB39 /* Deployment */ = {
+		95EE27570855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3744,9 +3854,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE275B0855AA6C0045DB39 /* Development */ = {
+		95EE275B0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3763,9 +3873,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE275C0855AA6C0045DB39 /* Deployment */ = {
+		95EE275C0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3786,9 +3896,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27600855AA6C0045DB39 /* Development */ = {
+		95EE27600855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3805,9 +3915,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27610855AA6C0045DB39 /* Deployment */ = {
+		95EE27610855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3828,9 +3938,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27650855AA6C0045DB39 /* Development */ = {
+		95EE27650855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3859,9 +3969,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27660855AA6C0045DB39 /* Deployment */ = {
+		95EE27660855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3894,9 +4004,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE276A0855AA6C0045DB39 /* Development */ = {
+		95EE276A0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3913,9 +4023,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE276B0855AA6C0045DB39 /* Deployment */ = {
+		95EE276B0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3936,9 +4046,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE276F0855AA6C0045DB39 /* Development */ = {
+		95EE276F0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3957,9 +4067,9 @@
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27700855AA6C0045DB39 /* Deployment */ = {
+		95EE27700855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3982,11 +4092,12 @@
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27740855AA6C0045DB39 /* Development */ = {
+		95EE27740855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$BUILT_PRODUCTS_DIR/**";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
@@ -3994,14 +4105,19 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Sparkle,
+				);
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27750855AA6C0045DB39 /* Deployment */ = {
+		95EE27750855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$BUILT_PRODUCTS_DIR/**";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
@@ -4013,13 +4129,17 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Sparkle,
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27790855AA6C0045DB39 /* Development */ = {
+		95EE27790855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -4029,9 +4149,9 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = GrowlMenu;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE277A0855AA6C0045DB39 /* Deployment */ = {
+		95EE277A0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -4046,9 +4166,9 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlMenu;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE277E0855AA6C0045DB39 /* Development */ = {
+		95EE277E0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
@@ -4062,9 +4182,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = prefPane;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE277F0855AA6C0045DB39 /* Deployment */ = {
+		95EE277F0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
@@ -4082,9 +4202,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = prefPane;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27880855AA6C0045DB39 /* Development */ = {
+		95EE27880855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4114,9 +4234,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27890855AA6C0045DB39 /* Deployment */ = {
+		95EE27890855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4150,9 +4270,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE278D0855AA6C0045DB39 /* Development */ = {
+		95EE278D0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4183,9 +4303,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE278E0855AA6C0045DB39 /* Deployment */ = {
+		95EE278E0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4220,9 +4340,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95EE27920855AA6C0045DB39 /* Development */ = {
+		95EE27920855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4258,7 +4378,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -4275,9 +4394,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27930855AA6C0045DB39 /* Deployment */ = {
+		95EE27930855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4312,7 +4431,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -4330,9 +4448,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		E14410ED0A94072E0063C4DC /* Development */ = {
+		E14410ED0A94072E0063C4DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4349,9 +4467,9 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Development;
+			name = Debug;
 		};
-		E14410EE0A94072E0063C4DC /* Deployment */ = {
+		E14410EE0A94072E0063C4DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4372,7 +4490,7 @@
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -4380,173 +4498,173 @@
 		34725DC90C0678C800499F50 /* Build configuration list for PBXNativeTarget "Growl.dylib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34725DCA0C0678C800499F50 /* Development */,
-				34725DCB0C0678C800499F50 /* Deployment */,
+				34725DCA0C0678C800499F50 /* Debug */,
+				34725DCB0C0678C800499F50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		9340E3050C94D4B300A1F682 /* Build configuration list for PBXAggregateTarget "SystemPreferencesTesting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9340E3060C94D4B300A1F682 /* Development */,
-				9340E3070C94D4B300A1F682 /* Deployment */,
+				9340E3060C94D4B300A1F682 /* Debug */,
+				9340E3070C94D4B300A1F682 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		93BC379B095A662B0002B365 /* Build configuration list for PBXNativeTarget "Nano" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				93BC379C095A662B0002B365 /* Development */,
-				93BC379D095A662B0002B365 /* Deployment */,
+				93BC379C095A662B0002B365 /* Debug */,
+				93BC379D095A662B0002B365 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "hg revision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E17B9A085E21C400990AB3 /* Development */,
-				95E17B9B085E21C400990AB3 /* Deployment */,
+				95E17B9A085E21C400990AB3 /* Debug */,
+				95E17B9B085E21C400990AB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE274B0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Brushed" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE274C0855AA6C0045DB39 /* Development */,
-				95EE274D0855AA6C0045DB39 /* Deployment */,
+				95EE274C0855AA6C0045DB39 /* Debug */,
+				95EE274D0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27500855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Bubbles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27510855AA6C0045DB39 /* Development */,
-				95EE27520855AA6C0045DB39 /* Deployment */,
+				95EE27510855AA6C0045DB39 /* Debug */,
+				95EE27520855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27550855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Bezel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27560855AA6C0045DB39 /* Development */,
-				95EE27570855AA6C0045DB39 /* Deployment */,
+				95EE27560855AA6C0045DB39 /* Debug */,
+				95EE27570855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE275A0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Speech" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE275B0855AA6C0045DB39 /* Development */,
-				95EE275C0855AA6C0045DB39 /* Deployment */,
+				95EE275B0855AA6C0045DB39 /* Debug */,
+				95EE275C0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE275F0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Smoke" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27600855AA6C0045DB39 /* Development */,
-				95EE27610855AA6C0045DB39 /* Deployment */,
+				95EE27600855AA6C0045DB39 /* Debug */,
+				95EE27610855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27640855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "MailMe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27650855AA6C0045DB39 /* Development */,
-				95EE27660855AA6C0045DB39 /* Deployment */,
+				95EE27650855AA6C0045DB39 /* Debug */,
+				95EE27660855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27690855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "MusicVideo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE276A0855AA6C0045DB39 /* Development */,
-				95EE276B0855AA6C0045DB39 /* Deployment */,
+				95EE276A0855AA6C0045DB39 /* Debug */,
+				95EE276B0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE276E0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "SMS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE276F0855AA6C0045DB39 /* Development */,
-				95EE27700855AA6C0045DB39 /* Deployment */,
+				95EE276F0855AA6C0045DB39 /* Debug */,
+				95EE27700855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27730855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlHelperApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27740855AA6C0045DB39 /* Development */,
-				95EE27750855AA6C0045DB39 /* Deployment */,
+				95EE27740855AA6C0045DB39 /* Debug */,
+				95EE27750855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27780855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlMenu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27790855AA6C0045DB39 /* Development */,
-				95EE277A0855AA6C0045DB39 /* Deployment */,
+				95EE27790855AA6C0045DB39 /* Debug */,
+				95EE277A0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE277D0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE277E0855AA6C0045DB39 /* Development */,
-				95EE277F0855AA6C0045DB39 /* Deployment */,
+				95EE277E0855AA6C0045DB39 /* Debug */,
+				95EE277F0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27870855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27880855AA6C0045DB39 /* Development */,
-				95EE27890855AA6C0045DB39 /* Deployment */,
+				95EE27880855AA6C0045DB39 /* Debug */,
+				95EE27890855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE278C0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE278D0855AA6C0045DB39 /* Development */,
-				95EE278E0855AA6C0045DB39 /* Deployment */,
+				95EE278D0855AA6C0045DB39 /* Debug */,
+				95EE278E0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE27920855AA6C0045DB39 /* Development */,
-				95EE27930855AA6C0045DB39 /* Deployment */,
+				95EE27920855AA6C0045DB39 /* Debug */,
+				95EE27930855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E14410ED0A94072E0063C4DC /* Development */,
-				E14410EE0A94072E0063C4DC /* Deployment */,
+				E14410ED0A94072E0063C4DC /* Debug */,
+				E14410EE0A94072E0063C4DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
