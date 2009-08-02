@@ -42,8 +42,9 @@ restart:;
 			if (info.processLaunchDate < oldestProcessLaunchDate) {
 				//This one is older (fewer ticks since startup), so this is our current prospect to be the result.
 				NSDictionary *dict = (NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-
+				
 				if (dict) {
+					CFMakeCollectable(dict);
 					pid_t pid = 0;
 					GetProcessPID(&psn, &pid);
 					if ([[dict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:identifier]) {
