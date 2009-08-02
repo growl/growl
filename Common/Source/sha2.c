@@ -632,7 +632,7 @@ static void SHA1_Internal_Transform(SHA_CTX* context, const sha_word32* data) {
 	context->s1.state[4] += e;
 
 	/* Clean up */
-	a = b = c = d = e = T1 = 0;
+	//a = b = c = d = e = T1 = 0;
 }
 
 #endif /* SHA2_UNROLL_TRANSFORM */
@@ -971,7 +971,7 @@ static void SHA256_Internal_Transform(SHA_CTX* context, const sha_word32* data) 
 	context->s256.state[7] += h;
 
 	/* Clean up */
-	a = b = c = d = e = f = g = h = T1 = T2 = 0;
+	//a = b = c = d = e = f = g = h = T1 = T2 = 0;
 }
 
 #endif /* SHA2_UNROLL_TRANSFORM */
