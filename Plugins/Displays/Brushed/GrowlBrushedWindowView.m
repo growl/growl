@@ -249,13 +249,16 @@
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
+			textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
-		textColor = [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
+		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
 	[textColor retain];
 	[data release];
+	data = nil;
 }
 
 - (void) sizeToFit {

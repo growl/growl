@@ -29,6 +29,9 @@
 	NSData *data = nil;
 	NSColor *color;
 	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
+	
 	if (data && [data isKindOfClass:[NSData class]]) {
 		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {

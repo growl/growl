@@ -261,22 +261,27 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlBezelPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass])
-		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
-	else
+	if (data && [data isKindOfClass:NSDataClass]) {
+			backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
 		backgroundColor = [NSColor blackColor];
+	}
 	[backgroundColor retain];
 	[data release];
 	data = nil;
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBezelPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass])
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	else
+	if(data)
+		CFMakeCollectable(data);		
+	if (data && [data isKindOfClass:NSDataClass]) {
+			textColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
 		textColor = [NSColor whiteColor];
+	}
 	[textColor retain];
 	[data release];
+	data = nil;
 }
 
 - (CGFloat) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(CGFloat)width {

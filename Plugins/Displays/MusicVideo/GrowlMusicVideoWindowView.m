@@ -199,6 +199,8 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -209,6 +211,8 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else

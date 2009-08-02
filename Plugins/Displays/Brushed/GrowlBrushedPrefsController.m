@@ -21,13 +21,16 @@
 	NSData *data = nil;
 	NSColor *color;
 	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-		color = [NSUnarchiver unarchiveObjectWithData:data];
+			color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		color = defaultColor;
 	}
 	[data release];
-
+	data = nil;
+	
 	return color;
 }
 

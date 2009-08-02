@@ -227,12 +227,14 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 	CGFloat backgroundAlpha = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
 	backgroundAlpha *= 0.01;
-
+	
 	Class NSDataClass = [NSData class];
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		bgColor = [NSColor colorWithCalibratedRed:0.69412
 											green:0.83147
@@ -244,6 +246,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 
 	data = nil;
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -254,6 +258,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 
 	data = nil;
 	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];

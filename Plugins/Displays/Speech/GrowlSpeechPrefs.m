@@ -30,6 +30,7 @@
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 	NSUInteger row = NSNotFound;
 	if (voice) {
+		CFMakeCollectable(voice);
 		row = [availableVoices indexOfObject:voice];
 		[voice release];
     }

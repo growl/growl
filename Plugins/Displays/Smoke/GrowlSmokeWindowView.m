@@ -290,9 +290,11 @@
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		bgColor = [NSColor colorWithCalibratedWhite:0.1 alpha:backgroundAlpha];
 	}
@@ -302,13 +304,17 @@
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass])
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	else
+	if(data)
+		CFMakeCollectable(data);		
+	if (data && [data isKindOfClass:NSDataClass]) {
+			textColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
 		textColor = [NSColor whiteColor];
+	}
 	[textColor retain];
 	[data release];
-
+	data = nil;
+	
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5 ofColor:[NSColor blackColor]]];
 }
 

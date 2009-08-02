@@ -226,6 +226,8 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlNanoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -236,6 +238,8 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlNanoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else

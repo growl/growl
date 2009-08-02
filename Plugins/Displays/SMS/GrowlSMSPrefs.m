@@ -36,6 +36,8 @@
 - (NSString *) getAccountName {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -50,6 +52,8 @@
 - (NSString *) getAccountAPIID {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -64,6 +68,8 @@
 - (NSString *) getDestinationNumber {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -87,6 +93,8 @@
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
+		if(passwordString)
+			CFMakeCollectable(passwordString);		
 		[passwordString autorelease];
 		SecKeychainItemFreeContent(NULL, password);
 	} else {

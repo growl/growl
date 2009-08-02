@@ -53,10 +53,16 @@
 	NSString	*destinationNumberValue = nil;
 
 	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &destinationNumberValue);
+	if(destinationNumberValue)
+		CFMakeCollectable(destinationNumberValue);
 	[destinationNumberValue autorelease];
 	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &apiIDValue);
+	if(apiIDValue)
+		CFMakeCollectable(apiIDValue);
 	[apiIDValue autorelease];
 	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &accountNameValue);
+	if(accountNameValue)
+		CFMakeCollectable(accountNameValue);
 	[accountNameValue autorelease];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
