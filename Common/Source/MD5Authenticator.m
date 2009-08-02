@@ -71,9 +71,9 @@
 		}
 	} else {
 		status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-												strlen(keychainServiceName),
+												(UInt32)strlen(keychainServiceName),
 												keychainServiceName,
-												strlen(keychainAccountName),
+												(UInt32)strlen(keychainAccountName),
 												keychainAccountName,
 												&passwordLength,
 												(void **)&passwordBytes,

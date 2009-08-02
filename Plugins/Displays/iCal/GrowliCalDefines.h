@@ -47,4 +47,4 @@ typedef enum {
 #define GrowliCalPrefDomain			@"com.Growl.iCal"
 
 // the default value for the duration preference
-#define GrowliCalDurationPrefDefault		5.0f
+#define GrowliCalDurationPrefDefault		5.0

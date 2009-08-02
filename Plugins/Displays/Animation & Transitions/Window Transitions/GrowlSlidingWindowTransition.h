@@ -7,12 +7,13 @@
 //
 
 #import "GrowlWindowTransition.h"
+#import "GrowlDefinesInternal.h"	// for CGFloat
 
 @interface GrowlSlidingWindowTransition : GrowlWindowTransition {
 	NSPoint	startingPoint;
 	NSPoint endingPoint;
-	float	xDistance;
-	float	yDistance;
+	CGFloat	xDistance;
+	CGFloat	yDistance;
 }
 
 - (void) setFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin;

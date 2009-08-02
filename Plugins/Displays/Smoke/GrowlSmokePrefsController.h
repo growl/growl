@@ -24,10 +24,10 @@
 	IBOutlet NSColorWell	*text_emergency;
 }
 
-- (float) duration;
-- (void) setDuration:(float)value;
-- (float) opacity;
-- (void) setOpacity:(float)value;
+- (CGFloat) duration;
+- (void) setDuration:(CGFloat)value;
+- (CGFloat) opacity;
+- (void) setOpacity:(CGFloat)value;
 - (BOOL) isLimit;
 - (void) setLimit:(BOOL)value;
 - (BOOL) isFloatingIcon;

@@ -12,16 +12,16 @@
 
 extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 
-void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius);
+void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius);
 
 
-void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
-	float minX = CGRectGetMinX(rect);
-	float minY = CGRectGetMinY(rect);
-	float maxX = CGRectGetMaxX(rect);
-	float maxY = CGRectGetMaxY(rect);
-	float midX = CGRectGetMidX(rect);
-	float midY = CGRectGetMidY(rect);
+void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
+	CGFloat minX = CGRectGetMinX(rect);
+	CGFloat minY = CGRectGetMinY(rect);
+	CGFloat maxX = CGRectGetMaxX(rect);
+	CGFloat maxY = CGRectGetMaxY(rect);
+	CGFloat midX = CGRectGetMidX(rect);
+	CGFloat midY = CGRectGetMidY(rect);
 
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, maxX, midY);
@@ -73,31 +73,31 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 		NSRect iconRect;
 
 		if (sizePref == Nano_SIZE_HUGE) {
-			titleRect.origin.x = 10.0f;
-			titleRect.origin.y = NSHeight(bounds) - 28.0f;
-			titleRect.size.width = NSWidth(bounds) - 32.0f;
-			titleRect.size.height = 20.0f;
+			titleRect.origin.x = 10.0;
+			titleRect.origin.y = NSHeight(bounds) - 28.0;
+			titleRect.size.width = NSWidth(bounds) - 32.0;
+			titleRect.size.height = 20.0;
 			
-			textRect.origin.y = NSHeight(bounds) - 41.0f;
-			textRect.size.height = 15.0f;
+			textRect.origin.y = NSHeight(bounds) - 41.0;
+			textRect.size.height = 15.0;
 			
-			iconRect.origin.x = 230.0f;
-			iconRect.origin.y = NSHeight(bounds) - 40.0f;
-			iconRect.size.width = 32.0f;
-			iconRect.size.height = 32.0f;
+			iconRect.origin.x = 230.0;
+			iconRect.origin.y = NSHeight(bounds) - 40.0;
+			iconRect.size.width = 32.0;
+			iconRect.size.height = 32.0;
 		} else {
-			titleRect.origin.x = 10.0f;
-			titleRect.origin.y = NSHeight(bounds) - 14.0f;
-			titleRect.size.width = NSWidth(bounds) - 16.0f;
-			titleRect.size.height = 12.0f;
+			titleRect.origin.x = 10.0;
+			titleRect.origin.y = NSHeight(bounds) - 14.0;
+			titleRect.size.width = NSWidth(bounds) - 16.0;
+			titleRect.size.height = 12.0;
 			
-			textRect.origin.y = NSHeight(bounds) - 22.0f;
-			textRect.size.height = 10.0f;
+			textRect.origin.y = NSHeight(bounds) - 22.0;
+			textRect.size.height = 10.0;
 			
-			iconRect.origin.x = 160.0f;
-			iconRect.origin.y = NSHeight(bounds) - 20.0f;
-			iconRect.size.width = 16.0f;
-			iconRect.size.height = 16.0f;
+			iconRect.origin.x = 160.0;
+			iconRect.origin.y = NSHeight(bounds) - 20.0;
+			iconRect.size.width = 16.0;
+			iconRect.size.height = 16.0;
 		}
 		textRect.origin.x = titleRect.origin.x;
 		textRect.size.width = titleRect.size.width;
@@ -114,11 +114,11 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 
 		NSRect c = [self bounds];
 		CGRect b = CGRectMake(c.origin.x, c.origin.y, c.size.width, c.size.height);
-		addRoundedBottomToPath(cgContext, b, 10.0f);
+		addRoundedBottomToPath(cgContext, b, 10.0);
 
-		float opacityPref = Nano_DEFAULT_OPACITY;
+		CGFloat opacityPref = Nano_DEFAULT_OPACITY;
 		READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
-		float alpha = opacityPref * 0.01f;
+		CGFloat alpha = opacityPref * 0.01;
 		[[backgroundColor colorWithAlphaComponent:alpha] set];
 		CGContextFillPath(cgContext);
 
@@ -127,7 +127,7 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 
 		[text drawInRect:textRect withAttributes:textAttributes];
 		[icon setFlipped:NO];
-		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
 
 		/*if (CGLayerCreateWithContext)
 			[NSGraphicsContext setCurrentContext:context];
@@ -147,12 +147,12 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 	READ_GROWL_PREF_BOOL(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
 	if (effect == Nano_EFFECT_SLIDE) {
 		if (CGLayerCreateWithContext)
-			imageRect.origin.y = 0.0f;
+			imageRect.origin.y = 0.0;
 	} else if (effect == Nano_EFFECT_WIPE) {
 		rect.size.height -= imageRect.origin.y;
 		imageRect.size.height -= imageRect.origin.y;
 		if (!CGLayerCreateWithContext)
-			imageRect.origin.y = 0.0f;
+			imageRect.origin.y = 0.0;
 	}
 
 	if (CGLayerCreateWithContext) {
@@ -167,7 +167,7 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 		cgRect.size.height = bounds.size.height;
 		CGContextDrawLayerInRect(cgContext, cgRect, layer);
 	} else {
-		[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
+		[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0];
 	}
 }
 
@@ -218,14 +218,16 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 
 	[backgroundColor release];
 
-	float opacityPref = Nano_DEFAULT_OPACITY;
+	CGFloat opacityPref = Nano_DEFAULT_OPACITY;
 	READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
-	float alpha = opacityPref * 0.01f;
+	CGFloat alpha = opacityPref * 0.01;
 
 	Class NSDataClass = [NSData class];
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlNanoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -236,6 +238,8 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlNanoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -243,24 +247,24 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 	[textColor retain];
 	[data release];
 
-	float titleFontSize;
-	float textFontSize;
+	CGFloat titleFontSize;
+	CGFloat textFontSize;
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
 
 	if (sizePref == Nano_SIZE_HUGE) {
-		titleFontSize = 14.0f;
-		textFontSize = 12.0f;
+		titleFontSize = 14.0;
+		textFontSize = 12.0;
 	} else {
-		titleFontSize = 10.0f;
-		textFontSize = 8.0f;
+		titleFontSize = 10.0;
+		textFontSize = 8.0;
 	}
 
 	NSShadow *textShadow = [[NSShadow alloc] init];
 
-	NSSize shadowSize = {0.0f, -2.0f};
+	NSSize shadowSize = {0.0, -2.0};
 	[textShadow setShadowOffset:shadowSize];
-	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowBlurRadius:3.0];
 	[textShadow setShadowColor:[NSColor blackColor]];
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];

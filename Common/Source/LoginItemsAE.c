@@ -119,14 +119,22 @@ static OSStatus LaunchSystemEvents(ProcessSerialNumber *psnPtr)
             // get an FSSpec for the application because there's no
             // FSRef version of Launch Application.
 
+#ifdef __LP64__
+#pragma unused(appSpec)
+#else
             if (err == noErr)
                 err = FSGetCatalogInfo(&appRef, kFSCatInfoNone, NULL, NULL, &appSpec, NULL);
+#endif
             if (err == noErr) {
                 memset(&lpb, 0, sizeof(lpb));
                 lpb.launchBlockID      = extendedBlock;
                 lpb.launchEPBLength    = extendedBlockLen;
                 lpb.launchControlFlags = launchContinue | launchNoFileFlags;
+#ifdef __LP64__
+				lpb.launchAppRef       = &appRef;
+#else
                 lpb.launchAppSpec      = &appSpec;
+#endif
 
                 err = LaunchApplication(&lpb);
             }
@@ -231,7 +239,7 @@ static OSStatus SendAppleEvent(const AEDesc *event, AEDesc *reply)
 		err = AEGetParamPtr(
 			reply,
 			keyErrorNumber,
-			typeShortInteger,
+			typeSInt16,
 			&junkType,
 			&replyErr,
 			sizeof(replyErr),
@@ -666,7 +674,7 @@ extern OSStatus LIAEAddRefAtEnd(const FSRef *item, Boolean hideIt)
 
 		err = AECreateList(NULL, 0, true, &properties);
 		if (err == noErr)
-			err = FSRefMakePath(item, (UInt8 *) path, sizeof(path));
+			err = FSRefMakePath(item, (UInt8 *) path, (UInt32)sizeof(path));
 
 		// System Events complains if you pass it typeUTF8Text directly, so
 		// we do the conversion from typeUTF8Text to typeUnicodeText on our
@@ -761,7 +769,7 @@ extern OSStatus LIAERemove(CFIndex itemIndex)
 	// and sends it to System Events.
 {
 	OSStatus	err;
-	long		itemIndexPlusOne;
+	SInt32		itemIndexPlusOne;
 	AEDesc		indexDesc;
 	AEDesc		loginItemAtIndex;
 
@@ -772,8 +780,8 @@ extern OSStatus LIAERemove(CFIndex itemIndex)
 
 	// Build object specifier for "login item X".
 
-	itemIndexPlusOne = itemIndex + 1;	// AppleScript is one-based, CF is zero-based
-	err = AECreateDesc(typeLongInteger, &itemIndexPlusOne, sizeof(itemIndexPlusOne), &indexDesc);
+	itemIndexPlusOne = (SInt32)itemIndex + 1;	// AppleScript is one-based, CF is zero-based
+	err = AECreateDesc(typeSInt32, &itemIndexPlusOne, sizeof(itemIndexPlusOne), &indexDesc);
 	if (err == noErr)
 		err = CreateObjSpecifier(cLoginItem, (AEDesc *) &kAENull, formAbsolutePosition, &indexDesc, false, &loginItemAtIndex);
 

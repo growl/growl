@@ -8,11 +8,11 @@
 
 #import "GrowlPositionPicker.h"
 
-#define GrowlPositionPickerHotCornerInset	   3.0f
+#define GrowlPositionPickerHotCornerInset	   3.0
 #define GrowlPositionPickerHotCornerDiameter	15.f
-#define GrowlPositionPickerHotCornerUnselectedAlpha   0.7f
-#define GrowlPositionPickerHotCornerSelectedAlpha     0.9f
-#define GrowlPositionPickerHotCornerSelectionDotAlpha 0.7f
+#define GrowlPositionPickerHotCornerUnselectedAlpha   0.7
+#define GrowlPositionPickerHotCornerSelectedAlpha     0.9
+#define GrowlPositionPickerHotCornerSelectionDotAlpha 0.7
 
 static NSImage *backgroundImage = nil;
 static NSColor *unselectedColor = nil;
@@ -37,8 +37,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		return;
 	
 	backgroundImage = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
-	imageBounds = NSMakeRect(0.0f,0.0f,[backgroundImage size].width,[backgroundImage size].height);
-	unselectedColor = [[NSColor colorWithDeviceWhite:1.0f alpha:GrowlPositionPickerHotCornerUnselectedAlpha] retain];
+	imageBounds = NSMakeRect(0.0,0.0,[backgroundImage size].width,[backgroundImage size].height);
+	unselectedColor = [[NSColor colorWithDeviceWhite:1.0 alpha:GrowlPositionPickerHotCornerUnselectedAlpha] retain];
 	rolloverColor = [[NSColor grayColor] retain];
 	selectedColor = [[NSColor whiteColor] retain];
 	
@@ -78,7 +78,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	}
 	
 	// draw the background image...
-	[backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:1.0f];
+	[backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:1.0];
 	
 	// select the appropriate hotcorner before drawing
 	//[self setSelectedPosition:[associatedController selectedPosition]];
@@ -287,20 +287,20 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		NSPoint centerPoint = NSMakePoint(NSMidX(cornerPathBounds),
 		                                  NSMidY(cornerPathBounds));
 		//Center our dot within the correct quadrant of the corner path's bounding rectangle, by adding or subtracting one-eighth of its bounds on each axis.
-		float xOffset = NSWidth(cornerPathBounds)  * (1.0f / 6.0f);
-		float yOffset = NSHeight(cornerPathBounds) * (1.0f / 6.0f);
+		CGFloat xOffset = NSWidth(cornerPathBounds)  * (1.0 / 6.0);
+		CGFloat yOffset = NSHeight(cornerPathBounds) * (1.0 / 6.0);
 		switch (position) {
 		case GrowlTopLeftCorner:
-			xOffset *= -1.0f;
+			xOffset *= -1.0;
 			break;
 		case GrowlTopRightCorner:
 			break;
 		case GrowlBottomRightCorner:
-			yOffset *= -1.0f;
+			yOffset *= -1.0;
 			break;
 		case GrowlBottomLeftCorner:
-			xOffset *= -1.0f;
-			yOffset *= -1.0f;
+			xOffset *= -1.0;
+			yOffset *= -1.0;
 			break;
 		case GrowlNoOrigin:
 			break;
@@ -311,9 +311,9 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		//Draw the dot.
 		[dot moveToPoint:centerPoint];
 		[dot appendBezierPathWithArcWithCenter:centerPoint
-		                                radius:2.0f
-		                            startAngle:0.0f
-		                              endAngle:360.0f];
+		                                radius:2.0
+		                            startAngle:0.0
+		                              endAngle:360.0];
 		[dot closePath];
 		[dot fill];
 	}

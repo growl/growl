@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -121,7 +121,6 @@
 		344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */; };
 		344EA5EF0CA85B110035CB69 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		345B7D170C80A91E005F7F96 /* iCalPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 345B7D160C80A91E005F7F96 /* iCalPrefs.nib */; };
-		346F746C0C96F56C000FEAE6 /* Show Growl Notification.action in CopyFiles */ = {isa = PBXBuildFile; fileRef = 346F74470C96F561000FEAE6 /* Show Growl Notification.action */; };
 		34725B140C0678AC00499F50 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; };
 		34725B150C0678AC00499F50 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; };
 		34725B160C0678AC00499F50 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; };
@@ -188,6 +187,26 @@
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
+		93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
+		93AB0574100C2AC7008D7D30 /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
+		93AB0578100C2ADA008D7D30 /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
+		93AB0579100C2AFB008D7D30 /* GrowlSlidingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */; };
+		93AB057A100C2AFB008D7D30 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
+		93AB057B100C2AFB008D7D30 /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
+		93AB057C100C2AFB008D7D30 /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
+		93AB057D100C2AFB008D7D30 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
+		93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
+		93AB0617100C2E6A008D7D30 /* GrowlThreadedView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */; };
+		93AB061B100C2E79008D7D30 /* GrowlApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27608745B9000EA34BF /* GrowlApplicationController.m */; };
+		93AB061F100C2E8D008D7D30 /* MD5Authenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */; };
+		93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlIdleStatusController.c */; };
+		93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
+		93AB062A100C2EBE008D7D30 /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
+		93AB062D100C2EC7008D7D30 /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
+		93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DD14D80748B04700CC05A4 /* GrowlPathway.m */; };
+		93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
+		93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
+		93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98A1082A5B8E001A409D /* cdsa.c */; };
 		93BC3796095A662B0002B365 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		93BC3799095A662B0002B365 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
@@ -202,7 +221,6 @@
 		93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */; };
 		93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92B90B5AF8CA000C39CD /* AWRippler.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
-		93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		950568E60812C2960096EC5C /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
@@ -347,6 +365,8 @@
 		DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DD493C31084BDF0200D1CCCB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		DDFADA6C084D1C770055DBC8 /* SMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* SMS.growlView */; };
+		E031BBFD0EBE97C200B154BF /* Mail.app in Resources */ = {isa = PBXBuildFile; fileRef = E031BBFC0EBE97C200B154BF /* Mail.app */; };
+		E031BBFF0EBE988300B154BF /* Show Growl Notification.action in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34A96DE20C95F61800F46006 /* Show Growl Notification.action */; };
 		E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		E14410E90A94072E0063C4DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
@@ -382,6 +402,17 @@
 			isEditable = 1;
 			outputFiles = (
 			);
+		};
+		E031BBFB0EBE97AE00B154BF /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.app";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).h",
+			);
+			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid `defaults read \"$INPUT_FILE_PATH/Contents/Info\" CFBundleIdentifier`";
 		};
 /* End PBXBuildRule section */
 
@@ -555,7 +586,7 @@
 			dstPath = Contents/Library/Automator;
 			dstSubfolderSpec = 1;
 			files = (
-				346F746C0C96F56C000FEAE6 /* Show Growl Notification.action in CopyFiles */,
+				E031BBFF0EBE988300B154BF /* Show Growl Notification.action in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,7 +629,6 @@
 		0790135507D9321B0023B640 /* GrowlVersionUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlVersionUtilities.c; path = Common/Source/GrowlVersionUtilities.c; sourceTree = "<group>"; };
 		07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
-		07C2F34707D6F54E00B18524 /* SVNRevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNRevision.h; path = include/SVNRevision.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationNotification.h; path = Core/Source/GrowlApplicationNotification.h; sourceTree = "<group>"; };
 		07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationNotification.m; path = Core/Source/GrowlApplicationNotification.m; sourceTree = "<group>"; };
 		07FCFFC107E2F90C00F0A1CF /* GrowlRemotePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRemotePathway.h; path = Core/Source/GrowlRemotePathway.h; sourceTree = "<group>"; };
@@ -1091,6 +1121,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
+		E031BBFC0EBE97C200B154BF /* Mail.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Mail.app; path = /Applications/Mail.app; sourceTree = "<absolute>"; };
 		E14410EF0A94072E0063C4DC /* iCal.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iCal.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14411110A9408840063C4DC /* GrowliCalDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDefines.h; path = Plugins/Displays/iCal/GrowliCalDefines.h; sourceTree = "<group>"; };
 		E14411120A9408840063C4DC /* GrowliCalDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDisplay.h; path = Plugins/Displays/iCal/GrowliCalDisplay.h; sourceTree = "<group>"; };
@@ -1213,11 +1244,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */,
+				95E678F907511471002BF4E6 /* Security.framework in Frameworks */,
 				0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */,
 				83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */,
-				95E678F907511471002BF4E6 /* Security.framework in Frameworks */,
-				93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */,
-				95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */,
 				957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */,
 				957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */,
 				C4C58A0C0C9E3C7100F71519 /* Carbon.framework in Frameworks */,
@@ -1605,6 +1635,7 @@
 				0A7F5FDE0767C79100E1C1E4 /* GrowlMailMeDisplay.m */,
 				0A7F5FDF0767C79100E1C1E4 /* GrowlMailMePrefs.h */,
 				0A7F5FE00767C79100E1C1E4 /* GrowlMailMePrefs.m */,
+				E031BBFC0EBE97C200B154BF /* Mail.app */,
 			);
 			name = MailMe;
 			path = Plugins/Displays/MailMe;
@@ -1756,6 +1787,17 @@
 			name = StatusItem;
 			sourceTree = "<group>";
 		};
+		93AB058A100C2DB8008D7D30 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */,
+				93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */,
+				93CD92BA0B5AF8CA000C39CD /* AWRippler.h */,
+				93CD92B90B5AF8CA000C39CD /* AWRippler.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
 		93BC37A4095A66610002B365 /* Nano */ = {
 			isa = PBXGroup;
 			children = (
@@ -1877,7 +1919,6 @@
 				34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */,
 				34422F700BF3ED2E001DA9ED /* GrowlApplication.m */,
 				CB5F83A60638B8C800EADD7A /* HelperMain.m */,
-				07C2F34707D6F54E00B18524 /* SVNRevision.h */,
 				CB5F847F0638BD6200EADD7A /* Classes */,
 				CB5F84730638BD4D00EADD7A /* Resources */,
 			);
@@ -1990,6 +2031,7 @@
 		EE1AF8D10897DA9400F486FD /* Window Transitions */ = {
 			isa = PBXGroup;
 			children = (
+				93AB058A100C2DB8008D7D30 /* Unused */,
 				EE1AF8D20897DA9400F486FD /* GrowlFadingWindowTransition.h */,
 				EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */,
 				EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */,
@@ -2002,10 +2044,6 @@
 				932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */,
 				93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */,
 				93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */,
-				93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */,
-				93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */,
-				93CD92BA0B5AF8CA000C39CD /* AWRippler.h */,
-				93CD92B90B5AF8CA000C39CD /* AWRippler.m */,
 			);
 			path = "Window Transitions";
 			sourceTree = "<group>";
@@ -2158,6 +2196,7 @@
 				0A7F5FBF0767C70600E1C1E4 /* Frameworks */,
 			);
 			buildRules = (
+				E031BBFB0EBE97AE00B154BF /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -2329,6 +2368,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				34A96DF80C95F62300F46006 /* PBXTargetDependency */,
 				955430E807E04683005534FA /* PBXTargetDependency */,
 				343345640790E25B00C84B15 /* PBXTargetDependency */,
@@ -2339,7 +2379,6 @@
 				3433459A0790E40800C84B15 /* PBXTargetDependency */,
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
-				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
 			);
 			name = GrowlHelperApp;
@@ -2387,7 +2426,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2485,6 +2524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7F5FE10767C79100E1C1E4 /* GrowlMailMePrefs.nib in Resources */,
+				E031BBFD0EBE97C200B154BF /* Mail.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2796,6 +2836,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93AB0579100C2AFB008D7D30 /* GrowlSlidingWindowTransition.m in Sources */,
+				93AB057A100C2AFB008D7D30 /* GrowlFlippingWindowTransition.m in Sources */,
+				93AB057B100C2AFB008D7D30 /* GrowlShrinkingWindowTransition.m in Sources */,
+				93AB057C100C2AFB008D7D30 /* GrowlScaleWindowTransition.m in Sources */,
+				93AB057D100C2AFB008D7D30 /* GrowlWipeWindowTransition.m in Sources */,
 				525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */,
 				CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */,
 				5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */,
@@ -2829,6 +2874,21 @@
 				7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */,
 				347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
 				342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */,
+				93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */,
+				93AB0574100C2AC7008D7D30 /* GrowlWindowTransition.m in Sources */,
+				93AB0578100C2ADA008D7D30 /* GrowlFadingWindowTransition.m in Sources */,
+				93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */,
+				93AB0617100C2E6A008D7D30 /* GrowlThreadedView.m in Sources */,
+				93AB061B100C2E79008D7D30 /* GrowlApplicationController.m in Sources */,
+				93AB061F100C2E8D008D7D30 /* MD5Authenticator.m in Sources */,
+				93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */,
+				93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */,
+				93AB062A100C2EBE008D7D30 /* GrowlNotificationCenter.m in Sources */,
+				93AB062D100C2EC7008D7D30 /* GrowlApplicationBridgePathway.m in Sources */,
+				93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */,
+				93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */,
+				93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */,
+				93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3423,7 +3483,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3447,7 +3507,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
@@ -3789,6 +3849,18 @@
 					"-undefined",
 					dynamic_lookup,
 				);
+				"OTHER_LDFLAGS[arch=ppc64]" = (
+					"-undefined",
+					dynamic_lookup,
+					"-framework",
+					ScriptingBridge,
+				);
+				"OTHER_LDFLAGS[arch=x86_64]" = (
+					"-undefined",
+					dynamic_lookup,
+					"-framework",
+					ScriptingBridge,
+				);
 				PRODUCT_NAME = MailMe;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
@@ -3811,6 +3883,18 @@
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
+				);
+				"OTHER_LDFLAGS[arch=ppc64]" = (
+					"-undefined",
+					dynamic_lookup,
+					"-framework",
+					ScriptingBridge,
+				);
+				"OTHER_LDFLAGS[arch=x86_64]" = (
+					"-undefined",
+					dynamic_lookup,
+					"-framework",
+					ScriptingBridge,
 				);
 				PRODUCT_NAME = MailMe;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
@@ -3869,7 +3953,6 @@
 				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -3895,7 +3978,6 @@
 				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -3916,6 +3998,8 @@
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
+				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
@@ -3933,6 +4017,8 @@
 				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
+				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
@@ -3963,7 +4049,6 @@
 				);
 				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlMenu;
 			};
@@ -4008,23 +4093,22 @@
 		95EE27880855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=ppc]" = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4044,20 +4128,23 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=ppc]" = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4077,9 +4164,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=ppc]" = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = GROWL_WITH_INSTALLER;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/HgRevision.h";
@@ -4087,10 +4177,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				OTHER_CFLAGS = (
-					"-DGROWL_WITH_INSTALLER",
-					"-fconstant-cfstrings",
-				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4110,12 +4197,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=ppc]" = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
+					GROWL_WITH_INSTALLER,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
@@ -4124,10 +4214,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				OTHER_CFLAGS = (
-					"-DGROWL_WITH_INSTALLER",
-					"-fconstant-cfstrings",
-				);
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4145,6 +4232,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4152,8 +4240,11 @@
 				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = NO;
@@ -4170,10 +4261,18 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DDEBUG";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
+				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
+				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				REZ_PREPROCESSOR_DEFINITIONS = DEBUG;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
+				STRIP_STYLE = debugging;
+				VALID_ARCHS = "i386 ppc ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -4189,10 +4288,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4200,7 +4296,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_VERSION = 4.0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = NO;
@@ -4217,13 +4316,19 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
+				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
+				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = debugging;
+				VALID_ARCHS = "i386 ppc ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",

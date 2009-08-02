@@ -20,26 +20,26 @@
 #import "GrowliCalPrefsController.h"
 
 /* Hardcoded geometry values */
-#define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
-#define BORDER_WIDTH_PX			  1.0f
-#define BORDER_RADIUS_PX		  6.0f
-#define PANEL_VSPACE_PX			  1.0f /*!< Vertical padding from bounds to content area */
-#define PANEL_HSPACE_PX			  6.0f /*!< Horizontal padding from bounds to content area */
-#define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
-#define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
-#define ICON_HSPACE_PX			  3.0f /*!< Horizontal space between icon and title/description */
-#define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
-#define TITLE_FONT_SIZE_PTS		 11.0f
-#define DESCR_FONT_SIZE_PTS		 11.0f
+#define PANEL_WIDTH_PX			270.0 /*!< Total width of the panel, including border */
+#define BORDER_WIDTH_PX			  1.0
+#define BORDER_RADIUS_PX		  6.0
+#define PANEL_VSPACE_PX			  1.0 /*!< Vertical padding from bounds to content area */
+#define PANEL_HSPACE_PX			  6.0 /*!< Horizontal padding from bounds to content area */
+#define ICON_SIZE_PX			 32.0 /*!< The width and height of the (square) icon */
+#define ICON_SIZE_LARGE_PX		 48.0 /*!< The width and height of the (square) icon */
+#define ICON_HSPACE_PX			  3.0 /*!< Horizontal space between icon and title/description */
+#define TITLE_VSPACE_PX			  5.0 /*!< Vertical space between title and description */
+#define TITLE_FONT_SIZE_PTS		 11.0
+#define DESCR_FONT_SIZE_PTS		 11.0
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 #define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize + 1)
 #define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
 
-static void GrowliCalShadeInterpolate( void *info, const float *inData, float *outData ) {
-	float *colors = (float *) info;
+static void GrowliCalShadeInterpolate( void *info, const CGFloat *inData, CGFloat *outData ) {
+	CGFloat *colors = (CGFloat *) info;
 
-	register float a = inData[0];
-	register float a_coeff = 1.0f - a;
+	register CGFloat a = inData[0];
+	register CGFloat a_coeff = 1.0 - a;
 
 	// SIMD could come in handy here
 	// outData[0..3] = a_coeff * colors[4..7] + a * colors[0..3]
@@ -49,13 +49,13 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	outData[3] = (a_coeff * colors[7]) + (a * colors[3]);
 }
 
-static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float radius) {
-	float minX = CGRectGetMinX(rect);
-	float minY = CGRectGetMinY(rect);
-	float maxX = CGRectGetMaxX(rect);
-	float maxY = CGRectGetMaxY(rect);
-	float midX = CGRectGetMidX(rect);
-	float midY = CGRectGetMidY(rect);
+static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat radius) {
+	CGFloat minX = CGRectGetMinX(rect);
+	CGFloat minY = CGRectGetMinY(rect);
+	CGFloat maxX = CGRectGetMaxX(rect);
+	CGFloat maxY = CGRectGetMaxY(rect);
+	CGFloat midX = CGRectGetMidX(rect);
+	CGFloat midY = CGRectGetMidY(rect);
 	
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, maxX, midY);
@@ -105,8 +105,8 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 	[super dealloc];
 }
 
-- (float) titleHeight {
-	return haveTitle ? titleHeight : 0.0f;
+- (CGFloat) titleHeight {
+	return haveTitle ? titleHeight : 0.0;
 }
 
 
@@ -116,7 +116,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
+		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);
 
 		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
@@ -131,7 +131,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		// Create a callback function to generate the
 		// fill clipped graphics context with our gradient
 		struct CGFunctionCallbacks callbacks = { 0U, GrowliCalShadeInterpolate, NULL };
-		float colors[8];
+		CGFloat colors[8];
 
 		[lightColor getRed:&colors[0]
 					 green:&colors[1]
@@ -166,7 +166,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 
 		CGContextRestoreGState(context);
 
-		float tbcolor[4]; 
+		CGFloat tbcolor[4]; 
 		tbcolor[0] = [borderColor redComponent];
 		tbcolor[1] = [borderColor greenComponent];
 		tbcolor[2] = [borderColor blueComponent];
@@ -195,7 +195,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0f];
+					  fraction:1.0];
 
 		drawRect.origin.x = PANEL_HSPACE_PX;
 
@@ -217,9 +217,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 - (void) setPriority:(int)priority {
 	/* What is going on here? setPriority is the preference reader and completely ignores the priority? */
 	/* This method is completely ridiculous */
-	float backgroundAlpha = 95.0f;
+	CGFloat backgroundAlpha = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
-	backgroundAlpha *= 0.01f;
+	backgroundAlpha *= 0.01;
 
 	[textColor release];
 	textColor = [[NSColor whiteColor] retain];
@@ -232,64 +232,64 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
 	switch (color) {
 		case GrowliCalPurple:
-			bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
-			lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:0.4000 green:0.1804 blue:0.7569 alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.6863 green:0.5294 blue:0.9765 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.3216 green:0.0588 blue:0.6902 alpha:backgroundAlpha];
 			break;
 		
 		case GrowliCalPink:
-			bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];		
-			lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:0.7804 green:0.1098 blue:0.7725 alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.8157 green:0.2471 blue:0.8078 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.7412 green:0.0000 blue:0.7294 alpha:backgroundAlpha];
 			break;
 
 		case GrowliCalGreen:
-			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];		
-			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:0.1490 green:0.7333 blue:0.0000 alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.3765 green:0.8039 blue:0.2549 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.0000 green:0.6824 blue:0.0000 alpha:backgroundAlpha];
 			break;
 
 		case GrowliCalBlue:
-			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];		
-			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:0.1255 green:0.3765 blue:0.9529 alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.3529 green:0.5647 blue:1.0000 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.0588 green:0.2784 blue:0.9137 alpha:backgroundAlpha];
 			break;
 
 		case GrowliCalOrange:
-			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
-			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4510 blue:0.0000 alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.6235 blue:0.0941 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4314 blue:0.0000 alpha:backgroundAlpha];
 			break;
 
 		case GrowliCalRed:
-			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.2941 blue:0.3137 alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.9529 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
 			break;
 
 		default:
 		{
 			/* When could this ever happen?!? -eds */
 			if (priority == -2) {
-				bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
-				lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
-				borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
+				bgColor = [NSColor colorWithCalibratedRed:0.4000 green:0.1804 blue:0.7569 alpha:backgroundAlpha];		
+				lightColor = [NSColor colorWithCalibratedRed:0.6863 green:0.5294 blue:0.9765 alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.3216 green:0.0588 blue:0.6902 alpha:backgroundAlpha];
 			} else if (priority == -1) {
-				bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
-				lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
-				borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
+				bgColor = [NSColor colorWithCalibratedRed:0.1490 green:0.7333 blue:0.0000 alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:0.3765 green:0.8039 blue:0.2549 alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.0000 green:0.6824 blue:0.0000 alpha:backgroundAlpha];
 			} else if (priority == 1) {
-				bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
-				lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
-				borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
+				bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4510 blue:0.0000 alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.6235 blue:0.0941 alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4314 blue:0.0000 alpha:backgroundAlpha];
 			} else if (priority == 2) {
-				bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-				lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
-				borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+				bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.2941 blue:0.3137 alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.9529 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
 			} else {
-				bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
-				lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
-				borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+				bgColor = [NSColor colorWithCalibratedRed:0.1255 green:0.3765 blue:0.9529 alpha:backgroundAlpha];
+				lightColor = [NSColor colorWithCalibratedRed:0.3529 green:0.5647 blue:1.0000 alpha:backgroundAlpha];
+				borderColor = [NSColor colorWithCalibratedRed:0.0588 green:0.2784 blue:0.9137 alpha:backgroundAlpha];
 			}
 		}
 	}
@@ -322,7 +322,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
 		[titleContainer release];
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
-		[titleContainer setLineFragmentPadding:0.0f];
+		[titleContainer setLineFragmentPadding:0.0];
 	}
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -367,7 +367,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
-		[textContainer setLineFragmentPadding:0.0f];
+		[textContainer setLineFragmentPadding:0.0];
 	}
 
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -387,7 +387,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 }
 
 - (void) sizeToFit {
-	float height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
+	CGFloat height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
 		height += TITLE_VSPACE_PX;
 	if (height < MIN_TEXT_HEIGHT)
@@ -410,12 +410,12 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
     return YES;
 }
 
-- (float) descriptionHeight {
-	return haveText ? textHeight : 0.0f;
+- (CGFloat) descriptionHeight {
+	return haveText ? textHeight : 0.0;
 }
 
-- (int) descriptionRowCount {
-	int rowCount = textHeight / lineHeight;
+- (NSInteger) descriptionRowCount {
+	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &limitPref);
 	if (limitPref)

@@ -13,19 +13,20 @@
 
 
 #import <AppKit/NSWindow.h>
+#import "GrowlDefinesInternal.h"	// for CGFloat
 
 @interface NSWindow (Transforms)
 
 - (NSPoint) windowToScreenCoordinates:(NSPoint)point;
 - (NSPoint) screenToWindowCoordinates:(NSPoint)point;
 
-- (void) rotate:(double)radians;
-- (void) rotate:(double)radians about:(NSPoint)point;
+- (void) rotate:(CGFloat)radians;
+- (void) rotate:(CGFloat)radians about:(NSPoint)point;
 
-- (void) scaleBy:(double)scaleFactor;
-- (void) scaleX:(double)x Y:(double)y;
-- (void) setScaleX:(double)x Y:(double)y;
-- (void) scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat;
+- (void) scaleBy:(CGFloat)scaleFactor;
+- (void) scaleX:(CGFloat)x Y:(CGFloat)y;
+- (void) setScaleX:(CGFloat)x Y:(CGFloat)y;
+- (void) scaleX:(CGFloat)x Y:(CGFloat)y about:(NSPoint)point concat:(BOOL)concat;
 
 - (void) reset;
 

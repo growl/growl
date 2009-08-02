@@ -75,9 +75,9 @@
 
 	if (image) {
 		retRect.size = [image size];
-		retRect.origin.x = cellFrame.origin.x + 3.0f;
+		retRect.origin.x = cellFrame.origin.x + 3.0;
 		retRect.origin.y = cellFrame.origin.y
-			+ ceilf((cellFrame.size.height - retRect.size.height) * 0.5f);
+			+ GrowlCGFloatCeiling((cellFrame.size.height - retRect.size.height) * 0.5);
 	} else {
 		retRect = NSZeroRect;
 	}
@@ -92,7 +92,7 @@
 				 event:(NSEvent *)theEvent {
 	NSRect textFrame, imageFrame;
 
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0f + [image size].width, NSMinXEdge);
+	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0 + [image size].width, NSMinXEdge);
 	[super editWithFrame: textFrame
 				  inView: controlView
 				  editor: textObj
@@ -108,7 +108,7 @@
 				  length:(int)selLength {
 	NSRect textFrame, imageFrame;
 
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0f + [image size].width, NSMinXEdge);
+	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0 + [image size].width, NSMinXEdge);
 	[super selectWithFrame: textFrame
 					inView: controlView
 					editor:textObj
@@ -122,18 +122,18 @@
 		NSSize	imageSize = [image size];
 		NSRect	imageFrame;
 
-		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 15.0f + imageSize.width, NSMinXEdge);
+		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 15.0 + imageSize.width, NSMinXEdge);
 		if ([self drawsBackground]) {
 			[[self backgroundColor] set];
 			NSRectFill(imageFrame);
 		}
-		imageFrame.origin.x += 3.0f;
+		imageFrame.origin.x += 3.0;
 		//imageFrame.size = imageSize;
 
 		if ([controlView isFlipped]) {
-			imageFrame.origin.y += ceilf((cellFrame.size.height + imageSize.height) * 0.5f);
+			imageFrame.origin.y += GrowlCGFloatCeiling((cellFrame.size.height + imageSize.height) * 0.5);
 		} else {
-			imageFrame.origin.y += ceilf((cellFrame.size.height - imageSize.height) * 0.5f);
+			imageFrame.origin.y += GrowlCGFloatCeiling((cellFrame.size.height - imageSize.height) * 0.5);
 		}
 
 		[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
@@ -153,7 +153,7 @@
 
 - (NSSize) cellSize {
 	NSSize cellSize = [super cellSize];
-	cellSize.width += (image ? [image size].width + 3.0f : 3.0f);
+	cellSize.width += (image ? [image size].width + 3.0 : 3.0);
 	return cellSize;
 }
 

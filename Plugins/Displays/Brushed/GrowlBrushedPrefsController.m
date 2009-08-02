@@ -21,37 +21,44 @@
 	NSData *data = nil;
 	NSColor *color;
 	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-		color = [NSUnarchiver unarchiveObjectWithData:data];
+			color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		color = defaultColor;
 	}
 	[data release];
-
+	data = nil;
+	
 	return color;
 }
 
 #pragma mark -
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 #pragma mark -
 
-- (float) duration {
-	float value = GrowlBrushedDurationPrefDefault;
+- (CGFloat) duration {
+	CGFloat value = GrowlBrushedDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &value);
 	return value;
 }
 
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, value, GrowlBrushedPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -60,7 +67,7 @@
 
 - (NSColor *) textColorVeryLow {
 	return [GrowlBrushedPrefsController loadColor:GrowlBrushedVeryLowTextColor
-			  defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+			  defaultColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.0]];
 }
 
 - (void) setTextColorVeryLow:(NSColor *)value {
@@ -71,7 +78,7 @@
 
 - (NSColor *) textColorModerate {
 	return [GrowlBrushedPrefsController loadColor:GrowlBrushedModerateTextColor
-									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.0]];
 }
 
 - (void) setTextColorModerate:(NSColor *)value {
@@ -82,7 +89,7 @@
 
 - (NSColor *) textColorNormal {
 	return [GrowlBrushedPrefsController loadColor:GrowlBrushedNormalTextColor
-									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.0]];
 }
 
 - (void) setTextColorNormal:(NSColor *)value {
@@ -93,7 +100,7 @@
 
 - (NSColor *) textColorHigh {
 	return [GrowlBrushedPrefsController loadColor:GrowlBrushedHighTextColor
-									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.0]];
 }
 
 - (void) setTextColorHigh:(NSColor *)value {
@@ -104,7 +111,7 @@
 
 - (NSColor *) textColorEmergency {
 	return [GrowlBrushedPrefsController loadColor:GrowlBrushedEmergencyTextColor
-									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1 alpha:1.0]];
 }
 
 - (void) setTextColorEmergency:(NSColor *)value {

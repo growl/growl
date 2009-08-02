@@ -12,10 +12,10 @@
 @class GrowlNanoWindowView;
 
 @interface GrowlNanoWindowController : GrowlDisplayWindowController {
-	float						frameHeight;
-	float						frameY;
+	CGFloat						frameHeight;
+	CGFloat						frameY;
 	int							priority;
-	bool						doFadeIn;
+	BOOL						doFadeIn;
 }
 
 @end

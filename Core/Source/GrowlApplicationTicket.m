@@ -353,7 +353,7 @@
 		icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] retain];
 	if (!icon) {
 		icon = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)] retain];
-		[icon setSize:NSMakeSize(128.0f, 128.0f)];
+		[icon setSize:NSMakeSize(128.0, 128.0)];
 	}
 	return icon;
 }
@@ -482,7 +482,7 @@
 		if ([inDefaults respondsToSelector:@selector(objectEnumerator)] ) {
 			enumerator = [inDefaults objectEnumerator];
 			Class NSNumberClass = [NSNumber class];
-			unsigned numAllNotifications = [inAllNotes count];
+			NSUInteger numAllNotifications = [inAllNotes count];
 			id obj;
 			while ((obj = [enumerator nextObject])) {
 				NSString *note;
@@ -509,8 +509,8 @@
 			}
 
 		} else if ([inDefaults isKindOfClass:[NSIndexSet class]]) {
-			unsigned notificationIndex;
-			unsigned numAllNotifications = [inAllNotes count];
+			NSUInteger notificationIndex;
+			NSUInteger numAllNotifications = [inAllNotes count];
 			NSIndexSet *iset = (NSIndexSet *)inDefaults;
 			for (notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex]) {
 				if (notificationIndex >= numAllNotifications) {
@@ -592,6 +592,8 @@
 			CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
 			if (url) {
 				fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
+				if(fullPath)
+					CFMakeCollectable(fullPath);		
 				CFRelease(url);
 			}
 		} else if ([location isKindOfClass:[NSString class]]) {
@@ -613,6 +615,8 @@
 													&appURL);
 			if (err == noErr) {
 				fullPath = [(NSString *)CFURLCopyPath(appURL) autorelease];
+				if(fullPath)
+					CFMakeCollectable(fullPath);		
 				CFRelease(appURL);
 			}
 		}
@@ -686,8 +690,8 @@
 	} else if ([inObject respondsToSelector:@selector(objectEnumerator)] ) {
 		NSEnumerator *mightBeIndicesEnum = [inObject objectEnumerator];
 		NSNumber *num;
-		unsigned numDefaultNotifications;
-		unsigned numAllNotifications = [allNotificationNames count];
+		NSUInteger numDefaultNotifications;
+		NSUInteger numAllNotifications = [allNotificationNames count];
 		if ([inObject respondsToSelector:@selector(count)])
 			numDefaultNotifications = [inObject count];
 		else
@@ -715,8 +719,8 @@
 			[mDefaultNotifications release];
 		}
 	} else if ([inObject isKindOfClass:[NSIndexSet class]]) {
-		unsigned notificationIndex;
-		unsigned numAllNotifications = [allNotificationNames count];
+		NSUInteger notificationIndex;
+		NSUInteger numAllNotifications = [allNotificationNames count];
 		NSIndexSet *iset = (NSIndexSet *)inObject;
 		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:[iset count]];
 		for (notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex]) {

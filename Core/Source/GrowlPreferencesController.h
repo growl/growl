@@ -41,8 +41,9 @@
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
-int       GrowlPreferencesController_integerForKey(CFTypeRef key);
+CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
+unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 #ifdef __OBJC__
 
@@ -58,8 +59,8 @@ Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
 - (void) setObject:(id)object forKey:(NSString *)key;
 - (BOOL) boolForKey:(NSString*) key;
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
-- (int) integerForKey:(NSString *)key;
-- (void) setInteger:(int)value forKey:(NSString *)key;
+- (CFIndex) integerForKey:(NSString *)key;
+- (void) setInteger:(CFIndex)value forKey:(NSString *)key;
 - (void) synchronize;
 
 - (BOOL) shouldStartGrowlAtLogin;
@@ -116,8 +117,8 @@ Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
 
-- (int) UDPPort;
-- (void) setUDPPort:(int)value;
+- (unsigned short) UDPPort;
+- (void) setUDPPort:(unsigned short)value;
 
 @end
 

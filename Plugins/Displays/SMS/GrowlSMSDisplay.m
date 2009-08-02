@@ -29,7 +29,7 @@
 		commandQueue = [[NSMutableArray alloc] init];
 		xmlHoldingStringValue = [[NSMutableString alloc] init];
 		waitingForResponse = NO;
-		creditBalance = 0.0f;
+		creditBalance = 0.0;
 	}
 	return self;
 }
@@ -53,10 +53,16 @@
 	NSString	*destinationNumberValue = nil;
 
 	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &destinationNumberValue);
+	if(destinationNumberValue)
+		CFMakeCollectable(destinationNumberValue);
 	[destinationNumberValue autorelease];
 	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &apiIDValue);
+	if(apiIDValue)
+		CFMakeCollectable(apiIDValue);
 	[apiIDValue autorelease];
 	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &accountNameValue);
+	if(accountNameValue)
+		CFMakeCollectable(accountNameValue);
 	[accountNameValue autorelease];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
@@ -73,8 +79,8 @@
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											&passwordLength, (void **)&password, NULL);
 
 	CFStringRef passwordString;

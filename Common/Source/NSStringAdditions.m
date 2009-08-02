@@ -23,7 +23,7 @@
 }
 
 - (unsigned) unsignedIntValue {
-	return [self unsignedLongValue];
+	return (unsigned int)[self unsignedLongValue];
 }
 
 - (BOOL) isSubpathOf:(NSString *)superpath {

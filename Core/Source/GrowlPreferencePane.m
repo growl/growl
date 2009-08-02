@@ -30,7 +30,7 @@
 #define PING_TIMEOUT		3
 
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
+#define DISPLAY_PREF_FRAME NSMakeRect(16.0, 58.0, 354.0, 289.0)
 
 @interface NSNetService(TigerCompatibility)
 
@@ -154,7 +154,7 @@
 		}
 	}
 	[self updateLogPopupMenu];
-	int typePref = [preferencesController integerForKey:GrowlLogTypeKey];
+	NSInteger typePref = [preferencesController integerForKey:GrowlLogTypeKey];
 	[logFileType selectCellAtRow:typePref column:0];
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
@@ -174,10 +174,10 @@
 	// Select the default style if possible. 
 	{
 		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
-		int count = [arrangedObjects count];
+		NSUInteger count = [arrangedObjects count];
 		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
-		int defaultStyleRow = NSNotFound;
-		for (int i = 0; i < count; i++) {
+		NSUInteger defaultStyleRow = NSNotFound;
+		for (NSUInteger i = 0; i < count; i++) {
 			if ([[[arrangedObjects objectAtIndex:i] valueForKey:@"CFBundleName"] isEqualToString:defaultDisplayPluginName]) {
 				defaultStyleRow = i;
 				break;
@@ -230,45 +230,11 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	[growlVersionProgress startAnimation:self];
-
-	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-
-	NSBundle *bundle = [self bundle];
-	NSDictionary *infoDict = [bundle infoDictionary];
-	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
-	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
-
-	CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
-		(CFStringRef)[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]], NULL);
 	/*
-	 NSLog([[[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
-	 NSLog(currVersionNumber);
-	 NSLog(latestVersionNumber);
-	 */
-
-	// do nothing--be quiet if there is no active connection or if the
-	// version number could not be downloaded
-	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
-		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
-						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
-						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
-						  /*otherButton*/ nil,
-						  /*docWindow*/ nil,
-						  /*modalDelegate*/ self,
-						  /*didEndSelector*/ NULL,
-						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
-						  /*contextInfo*/ (void *)downloadURL,
-						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
-	else
-		CFRelease(downloadURL);
-
-	[productVersionDict release];
+	 [growlVersionProgress startAnimation:self];
 
 	[growlVersionProgress stopAnimation:self];
+	*/
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -319,7 +285,7 @@
 	while ((ticket = [enumerator nextObject])) {
 		NSImage *icon = [[ticket icon] copy];
 		[icon setScalesWhenResized:YES];
-		[icon setSize:NSMakeSize(32.0f, 32.0f)];
+		[icon setSize:NSMakeSize(32.0, 32.0)];
 		CFArrayAppendValue(images, icon);
 		[icon release];
 	}
@@ -365,7 +331,7 @@
 
 - (void) reloadDisplayPluginView {
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
-	unsigned numPlugins = [plugins count];
+	NSUInteger numPlugins = [plugins count];
 	[currentPlugin release];
 	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
 		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
@@ -535,7 +501,7 @@
 	
 	NSMenu *menu = [button menu];
 	
-	int itemIndex = 0;
+	NSInteger itemIndex = 0;
 	
 	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != -1) {
 		[menu removeItemAtIndex:itemIndex];
@@ -660,10 +626,10 @@
 - (void) updateLogPopupMenu {
 	[customMenuButton removeAllItems];
 
-	int numHistItems = CFArrayGetCount(customHistArray);
+	CFIndex numHistItems = CFArrayGetCount(customHistArray);
 	for (int i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[(NSString *)CFArrayGetValueAtIndex(customHistArray, i) stringByAbbreviatingWithTildeInPath] pathComponents];
-		unsigned numPathComponents = [pathComponentry count];
+		NSUInteger numPathComponents = [pathComponentry count];
 		if (numPathComponents > 2U) {
 			unichar ellipsis = 0x2026;
 			NSMutableString *arg = [[NSMutableString alloc] initWithCharacters:&ellipsis length:1U];
@@ -726,10 +692,10 @@
 												 CFSTR("GrowlTicketDeleted"),
 												 userInfo, false);
 			CFRelease(userInfo);
-			unsigned idx = [tickets indexOfObject:ticket];
+			NSUInteger idx = [tickets indexOfObject:ticket];
 			CFArrayRemoveValueAtIndex(images, idx);
 
-			unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
+			NSUInteger oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 			///	Hmm... This doesn't work for some reason....
 			//	Even though the same method definitely (?) probably works in the appRegistered: method...
@@ -925,7 +891,7 @@
 }
 #pragma mark TableView data source methods
 
-- (int) numberOfRowsInTableView:(NSTableView*)tableView {
+- (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView {
 	if(tableView == networkTableView) {
 		return [[self services] count];
 	}
@@ -936,7 +902,7 @@
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView)
 	if(aTableColumn == servicePasswordColumn) {
 		[[services objectAtIndex:rowIndex] setPassword:anObject];
@@ -944,12 +910,12 @@
 
 }
 
-- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView)
 	// we check to make sure we have the image + text column and then set its image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
+		NSUInteger idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,idx)];
 	} else if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
@@ -1037,7 +1003,7 @@
 	}
 }
 
-- (unsigned) countOfServices {
+- (NSUInteger) countOfServices {
 	return [services count];
 }
 

@@ -14,7 +14,7 @@
  */
 CFMutableStringRef escapeForJavaScript(CFMutableStringRef theString) {
 	CFRange range = CFRangeMake(0, CFStringGetLength(theString));
-	unsigned delta;
+	CFIndex delta;
 	//We need to escape a few things to get our string to the javascript without trouble
 	delta = CFStringFindAndReplace(theString, CFSTR("\\"), CFSTR("\\\\"), range, 0);
 	range.length += delta;
@@ -34,7 +34,7 @@ CFMutableStringRef escapeForJavaScript(CFMutableStringRef theString) {
 CFStringRef createStringByEscapingForHTML(CFStringRef theString) {
 	Boolean freeWhenDone;
 	unsigned j = 0U;
-	unsigned count = CFStringGetLength(theString);
+	CFIndex count = CFStringGetLength(theString);
 	UniChar c;
 	UniChar *inbuffer = (UniChar *)CFStringGetCharactersPtr(theString);
 	// worst case is a string consisting only of newlines or apostrophes
@@ -52,7 +52,7 @@ CFStringRef createStringByEscapingForHTML(CFStringRef theString) {
 		CFStringGetCharacters(theString, range, inbuffer);
 	}
 
-	for (unsigned i=0U; i < count; ++i) {
+	for (CFIndex i=0; i < count; ++i) {
 		switch ((c=inbuffer[i])) {
 			default:
 				outbuffer[j++] = c;

@@ -25,6 +25,9 @@
 - (NSString *) getDestAddress {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &value);
+	if(value) {
+		CFMakeCollectable(value);
+	}
 	return [value autorelease];
 }
 

@@ -26,9 +26,9 @@
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
-		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
-		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[[[self window] backgroundColor] blendedColorWithFraction:0.5f
+		[textShadow setShadowOffset:NSMakeSize(0.0, -2.0)];
+		[textShadow setShadowBlurRadius:3.0];
+		[textShadow setShadowColor:[[[self window] backgroundColor] blendedColorWithFraction:0.5
 																					 ofColor:[NSColor blackColor]]];
 
 		int size = GrowlBrushedSizePrefDefault;
@@ -78,19 +78,19 @@
 		BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 		if (floatIcon) {
-			float sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5f);
+			CGFloat sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5);
 
-			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0f,
-									  bounds.origin.y + 1.0f,
-									  bounds.size.width - sizeReduction - 2.0f,
-									  bounds.size.height - 2.0f);
+			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
+									  bounds.origin.y + 1.0,
+									  bounds.size.width - sizeReduction - 2.0,
+									  bounds.size.height - 2.0);
 		} else {
-			shadedBounds = CGRectInset(bounds, 1.0f, 1.0f);
+			shadedBounds = CGRectInset(bounds, 1.0, 1.0);
 		}
 
 		// set up path for rounded corners
 		addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
-		CGContextSetLineWidth(context, 2.0f);
+		CGContextSetLineWidth(context, 2.0);
 
 		// draw background
 		NSWindow *window = [self window];
@@ -116,7 +116,7 @@
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0f];
+					  fraction:1.0];
 
 		drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
 
@@ -156,7 +156,7 @@
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
 		[titleContainer release];
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
-		[titleContainer setLineFragmentPadding:0.0f];
+		[titleContainer setLineFragmentPadding:0.0];
 	}
 
 	// construct attributes for the title
@@ -204,7 +204,7 @@
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
-		[textContainer setLineFragmentPadding:0.0f];
+		[textContainer setLineFragmentPadding:0.0];
 	}
 
 	// construct attributes for the description text
@@ -249,17 +249,20 @@
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
+			textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
 	[textColor retain];
 	[data release];
+	data = nil;
 }
 
 - (void) sizeToFit {
-	float height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
+	CGFloat height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
 		height += GrowlBrushedTitleTextPadding;
 	if (height < GrowlBrushedMinTextHeight)
@@ -277,16 +280,16 @@
 	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
 }
 
-- (float) titleHeight {
-	return haveTitle ? titleHeight : 0.0f;
+- (CGFloat) titleHeight {
+	return haveTitle ? titleHeight : 0.0;
 }
 
-- (float) descriptionHeight {
-	return haveText ? textHeight : 0.0f;
+- (CGFloat) descriptionHeight {
+	return haveText ? textHeight : 0.0;
 }
 
-- (int) descriptionRowCount {
-	int rowCount = textHeight / lineHeight;
+- (NSInteger) descriptionRowCount {
+	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlBrushedLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 	if (limitPref)

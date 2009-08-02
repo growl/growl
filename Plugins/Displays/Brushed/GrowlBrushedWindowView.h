@@ -13,10 +13,10 @@
 	BOOL				haveTitle;
 	BOOL				haveText;
 	NSImage				*icon;
-	float				iconSize;
-	float				textHeight;
-	float				titleHeight;
-	float				lineHeight;
+	CGFloat				iconSize;
+	CGFloat				textHeight;
+	CGFloat				titleHeight;
+	CGFloat				lineHeight;
 
 	NSFont				*textFont;
 	NSShadow			*textShadow;
@@ -40,7 +40,7 @@
 - (void) setPriority:(int)priority;
 
 - (void) sizeToFit;
-- (float) titleHeight;
-- (float) descriptionHeight;
-- (int) descriptionRowCount;
+- (CGFloat) titleHeight;
+- (CGFloat) descriptionHeight;
+- (NSInteger) descriptionRowCount;
 @end

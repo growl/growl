@@ -23,6 +23,7 @@
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 	if (!pluginBundle) {
 		NSLog(@"%@ Failed to load: %@",NSStringFromClass([self class]),path);
+		[pluginBundle release];
 		return NO;
 	}
 
@@ -31,6 +32,7 @@
 		NSLog(@"%@ Failed to load: %@ - the bundle did not contain a valid WebKit plugin",
 			  NSStringFromClass([self class]),
 			  path);
+		[pluginBundle release];
 		return NO;
 	}
 

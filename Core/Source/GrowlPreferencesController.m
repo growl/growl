@@ -27,7 +27,7 @@ CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 	return [[GrowlPreferencesController sharedController] objectForKey:(id)key];
 }
 
-int GrowlPreferencesController_integerForKey(CFTypeRef key) {
+CFIndex GrowlPreferencesController_integerForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
 	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
 }
@@ -35,6 +35,17 @@ int GrowlPreferencesController_integerForKey(CFTypeRef key) {
 Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
 	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
+}
+
+unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
+{
+	CFIndex theIndex = GrowlPreferencesController_integerForKey(key);
+	
+	if (theIndex > USHRT_MAX)
+		return USHRT_MAX;
+	else if (theIndex < 0)
+		return 0;
+	return (unsigned short)index;
 }
 
 @implementation GrowlPreferencesController
@@ -79,6 +90,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (id) objectForKey:(NSString *)key {
 	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -112,14 +125,29 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	[object release];
 }
 
-- (int) integerForKey:(NSString *)key {
+- (CFIndex) integerForKey:(NSString *)key {
 	return GrowlPreferencesController_integerForKey((CFTypeRef)key);
 }
 
-- (void) setInteger:(int)value forKey:(NSString *)key {
+- (void) setInteger:(CFIndex)value forKey:(NSString *)key {
+#ifdef __LP64__
+	NSNumber *object = [[NSNumber alloc] initWithInteger:value];
+#else
 	NSNumber *object = [[NSNumber alloc] initWithInt:value];
+#endif
 	[self setObject:object forKey:key];
 	[object release];
+}
+
+- (unsigned short)unsignedShortForKey:(NSString *)key
+{
+	return GrowlPreferencesController_unsignedShortForKey((CFTypeRef)key);
+}
+
+
+- (void)setUnsignedShort:(unsigned short)theShort forKey:(NSString *)key
+{
+	[self setObject:[NSNumber numberWithUnsignedShort:theShort] forKey:key];
 }
 
 - (void) synchronize {
@@ -165,7 +193,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	OSStatus status;
 	CFArrayRef loginItems = NULL;
 	NSURL *url = [NSURL fileURLWithPath:path];
-	int existingLoginItemIndex = -1;
+	NSInteger existingLoginItemIndex = -1;
 
 	status = LIAECopyLoginItems(&loginItems);
 
@@ -233,10 +261,12 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
-		isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
-		[infoDict release];
-
+		if(infoDict) {
+			NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
+			isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
+			CFMakeCollectable(infoDict);
+			[infoDict release];
+		}
 		if (isRunning)
 			break;
 	}
@@ -276,7 +306,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 #pragma mark UI
 
-- (int)selectedPosition {
+- (CFIndex)selectedPosition {
 	return [self integerForKey:GROWL_POSITION_PREFERENCE_KEY];
 }
 
@@ -309,7 +339,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (NSNumber*) idleThreshold {
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:[self integerForKey:GrowlStickyIdleThresholdKey]];
+#else
 	return [NSNumber numberWithInt:[self integerForKey:GrowlStickyIdleThresholdKey]];
+#endif
 }
 
 - (void) setIdleThreshold:(NSNumber*)value {
@@ -364,15 +398,18 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											&passwordLength, (void **)&password, NULL);
 
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		[passwordString autorelease];
-		SecKeychainItemFreeContent(NULL, password);
+		if(passwordString) {
+			CFMakeCollectable(passwordString);
+			[passwordString autorelease];
+			SecKeychainItemFreeContent(NULL, password);
+		}
 	} else {
 		if (status != errSecItemNotFound)
 			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
@@ -384,31 +421,31 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) setRemotePassword:(NSString *)value {
 	const char *password = value ? [value UTF8String] : "";
-	unsigned length = strlen(password);
+	size_t length = strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											NULL, NULL, &itemRef);
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword(NULL,
-											   strlen(keychainServiceName), keychainServiceName,
-											   strlen(keychainAccountName), keychainAccountName,
-											   length, password, NULL);
+											   (UInt32)strlen(keychainServiceName), keychainServiceName,
+											   (UInt32)strlen(keychainAccountName), keychainAccountName,
+											   (UInt32)length, password, NULL);
 		if (status)
 			NSLog(@"Failed to add password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
+			{ kSecAccountItemAttr, (UInt32)strlen(keychainAccountName), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, (UInt32)strlen(keychainServiceName), (char *)keychainServiceName }
 		};
-		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
 														&attributes,	// no change to attributes
-														length,			// length of password
+														(UInt32)length,			// length of password
 														password		// pointer to password data
 														);
 		if (itemRef)
@@ -418,11 +455,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	}
 }
 
-- (int) UDPPort {
-	return [self integerForKey:GrowlUDPPortKey];
+- (unsigned short) UDPPort {
+	return [self unsignedShortForKey:GrowlUDPPortKey];
 }
-- (void) setUDPPort:(int)value {
-	[self setInteger:value forKey:GrowlUDPPortKey];
+- (void) setUDPPort:(unsigned short)value {
+	[self setUnsignedShort:value forKey:GrowlUDPPortKey];
 }
 
 - (BOOL) isForwardingEnabled {

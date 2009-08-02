@@ -11,7 +11,7 @@
 #import "GrowlWindowTransition.h"
 
 @interface GrowlShrinkingWindowTransition : GrowlWindowTransition {
-	double scaleFactor;
+	CGFloat scaleFactor;
 }
 
 @end

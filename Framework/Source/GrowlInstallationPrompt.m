@@ -180,7 +180,7 @@ static BOOL checkOSXVersion(void) {
 
 	[[textView_growlInfo textStorage] setAttributedString:growlInfo];
 	NSRect	frame = [theWindow frame];
-	int		heightChange;
+	CGFloat	heightChange;
 
 	//Resize the window frame to fit the description
 	[textView_growlInfo sizeToFit];
@@ -193,7 +193,7 @@ static BOOL checkOSXVersion(void) {
 
 	//The install button should maintain its distance from the right side of the window
 	NSRect	newInstallButtonFrame, oldInstallButtonFrame;
-	int installButtonOriginLeftShift;
+	CGFloat installButtonOriginLeftShift;
 	oldInstallButtonFrame = [button_install frame];
 	[button_install setTitle:(updateVersion ? UPDATE_BUTTON_TITLE : INSTALL_BUTTON_TITLE)];
 	[button_install sizeToFit];
@@ -225,7 +225,7 @@ static BOOL checkOSXVersion(void) {
 
 	//put the spinner to the left of the Cancel button
 	NSRect spinnerFrame = [spinner frame];
-	spinnerFrame.origin.x = newCancelButtonFrame.origin.x - (spinnerFrame.size.width + 8.0f);
+	spinnerFrame.origin.x = newCancelButtonFrame.origin.x - (spinnerFrame.size.width + 8.0);
 	[spinner setFrame:spinnerFrame];
 
 	[spinner stopAnimation:nil];
@@ -531,8 +531,8 @@ static BOOL checkOSXVersion(void) {
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		if ([[dict objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:identifier]) {
-			psn.highLongOfPSN = [[dict objectForKey:@"NSApplicationProcessSerialNumberHigh"] longValue];
-			psn.lowLongOfPSN  = [[dict objectForKey:@"NSApplicationProcessSerialNumberLow"] longValue];
+			psn.highLongOfPSN = [[dict objectForKey:@"NSApplicationProcessSerialNumberHigh"] unsignedIntValue];	// no, really these numbers are UInt32s now, not longs
+			psn.lowLongOfPSN  = [[dict objectForKey:@"NSApplicationProcessSerialNumberLow"] unsignedIntValue];
 			break;
 		}
 	}

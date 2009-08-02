@@ -19,26 +19,26 @@
 #import "GrowlBubblesPrefsController.h"
 
 /* Hardcoded geometry values */
-#define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
-#define BORDER_WIDTH_PX			  4.0f
-#define BORDER_RADIUS_PX		  9.0f
-#define PANEL_VSPACE_PX			 10.0f /*!< Vertical padding from bounds to content area */
-#define PANEL_HSPACE_PX			 15.0f /*!< Horizontal padding from bounds to content area */
-#define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
-#define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
-#define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
-#define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
-#define TITLE_FONT_SIZE_PTS		 13.0f
-#define DESCR_FONT_SIZE_PTS		 11.0f
+#define PANEL_WIDTH_PX			270.0 /*!< Total width of the panel, including border */
+#define BORDER_WIDTH_PX			  4.0
+#define BORDER_RADIUS_PX		  9.0
+#define PANEL_VSPACE_PX			 10.0 /*!< Vertical padding from bounds to content area */
+#define PANEL_HSPACE_PX			 15.0 /*!< Horizontal padding from bounds to content area */
+#define ICON_SIZE_PX			 32.0 /*!< The width and height of the (square) icon */
+#define ICON_SIZE_LARGE_PX		 48.0 /*!< The width and height of the (square) icon */
+#define ICON_HSPACE_PX			  8.0 /*!< Horizontal space between icon and title/description */
+#define TITLE_VSPACE_PX			  5.0 /*!< Vertical space between title and description */
+#define TITLE_FONT_SIZE_PTS		 13.0
+#define DESCR_FONT_SIZE_PTS		 11.0
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 #define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize)
 #define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
 
-static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData ) {
-	float *colors = (float *) info;
+static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGFloat *outData ) {
+	CGFloat *colors = (CGFloat *) info;
 
-	register float a = inData[0];
-	register float a_coeff = 1.0f - a;
+	register CGFloat a = inData[0];
+	register CGFloat a_coeff = 1.0 - a;
 
 	// SIMD could come in handy here
 	// outData[0..3] = a_coeff * colors[4..7] + a * colors[0..3]
@@ -56,8 +56,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
-		borderColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.5f] retain];
-		highlightColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.75f] retain];
+		borderColor = [[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] retain];
+		highlightColor = [[NSColor colorWithCalibratedWhite:0.0 alpha:0.75] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
@@ -90,8 +90,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[super dealloc];
 }
 
-- (float) titleHeight {
-	return haveTitle ? titleHeight : 0.0f;
+- (CGFloat) titleHeight {
+	return haveTitle ? titleHeight : 0.0;
 }
 
 
@@ -101,7 +101,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
+		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);
 
 		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
@@ -116,7 +116,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		// Create a callback function to generate the
 		// fill clipped graphics context with our gradient
 		struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
-		float colors[8];
+		CGFloat colors[8];
 
 		[lightColor getRed:&colors[0]
 					 green:&colors[1]
@@ -169,7 +169,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0f];
+					  fraction:1.0];
 
 		drawRect.origin.x += iconSize + ICON_HSPACE_PX;
 
@@ -224,19 +224,21 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	NSData *data = nil;
 
-	float backgroundAlpha = 95.0f;
+	CGFloat backgroundAlpha = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
-	backgroundAlpha *= 0.01f;
-
+	backgroundAlpha *= 0.01;
+	
 	Class NSDataClass = [NSData class];
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		bgColor = [NSColor colorWithCalibratedRed:0.69412f
-											green:0.83147f
-											 blue:0.96078f
+		bgColor = [NSColor colorWithCalibratedRed:0.69412
+											green:0.83147
+											 blue:0.96078
 											alpha:backgroundAlpha];
 	}
 	[bgColor retain];
@@ -244,6 +246,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	data = nil;
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -254,13 +258,15 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	data = nil;
 	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		lightColor = [NSColor colorWithCalibratedRed:0.93725f
-											   green:0.96863f
-												blue:0.99216f
+		lightColor = [NSColor colorWithCalibratedRed:0.93725
+											   green:0.96863
+												blue:0.99216
 											   alpha:backgroundAlpha];
 	}
 	[lightColor retain];
@@ -290,7 +296,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
 		[titleContainer release];
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
-		[titleContainer setLineFragmentPadding:0.0f];
+		[titleContainer setLineFragmentPadding:0.0];
 	}
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -335,7 +341,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
-		[textContainer setLineFragmentPadding:0.0f];
+		[textContainer setLineFragmentPadding:0.0];
 	}
 
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -355,7 +361,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) sizeToFit {
-	float height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
+	CGFloat height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
 		height += TITLE_VSPACE_PX;
 	if (height < MIN_TEXT_HEIGHT)
@@ -378,12 +384,12 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
     return YES;
 }
 
-- (float) descriptionHeight {
-	return haveText ? textHeight : 0.0f;
+- (CGFloat) descriptionHeight {
+	return haveText ? textHeight : 0.0;
 }
 
-- (int) descriptionRowCount {
-	int rowCount = textHeight / lineHeight;
+- (NSInteger) descriptionRowCount {
+	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref)

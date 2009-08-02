@@ -11,23 +11,23 @@
 
 @implementation NSImage (GrowlImageAdditions)
 
-- (void) drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)f {
+- (void) drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(CGFloat)f {
 	if (!NSEqualSizes([self size], targetRect.size))
 		[self adjustSizeToDrawAtSize:targetRect.size];
 	NSRect imageRect;
-	imageRect.origin.x = 0.0f;
-	imageRect.origin.y = 0.0f;
+	imageRect.origin.x = 0.0;
+	imageRect.origin.y = 0.0;
 	imageRect.size = [self size];
 	if (imageRect.size.width > targetRect.size.width || imageRect.size.height > targetRect.size.height) {
 		// make sure the icon isn't too large. If it is, scale it down
 		if (imageRect.size.width > imageRect.size.height) {
-			float oldHeight = targetRect.size.height;
+			CGFloat oldHeight = targetRect.size.height;
 			targetRect.size.height = oldHeight / imageRect.size.width * imageRect.size.height;
-			targetRect.origin.y = floorf(targetRect.origin.y - (targetRect.size.height - oldHeight) * 0.5f);
+			targetRect.origin.y = GrowlCGFloatFloor(targetRect.origin.y - (targetRect.size.height - oldHeight) * 0.5);
 		} else if (imageRect.size.width < imageRect.size.height) {
-			float oldWidth = targetRect.size.width;
+			CGFloat oldWidth = targetRect.size.width;
 			targetRect.size.width = oldWidth / imageRect.size.height * imageRect.size.width;
-			targetRect.origin.x = floorf(targetRect.origin.x - (targetRect.size.width - oldWidth) * 0.5f);
+			targetRect.origin.x = GrowlCGFloatFloor(targetRect.origin.x - (targetRect.size.width - oldWidth) * 0.5);
 		}
 
 		[self setScalesWhenResized:YES];
@@ -35,9 +35,9 @@
 	} else {
 		// center image if it is too small
 		if (imageRect.size.width < targetRect.size.width)
-			targetRect.origin.x += ceilf((targetRect.size.width - imageRect.size.width) * 0.5f);
+			targetRect.origin.x += GrowlCGFloatCeiling((targetRect.size.width - imageRect.size.width) * 0.5);
 	 	if (imageRect.size.height < targetRect.size.height)
-			targetRect.origin.y += ceilf((targetRect.size.height - imageRect.size.height) * 0.5f);
+			targetRect.origin.y += GrowlCGFloatCeiling((targetRect.size.height - imageRect.size.height) * 0.5);
 		targetRect.size = imageRect.size;
 	}
 
@@ -55,14 +55,14 @@
 	NSImageRep *bestRep = [self representationOfSize:theSize];
 	if (!bestRep) {
 		BOOL isFirst = YES;
-		float repDistance = 0.0f;
+		CGFloat repDistance = 0.0;
 		NSImageRep *thisRep;
 		NSEnumerator *enumerator = [[self representations] objectEnumerator];
 		while ((thisRep = [enumerator nextObject])) {
-			float thisDistance = theSize.width - [thisRep size].width;
-			if (repDistance < 0.0f && thisDistance > 0.0f)
+			CGFloat thisDistance = theSize.width - [thisRep size].width;
+			if (repDistance < 0.0 && thisDistance > 0.0)
 				continue;
-			if (isFirst || fabsf(thisDistance) < fabsf(repDistance) || (thisDistance < 0.0f && repDistance > 0.0f)) {
+			if (isFirst || GrowlCGFloatAbsoluteValue(thisDistance) < GrowlCGFloatAbsoluteValue(repDistance) || (thisDistance < 0.0 && repDistance > 0.0)) {
 				isFirst = NO;
 				repDistance = thisDistance;
 				bestRep = thisRep;

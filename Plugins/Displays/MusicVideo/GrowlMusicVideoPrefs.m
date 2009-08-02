@@ -29,6 +29,9 @@
 	NSData *data = nil;
 	NSColor *color;
 	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
+	
 	if (data && [data isKindOfClass:[NSData class]]) {
 		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -41,12 +44,12 @@
 
 #pragma mark Accessors
 
-- (float) duration {
-	float value = GrowlMusicVideoDurationPrefDefault;
+- (CGFloat) duration {
+	CGFloat value = GrowlMusicVideoDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
-- (void) setDuration:(float)value {
+- (void) setDuration:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -80,12 +83,12 @@
 	}
 }
 
-- (float) opacity {
-	float value = MUSICVIDEO_DEFAULT_OPACITY;
+- (CGFloat) opacity {
+	CGFloat value = MUSICVIDEO_DEFAULT_OPACITY;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
-- (void) setOpacity:(float)value {
+- (void) setOpacity:(CGFloat)value {
 	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
@@ -102,14 +105,18 @@
 
 #pragma mark Combo box support
 
-- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 #pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
-- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
 #pragma unused(aComboBox)
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:idx];
+#else
 	return [NSNumber numberWithInt:idx];
+#endif
 }
 
 - (int) screen {

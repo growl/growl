@@ -21,7 +21,7 @@
 @implementation GrowlBezelWindowController
 
 #define MIN_DISPLAY_TIME 3.0
-#define GrowlBezelPadding 10.0f
+#define GrowlBezelPadding 10.0
 
 - (id) init {
 	int sizePref = 0;
@@ -38,7 +38,7 @@
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -48,15 +48,15 @@
 	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, GrowlBezelPrefDomain, &flipEnabled);
 
 	NSRect sizeRect;
-	sizeRect.origin.x = 0.0f;
-	sizeRect.origin.y = 0.0f;
+	sizeRect.origin.x = 0.0;
+	sizeRect.origin.y = 0.0;
 
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		sizeRect.size.width = 211.0f;
-		sizeRect.size.height = 206.0f;
+		sizeRect.size.width = 211.0;
+		sizeRect.size.height = 206.0;
 	} else {
-		sizeRect.size.width = 160.0f;
-		sizeRect.size.height = 160.0f;
+		sizeRect.size.width = 160.0;
+		sizeRect.size.height = 160.0;
 	}
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
 												styleMask:NSBorderlessWindowMask
@@ -74,7 +74,7 @@
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setDelegate:self];
 
 	GrowlBezelWindowView *view = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
@@ -94,7 +94,7 @@
 		[self setStartPercentage:0 endPercentage:100 forTransition:ripple];
 		[ripple setAutoReverses:NO];
 		[ripple release];
-		[panel setAlphaValue:1.0f];
+		[panel setAlphaValue:1.0];
 		*/
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -155,8 +155,8 @@
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:
-			result.x = rect.origin.x + ceilf((NSWidth(rect) - NSWidth(viewFrame)) * 0.5f);
-			result.y = rect.origin.y + 140.0f;
+			result.x = rect.origin.x + GrowlCGFloatCeiling((NSWidth(rect) - NSWidth(viewFrame)) * 0.5);
+			result.y = rect.origin.y + 140.0;
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
 			result.x = NSMaxX(rect) - NSWidth(viewFrame) - GrowlBezelPadding;
@@ -186,7 +186,7 @@
 	return GrowlNoExpansionDirection;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBezelPadding;
 }
 

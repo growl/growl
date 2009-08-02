@@ -36,6 +36,8 @@
 - (NSString *) getAccountName {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -50,6 +52,8 @@
 - (NSString *) getAccountAPIID {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -64,6 +68,8 @@
 - (NSString *) getDestinationNumber {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &value);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -80,13 +86,15 @@
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword( NULL,
-											 strlen(keychainServiceName), keychainServiceName,
-											 strlen(keychainAccountName), keychainAccountName,
+											 (UInt32)strlen(keychainServiceName), keychainServiceName,
+											 (UInt32)strlen(keychainAccountName), keychainAccountName,
 											 &passwordLength, (void **)&password, NULL );
 
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
+		if(passwordString)
+			CFMakeCollectable(passwordString);		
 		[passwordString autorelease];
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
@@ -100,28 +108,28 @@
 
 - (void) setAccountPassword:(NSString *)value {
 	const char *password = value ? [value UTF8String] : "";
-	unsigned length = strlen(password);
+	UInt32 length = (UInt32)strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword( NULL,
-											 strlen(keychainServiceName), keychainServiceName,
-											 strlen(keychainAccountName), keychainAccountName,
+											 (UInt32)strlen(keychainServiceName), keychainServiceName,
+											 (UInt32)strlen(keychainAccountName), keychainAccountName,
 											 NULL, NULL, &itemRef );
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword( NULL,
-												strlen(keychainServiceName), keychainServiceName,
-												strlen(keychainAccountName), keychainAccountName,
+												(UInt32)strlen(keychainServiceName), keychainServiceName,
+												(UInt32)strlen(keychainAccountName), keychainAccountName,
 												length, password, NULL );
 		if (status)
 			NSLog(@"Failed to add SMS Account password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
+			{ kSecAccountItemAttr, (UInt32)strlen(keychainAccountName), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, (UInt32)strlen(keychainServiceName), (char *)keychainServiceName }
 		};
-		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
 														 &attributes,	// no change to attributes
 														 length,		// length of password

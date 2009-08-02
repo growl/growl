@@ -11,10 +11,10 @@
 @class GrowlMusicVideoWindowView;
 
 @interface GrowlMusicVideoWindowController : GrowlDisplayWindowController {
-	float						frameHeight;
-	float						frameY;
-	int							priority;
-	bool						doFadeIn;
+	CGFloat						frameHeight;
+	CGFloat						frameY;
+	NSInteger					priority;
+	BOOL						doFadeIn;
 }
 
 @end

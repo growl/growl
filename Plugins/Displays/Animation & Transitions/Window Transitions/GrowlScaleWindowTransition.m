@@ -7,14 +7,14 @@
 //
 
 #import "GrowlScaleWindowTransition.h"
-
+#import "GrowlDefinesInternal.h"	// for CGFloat
 #include <float.h>
 
 @implementation GrowlScaleWindowTransition
 
 - (id) initWithDuration:(NSTimeInterval)duration animationCurve:(NSAnimationCurve)curve {
 	if((self = [self initWithDuration:duration animationCurve:curve])) {
-		[self setFrameRate:(1.0 / duration)];
+		[self setFrameRate:(1.0f / (float)duration)];
 	}
 	return self;
 }
@@ -28,10 +28,10 @@
 	if (aWindow) {
 		NSRect newFrame = [aWindow frame];
 		if (inProgress < FLT_EPSILON) 
-			[self setFrameRate:(1.0 / [aWindow animationResizeTime:newFrame])];
+			[self setFrameRate:(1.0f / (float)[aWindow animationResizeTime:newFrame])];
 
-		float deltaX = inProgress * (endingPoint.x - startingPoint.x);
-		float deltaY = inProgress * (endingPoint.y - startingPoint.y);
+		CGFloat deltaX = inProgress * (endingPoint.x - startingPoint.x);
+		CGFloat deltaY = inProgress * (endingPoint.y - startingPoint.y);
 
 		switch (direction) {
 			default:

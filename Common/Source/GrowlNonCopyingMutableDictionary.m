@@ -8,6 +8,7 @@
 //	This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlNonCopyingMutableDictionary.h"
+#import "GrowlDefinesInternal.h"	// for NSUInteger
 
 //the enumerator class can be moved to its own pair of files if an immutable non-copying dictionary class is created.
 @interface GrowlNonCopyingDictionaryEnumerator: NSEnumerator
@@ -43,7 +44,7 @@
 
 #pragma mark -
 
-- (id) initWithCapacity:(unsigned)capacity {
+- (id) initWithCapacity:(NSUInteger)capacity {
 	if ((self = [self superInit])) {
 		backing = NSCreateMapTableWithZone(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, capacity, [self zone]);
 	}
@@ -165,7 +166,7 @@
 
 #pragma mark -
 
-- (unsigned) count {
+- (NSUInteger) count {
 	return NSCountMapTable(backing);
 }
 

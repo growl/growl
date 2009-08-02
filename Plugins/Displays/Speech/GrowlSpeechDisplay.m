@@ -30,11 +30,13 @@
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	if (voice)
+	if (voice) {
+		CFMakeCollectable(voice);
 		[voice autorelease];
-	else
+	} else {
 		voice = [NSSpeechSynthesizer defaultVoice];
-
+	}
+	
 	NSString *desc = [notification notificationDescription];
 
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];

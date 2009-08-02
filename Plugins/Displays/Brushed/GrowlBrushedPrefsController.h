@@ -11,8 +11,8 @@
 @interface GrowlBrushedPrefsController : NSPreferencePane {
 }
 
-- (float) duration;
-- (void) setDuration:(float)value;
+- (CGFloat) duration;
+- (void) setDuration:(CGFloat)value;
 - (BOOL) isFloatingIcon;
 - (void) setFloatingIcon:(BOOL)value;
 - (BOOL) isLimit;
