@@ -90,6 +90,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (id) objectForKey:(NSString *)key {
 	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -259,10 +261,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
-		isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
-		[infoDict release];
-
+		if(infoDict) {
+			NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
+			isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
+			CFMakeCollectable(infoDict);
+			[infoDict release];
+		}
 		if (isRunning)
 			break;
 	}
@@ -401,8 +405,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		[passwordString autorelease];
-		SecKeychainItemFreeContent(NULL, password);
+		if(passwordString) {
+			CFMakeCollectable(passwordString);
+			[passwordString autorelease];
+			SecKeychainItemFreeContent(NULL, password);
+		}
 	} else {
 		if (status != errSecItemNotFound)
 			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);

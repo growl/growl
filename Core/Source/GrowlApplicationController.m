@@ -95,7 +95,7 @@ static BOOL isAnyDisplayCaptured(void) {
 //static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 #warning Having to update this struct manually is ugly. Use the info.plist.
 #warning And once code is in to automagically update this from Info.plist, the documentation in GrowlVersionUtilities.h should also be updated.
-static struct Version version = { 1U, 1U, 6U, releaseType_beta, 3U, };
+static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 //XXX - update these constants whenever the version changes
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
@@ -539,7 +539,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[filename getCharacters:filenameBuf];
 				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
 				if (err == noErr) {
-					foundIt = YES;
 					break;
 				}
 			}

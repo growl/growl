@@ -230,45 +230,11 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	[growlVersionProgress startAnimation:self];
-
-	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-
-	NSBundle *bundle = [self bundle];
-	NSDictionary *infoDict = [bundle infoDictionary];
-	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
-	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
-
-	CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
-		(CFStringRef)[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]], NULL);
 	/*
-	 NSLog([[[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
-	 NSLog(currVersionNumber);
-	 NSLog(latestVersionNumber);
-	 */
-
-	// do nothing--be quiet if there is no active connection or if the
-	// version number could not be downloaded
-	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
-		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
-						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
-						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
-						  /*otherButton*/ nil,
-						  /*docWindow*/ nil,
-						  /*modalDelegate*/ self,
-						  /*didEndSelector*/ NULL,
-						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
-						  /*contextInfo*/ (void *)downloadURL,
-						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
-	else
-		CFRelease(downloadURL);
-
-	[productVersionDict release];
+	 [growlVersionProgress startAnimation:self];
 
 	[growlVersionProgress stopAnimation:self];
+	*/
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {

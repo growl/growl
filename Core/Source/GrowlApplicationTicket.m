@@ -592,6 +592,8 @@
 			CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
 			if (url) {
 				fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
+				if(fullPath)
+					CFMakeCollectable(fullPath);		
 				CFRelease(url);
 			}
 		} else if ([location isKindOfClass:[NSString class]]) {
@@ -613,6 +615,8 @@
 													&appURL);
 			if (err == noErr) {
 				fullPath = [(NSString *)CFURLCopyPath(appURL) autorelease];
+				if(fullPath)
+					CFMakeCollectable(fullPath);		
 				CFRelease(appURL);
 			}
 		}
