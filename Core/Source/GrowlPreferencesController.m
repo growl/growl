@@ -16,7 +16,6 @@
 #import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
-#include "LoginItemsAE.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
