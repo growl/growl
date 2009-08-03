@@ -34,9 +34,6 @@
 	NSImage						*growlIcon;
 	NSData						*growlIconData;
 
-	NSURL						*versionCheckURL;
-	CFRunLoopTimerRef			updateTimer;
-
 	NSThread					*mainThread;
 
 	SystemSoundCompletionUPP	soundCompletionCallback;
@@ -53,7 +50,6 @@
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
-- (NSURL *) versionCheckURL;
 
 - (void) preferencesChanged:(NSNotification *) note;
 
