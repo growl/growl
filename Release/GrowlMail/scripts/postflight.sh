@@ -12,7 +12,17 @@ else
     domain=com.apple.mail
 fi
 
+macosx_minor_version=$(sw_vers | /usr/bin/sed -Ene 's/.*[[:space:]]10\.([0-9][0-9]*)\.*[0-9]*/\1/p;')
+if [[ "$macosx_minor_version" == "" ]]; then
+	echo 'Unrecognized Mac OS X version!' > /dev/stderr
+	sw_vers > /dev/stderr
+elif [[ "$macosx_minor_version" -eq 5 ]]; then
+	bundle_compatibility_version=3
+else
+	bundle_compatibility_version=4
+fi
+
 defaults write "$domain" EnableBundles -bool YES
 
 # Mac OS X 10.5's Mail.app requires bundle version 3 or greater
-defaults write "$domain" BundleCompatibilityVersion -int 3
+defaults write "$domain" BundleCompatibilityVersion -int "$bundle_compatibility_version"
