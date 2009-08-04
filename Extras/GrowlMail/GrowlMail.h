@@ -30,8 +30,12 @@
 #import "MailHeaders.h"
 
 @class GrowlMailNotifier;
+@interface GMMVMailBundle : NSObject
+{
+}
+@end;
 
-@interface GrowlMail : MVMailBundle
+@interface GrowlMail : GMMVMailBundle
 {
 	GrowlMailNotifier *notifier;
 }

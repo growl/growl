@@ -37,6 +37,16 @@
 
 #import "GrowlMailNotifier.h"
 
+@implementation GMMVMailBundle
++(void)initialize
+{
+	Class mvMailBundleClass = NSClassFromString(@"MVMailBundle");
+	if(mvMailBundleClass)
+		class_setSuperclass([self class], mvMailBundleClass);
+}
+
+@end
+
 NSBundle *GMGetGrowlMailBundle(void) {
 	return [NSBundle bundleForClass:[GrowlMail class]];
 }
@@ -48,6 +58,7 @@ NSBundle *GMGetGrowlMailBundle(void) {
 + (void) initialize {
 	[super initialize];
 
+	NSLog(@"Class: %@", NSStringFromClass(NSClassFromString(@"Message")));
 	// this image is leaked
 	NSImage *image = [[NSImage alloc] initByReferencingFile:[GMGetGrowlMailBundle() pathForImageResource:@"GrowlMail"]];
 	[image setName:@"GrowlMail"];

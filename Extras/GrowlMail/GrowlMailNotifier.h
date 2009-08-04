@@ -31,8 +31,7 @@ enum GrowlMailSummaryMode {
 	 */
 	GrowlMailSummaryModeAlways = 2
 };
-//XXX 64-bit: Change this to NSInteger
-typedef int GrowlMailSummaryMode;
+typedef NSInteger GrowlMailSummaryMode;
 
 /*!	@brief	Object that posts GrowlMail notifications
  *

@@ -25,6 +25,33 @@ static GrowlMailNotifier *sharedNotifier = nil;
 
 static BOOL notifierEnabled = YES;
 
+@implementation GMMessageViewer
++(void)initialize
+{
+	Class messageViewerClass = NSClassFromString(@"MessageViewer");
+	if(messageViewerClass)
+		class_setSuperclass([self class], messageViewerClass);
+}
+@end
+
+@implementation GMSingleMessageViewer
++(void)initialize
+{
+	Class singleMessageViewerClass = NSClassFromString(@"SingleMessageViewer");
+	if(singleMessageViewerClass)
+		class_setSuperclass([self class], singleMessageViewerClass);
+}
+@end
+
+@implementation GMMessageViewingState
++(void)initialize
+{
+	Class messageViewingStateClass = NSClassFromString(@"MessageViewingState");
+	if(messageViewingStateClass)
+		class_setSuperclass([self class], messageViewingStateClass);
+}
+@end
+
 @implementation GrowlMailNotifier
 
 #pragma mark Panic buttons
@@ -118,14 +145,14 @@ static BOOL notifierEnabled = YES;
 		//Make sure we have all the methods we need.
 		if (!class_getClassMethod([Library class], @selector(messageWithMessageID:)))
 			GMShutDownGrowlMailAndWarn(@"Library does not respond to +messageWithMessageID:");
-		if (!class_getInstanceMethod([SingleMessageViewer class], @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
-			GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
-		if (!class_getInstanceMethod([SingleMessageViewer class], @selector(showAndMakeKey:)))
-			GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -showAndMakeKey:");
+		if (!class_getInstanceMethod([GMSingleMessageViewer class], @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
+			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
+		if (!class_getInstanceMethod([GMSingleMessageViewer class], @selector(showAndMakeKey:)))
+			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -showAndMakeKey:");
 
-		Message *message = [Library messageWithMessageID:clickContext];
-		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
-		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState fromDefaults:NO];
+		id message = [Library messageWithMessageID:clickContext];
+		GMMessageViewingState *viewingState = [[GMMessageViewingState alloc] init];
+		GMSingleMessageViewer *messageViewer = [[GMSingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState fromDefaults:NO];
 		[viewingState release];
 		[messageViewer showAndMakeKey:YES];
 		[messageViewer release];
@@ -162,7 +189,7 @@ static BOOL notifierEnabled = YES;
 
 #pragma mark Mail notification handlers
 
-+ (void)showNotificationForMessage:(Message *)message
++ (void)showNotificationForMessage:(id)message
 {
 	if (activeNotificationThreads < MAX_NOTIFICATION_THREADS) { 
 		activeNotificationThreads++;
@@ -190,7 +217,7 @@ static BOOL notifierEnabled = YES;
 	}
 }
 
-- (void)didFinishNotificationForMessage:(Message *)message
+- (void)didFinishNotificationForMessage:(id)message
 {
 #pragma unused(message)
 	activeNotificationThreads--;	
@@ -282,13 +309,13 @@ static BOOL notifierEnabled = YES;
 	NSLog(@"Got %i new messages. Summary mode was %i and is now %i", count, [self summaryMode], summaryMode);
 #endif
 
-	Class Message_class = [Message class];
+	Class Message_class = NSClassFromString(@"Message");
 
 	switch (summaryMode) {
 		default:
 		case GrowlMailSummaryModeDisabled: {
 			NSEnumerator *messagesEnum = [messages objectEnumerator];
-			Message *message;
+			id message;
 			while ((message = [messagesEnum nextObject])) {
 				MailboxUid *mailbox = [message mailbox];
 				//If this mailbox is not an inbox, and we only care about inboxes, then skip this message.

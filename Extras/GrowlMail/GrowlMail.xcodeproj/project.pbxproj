@@ -22,19 +22,28 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		31D72A870FB6DE5800C29D55 /* GrowlMailNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D72A860FB6DE5800C29D55 /* GrowlMailNotifier.m */; };
 		4B2E729606B5776B00386BF2 /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B2E729506B5776B00386BF2 /* Message.framework */; };
-		4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E5EA306B6AC1700137892 /* GrowlMail.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		934F4E6110284FD400B9DDC4 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
+		934F4E6210284FD400B9DDC4 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
+		934F4E6310284FD400B9DDC4 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
+		934F4E6410284FD400B9DDC4 /* GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E5EA306B6AC1700137892 /* GrowlMail.m */; };
+		934F4E6510284FD400B9DDC4 /* GrowlMailNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D72A860FB6DE5800C29D55 /* GrowlMailNotifier.m */; };
+		9388453A102641A0001DF30F /* GMTester.m in Sources */ = {isa = PBXBuildFile; fileRef = 93884539102641A0001DF30F /* GMTester.m */; };
+		9388454010264365001DF30F /* GrowlMail.mailbundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */; };
+		93884549102643B6001DF30F /* TesterMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 93884548102643B6001DF30F /* TesterMain.m */; };
+		93884576102644BD001DF30F /* GMTester.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93884575102644BD001DF30F /* GMTester.xib */; };
+		938845C81026568E001DF30F /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
+		938845C91026568E001DF30F /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
+		938845CA1026568F001DF30F /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
+		938845CB10265690001DF30F /* GrowlMailNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D72A860FB6DE5800C29D55 /* GrowlMailNotifier.m */; };
+		938845CC10265690001DF30F /* GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E5EA306B6AC1700137892 /* GrowlMail.m */; };
 		950743AA085E2A5A0067AD2B /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95AC1E9B08562FFB006241FD /* Growl.framework */; };
 		950A02480737CDD60075BDE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 950A02470737CDD60075BDE4 /* Localizable.strings */; };
 		953EE18E082CC7420040C586 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EE18D082CC7420040C586 /* AddressBook.framework */; };
 		9550E7A5077A207E00436674 /* GrowlMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 9550E79F077A207E00436674 /* GrowlMail.png */; };
-		9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
 		955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */; };
-		955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
-		95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
+		};
+		9388453D10264354001DF30F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = GrowlMail;
 		};
 		9598A04B086F4C790014C386 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -177,6 +193,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93884547102643A2001DF30F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9388454010264365001DF30F /* GrowlMail.mailbundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -204,6 +230,12 @@
 		4BF8974D06B6A7EF00C30E88 /* MailHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailHeaders.h; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9388453210264181001DF30F /* Tester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9388453410264181001DF30F /* Tester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tester-Info.plist"; sourceTree = "<group>"; };
+		93884538102641A0001DF30F /* GMTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMTester.h; sourceTree = "<group>"; };
+		93884539102641A0001DF30F /* GMTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMTester.m; sourceTree = "<group>"; };
+		93884548102643B6001DF30F /* TesterMain.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = TesterMain.m; sourceTree = "<group>"; };
+		93884575102644BD001DF30F /* GMTester.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GMTester.xib; sourceTree = "<group>"; };
 		950A023B0737CBDB0075BDE4 /* English */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950A02490737CDDA0075BDE4 /* de */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950DAC0E0737AF630096F066 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
@@ -242,6 +274,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9388453010264181001DF30F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -254,6 +293,11 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
+				9388453410264181001DF30F /* Tester-Info.plist */,
+				93884538102641A0001DF30F /* GMTester.h */,
+				93884539102641A0001DF30F /* GMTester.m */,
+				93884548102643B6001DF30F /* TesterMain.m */,
+				93884575102644BD001DF30F /* GMTester.xib */,
 			);
 			name = MailGrowl;
 			sourceTree = "<group>";
@@ -321,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */,
+				9388453210264181001DF30F /* Tester.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,6 +427,25 @@
 			productReference = 8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		9388453110264181001DF30F /* Tester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9388453710264182001DF30F /* Build configuration list for PBXNativeTarget "Tester" */;
+			buildPhases = (
+				9388452E10264181001DF30F /* Resources */,
+				9388452F10264181001DF30F /* Sources */,
+				9388453010264181001DF30F /* Frameworks */,
+				93884547102643A2001DF30F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9388453E10264354001DF30F /* PBXTargetDependency */,
+			);
+			name = Tester;
+			productName = Tester;
+			productReference = 9388453210264181001DF30F /* Tester.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -414,6 +478,7 @@
 			targets = (
 				8D5B49AC048680CD000E48DA /* GrowlMail */,
 				95AE2770085C44B600271F5F /* External Frameworks */,
+				9388453110264181001DF30F /* Tester */,
 			);
 		};
 /* End PBXProject section */
@@ -545,6 +610,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9388452E10264181001DF30F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93884576102644BD001DF30F /* GMTester.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -582,17 +655,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */,
-				95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */,
-				9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */,
-				955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */,
-				31D72A870FB6DE5800C29D55 /* GrowlMailNotifier.m in Sources */,
+				934F4E6110284FD400B9DDC4 /* GrowlMailPreferences.m in Sources */,
+				934F4E6210284FD400B9DDC4 /* GrowlMailPreferencesModule.m in Sources */,
+				934F4E6310284FD400B9DDC4 /* Message+GrowlMail.m in Sources */,
+				934F4E6410284FD400B9DDC4 /* GrowlMail.m in Sources */,
+				934F4E6510284FD400B9DDC4 /* GrowlMailNotifier.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9388452F10264181001DF30F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9388453A102641A0001DF30F /* GMTester.m in Sources */,
+				93884549102643B6001DF30F /* TesterMain.m in Sources */,
+				938845C81026568E001DF30F /* Message+GrowlMail.m in Sources */,
+				938845C91026568E001DF30F /* GrowlMailPreferencesModule.m in Sources */,
+				938845CA1026568F001DF30F /* GrowlMailPreferences.m in Sources */,
+				938845CB10265690001DF30F /* GrowlMailNotifier.m in Sources */,
+				938845CC10265690001DF30F /* GrowlMail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9388453E10264354001DF30F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* GrowlMail */;
+			targetProxy = 9388453D10264354001DF30F /* PBXContainerItemProxy */;
+		};
 		9598A04C086F4C790014C386 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
@@ -655,7 +747,51 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		95AE2782085C44FC00271F5F /* Development */ = {
+		9388453510264182001DF30F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "Tester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tester;
+			};
+			name = Debug;
+		};
+		9388453610264182001DF30F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = "Tester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tester;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		95AE2782085C44FC00271F5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -672,9 +808,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		95AE2783085C44FC00271F5F /* Deployment */ = {
+		95AE2783085C44FC00271F5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -691,29 +827,11 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95AE2784085C44FC00271F5F /* Deployment - Tiger - G4 */ = {
+		95E4A35F0855C16F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A35F0855C16F006B3F45 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -741,10 +859,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
 					"-framework",
 					Growl,
 				);
@@ -756,12 +871,11 @@
 				WRAPPER_EXTENSION = mailbundle;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3600855C16F006B3F45 /* Deployment */ = {
+		95E4A3600855C16F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -789,10 +903,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
 					"-framework",
 					Growl,
 				);
@@ -804,130 +915,80 @@
 				WRAPPER_EXTENSION = mailbundle;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A3610855C16F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-					"-framework",
-					Growl,
-				);
-				PRODUCT_NAME = GrowlMail;
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-				);
-				WRAPPER_EXTENSION = mailbundle;
-				ZERO_LINK = NO;
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A3640855C16F006B3F45 /* Development */ = {
+		95E4A3640855C16F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_VERSION = 4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3650855C16F006B3F45 /* Deployment */ = {
+		95E4A3650855C16F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_VERSION = 4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
-		};
-		95E4A3660855C16F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_VERSION = 4.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx10.6;
-			};
-			name = "Deployment - Tiger - G4";
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9388453710264182001DF30F /* Build configuration list for PBXNativeTarget "Tester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9388453510264182001DF30F /* Debug */,
+				9388453610264182001DF30F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		95AE2781085C44FC00271F5F /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95AE2782085C44FC00271F5F /* Development */,
-				95AE2783085C44FC00271F5F /* Deployment */,
-				95AE2784085C44FC00271F5F /* Deployment - Tiger - G4 */,
+				95AE2782085C44FC00271F5F /* Debug */,
+				95AE2783085C44FC00271F5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A35E0855C16F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlMail" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A35F0855C16F006B3F45 /* Development */,
-				95E4A3600855C16F006B3F45 /* Deployment */,
-				95E4A3610855C16F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A35F0855C16F006B3F45 /* Debug */,
+				95E4A3600855C16F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3630855C16F006B3F45 /* Build configuration list for PBXProject "GrowlMail" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3640855C16F006B3F45 /* Development */,
-				95E4A3650855C16F006B3F45 /* Deployment */,
-				95E4A3660855C16F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A3640855C16F006B3F45 /* Debug */,
+				95E4A3650855C16F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
