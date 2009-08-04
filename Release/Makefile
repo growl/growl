@@ -164,10 +164,9 @@ release:
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 	cp $(SRC_DIR)/Extras/HardwareGrowler/*.txt $(GROWL_DIR)/Extras/HardwareGrowler
 	
-	@# build GrowlMail packages
+	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail-Leopard.mpkg --version $(VERSION) --id com.growl.growlmail.mpkg -v	
-	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer-Tiger.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail-Tiger.mpkg --version $(VERSION) --id com.growl.growlmail.tiger.mpkg -v	
+	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) --id com.growl.growlmail.mpkg -v	
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
