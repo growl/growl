@@ -7,13 +7,12 @@
 ######
 if [ `whoami` == root ] ; then
     #defaults acts funky when asked to write to the root domain but seems to work with a full path
-    defaults write /Library/Preferences/com.apple.mail EnableBundles -bool YES
-
-    # Mac OS X 10.5's Mail.app requires bundle version 3 or greater
-    defaults write /Library/Preferences/com.apple.mail BundleCompatibilityVersion -int 3
+	domain=/Library/Preferences/com.apple.mail
 else
-    defaults write com.apple.mail EnableBundles -bool YES
-
-    # Mac OS X 10.5's Mail.app requires bundle version 3 or greater
-    defaults write com.apple.mail BundleCompatibilityVersion -int 3
+    domain=com.apple.mail
 fi
+
+defaults write "$domain" EnableBundles -bool YES
+
+# Mac OS X 10.5's Mail.app requires bundle version 3 or greater
+defaults write "$domain" BundleCompatibilityVersion -int 3
