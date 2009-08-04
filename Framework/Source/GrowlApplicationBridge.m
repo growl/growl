@@ -563,13 +563,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[delegate growlNotificationWasClicked:
 		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool release];
+	[pool drain];
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[delegate growlNotificationTimedOut:
 		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool release];
+	[pool drain];
 }
 
 #pragma mark -
@@ -671,7 +671,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
 #endif
 	
-	[pool release];
+	[pool drain];
 }
 
 #ifdef GROWL_WITH_INSTALLER
