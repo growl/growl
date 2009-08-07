@@ -4,6 +4,9 @@
 #define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
 #define GROWL_PREFS_PATH [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.Growl.GrowlHelperApp.plist"]
 
+#define CLICK_RECEIVED_NOTIFICATION_NAME @"BeepHammer Click Received"
+#define CLICK_TIMED_OUT_NOTIFICATION_NAME @"BeepHammer Click Timed Out"
+
 @interface BeepController (PRIVATE)
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
@@ -113,6 +116,7 @@
 		[notificationIdentifier  setStringValue:([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER] ?
 												 [dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
 												 @"")];
+		[notificationClickContext setStringValue:([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] ?: @"")];
 
 		[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
 		[addEditButton setTitle:editButtonTitle];
@@ -169,7 +173,9 @@
 											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
 											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-										   clickContext:nil
+										   clickContext:(([note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && [[note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] length])
+														 ? [note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]
+														 : nil)
 											 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
 														 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
 														 nil)];	
@@ -228,12 +234,14 @@
 		NSString *title        = [notificationTitle       stringValue];
 		NSString *desc         = [notificationDescription stringValue];
 		NSString *identifier   = [notificationIdentifier  stringValue];
+		NSString *clickContext = [notificationClickContext stringValue];
 
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			title,         GROWL_NOTIFICATION_NAME,
 			title,         GROWL_NOTIFICATION_TITLE,
 			desc,          GROWL_NOTIFICATION_DESCRIPTION,
 			identifier,    GROWL_NOTIFICATION_IDENTIFIER,
+			clickContext,  GROWL_NOTIFICATION_CLICK_CONTEXT,
 			priority,      GROWL_NOTIFICATION_PRIORITY,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
@@ -323,6 +331,9 @@
 			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
 	}
 
+	[allNotesArray addObject:CLICK_RECEIVED_NOTIFICATION_NAME];
+	[allNotesArray addObject:CLICK_TIMED_OUT_NOTIFICATION_NAME];
+
 	//Set these notifications both for ALL (all possibilites) and DEFAULT (the ones enabled by default)
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		allNotesArray, GROWL_NOTIFICATIONS_ALL,
@@ -335,6 +346,25 @@
 
 - (void)growlIsReady {
 	// NSLog(@"Growl engaged, Captain!");
+}
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(CLICK_RECEIVED_NOTIFICATION_NAME, /*comment*/ @"Notification titles")
+								description:clickContext
+						   notificationName:CLICK_RECEIVED_NOTIFICATION_NAME
+								   iconData:nil
+								   priority:0
+								   isSticky:NO
+							   clickContext:nil];
+}
+- (void) growlNotificationTimedOut:(id)clickContext {
+	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(CLICK_TIMED_OUT_NOTIFICATION_NAME, /*comment*/ @"Notification titles")
+								description:clickContext
+						   notificationName:CLICK_TIMED_OUT_NOTIFICATION_NAME
+								   iconData:nil
+								   priority:0
+								   isSticky:NO
+							   clickContext:nil];
 }
 
 @end
