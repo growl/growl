@@ -1,0 +1,623 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		311E887F102D223A007B1AF0 /* Light-switch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 311E887E102D223A007B1AF0 /* Light-switch.icns */; };
+		31A4F389102C9A0C00262F65 /* StatusDisplayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A4F388102C9A0C00262F65 /* StatusDisplayer.m */; };
+		31A4F38C102C9AE000262F65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A4F38B102C9AE000262F65 /* AppDelegate.m */; };
+		31A4F3D2102C9C4C00262F65 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A4F3B7102C9C3100262F65 /* Growl.framework */; };
+		31A4F3DC102C9C9800262F65 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 31A4F3B7102C9C3100262F65 /* Growl.framework */; };
+		31A4F3F6102C9D5F00262F65 /* StatusDisplay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31A4F3F4102C9D5F00262F65 /* StatusDisplay.xib */; };
+		31A4F3F9102C9DFB00262F65 /* growl-claw32.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 31A4F3F8102C9DFB00262F65 /* growl-claw32.tiff */; };
+		31A4F3FB102CA1D800262F65 /* Yes.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31A4F3FA102CA1D800262F65 /* Yes.icns */; };
+		31A4F3FD102CA1DD00262F65 /* No.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31A4F3FC102CA1DD00262F65 /* No.icns */; };
+		31A4F400102CA1FC00262F65 /* YesOrNoValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A4F3FF102CA1FC00262F65 /* YesOrNoValueTransformer.m */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		31A4F3B0102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D202CF80486D31800D8A456;
+			remoteInfo = Growl;
+		};
+		31A4F3B2102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = GrowlHelperApp;
+		};
+		31A4F3B4102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
+			remoteInfo = GrowlMenu;
+		};
+		31A4F3B6102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		31A4F3B8102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34725B0F0C0678A000499F50;
+			remoteInfo = Growl.dylib;
+		};
+		31A4F3BA102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EF9078E226300CECA86;
+			remoteInfo = "Growl-WithInstaller.framework";
+		};
+		31A4F3BC102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		31A4F3BE102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		31A4F3C0102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		31A4F3C2102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		31A4F3C4102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		31A4F3C6102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		31A4F3C8102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		31A4F3CA102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
+			remoteInfo = MailMe;
+		};
+		31A4F3CC102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		31A4F3CE102C9C3100262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		31A4F3D0102C9C3D00262F65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31A4F3EC102C9CB500262F65 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31A4F3DC102C9C9800262F65 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		1DDD58150DA1D0A300B32029 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		311E887E102D223A007B1AF0 /* Light-switch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "Light-switch.icns"; sourceTree = "<group>"; };
+		31A4F387102C9A0C00262F65 /* StatusDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusDisplayer.h; sourceTree = "<group>"; };
+		31A4F388102C9A0C00262F65 /* StatusDisplayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusDisplayer.m; sourceTree = "<group>"; };
+		31A4F38A102C9AE000262F65 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		31A4F38B102C9AE000262F65 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		31A4F39B102C9C3100262F65 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
+		31A4F3F5102C9D5F00262F65 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StatusDisplay.xib; sourceTree = "<group>"; };
+		31A4F3F8102C9DFB00262F65 /* growl-claw32.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "growl-claw32.tiff"; path = "../../../Core/Resources/growl-claw32.tiff"; sourceTree = SOURCE_ROOT; };
+		31A4F3FA102CA1D800262F65 /* Yes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Yes.icns; sourceTree = "<group>"; };
+		31A4F3FC102CA1DD00262F65 /* No.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = No.icns; sourceTree = "<group>"; };
+		31A4F3FE102CA1FC00262F65 /* YesOrNoValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YesOrNoValueTransformer.h; sourceTree = "<group>"; };
+		31A4F3FF102CA1FC00262F65 /* YesOrNoValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YesOrNoValueTransformer.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Status Checker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Status Checker_Prefix.pch"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Status Checker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Status Checker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				31A4F3D2102C9C4C00262F65 /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				31A4F38A102C9AE000262F65 /* AppDelegate.h */,
+				31A4F38B102C9AE000262F65 /* AppDelegate.m */,
+				31A4F387102C9A0C00262F65 /* StatusDisplayer.h */,
+				31A4F388102C9A0C00262F65 /* StatusDisplayer.m */,
+				31A4F3FE102CA1FC00262F65 /* YesOrNoValueTransformer.h */,
+				31A4F3FF102CA1FC00262F65 /* YesOrNoValueTransformer.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Status Checker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Status Checker */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				31A4F39B102C9C3100262F65 /* Growl.xcodeproj */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = "Status Checker";
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Status Checker_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				31A4F3F8102C9DFB00262F65 /* growl-claw32.tiff */,
+				31A4F3FA102CA1D800262F65 /* Yes.icns */,
+				31A4F3FC102CA1DD00262F65 /* No.icns */,
+				311E887E102D223A007B1AF0 /* Light-switch.icns */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				31A4F3F4102C9D5F00262F65 /* StatusDisplay.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		31A4F39C102C9C3100262F65 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31A4F3B1102C9C3100262F65 /* Growl.prefPane */,
+				31A4F3B3102C9C3100262F65 /* GrowlHelperApp.app */,
+				31A4F3B5102C9C3100262F65 /* GrowlMenu.app */,
+				31A4F3B7102C9C3100262F65 /* Growl.framework */,
+				31A4F3B9102C9C3100262F65 /* Growl.dylib */,
+				31A4F3BB102C9C3100262F65 /* Growl-WithInstaller.framework */,
+				31A4F3BD102C9C3100262F65 /* Speech.growlView */,
+				31A4F3BF102C9C3100262F65 /* Brushed.growlView */,
+				31A4F3C1102C9C3100262F65 /* Bubbles.growlView */,
+				31A4F3C3102C9C3100262F65 /* iCal.growlView */,
+				31A4F3C5102C9C3100262F65 /* Bezel.growlView */,
+				31A4F3C7102C9C3100262F65 /* Smoke.growlView */,
+				31A4F3C9102C9C3100262F65 /* Nano.growlView */,
+				31A4F3CB102C9C3100262F65 /* MailMe.growlView */,
+				31A4F3CD102C9C3100262F65 /* MusicVideo.growlView */,
+				31A4F3CF102C9C3100262F65 /* SMS.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Status Checker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Status Checker" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				31A4F3EC102C9CB500262F65 /* CopyFiles */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31A4F3D1102C9C3D00262F65 /* PBXTargetDependency */,
+			);
+			name = "Status Checker";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "Status Checker";
+			productReference = 8D1107320486CEB800E47090 /* Status Checker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Status Checker" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Status Checker */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 31A4F39C102C9C3100262F65 /* Products */;
+					ProjectRef = 31A4F39B102C9C3100262F65 /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Status Checker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		31A4F3B1102C9C3100262F65 /* Growl.prefPane */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Growl.prefPane;
+			remoteRef = 31A4F3B0102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3B3102C9C3100262F65 /* GrowlHelperApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlHelperApp.app;
+			remoteRef = 31A4F3B2102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3B5102C9C3100262F65 /* GrowlMenu.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlMenu.app;
+			remoteRef = 31A4F3B4102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3B7102C9C3100262F65 /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = 31A4F3B6102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3B9102C9C3100262F65 /* Growl.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = Growl.dylib;
+			remoteRef = 31A4F3B8102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3BB102C9C3100262F65 /* Growl-WithInstaller.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "Growl-WithInstaller.framework";
+			remoteRef = 31A4F3BA102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3BD102C9C3100262F65 /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = 31A4F3BC102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3BF102C9C3100262F65 /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = 31A4F3BE102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3C1102C9C3100262F65 /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = 31A4F3C0102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3C3102C9C3100262F65 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = 31A4F3C2102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3C5102C9C3100262F65 /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = 31A4F3C4102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3C7102C9C3100262F65 /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = 31A4F3C6102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3C9102C9C3100262F65 /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = 31A4F3C8102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3CB102C9C3100262F65 /* MailMe.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MailMe.growlView;
+			remoteRef = 31A4F3CA102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3CD102C9C3100262F65 /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = 31A4F3CC102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31A4F3CF102C9C3100262F65 /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = 31A4F3CE102C9C3100262F65 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				31A4F3F6102C9D5F00262F65 /* StatusDisplay.xib in Resources */,
+				31A4F3F9102C9DFB00262F65 /* growl-claw32.tiff in Resources */,
+				31A4F3FB102CA1D800262F65 /* Yes.icns in Resources */,
+				31A4F3FD102CA1DD00262F65 /* No.icns in Resources */,
+				311E887F102D223A007B1AF0 /* Light-switch.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				31A4F389102C9A0C00262F65 /* StatusDisplayer.m in Sources */,
+				31A4F38C102C9AE000262F65 /* AppDelegate.m in Sources */,
+				31A4F400102CA1FC00262F65 /* YesOrNoValueTransformer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		31A4F3D1102C9C3D00262F65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Growl.framework;
+			targetProxy = 31A4F3D0102C9C3D00262F65 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD58150DA1D0A300B32029 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		31A4F3F4102C9D5F00262F65 /* StatusDisplay.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31A4F3F5102C9D5F00262F65 /* en */,
+			);
+			name = StatusDisplay.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "../../../build/$(CONFIGURATION)";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Status Checker_Prefix.pch";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = "Status Checker";
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "../../../build/$(CONFIGURATION)";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Status Checker_Prefix.pch";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = "Status Checker";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Status Checker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Status Checker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
