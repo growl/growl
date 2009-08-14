@@ -504,7 +504,10 @@ enum {
 			nil];
 		[displayString release];
 
-		if (![newTrackURL isEqualToString:trackURL] || [newTrackURL hasPrefix:@"http://"]) { // this is different from previous notification, or it's a stream
+		BOOL URLChanged = [newTrackURL isEqualToString:trackURL];
+		BOOL isStream = [newTrackURL hasPrefix:@"http://"];
+		BOOL descriptionChanged = !(lastPostedDescription && [lastPostedDescription isEqualToString:displayString]);
+		if (URLChanged || (isStream && descriptionChanged)) {
 			// Tell Growl
 			[GrowlApplicationBridge notifyWithDictionary:noteDict];
 
@@ -521,6 +524,8 @@ enum {
 		state = newState;
 		[trackURL release];
 		trackURL = [newTrackURL retain];
+		[lastPostedDescription release];
+		lastPostedDescription = [displayString retain];
 	}
 }
 
