@@ -34,7 +34,7 @@
 
 @interface NSString (GrowlTunesMultiplicationAdditions)
 
-- (NSString *)stringByMultiplyingBy:(unsigned)multi;
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi;
 
 @end
 
@@ -1147,15 +1147,15 @@ static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> p
 
 @implementation NSString (GrowlTunesMultiplicationAdditions)
 
-- (NSString *)stringByMultiplyingBy:(unsigned)multi {
-	unsigned length = [self length];
-	unsigned length_multi = length * multi;
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi {
+	NSUInteger length = [self length];
+	NSUInteger length_multi = length * multi;
 
 	unichar *buf = malloc(sizeof(unichar) * length_multi);
 	if (!buf)
 		return nil;
 
-	for (unsigned i = 0U; i < multi; ++i)
+	for (NSUInteger i = 0UL; i < multi; ++i)
 		[self getCharacters:&buf[length * i]];
 
 	NSString *result = [NSString stringWithCharacters:buf length:length_multi];
