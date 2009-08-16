@@ -187,7 +187,7 @@ release:
 	
 	@# copy over beep hammer
 	mkdir $(SDK_DIR)/BeepHammer
-	cp -R $(SRC_DIR)/Developer\ Tools/BeepHammer/build/Deployment/BeepHammer.app $(SDK_DIR)/BeepHammer
+	cp -R $(SRC_DIR)/Developer\ Tools/BeepHammer/build/$(BUILDSTYLE)/BeepHammer.app $(SDK_DIR)/BeepHammer
 	
 	@# copy over relevant files to compile directly into app
 	mkdir $(SDK_DIR)/Built-In
