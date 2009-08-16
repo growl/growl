@@ -107,6 +107,7 @@ enum {
 	plugins = [[self loadPlugins] retain];
 	trackID = 0;
 	trackURL = @"";
+	lastPostedDescription = @""
 	trackRating = -1;
 
 	return self;
@@ -504,9 +505,9 @@ enum {
 			nil];
 		[displayString release];
 
-		BOOL URLChanged = [newTrackURL isEqualToString:trackURL];
+		BOOL URLChanged = ![trackURL isEqualToString:newTrackURL];
 		BOOL isStream = [newTrackURL hasPrefix:@"http://"];
-		BOOL descriptionChanged = !(lastPostedDescription && [lastPostedDescription isEqualToString:displayString]);
+		BOOL descriptionChanged = ![lastPostedDescription isEqualToString:displayString]);
 		if (URLChanged || (isStream && descriptionChanged)) {
 			// Tell Growl
 			[GrowlApplicationBridge notifyWithDictionary:noteDict];
