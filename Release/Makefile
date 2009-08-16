@@ -22,6 +22,8 @@ SRC_DIR=$(PWD)/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
+FMWK_DIR=$(BUILD_DIR)/Growl-$(VERSION)-Framework
+FMWK_TBZ_NAME=Growl-$(VERSION)-Framework.tbz
 BUILDSTYLE=Release
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
 PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXApplicationwideBuildSettings 2> /dev/null | cat > XcodeBuildSettings.plist && defaults read $PWD/XcodeBuildSettings SYMROOT 2> /dev/null; rm XcodeBuildSettings.plist)
@@ -239,3 +241,15 @@ release:
 	
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
+
+framework-archive: assertnochanges
+	-mkdir "$(BUILD_DIR)"
+	-rm -R "$(FMWK_DIR)"
+	mkdir "$(FMWK_DIR)"
+	-rm "$(BUILD_DIR)/$(FMWK_TBZ_NAME)"
+	
+	$(MAKE) $(BUILDFLAGS) -C "$(SRC_DIR)" growlapplicationbridge
+	
+	cp -R "$(GROWL_BUILD_DIR)/Growl.framework" "$(GROWL_BUILD_DIR)/Growl.framework.dSYM" "$(SRC_DIR)/License.txt" "$(FMWK_DIR)"
+	
+	tar cjf "$(BUILD_DIR)/$(FMWK_TBZ_NAME)" -C "$(dir $(FMWK_DIR))" "$(notdir $(FMWK_DIR))"
