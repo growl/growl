@@ -676,7 +676,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		95AE27C9085C455500271F5F /* Development */ = {
+		95AE27C9085C455500271F5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -693,9 +693,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		95AE27CA085C455500271F5F /* Deployment */ = {
+		95AE27CA085C455500271F5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -712,26 +712,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95AE27CB085C455500271F5F /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A3350855C15F006B3F45 /* Development */ = {
+		95E4A3350855C15F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
@@ -772,9 +755,9 @@
 				);
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3360855C15F006B3F45 /* Deployment */ = {
+		95E4A3360855C15F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
@@ -817,58 +800,9 @@
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A3370855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GrowlSafari_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-weak_framework",
-					Growl,
-					"-undefined",
-					suppress,
-					"-force_flat_namespace",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = GrowlSafari;
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-				);
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A33A0855C15F006B3F45 /* Development */ = {
+		95E4A33A0855C15F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -912,9 +846,9 @@
 					"-Wall",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A33B0855C15F006B3F45 /* Deployment */ = {
+		95E4A33B0855C15F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
@@ -960,61 +894,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A33C0855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_MODEL_TUNING = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "GrowlSafariLoader-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = GrowlSafariLoader;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A33F0855C15F006B3F45 /* Development */ = {
+		95E4A33F0855C15F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1033,9 +915,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3400855C15F006B3F45 /* Deployment */ = {
+		95E4A3400855C15F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1055,35 +937,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A3410855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = GrowlSafariAggregate;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A3440855C15F006B3F45 /* Development */ = {
+		95E4A3440855C15F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -1096,9 +952,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3450855C15F006B3F45 /* Deployment */ = {
+		95E4A3450855C15F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
@@ -1112,21 +968,7 @@
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
-		};
-		95E4A3460855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = "Deployment - Tiger - G4";
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1134,52 +976,47 @@
 		95AE27C8085C455500271F5F /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95AE27C9085C455500271F5F /* Development */,
-				95AE27CA085C455500271F5F /* Deployment */,
-				95AE27CB085C455500271F5F /* Deployment - Tiger - G4 */,
+				95AE27C9085C455500271F5F /* Debug */,
+				95AE27CA085C455500271F5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3340855C15F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlSafari" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3350855C15F006B3F45 /* Development */,
-				95E4A3360855C15F006B3F45 /* Deployment */,
-				95E4A3370855C15F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A3350855C15F006B3F45 /* Debug */,
+				95E4A3360855C15F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3390855C15F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlSafariLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A33A0855C15F006B3F45 /* Development */,
-				95E4A33B0855C15F006B3F45 /* Deployment */,
-				95E4A33C0855C15F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A33A0855C15F006B3F45 /* Debug */,
+				95E4A33B0855C15F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A33E0855C15F006B3F45 /* Build configuration list for PBXAggregateTarget "GrowlSafariAggregate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A33F0855C15F006B3F45 /* Development */,
-				95E4A3400855C15F006B3F45 /* Deployment */,
-				95E4A3410855C15F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A33F0855C15F006B3F45 /* Debug */,
+				95E4A3400855C15F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3430855C15F006B3F45 /* Build configuration list for PBXProject "GrowlSafari" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3440855C15F006B3F45 /* Development */,
-				95E4A3450855C15F006B3F45 /* Deployment */,
-				95E4A3460855C15F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A3440855C15F006B3F45 /* Debug */,
+				95E4A3450855C15F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
