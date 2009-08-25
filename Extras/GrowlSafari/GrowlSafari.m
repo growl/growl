@@ -97,11 +97,7 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 
 		// If both are found, swizzle them
 		if (orig_method && alt_method) {
-			IMP temp;
-
-			temp = orig_method->method_imp;
-			orig_method->method_imp = alt_method->method_imp;
-			alt_method->method_imp = temp;
+			method_exchangeImplementations(orig_method, alt_method);
 
 			return YES;
 		} else {
@@ -151,7 +147,8 @@ static void setDownloadFinished(id dl) {
 	return [[[GrowlSafari bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
-+ (void) initialize {
++ (void) load {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 

@@ -20,6 +20,11 @@
 	<string>sfri</string>
 	<key>CFBundleVersion</key>
 	<string>1.1.6</string>
+	<key>LSMinimumSystemVersionByArchitecture</key>
+	<dict>
+		<key>x86_64</key>
+		<string>10.6.0</string>
+	</dict>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSafari</string>
 </dict>

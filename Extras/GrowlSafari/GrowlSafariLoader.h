@@ -2,14 +2,12 @@
 //  GrowlSafariLoader.h
 //  GrowlSafari
 //
-//  Created by Ingmar Stein on 30.05.05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Created by Peter Hosey on 2009-06-14.
+//  Copyright 2009 Peter Hosey. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface GrowlSafariLoader : NSObject {
-
+	NSWorkspace *workspace;
 }
 
 @end

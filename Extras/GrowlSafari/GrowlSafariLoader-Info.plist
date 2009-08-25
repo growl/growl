@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSBackgroundOnly</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>GrowlSafariLoader</string>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.growl.GrowlSafariLoader</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -18,7 +20,12 @@
 	<string>GrSL</string>
 	<key>CFBundleVersion</key>
 	<string>1.1.6</string>
+	<key>LSMinimumSystemVersionByArchitecture</key>
+	<dict>
+		<key>x86_64</key>
+		<string>10.6.0</string>
+	</dict>
 	<key>NSPrincipalClass</key>
-	<string>GrowlSafariLoader</string>
+	<string>NSApplication</string>
 </dict>
 </plist>
