@@ -235,7 +235,6 @@
 		34FBA2C70CA0551E00958660 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		34FBA31B0CA0554800958660 /* BeepHammer Growl-WithInstaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BeepHammer Growl-WithInstaller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FBA31D0CA0554800958660 /* BeepHammer-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BeepHammer-Info copy.plist"; sourceTree = "<group>"; };
-		34FBA3360CA0566100958660 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../../../build/Development/Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -269,7 +268,6 @@
 				073B926E06855E860068C763 /* Classes */,
 				073B927106855E900068C763 /* Resources */,
 				073B92BD068562540068C763 /* External Frameworks */,
-				34FBA3360CA0566100958660 /* Growl.framework */,
 				34FBA2C70CA0551E00958660 /* Growl.xcodeproj */,
 				073B925C06855E200068C763 /* Products */,
 			);
