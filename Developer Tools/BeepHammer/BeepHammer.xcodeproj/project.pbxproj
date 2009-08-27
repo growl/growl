@@ -661,7 +661,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		34FBA3180CA0554800958660 /* Development */ = {
+		34FBA3180CA0554800958660 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -689,9 +689,9 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
-			name = Development;
+			name = Debug;
 		};
-		34FBA3190CA0554800958660 /* Deployment */ = {
+		34FBA3190CA0554800958660 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -719,39 +719,9 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		34FBA31A0CA0554800958660 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
-				GCC_PREPROCESSOR_DEFINITIONS = GROWL_WITH_INSTALLER;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/BeepHammer-WithInstaller.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Default;
-		};
-		34FBA34F0CA056E800958660 /* Development */ = {
+		34FBA34F0CA056E800958660 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -759,9 +729,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = LinkifyGrowlFrameworks;
 			};
-			name = Development;
+			name = Debug;
 		};
-		34FBA3500CA056E800958660 /* Deployment */ = {
+		34FBA3500CA056E800958660 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -770,16 +740,9 @@
 				PRODUCT_NAME = LinkifyGrowlFrameworks;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		34FBA3510CA056E800958660 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = LinkifyGrowlFrameworks;
-			};
-			name = Default;
-		};
-		95E4A38F0855C1A3006B3F45 /* Development */ = {
+		95E4A38F0855C1A3006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -806,9 +769,9 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3900855C1A3006B3F45 /* Deployment */ = {
+		95E4A3900855C1A3006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -835,47 +798,18 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A3910855C1A3006B3F45 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "BeepHammer-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = BeepHammer;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Default;
-		};
-		95E4A3930855C1A3006B3F45 /* Development */ = {
+		95E4A3930855C1A3006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3940855C1A3006B3F45 /* Deployment */ = {
+		95E4A3940855C1A3006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -890,15 +824,7 @@
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
-		};
-		95E4A3950855C1A3006B3F45 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -906,42 +832,38 @@
 		34FBA3170CA0554800958660 /* Build configuration list for PBXNativeTarget "BeepHammer Growl-WithInstaller" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34FBA3180CA0554800958660 /* Development */,
-				34FBA3190CA0554800958660 /* Deployment */,
-				34FBA31A0CA0554800958660 /* Default */,
+				34FBA3180CA0554800958660 /* Debug */,
+				34FBA3190CA0554800958660 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		34FBA3520CA0570600958660 /* Build configuration list for PBXAggregateTarget "LinkifyGrowlFrameworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34FBA34F0CA056E800958660 /* Development */,
-				34FBA3500CA056E800958660 /* Deployment */,
-				34FBA3510CA056E800958660 /* Default */,
+				34FBA34F0CA056E800958660 /* Debug */,
+				34FBA3500CA056E800958660 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		95E4A38E0855C1A3006B3F45 /* Build configuration list for PBXNativeTarget "BeepHammer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A38F0855C1A3006B3F45 /* Development */,
-				95E4A3900855C1A3006B3F45 /* Deployment */,
-				95E4A3910855C1A3006B3F45 /* Default */,
+				95E4A38F0855C1A3006B3F45 /* Debug */,
+				95E4A3900855C1A3006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3920855C1A3006B3F45 /* Build configuration list for PBXProject "BeepHammer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3930855C1A3006B3F45 /* Development */,
-				95E4A3940855C1A3006B3F45 /* Deployment */,
-				95E4A3950855C1A3006B3F45 /* Default */,
+				95E4A3930855C1A3006B3F45 /* Debug */,
+				95E4A3940855C1A3006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
