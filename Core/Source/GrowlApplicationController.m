@@ -39,7 +39,6 @@
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
-#include "Sparkle/Sparkle.h"
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -48,7 +47,6 @@
 #define UPDATE_AVAILABLE_NOTIFICATION	@"Growl update available"
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
 #define USER_RETURNED_NOTIFICATION		@"User returned"
-#define CHECK_FOR_UPDATES_NOTIFICATION @"info.growl.checkforupdatesrequested"
 
 static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon);
 
@@ -99,6 +97,48 @@ static BOOL isAnyDisplayCaptured(void) {
 #warning And once code is in to automagically update this from Info.plist, the documentation in GrowlVersionUtilities.h should also be updated.
 static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 //XXX - update these constants whenever the version changes
+
+static void checkVersion(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+
+	if (![preferences isBackgroundUpdateCheckEnabled])
+		return;
+
+	GrowlApplicationController *appController = (GrowlApplicationController *)context;
+	NSURL *versionCheckURL = [appController versionCheckURL];
+
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
+
+	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
+	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
+
+	NSString *downloadURLString = [productVersionDict objectForKey:@"GrowlDownloadURL"];
+
+	/* do nothing and be quiet if there is no active connection, if the
+	 *	version dictionary could not be downloaded, or if the version dictionary
+	 *	is missing either of these keys.
+	 */
+	if (downloadURLString && latestVersionNumber) {
+		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
+		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
+			CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
+			CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
+			[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+				                        description:(NSString *)description
+				                   notificationName:UPDATE_AVAILABLE_NOTIFICATION
+			                               iconData:[appController applicationIconDataForGrowl]
+			                               priority:1
+			                               isSticky:YES
+			                           clickContext:downloadURLString
+										 identifier:UPDATE_AVAILABLE_NOTIFICATION];
+			CFRelease(title);
+			CFRelease(description);
+		}
+	}
+
+	[productVersionDict release];
+}
 
 @implementation GrowlApplicationController
 
@@ -182,9 +222,7 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 															   selector:@selector(applicationLaunched:)
 																   name:NSWorkspaceDidLaunchApplicationNotification
 																 object:nil];
-		
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForUpdates:) name:CHECK_FOR_UPDATES_NOTIFICATION object:NULL suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
-		
+
 		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
 
 		GrowlIdleStatusController_init();
@@ -193,9 +231,16 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 				   name:@"GrowlIdleStatus"
 				 object:nil];
 
-		SUUpdater *updater = [SUUpdater sharedUpdater];
-		[updater setUpdateCheckInterval:UPDATE_CHECK_INTERVAL];
-		
+		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
+		NSDate *now = [NSDate date];
+		if (!lastCheck || [now timeIntervalSinceDate:lastCheck] > UPDATE_CHECK_INTERVAL) {
+			checkVersion(NULL, self);
+			lastCheck = now;
+		}
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
+		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
+
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
 		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
@@ -252,11 +297,15 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 	[growlIcon        release]; growlIcon = nil;
 	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
 
+	[versionCheckURL release];
+
 	GrowlIdleStatusController_dealloc();
 
+	CFRunLoopTimerInvalidate(updateTimer);
+	CFRelease(updateTimer);
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
-	
+
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
@@ -799,6 +848,12 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 	return result;
 }
 
+- (NSURL *) versionCheckURL {
+	if (!versionCheckURL)
+		versionCheckURL = [[NSURL URLWithString:@"http://growl.info/version.xml"] retain];
+	return versionCheckURL;
+}
+
 #pragma mark Accessors
 
 - (BOOL) quitAfterOpen {
@@ -867,11 +922,6 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 	}
 	
 	[pool release];
-}
-
-- (void) checkForUpdates:(NSNotification *)note {
-	NSLog(@"check triggered");
-	[[SUUpdater sharedUpdater] checkForUpdates:note];
 }
 
 - (void) shutdown:(NSNotification *) note {

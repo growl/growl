@@ -31,7 +31,6 @@
 
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(16.0, 58.0, 354.0, 289.0)
-#define CHECK_FOR_UPDATES_NOTIFICATION @"info.growl.checkforupdatesrequested"
 
 @interface NSNetService(TigerCompatibility)
 
@@ -231,11 +230,11 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	
-	[growlVersionProgress startAnimation:self];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:CHECK_FOR_UPDATES_NOTIFICATION object:NULL userInfo:NULL deliverImmediately:YES];
+	/*
+	 [growlVersionProgress startAnimation:self];
+
 	[growlVersionProgress stopAnimation:self];
-	
+	*/
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -751,7 +750,7 @@
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 
-		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		int indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
 		if (indexOfMenuItem < 0)
 			indexOfMenuItem = 0;
 		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
@@ -983,7 +982,6 @@
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
-#pragma unused(sender)
 	NSLog(@"What calls resolveService:?");
 }
 
