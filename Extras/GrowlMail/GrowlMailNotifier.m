@@ -25,33 +25,6 @@ static GrowlMailNotifier *sharedNotifier = nil;
 
 static BOOL notifierEnabled = YES;
 
-@implementation GMMessageViewer
-+(void)initialize
-{
-	Class messageViewerClass = NSClassFromString(@"MessageViewer");
-	if(messageViewerClass)
-		class_setSuperclass([self class], messageViewerClass);
-}
-@end
-
-@implementation GMSingleMessageViewer
-+(void)initialize
-{
-	Class singleMessageViewerClass = NSClassFromString(@"SingleMessageViewer");
-	if(singleMessageViewerClass)
-		class_setSuperclass([self class], singleMessageViewerClass);
-}
-@end
-
-@implementation GMMessageViewingState
-+(void)initialize
-{
-	Class messageViewingStateClass = NSClassFromString(@"MessageViewingState");
-	if(messageViewingStateClass)
-		class_setSuperclass([self class], messageViewingStateClass);
-}
-@end
-
 @implementation GrowlMailNotifier
 
 #pragma mark Panic buttons
@@ -143,16 +116,23 @@ static BOOL notifierEnabled = YES;
 - (void) growlNotificationWasClicked:(NSString *)clickContext {
 	if ([clickContext length]) {
 		//Make sure we have all the methods we need.
+		
 		if (!class_getClassMethod([Library class], @selector(messageWithMessageID:)))
 			GMShutDownGrowlMailAndWarn(@"Library does not respond to +messageWithMessageID:");
-		if (!class_getInstanceMethod([GMSingleMessageViewer class], @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
+		if (!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:withDefaults:)) || 
+			!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
 			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
-		if (!class_getInstanceMethod([GMSingleMessageViewer class], @selector(showAndMakeKey:)))
+		if (!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(showAndMakeKey:)))
 			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -showAndMakeKey:");
 
 		id message = [Library messageWithMessageID:clickContext];
-		GMMessageViewingState *viewingState = [[GMMessageViewingState alloc] init];
-		GMSingleMessageViewer *messageViewer = [[GMSingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState fromDefaults:NO];
+		id viewingState = [[NSClassFromString(@"MessageViewingState") alloc] init];
+		id messageViewer;
+		if(class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:withDefaults:)))
+		   messageViewer = [[NSClassFromString(@"SingleMessageViewer") alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState withDefaults:NO];
+		else if(class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
+		   messageViewer = [[NSClassFromString(@"SingleMessageViewer") alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState fromDefaults:NO];
+		
 		[viewingState release];
 		[messageViewer showAndMakeKey:YES];
 		[messageViewer release];
@@ -217,7 +197,7 @@ static BOOL notifierEnabled = YES;
 	}
 }
 
-- (void)didFinishNotificationForMessage:(id)message
+- (void)didFinishNotificationForMessage:(Message *)message
 {
 #pragma unused(message)
 	activeNotificationThreads--;	

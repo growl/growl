@@ -1226,6 +1226,7 @@ typedef struct {
 + (void)restoreFromDefaults;
 + (void)saveDefaultsOmittingViewer:(id)fp8;
 - (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16 fromDefaults:(BOOL)fp20;
+- (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16 withDefaults:(BOOL)fp20;
 - (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16;
 - (id)initWithSavedDefaults:(id)fp8;
 - (void)dealloc;

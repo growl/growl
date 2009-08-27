@@ -34,18 +34,9 @@
 //
 
 #import "GrowlMail.h"
-
 #import "GrowlMailNotifier.h"
 
-@implementation GMMVMailBundle
-+(void)initialize
-{
-	Class mvMailBundleClass = NSClassFromString(@"MVMailBundle");
-	if(mvMailBundleClass)
-		class_setSuperclass([self class], mvMailBundleClass);
-}
-
-@end
+#import <objc/runtime.h>
 
 NSBundle *GMGetGrowlMailBundle(void) {
 	return [NSBundle bundleForClass:[GrowlMail class]];
@@ -58,14 +49,23 @@ NSBundle *GMGetGrowlMailBundle(void) {
 + (void) initialize {
 	[super initialize];
 
-	NSLog(@"Class: %@", NSStringFromClass(NSClassFromString(@"Message")));
-	// this image is leaked
-	NSImage *image = [[NSImage alloc] initByReferencingFile:[GMGetGrowlMailBundle() pathForImageResource:@"GrowlMail"]];
-	[image setName:@"GrowlMail"];
-
-	[GrowlMail registerBundle];
-
-	NSLog(@"Loaded GrowlMail %@", [GMGetGrowlMailBundle() objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey]);
+	//We attempt to get a reference to the MVMailBundle class so we can swap superclasses, failing that 
+	//we disable ourselves and are done since this is an undefined state
+	Class mvMailBundleClass = NSClassFromString(@"MVMailBundle");
+	if(!mvMailBundleClass)
+		GMShutDownGrowlMailAndWarn(@"Mail.app does not have a MVMailBundle class available");
+	else
+	{
+		class_setSuperclass([self class], mvMailBundleClass);
+		
+		// this image is leaked
+		NSImage *image = [[NSImage alloc] initByReferencingFile:[GMGetGrowlMailBundle() pathForImageResource:@"GrowlMail"]];
+		[image setName:@"GrowlMail"];
+		
+		[GrowlMail registerBundle];
+		
+		NSLog(@"Loaded GrowlMail %@", [GMGetGrowlMailBundle() objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey]);
+	}
 }
 
 + (BOOL) hasPreferencesPanel {
