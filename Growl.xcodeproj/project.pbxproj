@@ -186,7 +186,6 @@
 		934EBCB80931F529002C378F /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
-		937F40CE1025C3DE00BE7408 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 937F40711025C3A600BE7408 /* Sparkle.framework */; };
 		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
 		93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
@@ -490,41 +489,6 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
-		937F40701025C3A600BE7408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Sparkle;
-		};
-		937F40721025C3A600BE7408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
-			remoteInfo = "Sparkle Test App";
-		};
-		937F40741025C3A600BE7408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DAAEFC960DA571DF0051E0D0;
-			remoteInfo = "relaunch tool";
-		};
-		937F40761025C3A600BE7408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 612279D90DB5470200AB99EA;
-			remoteInfo = "Sparkle Unit Tests";
-		};
-		937F40B61025C3B500BE7408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
-		};
 		93BC37D5095A67340002B365 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -621,17 +585,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		937F40FB1025C3FD00BE7408 /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				937F40CE1025C3DE00BE7408 /* Sparkle.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -947,7 +900,6 @@
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		937E64310817193800AEC1C6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Core/Resources/English.lproj/About.rtf; sourceTree = "<group>"; };
-		937F40661025C3A600BE7408 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = external_dependencies/sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		938841E81025EA7C001DF30F /* GHA-Stubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GHA-Stubs.h"; path = "Core/Source/GHA-Stubs.h"; sourceTree = "<group>"; };
 		938841E91025EA7C001DF30F /* GHA-Stubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GHA-Stubs.m"; path = "Core/Source/GHA-Stubs.m"; sourceTree = "<group>"; };
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
@@ -1496,7 +1448,6 @@
 		089C166AFE841209C02AAC07 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
-				937F403C1025C39400BE7408 /* dependencies */,
 				DDB6463707DE04A700807F8D /* ShellScripts */,
 				953C3EFE0747970800F2A737 /* Documentation */,
 				070C1AC00912D0EA00884E7D /* Global Sources */,
@@ -1818,25 +1769,6 @@
 				34B2755D08423BFF0092A5A0 /* GrowlMenu.m */,
 			);
 			name = StatusItem;
-			sourceTree = "<group>";
-		};
-		937F403C1025C39400BE7408 /* dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				937F40661025C3A600BE7408 /* Sparkle.xcodeproj */,
-			);
-			name = dependencies;
-			sourceTree = "<group>";
-		};
-		937F40671025C3A600BE7408 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				937F40711025C3A600BE7408 /* Sparkle.framework */,
-				937F40731025C3A600BE7408 /* Sparkle Test App.app */,
-				937F40751025C3A600BE7408 /* relaunch */,
-				937F40771025C3A600BE7408 /* Sparkle Unit Tests.octest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		93AB058A100C2DB8008D7D30 /* Unused */ = {
@@ -2410,14 +2342,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27730855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlHelperApp" */;
 			buildPhases = (
-				938841181025D4E6001DF30F /* ShellScript */,
 				CB61E5140637763C00E0DDC7 /* Resources */,
 				CB61E5150637763C00E0DDC7 /* Sources */,
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
 				63C060F406C8946E00B0B7D4 /* Rez */,
 				3433456D0790E38B00C84B15 /* CopyFiles */,
 				34A96E300C95F6AE00F46006 /* CopyFiles */,
-				937F40FB1025C3FD00BE7408 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2434,7 +2364,6 @@
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
-				937F40B71025C3B500BE7408 /* PBXTargetDependency */,
 			);
 			name = GrowlHelperApp;
 			productName = GrowlHelperApp;
@@ -2506,10 +2435,6 @@
 					ProductGroup = 34A96DDB0C95F61800F46006 /* Products */;
 					ProjectRef = 34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */;
 				},
-				{
-					ProductGroup = 937F40671025C3A600BE7408 /* Products */;
-					ProjectRef = 937F40661025C3A600BE7408 /* Sparkle.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2541,34 +2466,6 @@
 			fileType = wrapper.cfbundle;
 			path = "Show Growl Notification.action";
 			remoteRef = 34A96DE10C95F61800F46006 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		937F40711025C3A600BE7408 /* Sparkle.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sparkle.framework;
-			remoteRef = 937F40701025C3A600BE7408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		937F40731025C3A600BE7408 /* Sparkle Test App.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Sparkle Test App.app";
-			remoteRef = 937F40721025C3A600BE7408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		937F40751025C3A600BE7408 /* relaunch */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = relaunch;
-			remoteRef = 937F40741025C3A600BE7408 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		937F40771025C3A600BE7408 /* Sparkle Unit Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Sparkle Unit Tests.octest";
-			remoteRef = 937F40761025C3A600BE7408 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2777,20 +2674,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
-		};
-		938841181025D4E6001DF30F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -d $BUILT_PRODUCTS_DIR ]; then\n\trm -rf $BUILT_PRODUCTS_DIR/Sparkle.framework \nfi\n\ncp -R $SRCROOT/external_dependencies/sparkle/build/$CONFIGURATION/Sparkle.framework $BUILT_PRODUCTS_DIR";
-			showEnvVarsInLog = 0;
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3176,11 +3059,6 @@
 			isa = PBXTargetDependency;
 			target = 8D202CE80486D31800D8A456 /* Growl */;
 			targetProxy = 9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */;
-		};
-		937F40B71025C3B500BE7408 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 937F40B61025C3B500BE7408 /* PBXContainerItemProxy */;
 		};
 		93BC37D6095A67340002B365 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4087,7 +3965,6 @@
 		95EE27740855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$BUILT_PRODUCTS_DIR/**";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4096,10 +3973,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Sparkle,
-				);
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
@@ -4108,7 +3981,6 @@
 		95EE27750855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$BUILT_PRODUCTS_DIR/**";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4121,10 +3993,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Sparkle,
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
@@ -4341,10 +4209,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4374,6 +4239,9 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -4427,6 +4295,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
