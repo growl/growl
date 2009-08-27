@@ -23,7 +23,7 @@
 	<key>CFBundleName</key>
 	<string>MailMe</string>
 	<key>GrowlPluginAuthor</key>
-	<string>Mac-arena the Bored Zo</string>
+	<string>Peter Hosey</string>
 	<key>GrowlPluginDescription</key>
 	<string>Send notifications as emails</string>
 </dict>
