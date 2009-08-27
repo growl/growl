@@ -794,7 +794,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
 		if (version.releaseType == releaseType_svn)
-			version.development = (u_int32_t)strtoul(HG_REVISION, /*endptr*/ NULL, 10);
+			version.development = (u_int32_t)HG_REVISION;
 
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
