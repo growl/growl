@@ -6,7 +6,7 @@ rm -rf /Library/Application\ Support/SIMBL/Plugins/GrowlSafari.bundle
 
 echo "Fixing bundle permissions..."
 
-chown -R root:admin $2/GrowlSafari
-chmod -R g-w,o-w $2/GrowlSafari
+chown :procmod $2/GrowlSafari.app/Contents/MacOS/GrowlSafariHelper
+chmod g+s $2/GrowlSafari.app/Contents/MacOS/GrowlSafariHelper
 
 echo "GrowlSafari postupgrade script done."
