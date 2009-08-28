@@ -48,7 +48,7 @@ FindProcessBySignature(
 	printf("pid %d\n", pid);
 	mach_error_t err = mach_inject_bundle_pid(
 		[bundlePath fileSystemRepresentation], pid );
-	mach_error("shit", err);
+	mach_error("mach_inject_bundle_pid returned", err);
 	NSLog( @"err = %d", err );
 	[NSApp terminate:nil];
 }
