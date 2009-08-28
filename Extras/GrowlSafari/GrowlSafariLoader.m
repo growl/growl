@@ -8,7 +8,6 @@
 
 #import "GrowlSafariLoader.h"
 
-#include <mach_inject_bundle/mach_inject_bundle.h>
 
 @interface GrowlSafariLoader ()
 
@@ -29,10 +28,7 @@
 			   selector:@selector(workspaceDidLaunchApplication:)
 				   name:NSWorkspaceDidLaunchApplicationNotification
 				 object:nil];
-
-		NSLog(@"mach_inject_bundle.framework: %@", [NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"mach_inject_bundle.framework"]]);
-		NSLog(@"com.rentzsch.mach_inject_bundle: %@", [NSBundle bundleWithIdentifier:@"com.rentzsch.mach_inject_bundle"]);
-		[NSBundle bundleWithPath:[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"mach_inject_bundle.framework"]];
+		
 #if defined(__x86_64__)
 		OSStatus err;
 		SInt32 majorSystemVersion = 10, minorSystemVersion = 0;
@@ -89,9 +85,11 @@
 			NSNumber *PIDNum = [launchedProcessInfo objectForKey:@"NSApplicationProcessIdentifier"];
 			pid_t pid = [PIDNum intValue];
 			
-			mach_error_t err = mach_inject_bundle_pid([bundlePath fileSystemRepresentation], pid);
-			if (err != ERR_SUCCESS)
-				NSLog(@"Error while injecting into process %i: %s (system 0x%x, subsystem 0x%x, code 0x%x)", pid, mach_error_string(err), err_get_system(err), err_get_sub(err), err_get_code(err));
+			NSArray *arguments = [NSArray arrayWithObject:[NSString stringWithFormat:@"%d", pid]];
+			NSTask *task = [[[NSTask alloc] init] autorelease];
+			[task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"GrowlSafariHelper"]];
+			[task setArguments:arguments];
+			[task launch];
 		}
 	}
 }

@@ -29,9 +29,10 @@
 //
 
 #import "GrowlSafari.h"
-#import "GSWebBookmark.h"
+//#import "GSWebBookmark.h"
 #import <Growl/Growl.h>
 #import <objc/objc-runtime.h>
+#include <dlfcn.h>
 
 //Note: As of Safari 4.0.x, the build number comes across as four digits (in decimal). The last three are the actual build number; the first one is the minor version of the OS target of that build.
 //Thus, Safari 4.0 for Tiger is 4530, and Safari 4.0 for Leopard is 5530. We check the components separately, so the value here is only the pure-build-number part of the number.
@@ -76,6 +77,22 @@ static int GrowlSafariDownloadStageFinished = GrowlSafariLeopardDownloadStageFin
 static double longDownload = 15.0;
 static int safariVersion;
 static NSMutableDictionary *dates = nil;
+
+int writeWithFormatAndArgs(FILE *file, NSString *format, va_list args);
+int writeWithFormat(FILE *file, NSString *format, ...);
+
+int writeWithFormatAndArgs(FILE *file, NSString *format, va_list args) {
+    return 0;
+	return fprintf(file, "%s\n", [[[[NSString alloc] initWithFormat:format arguments:args] autorelease] UTF8String]);
+}
+
+int writeWithFormat(FILE *file, NSString *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int written = writeWithFormatAndArgs(file, format, args);
+    va_end(args);
+    return written;
+}
 
 // Using method swizzling as outlined here:
 // http://www.cocoadev.com/index.pl?MethodSwizzling
@@ -140,7 +157,7 @@ static void setDownloadFinished(id dl) {
 
 @implementation GrowlSafari
 + (NSBundle *) bundle {
-	return [NSBundle bundleWithIdentifier:@"com.growl.GrowlSafari"];
+	return [NSBundle bundleForClass:[GrowlSafari class]];
 }
 
 + (NSString *) bundleVersion {
@@ -148,32 +165,38 @@ static void setDownloadFinished(id dl) {
 }
 
 + (void) load {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
-	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
+	FILE *logfile = nil;//fopen("/tmp/GrowlSafari.log", "w");
+	writeWithFormat(logfile, @"%s", __PRETTY_FUNCTION__);
+	
+	NSString *growlPath = [[[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"] stringByAppendingPathComponent:@"Growl"];
 
-	if (growlBundle && [growlBundle load]) {
+	void *result = nil;
+	result = dlopen([growlPath fileSystemRepresentation], RTLD_LAZY);
+	writeWithFormat(logfile, @"%p %@", result, growlPath);
+	if (result) {
+
 		// Register ourselves as a Growl delegate
-		[GrowlApplicationBridge setGrowlDelegate:self];
-
+		[NSClassFromString(@"GrowlApplicationBridge") setGrowlDelegate:self];
+		
 		safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
-		//  NSLog(@"%d",safariVersion);
-
+		writeWithFormat(logfile, @"Safari Version: %d",safariVersion);
+		
 		if (safariVersion >= SAFARI_VERSION_4_0) {
 			//	NSLog(@"Patching DownloadProgressEntry...");
 			Class class = NSClassFromString(@"DownloadProgressEntry");
-			PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
+			writeWithFormat(logfile, @"setDownloadStage: %d", PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES));
 					
-			PerformSwizzle(class, @selector(_updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
+			writeWithFormat(logfile, @"_updateDiskImageStatus: %d", PerformSwizzle(class, @selector(_updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES));
 			
-			PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
+			writeWithFormat(logfile, @"initWithDownload:mayOpenWhenDone:allowOverwrite: %d", PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
 						   @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
-						   YES);
+						   YES));
 			
 			Class webBookmarkClass = NSClassFromString(@"WebBookmark");
 			if (webBookmarkClass)
-				[[GSWebBookmark class] poseAsClass:webBookmarkClass];
-
+			{
+				writeWithFormat(logfile, @"setUnreadRSSCount: %d", PerformSwizzle(webBookmarkClass, @selector(setUnreadRSSCount:), @selector(swizzled_setUnreadRSSCount:), YES));
+			}
 			//As explained above, safariVersion / 1000 = minor version of targeted Mac OS X version.
 			int operatingSystemTargetOfSafari = (safariVersion / 1000);
 			BOOL tigerVersionOfSafari = (operatingSystemTargetOfSafari == 4);
@@ -189,18 +212,18 @@ static void setDownloadFinished(id dl) {
 				GrowlSafariDownloadStageFinished = GrowlSafariTigerDownloadStageFinished;
 			}
 
-			NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
-			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
-			NSLog(@"Using Growl.framework %@ (%@)",
+			NSDictionary *infoDictionary = [NSClassFromString(@"GrowlApplicationBridge") frameworkInfoDictionary];
+			writeWithFormat(logfile, @"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
+			writeWithFormat(logfile, @"Using Growl.framework %@ (%@)",
 				  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
 				  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
 		} else {
-			NSLog(@"Safari too old (4.0 required); GrowlSafari disabled.");
+			writeWithFormat(logfile, @"Safari too old (4.0 required); GrowlSafari disabled.");
 		}
 	} else {
-		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
+		writeWithFormat(logfile, @"Could not load Growl.framework, GrowlSafari disabled");
 	}
-	
+	//fclose(logfile);	
 }
 
 #pragma mark GrowlApplicationBridge delegate methods
@@ -237,7 +260,7 @@ static void setDownloadFinished(id dl) {
 	[url release];
 }
 
-+ (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries {
++ (void) notifyRSSUpdate:(id)bookmark newEntries:(int)newEntries {
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSMutableString	*description = [[NSMutableString alloc]
 		initWithFormat:newEntries == 1 ? NSLocalizedStringFromTableInBundle(@"%d new entry", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"%d new entries", nil, bundle, @""),
@@ -247,7 +270,7 @@ static void setDownloadFinished(id dl) {
 		[description appendFormat:NSLocalizedStringFromTableInBundle(@" (%d unread)", nil, bundle, @""), [bookmark unreadRSSCount]];
 
 	NSString *title = [bookmark title];
-	[GrowlApplicationBridge notifyWithTitle:(title ? title : [bookmark URLString])
+	[NSClassFromString(@"GrowlApplicationBridge") notifyWithTitle:(title ? title : [bookmark URLString])
 								description:description
 						   notificationName:NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @"")
 								   iconData:nil
@@ -259,9 +282,21 @@ static void setDownloadFinished(id dl) {
 @end
 
 @implementation NSObject (GrowlSafariPatch)
-- (void) mySetDownloadStage:(int)stage {
-	//int oldStage = [self downloadStage];
+
+- (void) swizzled_setUnreadRSSCount:(int)newUnreadCount  {
+	int oldRSSCount = [self unreadRSSCount];
+	[self swizzled_setUnreadRSSCount:newUnreadCount];
 	
+	if ([self isRSSBookmark] && [[self URLString] hasPrefix:@"feed:"] && oldRSSCount < newUnreadCount) {
+		[GrowlSafari notifyRSSUpdate:self newEntries:newUnreadCount - oldRSSCount];
+	}
+}
+
+- (void) mySetDownloadStage:(int)stage {
+	FILE *logfile = nil;//fopen("/tmp/GrowlSafari.log", "a");
+	writeWithFormat(logfile, @"%s", __PRETTY_FUNCTION__);
+	//int oldStage = [self downloadStage];
+	//fclose(logfile);
 	//NSLog(@"mySetDownloadStage:%d -> %d", oldStage, stage);
 	[self mySetDownloadStage:stage];
 	if (dateStarted(self)) {
@@ -270,7 +305,7 @@ static void setDownloadFinished(id dl) {
 			NSString *description = [[NSString alloc] initWithFormat:
 				NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
 				[[self gsDownloadPath] lastPathComponent]];
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
+			[NSClassFromString(@"GrowlApplicationBridge") notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
 										description:description
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @"")
 										   iconData:nil
@@ -283,7 +318,7 @@ static void setDownloadFinished(id dl) {
 			NSString *description = [[NSString alloc] initWithFormat:
 									 NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
 									 [[self gsDownloadPath] lastPathComponent]];
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Verifying Disk Image", nil, bundle, @"")
+			[NSClassFromString(@"GrowlApplicationBridge") notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Verifying Disk Image", nil, bundle, @"")
 										description:description
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
 										   iconData:nil
@@ -298,7 +333,7 @@ static void setDownloadFinished(id dl) {
 			NSString *description = [[NSString alloc] initWithFormat:
 				NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, "Message shown when a download is complete, where %@ becomes the filename"),
 				[self filename]];
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
+			[NSClassFromString(@"GrowlApplicationBridge") notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
 										description:description
 								   notificationName:notificationName
 										   iconData:nil
@@ -313,6 +348,9 @@ static void setDownloadFinished(id dl) {
 }
 
 - (void) myUpdateDiskImageStatus:(NSDictionary *)status {
+	FILE *logfile = nil;//fopen("/tmp/GrowlSafari.log", "a");
+	writeWithFormat(logfile, @"%s", __PRETTY_FUNCTION__);
+	//fclose(logfile);
 	int oldStage = [self downloadStage];
 	[self myUpdateDiskImageStatus:status];
 	//NSLog(@"myUpdateDiskImageStatus:%@ stage=%d -> %d", status, oldStage, [self downloadStage]);
@@ -325,7 +363,7 @@ static void setDownloadFinished(id dl) {
 		NSString *description = [[NSString alloc] initWithFormat:
 			NSLocalizedStringFromTableInBundle(@"%@", nil, bundle, @""),
 			[[self gsDownloadPath] lastPathComponent]];
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
+		[NSClassFromString(@"GrowlApplicationBridge") notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
 									description:description
 							   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
 									   iconData:nil
@@ -338,6 +376,9 @@ static void setDownloadFinished(id dl) {
 
 // This is to make sure we're done with the pre-saved downloads
 - (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16 {
+	FILE *logfile = nil;//fopen("/tmp/GrowlSafari.log", "a");
+	writeWithFormat(logfile, @"%s", __PRETTY_FUNCTION__);
+	//fclose(logfile);
 	id retval = [self myInitWithDownload:fp8 mayOpenWhenDone:fp12 allowOverwrite:fp16];
 	setDownloadStarted(self);
 	return retval;
