@@ -8,6 +8,7 @@
 
 #import "GrowlSafariHelper.h"
 #include <mach_inject_bundle/mach_inject_bundle.h>
+#include <mach/mach_error.h>
 #include <dlfcn.h>
 
 #define SAFARI_BUNDLE_ID @"com.apple.Safari"
@@ -63,6 +64,6 @@ void inject(pid_t pid)
 	if (bundlePath) {
 	mach_error_t err = mach_inject_bundle_pid([bundlePath fileSystemRepresentation], pid);
 	if (err != ERR_SUCCESS)
-		NSLog(@"Error while injecting into process %i: %s (system 0x%x, subsystem 0x%x, code 0x%x)", pid, "(null)", err_get_system(err), err_get_sub(err), err_get_code(err));
+		NSLog(@"Error while injecting into process %i: %s (system 0x%x, subsystem 0x%x, code 0x%x)", pid, mach_error_string(err), err_get_system(err), err_get_sub(err), err_get_code(err));
 	}
 }
