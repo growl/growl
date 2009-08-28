@@ -2,7 +2,7 @@
 //  GrowlMailMePrefs.h
 //  Display Plugins
 //
-//  Copyright 2004 Mac-arena the Bored Zo. All rights reserved.
+//  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
