@@ -76,6 +76,18 @@
 	}
 }
 
+- (BOOL) isOnSnowLeopardOrLater {
+	OSStatus err;
+
+	SInt32 majorOSVersion = 10, minorOSVersion = 0;
+	err = Gestalt(gestaltSystemVersionMajor, &majorOSVersion);
+	NSAssert2(err == noErr, @"Could not get operating-system major version number: %li/%s", (long)err, GetMacOSStatusCommentString(err));
+	err = Gestalt(gestaltSystemVersionMinor, &minorOSVersion);
+	NSAssert2(err == noErr, @"Could not get operating-system minor version number: %li/%s", (long)err, GetMacOSStatusCommentString(err));
+
+	return (majorOSVersion == 10 && minorOSVersion >= 6) || (majorOSVersion > 10);
+}
+
 - (void) workspaceDidLaunchApplication:(NSNotification *)notification {
 	NSDictionary *launchedProcessInfo = [notification userInfo];
 	NSString *bundleID = [launchedProcessInfo objectForKey:@"NSApplicationBundleIdentifier"];
@@ -85,9 +97,23 @@
 			NSNumber *PIDNum = [launchedProcessInfo objectForKey:@"NSApplicationProcessIdentifier"];
 			pid_t pid = [PIDNum intValue];
 			
-			NSArray *arguments = [NSArray arrayWithObject:[NSString stringWithFormat:@"%d", pid]];
+			NSArray *arguments = [NSArray arrayWithObjects:
+				@"-arch",
+#if defined(__i386__)
+				@"i386",
+#elif defined(__x86_64__)
+				//Safari did not exist in x86_64 before Snow Leopard, so, on older versions of Mac OS X, run the helper as i386.
+				[self isOnSnowLeopardOrLater] ? @"x86_64" : @"i386",
+#elif defined(__ppc__)
+				@"ppc",
+#else
+#error Unsupported architecture
+#endif
+				[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"GrowlSafariHelper"],
+				[NSString stringWithFormat:@"%d", pid],
+				nil];
 			NSTask *task = [[[NSTask alloc] init] autorelease];
-			[task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"GrowlSafariHelper"]];
+			[task setLaunchPath:@"/usr/bin/arch"];
 			[task setArguments:arguments];
 			[task launch];
 		}
