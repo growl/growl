@@ -28,30 +28,6 @@
 			   selector:@selector(workspaceDidLaunchApplication:)
 				   name:NSWorkspaceDidLaunchApplicationNotification
 				 object:nil];
-		
-#if defined(__x86_64__)
-		OSStatus err;
-		SInt32 majorSystemVersion = 10, minorSystemVersion = 0;
-		err = Gestalt(gestaltSystemVersionMajor, &majorSystemVersion);
-		if (err != noErr) {
-			NSLog(@"Could not get major system version number: %i/%s", err, GetMacOSStatusCommentString(err));
-			NSLog(@"GrowlSafari will now quit.");
-			[[NSApplication sharedApplication] terminate:nil];
-		}
-		err = Gestalt(gestaltSystemVersionMinor, &minorSystemVersion);
-		if (err != noErr) {
-			NSLog(@"Could not get minor system version number: %i/%s", err, GetMacOSStatusCommentString(err));
-			NSLog(@"GrowlSafari will now quit.");
-			[[NSApplication sharedApplication] terminate:nil];
-		}
-
-		//Safari does not exist in 64-bit on Leopard, so GrowlSafari cannot work in 64-bit on Leopard.
-		//Since this is the 64-bit version, if we're running on Leopard, quit.
-		if (majorSystemVersion == 10 && minorSystemVersion == 5) {
-			NSLog(@"GrowlSafari cannot inject into Safari when running in 64-bit on Leopard. GrowlSafari will now quit.");
-			[[NSApplication sharedApplication] terminate:nil];
-		}
-#endif
 	}
 	return self;
 }
