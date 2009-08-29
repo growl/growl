@@ -119,15 +119,15 @@ static BOOL notifierEnabled = YES;
 		
 		if (!class_getClassMethod([Library class], @selector(messageWithMessageID:)))
 			GMShutDownGrowlMailAndWarn(@"Library does not respond to +messageWithMessageID:");
-		if (!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:withDefaults:)) || 
-			!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
-			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
+		if (!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:withDefaults:)))
+			if(!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
+				GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -initForViewingMessage:showAllHeaders:viewingState:fromDefaults:");
 		if (!class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(showAndMakeKey:)))
-			GMShutDownGrowlMailAndWarn(@"GMSingleMessageViewer does not respond to -showAndMakeKey:");
+			GMShutDownGrowlMailAndWarn(@"SingleMessageViewer does not respond to -showAndMakeKey:");
 
 		id message = [Library messageWithMessageID:clickContext];
 		id viewingState = [[NSClassFromString(@"MessageViewingState") alloc] init];
-		id messageViewer;
+		id messageViewer = nil;
 		if(class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:withDefaults:)))
 		   messageViewer = [[NSClassFromString(@"SingleMessageViewer") alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState withDefaults:NO];
 		else if(class_getInstanceMethod(NSClassFromString(@"SingleMessageViewer"), @selector(initForViewingMessage:showAllHeaders:viewingState:fromDefaults:)))
