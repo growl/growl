@@ -44,7 +44,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		return USHRT_MAX;
 	else if (theIndex < 0)
 		return 0;
-	return (unsigned short)index;
+	return (unsigned short)theIndex;
 }
 
 @implementation GrowlPreferencesController
