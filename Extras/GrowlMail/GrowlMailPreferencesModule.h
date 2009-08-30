@@ -43,5 +43,6 @@
 - (int) numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (IBAction)changeBackgroundOnlyMode:(id)sender;
 
 @end

@@ -99,6 +99,10 @@
 	return [[MailAccount remoteMailAccounts] count];
 }
 
+- (IBAction)changeBackgroundOnlyMode:(id)sender {
+	[[GrowlMailNotifier sharedNotifier] configureForBackgroundOnly:[sender state]];
+}
+
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(aTableView)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
