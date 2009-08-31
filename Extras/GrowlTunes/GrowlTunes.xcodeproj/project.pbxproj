@@ -824,7 +824,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		95E4A2DA0855C125006B3F45 /* Development */ = {
+		95E4A2DA0855C125006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUGGING_SYMBOLS = YES;
@@ -864,9 +864,9 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A2DB0855C125006B3F45 /* Deployment */ = {
+		95E4A2DB0855C125006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
@@ -906,9 +906,9 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A2EE0855C125006B3F45 /* Development */ = {
+		95E4A2EE0855C125006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -918,9 +918,9 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A2EF0855C125006B3F45 /* Deployment */ = {
+		95E4A2EF0855C125006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
@@ -934,7 +934,7 @@
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -942,20 +942,20 @@
 		95E4A2D90855C125006B3F45 /* Build configuration list for PBXNativeTarget "GrowlTunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2DA0855C125006B3F45 /* Development */,
-				95E4A2DB0855C125006B3F45 /* Deployment */,
+				95E4A2DA0855C125006B3F45 /* Debug */,
+				95E4A2DB0855C125006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A2ED0855C125006B3F45 /* Build configuration list for PBXProject "GrowlTunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2EE0855C125006B3F45 /* Development */,
-				95E4A2EF0855C125006B3F45 /* Deployment */,
+				95E4A2EE0855C125006B3F45 /* Debug */,
+				95E4A2EF0855C125006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
