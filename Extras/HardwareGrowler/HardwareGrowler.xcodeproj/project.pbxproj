@@ -692,7 +692,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		9533C22F085C3E94009F8046 /* Development */ = {
+		9533C22F085C3E94009F8046 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -709,9 +709,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		9533C230085C3E94009F8046 /* Deployment */ = {
+		9533C230085C3E94009F8046 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -728,9 +728,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A2B60855C0DB006B3F45 /* Development */ = {
+		95E4A2B60855C0DB006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
@@ -768,9 +768,9 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A2B70855C0DB006B3F45 /* Deployment */ = {
+		95E4A2B70855C0DB006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
@@ -808,9 +808,9 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A2BB0855C0DB006B3F45 /* Development */ = {
+		95E4A2BB0855C0DB006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -823,9 +823,9 @@
 				SDKROOT = macosx10.4;
 				"SDKROOT[arch=x86_64]" = macosx10.6;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A2BC0855C0DB006B3F45 /* Deployment */ = {
+		95E4A2BC0855C0DB006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
@@ -840,7 +840,7 @@
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -848,29 +848,29 @@
 		9533C22E085C3E94009F8046 /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9533C22F085C3E94009F8046 /* Development */,
-				9533C230085C3E94009F8046 /* Deployment */,
+				9533C22F085C3E94009F8046 /* Debug */,
+				9533C230085C3E94009F8046 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A2B50855C0DB006B3F45 /* Build configuration list for PBXNativeTarget "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2B60855C0DB006B3F45 /* Development */,
-				95E4A2B70855C0DB006B3F45 /* Deployment */,
+				95E4A2B60855C0DB006B3F45 /* Debug */,
+				95E4A2B70855C0DB006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2BB0855C0DB006B3F45 /* Development */,
-				95E4A2BC0855C0DB006B3F45 /* Deployment */,
+				95E4A2BB0855C0DB006B3F45 /* Debug */,
+				95E4A2BC0855C0DB006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
