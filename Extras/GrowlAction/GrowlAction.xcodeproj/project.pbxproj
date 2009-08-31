@@ -258,6 +258,7 @@
 		95EE279F0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = macosx10.5;
 				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Debug;
@@ -265,6 +266,7 @@
 		95EE27A00855AA6E0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = macosx10.5;
 				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Release;
