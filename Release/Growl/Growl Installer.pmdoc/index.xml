@@ -1,4 +1,4 @@
-<pkmkdoc spec="1.12"><properties><title>Growl</title><build>/Volumes/RAM Disk/Growl.mpkg</build><organization>com.growl</organization><userSees ui="easy"/><min-target os="2"/><domain system="true" user="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>Growl is a centralized notification system for OS X.  
+<pkmkdoc spec="1.12"><properties><title>Growl</title><build>/Volumes/RAM Disk/Growl.pkg</build><organization>com.growl</organization><userSees ui="easy"/><min-target os="3"/><domain system="true" user="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>Growl is a centralized notification system for OS X.  
 
 It allows compatible applications to provide you with information in an attractive and customizable way without you having to switch away from what you are currently doing.
 
@@ -32,8 +32,7 @@ Some applications can have Growl support added using plugins or 'extras'. You ca
 See http://growl.info/about.php for more information.\
 \
 Click Continue to install.\
-\
-On Mac OS X 10.5 and above, you will be given the choice of installation for all users or just for you. On Mac OS X 10.4, Growl will be installed to /Library/PreferencePanes/Growl.prefPane and available for all users.}]]></resource></locale><locale lang="Dutch"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
+}]]></resource></locale><locale lang="Dutch"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
 {\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -64,8 +63,7 @@ Sommige programma's kunnen ondersteuning hebben voor Growl met plugins of "extra
 Zie http://growl.info/about.php voor meer informatie.\
 \
 Druk op Ga door om te installeren.\
-\
-Onder Mac OS X 10.5 en hoger, krijgt u de keuze voor een installatie voor alle gebruikers of alleen voor uzelf. Onder Mac OS X 10.4, zal Growl worden ge nstalleerd in /Bibliotheek/PreferencePanes/Growl.prefPane en beschikbaar zijn voor alle gebruikers.}]]></resource></locale><locale lang="Swedish"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
+}]]></resource></locale><locale lang="Swedish"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
 {\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -95,8 +93,7 @@ Vissa program kan f\'e5 st\'f6d f\'f6r Growl genom hj\'e4lpprogram, s\'e5 kallad
 Bes\'f6k g\'e4rna http://growl.info/about.php f\'f6r mer information.\
 \
 Klicka Forts\'e4tt f\'f6r att installera.\
-\
-I Mac OS X 10.5 och nyare kommer du f\'e5 valet att installera f\'f6r alla anv\'e4ndare eller enbart f\'f6r dig. I Mac OS X 10.4 kommer Growl installeras i /Library/PreferencePanes/Growl.prefPane och vara tillg\'e4ngligt f\'f6r alla anv\'e4ndare.}]]></resource></locale><locale lang="Portuguese"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
+}]]></resource></locale><locale lang="Portuguese"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
 {\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -126,8 +123,7 @@ Alguns aplicativos tem suporte ao Growl atrav\'e9s do uso de extens\'f5es ou  'e
 Para maiores informa\'e7\'f5es, veja a p\'e1gina http://growl.info/about.php (em ingl\'eas)\
 \
 Clique em Continuar para iniciar a instala\'e7\'e3o. \
-\
-No Mac OS X 10.5 ou vers\'e3o mais recente, voc\'ea vai ter a op\'e7\'e3o de escolher a instala\'e7\'e3o para todos os usu\'e1rios ou apenas para voc\'ea. J\'e1 no Mac OS X 10.4, o Growl ser\'e1 instalado em /Library/PreferencePanes/Growl.prefPane e estar\'e1 dispon\'edvel para todos os usu\'e1rios.}]]></resource></locale><locale lang="French"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
+}]]></resource></locale><locale lang="French"><resource relative="true" mod="true" type="background">growl-400.png</resource><resource mime-type="text/rtf" kind="embedded" type="license"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1038
 {\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -157,5 +153,4 @@ Certaines applications peuvent avoir du support de Growl en plus avec des module
 Voir <http://growl.info/about.php> pour plus d\'92information.\
 \
 Cliquer sur Continuer pour installer.\
-\
-Avec Mac OS X 10.5 et ult\'e9rieur, vous allez avoir le choix d\'92une installation pour tous les utilisateurs ou uniquement pour vous. Avec Mac OS X 10.4, Growl va s\'92installer comme /Library/PreferencePanes/Growl.prefPane et disponible pour tous les utilisateurs.}]]></resource></locale></resources><flags/><item type="file">01growl.xml</item><mod>description</mod><mod>properties.title</mod><mod>postinstallActions.actions</mod><mod>properties.userDomain</mod><mod>properties.customizeOption</mod><mod>preinstallActions.actions</mod><mod>properties.systemDomain</mod><mod>properties.anywhereDomain</mod></pkmkdoc>
+}]]></resource></locale></resources><flags/><item type="file">01growl.xml</item><mod>description</mod><mod>properties.title</mod><mod>properties.anywhereDomain</mod><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.customizeOption</mod><mod>postinstallActions.actions</mod><mod>properties.systemDomain</mod></pkmkdoc>
