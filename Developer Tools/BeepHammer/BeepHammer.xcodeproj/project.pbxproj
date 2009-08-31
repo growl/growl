@@ -6,20 +6,6 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 34FBA3520CA0570600958660 /* Build configuration list for PBXAggregateTarget "LinkifyGrowlFrameworks" */;
-			buildPhases = (
-				34FBA34D0CA056E700958660 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = LinkifyGrowlFrameworks;
-			productName = LinkifyGrowlFrameworks;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		0717FC2D076587750083E17E /* BeepAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0717FC2B076587750083E17E /* BeepAdditions.h */; };
 		0717FC2E076587750083E17E /* BeepAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0717FC2C076587750083E17E /* BeepAdditions.m */; };
@@ -179,20 +165,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 34F60EF8078E226300CECA86;
 			remoteInfo = "Growl-WithInstaller.framework";
-		};
-		34FBA35E0CA057A600958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 073B925106855E0F0068C763 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34FBA34E0CA056E700958660;
-			remoteInfo = LinkifyGrowlFrameworks;
-		};
-		34FBA3730CA059A200958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 073B925106855E0F0068C763 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34FBA34E0CA056E700958660;
-			remoteInfo = LinkifyGrowlFrameworks;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -377,7 +349,6 @@
 			);
 			dependencies = (
 				34FBA3210CA0558A00958660 /* PBXTargetDependency */,
-				34FBA35F0CA057A600958660 /* PBXTargetDependency */,
 			);
 			name = "BeepHammer Growl-WithInstaller";
 			productName = Beep;
@@ -398,7 +369,6 @@
 			);
 			dependencies = (
 				34FBA2FD0CA0552D00958660 /* PBXTargetDependency */,
-				34FBA3740CA059A200958660 /* PBXTargetDependency */,
 			);
 			name = BeepHammer;
 			productName = Beep;
@@ -426,7 +396,6 @@
 			targets = (
 				CBBC7DE20659313D00684B79 /* BeepHammer */,
 				34FBA3000CA0554800958660 /* BeepHammer Growl-WithInstaller */,
-				34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */,
 			);
 		};
 /* End PBXProject section */
@@ -577,22 +546,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		34FBA34D0CA056E700958660 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\n\nif [ ! -e \"$SRCROOT/Developer Tools/BeepHammer/build/$BUILD_STYLE/Growl-WithInstaller.framework\" ] ; then\n\tln -s \"$SRCROOT/../../build/$BUILD_STYLE/Growl-WithInstaller.framework\" \\\n\t\t \"$SRCROOT/build/$BUILD_STYLE/Growl-WithInstaller.framework\" || true\nfi\n\nif [ ! -e \"$SRCROOT/Developer Tools/BeepHammer/build/$BUILD_STYLE/Growl.framework\" ] ; then\n\tln -s \"$SRCROOT/../../build/$BUILD_STYLE/Growl.framework\" \\\n\t\t \"$SRCROOT/build/$BUILD_STYLE/Growl.framework\"  || true\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		34FBA3100CA0554800958660 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -626,16 +579,6 @@
 			isa = PBXTargetDependency;
 			name = "Growl-WithInstaller.framework";
 			targetProxy = 34FBA3200CA0558A00958660 /* PBXContainerItemProxy */;
-		};
-		34FBA35F0CA057A600958660 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */;
-			targetProxy = 34FBA35E0CA057A600958660 /* PBXContainerItemProxy */;
-		};
-		34FBA3740CA059A200958660 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34FBA34E0CA056E700958660 /* LinkifyGrowlFrameworks */;
-			targetProxy = 34FBA3730CA059A200958660 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -716,27 +659,6 @@
 				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
-			};
-			name = Release;
-		};
-		34FBA34F0CA056E800958660 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = LinkifyGrowlFrameworks;
-			};
-			name = Debug;
-		};
-		34FBA3500CA056E800958660 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = LinkifyGrowlFrameworks;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -832,15 +754,6 @@
 			buildConfigurations = (
 				34FBA3180CA0554800958660 /* Debug */,
 				34FBA3190CA0554800958660 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		34FBA3520CA0570600958660 /* Build configuration list for PBXAggregateTarget "LinkifyGrowlFrameworks" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				34FBA34F0CA056E800958660 /* Debug */,
-				34FBA3500CA056E800958660 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
