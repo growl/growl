@@ -186,7 +186,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		95E4A3210855C14F006B3F45 /* Development */ = {
+		95E4A3210855C14F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -222,9 +222,9 @@
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3220855C14F006B3F45 /* Deployment */ = {
+		95E4A3220855C14F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -258,9 +258,9 @@
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A3250855C14F006B3F45 /* Development */ = {
+		95E4A3250855C14F006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -272,9 +272,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = macosx10.4;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A3260855C14F006B3F45 /* Deployment */ = {
+		95E4A3260855C14F006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -290,7 +290,7 @@
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -298,20 +298,20 @@
 		95E4A3200855C14F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlTunes-ARTchive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3210855C14F006B3F45 /* Development */,
-				95E4A3220855C14F006B3F45 /* Deployment */,
+				95E4A3210855C14F006B3F45 /* Debug */,
+				95E4A3220855C14F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95E4A3240855C14F006B3F45 /* Build configuration list for PBXProject "ARTchive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A3250855C14F006B3F45 /* Development */,
-				95E4A3260855C14F006B3F45 /* Deployment */,
+				95E4A3250855C14F006B3F45 /* Debug */,
+				95E4A3260855C14F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
