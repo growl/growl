@@ -1,2 +1,4 @@
+BUILDCONFIGURATION?=Debug
+
 all:
-	xcodebuild -alltargets -configuration Deployment build
+	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
