@@ -95,7 +95,6 @@ load_bundle_executable(
 	
 	printf("FS rep %s\n", bundleExecutableFileSystemRepresentation);
 	void *image = dlopen(bundleExecutableFileSystemRepresentation, RTLD_NOW);
-	printf("OH shit load? %p\n", image);
 	if (!image) {
 		dlerror();
 		return err_load_bundle_NSObjectFileImageFailure;
