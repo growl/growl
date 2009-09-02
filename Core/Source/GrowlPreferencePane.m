@@ -948,7 +948,7 @@
 	localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															   /*nameEncoding*/ NULL);
 	if(!localHostName)
-		localHostName = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("localhost"));
+		localHostName = CFRetain(CFSTR("localhost"));
 	
 	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
 	CFRelease(localHostName);
