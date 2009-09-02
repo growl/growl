@@ -1,5 +1,5 @@
 /*
- Copyright (c) The Growl Project, 2004
+ Copyright (c) The Growl Project, 2004-2009
  All rights reserved.
 
 
@@ -39,7 +39,7 @@
 + (NSImage *) applicationIconForGrowl;
 + (NSDictionary *) registrationDictionaryForGrowl;
 + (void) growlNotificationWasClicked:(id)clickContext;
-+ (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries;
++ (void) notifyRSSUpdate:(id)bookmark newEntries:(int)newEntries;
 @end
 
 @interface NSObject (DownloadInfo)
@@ -50,7 +50,15 @@
 - (NSString *) currentPath;
 @end
 
+//we declare these but don't implement them and don't include them in our other category so that we can avoid being warned that they're not implemented
+@interface NSObject (GrowlSafariRSSMethods)
+- (int) unreadRSSCount;
+- (NSString*) URLString;
+- (BOOL)isRSSBookmark;
+@end
+
 @interface NSObject (GrowlSafariPatch)
+- (void) swizzled_setUnreadRSSCount:(int)newUnreadCount;
 - (void) mySetDownloadStage:(int)stage;
 - (void) myUpdateDiskImageStatus:(NSDictionary *)status;
 - (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16;

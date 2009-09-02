@@ -258,7 +258,6 @@
 		8D5B49B6048680CD000E48DA /* GrowlSafari.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlSafari.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93CB0B2710461477004D8DD1 /* GrowlSafariHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GrowlSafariHelper; sourceTree = BUILT_PRODUCTS_DIR; };
-		93CB0B2D1046149F004D8DD1 /* GrowlSafariHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSafariHelper.h; sourceTree = "<group>"; };
 		93CB0B2E1046149F004D8DD1 /* GrowlSafariHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSafariHelper.m; sourceTree = "<group>"; };
 		950F179C07E0D6D2001723BE /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Growl.framework; path = build/Debug/Growl.framework; sourceTree = SOURCE_ROOT; };
 		954E6B8D08393AC000C76A74 /* Safari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Safari.h; sourceTree = "<group>"; };
@@ -345,7 +344,6 @@
 				954E6B8D08393AC000C76A74 /* Safari.h */,
 				95D74085084B96C4000D67BC /* GrowlSafariLoader.h */,
 				95D74086084B96C4000D67BC /* GrowlSafariLoader.m */,
-				93CB0B2D1046149F004D8DD1 /* GrowlSafariHelper.h */,
 				93CB0B2E1046149F004D8DD1 /* GrowlSafariHelper.m */,
 			);
 			name = Classes;

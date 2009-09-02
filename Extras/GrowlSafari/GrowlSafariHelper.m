@@ -6,7 +6,6 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "GrowlSafariHelper.h"
 #include <mach_inject_bundle/mach_inject_bundle.h>
 #include <mach/mach_error.h>
 #include <dlfcn.h>
@@ -59,7 +58,6 @@ int main(int argc, char **argv) {
 
 void inject(pid_t pid)
 {
-		
 	NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"GrowlSafari" ofType:@"bundle"];
 	if (bundlePath) {
 	mach_error_t err = mach_inject_bundle_pid([bundlePath fileSystemRepresentation], pid);
