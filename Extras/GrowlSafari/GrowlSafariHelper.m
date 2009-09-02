@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 	if(argc == 2)
 	{
 		BOOL valid = NO;
-		NSString *PIDNum = [NSString stringWithCString:argv[1]];
+		NSString *PIDNum = [NSString stringWithCString:argv[1] encoding:NSUTF8StringEncoding];
 		pid_t pid = [PIDNum intValue];
 		NSLog(@"pid: %ld\n path: %s\n", pid, [[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"mach_inject_bundle.framework"] fileSystemRepresentation]);
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 		if(valid)
 		{
 			//NSBundle is forbidden! the system will kill us if we try to load our framework using -[NSBundle bundleWithPath:]
-			void *result = dlopen([[[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"mach_inject_bundle.framework"] stringByAppendingPathComponent:@"mach_inject_bundle"] fileSystemRepresentation] ,RTLD_LAZY);
+			void *result = dlopen([[[[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"mach_inject_bundle.framework"] stringByAppendingPathComponent:@"mach_inject_bundle"] fileSystemRepresentation], RTLD_LAZY);
 			NSLog(@"framework load result: %p\n", result);
 			
 			//NSLog(@"mach_inject_bundle.framework: %@", [NSBundle bundleWithPath:]);
