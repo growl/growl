@@ -9,6 +9,7 @@
 #include <CoreServices/CoreServices.h>
 #include <sys/syslimits.h> // for PATH_MAX.
 #include <mach-o/dyld.h>
+#include <mach/mach_error.h>
 #include <dlfcn.h>
 
 	mach_error_t

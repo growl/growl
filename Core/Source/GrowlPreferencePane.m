@@ -944,8 +944,12 @@
 	}
 
 	// don't add the local machine
-	CFStringRef localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
+	CFStringRef localHostName = nil;
+	localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															   /*nameEncoding*/ NULL);
+	if(!localHostName)
+		localHostName = CFRetain(CFSTR("localhost"));
+	
 	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
 	CFRelease(localHostName);
 	if (isLocalHost == kCFCompareEqualTo)
