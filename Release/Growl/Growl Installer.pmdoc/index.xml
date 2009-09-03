@@ -153,4 +153,4 @@ Certaines applications peuvent avoir du support de Growl en plus avec des module
 Voir <http://growl.info/about.php> pour plus d\'92information.\
 \
 Cliquer sur Continuer pour installer.\
-}]]></resource></locale></resources><flags/><item type="file">01growl.xml</item><mod>description</mod><mod>properties.title</mod><mod>properties.anywhereDomain</mod><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.customizeOption</mod><mod>postinstallActions.actions</mod><mod>properties.systemDomain</mod></pkmkdoc>
+}]]></resource></locale></resources><flags/><item type="file">01growl.xml</item><mod>description</mod><mod>properties.title</mod><mod>properties.systemDomain</mod><mod>properties.userDomain</mod><mod>preinstallActions.actions</mod><mod>properties.customizeOption</mod><mod>postinstallActions.actions</mod><mod>properties.anywhereDomain</mod></pkmkdoc>
