@@ -15,7 +15,7 @@ HEADERPATH="$TARGET_BUILD_DIR/include/hgRevision.h"
 #first parent.
 REVISION=`hg parent --template="{rev}\n" | head -n1`
 echo "*** Building Growl Revision: $REVISION"
-mkdir -p "`dirname $HEADERPATH`"
+mkdir -p "`dirname "$HEADERPATH"`"
 
 echo "#define HG_REVISION $REVISION" > "$HEADERPATH"
 echo "#define HG_REVISION_STRING \"$REVISION\"" >> "$HEADERPATH"
