@@ -150,7 +150,7 @@ release:
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
 	@# build the prefpane package
-	$(PACKAGE_MAKER) --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
+	$(PACKAGE_MAKER) --no-relocate --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
@@ -168,12 +168,12 @@ release:
 	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
 	
 	@# build the SDK
 	mkdir $(SDK_DIR)
