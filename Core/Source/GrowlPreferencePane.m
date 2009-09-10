@@ -24,6 +24,7 @@
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
+#include "SparkleHelperDefines.h"
 
 #include <Carbon/Carbon.h>
 
@@ -230,12 +231,14 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	/*
-	 [growlVersionProgress startAnimation:self];
-
-	[growlVersionProgress stopAnimation:self];
-	*/
+	[self launchSparkleHelper];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
 }
+
+- (void) launchSparkleHelper {
+	[[NSWorkspace sharedWorkspace] launchApplication:[[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlSparkleHelper" ofType:@"app"]];
+}
+
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet)

@@ -33,10 +33,9 @@
 	NSDictionary				*versionInfo;
 	NSImage						*growlIcon;
 	NSData						*growlIconData;
-
-	NSURL						*versionCheckURL;
+	
 	CFRunLoopTimerRef			updateTimer;
-
+	
 	NSThread					*mainThread;
 
 	SystemSoundCompletionUPP	soundCompletionCallback;
@@ -53,7 +52,6 @@
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
-- (NSURL *) versionCheckURL;
 
 - (void) preferencesChanged:(NSNotification *) note;
 
@@ -68,4 +66,12 @@
 
 - (NSThread *)mainThread;
 
+#pragma mark Sparkle
+
+- (void) timedCheckForUpdates:(NSNotification*)note;
+- (void) growlNotificationWasClicked:(id)clickContext;
+- (void) growlNotificationTimedOut:(id)clickContext;
+- (void) launchSparkleHelper;
+- (void) growlSparkleHelperFoundUpdate:(NSNotification*)note;
+	
 @end
