@@ -162,29 +162,35 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	Boolean    foundIt = false;
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
-	//get the file url to GHA.
-	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
-
-	UInt32 seed = 0U;
-	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
-	for (id itemObject in currentLoginItems) {
-		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
-
-		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-		CFURLRef URL = NULL;
-		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
-		if (err == noErr) {
-			foundIt = CFEqual(URL, urlToGHA);
-			CFRelease(URL);
-
-			if (foundIt)
-				break;
+	NSBundle *prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
+	NSString *pathToGHA      = [prefPaneBundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	if(pathToGHA) {
+		//get the file url to GHA.
+		CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
+		
+		UInt32 seed = 0U;
+		NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+		for (id itemObject in currentLoginItems) {
+			LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
+			
+			UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+			CFURLRef URL = NULL;
+			OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+			if (err == noErr) {
+				foundIt = CFEqual(URL, urlToGHA);
+				CFRelease(URL);
+				
+				if (foundIt)
+					break;
+			}
 		}
+		
+		CFRelease(urlToGHA);
 	}
-
-	CFRelease(urlToGHA);
-
+	else {
+		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour prefpane bundle is:%@\n your pathToGHA is:%@", prefPaneBundle, pathToGHA);
+	}
+	
 	return foundIt;
 }
 
