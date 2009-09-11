@@ -1,4 +1,10 @@
 #!/bin/sh
+
+# Move our temporary installation into the real destination.
+mkdir -p ~/Library/Mail/Bundles
+rm -R ~/Library/Mail/Bundles/GrowlMail.mailbundle
+mv "$2/GrowlMail.mailbundle" ~/Library/Mail/Bundles
+
 ######
 # Note that we are running sudo'd, so these defaults will be written to
 # /Library/Preferences/com.apple.mail.plist
