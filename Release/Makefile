@@ -169,6 +169,8 @@ release:
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
 	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
+	cp -R "Uninstall GrowlMail.app" $(GROWL_DIR)/Extras/GrowlMail
+	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Extras/GrowlMail/Uninstall\ GrowlMail.app
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
