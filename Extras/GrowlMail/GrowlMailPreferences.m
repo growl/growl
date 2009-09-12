@@ -109,21 +109,5 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 
 static void GMExchangeMethodImplementations(Method a, Method b)
 {
-#if __OBJC2__
 	method_exchangeImplementations(a, b);
-#else
-	NSCAssert(a && b, @"Attempt to swizzle fewer than two method implementations");
-
-	//Adapted from ObjC 1 implementation written by an unknown author and posted to http://www.cocoadev.com/index.pl?MethodSwizzling
-	char *tempTypes;
-	IMP tempImp;
-
-	tempTypes = a->method_types;
-	a->method_types = b->method_types;
-	b->method_types = tempTypes;
-
-	tempImp = a->method_imp;
-	a->method_imp = b->method_imp;
-	b->method_imp = tempImp;
-#endif
 }
