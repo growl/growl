@@ -109,5 +109,8 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 
 static void GMExchangeMethodImplementations(Method a, Method b)
 {
+	if (!(a && b))
+		GMShutDownGrowlMailAndWarn([NSString stringWithFormat:@"Attempt to swizzle fewer than two method implementations: %s and %s", a ? sel_getName(method_getName(a)) : NULL, b ? sel_getName(method_getName(b)) : NULL]);
+
 	method_exchangeImplementations(a, b);
 }
