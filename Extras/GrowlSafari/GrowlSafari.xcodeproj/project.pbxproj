@@ -237,6 +237,7 @@
 		0A17E73807333A22008CCDC5 /* GrowlSafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSafari.h; sourceTree = "<group>"; };
 		0A17E73907333A22008CCDC5 /* GrowlSafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSafari.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		3141B7151060005000A216A7 /* InterestingBundleIdentifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestingBundleIdentifiers.h; sourceTree = "<group>"; };
 		31D9B75E0FE6163C009D5369 /* GrowlSafari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlSafari.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D9B7820FE61919009D5369 /* GSLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSLMain.m; sourceTree = "<group>"; };
 		31D9B7FE0FE61E36009D5369 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -403,6 +404,7 @@
 			children = (
 				32DBCF630370AF2F00C91783 /* GrowlSafari_Prefix.pch */,
 				31D9B7820FE61919009D5369 /* GSLMain.m */,
+				3141B7151060005000A216A7 /* InterestingBundleIdentifiers.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";

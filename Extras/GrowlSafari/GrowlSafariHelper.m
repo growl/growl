@@ -10,7 +10,7 @@
 #include <mach/mach_error.h>
 #include <dlfcn.h>
 
-#define SAFARI_BUNDLE_ID @"com.apple.Safari"
+#import "InterestingBundleIdentifiers.h"
 
 void inject(pid_t pid);
 

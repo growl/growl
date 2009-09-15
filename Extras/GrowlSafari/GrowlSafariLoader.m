@@ -8,14 +8,13 @@
 
 #import "GrowlSafariLoader.h"
 
+#import "InterestingBundleIdentifiers.h"
 
 @interface GrowlSafariLoader ()
 
 - (void) workspaceDidLaunchApplication:(NSNotification *)notification;
 
 @end
-
-#define SAFARI_BUNDLE_ID @"com.apple.Safari"
 
 @implementation GrowlSafariLoader
 
