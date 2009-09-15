@@ -66,7 +66,7 @@
 - (void) workspaceDidLaunchApplication:(NSNotification *)notification {
 	NSDictionary *launchedProcessInfo = [notification userInfo];
 	NSString *bundleID = [launchedProcessInfo objectForKey:@"NSApplicationBundleIdentifier"];
-	if (bundleID && ([bundleID caseInsensitiveCompare:SAFARI_BUNDLE_ID] == NSOrderedSame) || ([bundleID caseInsensitiveCompare:WEBKIT_LAUNCHER_BUNDLE_ID] == NSOrderedSame)) {
+	if (bundleID && (([bundleID caseInsensitiveCompare:SAFARI_BUNDLE_ID] == NSOrderedSame) || ([bundleID caseInsensitiveCompare:WEBKIT_LAUNCHER_BUNDLE_ID] == NSOrderedSame))) {
 		NSString *bundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlSafari" ofType:@"bundle"];
 		if (bundlePath) {
 			NSNumber *PIDNum = [launchedProcessInfo objectForKey:@"NSApplicationProcessIdentifier"];
