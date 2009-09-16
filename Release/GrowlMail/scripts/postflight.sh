@@ -32,3 +32,6 @@ defaults write "$domain" EnableBundles -bool YES
 
 # Mac OS X 10.5's Mail.app requires bundle version 3 or greater
 defaults write "$domain" BundleCompatibilityVersion -int "$bundle_compatibility_version"
+
+# Remove our temporary directory so that another user account on the same system can install.
+rm -R /tmp/GrowlMail-Installation-Temp
