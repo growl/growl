@@ -834,6 +834,9 @@
 				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
@@ -851,6 +854,9 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
@@ -870,6 +876,9 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;

@@ -4235,6 +4235,9 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
@@ -4286,6 +4289,9 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";

@@ -92,11 +92,7 @@ static BOOL isAnyDisplayCaptured(void) {
 }
 #endif
 
-//static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
-#warning Having to update this struct manually is ugly. Use the info.plist.
-#warning And once code is in to automagically update this from Info.plist, the documentation in GrowlVersionUtilities.h should also be updated.
-static struct Version version = { 1U, 2U, 0U, releaseType_beta, 2U, };
-//XXX - update these constants whenever the version changes
+static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
@@ -793,6 +789,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
+		NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+		BOOL parseSucceeded = parseVersionString(versionString, &version);
+		NSAssert1(parseSucceeded, @"Could not parse version string: %@", versionString);
+
 		if (version.releaseType == releaseType_svn)
 			version.development = (u_int32_t)HG_REVISION;
 
