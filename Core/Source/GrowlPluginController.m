@@ -817,7 +817,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
+			if([self _hasNativeArchitecture:destination])
+				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
 											nil, nil, self,
@@ -846,19 +847,50 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
-		// plugin already exists at destination
-		[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-		NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
-						   NSLocalizedString( @"No", @"" ),
-						   NSLocalizedString( @"Yes", @"" ), nil, nil, self,
-						   NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-						   filenameCopy,
-						   NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
-						   [pluginFile stringByDeletingPathExtension] );
-	} else {
-		[self pluginExistsSelector:nil returnCode:NSAlertAlternateReturn contextInfo:filenameCopy];
+	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
+	if(![self _hasNativeArchitecture:filenameCopy]) {
+		NSBeginAlertSheet( NSLocalizedString( @"Plugin missing native architecture", @"" ),
+						  NSLocalizedString( @"No", @"" ),
+						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
+						  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
+						  filenameCopy,
+						  NSLocalizedString( @"Plugin '%@' does not work with the currently running architecture, install it anyway? (with the understanding that it won't load)", @"" ),
+						  [pluginFile stringByDeletingPathExtension] );		
 	}
+	else {
+		if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
+			// plugin already exists at destination
+			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+			NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
+							  NSLocalizedString( @"No", @"" ),
+							  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
+							  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
+							  filenameCopy,
+							  NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
+							  [pluginFile stringByDeletingPathExtension] );
+		} else {
+			[self pluginExistsSelector:nil returnCode:NSAlertAlternateReturn contextInfo:filenameCopy];
+		}
+	}
+}
+
+- (BOOL)_hasNativeArchitecture:(NSString*)filename {	
+	BOOL result = NO;
+	NSInteger currentArchitecture = 0;
+#if defined(__ppc__) && __ppc__
+	currentArchitecture = NSBundleExecutableArchitecturePPC;
+#elif defined(__i386__) && __i386__
+	currentArchitecture = NSBundleExecutableArchitectureI386;
+#elif defined(__x86_64__) && __x86_64__
+	currentArchitecture = NSBundleExecutableArchitectureX86_64;
+#else
+	#error unsupported architecture
+#endif
+	NSBundle *pluginBundle = [NSBundle bundleWithPath:filename];
+	NSArray *pluginArchitectures = [pluginBundle executableArchitectures];
+	if([pluginArchitectures containsObject:[NSNumber numberWithInteger:currentArchitecture]])
+		result = YES;
+	return result;
 }
 
 @end
