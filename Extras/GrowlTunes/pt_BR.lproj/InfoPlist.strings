@@ -1,4 +1,4 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlTunes";
-NSHumanReadableCopyright = "Direitos de Copyright 2004 Nelson Elhage.";
+NSHumanReadableCopyright = "Direitos de Copyright 2004 Nelson Elhage, 2005–2009 Growl Team.";

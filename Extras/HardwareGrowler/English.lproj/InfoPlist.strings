@@ -1,4 +1,4 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "HardwareGrowler";
-NSHumanReadableCopyright = "Copyright (c) 2004-2007, Growl Team.";
+NSHumanReadableCopyright = "Copyright (c) 2004-2009, Growl Team.";

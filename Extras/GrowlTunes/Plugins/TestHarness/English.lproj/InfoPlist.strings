@@ -1,4 +1,4 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlTunes Test Harness";
-NSHumanReadableCopyright = "Copyright © Kevin Ballard, 2004";
+NSHumanReadableCopyright = "Copyright © 2004 Kevin Ballard, 2004–2009 Growl Team";
