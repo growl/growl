@@ -72,7 +72,7 @@
 	<key>CFBundleVersion</key>
 	<string>GROWL_VERSION</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.4.0</string>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
 	<integer>1</integer>
 	<key>NSAppleScriptEnabled</key>
