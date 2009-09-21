@@ -10,7 +10,7 @@ on process_disk_image(volumeName, artPath)
 				set current view to icon view
 				set toolbar visible to false
 				set statusbar visible to false
-				--set the bounds to {30, 50, 579, 600}
+				set bounds to {30, 50, 579, 486}
 			end tell
 			close
 			set opts to the icon view options of container window
