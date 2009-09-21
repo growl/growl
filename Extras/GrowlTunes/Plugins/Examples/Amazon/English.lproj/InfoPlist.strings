@@ -1,5 +1,4 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlTunes-Amazon";
-CFBundleShortVersionString = "1.0";
 NSHumanReadableCopyright = "Copyright (c) 2004 matrixPointer.";

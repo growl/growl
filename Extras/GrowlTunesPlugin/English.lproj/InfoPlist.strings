@@ -1,5 +1,4 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlTunes";
-CFBundleShortVersionString = "GrowlTunes version 0.0.1";
 NSHumanReadableCopyright = "Copyright 2005, The Growl Project.";

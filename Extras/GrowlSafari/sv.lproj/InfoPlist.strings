@@ -2,4 +2,3 @@
 
 CFBundleName = "GrowlSafari";
 NSHumanReadableCopyright = "© The Growl Project, 2004-2005";
-CFBundleShortVersionString = "GrowlSafari v1.2b3\nCopyright © The Growl Project, 2004-2005";

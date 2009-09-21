@@ -1,3 +1,2 @@
 CFBundleName = "BeepHammer";
-CFBundleShortVersionString = "0.1";
 NSHumanReadableCopyright = "A stress-testing developer tool for Growl.\nCopyright (c) 2006 The Growl Project.";
