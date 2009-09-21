@@ -9,4 +9,8 @@ echo "Fixing bundle permissions..."
 chown :procmod $2/GrowlSafari.app/Contents/MacOS/GrowlSafariHelper
 chmod g+s $2/GrowlSafari.app/Contents/MacOS/GrowlSafariHelper
 
+echo "Launching GrowlSafari..."
+
+open -g "$2/GrowlSafari.app"
+
 echo "GrowlSafari postupgrade script done."
