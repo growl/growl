@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		0A17E73B07333A22008CCDC5 /* GrowlSafari.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A17E73907333A22008CCDC5 /* GrowlSafari.m */; };
+		31BC372F106730A900D3BB1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		31C8CE87103F6A6E00C3BBDA /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95AE27A6085C451A00271F5F /* Growl.framework */; };
 		31C8CE89103F6A8000C3BBDA /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AE27A6085C451A00271F5F /* Growl.framework */; };
 		31D9B7690FE61655009D5369 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -662,6 +663,7 @@
 			files = (
 				31D9B7850FE619CA009D5369 /* GrowlSafari.bundle in Resources */,
 				31D9B7FF0FE61E36009D5369 /* MainMenu.xib in Resources */,
+				31BC372F106730A900D3BB1D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
