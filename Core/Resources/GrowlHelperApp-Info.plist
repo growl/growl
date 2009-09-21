@@ -57,8 +57,6 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>GrowlHelperApp</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
 	<key>CFBundleIconFile</key>
 	<string>growl-icon</string>
 	<key>CFBundleIdentifier</key>

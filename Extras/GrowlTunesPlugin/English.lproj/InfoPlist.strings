@@ -2,5 +2,4 @@
 
 CFBundleName = "GrowlTunes";
 CFBundleShortVersionString = "GrowlTunes version 0.0.1";
-CFBundleGetInfoString = "GrowlTunes version 0.0.1, Copyright 2005, The Growl Project.";
 NSHumanReadableCopyright = "Copyright 2005, The Growl Project.";

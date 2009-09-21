@@ -6,8 +6,6 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>GrowlTunes</string>
-	<key>CFBundleGetInfoString</key>
-	<string>GrowlTunes Plug-in</string>
 	<key>CFBundleIdentifier</key>
 	<string>info.growl.growltunesplugin</string>
 	<key>CFBundleInfoDictionaryVersion</key>

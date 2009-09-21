@@ -2,5 +2,4 @@
 
 CFBundleName = "GrowlTunes-Amazon";
 CFBundleShortVersionString = "1.0";
-CFBundleGetInfoString = "GrowlTunes-Amazon version 1.0, Copyright (c) 2004 matrixPointer.";
 NSHumanReadableCopyright = "Copyright (c) 2004 matrixPointer.";

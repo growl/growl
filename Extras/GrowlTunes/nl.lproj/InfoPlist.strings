@@ -1,5 +1,4 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlTunes";
-CFBundleGetInfoString = "GrowlTunes, Kopierecht 2004 Nelson Elhage.";
 NSHumanReadableCopyright = "Kopierecht 2004 Nelson Elhage.";

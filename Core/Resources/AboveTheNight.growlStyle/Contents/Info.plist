@@ -6,8 +6,6 @@
         <string>AboveTheNight</string>
         <key>CFBundleDevelopmentRegion</key>
         <string>English</string>
-        <key>CFBundleGetInfoString</key>
-        <string>Above The Night Growl WebKit Style 1.0</string>
         <key>CFBundleIconFile</key>
         <string></string>
         <key>CFBundleIdentifier</key>

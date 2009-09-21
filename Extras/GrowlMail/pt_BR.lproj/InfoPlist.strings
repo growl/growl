@@ -2,5 +2,4 @@
 
 CFBundleName = "GrowlMail";
 CFBundleShortVersionString = "1.2b3";
-CFBundleGetInfoString = "GrowlMail versão 1.2b3, Copyright (c) 2004-2005 Projeto Growl.";
 NSHumanReadableCopyright = "Copyright (c) 2004-2005 Projeto Growl.";

@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleGetInfoString</key>
-	<string>Garageband Growl Style</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.WebKit.Garageband</string>
 	<key>CFBundleInfoDictionaryVersion</key>
