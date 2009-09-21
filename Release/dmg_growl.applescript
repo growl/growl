@@ -19,7 +19,7 @@ on process_disk_image(volumeName, artPath)
 				set arrangement to not arranged
 			end tell
 			set background picture of opts to file ".background:growlDMGBackground.png"
-			set position of item "Growl.mpkg" to {147, 75}
+			set position of item "Growl.pkg" to {147, 75}
 			set position of item "Extras" to {100, 320}
 			--set position of item "Scripts" to {36, 153}
 			set position of item "Growl Documentation.webloc" to {100, 218}
