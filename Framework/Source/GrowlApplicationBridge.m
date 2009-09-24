@@ -835,7 +835,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					if (err != noErr) {
 						NSLog(@"%@: Could not finish open-document event to register this application with Growl because AEStreamClose returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
 					} else {
-						err = AESend(&event, /*reply*/ NULL, kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord, kAENormalPriority, kAEDefaultTimeout, /*idleProc*/ NULL, /*filterProc*/ NULL);
+						err = AESendMessage(&event, /*reply*/ NULL, kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord, kAEDefaultTimeout);
 						if (err != noErr) {
 							NSLog(@"%@: Could not send open-document event to register this application with Growl because AESend returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
 						}
