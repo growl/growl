@@ -887,9 +887,17 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	#error unsupported architecture
 #endif
 	NSBundle *pluginBundle = [NSBundle bundleWithPath:filename];
-	NSArray *pluginArchitectures = [pluginBundle executableArchitectures];
-	if([pluginArchitectures containsObject:[NSNumber numberWithInteger:currentArchitecture]])
+	NSString *executablePath = [pluginBundle executablePath];
+	//we check to see if there is actually an executable in this plugin, it could be a growlStyle, under which we accept it as valid.
+	if(executablePath && [[NSFileManager defaultManager] fileExistsAtPath:executablePath]) {
+		NSArray *pluginArchitectures = [pluginBundle executableArchitectures];
+		if([pluginArchitectures containsObject:[NSNumber numberWithInteger:currentArchitecture]])
+			result = YES;
+	}
+	else {
 		result = YES;
+	}
+
 	return result;
 }
 
