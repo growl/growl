@@ -28,6 +28,7 @@
 		0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F26070B142500593A33 /* GrowlTunes-Amazon.plugin */; };
 		0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B6185070B304600593A33 /* GrowlTunes-ARTchive.plugin */; };
 		0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F16070B141D00593A33 /* GrowlTunes-Synergy.plugin */; };
+		315C88561068F84B00880530 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 315C88551068F84B00880530 /* Localization.xcconfig */; };
 		52F5774C06872B3A0068B46C /* GrowlTunesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F5774A06872B3A0068B46C /* GrowlTunesController.m */; };
 		74B408DD090BBC5A0054876D /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B408DB090BBC5A0054876D /* GrowlAbstractSingletonObject.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -254,6 +255,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		315C88551068F84B00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* GrowlTunes_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunes_Prefix.pch; sourceTree = "<group>"; };
 		347930C50C85E36B007ADCAA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347930C60C85E36B007ADCAA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				315C88551068F84B00880530 /* Localization.xcconfig */,
 				DD86247B080D8421001ACC9F /* Growl.xcodeproj */,
 			);
 			comments = "To get the DOM Framework visit:\n\nhttp://sourceforge.net/projects/iconaradom ";
@@ -704,6 +707,7 @@
 				07A2B52A07FBDCAD009917B6 /* GrowlTunes.nib in Resources */,
 				950627B40840D44600C01CD2 /* growlTunes-selected.png in Resources */,
 				950627B50840D44600C01CD2 /* growlTunes.png in Resources */,
+				315C88561068F84B00880530 /* Localization.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -824,6 +828,67 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		315C88571068F85C00880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88551068F84B00880530 /* Localization.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Localization;
+		};
+		315C88581068F85C00880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlTunes_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = GrowlTunes;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Localization;
+		};
 		95E4A2DA0855C125006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -950,6 +1015,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A2DA0855C125006B3F45 /* Debug */,
+				315C88581068F85C00880530 /* Localization */,
 				95E4A2DB0855C125006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -959,6 +1025,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A2EE0855C125006B3F45 /* Debug */,
+				315C88571068F85C00880530 /* Localization */,
 				95E4A2EF0855C125006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -210,6 +210,7 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		315C88741068F96000880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		31D72A850FB6DE5800C29D55 /* GrowlMailNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailNotifier.h; sourceTree = "<group>"; };
 		31D72A860FB6DE5800C29D55 /* GrowlMailNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailNotifier.m; sourceTree = "<group>"; };
 		34CD982C0C87C8AA0040C77F /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -298,6 +299,7 @@
 				93884539102641A0001DF30F /* GMTester.m */,
 				93884548102643B6001DF30F /* TesterMain.m */,
 				93884575102644BD001DF30F /* GMTester.xib */,
+				315C88741068F96000880530 /* Localization.xcconfig */,
 			);
 			name = MailGrowl;
 			sourceTree = "<group>";
@@ -747,6 +749,113 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		315C887B1068F96700880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88741068F96000880530 /* Localization.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_VERSION = 4.0;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=x86_64]" = macosx10.6;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Localization;
+		};
+		315C887C1068F96700880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+				ZERO_LINK = NO;
+			};
+			name = Localization;
+		};
+		315C887D1068F96700880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "External Frameworks";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Localization;
+		};
+		315C887E1068F96700880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = "Tester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tester;
+				ZERO_LINK = NO;
+			};
+			name = Localization;
+		};
 		9388453510264182001DF30F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -966,6 +1075,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9388453510264182001DF30F /* Debug */,
+				315C887E1068F96700880530 /* Localization */,
 				9388453610264182001DF30F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -975,6 +1085,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95AE2782085C44FC00271F5F /* Debug */,
+				315C887D1068F96700880530 /* Localization */,
 				95AE2783085C44FC00271F5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -984,6 +1095,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A35F0855C16F006B3F45 /* Debug */,
+				315C887C1068F96700880530 /* Localization */,
 				95E4A3600855C16F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -993,6 +1105,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A3640855C16F006B3F45 /* Debug */,
+				315C887B1068F96700880530 /* Localization */,
 				95E4A3650855C16F006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
