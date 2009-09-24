@@ -824,7 +824,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					if (passRegDict) {
 						NSString *regItemURLString = [regItemURL absoluteString];
 						NSData *regItemURLUTF8Data = [regItemURLString dataUsingEncoding:NSUTF8StringEncoding];
-						err = AEStreamWriteKeyDesc(stream, kEventParamDirectObject, typeFileURL, [regItemURLUTF8Data bytes], [regItemURLUTF8Data length]);
+						err = AEStreamWriteKeyDesc(stream, keyDirectObject, typeFileURL, [regItemURLUTF8Data bytes], [regItemURLUTF8Data length]);
 						if (err != noErr) {
 							NSLog(@"%@: Could not set direct object of open-document event to register this application with Growl because AEStreamWriteKeyDesc returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
 						}
