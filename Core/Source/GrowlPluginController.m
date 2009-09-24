@@ -854,7 +854,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
 						  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
 						  filenameCopy,
-						  NSLocalizedString( @"Plugin '%@' does not work with the currently running architecture, install it anyway? (with the understanding that it won't load)", @"" ),
+						  NSLocalizedString( @"Plugin '%@' will not work on this Mac running this version of Mac OS X. Install it anyway?", @"" ),
 						  [pluginFile stringByDeletingPathExtension] );		
 	}
 	else {
