@@ -48,6 +48,9 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 
 @end
 
+//Make the swizzle more readable.
+#define sharedPreferencesFromAppKitSwizzledByGrowlMail sharedPreferencesForGrowlMail
+
 @implementation GrowlMailPreferences
 
 //As of Mac OS X 10.5.6, Mail creates the +sharedPreferences object lazily, so the simplest way to install our prefpane is to swizzle the +sharedPreferences method.
@@ -62,25 +65,10 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 		if (!sharedPreferencesFromAppKit)
 			GMShutDownGrowlMailAndWarn(@"Couldn't install GrowlMail prefpane: +[NSPreferences sharedPreferences] method missing");
 		else {
-			//+[GrowlMailPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
-			Method sharedPreferencesFromAppKitFromGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesFromAppKitSwizzledByGrowlMail));
 			//+[GrowlMailPreferences sharedPreferencesForGrowlMail]
 			Method sharedPreferencesForGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesForGrowlMail));
 
-			//Follow the lady!
-			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesFromAppKitFromGrowlMail);
 			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesForGrowlMail);
-			/*Results of the swizzling:
-			 *
-			 *+[NSPreferences sharedPreferences]
-			 *	implemented by former +[NSPreferences sharedPreferencesForGrowlMail]
-			 *
-			 *+[NSPreferences sharedPreferencesForGrowlMail]
-			 *	implemented by former +[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail] (the stub)
-			 *
-			 *+[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
-			 *	implemented by former +[NSPreferences sharedPreferences]
-			 */
 		}
 	}
 }
@@ -99,10 +87,6 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 	}
 
 	return preferences;
-}
-+ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail {
-	//Stub implementation to swizzle out.
-	return nil;
 }
 
 @end
