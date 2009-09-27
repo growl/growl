@@ -3473,7 +3473,6 @@
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -4714,7 +4713,6 @@
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				REZ_PREPROCESSOR_DEFINITIONS = DEBUG;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				STRIP_STYLE = debugging;
 				VALID_ARCHS = "i386 ppc ppc7400 ppc970 x86_64";
@@ -4768,7 +4766,6 @@
 				"OTHER_CFLAGS[arch=i386]" = "-fsingle-precision-constant";
 				"OTHER_CFLAGS[arch=ppc]" = "-fsingle-precision-constant";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
