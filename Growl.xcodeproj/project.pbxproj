@@ -36,8 +36,6 @@
 		070B90FD07E1AEFA00F10FA7 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
 		070B90FF07E1AEFA00F10FA7 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
 		070B910107E1AEFA00F10FA7 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
-		070C1AE80912D16600884E7D /* GrowlNonCopyingMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 070C1AE60912D16600884E7D /* GrowlNonCopyingMutableDictionary.m */; };
-		070C1AE90912D16600884E7D /* GrowlNonCopyingMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 070C1AE50912D16600884E7D /* GrowlNonCopyingMutableDictionary.h */; };
 		070C5DB009A7978F004F1E8C /* GrowlPathwayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 070C5DAE09A7978F004F1E8C /* GrowlPathwayController.m */; };
 		071426120910D4EC00F7C755 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
 		0721716A082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib in Resources */ = {isa = PBXBuildFile; fileRef = 07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */; };
@@ -125,7 +123,6 @@
 		34725B150C0678AC00499F50 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; };
 		34725B160C0678AC00499F50 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; };
 		34725B170C0678AC00499F50 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; };
-		34725B180C0678AC00499F50 /* GrowlNonCopyingMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 070C1AE50912D16600884E7D /* GrowlNonCopyingMutableDictionary.h */; };
 		34725B190C0678AC00499F50 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		34725B1A0C0678B500499F50 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		34725B1B0C0678B500499F50 /* GrowlApplicationBridge-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */; };
@@ -167,7 +164,6 @@
 		740CC072093A508100092801 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
 		743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
 		743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */; };
-		743EE18E0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 070C1AE60912D16600884E7D /* GrowlNonCopyingMutableDictionary.m */; };
 		743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */; };
 		745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
 		745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
@@ -404,6 +400,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		31F06343106F05C3006913F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* hg revision */;
+			remoteInfo = "hg revision";
+		};
 		3433455D0790E25300C84B15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -590,8 +593,6 @@
 
 /* Begin PBXFileReference section */
 		070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = Common/Source/CFGrowlAdditions.c; sourceTree = "<group>"; };
-		070C1AE50912D16600884E7D /* GrowlNonCopyingMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNonCopyingMutableDictionary.h; path = Common/Source/GrowlNonCopyingMutableDictionary.h; sourceTree = "<group>"; };
-		070C1AE60912D16600884E7D /* GrowlNonCopyingMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNonCopyingMutableDictionary.m; path = Common/Source/GrowlNonCopyingMutableDictionary.m; sourceTree = "<group>"; };
 		070C5DAD09A7978F004F1E8C /* GrowlPathwayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPathwayController.h; path = Core/Source/GrowlPathwayController.h; sourceTree = "<group>"; };
 		070C5DAE09A7978F004F1E8C /* GrowlPathwayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPathwayController.m; path = Core/Source/GrowlPathwayController.m; sourceTree = "<group>"; };
 		07217169082DE85B00F338F7 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Framework/Resources/English.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
@@ -1369,8 +1370,6 @@
 		070C1AF20912D17400884E7D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				070C1AE50912D16600884E7D /* GrowlNonCopyingMutableDictionary.h */,
-				070C1AE60912D16600884E7D /* GrowlNonCopyingMutableDictionary.m */,
 				959DBE4908127BA4009BB468 /* GrowlPathUtilities.h */,
 				959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */,
 			);
@@ -2066,7 +2065,6 @@
 				34725B150C0678AC00499F50 /* Growl.h in Headers */,
 				34725B160C0678AC00499F50 /* GrowlDefines.h in Headers */,
 				34725B170C0678AC00499F50 /* GrowlApplicationBridge-Carbon.h in Headers */,
-				34725B180C0678AC00499F50 /* GrowlNonCopyingMutableDictionary.h in Headers */,
 				34725B190C0678AC00499F50 /* GrowlPositioningDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2079,7 +2077,6 @@
 				34F60EC3078E1D5600CECA86 /* Growl.h in Headers */,
 				34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */,
 				343353EB0792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */,
-				070C1AE90912D16600884E7D /* GrowlNonCopyingMutableDictionary.h in Headers */,
 				C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2313,6 +2310,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				31F06344106F05C3006913F2 /* PBXTargetDependency */,
 			);
 			name = GrowlMenu;
 			productName = GrowlMenu;
@@ -2841,7 +2839,6 @@
 				95E246A008EF02E80092EAAC /* GrowlPositionController.m in Sources */,
 				743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */,
 				743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */,
-				743EE18E0927A85E002A9670 /* GrowlNonCopyingMutableDictionary.m in Sources */,
 				743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */,
 				C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */,
 				34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */,
@@ -2957,7 +2954,6 @@
 				95E2457A08EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */,
 				95E2458408EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */,
 				EE17E56D08EFFCDB0086F0C3 /* GrowlThreadedView.m in Sources */,
-				070C1AE80912D16600884E7D /* GrowlNonCopyingMutableDictionary.m in Sources */,
 				745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */,
 				745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */,
 				745352B109313ABD0000B26A /* GrowlWebKitDisplayPlugin.m in Sources */,
@@ -3002,6 +2998,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		31F06344106F05C3006913F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
+			targetProxy = 31F06343106F05C3006913F2 /* PBXContainerItemProxy */;
+		};
 		3433455E0790E25300C84B15 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CB61E5170637763C00E0DDC7 /* GrowlHelperApp */;
@@ -3478,7 +3479,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -3577,7 +3578,6 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -3638,7 +3638,6 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4562,7 +4561,6 @@
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4599,7 +4597,6 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4633,7 +4630,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = GROWL_WITH_INSTALLER;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4671,7 +4667,6 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "$(INFOPLIST_OTHER_PREPROCESSOR_FLAGS) -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -4723,7 +4718,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -4777,7 +4772,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;

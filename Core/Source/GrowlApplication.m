@@ -27,7 +27,7 @@
 - (void)run
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[[NSTimer scheduledTimerWithTimeInterval:30
+	autoreleasePoolRefreshTimer = [[NSTimer scheduledTimerWithTimeInterval:30
 									  target:self
 									selector:@selector(resetAutoreleasePool:)
 									userInfo:nil
@@ -35,6 +35,10 @@
 	[pool release];
 
 	[super run];
+
+	[autoreleasePoolRefreshTimer invalidate];
+	[autoreleasePoolRefreshTimer release];
+	autoreleasePoolRefreshTimer = nil;
 }
 
 @end

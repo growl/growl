@@ -15,7 +15,6 @@
 #include "CFMutableDictionaryAdditions.h"
 
 #import "GrowlPathUtilities.h"
-#import "GrowlNonCopyingMutableDictionary.h"
 
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
@@ -26,6 +25,7 @@
 - (void) findPluginsInDirectory:(NSString *)dir;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (BOOL) hasNativeArchitecture:(NSString *)filename;
 @end
 
 @interface WebCoreCache
@@ -72,7 +72,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
  *		human-readable names) (DONE though this will probably only be used for
  *		storage of plug-in prefs)
  *	-	Use plug-in dictionaries (DONE)
- *	-	Use GrowlNonCopyingMutableDictionary instead of NSMapTable (DONE)
  *	-	Write the built-in plug-in handler (DONE)
  *	-	Add a WebKit plug-in handler (jkp)
  *	-	Better localize human-readable names
@@ -90,8 +89,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByPath     = [[NSMutableDictionary alloc] init];
-		pluginIdentifiersByBundle   = [[GrowlNonCopyingMutableDictionary alloc] init];
-		pluginIdentifiersByInstance = [[GrowlNonCopyingMutableDictionary alloc] init];
+		pluginIdentifiersByBundle   = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
+		pluginIdentifiersByInstance = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		pluginsByName     = [[NSMutableDictionary alloc] init];
 		pluginsByAuthor   = [[NSMutableDictionary alloc] init];
@@ -104,7 +103,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		
 		allPluginHandlers = [[NSMutableArray alloc] init];
 		pluginHandlers  = [[NSMutableDictionary alloc] init];
-		handlersForPlugins = [[GrowlNonCopyingMutableDictionary alloc] init];
+		handlersForPlugins = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		displayPlugins = [[NSMutableArray alloc] init];
 		disabledPlugins = [[NSMutableArray alloc] init];
@@ -394,7 +393,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
 		} else {
 			//We have: This is our cue to instantiate it.
-			plugin = [[[bundle principalClass] alloc] init];
+			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			//Dequeue it, because we don't want to hit this branch again for this plug-in.
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 			//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
@@ -408,7 +407,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
 		else {
 			//Apparently it is. Instantiate it, but don't stash the plug-in instance in the plug-in dictionary (why not?).
-			plugin = [[[bundle principalClass] alloc] init];
+			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 		}
 	}
@@ -772,13 +771,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	id <GrowlPluginHandler> handler;
 	while ((handler = [handlersEnum nextObject])) {
 		BOOL success = NO;
-		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)])
+		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
-		else if ([handler respondsToSelector:@selector(loadPluginAtPath:)])
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in with bundle %@", [self class], handler, pluginBundle);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtPath:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
-		else if ([handler respondsToSelector:@selector(loadPluginAtURL:)])
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at path %@", [self class], handler, path);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtURL:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
-		else
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at URL for path %@", [self class], handler, path);
+		} else
 			NSLog(@"warning: while loading plug-in at %@, tried to use plug-in handler %@, but it appears incapable of handling a plug-in", path, handler); //XXX should do this diagnostic when adding the handler
 	}
 
@@ -817,7 +822,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			if([self _hasNativeArchitecture:destination])
+			if([self hasNativeArchitecture:destination])
 				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
@@ -848,7 +853,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
 	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
-	if(![self _hasNativeArchitecture:filenameCopy]) {
+	if(![self hasNativeArchitecture:filenameCopy]) {
 		NSBeginAlertSheet( NSLocalizedString( @"Plugin missing native architecture", @"" ),
 						  NSLocalizedString( @"No", @"" ),
 						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
@@ -874,7 +879,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	}
 }
 
-- (BOOL)_hasNativeArchitecture:(NSString*)filename {	
+- (BOOL)hasNativeArchitecture:(NSString*)filename {	
 	BOOL result = NO;
 	NSInteger currentArchitecture = 0;
 #if defined(__ppc__) && __ppc__

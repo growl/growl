@@ -109,6 +109,6 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
 - (NSPoint) idealOriginInRect:(NSRect)rect;
 - (enum GrowlExpansionDirection) primaryExpansionDirection;
 - (enum GrowlExpansionDirection) secondaryExpansionDirection;
-- (float) requiredDistanceFromExistingDisplays;
+- (CGFloat) requiredDistanceFromExistingDisplays;
 
 @end
