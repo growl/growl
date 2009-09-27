@@ -3,7 +3,7 @@
 ###   * Set VERSION and BETA below. BETA should be TRUE or FALSE.
 ###   * make version.
 #
-VERSION=1.2b5
+VERSION=1.2b6
 BETA=TRUE
 
 #
