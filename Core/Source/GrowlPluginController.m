@@ -26,6 +26,7 @@
 - (void) findPluginsInDirectory:(NSString *)dir;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (BOOL) hasNativeArchitecture:(NSString *)filename;
 @end
 
 @interface WebCoreCache
