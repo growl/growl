@@ -771,13 +771,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	id <GrowlPluginHandler> handler;
 	while ((handler = [handlersEnum nextObject])) {
 		BOOL success = NO;
-		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)])
+		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
-		else if ([handler respondsToSelector:@selector(loadPluginAtPath:)])
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in with bundle %@", [self class], handler, pluginBundle);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtPath:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
-		else if ([handler respondsToSelector:@selector(loadPluginAtURL:)])
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at path %@", [self class], handler, path);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtURL:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
-		else
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at URL for path %@", [self class], handler, path);
+		} else
 			NSLog(@"warning: while loading plug-in at %@, tried to use plug-in handler %@, but it appears incapable of handling a plug-in", path, handler); //XXX should do this diagnostic when adding the handler
 	}
 
