@@ -817,7 +817,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			if([self _hasNativeArchitecture:destination])
+			if([self hasNativeArchitecture:destination])
 				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
@@ -848,7 +848,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
 	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
-	if(![self _hasNativeArchitecture:filenameCopy]) {
+	if(![self hasNativeArchitecture:filenameCopy]) {
 		NSBeginAlertSheet( NSLocalizedString( @"Plugin missing native architecture", @"" ),
 						  NSLocalizedString( @"No", @"" ),
 						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
@@ -874,7 +874,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	}
 }
 
-- (BOOL)_hasNativeArchitecture:(NSString*)filename {	
+- (BOOL)hasNativeArchitecture:(NSString*)filename {	
 	BOOL result = NO;
 	NSInteger currentArchitecture = 0;
 #if defined(__ppc__) && __ppc__
