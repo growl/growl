@@ -400,6 +400,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		31F06343106F05C3006913F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* hg revision */;
+			remoteInfo = "hg revision";
+		};
 		3433455D0790E25300C84B15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -2303,6 +2310,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				31F06344106F05C3006913F2 /* PBXTargetDependency */,
 			);
 			name = GrowlMenu;
 			productName = GrowlMenu;
@@ -2990,6 +2998,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		31F06344106F05C3006913F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
+			targetProxy = 31F06343106F05C3006913F2 /* PBXContainerItemProxy */;
+		};
 		3433455E0790E25300C84B15 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CB61E5170637763C00E0DDC7 /* GrowlHelperApp */;
