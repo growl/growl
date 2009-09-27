@@ -393,7 +393,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
 		} else {
 			//We have: This is our cue to instantiate it.
-			plugin = [[[bundle principalClass] alloc] init];
+			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			//Dequeue it, because we don't want to hit this branch again for this plug-in.
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 			//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
@@ -407,7 +407,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
 		else {
 			//Apparently it is. Instantiate it, but don't stash the plug-in instance in the plug-in dictionary (why not?).
-			plugin = [[[bundle principalClass] alloc] init];
+			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 		}
 	}
