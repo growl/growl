@@ -15,7 +15,6 @@
 #include "CFMutableDictionaryAdditions.h"
 
 #import "GrowlPathUtilities.h"
-#import "GrowlNonCopyingMutableDictionary.h"
 
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
@@ -73,7 +72,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
  *		human-readable names) (DONE though this will probably only be used for
  *		storage of plug-in prefs)
  *	-	Use plug-in dictionaries (DONE)
- *	-	Use GrowlNonCopyingMutableDictionary instead of NSMapTable (DONE)
  *	-	Write the built-in plug-in handler (DONE)
  *	-	Add a WebKit plug-in handler (jkp)
  *	-	Better localize human-readable names
@@ -91,8 +89,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByPath     = [[NSMutableDictionary alloc] init];
-		pluginIdentifiersByBundle   = [[GrowlNonCopyingMutableDictionary alloc] init];
-		pluginIdentifiersByInstance = [[GrowlNonCopyingMutableDictionary alloc] init];
+		pluginIdentifiersByBundle   = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
+		pluginIdentifiersByInstance = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		pluginsByName     = [[NSMutableDictionary alloc] init];
 		pluginsByAuthor   = [[NSMutableDictionary alloc] init];
@@ -105,7 +103,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		
 		allPluginHandlers = [[NSMutableArray alloc] init];
 		pluginHandlers  = [[NSMutableDictionary alloc] init];
-		handlersForPlugins = [[GrowlNonCopyingMutableDictionary alloc] init];
+		handlersForPlugins = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		displayPlugins = [[NSMutableArray alloc] init];
 		disabledPlugins = [[NSMutableArray alloc] init];
