@@ -814,7 +814,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					}
 				}
 
-				AEStreamRef stream = AEStreamCreateEvent(kAECoreSuite, kAEOpen,
+				AEStreamRef stream = AEStreamCreateEvent(kCoreEventClass, kAEOpenDocuments,
 					//Target application
 					typeProcessSerialNumber, &appPSN, sizeof(appPSN),
 					kAutoGenerateReturnID, kAnyTransactionID);
