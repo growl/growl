@@ -3525,7 +3525,6 @@
 		315C88D81068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Growl code-signing certificate";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3582,6 +3581,8 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -3642,7 +3643,9 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4565,6 +4568,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
@@ -4601,6 +4605,8 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -4611,6 +4617,7 @@
 				);
 				PRODUCT_NAME = Growl;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = macosx10.5;
 				SKIP_INSTALL = YES;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
@@ -4634,8 +4641,9 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -4671,7 +4679,9 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				"MACOSX_DEPLOYMENT_TARGET[arch=i386]" = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",

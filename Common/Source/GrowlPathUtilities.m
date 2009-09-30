@@ -8,8 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPathUtilities.h"
-#import "GrowlPreferencesController.h"
-#import "GrowlTicketController.h"
 #import "GrowlDefinesInternal.h"
 
 static NSBundle *helperAppBundle;
