@@ -729,20 +729,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSBundle *growlPrefPaneBundle;
 	NSString *growlHelperAppPath;
 
-#ifdef DEBUG
-	//For a debug build, first look for a running GHA. It might not actually be within a Growl prefpane bundle.
+	//First look for a running GHA. It might not actually be within a Growl prefpane bundle.
 	growlHelperAppPath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
 	if (!growlHelperAppPath) {
+		//Look for an installed-but-not-running GHA.
 		growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
 		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
 														   ofType:@"app"];
 	}
-	NSLog(@"Will use GrowlHelperApp at %@", growlHelperAppPath);
-#else
-	growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
-	growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
-													   ofType:@"app"];
-#endif
 
 #ifdef GROWL_WITH_INSTALLER
 	if (growlPrefPaneBundle) {

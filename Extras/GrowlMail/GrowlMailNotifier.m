@@ -65,7 +65,9 @@ static BOOL notifierEnabled = YES;
 			automatic,                     @"GMSummaryMode",
 			[NSNumber numberWithBool:YES], @"GMEnableGrowlMailBundle",
 			[NSNumber numberWithBool:NO],  @"GMInboxOnly",
+			[NSNumber numberWithBool:YES], @"GMBackgroundOnly",
 			nil];
+		
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
@@ -82,7 +84,13 @@ static BOOL notifierEnabled = YES;
 												 selector:@selector(monitoredActivityEnded:)
 													 name:@"MonitoredActivityEnded_inMainThread_"
 												   object:nil];
+		//If the user wants to they can disable notifications for when Mail.app is in the foreground
 		
+		shouldNotify = YES;
+		if([self isBackgroundOnlyEnabled])
+			shouldNotify = ![NSApp isActive];
+		[self configureForBackgroundOnly:[self isBackgroundOnlyEnabled]];
+
 #ifdef GROWL_MAIL_DEBUG
 		/*
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -205,7 +213,8 @@ static BOOL notifierEnabled = YES;
 
 - (void)messageStoreDidAddMessages:(NSNotification *)notification {
 	if (![self isEnabled]) return;
-
+	if(!shouldNotify && [self isBackgroundOnlyEnabled]) return;
+	
 #ifdef GROWL_MAIL_DEBUG
 	NSLog(@"%s called", __PRETTY_FUNCTION__);
 #endif
@@ -431,7 +440,31 @@ static BOOL notifierEnabled = YES;
 	}
 }
 
+#pragma mark NSApplication Notifications
+
+- (void) backgroundOnlyActivate:(NSNotification*)sender {
+#pragma unused(sender)
+	shouldNotify = NO;
+}
+
+- (void) backgroundOnlyResign:(NSNotification*)sender {
+#pragma unused(sender)
+	shouldNotify = YES;
+}
+
 #pragma mark Preferences
+
+- (void) configureForBackgroundOnly:(BOOL)enabled
+{
+	if(enabled) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backgroundOnlyActivate:) name:NSApplicationDidBecomeActiveNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backgroundOnlyResign:) name:NSApplicationDidResignActiveNotification object:nil];
+	}	
+	else {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidBecomeActiveNotification object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidResignActiveNotification object:nil];		
+	}
+}
 
 - (BOOL) isAccountEnabled:(MailAccount *)account {
 	BOOL isEnabled = YES;
@@ -454,6 +487,11 @@ static BOOL notifierEnabled = YES;
 }
 
 #pragma mark Accessors
+
+- (BOOL) isBackgroundOnlyEnabled {
+	NSNumber *backgroundNum = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMBackgroundOnly"];
+	return (backgroundNum ? [backgroundNum boolValue] : NO);
+}
 
 - (BOOL) isEnabled {
 	NSNumber *enabledNum = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMEnableGrowlMailBundle"];
