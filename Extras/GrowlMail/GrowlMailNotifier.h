@@ -39,6 +39,7 @@ typedef NSInteger GrowlMailSummaryMode;
  */
 @interface GrowlMailNotifier : NSObject <GrowlApplicationBridgeDelegate>
 {
+	BOOL shouldNotify;
 }
 
 /*!	@brief	Return the One True \c GrowlMailNotifier Instance, creating it if necessary.

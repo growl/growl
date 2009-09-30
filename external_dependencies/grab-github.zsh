@@ -14,7 +14,7 @@ if test -e "$gh_project"; then
 	exit 1
 fi
 
-curl "http://github.com/$gh_user/$gh_project/tarball/$gh_commit" | tar xzf -
+curl -L "http://github.com/$gh_user/$gh_project/tarball/$gh_commit" | tar xzf -
 
 mv "${gh_user}-${gh_project}-${gh_commit}" "$gh_project"
 echo "$gh_commit" > "$gh_project/.github_commit_id"
