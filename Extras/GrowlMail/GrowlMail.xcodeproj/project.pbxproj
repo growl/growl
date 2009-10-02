@@ -372,6 +372,7 @@
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				935AC2DB1024C1C700BFD7F2 /* ShellScript */,
+				310EE298107661310070CD78 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -550,6 +551,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		310EE298107661310070CD78 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SetFile -a B \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\"";
+		};
 		935AC2DB1024C1C700BFD7F2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
