@@ -700,6 +700,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SEPARATE_STRIP = YES;
@@ -925,6 +926,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=x86_64]" = macosx10.6;
 			};
@@ -958,6 +960,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SEPARATE_STRIP = YES;
