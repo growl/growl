@@ -36,17 +36,19 @@
 	} else {
 		voice = [NSSpeechSynthesizer defaultVoice];
 	}
-	
+	NSString *title = [notification title];
 	NSString *desc = [notification notificationDescription];
-
+	
+	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
+	
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
-	[syn startSpeakingString:desc];
+	[syn startSpeakingString:summary];
 
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
 		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-		[syn startSpeakingString:desc toURL:url];
+		[syn startSpeakingString:summary toURL:url];
 		[url release];
 	}
 
