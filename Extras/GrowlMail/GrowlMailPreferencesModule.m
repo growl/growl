@@ -94,7 +94,7 @@
 	return NO;
 }
 
-- (int) numberOfRowsInTableView:(NSTableView *)aTableView {
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView {
 #pragma unused(aTableView)
 	return [[MailAccount remoteMailAccounts] count];
 }
@@ -103,7 +103,7 @@
 	[[GrowlMailNotifier sharedNotifier] configureForBackgroundOnly:[sender state]];
 }
 
-- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	if ([[aTableColumn identifier] isEqualToString:@"active"])
@@ -112,7 +112,7 @@
 		return [account displayName];
 }
 
-- (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView,aTableColumn)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	[[GrowlMailNotifier sharedNotifier] setAccount:account enabled:[anObject boolValue]];
