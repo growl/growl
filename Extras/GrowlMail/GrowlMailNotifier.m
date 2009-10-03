@@ -284,7 +284,7 @@ static BOOL notifierEnabled = YES;
 	NSLog(@"%s: Mail added messages [1] to mailboxes [2].\n[1]: %@\n[2]: %@", __PRETTY_FUNCTION__, messages, mailboxes);
 #endif
 	
-	unsigned count = [messages count];
+	NSUInteger count = [messages count];
 
 	int summaryMode = [self summaryMode];
 	if (summaryMode == GrowlMailSummaryModeAutomatic) {
@@ -332,7 +332,7 @@ static BOOL notifierEnabled = YES;
 				GMShutDownGrowlMailAndWarn(@"Message does not respond to -mailbox");
 
 			NSArray *accounts = [MailAccount mailAccounts];
-			unsigned accountsCount = [accounts count];
+			NSUInteger accountsCount = [accounts count];
 			NSCountedSet *accountSummary = [NSCountedSet setWithCapacity:accountsCount];
 			NSCountedSet *accountJunkSummary = [NSCountedSet setWithCapacity:accountsCount];
 			NSEnumerator *messagesEnum = [messages objectEnumerator];
@@ -364,7 +364,7 @@ static BOOL notifierEnabled = YES;
 				if (![self isAccountEnabled:account])
 					continue;
 
-				unsigned summaryCount = [accountSummary countForObject:account];
+				NSUInteger summaryCount = [accountSummary countForObject:account];
 				if (summaryCount) {
 					if (summaryCount == 1) {
 						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, GMGetGrowlMailBundle(), "%@ is an account name"), [account displayName]];
@@ -386,7 +386,7 @@ static BOOL notifierEnabled = YES;
 				if (![self isAccountEnabled:account])
 					continue;
 
-				unsigned summaryCount = [accountJunkSummary countForObject:account];
+				NSUInteger summaryCount = [accountJunkSummary countForObject:account];
 				if (summaryCount) {
 					if (summaryCount == 1) {
 						description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n 1 new mail", NULL, GMGetGrowlMailBundle(), "%@ is an account name"), [account displayName]];
