@@ -44,7 +44,6 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 @interface NSPreferences (GMSwizzleSticks)
 
 + (id) sharedPreferencesForGrowlMail;
-+ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail;
 
 @end
 
