@@ -19,6 +19,8 @@
 #import "SGHotKeyCenter.h"
 #import "SGKeyCombo.h"
 
+#import "GrowlTunesPlugin.h"
+
 @interface GTPController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate, GTPSettingsProtocol> 
 {
 	NSMutableDictionary *_settings;
@@ -26,13 +28,21 @@
 	GTPNotification		*_notification;
 
 	GTPSettingsWindowController *_settingsWindow;
+
+
+	id <GrowlTunesPluginArchive> archivePlugin;
+	NSMutableArray		*plugins;
 }
 
 - (void)setup;
 - (void)showCurrentTrack:(id)sender;
 - (void)showSettingsWindow;
 
-@property (assign) NSMutableDictionary *settings;
-@property (assign) GTPNotification *notification;
-@property (assign) SGKeyCombo *keyCombo;
+#pragma mark Plug-ins
+
+- (NSMutableArray *) loadPlugins;
+
+@property (retain) NSMutableDictionary *settings;
+@property (retain) GTPNotification *notification;
+@property (retain) SGKeyCombo *keyCombo;
 @end

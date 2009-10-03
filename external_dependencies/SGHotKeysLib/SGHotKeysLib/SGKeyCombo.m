@@ -28,7 +28,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 
 
 - (id)initWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     keyCode = theKeyCode;
     modifiers = theModifiers;
   }
