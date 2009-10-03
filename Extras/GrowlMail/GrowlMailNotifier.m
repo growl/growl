@@ -286,7 +286,7 @@ static BOOL notifierEnabled = YES;
 	
 	NSUInteger count = [messages count];
 
-	int summaryMode = [self summaryMode];
+	GrowlMailSummaryMode summaryMode = [self summaryMode];
 	if (summaryMode == GrowlMailSummaryModeAutomatic) {
 		if (count >= AUTO_THRESHOLD)
 			summaryMode = GrowlMailSummaryModeAlways;
