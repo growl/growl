@@ -46,7 +46,7 @@
 
 @interface NSMutableString (GrowlMail_LineOrientedTruncation)
 
-- (void) trimStringToFirstNLines:(unsigned)n;
+- (void) trimStringToFirstNLines:(NSUInteger)n;
 
 @end
 
@@ -113,9 +113,9 @@
 			originalBody = [messageBody stringValueForJunkEvaluation:NO];
 		if (originalBody) {
 			NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
-			unsigned lengthWithoutWhitespace = [transformedBody length];
+			NSUInteger lengthWithoutWhitespace = [transformedBody length];
 			[transformedBody trimStringToFirstNLines:4U];
-			unsigned length = [transformedBody length];
+			NSUInteger length = [transformedBody length];
 			if (length > 200U) {
 				[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
 				length = 200U;
@@ -226,14 +226,14 @@
 
 @implementation NSMutableString (GrowlMail_LineOrientedTruncation)
 
-- (void) trimStringToFirstNLines:(unsigned)n {
+- (void) trimStringToFirstNLines:(NSUInteger)n {
 	NSRange range;
-	unsigned end;
-	unsigned length;
+	NSUInteger end;
+	NSUInteger length;
 
 	range.location = 0;
 	range.length = 0;
-	for (unsigned i=0U; i<n; ++i)
+	for (NSUInteger i = 0U; i < n; ++i)
 		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
 
 	length = [self length];
