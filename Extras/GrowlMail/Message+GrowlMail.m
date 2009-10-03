@@ -228,7 +228,7 @@
 
 - (void) trimStringToFirstNLines:(NSUInteger)n {
 	NSRange range;
-	NSUInteger end;
+	NSUInteger end = 0U;
 	NSUInteger length;
 
 	range.location = 0;
