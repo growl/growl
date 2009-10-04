@@ -376,6 +376,7 @@
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				935AC2DB1024C1C700BFD7F2 /* ShellScript */,
 				310EE298107661310070CD78 /* Set Bundle Bit */,
+				310BAD8D1078272800741E3D /* Set Custom Icon */,
 			);
 			buildRules = (
 			);
@@ -555,6 +556,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		310BAD8D1078272800741E3D /* Set Custom Icon */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GrowlMail.icns",
+			);
+			name = "Set Custom Icon";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)/Icon",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -d \"${DERIVED_FILE_DIR}\" ]]; then\n\ttrue\nelse\n\tmkdir \"${DERIVED_FILE_DIR}\"\nfi\nrez_file=\"${DERIVED_FILE_DIR}/GrowlMail.icns.r\"\nicon_file=\"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Icon\"$'\\r'\n\necho \"Data 'icns' (-16455) {\" > \"$rez_file\"\nxxd -plain -c35 < \"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GrowlMail.icns\" | sed 's/.*/$\"&\"/' >> \"$rez_file\"\necho \"};\" >> \"$rez_file\"\n\nRez -useDF \"$rez_file\" -o \"$icon_file\"\nSetFile -a V \"$icon_file\"\nSetFile -a C \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\"";
+		};
 		310EE298107661310070CD78 /* Set Bundle Bit */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
