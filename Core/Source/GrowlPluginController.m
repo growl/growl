@@ -331,7 +331,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
 	//If we're passed a bundle, refuse to load it if we've already loaded a bundle with the same identifier, instead returning early.
 	NSString *bundleIdentifier = (bundle ? [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey] : nil);
-	if (bundleIdentifier && [loadedBundleIdentifiers containsObject:[bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]]) {
+	if (bundleIdentifier && [loadedBundleIdentifiers containsObject:bundleIdentifier]) {
 		return nil;
 	}
 	
