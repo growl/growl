@@ -28,8 +28,8 @@
 			[serverConnection setRootObject:self];
 			[serverConnection setDelegate:self];
 
-			// register with the default NSPortNameServer on the local host
-			if (![serverConnection registerName:@"GrowlServer"])
+			// register with the NSSocketPortNameServer on the local host
+			if (![serverConnection registerName:@"GrowlServer" withNameServer:[NSSocketPortNameServer sharedInstance]])
 				NSLog(@"WARNING: could not register Growl server.");
 
 			// configure and publish the Bonjour service
