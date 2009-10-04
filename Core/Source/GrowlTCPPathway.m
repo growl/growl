@@ -20,7 +20,11 @@
 			authenticator = [[MD5Authenticator alloc] init];
 
 			socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
+			if (!socketPort)
+				NSLog(@"WARNING: Could not create socket port for TCP port %i", (int)GROWL_TCP_PORT);
 			serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
+			if (!serverConnection)
+				NSLog(@"WARNING: Could not create server connection for socket port %@", socketPort);
 			[serverConnection setRootObject:self];
 			[serverConnection setDelegate:self];
 
