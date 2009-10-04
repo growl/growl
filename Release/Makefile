@@ -20,6 +20,7 @@ SRC_DIR=$(PWD)/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
+SAMPLE_DIR=$(BUILD_DIR)/DisplaySample
 FMWK_DIR=$(BUILD_DIR)/Growl-$(VERSION)-Framework
 FMWK_TBZ_NAME=Growl-$(VERSION)-Framework.tbz
 BUILDSTYLE=Release
@@ -201,9 +202,49 @@ release:
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
-	
+
+
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
+
+displaysample : 
+	@# make the DisplaySample zip
+	mkdir -p $(SAMPLE_DIR)
+	
+	@# copy the Display plugin sample
+	cp -R $(SRC_DIR)/Developer\ Tools/SampleDisplay/* $(SAMPLE_DIR)
+
+	@# copy the necessary headers and source files into the bundle
+	cp $(SRC_DIR)/Common/Source/CFDictionaryAdditions.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/CFDictionaryAdditions.c $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/CFGrowlDefines.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Core/Source/GrowlAbstractSingletonObject.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Core/Source/GrowlApplicationNotification.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/GrowlDefines.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Common/Source/GrowlDefinesInternal.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlDisplayPlugin.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlDisplayWindowController.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlImageAdditions.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlImageAdditions.m $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlNotificationDisplayBridge.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/GrowlPlugin.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlPositionController.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Framework/Source/GrowlPositioningDefines.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Common/Source/NSWindow+Transforms.h $(SAMPLE_DIR)/source/Growl
+
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlFadingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlFlippingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlScaleWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlShrinkingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlSlidingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlWipeWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/GrowlWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+
+	@# delete svn and backup files
+	find $(BUILD_DIR)/. \( -name ".svn" -or -name build \) -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR)/. \( -name "*~" -or -name .DS_Store \) -type f -delete
+
+	cd build && zip -r DisplaySample.zip DisplaySample && cd ..
 
 framework-archive: assertnochanges
 	-mkdir "$(BUILD_DIR)"
