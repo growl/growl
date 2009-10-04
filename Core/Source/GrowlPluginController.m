@@ -88,6 +88,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		bundlesToLazilyInstantiateAnInstanceFrom = [[NSMutableSet alloc] init];
 
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
+		pluginsByBundleIdentifier   = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByPath     = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByBundle   = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 		pluginIdentifiersByInstance = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
@@ -99,8 +100,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		pluginsByType     = [[NSMutableDictionary alloc] init];
 		pluginHumanReadableNames = [[NSCountedSet alloc] init];
 
-		loadedBundleIdentifiers = [[NSMutableSet alloc] init];
-		
+
 		allPluginHandlers = [[NSMutableArray alloc] init];
 		pluginHandlers  = [[NSMutableDictionary alloc] init];
 		handlersForPlugins = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
@@ -145,6 +145,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 - (void) destroy {
 	[pluginsByIdentifier         release];
+	[pluginsByBundleIdentifier   release];
 	[pluginIdentifiersByPath     release];
 	[pluginIdentifiersByBundle   release];
 	[pluginIdentifiersByInstance release];
@@ -155,8 +156,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	[pluginsByFilename release];
 	[pluginsByType     release];
 	[pluginHumanReadableNames release];
-
-	[loadedBundleIdentifiers release];
 
 	[bundlesToLazilyInstantiateAnInstanceFrom release];
 	[displayPlugins release];
@@ -329,10 +328,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 //private method.
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
-	//If we're passed a bundle, refuse to load it if we've already loaded a bundle with the same identifier, instead returning early.
-	NSString *bundleIdentifier = (bundle ? [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey] : nil);
-	if (bundleIdentifier && [loadedBundleIdentifiers containsObject:bundleIdentifier]) {
-		return nil;
+	//If we're passed a bundle, refuse to load it if we've already loaded a different bundle with the same identifier, instead returning whatever dictionary we already have.
+	NSMutableDictionary *pluginDict = nil;
+	NSString *bundleIdentifier = [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+	if (bundleIdentifier) {
+		pluginDict = [pluginsByBundleIdentifier objectForKey:bundleIdentifier];
+		if (pluginDict && (bundle != [pluginDict pluginBundle]))
+			return pluginDict;
 	}
 	
 	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
@@ -347,7 +349,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	/* If we have an identifier, look up the plug-in dictionary.
 	 * If we have a plug-in dictionary but no instance (the identifier was retrieved by bundle or by path), attempt to retrieve the instance from the dictionary.
 	 */
-	NSMutableDictionary *pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
+	pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
 	if (pluginDict && !plugin)
 		plugin = [pluginDict pluginInstance];
 
@@ -398,17 +400,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 			//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
 			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
-		}
-	}
-
-	if (!plugin && bundle) {
-		//*Still* no plug-in! Again we check whether it's queued for instantiation (bug?).
-		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
-			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		else {
-			//Apparently it is. Instantiate it, but don't stash the plug-in instance in the plug-in dictionary (why not?).
-			plugin = [[[[bundle principalClass] alloc] init] autorelease];
-			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
 		}
 	}
 
@@ -525,7 +516,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	//Store the bundle identifier so we know we've loaded it.
 	if (bundleIdentifier) {
-		[loadedBundleIdentifiers addObject:bundleIdentifier];
+		[pluginsByBundleIdentifier setObject:pluginDict forKey:bundleIdentifier];
 	}
 
 	return pluginDict;
@@ -677,9 +668,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	else {
 		NSBundle *bundle = [pluginDict pluginBundle];
 		NSAssert1(bundle, @"no instance or bundle in plug-in dictionary! description of dictionary follows\n%@", pluginDict);
-		Class principalClass = [bundle principalClass];
-		NSAssert1(bundle, @"bundle in plug-in dictionary has no principal class! description of dictionary follows\n%@", pluginDict);
-		return [principalClass isSubclassOfClass:[GrowlDisplayPlugin class]];
+		NSString *ext = [[bundle bundlePath] pathExtension];
+		return [ext isEqualToString:GROWL_VIEW_EXTENSION] || [ext isEqualToString:GROWL_STYLE_EXTENSION];
 	}
 }
 
