@@ -9,6 +9,8 @@
 #import "GTPSettingsWindowController.h"
 #import "GTPCommon.h"
 
+#import "GTPController.h"
+
 @implementation GTPSettingsWindowController
 @synthesize delegate = _delegate;
 @synthesize keyCombo = _keyCombo;
@@ -48,6 +50,8 @@
 	NSDictionary *defaults = [[NSUserDefaults standardUserDefaults] persistentDomainForName:GTPBundleIdentifier];
 	[_title setObjectValue:[defaults objectForKey:@"titleString"]];
 	[_description setObjectValue:[defaults objectForKey:@"descriptionString"]];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:[self window]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -62,8 +66,9 @@
 		}
 		NSMutableDictionary *defaults = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:GTPBundleIdentifier] mutableCopy];
 		[defaults setValue:title forKey:@"titleString"];
-		
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:GTPBundleIdentifier];
+
+		[[[GTPController sharedInstance] notification] setTitleFormat:title];
 	}
 	else if([keyPath isEqual:@"descriptionString"])
 	{
@@ -76,8 +81,9 @@
 		if(!defaults)
 			defaults = [NSMutableDictionary dictionary];
 		[defaults setValue:description forKey:@"descriptionString"];
-		
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:GTPBundleIdentifier];
+		[[[GTPController sharedInstance] notification] setDescriptionFormat:description];
+
 	}
 }
 #pragma mark SRRecorderDelegate
@@ -148,4 +154,16 @@
 	return result;
 }
 
+#pragma mark NSWindow Notifications
+
+- (void)windowWillClose:(NSNotification*)notification
+{
+	NSWindow *window = [notification object];
+	if([window isEqual:[self window]])
+	{
+		[self didChangeValueForKey:@"titleString"];
+		[self didChangeValueForKey:@"descriptionString"];
+	}
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[self window]];
+}
 @end

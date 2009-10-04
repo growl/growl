@@ -7,6 +7,18 @@
 //
 
 #import "GTPNotification.h"
+#import "NSWorkspaceAdditions.h"
+#import "GTPController.h"
+
+@interface GTPNotification (Star_Formatting)
+- (NSString *) starsForRating:(NSNumber *)aRating withStarCharacter:(unichar)star;
+- (NSString *) starsForRating:(NSNumber *)aRating withStarString:(NSString *)star;
+- (NSString *) starsForRating:(NSNumber *)rating;
+@end	
+
+@interface NSString (GrowlTunesMultiplicationAdditions)
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi;
+@end
 
 @implementation GTPNotification
 
@@ -24,6 +36,11 @@
 @synthesize length = _length;
 @synthesize artwork = _artwork;
 @synthesize state = _state;
+@synthesize compilation = _compilation;
+
+@synthesize streamTitle = _streamTitle;
+@synthesize streamURL =	_streamURL;
+@synthesize streamMessage = _streamMessage;
 
 + (id)notification
 {
@@ -77,6 +94,11 @@
 	else
 		[self setRating:[self starsForRating:[NSNumber numberWithInteger:0]]];
 	
+	if(data->trackInfo.validFields & kITTICompilationFieldMask)
+		[self setCompilation:data->trackInfo.isCompilationTrack];
+	else
+		[self setCompilation:NO];
+
 	if(data->trackInfo.validFields &  kITTITotalTimeFieldMask)
 	{
 		NSInteger minutes = data->trackInfo.totalTimeInMS / 1000 / 60;
@@ -85,6 +107,49 @@
 	}
 	else
 		[self setLength:@"0:00"];
+		
+	if(data->streamInfo.version)
+	{
+		if(data->streamInfo.streamTitle)
+			[self setStreamTitle:[NSString stringWithCharacters:&data->streamInfo.streamTitle[1] length:data->streamInfo.streamTitle[0]]];
+		else
+			[self setStreamTitle:nil];
+		
+		if(data->streamInfo.streamURL)
+			[self setStreamURL:[NSString stringWithCharacters:&data->streamInfo.streamURL[1] length:data->streamInfo.streamURL[0]]];
+		else
+			[self setStreamURL:nil];
+
+		if(data->streamInfo.streamMessage)
+			[self setStreamMessage:[NSString stringWithCharacters:&data->streamInfo.streamMessage[1] length:data->streamInfo.streamMessage[0]]];
+		else
+			[self setStreamMessage:nil];
+		NSLog(@"%@ %@ %@", [self streamTitle], [self streamURL], [self streamMessage]);
+	}
+	else 
+	{
+		[self setStreamTitle:nil];
+		[self setStreamURL:nil];
+		[self setStreamMessage:nil];
+	}
+
+	//Get cover art
+	Handle coverArt = NULL;
+	OSType format;
+	uint32_t err = noErr;
+	
+	err = PlayerGetCurrentTrackCoverArt(data->appCookie, data->appProc, &coverArt, &format);
+	if((err == noErr) && coverArt)
+		[self setArtwork:[NSData dataWithBytes:*coverArt length:GetHandleSize(coverArt)]];
+	else
+		[[GTPController sharedInstance] artworkForTitle:[self title] byArtist:[self artist] onAlbum:[self album] composedBy:[self composer] isCompilation:[self compilation]];
+		 
+		 if(![self artwork])
+		 [self setArtwork:[[[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"] TIFFRepresentation]];
+		 
+		 if (coverArt)
+		 DisposeHandle(coverArt);
+		 
 }
 
 - (NSString*)replacements:(NSString*)string
@@ -100,13 +165,21 @@
 	result = [result stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"<<%@>>",tokenTitles[7]] withString:[self year]];
 	result = [result stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"<<%@>>",tokenTitles[8]] withString:[self rating]];
 	result = [result stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"<<%@>>",tokenTitles[9]] withString:[self length]];
+	result = [result stringByReplacingOccurrencesOfString:@"<<streamTitle>>" withString:[self streamTitle]];
+	result = [result stringByReplacingOccurrencesOfString:@"<<streamURL>>" withString:[self streamURL]];
+	result = [result stringByReplacingOccurrencesOfString:@"<<streamMessage>>" withString:[self streamMessage]];
 	return result;
 }
 
 - (NSString*)titleString
 {
-	NSString *result = [self titleFormat];
-	
+	NSString *result = nil;
+
+	if([[self streamTitle] length] || [[self streamURL] length] || [[self streamMessage] length])
+		result = [NSString stringWithFormat:@"<<%@>>", tokenTitles[1]];
+	else
+		result = [[[self titleFormat] copy] autorelease];
+		
 	result = [self replacements:result];
 	
 	return result;
@@ -114,7 +187,12 @@
 
 - (NSString*)descriptionString
 {
-	NSString *result = [self descriptionFormat];
+	NSString *result = nil;
+	
+	if([[self streamTitle] length] || [[self streamURL] length] || [[self streamMessage] length])
+		result = [NSString stringWithFormat:@"<<%@>>\n<<%@>>\n<<%@>>", @"streamTitle", @"streamMessage", tokenTitles[4]];
+	else
+		result = [[[self descriptionFormat] copy] autorelease];
 	
 	result = [self replacements:result];
 	return result;
@@ -275,6 +353,25 @@
 
 - (NSString *) starsForRating:(NSNumber *)rating {
 	return [self starsForRating:rating withStarString:nil];
+}
+@end
+
+@implementation NSString (GrowlTunesMultiplicationAdditions)
+
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi {
+	NSUInteger length = [self length];
+	NSUInteger length_multi = length * multi;
+	
+	unichar *buf = malloc(sizeof(unichar) * length_multi);
+	if (!buf)
+		return nil;
+	
+	for (NSUInteger i = 0UL; i < multi; ++i)
+		[self getCharacters:&buf[length * i]];
+	
+	NSString *result = [NSString stringWithCharacters:buf length:length_multi];
+	free(buf);
+	return result;
 }
 
 @end

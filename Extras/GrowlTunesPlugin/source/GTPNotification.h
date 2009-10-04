@@ -26,8 +26,14 @@
 	NSString *_rating;
 	NSString *_length;
 	
+	
+	NSString *_streamTitle;
+	NSString *_streamURL;
+	NSString *_streamMessage;
+	
 	NSData *_artwork;
 	
+	BOOL _compilation;
 	BOOL _state;
 }
 
@@ -36,23 +42,30 @@
 
 - (NSString*)replacements:(NSString*)string;
 
-@property (assign) NSString *titleFormat;
-@property (assign) NSString *descriptionFormat;
+- (NSDictionary*)dictionary;
 
-@property (assign) NSString *track;
-@property (assign) NSString *title;
+@property (retain) NSString *titleFormat;
+@property (retain) NSString *descriptionFormat;
 
-@property (assign) NSString *artist;
-@property (assign) NSString *album;
-@property (assign) NSString *genre;
+@property (retain) NSString *track;
+@property (retain) NSString *title;
 
-@property (assign) NSString *disc;
-@property (assign) NSString *composer;
-@property (assign) NSString *year;
+@property (retain) NSString *artist;
+@property (retain) NSString *album;
+@property (retain) NSString *genre;
 
-@property (assign) NSString *rating;
-@property (assign) NSString *length;
-@property (assign) NSData	*artwork;
+@property (retain) NSString *disc;
+@property (retain) NSString *composer;
+@property (retain) NSString *year;
+
+@property (retain) NSString *rating;
+@property (retain) NSString *length;
+@property (retain) NSData	*artwork;
+
+@property (retain) NSString *streamTitle;
+@property (retain) NSString *streamURL;
+@property (retain) NSString *streamMessage;
 
 @property (assign) BOOL state;
+@property (assign) BOOL compilation;
 @end

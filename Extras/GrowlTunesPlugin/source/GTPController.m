@@ -54,12 +54,19 @@
 	
 	[[self notification] setTitleFormat:[[self settings] objectForKey:@"titleString"]];
 	[[self notification] setDescriptionFormat:[[self settings] objectForKey:@"descriptionString"]];
+
+
+	//configure the plugins
+	archivePlugin = nil;
+	plugins = [[self loadPlugins] retain];
+	NSLog(@"plugins: %@\n", plugins);
 }
 
 - (void)showCurrentTrack:(id)sender
 {
 #pragma unused(sender)
 	NSDictionary *noteDict = [[self notification] dictionary];
+
 	[GrowlApplicationBridge notifyWithDictionary:noteDict];
 }
 
@@ -71,6 +78,29 @@
 	[_settingsWindow setKeyCombo:_keyCombo];
 	[_settingsWindow showWindow:self];
 	
+}
+
+- (NSData*)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album composedBy:(NSString*)composer isCompilation:(BOOL)compilation
+{
+	NSLog(@"artworkForTitle: %@ %@ %@ %@ %d", track, artist, album, composer, compilation);
+	NSData *result;
+	NSImage *artwork = nil;
+	
+	NSEnumerator *pluginEnum = [plugins objectEnumerator];
+	id <GrowlTunesPlugin> plugin;
+	while (!artwork && (plugin = [pluginEnum nextObject])) {
+		artwork = [plugin artworkForTitle:track
+								 byArtist:artist
+								  onAlbum:album
+							   composedBy:composer
+							isCompilation:compilation];
+		NSLog(@"plugin: %@ %@", plugin, artwork);
+		if (artwork && [plugin usesNetwork])
+			[archivePlugin archiveImage:artwork	track:track artist:artist album:album composer:composer compilation:compilation];
+	}	
+	//NSLog(@"plugin: %@ %@", plugin, artwork);
+	result = [artwork TIFFRepresentation];
+	return [result autorelease];
 }
 
 #pragma mark GrowlApplicationBridgeDelegate
@@ -123,163 +153,88 @@
 	
 }
 
-/*
- Name: setupTitleString
- Function: configures the title string to be used by the notification based on the user's selected
- display settings and the information that is available from iTunes for the new track
- *
-static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title)
-{
-	GrowlLog("%s entered", __FUNCTION__);
-	CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
-	if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) 
-	{
-		if (visualPluginData->trackInfo.trackNumber > 0) 
-		{
-			if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
-				CFStringAppendFormat(title, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
-			CFStringAppendFormat(title, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
-		}
-		CFStringAppendCharacters(title, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
-	}
-	GrowlLog("%s exited", __FUNCTION__);
+#pragma mark Plug-ins
+
+// This function is used to sort plugins, trying first the local ones, and then the network ones
+static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
+#pragma unused(context)
+	BOOL b1 = [plugin1 usesNetwork];
+	BOOL b2 = [plugin2 usesNetwork];
+	if (b2 && !b1) //b1 is local; b2 is network
+		return NSOrderedAscending;
+	else if (b1 && !b2) //b1 is network; b2 is local
+		return NSOrderedDescending;
+	else //both have the same behaviour
+		return NSOrderedAscending;
 }
 
-/*
- Name: setupDescString
- Function: configures the description string to be used by the notification based on the user's selected
- display settings and the information that is available from iTunes for the new track
- *
-static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc)
-{
-	GrowlLog("%s entered", __FUNCTION__);
-	CFStringRef album;
-	CFStringRef artist;
-	CFStringRef genre;
-	CFStringRef	totalTime;
-	CFStringRef rating;
-	CFMutableStringRef tmp;
-	
-	CFMutableStringRef test = CFStringCreateMutable(kCFAllocatorDefault, 0);
-	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
-	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
-	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
-	
-	if (!CFStringGetLength(test)) 
-	{
-		if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) 
-		{
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppend(tmp, CFSTR("\n"));
-			if (gArtistFlag)
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-			if (visualPluginData->trackInfo.composer[0] && gComposerFlag) 
-			{
-				CFStringAppend(tmp, CFSTR(" (Composed by "));
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
-				CFStringAppend(tmp, CFSTR(")"));
-			}
-			artist = tmp;
-		} 
-		else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) 
-		{
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-			artist = tmp;
-		} 
-		else 
-		{
-			artist = CFSTR("");
-		}
+- (NSMutableArray *) loadPlugins {
+	NSMutableArray *newPlugins = [[NSMutableArray alloc] init];
+	NSMutableArray *lastPlugins = [[NSMutableArray alloc] init];
+	if (newPlugins) {
+		NSBundle *myBundle = [NSBundle bundleForClass:[self class]];
+		NSString *pluginsPath = [myBundle builtInPlugInsPath];
+		NSString *applicationSupportPath = [@"~/Library/Application Support/GrowlTunes/Plugins" stringByExpandingTildeInPath];
+		NSArray *loadPathsArray = [NSArray arrayWithObjects:pluginsPath, applicationSupportPath, nil];
+		NSEnumerator *loadPathsEnum = [loadPathsArray objectEnumerator];
+		NSString *loadPath;
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		static NSString *pluginPathExtension = @"plugin";
 		
-		if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) 
-		{
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppend(tmp, CFSTR("\n"));
-			if (gAlbumFlag) 
-			{
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-				CFStringAppendFormat(tmp, NULL, CFSTR(" "));
-			}
-			if (gYearFlag)
-				if(visualPluginData->trackInfo.year)
-					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
-			album = tmp;
-		} 
-		else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) 
-		{
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-			album = tmp;
-		} 
-		else 
-		{
-			album = CFSTR("");
-		}
-		if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) 
-		{
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppend(tmp, CFSTR("\n"));
-			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
-			genre = tmp;
-		} 
-		else 
-		{
-			genre = CFSTR("");
-		}
-		if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) 
-		{
-			int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
-			int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
-			totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%02d"), minutes, seconds);
-		} 
-		else 
-		{
-			totalTime = CFSTR("");
-		}
-		
-		rating = CFSTR("");
-		if (gRatingFlag && visualPluginData->trackInfo.trackRating) 
-		{
-			CFStringRef starsString = createStringForRating(visualPluginData->trackInfo.trackRating, PINWHEEL_STAR);
-			if (starsString)
-			{
-				CFStringRef separator = CFSTR(" - ");
-				CFIndex tmpLength = CFStringGetLength(separator) + CFStringGetLength(starsString);
-				
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, tmpLength);
-				CFStringAppend(tmp, separator);
-				CFStringAppend(tmp, starsString);
-				CFRelease(starsString);
-				rating = tmp;
+		while ((loadPath = [loadPathsEnum nextObject])) {
+			//NSLog(@"loadPath: %@\n", loadPath);
+			NSEnumerator *pluginEnum = [[[NSFileManager defaultManager] directoryContentsAtPath:loadPath] objectEnumerator];
+			NSString *curPath;
+			
+			while ((curPath = [pluginEnum nextObject])) {
+				//NSLog(@"currentPath: %@\n", curPath);
+				if ([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
+					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
+					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
+					
+					if ([plugin load]) {
+						Class principalClass = [plugin principalClass];
+						
+						if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
+							id instance = [[principalClass alloc] init];
+							[newPlugins addObject:instance];
+							
+							if (!archivePlugin && ([principalClass conformsToProtocol:@protocol(GrowlTunesPluginArchive)])) {
+								archivePlugin = [instance retain];
+																//NSLog(@"plug-in %@ is archive-Plugin with id %p", [curPath lastPathComponent], instance);
+							}
+							[instance release];
+														//NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+						} else
+							NSLog(@"Loaded plug-in \"%@\" does not conform to protocol", [curPath lastPathComponent]);
+					} else
+						NSLog(@"Could not load plug-in \"%@\"", [curPath lastPathComponent]);
+				}
 			}
 		}
 		
-		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
-		CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
-		
-		if (artist)
-			CFRelease(artist);
-		if (album)
-			CFRelease(album);
-		if (totalTime)
-			CFRelease(totalTime);
-		if (rating)
-			CFRelease(rating);
-	} 
-	else 
-	{
-		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
-		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
-		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
-		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
-		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
-		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
-		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
+		[pool release];
+		[newPlugins addObjectsFromArray:lastPlugins];
+		[lastPlugins release];
+		[newPlugins autorelease];
 	}
-	if (test)
-		CFRelease(test);
-	GrowlLog("%s exited", __FUNCTION__);
+	
+	// sort the plugins, putting the one that uses network last
+	return (NSMutableArray *)[newPlugins sortedArrayUsingFunction:comparePlugins context:NULL];
 }
-*/
+
+@end
+
+@implementation NSObject(GrowlTunesDummyPlugin)
+
+- (NSImage *) artworkForTitle:(NSString *)track
+					 byArtist:(NSString *)artist
+					  onAlbum:(NSString *)album
+				isCompilation:(BOOL)compilation
+{
+#pragma unused(track,artist,album,compilation)
+	NSLog(@"Dummy plug-in %p called for artwork", self);
+	return nil;
+}
+
 @end

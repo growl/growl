@@ -168,17 +168,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			GTPNotification *notification = [[GTPController sharedInstance] notification];
 			[notification setVisualPluginData:visualPluginData];
 			[notification setState:(message == kVisualPluginPlayMessage)];
-			//Get cover art
-			Handle coverArt = NULL;
-			OSType format;
-			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
-			if((err == noErr) && coverArt)
-				[notification setArtwork:[NSData dataWithBytes:*coverArt length:GetHandleSize(coverArt)]];
-			else
-				[notification setArtwork:[[[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"] TIFFRepresentation]];
-			
-			if (coverArt)
-				DisposeHandle(coverArt);
 		
 			[[GTPController sharedInstance] showCurrentTrack:nil];
 
