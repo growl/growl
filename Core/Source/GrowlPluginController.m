@@ -401,13 +401,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle]) {
 			//We haven't previously queued it: Queue it.
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		} else {
+		} else if (![disabledPlugins containsObject:name]) {
 			//We have: This is our cue to instantiate it.
 			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			//Dequeue it, because we don't want to hit this branch again for this plug-in.
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
-			//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
-			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+			if (plugin) {
+				//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
+				[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+			} else {
+				//Couldn't instantiate the plug-in, perhaps because of an architecture mismatch. Put it into disabled plug-ins.
+				NSLog(@"Adding %@ to disabled plug-ins because we could not instantiate its class %@ (from bundle %@)", name, [bundle principalClass], bundle);
+				[disabledPlugins addObject:name];
+			}
 		}
 	}
 
@@ -509,8 +515,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	//Special handling if this plug-in is a display.
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
 		//If it doesn't respond to -requiresPositioning, it's old. Add it as a disabled plug-in.
-		if(![[pluginDict valueForKey:GrowlPluginInfoKeyInstance] respondsToSelector:@selector(requiresPositioning)]) {
-			[disabledPlugins addObject:[pluginDict valueForKey:GrowlPluginInfoKeyName]];
+		if(plugin && ![plugin respondsToSelector:@selector(requiresPositioning)]) {
+			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 1.1 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
+			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyName]];
 		} 
 		else {
 			//It responds to -requiresPositioning, so add it as a(n enabled) display plug-in.
