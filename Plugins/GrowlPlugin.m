@@ -18,7 +18,7 @@
 
 //designated initialiser.
 - (id) initWithName:(NSString *)name author:(NSString *)author version:(NSString *)version pathname:(NSString *)pathname {
-	if ((self = [self init])) {
+	if ((self = [super init])) {
 		pluginName     = [name     copy];
 		pluginAuthor   = [author   copy];
 		pluginVersion  = [version  copy];
@@ -41,6 +41,10 @@
 		pluginBundle = [bundle retain];
 	}
 	return self;
+}
+
+- (id) init {
+	return [self initWithBundle:[NSBundle bundleForClass:[self class]]];
 }
 
 - (void) dealloc {
