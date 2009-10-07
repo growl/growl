@@ -341,7 +341,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	if (done != NULL)  *done = d;
 	if (total != NULL) *total = t;
 	float ratio = (float)d/(float)t;
-	return isnan(ratio) ? 1.0 : ratio; // 0 of 0 bytes is 100% done.
+	return isnan(ratio) ? 1.0f : ratio; // 0 of 0 bytes is 100% done.
 }
 
 - (float) progressOfWriteReturningTag:(long *)tag bytesDone:(CFIndex *)done total:(CFIndex *)total
@@ -1623,7 +1623,7 @@ Failed:;
 		int percentDone;
 		if ([theCurrentRead->buffer length] != 0)
 			percentDone = (float)theCurrentRead->bytesDone /
-						  (float)[theCurrentRead->buffer length] * 100.0;
+						  (float)[theCurrentRead->buffer length] * 100.0f;
 		else
 			percentDone = 100;
 
@@ -1639,7 +1639,7 @@ Failed:;
 		int percentDone;
 		if ([theCurrentWrite->buffer length] != 0)
 			percentDone = (float)theCurrentWrite->bytesDone /
-						  (float)[theCurrentWrite->buffer length] * 100.0;
+						  (float)[theCurrentWrite->buffer length] * 100.0f;
 		else
 			percentDone = 100;
 
