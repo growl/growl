@@ -326,6 +326,14 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 #pragma mark -
 
+//Private method.
+//This creates and returns a hash table that uses the object's pointer for the hash, instead of sending it a -hash message. This enables us to mutate the object without disturbing its hash.
+- (NSHashTable *) makeHashTableWithObject:(NSObject *)obj {
+	NSHashTable *hashTable = [NSHashTable hashTableWithOptions:NSHashTableStrongMemory | NSHashTableObjectPointerPersonality];
+	[hashTable addObject:obj];
+	return hashTable;
+}
+
 //private method.
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
 	//If we're passed a bundle, refuse to load it if we've already loaded a different bundle with the same identifier, instead returning whatever dictionary we already have.
@@ -465,11 +473,11 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	#define ADD_TO_DICT(dictName, key, value)                                          \
 			do {                                                                        \
-				NSMutableSet *plugins = [dictName objectForKey:key];                     \
+				NSHashTable *plugins = [dictName objectForKey:key];                     \
 				if (plugins)                                                              \
 					[plugins addObject:value];                                             \
 				else                                                                        \
-					[dictName setObject:[NSMutableSet setWithObject:value] forKey:key];      \
+					[dictName setObject:[self makeHashTableWithObject:value] forKey:key];    \
 			} while(0)
 		ADD_TO_DICT(pluginsByName,     name,                     pluginDict);
 		ADD_TO_DICT(pluginsByAuthor,   author,                   pluginDict);
@@ -588,13 +596,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	if ([matches count]) {
 		if (name)
-			[matches intersectSet:[pluginsByName objectForKey:name]];
+			[matches intersectSet:[[pluginsByName objectForKey:name] setRepresentation]];
 		if (author)
-			[matches intersectSet:[pluginsByAuthor objectForKey:author]];
+			[matches intersectSet:[[pluginsByAuthor objectForKey:author] setRepresentation]];
 		if (version)
-			[matches intersectSet:[pluginsByVersion objectForKey:version]];
+			[matches intersectSet:[[pluginsByVersion objectForKey:version] setRepresentation]];
 		if (type)
-			[matches intersectSet:[pluginsByType objectForKey:type]];
+			[matches intersectSet:[[pluginsByType objectForKey:type] setRepresentation]];
 	}
 
 	return matches;
