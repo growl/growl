@@ -27,6 +27,7 @@
 		tcpServer = [[GrowlTCPServer alloc] init];
 
 		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
+		[tcpServer setName:@"GNTP Testing"];
 		[tcpServer setType:@"_gntp._tcp."];
 		[tcpServer setPort:GROWL_TCP_PORT];
 		[tcpServer setDelegate:self];
