@@ -95,7 +95,6 @@
 		0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */; };
 		0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */; };
 		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
-		31340CDC0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
 		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
@@ -566,7 +565,6 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* SMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
-				31340CDC0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

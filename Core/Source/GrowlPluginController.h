@@ -130,6 +130,9 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 @interface GrowlPluginController : GrowlAbstractSingletonObject <GrowlPluginHandler> {
 	//Keys: plug-in IDs; values: plug-in description dictionaries.
 	NSMutableDictionary       *pluginsByIdentifier;
+	//Keys: bundle IDs; values: plug-in description dictionaries.
+	//We use this to avoid attempting to load two bundles with the same bundle ID.
+	NSMutableDictionary       *pluginsByBundleIdentifier;
 	//Keys: plug-in paths/bundles/instances; values: plug-in identifiers.
 	NSMutableDictionary       *pluginIdentifiersByPath;
 	NSMapTable *pluginIdentifiersByBundle;
@@ -143,12 +146,6 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	//Used for triple-disambiguated names (e.g. 'Smoke (by Matthew Walton, filename Smoke.growlView)'). Multiple equal names become '...', '... 2', '... 3', etc.
 	NSCountedSet          *pluginHumanReadableNames;
 
-	/* A set of the identifiers of all loaded bundles to easily prevent loading the same bundle twice.
-	 * This might be duplicative with one of the dictionaries above.  I can't tell, but we need to avoid
-	 * duplication of bundle loading. -eds
-	 */
-	NSMutableSet	*loadedBundleIdentifiers;
-	
 	NSMutableSet *bundlesToLazilyInstantiateAnInstanceFrom;
 	//GrowlDisplayPlugin instances that have been added as display plugins.
 	//These two arrays are parallel.

@@ -447,7 +447,7 @@
 
 - (GrowlDisplayPlugin *) displayPlugin {
 	if (!displayPlugin && displayPluginName)
-		displayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+		displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil];
 	return displayPlugin;
 }
 
