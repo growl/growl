@@ -233,7 +233,6 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
  */
 - (NSSet *) registeredPluginNames;
 - (NSArray *) registeredPluginNamesArray;
-- (NSArray *) registeredPluginNamesArrayForType:(NSString *)type;
 
 #pragma mark -
 

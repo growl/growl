@@ -574,12 +574,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	return cache_registeredPluginNamesArray;
 }
 
-- (NSArray *) registeredPluginNamesArrayForType:(NSString *)type {
-#warning this should be cached per type
-	return [[[pluginsByType valueForKey:type] allObjects] valueForKey:GrowlPluginInfoKeyName];
-}
-
-
 #pragma mark -
 
 - (NSArray *) allPluginDictionariesArray {
