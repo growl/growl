@@ -26,6 +26,10 @@ static void usbDeviceAdded(void *refCon, io_iterator_t iterator) {
 			//	This works with USB devices...
 			//	but apparently not firewire
 			nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
+			if (nameResult != KERN_SUCCESS) {
+				NSLog(CFSTR("%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x"), __PRETTY_FUNCTION__, thisObject, nameResult);
+				continue;
+			}
 
 			CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 															   deviceNameChars,
@@ -59,6 +63,11 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 		//	This works with USB devices...
 		//	but apparently not firewire
 		nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
+		if (nameResult != KERN_SUCCESS) {
+			NSLog(CFSTR("%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x"), __PRETTY_FUNCTION__, thisObject, nameResult);
+			continue;
+		}
+
 		CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 														   deviceNameChars,
 														   kCFStringEncodingASCII);
