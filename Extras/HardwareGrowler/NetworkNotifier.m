@@ -44,7 +44,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	// There's no pretty way to get media stuff; I've stripped it down to the essentials
 	// for what I'm doing.
 
-	unsigned length = strlen(interface);
+	size_t length = strlen(interface);
 	if (length >= IFNAMSIZ)
 		NSLog(@"Interface name too long");
 
