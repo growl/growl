@@ -750,7 +750,7 @@
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 
-		int indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
 		if (indexOfMenuItem < 0)
 			indexOfMenuItem = 0;
 		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
