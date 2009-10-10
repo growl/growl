@@ -22,8 +22,12 @@ static CFStringRef nameForFireWireObject(io_object_t thisObject) {
 	CFStringRef tempDeviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 														   deviceNameChars,
 														   kCFStringEncodingASCII);
-	if (CFStringCompare(tempDeviceName, CFSTR("IOFireWireDevice"), 0) != kCFCompareEqualTo)
-		return tempDeviceName;
+	if (tempDeviceName) {
+		if (CFStringCompare(tempDeviceName, CFSTR("IOFireWireDevice"), 0) != kCFCompareEqualTo)
+			return tempDeviceName;
+		else
+			CFRelease(tempDeviceName);
+	}
 
 	tempDeviceName = IORegistryEntrySearchCFProperty(thisObject,
 													 kIOFireWirePlane,
