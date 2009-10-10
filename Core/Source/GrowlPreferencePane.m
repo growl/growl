@@ -986,6 +986,7 @@
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
+#pragma unused(sender)
 	NSLog(@"What calls resolveService:?");
 }
 
