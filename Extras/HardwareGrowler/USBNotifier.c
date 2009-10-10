@@ -34,18 +34,20 @@ static void usbDeviceAdded(void *refCon, io_iterator_t iterator) {
 			CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 															   deviceNameChars,
 															   kCFStringEncodingASCII);
-			if ((CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) ||
-				(CFStringCompare(deviceName, CFSTR("UHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)) {
-				CFRelease(deviceName);
-				deviceName = CFCopyLocalizedString(CFSTR("USB Bus"), "");
-			} else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) {
-				CFRelease(deviceName);
-				deviceName = CFCopyLocalizedString(CFSTR("USB 2.0 Bus"), "");
-			}
+			if (deviceName) {
+				if ((CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) ||
+					(CFStringCompare(deviceName, CFSTR("UHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)) {
+					CFRelease(deviceName);
+					deviceName = CFCopyLocalizedString(CFSTR("USB Bus"), "");
+				} else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) {
+					CFRelease(deviceName);
+					deviceName = CFCopyLocalizedString(CFSTR("USB 2.0 Bus"), "");
+				}
 
-			// NSLog(@"USB Device Attached: %@" , deviceName);
-			AppController_usbDidConnect(deviceName);
-			CFRelease(deviceName);
+				// NSLog(@"USB Device Attached: %@" , deviceName);
+				AppController_usbDidConnect(deviceName);
+				CFRelease(deviceName);
+			}
 		}
 
 		IOObjectRelease(thisObject);
@@ -71,14 +73,19 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 		CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 														   deviceNameChars,
 														   kCFStringEncodingASCII);
-		if (CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
-			deviceName = CFCopyLocalizedString(CFSTR("USB Bus"), "");
-		else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
-			deviceName = CFCopyLocalizedString(CFSTR("USB 2.0 Bus"), "");
+		if (deviceName) {
+			if (CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) {
+				CFRelease(deviceName);
+				deviceName = CFCopyLocalizedString(CFSTR("USB Bus"), "");
+			} else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo) {
+				CFRelease(deviceName);
+				deviceName = CFCopyLocalizedString(CFSTR("USB 2.0 Bus"), "");
+			}
 
-		// NSLog(@"USB Device Detached: %@" , deviceName);
-		AppController_usbDidDisconnect(deviceName);
-		CFRelease(deviceName);
+			// NSLog(@"USB Device Detached: %@" , deviceName);
+			AppController_usbDidDisconnect(deviceName);
+			CFRelease(deviceName);
+		}
 
 		IOObjectRelease(thisObject);
 	}
