@@ -80,7 +80,7 @@
 			localDistributedObjectConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
 			[localDistributedObjectConnection setRootObject:self];
 			[localDistributedObjectConnection setDelegate:self];
-			if (![localDistributedObjectConnection registerName:@"GrowlServer"]) {
+			if (![localDistributedObjectConnection registerName:@"GrowlServer" withNameServer:[NSSocketPortNameServer sharedInstance]]) {
 				NSLog(@"WARNING: could not register Growl server. Occupied by %@", 
 					  [NSConnection connectionWithRegisteredName:@"GrowlServer" host:nil]);
 			}

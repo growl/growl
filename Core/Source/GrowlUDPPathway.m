@@ -14,7 +14,6 @@
 #import "GrowlPreferencesController.h"
 #include "CFDictionaryAdditions.h"
 #include "GrowlUDPUtils.h"
-#include "sha2.h"
 #include "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
@@ -25,7 +24,7 @@
 #define keychainAccountName "Growl"
 
 static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS digestAlg, unsigned digestLength, const CSSM_DATA_PTR password) {
-	unsigned       messageLength;
+	NSUInteger       messageLength;
 	CSSM_DATA      digestData;
 	CSSM_RETURN    crtn;
 	CSSM_CC_HANDLE ccHandle;
@@ -127,7 +126,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	const unsigned char *applicationName;
 	const unsigned char *notification;
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned length, num, i, size, packetSize, notificationIndex;
+	NSUInteger length, num, i, size, packetSize, notificationIndex;
 	unsigned digestLength;
 	int isSticky;
 	enum GrowlAuthenticationMethod authMethod;
@@ -149,8 +148,8 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 			UInt32 passwordLength = 0U;
 
 			status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-													strlen(keychainServiceName), keychainServiceName,
-													strlen(keychainAccountName), keychainAccountName,
+													(UInt32)strlen(keychainServiceName), keychainServiceName,
+													(UInt32)strlen(keychainAccountName), keychainAccountName,
 													&passwordLength, (void **)&password, NULL);
 
 			if (status == noErr) {
@@ -405,10 +404,10 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (BOOL) enable {
 	struct sockaddr_in6 addr;
-	short port;
+	unsigned short port;
 	int native;
 
-	port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
+	port = [[GrowlPreferencesController sharedController] UDPPort];
 
 	addr.sin6_len = sizeof(addr);
 	addr.sin6_family = AF_INET6;
@@ -438,7 +437,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 		return NO;
 	}
 
-	if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+	if (bind(native, (struct sockaddr *)&addr, (socklen_t)sizeof(addr)) == -1) {
 		NSLog(@"GrowlUDPPathway: could not bind socket.");
 		close(native);
 

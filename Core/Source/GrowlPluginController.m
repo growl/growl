@@ -15,7 +15,6 @@
 #include "CFMutableDictionaryAdditions.h"
 
 #import "GrowlPathUtilities.h"
-#import "GrowlNonCopyingMutableDictionary.h"
 
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
@@ -26,6 +25,7 @@
 - (void) findPluginsInDirectory:(NSString *)dir;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (BOOL) hasNativeArchitecture:(NSString *)filename;
 @end
 
 @interface WebCoreCache
@@ -37,7 +37,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 //for use as CFSetCallBacks.hash
 static CFHashCode passthroughStringHash(const void *value);
 //for use on array of matching plug-in handlers in -openPluginAtPath:
-int comparePluginHandlerRegistrationOrder(id a, id b, void *context);
+NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context);
 
 #pragma mark -
 
@@ -72,7 +72,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
  *		human-readable names) (DONE though this will probably only be used for
  *		storage of plug-in prefs)
  *	-	Use plug-in dictionaries (DONE)
- *	-	Use GrowlNonCopyingMutableDictionary instead of NSMapTable (DONE)
  *	-	Write the built-in plug-in handler (DONE)
  *	-	Add a WebKit plug-in handler (jkp)
  *	-	Better localize human-readable names
@@ -89,9 +88,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		bundlesToLazilyInstantiateAnInstanceFrom = [[NSMutableSet alloc] init];
 
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
+		pluginsByBundleIdentifier   = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByPath     = [[NSMutableDictionary alloc] init];
-		pluginIdentifiersByBundle   = [[GrowlNonCopyingMutableDictionary alloc] init];
-		pluginIdentifiersByInstance = [[GrowlNonCopyingMutableDictionary alloc] init];
+		pluginIdentifiersByBundle   = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
+		pluginIdentifiersByInstance = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		pluginsByName     = [[NSMutableDictionary alloc] init];
 		pluginsByAuthor   = [[NSMutableDictionary alloc] init];
@@ -100,11 +100,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		pluginsByType     = [[NSMutableDictionary alloc] init];
 		pluginHumanReadableNames = [[NSCountedSet alloc] init];
 
-		loadedBundleIdentifiers = [[NSMutableSet alloc] init];
-		
+
 		allPluginHandlers = [[NSMutableArray alloc] init];
 		pluginHandlers  = [[NSMutableDictionary alloc] init];
-		handlersForPlugins = [[GrowlNonCopyingMutableDictionary alloc] init];
+		handlersForPlugins = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		displayPlugins = [[NSMutableArray alloc] init];
 		disabledPlugins = [[NSMutableArray alloc] init];
@@ -146,6 +145,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 - (void) destroy {
 	[pluginsByIdentifier         release];
+	[pluginsByBundleIdentifier   release];
 	[pluginIdentifiersByPath     release];
 	[pluginIdentifiersByBundle   release];
 	[pluginIdentifiersByInstance release];
@@ -156,8 +156,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	[pluginsByFilename release];
 	[pluginsByType     release];
 	[pluginHumanReadableNames release];
-
-	[loadedBundleIdentifiers release];
 
 	[bundlesToLazilyInstantiateAnInstanceFrom release];
 	[displayPlugins release];
@@ -239,7 +237,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		NSString *type;
 		while ((type = [typeEnum nextObject])) {
 			//normalise: strip leading ., if any.
-			unsigned i = 0U, len = [type length];
+			NSUInteger i = 0U, len = [type length];
 			for (; i < len; ++i) {
 				if ([type characterAtIndex:i] != '.')
 					break;
@@ -315,7 +313,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	while ((ext = [extEnum nextObject])) {
 		NSMutableArray *handlers = [pluginHandlers objectForKey:ext];
 		if (handlers) {
-			unsigned idx = [handlers indexOfObjectIdenticalTo:handler];
+			NSUInteger idx = [handlers indexOfObjectIdenticalTo:handler];
 			if (idx != NSNotFound)
 				[handlers removeObjectAtIndex:idx];
 		}
@@ -328,12 +326,23 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 #pragma mark -
 
+//Private method.
+//This creates and returns a hash table that uses the object's pointer for the hash, instead of sending it a -hash message. This enables us to mutate the object without disturbing its hash.
+- (NSHashTable *) makeHashTableWithObject:(NSObject *)obj {
+	NSHashTable *hashTable = [NSHashTable hashTableWithOptions:NSHashTableStrongMemory | NSHashTableObjectPointerPersonality];
+	[hashTable addObject:obj];
+	return hashTable;
+}
+
 //private method.
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
-	//If we're passed a bundle, refuse to load it if we've already loaded a bundle with the same identifier, instead returning early.
-	NSString *bundleIdentifier = (bundle ? [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey] : nil);
-	if (bundleIdentifier && [loadedBundleIdentifiers containsObject:[bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]]) {
-		return nil;
+	//If we're passed a bundle, refuse to load it if we've already loaded a different bundle with the same identifier, instead returning whatever dictionary we already have.
+	NSMutableDictionary *pluginDict = nil;
+	NSString *bundleIdentifier = [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+	if (bundleIdentifier) {
+		pluginDict = [pluginsByBundleIdentifier objectForKey:bundleIdentifier];
+		if (pluginDict && (bundle != [pluginDict pluginBundle]))
+			return pluginDict;
 	}
 	
 	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
@@ -348,7 +357,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	/* If we have an identifier, look up the plug-in dictionary.
 	 * If we have a plug-in dictionary but no instance (the identifier was retrieved by bundle or by path), attempt to retrieve the instance from the dictionary.
 	 */
-	NSMutableDictionary *pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
+	pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
 	if (pluginDict && !plugin)
 		plugin = [pluginDict pluginInstance];
 
@@ -392,24 +401,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle]) {
 			//We haven't previously queued it: Queue it.
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		} else {
+		} else if (![disabledPlugins containsObject:name]) {
 			//We have: This is our cue to instantiate it.
-			plugin = [[[bundle principalClass] alloc] init];
+			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			//Dequeue it, because we don't want to hit this branch again for this plug-in.
 			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
-			//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
-			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
-		}
-	}
-
-	if (!plugin && bundle) {
-		//*Still* no plug-in! Again we check whether it's queued for instantiation (bug?).
-		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
-			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		else {
-			//Apparently it is. Instantiate it, but don't stash the plug-in instance in the plug-in dictionary (why not?).
-			plugin = [[[bundle principalClass] alloc] init];
-			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
+			if (plugin) {
+				//Stash the plug-in instance in the plug-in dictionary. This retains the instance and means that we'll never hit the lazy-instantiation machinery again (because plugin will be non-nil).
+				[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+			} else {
+				//Couldn't instantiate the plug-in, perhaps because of an architecture mismatch. Put it into disabled plug-ins.
+				NSLog(@"Adding %@ to disabled plug-ins because we could not instantiate its class %@ (from bundle %@)", name, [bundle principalClass], bundle);
+				[disabledPlugins addObject:name];
+			}
 		}
 	}
 
@@ -475,11 +479,11 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	#define ADD_TO_DICT(dictName, key, value)                                          \
 			do {                                                                        \
-				NSMutableSet *plugins = [dictName objectForKey:key];                     \
+				NSHashTable *plugins = [dictName objectForKey:key];                     \
 				if (plugins)                                                              \
 					[plugins addObject:value];                                             \
 				else                                                                        \
-					[dictName setObject:[NSMutableSet setWithObject:value] forKey:key];      \
+					[dictName setObject:[self makeHashTableWithObject:value] forKey:key];    \
 			} while(0)
 		ADD_TO_DICT(pluginsByName,     name,                     pluginDict);
 		ADD_TO_DICT(pluginsByAuthor,   author,                   pluginDict);
@@ -511,8 +515,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	//Special handling if this plug-in is a display.
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
 		//If it doesn't respond to -requiresPositioning, it's old. Add it as a disabled plug-in.
-		if(![[pluginDict valueForKey:GrowlPluginInfoKeyInstance] respondsToSelector:@selector(requiresPositioning)]) {
-			[disabledPlugins addObject:[pluginDict valueForKey:GrowlPluginInfoKeyName]];
+		if(plugin && ![plugin respondsToSelector:@selector(requiresPositioning)]) {
+			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 1.1 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
+			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyName]];
 		} 
 		else {
 			//It responds to -requiresPositioning, so add it as a(n enabled) display plug-in.
@@ -526,7 +531,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	//Store the bundle identifier so we know we've loaded it.
 	if (bundleIdentifier) {
-		[loadedBundleIdentifiers addObject:bundleIdentifier];
+		[pluginsByBundleIdentifier setObject:pluginDict forKey:bundleIdentifier];
 	}
 
 	return pluginDict;
@@ -598,13 +603,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	if ([matches count]) {
 		if (name)
-			[matches intersectSet:[pluginsByName objectForKey:name]];
+			[matches intersectSet:[[pluginsByName objectForKey:name] setRepresentation]];
 		if (author)
-			[matches intersectSet:[pluginsByAuthor objectForKey:author]];
+			[matches intersectSet:[[pluginsByAuthor objectForKey:author] setRepresentation]];
 		if (version)
-			[matches intersectSet:[pluginsByVersion objectForKey:version]];
+			[matches intersectSet:[[pluginsByVersion objectForKey:version] setRepresentation]];
 		if (type)
-			[matches intersectSet:[pluginsByType objectForKey:type]];
+			[matches intersectSet:[[pluginsByType objectForKey:type] setRepresentation]];
 	}
 
 	return matches;
@@ -654,7 +659,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 					humanReadableName = [NSString stringWithFormat:@"%@ (filename %@)", name, filename]; //XXX LOCALIZEME
 				else {
 					humanReadableName = [NSString stringWithFormat:@"%@ (by %@, filename %@)", name, author, filename]; //XXX LOCALIZEME
-					unsigned count = [pluginHumanReadableNames countForObject:humanReadableName];
+					NSUInteger count = [pluginHumanReadableNames countForObject:humanReadableName];
 					[pluginHumanReadableNames addObject:humanReadableName];
 					if (count > 1U)
 						humanReadableName = [NSString stringWithFormat:@"%@ %u", humanReadableName, count];
@@ -678,9 +683,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	else {
 		NSBundle *bundle = [pluginDict pluginBundle];
 		NSAssert1(bundle, @"no instance or bundle in plug-in dictionary! description of dictionary follows\n%@", pluginDict);
-		Class principalClass = [bundle principalClass];
-		NSAssert1(bundle, @"bundle in plug-in dictionary has no principal class! description of dictionary follows\n%@", pluginDict);
-		return [principalClass isSubclassOfClass:[GrowlDisplayPlugin class]];
+		NSString *ext = [[bundle bundlePath] pathExtension];
+		return [ext isEqualToString:GROWL_VIEW_EXTENSION] || [ext isEqualToString:GROWL_STYLE_EXTENSION];
 	}
 }
 
@@ -772,13 +776,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	id <GrowlPluginHandler> handler;
 	while ((handler = [handlersEnum nextObject])) {
 		BOOL success = NO;
-		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
-		else if ([handler respondsToSelector:@selector(loadPluginAtPath:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
-		else if ([handler respondsToSelector:@selector(loadPluginAtURL:)])
-			success = (unsigned)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
-		else
+		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)]) {
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in with bundle %@", [self class], handler, pluginBundle);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtPath:)]) {
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtPath:) withObject:path];
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at path %@", [self class], handler, path);
+		} else if ([handler respondsToSelector:@selector(loadPluginAtURL:)]) {
+			success = (NSUInteger)[handler performSelector:@selector(loadPluginAtURL:) withObject:[NSURL fileURLWithPath:path]];
+			if (!success)
+				NSLog(@"%@: Handler %@ could not load plug-in at URL for path %@", [self class], handler, path);
+		} else
 			NSLog(@"warning: while loading plug-in at %@, tried to use plug-in handler %@, but it appears incapable of handling a plug-in", path, handler); //XXX should do this diagnostic when adding the handler
 	}
 
@@ -817,7 +827,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
+			if([self hasNativeArchitecture:destination])
+				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
 											nil, nil, self,
@@ -846,19 +857,58 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
-		// plugin already exists at destination
-		[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-		NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
-						   NSLocalizedString( @"No", @"" ),
-						   NSLocalizedString( @"Yes", @"" ), nil, nil, self,
-						   NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-						   filenameCopy,
-						   NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
-						   [pluginFile stringByDeletingPathExtension] );
-	} else {
-		[self pluginExistsSelector:nil returnCode:NSAlertAlternateReturn contextInfo:filenameCopy];
+	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
+	if(![self hasNativeArchitecture:filenameCopy]) {
+		NSBeginAlertSheet( NSLocalizedString( @"Plugin missing native architecture", @"" ),
+						  NSLocalizedString( @"No", @"" ),
+						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
+						  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
+						  filenameCopy,
+						  NSLocalizedString( @"Plugin '%@' will not work on this Mac running this version of Mac OS X. Install it anyway?", @"" ),
+						  [pluginFile stringByDeletingPathExtension] );		
 	}
+	else {
+		if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
+			// plugin already exists at destination
+			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+			NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
+							  NSLocalizedString( @"No", @"" ),
+							  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
+							  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
+							  filenameCopy,
+							  NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
+							  [pluginFile stringByDeletingPathExtension] );
+		} else {
+			[self pluginExistsSelector:nil returnCode:NSAlertAlternateReturn contextInfo:filenameCopy];
+		}
+	}
+}
+
+- (BOOL)hasNativeArchitecture:(NSString*)filename {	
+	BOOL result = NO;
+	NSInteger currentArchitecture = 0;
+#if defined(__ppc__) && __ppc__
+	currentArchitecture = NSBundleExecutableArchitecturePPC;
+#elif defined(__i386__) && __i386__
+	currentArchitecture = NSBundleExecutableArchitectureI386;
+#elif defined(__x86_64__) && __x86_64__
+	currentArchitecture = NSBundleExecutableArchitectureX86_64;
+#else
+	#error unsupported architecture
+#endif
+	NSBundle *pluginBundle = [NSBundle bundleWithPath:filename];
+	NSString *executablePath = [pluginBundle executablePath];
+	//we check to see if there is actually an executable in this plugin, it could be a growlStyle, under which we accept it as valid.
+	if(executablePath && [[NSFileManager defaultManager] fileExistsAtPath:executablePath]) {
+		NSArray *pluginArchitectures = [pluginBundle executableArchitectures];
+		if([pluginArchitectures containsObject:[NSNumber numberWithInteger:currentArchitecture]])
+			result = YES;
+	}
+	else {
+		result = YES;
+	}
+
+	return result;
 }
 
 @end
@@ -917,12 +967,12 @@ static CFHashCode passthroughStringHash(const void *value) {
 													  lineNumber:__LINE__                                \
 													 description:desc, __VA_ARGS__];
 
-int comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
+NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
 	GrowlPluginController *self = (GrowlPluginController *)context;
 	NSArray *allPluginHandlers = [self allPluginHandlers];
 
-	unsigned aIndex = [allPluginHandlers indexOfObjectIdenticalTo:a];
-	unsigned bIndex = [allPluginHandlers indexOfObjectIdenticalTo:b];
+	NSUInteger aIndex = [allPluginHandlers indexOfObjectIdenticalTo:a];
+	NSUInteger bIndex = [allPluginHandlers indexOfObjectIdenticalTo:b];
 
 	ASSERT_IN_FUNCTION(aIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the first object was not a (registered) plug-in handler! Description of object: %@", a);
 	ASSERT_IN_FUNCTION(bIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the second object was not a (registered) plug-in handler! Description of object: %@", b);

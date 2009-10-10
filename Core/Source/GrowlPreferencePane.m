@@ -30,11 +30,17 @@
 #define PING_TIMEOUT		3
 
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
+#define DISPLAY_PREF_FRAME NSMakeRect(16.0, 58.0, 354.0, 289.0)
 
 @interface NSNetService(TigerCompatibility)
 
 - (void) resolveWithTimeout:(NSTimeInterval)timeout;
+
+@end
+
+@interface GrowlPreferencePane (PRIVATE)
+
+- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
 
 @end
 
@@ -92,7 +98,7 @@
 	[versionCheckURL release];
 	[growlWebSiteURL release];
 	[growlForumURL release];
-	[growlTracURL release];
+	[growlBugSubmissionURL release];
 	[growlDonateURL release];
 	CFRelease(images);
 	[super dealloc];
@@ -132,7 +138,7 @@
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info"];
+	growlBugSubmissionURL = [[NSURL alloc] initWithString:@"http://growl.info/reportabug.php"];
 	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
 
 	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
@@ -148,7 +154,7 @@
 		}
 	}
 	[self updateLogPopupMenu];
-	int typePref = [preferencesController integerForKey:GrowlLogTypeKey];
+	NSInteger typePref = [preferencesController integerForKey:GrowlLogTypeKey];
 	[logFileType selectCellAtRow:typePref column:0];
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
@@ -168,10 +174,10 @@
 	// Select the default style if possible. 
 	{
 		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
-		int count = [arrangedObjects count];
+		NSUInteger count = [arrangedObjects count];
 		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
-		int defaultStyleRow = NSNotFound;
-		for (int i = 0; i < count; i++) {
+		NSUInteger defaultStyleRow = NSNotFound;
+		for (NSUInteger i = 0; i < count; i++) {
 			if ([[[arrangedObjects objectAtIndex:i] valueForKey:@"CFBundleName"] isEqualToString:defaultDisplayPluginName]) {
 				defaultStyleRow = i;
 				break;
@@ -192,16 +198,6 @@
 												 selector:@selector(translateSeparatorsInMenu:)
 													 name:NSPopUpButtonWillPopUpNotification
 												    object:soundMenuButton];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInMenu:)
-													 name:NSPopUpButtonWillPopUpNotification
-												    object:displayMenuButton];
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInMenu:)
-													 name:NSPopUpButtonWillPopUpNotification
-												    object:notificationDisplayMenuButton];
 	}
 }
 
@@ -234,45 +230,11 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	[growlVersionProgress startAnimation:self];
-
-	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-
-	NSBundle *bundle = [self bundle];
-	NSDictionary *infoDict = [bundle infoDictionary];
-	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
-	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
-
-	CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
-		(CFStringRef)[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]], NULL);
 	/*
-	 NSLog([[[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
-	 NSLog(currVersionNumber);
-	 NSLog(latestVersionNumber);
-	 */
-
-	// do nothing--be quiet if there is no active connection or if the
-	// version number could not be downloaded
-	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
-		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
-						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
-						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
-						  /*otherButton*/ nil,
-						  /*docWindow*/ nil,
-						  /*modalDelegate*/ self,
-						  /*didEndSelector*/ NULL,
-						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
-						  /*contextInfo*/ (void *)downloadURL,
-						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
-	else
-		CFRelease(downloadURL);
-
-	[productVersionDict release];
+	 [growlVersionProgress startAnimation:self];
 
 	[growlVersionProgress stopAnimation:self];
+	*/
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -320,7 +282,7 @@
 	while ((ticket = [enumerator nextObject])) {
 		NSImage *icon = [[NSImage alloc] initWithData:[ticket iconData]];
 		[icon setScalesWhenResized:YES];
-		[icon setSize:NSMakeSize(32.0f, 32.0f)];
+		[icon setSize:NSMakeSize(32.0, 32.0)];
 		CFArrayAppendValue(images, icon);
 		[icon release];
 	}
@@ -366,7 +328,7 @@
 
 - (void) reloadDisplayPluginView {
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
-	unsigned numPlugins = [plugins count];
+	NSUInteger numPlugins = [plugins count];
 	[currentPlugin release];
 	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
 		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
@@ -417,7 +379,7 @@
 		[self cacheImages];
 	}
 
-	[self setDisplayPlugins:[[GrowlPluginController sharedController] registeredPluginNamesArrayForType:GROWL_VIEW_EXTENSION]];
+	[self setDisplayPlugins:[[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName]];
 
 #ifdef THIS_CODE_WAS_REMOVED_AND_I_DONT_KNOW_WHY
 	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
@@ -536,7 +498,7 @@
 	
 	NSMenu *menu = [button menu];
 	
-	int itemIndex = 0;
+	NSInteger itemIndex = 0;
 	
 	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != -1) {
 		[menu removeItemAtIndex:itemIndex];
@@ -661,10 +623,10 @@
 - (void) updateLogPopupMenu {
 	[customMenuButton removeAllItems];
 
-	int numHistItems = CFArrayGetCount(customHistArray);
+	CFIndex numHistItems = CFArrayGetCount(customHistArray);
 	for (int i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[(NSString *)CFArrayGetValueAtIndex(customHistArray, i) stringByAbbreviatingWithTildeInPath] pathComponents];
-		unsigned numPathComponents = [pathComponentry count];
+		NSUInteger numPathComponents = [pathComponentry count];
 		if (numPathComponents > 2U) {
 			unichar ellipsis = 0x2026;
 			NSMutableString *arg = [[NSMutableString alloc] initWithCharacters:&ellipsis length:1U];
@@ -727,10 +689,10 @@
 												 CFSTR("GrowlTicketDeleted"),
 												 userInfo, false);
 			CFRelease(userInfo);
-			unsigned idx = [tickets indexOfObject:ticket];
+			NSUInteger idx = [tickets indexOfObject:ticket];
 			CFArrayRemoveValueAtIndex(images, idx);
 
-			unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
+			NSUInteger oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 			///	Hmm... This doesn't work for some reason....
 			//	Even though the same method definitely (?) probably works in the appRegistered: method...
@@ -754,6 +716,42 @@
 {
 	if([sender indexOfSelectedItem] > 0) // The 0 item is "None"
 		[[NSSound soundNamed:[[sender selectedItem] title]] play];
+}
+
+- (IBAction) showApplicationConfigurationTab:(id)sender {
+	if ([ticketsArrayController selectionIndex] != NSNotFound) {
+		[self populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+		[self populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+
+		[applicationsTab selectLastTabViewItem:sender];
+		[configurationTab selectFirstTabViewItem:sender];
+	}
+}
+
+- (IBAction) changeNameOfDisplayForApplication:(id)sender {
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	[[ticketsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[self showPreview:sender];
+}
+- (IBAction) changeNameOfDisplayForNotification:(id)sender {
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	[[notificationsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[self showPreview:sender];
+}
+
+- (NSIndexSet *) selectedNotificationIndexes {
+	return selectedNotificationIndexes;
+}
+- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes {
+	if(selectedNotificationIndexes != newSelectedNotificationIndexes) {
+		[selectedNotificationIndexes release];
+		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
+
+		int indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		if (indexOfMenuItem < 0)
+			indexOfMenuItem = 0;
+		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
+	}
 }
 
 #pragma mark "Display" tab pane
@@ -786,13 +784,22 @@
 		return;
 	
 	NSDictionary *pluginToUse = currentPlugin;
+	NSString *pluginName = nil;
 	
+	if ([sender isKindOfClass:[NSPopUpButton class]]) {
+		NSPopUpButton *popUp = (NSPopUpButton *)sender;
+		if (sender == displayMenuButton || sender == notificationDisplayMenuButton)
+			pluginName = [[popUp selectedItem] representedObject];
+		else
 #warning This does not work if the popup button is not using the exact same order as displayPluginsArrayController - a default or separator item breaks it
-	if([sender isKindOfClass:[NSPopUpButton class]]) 
-		pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[(NSPopUpButton *)sender indexOfSelectedItem]];
+			pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[popUp indexOfSelectedItem]];
+	}
+
+	if (!pluginName)
+		pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
 			
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:[pluginToUse objectForKey:GrowlPluginInfoKeyName]];
+																   object:pluginName];
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
@@ -870,9 +877,9 @@
 	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
 }
 
-- (IBAction) openGrowlTrac:(id)sender {
+- (IBAction) openGrowlBugSubmissionPage:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlTracURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlBugSubmissionURL];
 }
 
 - (IBAction) openGrowlDonate:(id)sender {
@@ -881,7 +888,7 @@
 }
 #pragma mark TableView data source methods
 
-- (int) numberOfRowsInTableView:(NSTableView*)tableView {
+- (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView {
 	if(tableView == networkTableView) {
 		return [[self services] count];
 	}
@@ -892,7 +899,7 @@
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView)
 	if(aTableColumn == servicePasswordColumn) {
 		[[services objectAtIndex:rowIndex] setPassword:anObject];
@@ -900,12 +907,12 @@
 
 }
 
-- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 #pragma unused(aTableView)
 	// we check to make sure we have the image + text column and then set its image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
+		NSUInteger idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,idx)];
 	} else if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
@@ -915,10 +922,7 @@
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {
-	if ([ticketsArrayController selectionIndex] != NSNotFound) {
-		[applicationsTab selectLastTabViewItem:sender];
-		[configurationTab selectFirstTabViewItem:sender];
-	}
+	[self showApplicationConfigurationTab:sender];
 }
 
 #pragma mark NSNetServiceBrowser Delegate Methods
@@ -937,8 +941,12 @@
 	}
 
 	// don't add the local machine
-	CFStringRef localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
+	CFStringRef localHostName = nil;
+	localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															   /*nameEncoding*/ NULL);
+	if(!localHostName)
+		localHostName = CFRetain(CFSTR("localhost"));
+	
 	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
 	CFRelease(localHostName);
 	if (isLocalHost == kCFCompareEqualTo)
@@ -996,7 +1004,7 @@
 	}
 }
 
-- (unsigned) countOfServices {
+- (NSUInteger) countOfServices {
 	return [services count];
 }
 
@@ -1030,6 +1038,48 @@
 		[plugins release];
 		plugins = [thePlugins retain];
 	}
+}
+
+#pragma mark Display pop-up menus
+
+//Empties the pop-up menu and fills it out with a menu item for each display, optionally including a special menu item for the default display, selecting the menu item whose name is nameOfSelectedDisplay.
+- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault {
+	NSMenu *menu = [popUp menu];
+	NSString *nameOfDisplay = nil, *displayNameOfDisplay;
+
+	NSMenuItem *selectedItem = nil;
+
+	[popUp removeAllItems];
+
+	if (includeDefault) {
+		displayNameOfDisplay = NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display");
+		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
+										   action:NULL
+									keyEquivalent:@""];
+		[item setRepresentedObject:nil];
+
+		if (!nameOfSelectedDisplay)
+			selectedItem = item;
+
+		[menu addItem:[NSMenuItem separatorItem]];
+	}
+
+	NSEnumerator *displaysEnum = [[plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectEnumerator];
+	while ((nameOfDisplay = [displaysEnum nextObject])) {
+		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
+		if (!displayNameOfDisplay)
+			displayNameOfDisplay = nameOfDisplay;
+
+		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
+										   action:NULL
+									keyEquivalent:@""];
+		[item setRepresentedObject:nameOfDisplay];
+
+		if (nameOfSelectedDisplay && [nameOfSelectedDisplay respondsToSelector:@selector(isEqualToString:)] && [nameOfSelectedDisplay isEqualToString:nameOfDisplay])
+			selectedItem = item;
+	}
+
+	[popUp selectItem:selectedItem];
 }
 
 #pragma mark -

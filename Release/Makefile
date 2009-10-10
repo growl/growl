@@ -1,11 +1,9 @@
 ##########################
 ### Versioning:
 ###   * Set VERSION and BETA below. BETA should be TRUE or FALSE.
-###   * Update the version struct in Core/Source/GrowlApplicationController.m 
-###       (needed for proper version checking)
-###   * Update the version string in Extras/growlnotify/main.m
+###   * make version.
 #
-VERSION=1.1.4
+VERSION=1.2
 BETA=FALSE
 
 #
@@ -22,9 +20,12 @@ SRC_DIR=$(PWD)/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
-BUILDSTYLE=Deployment
+SAMPLE_DIR=$(BUILD_DIR)/DisplaySample
+FMWK_DIR=$(BUILD_DIR)/Growl-$(VERSION)-Framework
+FMWK_TBZ_NAME=Growl-$(VERSION)-Framework.tbz
+BUILDSTYLE=Release
 BUILDFLAGS="BUILDCONFIGURATION=$(BUILDSTYLE)"
-PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
+PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXApplicationwideBuildSettings 2> /dev/null | cat > XcodeBuildSettings.plist && defaults read $PWD/XcodeBuildSettings SYMROOT 2> /dev/null; rm XcodeBuildSettings.plist)
 ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWL_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
@@ -41,6 +42,7 @@ else
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
+DSYM_DIR=$(BUILD_DIR)/Growl-dSYM-$(VERSION)
 PACKAGE_MAKER=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
 ART_DIR=Artwork
 
@@ -52,60 +54,29 @@ all: assertnochanges version compile release
 all-withlocalchanges: assertnoconflicts version compile release
 
 assertnochanges:
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep -v '^X' | wc -l` ]]; then \
-		echo 'You have local changes. Please do not build releases from an unclean checkout. You must revert the changes, commit them, or check out another working copy and build from that.' 1>&2; \
+	if [[ 0 -ne `hg st | wc -l` ]]; then \
+		echo 'You have local changes. Please do not build releases from an unclean working copy. You must revert the changes, commit them, or clone your repository and build from that.' 1>&2; \
 		exit 1; \
 	fi
 assertnoconflicts:
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep '^[CX]' | wc -l` ]]; then \
-		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "svn resolved"; otherwise, svn will still believe the files are conflicted.' 1>&2; \
+	if [[ 0 -ne `hg resolve --list | grep -E '^U' | wc -l` ]]; then \
+		echo 'You have conflicts in your working copy. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "hg resolve" to re-try your last update or merge; otherwise, hg will still believe the files are conflicted.' 1>&2; \
 		exit 2; \
 	fi
 
 version:
-	@# update the CFBundleVersion
-	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Framework/Resources/Growl.framework-Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleVersion '$(VERSION)'
-	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleVersion '$(VERSION)'
-
-	@# update the CFBundleShortVersionString
-	defaults write $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Framework/Resources/Growl.framework-Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Core/Resources/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlCode/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlMail/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlSafari/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/GrowlTunes/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/Extras/HardwareGrowler/Info CFBundleShortVersionString '$(VERSION)'
-	defaults write $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info CFBundleShortVersionString '$(VERSION)'
-
-	@# Convert back to XML plist, since defaults creates binary plists
-	plutil -convert xml1 $(SRC_DIR)/Core/Resources/GrowlHelperApp-Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl-WithInstaller.framework-Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Framework/Resources/Growl.framework-Info.plist 
-	plutil -convert xml1 $(SRC_DIR)/Core/Resources/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlCode/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlMail/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlSafari/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Extras/GrowlTunes/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/Extras/HardwareGrowler/Info.plist
-	plutil -convert xml1 $(SRC_DIR)/StatusItem/Resources/MenuExtra-Info.plist
+	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
 compile:
+	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Developer\ Tools/BeepHammer
+
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -119,6 +90,17 @@ release:
 	mkdir $(BUILD_DIR)
 	mkdir $(GROWL_DIR)
 	
+	@# Archive dSYM bundles.
+	mkdir $(DSYM_DIR)
+	mv $(GROWL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLTUNES_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLMAIL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
+	@# Note: -C only applies to the input names, not -f, so it is correct to use notdir on the directory name and leave it off of the tarball name.
+	tar -C $(dir $(DSYM_DIR)) -cjf $(DSYM_DIR).tbz $(notdir $(DSYM_DIR))
+	
 	@# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
@@ -130,7 +112,7 @@ release:
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	
 	@# build the prefpane package
-	$(PACKAGE_MAKER) --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.mpkg --version $(VERSION) -v
+	$(PACKAGE_MAKER) --no-relocate --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
 	
 	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
@@ -148,21 +130,14 @@ release:
 	
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	$(PACKAGE_MAKER) --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.mpkg --version $(VERSION) -v	
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
+	cp -R "Uninstall GrowlMail.app" $(GROWL_DIR)/Extras/GrowlMail
+	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Extras/GrowlMail/Uninstall\ GrowlMail.app
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
 	
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-	@# Set its ownership to root:admin and permissions to rwxr-xr-x so that Mac OS X 10.5.3 will load it.
-	chmod -R go-w $(GROWLSAFARI_BUILD_DIR)/GrowlSafari
-	@echo
-	@echo '*** IMPORTANT: If you want to build Growl as a regular (non-admin) user, hit CTRL-D here without entering a password. (Ctrl-C will stop the build.) Note that the GrowlSafari on the disk image will not be usable on Leopard and later if you do this.'
-	-(sudo chown -R root:admin $(GROWLSAFARI_BUILD_DIR)/GrowlSafari) || echo "WARNING: GrowlSafari will not work on Leopard and later from this disk image" > /dev/stderr
-	$(PACKAGE_MAKER) --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) -v	
-	@# PackageMaker fails at obeying the permissions that we've set forth in the document. Specifically, it sets g+w on everything, in both the BOM and the archive, in direct contravention of what the document says (go-w).
-	@# Our workaround, then, is to create the BOM and archive ourselves, replacing the full-of-fail ones that PackageMaker creates.
-	mkbom $(GROWLSAFARI_BUILD_DIR)/GrowlSafari $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg/Contents/Archive.bom
-	(cd $(GROWLSAFARI_BUILD_DIR)/GrowlSafari && pax -w -x cpio -z .) > $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg/Contents/Archive.pax.gz
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
 	
 	@# build the SDK
 	mkdir $(SDK_DIR)
@@ -175,6 +150,10 @@ release:
 	
 	@# copy the scripts
 	#cp -R $(SRC_DIR)/Scripts $(GROWL_DIR)
+	
+	@# copy over beep hammer
+	mkdir $(SDK_DIR)/BeepHammer
+	cp -R $(SRC_DIR)/Developer\ Tools/BeepHammer/build/$(BUILDSTYLE)/BeepHammer.app $(SDK_DIR)/BeepHammer
 	
 	@# copy over relevant files to compile directly into app
 	mkdir $(SDK_DIR)/Built-In
@@ -217,11 +196,64 @@ release:
 	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
 	./ensureCustomIconsExtracted $(ART_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME).dmg $(GROWL_DIR) $(RELEASE_NAME) dmg_growl.applescript $(ART_DIR)
+	rm $(ART_DIR)/GrowlIcon
 	
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
-	
+
+
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
+
+displaysample : 
+	@# make the DisplaySample zip
+	mkdir -p $(SAMPLE_DIR)
+	
+	@# copy the Display plugin sample
+	cp -R $(SRC_DIR)/Developer\ Tools/SampleDisplay/* $(SAMPLE_DIR)
+
+	@# copy the necessary headers and source files into the bundle
+	cp $(SRC_DIR)/Common/Source/CFDictionaryAdditions.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/CFDictionaryAdditions.c $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/CFGrowlDefines.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Core/Source/GrowlAbstractSingletonObject.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Core/Source/GrowlApplicationNotification.h $(SAMPLE_DIR)/source/Growl/
+	cp $(SRC_DIR)/Common/Source/GrowlDefines.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Common/Source/GrowlDefinesInternal.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlDisplayPlugin.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlDisplayWindowController.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlImageAdditions.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlImageAdditions.m $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/Displays/GrowlNotificationDisplayBridge.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Plugins/GrowlPlugin.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Core/Source/GrowlPositionController.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Framework/Source/GrowlPositioningDefines.h $(SAMPLE_DIR)/source/Growl
+	cp $(SRC_DIR)/Common/Source/NSWindow+Transforms.h $(SAMPLE_DIR)/source/Growl
+
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlFadingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlFlippingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlScaleWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlShrinkingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlSlidingWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/Window\ Transitions/GrowlWipeWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+	cp $(SRC_DIR)/Plugins/Displays/Animation\ \&\ Transitions/GrowlWindowTransition.h $(SAMPLE_DIR)/source/Growl/Transitions
+
+	@# delete svn and backup files
+	find $(BUILD_DIR)/. \( -name ".svn" -or -name build \) -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR)/. \( -name "*~" -or -name .DS_Store \) -type f -delete
+
+	cd build && zip -r DisplaySample.zip DisplaySample && cd ..
+
+framework-archive: assertnochanges
+	-mkdir "$(BUILD_DIR)"
+	-rm -R "$(FMWK_DIR)"
+	mkdir "$(FMWK_DIR)"
+	-rm "$(BUILD_DIR)/$(FMWK_TBZ_NAME)"
+	
+	$(MAKE) $(BUILDFLAGS) -C "$(SRC_DIR)" growlapplicationbridge
+	
+	cp -R "$(GROWL_BUILD_DIR)/Growl.framework" "$(GROWL_BUILD_DIR)/Growl.framework.dSYM" "$(SRC_DIR)/License.txt" "$(FMWK_DIR)"
+	
+	tar cjf "$(BUILD_DIR)/$(FMWK_TBZ_NAME)" -C "$(dir $(FMWK_DIR))" "$(notdir $(FMWK_DIR))"

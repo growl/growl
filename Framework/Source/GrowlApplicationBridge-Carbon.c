@@ -113,9 +113,13 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		delegate = newDelegate;
 	}
 
-	CFStringRef appName = delegate->applicationName;
-	if ((!appName) && (delegate->registrationDictionary))
-		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	CFStringRef appName = nil;
+	if(delegate) {
+		appName = delegate->applicationName;
+		if ((!appName) && (delegate->registrationDictionary))
+			appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	}
+	
 	if (!appName) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_SetDelegate called, but no application name was found in the delegate"));
 		return false;
@@ -276,9 +280,11 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 
 			//if we have not already asked the user to install Growl, do it now
 			if (!promptedToInstallGrowl) {
+#ifndef __LP64__
 				OSStatus err = _Growl_ShowInstallationPrompt();
 				promptedToInstallGrowl = (err == noErr);
 				//_Growl_ShowInstallationPrompt prints its own errors.
+#endif
 			}
 
 			CFRelease(userInfo);
@@ -967,6 +973,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 			if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 				growlPrefPaneBundle = prefPaneBundle;
 			}
+			else {
+				CFRelease(prefPaneBundle);
+				prefPaneBundle = nil;
+			}
+
 		}
 
 		if (!growlPrefPaneBundle) {
@@ -978,6 +989,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 				if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 					growlPrefPaneBundle = prefPaneBundle;
 				}
+				else {
+					CFRelease(prefPaneBundle);
+					prefPaneBundle = nil;
+				}
+
 			}
 
 			if (!growlPrefPaneBundle) {
@@ -989,6 +1005,11 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 					if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 						growlPrefPaneBundle = prefPaneBundle;
 					}
+					else {
+						CFRelease(prefPaneBundle);
+						prefPaneBundle = nil;
+					}
+
 				}
 			}
 		}
@@ -1072,8 +1093,12 @@ static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefP
 
 						if (!installedVersion) {
 							NSLog(CFSTR("GrowlApplicationBridge: no installed version (description of installed prefpane's Info.plist follows)\n%@"), installedInfoDict);
+#ifdef __LP64__
+							NSLog(CFSTR("GrowlApplicationBridge: Growl prompt suppressed because this is a 64-bit application using the Carbon application bridge instead of the Cocoa bridge. Since Carbon doesn't work in 64-bit applications, please contact the application developer and ask them to switch to the Cocoa-based Growl API."));
+#else
 							_Growl_ShowInstallationPrompt();
 							//_Growl_ShowInstallationPrompt prints its own errors
+#endif
 						} else {
 							Boolean upgradeIsAvailable = (compareVersionStringsTranslating1_0To0_5(ourVersion, installedVersion) == kCFCompareGreaterThan);
 
@@ -1084,9 +1109,11 @@ static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefP
 								if (!lastDoNotPromptVersion ||
 									(compareVersionStringsTranslating1_0To0_5(ourVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan))
 								{
+#ifndef __LP64__
 									OSStatus err = _Growl_ShowUpdatePromptForVersion(ourVersion);
 									promptedToUpgradeGrowl = (err == noErr);
 									//_Growl_ShowUpdatePromptForVersion prints its own errors
+#endif
 								}
 
 								if (lastDoNotPromptVersion)

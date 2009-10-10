@@ -67,8 +67,6 @@ int main(void) {
 	[statusItem setToolTip:@"Growl"];
 	[statusItem setHighlightMode:YES];
 
-	[m release];
-
 	[self setGrowlMenuEnabled:YES];
 
 	NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
@@ -259,7 +257,7 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kOpenGrowlPreferencesTooltip];
 
-	return m;
+	return [m autorelease];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {

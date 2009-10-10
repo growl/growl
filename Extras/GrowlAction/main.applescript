@@ -1,6 +1,8 @@
 -- main.applescript
 -- GrowlAction
 
+-- IMPORTANT: Remember to save the compiled script to main.scpt before committing!
+
 on run {input_items, parameters}
 	set the output_items to {}
 	set the notification_title to (|notificationTitle| of parameters) as string
@@ -13,7 +15,3 @@ on run {input_items, parameters}
 	end tell
 	return input_items
 end run
-
-on localized_string(key_string)
-	return localized string key_string in bundle with identifier "com.growl.GrowlAction"
-end localized_string

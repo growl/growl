@@ -3,44 +3,45 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
-/* Begin PBXAppleScriptBuildPhase section */
-		65942E080711D4310089E4F1 /* AppleScript */ = {
-			isa = PBXAppleScriptBuildPhase;
-			buildActionMask = 2147483647;
-			contextName = "";
-			files = (
-				25F078F307CA7BD000C12CF1 /* main.applescript in AppleScript */,
-			);
-			isSharedContext = 0;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXAppleScriptBuildPhase section */
-
 /* Begin PBXBuildFile section */
-		25F078F307CA7BD000C12CF1 /* main.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 25F078F207CA7BD000C12CF1 /* main.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 314B18D40F98248700ACAFD6 /* main.scpt */; settings = {ATTRIBUTES = (); }; };
 		65942E0C0711D4310089E4F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		65942E0D0711D4310089E4F1 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 65AABA18056A9B5C006CE269 /* main.nib */; };
 		65942E110711D4310089E4F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		65942E120711D4310089E4F1 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AABA78056AB2A5006CE269 /* Automator.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		314B196E0F98263B00ACAFD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Scripts;
+			dstSubfolderSpec = 7;
+			files = (
+				314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		25F078F207CA7BD000C12CF1 /* main.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = main.applescript; sourceTree = "<group>"; };
-		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		314B18D40F98248700ACAFD6 /* main.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = main.scpt; sourceTree = "<group>"; };
+		315C88981068F98C00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
+		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA19056A9B5C006CE269 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/main.nib; sourceTree = "<group>"; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
 		955A4DB908617521009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/main.nib; sourceTree = "<group>"; };
-		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95E7903F0835F1E00098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/main.nib; sourceTree = "<group>"; };
-		95E790460835F25A0098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		95E790460835F25A0098656C /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +66,7 @@
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				65942E140711D4310089E4F1 /* Info.plist */,
+				315C88981068F98C00880530 /* Localization.xcconfig */,
 			);
 			name = "Automator Action";
 			sourceTree = "<group>";
@@ -123,7 +125,7 @@
 		65AABA0F056A9AD1006CE269 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				25F078F207CA7BD000C12CF1 /* main.applescript */,
+				314B18D40F98248700ACAFD6 /* main.scpt */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -135,7 +137,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */;
 			buildPhases = (
-				65942E080711D4310089E4F1 /* AppleScript */,
+				314B196E0F98263B00ACAFD6 /* CopyFiles */,
 				65942E0B0711D4310089E4F1 /* Resources */,
 				65942E100711D4310089E4F1 /* Frameworks */,
 			);
@@ -155,7 +157,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
@@ -202,40 +204,22 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		95EE279B0855AA6E0045DB39 /* Development */ = {
+		315C88961068F98300880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
-				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_OSAFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Show Growl Notification";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = action;
-				ZERO_LINK = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				SYMROOT = "$(SRCROOT)/../../build";
 			};
-			name = Development;
+			name = Localization;
 		};
-		95EE279C0855AA6E0045DB39 /* Deployment */ = {
+		315C88971068F98300880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -256,19 +240,84 @@
 				WRAPPER_EXTENSION = action;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Localization;
 		};
-		95EE279F0855AA6E0045DB39 /* Development */ = {
+		95EE279B0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_OSAFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Show Growl Notification";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = action;
+				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95EE27A00855AA6E0045DB39 /* Deployment */ = {
+		95EE279C0855AA6E0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_OSAFLAGS = "-x";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Show Growl Notification";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = action;
+				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
+		};
+		95EE279F0855AA6E0045DB39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				SYMROOT = "$(SRCROOT)/../../build";
+			};
+			name = Debug;
+		};
+		95EE27A00855AA6E0045DB39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				SYMROOT = "$(SRCROOT)/../../build";
+			};
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -276,20 +325,22 @@
 		95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE279B0855AA6E0045DB39 /* Development */,
-				95EE279C0855AA6E0045DB39 /* Deployment */,
+				95EE279B0855AA6E0045DB39 /* Debug */,
+				315C88971068F98300880530 /* Localization */,
+				95EE279C0855AA6E0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95EE279F0855AA6E0045DB39 /* Development */,
-				95EE27A00855AA6E0045DB39 /* Deployment */,
+				95EE279F0855AA6E0045DB39 /* Debug */,
+				315C88961068F98300880530 /* Localization */,
+				95EE27A00855AA6E0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

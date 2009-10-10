@@ -60,7 +60,7 @@ CFComparisonResult compareVersions(const struct Version a, const struct Version 
 CFComparisonResult compareVersionStrings(STRING_TYPE a, STRING_TYPE b);
 /*this version contains brain damage that translates "1.0" to "0.5" (handling
  *	the Growl 0.5 prefpane bundle, whose version was mistakenly set to "1.0").
- *the real Growl 1.0 prefpane bundle will have a version of "1.00".
+ *Because of that mistake, the version that we had intended to be 1.0 became 1.1 instead.
  */
 CFComparisonResult compareVersionStringsTranslating1_0To0_5(STRING_TYPE a, STRING_TYPE b);
 

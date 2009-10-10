@@ -25,6 +25,7 @@
  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+#import "Cocoa/Cocoa.h"
 
 #define MESSAGE_TYPE_MAIL	0
 //#define MESSAGE_TYPE_???	1
@@ -1225,6 +1226,7 @@ typedef struct {
 + (void)restoreFromDefaults;
 + (void)saveDefaultsOmittingViewer:(id)fp8;
 - (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16 fromDefaults:(BOOL)fp20;
+- (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16 withDefaults:(BOOL)fp20;
 - (id)initForViewingMessage:(id)fp8 showAllHeaders:(BOOL)fp12 viewingState:(id)fp16;
 - (id)initWithSavedDefaults:(id)fp8;
 - (void)dealloc;

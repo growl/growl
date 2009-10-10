@@ -10,7 +10,7 @@ on process_disk_image(volumeName, artPath)
 				set current view to icon view
 				set toolbar visible to false
 				set statusbar visible to false
-				--set the bounds to {30, 50, 579, 600}
+				set bounds to {30, 50, 579, 486}
 			end tell
 			close
 			set opts to the icon view options of container window
@@ -19,7 +19,7 @@ on process_disk_image(volumeName, artPath)
 				set arrangement to not arranged
 			end tell
 			set background picture of opts to file ".background:growlDMGBackground.png"
-			set position of item "Growl.mpkg" to {147, 75}
+			set position of item "Growl.pkg" to {147, 75}
 			set position of item "Extras" to {100, 320}
 			--set position of item "Scripts" to {36, 153}
 			set position of item "Growl Documentation.webloc" to {100, 218}

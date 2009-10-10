@@ -12,8 +12,8 @@
 
 /* Size should be 150 * 100 */
 
-#define GrowlPositionPickerMinWidth	 150.0f
-#define GrowlPositionPickerMinHeight	100.0f
+#define GrowlPositionPickerMinWidth	 150.0
+#define GrowlPositionPickerMinHeight	100.0
 
 extern NSString *GrowlPositionPickerChangedSelectionNotification;
 

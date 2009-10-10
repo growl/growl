@@ -24,7 +24,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -35,9 +35,9 @@
 	sizeRect.origin = screen.origin;
 	sizeRect.size.width = screen.size.width;
 	if (sizePref == MUSICVIDEO_SIZE_HUGE)
-		sizeRect.size.height = 192.0f;
+		sizeRect.size.height = 192.0;
 	else
-		sizeRect.size.height = 96.0f;
+		sizeRect.size.height = 96.0;
 	frameHeight = sizeRect.size.height;
 
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);

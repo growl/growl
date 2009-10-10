@@ -50,7 +50,7 @@
 #define ERROR_ICON_OF_FILE_PATH_NOT_IMAGE			5
 #define ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL		6
 
-static const NSSize iconSize = { 128.0f, 128.0f };
+static const NSSize iconSize = { 128.0, 128.0 };
 
 @implementation GrowlNotifyScriptCommand
 

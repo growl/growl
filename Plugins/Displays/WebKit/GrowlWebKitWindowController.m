@@ -43,21 +43,23 @@
 
 @implementation GrowlWebKitWindowController
 
-#define GrowlWebKitDurationPrefDefault				4.0
+#define GrowlWebKitDurationPrefDefault				5.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
-#define GrowlWebKitPadding				5.0f
+#define GrowlWebKitPadding				5.0
 
 #pragma mark -
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
 	// init the window used to init
-	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
+	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 1.0)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
-	if (!(self = [super initWithWindow:panel]))
+	if (!(self = [super initWithWindow:panel])) {
+		[panel release];
 		return nil;
+	}
 
 	GrowlDisplayPlugin *plugin = [displayBridge display];
 
@@ -108,7 +110,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
@@ -191,9 +193,9 @@
 	}
 	NSString *growlImageString = [NSString stringWithFormat:@"data:%@;base64,%@", imageMediaType, [imageData base64Encoding]];
 
-	float opacity = 95.0f;
+	CGFloat opacity = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
-	opacity *= 0.01f;
+	opacity *= 0.01;
 
 	CFStringRef titleHTML = createStringByEscapingForHTML((CFStringRef)title);
 	CFStringRef textHTML = createStringByEscapingForHTML((CFStringRef)text);
@@ -368,7 +370,7 @@
 	return directionToExpand;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return paddingY;
 }
 

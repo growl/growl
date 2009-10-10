@@ -24,7 +24,7 @@
 #import "GrowlIdleStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
-#import "SVNRevision.h"
+#import "HgRevision.h"
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
@@ -97,11 +97,7 @@ static BOOL isAnyDisplayCaptured(void) {
 }
 #endif
 
-//static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
-#warning Having to update this struct manually is ugly. Use the info.plist.
-#warning And once code is in to automagically update this from Info.plist, the documentation in GrowlVersionUtilities.h should also be updated.
-static struct Version version = { 1U, 1U, 5U, releaseType_svn, 0U, };
-//XXX - update these constants whenever the version changes
+static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
@@ -591,7 +587,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[filename getCharacters:filenameBuf];
 				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
 				if (err == noErr) {
-					foundIt = YES;
 					break;
 				}
 			}
@@ -854,8 +849,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
+		NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+		BOOL parseSucceeded = parseVersionString(versionString, &version);
+		NSAssert1(parseSucceeded, @"Could not parse version string: %@", versionString);
+
 		if (version.releaseType == releaseType_svn)
-			version.development = strtoul(SVN_REVISION, /*endptr*/ NULL, 10);
+			version.development = (u_int32_t)HG_REVISION;
 
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
@@ -1337,7 +1336,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 @end
 
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) {
+static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) 
+{
 #pragma unused(refcon)
 	
 	SystemSoundRemoveCompletionRoutine(actionID);

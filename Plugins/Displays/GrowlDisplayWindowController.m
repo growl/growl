@@ -18,7 +18,7 @@
 
 #include "GrowlLog.h"
 
-#define DEFAULT_TRANSITION_DURATION	0.75
+#define DEFAULT_TRANSITION_DURATION	0.2
 
 static NSMutableDictionary *existingInstances;
 
@@ -86,8 +86,8 @@ static NSMutableDictionary *existingInstances;
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 		bridge = nil;
-		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
-		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
+		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
+		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		transitionDuration = DEFAULT_TRANSITION_DURATION;
 
 		//Show notifications on all Spaces
@@ -148,7 +148,7 @@ static NSMutableDictionary *existingInstances;
 	if ([self respondsToSelector:@selector(idealOriginInRect:)])
 		foundSpace = [pc positionDisplay:self];
 	else
-		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen] forDisplayController:self]);
+		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] forDisplayController:self]);
 
 	if (foundSpace) {
 		if (shouldStartDisplay) {
@@ -342,7 +342,7 @@ static NSMutableDictionary *existingInstances;
 	[windowTransitions removeObjectForKey:[transition class]];
 }
 
-- (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition {
+- (void) setStartPercentage:(NSUInteger)start endPercentage:(NSUInteger)end forTransition:(GrowlWindowTransition *)transition {
 	NSAssert1((start <= 100U || start < end),
 			  @"The start parameter was invalid for the transition: %@",
 			  transition);
@@ -361,11 +361,11 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (NSArray *) activeTransitions {
-	int count = [windowTransitions count];
+	NSUInteger count = [windowTransitions count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
 	NSArray *transitionArray = [windowTransitions allValues];
 
-	int i;
+	NSUInteger i;
 	for (i=0; i<count; ++i) {
 		GrowlWindowTransition *transition = [transitionArray objectAtIndex:i];
 		if ([transition isAnimating])
@@ -376,11 +376,11 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (NSArray *) inactiveTransitions {
-	int count = [windowTransitions count];
+	NSUInteger count = [windowTransitions count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
 	NSArray *transitionArray = [windowTransitions allValues];
 
-	int i;
+	NSUInteger i;
 	for (i=0; i<count; ++i) {
 		GrowlWindowTransition *transition = [transitionArray objectAtIndex:i];
 		if (![transition isAnimating])
@@ -402,8 +402,8 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (BOOL) startTransition:(GrowlWindowTransition *)transition {
-	int startPercentage = (int) NSMapGet(startTimes, transition);
-	int endPercentage   = (int) NSMapGet(endTimes, transition);
+	NSInteger startPercentage = (NSInteger) NSMapGet(startTimes, transition);
+	NSInteger endPercentage   = (NSInteger) NSMapGet(endTimes, transition);
 
 	// If there were no times set up then the end time would be NULL (0)...
 	if (endPercentage == 0)
@@ -635,13 +635,13 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) setScreen:(NSScreen *)newScreen {
-	unsigned newScreenNumber = [[NSScreen screens] indexOfObjectIdenticalTo:newScreen];
+	NSUInteger newScreenNumber = [[NSScreen screens] indexOfObjectIdenticalTo:newScreen];
 	if (newScreenNumber == NSNotFound)
 		[NSException raise:NSInternalInconsistencyException format:@"Tried to set %@ %p to a screen %p that isn't in the screen list", [self class], self, newScreen];
 	[self setScreenNumber:newScreenNumber];
 }
 
-- (void) setScreenNumber:(unsigned)newScreenNumber {
+- (void) setScreenNumber:(NSUInteger)newScreenNumber {
 	[self willChangeValueForKey:@"screenNumber"];
 	screenNumber = newScreenNumber;
 	[self  didChangeValueForKey:@"screenNumber"];

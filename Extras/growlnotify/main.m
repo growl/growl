@@ -24,6 +24,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathway.h"
 #import "MD5Authenticator.h"
+#import "GrowlVersion.h"
 #include "GrowlUDPUtils.h"
 #include "cdsa.h"
 #include "CFGrowlAdditions.h"
@@ -80,7 +81,7 @@ static const char usage[] =
 "    -t,--title      Does nothing. Any text following will be treated as the\n"
 "                    title because that's the default argument behaviour\n";
 
-static const char *version = "growlnotify 1.1.5\n"
+static const char *version = "growlnotify " GROWL_VERSION_STRING "\n"
 "Copyright (c) The Growl Project, 2004-2008";
 
 static void notificationDismissed(CFNotificationCenterRef center,
@@ -296,16 +297,22 @@ int main(int argc, const char **argv) {
 	} else if (appIcon) {
 		// get icon data for application name
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		NSURL *appURL = [NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:(NSString *)app]];
-		if (appURL) {
-			icon = (CFDataRef)copyIconDataForURL(appURL);
+		NSString *appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:(NSString *)app];
+		if (appPath) {
+			NSURL *appURL = [NSURL fileURLWithPath:appPath];
+			if (appURL) {
+				icon = (CFDataRef)copyIconDataForURL(appURL);
+			}
 		}
 		CFRelease(app);
 	}
 	if (!icon) {
-		NSURL *appURL = [NSURL fileURLWithPath:[[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Terminal"]];
-		if (appURL) {
-			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+		NSString *appPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Terminal"];
+		if (appPath) {
+			NSURL *appURL = [NSURL fileURLWithPath:appPath];
+			if (appURL) {
+				icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			}
 		}
 	}
 

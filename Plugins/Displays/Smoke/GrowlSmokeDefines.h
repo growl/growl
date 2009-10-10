@@ -20,9 +20,9 @@
 #define GrowlSmokePrefDomain			@"com.growl.SmokeNotificationView"
 
 // the default value for the opacity preference
-#define GrowlSmokeAlphaPrefDefault		75.0f
+#define GrowlSmokeAlphaPrefDefault		75.0
 // the default value for the duration preference
-#define GrowlSmokeDurationPrefDefault	4.0f
+#define GrowlSmokeDurationPrefDefault	5.0
 
 #define GrowlSmokeSizeNormal			0
 #define GrowlSmokeSizeLarge				1
@@ -34,23 +34,23 @@
 #define GrowlSmokeMaxLines				5
 
 // the width of the notification view
-#define GrowlSmokeNotificationWidth		300.0f
+#define GrowlSmokeNotificationWidth		300.0
 // the padding around the inside of the view
-#define GrowlSmokePadding				10.0f
+#define GrowlSmokePadding				10.0
 // the padding between the icon and the text
-#define GrowlSmokeIconTextPadding		20.0f
+#define GrowlSmokeIconTextPadding		20.0
 // the padding between the icon and the progress bar
-#define GrowlSmokeIconProgressPadding	5.0f
+#define GrowlSmokeIconProgressPadding	5.0
 // the padding between the title and the description
-#define GrowlSmokeTitleTextPadding		10.0f
+#define GrowlSmokeTitleTextPadding		10.0
 // the size of the icon (it's square)
-#define GrowlSmokeIconSize				32.0f
-#define GrowlSmokeIconSizeLarge			48.0f
+#define GrowlSmokeIconSize				32.0
+#define GrowlSmokeIconSizeLarge			48.0
 
 // the size of the text used for the description
-#define GrowlSmokeTextFontSize			12.0f
+#define GrowlSmokeTextFontSize			12.0
 // the size of the text used for the title
-#define GrowlSmokeTitleFontSize			13.0f
+#define GrowlSmokeTitleFontSize			13.0
 
 // the radius of the rounded corners of the notification border
-#define GrowlSmokeBorderRadius			9.0f
+#define GrowlSmokeBorderRadius			9.0

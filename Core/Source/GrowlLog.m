@@ -46,7 +46,7 @@ static GrowlLog *singleton = nil;
 	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
 		GrowlPreferencesController *gpc = [GrowlPreferencesController sharedController];
 
-		int typePref = [gpc integerForKey:GrowlLogTypeKey];
+		NSInteger typePref = [gpc integerForKey:GrowlLogTypeKey];
 		if (typePref == 0) {
 			NSLogv(format, args);
 		} else {

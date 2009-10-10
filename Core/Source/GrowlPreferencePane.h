@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <PreferencePanes/PreferencePanes.h>
+#import "GrowlDefinesInternal.h"	// for NSInteger/NSUInteger
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin, GrowlPositionPicker;
 
@@ -64,6 +65,7 @@
 	IBOutlet NSPopUpButton			*soundMenuButton;
 	IBOutlet NSPopUpButton			*displayMenuButton;
 	IBOutlet NSPopUpButton			*notificationDisplayMenuButton;
+	NSIndexSet						*selectedNotificationIndexes;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
@@ -90,7 +92,7 @@
 	IBOutlet NSTextView				*aboutBoxTextView;
 	NSURL							*growlWebSiteURL;
 	NSURL							*growlForumURL;
-	NSURL							*growlTracURL;
+	NSURL							*growlBugSubmissionURL;
 	NSURL							*growlDonateURL;
 }
 
@@ -111,6 +113,11 @@
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
+- (IBAction) showApplicationConfigurationTab:(id)sender;
+- (IBAction) changeNameOfDisplayForApplication:(id)sender;
+- (IBAction) changeNameOfDisplayForNotification:(id)sender;
+- (NSIndexSet *) selectedNotificationIndexes;
+- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
@@ -127,7 +134,7 @@
 
 - (NSMutableArray *) services;
 - (void) setServices:(NSMutableArray *)theServices;
-- (unsigned) countOfServices;
+- (NSUInteger) countOfServices;
 - (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
 - (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
 
@@ -149,7 +156,7 @@
 - (void) setupAboutTab;
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlForum:(id)sender;
-- (IBAction) openGrowlTrac:(id)sender;
+- (IBAction) openGrowlBugSubmissionPage:(id)sender;
 - (IBAction) openGrowlDonate:(id)sender;
 
 @end

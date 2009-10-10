@@ -10,14 +10,13 @@
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
 #include "CFGrowlAdditions.h"
-#include "sha2.h"
 #include "cdsa.h"
 
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
 extern void NSLog(CFStringRef format, ...);
 
 static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMethod authMethod, const CSSM_DATA_PTR password) {
-	unsigned       messageLength;
+	CSSM_SIZE      messageLength;
 	CSSM_DATA      digestData;
 	CSSM_CC_HANDLE ccHandle;
 	CSSM_DATA      inData;
@@ -51,7 +50,6 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 				cssmPerror("CSSM_DigestDataFinal", crtn);
 			break;
 		case GROWL_AUTH_SHA256: {
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 			crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
 			if (crtn)
 				cssmPerror("CSSM_CSP_CreateDigestContext", crtn);
@@ -75,15 +73,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 			CSSM_DeleteContext(ccHandle);
 			if (crtn)
 				cssmPerror("CSSM_DigestDataFinal", crtn);
-#else
-			SHA_CTX sha_ctx;
-			messageLength = packet->Length-SHA256_DIGEST_LENGTH;
-			SHA256_Init(&sha_ctx);
-			SHA256_Update(&sha_ctx, packet->Data, messageLength);
-			if (password->Data && password->Length)
-				SHA256_Update(&sha_ctx, password->Data, password->Length);
-			SHA256_Final(packet->Data + messageLength, &sha_ctx);
-#endif
+
 			break;
 		}
 		case GROWL_AUTH_NONE:
@@ -91,7 +81,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 	}
 }
 
-unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
+unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, CSSM_SIZE *packetSize) {
 	struct GrowlNetworkNotification *nn;
 	unsigned char  *data;
 	size_t         length;
@@ -190,19 +180,19 @@ unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification,
 
 #warning we need a way to handle the unlikely but fully-possible case wherein the dictionary contains more All notifications than the 8-bit Default indices can hold (Zero-One-Infinity) - first stage would be to try moving all the default notifications to the lower indices of the All array, second stage would be to create multiple packets
 
-unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
+unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, CSSM_SIZE *packetSize) {
 	struct GrowlNetworkRegistration *nr;
 	unsigned char  *data;
 	char           *notification;
-	unsigned       i;
-	unsigned       size;
+	CFIndex        i;
+	CFIndex        size;
 	unsigned       digestLength;
-	unsigned       notificationIndex;
+	CFIndex        notificationIndex;
 	size_t         length;
 	unsigned short applicationNameLen;
 	char           *applicationName;
-	unsigned       numAllNotifications;
-	unsigned       numDefaultNotifications;
+	CFIndex        numAllNotifications;
+	CFIndex        numDefaultNotifications;
 	CFTypeID       CFNumberID = CFNumberGetTypeID();
 	CSSM_DATA      packetData;
 	CSSM_DATA      passwordData;
@@ -251,7 +241,7 @@ unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification,
 			}
 		} else {
 			notificationIndex = CFArrayGetFirstIndexOfValue(allNotifications, CFRangeMake(0, numAllNotifications), num);
-			if (notificationIndex == (unsigned)-1) {
+			if (notificationIndex == kCFNotFound) {
 				NSLog(CFSTR("Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)"), num);
 				--size;
 			} else {
@@ -301,7 +291,7 @@ unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification,
 			notificationIndex = CFArrayGetFirstIndexOfValue(allNotifications, CFRangeMake(0, numAllNotifications), num);
 			if ((notificationIndex <  numAllNotifications)
 			&& (notificationIndex <= UCHAR_MAX)
-			&& (notificationIndex != (unsigned)-1)) {
+			&& (notificationIndex != kCFNotFound)) {
 				*data++ = notificationIndex;
 			}
 		}
@@ -330,7 +320,7 @@ void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, 
 	CSSM_DATA        remData;
 	CSSM_CRYPTO_DATA seed;
 	CSSM_RETURN      crtn;
-	uint32           bytesCrypted;
+	CSSM_SIZE        bytesCrypted;
 
 	seed.Param = *password;
 	seed.Callback = NULL;
@@ -376,7 +366,7 @@ void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, 
 								&bytesCrypted,
 								&remData);
 		if (remData.Length) {
-			unsigned newlength = packet->Length + remData.Length;
+			CSSM_SIZE newlength = packet->Length + remData.Length;
 			packet->Data = realloc(packet->Data, newlength);
 			memcpy(packet->Data + packet->Length, remData.Data, remData.Length);
 			packet->Length = newlength;

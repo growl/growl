@@ -20,7 +20,7 @@
 
 @implementation GrowlBubblesWindowController
 
-#define GrowlBubblesPadding				5.0f
+#define GrowlBubblesPadding				5.0
 
 #pragma mark -
 
@@ -28,7 +28,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -44,7 +44,7 @@
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
 	// if moved on screen later. -Evan
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 65.0f)
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 65.0)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:YES];
@@ -54,7 +54,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -167,7 +167,7 @@
 	return directionToExpand;
 }
 
-- (float) requiredDistanceFromExistingDisplays {
+- (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBubblesPadding;
 }
 

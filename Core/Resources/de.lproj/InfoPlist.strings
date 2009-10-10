@@ -1,6 +1,4 @@
-﻿/* Localized versions of Info.plist keys */
+/* Localized versions of Info.plist keys */
 
 CFBundleName = "Growl";
-CFBundleShortVersionString = "1.1.5";
-CFBundleGetInfoString = "1.1.5, Copyright (c) 2004-2008, Growl Team.";
-NSHumanReadableCopyright = "Copyright (c) 2004-2008, Growl Team.";
+NSHumanReadableCopyright = "Copyright (c) 2004-2009, Growl Team.";

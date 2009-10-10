@@ -16,7 +16,6 @@
 #import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
-#include "LoginItemsAE.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
@@ -27,7 +26,7 @@ CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 	return [[GrowlPreferencesController sharedController] objectForKey:(id)key];
 }
 
-int GrowlPreferencesController_integerForKey(CFTypeRef key) {
+CFIndex GrowlPreferencesController_integerForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
 	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
 }
@@ -35,6 +34,17 @@ int GrowlPreferencesController_integerForKey(CFTypeRef key) {
 Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	Boolean keyExistsAndHasValidFormat;
 	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER, &keyExistsAndHasValidFormat);
+}
+
+unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
+{
+	CFIndex theIndex = GrowlPreferencesController_integerForKey(key);
+	
+	if (theIndex > USHRT_MAX)
+		return USHRT_MAX;
+	else if (theIndex < 0)
+		return 0;
+	return (unsigned short)theIndex;
 }
 
 @implementation GrowlPreferencesController
@@ -49,12 +59,14 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
 															  object:nil];
+		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
 	}
 	return self;
 }
 
 - (void) destroy {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+	CFRelease(loginItems);
 
 	[super destroy];
 }
@@ -79,6 +91,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (id) objectForKey:(NSString *)key {
 	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
+	if(value)
+		CFMakeCollectable(value);
 	return [value autorelease];
 }
 
@@ -112,14 +126,29 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	[object release];
 }
 
-- (int) integerForKey:(NSString *)key {
+- (CFIndex) integerForKey:(NSString *)key {
 	return GrowlPreferencesController_integerForKey((CFTypeRef)key);
 }
 
-- (void) setInteger:(int)value forKey:(NSString *)key {
+- (void) setInteger:(CFIndex)value forKey:(NSString *)key {
+#ifdef __LP64__
+	NSNumber *object = [[NSNumber alloc] initWithInteger:value];
+#else
 	NSNumber *object = [[NSNumber alloc] initWithInt:value];
+#endif
 	[self setObject:object forKey:key];
 	[object release];
+}
+
+- (unsigned short)unsignedShortForKey:(NSString *)key
+{
+	return GrowlPreferencesController_unsignedShortForKey((CFTypeRef)key);
+}
+
+
+- (void)setUnsignedShort:(unsigned short)theShort forKey:(NSString *)key
+{
+	[self setObject:[NSNumber numberWithUnsignedShort:theShort] forKey:key];
 }
 
 - (void) synchronize {
@@ -130,28 +159,38 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 #pragma mark Start-at-login control
 
 - (BOOL) shouldStartGrowlAtLogin {
-	OSStatus   status;
 	Boolean    foundIt = false;
-	CFArrayRef loginItems = NULL;
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
-	//get the file url to GHA.
-	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
-
-	status = LIAECopyLoginItems(&loginItems);
-	if (status == noErr) {
-		for (CFIndex i=0, count=CFArrayGetCount(loginItems); i<count; ++i) {
-			CFDictionaryRef loginItem = CFArrayGetValueAtIndex(loginItems, i);
-			foundIt = CFEqual(CFDictionaryGetValue(loginItem, kLIAEURL), urlToGHA);
-			if (foundIt)
-				break;
+	NSBundle *prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
+	NSString *pathToGHA      = [prefPaneBundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	if(pathToGHA) {
+		//get the file url to GHA.
+		CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
+		
+		UInt32 seed = 0U;
+		NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+		for (id itemObject in currentLoginItems) {
+			LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
+			
+			UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+			CFURLRef URL = NULL;
+			OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+			if (err == noErr) {
+				foundIt = CFEqual(URL, urlToGHA);
+				CFRelease(URL);
+				
+				if (foundIt)
+					break;
+			}
 		}
-		CFRelease(loginItems);
+		
+		CFRelease(urlToGHA);
 	}
-
-	CFRelease(urlToGHA);
-
+	else {
+		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour prefpane bundle is:%@\n your pathToGHA is:%@", prefPaneBundle, pathToGHA);
+	}
+	
 	return foundIt;
 }
 
@@ -163,31 +202,47 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
 	OSStatus status;
-	CFArrayRef loginItems = NULL;
-	NSURL *url = [NSURL fileURLWithPath:path];
-	int existingLoginItemIndex = -1;
+	CFURLRef URLToToggle = (CFURLRef)[NSURL fileURLWithPath:path];
+	LSSharedFileListItemRef existingItem = NULL;
 
-	status = LIAECopyLoginItems(&loginItems);
+	UInt32 seed = 0U;
+	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+	for (id itemObject in currentLoginItems) {
+		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
 
-	if (status == noErr) {
-		NSEnumerator *enumerator = [(NSArray *)loginItems objectEnumerator];
-		NSDictionary *loginItemDict;
+		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+		CFURLRef URL = NULL;
+		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+		if (err == noErr) {
+			Boolean foundIt = CFEqual(URL, URLToToggle);
+			CFRelease(URL);
 
-		while ((loginItemDict = [enumerator nextObject])) {
-			if ([[loginItemDict objectForKey:(NSString *)kLIAEURL] isEqual:url]) {
-				existingLoginItemIndex = [(NSArray *)loginItems indexOfObjectIdenticalTo:loginItemDict];
+			if (foundIt) {
+				existingItem = item;
 				break;
 			}
 		}
 	}
 
-	if (enabled && (existingLoginItemIndex == -1))
-		LIAEAddURLAtEnd((CFURLRef)url, false);
-	else if (!enabled && (existingLoginItemIndex != -1))
-		LIAERemove(existingLoginItemIndex);
+	if (enabled && (existingItem == NULL)) {
+		NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+		IconRef icon = NULL;
+		FSRef ref;
+		Boolean gotRef = CFURLGetFSRef(URLToToggle, &ref);
+		if (gotRef) {
+			status = GetIconRefFromFileInfo(&ref,
+											/*fileNameLength*/ 0, /*fileName*/ NULL,
+											kFSCatInfoNone, /*catalogInfo*/ NULL,
+											kIconServicesNormalUsageFlag,
+											&icon,
+											/*outLabel*/ NULL);
+			if (status != noErr)
+				icon = NULL;
+		}
 
-	if(loginItems)
-		CFRelease(loginItems);
+		LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, (CFStringRef)displayName, icon, URLToToggle, /*propertiesToSet*/ NULL, /*propertiesToClear*/ NULL);
+	} else if (!enabled && (existingItem != NULL))
+		LSSharedFileListItemRemove(loginItems, existingItem);
 }
 
 #pragma mark -
@@ -233,10 +288,12 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
-		isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
-		[infoDict release];
-
+		if(infoDict) {
+			NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
+			isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
+			CFMakeCollectable(infoDict);
+			[infoDict release];
+		}
 		if (isRunning)
 			break;
 	}
@@ -276,7 +333,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 #pragma mark UI
 
-- (int)selectedPosition {
+- (CFIndex)selectedPosition {
 	return [self integerForKey:GROWL_POSITION_PREFERENCE_KEY];
 }
 
@@ -309,7 +366,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (NSNumber*) idleThreshold {
+#ifdef __LP64__
+	return [NSNumber numberWithInteger:[self integerForKey:GrowlStickyIdleThresholdKey]];
+#else
 	return [NSNumber numberWithInt:[self integerForKey:GrowlStickyIdleThresholdKey]];
+#endif
 }
 
 - (void) setIdleThreshold:(NSNumber*)value {
@@ -364,15 +425,18 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											&passwordLength, (void **)&password, NULL);
 
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		[passwordString autorelease];
-		SecKeychainItemFreeContent(NULL, password);
+		if(passwordString) {
+			CFMakeCollectable(passwordString);
+			[passwordString autorelease];
+			SecKeychainItemFreeContent(NULL, password);
+		}
 	} else {
 		if (status != errSecItemNotFound)
 			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
@@ -384,31 +448,31 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) setRemotePassword:(NSString *)value {
 	const char *password = value ? [value UTF8String] : "";
-	unsigned length = strlen(password);
+	size_t length = strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
+											(UInt32)strlen(keychainServiceName), keychainServiceName,
+											(UInt32)strlen(keychainAccountName), keychainAccountName,
 											NULL, NULL, &itemRef);
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword(NULL,
-											   strlen(keychainServiceName), keychainServiceName,
-											   strlen(keychainAccountName), keychainAccountName,
-											   length, password, NULL);
+											   (UInt32)strlen(keychainServiceName), keychainServiceName,
+											   (UInt32)strlen(keychainAccountName), keychainAccountName,
+											   (UInt32)length, password, NULL);
 		if (status)
 			NSLog(@"Failed to add password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
+			{ kSecAccountItemAttr, (UInt32)strlen(keychainAccountName), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, (UInt32)strlen(keychainServiceName), (char *)keychainServiceName }
 		};
-		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
 														&attributes,	// no change to attributes
-														length,			// length of password
+														(UInt32)length,			// length of password
 														password		// pointer to password data
 														);
 		if (itemRef)
@@ -418,11 +482,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	}
 }
 
-- (int) UDPPort {
-	return [self integerForKey:GrowlUDPPortKey];
+- (unsigned short) UDPPort {
+	return [self unsignedShortForKey:GrowlUDPPortKey];
 }
-- (void) setUDPPort:(int)value {
-	[self setInteger:value forKey:GrowlUDPPortKey];
+- (void) setUDPPort:(unsigned short)value {
+	[self setUnsignedShort:value forKey:GrowlUDPPortKey];
 }
 
 - (BOOL) isForwardingEnabled {

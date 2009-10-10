@@ -41,8 +41,8 @@
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
-		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
-		[textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowOffset:NSMakeSize(0.0, -2.0)];
+		[textShadow setShadowBlurRadius:3.0];
 
 		int size = GrowlSmokeSizePrefDefault;
 		READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &size);
@@ -108,19 +108,19 @@
 		BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 		if (floatIcon) {
-			float sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5f);
+			CGFloat sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5);
 
-			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0f,
-									  bounds.origin.y + 1.0f,
-									  bounds.size.width - sizeReduction - 2.0f,
-									  bounds.size.height - 2.0f);
+			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
+									  bounds.origin.y + 1.0,
+									  bounds.size.width - sizeReduction - 2.0,
+									  bounds.size.height - 2.0);
 		} else {
-			shadedBounds = CGRectInset(bounds, 1.0f, 1.0f);
+			shadedBounds = CGRectInset(bounds, 1.0, 1.0);
 		}
 
 		// set up bezier path for rounded corners
 		addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
-		CGContextSetLineWidth(context, 2.0f);
+		CGContextSetLineWidth(context, 2.0);
 
 		// draw background
 		CGPathDrawingMode drawingMode;
@@ -144,7 +144,7 @@
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0f];
+					  fraction:1.0];
 
 		drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
 
@@ -184,7 +184,7 @@
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
 		[titleContainer release];
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
-		[titleContainer setLineFragmentPadding:0.0f];
+		[titleContainer setLineFragmentPadding:0.0];
 	}
 
 	// construct attributes for the title
@@ -232,7 +232,7 @@
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
-		[textContainer setLineFragmentPadding:0.0f];
+		[textContainer setLineFragmentPadding:0.0];
 	}
 
 	// construct default attributes for the description text
@@ -280,9 +280,9 @@
 			break;
 	}
 
-	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
+	CGFloat backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
-	backgroundAlpha *= 0.01f;
+	backgroundAlpha *= 0.01;
 
 	[bgColor release];
 
@@ -290,11 +290,13 @@
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		bgColor = [NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha];
+		bgColor = [NSColor colorWithCalibratedWhite:0.1 alpha:backgroundAlpha];
 	}
 	[bgColor retain];
 	[data release];
@@ -302,18 +304,22 @@
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass])
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	else
+	if(data)
+		CFMakeCollectable(data);		
+	if (data && [data isKindOfClass:NSDataClass]) {
+			textColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
 		textColor = [NSColor whiteColor];
+	}
 	[textColor retain];
 	[data release];
-
-	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
+	data = nil;
+	
+	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5 ofColor:[NSColor blackColor]]];
 }
 
 - (void) sizeToFit {
-	float height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
+	CGFloat height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
 		height += GrowlSmokeTitleTextPadding;
 	if (progressIndicator)
@@ -337,16 +343,16 @@
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
-- (float) titleHeight {
-	return haveTitle ? titleHeight : 0.0f;
+- (CGFloat) titleHeight {
+	return haveTitle ? titleHeight : 0.0;
 }
 
-- (float) descriptionHeight {
-	return haveText ? textHeight : 0.0f;
+- (CGFloat) descriptionHeight {
+	return haveText ? textHeight : 0.0;
 }
 
-- (int) descriptionRowCount {
-	int rowCount = textHeight / lineHeight;
+- (NSInteger) descriptionRowCount {
+	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlSmokeLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 	if (limitPref)

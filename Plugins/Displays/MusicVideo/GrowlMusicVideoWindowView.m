@@ -52,27 +52,27 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 			NSRect iconRect;
 
 			if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-				titleRect.origin.x = 192.0f;
-				titleRect.origin.y = NSHeight(bounds) - 72.0f;
-				titleRect.size.width = NSWidth(bounds) - 192.0f - 32.0f;
-				titleRect.size.height = 40.0f;
-				textRect.origin.y = NSHeight(bounds) - 176.0f;
-				textRect.size.height = 96.0f;
-				iconRect.origin.x = 32.0f;
-				iconRect.origin.y = NSHeight(bounds) - 160.0f;
-				iconRect.size.width = 128.0f;
-				iconRect.size.height = 128.0f;
+				titleRect.origin.x = 192.0;
+				titleRect.origin.y = NSHeight(bounds) - 72.0;
+				titleRect.size.width = NSWidth(bounds) - 192.0 - 32.0;
+				titleRect.size.height = 40.0;
+				textRect.origin.y = NSHeight(bounds) - 176.0;
+				textRect.size.height = 96.0;
+				iconRect.origin.x = 32.0;
+				iconRect.origin.y = NSHeight(bounds) - 160.0;
+				iconRect.size.width = 128.0;
+				iconRect.size.height = 128.0;
 			} else {
-				titleRect.origin.x = 96.0f;
-				titleRect.origin.y = NSHeight(bounds) - 36.0f;
-				titleRect.size.width = NSWidth(bounds) - 96.0f - 16.0f;
-				titleRect.size.height = 25.0f;
-				textRect.origin.y = NSHeight(bounds) - 88.0f,
-					textRect.size.height = 48.0f;
-				iconRect.origin.x = 8.0f;
-				iconRect.origin.y = NSHeight(bounds) - 88.0f;
-				iconRect.size.width = 80.0f;
-				iconRect.size.height = 80.0f;
+				titleRect.origin.x = 96.0;
+				titleRect.origin.y = NSHeight(bounds) - 36.0;
+				titleRect.size.width = NSWidth(bounds) - 96.0 - 16.0;
+				titleRect.size.height = 25.0;
+				textRect.origin.y = NSHeight(bounds) - 88.0,
+					textRect.size.height = 48.0;
+				iconRect.origin.x = 8.0;
+				iconRect.origin.y = NSHeight(bounds) - 88.0;
+				iconRect.size.width = 80.0;
+				iconRect.size.height = 80.0;
 			}
 			textRect.origin.x = titleRect.origin.x;
 			textRect.size.width = titleRect.size.width;
@@ -96,7 +96,7 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 			[text drawInRect:textRect withAttributes:textAttributes];
 
 			[icon setFlipped:NO];
-			[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+			[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
 
 			if (CGLayerCreateWithContext)
 				[NSGraphicsContext setCurrentContext:context];
@@ -116,15 +116,15 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
 		if (effect == MUSICVIDEO_EFFECT_SLIDE) {
 			if (CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0f;
+				imageRect.origin.y = 0.0;
 		} else if (effect == MUSICVIDEO_EFFECT_WIPE) {
 			rect.size.height -= imageRect.origin.y;
 			imageRect.size.height -= imageRect.origin.y;
 			if (!CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0f;
+				imageRect.origin.y = 0.0;
 		} else if (effect == MUSICVIDEO_EFFECT_FADING) {
 			if (CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0f;		
+				imageRect.origin.y = 0.0;		
 		}
 
 		if (CGLayerCreateWithContext) {
@@ -139,7 +139,7 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 			cgRect.size.height = bounds.size.height;
 			CGContextDrawLayerInRect(cgContext, cgRect, layer);
 		} else {
-			[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
+			[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0];
 		}
 	//}
 }
@@ -191,14 +191,16 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 
 	[backgroundColor release];
 
-	float opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
+	CGFloat opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, GrowlMusicVideoPrefDomain, &opacityPref);
-	float alpha = opacityPref * 0.01f;
+	CGFloat alpha = opacityPref * 0.01;
 
 	Class NSDataClass = [NSData class];
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -209,6 +211,8 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlMusicVideoPrefDomain, NSData *, &data);
+	if(data)
+		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -216,24 +220,24 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	[textColor retain];
 	[data release];
 
-	float titleFontSize;
-	float textFontSize;
+	CGFloat titleFontSize;
+	CGFloat textFontSize;
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
 
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		titleFontSize = 32.0f;
-		textFontSize = 20.0f;
+		titleFontSize = 32.0;
+		textFontSize = 20.0;
 	} else {
-		titleFontSize = 16.0f;
-		textFontSize = 12.0f;
+		titleFontSize = 16.0;
+		textFontSize = 12.0;
 	}
 
 	NSShadow *textShadow = [[NSShadow alloc] init];
 
-	NSSize shadowSize = {0.0f, -2.0f};
+	NSSize shadowSize = {0.0, -2.0};
 	[textShadow setShadowOffset:shadowSize];
-	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowBlurRadius:3.0];
 	[textShadow setShadowColor:[NSColor blackColor]];
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];

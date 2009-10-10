@@ -17,7 +17,7 @@
 	NSImage *appIcon = path ? [self iconForFile:path] : nil;
 
 	if (appIcon)
-		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
+		[appIcon setSize:NSMakeSize(128.0,128.0)];
 
 	return appIcon;
 }

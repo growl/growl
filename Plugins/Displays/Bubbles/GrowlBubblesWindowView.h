@@ -16,10 +16,10 @@
 	NSFont				*titleFont;
 	NSFont				*textFont;
 	NSImage				*icon;
-	float				iconSize;
-	float				textHeight;
-	float				titleHeight;
-	float				lineHeight;
+	CGFloat				iconSize;
+	CGFloat				textHeight;
+	CGFloat				titleHeight;
+	CGFloat				lineHeight;
 	NSColor				*textColor;
 	NSColor				*bgColor;
 	NSColor				*lightColor;
@@ -43,9 +43,9 @@
 - (void) setText:(NSString *)text;
 
 - (void) sizeToFit;
-- (float) titleHeight;
-- (float) descriptionHeight;
-- (int) descriptionRowCount;
+- (CGFloat) titleHeight;
+- (CGFloat) descriptionHeight;
+- (NSInteger) descriptionRowCount;
 
 @end
 

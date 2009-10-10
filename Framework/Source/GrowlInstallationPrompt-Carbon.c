@@ -7,6 +7,7 @@
  *
  */
 
+#ifndef __LP64__
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
 #include "GrowlInstallationPrompt-Carbon.h"
@@ -552,7 +553,7 @@ static OSStatus _fillOutIconInWindow(WindowRef window) {
 					size.hi.width  = floorf(size.hi.width);
 					size.hi.height = floorf(size.hi.height);
 				} else
-					size.cg = CGSizeMake(64.0f, 64.0f);
+					size.cg = CGSizeMake(64.0, 64.0);
 
 				CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 				if (!colorSpace)
@@ -577,7 +578,7 @@ static OSStatus _fillOutIconInWindow(WindowRef window) {
 						if (!context)
 							NSLog(CFSTR("GrowlInstallationPrompt: could not convert application icon for display: CGBitmapContextCreate returned %p"), context);
 						else {
-							CGRect rect = { { 0.0f, 0.0f }, size.cg };
+							CGRect rect = { { 0.0, 0.0 }, size.cg };
 							err = PlotIconRefInContext(context,
 													   &rect,
 													   kAlignAbsoluteCenter,
@@ -818,3 +819,4 @@ static OSStatus _installGrowl(CFRunLoopRef mainThreadRunLoop) {
 
 	return err;
 }
+#endif // __LP64__

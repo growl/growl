@@ -8,8 +8,6 @@
 
 #import "GrowlAbstractSingletonObject.h"
 
-#define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
-
 @class GrowlApplicationTicket;
 
 @interface GrowlTicketController: GrowlAbstractSingletonObject

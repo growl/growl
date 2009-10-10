@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "GrowlPositionController.h"
+#import "GrowlDefinesInternal.h"	// for NSUInteger
 
 #define GrowlDisplayWindowControllerWillDisplayWindowNotification	@"GrowlDisplayWindowControllerWillDisplayWindowNotification"
 #define GrowlDisplayWindowControllerDidDisplayWindowNotification	@"GrowlDisplayWindowControllerDidDisplayWindowNotification"
@@ -46,8 +47,8 @@ typedef enum {
 	GrowlDisplayStatus				 displayStatus;
 	
 	CFTimeInterval		             displayDuration;
-	unsigned			             screenNumber;
-	unsigned			             screenshotMode: 1;
+	NSUInteger			             screenNumber;
+	NSUInteger			             screenshotMode: 1;
 
 	BOOL							 userRequestedClose;
 
@@ -89,7 +90,7 @@ typedef enum {
 - (void) removeTransition:(GrowlWindowTransition *)transition;
 
 /* Sets the start and the end markers for a given transtion within the total transitionDuration.  Start and end are relative to that ammount */
-- (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition;
+- (void) setStartPercentage:(NSUInteger)start endPercentage:(NSUInteger)end forTransition:(GrowlWindowTransition *)transition;
 
 - (NSArray *) allTransitions;
 - (NSArray *) activeTransitions;
@@ -129,7 +130,7 @@ typedef enum {
 
 - (NSScreen *) screen;
 - (void) setScreen:(NSScreen *)newScreen;
-- (void) setScreenNumber:(unsigned)newScreenNumber;
+- (void) setScreenNumber:(NSUInteger)newScreenNumber;
 
 - (id) target;
 - (void) setTarget:(id)object;

@@ -17,6 +17,8 @@ extern void NSLog(CFStringRef format, ...);
 
 static CFRunLoopSourceRef powerNotifierRunLoopSource = NULL;
 static HGPowerSource lastPowerSource;
+static CFBooleanRef lastChargingState;
+static int lastBatteryTime = -1;
 
 static bool stringsAreEqual(CFStringRef a, CFStringRef b)
 {
@@ -95,9 +97,11 @@ static void powerSourceChanged(void *context)
 			hgPowerSource = HGUPSPower;
 		}
 
-		//Avoid sending notifications on the same power source multiple times
-		if (lastPowerSource != hgPowerSource) {
+		//Avoid sending notifications on the same power source multiple times, unless the charging state or presence/absence of a time estimate has changed.
+		if (lastPowerSource != hgPowerSource || lastChargingState != charging || (lastBatteryTime == -1) != (batteryTime == -1)) {
 			lastPowerSource = hgPowerSource;
+			lastChargingState = charging;
+			lastBatteryTime = batteryTime;
 			AppController_powerSwitched(hgPowerSource, charging, batteryTime, percentageCapacity);
 		}
 	}

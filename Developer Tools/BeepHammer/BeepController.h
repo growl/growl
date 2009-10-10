@@ -16,6 +16,7 @@
 	IBOutlet NSImageView	*notificationImage;			// The associated image
 	IBOutlet NSTextField	*notificationTitle;			// The title of this notification
 	IBOutlet NSTextField	*notificationIdentifier;	// The identifier of this notification
+	IBOutlet NSTextField	*notificationClickContext;	// The click context of this notification
 	IBOutlet NSButton		*addEditButton;				// The OK button for the panel
 	NSString *addButtonTitle, *editButtonTitle, *mainEditButtonTitle;
 	

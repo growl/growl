@@ -2,7 +2,7 @@
 //  GrowlMailMePrefs.m
 //  Display Plugins
 //
-//  Copyright 2004 Mac-arena the Bored Zo. All rights reserved.
+//  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
 #import "GrowlMailMePrefs.h"
@@ -25,6 +25,9 @@
 - (NSString *) getDestAddress {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &value);
+	if(value) {
+		CFMakeCollectable(value);
+	}
 	return [value autorelease];
 }
 

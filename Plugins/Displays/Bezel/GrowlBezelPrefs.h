@@ -31,7 +31,7 @@
 #define GrowlBezelHighTextColor				@"Bezel-Priority-High-Text-Color"
 #define GrowlBezelEmergencyTextColor		@"Bezel-Priority-Emergency-Text-Color"
 
-#define BEZEL_OPACITY_DEFAULT				40.0f
+#define BEZEL_OPACITY_DEFAULT				40.0
 
 #define BEZEL_POSITION_DEFAULT				0
 #define BEZEL_POSITION_TOPRIGHT				1
@@ -46,10 +46,10 @@
 	IBOutlet NSSlider		*slider_opacity;
 }
 
-- (float) duration;
-- (void) setDuration:(float)value;
-- (float) opacity;
-- (void) setOpacity:(float)value;
+- (CGFloat) duration;
+- (void) setDuration:(CGFloat)value;
+- (CGFloat) opacity;
+- (void) setOpacity:(CGFloat)value;
 - (int) size;
 - (void) setSize:(int)value;
 - (int) style;

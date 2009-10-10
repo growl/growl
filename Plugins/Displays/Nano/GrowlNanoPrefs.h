@@ -13,10 +13,10 @@
 #define Nano_SCREEN_PREF			@"Screen"
 
 #define Nano_OPACITY_PREF			@"Opacity"
-#define Nano_DEFAULT_OPACITY		60.0f
+#define Nano_DEFAULT_OPACITY		60.0
 
 #define Nano_DURATION_PREF		@"Duration"
-#define GrowlNanoDurationPrefDefault		4.0f
+#define GrowlNanoDurationPrefDefault		5.0
 
 #define Nano_SIZE_PREF			@"Size"
 typedef enum {
@@ -47,12 +47,12 @@ typedef enum {
 	IBOutlet NSSlider *slider_opacity;
 }
 
-- (float) duration;
-- (void) setDuration:(float)value;
+- (CGFloat) duration;
+- (void) setDuration:(CGFloat)value;
 - (unsigned) effect;
 - (void) setEffect:(unsigned)newEffect;
-- (float) opacity;
-- (void) setOpacity:(float)value;
+- (CGFloat) opacity;
+- (void) setOpacity:(CGFloat)value;
 - (int) size;
 - (void) setSize:(int)value;
 - (int) screen;

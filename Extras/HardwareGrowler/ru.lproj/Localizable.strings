@@ -134,7 +134,7 @@
 "Time remaining: %i minutes" = "Осталось: %i мин.";
 
 /* No comment provided by engineer. */
-"Time to charge: %i" = "До зарядки: %i";
+"Time to charge: %i minutes" = "До зарядки: %i";
 
 /* No comment provided by engineer. */
 "Unnamed FireWire Device" = "Безымянное устройство firewire";

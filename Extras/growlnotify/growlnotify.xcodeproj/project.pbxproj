@@ -13,7 +13,6 @@
 		9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9526247D074F92F600C5F344 /* GrowlUDPUtils.c */; };
 		9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */; };
 		9526BDA6081BD22600B9D0D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9526BDA5081BD22600B9D0D0 /* Security.framework */; };
-		956D7F0608251E190083D772 /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 956D7F0408251E190083D772 /* sha2.c */; };
 		95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */; };
 		95CF98F5082A5DA5001A409D /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98F3082A5DA5001A409D /* cdsa.c */; };
 /* End PBXBuildFile section */
@@ -31,8 +30,6 @@
 		9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MD5Authenticator.m; path = ../../Common/Source/MD5Authenticator.m; sourceTree = SOURCE_ROOT; };
 		9526BDA5081BD22600B9D0D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../Common/Source/GrowlDefinesInternal.h; sourceTree = SOURCE_ROOT; };
-		956D7F0408251E190083D772 /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = sha2.c; path = ../../Common/Source/sha2.c; sourceTree = SOURCE_ROOT; };
-		956D7F0508251E190083D772 /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sha2.h; path = ../../Common/Source/sha2.h; sourceTree = SOURCE_ROOT; };
 		9595184F07E4859F004A4471 /* GrowlPathway.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathway.h; path = ../../Core/Source/GrowlPathway.h; sourceTree = SOURCE_ROOT; };
 		95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
 		95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
@@ -60,7 +57,6 @@
 			children = (
 				95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */,
 				95CF98F4082A5DA5001A409D /* cdsa.h */,
-				956D7F0508251E190083D772 /* sha2.h */,
 				9595184F07E4859F004A4471 /* GrowlPathway.h */,
 				95C876E007D9DF4100C69DEE /* GrowlDefines.h */,
 				95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */,
@@ -96,7 +92,6 @@
 			children = (
 				95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */,
 				95CF98F3082A5DA5001A409D /* cdsa.c */,
-				956D7F0408251E190083D772 /* sha2.c */,
 				9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */,
 				9526247D074F92F600C5F344 /* GrowlUDPUtils.c */,
 				08FB7796FE84155DC02AAC07 /* main.m */,
@@ -167,7 +162,6 @@
 				8DD76F9A0486AA7600D96B5E /* main.m in Sources */,
 				9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */,
 				9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */,
-				956D7F0608251E190083D772 /* sha2.c in Sources */,
 				95CF98F5082A5DA5001A409D /* cdsa.c in Sources */,
 				95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */,
 			);
@@ -176,17 +170,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		95E4A2820855C0B7006B3F45 /* Development */ = {
+		95E4A2820855C0B7006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = growlnotify_Prefix.pch;
@@ -205,8 +197,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				PRODUCT_NAME = growlnotify;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -215,14 +205,12 @@
 				);
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		95E4A2830855C0B7006B3F45 /* Deployment */ = {
+		95E4A2830855C0B7006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = YES;
@@ -247,7 +235,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = (
 					"-W",
@@ -255,131 +242,45 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		95E4A2840855C0B7006B3F45 /* Deployment - Tiger - G4 */ = {
+		95E4A2870855C0B7006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
+				ARCHS = (
+					ppc,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				HEADER_SEARCH_PATHS = ../..;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Debug;
+		};
+		95E4A2880855C0B7006B3F45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = growlnotify_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				PRODUCT_NAME = growlnotify;
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-				);
-				ZERO_LINK = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				HEADER_SEARCH_PATHS = ../..;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A2850855C0B7006B3F45 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = growlnotify_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRODUCT_NAME = growlnotify;
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-				);
-			};
-			name = Default;
-		};
-		95E4A2870855C0B7006B3F45 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Development;
-		};
-		95E4A2880855C0B7006B3F45 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Deployment;
-		};
-		95E4A2890855C0B7006B3F45 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = "Deployment - Tiger - G4";
-		};
-		95E4A28A0855C0B7006B3F45 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -387,24 +288,20 @@
 		95E4A2810855C0B7006B3F45 /* Build configuration list for PBXNativeTarget "growlnotify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2820855C0B7006B3F45 /* Development */,
-				95E4A2830855C0B7006B3F45 /* Deployment */,
-				95E4A2840855C0B7006B3F45 /* Deployment - Tiger - G4 */,
-				95E4A2850855C0B7006B3F45 /* Default */,
+				95E4A2820855C0B7006B3F45 /* Debug */,
+				95E4A2830855C0B7006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		95E4A2860855C0B7006B3F45 /* Build configuration list for PBXProject "growlnotify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				95E4A2870855C0B7006B3F45 /* Development */,
-				95E4A2880855C0B7006B3F45 /* Deployment */,
-				95E4A2890855C0B7006B3F45 /* Deployment - Tiger - G4 */,
-				95E4A28A0855C0B7006B3F45 /* Default */,
+				95E4A2870855C0B7006B3F45 /* Debug */,
+				95E4A2880855C0B7006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

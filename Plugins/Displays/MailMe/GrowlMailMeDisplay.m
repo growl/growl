@@ -2,13 +2,12 @@
 //  GrowlMailMeDisplay.m
 //  Growl Display Plugins
 //
-//  Copyright 2004 Mac-arena the Bored Zo. All rights reserved.
+//  Copyright 2004 Peter Hosey. All rights reserved.
 //
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationNotification.h"
-#import <Message/NSMailDelivery.h>
 
 #define destAddressKey @"MailMe - Recipient address"
 
@@ -18,9 +17,38 @@
 	@"-- in response to a Growl notification --\r\n"\
 	@"-- http://growl.info/ --\r\n"
 
+@interface GrowlMailMeDisplay ()
+
+//Intended to be called from -init.
+- (BOOL) gatherAccountsFromMail;
+
+@end
+
+
 @implementation GrowlMailMeDisplay
 
+- (id) init {
+	if ((self = [super init])) {
+		pathToMailSenderProgram = [[[NSBundle bundleForClass:[self class]] pathForResource:@"simple-mailer" ofType:@"py"] copy];
+
+		if (![self gatherAccountsFromMail])
+			goto fail;
+
+		tasks = [[NSMutableArray alloc] init];
+	}
+	return self;
+
+fail:
+	[self release];
+	return nil;
+}
+
 - (void) dealloc {
+	[defaultSMTPAccount release];
+	[fromAddress release];
+	[tasks release];
+	[pathToMailSenderProgram release];
+
 	[preferencePane release];
 	[super dealloc];
 }
@@ -36,26 +64,88 @@
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 
-	if (destAddress && [destAddress length]) {
-		NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
-		NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-		//hopefully something can be worked out to use the imageData.
-		//documentation, Apple, documentation!
-		//	NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
+	if (destAddress) {
+		CFMakeCollectable(destAddress);
+		if([destAddress length]) {
+			NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+			NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+			//hopefully something can be worked out to use the imageData.
+			//One solution would be an easy way to attach at least one file in the simple-mailer program. Another would be a way to create a MIME multi-part message and to have simple-mailer handle it correctly.
+			//	NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
 
-		BOOL success = [NSMailDelivery deliverMessage:[NSString stringWithFormat:plainTextMessageFormat, desc]
-											  subject:title
-												   to:destAddress];
+			BOOL useTLS = [[defaultSMTPAccount objectForKey:@"SSLEnabled"] boolValue];
+			NSString *username = [defaultSMTPAccount objectForKey:@"Username"];
+			NSString *hostname = [defaultSMTPAccount objectForKey:@"Hostname"];
+			NSNumber *port = [defaultSMTPAccount objectForKey:@"PortNumber"];
+			NSString *userAtHostPort = [NSString stringWithFormat:
+				(port != nil) ? @"%@@%@:%@" : @"%@@%@",
+				username, hostname, port];
 
-		if (!success) {
-			NSLog(@"(MailMe) WARNING: Could not send email message \"%@\" to address %@", title, destAddress);
-			NSLog(@"(MailMe) description of notification:\n%@", desc);
-		} else
-			NSLog(@"(MailMe) Successfully sent message \"%@\" to address %@", title, destAddress);
+			BOOL success = NO;
+
+			OSStatus err;
+			UInt32 passwordLength = 0U;
+			void *passwordBytes = NULL;
+			err = SecKeychainFindInternetPassword(/*keychainOrArray*/ NULL,
+				(UInt32)[hostname length], [hostname UTF8String],
+				/*securityDomainLength*/ 0U, /*securityDomain*/ NULL,
+				(UInt32)[username length], [username UTF8String],
+				/*pathLength*/ 0U, /*path*/ NULL,
+				(UInt16)[port integerValue],
+				kSecProtocolTypeSMTP, kSecAuthenticationTypeAny,
+				&passwordLength, &passwordBytes,
+				/*itemRef*/ NULL);
+			if (err != noErr) {
+				NSLog(@"MailMe: Could not get password for SMTP account %@: %i/%s", userAtHostPort, (int)err, GetMacOSStatusCommentString(err));
+			} else {
+				NSData *passwordData = [NSData dataWithBytesNoCopy:passwordBytes length:passwordLength freeWhenDone:NO];
+
+				//Use only stock Python and matching modules.
+				NSDictionary *environment = [NSDictionary dictionaryWithObjectsAndKeys:
+					@"", @"PYTHONPATH",
+					@"/bin:/usr/bin:/usr/local/bin", @"PATH",
+					nil];
+				NSTask *task = [[[NSTask alloc] init] autorelease];
+				[task setEnvironment:environment];
+				[task setLaunchPath:@"/usr/bin/python"];
+				[task setArguments:[NSArray arrayWithObjects:
+					pathToMailSenderProgram,
+					[@"--user-agent=" stringByAppendingFormat:@"Growl/%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]],
+					useTLS ? @"--tls" : @"--no-tls",
+					userAtHostPort,
+					fromAddress,
+					destAddress,
+					/*subject*/ title,
+					nil]];
+				NSPipe *stdinPipe = [NSPipe pipe];
+				[task setStandardInput:stdinPipe];
+
+				[task launch];
+
+				[[stdinPipe fileHandleForReading] closeFile];
+				NSFileHandle *stdinFH = [stdinPipe fileHandleForWriting];
+				[stdinFH writeData:passwordData];
+				[stdinFH writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]];
+				[stdinFH writeData:[[NSString stringWithFormat:plainTextMessageFormat, desc] dataUsingEncoding:NSUTF8StringEncoding]];
+				[stdinFH closeFile];
+
+				[task waitUntilExit];
+				success = ([task terminationStatus] == 0);
+
+				SecKeychainItemFreeContent(/*attrList*/ NULL, passwordBytes);
+			}
+
+			if (!success) {
+				NSLog(@"(MailMe) WARNING: Could not send email message \"%@\" to address %@", title, destAddress);
+				NSLog(@"(MailMe) description of notification:\n%@", desc);
+			} else
+				NSLog(@"(MailMe) Successfully sent message \"%@\" to address %@", title, destAddress);
+		} else {
+			NSLog(@"(MailMe) WARNING: No destination address set");
+		}
 	} else {
 		NSLog(@"(MailMe) WARNING: No destination address set");
 	}
-
 	[destAddress release];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
@@ -63,6 +153,57 @@
 
 - (BOOL) requiresPositioning {
 	return NO;
+}
+
+- (BOOL) gatherAccountsFromMail {
+	NSArray *deliveryAccounts = [NSMakeCollectable(CFPreferencesCopyAppValue(CFSTR("DeliveryAccounts"), CFSTR("com.apple.Mail"))) autorelease];
+	if (!deliveryAccounts)
+		return NO;
+
+	NSArray *mailAccounts = [NSMakeCollectable(CFPreferencesCopyAppValue(CFSTR("MailAccounts"), CFSTR("com.apple.Mail"))) autorelease];
+	if (!mailAccounts)
+		return NO;
+
+	NSMutableDictionary *deliveryAccountsBySMTPIdentifier = [NSMutableDictionary dictionaryWithCapacity:[deliveryAccounts count]];
+	for (NSDictionary *account in deliveryAccounts) {
+		NSString *identifier = [NSString stringWithFormat:@"%@:%@", [account objectForKey:@"Hostname"], [account objectForKey:@"Username"]];
+		[deliveryAccountsBySMTPIdentifier setObject:account
+											 forKey:identifier];
+	}
+	for (NSDictionary *account in mailAccounts) {
+		NSString *identifier = [account objectForKey:@"SMTPIdentifier"];
+		if (!identifier)
+			continue;
+
+		defaultSMTPAccount = [[deliveryAccountsBySMTPIdentifier objectForKey:identifier] copy];
+		if (defaultSMTPAccount) {
+			NSString *bareAddress = [[account objectForKey:@"EmailAddresses"] objectAtIndex:0UL];
+			NSString *name = [account objectForKey:@"FullUserName"];
+			fromAddress = [(name ? [NSString stringWithFormat:@"%@ <%@>", name, bareAddress] : bareAddress) copy];
+			if (!fromAddress) {
+				[defaultSMTPAccount release];
+				defaultSMTPAccount = nil;
+			}
+
+			NSNumber *portNumber = [defaultSMTPAccount objectForKey:@"PortNumber"];
+			if (portNumber) {
+				NSInteger port = [portNumber integerValue];
+				if (port <= 0 || port > 0xFFFF) {
+					[defaultSMTPAccount release];
+					defaultSMTPAccount = nil;
+				}
+			}
+
+			break;
+		}
+	}
+
+	if (!defaultSMTPAccount) {
+		NSLog(@"MailMe: No suitable SMTP account found");
+		return NO;
+	}
+
+	return YES;
 }
 
 @end

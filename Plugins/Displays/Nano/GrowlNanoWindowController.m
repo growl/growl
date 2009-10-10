@@ -34,7 +34,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &screenNumber);
 	NSArray *screens = [NSScreen screens];
-	unsigned int screensCount = [screens count];
+	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
@@ -44,11 +44,11 @@
 	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
 	sizeRect.origin = screen.origin;
 	if (sizePref == Nano_SIZE_HUGE) {
-		sizeRect.size.height = 50.0f;	
-		sizeRect.size.width = 270.0f;
+		sizeRect.size.height = 50.0;	
+		sizeRect.size.width = 270.0;
 	} else {
-		sizeRect.size.height = 25.0f;
-		sizeRect.size.width = 185.0f;
+		sizeRect.size.height = 25.0;
+		sizeRect.size.width = 185.0;
 	}
 	frameHeight = sizeRect.size.height;
 
@@ -79,10 +79,14 @@
 	[panel setContentView:view]; // retains subview
 	[view release];
 	
-	float xPosition = NSMaxX(screen) - (NSMaxX(screen) / 4);
-	float yPosition = NSMaxY(screen);
+	CGFloat xPosition = NSMaxX(screen) - (NSMaxX(screen) / 4);
+	CGFloat yPosition = NSMaxY(screen);
 	if([NSMenu menuBarVisible])
+#ifdef __LP64__
+		yPosition -= [[NSApp mainMenu] menuBarHeight];
+#else
 		yPosition-=[NSMenuView menuBarHeight];
+#endif
 	
 	[panel setFrameOrigin:NSMakePoint(xPosition, yPosition)];
 

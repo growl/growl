@@ -19,7 +19,7 @@
 
 @interface GrowlPositionController (PRIVATE)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
-- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController;
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(NSUInteger *)outCount padding:(CGFloat)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController;
 @end
 
 @implementation GrowlPositionController
@@ -79,7 +79,7 @@
 		screen = [NSScreen mainScreen];
 
 	screenFrame = [screen visibleFrame];
-	areaSize = NSMakeSize(screenFrame.size.width / 3.0f, screenFrame.size.height / 3.0f);	//We have 9 identical areas on each screen
+	areaSize = NSMakeSize(screenFrame.size.width / 3.0, screenFrame.size.height / 3.0);	//We have 9 identical areas on each screen
 
 	switch (position) {
 			//Top left
@@ -216,7 +216,7 @@
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];
 	NSSize displaySize = [[displayController window] frame].size;
-	float padding = [displayController requiredDistanceFromExistingDisplays];
+	CGFloat padding = [displayController requiredDistanceFromExistingDisplays];
 
 	// Ask the display where it wants to be displayed in the first instance....
 	NSPoint idealOrigin;
@@ -271,7 +271,7 @@
 	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 	
-	int			numberOfRects;
+	NSUInteger			numberOfRects;
 	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
 
 	/* This will loop until the display is placed or we run off the screen entirely
@@ -282,7 +282,7 @@
 	 */
 	while (1) {
 		BOOL haveBestSecondaryOrigin = NO;
-		float bestSecondaryOrigin = 0;
+		CGFloat bestSecondaryOrigin = 0.0;
 
 		while (NSContainsRect(screenFrame,displayFrame)) {
 			//Adjust in our primary direction
@@ -308,7 +308,7 @@
 			
 			BOOL intersects = NO;
 			//Check to see if the proposed displayFrame intersects with any used rect
-			for (int i = 0; i < numberOfRects; i++) {
+			for (NSUInteger i = 0; i < numberOfRects; i++) {
 				if (NSIntersectsRect(displayFrame, usedRects[i])) {
 					//We intersected. Sadness.
 					intersects = YES;
@@ -460,11 +460,14 @@
 	return result;
 }
 
+- (BOOL) reserveRect:(NSRect)inRect forDisplayController:(GrowlDisplayWindowController *)displayController {
+	return [self reserveRect:inRect inScreen:[displayController screen] forDisplayController:displayController];
+}
 
 - (void) clearReservedRectForDisplayController:(GrowlDisplayWindowController *)displayController
 {
 	NSValue *controllerKey = [NSValue valueWithPointer:displayController];
-	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[[displayController window] screen]];
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:[displayController screen]];
 	NSValue *value = [reservedRectsByController objectForKey:controllerKey];
 
 	if (value) {
@@ -483,12 +486,12 @@
  * @param displayController A display controller whose rect(s) should not be included. Pass nil to include all rects.
  * @result A malloc'd NSRectArray. This value should be freed after use.
  */
-- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(int *)outCount padding:(float)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController
+- (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(NSUInteger *)outCount padding:(CGFloat)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController
 {
 	NSEnumerator *enumerator = [rectSet objectEnumerator];
 	NSValue		 *value;
 	NSValue		 *displayControllerValue = [NSValue valueWithPointer:displayController];
-	int			  count = [rectSet count];
+	NSUInteger	  count = [rectSet count];
 	
 	if (outCount) *outCount = count;
 
@@ -629,17 +632,18 @@ NSString *NSStringFromGrowlPosition(enum GrowlPosition pos) {
 		case GrowlMiddleColumnPosition:
 		case GrowlRightColumnPosition:
 			second = @"column";
-
+			break;
+			
 		default:
 			second = nil;
 	};
 
 	if (first && second) {
-		unsigned  firstLength = [first  length];
-		unsigned secondLength = [second length];
+		NSUInteger  firstLength = [first  length];
+		NSUInteger secondLength = [second length];
 
 		if (firstLength && secondLength) {
-			unsigned capacity = firstLength + secondLength + 1U;
+			NSUInteger capacity = firstLength + secondLength + 1U;
 			NSMutableString *mutable = [[NSMutableString alloc] initWithCapacity:capacity];
 
 			[mutable appendString:first];

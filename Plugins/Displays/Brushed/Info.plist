@@ -6,8 +6,6 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>Brushed</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -17,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>DISP</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>GROWL_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>GROWL_VERSION</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>NSPrincipalClass</key>

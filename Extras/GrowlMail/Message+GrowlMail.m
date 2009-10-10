@@ -33,7 +33,7 @@
 //
 
 #import "Message+GrowlMail.h"
-#import "GrowlMail.h"
+#import "GrowlMailNotifier.h"
 #import <AddressBook/AddressBook.h>
 #import <Growl/Growl.h>
 
@@ -46,32 +46,25 @@
 
 @interface NSMutableString (GrowlMail_LineOrientedTruncation)
 
-- (void) trimStringToFirstNLines:(unsigned)n;
+- (void) trimStringToFirstNLines:(NSUInteger)n;
 
 @end
 
 @implementation Message (GrowlMail)
-/*!
- * @brief Show a Growl notification for this message
- *
- * This should be called on an auxiliary thread as it may block.
- */
-- (void) showNotification
-{
+
+- (void) GMShowNotificationPart1 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	NSString *account = (NSString *)[[[self mailbox] account] displayName];
-	NSString *sender = [self sender];
-	NSString *senderAddress = [sender uncommentedAddress];
-	NSString *subject = (NSString *)[self subject];
-	NSString *body;
-	NSString *titleFormat = (NSString *)GMTitleFormatString();
-	NSString *descriptionFormat = (NSString *)GMDescriptionFormatString();
+	MessageBody *messageBody = nil;
+
+	GrowlMailNotifier *notifier = [GrowlMailNotifier sharedNotifier];
+	NSString *titleFormat = [notifier titleFormat];
+	NSString *descriptionFormat = [notifier descriptionFormat];
 
 	if ([titleFormat rangeOfString:@"%body"].location != NSNotFound ||
 			[descriptionFormat rangeOfString:@"%body"].location != NSNotFound) {
 		/* We will need the body */
-		MessageBody *messageBody = [self messageBodyIfAvailable];
+		messageBody = [self messageBodyIfAvailable];
 		int nonBlockingAttempts = 0;
 		while (!messageBody && nonBlockingAttempts < 3) {
 			/* No message body available yet, but we need one */
@@ -84,42 +77,58 @@
 
 		/* Already tried three times (3 seconds); this time, block this thread to get it. */ 
 		if (!messageBody) messageBody = [self messageBody];
+	}
 
-		if (messageBody) {
-			NSString *originalBody = nil;
-			/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
-			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
-				originalBody = [messageBody stringForIndexing];
-			else if ([messageBody respondsToSelector:@selector(attributedString)])
-				originalBody = [[messageBody attributedString] string];
-			else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
-				originalBody = [messageBody stringValueForJunkEvaluation:NO];
-			if (originalBody) {
-				NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
-				unsigned lengthWithoutWhitespace = [transformedBody length];
-				[transformedBody trimStringToFirstNLines:4U];
-				unsigned length = [transformedBody length];
-				if (length > 200U) {
-					[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
-					length = 200U;
-				}
-				if (length != lengthWithoutWhitespace)
-					[transformedBody appendString:[NSString stringWithUTF8String:"\xE2\x80\xA6"]];
-				body = (NSString *)transformedBody;
-			} else {
-				body = @"";	
-			}
-		} else {
-			body = @"";
-		}
-	} else
-		body = @"";
+	[self performSelectorOnMainThread:@selector(GMShowNotificationPart2:)
+						   withObject:messageBody
+						waitUntilDone:NO];
+
+	[pool release];
+}
+
+- (void) GMShowNotificationPart2:(MessageBody *)messageBody {
+	NSString *account = (NSString *)[[[self mailbox] account] displayName];
+	NSString *sender = [self sender];
+	NSString *senderAddress = [sender uncommentedAddress];
+	NSString *subject = (NSString *)[self subject];
+	NSString *body;
+	GrowlMailNotifier *notifier = [GrowlMailNotifier sharedNotifier];
+	NSString *titleFormat = [notifier titleFormat];
+	NSString *descriptionFormat = [notifier descriptionFormat];
 
 	/* The fullName selector is not available in Mail.app 2.0. */
 	if ([sender respondsToSelector:@selector(fullName)])
 		sender = [sender fullName];
 	else if ([sender addressComment])
 		sender = [sender addressComment];
+
+	if (messageBody) {
+		NSString *originalBody = nil;
+		/* stringForIndexing selector: Mail.app 3.0 in OS X 10.4, not in 10.5. */
+		if ([messageBody respondsToSelector:@selector(stringForIndexing)])
+			originalBody = [messageBody stringForIndexing];
+		else if ([messageBody respondsToSelector:@selector(attributedString)])
+			originalBody = [[messageBody attributedString] string];
+		else if ([messageBody respondsToSelector:@selector(stringValueForJunkEvaluation:)])
+			originalBody = [messageBody stringValueForJunkEvaluation:NO];
+		if (originalBody) {
+			NSMutableString *transformedBody = [[[originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+			NSUInteger lengthWithoutWhitespace = [transformedBody length];
+			[transformedBody trimStringToFirstNLines:4U];
+			NSUInteger length = [transformedBody length];
+			if (length > 200U) {
+				[transformedBody deleteCharactersInRange:NSMakeRange(200U, length - 200U)];
+				length = 200U;
+			}
+			if (length != lengthWithoutWhitespace)
+				[transformedBody appendString:[NSString stringWithUTF8String:"\xE2\x80\xA6"]];
+			body = (NSString *)transformedBody;
+		} else {
+			body = @"";	
+		}
+	} else {
+		body = @"";
+	}
 
 	NSArray *keywords = [NSArray arrayWithObjects:
 		@"%sender",
@@ -189,9 +198,7 @@
 								   isSticky:NO
 							   clickContext:clickContext];	// non-nil click context
 
-	[GrowlMail didFinishNotificationForMessage:self];
-
-	[pool release];
+	[notifier didFinishNotificationForMessage:self];
 }
 
 @end
@@ -219,14 +226,14 @@
 
 @implementation NSMutableString (GrowlMail_LineOrientedTruncation)
 
-- (void) trimStringToFirstNLines:(unsigned)n {
+- (void) trimStringToFirstNLines:(NSUInteger)n {
 	NSRange range;
-	unsigned end;
-	unsigned length;
+	NSUInteger end = 0U;
+	NSUInteger length;
 
 	range.location = 0;
 	range.length = 0;
-	for (unsigned i=0U; i<n; ++i)
+	for (NSUInteger i = 0U; i < n; ++i)
 		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
 
 	length = [self length];

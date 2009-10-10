@@ -24,7 +24,7 @@
 - (void) setText:(NSString *)text;
 - (void) setPriority:(int)priority;
 
-- (float) descriptionHeight:(NSString *)text attributes:(NSDictionary *)attributes width:(float)width;
+- (CGFloat) descriptionHeight:(NSString *)text attributes:(NSDictionary *)attributes width:(CGFloat)width;
 
 - (id) target;
 - (void) setTarget:(id)object;
