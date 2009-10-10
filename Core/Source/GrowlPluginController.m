@@ -376,7 +376,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	if (!path)
 		path = [bundle bundlePath];
 	NSString *extension = [path pathExtension];
-	NSString *fileType = nil;
+	NSString *fileTypeString = nil;
+	OSType fileType = 0;
 
 	//Assert that we have a name, author, and version. (We got the path first so we can use it in the assertion message.)
 	NSAssert5((name != nil) && (author != nil) && (version != nil),
@@ -441,19 +442,18 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
 
-		[[NSWorkspace sharedWorkspace] getFileType:&fileType creatorCode:NULL forFile:path];
+		[[NSWorkspace sharedWorkspace] getFileType:&fileTypeString creatorCode:NULL forFile:path];
+		fileType = fileTypeString ? NSHFSTypeCodeFromFileType(fileTypeString) : 0;
 
 		//Record the file types (HFS and filename extension) that the plug-in possessed at this time. These help determine what kind of plug-in it is (e.g. .growlView = custom view; .growlStyle = WebKit display).
 		NSSet *types = nil;
 		if (extension) {
-#warning problem here...
-			///XXX when there is no file type it is coming back as \'\'...im guessing this means no type, but it still tests as true so each plugin is registered against that type...wrong???
 			if (fileType)
-				types = [NSSet setWithObjects:extension, fileType, nil];
+				types = [NSSet setWithObjects:extension, fileTypeString, nil];
 			else
 				types = [NSSet setWithObject:extension];
 		} else if (fileType)
-			types = [NSSet setWithObject:fileType];
+			types = [NSSet setWithObject:fileTypeString];
 
 		if (types)
 			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
@@ -491,7 +491,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		ADD_TO_DICT(pluginsByFilename, [path lastPathComponent], pluginDict);
 
 		ADD_TO_DICT(pluginsByType, extension, pluginDict);
-		ADD_TO_DICT(pluginsByType, fileType,  pluginDict);
+		ADD_TO_DICT(pluginsByType, fileTypeString,  pluginDict);
 	#undef ADD_TO_DICT
 	}
 
