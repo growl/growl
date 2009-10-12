@@ -184,6 +184,9 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	NSArray *cache_allPluginInstances; //P
 	NSArray *cache_displayPlugins; //DP
 	//No cache for displayPluginNames; see -displayPluginNames for why.
+
+	struct FSEventStreamContext pluginsDirectoryEventStreamContext;
+	FSEventStreamRef pluginsDirectoryEventStream;
 }
 
 + (GrowlPluginController *) sharedController;
