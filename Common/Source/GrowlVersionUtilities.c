@@ -158,6 +158,12 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 				} //if(++i != length)
 			} //if(i < length)
 		} //if(i != length)
+
+		while ((i < length) && isspace(buf[i])) {
+			++i;
+		}
+		if (i < length)
+			parsed = false;
 	} //if(canConvert)
 
 end:
