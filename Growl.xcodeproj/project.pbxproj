@@ -97,6 +97,10 @@
 		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
+		31E184E0108462F30011C78B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E184DF108462F30011C78B /* SenTestingKit.framework */; };
+		31E184F51084632C0011C78B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282741073A6BD70044A959 /* Cocoa.framework */; };
+		31E18503108463E60011C78B /* TestVersionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E18502108463E60011C78B /* TestVersionUtilities.m */; };
+		31E18504108465590011C78B /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		3433456E0790E39200C84B15 /* Bubbles.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */; };
 		343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AF0767C87B006EA5CB /* Smoke.growlView */; };
@@ -687,6 +691,12 @@
 		31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPropertyListFilePathway.m; path = Core/Source/GrowlPropertyListFilePathway.m; sourceTree = "<group>"; };
 		315C88BB1068F9A200880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
 		31C7594A1047202B008547BF /* simple-mailer.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "simple-mailer.py"; path = "external_dependencies/simple-mailer.py"; sourceTree = SOURCE_ROOT; };
+		31E184D61084628D0011C78B /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Unit tests-Info.plist"; path = "Unit tests/Unit tests-Info.plist"; sourceTree = "<group>"; };
+		31E184DF108462F30011C78B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		31E18501108463E60011C78B /* TestVersionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestVersionUtilities.h; path = "Unit tests/TestVersionUtilities.h"; sourceTree = "<group>"; };
+		31E18502108463E60011C78B /* TestVersionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestVersionUtilities.m; path = "Unit tests/TestVersionUtilities.m"; sourceTree = "<group>"; };
+		31E1852A108469460011C78B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UnitTests-Prefix.pch"; path = "Unit tests/UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
 		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
@@ -1189,6 +1199,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		31E184D31084628D0011C78B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31E184F51084632C0011C78B /* Cocoa.framework in Frameworks */,
+				31E184E0108462F30011C78B /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		34725B0D0C0678A000499F50 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1453,6 +1472,7 @@
 				63C0610006C8948700B0B7D4 /* AppleScript */,
 				CB5F836E0638B69900EADD7A /* HelperApp */,
 				07803B3808E7E67000299E08 /* Plug-ins */,
+				31E184BB1084625C0011C78B /* Test cases */,
 				34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
@@ -1660,6 +1680,7 @@
 				83282746073A6C110044A959 /* PreferencePanes.framework */,
 				343354B20792F84B00C84B15 /* Carbon.framework */,
 				93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */,
+				31E184DF108462F30011C78B /* SenTestingKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1693,8 +1714,20 @@
 				93BC379E095A662B0002B365 /* Nano.growlView */,
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
 				34725B0F0C0678A000499F50 /* Growl.dylib */,
+				31E184D61084628D0011C78B /* Unit tests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		31E184BB1084625C0011C78B /* Test cases */ = {
+			isa = PBXGroup;
+			children = (
+				31E184D71084628D0011C78B /* Unit tests-Info.plist */,
+				31E1852A108469460011C78B /* UnitTests-Prefix.pch */,
+				31E18501108463E60011C78B /* TestVersionUtilities.h */,
+				31E18502108463E60011C78B /* TestVersionUtilities.m */,
+			);
+			name = "Test cases";
 			sourceTree = "<group>";
 		};
 		3433500C079275A300C84B15 /* Growl-WithInstaller.framework */ = {
@@ -2199,6 +2232,25 @@
 			productReference = 0AB508B30767C87B006EA5CB /* MusicVideo.growlView */;
 			productType = "com.apple.product-type.bundle";
 		};
+		31E184D51084628D0011C78B /* Unit tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31E184DB1084628E0011C78B /* Build configuration list for PBXNativeTarget "Unit tests" */;
+			buildPhases = (
+				31E184D11084628D0011C78B /* Resources */,
+				31E184D21084628D0011C78B /* Sources */,
+				31E184D31084628D0011C78B /* Frameworks */,
+				31E1856C10846F800011C78B /* Set bundle bit */,
+				31E184D41084628D0011C78B /* Run tests */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Unit tests";
+			productName = "Unit tests";
+			productReference = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		34725B0E0C0678A000499F50 /* Growl.dylib */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34725DC90C0678C800499F50 /* Build configuration list for PBXNativeTarget "Growl.dylib" */;
@@ -2450,6 +2502,7 @@
 				DD4939CB084BACA700D1CCCB /* SMS */,
 				95E17B8F085E216A00990AB3 /* hg revision */,
 				9340E2E90C94D48000A1F682 /* SystemPreferencesTesting */,
+				31E184D51084628D0011C78B /* Unit tests */,
 			);
 		};
 /* End PBXProject section */
@@ -2511,6 +2564,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7F62580767C84E00E1C1E4 /* GrowlMusicVideoPrefs.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31E184D11084628D0011C78B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2617,6 +2677,36 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		31E184D41084628D0011C78B /* Run tests */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)",
+			);
+			name = "Run tests";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		31E1856C10846F800011C78B /* Set bundle bit */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)",
+			);
+			name = "Set bundle bit";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SetFile -a B \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\"";
+		};
 		340832FE075C2C0A00703011 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2753,6 +2843,15 @@
 				0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */,
 				0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */,
 				95EC864B08DDB4D000110810 /* CFDictionaryAdditions.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31E184D21084628D0011C78B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31E18503108463E60011C78B /* TestVersionUtilities.m in Sources */,
+				31E18504108465590011C78B /* GrowlVersionUtilities.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3931,6 +4030,88 @@
 			};
 			name = Localization;
 		};
+		31E184D81084628E0011C78B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Unit tests/UnitTests-Prefix.pch";
+				GCC_VERSION = 4.0;
+				INFOPLIST_FILE = "$(SRCROOT)/Unit tests/Unit tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = "-lgcov";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit tests";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		31E184D91084628E0011C78B /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Unit tests/UnitTests-Prefix.pch";
+				GCC_VERSION = 4.0;
+				INFOPLIST_FILE = "$(SRCROOT)/Unit tests/Unit tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = "-lgcov";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit tests";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Localization;
+		};
+		31E184DA1084628E0011C78B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Unit tests/UnitTests-Prefix.pch";
+				GCC_VERSION = 4.0;
+				INFOPLIST_FILE = "$(SRCROOT)/Unit tests/Unit tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = "-lgcov";
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit tests";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		34725DCA0C0678C800499F50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4850,6 +5031,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		31E184DB1084628E0011C78B /* Build configuration list for PBXNativeTarget "Unit tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31E184D81084628E0011C78B /* Debug */,
+				31E184D91084628E0011C78B /* Localization */,
+				31E184DA1084628E0011C78B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		34725DC90C0678C800499F50 /* Build configuration list for PBXNativeTarget "Growl.dylib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
