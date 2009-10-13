@@ -757,7 +757,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				0, kNoProcess
 			};
 			while ((err = GetNextProcess(&appPSN)) == noErr) {
-				NSDictionary *dict = [(id)ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask) autorelease];
+				NSDictionary *dict = [NSMakeCollectable(ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask)) autorelease];
 				NSString *bundlePath = [dict objectForKey:@"BundlePath"];
 				if ([bundlePath isEqualToString:growlHelperAppPath]) {
 					//Match!
