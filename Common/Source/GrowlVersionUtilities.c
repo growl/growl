@@ -17,6 +17,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 	if (!string) {
 		return false;
 	}
+	bool parsed = true;
 
 	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseType_release, myDevelopment = 0U;
 
@@ -38,6 +39,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 		return false;
 	}
 
+	CFIndex i = 0;
 	CFIndex length = 0;
 	canConvert = CFStringGetBytes(string, range,
 								  kCFStringEncodingUTF8,
@@ -48,7 +50,14 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 								  &length);
 	if (canConvert) {
 		//converted to UTF-8 successfully. parse it.
-		CFIndex i = 0;
+
+		while ((i < length) && isspace(buf[i])) {
+			++i;
+		}
+		if (!isdigit(buf[i])) {
+			parsed = false;
+			goto end;
+		}
 
 		//major version
 		while (i < length) {
@@ -162,7 +171,7 @@ end:
 		outVersion->development	= myDevelopment;
 	}
 
-	return true;
+	return parsed;
 }
 
 CFStringRef createVersionDescription(const struct Version v) {
