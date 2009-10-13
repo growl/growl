@@ -692,11 +692,11 @@
 		315C88BB1068F9A200880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
 		31C7594A1047202B008547BF /* simple-mailer.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "simple-mailer.py"; path = "external_dependencies/simple-mailer.py"; sourceTree = SOURCE_ROOT; };
 		31E184D61084628D0011C78B /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Unit tests-Info.plist"; path = "Unit tests/Unit tests-Info.plist"; sourceTree = "<group>"; };
+		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit tests-Info.plist"; sourceTree = "<group>"; };
 		31E184DF108462F30011C78B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		31E18501108463E60011C78B /* TestVersionParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestVersionParsing.h; path = "Unit tests/TestVersionParsing.h"; sourceTree = "<group>"; };
-		31E18502108463E60011C78B /* TestVersionParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestVersionParsing.m; path = "Unit tests/TestVersionParsing.m"; sourceTree = "<group>"; };
-		31E1852A108469460011C78B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UnitTests-Prefix.pch"; path = "Unit tests/UnitTests-Prefix.pch"; sourceTree = "<group>"; };
+		31E18501108463E60011C78B /* TestVersionParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionParsing.h; sourceTree = "<group>"; };
+		31E18502108463E60011C78B /* TestVersionParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionParsing.m; sourceTree = "<group>"; };
+		31E1852A108469460011C78B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
 		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
@@ -1472,7 +1472,7 @@
 				63C0610006C8948700B0B7D4 /* AppleScript */,
 				CB5F836E0638B69900EADD7A /* HelperApp */,
 				07803B3808E7E67000299E08 /* Plug-ins */,
-				31E184BB1084625C0011C78B /* Test cases */,
+				31E184BB1084625C0011C78B /* Unit tests */,
 				34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
@@ -1719,7 +1719,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		31E184BB1084625C0011C78B /* Test cases */ = {
+		31E184BB1084625C0011C78B /* Unit tests */ = {
 			isa = PBXGroup;
 			children = (
 				31E184D71084628D0011C78B /* Unit tests-Info.plist */,
@@ -1727,7 +1727,7 @@
 				31E18501108463E60011C78B /* TestVersionParsing.h */,
 				31E18502108463E60011C78B /* TestVersionParsing.m */,
 			);
-			name = "Test cases";
+			path = "Unit tests";
 			sourceTree = "<group>";
 		};
 		3433500C079275A300C84B15 /* Growl-WithInstaller.framework */ = {
