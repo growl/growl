@@ -99,7 +99,7 @@
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
 		31E184E0108462F30011C78B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E184DF108462F30011C78B /* SenTestingKit.framework */; };
 		31E184F51084632C0011C78B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282741073A6BD70044A959 /* Cocoa.framework */; };
-		31E18503108463E60011C78B /* TestVersionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E18502108463E60011C78B /* TestVersionUtilities.m */; };
+		31E18503108463E60011C78B /* TestVersionParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E18502108463E60011C78B /* TestVersionParsing.m */; };
 		31E18504108465590011C78B /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		3433456E0790E39200C84B15 /* Bubbles.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */; };
@@ -694,8 +694,8 @@
 		31E184D61084628D0011C78B /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Unit tests-Info.plist"; path = "Unit tests/Unit tests-Info.plist"; sourceTree = "<group>"; };
 		31E184DF108462F30011C78B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		31E18501108463E60011C78B /* TestVersionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestVersionUtilities.h; path = "Unit tests/TestVersionUtilities.h"; sourceTree = "<group>"; };
-		31E18502108463E60011C78B /* TestVersionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestVersionUtilities.m; path = "Unit tests/TestVersionUtilities.m"; sourceTree = "<group>"; };
+		31E18501108463E60011C78B /* TestVersionParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestVersionParsing.h; path = "Unit tests/TestVersionParsing.h"; sourceTree = "<group>"; };
+		31E18502108463E60011C78B /* TestVersionParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestVersionParsing.m; path = "Unit tests/TestVersionParsing.m"; sourceTree = "<group>"; };
 		31E1852A108469460011C78B /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UnitTests-Prefix.pch"; path = "Unit tests/UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
@@ -1724,8 +1724,8 @@
 			children = (
 				31E184D71084628D0011C78B /* Unit tests-Info.plist */,
 				31E1852A108469460011C78B /* UnitTests-Prefix.pch */,
-				31E18501108463E60011C78B /* TestVersionUtilities.h */,
-				31E18502108463E60011C78B /* TestVersionUtilities.m */,
+				31E18501108463E60011C78B /* TestVersionParsing.h */,
+				31E18502108463E60011C78B /* TestVersionParsing.m */,
 			);
 			name = "Test cases";
 			sourceTree = "<group>";
@@ -2850,7 +2850,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31E18503108463E60011C78B /* TestVersionUtilities.m in Sources */,
+				31E18503108463E60011C78B /* TestVersionParsing.m in Sources */,
 				31E18504108465590011C78B /* GrowlVersionUtilities.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

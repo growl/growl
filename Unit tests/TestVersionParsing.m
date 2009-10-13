@@ -1,16 +1,16 @@
 //
-//  TestVersionUtilities.m
+//  TestVersionParsing.m
 //  Growl
 //
 //  Created by Peter Hosey on 2009-10-13.
 //  Copyright 2009 Peter Hosey. All rights reserved.
 //
 
-#import "TestVersionUtilities.h"
+#import "TestVersionParsing.h"
 
 #import "GrowlVersionUtilities.h"
 
-@implementation TestVersionUtilities
+@implementation TestVersionParsing
 
 #pragma mark Things that should work
 

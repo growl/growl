@@ -1,5 +1,5 @@
 //
-//  TestVersionUtilities.h
+//  TestVersionParsing.h
 //  Growl
 //
 //  Created by Peter Hosey on 2009-10-13.
@@ -8,7 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface TestVersionUtilities : SenTestCase {
+@interface TestVersionParsing : SenTestCase {
 }
 
 - (void) testParseNil;
