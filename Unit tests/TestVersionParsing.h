@@ -13,11 +13,13 @@
 
 - (void) testParseNil;
 - (void) testParseTwoComponentSVNVersion;
+- (void) testParseTwoComponentHgVersion;
 - (void) testParseTwoComponentDevelopmentVersion;
 - (void) testParseTwoComponentAlphaVersion;
 - (void) testParseTwoComponentBetaVersion;
 - (void) testParseTwoComponentReleaseVersion;
 - (void) testParseThreeComponentSVNVersion;
+- (void) testParseThreeComponentHgVersion;
 - (void) testParseThreeComponentDevelopmentVersion;
 - (void) testParseThreeComponentAlphaVersion;
 - (void) testParseThreeComponentBetaVersion;

@@ -131,6 +131,12 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 							}
 						}
 						break;
+					case 'h':
+						myReleaseType = releaseType_svn;
+						if ((i < length) && (buf[i] == 'g')) {
+							++i;
+						}
+						break;
 				}
 
 				while ((i < length) && isspace(buf[i])) {
