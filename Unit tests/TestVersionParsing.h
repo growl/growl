@@ -26,4 +26,9 @@
 - (void) testParseWordFollowedByReleaseVersion;
 - (void) testParseReleaseVersionFollowedByWord;
 
+- (void) testParseVersionStringPrefixedBySpaces;
+- (void) testParseVersionStringPrefixedByLineFeed;
+- (void) testParseVersionStringSuffixedBySpaces;
+- (void) testParseVersionStringSuffixedByLineFeed;
+
 @end

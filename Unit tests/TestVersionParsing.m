@@ -289,4 +289,25 @@
 	STAssertFalse(parseVersionString(string, &version), @"Successfully parsed a version followed by a word (%@) - this should have failed. Output version was %@", string, [NSMakeCollectable(createVersionDescription(version)) autorelease]);
 }
 
+- (void) testParseVersionStringPrefixedBySpaces {
+	struct Version version;
+	NSString *string = @"  1.3.2b5";
+	STAssertTrue(parseVersionString(string, &version), @"Could not parse a version string preceded by spaces");
+}
+- (void) testParseVersionStringPrefixedByLineFeed {
+	struct Version version;
+	NSString *string = @"\n1.3.2b5";
+	STAssertTrue(parseVersionString(string, &version), @"Could not parse a version string preceded by a line feed");
+}
+- (void) testParseVersionStringSuffixedBySpaces {
+	struct Version version;
+	NSString *string = @"1.3.2b5  ";
+	STAssertTrue(parseVersionString(string, &version), @"Could not parse a version string followed by spaces");
+}
+- (void) testParseVersionStringSuffixedByLineFeed {
+	struct Version version;
+	NSString *string = @"1.3.2b5\n";
+	STAssertTrue(parseVersionString(string, &version), @"Could not parse a version string followed by a line feed");
+}
+
 @end
