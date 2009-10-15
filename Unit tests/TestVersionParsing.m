@@ -310,4 +310,80 @@
 	STAssertTrue(parseVersionString(string, &version), @"Could not parse a version string followed by a line feed");
 }
 
+- (void) testParseTwoComponentSVNVersionWithSpacesAroundReleaseType {
+	struct Version version;
+	NSString *string = @"1.3 svn 1400";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_svn,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_svn);
+	STAssertEquals(
+		version.development, (u_int32_t)1400,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)1400);
+}
+- (void) testParseTwoComponentSVNVersionWithSmallLetterRBeforeRevisionNumber{
+	struct Version version;
+	NSString *string = @"1.3svnr1400";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+				   version.major, (u_int16_t)1,
+				   @"Major component was %u, not %u",
+				   version.major, (u_int16_t)1);
+	STAssertEquals(
+				   version.minor, (u_int16_t)3,
+				   @"Minor component was %u, not %u",
+				   version.minor, (u_int16_t)3);
+	STAssertEquals(
+				   version.incremental, (u_int8_t)0,
+				   @"Incremental component was %u, not %u",
+				   version.incremental, (u_int8_t)0);
+	STAssertEquals(
+				   version.releaseType, (u_int8_t)releaseType_svn,
+				   @"Release-type component was %u, not %u",
+				   version.releaseType, (u_int8_t)releaseType_svn);
+	STAssertEquals(
+				   version.development, (u_int32_t)1400,
+				   @"Development component (SVN revision) was %u, not %u",
+				   version.development, (u_int32_t)1400);
+}
+- (void) testParseTwoComponentSVNVersionWithSpacesAroundReleaseTypeAndSmallLetterRBeforeRevisionNumber {
+	struct Version version;
+	NSString *string = @"1.3 svn r1400";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_svn,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_svn);
+	STAssertEquals(
+		version.development, (u_int32_t)1400,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)1400);
+}
+
 @end

@@ -31,4 +31,8 @@
 - (void) testParseVersionStringSuffixedBySpaces;
 - (void) testParseVersionStringSuffixedByLineFeed;
 
+- (void) testParseTwoComponentSVNVersionWithSpacesAroundReleaseType;
+- (void) testParseTwoComponentSVNVersionWithSmallLetterRBeforeRevisionNumber;
+- (void) testParseTwoComponentSVNVersionWithSpacesAroundReleaseTypeAndSmallLetterRBeforeRevisionNumber;
+
 @end
