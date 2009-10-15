@@ -386,4 +386,105 @@
 		version.development, (u_int32_t)1400);
 }
 
+- (void) testParseSVNVersionWithNoRevisionNumber {
+	struct Version version;
+	NSString *string = @"1.3svn";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_svn,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_svn);
+	STAssertEquals(
+		version.development, (u_int32_t)0,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)0);
+}
+- (void) testParseDevelopmentVersionWithNoDevelopmentVersionNumber {
+	struct Version version;
+	NSString *string = @"1.3d";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_development,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_development);
+	STAssertEquals(
+		version.development, (u_int32_t)1,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)1);
+}
+- (void) testParseAlphaVersionWithNoDevelopmentVersionNumber {
+	struct Version version;
+	NSString *string = @"1.3a";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_alpha,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_alpha);
+	STAssertEquals(
+		version.development, (u_int32_t)1,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)1);
+}
+- (void) testParseBetaVersionWithNoDevelopmentVersionNumber {
+	struct Version version;
+	NSString *string = @"1.3b";
+	STAssertTrue(parseVersionString(string, &version), @"Parse of %@ failed", string);
+	STAssertEquals(
+		version.major, (u_int16_t)1,
+		@"Major component was %u, not %u",
+		version.major, (u_int16_t)1);
+	STAssertEquals(
+		version.minor, (u_int16_t)3,
+		@"Minor component was %u, not %u",
+		version.minor, (u_int16_t)3);
+	STAssertEquals(
+		version.incremental, (u_int8_t)0,
+		@"Incremental component was %u, not %u",
+		version.incremental, (u_int8_t)0);
+	STAssertEquals(
+		version.releaseType, (u_int8_t)releaseType_beta,
+		@"Release-type component was %u, not %u",
+		version.releaseType, (u_int8_t)releaseType_beta);
+	STAssertEquals(
+		version.development, (u_int32_t)1,
+		@"Development component (SVN revision) was %u, not %u",
+		version.development, (u_int32_t)1);
+}
+
 @end

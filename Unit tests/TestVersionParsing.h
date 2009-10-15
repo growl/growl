@@ -35,4 +35,9 @@
 - (void) testParseTwoComponentSVNVersionWithSmallLetterRBeforeRevisionNumber;
 - (void) testParseTwoComponentSVNVersionWithSpacesAroundReleaseTypeAndSmallLetterRBeforeRevisionNumber;
 
+- (void) testParseSVNVersionWithNoRevisionNumber;
+- (void) testParseDevelopmentVersionWithNoDevelopmentVersionNumber;
+- (void) testParseAlphaVersionWithNoDevelopmentVersionNumber;
+- (void) testParseBetaVersionWithNoDevelopmentVersionNumber;
+
 @end
