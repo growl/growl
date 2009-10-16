@@ -407,6 +407,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		31CDCFF510882EF400984B53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* hg revision */;
+			remoteInfo = "hg revision";
+		};
 		31F06343106F05C3006913F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -2265,6 +2272,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				31CDCFF610882EF400984B53 /* PBXTargetDependency */,
 			);
 			name = "Unit tests";
 			productName = "Unit tests";
@@ -3119,6 +3127,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		31CDCFF610882EF400984B53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
+			targetProxy = 31CDCFF510882EF400984B53 /* PBXContainerItemProxy */;
+		};
 		31F06344106F05C3006913F2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 95E17B8F085E216A00990AB3 /* hg revision */;
