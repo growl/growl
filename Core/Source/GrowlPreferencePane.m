@@ -864,9 +864,25 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
+	NSString *versionString = [[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	if (versionString) {
+		NSString *versionStringWithHgVersion = nil;
+		struct Version version;
+		if (parseVersionString(versionString, &version)) {
+			const char *hgRevisionUTF8 = [[[self bundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
+			if (hgRevisionUTF8) {
+				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
+
+				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
+			}
+		}
+		if (versionStringWithHgVersion)
+			versionString = versionStringWithHgVersion;
+	}
+
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
 										[[self bundle] objectForInfoDictionaryKey:@"CFBundleName"], 
-										[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+										versionString]];
 	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
