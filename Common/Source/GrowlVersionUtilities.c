@@ -4,7 +4,7 @@
 #include "GrowlVersionUtilities.h"
 
 CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
-	CFSTR(""), CFSTR(" SVN "), CFSTR("d"), CFSTR("a"), CFSTR("b"),
+	CFSTR("hg"), CFSTR("d"), CFSTR("a"), CFSTR("b"), NULL,
 };
 
 //TEMP: for debugging version parsing and comparison.
