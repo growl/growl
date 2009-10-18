@@ -4,7 +4,7 @@
 #include "GrowlVersionUtilities.h"
 
 CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
-	CFSTR(""), CFSTR(" SVN "), CFSTR("d"), CFSTR("a"), CFSTR("b"),
+	CFSTR("hg"), CFSTR("d"), CFSTR("a"), CFSTR("b"), NULL,
 };
 
 //TEMP: for debugging version parsing and comparison.
@@ -199,10 +199,14 @@ CFStringRef createVersionDescription(const struct Version v) {
 	CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, /*capacity*/ 28);
 	CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hu.%hu"), v.major, v.minor);
 	if (v.incremental) {
-		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hhu"), v.incremental);
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR(".%hhu"), v.incremental);
 	}
 	if (v.releaseType != releaseType_release) {
-		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%u"), v.development);
+		if (v.releaseType >= numberOfReleaseTypes) {
+			CFRelease(str);
+			return nil;
+		}
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%u"), releaseTypeNames[v.releaseType], v.development);
 	}
 	return str;
 }
