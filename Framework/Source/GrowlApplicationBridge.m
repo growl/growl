@@ -833,6 +833,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 						if (err != noErr) {
 							NSLog(@"%@: Could not send open-document event to register this application with Growl because AESend returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
 						}
+
+						AEDisposeDesc(&event);
 					}
 					
 					success = (err == noErr);
