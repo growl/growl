@@ -448,7 +448,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				} else {
 					[mRegDict removeObjectForKey:GROWL_APP_LOCATION];
 				}
-				[myURL release];
+				[NSMakeCollectable(myURL) release];
 			}
 		}
 	}
@@ -549,7 +549,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if (!iconData) {
 		NSURL *URL = copyCurrentProcessURL();
 		iconData = [copyIconDataForURL(URL) autorelease];
-		[URL release];
+		[NSMakeCollectable(URL) release];
 	}
 
 	return iconData;
