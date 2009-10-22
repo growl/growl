@@ -68,6 +68,13 @@
 			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
 			remoteInfo = iCal;
 		};
+		31F7A3BA10905C510049993D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			remoteInfo = "Unit tests";
+		};
 		9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
@@ -400,6 +407,7 @@
 				9533C2B0085C3ED6009F8046 /* MailMe.growlView */,
 				9533C2B2085C3ED6009F8046 /* MusicVideo.growlView */,
 				9533C2B4085C3ED6009F8046 /* SMS.growlView */,
+				31F7A3BB10905C510049993D /* Unit tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -476,6 +484,13 @@
 			fileType = wrapper.cfbundle;
 			path = iCal.growlView;
 			remoteRef = 319838500C0F5F8B002C7607 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31F7A3BB10905C510049993D /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = 31F7A3BA10905C510049993D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9504459009B57BB5000EAB59 /* Nano.growlView */ = {

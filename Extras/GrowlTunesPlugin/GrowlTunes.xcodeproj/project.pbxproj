@@ -34,6 +34,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		31F7A39C10905C4E0049993D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			remoteInfo = "Unit tests";
+		};
 		9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
@@ -390,6 +397,7 @@
 				933548A8093A9D0D007C8B10 /* MailMe.growlView */,
 				933548AA093A9D0D007C8B10 /* MusicVideo.growlView */,
 				933548AC093A9D0D007C8B10 /* SMS.growlView */,
+				31F7A39D10905C4E0049993D /* Unit tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -565,6 +573,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		31F7A39D10905C4E0049993D /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = 31F7A39C10905C4E0049993D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9335488E093A9D0D007C8B10 /* Growl.prefPane */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
