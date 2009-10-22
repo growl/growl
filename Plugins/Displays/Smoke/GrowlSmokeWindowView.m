@@ -96,69 +96,66 @@
 
 - (void) drawRect:(NSRect)rect {
 #pragma unused(rect)
-	//Make sure that we don't draw in the main thread
-	//if ([super dispatchDrawingToThread:rect]) {
-		NSRect b = [self bounds];
-		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
-		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
-		// calculate bounds based on icon-float pref on or off
-		CGRect shadedBounds;
-		BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
-		if (floatIcon) {
-			CGFloat sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5);
+	// calculate bounds based on icon-float pref on or off
+	CGRect shadedBounds;
+	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
+	if (floatIcon) {
+		CGFloat sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5);
 
-			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
-									  bounds.origin.y + 1.0,
-									  bounds.size.width - sizeReduction - 2.0,
-									  bounds.size.height - 2.0);
-		} else {
-			shadedBounds = CGRectInset(bounds, 1.0, 1.0);
-		}
+		shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
+								  bounds.origin.y + 1.0,
+								  bounds.size.width - sizeReduction - 2.0,
+								  bounds.size.height - 2.0);
+	} else {
+		shadedBounds = CGRectInset(bounds, 1.0, 1.0);
+	}
 
-		// set up bezier path for rounded corners
-		addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
-		CGContextSetLineWidth(context, 2.0);
+	// set up bezier path for rounded corners
+	addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
+	CGContextSetLineWidth(context, 2.0);
 
-		// draw background
-		CGPathDrawingMode drawingMode;
-		if (mouseOver) {
-			drawingMode = kCGPathFillStroke;
-			[bgColor setFill];
-			[textColor setStroke];
-		} else {
-			drawingMode = kCGPathFill;
-			[bgColor set];
-		}
-		CGContextDrawPath(context, drawingMode);
+	// draw background
+	CGPathDrawingMode drawingMode;
+	if (mouseOver) {
+		drawingMode = kCGPathFillStroke;
+		[bgColor setFill];
+		[textColor setStroke];
+	} else {
+		drawingMode = kCGPathFill;
+		[bgColor set];
+	}
+	CGContextDrawPath(context, drawingMode);
 
-		// draw the title and the text
-		NSRect drawRect;
-		drawRect.origin.x = GrowlSmokePadding;
-		drawRect.origin.y = GrowlSmokePadding;
-		drawRect.size.width = iconSize;
-		drawRect.size.height = iconSize;
+	// draw the title and the text
+	NSRect drawRect;
+	drawRect.origin.x = GrowlSmokePadding;
+	drawRect.origin.y = GrowlSmokePadding;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
 
-		[icon setFlipped:YES];
-		[icon drawScaledInRect:drawRect
-					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0];
 
-		drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
+	drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
 
-		if (haveTitle) {
-			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
-			drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
-		}
+	if (haveTitle) {
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
+	}
 
-		if (haveText)
-			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
+	if (haveText)
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
-		[[self window] invalidateShadow];
-		[super drawRect:rect];
-	//}
+	[[self window] invalidateShadow];
+	[super drawRect:rect];
 }
 
 - (void) setIcon:(NSImage *)anIcon {

@@ -37,10 +37,6 @@
 }
 @end
 
-@interface GrowlThreadedView : NSView {
-}
-@end
-
 @interface GrowlApplicationController: GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate>{
 }
 @end

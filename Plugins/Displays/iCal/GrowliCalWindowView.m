@@ -112,104 +112,101 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 
 - (void) drawRect:(NSRect) rect {
 #pragma unused(rect)
-	//Make sure that we don't draw in the main thread
-	//if ([super dispatchDrawingToThread:rect]) {
-		NSRect b = [self bounds];
-		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+	CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);
 
-		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
-		// Create a path with enough room to strike the border and remain inside our frame.
-		// Since the path is in the middle of the line, this means we must inset it by half the border width.
-		addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-		CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+	// Create a path with enough room to strike the border and remain inside our frame.
+	// Since the path is in the middle of the line, this means we must inset it by half the border width.
+	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
 
-		CGContextSaveGState(context);
-		CGContextClip(context);
+	CGContextSaveGState(context);
+	CGContextClip(context);
 
-		// Create a callback function to generate the
-		// fill clipped graphics context with our gradient
-		struct CGFunctionCallbacks callbacks = { 0U, GrowliCalShadeInterpolate, NULL };
-		CGFloat colors[8];
+	// Create a callback function to generate the
+	// fill clipped graphics context with our gradient
+	struct CGFunctionCallbacks callbacks = { 0U, GrowliCalShadeInterpolate, NULL };
+	CGFloat colors[8];
 
-		[lightColor getRed:&colors[0]
-					 green:&colors[1]
-					  blue:&colors[2]
-					 alpha:&colors[3]];
+	[lightColor getRed:&colors[0]
+				 green:&colors[1]
+				  blue:&colors[2]
+				 alpha:&colors[3]];
 
-		[bgColor getRed:&colors[4]
-				  green:&colors[5]
-				   blue:&colors[6]
-				  alpha:&colors[7]];
+	[bgColor getRed:&colors[4]
+			  green:&colors[5]
+			   blue:&colors[6]
+			  alpha:&colors[7]];
 
-		CGFunctionRef function = CGFunctionCreate( (void *) colors,
-												   1U,
-												   /*domain*/ NULL,
-												   4U,
-												   /*range*/ NULL,
-												   &callbacks );
-		CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
+	CGFunctionRef function = CGFunctionCreate( (void *) colors,
+											   1U,
+											   /*domain*/ NULL,
+											   4U,
+											   /*range*/ NULL,
+											   &callbacks );
+	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
-		CGPoint src, dst;
-		src.x = CGRectGetMaxX(bounds);
-		src.y = CGRectGetMaxY(bounds);
-		dst.x = CGRectGetMinX(bounds);
-		dst.y = src.y;
-		CGShadingRef shading = CGShadingCreateAxial(cspace, dst, src,
-													function, false, false);
+	CGPoint src, dst;
+	src.x = CGRectGetMaxX(bounds);
+	src.y = CGRectGetMaxY(bounds);
+	dst.x = CGRectGetMinX(bounds);
+	dst.y = src.y;
+	CGShadingRef shading = CGShadingCreateAxial(cspace, dst, src,
+												function, false, false);
 
-		CGContextDrawShading(context, shading);
+	CGContextDrawShading(context, shading);
 
-		CGShadingRelease(shading);
-		CGFunctionRelease(function);
+	CGShadingRelease(shading);
+	CGFunctionRelease(function);
 
-		CGContextRestoreGState(context);
+	CGContextRestoreGState(context);
 
-		CGFloat tbcolor[4]; 
-		tbcolor[0] = [borderColor redComponent];
-		tbcolor[1] = [borderColor greenComponent];
-		tbcolor[2] = [borderColor blueComponent];
-		tbcolor[3] = [borderColor alphaComponent];
-		CGColorRef barcolor = CGColorCreate(cspace,tbcolor);
-		if (barcolor) {
-			CGContextSetFillColorWithColor(context,barcolor);
-			CFRelease(barcolor);
-		}
-		CGRect titlebar = CGRectMake(0,CGRectGetMinY(shape),CGRectGetWidth(shape),15);
-		addTopRoundedRectToPath(context,titlebar,BORDER_RADIUS_PX);
-		CGContextFillPath(context);
-		CGColorSpaceRelease(cspace);
+	CGFloat tbcolor[4]; 
+	tbcolor[0] = [borderColor redComponent];
+	tbcolor[1] = [borderColor greenComponent];
+	tbcolor[2] = [borderColor blueComponent];
+	tbcolor[3] = [borderColor alphaComponent];
+	CGColorRef barcolor = CGColorCreate(cspace,tbcolor);
+	if (barcolor) {
+		CGContextSetFillColorWithColor(context,barcolor);
+		CFRelease(barcolor);
+	}
+	CGRect titlebar = CGRectMake(0,CGRectGetMinY(shape),CGRectGetWidth(shape),15);
+	addTopRoundedRectToPath(context,titlebar,BORDER_RADIUS_PX);
+	CGContextFillPath(context);
+	CGColorSpaceRelease(cspace);
 
-		addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-		CGContextSetLineWidth(context, BORDER_WIDTH_PX);
-		[borderColor set];
-		CGContextStrokePath(context);
+	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+	[borderColor set];
+	CGContextStrokePath(context);
 
-		NSRect drawRect;
-		drawRect.origin.x = CGRectGetMaxX(shape) - iconSize - ICON_HSPACE_PX;
-		drawRect.origin.y = PANEL_VSPACE_PX;
-		drawRect.size.width = iconSize;
-		drawRect.size.height = iconSize;
+	NSRect drawRect;
+	drawRect.origin.x = CGRectGetMaxX(shape) - iconSize - ICON_HSPACE_PX;
+	drawRect.origin.y = PANEL_VSPACE_PX;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
 
-		[icon setFlipped:YES];
-		[icon drawScaledInRect:drawRect
-					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0];
 
-		drawRect.origin.x = PANEL_HSPACE_PX;
+	drawRect.origin.x = PANEL_HSPACE_PX;
 
-		if (haveTitle) {
-			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
-			drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
-		}
+	if (haveTitle) {
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
+	}
 
-		if (haveText)
-			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
+	if (haveText)
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
-		[[self window] invalidateShadow];
-		[super drawRect:rect];
-	//}
+	[[self window] invalidateShadow];
+	[super drawRect:rect];
 }
 
 #pragma mark -

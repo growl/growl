@@ -39,109 +39,106 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 }
 
 - (void) drawRect:(NSRect)rect {
-	//Make sure that we don't draw in the main thread
-	//if ([super dispatchDrawingToThread:rect]) {
-		NSGraphicsContext *context = [NSGraphicsContext currentContext];
-		CGContextRef cgContext = [context graphicsPort];
-		NSRect bounds = [self bounds];
-		if (needsDisplay) {
-			// rects and sizes
-			int sizePref = 0;
-			READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
-			NSRect titleRect, textRect;
-			NSRect iconRect;
+	NSGraphicsContext *context = [NSGraphicsContext currentContext];
+	CGContextRef cgContext = [context graphicsPort];
+	NSRect bounds = [self bounds];
+	if (needsDisplay) {
+		// rects and sizes
+		int sizePref = 0;
+		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+		NSRect titleRect, textRect;
+		NSRect iconRect;
 
-			if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-				titleRect.origin.x = 192.0;
-				titleRect.origin.y = NSHeight(bounds) - 72.0;
-				titleRect.size.width = NSWidth(bounds) - 192.0 - 32.0;
-				titleRect.size.height = 40.0;
-				textRect.origin.y = NSHeight(bounds) - 176.0;
-				textRect.size.height = 96.0;
-				iconRect.origin.x = 32.0;
-				iconRect.origin.y = NSHeight(bounds) - 160.0;
-				iconRect.size.width = 128.0;
-				iconRect.size.height = 128.0;
-			} else {
-				titleRect.origin.x = 96.0;
-				titleRect.origin.y = NSHeight(bounds) - 36.0;
-				titleRect.size.width = NSWidth(bounds) - 96.0 - 16.0;
-				titleRect.size.height = 25.0;
-				textRect.origin.y = NSHeight(bounds) - 88.0,
-					textRect.size.height = 48.0;
-				iconRect.origin.x = 8.0;
-				iconRect.origin.y = NSHeight(bounds) - 88.0;
-				iconRect.size.width = 80.0;
-				iconRect.size.height = 80.0;
-			}
-			textRect.origin.x = titleRect.origin.x;
-			textRect.size.width = titleRect.size.width;
-
-			//draw to cache
-			if (CGLayerCreateWithContext) {
-				if (!layer)
-					layer = CGLayerCreateWithContext(cgContext, CGSizeMake(bounds.size.width, bounds.size.height), NULL);
-				[NSGraphicsContext setCurrentContext:
-					[NSGraphicsContext graphicsContextWithGraphicsPort:CGLayerGetContext(layer) flipped:NO]];
-			} else {
-				[cache lockFocus];
-			}
-
-			[backgroundColor set];
-			bounds.origin = NSZeroPoint;
-			NSRectFill(bounds);
-
-			[title drawInRect:titleRect withAttributes:titleAttributes];
-
-			[text drawInRect:textRect withAttributes:textAttributes];
-
-			[icon setFlipped:NO];
-			[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
-
-			if (CGLayerCreateWithContext)
-				[NSGraphicsContext setCurrentContext:context];
-			else
-				[cache unlockFocus];
-
-			needsDisplay = NO;
-		}
-
-		// draw background
-		[[NSColor clearColor] set];
-		NSRectFill(rect);
-
-		// draw cache to screen
-		NSRect imageRect = rect;
-		int effect = MUSICVIDEO_EFFECT_SLIDE;
-		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
-		if (effect == MUSICVIDEO_EFFECT_SLIDE) {
-			if (CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0;
-		} else if (effect == MUSICVIDEO_EFFECT_WIPE) {
-			rect.size.height -= imageRect.origin.y;
-			imageRect.size.height -= imageRect.origin.y;
-			if (!CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0;
-		} else if (effect == MUSICVIDEO_EFFECT_FADING) {
-			if (CGLayerCreateWithContext)
-				imageRect.origin.y = 0.0;		
-		}
-
-		if (CGLayerCreateWithContext) {
-			CGRect cgRect;
-			cgRect.origin.x = imageRect.origin.x;
-			cgRect.origin.y = imageRect.origin.y;
-			cgRect.size.width = rect.size.width;
-			if (effect == MUSICVIDEO_EFFECT_WIPE) {
-				cgRect.size.height = rect.size.height;
-				CGContextClipToRect(cgContext, cgRect);
-			}
-			cgRect.size.height = bounds.size.height;
-			CGContextDrawLayerInRect(cgContext, cgRect, layer);
+		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
+			titleRect.origin.x = 192.0;
+			titleRect.origin.y = NSHeight(bounds) - 72.0;
+			titleRect.size.width = NSWidth(bounds) - 192.0 - 32.0;
+			titleRect.size.height = 40.0;
+			textRect.origin.y = NSHeight(bounds) - 176.0;
+			textRect.size.height = 96.0;
+			iconRect.origin.x = 32.0;
+			iconRect.origin.y = NSHeight(bounds) - 160.0;
+			iconRect.size.width = 128.0;
+			iconRect.size.height = 128.0;
 		} else {
-			[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0];
+			titleRect.origin.x = 96.0;
+			titleRect.origin.y = NSHeight(bounds) - 36.0;
+			titleRect.size.width = NSWidth(bounds) - 96.0 - 16.0;
+			titleRect.size.height = 25.0;
+			textRect.origin.y = NSHeight(bounds) - 88.0,
+				textRect.size.height = 48.0;
+			iconRect.origin.x = 8.0;
+			iconRect.origin.y = NSHeight(bounds) - 88.0;
+			iconRect.size.width = 80.0;
+			iconRect.size.height = 80.0;
 		}
-	//}
+		textRect.origin.x = titleRect.origin.x;
+		textRect.size.width = titleRect.size.width;
+
+		//draw to cache
+		if (CGLayerCreateWithContext) {
+			if (!layer)
+				layer = CGLayerCreateWithContext(cgContext, CGSizeMake(bounds.size.width, bounds.size.height), NULL);
+			[NSGraphicsContext setCurrentContext:
+				[NSGraphicsContext graphicsContextWithGraphicsPort:CGLayerGetContext(layer) flipped:NO]];
+		} else {
+			[cache lockFocus];
+		}
+
+		[backgroundColor set];
+		bounds.origin = NSZeroPoint;
+		NSRectFill(bounds);
+
+		[title drawInRect:titleRect withAttributes:titleAttributes];
+
+		[text drawInRect:textRect withAttributes:textAttributes];
+
+		[icon setFlipped:NO];
+		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
+
+		if (CGLayerCreateWithContext)
+			[NSGraphicsContext setCurrentContext:context];
+		else
+			[cache unlockFocus];
+
+		needsDisplay = NO;
+	}
+
+	// draw background
+	[[NSColor clearColor] set];
+	NSRectFill(rect);
+
+	// draw cache to screen
+	NSRect imageRect = rect;
+	int effect = MUSICVIDEO_EFFECT_SLIDE;
+	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+	if (effect == MUSICVIDEO_EFFECT_SLIDE) {
+		if (CGLayerCreateWithContext)
+			imageRect.origin.y = 0.0;
+	} else if (effect == MUSICVIDEO_EFFECT_WIPE) {
+		rect.size.height -= imageRect.origin.y;
+		imageRect.size.height -= imageRect.origin.y;
+		if (!CGLayerCreateWithContext)
+			imageRect.origin.y = 0.0;
+	} else if (effect == MUSICVIDEO_EFFECT_FADING) {
+		if (CGLayerCreateWithContext)
+			imageRect.origin.y = 0.0;		
+	}
+
+	if (CGLayerCreateWithContext) {
+		CGRect cgRect;
+		cgRect.origin.x = imageRect.origin.x;
+		cgRect.origin.y = imageRect.origin.y;
+		cgRect.size.width = rect.size.width;
+		if (effect == MUSICVIDEO_EFFECT_WIPE) {
+			cgRect.size.height = rect.size.height;
+			CGContextClipToRect(cgContext, cgRect);
+		}
+		cgRect.size.height = bounds.size.height;
+		CGContextDrawLayerInRect(cgContext, cgRect, layer);
+	} else {
+		[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0];
+	}
 }
 
 - (void) setIcon:(NSImage *)anIcon {

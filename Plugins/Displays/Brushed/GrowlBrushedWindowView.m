@@ -63,74 +63,71 @@
 
 - (void) drawRect:(NSRect)rect {
 #pragma unused(rect)
-	//Make sure that we don't draw in the main thread
-	//if ([super dispatchDrawingToThread:rect]) {
-		NSRect b = [self bounds];
-		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
-		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
-		// clear the window
-		CGContextClearRect(context, bounds);
+	// clear the window
+	CGContextClearRect(context, bounds);
 
-		// calculate bounds based on icon-float pref on or off
-		CGRect shadedBounds;
-		BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
-		if (floatIcon) {
-			CGFloat sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5);
+	// calculate bounds based on icon-float pref on or off
+	CGRect shadedBounds;
+	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
+	if (floatIcon) {
+		CGFloat sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5);
 
-			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
-									  bounds.origin.y + 1.0,
-									  bounds.size.width - sizeReduction - 2.0,
-									  bounds.size.height - 2.0);
-		} else {
-			shadedBounds = CGRectInset(bounds, 1.0, 1.0);
-		}
+		shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
+								  bounds.origin.y + 1.0,
+								  bounds.size.width - sizeReduction - 2.0,
+								  bounds.size.height - 2.0);
+	} else {
+		shadedBounds = CGRectInset(bounds, 1.0, 1.0);
+	}
 
-		// set up path for rounded corners
-		addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
-		CGContextSetLineWidth(context, 2.0);
+	// set up path for rounded corners
+	addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
+	CGContextSetLineWidth(context, 2.0);
 
-		// draw background
-		NSWindow *window = [self window];
-		NSColor *bgColor = [window backgroundColor];
-		CGPathDrawingMode drawingMode;
-		if (mouseOver) {
-			drawingMode = kCGPathFillStroke;
-			[bgColor setFill];
-			[[NSColor keyboardFocusIndicatorColor] setStroke];
-		} else {
-			drawingMode = kCGPathFill;
-			[bgColor set];
-		}
-		CGContextDrawPath(context, drawingMode);
+	// draw background
+	NSWindow *window = [self window];
+	NSColor *bgColor = [window backgroundColor];
+	CGPathDrawingMode drawingMode;
+	if (mouseOver) {
+		drawingMode = kCGPathFillStroke;
+		[bgColor setFill];
+		[[NSColor keyboardFocusIndicatorColor] setStroke];
+	} else {
+		drawingMode = kCGPathFill;
+		[bgColor set];
+	}
+	CGContextDrawPath(context, drawingMode);
 
-		// draw the title and the text
-		NSRect drawRect;
-		drawRect.origin.x = GrowlBrushedPadding;
-		drawRect.origin.y = GrowlBrushedPadding;
-		drawRect.size.width = iconSize;
-		drawRect.size.height = iconSize;
+	// draw the title and the text
+	NSRect drawRect;
+	drawRect.origin.x = GrowlBrushedPadding;
+	drawRect.origin.y = GrowlBrushedPadding;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
 
-		[icon setFlipped:YES];
-		[icon drawScaledInRect:drawRect
-					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0];
 
-		drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
+	drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
 
-		if (haveTitle) {
-			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
-			drawRect.origin.y += titleHeight + GrowlBrushedTitleTextPadding;
-		}
+	if (haveTitle) {
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + GrowlBrushedTitleTextPadding;
+	}
 
-		if (haveText)
-			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
+	if (haveText)
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
-		[window invalidateShadow];
-		[super drawRect:rect];
-	//}
+	[window invalidateShadow];
+	[super drawRect:rect];
 }
 
 - (void) setIcon:(NSImage *)anIcon {
