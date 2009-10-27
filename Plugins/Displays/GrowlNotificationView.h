@@ -6,8 +6,6 @@
 //  Copyright 2005-2006  Jamie Kirkpatrick. All rights reserved.
 //
 
-#import "GrowlThreadedView.h"
-
 @interface GrowlNotificationView : NSView {
 	BOOL				initialDisplayTest;
 	BOOL				mouseOver;
