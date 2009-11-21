@@ -259,6 +259,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
 			};
 			name = Debug;
 		};
@@ -279,6 +280,7 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
+				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
 			};
 			name = Release;
 		};
