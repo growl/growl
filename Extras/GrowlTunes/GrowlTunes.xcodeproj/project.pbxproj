@@ -54,7 +54,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
 			remoteInfo = "Unit tests";
 		};
 		347930BA0C85E35C007ADCAA /* PBXContainerItemProxy */ = {
@@ -853,7 +853,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -996,7 +996,7 @@
 				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -1013,7 +1013,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;

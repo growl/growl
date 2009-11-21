@@ -38,7 +38,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
 			remoteInfo = "Unit tests";
 		};
 		9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
