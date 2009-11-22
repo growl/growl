@@ -19,6 +19,11 @@ RELEASE_SDK_NAME="Growl $(VERSION) SDK"
 SRC_DIR=$(PWD)/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
+GROWLMAIL_DIR=$(BUILD_DIR)/GrowlMail
+GROWLSAFARI_DIR=$(BUILD_DIR)/GrowlSafari
+GROWLTUNES_DIR=$(BUILD_DIR)/GrowlTunes
+HARDWAREGROWLER_DIR=$(BUILD_DIR)/HardwareGrowler
+GROWLNOTIFY_DIR=$(BUILD_DIR)/growlnotify
 SDK_DIR=$(BUILD_DIR)/SDK
 SAMPLE_DIR=$(BUILD_DIR)/DisplaySample
 FMWK_DIR=$(BUILD_DIR)/Growl-$(VERSION)-Framework
@@ -42,13 +47,17 @@ else
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
-DSYM_DIR=$(BUILD_DIR)/Growl-dSYM-$(VERSION)
+# Use these variables instead of using dir/notdir calls all over the place.
+DSYM_DIR_NAME=Growl-dSYM-$(VERSION)
+DSYM_PARENT_DIR=$(BUILD_DIR)
+DSYM_DIR=$(DSYM_PARENT_DIR)/$(DSYM_DIR_NAME)
+DSYM_TBZ=$(DSYM_DIR).tbz
 PACKAGE_MAKER=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
 ART_DIR=Artwork
 
 #########################
 
-.PHONY: all assertnochanges assertnoconflicts compile clean release source version
+.PHONY: all all-withlocalchanges assertnochanges assertnoconflicts version clean-all compile compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer clean build-dir-clean realclean release release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-growlnotify release-hardwaregrowler release-sdk displaysample framework-archive 
 
 all: assertnochanges version compile release
 all-withlocalchanges: assertnoconflicts version compile release
@@ -67,30 +76,37 @@ assertnoconflicts:
 version:
 	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
-compile:
+clean-all:
 	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Developer\ Tools/BeepHammer
 
+compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
+compile-growl: build-dir-clean
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
+# All of these depend on the hgRevision.h header, and most depend on the Growl framework.
+compile-growlmail: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
+compile-growlsafari: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
+compile-growlnotify: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
+compile-hardwaregrowler: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
+compile-growltunes: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+compile-beephammer: compile-growl
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Developer\ Tools/BeepHammer
 
 clean:
 	rm -rf $(BUILD_DIR)
+build-dir-clean: clean-all
+	mkdir $(BUILD_DIR)
 
 realclean: clean
 	../build.sh clean
 
-release:
-	@# clean build directory
-	rm -rf $(BUILD_DIR)
-	mkdir $(BUILD_DIR)
-	mkdir $(GROWL_DIR)
-	
-	@# Archive dSYM bundles.
+$(DSYM_TBZ): $(DSYM_DIR)
+	tar -C $(DSYM_PARENT_DIR) -cjf $(DSYM_TBZ) $(DSYM_DIR_NAME)
+$(DSYM_DIR):
 	mkdir $(DSYM_DIR)
 	mv $(GROWL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
@@ -98,47 +114,56 @@ release:
 	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLMAIL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
-	@# Note: -C only applies to the input names, not -f, so it is correct to use notdir on the directory name and leave it off of the tarball name.
-	tar -C $(dir $(DSYM_DIR)) -cjf $(DSYM_DIR).tbz $(notdir $(DSYM_DIR))
-	
-	@# copy uninstaller
+
+$(GROWL_DIR):
+	mkdir '$@'
+$(GROWL_DIR)/Uninstall\ Growl.app: $(GROWL_DIR)
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
-	
-	@# copy webloc files
-	cp "Growl Documentation.webloc" "Growl version history.webloc" "Get more styles.webloc" $(GROWL_DIR)
-	
-	@# hide extensions of webloc files
-	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
-	
-	@# build the prefpane package
+$(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc: $(GROWL_DIR)
+	cp '$(notdir $@)' '$@'
+	/Developer/Tools/SetFile -a E '$@'
+$(GROWL_DIR)/Growl.pkg: $(GROWL_DIR)
 	$(PACKAGE_MAKER) --no-relocate --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
-	
-	@# copy the extras
-	mkdir $(GROWL_DIR)/Extras
-	mkdir $(GROWL_DIR)/Extras/growlnotify
-	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
-	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
-	cp $(SRC_DIR)/Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify
-	cp $(SRC_DIR)/Extras/growlnotify/*.txt $(GROWL_DIR)/Extras/growlnotify
-	mkdir $(GROWL_DIR)/Extras/GrowlTunes
-	cp -R $(GROWLTUNES_BUILD_DIR)/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
-	cp -R $(SRC_DIR)/Extras/GrowlTunes/*.rtfd $(GROWL_DIR)/Extras/GrowlTunes
-	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
-	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
-	cp $(SRC_DIR)/Extras/HardwareGrowler/*.txt $(GROWL_DIR)/Extras/HardwareGrowler
-	
-	@# build GrowlMail package
-	mkdir $(GROWL_DIR)/Extras/GrowlMail
-	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
-	cp -R "Uninstall GrowlMail.app" $(GROWL_DIR)/Extras/GrowlMail
-	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Extras/GrowlMail/Uninstall\ GrowlMail.app
-	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf $(GROWL_DIR)/Extras/GrowlMail
-	
-	@# build GrowlSafari package
-	mkdir $(GROWL_DIR)/Extras/GrowlSafari
-	$(PACKAGE_MAKER) --no-relocate --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
-	
+# These are temporary; they'll go away once we have an Extras tab.
+$(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlmail compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
+	mkdir '$@'
+$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras $(GROWLMAIL_DIR)
+	cp -R '$(GROWLMAIL_DIR)' '$@'
+$(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras $(GROWLSAFARI_DIR)
+	cp -R '$(GROWLSAFARI_DIR)' '$@'
+$(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras $(GROWLTUNES_DIR)
+	cp -R '$(GROWLTUNES_DIR)' '$@'
+$(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras $(HARDWAREGROWLER_DIR)
+	cp -R '$(HARDWAREGROWLER_DIR)' '$@'
+$(GROWL_DIR)/Extras/growlnotify: $(GROWL_DIR)/Extras $(GROWLNOTIFY_DIR)
+	cp -R '$(GROWLNOTIFY_DIR)' '$@'
+
+$(GROWLMAIL_DIR):
+	mkdir '$@'
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out '$@'/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
+	cp -R "Uninstall GrowlMail.app" '$@'
+	/Developer/Tools/SetFile -a E '$@'/Uninstall\ GrowlMail.app
+	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf '$@'
+$(GROWLSAFARI_DIR):
+	mkdir '$@'
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out '$@'/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
+$(GROWLTUNES_DIR):
+	mkdir '$@'
+	cp -R '$(GROWLTUNES_BUILD_DIR)/GrowlTunes.app' '$@'
+	cp -R '$(SRC_DIR)'/Extras/GrowlTunes/*.rtfd '$@'
+$(HARDWAREGROWLER_DIR):
+	mkdir '$@'
+	cp -R '$(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app' '$@'
+	cp '$(SRC_DIR)'/Extras/HardwareGrowler/*.txt '$@'
+$(GROWLNOTIFY_DIR):
+	mkdir '$@'
+	cp '$(GROWLNOTIFY_BUILD_DIR)/growlnotify' '$@'
+	cp '$(SRC_DIR)/Extras/growlnotify/growlnotify.1' '$@'
+	cp '$(SRC_DIR)/Extras/growlnotify/install.sh' '$@'
+	cp '$(SRC_DIR)'/Extras/growlnotify/*.txt '$@'
+
+$(SDK_DIR):
 	@# build the SDK
 	mkdir $(SDK_DIR)
 	
@@ -191,6 +216,7 @@ release:
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
+$(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
@@ -198,14 +224,28 @@ release:
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME).dmg $(GROWL_DIR) $(RELEASE_NAME) dmg_growl.applescript $(ART_DIR)
 	rm $(ART_DIR)/GrowlIcon
 	
+$(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg: $(SDK_DIR)
 	@# make SDK disk image
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
 
-
+release: build-dir-clean release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-hardwaregrowler release-growlnotify release-sdk
+release-dsym: build-dir-clean $(DSYM_TBZ)
+release-growl: build-dir-clean $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
+release-growlmail:
+	@#TODO
+release-growlsafari:
+	@#TODO
+release-growltunes:
+	@#TODO
+release-growlnotify:
+	@#TODO
+release-hardwaregrowler:
+	@#TODO
+release-sdk: build-dir-clean $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg
 
 displaysample : 
 	@# make the DisplaySample zip
