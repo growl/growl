@@ -15,6 +15,7 @@ BETA=FALSE
 RELEASE_FILENAME=Growl-$(VERSION)
 RELEASE_NAME="Growl-$(VERSION)"
 RELEASE_SDK_NAME="Growl $(VERSION) SDK"
+GROWLMAIL_RELEASE_FILENAME=GrowlMail-$(VERSION)
 
 SRC_DIR=$(PWD)/..
 BUILD_DIR=build
@@ -230,13 +231,20 @@ $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg: $(SDK_DIR)
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
 
+$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME): compile-growlmail $(GROWLMAIL_DIR)
+	cp -R $(GROWLMAIL_DIR) $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
+$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)/License.txt: ../License.txt
+	cp $^ $@
+$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
+	cd $(BUILD_DIR) && zip -q -r -9 $(notdir $@) $(notdir $^)
+
 release: build-dir-clean release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-hardwaregrowler release-growlnotify release-sdk
 release-dsym: build-dir-clean $(DSYM_TBZ)
 release-growl: build-dir-clean $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
-release-growlmail:
-	@#TODO
+release-growlmail: build-dir-clean $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip
+	-growlnotify -n 'Growl Release Makefile' 'GrowlMail archive built successfully' -m $(GROWLMAIL_RELEASE_FILENAME).zip --iconpath $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip
 release-growlsafari:
 	@#TODO
 release-growltunes:
