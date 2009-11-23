@@ -1,10 +1,9 @@
 ##########################
 ### Versioning:
-###   * Set VERSION and BETA below. BETA should be TRUE or FALSE.
+###   * Set VERSION below.
 ###   * make version.
 #
 VERSION=1.2.1hg
-BETA=FALSE
 
 #
 #########################
