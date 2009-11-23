@@ -1,9 +1,10 @@
 ##########################
 ### Versioning:
-###   * Set VERSION below.
+###   * Set VERSION or GROWLMAIL_VERSION below.
 ###   * make version.
 #
 VERSION=1.2.1hg
+GROWLMAIL_VERSION=1.2.1hg
 
 #
 #########################
@@ -14,7 +15,7 @@ VERSION=1.2.1hg
 RELEASE_FILENAME=Growl-$(VERSION)
 RELEASE_NAME="Growl-$(VERSION)"
 RELEASE_SDK_NAME="Growl $(VERSION) SDK"
-GROWLMAIL_RELEASE_FILENAME=GrowlMail-$(VERSION)
+GROWLMAIL_RELEASE_FILENAME=GrowlMail-$(GROWLMAIL_VERSION)
 
 SRC_DIR=$(PWD)/..
 BUILD_DIR=build
@@ -74,7 +75,7 @@ assertnoconflicts:
 	fi
 
 version:
-	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
+	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/;s/INSERT_GROWLMAIL_VERSION_HERE/$(GROWLMAIL_VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
 clean-all:
 	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
@@ -141,7 +142,7 @@ $(GROWL_DIR)/Extras/growlnotify: $(GROWL_DIR)/Extras $(GROWLNOTIFY_DIR)
 
 $(GROWLMAIL_DIR):
 	mkdir '$@'
-	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out '$@'/GrowlMail.pkg --version $(VERSION) --id com.growl.growlmail.pkg -v	
+	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out '$@'/GrowlMail.pkg --version $(GROWLMAIL_VERSION) --id com.growl.growlmail.pkg -v	
 	cp -R "Uninstall GrowlMail.app" '$@'
 	/Developer/Tools/SetFile -a E '$@'/Uninstall\ GrowlMail.app
 	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf '$@'

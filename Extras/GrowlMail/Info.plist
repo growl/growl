@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>GROWL_VERSION</string>
+	<string>GROWLMAIL_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>emal</string>
 	<key>CFBundleVersion</key>
-	<string>GROWL_VERSION</string>
+	<string>GROWLMAIL_VERSION</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMail</string>
 	<key>SupportedPluginCompatibilityUUIDs</key>
