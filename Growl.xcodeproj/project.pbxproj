@@ -105,6 +105,8 @@
 		31E18504108465590011C78B /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		31E185E51084A9780011C78B /* TestVersionComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E185E41084A9780011C78B /* TestVersionComparison.m */; };
 		31E1863F1084B7500011C78B /* TestVersionComparisonBetweenStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */; };
+		31E194ED10C0D38000B48C1C /* GrowlVersionCheck.h in Headers */ = {isa = PBXBuildFile; fileRef = 31E194EB10C0D38000B48C1C /* GrowlVersionCheck.h */; };
+		31E194EE10C0D38000B48C1C /* GrowlVersionCheck.c in Sources */ = {isa = PBXBuildFile; fileRef = 31E194EC10C0D38000B48C1C /* GrowlVersionCheck.c */; };
 		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		3433456E0790E39200C84B15 /* Bubbles.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */; };
 		343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508AF0767C87B006EA5CB /* Smoke.growlView */; };
@@ -715,6 +717,8 @@
 		31E185E41084A9780011C78B /* TestVersionComparison.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparison.m; sourceTree = "<group>"; };
 		31E1863D1084B7500011C78B /* TestVersionComparisonBetweenStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionComparisonBetweenStrings.h; sourceTree = "<group>"; };
 		31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparisonBetweenStrings.m; sourceTree = "<group>"; };
+		31E194EB10C0D38000B48C1C /* GrowlVersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlVersionCheck.h; path = Framework/Source/GrowlVersionCheck.h; sourceTree = "<group>"; };
+		31E194EC10C0D38000B48C1C /* GrowlVersionCheck.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlVersionCheck.c; path = Framework/Source/GrowlVersionCheck.c; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
 		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
@@ -1767,6 +1771,8 @@
 				07217173082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h */,
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
+				31E194EB10C0D38000B48C1C /* GrowlVersionCheck.h */,
+				31E194EC10C0D38000B48C1C /* GrowlVersionCheck.c */,
 			);
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
@@ -2145,6 +2151,7 @@
 				07217175082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h in Headers */,
 				348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */,
 				344EA4200CA857F70035CB69 /* NSFileManager+Authentication.h in Headers */,
+				31E194ED10C0D38000B48C1C /* GrowlVersionCheck.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2932,6 +2939,7 @@
 				95D74012084B68C8000D67BC /* GrowlImageAdditions.m in Sources */,
 				348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */,
 				344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */,
+				31E194EE10C0D38000B48C1C /* GrowlVersionCheck.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

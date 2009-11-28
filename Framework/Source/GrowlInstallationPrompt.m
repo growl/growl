@@ -11,6 +11,7 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlVersionCheck.h"
 
 #import "AEVTBuilder.h"
 #import	"NSFileManager+Authentication.h"
@@ -67,20 +68,16 @@
 - (void) releaseAndClose;
 @end
 
-static BOOL checkOSXVersion(void) {
-	return (floor(NSAppKitVersionNumber) >= NSAppKitVersionNumber10_3);
-}
-
 @implementation GrowlInstallationPrompt
 
 + (void) showInstallationPrompt {
-	if (checkOSXVersion()) {
+	if (GrowlCheckOSXVersion()) {
 		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:nil] window] makeKeyAndOrderFront:nil];
 	}
 }
 
 + (void) showUpdatePromptForVersion:(NSString *)inUpdateVersion {
-	if (checkOSXVersion()) {
+	if (GrowlCheckOSXVersion()) {
 		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:inUpdateVersion] window] makeKeyAndOrderFront:nil];
 	}
 }
