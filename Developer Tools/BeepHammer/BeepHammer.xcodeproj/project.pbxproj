@@ -23,7 +23,6 @@
 		34FBA3070CA0554800958660 /* BeepAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0717FC2B076587750083E17E /* BeepAdditions.h */; };
 		34FBA3090CA0554800958660 /* BeepHammer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.nib */; };
 		34FBA30A0CA0554800958660 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0717FC420765892F0083E17E /* Localizable.strings */; };
-		34FBA30B0CA0554800958660 /* BeepHammer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */; };
 		34FBA30C0CA0554800958660 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 		34FBA30D0CA0554800958660 /* whistle-red.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31DF208E0B1F85320096DEBB /* whistle-red.icns */; };
 		34FBA30E0CA0554800958660 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20A50B1F86170096DEBB /* minus-8.png */; };
@@ -34,7 +33,6 @@
 		34FBA3160CA0554800958660 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
 		34FBA3480CA056C300958660 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
 		34FBA3490CA056C700958660 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
-		C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */; };
 		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.nib */; };
 		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -537,7 +535,6 @@
 			files = (
 				34FBA3090CA0554800958660 /* BeepHammer.nib in Resources */,
 				34FBA30A0CA0554800958660 /* Localizable.strings in Resources */,
-				34FBA30B0CA0554800958660 /* BeepHammer-Info.plist in Resources */,
 				34FBA30C0CA0554800958660 /* InfoPlist.strings in Resources */,
 				34FBA30D0CA0554800958660 /* whistle-red.icns in Resources */,
 				34FBA30E0CA0554800958660 /* minus-8.png in Resources */,
@@ -551,7 +548,6 @@
 			files = (
 				C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */,
 				0717FC430765892F0083E17E /* Localizable.strings in Resources */,
-				C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */,
 				C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */,
 				31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */,
 				31DF20A70B1F86170096DEBB /* minus-8.png in Resources */,
