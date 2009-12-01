@@ -11,6 +11,8 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 - (void)notificationsDidChange;
+
+- (void) notificationEditorDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation BeepController
@@ -95,7 +97,7 @@
 	[NSApp beginSheet:notificationPanel
 	   modalForWindow:mainWindow
 		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+	   didEndSelector:@selector(notificationEditorDidEnd:returnCode:contextInfo:)
 		  contextInfo:nil];
 }
 
@@ -124,7 +126,7 @@
 		[NSApp beginSheet:notificationPanel
 		   modalForWindow:mainWindow
 			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		   didEndSelector:@selector(notificationEditorDidEnd:returnCode:contextInfo:)
 			  contextInfo:[[NSNumber alloc] initWithInteger:index]];
 	}
 }
@@ -225,7 +227,7 @@
 	[NSApp endSheet:[sender window] returnCode:NSCancelButton];
 }
 
-- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+- (void) notificationEditorDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
 		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault  state] == NSOnState];
 		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky   state] == NSOnState];
