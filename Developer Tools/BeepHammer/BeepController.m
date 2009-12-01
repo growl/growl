@@ -16,7 +16,7 @@
 @implementation BeepController
 
 - (id) init {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         notifications = [[NSMutableArray alloc] init];
     }
     return self;
