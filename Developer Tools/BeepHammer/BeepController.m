@@ -61,14 +61,14 @@
 	
 #pragma mark This is a cheap hack to work with the preference
 	NSDictionary *prefsDict = [NSDictionary dictionaryWithContentsOfFile:GROWL_PREFS_PATH];
-	[growlLoggingButton setState:[[prefsDict valueForKey:@"GrowlLoggingEnabled"] intValue]];
+	[growlLoggingButton setState:[[prefsDict valueForKey:@"GrowlLoggingEnabled"] integerValue]];
 }
 
 - (IBAction)toggleGrowlLogging:(id)sender
 {
 #pragma mark This is a cheap hack to work with the preference
 	NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:GROWL_PREFS_PATH];
-	[prefsDict setObject:[NSNumber numberWithInt:[sender state]] forKey:@"GrowlLoggingEnabled"];
+	[prefsDict setObject:[NSNumber numberWithInteger:[sender state]] forKey:@"GrowlLoggingEnabled"];
 	[prefsDict writeToFile:GROWL_PREFS_PATH atomically:NO];
 }
 
@@ -101,14 +101,14 @@
 
 - (IBAction)showEditSheet:(id)sender {
 #pragma unused(sender)
-	int index = [notificationsTable selectedRow];
+	NSInteger index = [notificationsTable selectedRow];
 	if (index < 0)
 		NSBeep();
 	else {
 		NSDictionary *dict = [notifications objectAtIndex:index];
 		[notificationDefault     setState:      [dict stateForKey:GROWL_NOTIFICATION_DEFAULT]];
 		[notificationSticky      setState:      [dict stateForKey:GROWL_NOTIFICATION_STICKY]];
-		int priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+		NSInteger priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] integerValue];
 		[notificationPriority    selectItemAtIndex:[notificationPriority indexOfItemWithTag:priority]];
 		[notificationImage       setImage:      [dict objectForKey:GROWL_NOTIFICATION_ICON]];
 		[notificationDescription setStringValue:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
@@ -125,13 +125,13 @@
 		   modalForWindow:mainWindow
 			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:[[NSNumber alloc] initWithInt:index]];
+			  contextInfo:[[NSNumber alloc] initWithInteger:index]];
 	}
 }
 
 - (IBAction)removeNotification:(id)sender {
 #pragma unused(sender)
-	int selectedRow = [notificationsTable selectedRow];
+	NSInteger selectedRow = [notificationsTable selectedRow];
 	if (selectedRow < 0) {
 		//no selection
 		NSBeep();
@@ -153,10 +153,10 @@
 
 - (IBAction)sendNotification:(id)sender {
 #pragma unused(sender)
-	int selectedRow = [notificationsTable selectedRow];
+	NSInteger selectedRow = [notificationsTable selectedRow];
 
 	if (selectedRow != -1){
-		int batchCount = ([batchCountField intValue] > 0 ? [batchCountField intValue] : 1); // always 1
+		NSInteger batchCount = ([batchCountField integerValue] > 0 ? [batchCountField integerValue] : 1); // always 1
 		
 		if([groupingType selectedRow] == 0)
 		{
@@ -188,7 +188,7 @@
 			// loop through and send the appropriate number of notifications
 			while(batchCount > 0)
 			{
-				for(int currentRow = 0; currentRow < [notifications count]; currentRow++)
+				for(NSUInteger currentRow = 0; currentRow < [notifications count]; currentRow++)
 				{
 					//send a notification for the row
 					NSDictionary *note = [notifications objectAtIndex:currentRow];
@@ -225,11 +225,11 @@
 	[NSApp endSheet:[sender window] returnCode:NSCancelButton];
 }
 
-- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
 		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault  state] == NSOnState];
 		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky   state] == NSOnState];
-		NSNumber *priority     = [NSNumber numberWithInt:[[notificationPriority selectedItem] tag]];
+		NSNumber *priority     = [NSNumber numberWithInteger:[[notificationPriority selectedItem] tag]];
 		NSImage  *image        = [notificationImage image];
 		NSString *title        = [notificationTitle       stringValue];
 		NSString *desc         = [notificationDescription stringValue];
@@ -250,7 +250,7 @@
 
 		NSNumber *indexNum = contextInfo;
 		if (indexNum) {
-			[notifications replaceObjectAtIndex:[indexNum unsignedIntValue]
+			[notifications replaceObjectAtIndex:[indexNum unsignedIntegerValue]
 									 withObject:dict];
 			[indexNum release];
 		} else {
@@ -273,19 +273,19 @@
 
 #pragma mark Table Data Source Methods
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 #pragma unused(tableView)
     return [notifications count];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(NSInteger)row {
 #pragma unused(tableView, col, row)
     return [[notifications objectAtIndex:row] objectForKey:GROWL_NOTIFICATION_NAME];
 }
 
 #pragma mark Table Delegate Methods
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)col row:(int)row {
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)col row:(NSInteger)row {
 #pragma unused(tableView, col, row)
     return NO;
 }
@@ -319,16 +319,16 @@
 	NSMutableArray *defNotesArray = [NSMutableArray array];
 	NSMutableArray *allNotesArray = [NSMutableArray array];
 	NSNumber *isDefaultNum;
-	unsigned numNotifications = [notifications count];
+	NSUInteger numNotifications = [notifications count];
 
 	//Build an array of all notifications we want to use
-	for (unsigned i = 0U; i < numNotifications; ++i) {
+	for (NSUInteger i = 0U; i < numNotifications; ++i) {
 		NSDictionary *def = [notifications objectAtIndex:i];
 		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_NAME]];
 
 		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
 		if (isDefaultNum && [isDefaultNum boolValue])
-			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
+			[defNotesArray addObject:[NSNumber numberWithUnsignedInteger:i]];
 	}
 
 	[allNotesArray addObject:CLICK_RECEIVED_NOTIFICATION_NAME];
