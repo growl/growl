@@ -60,7 +60,7 @@
 	[GrowlApplicationBridge setGrowlDelegate:self];
 	
 #pragma mark This is a cheap hack to work with the preference
-	NSDictionary *prefsDict = [[NSDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];
+	NSDictionary *prefsDict = [NSDictionary dictionaryWithContentsOfFile:GROWL_PREFS_PATH];
 	[growlLoggingButton setState:[[prefsDict valueForKey:@"GrowlLoggingEnabled"] intValue]];
 }
 
