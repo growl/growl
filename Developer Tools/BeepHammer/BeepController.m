@@ -67,7 +67,7 @@
 - (IBAction)toggleGrowlLogging:(id)sender
 {
 #pragma mark This is a cheap hack to work with the preference
-	NSMutableDictionary *prefsDict = [[NSMutableDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];
+	NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:GROWL_PREFS_PATH];
 	[prefsDict setObject:[NSNumber numberWithInt:[sender state]] forKey:@"GrowlLoggingEnabled"];
 	[prefsDict writeToFile:GROWL_PREFS_PATH atomically:NO];
 }
