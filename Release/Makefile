@@ -299,7 +299,7 @@ displaysample :
 
 	cd build && zip -r DisplaySample.zip DisplaySample && cd ..
 
-framework-archive: assertnochanges
+framework-archive: assertnochanges clean-all
 	-mkdir "$(BUILD_DIR)"
 	-rm -R "$(FMWK_DIR)"
 	mkdir "$(FMWK_DIR)"
