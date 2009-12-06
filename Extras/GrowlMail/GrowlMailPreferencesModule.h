@@ -39,6 +39,7 @@
 {
 	IBOutlet NSView		 *view_preferences;
 	IBOutlet NSTableView *accountsView;
+	IBOutlet NSTextField *growlMailVersion;
 }
 - (IBAction)changeBackgroundOnlyMode:(id)sender;
 

@@ -34,6 +34,8 @@
 
 #import "GrowlMailPreferencesModule.h"
 #import "GrowlMailNotifier.h"
+#import "GrowlMail.h"
+
 
 @interface MailAccount(GrowlMail)
 + (NSArray *) remoteMailAccounts;
@@ -62,6 +64,7 @@
 - (void) awakeFromNib {
 	NSTableColumn *activeColumn = [accountsView tableColumnWithIdentifier:@"active"];
 	[[activeColumn dataCell] setImagePosition:NSImageOnly]; // center the checkbox
+	[growlMailVersion setStringValue: [GMGetGrowlMailBundle() objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 }
 
 - (NSString *) preferencesNibName {
