@@ -41,12 +41,15 @@
 
 @implementation MailAccount(GrowlMail)
 + (NSArray *) remoteMailAccounts; {
-	NSArray *mailAccounts = [MailAccount mailAccounts];
+	//we check this because on 10.6 mailAccounts includes additional unwanted caldav account references
+	SEL mailAccountSelector = @selector(mailAccounts);
+	if([MailAccount respondsToSelector:@selector(mailAccountsExcludingCalDAVAccounts)])
+		mailAccountSelector = @selector(mailAccountsExcludingCalDAVAccounts);
+	
+	NSArray *mailAccounts = [MailAccount performSelector:mailAccountSelector];
 	NSMutableArray *remoteAccounts = [NSMutableArray arrayWithCapacity:[mailAccounts count]];
-	NSEnumerator *enumerator = [mailAccounts objectEnumerator];
-	id account;
 	Class localAccountClass = [LocalAccount class];
-	while ((account = [enumerator nextObject])) {
+	for(id account in mailAccounts) {
 		if (![account isKindOfClass:localAccountClass])
 			[remoteAccounts addObject:account];
 	}

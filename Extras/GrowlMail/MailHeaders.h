@@ -283,6 +283,11 @@
 - (id)objectSpecifierForMailboxUid:(MailboxUid *)fp8;
 - (id)objectSpecifier;
 
+//These are only available in 10.6+, so be mindful of their use.
++ (id)allCalDAVAccounts;
++ (id)mailAccountsExcludingCalDAVAccounts;
++ (id)activeAccountsExcludingCalDAVAccounts;
+
 @end
 
 @interface LocalAccount : MailAccount
