@@ -109,6 +109,7 @@
 // Notifies us that Sparkle as a whole has finished
 - (void)sparkleDidFinish:(SUUpdater *)updater;
 
+- (void)updaterAlertDidFinishWithReturnCode:(NSUInteger)returnCode;
 @end
 
 // Define some minimum intervals to avoid DOS-like checking attacks. These are in seconds.

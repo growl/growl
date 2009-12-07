@@ -55,9 +55,10 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
-	
-	[((GrowlApplicationController*)context) timedCheckForUpdates:nil];	
-	
+#pragma unused(timer)
+	// only run update check if it's enabled, TODO: maybe remove timer?
+	if([[GrowlPreferencesController sharedController] isBackgroundUpdateCheckEnabled])
+		[((GrowlApplicationController*)context) timedCheckForUpdates:nil];
 }
 
 @interface GrowlApplicationController (PRIVATE)
@@ -865,7 +866,7 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 }
 
 - (void) growlSparkleHelperFoundUpdate:(NSNotification*)note {
-#pragma unused(updater, update)
+#pragma unused(note)
 	CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
 	CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -1085,6 +1086,8 @@ static struct Version version = { 1U, 2U, 0U, releaseType_development, 1U, };
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 #pragma unused(notification)
+	// kill sparkle helper if it's still running
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 

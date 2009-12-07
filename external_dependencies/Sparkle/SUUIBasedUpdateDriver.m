@@ -70,6 +70,7 @@
 		case SUSkipThisVersionChoice:
 			[host setObject:[updateItem versionString] forUserDefaultsKey:SUSkippedVersionKey];
 		case SURemindMeLaterChoice:
+			[[updater delegate] updaterAlertDidFinishWithReturnCode:choice];
 			[self abortUpdate];
 			break;			
 	}			

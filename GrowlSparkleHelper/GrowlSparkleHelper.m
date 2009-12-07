@@ -11,6 +11,10 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 
+@interface GrowlSparkleHelper(Private)
+- (void) silentUpdateCheck:(NSNotification*)note;
+@end
+
 @implementation GrowlSparkleHelper
 
 - (id) init {
@@ -34,11 +38,6 @@
 																name:SPARKLE_HELPER_DIE
 															  object:nil 
 												  suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
-		
-		/*[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(windowWillClose:)
-													 name:NSWindowWillCloseNotification
-												   object:nil];*/
 		[self silentUpdateCheck:nil];
 	}
 	return self;
@@ -51,6 +50,7 @@
 }
 
 - (void) silentUpdateCheck:(NSNotification*)note {
+#pragma unused(note)
 	NSLog(@"%s", __FUNCTION__);
 	shouldNotifyOfUpdate = YES;
 	SUUpdater *updater = [SUUpdater updaterForBundle:[GrowlPathUtilities growlPrefPaneBundle]];
@@ -68,6 +68,7 @@
 }
 
 - (void) die:(NSNotification*)note {
+#pragma unused(note)
 	NSLog(@"%s", __FUNCTION__);
 	[NSApp terminate:nil];
 }
@@ -82,20 +83,23 @@
 }
 
 - (void) updaterDidNotFindUpdate:(SUUpdater *)update {
+#pragma unused(update)
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];
 }
 
 - (void)sparkleDidFinish:(SUUpdater*)updater {
+#pragma unused(updater)
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];
-	
 }
 
-/*- (void) windowWillClose:(NSNotification*)notification {
-	if([[notification object] isEqual:[[SUUpdater sharedUpdater] window]])
-	{
-		[self die:nil];
-	}
-}*/
+// so far only called when it is not installing an update
+- (void)updaterAlertDidFinishWithReturnCode:(NSUInteger)returnCode;
+{
+#pragma unused(returnCode)
+	NSLog(@"%s", __FUNCTION__);
+	[self die:nil];
+}
+
 @end
