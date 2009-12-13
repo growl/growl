@@ -9,7 +9,6 @@
 #import "GrowlMenu.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlPathUtilities.h"
-//#import "GrowlPluginController.h"
 #include <unistd.h>
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
@@ -18,8 +17,6 @@
 #define kStartGrowlTooltip           NSLocalizedString(@"Start Growl", @"")
 #define kStopGrowl                   NSLocalizedString(@"Stop Growl", @"")
 #define kStopGrowlTooltip            NSLocalizedString(@"Stop Growl", @"")
-#define kDefaultDisplay              NSLocalizedString(@"Default display", @"")
-#define kDefaultDisplayTooltip       NSLocalizedString(@"Set the default display style", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kSquelchMode                 NSLocalizedString(@"Log only, don't display", @"")
@@ -28,7 +25,6 @@
 #define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
 #define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
 #define kStickyWhenAwayMenuTooltip   NSLocalizedString(@"Toggles the sticky notification state", @"")
-#define kDefaultDisplayChanged       NSLocalizedString(@"Default display changed to %@", @"")
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -78,26 +74,6 @@ int main(void) {
 		   selector:@selector(reloadPrefs:)
 			   name:GrowlPreferencesChanged
 			 object:nil];
-
-	[GrowlApplicationBridge setGrowlDelegate:self];
-}
-
-#pragma mark Growl delegate methods
-
-- (NSString *) applicationNameForGrowl {
-	return @"GrowlMenu";
-}
-
-- (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *notifications = [NSArray arrayWithObject:@"Display changed"];
-	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-											notifications, GROWL_NOTIFICATIONS_ALL,
-											notifications, GROWL_NOTIFICATIONS_DEFAULT,
-											[NSDictionary dictionaryWithObject:NSLocalizedString(@"Display changed", "Notification posted by GrowlMenu when the display style changes")
-																		forKey:@"Display changed"], GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
-											nil];
-
-	return registrationDictionary;
 }
 
 #pragma mark -
@@ -140,19 +116,6 @@ int main(void) {
 #pragma unused(sender)
 	NSString *prefPane = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
-}
-
-- (void) defaultDisplay:(id)sender {
-	NSString *pluginName = [sender title];
-	[preferences setDefaultDisplayPluginName:pluginName];
-
-	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, (CFStringRef)kDefaultDisplayChanged, pluginName);
-	const NSString *keys[5] = { GROWL_APP_NAME, GROWL_NOTIFICATION_NAME, GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION, GROWL_DISPLAY_PLUGIN };
-	const CFStringRef values[5] = { CFSTR("GrowlMenu"), CFSTR("Display changed"), CFSTR("Display changed"), description, (CFStringRef)pluginName };
-	CFDictionaryRef feedbackDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 5, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFRelease(description);
-	[GrowlApplicationBridge notifyWithDictionary:(NSDictionary *)feedbackDictionary];
-	CFRelease(feedbackDictionary);
 }
 
 - (void) stopGrowl:(id)sender {
@@ -234,18 +197,6 @@ int main(void) {
 	[tempMenuItem setTag:6];
 	[tempMenuItem setToolTip:kStickyWhenAwayMenuTooltip];
 
-	/*NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
-	NSString *name;
-	NSEnumerator *displayEnumerator = [[[GrowlPluginController sharedController] displayPlugins] objectEnumerator];
-	while ((name = [displayEnumerator nextObject])) {
-		tempMenuItem = (NSMenuItem *)[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""];
-		[tempMenuItem setTarget:self];
-		[tempMenuItem setTag:3];
-	}
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kDefaultDisplay action:NULL keyEquivalent:@""];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setSubmenu:displays];
-	[displays release];*/
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
@@ -273,9 +224,6 @@ int main(void) {
 			break;
 		case 2:
 			return [preferences isGrowlRunning];
-		case 3:
-			[item setState:[[item title] isEqualToString:[preferences defaultDisplayPluginName]]];
-			break;
 		case 4:
 			[item setState:[preferences squelchMode]];
 			break;
