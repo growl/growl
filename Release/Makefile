@@ -220,7 +220,7 @@ $(SDK_DIR):
 $(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
-	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
+	cp $(SRC_DIR)/images/dmg/GrowlDiskImageBackground.png $(GROWL_DIR)/.background
 	./ensureCustomIconsExtracted $(ART_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME).dmg $(GROWL_DIR) $(RELEASE_NAME) dmg_growl.applescript $(ART_DIR)
 	rm $(ART_DIR)/GrowlIcon
