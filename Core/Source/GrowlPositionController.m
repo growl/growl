@@ -260,7 +260,7 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-		[[displayController window] setFrame:displayFrame display:YES animate:YES];		
+		[[displayController window] setFrame:displayFrame display:NO animate:YES];		
 		return YES;
 	}
 
@@ -368,7 +368,7 @@
 		if (NSContainsRect(screenFrame,displayFrame)) {
 			//The rect is on the screen! Try to reserve it.
 			if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-				[[displayController window] setFrame:displayFrame display:YES animate:YES];		
+				[[displayController window] setFrame:displayFrame display:NO animate:YES];		
 				free(usedRects);
 				return YES;
 			}
