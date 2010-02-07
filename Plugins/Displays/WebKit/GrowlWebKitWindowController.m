@@ -19,6 +19,7 @@
 #include "CFGrowlAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
+#import "NSMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlFadingWindowTransition.h"
