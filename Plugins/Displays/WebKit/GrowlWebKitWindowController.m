@@ -45,6 +45,10 @@
 - (NSData *)PNGRepresentation;
 @end
 
+@interface GrowlWebKitWindowController ()
+- (void) viewIsReady:(GrowlWebKitWindowView *)view;
+@end
+
 @implementation GrowlWebKitWindowController
 
 #define GrowlWebKitDurationPrefDefault				5.0
@@ -253,11 +257,19 @@
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	if (frame != [sender mainFrame]) return;
 
+	if ([[[frame frameView] documentView] frame].size.height < 2.0f) {
+		//Finished loading it may be, but it's not finished rendering, in which case the document view's height will be 1 px. Not good for sizing to fit. So, try again one cycle of the run loop from now.
+		[self performSelector:@selector(viewIsReady:) withObject:sender afterDelay:0.0];
+	} else {
+		//It really is done, so just call through directly.
+		[self viewIsReady:(GrowlWebKitWindowView *)sender];
+	}
+}
+- (void) viewIsReady:(GrowlWebKitWindowView *)view {
 	NSWindow *myWindow = [self window];
 	if ([myWindow isFlushWindowDisabled])
 		[myWindow enableFlushWindow];
 
-	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
 
 	//Update our new frame
