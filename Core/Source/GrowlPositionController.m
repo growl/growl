@@ -266,7 +266,7 @@
 
 	// Something was blocking the display...try to find the next position for the display.
 
-	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect %@; looking for another one", NSStringFromRect(displayFrame)];
+	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect %@; looking for another one", GrowlLog_StringFromRect(displayFrame)];
 	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 	
@@ -277,7 +277,7 @@
 		NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
 		NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
 		for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
-			[rectStrings addObject:NSStringFromRect(usedRects[i])];
+			[rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
 		}
 		[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
 		[rectStringsPool drain];
@@ -295,7 +295,7 @@
 		CGFloat bestSecondaryOrigin = 0.0;
 
 		while (NSContainsRect(screenFrame,displayFrame)) {
-			[growlLog writeToLog:@"Display frame %@ is completely within screen frame %@; adjusting in primary direction", NSStringFromRect(displayFrame), NSStringFromRect(screenFrame)];
+			[growlLog writeToLog:@"Display frame %@ is completely within screen frame %@; adjusting in primary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(screenFrame)];
 			//Adjust in our primary direction
 			switch (primaryDirection) {
 				case GrowlDownExpansionDirection:
@@ -321,7 +321,7 @@
 			//Check to see if the proposed displayFrame intersects with any used rect
 			for (NSUInteger i = 0; i < numberOfRects; i++) {
 				if (NSIntersectsRect(displayFrame, usedRects[i])) {
-					[growlLog writeToLog:@"Display frame %@ intersects used rect %@; adjusting in secondary direction", NSStringFromRect(displayFrame), NSStringFromRect(usedRects[i])];
+					[growlLog writeToLog:@"Display frame %@ intersects used rect %@; adjusting in secondary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(usedRects[i])];
 					//We intersected. Sadness.
 					intersects = YES;
 					
@@ -378,7 +378,7 @@
 		}
 
 		if (NSContainsRect(screenFrame,displayFrame)) {
-			[growlLog writeToLog:@"Adjusted display frame %@ is completely within screen frame %@; adjusting in primary direction", NSStringFromRect(displayFrame), NSStringFromRect(screenFrame)];
+			[growlLog writeToLog:@"Adjusted display frame %@ is completely within screen frame %@; adjusting in primary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(screenFrame)];
 			//The rect is on the screen! Try to reserve it.
 			if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
 				[growlLog writeToLog:@"Successfully reserved this rectangle; pass ends."];
@@ -422,7 +422,7 @@
 				break;
 		}
 		
-		[growlLog writeToLog:@"Ending pass by testing whether display frame %@ is off-screen...", NSStringFromRect(displayFrame)];
+		[growlLog writeToLog:@"Ending pass by testing whether display frame %@ is off-screen...", GrowlLog_StringFromRect(displayFrame)];
 		if (!NSContainsRect(screenFrame,displayFrame)) {
 			[growlLog writeToLog:@"We have gone off-screen. Positioning aborted."];
 			NSLog(@"Could not display Growl notification; no screen space available.");

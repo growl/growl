@@ -18,6 +18,9 @@ void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict);
 
 #ifdef __OBJC__
 
+//Faster than NSStringFromRect when logging is turned off.
+STRING_TYPE GrowlLog_StringFromRect(NSRect rect);
+
 @interface GrowlLog: NSObject
 {
 	NSDate *lastLoggingEnabledFetchDate;

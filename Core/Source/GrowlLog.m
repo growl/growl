@@ -29,6 +29,15 @@ void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict) {
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:(NSDictionary *)regDict];
 }
 
+STRING_TYPE GrowlLog_StringFromRect(NSRect rect) {
+	if ([[GrowlLog sharedController] isLoggingEnabled])
+		return NSStringFromRect(rect);
+	else
+		return @"(a rectangle)";
+}
+
+static const NSTimeInterval minimumLoggingEnabledFetchInterval = 5.0 * 60.0; //5 minutes
+
 #pragma mark -
 
 static GrowlLog *singleton = nil;
