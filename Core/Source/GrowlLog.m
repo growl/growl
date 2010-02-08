@@ -42,8 +42,12 @@ static GrowlLog *singleton = nil;
 	return singleton;
 }
 
+- (BOOL) isLoggingEnabled {
+	return [[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey];
+}
+
 - (void) writeToLog:(NSString *)format withArguments:(va_list)args {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
+	if ([self isLoggingEnabled]) {
 		GrowlPreferencesController *gpc = [GrowlPreferencesController sharedController];
 
 		NSInteger typePref = [gpc integerForKey:GrowlLogTypeKey];
@@ -87,7 +91,7 @@ static GrowlLog *singleton = nil;
 }
 
 - (void) writeNotificationDictionaryToLog:(NSDictionary *)noteDict {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
+	if ([self isLoggingEnabled]) {
 		[self writeToLog:@"---"];
 
 		int priority;
@@ -105,7 +109,7 @@ static GrowlLog *singleton = nil;
 	}
 }
 - (void) writeRegistrationDictionaryToLog:(NSDictionary *)regDict {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey])
+	if ([self isLoggingEnabled])
 		[self writeToLog:@"%@ registered", [regDict objectForKey:GROWL_APP_NAME]];
 }
 

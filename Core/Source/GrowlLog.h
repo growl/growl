@@ -24,6 +24,8 @@ void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict);
 
 + (GrowlLog *) sharedController;
 
+- (BOOL) isLoggingEnabled;
+
 - (void) writeToLog:(NSString *)format, ...;
 - (void) writeToLog:(NSString *)format withArguments:(va_list)args;
 
