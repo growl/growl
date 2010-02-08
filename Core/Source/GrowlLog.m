@@ -88,6 +88,8 @@ static GrowlLog *singleton = nil;
 
 - (void) writeNotificationDictionaryToLog:(NSDictionary *)noteDict {
 	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
+		[self writeToLog:@"---"];
+
 		int priority;
 		NSNumber *priorityNumber = [noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY];
 		if (priorityNumber)
