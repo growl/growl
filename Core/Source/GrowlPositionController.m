@@ -273,13 +273,15 @@
 	NSUInteger			numberOfRects;
 	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
 
-	NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
-	NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
-	for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
-		[rectStrings addObject:NSStringFromRect(usedRects[i])];
+	if ([growlLog isLoggingEnabled]) {
+		NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
+		NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
+		for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
+			[rectStrings addObject:NSStringFromRect(usedRects[i])];
+		}
+		[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
+		[rectStringsPool drain];
 	}
-	[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
-	[rectStringsPool drain];
 
 	/* This will loop until the display is placed or we run off the screen entirely
 	 * A more 'efficient' implementation might sort all of the usedRects, then look at them iteratively.  I (evands) found it to be
