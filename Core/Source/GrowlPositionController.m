@@ -510,16 +510,18 @@
 	NSValue		 *value;
 	NSValue		 *displayControllerValue = [NSValue valueWithPointer:displayController];
 	NSUInteger	  count = [rectSet count];
-	
-	if (outCount) *outCount = count;
 
 	NSRectArray gridRects = (NSRectArray)malloc(sizeof(NSRect) * count);
 	int i = 0;
 	while ((value = [enumerator nextObject])) {
-		if (!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:value])) {
+		if (displayController && [[reservedRectsByController objectForKey:displayControllerValue] isEqual:value]) {
+			--count;
+		} else {
 			gridRects[i++] = NSInsetRect([value rectValue], -padding, -padding);
 		}
 	}
+
+	if (outCount) *outCount = count;
 	
 	return gridRects;
 }
