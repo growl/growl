@@ -251,7 +251,8 @@
  * @brief Invoked once the webview has loaded and is ready to accept content
  */
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
-#pragma unused(frame)
+	if (frame != [sender mainFrame]) return;
+
 	NSWindow *myWindow = [self window];
 	if ([myWindow isFlushWindowDisabled])
 		[myWindow enableFlushWindow];
