@@ -20,6 +20,8 @@ void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict);
 
 @interface GrowlLog: NSObject
 {
+	NSDate *lastLoggingEnabledFetchDate;
+	BOOL loggingEnabled;
 }
 
 + (GrowlLog *) sharedController;

@@ -42,8 +42,22 @@ static GrowlLog *singleton = nil;
 	return singleton;
 }
 
+- (void) dealloc {
+	[lastLoggingEnabledFetchDate release];
+	[super dealloc];
+}
+
 - (BOOL) isLoggingEnabled {
-	return [[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey];
+	NSDate *now = [NSDate date];
+	if (lastLoggingEnabledFetchDate && ([now timeIntervalSinceDate:lastLoggingEnabledFetchDate] < minimumLoggingEnabledFetchInterval)) {
+		//Not time yet.
+	} else {
+		loggingEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey];
+		[lastLoggingEnabledFetchDate release];
+		lastLoggingEnabledFetchDate = [now retain];
+	}
+
+	return loggingEnabled;
 }
 
 - (void) writeToLog:(NSString *)format withArguments:(va_list)args {
