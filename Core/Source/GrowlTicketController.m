@@ -20,7 +20,6 @@
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
-		[self loadAllSavedTickets];
 	}
 	return self;
 }
