@@ -737,6 +737,20 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	return err;
 }
 
++ (BOOL) launchApplicationWithBundleAtPath:(NSString *)appPath openDocumentURL:(NSURL *)regItemURL {
+	const struct LSLaunchURLSpec spec = {
+		.appURL = (CFURLRef)[NSURL fileURLWithPath:appPath],
+		.itemURLs = (CFArrayRef)(regItemURL ? [NSArray arrayWithObject:regItemURL] : nil),
+		.passThruParams = NULL,
+		.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync,
+		.asyncRefCon = NULL
+	};
+	OSStatus err = LSOpenFromURLSpec(&spec, NULL);
+	if (err != noErr) {
+		NSLog(@"Could not launch application at path %@ (with document %@) because LSOpenFromURLSpec returned %i (%s)", appPath, regItemURL, err, GetMacOSStatusCommentString(err));
+	}
+	return (err == noErr);
+}
 + (BOOL) sendOpenEventToProcessWithProcessSerialNumber:(struct ProcessSerialNumber *)appPSN openDocumentURL:(NSURL *)regItemURL {
 	OSStatus err;
 	BOOL success = NO;
@@ -807,8 +821,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				0, kNoProcess
 			};
 			err = [self getPSN:&appPSN forAppWithBundleAtPath:growlHelperAppPath];
+			BOOL foundGrowlProcess = (err == noErr);
+			BOOL foundNoGrowlProcess = (err == procNotFound);
 
-			if (err == noErr) {
+			//If both of these are false, the process search failed with an error (and I don't mean procNotFound).
+			if (foundGrowlProcess || foundNoGrowlProcess) {
 				NSURL *regItemURL = nil;
 				BOOL passRegDict = NO;
 
@@ -851,7 +868,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					}
 				}
 
-				success = [self sendOpenEventToProcessWithProcessSerialNumber:&appPSN openDocumentURL:(passRegDict ? regItemURL : nil)];
+				if (foundNoGrowlProcess)
+					success = [self launchApplicationWithBundleAtPath:growlHelperAppPath openDocumentURL:(passRegDict ? regItemURL : nil)];
+				else
+					success = [self sendOpenEventToProcessWithProcessSerialNumber:&appPSN openDocumentURL:(passRegDict ? regItemURL : nil)];
 			}
 		}
 	}
