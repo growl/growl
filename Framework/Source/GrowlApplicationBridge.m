@@ -737,6 +737,43 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	return err;
 }
 
++ (BOOL) sendOpenEventToProcessWithProcessSerialNumber:(struct ProcessSerialNumber *)appPSN openDocumentURL:(NSURL *)regItemURL {
+	OSStatus err;
+	BOOL success = NO;
+	AEStreamRef stream = AEStreamCreateEvent(kCoreEventClass, kAEOpenDocuments,
+											 //Target application
+											 typeProcessSerialNumber, appPSN, sizeof(*appPSN),
+											 kAutoGenerateReturnID, kAnyTransactionID);
+	if (!stream) {
+		NSLog(@"%@: Could not create open-document event to register this application with Growl", [self class]);
+	} else {
+		if (regItemURL) {
+			NSString *regItemURLString = [regItemURL absoluteString];
+			NSData *regItemURLUTF8Data = [regItemURLString dataUsingEncoding:NSUTF8StringEncoding];
+			err = AEStreamWriteKeyDesc(stream, keyDirectObject, typeFileURL, [regItemURLUTF8Data bytes], [regItemURLUTF8Data length]);
+			if (err != noErr) {
+				NSLog(@"%@: Could not set direct object of open-document event to register this application with Growl because AEStreamWriteKeyDesc returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
+			}
+		}
+
+		AppleEvent event;
+		err = AEStreamClose(stream, &event);
+		if (err != noErr) {
+			NSLog(@"%@: Could not finish open-document event to register this application with Growl because AEStreamClose returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
+		} else {
+			err = AESendMessage(&event, /*reply*/ NULL, kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord, kAEDefaultTimeout);
+			if (err != noErr) {
+				NSLog(@"%@: Could not send open-document event to register this application with Growl because AESend returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
+			}
+
+			AEDisposeDesc(&event);
+		}
+
+		success = (err == noErr);
+	}
+
+	return success;
+}
 + (BOOL) _launchGrowlIfInstalledWithRegistrationDictionary:(NSDictionary *)regDict {
 	BOOL success = NO;
 	NSBundle *growlPrefPaneBundle;
@@ -814,37 +851,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					}
 				}
 
-				AEStreamRef stream = AEStreamCreateEvent(kCoreEventClass, kAEOpenDocuments,
-					//Target application
-					typeProcessSerialNumber, &appPSN, sizeof(appPSN),
-					kAutoGenerateReturnID, kAnyTransactionID);
-				if (!stream) {
-					NSLog(@"%@: Could not create open-document event to register this application with Growl", [self class]);
-				} else {
-					if (passRegDict) {
-						NSString *regItemURLString = [regItemURL absoluteString];
-						NSData *regItemURLUTF8Data = [regItemURLString dataUsingEncoding:NSUTF8StringEncoding];
-						err = AEStreamWriteKeyDesc(stream, keyDirectObject, typeFileURL, [regItemURLUTF8Data bytes], [regItemURLUTF8Data length]);
-						if (err != noErr) {
-							NSLog(@"%@: Could not set direct object of open-document event to register this application with Growl because AEStreamWriteKeyDesc returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
-						}
-					}
-
-					AppleEvent event;
-					err = AEStreamClose(stream, &event);
-					if (err != noErr) {
-						NSLog(@"%@: Could not finish open-document event to register this application with Growl because AEStreamClose returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
-					} else {
-						err = AESendMessage(&event, /*reply*/ NULL, kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord, kAEDefaultTimeout);
-						if (err != noErr) {
-							NSLog(@"%@: Could not send open-document event to register this application with Growl because AESend returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
-						}
-
-						AEDisposeDesc(&event);
-					}
-					
-					success = (err == noErr);
-				}
+				success = [self sendOpenEventToProcessWithProcessSerialNumber:&appPSN openDocumentURL:(passRegDict ? regItemURL : nil)];
 			}
 		}
 	}
