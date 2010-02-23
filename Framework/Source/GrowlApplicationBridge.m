@@ -724,6 +724,19 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #pragma mark -
 
++ (OSStatus) getPSN:(struct ProcessSerialNumber *)outAppPSN forAppWithBundleAtPath:(NSString *)appPath {
+	OSStatus err;
+	while ((err = GetNextProcess(outAppPSN)) == noErr) {
+		NSDictionary *dict = [NSMakeCollectable(ProcessInformationCopyDictionary(outAppPSN, kProcessDictionaryIncludeAllInformationMask)) autorelease];
+		NSString *bundlePath = [dict objectForKey:@"BundlePath"];
+		if ([bundlePath isEqualToString:appPath]) {
+			//Match!
+			break;
+		}
+	}
+	return err;
+}
+
 + (BOOL) _launchGrowlIfInstalledWithRegistrationDictionary:(NSDictionary *)regDict {
 	BOOL success = NO;
 	NSBundle *growlPrefPaneBundle;
@@ -756,14 +769,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			struct ProcessSerialNumber appPSN = {
 				0, kNoProcess
 			};
-			while ((err = GetNextProcess(&appPSN)) == noErr) {
-				NSDictionary *dict = [NSMakeCollectable(ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask)) autorelease];
-				NSString *bundlePath = [dict objectForKey:@"BundlePath"];
-				if ([bundlePath isEqualToString:growlHelperAppPath]) {
-					//Match!
-					break;
-				}
-			}
+			err = [self getPSN:&appPSN forAppWithBundleAtPath:growlHelperAppPath];
 
 			if (err == noErr) {
 				NSURL *regItemURL = nil;
