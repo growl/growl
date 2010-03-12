@@ -113,7 +113,6 @@ $(DSYM_DIR):
 	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLTUNES_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
-	mv $(GROWLMAIL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 
 $(GROWL_DIR):
@@ -129,8 +128,10 @@ $(GROWL_DIR)/Growl.pkg: $(GROWL_DIR)
 # These are temporary; they'll go away once we have an Extras tab.
 $(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlmail compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
 	mkdir '$@'
-$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras $(GROWLMAIL_DIR)
-	cp -R '$(GROWLMAIL_DIR)' '$@'
+$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
+	mkdir '$@'
+$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.webloc: GrowlMail/GrowlMail.webloc $(GROWL_DIR)/Extras/GrowlMail
+	cp '$<' '$@'
 $(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras $(GROWLSAFARI_DIR)
 	cp -R '$(GROWLSAFARI_DIR)' '$@'
 $(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras $(GROWLTUNES_DIR)
@@ -217,7 +218,7 @@ $(SDK_DIR):
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
-$(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
+$(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.webloc $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/GrowlDiskImageBackground.png $(GROWL_DIR)/.background
