@@ -78,7 +78,8 @@ version:
 	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/;s/INSERT_GROWLMAIL_VERSION_HERE/$(GROWLMAIL_VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
 clean-all:
-	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
+	@# Note: We need to use .../* in order to not descend into .hg and corrupt the repository.
+	find $(SRC_DIR)/* -name build -prune -print0 | xargs -0 rm -R
 
 compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
 compile-growl: build-dir-clean
