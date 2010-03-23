@@ -117,7 +117,7 @@ enum {
 #pragma unused(notification)
 	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
 
-	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
+	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:ITUNES_APP_NAME];
 	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] >= 4.7f)
 		[self setPolling:NO];
 	else
@@ -471,7 +471,7 @@ enum {
 			}
 
 			// Use the iTunes icon instead
-			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
+			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:ITUNES_APP_NAME];
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) {
@@ -630,7 +630,7 @@ enum {
 			}
 
 			// Use the iTunes icon instead
-			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
+			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:ITUNES_APP_NAME];
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 
