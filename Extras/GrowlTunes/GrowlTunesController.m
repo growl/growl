@@ -331,6 +331,8 @@ enum {
 #pragma mark iTunes 4.7 notifications
 
 - (void) songChanged:(NSNotification *)aNotification {
+	BOOL iTunesIsTheActiveApp = ([[[[NSWorkspace sharedWorkspace] activeApplication] objectForKey:@"NSApplicationBundleIdentifier"] caseInsensitiveCompare:ITUNES_BUNDLE_ID] == NSOrderedSame);
+
 	NSString     *playerState = nil;
 	iTunesState   newState    = itUNKNOWN;
 	NSString     *newTrackURL = nil;
@@ -492,8 +494,10 @@ enum {
 		BOOL isStream = [newTrackURL hasPrefix:@"http://"];
 		BOOL descriptionChanged = ![lastPostedDescription isEqualToString:displayString];
 		if (URLChanged || (isStream && descriptionChanged)) {
-			// Tell Growl
-			[GrowlApplicationBridge notifyWithDictionary:noteDict];
+			if (!iTunesIsTheActiveApp) {
+				// Tell Growl
+				[GrowlApplicationBridge notifyWithDictionary:noteDict];
+			}
 
 			// Recent Tracks
 			if (streamTitle && [streamTitle length]) {
