@@ -308,7 +308,7 @@ static NSMutableDictionary *existingInstances;
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
+		[self setClickContext:nil];
 	}
 	[nc postNotificationName:GrowlDisplayWindowControllerDidTakeWindowDownNotification object:self];
 }
@@ -329,7 +329,7 @@ static NSMutableDictionary *existingInstances;
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
+		[self setClickContext:nil];
 	}
 
 	if (target && action && [target respondsToSelector:action])
