@@ -63,9 +63,9 @@
 				 	 */
 					if (clobber || ![ticketsByApplicationName objectForKey:applicationName])
 						[ticketsByApplicationName setObject:newTicket forKey:applicationName];
-
-					[newTicket release];
 				}
+				
+				[newTicket release];
 			}
 		}
 	}
