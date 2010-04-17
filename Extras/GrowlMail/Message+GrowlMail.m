@@ -155,15 +155,6 @@
 	NSLog(@"Body: '%@'", body);
 	*/
 
-	/*
-	 * MailAddressManager fetches images asynchronously so they might arrive
-	 * after we have sent our notification.
-	 */
-	/*
-	MailAddressManager *addressManager = [MailAddressManager addressManager];
-	[addressManager fetchImageForAddress:senderAddress];
-	NSImage *image = [addressManager imageForMailAddress:senderAddress];
-	*/
 	NSData *image = nil;
 	if (senderAddressIsValid) {
 		ABSearchElement *personSearch = [ABPerson searchElementForProperty:kABEmailProperty
@@ -177,10 +168,6 @@
 		while ((!image) && (person = [matchesEnum nextObject]))
 			image = [person imageData];
 	}
-
-	//no matches in the Address Book with an icon, so use Mail's icon instead.
-	if (!image)
-		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
 	NSString *notificationName;
 	if ([self isJunk] || ([[MailAccount junkMailboxUids] containsObject:[self mailbox]])) {
