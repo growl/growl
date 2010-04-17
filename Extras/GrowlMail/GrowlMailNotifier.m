@@ -10,6 +10,7 @@
 #import "GrowlMail.h"
 #import "Message+GrowlMail.h"
 #import <objc/objc-runtime.h>
+#include <execinfo.h>
 
 #import "MessageFrameworkHeaders.h"
 
@@ -522,6 +523,28 @@ void GMShutDownGrowlMailAndWarn(NSString *specificWarning) {
 	NSLog(NSLocalizedString(@"WARNING: Mail is not behaving in the way that GrowlMail expects. This is probably because GrowlMail is incompatible with the version of Mail you're using. GrowlMail will now turn itself off. Please check the Growl website for a new version. If you're a programmer and want to debug this error, run gdb, load Mail, set a breakpoint on %s, and run.", /*comment*/ nil), __PRETTY_FUNCTION__);
 	if (specificWarning)
 		NSLog(@"Furthermore, the caller provided a more specific message: %@", specificWarning);
+	NSMutableArray *stackSymbols = nil;
+	enum { maxNumSymbols = 128U };
+	void *addresses[maxNumSymbols];
+	int numAddresses = backtrace(addresses, maxNumSymbols);
+	if (numAddresses > 0) {
+		char **stackSymbolCStrings = backtrace_symbols(addresses, numAddresses);
+		if (stackSymbolCStrings) {
+			stackSymbols = [NSMutableArray arrayWithCapacity:numAddresses];
+			for (int i = 0; i < numAddresses; ++i) {
+				NSString *symbol = [[NSString alloc] initWithUTF8String:stackSymbolCStrings[i]];
+				NSString *symbolToRelease = symbol;
+				if (!symbol)
+					symbol = @"?!?!";
+				[stackSymbols addObject:symbol];
+				[symbolToRelease release];
+			}
+			NSString *stackSymbolsSeparatedByNewline = [stackSymbols componentsJoinedByString:@"\n"];
+			NSLog(@"Stack trace follows:\n%@", stackSymbolsSeparatedByNewline);
+
+			free(stackSymbolCStrings);
+		}
+	}
 
 	[sharedNotifier shutDownGrowlMail];
 
