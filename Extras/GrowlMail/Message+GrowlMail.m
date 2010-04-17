@@ -90,6 +90,9 @@
 	NSString *account = (NSString *)[[[self mailbox] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
+	BOOL senderAddressIsValid = [senderAddress respondsToSelector:@selector(isLegalEmailAddress)]
+		? [senderAddress isLegalEmailAddress]
+		: ([senderAddress rangeOfString:@"@"].location != NSNotFound);
 	NSString *subject = (NSString *)[self subject];
 	NSString *body;
 	GrowlMailNotifier *notifier = [GrowlMailNotifier sharedNotifier];
@@ -161,17 +164,19 @@
 	[addressManager fetchImageForAddress:senderAddress];
 	NSImage *image = [addressManager imageForMailAddress:senderAddress];
 	*/
-	ABSearchElement *personSearch = [ABPerson searchElementForProperty:kABEmailProperty
-																 label:nil
-																   key:nil
-																 value:senderAddress
-															comparison:kABEqualCaseInsensitive];
-
 	NSData *image = nil;
-	NSEnumerator *matchesEnum = [[[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch] objectEnumerator];
-	ABPerson *person;
-	while ((!image) && (person = [matchesEnum nextObject]))
-		image = [person imageData];
+	if (senderAddressIsValid) {
+		ABSearchElement *personSearch = [ABPerson searchElementForProperty:kABEmailProperty
+																	 label:nil
+																	   key:nil
+																	 value:senderAddress
+																comparison:kABEqualCaseInsensitive];
+
+		NSEnumerator *matchesEnum = [[[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch] objectEnumerator];
+		ABPerson *person;
+		while ((!image) && (person = [matchesEnum nextObject]))
+			image = [person imageData];
+	}
 
 	//no matches in the Address Book with an icon, so use Mail's icon instead.
 	if (!image)
