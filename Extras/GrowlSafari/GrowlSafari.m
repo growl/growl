@@ -255,9 +255,12 @@ static void setDownloadFinished(id dl) {
 }
 
 + (void) growlNotificationWasClicked:(id)clickContext {
-	NSURL *url = [[NSURL alloc] initWithString:clickContext];
-	[[NSWorkspace sharedWorkspace] openURL:url];
-	[url release];
+	NSURL *URL = [NSURL URLWithString:clickContext];
+	if ([[URL scheme] isEqualToString:@"file"]) {
+		[[NSWorkspace sharedWorkspace] selectFile:[URL path] inFileViewerRootedAtPath:@""];
+	} else {
+		[[NSWorkspace sharedWorkspace] openURL:URL];
+	}
 }
 
 + (void) notifyRSSUpdate:(id)bookmark newEntries:(int)newEntries {
@@ -339,7 +342,7 @@ static void setDownloadFinished(id dl) {
 										   iconData:nil
 										   priority:0
 										   isSticky:NO
-									   clickContext:nil];
+									   clickContext:[[NSURL fileURLWithPath:[self currentPath]] absoluteString]];
 			[description release];
 		}
 	} else if (stage == GrowlSafariDownloadStageActive) {
