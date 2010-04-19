@@ -152,7 +152,9 @@ static BOOL isLongDownload(id dl) {
 }
 
 static void setDownloadFinished(id dl) {
-	[dates removeObjectForKey:[dl identifier]];
+	if (dl && [dl respondsToSelector:@selector(identifier)] && [dl identifier]) {
+		[dates removeObjectForKey:[dl identifier]];
+	}
 }
 
 @implementation GrowlSafari
