@@ -23,7 +23,8 @@ STRING_TYPE GrowlLog_StringFromRect(NSRect rect);
 
 @interface GrowlLog: NSObject
 {
-	NSDate *lastLoggingEnabledFetchDate;
+	NSTimeInterval lastLoggingEnabledFetchTime;
+	BOOL hasFetchedLoggingEnabled;
 	BOOL loggingEnabled;
 }
 
