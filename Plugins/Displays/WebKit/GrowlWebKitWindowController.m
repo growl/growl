@@ -222,7 +222,7 @@
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 
-	[webFrame loadHTMLString:(NSString *)htmlString baseURL:nil];
+	[webFrame loadHTMLString:(NSString *)htmlString baseURL:baseURL];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	CFRelease(htmlString);
 }
