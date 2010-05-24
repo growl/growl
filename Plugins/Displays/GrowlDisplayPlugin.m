@@ -158,7 +158,8 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			bridge = nil;
 		}
 	} else {
-		theBridge = [activeBridges bridgeForWindowController:wc];
+		//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
+		theBridge = [[[wc bridge] retain] autorelease];
 		[theBridge removeWindowController:wc];
 		[activeBridges removeObjectIdenticalTo:theBridge];
 	}
