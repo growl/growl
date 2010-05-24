@@ -108,7 +108,6 @@ static NSMutableDictionary *existingInstances;
 
 - (void) dealloc {
 	[self setDelegate:nil];
-	[[self bridge] removeObserver:self forKeyPath:@"notification"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self stopAllTransitions];
 
@@ -557,23 +556,11 @@ static NSMutableDictionary *existingInstances;
 	if (bridge != theBridge) {
 		if (bridge) {
 			NSLog(@"*** This may be an error. %@ had its bridge reset", self);
-			[bridge removeObserver:self forKeyPath:@"notification"];
 		}
 
 		//Do not retain! The bridge owns us; retaining the bridge here is a mutual retention—i.e., a leak.
 		bridge = theBridge;
 
-		[bridge addObserver:self forKeyPath:@"notification" options:NSKeyValueObservingOptionNew context:NULL];
-		[self observeValueForKeyPath:@"notification" ofObject:bridge change:nil context:NULL];
-	}
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-#pragma unused(change)
-#pragma unused(context)
-	if ((object == bridge) &&
-		[keyPath isEqualToString:@"notification"]) {
 		[self setNotification:[bridge notification]];
 	}
 }
