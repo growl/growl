@@ -19,15 +19,14 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 @implementation GrowlDisplayPlugin
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initWithBundle:(NSBundle *)bundle {
+	if ((self = [super initWithBundle:bundle])) {
 		/*determine whether this display should enqueue notifications when a
 		 *	notification is already being displayed.
 		 */
 		BOOL queuesNotifications = NO;
 		windowControllerClass    = nil;
 
-		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyUsesQueue];
 		if (queuesNotificationsObject) {
 			NSAssert4([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
