@@ -115,7 +115,6 @@ static NSMutableDictionary *existingInstances;
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
-	[bridge				 release];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -560,9 +559,10 @@ static NSMutableDictionary *existingInstances;
 			NSLog(@"*** This may be an error. %@ had its bridge reset", self);
 			[bridge removeObserver:self forKeyPath:@"notification"];
 		}
-		
-		bridge = [theBridge retain];
-		
+
+		//Do not retain! The bridge owns us; retaining the bridge here is a mutual retention—i.e., a leak.
+		bridge = theBridge;
+
 		[bridge addObserver:self forKeyPath:@"notification" options:NSKeyValueObservingOptionNew context:NULL];
 		[self observeValueForKeyPath:@"notification" ofObject:bridge change:nil context:NULL];
 	}
