@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# simple-mailer by Peter Hosey
+# https://bitbucket.org/boredzo/simple-mailer
+
 # Usage: simple-mailer [--[no-]tls] username[:password]@server[:port] from to subject
 
 import optparse
@@ -57,6 +60,7 @@ msg_lines.append('From: ' + from_addr + '\r\n')
 msg_lines.append('To: ' + to_addr + '\r\n')
 msg_lines.append('Subject: ' + subject + '\r\n')
 msg_lines.append('User-Agent: ' + ' '.join(user_agent_product_tokens) + '\r\n')
+msg_lines.append('\r\n')
 msg_lines += (line.rstrip('\r\n') + '\r\n' for line in sys.stdin)
 smtp.sendmail(from_addr, [to_addr], ''.join(msg_lines))
 smtp.quit()
