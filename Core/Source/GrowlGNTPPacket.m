@@ -3,10 +3,11 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 9/6/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlGNTPPacket.h"
+#import "GrowlSubscribeGNTPPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
@@ -14,6 +15,7 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "NSCalendarDate+ISO8601Unparsing.h"
 #import "GrowlApplicationAdditions.h"
+#import "GNTPKey.h"
 
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
@@ -25,6 +27,11 @@
 @end
 
 @implementation GrowlGNTPPacket
+
+@synthesize action = mAction;
+@synthesize key = mKey;
+
+@synthesize delegate = mDelegate;
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket
 {
@@ -40,7 +47,6 @@
 	GrowlGNTPPacket *specificPacket = [[[self alloc] initForSocket:[packet socket]] autorelease];
 	[specificPacket setDelegate:packet];
 	[specificPacket setAction:[packet action]];
-	[specificPacket setEncryptionAlgorithm:[packet encryptionAlgorithm]];
 	[specificPacket setPacketID:[packet packetID]];
 
 	return specificPacket;
@@ -65,8 +71,7 @@
 
 	[socket release];
 	[specificPacket release];
-	[action release];
-	[encryptionAlgorithm release];
+	[mAction release];
 	[binaryDataByIdentifier release];
 	[pendingBinaryIdentifiers release];
 	[packetID release];
@@ -97,52 +102,21 @@
 	packetID = [inPacketID retain];
 }
 
-- (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
-{
-	delegate = inDelegate;
-}
-- (id <GrowlGNTPPacketDelegate>)delegate
-{
-	return delegate;
-}
-
 - (GrowlPacketType)packetType
 {
-	if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame)
-		return GrowlNotifyPacketType;
-	else if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame)
+	if ([mAction caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame)
+		return GrowlSubscribePacketType;
+	else if ([mAction caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame)
 		return GrowlRegisterPacketType;
-	else if ([action caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame)
+	else if ([mAction caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame)
+		return GrowlNotifyPacketType;
+	else if ([mAction caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame)
 		return GrowlCallbackPacketType;
-	else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame)
+	else if ([mAction caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame)
 		return GrowlOKPacketType;
 	else
 		return GrowlUnknownPacketType;
 }
-
-- (NSString *)action
-{
-	return action;
-}
-- (void)setAction:(NSString *)inAction
-{
-	if (action != inAction) {
-		[action release];
-		action = [inAction retain];
-	}
-}
-- (NSString *)encryptionAlgorithm
-{
-	return encryptionAlgorithm;
-}
-- (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm
-{
-	if (encryptionAlgorithm != inEncryptionAlgorithm) {
-		[encryptionAlgorithm release];
-		encryptionAlgorithm = [inEncryptionAlgorithm retain];
-	}
-}
-
 
 - (void)setError:(NSError *)inError
 {
@@ -243,17 +217,39 @@
 		return NO;
 	}
 
+	NSLog(@"items: %@", items);
 	/* GNTP was eaten by our first-four byte read, so we start at the version number, /1.0 */
 	if ([[items objectAtIndex:0] isEqualToString:@"/1.0"]) {
 		/* We only support version 1.0 at this time */
-		action = [[items objectAtIndex:1] retain];
-		encryptionAlgorithm = [[items objectAtIndex:2] retain];
-
-		if ([items count] > 3) {
-			NSString *passwordInfo = [items objectAtIndex:3];
-			NSLog(@"Unusued password info...");
+		[self setAction:[items objectAtIndex:1]];
+		
+		GNTPKey *key = [[[GNTPKey alloc] init] autorelease];
+		
+		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
+		NSString *encryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
+		if([GNTPKey isSupportedEncryptionAlgorithm:encryptionAlgorithm])
+		{
+			[key setEncryptionAlgorithm:encryptionAlgorithm]; //this should be None if there is only one item
+			if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
+				[key setIV:[encryptionSubstrings objectAtIndex:1]];
 		}
 		
+		NSArray *keySubstrings = [[items objectAtIndex:3] componentsSeparatedByString:@":"];
+		NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
+		if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm])
+		{
+			[key setKeyHashAlgorithm:keyHashAlgorithm];
+			if([keySubstrings count] == 2)
+			{
+				NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
+				if([keyHashStrings count] == 2)
+				{
+					[key setKeyHash:[keyHashStrings objectAtIndex:0]];
+					[key setKeyHashSalt:[keyHashStrings objectAtIndex:1]];
+				}
+			}
+		}
+		[self setKey:key];
 		return YES;
 	}
 
@@ -262,24 +258,30 @@
 
 - (void)configureToParsePacket
 {
-	if ([action caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame) {
+	if([mAction caseInsensitiveCompare:@"SUBSCRIBE"] == NSOrderedSame) {
+		specificPacket = [[GrowlSubscribeGNTPPacket specificNetworkPacketForPacket:self] retain];
+		
+	} else if ([mAction caseInsensitiveCompare:@"REGISTER"] == NSOrderedSame) {
 		specificPacket = [[GrowlRegisterGNTPPacket specificNetworkPacketForPacket:self] retain];
 		
-	} else if ([action caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
+	} else if ([mAction caseInsensitiveCompare:@"NOTIFY"] == NSOrderedSame) {
 		specificPacket = [[GrowlNotificationGNTPPacket specificNetworkPacketForPacket:self] retain];
 
-	} else if ([action caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame) {
+	} else if ([mAction caseInsensitiveCompare:@"-CALLBACK"] == NSOrderedSame) {
 		specificPacket = [[GrowlCallbackGNTPPacket specificNetworkPacketForPacket:self] retain];
 
-	} else if ([action caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
+	} else if ([mAction caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
 		/* An OK response can be silently dropped */
 		[self networkPacketReadComplete];
 
-	} else if ([action caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
+	} else if ([mAction caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
 		NSLog(@"%@: Error :(", self);
 		//XXX
 /*		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain]; */
+	} else {
+		NSLog(@"Unknown request type: %@", mAction);
 	}
+
 
 	//Get the specific packet started if we made one; it'll take it from there
 	[specificPacket readNextHeader];	
@@ -317,13 +319,27 @@
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
 	NSError *anError;
-	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
-	if (headerItem) {
-		return [self receivedHeaderItem:headerItem];
-	
-	} else {
-		[self setError:anError];
-		return GrowlReadDirective_Error;
+	if(![[self encryptionAlgorithm] isEqual:GrowlGNTPNone])
+	{
+		NSLog(@"%@ %@ %@", [self keyHash], [self keyHashSalt], [self IV]);
+		GNTPKey *key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA256 encryptionAlgorithm:GNTPAES];
+		[key setSalt:[self keyHashSalt]];
+		[key generateKey];
+		[key setIV:[self IV]];
+		
+		NSData *decryptedHeaders = [key decrypt:inData];
+	}
+	else
+	{
+		
+		GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
+		if (headerItem) {
+			return [self receivedHeaderItem:headerItem];
+			
+		} else {
+			[self setError:anError];
+			return GrowlReadDirective_Error;
+		}
 	}
 }
 
@@ -583,7 +599,7 @@
 	
 	/* If we're going to ever read anything else on this socket, it must first be preceeded by the GNTP/1.0 END tag */
 #define CRLF "\x0D\x0A"	
-	NSData *endData = [[NSString stringWithFormat:@"GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
+	NSData *endData = [[NSString stringWithFormat:@"" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
 
 	[socket readDataToData:endData
 			   withTimeout:-1
@@ -753,7 +769,7 @@
 }
 
 /*
- This will be called whenever AsyncSocket is about to disconnect. Tthis is
+ This will be called whenever AsyncSocket is about to disconnect. This is
  a good place to do disaster-recovery by getting partially-read data. This is
  not, however, a good place to do cleanup. The socket must still exist when this
  method returns.
@@ -774,7 +790,7 @@
 
 #pragma mark GrowlGNTPPacketDelegate
 /*!
- * @brief Called by our specific packet; we'll pas it on to our delegate
+ * @brief Called by our specific packet; we'll pass it on to our delegate
  *
  * Note that we pass on the specific packet, as it has all the needed data, not self.
  *
@@ -804,12 +820,16 @@
 
 #pragma mark -
 
+#import "GrowlDefines.h"
 - (NSString *)description
 {
+	//we copy and remove the icon data because...well....looking at the data doesn't really help us
+	NSMutableDictionary *growlDictionary = [[[self growlDictionary] mutableCopy] autorelease];
+	[growlDictionary removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
 	if (specificPacket)
-		return [NSString stringWithFormat:@"<%@ %x: %@ --> %@>", NSStringFromClass([self class]), self, [self growlDictionary], specificPacket];
+		return [NSString stringWithFormat:@"<%@ %x: %@ --> %@>", NSStringFromClass([self class]), self, growlDictionary, specificPacket];
 	else
-		return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, [self growlDictionary]];
+		return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, growlDictionary];
 }
 
 @end

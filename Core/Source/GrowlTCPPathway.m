@@ -27,7 +27,6 @@
 		tcpServer = [[GrowlTCPServer alloc] init];
 
 		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
-		[tcpServer setName:@"GNTP Testing"];
 		[tcpServer setType:@"_gntp._tcp."];
 		[tcpServer setPort:GROWL_TCP_PORT];
 		[tcpServer setDelegate:self];
@@ -40,9 +39,9 @@
 		
 		/* 9999 for testing only */
 #warning TCP also opening 9999 for testing
-		tcpServer = [[GrowlTCPServer alloc] init];
+		/*tcpServer = [[GrowlTCPServer alloc] init];
 		
-		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
+		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. *
 		[tcpServer setName:@"GNTP Testing"];
 		[tcpServer setType:@"_gntp._tcp."];
 		[tcpServer setPort:9999];
@@ -51,7 +50,7 @@
 		error = nil;
 		if (![tcpServer start:&error])
 			NSLog(@"Error starting Growl TCP server: %@", error);
-		[[tcpServer netService] setDelegate:self];		
+		[[tcpServer netService] setDelegate:self];*/		
 
 	}
 		
@@ -80,7 +79,7 @@
 			localDistributedObjectConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
 			[localDistributedObjectConnection setRootObject:self];
 			[localDistributedObjectConnection setDelegate:self];
-			if (![localDistributedObjectConnection registerName:@"GrowlServer" withNameServer:[NSSocketPortNameServer sharedInstance]]) {
+			if (![localDistributedObjectConnection registerName:@"GrowlServer"]) {//withNameServer:[NSSocketPortNameServer sharedInstance]]) {
 				NSLog(@"WARNING: could not register Growl server. Occupied by %@", 
 					  [NSConnection connectionWithRegisteredName:@"GrowlServer" host:nil]);
 			}

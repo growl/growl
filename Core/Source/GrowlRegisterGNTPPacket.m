@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlRegisterGNTPPacket.h"
@@ -24,6 +24,8 @@
  */
 @implementation GrowlRegisterGNTPPacket
 
+@synthesize applicationIconURL = mApplicationIconURL;
+
 - (id)init
 {
 	if ((self = [super init])) {
@@ -42,7 +44,7 @@
 	[currentNotification release];
 	
 	[applicationIconID release];
-	[applicationIconURL release];
+	[mApplicationIconURL release];
 	
 	[super dealloc];
 }
@@ -80,14 +82,10 @@
 }
 - (void)setApplicationIconURL:(NSURL *)url
 {
-	[applicationIconURL autorelease];
-	applicationIconURL = [url retain];
+	[mApplicationIconURL autorelease];
+	mApplicationIconURL = [url retain];
 	
 	/* XXX Start loading the URL in the background? */
-}
-- (NSURL *)applicationIconURL
-{
-	return applicationIconURL;
 }
 
 - (NSData *)applicationIconData
@@ -95,9 +93,9 @@
 	NSData *data = nil;
 	if (applicationIconID) {
 		data = [binaryDataByIdentifier objectForKey:applicationIconID];
-	} else if (applicationIconURL) {
+	} else if (mApplicationIconURL) {
 		/* XXX Blocking */
-		data = [NSData dataWithContentsOfURL:applicationIconURL];
+		data = [NSData dataWithContentsOfURL:mApplicationIconURL];
 	}
 
 	return data;
@@ -316,6 +314,8 @@
 					   forKey:GROWL_NOTIFICATIONS_DEFAULT];
 	[growlDictionary setValue:humanReadableNames
 					   forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	[growlDictionary setValue:host
+					   forKey:GROWL_UDP_REMOTE_ADDRESS];
 	
 	return growlDictionary;
 }

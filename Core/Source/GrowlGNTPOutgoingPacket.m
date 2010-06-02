@@ -3,26 +3,38 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/30/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPBinaryChunk.h"
+#import "GrowlGNTPEncryptedHeaders.h"
 
 /* XXX For GNTPOutgoingItem which should probably move */
 #import "GrowlTCPPathway.h"
 
 @interface GrowlGNTPInitialHeaderItem : NSObject <GNTPOutgoingItem>
 {
-	NSString *action;
+	NSString *mAction;
+	NSString *mEncryption;
+	NSString *mKey;
 }
 + (GrowlGNTPInitialHeaderItem *)initialHeaderItemWithAction:(NSString *)action;
 - (id)initWithAction:(NSString *)inAction;
+
+@property (retain) NSString *action;
+@property (retain) NSString *encryption;
+@property (retain) NSString *key;
+
 @end
 
 @implementation GrowlGNTPInitialHeaderItem
+@synthesize action = mAction;
+@synthesize encryption = mEncryption;
+@synthesize key = mKey;
+
 + (GrowlGNTPInitialHeaderItem *)initialHeaderItemWithAction:(NSString *)action
 {
 	return [[[self alloc] initWithAction:action] autorelease];
@@ -31,36 +43,70 @@
 - (id)initWithAction:(NSString *)inAction
 {
 	if ((self = [self init])) {
-		action = [inAction retain];
+		mAction = [inAction retain];
+		mEncryption = GrowlGNTPNone;
+		mKey = GrowlGNTPNone;
 	}
 	
 	return self;
 }
 - (void)dealloc
 {
-	[action release];
+	[mAction release];
 	[super dealloc];
 }
 - (NSData *)GNTPRepresentation
 {
 #define CRLF "\x0D\x0A"	
-	return [[NSString stringWithFormat:@"GNTP/1.0 %@ NONE NONE" CRLF, action] dataUsingEncoding:NSUTF8StringEncoding];	
+	NSString *result = nil;
+	result = [NSString stringWithFormat:@"GNTP/1.0 %@ %@", [self action], [self encryption]];
+	if([[self key] caseInsensitiveCompare:GrowlGNTPNone] != NSOrderedSame)
+		result = [result stringByAppendingFormat:@" %@", [self key]];
+	result = [result stringByAppendingFormat:@"" CRLF];
+	
+	return [result dataUsingEncoding:NSUTF8StringEncoding];	
 }
 @end
 
-@interface GrowlGNTPEndHeaderItem : NSObject <GNTPOutgoingItem> {};
+@interface GrowlGNTPEndHeaderItem : NSObject <GNTPOutgoingItem> 
+{
+	NSInteger _connectionType;
+}
+
 + (GrowlGNTPEndHeaderItem *)endHeaderItem;
+@property (assign) NSInteger connectionType;
 @end
 
 @implementation GrowlGNTPEndHeaderItem
+@synthesize connectionType = _connectionType;
+
 + (GrowlGNTPEndHeaderItem *)endHeaderItem
 {
 	return [[[self alloc] init] autorelease];
 }
+
+- (id)init
+{
+	if((self = [super init]))
+	{
+		_connectionType = GrowlGNTP_Close;
+	}
+	return self;
+}
 - (NSData *)GNTPRepresentation
 {
-#define CRLF "\x0D\x0A"	
-	return [[NSString stringWithFormat:@"GNTP/1.0 END" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
+#define CRLF "\x0D\x0A"
+	NSString *result = nil;
+	switch ([self connectionType]) {
+		case GrowlGNTP_KeepAlive:
+			result = [NSString stringWithFormat:@"GNTP/1.0 END" CRLF CRLF];
+			break;
+		case GrowlGNTP_Close:
+		default:
+			result = [NSString stringWithFormat:@"%s%s", CRLF, CRLF];
+			break;
+	}
+	return [result dataUsingEncoding:NSUTF8StringEncoding]; 	
 }
 @end
 
@@ -69,6 +115,9 @@
 @end
 
 @implementation GrowlGNTPOutgoingPacket
+@synthesize action = mAction;
+@synthesize key = mKey;
+
 + (GrowlGNTPOutgoingPacket *)outgoingPacket
 {
 	return [[[self alloc] init] autorelease];
@@ -88,7 +137,11 @@
 		case GrowlGNTPOutgoingPacket_NotifyType:
 		{
 			NSString *notificationID = nil;
-			[outgoingPacket setAction:@"NOTIFY"];	
+			NSMutableDictionary *dictionary = [[dict mutableCopy] autorelease];
+			[dictionary removeObjectForKey:@"ApplicationIcon"];
+			[dictionary removeObjectForKey:@"NotificationIcon"];
+			NSLog(@"%@", dictionary);
+			[outgoingPacket setAction:GrowlGNTPNotificationMessageType];	
 			[GrowlNotificationGNTPPacket getHeaders:&headersArray
 									   binaryChunks:&binaryArray
 									 notificationID:&notificationID
@@ -99,10 +152,18 @@
 		}
 		case GrowlGNTPOutgoingPacket_RegisterType:
 		{
-			[outgoingPacket setAction:@"REGISTER"];				
+			[outgoingPacket setAction:GrowlGNTPRegisterMessageType];				
+			NSMutableDictionary *dictionary = [[dict mutableCopy] autorelease];
+			[dictionary removeObjectForKey:@"ApplicationIcon"];
+			[dictionary removeObjectForKey:@"NotificationIcon"];
 			[GrowlRegisterGNTPPacket getHeaders:&headersArray andBinaryChunks:&binaryArray forRegistrationDict:dict];
 			break;
-		}		
+		}
+		case GrowlGNTPOutgoingPacket_SubscribeType:
+		{
+			[outgoingPacket setAction:GrowlGNTPSubscribeMessageType];
+			 break;
+		}
 	}
 
 	[outgoingPacket addHeaderItems:headersArray];
@@ -130,11 +191,17 @@
 	[super dealloc];
 }
 
-- (void)setAction:(NSString *)inAction
+- (void)setKey:(GNTPKey *)key
 {
-	[action autorelease];
-	action = [inAction retain];
+	if (![[self key] isEqual:key]) 
+	{
+		[mKey autorelease];
+		mKey = [key retain];
+	}
+	[[self key] generateSalt];
+	[[self key] generateKey];
 }
+
 - (void)addHeaderItem:(GrowlGNTPHeaderItem *)inItem
 {
 	[headerItems addObject:inItem];
@@ -174,24 +241,48 @@
 {
 	NSMutableArray *allOutgoingItems = [NSMutableArray array];
 
-	[allOutgoingItems addObject:[GrowlGNTPInitialHeaderItem initialHeaderItemWithAction:action]];
-	[allOutgoingItems addObjectsFromArray:headerItems];
+	GrowlGNTPInitialHeaderItem *header = [GrowlGNTPInitialHeaderItem initialHeaderItemWithAction:[self action]];
+	NSString *key = [[self key] key];
+	NSString *encryption = [[self key] encryption];
+	[header setKey:key];
+	[header setEncryption:encryption];
+	[allOutgoingItems addObject:header];
+	
+	if(![[[self key] encryption] isEqual:GrowlGNTPNone])
+	{
+		NSMutableData *headers = [NSMutableData data];
+		
+		for(GrowlGNTPHeaderItem *headerItem in headerItems)
+		{
+			[headers appendData:[headerItem GNTPRepresentation]];
+		}
+		NSData *data = [[self key] encrypt:headers];
+		GrowlGNTPEncryptedHeaders *encryptedHeaders = [GrowlGNTPEncryptedHeaders headerItemFromData:data error:NULL];
+		[allOutgoingItems addObject:encryptedHeaders];
+		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
+	}
+	else
+		[allOutgoingItems addObjectsFromArray:headerItems];
 
 	if ([binaryChunks count]) {
 		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
+		if(![[[self key] encryption] isEqual:GrowlGNTPNone])
+		{
+			for(GrowlGNTPBinaryChunk *chunk in binaryChunks)
+				[chunk setData:[[self key] encrypt:[chunk data]]];
+			
+		}
+		
 		[allOutgoingItems addObjectsFromArray:binaryChunks];
 	}
-	[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
 	[allOutgoingItems addObject:[GrowlGNTPEndHeaderItem endHeaderItem]];
 
 	return allOutgoingItems;
 }
 
 - (void)writeToSocket:(AsyncSocket *)socket
-{
-	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
-	id <GNTPOutgoingItem> item;
-	while ((item = [enumerator nextObject])) {
+{	
+	for(id <GNTPOutgoingItem> item in [self outgoingItems]) {
 		[socket writeData:[item GNTPRepresentation]
 			  withTimeout:-1
 					  tag:0];
@@ -208,16 +299,15 @@
 	NSMutableString *description = [NSMutableString string];
 	[description appendFormat:@"<%@: %x: \"", NSStringFromClass([self class]), self];
 	
-	NSEnumerator *enumerator = [[self outgoingItems] objectEnumerator];
-	NSObject<GNTPOutgoingItem> *item;
-
-	while ((item = [enumerator nextObject])) {
+	for(NSObject<GNTPOutgoingItem> *item in [self outgoingItems]) {
 		if ([item isKindOfClass:[GrowlGNTPBinaryChunk class]]) {
 			[description appendFormat:@"Binary chunk %@, length %d\n",
 			 [(GrowlGNTPBinaryChunk *)item identifier], [(GrowlGNTPBinaryChunk *)item length]];
 		} else {
-			[description appendString:[[[NSString alloc] initWithData:[item GNTPRepresentation]
-															 encoding:NSUTF8StringEncoding] autorelease]];
+			NSString *string = [[[NSString alloc] initWithData:[item GNTPRepresentation]
+											 encoding:NSUTF8StringEncoding] autorelease];
+			if(string)
+				[description appendString:string];
 		}
 	}
 	[description appendString:@"\">"];

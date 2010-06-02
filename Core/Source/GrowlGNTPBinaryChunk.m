@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/30/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlGNTPBinaryChunk.h"
@@ -15,6 +15,9 @@
 @end
 
 @implementation GrowlGNTPBinaryChunk
+@synthesize data = _data;
+@synthesize identifier = _identifier;
+
 + (GrowlGNTPBinaryChunk *)chunkForData:(NSData *)inData withIdentifier:(NSString *)inIdentifier
 {
 	return [[[self alloc] initWithData:inData identifier:inIdentifier] autorelease];
@@ -23,8 +26,8 @@
 - (id)initWithData:(NSData *)inData identifier:(NSString *)inIdentifier
 {
 	if ((self = [self init])) {
-		data = [inData retain];
-		identifier = [inIdentifier retain];
+		[self setData:inData];
+		[self setIdentifier:inIdentifier];
 	}
 	
 	return self;
@@ -32,20 +35,15 @@
 
 - (void)dealloc
 {
-	[data release];
-	[identifier release];
+	[_data release];
+	[_identifier release];
 
 	[super dealloc];
 }
 
-- (NSString *)identifier
+- (NSUInteger)length
 {
-	return identifier;
-}
-
-- (unsigned int)length
-{
-	return [data length];
+	return [_data length];
 }
 
 #define CRLF "\x0D\x0A"
@@ -54,12 +52,12 @@
 {
 	NSMutableData *gntpData = [NSMutableData data];
 	NSMutableString *rep = [NSMutableString string];
-	[rep appendFormat:@"Identifier: %@" CRLF, identifier];
-	[rep appendFormat:@"Length: %d" CRLF, [data length]];
+	[rep appendFormat:@"Identifier: %@" CRLF, _identifier];
+	[rep appendFormat:@"Length: %d" CRLF, [_data length]];
 	[rep appendString:@CRLF];
 	
 	[gntpData appendData:[rep dataUsingEncoding:NSUTF8StringEncoding]];
-	[gntpData appendData:data];
+	[gntpData appendData:_data];
 	[gntpData appendData:[AsyncSocket CRLFData]]; /* End the data */
 	[gntpData appendData:[AsyncSocket CRLFData]]; /* Blank line after the chunk */
 	

@@ -16,59 +16,72 @@
 #define GrowlBrowserEntryKeychainServiceName "GrowlOutgoingNetworkConnection"
 
 @implementation GrowlBrowserEntry
+@synthesize computerName = _name;
+@synthesize uuid = _uuid;
+@synthesize use = _use;
+@synthesize active = _active;
 
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [self init])) {
-		properties = [dict mutableCopy];
+		NSString *uuid = [dict valueForKey:@"uuid"];
+		if(!uuid)
+		{
+			CFUUIDRef newUUID = CFUUIDCreate(kCFAllocatorDefault);
+			if(newUUID)
+			{
+				CFStringRef UUIDString = CFUUIDCreateString(kCFAllocatorDefault, newUUID);
+				[self setUuid:(NSString*)UUIDString];
+				CFRelease(newUUID);
+				CFRelease(UUIDString);
+			}
+		}
+		else
+			[self setUuid:uuid];
+		[self setComputerName:[dict valueForKey:@"computer"]];
+		[self setUse:[[dict valueForKey:@"use"] boolValue]];
+		[self setActive:[[dict valueForKey:@"active"] boolValue]];
 	}
 
 	return self;
 }
 
 - (id) initWithComputerName:(NSString *)name {
-	if ((self = [self init])) {
-		properties = [[NSMutableDictionary alloc] init];
-		[properties setValue:name forKey:@"computer"];
-		[properties setValue:[NSNumber numberWithBool:FALSE] forKey:@"use"];
-		[properties setValue:[NSNumber numberWithBool:TRUE] forKey:@"active"];
+	if ((self = [self init])) {		
+		CFUUIDRef newUUID = CFUUIDCreate(kCFAllocatorDefault);
+		if(newUUID)
+		{
+			CFStringRef UUIDString = CFUUIDCreateString(kCFAllocatorDefault, newUUID);
+			[self setUuid:(NSString*)UUIDString];
+			CFRelease(newUUID);
+			CFRelease(UUIDString);
+		}
+		[self setComputerName:name];
+		[self setUse:FALSE];
+		[self setActive:TRUE];
 	}
 
 	return self;
 }
 
-- (BOOL) use {
-	return [[properties valueForKey:@"use"] boolValue];
-}
-
 - (void) setUse:(BOOL)flag {
-	[properties setValue:[NSNumber numberWithBool:flag]
-				  forKey:@"use"];
+	_use = flag;
 	[owner writeForwardDestinations];
-}
-
-- (BOOL) active {
-	return [[properties valueForKey:@"active"] boolValue];
 }
 
 - (void) setActive:(BOOL)flag {
-	[properties setValue:[NSNumber numberWithBool:flag]
-				  forKey:@"active"];
+	_active = flag;
 	[owner writeForwardDestinations];
 }
 
-- (NSString *) computerName {
-	return [properties valueForKey:@"computer"];
-}
-
 - (void) setComputerName:(NSString *)name {
-	[properties setValue:name
-				  forKey:@"computer"];
-
+	if(![_name isEqual:name])
+		[_name autorelease];
+	_name = [name retain];
 	[owner writeForwardDestinations];
 }
 
 - (NSString *) password {
-	if (!didPasswordLookup) {
+	if (!didPasswordLookup && [self computerName]) {
 		unsigned char *passwordChars;
 		UInt32 passwordLength;
 		OSStatus status;
@@ -144,13 +157,12 @@
 	owner = pref;
 }
 
-- (NSDictionary *) properties {
-	return properties;
+- (NSMutableDictionary *) properties {
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self uuid], @"uuid", [self computerName], @"computer", [NSNumber numberWithBool:[self use]], @"use", [NSNumber numberWithBool:[self active]], @"active", nil];
 }
 
 - (void) dealloc {
 	[password release];
-	[properties release];
 
 	[super dealloc];
 }

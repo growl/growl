@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

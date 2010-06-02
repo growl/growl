@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 11/3/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlCallbackGNTPPacket.h"
@@ -64,15 +64,15 @@
 		}
 	}
 
-	if ([name caseInsensitiveCompare:@"Notification-ID"] == NSOrderedSame) {
+	if ([name caseInsensitiveCompare:GrowlGNTPNotificationID] == NSOrderedSame) {
 		[self setIdentifier:value];
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Result"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame) {
 		if ([value caseInsensitiveCompare:@"CLICKED"] == NSOrderedSame) {
 			[self setCallbackType:GrowlGNTPCallback_Clicked];
 		} else {
 			[self setCallbackType:GrowlGNTPCallback_Closed];			
 		}
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
 		id propertyList = [NSPropertyListSerialization propertyListFromData:[value dataUsingEncoding:NSUTF8StringEncoding]
 														   mutabilityOption:NSPropertyListImmutable
 																	 format:NULL
@@ -80,15 +80,15 @@
 		[callbackDict setObject:(propertyList ? propertyList : value)
 							 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context-Type"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
 		[callbackDict setObject:value
 							 forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
-	} else if ([name caseInsensitiveCompare:@"Application-Name"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPApplicationNameHeader] == NSOrderedSame) {
 		[callbackDict setValue:value forKey:GROWL_APP_NAME];
-	} else if ([name caseInsensitiveCompare:@"X-Application-PID"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPApplicationPIDHeader] == NSOrderedSame) {
 		[callbackDict setObject:value
 						 forKey:GROWL_APP_PID];
-	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
+	} else if ([name rangeOfString:GrowlGNTPExtensionPrefix options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 		[self addCustomHeader:headerItem];
 	}
 

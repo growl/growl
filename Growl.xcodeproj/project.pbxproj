@@ -195,6 +195,10 @@
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
 		938CAC1F1080D51100259421 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938CAC131080D51100259421 /* GrowlPref.xib */; };
+		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
+		938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */; };
+		938CB10C1081250600259421 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
+		938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB16D1081324100259421 /* GrowlGNTPKeyController.m */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
 		93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
 		93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
@@ -218,6 +222,7 @@
 		93BC37C9095A66CD0002B365 /* GrowlNanoPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37C7095A66CD0002B365 /* GrowlNanoPrefs.nib */; };
 		93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
 		93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
+		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */; };
 		93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92B90B5AF8CA000C39CD /* AWRippler.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
@@ -941,6 +946,13 @@
 		938CAC1C1080D51100259421 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = Core/Resources/sv.lproj/GrowlPref.xib; sourceTree = "<group>"; };
 		938CAC1D1080D51100259421 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Core/Resources/zh_CN.lproj/GrowlPref.xib; sourceTree = "<group>"; };
 		938CAC1E1080D51100259421 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = Core/Resources/zh_TW.lproj/GrowlPref.xib; sourceTree = "<group>"; };
+		938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPDefines.m; path = Core/Source/GrowlGNTPDefines.m; sourceTree = "<group>"; };
+		938CAEEF1080E66900259421 /* GrowlSubscribeGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlSubscribeGNTPPacket.h; path = Core/Source/GrowlSubscribeGNTPPacket.h; sourceTree = "<group>"; };
+		938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSubscribeGNTPPacket.m; path = Core/Source/GrowlSubscribeGNTPPacket.m; sourceTree = "<group>"; };
+		938CB10A1081250600259421 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = Core/Source/GNTPKey.h; sourceTree = "<group>"; };
+		938CB10B1081250600259421 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = Core/Source/GNTPKey.m; sourceTree = "<group>"; };
+		938CB16C1081324100259421 /* GrowlGNTPKeyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPKeyController.h; path = Core/Source/GrowlGNTPKeyController.h; sourceTree = "<group>"; };
+		938CB16D1081324100259421 /* GrowlGNTPKeyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPKeyController.m; path = Core/Source/GrowlGNTPKeyController.m; sourceTree = "<group>"; };
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93BC379E095A662B0002B365 /* Nano.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nano.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -959,6 +971,8 @@
 		93BC37D0095A66E60002B365 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Plugins/Displays/Nano/ja.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
 		93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlWipeWindowTransition.h; sourceTree = "<group>"; };
 		93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; };
+		93C0AED51084092E0037829B /* GrowlGNTPEncryptedHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPEncryptedHeaders.h; path = Core/Source/GrowlGNTPEncryptedHeaders.h; sourceTree = "<group>"; };
+		93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPEncryptedHeaders.m; path = Core/Source/GrowlGNTPEncryptedHeaders.m; sourceTree = "<group>"; };
 		93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlRipplingWindowTransition.h; sourceTree = "<group>"; };
 		93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlRipplingWindowTransition.m; sourceTree = "<group>"; };
 		93CD92B90B5AF8CA000C39CD /* AWRippler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AWRippler.m; sourceTree = "<group>"; };
@@ -1783,6 +1797,7 @@
 			isa = PBXGroup;
 			children = (
 				34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */,
+				938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */,
 				346C9F200E71BC23002314EE /* GrowlGNTPPacketParser.h */,
 				346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */,
 				349908A50E7317150073B675 /* GrowlGNTPPacket.h */,
@@ -1793,12 +1808,20 @@
 				3404D38F0E958D2C00629487 /* GrowlNotificationGNTPPacket.m */,
 				34A269AB0EBF308300C66E44 /* GrowlCallbackGNTPPacket.h */,
 				34A269AC0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m */,
+				938CAEEF1080E66900259421 /* GrowlSubscribeGNTPPacket.h */,
+				938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */,
 				3404D3840E9587B700629487 /* GrowlGNTPHeaderItem.h */,
 				3404D3850E9587B700629487 /* GrowlGNTPHeaderItem.m */,
+				93C0AED51084092E0037829B /* GrowlGNTPEncryptedHeaders.h */,
+				93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */,
 				34A441440EBA69A600809538 /* GrowlGNTPBinaryChunk.h */,
 				34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */,
 				34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */,
 				34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */,
+				938CB10A1081250600259421 /* GNTPKey.h */,
+				938CB10B1081250600259421 /* GNTPKey.m */,
+				938CB16C1081324100259421 /* GrowlGNTPKeyController.h */,
+				938CB16D1081324100259421 /* GrowlGNTPKeyController.m */,
 			);
 			name = GNTP;
 			sourceTree = "<group>";
@@ -2489,6 +2512,9 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "The Growl Project";
+			};
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
@@ -3065,6 +3091,11 @@
 				34A269080EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m in Sources */,
 				34A269AD0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m in Sources */,
 				34F909350EC1FAAE00566EE6 /* GrowlApplicationAdditions.m in Sources */,
+				938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */,
+				938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */,
+				938CB10C1081250600259421 /* GNTPKey.m in Sources */,
+				938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */,
+				93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

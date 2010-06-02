@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -22,11 +22,13 @@ typedef enum {
 	NSMutableDictionary *currentNotification;
 
 	NSString *applicationIconID;
-	NSURL *applicationIconURL;
+	NSURL *mApplicationIconURL;
 
 	int numberOfNotifications;
 }
 
 + (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict;
+
+@property (retain) NSURL *applicationIconURL;
 
 @end

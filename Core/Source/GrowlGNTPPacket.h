@@ -3,12 +3,13 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 9/6/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
 #import "AsyncSocket.h"
 #import "GrowlGNTPDefines.h"
+#import "GNTPKey.h"
 
 @class GrowlGNTPPacket, GrowlGNTPHeaderItem;
 
@@ -40,7 +41,8 @@ typedef enum {
 	GrowlNotifyPacketType,
 	GrowlRegisterPacketType,
 	GrowlOKPacketType,
-	GrowlCallbackPacketType
+	GrowlCallbackPacketType,
+	GrowlSubscribePacketType
 } GrowlPacketType;
 
 @protocol GrowlGNTPPacketDelegate
@@ -77,11 +79,11 @@ typedef enum {
 	AsyncSocket *socket;
 	NSString	*host;
 
-	id<GrowlGNTPPacketDelegate> delegate;
+	id<GrowlGNTPPacketDelegate> mDelegate;
 
-	NSString *action;
-	NSString *encryptionAlgorithm;
-
+	NSString *mAction;
+	GNTPKey *mKey;
+	
 	NSMutableArray *customHeaders;
 	
 	NSMutableDictionary *binaryDataByIdentifier;
@@ -112,19 +114,18 @@ typedef enum {
 - (NSString *)packetID;
 - (void)setPacketID:(NSString *)inPacketID;
 
-- (void)setDelegate:(id <GrowlGNTPPacketDelegate>)inDelegate;
-- (id <GrowlGNTPPacketDelegate>)delegate;
-
-- (NSString *)action;
-
-- (NSString *)encryptionAlgorithm;
-
 - (NSDictionary *)growlDictionary;
 - (BOOL)hasBeenReceivedPreviously;
 
 - (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally;
 
 - (NSError *)error;
+- (BOOL)isSupportedEncryptionAlgorithm:(NSString*)algorithm;
+
+@property (retain) NSString *action;
+@property (retain) GNTPKey *key;
+@property (assign) id <GrowlGNTPPacketDelegate> delegate;
+
 @end
 
 @interface GrowlGNTPPacket (ForSubclasses)

@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 10/2/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlNotificationGNTPPacket.h"
@@ -204,27 +204,27 @@
 			return GrowlReadDirective_PacketComplete;
 	}
 
-	if ([name caseInsensitiveCompare:@"Application-Name"] == NSOrderedSame) {
+	if ([name caseInsensitiveCompare:GrowlGNTPApplicationNameHeader] == NSOrderedSame) {
 		[self setApplicationName:value];
-	} else if ([name caseInsensitiveCompare:@"Notification-Name"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationName] == NSOrderedSame) {
 		[self setNotificationName:value];	
-	} else if ([name caseInsensitiveCompare:@"Notification-Title"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationTitle] == NSOrderedSame) {
 		[self setTitle:value];	
-	} else if ([name caseInsensitiveCompare:@"Notification-ID"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationID] == NSOrderedSame) {
 		[self setIdentifier:value];	
 	} else if ([name caseInsensitiveCompare:@"Notification-Coalescing-ID"] == NSOrderedSame) {
 		[self setCoalesceIdentifier:value];
-	} else if ([name caseInsensitiveCompare:@"Notification-Text"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationText] == NSOrderedSame) {
 		[self setText:value];	
-	} else if ([name caseInsensitiveCompare:@"Notification-Priority"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationPriority] == NSOrderedSame) {
 		int priority = [value intValue];
 		if (priority >= -2 && priority <= 2)
 			[self setPriority:priority];
-	} else if ([name caseInsensitiveCompare:@"Notification-Sticky"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationSticky] == NSOrderedSame) {
 		BOOL sticky = (([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame) ||
 						([value caseInsensitiveCompare:@"True"] == NSOrderedSame));
 		[self setSticky:sticky];	
-	} else if ([name caseInsensitiveCompare:@"Notification-Icon"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationIcon] == NSOrderedSame) {
 		if ([value rangeOfString:@"x-growl-resource://" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
 			/* Extract the resource ID from the value */
 			[self setIconID:[value substringFromIndex:[@"x-growl-resource://" length]]];
@@ -234,12 +234,12 @@
 			 */
 			[self setIconURL:[NSURL URLWithString:value]];
 		}
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
 		[self setCallbackContext:value];
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context-Type"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
 		[self setCallbackContextType:value];
 
-	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackTarget] == NSOrderedSame) {
 		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 		CallbackURLTargetMethod method;
@@ -256,22 +256,22 @@
 		[self addReceivedHeader:value];
 	} else if ([name caseInsensitiveCompare:@"Sent-By"] == NSOrderedSame) {
 		[self setSentBy:value];
-	} else if ([name caseInsensitiveCompare:@"Origin-Machine-Name"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPOriginMachineName] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_MACHINE];
-	} else if ([name caseInsensitiveCompare:@"Origin-Software-Name"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPOriginSoftwareName] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
-	} else if ([name caseInsensitiveCompare:@"Origin-Software-Version"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPOriginSoftwareVersion] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
-	} else if ([name caseInsensitiveCompare:@"Origin-Platform-Name"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPOriginPlatformName] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
-	} else if ([name caseInsensitiveCompare:@"Origin-Platform-Version"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPOriginPlatformVersion] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
-	} else if ([name caseInsensitiveCompare:@"X-Application-PID"] == NSOrderedSame) {
+	} else if ([name caseInsensitiveCompare:GrowlGNTPApplicationPIDHeader] == NSOrderedSame) {
 		[notificationDict setObject:value
 							 forKey:GROWL_APP_PID];
 	} else if ([name rangeOfString:@"X-" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
@@ -288,7 +288,7 @@
 {
 	NSMutableArray *headersForResult = [[[super headersForResult] mutableCopy] autorelease];
 	if (!headersForResult) headersForResult = [NSMutableArray array];
-	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:[self identifier]]];
+	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationID value:[self identifier]]];
 
 	return headersForResult;
 }
@@ -317,11 +317,11 @@
 
 	while ((header = [enumerator nextObject])) {
 		NSString *name = [header headerName];
-		if ([name caseInsensitiveCompare:@"Notification-Callback-Context"] == NSOrderedSame) {
+		if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
 			hasContext = YES;
-		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Context-Type"] == NSOrderedSame) {
+		} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
 			hasContextType = YES;
-		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target"] == NSOrderedSame) {
+		} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackTarget] == NSOrderedSame) {
 			hasTarget = YES;
 		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 			NSString *value = [header headerValue];
@@ -349,16 +349,16 @@
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
 	NSMutableArray *headersForCallbackResult = [[[self headersForResult] mutableCopy] autorelease];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Result"
-																		  value:(wasClicked ? @"CLICKED" : @"CLOSED")]];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Timestamp"
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackResult
+																		  value:(wasClicked ? GrowlGNTPCallbackClicked : GrowlGNTPCallbackClosed)]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackTimestamp
 																		  value:[[NSCalendarDate date] ISO8601DateString]]];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[self callbackContext]]];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:[self callbackContextType]]];
-	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[self applicationName]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContext value:[self callbackContext]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContextType value:[self callbackContextType]]];
+	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPApplicationNameHeader value:[self applicationName]]];
 
 	if ([notificationDict objectForKey:GROWL_APP_PID]) {
-		[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-PID" value:[notificationDict objectForKey:GROWL_APP_PID]]];
+		[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPApplicationPIDHeader value:[notificationDict objectForKey:GROWL_APP_PID]]];
 	}
 	
 	return headersForCallbackResult;
@@ -371,12 +371,12 @@
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 
 	NSMutableString *responsePost = [NSMutableString string];
-	[responsePost appendFormat:@"Notification-ID=%@", [self identifier]];
-	[responsePost appendFormat:@"&Notification-Callback-Result=%@", (wasClicked ? @"CLICKED" : @"CLOSED")];
-	[responsePost appendFormat:@"&Notification-Callback-Timestamp=%@", [[NSCalendarDate date] ISO8601DateString]];
-	[responsePost appendFormat:@"&Notification-Callback-Context-Type=%@", [self callbackContextType]];
-	[responsePost appendFormat:@"&Notification-Callback-Context=%@", [self callbackContext]];
-	[responsePost appendFormat:@"&ApplicationName=%@", [self applicationName]];
+	[responsePost appendFormat:@"%@=%@", GrowlGNTPNotificationID, [self identifier]];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackResult, (wasClicked ? GrowlGNTPCallbackClicked : GrowlGNTPCallbackClosed)];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackTimestamp, [[NSCalendarDate date] ISO8601DateString]];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackContextType, [self callbackContextType]];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackContext, [self callbackContext]];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPApplicationNameHeader, [self applicationName]];
 
 	NSEnumerator *enumerator = [[self customHeaders] objectEnumerator];
 	GrowlGNTPHeaderItem *headerItem;
@@ -432,49 +432,49 @@
 	NSMutableArray *binaryChunks = [NSMutableArray array];
 
 	if ([dict objectForKey:GROWL_APP_NAME])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPApplicationNameHeader value:[dict objectForKey:GROWL_APP_NAME]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_NAME])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name" value:[dict objectForKey:GROWL_NOTIFICATION_NAME]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationName value:[dict objectForKey:GROWL_NOTIFICATION_NAME]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_TITLE])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Title" value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationTitle value:[dict objectForKey:GROWL_NOTIFICATION_TITLE]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Coalescing-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Text" value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationText value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Sticky" value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationSticky value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_PRIORITY])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Priority" value:[NSString stringWithFormat:@"%i", [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationPriority value:[NSString stringWithFormat:@"%i", [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]) {
 		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
 		if ([iconData isKindOfClass:[NSImage class]])
 			iconData = [(NSImage *)iconData PNGRepresentation];
 		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
 		
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Icon"
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationIcon
 																		value:[NSString stringWithFormat:@"x-growl-resource://%@", identifier]]];
 		[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:iconData withIdentifier:identifier]];
 	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]) {
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context" value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Context-Type" value:@"String"]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContext value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContextType value:@"String"]];
 	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackTarget value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Callback-Target-Method" value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Machine-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPOriginMachineName value:[dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPOriginSoftwareName value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Version" value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPOriginSoftwareVersion value:[dict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Name" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPOriginPlatformName value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME]]];
 	if ([dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPOriginPlatformVersion value:[dict objectForKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION]]];
 	if ([dict objectForKey:GROWL_APP_PID])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-PID" value:[dict objectForKey:GROWL_APP_PID]]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPApplicationPIDHeader value:[dict objectForKey:GROWL_APP_PID]]];
 	
 	NSString *notificationID = [dict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	if (!notificationID) {
@@ -483,7 +483,7 @@
 		notificationID = [(NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef) autorelease];
 		CFRelease(uuidRef);
 	}
-	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-ID" value:notificationID]];
+	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationID value:notificationID]];
 
 	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
 

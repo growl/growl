@@ -116,21 +116,19 @@
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
-	NSEnumerator *destEnum = [destinations objectEnumerator];
-	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
-	NSDictionary *destination;
-	while ((destination = [destEnum nextObject])) {
+	NSMutableArray *theServices = [NSMutableArray array];
+	for(NSDictionary *destination in destinations) {
 		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
 		[entry setOwner:self];
 		[theServices addObject:entry];
 		[entry release];
 	}
 	[self setServices:theServices];
-	[theServices release];
 
 	[browser setDelegate:self];
-	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
-
+	//[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
+	[browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
+	
 	[self setupAboutTab];
 
 	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
@@ -434,9 +432,8 @@
 
 - (void) writeForwardDestinations {
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
-	NSEnumerator *enumerator = [services objectEnumerator];
-	GrowlBrowserEntry *entry;
-	while ((entry = [enumerator nextObject]))
+
+	for(GrowlBrowserEntry *entry in services)
 		[destinations addObject:[entry properties]];
 	[preferencesController setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
@@ -931,9 +928,9 @@
 #pragma unused(aNetServiceBrowser)
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
-	NSEnumerator *enumerator = [services objectEnumerator];
-	GrowlBrowserEntry *entry;
-	while ((entry = [enumerator nextObject])) {
+	GrowlBrowserEntry *entry = nil;
+	for (entry in services) {
+		NSLog(@"name: %@", [entry computerName]);
 		if ([[entry computerName] isEqualToString:name]) {
 			[entry setActive:YES];
 			return;
@@ -965,11 +962,9 @@
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 #pragma unused(aNetServiceBrowser)
-	NSEnumerator *serviceEnum = [services objectEnumerator];
-	GrowlBrowserEntry *currentEntry;
+	
 	NSString *name = [aNetService name];
-
-	while ((currentEntry = [serviceEnum nextObject])) {
+	for (GrowlBrowserEntry *currentEntry in services) {
 		if ([[currentEntry computerName] isEqualToString:name]) {
 			[currentEntry setActive:NO];
 			break;

@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 9/5/08.
-//  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
+//  Copyright 2008-2009 The Growl Project. All rights reserved.
 //
 
 #import "GrowlGNTPPacketParser.h"
@@ -53,8 +53,6 @@
 /* We get here from GrowlApplicationController, which built the packet and destination address for us */
 - (void)sendPacket:(GrowlGNTPOutgoingPacket *)packet toAddress:(NSData *)destAddress
 {
-	//			NSString *password = [entry objectForKey:@"password"];
-	
 	/* Will deallocate once sending is complete if we don't care about the reply, or after we get a reply if
 	 * desired.
 	 */
@@ -141,7 +139,8 @@
 	}
 
 	BOOL shouldSendOKResponse = YES;
-
+	NSLog(@"incoming Packet: %@", packet);
+	
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);
@@ -179,6 +178,9 @@
 			}
 			break;
 		}
+		case GrowlSubscribePacketType:
+			//TODO: store the subscription request information and update our subscriber datastore			
+			break;
 		case GrowlRegisterPacketType:
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
@@ -198,6 +200,8 @@
 		GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 		[outgoingPacket setAction:@"-OK"];
 		[outgoingPacket addHeaderItems:[packet headersForResult]];		
+		
+		NSLog(@"outgoingPacket: %@", [outgoingPacket description]);
 		[outgoingPacket writeToSocket:[packet socket]];
 	}
 	

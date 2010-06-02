@@ -48,7 +48,10 @@
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPPacketParser.h"
+#import "GrowlGNTPPacket.h"
 
+#import "GNTPKey.h"
+#import "GrowlGNTPKeyController.h"
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -224,6 +227,18 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		
 		[self preferencesChanged:nil];
 
+		//TODO: fix this up so that it uses actual settings
+		for(NSMutableDictionary *entry in destinations)
+		{
+			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry valueForKey:@"uuid"]];
+			if(!key)
+			{
+				key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:[entry valueForKey:@"uuid"]];
+				[key release];
+			}
+		}
+		
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
 															   selector:@selector(applicationLaunched:)
 																   name:NSWorkspaceDidLaunchApplicationNotification
@@ -386,7 +401,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		serverAddr.sin_family = AF_INET;
 		serverAddr.sin_addr.s_addr = inet_addr([name UTF8String]);
 		serverAddr.sin_port = htons(GROWL_TCP_PORT);
-
+		NSLog(@"address: %@", [name UTF8String]);
 		return [NSData dataWithBytes:&serverAddr length:serverAddr.sin_len];
 	} 
 	
@@ -446,6 +461,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
 {
+	
 	[[GrowlGNTPPacketParser sharedParser] sendPacket:[sendingDetails objectForKey:@"Packet"]
 										   toAddress:[sendingDetails objectForKey:@"Destination"]];
 }
@@ -455,14 +471,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void)sendViaTCP:(GrowlGNTPOutgoingPacket *)packet
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSLog(@"Sending %@", packet);
 //	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
 //	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
 
-	NSEnumerator *enumerator = [destinations objectEnumerator];
-	NSDictionary *entry;
-	while ((entry = [enumerator nextObject])) {
+	for(NSDictionary *entry in destinations) {
 		if ([[entry objectForKey:@"use"] boolValue]) {
 			NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
 			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
@@ -471,7 +484,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
 				continue;
 			}
-			NSLog(@"Got %@", destAddress);
+			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry objectForKey:@"uuid"]];
+			[packet setKey:key];
+			NSMutableData *result = [NSMutableData data];
+			for(id item in [packet outgoingItems])
+				[result appendData:[item GNTPRepresentation]];
+			NSLog(@"Sending %@", HexUnencode(HexEncode(result)));
 			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
 								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 											   destAddress, @"Destination",
@@ -530,15 +548,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	soundTypes = [soundTypes sortedArrayUsingDescriptors:sortDescs];
 
 	NSMutableArray *filenames = [NSMutableArray arrayWithCapacity:[soundTypes count]];
-	NSEnumerator *soundTypeEnum;
-	NSString *soundType;
-	soundTypeEnum = [soundTypes objectEnumerator];
-	while ((soundType = [soundTypeEnum nextObject])) {
+	for (NSString *soundType in soundTypes) {
 		[filenames addObject:[soundName stringByAppendingPathExtension:soundType]];
 	}
-
-	NSEnumerator *filenamesEnum;
-	NSString *filename;
 
 	//The additions are for appending '.' plus the longest filename extension.
 	size_t filenameLen = [soundName length] + 1U + [[soundTypes lastObject] length];
@@ -551,8 +563,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	err = FSFindFolder(kUserDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
 	if (err == noErr) {
 		//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-		filenamesEnum = [filenames objectEnumerator];
-		while ((filename = [filenamesEnum nextObject])) {
+		for (NSString *filename in filenames) {
 			[filename getCharacters:filenameBuf];
 			err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
 			if (err == noErr) {
@@ -566,8 +577,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		err = FSFindFolder(kLocalDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
 		if (err == noErr) {
 			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-			filenamesEnum = [filenames objectEnumerator];
-			while ((filename = [filenamesEnum nextObject])) {
+			for (NSString *filename in filenames) {
 				[filename getCharacters:filenameBuf];
 				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
 				if (err == noErr) {
@@ -582,8 +592,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		err = FSFindFolder(kSystemDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
 		if (err == noErr) {
 			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-			filenamesEnum = [filenames objectEnumerator];
-			while ((filename = [filenamesEnum nextObject])) {
+			for (NSString *filename in filenames) {
 				[filename getCharacters:filenameBuf];
 				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
 				if (err == noErr) {
@@ -1322,9 +1331,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 @implementation GrowlApplicationController (PRIVATE)
 
 #pragma mark Click feedback from displays
+
 - (void) notificationClicked:(NSNotification *)notification {
 	GrowlApplicationNotification *growlNotification = [notification object];
-	
+		
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:YES onLocalMachine:YES];
 }
 
@@ -1339,9 +1349,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) 
 {
 #pragma unused(refcon)
-	
+
 	SystemSoundRemoveCompletionRoutine(actionID);
-	
+
 	return SystemSoundRemoveActionID(actionID);
 }
 
@@ -1349,7 +1359,7 @@ static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *
 
 - (BOOL)isLikelyDomainName
 {
-	unsigned length = [self length];
+	NSUInteger length = [self length];
 	NSString *lowerSelf = [self lowercaseString];
 	if (length > 3 &&
 		[self rangeOfString:@"." options:NSLiteralSearch].location != NSNotFound) {

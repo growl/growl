@@ -11,7 +11,12 @@
 @class GrowlPreferencePane;
 
 @interface GrowlBrowserEntry : NSObject {
-	NSMutableDictionary		*properties;
+	
+	NSString				*_name;
+	NSString				*_uuid;
+	BOOL					_use;
+	BOOL					_active;
+	
 	NSString				*password;
 	BOOL					didPasswordLookup;
 	GrowlPreferencePane		*owner;
@@ -31,8 +36,12 @@
 - (NSString *) password;
 - (void) setPassword:(NSString *)password;
 
-- (NSDictionary *) properties;
+- (NSMutableDictionary *) properties;
 
 - (void) setOwner:(GrowlPreferencePane *)pref;
 
+@property (retain) NSString *uuid;
+@property (retain) NSString *computerName;
+@property (assign) BOOL use;
+@property (assign) BOOL active;
 @end
