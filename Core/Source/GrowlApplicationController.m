@@ -489,7 +489,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			NSMutableData *result = [NSMutableData data];
 			for(id item in [packet outgoingItems])
 				[result appendData:[item GNTPRepresentation]];
-			NSLog(@"Sending %@", HexUnencode(HexEncode(result)));
+			//NSLog(@"Sending %@", HexUnencode(HexEncode(result)));
 			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
 								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 											   destAddress, @"Destination",

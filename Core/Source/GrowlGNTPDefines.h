@@ -92,15 +92,20 @@ extern NSString *GrowlGNTP3DES;
 
 typedef enum
 {
-	GNTPMD5,
-	GNTPSHA1,
-	GNTPSHA256,
-	GNTPSHA512,
 	GNTPNone,
 	GNTPAES,
 	GNTPDES,
 	GNTP3DES
 } GrowlGNTPEncryptionAlgorithm;
+
+typedef enum
+{
+	GNTPNoHash,
+	GNTPMD5,
+	GNTPSHA1,
+	GNTPSHA256,
+	GNTPSHA512
+} GrowlGNTPHashingAlgorithm;
 
 #pragma mark Callback Results
 extern NSString *GrowlGNTPCallbackClicked;

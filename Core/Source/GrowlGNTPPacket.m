@@ -30,7 +30,7 @@
 
 @synthesize action = mAction;
 @synthesize key = mKey;
-
+@synthesize encryptionAlgorithm;
 @synthesize delegate = mDelegate;
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket
@@ -229,7 +229,7 @@
 		NSString *encryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
 		if([GNTPKey isSupportedEncryptionAlgorithm:encryptionAlgorithm])
 		{
-			[key setEncryptionAlgorithm:encryptionAlgorithm]; //this should be None if there is only one item
+			[key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:encryptionAlgorithm]]; //this should be None if there is only one item
 			if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
 				[key setIV:[encryptionSubstrings objectAtIndex:1]];
 		}
@@ -238,14 +238,14 @@
 		NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
 		if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm])
 		{
-			[key setKeyHashAlgorithm:keyHashAlgorithm];
+			[key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
 			if([keySubstrings count] == 2)
 			{
 				NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
 				if([keyHashStrings count] == 2)
 				{
 					[key setKeyHash:[keyHashStrings objectAtIndex:0]];
-					[key setKeyHashSalt:[keyHashStrings objectAtIndex:1]];
+					[key setSalt:[keyHashStrings objectAtIndex:1]];
 				}
 			}
 		}
@@ -319,7 +319,7 @@
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
 	NSError *anError;
-	if(![[self encryptionAlgorithm] isEqual:GrowlGNTPNone])
+	/*if(![[self encryptionAlgorithm] isEqualToString:GrowlGNTPNone])
 	{
 		NSLog(@"%@ %@ %@", [self keyHash], [self keyHashSalt], [self IV]);
 		GNTPKey *key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA256 encryptionAlgorithm:GNTPAES];
@@ -329,7 +329,7 @@
 		
 		NSData *decryptedHeaders = [key decrypt:inData];
 	}
-	else
+	else*/
 	{
 		
 		GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];

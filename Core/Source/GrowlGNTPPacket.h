@@ -97,6 +97,8 @@ typedef enum {
 
 	BOOL wasInitiatedLocally;
 	NSError *error;
+	
+	NSString *encryptionAlgorithm;
 }
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket;
@@ -120,12 +122,11 @@ typedef enum {
 - (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally;
 
 - (NSError *)error;
-- (BOOL)isSupportedEncryptionAlgorithm:(NSString*)algorithm;
 
 @property (retain) NSString *action;
 @property (retain) GNTPKey *key;
 @property (assign) id <GrowlGNTPPacketDelegate> delegate;
-
+@property (retain) NSString *encryptionAlgorithm;
 @end
 
 @interface GrowlGNTPPacket (ForSubclasses)
