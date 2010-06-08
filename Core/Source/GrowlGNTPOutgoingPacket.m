@@ -147,7 +147,7 @@
 									 notificationID:&notificationID
 								forNotificationDict:dict];
 			[outgoingPacket setPacketID:notificationID];
-			NSLog(@"I set %@'s packet ID to %@ (%@)", outgoingPacket, notificationID, [dict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]);
+			//NSLog(@"I set %@'s packet ID to %@ (%@)", outgoingPacket, notificationID, [dict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]);
 			break;
 		}
 		case GrowlGNTPOutgoingPacket_RegisterType:
@@ -242,10 +242,13 @@
 	NSMutableArray *allOutgoingItems = [NSMutableArray array];
 
 	GrowlGNTPInitialHeaderItem *header = [GrowlGNTPInitialHeaderItem initialHeaderItemWithAction:[self action]];
-	NSString *key = [[self key] key];
-	NSString *encryption = [[self key] encryption];
-	[header setKey:key];
-	[header setEncryption:encryption];
+	if(![[[self key] encryption] isEqual:GrowlGNTPNone])
+	{
+		NSString *key = [[self key] key];
+		NSString *encryption = [[self key] encryption];
+		[header setKey:key];
+		[header setEncryption:encryption];
+	}
 	[allOutgoingItems addObject:header];
 	
 	if(![[[self key] encryption] isEqual:GrowlGNTPNone])
@@ -266,14 +269,23 @@
 
 	if ([binaryChunks count]) {
 		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
+		
+		NSMutableArray *encryptedChunks = [NSMutableArray array];
 		if(![[[self key] encryption] isEqual:GrowlGNTPNone])
 		{
 			for(GrowlGNTPBinaryChunk *chunk in binaryChunks)
-				[chunk setData:[[self key] encrypt:[chunk data]]];
-			
+			{
+				GrowlGNTPBinaryChunk *encryptedChunk = [GrowlGNTPBinaryChunk chunkForData:[[self key] encrypt:[chunk data]] withIdentifier:[chunk identifier]];
+				[encryptedChunks addObject:encryptedChunk];
+			}
 		}
+		else 
+		{
+			[encryptedChunks addObjectsFromArray:binaryChunks];
+		}
+
 		
-		[allOutgoingItems addObjectsFromArray:binaryChunks];
+		[allOutgoingItems addObjectsFromArray:encryptedChunks];
 	}
 	[allOutgoingItems addObject:[GrowlGNTPEndHeaderItem endHeaderItem]];
 

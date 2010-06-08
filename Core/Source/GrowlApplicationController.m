@@ -233,7 +233,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry valueForKey:@"uuid"]];
 			if(!key)
 			{
-				key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+				//key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+				key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
 				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:[entry valueForKey:@"uuid"]];
 				[key release];
 			}
@@ -486,9 +487,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			}
 			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry objectForKey:@"uuid"]];
 			[packet setKey:key];
-			NSMutableData *result = [NSMutableData data];
-			for(id item in [packet outgoingItems])
-				[result appendData:[item GNTPRepresentation]];
+			//NSMutableData *result = [NSMutableData data];
+			//for(id item in [packet outgoingItems])
+			//	[result appendData:[item GNTPRepresentation]];
 			//NSLog(@"Sending %@", HexUnencode(HexEncode(result)));
 			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
 								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
