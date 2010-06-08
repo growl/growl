@@ -161,10 +161,7 @@ $(HARDWAREGROWLER_DIR):
 	cp '$(SRC_DIR)'/Extras/HardwareGrowler/*.txt '$@'
 $(GROWLNOTIFY_DIR):
 	mkdir '$@'
-	cp '$(GROWLNOTIFY_BUILD_DIR)/growlnotify' '$@'
-	cp '$(SRC_DIR)/Extras/growlnotify/growlnotify.1' '$@'
-	cp '$(SRC_DIR)/Extras/growlnotify/install.sh' '$@'
-	cp '$(SRC_DIR)'/Extras/growlnotify/*.txt '$@'
+	$(PACKAGE_MAKER) --no-relocate --doc growlnotify/growlnotify.pmdoc --out '$@'/growlnotify.pkg --version $(GROWLNOTIFY_VERSION) --id info.growl.growlnotify.pkg -v	
 
 $(SDK_DIR):
 	@# build the SDK
