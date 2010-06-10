@@ -188,7 +188,6 @@
 		8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
-		93381463105097080014C550 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93254764104E13B800130D3B /* Sparkle.framework */; };
 		933816821050BA850014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
 		933818331052AA490014C550 /* GrowlSparkleHelper.app in Resources */ = {isa = PBXBuildFile; fileRef = 933818151052AA160014C550 /* GrowlSparkleHelper.app */; };
 		9338184F1052AA970014C550 /* GrowlSparkleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 933814181050969E0014C550 /* GrowlSparkleHelper.m */; };
@@ -201,7 +200,6 @@
 		933818901052ACF70014C550 /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
 		933819021052AD7F0014C550 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933819011052AD7F0014C550 /* MainMenu.xib */; };
 		9338191D1052AE170014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
-		934EBCB80931F529002C378F /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
@@ -536,13 +534,6 @@
 			remoteGlobalIDString = 95075AAF0817F5DB00D862A5;
 			remoteInfo = GrowlMenu;
 		};
-		933815991050AD840014C550 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
-		};
 		9338182F1052AA310014C550 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -658,16 +649,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9338147F105097450014C550 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				93381463105097080014C550 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2491,7 +2472,6 @@
 			buildConfigurationList = 95EE277D0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl" */;
 			buildPhases = (
 				9338147E105097450014C550 /* CopyFiles */,
-				9338147F105097450014C550 /* CopyFiles */,
 				8D202CEC0486D31800D8A456 /* Resources */,
 				8D202CF00486D31800D8A456 /* Sources */,
 				8D202CF20486D31800D8A456 /* Frameworks */,
@@ -2500,7 +2480,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9338159A1050AD840014C550 /* PBXTargetDependency */,
 				933532A2093643DA007C8B10 /* PBXTargetDependency */,
 				3433455E0790E25300C84B15 /* PBXTargetDependency */,
 				933818301052AA310014C550 /* PBXTargetDependency */,
@@ -2516,9 +2495,9 @@
 			buildConfigurationList = 9338181A1052AA1A0014C550 /* Build configuration list for PBXNativeTarget "GrowlSparkleHelper" */;
 			buildPhases = (
 				933818111052AA160014C550 /* Resources */,
+				933818851052ACBD0014C550 /* CopyFiles */,
 				933818121052AA160014C550 /* Sources */,
 				933818131052AA160014C550 /* Frameworks */,
-				933818851052ACBD0014C550 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -3409,11 +3388,6 @@
 			isa = PBXTargetDependency;
 			target = 95075AAF0817F5DB00D862A5 /* GrowlMenu */;
 			targetProxy = 933532A1093643DA007C8B10 /* PBXContainerItemProxy */;
-		};
-		9338159A1050AD840014C550 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 933815991050AD840014C550 /* PBXContainerItemProxy */;
 		};
 		933818301052AA310014C550 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

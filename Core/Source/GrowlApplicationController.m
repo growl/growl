@@ -43,7 +43,7 @@
 #import "SparkleHelperDefines.h"
 
 // check every 24 hours
-#define UPDATE_CHECK_INTERVAL	200 //24.0*3600.0
+#define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
 //Notifications posted by GrowlApplicationController
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
