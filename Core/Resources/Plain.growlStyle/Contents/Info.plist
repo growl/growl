@@ -6,8 +6,6 @@
 	<string>Plain</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleGetInfoString</key>
-	<string>Plain Growl WebKit Style</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>

@@ -86,13 +86,8 @@ static NSMutableDictionary *existingInstances;
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 		bridge = nil;
-#ifdef __LP64__
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
-#else
-		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
-		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
-#endif
 		transitionDuration = DEFAULT_TRANSITION_DURATION;
 
 		//Show notifications on all Spaces
@@ -113,14 +108,12 @@ static NSMutableDictionary *existingInstances;
 
 - (void) dealloc {
 	[self setDelegate:nil];
-	[[self bridge] removeObserver:self forKeyPath:@"notification"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self stopAllTransitions];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
-	[bridge				 release];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -313,7 +306,7 @@ static NSMutableDictionary *existingInstances;
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
+		[self setClickContext:nil];
 	}
 	[nc postNotificationName:GrowlDisplayWindowControllerDidTakeWindowDownNotification object:self];
 }
@@ -334,7 +327,7 @@ static NSMutableDictionary *existingInstances;
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
+		[self setClickContext:nil];
 	}
 
 	if (target && action && [target respondsToSelector:action])
@@ -563,22 +556,11 @@ static NSMutableDictionary *existingInstances;
 	if (bridge != theBridge) {
 		if (bridge) {
 			NSLog(@"*** This may be an error. %@ had its bridge reset", self);
-			[bridge removeObserver:self forKeyPath:@"notification"];
 		}
-		
-		bridge = [theBridge retain];
-		
-		[bridge addObserver:self forKeyPath:@"notification" options:NSKeyValueObservingOptionNew context:NULL];
-		[self observeValueForKeyPath:@"notification" ofObject:bridge change:nil context:NULL];
-	}
-}
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-#pragma unused(change)
-#pragma unused(context)
-	if ((object == bridge) &&
-		[keyPath isEqualToString:@"notification"]) {
+		//Do not retain! The bridge owns us; retaining the bridge here is a mutual retention—i.e., a leak.
+		bridge = theBridge;
+
 		[self setNotification:[bridge notification]];
 	}
 }

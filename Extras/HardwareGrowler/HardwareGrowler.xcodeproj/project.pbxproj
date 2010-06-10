@@ -68,6 +68,13 @@
 			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
 			remoteInfo = iCal;
 		};
+		31F7A3BA10905C510049993D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B /* Unit tests.octest */;
+			remoteInfo = "Unit tests";
+		};
 		9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
@@ -196,13 +203,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		179B928F0C14D110004FB187 /* VolumeNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeNotifier.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		315C882D1068F83300880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		315CBFB70FB009AE00458E96 /* Power-AC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-AC.png"; sourceTree = "<group>"; };
 		315CBFB80FB009AE00458E96 /* Power-Battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-Battery.png"; sourceTree = "<group>"; };
 		315CBFF20FB0213C00458E96 /* Power-ACCharging.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-ACCharging.png"; sourceTree = "<group>"; };
@@ -210,16 +218,16 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
 		345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
-		347931350C85E5D1007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		347931350C85E5D1007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347931360C85E5D1007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		347931370C85E5D2007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		34CD98520C87C8F10040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98520C87C8F10040C77F /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD98530C87C8F10040C77F /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98540C87C8F10040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = sv.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		34CD98C90C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CD98C90C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CD98CA0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CD98CB0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		34CF44AD0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34CF44AD0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34CF44AE0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34CF44AF0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -336,6 +344,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				315C882D1068F83300880530 /* Localization.xcconfig */,
 			);
 			name = HarwareNotifier;
 			sourceTree = "<group>";
@@ -398,6 +407,7 @@
 				9533C2B0085C3ED6009F8046 /* MailMe.growlView */,
 				9533C2B2085C3ED6009F8046 /* MusicVideo.growlView */,
 				9533C2B4085C3ED6009F8046 /* SMS.growlView */,
+				31F7A3BB10905C510049993D /* Unit tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -474,6 +484,13 @@
 			fileType = wrapper.cfbundle;
 			path = iCal.growlView;
 			remoteRef = 319838500C0F5F8B002C7607 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31F7A3BB10905C510049993D /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = 31F7A3BA10905C510049993D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9504459009B57BB5000EAB59 /* Nano.growlView */ = {
@@ -692,6 +709,100 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		315C882E1068F83900880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C882D1068F83300880530 /* Localization.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_VERSION = 4.0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+			};
+			name = Localization;
+		};
+		315C882F1068F83900880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = HardwareGrowler;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Localization;
+		};
+		315C88301068F83900880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "External Frameworks";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Localization;
+		};
 		9533C22F085C3E94009F8046 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -818,9 +929,27 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_VERSION = 4.0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -833,9 +962,28 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_VERSION = 4.0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.5;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -848,6 +996,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9533C22F085C3E94009F8046 /* Debug */,
+				315C88301068F83900880530 /* Localization */,
 				9533C230085C3E94009F8046 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -857,6 +1006,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A2B60855C0DB006B3F45 /* Debug */,
+				315C882F1068F83900880530 /* Localization */,
 				95E4A2B70855C0DB006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -866,6 +1016,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E4A2BB0855C0DB006B3F45 /* Debug */,
+				315C882E1068F83900880530 /* Localization */,
 				95E4A2BC0855C0DB006B3F45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

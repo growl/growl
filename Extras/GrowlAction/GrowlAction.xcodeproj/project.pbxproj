@@ -29,18 +29,19 @@
 
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		314B18D40F98248700ACAFD6 /* main.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = main.scpt; sourceTree = "<group>"; };
+		315C88981068F98C00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA19056A9B5C006CE269 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/main.nib; sourceTree = "<group>"; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
 		955A4DB908617521009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/main.nib; sourceTree = "<group>"; };
-		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95E7903F0835F1E00098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/main.nib; sourceTree = "<group>"; };
-		95E790460835F25A0098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		95E790460835F25A0098656C /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +66,7 @@
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				65942E140711D4310089E4F1 /* Info.plist */,
+				315C88981068F98C00880530 /* Localization.xcconfig */,
 			);
 			name = "Automator Action";
 			sourceTree = "<group>";
@@ -202,6 +204,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		315C88961068F98300880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
+			buildSettings = {
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				SYMROOT = "$(SRCROOT)/../../build";
+			};
+			name = Localization;
+		};
+		315C88971068F98300880530 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_OSAFLAGS = "-x";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Show Growl Notification";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = action;
+				ZERO_LINK = NO;
+			};
+			name = Localization;
+		};
 		95EE279B0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -258,6 +298,9 @@
 		95EE279F0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx10.5;
 				SYMROOT = "$(SRCROOT)/../../build";
@@ -267,6 +310,9 @@
 		95EE27A00855AA6E0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
+				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx10.5;
 				SYMROOT = "$(SRCROOT)/../../build";
@@ -280,6 +326,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE279B0855AA6E0045DB39 /* Debug */,
+				315C88971068F98300880530 /* Localization */,
 				95EE279C0855AA6E0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -289,6 +336,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE279F0855AA6E0045DB39 /* Debug */,
+				315C88961068F98300880530 /* Localization */,
 				95EE27A00855AA6E0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

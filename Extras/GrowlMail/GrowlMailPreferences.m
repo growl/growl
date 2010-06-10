@@ -44,9 +44,11 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 @interface NSPreferences (GMSwizzleSticks)
 
 + (id) sharedPreferencesForGrowlMail;
-+ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail;
 
 @end
+
+//Make the swizzle more readable.
+#define sharedPreferencesFromAppKitSwizzledByGrowlMail sharedPreferencesForGrowlMail
 
 @implementation GrowlMailPreferences
 
@@ -62,25 +64,10 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 		if (!sharedPreferencesFromAppKit)
 			GMShutDownGrowlMailAndWarn(@"Couldn't install GrowlMail prefpane: +[NSPreferences sharedPreferences] method missing");
 		else {
-			//+[GrowlMailPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
-			Method sharedPreferencesFromAppKitFromGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesFromAppKitSwizzledByGrowlMail));
 			//+[GrowlMailPreferences sharedPreferencesForGrowlMail]
 			Method sharedPreferencesForGrowlMail = class_getClassMethod(self, @selector(sharedPreferencesForGrowlMail));
 
-			//Follow the lady!
-			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesFromAppKitFromGrowlMail);
 			GMExchangeMethodImplementations(sharedPreferencesFromAppKit, sharedPreferencesForGrowlMail);
-			/*Results of the swizzling:
-			 *
-			 *+[NSPreferences sharedPreferences]
-			 *	implemented by former +[NSPreferences sharedPreferencesForGrowlMail]
-			 *
-			 *+[NSPreferences sharedPreferencesForGrowlMail]
-			 *	implemented by former +[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail] (the stub)
-			 *
-			 *+[NSPreferences sharedPreferencesFromAppKitSwizzledByGrowlMail]
-			 *	implemented by former +[NSPreferences sharedPreferences]
-			 */
 		}
 	}
 }
@@ -100,30 +87,13 @@ static void GMExchangeMethodImplementations(Method a, Method b);
 
 	return preferences;
 }
-+ (id) sharedPreferencesFromAppKitSwizzledByGrowlMail {
-	//Stub implementation to swizzle out.
-	return nil;
-}
 
 @end
 
 static void GMExchangeMethodImplementations(Method a, Method b)
 {
-#if __OBJC2__
+	if (!(a && b))
+		GMShutDownGrowlMailAndWarn([NSString stringWithFormat:@"Attempt to swizzle fewer than two method implementations: %s and %s", a ? sel_getName(method_getName(a)) : NULL, b ? sel_getName(method_getName(b)) : NULL]);
+
 	method_exchangeImplementations(a, b);
-#else
-	NSCAssert(a && b, @"Attempt to swizzle fewer than two method implementations");
-
-	//Adapted from ObjC 1 implementation written by an unknown author and posted to http://www.cocoadev.com/index.pl?MethodSwizzling
-	char *tempTypes;
-	IMP tempImp;
-
-	tempTypes = a->method_types;
-	a->method_types = b->method_types;
-	b->method_types = tempTypes;
-
-	tempImp = a->method_imp;
-	a->method_imp = b->method_imp;
-	b->method_imp = tempImp;
-#endif
 }

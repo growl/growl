@@ -18,10 +18,19 @@
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>aplt</string>
+	<key>LSMinimumSystemVersionByArchitecture</key>
+	<dict>
+		<key>x86_64</key>
+		<string>10.6</string>
+	</dict>
 	<key>LSRequiresCarbon</key>
 	<true/>
 	<key>WindowState</key>
 	<dict>
+		<key>dividerCollapsed</key>
+		<false/>
+		<key>eventLogLevel</key>
+		<integer>-1</integer>
 		<key>name</key>
 		<string>ScriptWindowState</string>
 		<key>positionOfDivider</key>
@@ -29,7 +38,7 @@
 		<key>savedFrame</key>
 		<string>476 508 644 494 0 0 1280 1002 </string>
 		<key>selectedTabView</key>
-		<string>result</string>
+		<string>event log</string>
 	</dict>
 </dict>
 </plist>

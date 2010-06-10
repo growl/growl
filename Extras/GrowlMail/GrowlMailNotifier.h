@@ -39,6 +39,7 @@ typedef NSInteger GrowlMailSummaryMode;
  */
 @interface GrowlMailNotifier : NSObject <GrowlApplicationBridgeDelegate>
 {
+	BOOL shouldNotify;
 }
 
 /*!	@brief	Return the One True \c GrowlMailNotifier Instance, creating it if necessary.
@@ -85,6 +86,21 @@ typedef NSInteger GrowlMailSummaryMode;
  *	@param	yesOrNo	If \c YES, post notifications for messages for \a account in the future; if \c NO, don't post notifications for messages for that account.
  */
 - (void) setAccount:(MailAccount *)account enabled:(BOOL)yesOrNo;
+
+/*!	@brief	Determine whether the notifier only notifies while the app is in the background.
+ *
+ *	This getter is backed by a user default. <code>configureForBackgroundOnly:</code> is <em>not</em> its inverse, as it does not set the user default.
+ *
+ *	@return	\c YES if this object will only notify while the application is in the background; \c NO if it will notify whether the app is in the background or not.
+ */
+- (BOOL) isBackgroundOnlyEnabled;
+/*!	@brief	Tell the notifier to update its notification registrations for suspend/resume events.
+ *
+ *	This method does not set the user default that backs \c isBackgroundOnlyEnabled, so it is not that method's inverse.
+ *
+ *	@param	enabled	\c YES if this object should only notify while the application is in the background; \c NO if it should notify whether the app is in the background or not.
+ */
+- (void) configureForBackgroundOnly:(BOOL)enabled;
 
 - (NSString *) applicationNameForGrowl;
 - (NSImage *) applicationIconForGrowl;

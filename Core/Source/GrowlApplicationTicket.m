@@ -63,6 +63,11 @@
 
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
 		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
+		if (appId && ![appId isKindOfClass:[NSString class]]) {
+			NSLog(@"Ticket for application %@ contains invalid bundle ID %@! Rejecting.", appName, appId);
+			[self release];
+			return nil;
+		}
 
 		humanReadableNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
 		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
@@ -447,7 +452,7 @@
 
 - (GrowlDisplayPlugin *) displayPlugin {
 	if (!displayPlugin && displayPluginName)
-		displayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+		displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil];
 	return displayPlugin;
 }
 

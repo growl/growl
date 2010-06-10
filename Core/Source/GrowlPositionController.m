@@ -260,19 +260,28 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-		[[displayController window] setFrame:displayFrame display:YES animate:YES];		
+		[[displayController window] setFrame:displayFrame display:NO animate:NO];		
 		return YES;
 	}
 
 	// Something was blocking the display...try to find the next position for the display.
 
-	[growlLog writeToLog:@"---"];
-	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
+	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect %@; looking for another one", GrowlLog_StringFromRect(displayFrame)];
 	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 	
 	NSUInteger			numberOfRects;
 	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
+
+	if ([growlLog isLoggingEnabled]) {
+		NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
+		NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
+		for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
+			[rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
+		}
+		[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
+		[rectStringsPool drain];
+	}
 
 	/* This will loop until the display is placed or we run off the screen entirely
 	 * A more 'efficient' implementation might sort all of the usedRects, then look at them iteratively.  I (evands) found it to be
@@ -281,10 +290,12 @@
 	 * not over-optimize unless this is an actual bottleneck. :)
 	 */
 	while (1) {
+		[growlLog writeToLog:@"Beginning a pass"];
 		BOOL haveBestSecondaryOrigin = NO;
 		CGFloat bestSecondaryOrigin = 0.0;
 
 		while (NSContainsRect(screenFrame,displayFrame)) {
+			[growlLog writeToLog:@"Display frame %@ is completely within screen frame %@; adjusting in primary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(screenFrame)];
 			//Adjust in our primary direction
 			switch (primaryDirection) {
 				case GrowlDownExpansionDirection:
@@ -310,6 +321,7 @@
 			//Check to see if the proposed displayFrame intersects with any used rect
 			for (NSUInteger i = 0; i < numberOfRects; i++) {
 				if (NSIntersectsRect(displayFrame, usedRects[i])) {
+					[growlLog writeToLog:@"Display frame %@ intersects used rect %@; adjusting in secondary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(usedRects[i])];
 					//We intersected. Sadness.
 					intersects = YES;
 					
@@ -366,13 +378,16 @@
 		}
 
 		if (NSContainsRect(screenFrame,displayFrame)) {
+			[growlLog writeToLog:@"Adjusted display frame %@ is completely within screen frame %@; adjusting in primary direction", GrowlLog_StringFromRect(displayFrame), GrowlLog_StringFromRect(screenFrame)];
 			//The rect is on the screen! Try to reserve it.
 			if ([self reserveRect:displayFrame inScreen:preferredScreen forDisplayController:displayController]) {
-				[[displayController window] setFrame:displayFrame display:YES animate:YES];		
+				[growlLog writeToLog:@"Successfully reserved this rectangle; pass ends."];
+				[[displayController window] setFrame:displayFrame display:NO animate:NO];		
 				free(usedRects);
 				return YES;
 			}
 		}
+		[growlLog writeToLog:@"Resetting primary axis to %f", idealFrame.origin.y];
 		// If we've run offscreen or couldn't reserve that rect, use the secondary direction after resetting from our previous efforts
 		switch (primaryDirection) {
 			case GrowlDownExpansionDirection:
@@ -390,6 +405,7 @@
 				break;
 		}
 		
+		[growlLog writeToLog:@"Resetting secondary axis to %f", bestSecondaryOrigin];
 		switch (secondaryDirection) {
 			case GrowlDownExpansionDirection:
 			case GrowlUpExpansionDirection:
@@ -406,10 +422,13 @@
 				break;
 		}
 		
+		[growlLog writeToLog:@"Ending pass by testing whether display frame %@ is off-screen...", GrowlLog_StringFromRect(displayFrame)];
 		if (!NSContainsRect(screenFrame,displayFrame)) {
+			[growlLog writeToLog:@"We have gone off-screen. Positioning aborted."];
 			NSLog(@"Could not display Growl notification; no screen space available.");
 			break;
 		}
+		[growlLog writeToLog:@"We have NOT gone off-screen. Going for another pass..."];
 	}
 	
 	free(usedRects);
@@ -452,6 +471,7 @@
 	// Add the new rect if it passed the intersection test
 	if (result) {
 		[self clearReservedRectForDisplayController:displayController];
+		[[GrowlLog sharedController] writeToLog:@"Reserving rect %@", newRectValue];
 		[reservedRectsByController setObject:[NSValue valueWithRect:inRect]
 									  forKey:displayControllerValue];
 		[reservedRectsOfScreen addObject:newRectValue];
@@ -492,16 +512,18 @@
 	NSValue		 *value;
 	NSValue		 *displayControllerValue = [NSValue valueWithPointer:displayController];
 	NSUInteger	  count = [rectSet count];
-	
-	if (outCount) *outCount = count;
 
 	NSRectArray gridRects = (NSRectArray)malloc(sizeof(NSRect) * count);
 	int i = 0;
 	while ((value = [enumerator nextObject])) {
-		if (!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:value])) {
+		if (displayController && [[reservedRectsByController objectForKey:displayControllerValue] isEqual:value]) {
+			--count;
+		} else {
 			gridRects[i++] = NSInsetRect([value rectValue], -padding, -padding);
 		}
 	}
+
+	if (outCount) *outCount = count;
 	
 	return gridRects;
 }

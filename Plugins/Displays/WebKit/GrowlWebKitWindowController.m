@@ -19,6 +19,7 @@
 #include "CFGrowlAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
+#import "NSMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlFadingWindowTransition.h"
@@ -42,6 +43,10 @@
 
 @interface NSImage (PNGRepAddition)
 - (NSData *)PNGRepresentation;
+@end
+
+@interface GrowlWebKitWindowController ()
+- (void) viewIsReady:(GrowlWebKitWindowView *)view;
 @end
 
 @implementation GrowlWebKitWindowController
@@ -217,7 +222,7 @@
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 
-	[webFrame loadHTMLString:(NSString *)htmlString baseURL:nil];
+	[webFrame loadHTMLString:(NSString *)htmlString baseURL:baseURL];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	CFRelease(htmlString);
 }
@@ -250,12 +255,21 @@
  * @brief Invoked once the webview has loaded and is ready to accept content
  */
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
-#pragma unused(frame)
+	if (frame != [sender mainFrame]) return;
+
+	if ([[[frame frameView] documentView] frame].size.height < 2.0f) {
+		//Finished loading it may be, but it's not finished rendering, in which case the document view's height will be 1 px. Not good for sizing to fit. So, try again one cycle of the run loop from now.
+		[self performSelector:@selector(viewIsReady:) withObject:sender afterDelay:0.0];
+	} else {
+		//It really is done, so just call through directly.
+		[self viewIsReady:(GrowlWebKitWindowView *)sender];
+	}
+}
+- (void) viewIsReady:(GrowlWebKitWindowView *)view {
 	NSWindow *myWindow = [self window];
 	if ([myWindow isFlushWindowDisabled])
 		[myWindow enableFlushWindow];
 
-	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
 
 	//Update our new frame
@@ -378,7 +392,7 @@
 
 @implementation NSData (Base64Additions)
 
-static char encodingTable[64] = {
+static const unichar encodingTable[64] = {
 	'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
 	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
 	'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
@@ -421,7 +435,7 @@ static char encodingTable[64] = {
 		}
 		
 		for( i = 0; i < ctcopy; i++ )
-			[result appendFormat:@"%c", encodingTable[outbuf[i]]];
+			[result appendCharacter:encodingTable[outbuf[i]]];
 		
 		for( i = ctcopy; i < 4; i++ )
 			[result appendString:@"="];

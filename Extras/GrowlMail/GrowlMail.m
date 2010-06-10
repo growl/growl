@@ -42,6 +42,8 @@ NSBundle *GMGetGrowlMailBundle(void) {
 	return [NSBundle bundleForClass:[GrowlMail class]];
 }
 
+static NSImage *growlMailIcon = nil;
+
 @implementation GrowlMail
 
 #pragma mark Boring bookkeeping stuff
@@ -58,9 +60,8 @@ NSBundle *GMGetGrowlMailBundle(void) {
 	{
 		class_setSuperclass([self class], mvMailBundleClass);
 		
-		// this image is leaked
-		NSImage *image = [[NSImage alloc] initByReferencingFile:[GMGetGrowlMailBundle() pathForImageResource:@"GrowlMail"]];
-		[image setName:@"GrowlMail"];
+		growlMailIcon = [[NSImage alloc] initByReferencingFile:[GMGetGrowlMailBundle() pathForImageResource:@"GrowlMail"]];
+		[growlMailIcon setName:@"GrowlMail"];
 		
 		[GrowlMail registerBundle];
 		

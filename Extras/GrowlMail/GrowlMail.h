@@ -36,6 +36,7 @@
 	GrowlMailNotifier *notifier;
 }
 
++ (NSString *) preferencesPanelName;
 + (void)registerBundle;
 
 @end

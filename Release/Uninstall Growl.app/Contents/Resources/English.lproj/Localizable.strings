@@ -4,5 +4,7 @@
 <dict>
 	<key>title</key>
 	<string>Are you sure that you want to uninstall Growl?</string>
+	<key>succeeded</key>
+	<string>Uninstallation successful!</string>
 </dict>
 </plist>

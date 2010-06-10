@@ -753,7 +753,7 @@
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 
-		int indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
 		if (indexOfMenuItem < 0)
 			indexOfMenuItem = 0;
 		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
@@ -867,9 +867,25 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
+	NSString *versionString = [[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	if (versionString) {
+		NSString *versionStringWithHgVersion = nil;
+		struct Version version;
+		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
+			const char *hgRevisionUTF8 = [[[self bundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
+			if (hgRevisionUTF8) {
+				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
+
+				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
+			}
+		}
+		if (versionStringWithHgVersion)
+			versionString = versionStringWithHgVersion;
+	}
+
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
 										[[self bundle] objectForInfoDictionaryKey:@"CFBundleName"], 
-										[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+										versionString]];
 	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
@@ -951,7 +967,7 @@
 	localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															   /*nameEncoding*/ NULL);
 	if(!localHostName)
-		localHostName = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("localhost"));
+		localHostName = CFRetain(CFSTR("localhost"));
 	
 	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
 	CFRelease(localHostName);
@@ -989,6 +1005,7 @@
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
+#pragma unused(sender)
 	NSLog(@"What calls resolveService:?");
 }
 

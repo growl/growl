@@ -1,0 +1,3 @@
+#!/bin/zsh -f
+
+osascript -e 'quit application "GrowlSafari"'

@@ -6,8 +6,6 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>GrowlSafari</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>com.growl.GrowlSafari</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -15,11 +13,13 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2b1</string>
+	<string>GROWL_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>sfri</string>
 	<key>CFBundleVersion</key>
-	<string>1.2b1</string>
+	<string>GROWL_VERSION</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>x86_64</key>

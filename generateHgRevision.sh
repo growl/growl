@@ -14,8 +14,16 @@ HEADERPATH="$TARGET_BUILD_DIR/include/hgRevision.h"
 #nonetheless, we should handle it sanely. We do this by only showing the
 #first parent.
 REVISION=`hg parent --template="{rev}\n" | head -n1`
+if [[ "x$REVISION" = "x" ]]; then
+	#This is not an hg repository. It's probably an archive. Try to determine the archived revision.
+	REVISION=`/usr/bin/sed -E -n '/^node:/{ s/node: //; s/^([0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]).*/\1/; p; q; }' < "${SRCROOT}/.hg_archival.txt"`
+	if [[ "x$REVISION" = "x" ]]; then
+		#Not an archive, either. Weird.
+		REVISION=0
+	fi
+fi
 echo "*** Building Growl Revision: $REVISION"
-mkdir -p "`dirname $HEADERPATH`"
+mkdir -p "`dirname "$HEADERPATH"`"
 
 echo "#define HG_REVISION $REVISION" > "$HEADERPATH"
 echo "#define HG_REVISION_STRING \"$REVISION\"" >> "$HEADERPATH"

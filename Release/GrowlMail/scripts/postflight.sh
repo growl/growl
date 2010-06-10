@@ -1,4 +1,10 @@
 #!/bin/sh
+
+# Move our temporary installation into the real destination.
+mkdir -p ~/Library/Mail/Bundles
+rm -R ~/Library/Mail/Bundles/GrowlMail.mailbundle
+mv "$2/GrowlMail.mailbundle" ~/Library/Mail/Bundles
+
 ######
 # Note that we are running sudo'd, so these defaults will be written to
 # /Library/Preferences/com.apple.mail.plist
@@ -26,3 +32,6 @@ defaults write "$domain" EnableBundles -bool YES
 
 # Mac OS X 10.5's Mail.app requires bundle version 3 or greater
 defaults write "$domain" BundleCompatibilityVersion -int "$bundle_compatibility_version"
+
+# Remove our temporary directory so that another user account on the same system can install.
+rm -R /tmp/GrowlMail-Installation-Temp

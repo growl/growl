@@ -10,7 +10,7 @@
 
 
 @interface GrowlApplication : NSApplication {
-
+	NSTimer *autoreleasePoolRefreshTimer;
 }
 
 @end

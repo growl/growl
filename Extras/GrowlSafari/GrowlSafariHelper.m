@@ -10,7 +10,7 @@
 #include <mach/mach_error.h>
 #include <dlfcn.h>
 
-#define SAFARI_BUNDLE_ID @"com.apple.Safari"
+#import "InterestingBundleIdentifiers.h"
 
 void inject(pid_t pid);
 
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 		for(process in [[NSWorkspace sharedWorkspace] launchedApplications])
 		{	
 			NSString *bundleID = [process objectForKey:@"NSApplicationBundleIdentifier"];
-			if (bundleID && [bundleID caseInsensitiveCompare:SAFARI_BUNDLE_ID] == NSOrderedSame) 
+			if (bundleID && (([bundleID caseInsensitiveCompare:SAFARI_BUNDLE_ID] == NSOrderedSame) || ([bundleID caseInsensitiveCompare:WEBKIT_LAUNCHER_BUNDLE_ID] == NSOrderedSame))) 
 			{
 				if([[process objectForKey:@"NSApplicationProcessIdentifier"] integerValue] == pid)
 				{

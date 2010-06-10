@@ -53,161 +53,158 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 
 - (void) drawRect:(NSRect)rect {
 #pragma unused(rect)
-	//Make sure that we don't draw in the main thread
-	//if ([super dispatchDrawingToThread:rect]) {
-		NSRect b = [self bounds];
-		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
-		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
-		addRoundedRectToPath(context, bounds, BORDER_RADIUS);
+	addRoundedRectToPath(context, bounds, BORDER_RADIUS);
 
-		CGFloat opacityPref = BEZEL_OPACITY_DEFAULT;
-		READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
-		CGFloat alpha = opacityPref * 0.01;
+	CGFloat opacityPref = BEZEL_OPACITY_DEFAULT;
+	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
+	CGFloat alpha = opacityPref * 0.01;
 
-		int style = 0;
-		READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &style);
-		switch (style) {
-			default:
-			case 0:
-				// default style
-				[[backgroundColor colorWithAlphaComponent:alpha] set];
-				CGContextFillPath(context);
-				break;
-			case 1:
-				// charcoal
-				CGContextSaveGState(context);
-				CGContextClip(context);
+	int style = 0;
+	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &style);
+	switch (style) {
+		default:
+		case 0:
+			// default style
+			[[backgroundColor colorWithAlphaComponent:alpha] set];
+			CGContextFillPath(context);
+			break;
+		case 1:
+			// charcoal
+			CGContextSaveGState(context);
+			CGContextClip(context);
 
-				struct CGFunctionCallbacks callbacks = { 0U, CharcoalShadeInterpolate, NULL };
-				CGFunctionRef function = CGFunctionCreate( &alpha,
-														   1U,
-														   /*domain*/ NULL,
-														   4U,
-														   /*range*/ NULL,
-														   &callbacks );
-				CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
-				CGPoint src, dst;
-				src.x = CGRectGetMinX(bounds);
-				src.y = CGRectGetMinY(bounds);
-				dst.x = CGRectGetMaxX(bounds);
-				dst.y = src.y;
-				CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
-															function, false, false);
+			struct CGFunctionCallbacks callbacks = { 0U, CharcoalShadeInterpolate, NULL };
+			CGFunctionRef function = CGFunctionCreate( &alpha,
+													   1U,
+													   /*domain*/ NULL,
+													   4U,
+													   /*range*/ NULL,
+													   &callbacks );
+			CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
+			CGPoint src, dst;
+			src.x = CGRectGetMinX(bounds);
+			src.y = CGRectGetMinY(bounds);
+			dst.x = CGRectGetMaxX(bounds);
+			dst.y = src.y;
+			CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
+														function, false, false);
 
-				CGContextDrawShading(context, shading);
+			CGContextDrawShading(context, shading);
 
-				CGShadingRelease(shading);
-				CGColorSpaceRelease(cspace);
-				CGFunctionRelease(function);
+			CGShadingRelease(shading);
+			CGColorSpaceRelease(cspace);
+			CGFunctionRelease(function);
 
-				CGContextRestoreGState(context);
-				break;
-		}
+			CGContextRestoreGState(context);
+			break;
+	}
 
-		int sizePref = BEZEL_SIZE_NORMAL;
-		READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
+	int sizePref = BEZEL_SIZE_NORMAL;
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
 
-		// rects
-		NSRect titleRect, textRect;
-		NSPoint iconPoint;
-		int maxRows;
-		NSSize maxIconSize;
-		if (sizePref == BEZEL_SIZE_NORMAL) {
-			titleRect.origin.x = 12.0;
-			titleRect.origin.y = 90.0;
-			titleRect.size.width = 187.0;
-			titleRect.size.height = 30.0;
-			textRect.origin.x = 12.0;
-			textRect.origin.y = 4.0;
-			textRect.size.width = 187.0;
-			textRect.size.height = 80.0;
-			maxRows = 4;
-			maxIconSize.width = 72.0;
-			maxIconSize.height = 72.0;
-			iconPoint.x = 70.0;
-			iconPoint.y = 120.0;
-		} else {
-			titleRect.origin.x = 8.0;
-			titleRect.origin.y = 52.0;
-			titleRect.size.width = 143.0;
-			titleRect.size.height = 24.0;
-			textRect.origin.x = 8.0;
-			textRect.origin.y = 4.0;
-			textRect.size.width = 143.0;
-			textRect.size.height = 49.0;
-			maxRows = 2;
-			maxIconSize.width = 48.0;
-			maxIconSize.height = 48.0;
-			iconPoint.x = 57.0;
-			iconPoint.y = 83.0;
-		}
+	// rects
+	NSRect titleRect, textRect;
+	NSPoint iconPoint;
+	int maxRows;
+	NSSize maxIconSize;
+	if (sizePref == BEZEL_SIZE_NORMAL) {
+		titleRect.origin.x = 12.0;
+		titleRect.origin.y = 90.0;
+		titleRect.size.width = 187.0;
+		titleRect.size.height = 30.0;
+		textRect.origin.x = 12.0;
+		textRect.origin.y = 4.0;
+		textRect.size.width = 187.0;
+		textRect.size.height = 80.0;
+		maxRows = 4;
+		maxIconSize.width = 72.0;
+		maxIconSize.height = 72.0;
+		iconPoint.x = 70.0;
+		iconPoint.y = 120.0;
+	} else {
+		titleRect.origin.x = 8.0;
+		titleRect.origin.y = 52.0;
+		titleRect.size.width = 143.0;
+		titleRect.size.height = 24.0;
+		textRect.origin.x = 8.0;
+		textRect.origin.y = 4.0;
+		textRect.size.width = 143.0;
+		textRect.size.height = 49.0;
+		maxRows = 2;
+		maxIconSize.width = 48.0;
+		maxIconSize.height = 48.0;
+		iconPoint.x = 57.0;
+		iconPoint.y = 83.0;
+	}
 
-		NSShadow *textShadow = [[NSShadow alloc] init];
-		NSSize shadowSize = {0.0, -2.0};
-		[textShadow setShadowOffset:shadowSize];
-		[textShadow setShadowBlurRadius:3.0];
-		[textShadow setShadowColor:[NSColor blackColor]];
+	NSShadow *textShadow = [[NSShadow alloc] init];
+	NSSize shadowSize = {0.0, -2.0};
+	[textShadow setShadowOffset:shadowSize];
+	[textShadow setShadowBlurRadius:3.0];
+	[textShadow setShadowColor:[NSColor blackColor]];
 
-		// Draw the title, resize if text too big
-		CGFloat titleFontSize = 20.0;
-		NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[parrafo setAlignment:NSCenterTextAlignment];
-		NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			textColor,                                   NSForegroundColorAttributeName,
-			parrafo,                                     NSParagraphStyleAttributeName,
-			[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
-			textShadow,                                  NSShadowAttributeName,
-			nil];
-		CGFloat accumulator = 0.0;
-		BOOL minFontSize = NO;
-		NSSize titleSize = [title sizeWithAttributes:titleAttributes];
+	// Draw the title, resize if text too big
+	CGFloat titleFontSize = 20.0;
+	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[parrafo setAlignment:NSCenterTextAlignment];
+	NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+		textColor,                                   NSForegroundColorAttributeName,
+		parrafo,                                     NSParagraphStyleAttributeName,
+		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
+		textShadow,                                  NSShadowAttributeName,
+		nil];
+	CGFloat accumulator = 0.0;
+	BOOL minFontSize = NO;
+	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
-		while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5))) {
-			minFontSize = ( titleFontSize < 12.9 );
-			if (minFontSize)
-				break;
-			titleFontSize -= 1.9;
-			accumulator += 0.5;
-			[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
-			titleSize = [title sizeWithAttributes:titleAttributes];
-		}
-
-		titleRect.origin.y += GrowlCGFloatCeiling(accumulator);
-		titleRect.size.height = titleSize.height;
-
+	while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5))) {
+		minFontSize = ( titleFontSize < 12.9 );
 		if (minFontSize)
-			[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
-		[title drawInRect:titleRect withAttributes:titleAttributes];
-		[titleAttributes release];
+			break;
+		titleFontSize -= 1.9;
+		accumulator += 0.5;
+		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
+		titleSize = [title sizeWithAttributes:titleAttributes];
+	}
 
-		NSFont *textFont = [NSFont systemFontOfSize:14.0];
-		NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			textColor,  NSForegroundColorAttributeName,
-			parrafo,    NSParagraphStyleAttributeName,
-			textFont,   NSFontAttributeName,
-			textShadow, NSShadowAttributeName,
-			nil];
-		[textShadow release];
-		[parrafo release];
+	titleRect.origin.y += GrowlCGFloatCeiling(accumulator);
+	titleRect.size.height = titleSize.height;
 
-		CGFloat height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
-		CGFloat lineHeight = [layoutManager defaultLineHeightForFont:textFont];
-		NSInteger rowCount = height / lineHeight;
+	if (minFontSize)
+		[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
+	[title drawInRect:titleRect withAttributes:titleAttributes];
+	[titleAttributes release];
 
-		if (rowCount > maxRows)
-			[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
-		[text drawInRect:textRect withAttributes:textAttributes];
-		[textAttributes release];
+	NSFont *textFont = [NSFont systemFontOfSize:14.0];
+	NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+		textColor,  NSForegroundColorAttributeName,
+		parrafo,    NSParagraphStyleAttributeName,
+		textFont,   NSFontAttributeName,
+		textShadow, NSShadowAttributeName,
+		nil];
+	[textShadow release];
+	[parrafo release];
 
-		NSRect iconRect;
-		iconRect.origin = iconPoint;
-		iconRect.size = maxIconSize;
-		[icon setFlipped:NO];
-		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
-		[super drawRect:rect];
-	//}
+	CGFloat height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
+	CGFloat lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+	NSInteger rowCount = height / lineHeight;
+
+	if (rowCount > maxRows)
+		[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
+	[text drawInRect:textRect withAttributes:textAttributes];
+	[textAttributes release];
+
+	NSRect iconRect;
+	iconRect.origin = iconPoint;
+	iconRect.size = maxIconSize;
+	[icon setFlipped:NO];
+	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
+	[super drawRect:rect];
 }
 
 - (void) setIcon:(NSImage *)anIcon {

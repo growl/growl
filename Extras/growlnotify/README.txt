@@ -1,3 +1,5 @@
-growlnotify is a command-line tool to post Growl notifications. You can control all aspects of the notification (within any boundaries set up in the Growl pane of System Preferences). It can be very useful in shell scripts.
+growlnotify is a command-line tool to enable you to send Growl notifications from the command line and from shell scripts.
 
-Information on usage is in the manpage. Just type 'man 1 growlnotify' after installing.
+This package includes a manual page which fully documents the tool's interface.
+
+Please do not use growlnotify as a replacement for our Growl framework (for Cocoa and MacRuby) or bindings (for Python, Ruby, etc.).

@@ -11,7 +11,6 @@
 #import "GrowlAbstractSingletonObject.h"
 
 @class GrowlPlugin, GrowlDisplayPlugin;
-@class GrowlNonCopyingMutableDictionary;
 
 /*GrowlPluginController handles three types of plug-ins by itself:
  *	*	.growlPlugin (a so-called 'functional plug-in', which adds features to Growl)
@@ -131,10 +130,13 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 @interface GrowlPluginController : GrowlAbstractSingletonObject <GrowlPluginHandler> {
 	//Keys: plug-in IDs; values: plug-in description dictionaries.
 	NSMutableDictionary       *pluginsByIdentifier;
+	//Keys: bundle IDs; values: plug-in description dictionaries.
+	//We use this to avoid attempting to load two bundles with the same bundle ID.
+	NSMutableDictionary       *pluginsByBundleIdentifier;
 	//Keys: plug-in paths/bundles/instances; values: plug-in identifiers.
 	NSMutableDictionary       *pluginIdentifiersByPath;
-	GrowlNonCopyingMutableDictionary *pluginIdentifiersByBundle;
-	GrowlNonCopyingMutableDictionary *pluginIdentifiersByInstance;
+	NSMapTable *pluginIdentifiersByBundle;
+	NSMapTable *pluginIdentifiersByInstance;
 	//Keys: plug-in IDs/names/authors/versions/types/instances; values: NSSets of plug-in description dictionaries.
 	NSMutableDictionary *pluginsByName;
 	NSMutableDictionary *pluginsByAuthor;
@@ -144,12 +146,6 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	//Used for triple-disambiguated names (e.g. 'Smoke (by Matthew Walton, filename Smoke.growlView)'). Multiple equal names become '...', '... 2', '... 3', etc.
 	NSCountedSet          *pluginHumanReadableNames;
 
-	/* A set of the identifiers of all loaded bundles to easily prevent loading the same bundle twice.
-	 * This might be duplicative with one of the dictionaries above.  I can't tell, but we need to avoid
-	 * duplication of bundle loading. -eds
-	 */
-	NSMutableSet	*loadedBundleIdentifiers;
-	
 	NSMutableSet *bundlesToLazilyInstantiateAnInstanceFrom;
 	//GrowlDisplayPlugin instances that have been added as display plugins.
 	//These two arrays are parallel.
@@ -169,7 +165,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	 *	can be called upon to do that.
 	 */
 	//Keys: GrowlPlugins; values: GrowlPluginHandlers
-	GrowlNonCopyingMutableDictionary *handlersForPlugins;
+	NSMapTable *handlersForPlugins;
 
 	/*These are types for which it is illegal to try and register a plug-in
 	 *	handler, because they are reserved for built-in handlers.
@@ -188,6 +184,9 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	NSArray *cache_allPluginInstances; //P
 	NSArray *cache_displayPlugins; //DP
 	//No cache for displayPluginNames; see -displayPluginNames for why.
+
+	struct FSEventStreamContext pluginsDirectoryEventStreamContext;
+	FSEventStreamRef pluginsDirectoryEventStream;
 }
 
 + (GrowlPluginController *) sharedController;
@@ -237,7 +236,6 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
  */
 - (NSSet *) registeredPluginNames;
 - (NSArray *) registeredPluginNamesArray;
-- (NSArray *) registeredPluginNamesArrayForType:(NSString *)type;
 
 #pragma mark -
 

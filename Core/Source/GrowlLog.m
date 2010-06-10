@@ -29,6 +29,15 @@ void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict) {
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:(NSDictionary *)regDict];
 }
 
+STRING_TYPE GrowlLog_StringFromRect(NSRect rect) {
+	if ([[GrowlLog sharedController] isLoggingEnabled])
+		return NSStringFromRect(rect);
+	else
+		return @"(a rectangle)";
+}
+
+static const NSTimeInterval minimumLoggingEnabledFetchInterval = 5.0 * 60.0; //5 minutes
+
 #pragma mark -
 
 static GrowlLog *singleton = nil;
@@ -42,8 +51,28 @@ static GrowlLog *singleton = nil;
 	return singleton;
 }
 
+- (id) init {
+	if ((self = [super init])) {
+		hasFetchedLoggingEnabled = NO;
+	}
+	return self;
+}
+
+- (BOOL) isLoggingEnabled {
+	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+	if (hasFetchedLoggingEnabled && ((now - lastLoggingEnabledFetchTime) < minimumLoggingEnabledFetchInterval)) {
+		//Not time yet.
+	} else {
+		loggingEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey];
+		lastLoggingEnabledFetchTime = now;
+		hasFetchedLoggingEnabled = YES;
+	}
+
+	return loggingEnabled;
+}
+
 - (void) writeToLog:(NSString *)format withArguments:(va_list)args {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
+	if ([self isLoggingEnabled]) {
 		GrowlPreferencesController *gpc = [GrowlPreferencesController sharedController];
 
 		NSInteger typePref = [gpc integerForKey:GrowlLogTypeKey];
@@ -87,7 +116,9 @@ static GrowlLog *singleton = nil;
 }
 
 - (void) writeNotificationDictionaryToLog:(NSDictionary *)noteDict {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey]) {
+	if ([self isLoggingEnabled]) {
+		[self writeToLog:@"---"];
+
 		int priority;
 		NSNumber *priorityNumber = [noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY];
 		if (priorityNumber)
@@ -103,7 +134,7 @@ static GrowlLog *singleton = nil;
 	}
 }
 - (void) writeRegistrationDictionaryToLog:(NSDictionary *)regDict {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey])
+	if ([self isLoggingEnabled])
 		[self writeToLog:@"%@ registered", [regDict objectForKey:GROWL_APP_NAME]];
 }
 

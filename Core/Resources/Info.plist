@@ -15,11 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2b1</string>
+	<string>GROWL_VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>GPAN</string>
 	<key>CFBundleVersion</key>
-	<string>1.2b1</string>
+	<string>GROWL_VERSION</string>
+	<key>GrowlHgRevision</key>
+	<string>HG_REVISION</string>
 	<key>NSMainNibFile</key>
 	<string>GrowlPref</string>
 	<key>NSPrefPaneIconFile</key>

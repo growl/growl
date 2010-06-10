@@ -123,7 +123,6 @@
 }
 
 - (NSArray *) windowControllers {
-#warning should this call -makeWindowControllers? discuss. --boredzo
 	return windowControllers;
 }
 
