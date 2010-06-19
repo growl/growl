@@ -1097,8 +1097,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 					[ticket setObject:appName forKey:GROWL_APP_NAME];
 
 				if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
-					NSLog(@"Auto-discovered registration ticket in %@ (located at %@)", appName, appPath);
-
 					/* set the app's location in the dictionary, avoiding costly
 					 *	lookups later.
 					 */
