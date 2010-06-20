@@ -293,7 +293,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		/*if Growl launches, and the user hasn't already said NO to installing
 		 *	it, store this notification for posting
 		 */
-		if (!userChoseNotToInstallGrowl) {
+		if (!([self isGrowlInstalled] || userChoseNotToInstallGrowl)) {
 			if (!queuedGrowlNotifications)
 				queuedGrowlNotifications = [[NSMutableArray alloc] init];
 			[queuedGrowlNotifications addObject:userInfo];
