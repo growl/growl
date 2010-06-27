@@ -532,7 +532,7 @@ void AppController_syncFinished(void) {
 
 #pragma mark Power
 void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharging,
-								 int batteryTime, int batteryPercentage)
+								 CFIndex batteryTime, CFIndex batteryPercentage)
 {
 	NSString		*title = nil;
 	NSMutableString *description = [NSMutableString string];

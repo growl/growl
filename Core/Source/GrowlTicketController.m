@@ -20,7 +20,6 @@
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
-		[self loadAllSavedTickets];
 	}
 	return self;
 }
@@ -46,23 +45,26 @@
 			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
 			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
-				
-				/* Growl used to generate a ticket for itself to display notifcations, but 
-				 * but this has been removed for 1.1, referencing ticket #547. Thus we have
-				 * the ticket loader remove the file if found */
-				if([applicationName isEqual:@"Growl"])
-				{
-					[self removeTicketForApplicationName:@"Growl"];
-					[mgr removeFileAtPath:filename handler:nil];
+				if (!applicationName) {
+					NSLog(@"Invalid ticket (no application name inside): %@", [filename lastPathComponent]);
+				} else {
+					/* Growl used to generate a ticket for itself to display notifcations, but 
+				 	 * but this has been removed for 1.1, referencing ticket #547. Thus we have
+				 	 * the ticket loader remove the file if found */
+					if([applicationName isEqual:@"Growl"])
+					{
+						[self removeTicketForApplicationName:@"Growl"];
+						[mgr removeFileAtPath:filename handler:nil];
+					}
+
+					/*if we haven't already loaded a ticket for this application,
+				 	 *	or if we're clobbering already-loaded tickets,
+				 	 *	set this ticket in the dictionary.
+				 	 */
+					if (clobber || ![ticketsByApplicationName objectForKey:applicationName])
+						[ticketsByApplicationName setObject:newTicket forKey:applicationName];
 				}
-
-				/*if we haven't already loaded a ticket for this application,
-				 *	or if we're clobbering already-loaded tickets,
-				 *	set this ticket in the dictionary.
-				 */
-				if (clobber || ![ticketsByApplicationName objectForKey:applicationName])
-					[ticketsByApplicationName setObject:newTicket forKey:applicationName];
-
+				
 				[newTicket release];
 			}
 		}

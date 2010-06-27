@@ -477,7 +477,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				} else {
 					[mRegDict removeObjectForKey:GROWL_APP_LOCATION];
 				}
-				[myURL release];
+				[NSMakeCollectable(myURL) release];
 			}
 		}
 	}
@@ -578,7 +578,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if (!iconData) {
 		NSURL *URL = copyCurrentProcessURL();
 		iconData = [copyIconDataForURL(URL) autorelease];
-		[URL release];
+		[NSMakeCollectable(URL) release];
 	}
 
 	return iconData;
@@ -786,7 +786,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				0, kNoProcess
 			};
 			while ((err = GetNextProcess(&appPSN)) == noErr) {
-				NSDictionary *dict = [(id)ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask) autorelease];
+				NSDictionary *dict = [NSMakeCollectable(ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask)) autorelease];
 				NSString *bundlePath = [dict objectForKey:@"BundlePath"];
 				if ([bundlePath isEqualToString:growlHelperAppPath]) {
 					//Match!
@@ -862,6 +862,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 						if (err != noErr) {
 							NSLog(@"%@: Could not send open-document event to register this application with Growl because AESend returned %li/%s", [self class], (long)err, GetMacOSStatusCommentString(err));
 						}
+
+						AEDisposeDesc(&event);
 					}
 					
 					success = (err == noErr);

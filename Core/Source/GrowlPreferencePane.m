@@ -24,6 +24,7 @@
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
+#include "SparkleHelperDefines.h"
 
 #include <Carbon/Carbon.h>
 
@@ -228,12 +229,14 @@
  */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
-	/*
-	 [growlVersionProgress startAnimation:self];
-
-	[growlVersionProgress stopAnimation:self];
-	*/
+	[self launchSparkleHelper];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
 }
+
+- (void) launchSparkleHelper {
+	[[NSWorkspace sharedWorkspace] launchApplication:[[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlSparkleHelper" ofType:@"app"]];
+}
+
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet)
@@ -744,7 +747,7 @@
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 
-		int indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
 		if (indexOfMenuItem < 0)
 			indexOfMenuItem = 0;
 		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
@@ -858,9 +861,25 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
+	NSString *versionString = [[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	if (versionString) {
+		NSString *versionStringWithHgVersion = nil;
+		struct Version version;
+		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
+			const char *hgRevisionUTF8 = [[[self bundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
+			if (hgRevisionUTF8) {
+				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
+
+				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
+			}
+		}
+		if (versionStringWithHgVersion)
+			versionString = versionStringWithHgVersion;
+	}
+
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
 										[[self bundle] objectForInfoDictionaryKey:@"CFBundleName"], 
-										[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+										versionString]];
 	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
@@ -978,6 +997,7 @@
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
+#pragma unused(sender)
 	NSLog(@"What calls resolveService:?");
 }
 

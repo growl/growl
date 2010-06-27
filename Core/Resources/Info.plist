@@ -20,6 +20,8 @@
 	<string>GPAN</string>
 	<key>CFBundleVersion</key>
 	<string>GROWL_VERSION</string>
+	<key>GrowlHgRevision</key>
+	<string>HG_REVISION</string>
 	<key>NSMainNibFile</key>
 	<string>GrowlPref</string>
 	<key>NSPrefPaneIconFile</key>
@@ -28,5 +30,9 @@
 	<string>Growl</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlPreferencePane</string>
+	<key>SUFeedURL</key>
+	<string>http://growl.info/updates/beta/appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

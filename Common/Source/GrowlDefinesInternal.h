@@ -524,4 +524,12 @@ struct GrowlNetworkNotification {
  */
 #define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
 
+/*!
+ * @defined CHECK_FOR_UPDATES_NOTIFICATION
+ * @abstract notification that is used to signal that an update check should be performed
+ * @discussion this notification is sent between the preference pane and the helper app when the user presses the check for updates button
+ */
+
+#define CHECK_FOR_UPDATES_NOTIFICATION @"com.growl.checkforupdatesrequested"
+
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H

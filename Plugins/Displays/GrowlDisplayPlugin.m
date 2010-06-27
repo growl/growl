@@ -19,15 +19,14 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 @implementation GrowlDisplayPlugin
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initWithBundle:(NSBundle *)bundle {
+	if ((self = [super initWithBundle:bundle])) {
 		/*determine whether this display should enqueue notifications when a
 		 *	notification is already being displayed.
 		 */
 		BOOL queuesNotifications = NO;
 		windowControllerClass    = nil;
 
-		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyUsesQueue];
 		if (queuesNotificationsObject) {
 			NSAssert4([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
@@ -154,7 +153,8 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			bridge = nil;
 		}
 	} else {
-		theBridge = [activeBridges bridgeForWindowController:wc];
+		//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
+		theBridge = [[[wc bridge] retain] autorelease];
 		[theBridge removeWindowController:wc];
 		[activeBridges removeObjectIdenticalTo:theBridge];
 	}

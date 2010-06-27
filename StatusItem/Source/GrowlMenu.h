@@ -23,7 +23,6 @@
 - (void) shutdown:(id)sender;
 - (void) reloadPrefs:(NSNotification *)notification;
 - (void) openGrowlPreferences:(id)sender;
-- (void) defaultDisplay:(id)sender;
 - (void) stopGrowl:(id)sender;
 - (void) startGrowl:(id)sender;
 - (void) squelchMode:(id)sender;

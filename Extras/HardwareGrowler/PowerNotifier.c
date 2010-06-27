@@ -18,7 +18,7 @@ extern void NSLog(CFStringRef format, ...);
 static CFRunLoopSourceRef powerNotifierRunLoopSource = NULL;
 static HGPowerSource lastPowerSource;
 static CFBooleanRef lastChargingState;
-static int lastBatteryTime = -1;
+static CFIndex lastBatteryTime = -1;
 
 static bool stringsAreEqual(CFStringRef a, CFStringRef b)
 {
@@ -33,15 +33,15 @@ static void powerSourceChanged(void *context)
 	CFTypeRef	powerBlob = IOPSCopyPowerSourcesInfo();
 	CFArrayRef	powerSourcesList = IOPSCopyPowerSourcesList(powerBlob);
 
-	unsigned	count = CFArrayGetCount(powerSourcesList);
-	for (unsigned i = 0U; i < count; ++i) {
+	CFIndex	count = CFArrayGetCount(powerSourcesList);
+	for (CFIndex i = 0; i < count; ++i) {
 		CFTypeRef		powerSource;
 		CFDictionaryRef description;
 
 		HGPowerSource	hgPowerSource;
 		CFBooleanRef	charging = kCFBooleanFalse;
-		int				batteryTime = -1;
-		int				percentageCapacity = -1;
+		CFIndex			batteryTime = -1;
+		CFIndex			percentageCapacity = -1;
 
 		powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
 		description = IOPSGetPowerSourceDescription(powerBlob, powerSource);
@@ -67,18 +67,18 @@ static void powerSourceChanged(void *context)
 				charging = kCFBooleanTrue;
 
 				CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
-				int timeToCharge;
+				CFIndex timeToCharge;
 
-				if (CFNumberGetValue(timeToChargeNum, kCFNumberIntType, &timeToCharge))
+				if (CFNumberGetValue(timeToChargeNum, kCFNumberCFIndexType, &timeToCharge))
 					batteryTime = timeToCharge;
 			} else {
 				//Not charging
 				charging = kCFBooleanFalse;
 
 				CFNumberRef timeToEmptyNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToEmptyKey));
-				int timeToEmpty;
+				CFIndex timeToEmpty;
 
-				if (CFNumberGetValue(timeToEmptyNum, kCFNumberIntType, &timeToEmpty))
+				if (CFNumberGetValue(timeToEmptyNum, kCFNumberCFIndexType, &timeToEmpty))
 					batteryTime = timeToEmpty;
 			}
 
@@ -86,10 +86,10 @@ static void powerSourceChanged(void *context)
 			CFNumberRef currentCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
 			CFNumberRef maxCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
 
-			int currentCapacity, maxCapacity;
+			CFIndex currentCapacity, maxCapacity;
 
-			if (CFNumberGetValue(currentCapacityNum, kCFNumberIntType, &currentCapacity) &&
-					CFNumberGetValue(maxCapacityNum, kCFNumberIntType, &maxCapacity))
+			if (CFNumberGetValue(currentCapacityNum, kCFNumberCFIndexType, &currentCapacity) &&
+					CFNumberGetValue(maxCapacityNum, kCFNumberCFIndexType, &maxCapacity))
 				percentageCapacity = roundf((currentCapacity / (float)maxCapacity) * 100.0f);
 
 		} else {

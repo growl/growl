@@ -4,7 +4,7 @@
 #include "GrowlVersionUtilities.h"
 
 CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
-	CFSTR(""), CFSTR(" SVN "), CFSTR("d"), CFSTR("a"), CFSTR("b"),
+	CFSTR("hg"), CFSTR("d"), CFSTR("a"), CFSTR("b"), NULL,
 };
 
 //TEMP: for debugging version parsing and comparison.
@@ -17,6 +17,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 	if (!string) {
 		return false;
 	}
+	bool parsed = true;
 
 	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseType_release, myDevelopment = 0U;
 
@@ -38,6 +39,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 		return false;
 	}
 
+	CFIndex i = 0;
 	CFIndex length = 0;
 	canConvert = CFStringGetBytes(string, range,
 								  kCFStringEncodingUTF8,
@@ -48,7 +50,14 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 								  &length);
 	if (canConvert) {
 		//converted to UTF-8 successfully. parse it.
-		CFIndex i = 0;
+
+		while ((i < length) && isspace(buf[i])) {
+			++i;
+		}
+		if (!isdigit(buf[i])) {
+			parsed = false;
+			goto end;
+		}
 
 		//major version
 		while (i < length) {
@@ -122,6 +131,12 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 							}
 						}
 						break;
+					case 'h':
+						myReleaseType = releaseType_svn;
+						if ((i < length) && (buf[i] == 'g')) {
+							++i;
+						}
+						break;
 				}
 
 				while ((i < length) && isspace(buf[i])) {
@@ -149,6 +164,12 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 				} //if(++i != length)
 			} //if(i < length)
 		} //if(i != length)
+
+		while ((i < length) && isspace(buf[i])) {
+			++i;
+		}
+		if (i < length)
+			parsed = false;
 	} //if(canConvert)
 
 end:
@@ -162,7 +183,7 @@ end:
 		outVersion->development	= myDevelopment;
 	}
 
-	return true;
+	return parsed;
 }
 
 CFStringRef createVersionDescription(const struct Version v) {
@@ -178,10 +199,14 @@ CFStringRef createVersionDescription(const struct Version v) {
 	CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, /*capacity*/ 28);
 	CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hu.%hu"), v.major, v.minor);
 	if (v.incremental) {
-		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hhu"), v.incremental);
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR(".%hhu"), v.incremental);
 	}
 	if (v.releaseType != releaseType_release) {
-		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%u"), v.development);
+		if (v.releaseType >= numberOfReleaseTypes) {
+			CFRelease(str);
+			return nil;
+		}
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%u"), releaseTypeNames[v.releaseType], v.development);
 	}
 	return str;
 }

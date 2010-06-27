@@ -15,11 +15,19 @@ static CFStringRef nameForFireWireObject(io_object_t thisObject) {
 	io_name_t		deviceNameChars;
 
 	nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
+	if (nameResult != KERN_SUCCESS) {
+		NSLog(CFSTR("Could not get name for FireWire object: IORegistryEntryGetName returned 0x%x"), nameResult);
+		return NULL;
+	}
 	CFStringRef tempDeviceName = CFStringCreateWithCString(kCFAllocatorDefault,
 														   deviceNameChars,
 														   kCFStringEncodingASCII);
-	if (CFStringCompare(tempDeviceName, CFSTR("IOFireWireDevice"), 0) != kCFCompareEqualTo)
-		return tempDeviceName;
+	if (tempDeviceName) {
+		if (CFStringCompare(tempDeviceName, CFSTR("IOFireWireDevice"), 0) != kCFCompareEqualTo)
+			return tempDeviceName;
+		else
+			CFRelease(tempDeviceName);
+	}
 
 	tempDeviceName = IORegistryEntrySearchCFProperty(thisObject,
 													 kIOFireWirePlane,

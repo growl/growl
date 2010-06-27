@@ -29,6 +29,7 @@
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
 #import "MD5Authenticator.h"
+#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
@@ -53,17 +54,30 @@
 #import "GNTPKey.h"
 #import "GrowlGNTPKeyController.h"
 
+#import "SparkleHelperDefines.h"
+
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
 //Notifications posted by GrowlApplicationController
-#define UPDATE_AVAILABLE_NOTIFICATION	@"Growl update available"
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
 #define USER_RETURNED_NOTIFICATION		@"User returned"
 
 static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon);
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
+
+static void checkVersion(CFRunLoopTimerRef timer, void *context) {
+	#pragma unused(timer)
+		// only run update check if it's enabled, TODO: maybe remove timer?
+		if([[GrowlPreferencesController sharedController] isBackgroundUpdateCheckEnabled])
+				[((GrowlApplicationController*)context) timedCheckForUpdates:nil];
+	}
+
+@interface GrowlApplicationController (PRIVATE)
+- (void) notificationClicked:(NSNotification *)notification;
+- (void) notificationTimedOut:(NSNotification *)notification;
+@end
 
 /*applications that go full-screen (games in particular) are expected to capture
  *	whatever display(s) they're using.
@@ -101,53 +115,6 @@ static BOOL isAnyDisplayCaptured(void) {
 #endif
 
 static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
-
-static void checkVersion(CFRunLoopTimerRef timer, void *context) {
-#pragma unused(timer)
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-
-	if (![preferences isBackgroundUpdateCheckEnabled])
-		return;
-
-	GrowlApplicationController *appController = (GrowlApplicationController *)context;
-	NSURL *versionCheckURL = [appController versionCheckURL];
-
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
-
-	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
-
-	NSString *downloadURLString = [productVersionDict objectForKey:@"GrowlDownloadURL"];
-
-	/* do nothing and be quiet if there is no active connection, if the
-	 *	version dictionary could not be downloaded, or if the version dictionary
-	 *	is missing either of these keys.
-	 */
-	if (downloadURLString && latestVersionNumber) {
-		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
-		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
-			CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
-			CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
-			[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-				                        description:(NSString *)description
-				                   notificationName:UPDATE_AVAILABLE_NOTIFICATION
-			                               iconData:[appController applicationIconDataForGrowl]
-			                               priority:1
-			                               isSticky:YES
-			                           clickContext:downloadURLString
-										 identifier:UPDATE_AVAILABLE_NOTIFICATION];
-			CFRelease(title);
-			CFRelease(description);
-		}
-	}
-
-	[productVersionDict release];
-}
-
-@interface NSString (GrowlNetworkingAdditions)
-- (BOOL)isLikelyDomainName;
-- (BOOL)isLikelyIPAddress;
-@end
 
 @implementation GrowlApplicationController
 
@@ -252,7 +219,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			   selector:@selector(idleStatus:)
 				   name:@"GrowlIdleStatus"
 				 object:nil];
-
+				
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
 		NSDate *now = [NSDate date];
 		if (!lastCheck || [now timeIntervalSinceDate:lastCheck] > UPDATE_CHECK_INTERVAL) {
@@ -263,6 +230,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
 
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(growlSparkleHelperFoundUpdate:)
+																name:SPARKLE_HELPER_UPDATE_AVAILABLE
+															  object:[[NSBundle mainBundle] bundleIdentifier]
+												  suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
+
+		
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
 		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
@@ -319,15 +293,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[growlIcon        release]; growlIcon = nil;
 	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
 
-	[versionCheckURL release];
-
 	GrowlIdleStatusController_dealloc();
 
 	CFRunLoopTimerInvalidate(updateTimer);
 	CFRelease(updateTimer);
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
-
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
+	
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
@@ -918,12 +891,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return result;
 }
 
-- (NSURL *) versionCheckURL {
-	if (!versionCheckURL)
-		versionCheckURL = [[NSURL URLWithString:@"http://growl.info/version.xml"] retain];
-	return versionCheckURL;
-}
-
 #pragma mark Accessors
 
 - (BOOL) quitAfterOpen {
@@ -931,6 +898,57 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 - (void) setQuitAfterOpen:(BOOL)flag {
 	quitAfterOpen = flag;
+}
+
+#pragma mark Sparkle Updates
+
+- (void) timedCheckForUpdates:(NSNotification*)note {
+#pragma unused(note)
+	[self launchSparkleHelper];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_INTERVAL_INITIATED object:nil userInfo:nil deliverImmediately:YES];
+}
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+#pragma unused(clickContext)
+	[self launchSparkleHelper];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
+}
+
+- (void) growlNotificationTimedOut:(id)clickContext {
+#pragma unused(clickContext)
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
+} 
+
+- (void) launchSparkleHelper {
+	LSLaunchFSRefSpec spec;
+	FSRef appRef;
+	OSStatus status = FSPathMakeRef((UInt8 *)[[[GrowlPathUtilities growlPrefPaneBundle] pathForResource:@"GrowlSparkleHelper" ofType:@"app"] fileSystemRepresentation], &appRef, NULL);
+	if (status == noErr) {
+		
+		spec.appRef = &appRef;
+		spec.numDocs = 0;
+		spec.itemRefs = NULL;
+		spec.passThruParams = NULL;
+		spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
+		spec.asyncRefCon = NULL;
+		status = LSOpenFromRefSpec(&spec, NULL);
+	}
+}
+
+- (void) growlSparkleHelperFoundUpdate:(NSNotification*)note {
+#pragma unused(note)
+	CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
+	CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)description
+						   notificationName:UPDATE_AVAILABLE_NOTIFICATION
+								   iconData:[self applicationIconDataForGrowl]
+								   priority:1
+								   isSticky:YES
+							   clickContext:UPDATE_AVAILABLE_NOTIFICATION
+								 identifier:UPDATE_AVAILABLE_NOTIFICATION];
+	CFRelease(title);
+	CFRelease(description);
 }
 
 #pragma mark What NSThread should implement as a class method
@@ -1138,6 +1156,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 #pragma unused(notification)
+	// kill sparkle helper if it's still running
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 
@@ -1258,71 +1278,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (NSImage *)applicationIconDataForGrowl
 {
 	return [NSImage imageNamed:@"growl-icon"];
-}
-
-- (void)growlNotificationWasClicked:(id)clickContext
-{
-	if (clickContext && [clickContext isKindOfClass:[NSString class]]) {
-		NSURL *downloadURL = [NSURL URLWithString:clickContext];
-		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
-	}
-}
-
-
-/*click feedback comes here first. GAB picks up the DN and calls our
- *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
- *	GHA notification.
- */
-- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal
-{
-	static BOOL isClosingFromRemoteClick = NO;
-	/* Don't post a second close notification on the local machine if we close a notification from this method in
-	 * response to a click on a remote machine.
-	 */
-	if (isClosingFromRemoteClick)
-		return;
-
-	id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (clickContext) {
-		NSString *suffix, *growlNotificationClickedName;
-		NSDictionary *clickInfo;
-		
-		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-		GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
-		
-		if (viaClick && [ticket clickHandlersEnabled]) {
-			suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
-		} else {
-			/*
-			 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
-			 * guaranteed to receive feedback for every notification.
-			 */
-			suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
-		}
-		
-		//Build the application-specific notification name
-		NSNumber *pid = [growlNotificationDict objectForKey:GROWL_APP_PID];
-		if (pid)
-			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
-											appName, pid, suffix];
-		else
-			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
-											appName, suffix];
-		clickInfo = [NSDictionary dictionaryWithObject:clickContext
-												forKey:GROWL_KEY_CLICKED_CONTEXT];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
-																	   object:nil
-																	 userInfo:clickInfo
-														   deliverImmediately:YES];
-		[growlNotificationClickedName release];
-	}
-	
-	if (!wasLocal) {
-		isClosingFromRemoteClick = YES;
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_NOTIFICATION
-															object:[growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
-		isClosingFromRemoteClick = NO;
-	}
 }
 
 @end

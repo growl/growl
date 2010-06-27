@@ -12,6 +12,7 @@
 #include "GrowlDefinesInternal.h"
 #include "GrowlInstallationPrompt-Carbon.h"
 #include "GrowlApplicationBridge-Carbon.h"
+#include "GrowlVersionCheck.h"
 
 #include <QuickTime/QuickTime.h>
 #include <alloca.h>
@@ -47,21 +48,6 @@ extern void _userChoseNotToInstallGrowl(void);
 
 #pragma mark -
 
-static const long minimumOSXVersionForGrowl = 0x1030L; //Panther (10.3.0)
-
-static Boolean _checkOSXVersion(void) {
-	long OSXVersion = 0L;
-	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
-	if (err != noErr) {
-		NSLog(CFSTR("WARNING in GrowlInstallationPrompt: could not get Mac OS X version (selector = %x); got error code %li (will show the installation prompt anyway)"), (unsigned)gestaltSystemVersion, (long)err);
-		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
-		OSXVersion = minimumOSXVersionForGrowl;
-	}
-	return (OSXVersion >= minimumOSXVersionForGrowl);
-}
-
-#pragma mark -
-
 static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
 
 static OSStatus _fillOutTextInWindow(WindowRef window, Boolean isUpdate);
@@ -89,7 +75,7 @@ OSStatus _Growl_ShowInstallationPrompt(void) {
 OSStatus _Growl_ShowUpdatePromptForVersion(CFStringRef updateVersion) {
 	OSStatus err = noErr;
 
-	if (_checkOSXVersion()) {
+	if (GrowlCheckOSXVersion()) {
 		CFBundleRef bundle = CFBundleGetBundleWithIdentifier(GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER);
 		if (!bundle)
 			NSLog(CFSTR("GrowlInstallationPrompt: could not locate framework bundle (forget about installing Growl); had looked for bundle with identifier '%@'"), GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER);

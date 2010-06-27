@@ -11,9 +11,6 @@
 @implementation GrowlApplicationController
 @end
 
-@implementation GrowlThreadedView
-@end
-
 @implementation GrowlWindowTransition
 @end
 

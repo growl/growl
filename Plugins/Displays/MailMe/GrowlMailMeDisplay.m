@@ -17,10 +17,12 @@
 	@"-- in response to a Growl notification --\r\n"\
 	@"-- http://growl.info/ --\r\n"
 
+#define MAIL_BUNDLE_IDENTIFIER @"com.apple.mail"
+
 @interface GrowlMailMeDisplay ()
 
-//Intended to be called from -init.
-- (BOOL) gatherAccountsFromMail;
+- (NSDictionary *) defaultSMTPAccountFromMail;
+- (void) workspaceDidTerminateApplication:(NSNotification *)notification;
 
 @end
 
@@ -31,16 +33,15 @@
 	if ((self = [super init])) {
 		pathToMailSenderProgram = [[[NSBundle bundleForClass:[self class]] pathForResource:@"simple-mailer" ofType:@"py"] copy];
 
-		if (![self gatherAccountsFromMail])
-			goto fail;
+		NSWorkspace *wksp = [NSWorkspace sharedWorkspace];
+		[[wksp notificationCenter] addObserver:self
+									  selector:@selector(workspaceDidTerminateApplication:)
+										  name:NSWorkspaceDidTerminateApplicationNotification
+										object:wksp];
 
 		tasks = [[NSMutableArray alloc] init];
 	}
 	return self;
-
-fail:
-	[self release];
-	return nil;
 }
 
 - (void) dealloc {
@@ -62,16 +63,25 @@ fail:
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *destAddress = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
+	[NSMakeCollectable(destAddress) autorelease];
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 
 	if (destAddress) {
-		CFMakeCollectable(destAddress);
 		if([destAddress length]) {
 			NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
 			NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 			//hopefully something can be worked out to use the imageData.
 			//One solution would be an easy way to attach at least one file in the simple-mailer program. Another would be a way to create a MIME multi-part message and to have simple-mailer handle it correctly.
 			//	NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
+
+			if (!defaultSMTPAccount) {
+				defaultSMTPAccount = [[self defaultSMTPAccountFromMail] retain];
+				if (!defaultSMTPAccount) {
+					//We can't do anything without an account.
+					NSLog(@"MailMe: No suitable SMTP account found");
+					return;
+				}
+			}
 
 			BOOL useTLS = [[defaultSMTPAccount objectForKey:@"SSLEnabled"] boolValue];
 			NSString *username = [defaultSMTPAccount objectForKey:@"Username"];
@@ -146,7 +156,6 @@ fail:
 	} else {
 		NSLog(@"(MailMe) WARNING: No destination address set");
 	}
-	[destAddress release];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
 }
@@ -155,14 +164,16 @@ fail:
 	return NO;
 }
 
-- (BOOL) gatherAccountsFromMail {
+- (NSDictionary *) defaultSMTPAccountFromMail {
+	NSDictionary *viableAccount = nil;
+
 	NSArray *deliveryAccounts = [NSMakeCollectable(CFPreferencesCopyAppValue(CFSTR("DeliveryAccounts"), CFSTR("com.apple.Mail"))) autorelease];
 	if (!deliveryAccounts)
-		return NO;
+		return viableAccount;
 
 	NSArray *mailAccounts = [NSMakeCollectable(CFPreferencesCopyAppValue(CFSTR("MailAccounts"), CFSTR("com.apple.Mail"))) autorelease];
 	if (!mailAccounts)
-		return NO;
+		return viableAccount;
 
 	NSMutableDictionary *deliveryAccountsBySMTPIdentifier = [NSMutableDictionary dictionaryWithCapacity:[deliveryAccounts count]];
 	for (NSDictionary *account in deliveryAccounts) {
@@ -175,35 +186,39 @@ fail:
 		if (!identifier)
 			continue;
 
-		defaultSMTPAccount = [[deliveryAccountsBySMTPIdentifier objectForKey:identifier] copy];
-		if (defaultSMTPAccount) {
+		viableAccount = [deliveryAccountsBySMTPIdentifier objectForKey:identifier];
+		if (viableAccount) {
 			NSString *bareAddress = [[account objectForKey:@"EmailAddresses"] objectAtIndex:0UL];
 			NSString *name = [account objectForKey:@"FullUserName"];
 			fromAddress = [(name ? [NSString stringWithFormat:@"%@ <%@>", name, bareAddress] : bareAddress) copy];
 			if (!fromAddress) {
-				[defaultSMTPAccount release];
-				defaultSMTPAccount = nil;
+				viableAccount = nil;
 			}
 
-			NSNumber *portNumber = [defaultSMTPAccount objectForKey:@"PortNumber"];
+			NSNumber *portNumber = [viableAccount objectForKey:@"PortNumber"];
 			if (portNumber) {
 				NSInteger port = [portNumber integerValue];
 				if (port <= 0 || port > 0xFFFF) {
-					[defaultSMTPAccount release];
-					defaultSMTPAccount = nil;
+					viableAccount = nil;
 				}
 			}
 
-			break;
+			if (viableAccount) {
+				break;
+			}
 		}
 	}
 
-	if (!defaultSMTPAccount) {
-		NSLog(@"MailMe: No suitable SMTP account found");
-		return NO;
-	}
+	return viableAccount;
+}
 
-	return YES;
+- (void) workspaceDidTerminateApplication:(NSNotification *)notification {
+	NSString *bundleID = [[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"];
+	if ([bundleID isEqualToString:MAIL_BUNDLE_IDENTIFIER]) {
+		//Clear out our knowledge of the default Mail account, in case it's changed.
+		[defaultSMTPAccount release];
+		defaultSMTPAccount = nil;
+	}
 }
 
 @end

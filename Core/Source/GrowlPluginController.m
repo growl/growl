@@ -39,6 +39,8 @@ static CFHashCode passthroughStringHash(const void *value);
 //for use on array of matching plug-in handlers in -openPluginAtPath:
 NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context);
 
+static void eventStreamCallback(ConstFSEventStreamRef eventStream, void *clientCallBackInfo, size_t numEvents, void *eventPaths, const FSEventStreamEventFlags eventFlags[], const FSEventStreamEventId eventIDs[]);
+
 #pragma mark -
 
 NSString *GrowlPluginControllerWillAddPluginHandlerNotification = @"GrowlPluginControllerWillAddPluginHandlerNotification";
@@ -76,6 +78,15 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
  *	-	Add a WebKit plug-in handler (jkp)
  *	-	Better localize human-readable names
  */
+
+@interface GrowlPluginController ()
+
+- (void) handleFileSystemEventFromStream:(ConstFSEventStreamRef)eventStream
+							  eventPaths:(NSArray *)paths
+							  eventFlags:(const FSEventStreamEventFlags [])eventFlags
+								eventIDs:(const FSEventStreamEventId [])eventIDs;
+
+@end
 
 @implementation GrowlPluginController
 
@@ -132,12 +143,34 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		 * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
 		 */
 		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
+		NSMutableArray *pluginsDirectoryPaths = [NSMutableArray arrayWithCapacity:[libraries count]];
+		NSFileManager *mgr = [NSFileManager defaultManager];
 		NSEnumerator *enumerator = [libraries objectEnumerator];
 		NSString *dir;
 		while ((dir = [enumerator nextObject])) {
 			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
-			[self findPluginsInDirectory:dir];
-		}		
+			BOOL isDir = NO;
+			if ([mgr fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
+				[self findPluginsInDirectory:dir];
+				[pluginsDirectoryPaths addObject:dir];
+			}
+		}
+
+		pluginsDirectoryEventStreamContext = (struct FSEventStreamContext){
+			.version = 0,
+			.info = (void *)self,
+			.copyDescription = (CFAllocatorCopyDescriptionCallBack)CFCopyDescription,
+		};
+		pluginsDirectoryEventStream = FSEventStreamCreate(kCFAllocatorDefault,
+			eventStreamCallback,
+			&pluginsDirectoryEventStreamContext,
+			(CFArrayRef)pluginsDirectoryPaths,
+			kFSEventStreamEventIdSinceNow,
+			/*latency*/ 1.0,
+			kFSEventStreamCreateFlagUseCFTypes);
+
+		FSEventStreamScheduleWithRunLoop(pluginsDirectoryEventStream, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
+		FSEventStreamStart(pluginsDirectoryEventStream);
 	}
 
 	return self;
@@ -174,6 +207,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	[cache_registeredPluginNamesArray release];
 	[cache_allPluginInstances release];
 	[cache_displayPlugins release];
+
+	FSEventStreamInvalidate(pluginsDirectoryEventStream);
+	CFRelease(pluginsDirectoryEventStream);
 
 	[super destroy];
 }
@@ -376,7 +412,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	if (!path)
 		path = [bundle bundlePath];
 	NSString *extension = [path pathExtension];
-	NSString *fileType = nil;
+	NSString *fileTypeString = nil;
+	OSType fileType = 0;
 
 	//Assert that we have a name, author, and version. (We got the path first so we can use it in the assertion message.)
 	NSAssert5((name != nil) && (author != nil) && (version != nil),
@@ -441,19 +478,18 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
 
-		[[NSWorkspace sharedWorkspace] getFileType:&fileType creatorCode:NULL forFile:path];
+		[[NSWorkspace sharedWorkspace] getFileType:&fileTypeString creatorCode:NULL forFile:path];
+		fileType = fileTypeString ? NSHFSTypeCodeFromFileType(fileTypeString) : 0;
 
 		//Record the file types (HFS and filename extension) that the plug-in possessed at this time. These help determine what kind of plug-in it is (e.g. .growlView = custom view; .growlStyle = WebKit display).
 		NSSet *types = nil;
 		if (extension) {
-#warning problem here...
-			///XXX when there is no file type it is coming back as \'\'...im guessing this means no type, but it still tests as true so each plugin is registered against that type...wrong???
 			if (fileType)
-				types = [NSSet setWithObjects:extension, fileType, nil];
+				types = [NSSet setWithObjects:extension, fileTypeString, nil];
 			else
 				types = [NSSet setWithObject:extension];
 		} else if (fileType)
-			types = [NSSet setWithObject:fileType];
+			types = [NSSet setWithObject:fileTypeString];
 
 		if (types)
 			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
@@ -491,7 +527,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		ADD_TO_DICT(pluginsByFilename, [path lastPathComponent], pluginDict);
 
 		ADD_TO_DICT(pluginsByType, extension, pluginDict);
-		ADD_TO_DICT(pluginsByType, fileType,  pluginDict);
+		ADD_TO_DICT(pluginsByType, fileTypeString,  pluginDict);
 	#undef ADD_TO_DICT
 	}
 
@@ -573,12 +609,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	}
 	return cache_registeredPluginNamesArray;
 }
-
-- (NSArray *) registeredPluginNamesArrayForType:(NSString *)type {
-#warning this should be cached per type
-	return [[[pluginsByType valueForKey:type] allObjects] valueForKey:GrowlPluginInfoKeyName];
-}
-
 
 #pragma mark -
 
@@ -689,7 +719,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 #pragma mark -
-#warning XXX all of this could potentially go bye-bye if it is not needed
 
 - (NSArray *) displayPlugins {
 	if (!cache_displayPlugins)
@@ -911,6 +940,51 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	return result;
 }
 
+#pragma mark FSEvents
+
+- (void) handleFileSystemEventFromStream:(ConstFSEventStreamRef)eventStream
+							  eventPaths:(NSArray *)paths
+							  eventFlags:(const FSEventStreamEventFlags [])eventFlags
+								eventIDs:(const FSEventStreamEventId [])eventIDs
+{
+#pragma unused(eventFlags)
+#pragma unused(eventIDs)
+	if (eventStream == pluginsDirectoryEventStream) {
+		NSFileManager *mgr = [NSFileManager defaultManager];
+
+		//XXX We should make this properly support case-insensitive comparison, for events where the user renamed a plug-in and changed only the case of some letters.
+		NSMutableSet *currentlyExistingPluginPaths = [NSMutableSet set];
+
+		for (NSString *dirPath in paths) {
+			NSError *error = nil;
+			NSArray *filenames = [mgr contentsOfDirectoryAtPath:dirPath error:&error];
+			for (NSString *filename in filenames) {
+				[currentlyExistingPluginPaths addObject:[dirPath stringByAppendingPathComponent:filename]];
+			}
+		}
+
+		NSSet *previouslyKnownPluginPaths = [[self allPluginDictionaries] valueForKey:GrowlPluginInfoKeyPath];
+
+		NSMutableSet *deletedPluginPaths = [[previouslyKnownPluginPaths mutableCopy] autorelease];
+		[deletedPluginPaths minusSet:currentlyExistingPluginPaths];
+
+		NSMutableSet *newPluginPaths = [[currentlyExistingPluginPaths mutableCopy] autorelease];
+		[newPluginPaths minusSet:previouslyKnownPluginPaths];
+
+		//XXX Handle deleted plug-ins.
+
+		NSWorkspace *wksp = [NSWorkspace sharedWorkspace];
+		for (NSString *path in newPluginPaths) {
+			NSString *pathExtension = [path pathExtension];
+			NSString *fileType;
+			[wksp getFileType:&fileType creatorCode:NULL forFile:path];
+			if ([pluginHandlers objectForKey:pathExtension] || (fileType && [pluginHandlers objectForKey:fileType])) {
+				[self dispatchPluginAtPath:path];
+			}
+		}
+	}
+}
+
 @end
 
 static Boolean caseInsensitiveStringComparator(const void *value1, const void *value2) {
@@ -983,4 +1057,14 @@ NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
 		return NSOrderedDescending;
 	else
 		return NSOrderedSame;
+}
+
+static void eventStreamCallback(ConstFSEventStreamRef eventStream, void *clientCallBackInfo, size_t numEvents, void *eventPaths, const FSEventStreamEventFlags eventFlags[], const FSEventStreamEventId eventIDs[]) {
+#pragma unused(numEvents)
+#pragma unused(eventStream)
+	GrowlPluginController *self = (GrowlPluginController *)clientCallBackInfo;
+	[self handleFileSystemEventFromStream:eventStream
+							   eventPaths:(NSArray *)eventPaths
+							   eventFlags:eventFlags
+								 eventIDs:eventIDs];
 }

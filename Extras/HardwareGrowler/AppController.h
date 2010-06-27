@@ -22,7 +22,7 @@ void AppController_ipReleased(void);
 void AppController_syncStarted(void);
 void AppController_syncFinished(void);
 void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharging,
-								 int batteryTime, int batteryPercentage);
+								 CFIndex batteryTime, CFIndex batteryPercentage);
 
 #ifdef __OBJC__
 

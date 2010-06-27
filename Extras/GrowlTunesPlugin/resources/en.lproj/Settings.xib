@@ -3,7 +3,7 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
@@ -15,7 +15,7 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>732</string>
+				<string>740</string>
 				<string>1</string>
 			</object>
 		</object>
@@ -57,7 +57,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -66,7 +66,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{125, 162}, {299, 54}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="690720268">
 								<int key="NSCellFlags">69336577</int>
@@ -75,7 +74,7 @@
 								<object class="NSFont" key="NSSupport" id="668133881">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
-									<int key="NSfFlags">1044</int>
+									<int key="NSfFlags">16</int>
 								</object>
 								<reference key="NSControlView" ref="395789298"/>
 								<object class="NSColor" key="NSBackgroundColor" id="799930768">
@@ -103,7 +102,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{128, 68}, {293, 54}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1043231520">
 								<int key="NSCellFlags">-1804468671</int>
@@ -134,7 +132,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{128, 132}, {293, 22}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="699871442">
 								<int key="NSCellFlags">-1804468671</int>
@@ -152,7 +149,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{59, 199}, {54, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="38581994">
 								<int key="NSCellFlags">68288064</int>
@@ -169,7 +165,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{77, 137}, {36, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="260682785">
 								<int key="NSCellFlags">68288064</int>
@@ -186,7 +181,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{32, 102}, {81, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="520249805">
 								<int key="NSCellFlags">68288064</int>
@@ -203,7 +197,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 23}, {96, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="860318585">
 								<int key="NSCellFlags">68288064</int>
@@ -220,7 +213,6 @@
 							<int key="NSvFlags">298</int>
 							<string key="NSFrame">{{128, 20}, {147, 22}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="SRRecorderCell" key="NSCell" id="659869163">
 								<int key="NSCellFlags">130560</int>
@@ -239,8 +231,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{441, 236}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -652,7 +642,7 @@
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<integer value="3000" key="NS.object.0"/>
+			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../../GrowlTunes.xcodeproj</string>

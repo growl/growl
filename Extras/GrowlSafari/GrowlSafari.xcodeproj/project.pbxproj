@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		0A17E73B07333A22008CCDC5 /* GrowlSafari.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A17E73907333A22008CCDC5 /* GrowlSafari.m */; };
+		3134007E110839C100F5FC96 /* GrowlSafari.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3134007D110839C100F5FC96 /* GrowlSafari.icns */; };
+		3134007F110839C100F5FC96 /* GrowlSafari.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3134007D110839C100F5FC96 /* GrowlSafari.icns */; };
 		31BC372F106730A900D3BB1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		31C8CE87103F6A6E00C3BBDA /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95AE27A6085C451A00271F5F /* Growl.framework */; };
 		31C8CE89103F6A8000C3BBDA /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AE27A6085C451A00271F5F /* Growl.framework */; };
@@ -62,6 +64,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = mach_inject_bundle;
+		};
+		31F7A34610905C4D0049993D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
 		};
 		34CD98980C87C93F0040C77F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -238,6 +247,7 @@
 		0A17E73807333A22008CCDC5 /* GrowlSafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSafari.h; sourceTree = "<group>"; };
 		0A17E73907333A22008CCDC5 /* GrowlSafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSafari.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		3134007D110839C100F5FC96 /* GrowlSafari.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GrowlSafari.icns; sourceTree = "<group>"; };
 		3141B7151060005000A216A7 /* InterestingBundleIdentifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestingBundleIdentifiers.h; sourceTree = "<group>"; };
 		315C88641068F93B00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		31D9B75E0FE6163C009D5369 /* GrowlSafari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlSafari.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -330,6 +340,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3134007D110839C100F5FC96 /* GrowlSafari.icns */,
 				95D7410F084B997C000D67BC /* Info */,
 				95AC93B1073A052B007871AB /* Localizable.strings */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
@@ -431,6 +442,7 @@
 				95AE27B4085C451A00271F5F /* MailMe.growlView */,
 				95AE27B6085C451A00271F5F /* MusicVideo.growlView */,
 				95AE27B8085C451A00271F5F /* SMS.growlView */,
+				31F7A34710905C4D0049993D /* Unit tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -542,6 +554,13 @@
 			fileType = wrapper.framework;
 			path = mach_inject_bundle.framework;
 			remoteRef = 31E48DDC1040F4B700DD0A79 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		31F7A34710905C4D0049993D /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = 31F7A34610905C4D0049993D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34CD98990C87C93F0040C77F /* Growl.dylib */ = {
@@ -666,6 +685,7 @@
 				31D9B7850FE619CA009D5369 /* GrowlSafari.bundle in Resources */,
 				31D9B7FF0FE61E36009D5369 /* MainMenu.xib in Resources */,
 				31BC372F106730A900D3BB1D /* InfoPlist.strings in Resources */,
+				3134007E110839C100F5FC96 /* GrowlSafari.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +695,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				95AC93B2073A052B007871AB /* Localizable.strings in Resources */,
+				3134007F110839C100F5FC96 /* GrowlSafari.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,7 +827,7 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -1190,7 +1211,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -1211,7 +1232,7 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
