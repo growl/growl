@@ -278,14 +278,11 @@
 	else
 		images = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 
-	NSEnumerator *enumerator = [[ticketsArrayController content] objectEnumerator];
-	GrowlApplicationTicket *ticket;
-	while ((ticket = [enumerator nextObject])) {
-		NSImage *icon = [[NSImage alloc] initWithData:[ticket iconData]];
+	for(GrowlApplicationTicket *ticket in [ticketsArrayController content]) {
+		NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(32.0, 32.0)];
 		CFArrayAppendValue(images, icon);
-		[icon release];
 	}
 }
 

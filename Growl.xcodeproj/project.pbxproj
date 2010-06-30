@@ -189,6 +189,7 @@
 		83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
 		8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
 		933816821050BA850014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
@@ -3241,6 +3242,7 @@
 				93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */,
 				93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */,
 				938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */,
+				93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

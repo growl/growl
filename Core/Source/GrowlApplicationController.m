@@ -1261,6 +1261,62 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	return [NSImage imageNamed:@"growl-icon"];
 }
 
+/*click feedback comes here first. GAB picks up the DN and calls our
+ *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
+ *	GHA notification.
+ */
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal
+{
+	static BOOL isClosingFromRemoteClick = NO;
+	/* Don't post a second close notification on the local machine if we close a notification from this method in
+	 * response to a click on a remote machine.
+	 */
+	if (isClosingFromRemoteClick)
+		return;
+	
+	id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	if (clickContext) {
+		NSString *suffix, *growlNotificationClickedName;
+		NSDictionary *clickInfo;
+		
+		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
+		GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
+		
+		if (viaClick && [ticket clickHandlersEnabled]) {
+			suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
+		} else {
+			/*
+			 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
+			 * guaranteed to receive feedback for every notification.
+			 */
+			suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
+		}
+		
+		//Build the application-specific notification name
+		NSNumber *pid = [growlNotificationDict objectForKey:GROWL_APP_PID];
+		if (pid)
+			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
+											appName, pid, suffix];
+		else
+			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
+											appName, suffix];
+		clickInfo = [NSDictionary dictionaryWithObject:clickContext
+												forKey:GROWL_KEY_CLICKED_CONTEXT];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
+																	   object:nil
+																	 userInfo:clickInfo
+														   deliverImmediately:YES];
+		[growlNotificationClickedName release];
+	}
+	
+	if (!wasLocal) {
+		isClosingFromRemoteClick = YES;
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_NOTIFICATION
+															object:[growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+		isClosingFromRemoteClick = NO;
+	}
+}
+
 @end
 
 #pragma mark -

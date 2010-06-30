@@ -92,35 +92,22 @@
 		return [super replacementObjectForPortCoder:encoder];
 }
 
-- (NSBitmapImageRep *)GrowlBitmapImageRepForPNG
+- (NSBitmapImageRep *)GrowlBitmapImageRep
 {
-	//Find the biggest image
-	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
-	NSBitmapImageRep *bestRep = nil;
-	NSImageRep *rep;
-	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
-	float maxWidth = 0;
-	while ((rep = [repsEnum nextObject])) {
-		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			//We can't convert a 1-bit image to PNG format (libpng throws an error), so ignore any 1-bit image reps, regardless of size.
-			if ([rep bitsPerSample] > 1) {
-				float width = [rep size].width;
-				if (width >= maxWidth) {
-					//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
-					bestRep = (NSBitmapImageRep *)rep;
-					
-					maxWidth = width;
-				}
-			}
-		}
-	}
-	
-	return bestRep;
+	NSData *tiffData = [self TIFFRepresentation];
+	NSBitmapImageRep *tiffRep = [NSBitmapImageRep imageRepWithData:tiffData];
+	return tiffRep;
 }
 
 - (NSData *) PNGRepresentation
 {
-	return ([(NSBitmapImageRep *)[self GrowlBitmapImageRepForPNG] representationUsingType:NSPNGFileType properties:nil]);
+	return ([[self GrowlBitmapImageRep] representationUsingType:NSPNGFileType properties:nil]);
 }
+
+- (NSData *) JPEGRepresentation
+{
+	return ([[self GrowlBitmapImageRep] representationUsingType:NSJPEGFileType properties:nil]);
+}
+
 
 @end
