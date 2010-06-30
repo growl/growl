@@ -15,7 +15,6 @@
 }
 
 - (IBAction) search:(id)sender;
-- (NSString *) searchString;
-- (void) setSearchString:(NSString *)newSearchString;
 
+@property (nonatomic, retain) NSString *searchString;
 @end

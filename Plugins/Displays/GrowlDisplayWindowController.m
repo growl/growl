@@ -391,9 +391,8 @@ static NSMutableDictionary *existingInstances;
 - (BOOL) startAllTransitions {
 	BOOL result = NO;
 	GrowlWindowTransition *transition;
-	NSEnumerator *transitionEnum = [[windowTransitions allValues] objectEnumerator];
 
-	while ((transition = [transitionEnum nextObject]))
+	for (transition in [windowTransitions allValues])
 		if ([self startTransition:transition])
 			result = YES;
 	return result;
@@ -429,8 +428,7 @@ static NSMutableDictionary *existingInstances;
 
 - (void) stopAllTransitions {
 	GrowlWindowTransition *transition;
-	NSEnumerator *transitionEnum = [[windowTransitions allValues] objectEnumerator];
-	while (( transition = [transitionEnum nextObject] ))
+	for (transition in [windowTransitions allValues])
 		[self stopTransition:transition];
 }
 

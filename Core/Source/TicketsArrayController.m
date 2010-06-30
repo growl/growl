@@ -12,6 +12,7 @@
 #import "GrowlNotificationTicket.h"
 
 @implementation TicketsArrayController
+@synthesize searchString;
 
 - (void) dealloc {
 	[searchString release];
@@ -42,18 +43,6 @@
 - (void) search:(id)sender {
 	[self setSearchString:[sender stringValue]];
 	[self rearrangeObjects];
-}
-
-#pragma mark -
-
-- (NSString *) searchString {
-	return searchString;
-}
-- (void) setSearchString:(NSString *)newSearchString {
-	if (searchString != newSearchString) {
-		[searchString release];
-		searchString = [newSearchString copy];
-	}
 }
 
 @end

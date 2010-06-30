@@ -31,6 +31,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 #pragma mark -
 
 @implementation GrowlPositionPicker
+@synthesize selectedPosition;
 
 + (void) initialize {
 	if (self != [GrowlPositionPicker class])
@@ -51,11 +52,16 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		[self generateHotCornerPaths];
 		selectedPosition = GrowlTopRightCorner;
 		rolloverPosition = GrowlNoOrigin;
+		
+		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueChangeNewKey context:self];
 	}
 	return self;
 }
 
 - (void) dealloc {
+	
+	[self removeObserver:self forKeyPath:@"selectePosition"];
+	
 	[self removeTrackingRect:trackingRectTag];
 	[topLeftHotCorner release];
 	[topRightHotCorner release];
@@ -169,22 +175,15 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 #pragma mark -
-#pragma mark accessors
+#pragma mark KVO
 
-- (enum GrowlPositionOrigin) selectedPosition
-{
-	return selectedPosition;
-}
-
-- (void) setSelectedPosition: (enum GrowlPositionOrigin) theSelectedPosition
-{
-	enum GrowlPositionOrigin lastValue = selectedPosition;
-	selectedPosition = theSelectedPosition;
-	
-	// notify of the change...?
-	if (selectedPosition != lastValue) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
-															object:self];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if([keyPath isEqualToString:@"selectedPosition"] && [context isEqual:self])
+	{
+		if(selectedPosition != lastPosition)
+			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
+																object:self];			
+		lastPosition = selectedPosition;
 	}
 }
 

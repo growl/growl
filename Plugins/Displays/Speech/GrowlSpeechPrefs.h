@@ -15,7 +15,7 @@
 }
 - (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
-- (NSArray *) voices;
-- (void) setVoices:(NSArray *)theVoices;
+
+@property (nonatomic, retain) NSArray *voices;
 
 @end

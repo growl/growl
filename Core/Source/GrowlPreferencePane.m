@@ -96,7 +96,6 @@
 	[plugins         release];
 	[currentPlugin   release];
 	CFRelease(customHistArray);
-	[versionCheckURL release];
 	[growlWebSiteURL release];
 	[growlForumURL release];
 	[growlBugSubmissionURL release];

@@ -29,8 +29,6 @@
 	BOOL                            canRemoveTicket;
 	BOOL                            growlIsRunning;
 
-	NSURL							*versionCheckURL;
-
 	//cached controllers
 	/*these are cached to avoid redundant calls to
 	 *	[GrowlXController sharedController].

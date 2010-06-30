@@ -18,6 +18,7 @@
 	unsigned enabled: 1;
 }
 
+#warning investigate an alternative mechanism for reporting failure to enable the pathway, this violates Cocoa design patterns.
 //-setEnabled: returns YES if it succeeded. (see GrowlUDPPathway for an example of such error-handling.)
 - (BOOL) setEnabled:(BOOL)flag;
 - (BOOL) isEnabled;

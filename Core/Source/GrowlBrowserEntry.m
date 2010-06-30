@@ -21,6 +21,16 @@
 @synthesize use = _use;
 @synthesize active = _active;
 
+- (id) init {
+	
+	if ((self = [super init])) {
+		[self addObserver:self forKeyPath:@"use" options:NSKeyValueChangeNewKey context:self];
+		[self addObserver:self forKeyPath:@"active" options:NSKeyValueChangeNewKey context:self];
+		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueChangeNewKey context:self];
+	}
+	return self;
+}
+
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [self init])) {
 		NSString *uuid = [dict valueForKey:@"uuid"];
@@ -63,21 +73,13 @@
 	return self;
 }
 
-- (void) setUse:(BOOL)flag {
-	_use = flag;
-	[owner writeForwardDestinations];
-}
-
-- (void) setActive:(BOOL)flag {
-	_active = flag;
-	[owner writeForwardDestinations];
-}
-
-- (void) setComputerName:(NSString *)name {
-	if(![_name isEqual:name])
-		[_name autorelease];
-	_name = [name retain];
-	[owner writeForwardDestinations];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if(([keyPath isEqualToString:@"use"] || 
+		[keyPath isEqualToString:@"active"] || 
+		[keyPath isEqualToString:@"computerName"]) && [context isEqual:self]) 
+	{
+		[owner writeForwardDestinations];
+	}
 }
 
 - (NSString *) password {
@@ -162,8 +164,13 @@
 }
 
 - (void) dealloc {
+	
+	[self removeObserver:self forKeyPath:@"use"];
+	[self removeObserver:self forKeyPath:@"active"];
+	[self removeObserver:self forKeyPath:@"computerName"];
+	
 	[password release];
-
+	[computerName release];
 	[super dealloc];
 }
 

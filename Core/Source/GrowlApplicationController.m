@@ -28,7 +28,6 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
-#import "MD5Authenticator.h"
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"

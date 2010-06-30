@@ -24,15 +24,6 @@
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name;
 
-- (BOOL) use;
-- (void) setUse:(BOOL)flag;
-
-- (BOOL) active;
-- (void) setActive:(BOOL)flag;
-
-- (NSString *) computerName;
-- (void) setComputerName:(NSString *)name;
-
 - (NSString *) password;
 - (void) setPassword:(NSString *)password;
 

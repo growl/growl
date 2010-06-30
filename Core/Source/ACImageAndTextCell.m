@@ -45,6 +45,7 @@
 #import "ACImageAndTextCell.h"
 
 @implementation ACImageAndTextCell
+@synthesize image;
 
 - (void) dealloc {
 	[image release];
@@ -58,17 +59,6 @@
 }
 
 #pragma mark -
-
-- (void) setImage:(NSImage *)anImage {
-	if (anImage != image) {
-		[image release];
-		image = [anImage retain];
-	}
-}
-
-- (NSImage *) image {
-	return image;
-}
 
 - (NSRect) imageFrameForCellFrame:(NSRect)cellFrame {
 	NSRect retRect;

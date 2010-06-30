@@ -11,16 +11,17 @@
 #import <AppKit/NSSpeechSynthesizer.h>
 
 @implementation GrowlSpeechPrefs
+@synthesize voices;
+
 - (NSString *) mainNibName {
 	return @"GrowlSpeechPrefs";
 }
 
 - (void) awakeFromNib {
 	NSArray *availableVoices = [NSSpeechSynthesizer availableVoices];
-	NSEnumerator *voiceEnum = [availableVoices objectEnumerator];
 	NSMutableArray *voiceAttributes = [[NSMutableArray alloc] initWithCapacity:[availableVoices count]];
-	NSString *voiceIdentifier;
-	while ((voiceIdentifier=[voiceEnum nextObject])) {
+	
+	for (NSString *voiceIdentifier in availableVoices) {
 		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
 	}
 	[self setVoices:voiceAttributes];
@@ -46,15 +47,6 @@
 	   [voiceList scrollRowToVisible:row];
     }
 	[voiceList setDoubleAction:@selector(previewVoice:)];
-}
-
-- (NSArray *) voices {
-	return voices;
-}
-
-- (void) setVoices:(NSArray *)theVoices {
-	[voices release];
-	voices = [theVoices retain];
 }
 
 - (void) dealloc {

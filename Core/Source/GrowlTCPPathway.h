@@ -22,15 +22,11 @@
 @end
 
 @interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate> {
-	MD5Authenticator           *authenticator;
-	NSNetService               *service;
-	NSPort                     *socketPort;
-	NSConnection               *remoteDistributedObjectConnection;
-	NSConnection               *localDistributedObjectConnection;
-	
-	GrowlTCPServer				*tcpServer;
+	GrowlTCPServer			*tcpServer;
 	
 	GrowlGNTPPacketParser	*networkPacketParser;
 }
 
+@property (nonatomic, retain) GrowlTCPServer *tcpServer;
+@property (nonatomic, retain) GrowlGNTPPacketParser	*networkPacketParser;
 @end

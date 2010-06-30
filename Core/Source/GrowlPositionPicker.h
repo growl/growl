@@ -21,6 +21,7 @@ extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSView {	
 	enum GrowlPositionOrigin	selectedPosition;
+	enum GrowlPositionOrigin	lastPosition;
 	enum GrowlPositionOrigin	rolloverPosition;
 	unsigned					trackingRectTag;
 	BOOL						mouseOverView;
@@ -31,7 +32,5 @@ extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 	NSBezierPath				*bottomLeftHotCorner;
 }
 
-- (enum GrowlPositionOrigin) selectedPosition;
-- (void) setSelectedPosition: (enum GrowlPositionOrigin) theSelectedPosition;
-
+@property (nonatomic, assign) enum GrowlPositionOrigin selectedPosition;
 @end

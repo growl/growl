@@ -143,10 +143,8 @@
 @implementation NSArray (GrowlDisplaySearching)
 
 - (GrowlNotificationDisplayBridge *) bridgeForWindowController:(GrowlDisplayWindowController *) windowController {
-	NSEnumerator *bridgesEnum = [self objectEnumerator];
-	GrowlNotificationDisplayBridge *bridge;
-
-	while ((bridge = [bridgesEnum nextObject]))
+	GrowlNotificationDisplayBridge *bridge = nil;
+	for (bridge in self)
 		if ([bridge containsWindowController:windowController])
 			break;
 
