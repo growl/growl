@@ -508,14 +508,12 @@
  */
 - (NSRectArray)copyRectsInSet:(NSSet *)rectSet count:(NSUInteger *)outCount padding:(CGFloat)padding excludingDisplayController:(GrowlDisplayWindowController *)displayController
 {
-	NSEnumerator *enumerator = [rectSet objectEnumerator];
-	NSValue		 *value;
 	NSValue		 *displayControllerValue = [NSValue valueWithPointer:displayController];
 	NSUInteger	  count = [rectSet count];
 
 	NSRectArray gridRects = (NSRectArray)malloc(sizeof(NSRect) * count);
 	int i = 0;
-	while ((value = [enumerator nextObject])) {
+	for (NSValue *value in rectSet) {
 		if (displayController && [[reservedRectsByController objectForKey:displayControllerValue] isEqual:value]) {
 			--count;
 		} else {

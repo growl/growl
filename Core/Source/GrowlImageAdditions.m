@@ -56,9 +56,8 @@
 	if (!bestRep) {
 		BOOL isFirst = YES;
 		CGFloat repDistance = 0.0;
-		NSImageRep *thisRep;
-		NSEnumerator *enumerator = [[self representations] objectEnumerator];
-		while ((thisRep = [enumerator nextObject])) {
+
+		for (NSImageRep *thisRep in [self representations]) {
 			CGFloat thisDistance = theSize.width - [thisRep size].width;
 			if (repDistance < 0.0 && thisDistance > 0.0)
 				continue;
@@ -76,9 +75,8 @@
 }
 
 - (NSImageRep *) representationOfSize:(NSSize)theSize {
-	NSEnumerator *enumerator = [[self representations] objectEnumerator];
 	NSImageRep *rep;
-	while ((rep = [enumerator nextObject]))
+	for (rep in [self representations])
 		if (NSEqualSizes([rep size], theSize))
 			break;
 	return rep;

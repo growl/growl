@@ -293,9 +293,7 @@
 	NSMutableArray *defaultNotifications = [NSMutableArray array];
 	NSMutableDictionary *humanReadableNames = [NSMutableDictionary dictionary];
 	
-	NSEnumerator *enumerator = [notifications objectEnumerator];
-	NSDictionary *notification;
-	while ((notification = [enumerator nextObject])) {
+	for (NSDictionary *notification in notifications) {
 		NSString *notificationName = [notification objectForKey:GROWL_NOTIFICATION_NAME];
 		[allNotifications addObject:notificationName];
 
@@ -347,9 +345,7 @@
 	[self addSentAndReceivedHeadersFromDict:dict toArray:headersArray];
 
 	/* Now add a section for each individual notification */
-	NSString *notificationName;
-	NSEnumerator *enumerator = [allNotifications objectEnumerator];
-	while ((notificationName = [enumerator nextObject])) {
+	for (NSString *notificationName in allNotifications) {
 		[headersArray addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];	
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name"
 																		value:notificationName]];

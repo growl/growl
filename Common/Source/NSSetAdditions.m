@@ -14,9 +14,7 @@
 + (id) setWithUnionOfSetsInArray:(NSArray *)array {
 	NSMutableSet *unionSet = [[NSMutableSet alloc] init];
 
-	NSEnumerator *arrayEnum = [array objectEnumerator];
-	NSSet *setToAdd;
-	while ((setToAdd = [arrayEnum nextObject]))
+	for (NSSet *setToAdd in array)
 		[unionSet unionSet:setToAdd];
 
 	NSSet *result = [self setWithSet:unionSet];

@@ -308,14 +308,11 @@
 }
 
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
-{
-	NSEnumerator *enumerator = [headers objectEnumerator];
-	GrowlGNTPHeaderItem *header;
-	
+{		
 	BOOL hasContext = NO, hasContextType = NO, hasTarget = NO;
 	CallbackURLTargetMethod targetMethod = CallbackURLTargetUnknownMethod;
 
-	while ((header = [enumerator nextObject])) {
+	for (GrowlGNTPHeaderItem *header in headers) {
 		NSString *name = [header headerName];
 		if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
 			hasContext = YES;
@@ -378,9 +375,7 @@
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackContext, [self callbackContext]];
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPApplicationNameHeader, [self applicationName]];
 
-	NSEnumerator *enumerator = [[self customHeaders] objectEnumerator];
-	GrowlGNTPHeaderItem *headerItem;
-	while ((headerItem = [enumerator nextObject])) {
+	for (GrowlGNTPHeaderItem *headerItem in [self customHeaders]) {
 		[responsePost appendFormat:@"&%@=%@", [headerItem headerName], [headerItem headerValue]];
 	}
 	

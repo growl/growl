@@ -76,11 +76,10 @@
 
 	// XXX: should use GrowlPathUtilities here
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
-	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
-	NSString *libraryPath, *growlSupportPath;
+	NSString *growlSupportPath;
 	[ticketsByApplicationName removeAllObjects];
 
-	while ((libraryPath = [libraryDirEnum nextObject])) {
+	for (NSString *libraryPath in libraryDirs) {
 		growlSupportPath = [libraryPath      stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];

@@ -377,20 +377,18 @@
 	}
 
 	/* Previous received headers */
-	NSEnumerator *enumerator = [[dict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED] objectEnumerator];
-	NSString *received;
-	while ((received = [enumerator nextObject])) {
+	for (NSString *received in [dict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED]) {
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:received]];
 	}
 	/* New received header */
 	if ([dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]) {
 		/* Received: From <hostname> by <hostname> [with Growl] [id <identifier>]; <ISO 8601 date> */
-		received = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
+		NSString *nextReceived = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
 					[dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY], hostName, 
 					([dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID] ? [NSString stringWithFormat:@" id %@", [dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]] : @""),
 					[[NSCalendarDate date] ISO8601DateString]];
 		
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:received]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:nextReceived]];
 	}
 	
 	/* New Sent-By header: Sent-By: <hostname> */
@@ -427,8 +425,6 @@
 - (BOOL)hasBeenReceivedPreviously
 {
 	NSArray *receivedHeaders = [[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
-	NSEnumerator *enumerator;
-	NSString *receivedString;
 	NSString *myHostString;
 
 	NSString *hostName = [[NSProcessInfo processInfo] hostName];
@@ -438,16 +434,14 @@
 	
 	/* Check if this host received it previously */
 	myHostString = [NSString stringWithFormat:@"by %@", hostName];
-	enumerator = [receivedHeaders objectEnumerator];
-	while ((receivedString = [enumerator nextObject])) {
+	for (NSString *receivedString in receivedHeaders) {
 		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
 			return YES;
 	}
 
 	/* Check if this host sent it previously */
 	myHostString = [NSString stringWithFormat:@"From %@", hostName];
-	enumerator = [receivedHeaders objectEnumerator];
-	while ((receivedString = [enumerator nextObject])) {
+	for (NSString *receivedString in receivedHeaders) {
 		if ([receivedString rangeOfString:myHostString].location != NSNotFound)
 			return YES;
 	}

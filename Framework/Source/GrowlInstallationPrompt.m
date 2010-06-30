@@ -524,9 +524,7 @@
 {
 	ProcessSerialNumber psn = {0, 0};
 	
-	NSEnumerator *enumerator = [[self launchedApplications] objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject])) {
+	for (NSDictionary *dict in [self launchedApplications]) {
 		if ([[dict objectForKey:@"NSApplicationBundleIdentifier"] isEqualToString:identifier]) {
 			psn.highLongOfPSN = [[dict objectForKey:@"NSApplicationProcessSerialNumberHigh"] unsignedIntValue];	// no, really these numbers are UInt32s now, not longs
 			psn.lowLongOfPSN  = [[dict objectForKey:@"NSApplicationProcessSerialNumberLow"] unsignedIntValue];

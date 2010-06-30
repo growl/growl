@@ -462,9 +462,7 @@
 											   [NSString stringWithFormat:@"%@/Library/Sounds", NSHomeDirectory()],
 											   nil];
 
-	NSString *directory;
-	NSEnumerator *dirEnumerator = [paths objectEnumerator];
-	while ((directory = [dirEnumerator nextObject])) {
+	for (NSString *directory in paths) {
 		BOOL isDirectory = NO;
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
@@ -473,9 +471,7 @@
 				
 				NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:directory];
 
-				NSString *filename = nil;
-				NSEnumerator *fileEnumerator = [files objectEnumerator];
-				while ((filename = [fileEnumerator nextObject])) {
+				for (NSString *filename in files) {
 					NSString *file = [filename stringByDeletingPathExtension];
 			
 					if (![file isEqualToString:@".DS_Store"])
@@ -1075,8 +1071,7 @@
 		[menu addItem:[NSMenuItem separatorItem]];
 	}
 
-	NSEnumerator *displaysEnum = [[plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] objectEnumerator];
-	while ((nameOfDisplay = [displaysEnum nextObject])) {
+	for (nameOfDisplay in [plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]) {
 		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
 		if (!displayNameOfDisplay)
 			displayNameOfDisplay = nameOfDisplay;
@@ -1109,12 +1104,9 @@
 	 *	We need to remove the ticket using the correct KVC method:
 	 */
 
-	NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
-	GrowlApplicationTicket *ticket;
 	int removalIndex = -1;
-
 	int	i = 0;
-	while ((ticket = [ticketEnumerator nextObject])) {
+	for (GrowlApplicationTicket *ticket in tickets) {
 		if ([[ticket applicationName] isEqualToString:app]) {
 			removalIndex = i;
 			break;

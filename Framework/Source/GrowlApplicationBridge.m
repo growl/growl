@@ -672,14 +672,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	}
 
 #ifdef GROWL_WITH_INSTALLER
-	//Perform any queued notifications
-	NSEnumerator *enumerator = [queuedGrowlNotifications objectEnumerator];
-	NSDictionary *noteDict;
 
 	//Configure the growl proxy if it isn't currently configured
 	NSProxy<GrowlNotificationProtocol> *currentGrowlProxy = [self growlProxy];
 	
-	while ((noteDict = [enumerator nextObject])) {		
+	for (NSDictionary *noteDict in queuedGrowlNotifications) {		
 		if (currentGrowlProxy) {
 			//Post to Growl via GrowlApplicationBridgePathway
 			NS_DURING

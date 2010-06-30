@@ -93,9 +93,7 @@
 			description,     GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 
-		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
-		id key;
-		while ((key = [auxKeyEnum nextObject]))
+		for (id key in auxiliaryDictionary)
 			if (![dict objectForKey:key])
 				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	} else {
@@ -111,9 +109,7 @@
 		if ([keys containsObject:GROWL_NOTIFICATION_DESCRIPTION])
 			[dict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
 
-		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
-		id key;
-		while ((key = [auxKeyEnum nextObject]))
+		for (id key in auxiliaryDictionary)
 			if ([keys containsObject:key] && ![dict objectForKey:key])
 				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	}

@@ -158,7 +158,6 @@ extern CGSConnection _CGSDefaultConnection(void);
     NSRect rippleRect;
     NSRect screenRect;
     NSArray *screens;
-    NSEnumerator *screenEnum;
     NSScreen *screen;
     
     if (!FLOAT_EQ(startTime, 0.0))
@@ -170,9 +169,8 @@ extern CGSConnection _CGSDefaultConnection(void);
     /* create covering window */
     rect = NSZeroRect;
     screens = [NSScreen screens];
-    screenEnum = [screens objectEnumerator];
     
-    while ((screen = [screenEnum nextObject]))
+    for (screen in screens)
     {
         rect = NSUnionRect(rect, [screen frame]);
     }
@@ -191,7 +189,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     
     
     /* calculate the rectangle in the covering window */
-    screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+    screenRect = [[screens objectAtIndex:0] frame];
     rippleRect.origin.y = - (NSMaxY(rippleRect) - screenRect.size.height);
    
     /* create filter */

@@ -80,11 +80,9 @@
 		NSArray *inDefaults = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 		if (!inDefaults) inDefaults = allNotificationNames;
 
-		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 		NSMutableDictionary *allNotificationsTemp = [[NSMutableDictionary alloc] initWithCapacity:[allNotificationNames count]];
 		NSMutableArray *allNamesTemp = [[NSMutableArray alloc] initWithCapacity:[allNotificationNames count]];
-		id obj;
-		while ((obj = [notificationsEnum nextObject])) {
+		for (id obj in allNotificationNames) {
 			NSString *name;
 			GrowlNotificationTicket *notification;
 			if ([obj isKindOfClass:[NSString class]]) {
@@ -246,9 +244,7 @@
 	// construct a dictionary of our state data then save that dictionary to a file.
 	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
-	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	GrowlNotificationTicket *obj;
-	while ((obj = [notificationEnum nextObject]))
+	for (GrowlNotificationTicket *obj in allNotifications)
 		[saveNotifications addObject:[obj dictionaryRepresentation]];
 
 	NSDictionary *file_data = nil;
@@ -481,15 +477,12 @@
 		 *	added new notifications since it last registered, we want to enable those
 		 *	if the application says to.
 		 */
-		NSEnumerator		*enumerator;
 		NSMutableDictionary *allNotesCopy = [allNotifications mutableCopy];
 
 		if ([inDefaults respondsToSelector:@selector(objectEnumerator)] ) {
-			enumerator = [inDefaults objectEnumerator];
 			Class NSNumberClass = [NSNumber class];
 			NSUInteger numAllNotifications = [inAllNotes count];
-			id obj;
-			while ((obj = [enumerator nextObject])) {
+			for (id obj in inDefaults) {
 				NSString *note;
 				if ([obj isKindOfClass:NSNumberClass]) {
 					//it's an index into the all-notifications list
@@ -648,10 +641,9 @@
 		allNotificationNames = [inArray retain];
 
 		//We want to keep all of the old notification settings and create entries for the new ones
-		NSEnumerator *newEnum = [inArray objectEnumerator];
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithCapacity:[inArray count]];
-		id key, obj;
-		while ((key = [newEnum nextObject])) {
+		id obj;
+		for (id key in inArray) {
 			obj = [allNotifications objectForKey:key];
 			if (obj) {
 				[tmp setObject:obj forKey:key];
@@ -692,9 +684,7 @@
 			defaultNotifications = [inObject retain];
 			changed = YES;
 		}
-	} else if ([inObject respondsToSelector:@selector(objectEnumerator)] ) {
-		NSEnumerator *mightBeIndicesEnum = [inObject objectEnumerator];
-		NSNumber *num;
+	} else if ([inObject isKindOfClass:NSClassFromString(@"NSArray")] ) {
 		NSUInteger numDefaultNotifications;
 		NSUInteger numAllNotifications = [allNotificationNames count];
 		if ([inObject respondsToSelector:@selector(count)])
@@ -703,7 +693,7 @@
 			numDefaultNotifications = numAllNotifications;
 		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:numDefaultNotifications];
 		Class NSNumberClass = [NSNumber class];
-		while ((num = [mightBeIndicesEnum nextObject])) {
+		for (NSNumber *num in inObject) {
 			if ([num isKindOfClass:NSNumberClass]) {
 				//it's an index into the all-notifications list
 				unsigned notificationIndex = [num unsignedIntValue];
@@ -760,9 +750,8 @@
 
 - (NSArray *) allowedNotifications {
 	NSMutableArray* allowed = [NSMutableArray array];
-	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	GrowlNotificationTicket *obj;
-	while ((obj = [notificationEnum nextObject]))
+
+	for (GrowlNotificationTicket *obj in allNotifications)
 		if ([obj enabled])
 			[allowed addObject:[obj name]];
 	return allowed;
@@ -770,9 +759,8 @@
 
 - (void) setAllowedNotifications:(NSArray *) inArray {
 	NSSet *allowed = [[NSSet alloc] initWithArray:inArray];
-	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	GrowlNotificationTicket *obj;
-	while ((obj = [notificationEnum nextObject]))
+
+	for (GrowlNotificationTicket *obj in allNotifications)
 		[obj setEnabled:[allowed containsObject:[obj name]]];
 	[allowed release];
 
