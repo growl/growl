@@ -37,12 +37,6 @@
 /* No comment provided by engineer. */
 "Growl update available" = "En uppdatering finns tillgänglig";
 
-/*Datatermgruppen föreslår sockel som översättning av socket*/
-"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port." = "Growl kunde inte ansluta till sockeln för nätverksmeddelanden, se till så att inget annat program använder porten.";
-
-/*Datatermgruppen föreslår sockel som översättning av socket*/
-"Growl was unable to create the socket for Network notifications." = "Growl kunde inte skapa en sockel för nätverksmeddelanden.";
-
 /* No comment provided by engineer. */
 "Inform %@ when a notification is clicked" = "Informera %@ om när ett meddelande klickas";
 

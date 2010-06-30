@@ -98,6 +98,7 @@
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
+- (void) launchSparkleHelper;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void) reloadPreferences:(NSString *)object;

@@ -118,9 +118,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
 
-- (unsigned short) UDPPort;
-- (void) setUDPPort:(unsigned short)value;
-
 @end
 
 #endif

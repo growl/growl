@@ -81,11 +81,6 @@ typedef float CGFloat;
  */
 #define GROWL_TCP_PORT	23053
 
-/*!	@defined	GROWL_UDP_PORT
- *	@abstract	The UDP listen port for Growl notification servers.
- */
-#define GROWL_UDP_PORT	9887
-
 /*!	@defined	GROWL_PROTOCOL_VERSION
  *	@abstract	The current version of the Growl network-notifications protocol (without encryption).
  */

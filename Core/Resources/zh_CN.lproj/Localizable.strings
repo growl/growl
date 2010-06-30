@@ -35,12 +35,6 @@
 "Growl update available" = "Growl 更新可用";
 
 /* No comment provided by engineer. */
-"Growl was unable to bind the socket for Network notifications. Check to make sure that there aren't any other applications already using the port." = "Growl 不能为网络通告固定好插口, 请检查是否有其他应用程序正在使用该端口。";
-
-/* No comment provided by engineer. */
-"Growl was unable to create the socket for Network notifications." = "Growl 不能为网络通告固定好插口.";
-
-/* No comment provided by engineer. */
 "Inform %@ when a notification is clicked" = "告知 %@ 当一个通告被点击";
 
 /* No comment provided by engineer. */

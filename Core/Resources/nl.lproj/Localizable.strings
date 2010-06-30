@@ -38,12 +38,6 @@
 "Growl update available" = "Nieuwe versie Growl beschikbaar";
 
 /* No comment provided by engineer. */
-"Growl was unable to bind the socket for Network notifications. Check to make sure that there aren't any other applications already using the port." = "Growl kon de socket voor netwerkmeldingen niet binden. Controleer of deze poort niet al door andere programma's wordt gebruikt.";
-
-/* No comment provided by engineer. */
-"Growl was unable to create the socket for Network notifications." = "Growl kon geen socket voor netwerkmeldingen creëren.";
-
-/* No comment provided by engineer. */
 "Inform %@ when a notification is clicked" = "Informeer %@ als er op een melding is geklikt";
 
 /* No comment provided by engineer. */

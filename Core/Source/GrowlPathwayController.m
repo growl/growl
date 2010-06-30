@@ -15,7 +15,6 @@
 
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlTCPPathway.h"
-#import "GrowlUDPPathway.h"
 #import "GrowlPropertyListFilePathway.h"
 #import "GrowlApplicationBridgePathway.h"
 
@@ -62,9 +61,6 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 			[self installPathway:pw];
 
 		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
-		[self installPathway:rpw];
-		[rpw release];
-		rpw = [[GrowlUDPPathway alloc] init];
 		[self installPathway:rpw];
 		[rpw release];
 

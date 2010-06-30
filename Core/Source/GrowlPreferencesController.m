@@ -482,13 +482,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	}
 }
 
-- (unsigned short) UDPPort {
-	return [self unsignedShortForKey:GrowlUDPPortKey];
-}
-- (void) setUDPPort:(unsigned short)value {
-	[self setUnsignedShort:value forKey:GrowlUDPPortKey];
-}
-
 - (BOOL) isForwardingEnabled {
 	return [self boolForKey:GrowlEnableForwardKey];
 }

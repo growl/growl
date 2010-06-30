@@ -748,16 +748,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	// send to DO observers
 	[growlNotificationCenter notifyObservers:aDict];
 
-	// forward to remote destinations. Don't forward a message previously reeceived over UDP.
-	if (enableForward && ![dict objectForKey:GROWL_UDP_REMOTE_ADDRESS]) {
-		if ([NSThread currentThread] == mainThread)
-			[NSThread detachNewThreadSelector:@selector(forwardNotification:)
-									 toTarget:self
-								   withObject:aDict];
-		else
-			[self forwardNotification:aDict];
-	}
-
 	[aDict release];
 	[pool release];
 	
@@ -784,15 +774,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			[newApp saveTicket];
 		[ticketController addTicket:newApp];
 
-		// forward to remote destinations. Don't forward a message previously reeceived over UDP.
-		if (enableForward && ![userInfo objectForKey:GROWL_UDP_REMOTE_ADDRESS]) {
-			if ([NSThread currentThread] == mainThread)
-				[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
-										 toTarget:self
-									   withObject:userInfo];
-			else
-				[self forwardRegistration:userInfo];
-		}
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 

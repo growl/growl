@@ -35,12 +35,6 @@
 "Growl update available" = "Growl のアップデートがあります";
 
 /* No comment provided by engineer. */
-"Growl was unable to bind the socket for Network notifications. Check to make sure that there aren't any other applications already using the port." = "Growl はネットワーク通知用のソケットをバインドできません。ほかのアプリケーションがポートを使用していないか確認してください。";
-
-/* No comment provided by engineer. */
-"Growl was unable to create the socket for Network notifications." = "Growl はネットワーク通知用のソケットを作成することができませんでした。";
-
-/* No comment provided by engineer. */
 "Inform %@ when a notification is clicked" = "通知がクリックされたとき %@ に知らせる";
 
 /* No comment provided by engineer. */
