@@ -40,7 +40,6 @@
 		071426120910D4EC00F7C755 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
 		072867D308D1648400ABF0B0 /* NSSetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 072867D108D1648400ABF0B0 /* NSSetAdditions.m */; };
 		072DE9BB09A10DEB006516DD /* GrowlTCPPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */; };
-		074062AD07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */; };
 		0790135607D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135807D932270023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
@@ -686,8 +685,6 @@
 		072867D108D1648400ABF0B0 /* NSSetAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSSetAdditions.m; path = Common/Source/NSSetAdditions.m; sourceTree = "<group>"; };
 		072DE9B809A10DEB006516DD /* GrowlTCPPathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTCPPathway.h; path = Core/Source/GrowlTCPPathway.h; sourceTree = "<group>"; };
 		072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTCPPathway.m; path = Core/Source/GrowlTCPPathway.m; sourceTree = "<group>"; };
-		074062AA07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDistributedNotificationPathway.h; path = Core/Source/GrowlDistributedNotificationPathway.h; sourceTree = "<group>"; };
-		074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDistributedNotificationPathway.m; path = Core/Source/GrowlDistributedNotificationPathway.m; sourceTree = "<group>"; };
 		07803B5D08E7E6A700299E08 /* GrowlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPlugin.h; path = Plugins/GrowlPlugin.h; sourceTree = "<group>"; };
 		07803B5E08E7E6A700299E08 /* GrowlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPlugin.m; path = Plugins/GrowlPlugin.m; sourceTree = "<group>"; };
 		07803B6308E7E6BC00299E08 /* GrowlDisplayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayPlugin.h; path = Plugins/Displays/GrowlDisplayPlugin.h; sourceTree = "<group>"; };
@@ -1885,7 +1882,7 @@
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
 		};
-		34A266230EBE3F0A00C66E44 /* TCP Server (GNTP and DO) */ = {
+		34A266230EBE3F0A00C66E44 /* TCP Server (GNTP) */ = {
 			isa = PBXGroup;
 			children = (
 				072DE9B809A10DEB006516DD /* GrowlTCPPathway.h */,
@@ -1893,7 +1890,7 @@
 				340903260E3DEB8400FCB0F7 /* GrowlTCPServer.h */,
 				340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */,
 			);
-			name = "TCP Server (GNTP and DO)";
+			name = "TCP Server (GNTP)";
 			sourceTree = "<group>";
 		};
 		34A266260EBE3F4100C66E44 /* GNTP */ = {
@@ -2107,9 +2104,7 @@
 				07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */,
 				CB34BED107E09657001D7D7C /* GrowlApplicationBridgePathway.h */,
 				CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */,
-				074062AA07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.h */,
-				074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */,
-				34A266230EBE3F0A00C66E44 /* TCP Server (GNTP and DO) */,
+				34A266230EBE3F0A00C66E44 /* TCP Server (GNTP) */,
 				31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */,
 				31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */,
 			);
@@ -3303,7 +3298,6 @@
 				CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */,
 				070B90FD07E1AEFA00F10FA7 /* CFGrowlAdditions.c in Sources */,
 				07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */,
-				074062AD07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m in Sources */,
 				959DBE4C08127BA4009BB468 /* GrowlPathUtilities.m in Sources */,
 				950568E60812C2960096EC5C /* GrowlLog.m in Sources */,
 				955C236E081537280013C3CF /* CFMutableStringAdditions.c in Sources */,
