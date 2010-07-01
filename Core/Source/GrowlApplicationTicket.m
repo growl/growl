@@ -102,7 +102,7 @@
 			[allNotificationsTemp setObject:notification forKey:name];
 			[notification release];
 		}
-		allNotifications = allNotificationsTemp;
+		allNotifications = [allNotificationsTemp retain];
 		allNotificationNames = allNamesTemp;
 
 		BOOL doLookup = YES;
@@ -244,9 +244,12 @@
 	// construct a dictionary of our state data then save that dictionary to a file.
 	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
-	for (GrowlNotificationTicket *obj in allNotifications)
+	for (id key in allNotifications)
+	{
+		GrowlNotificationTicket *obj = [allNotifications objectForKey:key];
 		[saveNotifications addObject:[obj dictionaryRepresentation]];
-
+	}
+	
 	NSDictionary *file_data = nil;
 	if (appPath) {
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
@@ -760,8 +763,11 @@
 - (void) setAllowedNotifications:(NSArray *) inArray {
 	NSSet *allowed = [[NSSet alloc] initWithArray:inArray];
 
-	for (GrowlNotificationTicket *obj in allNotifications)
+	for (id key in allNotifications)
+	{
+		GrowlNotificationTicket *obj = [allNotifications objectForKey:key];
 		[obj setEnabled:[allowed containsObject:[obj name]]];
+	}
 	[allowed release];
 
 	useDefaults = NO;
