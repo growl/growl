@@ -145,9 +145,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 		NSMutableArray *pluginsDirectoryPaths = [NSMutableArray arrayWithCapacity:[libraries count]];
 		NSFileManager *mgr = [NSFileManager defaultManager];
-		NSEnumerator *enumerator = [libraries objectEnumerator];
-		NSString *dir;
-		while ((dir = [enumerator nextObject])) {
+		for (NSString *dir in libraries) {
 			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
 			BOOL isDir = NO;
 			if ([mgr fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
