@@ -32,7 +32,6 @@
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
-#include "cdsa.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>
 #include <string.h>
@@ -121,13 +120,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
-		CSSM_RETURN crtn = cdsaInit();
-		if (crtn) {
-			NSLog(@"ERROR: Could not initialize CDSA.");
-			cssmPerror("cdsaInit", crtn);
-			[self release];
-			return nil;
-		}
 
 		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
@@ -299,11 +291,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
-
-	cdsaShutdown();
 	
-	DisposeSystemSoundCompletionUPP(soundCompletionCallback);
-
 	[super destroy];
 }
 

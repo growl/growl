@@ -43,8 +43,6 @@ typedef enum {
 	CFRunLoopTimerRef			updateTimer;
 	
 	NSThread					*mainThread;
-
-	SystemSoundCompletionUPP	soundCompletionCallback;
 }
 
 + (GrowlApplicationController *) sharedController;

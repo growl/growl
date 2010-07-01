@@ -221,7 +221,6 @@
 		93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DD14D80748B04700CC05A4 /* GrowlPathway.m */; };
 		93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
-		93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98A1082A5B8E001A409D /* cdsa.c */; };
 		93BC3796095A662B0002B365 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		93BC3799095A662B0002B365 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
@@ -308,7 +307,6 @@
 		95C36A630753299E009FAEA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		95C36A640753299E009FAEA2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */; };
-		95CF9929082A5EBE001A409D /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98A1082A5B8E001A409D /* cdsa.c */; };
 		95D74011084B68C5000D67BC /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		95D74012084B68C8000D67BC /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		95D89A95082418DA0068A4BD /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
@@ -1167,8 +1165,6 @@
 		95BF83760743675700306A77 /* growl-icon.icns */ = {isa = PBXFileReference; explicitFileType = image.icns; name = "growl-icon.icns"; path = "Common/Resources/growl-icon.icns"; sourceTree = "<group>"; };
 		95C8779907D9DFC000C69DEE /* NSWindow+Transforms.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSWindow+Transforms.h"; path = "Common/Source/NSWindow+Transforms.h"; sourceTree = "<group>"; };
 		95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+Transforms.m"; path = "Common/Source/NSWindow+Transforms.m"; sourceTree = "<group>"; };
-		95CF98A0082A5B8E001A409D /* cdsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdsa.h; path = Common/Source/cdsa.h; sourceTree = "<group>"; };
-		95CF98A1082A5B8E001A409D /* cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cdsa.c; path = Common/Source/cdsa.c; sourceTree = "<group>"; };
 		95D1662E0834EBEF00D996B2 /* GrowlImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GrowlImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D8C60E083D552B003601C3 /* Candybars.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Candybars.growlStyle; path = Core/Resources/Candybars.growlStyle; sourceTree = "<group>"; };
 		95D8C61A083D552B003601C3 /* Crystal.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Crystal.growlStyle; path = Core/Resources/Crystal.growlStyle; sourceTree = "<group>"; };
@@ -1495,8 +1491,6 @@
 				070C1AF80912D1F500884E7D /* Headers */,
 				0790135207D932140023B640 /* GrowlVersionUtilities.h */,
 				0790135507D9321B0023B640 /* GrowlVersionUtilities.c */,
-				95CF98A0082A5B8E001A409D /* cdsa.h */,
-				95CF98A1082A5B8E001A409D /* cdsa.c */,
 			);
 			name = "Global Sources";
 			sourceTree = "<group>";
@@ -3223,7 +3217,6 @@
 				93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */,
 				93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */,
 				93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */,
-				93AB06BD100C2FBD008D7D30 /* cdsa.c in Sources */,
 				938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */,
 				93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */,
 			);
@@ -3304,7 +3297,6 @@
 				953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */,
 				95D89B21082422A00068A4BD /* GrowlWebKitWindowController.m in Sources */,
 				95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */,
-				95CF9929082A5EBE001A409D /* cdsa.c in Sources */,
 				9574B6FC0838C7A100106CA3 /* NSWorkspaceAdditions.m in Sources */,
 				9574B75A0838CA1E00106CA3 /* NSStringAdditions.m in Sources */,
 				9574B7AE0838CB5500106CA3 /* CFURLAdditions.c in Sources */,

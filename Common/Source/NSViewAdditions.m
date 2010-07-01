@@ -23,16 +23,4 @@
 	return data;
 }
 
-- (NSData *) dataWithTIFFInsideRect:(NSRect)rect {
-	[self lockFocus];
-	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
-	[self unlockFocus];
-
-	NSData *data = [bitmap TIFFRepresentationUsingCompression:NSTIFFCompressionPackBits
-	                                                   factor:1.0f];
-	[bitmap release];
-
-	return data;
-}
-
 @end

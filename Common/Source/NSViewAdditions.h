@@ -12,6 +12,5 @@
 @interface NSView (GrowlAdditions)
 
 - (NSData *) dataWithPNGInsideRect:(NSRect)rect;
-- (NSData *) dataWithTIFFInsideRect:(NSRect)rect;
 
 @end
