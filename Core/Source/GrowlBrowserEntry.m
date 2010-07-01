@@ -170,7 +170,9 @@
 	[self removeObserver:self forKeyPath:@"computerName"];
 	
 	[password release];
-	[computerName release];
+	[_name release];
+	[_uuid release];
+	
 	[super dealloc];
 }
 

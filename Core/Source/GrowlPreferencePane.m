@@ -95,11 +95,6 @@
 	[tickets         release];
 	[plugins         release];
 	[currentPlugin   release];
-	CFRelease(customHistArray);
-	[growlWebSiteURL release];
-	[growlForumURL release];
-	[growlBugSubmissionURL release];
-	[growlDonateURL release];
 	CFRelease(images);
 	[super dealloc];
 }
@@ -133,27 +128,6 @@
 
 	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
 		[preferencesController enableGrowlMenu];
-
-	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
-	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlBugSubmissionURL = [[NSURL alloc] initWithString:@"http://growl.info/reportabug.php"];
-	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
-
-	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
-	id value = [preferencesController objectForKey:GrowlCustomHistKey1];
-	if (value) {
-		CFArrayAppendValue(customHistArray, value);
-		value = [preferencesController objectForKey:GrowlCustomHistKey2];
-		if (value) {
-			CFArrayAppendValue(customHistArray, value);
-			value = [preferencesController objectForKey:GrowlCustomHistKey3];
-			if (value)
-				CFArrayAppendValue(customHistArray, value);
-		}
-	}
-	[self updateLogPopupMenu];
-	NSInteger typePref = [preferencesController integerForKey:GrowlLogTypeKey];
-	[logFileType selectCellAtRow:typePref column:0];
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
@@ -796,22 +770,22 @@
 
 - (IBAction) openGrowlWebSite:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlWebSiteURL];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info"]];
 }
 
 - (IBAction) openGrowlForum:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"]];
 }
 
 - (IBAction) openGrowlBugSubmissionPage:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlBugSubmissionURL];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
 }
 
 - (IBAction) openGrowlDonate:(id)sender {
  #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlDonateURL];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/donate.php"]];
 }
 #pragma mark TableView data source methods
 

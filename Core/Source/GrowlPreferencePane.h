@@ -82,10 +82,6 @@
 	//About box tab pane
 	IBOutlet NSTextField			*aboutVersionString;
 	IBOutlet NSTextView				*aboutBoxTextView;
-	NSURL							*growlWebSiteURL;
-	NSURL							*growlForumURL;
-	NSURL							*growlBugSubmissionURL;
-	NSURL							*growlDonateURL;
 }
 
 - (NSString *) bundleVersion;
