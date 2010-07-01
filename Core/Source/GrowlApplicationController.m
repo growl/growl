@@ -62,8 +62,6 @@
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
 #define USER_RETURNED_NOTIFICATION		@"User returned"
 
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon);
-
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
@@ -243,8 +241,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
-
-		soundCompletionCallback = NewSystemSoundCompletionUPP(soundCompletionCallbackProc);
 	}
 
 	return self;
@@ -720,17 +716,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			FSRef soundRef;
 			OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
 			if (err == noErr) {
-				SystemSoundActionID actionID;
-				err = SystemSoundGetActionID(&soundRef, &actionID);
-				if (err == noErr) {
-					err = SystemSoundSetCompletionRoutine(actionID, CFRunLoopGetCurrent(), /*runLoopMode*/ NULL, soundCompletionCallback, /*refcon*/ NULL);
-					SystemSoundPlay(actionID);
-					userInfo = nil;
-				} else {
-					userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-						[NSString stringWithFormat:NSLocalizedString(@"Could not load and play sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
-						nil];
-				}					
 			} else {
 				userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 					[NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
@@ -1337,15 +1322,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 @end
-
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) 
-{
-#pragma unused(refcon)
-
-	SystemSoundRemoveCompletionRoutine(actionID);
-
-	return SystemSoundRemoveActionID(actionID);
-}
 
 @implementation NSString (GrowlNetworkingAdditions)
 

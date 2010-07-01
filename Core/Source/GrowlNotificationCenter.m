@@ -30,9 +30,7 @@
 }
 
 - (void) notifyObservers:(NSDictionary *)notificationDict {
-	NSEnumerator *e = [observers objectEnumerator];
-	id<GrowlNotificationObserver> observer;
-	while ((observer = [e nextObject])) {
+	for (id<GrowlNotificationObserver> observer in observers) {
 		@try {
 			[observer notifyWithDictionary:notificationDict];
 		} @catch(NSException *ex) {

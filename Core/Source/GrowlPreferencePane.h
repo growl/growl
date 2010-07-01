@@ -46,11 +46,6 @@
 	IBOutlet NSArrayController		*notificationsArrayController;
 	IBOutlet GrowlPositionPicker	*globalPositionPicker;
 
-	// Logging
-	IBOutlet NSMatrix				*logFileType;
-	IBOutlet NSPopUpButton			*customMenuButton;
-	CFMutableArrayRef               customHistArray;
-
 	//"Applications" tab pane
 	IBOutlet NSTableView			*growlApplications;
 	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
@@ -81,7 +76,6 @@
 	NSMutableArray					*services;
 	NSNetServiceBrowser				*browser;
 	int								currentServiceIndex;
-	IBOutlet NSArrayController		*servicesArrayController;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
 	IBOutlet NSTableView			*networkTableView;
 	

@@ -446,20 +446,17 @@
 
 	NSMutableSet	*reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
 	NSValue			*newRectValue = [NSValue valueWithRect:inRect];
-	NSEnumerator	*rectValuesEnumerator;
-	NSValue			*value;
 	
 	//Make sure the rect is not already reserved. However, if it is reserved by displayController, that's fine (it is just rerequesting its current space).
 	if ([reservedRectsOfScreen member:newRectValue] &&
 		(!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:newRectValue]))) {
 		result = NO;
 	} else {
-		rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
 		
 		// Loop through all the values in reservedRects and make sure
 		// that the new rect does not intersect with any of the already
 		// reserved rects, excepting if the displayController itself is reserving the rect.
-		while ((value = [rectValuesEnumerator nextObject])) {	
+		for (NSValue *value in reservedRectsOfScreen) {	
 			if ((NSIntersectsRect(inRect, [value rectValue])) && 
 				(!displayController || (![[reservedRectsByController objectForKey:displayControllerValue] isEqual:value]))) {
 				result = NO;

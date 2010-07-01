@@ -267,9 +267,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[builtInMutable release];
 		}
 
-		NSEnumerator *typeEnum = [types objectEnumerator];
-		NSString *type;
-		while ((type = [typeEnum nextObject])) {
+		for (NSString *type in types) {
 			//normalise: strip leading ., if any.
 			NSUInteger i = 0U, len = [type length];
 			for (; i < len; ++i) {
@@ -342,9 +340,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	if (!extensions)
 		extensions = (NSSet *)[pluginHandlers allKeysForObject:handler];
 
-	NSEnumerator *extEnum = [extensions objectEnumerator];
-	NSString *ext;
-	while ((ext = [extEnum nextObject])) {
+	for (NSString *ext in extensions) {
 		NSMutableArray *handlers = [pluginHandlers objectForKey:ext];
 		if (handlers) {
 			NSUInteger idx = [handlers indexOfObjectIdenticalTo:handler];
@@ -733,9 +729,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 																		type:type];
 
 	NSSet *copyForIteration = [matches copy];
-	NSEnumerator *matchesEnum = [copyForIteration objectEnumerator];
-	NSDictionary *pluginDict;
-	while ((pluginDict = [matchesEnum nextObject])) {
+	for (NSDictionary *pluginDict in copyForIteration) {
 		if (![self pluginWithDictionaryIsDisplayPlugin:pluginDict])
 			[matches removeObject:pluginDict];
 	}
@@ -799,9 +793,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 
-	NSEnumerator *handlersEnum = [allMatchingHandlers objectEnumerator];
-	id <GrowlPluginHandler> handler;
-	while ((handler = [handlersEnum nextObject])) {
+	for (id <GrowlPluginHandler> handler in allMatchingHandlers) {
 		BOOL success = NO;
 		if (pluginBundle && [handler respondsToSelector:@selector(loadPluginWithBundle:)]) {
 			success = (NSUInteger)[handler performSelector:@selector(loadPluginWithBundle:) withObject:pluginBundle];

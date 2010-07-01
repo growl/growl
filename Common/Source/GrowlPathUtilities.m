@@ -85,9 +85,7 @@ restart:;
 
 + (NSBundle *) growlPrefPaneBundle {
 	NSArray			*librarySearchPaths;
-	NSString		*path;
 	NSString		*bundleIdentifier;
-	NSEnumerator	*searchPathEnumerator;
 	NSBundle		*bundle;
 
 	if (prefPaneBundle)
@@ -127,8 +125,7 @@ restart:;
 	 *This is much faster than having to enumerate all preference panes, and
 	 *	can drop a significant amount of time off this code.
 	 */
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	while ((path = [searchPathEnumerator nextObject])) {
+	for (NSString *path in librarySearchPaths) {
 		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
 		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 
@@ -154,8 +151,7 @@ restart:;
 	 *	inside the bundle, he/she deserves to not have a working Growl
 	 *	installation.
 	 */
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	while ((path = [searchPathEnumerator nextObject])) {
+	for (NSString *path in librarySearchPaths) {
 		NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
@@ -209,9 +205,7 @@ restart:;
 			NSMutableArray *result = [NSMutableArray arrayWithCapacity:[searchPath count]];
 			NSFileManager *mgr = [NSFileManager defaultManager];
 
-			NSEnumerator *searchPathEnum = [searchPath objectEnumerator];
-			NSString *dir;
-			while ((dir = [searchPathEnum nextObject])) {
+			for (NSString *dir in searchPath) {
 				if ([mgr isWritableFileAtPath:dir])
 					[result addObject:dir];
 			}
@@ -255,9 +249,7 @@ restart:;
 
 		NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, domainMask, /*expandTilde*/ YES);
 		NSMutableArray *mSearchPath = [NSMutableArray arrayWithCapacity:[searchPath count]];
-		NSEnumerator *searchPathEnum = [searchPath objectEnumerator];
-		NSString *path;
-		while ((path = [searchPathEnum nextObject])) {
+		for (NSString *path in searchPath) {
 			path = [path stringByAppendingPathComponent:subpath];
 			if ([mgr fileExistsAtPath:path isDirectory:&isDir] && isDir)
 				[mSearchPath addObject:path];
@@ -349,9 +341,7 @@ restart:;
 	NSArray *origContents = [mgr directoryContentsAtPath:directory];
 	NSMutableSet *directoryContents = [[NSMutableSet alloc] initWithCapacity:[origContents count]];
 
-	NSEnumerator *filesEnum = [origContents objectEnumerator];
-	NSString *existingFilename;
-	while ((existingFilename = [filesEnum nextObject]))
+	for (NSString *existingFilename in origContents)
 		[directoryContents addObject:[existingFilename stringByDeletingPathExtension]];
 
 	//look for a filename that doesn't exist (with any extension) in the directory.

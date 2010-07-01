@@ -13,7 +13,6 @@
 #import "GrowlPluginController.h"
 #import "GrowlPlugin.h"
 
-#import "GrowlDistributedNotificationPathway.h"
 #import "GrowlTCPPathway.h"
 #import "GrowlPropertyListFilePathway.h"
 #import "GrowlApplicationBridgePathway.h"
@@ -48,11 +47,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 		pathways = [[NSMutableSet alloc] initWithCapacity:4U];
 		remotePathways = [[NSMutableSet alloc] initWithCapacity:2U];
 
-		GrowlPathway *pw = [[GrowlDistributedNotificationPathway alloc] init];
-		[self installPathway:pw];
-		[pw release];
-
-		pw = [GrowlPropertyListFilePathway standardPathway];
+		GrowlPathway *pw = [GrowlPropertyListFilePathway standardPathway];
 		if (pw)
 			[self installPathway:pw];
 
@@ -133,9 +128,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 }
 - (void) setServerEnabled:(BOOL)flag {
 	if (serverEnabled != flag) {
-		NSEnumerator *remotePathwaysEnum = [remotePathways objectEnumerator];
-		GrowlRemotePathway *remotePathway;
-		while ((remotePathway = [remotePathwaysEnum nextObject])) {
+		for (GrowlRemotePathway *remotePathway in remotePathways) {
 			BOOL success = [remotePathway setEnabled:flag];
 			if(!success)
 				[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to %hhi on pathway %@", flag, remotePathway];
@@ -151,9 +144,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 - (BOOL) loadPathwaysFromPlugin:(GrowlPlugin <GrowlPathwayPlugin> *)plugin {
 	NSArray *pathwaysFromPlugin = [plugin pathways];
 	if (pathwaysFromPlugin) {
-		NSEnumerator *pathwaysEnum = [pathwaysFromPlugin objectEnumerator];
-		GrowlPathway *pw;
-		while ((pw = [pathwaysEnum nextObject]))
+		for (GrowlPathway *pw in pathwaysFromPlugin)
 			[self installPathway:pw];
 
 		return YES;
