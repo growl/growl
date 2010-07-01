@@ -12,7 +12,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
+@class GrowlNotificationCenter, GrowlTicketController;
 
 typedef enum {
 	GrowlNotificationResultPosted,
@@ -21,7 +21,6 @@ typedef enum {
 } GrowlNotificationResult;
 
 @interface GrowlApplicationController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
-	MD5Authenticator			*authenticator;
 	GrowlTicketController		*ticketController;
 
 	// local GrowlNotificationCenter
