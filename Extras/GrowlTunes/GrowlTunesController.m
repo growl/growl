@@ -172,7 +172,7 @@ enum {
 	NSImage			*iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:ITUNES_APP_NAME];
 	NSDictionary	*regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		APP_NAME,                        GROWL_APP_NAME,
-		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
+		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON_DATA,
 		allNotes,                        GROWL_NOTIFICATIONS_ALL,
 		allNotes,                        GROWL_NOTIFICATIONS_DEFAULT,
 		readableNames,					 GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
@@ -486,7 +486,7 @@ enum {
 			track,         GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
 			APP_NAME,      GROWL_NOTIFICATION_IDENTIFIER,
-			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
+			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON_DATA,
 			nil];
 		[displayString release];
 

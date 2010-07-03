@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		074FC24008211A6200ABE399 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074FC23F08211A6200ABE399 /* Carbon.framework */; };
-		07A2B52A07FBDCAD009917B6 /* GrowlTunes.nib in Resources */ = {isa = PBXBuildFile; fileRef = 07A2B52907FBDCAD009917B6 /* GrowlTunes.nib */; };
+		07A2B52A07FBDCAD009917B6 /* GrowlTunes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07A2B52907FBDCAD009917B6 /* GrowlTunes.xib */; };
 		07B1BAB6077D59B200474D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07B1BAB5077D59B200474D89 /* Localizable.strings */; };
 		0A5ECB47073444AB0032ED97 /* jackItunesArtwork.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 0A5ECB46073444AB0032ED97 /* jackItunesArtwork.scpt */; };
 		0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F26070B142500593A33 /* GrowlTunes-Amazon.plugin */; };
@@ -77,6 +77,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
+		};
+		9323A20111DEE1FE008DEFD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
+			remoteInfo = GrowlSparkleHelper;
 		};
 		95AC231808563965006241FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -247,7 +254,7 @@
 
 /* Begin PBXFileReference section */
 		074FC23F08211A6200ABE399 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		07A2B52907FBDCAD009917B6 /* GrowlTunes.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = GrowlTunes.nib; sourceTree = "<group>"; };
+		07A2B52907FBDCAD009917B6 /* GrowlTunes.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GrowlTunes.xib; sourceTree = "<group>"; };
 		07B1BAB3077D59A600474D89 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A55D72A071325D500D09C04 /* GrowlTunesPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesPlugin.h; sourceTree = "<group>"; };
@@ -419,7 +426,7 @@
 				9571A436086237E7008AEBB3 /* GrowlTunes.sdef */,
 				950627B20840D44600C01CD2 /* growlTunes-selected.png */,
 				950627B30840D44600C01CD2 /* growlTunes.png */,
-				07A2B52907FBDCAD009917B6 /* GrowlTunes.nib */,
+				07A2B52907FBDCAD009917B6 /* GrowlTunes.xib */,
 				DD5BBFF907B7D50400048F1D /* GrowlTunes.icns */,
 				CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */,
 				0A5ECB46073444AB0032ED97 /* jackItunesArtwork.scpt */,
@@ -443,6 +450,7 @@
 			isa = PBXGroup;
 			children = (
 				95AC231908563965006241FD /* Growl.prefPane */,
+				9323A20211DEE1FE008DEFD3 /* GrowlSparkleHelper.app */,
 				95AC231D08563965006241FD /* GrowlHelperApp.app */,
 				95AC231F08563965006241FD /* GrowlMenu.app */,
 				95AC232108563965006241FD /* Growl.framework */,
@@ -593,6 +601,13 @@
 			remoteRef = 347930BE0C85E35C007ADCAA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9323A20211DEE1FE008DEFD3 /* GrowlSparkleHelper.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlSparkleHelper.app;
+			remoteRef = 9323A20111DEE1FE008DEFD3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95AC231908563965006241FD /* Growl.prefPane */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -719,7 +734,7 @@
 				0A5ECB47073444AB0032ED97 /* jackItunesArtwork.scpt in Resources */,
 				07B1BAB6077D59B200474D89 /* Localizable.strings in Resources */,
 				DD5BBFFA07B7D50400048F1D /* GrowlTunes.icns in Resources */,
-				07A2B52A07FBDCAD009917B6 /* GrowlTunes.nib in Resources */,
+				07A2B52A07FBDCAD009917B6 /* GrowlTunes.xib in Resources */,
 				950627B40840D44600C01CD2 /* growlTunes-selected.png in Resources */,
 				950627B50840D44600C01CD2 /* growlTunes.png in Resources */,
 				315C88561068F84B00880530 /* Localization.xcconfig in Resources */,

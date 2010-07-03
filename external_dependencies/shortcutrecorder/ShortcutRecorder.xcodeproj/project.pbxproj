@@ -40,8 +40,8 @@
 		939838CE0DA4316E007F53F3 /* InterfaceBuilderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939838CD0DA4316E007F53F3 /* InterfaceBuilderKit.framework */; };
 		939838E10DA43194007F53F3 /* SRRecorderControl.classdescription in Resources */ = {isa = PBXBuildFile; fileRef = 939838D90DA43194007F53F3 /* SRRecorderControl.classdescription */; };
 		939838E20DA43194007F53F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 939838DB0DA43194007F53F3 /* InfoPlist.strings */; };
-		939838E30DA43194007F53F3 /* SR_LeopardInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 939838DD0DA43194007F53F3 /* SR_LeopardInspector.nib */; };
-		939838E40DA43194007F53F3 /* SR_LeopardLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = 939838DF0DA43194007F53F3 /* SR_LeopardLibrary.nib */; };
+		939838E30DA43194007F53F3 /* SR_LeopardInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939838DD0DA43194007F53F3 /* SR_LeopardInspector.xib */; };
+		939838E40DA43194007F53F3 /* SR_LeopardLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939838DF0DA43194007F53F3 /* SR_LeopardLibrary.xib */; };
 		939839390DA4350B007F53F3 /* ShortcutRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 939837B50DA42DFB007F53F3 /* ShortcutRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9398393A0DA4350B007F53F3 /* SR_LeopardView.h in Headers */ = {isa = PBXBuildFile; fileRef = 939837B10DA42DC5007F53F3 /* SR_LeopardView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9398393B0DA4350B007F53F3 /* SRRecorderControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B8E29C009CDB9360085E9ED /* SRRecorderControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -144,7 +144,7 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Demo/main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = Demo/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = MainMenu.xib; path = Demo/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ShortcutRecorder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortcutRecorder_Prefix.pch; sourceTree = "<group>"; };
@@ -167,8 +167,8 @@
 		939838CD0DA4316E007F53F3 /* InterfaceBuilderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InterfaceBuilderKit.framework; path = Library/Frameworks/InterfaceBuilderKit.framework; sourceTree = DEVELOPER_DIR; };
 		939838D90DA43194007F53F3 /* SRRecorderControl.classdescription */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SRRecorderControl.classdescription; path = Plugin/SRRecorderControl.classdescription; sourceTree = "<group>"; };
 		939838DC0DA43194007F53F3 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
-		939838DE0DA43194007F53F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = SR_LeopardInspector.nib; sourceTree = "<group>"; };
-		939838E00DA43194007F53F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = SR_LeopardLibrary.nib; sourceTree = "<group>"; };
+		939838DE0DA43194007F53F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = English; path = SR_LeopardInspector.xib; sourceTree = "<group>"; };
+		939838E00DA43194007F53F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = English; path = SR_LeopardLibrary.xib; sourceTree = "<group>"; };
 		939839740DA4376D007F53F3 /* SR_Leopard_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SR_Leopard_Prefix.pch; path = Plugin/SR_Leopard_Prefix.pch; sourceTree = "<group>"; };
 		93983B220DA43C4E007F53F3 /* ShortcutRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShortcutRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93983B8A0DA441BB007F53F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Demo/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.xib */,
 				93983B890DA441BB007F53F3 /* MainMenu.xib */,
 			);
 			name = Demo;
@@ -378,8 +378,8 @@
 			children = (
 				939838D90DA43194007F53F3 /* SRRecorderControl.classdescription */,
 				939838DB0DA43194007F53F3 /* InfoPlist.strings */,
-				939838DD0DA43194007F53F3 /* SR_LeopardInspector.nib */,
-				939838DF0DA43194007F53F3 /* SR_LeopardLibrary.nib */,
+				939838DD0DA43194007F53F3 /* SR_LeopardInspector.xib */,
+				939838DF0DA43194007F53F3 /* SR_LeopardLibrary.xib */,
 			);
 			name = Plugin;
 			sourceTree = "<group>";
@@ -504,8 +504,8 @@
 			files = (
 				939838E10DA43194007F53F3 /* SRRecorderControl.classdescription in Resources */,
 				939838E20DA43194007F53F3 /* InfoPlist.strings in Resources */,
-				939838E30DA43194007F53F3 /* SR_LeopardInspector.nib in Resources */,
-				939838E40DA43194007F53F3 /* SR_LeopardLibrary.nib in Resources */,
+				939838E30DA43194007F53F3 /* SR_LeopardInspector.xib in Resources */,
+				939838E40DA43194007F53F3 /* SR_LeopardLibrary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,12 +633,12 @@
 			name = ShortcutRecorder.strings;
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+		29B97318FDCFA39411CA2CEA /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* MainMenu.nib */,
+				29B97319FDCFA39411CA2CEA /* MainMenu.xib */,
 			);
-			name = MainMenu.nib;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		939838DB0DA43194007F53F3 /* InfoPlist.strings */ = {
@@ -650,21 +650,21 @@
 			path = Plugin/English.lproj;
 			sourceTree = "<group>";
 		};
-		939838DD0DA43194007F53F3 /* SR_LeopardInspector.nib */ = {
+		939838DD0DA43194007F53F3 /* SR_LeopardInspector.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				939838DE0DA43194007F53F3 /* English */,
 			);
-			name = SR_LeopardInspector.nib;
+			name = SR_LeopardInspector.xib;
 			path = Plugin/English.lproj;
 			sourceTree = "<group>";
 		};
-		939838DF0DA43194007F53F3 /* SR_LeopardLibrary.nib */ = {
+		939838DF0DA43194007F53F3 /* SR_LeopardLibrary.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				939838E00DA43194007F53F3 /* English */,
 			);
-			name = SR_LeopardLibrary.nib;
+			name = SR_LeopardLibrary.xib;
 			path = Plugin/English.lproj;
 			sourceTree = "<group>";
 		};

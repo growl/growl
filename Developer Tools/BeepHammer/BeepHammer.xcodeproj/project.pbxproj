@@ -21,7 +21,7 @@
 		34FBA2FF0CA0553D00958660 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E30CA0551E00958660 /* Growl.framework */; };
 		34FBA3060CA0554800958660 /* BeepController.h in Headers */ = {isa = PBXBuildFile; fileRef = 073B927206855EB30068C763 /* BeepController.h */; };
 		34FBA3070CA0554800958660 /* BeepAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0717FC2B076587750083E17E /* BeepAdditions.h */; };
-		34FBA3090CA0554800958660 /* BeepHammer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.nib */; };
+		34FBA3090CA0554800958660 /* BeepHammer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.xib */; };
 		34FBA30A0CA0554800958660 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0717FC420765892F0083E17E /* Localizable.strings */; };
 		34FBA30C0CA0554800958660 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 		34FBA30D0CA0554800958660 /* whistle-red.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31DF208E0B1F85320096DEBB /* whistle-red.icns */; };
@@ -33,7 +33,7 @@
 		34FBA3160CA0554800958660 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
 		34FBA3480CA056C300958660 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
 		34FBA3490CA056C700958660 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
-		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.nib */; };
+		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.xib */; };
 		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +171,13 @@
 			remoteGlobalIDString = 34F60EF8078E226300CECA86;
 			remoteInfo = "Growl-WithInstaller.framework";
 		};
+		9323A10611DEDF35008DEFD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
+			remoteInfo = GrowlSparkleHelper;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -204,14 +211,14 @@
 		073B927206855EB30068C763 /* BeepController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeepController.h; sourceTree = "<group>"; };
 		073B927306855EB30068C763 /* BeepController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeepController.m; sourceTree = "<group>"; };
 		073B927606855EBF0068C763 /* BeepMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeepMain.m; sourceTree = "<group>"; };
-		073B927D06855F050068C763 /* BeepHammer.nib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.nib; name = BeepHammer.nib; path = English.lproj/BeepHammer.nib; sourceTree = "<group>"; };
+		073B927D06855F050068C763 /* BeepHammer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BeepHammer.xib; path = English.lproj/BeepHammer.xib; sourceTree = "<group>"; };
 		073B92C00685626C0068C763 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		31DF208E0B1F85320096DEBB /* whistle-red.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-red.icns"; sourceTree = "<group>"; };
 		31DF20A50B1F86170096DEBB /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "../../Common/Resources/plusminus/minus-8.png"; sourceTree = SOURCE_ROOT; };
 		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../Common/Resources/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		34FBA2C70CA0551E00958660 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		34FBA31B0CA0554800958660 /* BeepHammer Growl-WithInstaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BeepHammer Growl-WithInstaller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34FBA31D0CA0554800958660 /* BeepHammer-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BeepHammer-Info copy.plist"; sourceTree = "<group>"; };
+		9323A12B11DEE007008DEFD3 /* BeepHammer-WithInstaller.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BeepHammer-WithInstaller.plist"; sourceTree = "<group>"; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -273,14 +280,14 @@
 		073B927106855E900068C763 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9323A12B11DEE007008DEFD3 /* BeepHammer-WithInstaller.plist */,
 				C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */,
 				0717FC420765892F0083E17E /* Localizable.strings */,
-				073B927D06855F050068C763 /* BeepHammer.nib */,
+				073B927D06855F050068C763 /* BeepHammer.xib */,
 				31DF208E0B1F85320096DEBB /* whistle-red.icns */,
 				31DF20A60B1F86170096DEBB /* plus-8.png */,
 				31DF20A50B1F86170096DEBB /* minus-8.png */,
 				C43640CF0B10094C00E4FC4B /* InfoPlist.strings */,
-				34FBA31D0CA0554800958660 /* BeepHammer-Info copy.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -297,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				34FBA2DD0CA0551E00958660 /* Growl.prefPane */,
+				9323A10711DEDF35008DEFD3 /* GrowlSparkleHelper.app */,
 				34FBA2DF0CA0551E00958660 /* GrowlHelperApp.app */,
 				34FBA2E10CA0551E00958660 /* GrowlMenu.app */,
 				34FBA2E30CA0551E00958660 /* Growl.framework */,
@@ -526,6 +534,13 @@
 			remoteRef = 34FBA2FA0CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9323A10711DEDF35008DEFD3 /* GrowlSparkleHelper.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlSparkleHelper.app;
+			remoteRef = 9323A10611DEDF35008DEFD3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -533,7 +548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FBA3090CA0554800958660 /* BeepHammer.nib in Resources */,
+				34FBA3090CA0554800958660 /* BeepHammer.xib in Resources */,
 				34FBA30A0CA0554800958660 /* Localizable.strings in Resources */,
 				34FBA30C0CA0554800958660 /* InfoPlist.strings in Resources */,
 				34FBA30D0CA0554800958660 /* whistle-red.icns in Resources */,
@@ -546,7 +561,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */,
+				C4363FF40B0FBE0F00E4FC4B /* BeepHammer.xib in Resources */,
 				0717FC430765892F0083E17E /* Localizable.strings in Resources */,
 				C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */,
 				31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */,

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7980E19B0967BDD7008E181F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		7980E19C0967BDF5008E181F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		7980E1DE0967BFD8008E181F /* injectee-MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7980E1DC0967BFD8008E181F /* injectee-MainMenu.nib */; };
+		7980E1DE0967BFD8008E181F /* injectee-MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7980E1DC0967BFD8008E181F /* injectee-MainMenu.xib */; };
 		7980E1E10967C004008E181F /* injectee-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7980E1DF0967C004008E181F /* injectee-InfoPlist.strings */; };
 		7980E1E40967C034008E181F /* injectee-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7980E1970967BDAE008E181F /* injectee-Info.plist */; };
 		7980E1E50967C038008E181F /* injector-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* injector-Info.plist */; };
@@ -21,7 +21,7 @@
 		79AE5F100967D18E009E2304 /* mach_inject_bundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79AE5F0F0967D18E009E2304 /* mach_inject_bundle.framework */; };
 		79AE5F180967D1AC009E2304 /* mach_inject_bundle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 79AE5F0F0967D18E009E2304 /* mach_inject_bundle.framework */; };
 		79AE5F990967D4C8009E2304 /* injected-PrincipalClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AE5F980967D4C8009E2304 /* injected-PrincipalClass.m */; };
-		8D11072A0486CEB800E47090 /* injector-MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* injector-MainMenu.nib */; };
+		8D11072A0486CEB800E47090 /* injector-MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* injector-MainMenu.xib */; };
 		8D11072B0486CEB800E47090 /* injector-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* injector-InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -87,13 +87,13 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/injector-MainMenu.nib"; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = English; path = "English.lproj/injector-MainMenu.xib"; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* mach_inject_test_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mach_inject_test_Prefix.pch; sourceTree = "<group>"; };
 		7980E1950967BDAE008E181F /* mach_inject_test_injectee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mach_inject_test_injectee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7980E1970967BDAE008E181F /* injectee-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "injectee-Info.plist"; sourceTree = "<group>"; };
-		7980E1DD0967BFD8008E181F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/injectee-MainMenu.nib"; sourceTree = "<group>"; };
+		7980E1DD0967BFD8008E181F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = English; path = "English.lproj/injectee-MainMenu.xib"; sourceTree = "<group>"; };
 		7980E1E00967C004008E181F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = "English.lproj/injectee-InfoPlist.strings"; sourceTree = "<group>"; };
 		7980E20F0967C156008E181F /* mach_inject_test_injected.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mach_inject_test_injected.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		7980E2100967C156008E181F /* injected-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "injected-Info.plist"; sourceTree = "<group>"; };
@@ -209,8 +209,8 @@
 				7980E2100967C156008E181F /* injected-Info.plist */,
 				7980E1DF0967C004008E181F /* injectee-InfoPlist.strings */,
 				089C165CFE840E0CC02AAC07 /* injector-InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* injector-MainMenu.nib */,
-				7980E1DC0967BFD8008E181F /* injectee-MainMenu.nib */,
+				29B97318FDCFA39411CA2CEA /* injector-MainMenu.xib */,
+				7980E1DC0967BFD8008E181F /* injectee-MainMenu.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7980E1DE0967BFD8008E181F /* injectee-MainMenu.nib in Resources */,
+				7980E1DE0967BFD8008E181F /* injectee-MainMenu.xib in Resources */,
 				7980E1E10967C004008E181F /* injectee-InfoPlist.strings in Resources */,
 				7980E1E40967C034008E181F /* injectee-Info.plist in Resources */,
 			);
@@ -349,7 +349,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072A0486CEB800E47090 /* injector-MainMenu.nib in Resources */,
+				8D11072A0486CEB800E47090 /* injector-MainMenu.xib in Resources */,
 				8D11072B0486CEB800E47090 /* injector-InfoPlist.strings in Resources */,
 				7980E1E50967C038008E181F /* injector-Info.plist in Resources */,
 				79AE5E330967CEFA009E2304 /* mach_inject_test_injected.bundle in Resources */,
@@ -414,20 +414,20 @@
 			name = "injector-InfoPlist.strings";
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* injector-MainMenu.nib */ = {
+		29B97318FDCFA39411CA2CEA /* injector-MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				29B97319FDCFA39411CA2CEA /* English */,
 			);
-			name = "injector-MainMenu.nib";
+			name = "injector-MainMenu.xib";
 			sourceTree = "<group>";
 		};
-		7980E1DC0967BFD8008E181F /* injectee-MainMenu.nib */ = {
+		7980E1DC0967BFD8008E181F /* injectee-MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7980E1DD0967BFD8008E181F /* English */,
 			);
-			name = "injectee-MainMenu.nib";
+			name = "injectee-MainMenu.xib";
 			sourceTree = "<group>";
 		};
 		7980E1DF0967C004008E181F /* injectee-InfoPlist.strings */ = {

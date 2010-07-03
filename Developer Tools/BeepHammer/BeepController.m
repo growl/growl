@@ -112,7 +112,7 @@
 		[notificationSticky      setState:      [dict stateForKey:GROWL_NOTIFICATION_STICKY]];
 		NSInteger priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] integerValue];
 		[notificationPriority    selectItemAtIndex:[notificationPriority indexOfItemWithTag:priority]];
-		[notificationImage       setImage:      [dict objectForKey:GROWL_NOTIFICATION_ICON]];
+		[notificationImage       setImage:      [[[NSImage alloc] initWithData:[dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]]autorelease]];
 		[notificationDescription setStringValue:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 		[notificationTitle       setStringValue:[dict objectForKey:GROWL_NOTIFICATION_TITLE]];
 		[notificationIdentifier  setStringValue:([dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER] ?
@@ -172,7 +172,7 @@
 				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
 											description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 									   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
-											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
+											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
 											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
 										   clickContext:(([note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && [[note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] length])
@@ -198,7 +198,7 @@
 					[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
 												description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 										   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
-												   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
+												   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
 												   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 												   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
 											   clickContext:nil
@@ -247,7 +247,7 @@
 			priority,      GROWL_NOTIFICATION_PRIORITY,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
-			image,         GROWL_NOTIFICATION_ICON, /* May be nil, ending the dict */
+			image,         GROWL_NOTIFICATION_ICON_DATA, /* May be nil, ending the dict */
 			nil];
 
 		NSNumber *indexNum = contextInfo;
