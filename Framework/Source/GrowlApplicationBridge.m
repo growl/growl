@@ -344,22 +344,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (BOOL) isGrowlRunning {
-	BOOL growlIsRunning = NO;
-	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-
-	while (GetNextProcess(&PSN) == noErr) {
-		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		CFStringRef bundleId = CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey);
-
-		if (bundleId && CFStringCompare(bundleId, CFSTR("com.Growl.GrowlHelperApp"), 0) == kCFCompareEqualTo) {
-			growlIsRunning = YES;
-			CFRelease(infoDict);
-			break;
-		}
-		CFRelease(infoDict);
-	}
-
-	return growlIsRunning;
+	return Growl_HelperAppIsRunning();
 }
 
 + (void) displayInstallationPromptIfNeeded {
@@ -776,22 +761,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		//Let's launch in the background (requires sending the Apple Event ourselves, as LS may activate the application anyway if it's already running)
 		NSURL *appURL = [NSURL fileURLWithPath:growlHelperAppPath];
 		if (appURL) {
-			OSStatus err;
-
 			//Find the PSN for GrowlHelperApp. (We'll need this later.)
 			struct ProcessSerialNumber appPSN = {
 				0, kNoProcess
 			};
-			while ((err = GetNextProcess(&appPSN)) == noErr) {
-				NSDictionary *dict = [NSMakeCollectable(ProcessInformationCopyDictionary(&appPSN, kProcessDictionaryIncludeAllInformationMask)) autorelease];
-				NSString *bundlePath = [dict objectForKey:@"BundlePath"];
-				if ([bundlePath isEqualToString:growlHelperAppPath]) {
-					//Match!
-					break;
-				}
-			}
-
-			if (err == noErr) {
+			BOOL isRunning = Growl_GetPSNForProcessWithBundlePath(growlHelperAppPath, &appPSN);
+			if (isRunning) {
 				NSURL *regItemURL = nil;
 				BOOL passRegDict = NO;
 
@@ -841,6 +816,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				if (!stream) {
 					NSLog(@"%@: Could not create open-document event to register this application with Growl", [self class]);
 				} else {
+					OSStatus err;
+
 					if (passRegDict) {
 						NSString *regItemURLString = [regItemURL absoluteString];
 						NSData *regItemURLUTF8Data = [regItemURLString dataUsingEncoding:NSUTF8StringEncoding];

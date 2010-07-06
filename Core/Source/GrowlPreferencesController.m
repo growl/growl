@@ -13,6 +13,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlProcessUtilities.h"
 #import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
@@ -282,27 +283,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[self terminateGrowl];
 }
 
-- (BOOL) isRunning:(NSString *)theBundleIdentifier {
-	BOOL isRunning = NO;
-	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-
-	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		if(infoDict) {
-			NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
-			isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
-			CFMakeCollectable(infoDict);
-			[infoDict release];
-		}
-		if (isRunning)
-			break;
-	}
-
-	return isRunning;
-}
-
 - (BOOL) isGrowlRunning {
-	return [self isRunning:@"com.Growl.GrowlHelperApp"];
+	return Growl_HelperAppIsRunning();
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {

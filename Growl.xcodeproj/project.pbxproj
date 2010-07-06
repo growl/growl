@@ -91,6 +91,12 @@
 		0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */; };
 		0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */; };
 		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
+		31199B9C11E2B0B90024377D /* GrowlProcessUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 31199B9A11E2B0B90024377D /* GrowlProcessUtilities.h */; };
+		31199B9D11E2B0B90024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
+		31199B9E11E2B0B90024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
+		31199C0011E2BA660024377D /* TestProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199BFF11E2BA660024377D /* TestProcessUtilities.m */; };
+		31199C0311E2BC040024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
+		31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
@@ -763,6 +769,10 @@
 		0AB508B30767C87B006EA5CB /* MusicVideo.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicVideo.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB508B40767C87B006EA5CB /* Bezel.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bezel.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		31199B9A11E2B0B90024377D /* GrowlProcessUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlProcessUtilities.h; path = Common/Source/GrowlProcessUtilities.h; sourceTree = "<group>"; };
+		31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlProcessUtilities.m; path = Common/Source/GrowlProcessUtilities.m; sourceTree = "<group>"; };
+		31199BFE11E2BA660024377D /* TestProcessUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestProcessUtilities.h; sourceTree = "<group>"; };
+		31199BFF11E2BA660024377D /* TestProcessUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestProcessUtilities.m; sourceTree = "<group>"; };
 		31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPropertyListFilePathway.h; path = Core/Source/GrowlPropertyListFilePathway.h; sourceTree = "<group>"; };
 		31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPropertyListFilePathway.m; path = Core/Source/GrowlPropertyListFilePathway.m; sourceTree = "<group>"; };
 		315C88BB1068F9A200880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
@@ -1500,6 +1510,8 @@
 			children = (
 				959DBE4908127BA4009BB468 /* GrowlPathUtilities.h */,
 				959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */,
+				31199B9A11E2B0B90024377D /* GrowlProcessUtilities.h */,
+				31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1854,6 +1866,8 @@
 				31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */,
 				318984C3108825F10086E973 /* TestVersionUnparsing.h */,
 				318984C4108825F10086E973 /* TestVersionUnparsing.m */,
+				31199BFE11E2BA660024377D /* TestProcessUtilities.h */,
+				31199BFF11E2BA660024377D /* TestProcessUtilities.m */,
 			);
 			path = "Unit tests";
 			sourceTree = "<group>";
@@ -2306,6 +2320,7 @@
 				34F60EC3078E1D5600CECA86 /* Growl.h in Headers */,
 				34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */,
 				C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */,
+				31199B9C11E2B0B90024377D /* GrowlProcessUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3120,6 +3135,8 @@
 				31E1863F1084B7500011C78B /* TestVersionComparisonBetweenStrings.m in Sources */,
 				31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */,
 				318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */,
+				31199C0011E2BA660024377D /* TestProcessUtilities.m in Sources */,
+				31199C0311E2BC040024377D /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3150,6 +3167,7 @@
 				95F975AE084A23F500915BFE /* CFMutableDictionaryAdditions.c in Sources */,
 				95F9767C084A297400915BFE /* CFDictionaryAdditions.c in Sources */,
 				95D74011084B68C5000D67BC /* GrowlImageAdditions.m in Sources */,
+				31199B9D11E2B0B90024377D /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3256,6 +3274,7 @@
 				951A8F4508746D7C0046595C /* GrowlPreferencesController.m in Sources */,
 				EED7077708C74DCE004651D0 /* GrowlAbstractSingletonObject.m in Sources */,
 				93C70A2E10CB66B4005B5B80 /* GrowlPathUtilities.m in Sources */,
+				31199B9E11E2B0B90024377D /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3350,6 +3369,7 @@
 				938CB10C1081250600259421 /* GNTPKey.m in Sources */,
 				938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */,
 				93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */,
+				31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

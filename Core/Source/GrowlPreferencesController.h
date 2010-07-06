@@ -68,7 +68,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
-- (BOOL) isRunning:(NSString *)theBundleIdentifier;
 - (BOOL) isGrowlRunning;
 - (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw;
 - (void) launchGrowl:(BOOL)noMatterWhat;
