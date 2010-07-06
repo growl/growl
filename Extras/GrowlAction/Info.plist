@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>AMAccepts</key>
@@ -75,7 +75,7 @@
 		<key>ApplyButton</key>
 		<string>(* Button label for user to add proposed Action, e.g. Add. *)</string>
 		<key>IgnoreButton</key>
-		<string>(* Button label for user not to add proposed Action, e.g. Don't Add. *)</string>
+		<string>(* Button label for user not to add proposed Action, e.g. Don&apos;t Add. *)</string>
 		<key>Level</key>
 		<integer>0</integer>
 		<key>Message</key>
