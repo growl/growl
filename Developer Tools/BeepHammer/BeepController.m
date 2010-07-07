@@ -168,7 +168,6 @@
 				//send a notification for the selected table cell
 				NSDictionary *note = [notifications objectAtIndex:selectedRow];
 				
-				NSLog(@"note - %@", note);
 				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
 											description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 									   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
@@ -342,7 +341,6 @@
 		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 
-	NSLog(@"Registering with %@",regDict);
 	return regDict;
 }
 
