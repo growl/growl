@@ -773,11 +773,6 @@
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info"]];
 }
 
-- (IBAction) openGrowlForum:(id)sender {
-#pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"]];
-}
-
 - (IBAction) openGrowlBugSubmissionPage:(id)sender {
 #pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
