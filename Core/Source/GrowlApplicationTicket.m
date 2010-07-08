@@ -244,9 +244,7 @@
 	// construct a dictionary of our state data then save that dictionary to a file.
 	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
-	for (id key in allNotifications)
-	{
-		GrowlNotificationTicket *obj = [allNotifications objectForKey:key];
+	for (GrowlNotificationTicket *obj in [allNotifications objectEnumerator]) {
 		[saveNotifications addObject:[obj dictionaryRepresentation]];
 	}
 	
@@ -763,9 +761,7 @@
 - (void) setAllowedNotifications:(NSArray *) inArray {
 	NSSet *allowed = [[NSSet alloc] initWithArray:inArray];
 
-	for (id key in allNotifications)
-	{
-		GrowlNotificationTicket *obj = [allNotifications objectForKey:key];
+	for (GrowlNotificationTicket *obj in [allNotifications objectEnumerator]) {
 		[obj setEnabled:[allowed containsObject:[obj name]]];
 	}
 	[allowed release];

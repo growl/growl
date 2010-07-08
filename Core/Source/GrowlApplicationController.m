@@ -75,6 +75,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
 
+@interface NSString (GrowlNetworkingAdditions)
+
+- (BOOL) Growl_isLikelyDomainName;
+- (BOOL) Growl_isLikelyIPAddress;
+
+@end
+
 /*applications that go full-screen (games in particular) are expected to capture
  *	whatever display(s) they're using.
  *we [will] use this to notice, and turn on auto-sticky or something (perhaps
@@ -338,7 +345,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	if ([name hasSuffix:@".local"])
 		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
 
-	if ([name isLikelyDomainName]) {
+	if ([name Growl_isLikelyDomainName]) {
 		CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)name);
 		CFStreamError error;
 		if (CFHostStartInfoResolution(host, kCFHostAddresses, &error)) {
@@ -351,7 +358,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		}
 		if (host) CFRelease(host);
 		
-	} else if ([name isLikelyIPAddress]) {
+	} else if ([name Growl_isLikelyIPAddress]) {
 		struct sockaddr_in serverAddr;
 		
 		memset(&serverAddr, 0, sizeof(serverAddr));
@@ -1313,7 +1320,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 @implementation NSString (GrowlNetworkingAdditions)
 
-- (BOOL)isLikelyDomainName
+- (BOOL)Growl_isLikelyDomainName
 {
 	NSUInteger length = [self length];
 	NSString *lowerSelf = [self lowercaseString];
@@ -1340,7 +1347,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	return NO;
 }
 
-- (BOOL)isLikelyIPAddress
+- (BOOL)Growl_isLikelyIPAddress
 {
 	/* TODO: Use inet_pton(), which will handle ipv4 and ipv6 */
 	return ([[self componentsSeparatedByString:@"."] count] == 4);

@@ -144,7 +144,6 @@
 #pragma mark About Tab methods
 - (void) setupAboutTab;
 - (IBAction) openGrowlWebSite:(id)sender;
-- (IBAction) openGrowlForum:(id)sender;
 - (IBAction) openGrowlBugSubmissionPage:(id)sender;
 - (IBAction) openGrowlDonate:(id)sender;
 

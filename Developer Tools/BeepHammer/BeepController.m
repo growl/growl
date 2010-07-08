@@ -168,7 +168,6 @@
 				//send a notification for the selected table cell
 				NSDictionary *note = [notifications objectAtIndex:selectedRow];
 				
-				NSLog(@"note - %@", note);
 				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
 											description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 									   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
@@ -232,7 +231,7 @@
 		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault  state] == NSOnState];
 		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky   state] == NSOnState];
 		NSNumber *priority     = [NSNumber numberWithInteger:[[notificationPriority selectedItem] tag]];
-		NSImage  *image        = [notificationImage image];
+		NSData   *imageData    = [[notificationImage image] TIFFRepresentation];
 		NSString *title        = [notificationTitle       stringValue];
 		NSString *desc         = [notificationDescription stringValue];
 		NSString *identifier   = [notificationIdentifier  stringValue];
@@ -247,7 +246,7 @@
 			priority,      GROWL_NOTIFICATION_PRIORITY,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
-			image,         GROWL_NOTIFICATION_ICON_DATA, /* May be nil, ending the dict */
+			imageData,     GROWL_NOTIFICATION_ICON_DATA, /* May be nil, ending the dict */
 			nil];
 
 		NSNumber *indexNum = contextInfo;
@@ -342,7 +341,6 @@
 		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 
-	NSLog(@"Registering with %@",regDict);
 	return regDict;
 }
 
