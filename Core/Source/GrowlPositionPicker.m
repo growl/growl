@@ -178,8 +178,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 #pragma mark KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if([keyPath isEqualToString:@"selectedPosition"] && [context isEqual:self])
-	{
+	if ([keyPath isEqualToString:@"selectedPosition"] && context == self) {
 		if(selectedPosition != lastPosition)
 			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
 																object:self];			

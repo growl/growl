@@ -76,7 +76,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if(([keyPath isEqualToString:@"use"] || 
 		[keyPath isEqualToString:@"active"] || 
-		[keyPath isEqualToString:@"computerName"]) && [context isEqual:self]) 
+		[keyPath isEqualToString:@"computerName"]) && context == self) 
 	{
 		[owner writeForwardDestinations];
 	}
