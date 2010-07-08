@@ -22,13 +22,10 @@
 @end
 @implementation ISProgressIndicator
 - (void) startAnimation:(id)sender {
-#pragma unused(sender)
 }
 - (void) stopAnimation:(id)sender {
-#pragma unused(sender)
 }
 - (void) animate:(id)sender {
-#pragma unused(sender)
 }
 @end
 
@@ -95,7 +92,6 @@
 }
 
 - (void) drawRect:(NSRect)rect {
-#pragma unused(rect)
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 

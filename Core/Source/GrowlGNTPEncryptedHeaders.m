@@ -19,7 +19,6 @@
 
 - (id)initForData:(NSData *)inData error:(NSError **)outError
 {	
-#pragma unused (outError)
 	if ((self = [self init])) 
 	{
 		[self setHeaders:inData];

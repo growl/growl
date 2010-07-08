@@ -459,7 +459,6 @@
 }
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
 {
-#pragma unused(headers)
 	return GrowlGNTP_NoCallback; /* This abstract superclass has no idea how to send a callback */	
 }
 
@@ -651,7 +650,6 @@
  **/
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
 {
-#pragma unused(inPort)
 	if ([self isLocalHost:inHost] ||
 		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
 		wasInitiatedLocally) {
@@ -674,7 +672,6 @@
 	NSLog(@"Recv: \"%@\"", received);
 #endif
 
-#pragma unused(sock)
 	switch (tag) {
 		case GrowlInitialBytesIdentifierRead:
 			switch ([self parseInitialBytes:data]) {
@@ -770,7 +767,6 @@
  */
 -(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
-#pragma unused(sock)
 	if (err != nil) {
 		[self setError:err];
 		[self errorOccurred];
@@ -808,7 +804,6 @@
 
 - (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID
 {
-#pragma unused(packet)
 	[[self delegate] packet:self willChangePacketIDFrom:oldPacketID to:newPacketID];
 }
 

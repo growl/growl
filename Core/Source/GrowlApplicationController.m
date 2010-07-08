@@ -64,7 +64,6 @@
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
-	#pragma unused(timer)
 		// only run update check if it's enabled, TODO: maybe remove timer?
 		if([[GrowlPreferencesController sharedController] isBackgroundUpdateCheckEnabled])
 				[((GrowlApplicationController*)context) timedCheckForUpdates:nil];
@@ -863,19 +862,16 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 #pragma mark Sparkle Updates
 
 - (void) timedCheckForUpdates:(NSNotification*)note {
-#pragma unused(note)
 	[self launchSparkleHelper];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_INTERVAL_INITIATED object:nil userInfo:nil deliverImmediately:YES];
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext {
-#pragma unused(clickContext)
 	[self launchSparkleHelper];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
 }
 
 - (void) growlNotificationTimedOut:(id)clickContext {
-#pragma unused(clickContext)
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
 } 
 
@@ -896,7 +892,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) growlSparkleHelperFoundUpdate:(NSNotification*)note {
-#pragma unused(note)
 	CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
 	CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -973,12 +968,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) shutdown:(NSNotification *) note {
-#pragma unused(note)
 	[NSApp terminate:nil];
 }
 
 - (void) replyToPing:(NSNotification *) note {
-#pragma unused(note)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG
@@ -992,7 +985,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 #pragma mark NSApplication Delegate Methods
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
-#pragma unused(theApplication)
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
 
@@ -1048,7 +1040,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
-#pragma unused(aNotification)
 	mainThread = [[NSThread currentThread] retain];
 
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
@@ -1080,7 +1071,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-#pragma unused(aNotification)
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 	                                                               object:nil
 	                                                             userInfo:nil
@@ -1105,17 +1095,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-#pragma unused(theApplication, flag)
 	return NO;
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-#pragma unused(theApplication)
 	return NO;
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
-#pragma unused(notification)
 	// kill sparkle helper if it's still running
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers

@@ -252,7 +252,6 @@
 
 - (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID
 {
-#pragma unused(packet)
 	/* Note that it is possible that ([currentNetworkPackets objectForKey:oldPacketID] != packet).
 	 * packet may be [[currentNetworkPackets objectForKey:oldPacketID] specificPacket]. We don't want to release the 
 	 * parent too early! We therefore do the lookup-and-set rather than a more 'direct' setObject:packet.

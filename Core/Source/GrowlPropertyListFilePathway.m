@@ -27,7 +27,6 @@ static GrowlPropertyListFilePathway *sharedController = nil;
 
 //If you're looking for GHA's app delegate, try GrowlApplicationController. That -application:openFile: method calls this one to handle .growlRegDict files.
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
-#pragma unused(theApplication)
 	BOOL retVal = NO;
 
 	CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);

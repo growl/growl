@@ -201,7 +201,6 @@
  * download URLs for several components.
  */
 - (IBAction) checkVersion:(id)sender {
-#pragma unused(sender)
 	[self launchSparkleHelper];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
 }
@@ -212,7 +211,6 @@
 
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-#pragma unused(sheet)
 	CFURLRef downloadURL = (CFURLRef)contextInfo;
 	if (returnCode == NSAlertDefaultReturn)
 		[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
@@ -394,7 +392,6 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
-#pragma unused(change, context)
 	if ([keyPath isEqualToString:@"selection"]) {
 		if ((object == ticketsArrayController))
 			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
@@ -516,7 +513,6 @@
 #pragma mark "General" tab pane
 
 - (IBAction) startStopGrowl:(id) sender {
-#pragma unused(sender)
 	// Make sure growlIsRunning is correct
 	if (growlIsRunning != [preferencesController isGrowlRunning]) {
 		// Nope - lets just flip it and update status
@@ -543,7 +539,6 @@
 }
 
 - (void) deleteTicket:(id)sender {
-#pragma unused(sender)
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
 	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [self bundle], nil), appName]
 									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [self bundle], "Button title for removing something")
@@ -557,8 +552,6 @@
 
 // this method is used as our callback to determine whether or not to delete the ticket
 -(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID {
-#pragma unused(alert)
-#pragma unused(eventID)
 	if (returnCode == NSAlertDefaultReturn) {
 		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 		NSString *path = [ticket path];
@@ -642,7 +635,6 @@
 #pragma mark "Display" tab pane
 
 - (IBAction) showDisabledDisplays:(id)sender {
-#pragma unused(sender)
 	[disabledDisplaysList setString:[[pluginController disabledPlugins] componentsJoinedByString:@"\n"]];
 	
 	[NSApp beginSheet:disabledDisplaysSheet 
@@ -653,7 +645,6 @@
 }
 
 - (IBAction) endDisabledDisplays:(id)sender {
-#pragma unused(sender)
 	[NSApp endSheet:disabledDisplaysSheet];
 	[disabledDisplaysSheet orderOut:disabledDisplaysSheet];
 }
@@ -769,18 +760,15 @@
 }
 
 - (IBAction) openGrowlWebSite:(id)sender {
-#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info"]];
 }
 
 - (IBAction) openGrowlBugSubmissionPage:(id)sender {
-#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
 }
 
 - (IBAction) openGrowlDonate:(id)sender {
- #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/donate.php"]];
+ 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/donate.php"]];
 }
 #pragma mark TableView data source methods
 
@@ -796,7 +784,6 @@
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-#pragma unused(aTableView)
 	if(aTableColumn == servicePasswordColumn) {
 		[[services objectAtIndex:rowIndex] setPassword:anObject];
 	}
@@ -804,7 +791,6 @@
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-#pragma unused(aTableView)
 	// we check to make sure we have the image + text column and then set its image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
@@ -824,7 +810,6 @@
 #pragma mark NSNetServiceBrowser Delegate Methods
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
-#pragma unused(aNetServiceBrowser)
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
 	GrowlBrowserEntry *entry = nil;
@@ -860,7 +845,6 @@
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
-#pragma unused(aNetServiceBrowser)
 	
 	NSString *name = [aNetService name];
 	for (GrowlBrowserEntry *currentEntry in services) {
@@ -877,7 +861,6 @@
 #pragma mark Bonjour
 
 - (void) resolveService:(id)sender {
-#pragma unused(sender)
 	NSLog(@"What calls resolveService:?");
 }
 
@@ -1013,7 +996,6 @@
 }
 
 - (void) growlLaunched:(NSNotification *)note {
-#pragma unused(note)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	[self setGrowlIsRunning:YES];
@@ -1023,7 +1005,6 @@
 }
 
 - (void) growlTerminated:(NSNotification *)note {
-#pragma unused(note)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	[self setGrowlIsRunning:NO];

@@ -11,7 +11,6 @@
 
 - (void)resetAutoreleasePool:(NSTimer *)timer
 {
-#pragma unused (timer)
 	[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined
 										location:NSZeroPoint
 								   modifierFlags:0

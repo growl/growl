@@ -31,11 +31,9 @@
 }
 
 - (void) setFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin {
-#pragma unused(startingOrigin, endingOrigin)
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
-#pragma unused(aWindow, inProgress)
 NSLog(@"%s", __FUNCTION__);	
 }
 

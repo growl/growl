@@ -229,7 +229,6 @@
 #pragma mark NSXMLParser Delegate methods:
 
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-#pragma unused(parser,namespaceURI,qName,attributeDict)
 	if ([elementName isEqualToString:@"clickAPI"]) {
 //		NSLog(@"SMS display: Found the clickAPI element in the response.  That means we got the HTTP part right.");
 	} else if ([elementName isEqualToString:@"xmlErrorResp"]) {
@@ -252,7 +251,6 @@
 
 
 - (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-#pragma unused(parser)
 	if (!xmlHoldingStringValue)
 		xmlHoldingStringValue = [[NSMutableString alloc] initWithCapacity:50];
 	[xmlHoldingStringValue appendString:string];
@@ -260,7 +258,6 @@
 
 
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-#pragma unused(parser,namespaceURI,qName)
 	if (   [elementName isEqualToString:@"clickAPI"]
 		|| [elementName isEqualToString:@"xmlErrorResp"]) {
 		// nothing to do
@@ -317,7 +314,6 @@
 	The delegate receives this message if connection has cancelled the authentication challenge specified by challenge.
  */
 - (void) connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-#pragma unused(connection,challenge)
 	NSLog(@"SMS display: didCancelAuthenticationChallenge:");
 	[self connectionDidRespond];
 }
@@ -328,7 +324,6 @@
 	Once the delegate receives this message, it will receive no further messages for connection.
  */
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-#pragma unused(connection)
 	NSLog(@"SMS display: Connection to SMS Web API failed: (%@)", [error localizedDescription]);
 
 	[self connectionDidRespond];
@@ -360,7 +355,6 @@
 	This method provides the only way for an asynchronous delegate to retrieve the loaded data. It is the responsibility of the delegate to retain or copy this data as it is delivered.
  */
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-#pragma unused(connection)
 	//	NSLog(@"SMS display: didReceiveData:  %@", data);
 	[self setResponseData: data];
 	[self handleResponse];
@@ -379,7 +373,6 @@
  */
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-#pragma unused(connection,response)
 //	NSLog(@"SMS display: didReceiveResponse:  URL(%@) expectedDataLength:(%d)", [response URL], [response expectedContentLength]  );
 
 //	NSLog(@" MIME:(%@)" , [response MIMEType]);
@@ -388,7 +381,6 @@
 
 
 - (NSCachedURLResponse *) connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-#pragma unused(connection,cachedResponse)
 	//	No Caching please...  Since we're using HTTPS none should occur - but no harm in being cautious.
 	return nil;
 }
@@ -411,7 +403,6 @@
  */
 
 - (NSURLRequest *) connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
-#pragma unused(request,redirectResponse, connection)
 //	NSLog(@"SMS display: redirectResponse:");
 //	[connection cancel];
 	return request;
@@ -420,7 +411,6 @@
 
 // This delegate method is called when connection has finished loading successfully. The delegate will receive no further messages for connection.
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-#pragma unused(connection)
 	// NSLog(@"SMS display: connectionDidFinishLoading:");
 	[self connectionDidRespond];
 }

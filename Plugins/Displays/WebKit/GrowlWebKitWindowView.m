@@ -102,7 +102,6 @@
 }
 
 - (void) clickedCloseBox:(id)sender {
-#pragma unused(sender)
 	mouseOver = NO;
 	
 	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
@@ -145,12 +144,10 @@
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
-#pragma unused(event)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	[self updateFocusState];
 	[self setCloseBoxVisible:YES];
 	mouseOver = YES;
@@ -162,7 +159,6 @@
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	[self updateFocusState];
     [self setCloseBoxVisible:NO];
 	mouseOver = NO;
@@ -180,12 +176,10 @@
 }
 
 - (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
-#pragma unused(sender, draggingInfo)
 	return 0U; //WebDragDestinationActionNone;
 }
 
 - (unsigned) webView:(WebView *)sender dragSourceActionMaskForPoint:(NSPoint)point {
-#pragma unused(sender, point)
 	return 0U; //WebDragSourceActionNone;
 }
 
@@ -202,7 +196,6 @@
 }
 
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
-#pragma unused(sender, element, defaultMenuItems)
 	// disable context menu
 	return nil;
 }

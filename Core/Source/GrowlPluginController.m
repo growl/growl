@@ -818,7 +818,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 #pragma mark Installing plug-ins
 
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-#pragma unused(sheet, contextInfo)
 	if (returnCode == NSAlertAlternateReturn) {
 		NSBundle *prefPane = [GrowlPathUtilities growlPrefPaneBundle];
 
@@ -828,7 +827,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-#pragma unused(sheet)
 	NSString *filename = (NSString *)contextInfo;
 
 	if (returnCode == NSAlertAlternateReturn) {
@@ -937,8 +935,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 							  eventFlags:(const FSEventStreamEventFlags [])eventFlags
 								eventIDs:(const FSEventStreamEventId [])eventIDs
 {
-#pragma unused(eventFlags)
-#pragma unused(eventIDs)
 	if (eventStream == pluginsDirectoryEventStream) {
 		NSFileManager *mgr = [NSFileManager defaultManager];
 
@@ -1050,8 +1046,6 @@ NSInteger comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
 }
 
 static void eventStreamCallback(ConstFSEventStreamRef eventStream, void *clientCallBackInfo, size_t numEvents, void *eventPaths, const FSEventStreamEventFlags eventFlags[], const FSEventStreamEventId eventIDs[]) {
-#pragma unused(numEvents)
-#pragma unused(eventStream)
 	GrowlPluginController *self = (GrowlPluginController *)clientCallBackInfo;
 	[self handleFileSystemEventFromStream:eventStream
 							   eventPaths:(NSArray *)eventPaths

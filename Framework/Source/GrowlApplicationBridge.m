@@ -631,7 +631,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (void) _growlIsReady:(NSNotification *)notification {
-#pragma unused(notification)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs

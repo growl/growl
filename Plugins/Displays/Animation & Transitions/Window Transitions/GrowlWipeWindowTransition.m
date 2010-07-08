@@ -12,11 +12,9 @@
 @implementation GrowlWipeWindowTransition
 
 - (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to {
-#pragma unused(from,to)
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
-#pragma unused(progress)
 	if (aWindow) {
 		switch (direction) {
 			default:

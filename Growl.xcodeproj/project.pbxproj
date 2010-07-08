@@ -3877,7 +3877,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
@@ -3898,6 +3897,7 @@
 					"-Wpointer-arith",
 					"-Wformat=2",
 					"-Wfloat-equal",
+					"-Wno-unused-parameter",
 				);
 				ZERO_LINK = NO;
 			};
@@ -5264,7 +5264,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IBC_FLATTEN_NIBS = NO;
@@ -5286,6 +5285,7 @@
 					"-Wpointer-arith",
 					"-Wformat=2",
 					"-Wfloat-equal",
+					"-Wno-unused-parameter",
 				);
 				ZERO_LINK = NO;
 			};
@@ -5320,7 +5320,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"$(TARGET_BUILD_DIR)/include\"";
@@ -5341,6 +5340,7 @@
 					"-Wpointer-arith",
 					"-Wformat=2",
 					"-Wfloat-equal",
+					"-Wno-unused-parameter",
 				);
 				ZERO_LINK = NO;
 			};

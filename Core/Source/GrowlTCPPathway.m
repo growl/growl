@@ -53,7 +53,6 @@
 #pragma mark -
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-#pragma unused(sender)
 	NSLog(@"WARNING: could not publish Growl service. Error: %@", errorDict);
 }
 

@@ -106,12 +106,10 @@
 #pragma mark Combo box support
 
 - (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-#pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
 - (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
-#pragma unused(aComboBox)
 #ifdef __LP64__
 	return [NSNumber numberWithInteger:idx];
 #else

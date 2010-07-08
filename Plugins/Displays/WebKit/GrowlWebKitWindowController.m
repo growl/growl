@@ -229,7 +229,6 @@
 		  frame:(WebFrame *)frame
 	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
-#pragma unused(sender, request, frame)
 	int actionKey = getIntegerForKey(actionInformation, WebActionNavigationTypeKey);
 	if (actionKey == WebNavigationTypeOther) {
 		[listener use];

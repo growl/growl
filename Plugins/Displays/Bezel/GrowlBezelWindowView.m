@@ -52,7 +52,6 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 }
 
 - (void) drawRect:(NSRect)rect {
-#pragma unused(rect)
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 

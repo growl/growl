@@ -305,7 +305,6 @@ static NSMutableDictionary *existingInstances;
 #pragma mark Click feedback
 
 - (void) notificationClicked:(id)sender {
-#pragma unused(sender)
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
 
@@ -465,7 +464,6 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 - (void) mouseEnteredNotificationView:(GrowlNotificationView *)notificationView
 {
-#pragma unused (notificationView)
 	if (!userRequestedClose &&
 		(displayStatus == GrowlDisplayTransitioningOutStatus)) {
 		// We're transitioning out; we need to go back to transitioning in...
@@ -480,7 +478,6 @@ static NSMutableDictionary *existingInstances;
 
 - (void) mouseExitedNotificationView:(GrowlNotificationView *)notificationView
 {
-#pragma unused (notificationView)
 	// Notifies us that the mouse left the notification view.
 }
 

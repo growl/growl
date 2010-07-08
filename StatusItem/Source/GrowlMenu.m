@@ -43,7 +43,6 @@ int main(void) {
 @implementation GrowlMenu
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-#pragma unused(aNotification)
 	pid = getpid();
 	preferences = [GrowlPreferencesController sharedController];
 
@@ -85,7 +84,6 @@ int main(void) {
 }
 
 - (void) applicationWillTerminate:(NSNotification *)aNotification {
-#pragma unused(aNotification)
 	[self release];
 }
 
@@ -113,20 +111,17 @@ int main(void) {
 }
 
 - (void) openGrowlPreferences:(id)sender {
-#pragma unused(sender)
 	NSString *prefPane = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
 }
 
 - (void) stopGrowl:(id)sender {
-#pragma unused(sender)
 	//If Growl is running, we should stop it.
 	if ([preferences isGrowlRunning])
 		[preferences setGrowlRunning:NO noMatterWhat:NO];
 }
 
 - (void) startGrowl:(id)sender {
-#pragma unused(sender)
 	if (![preferences isGrowlRunning]) {
 		//If Growl isn't running, we should start it.
 		[preferences setGrowlRunning:YES noMatterWhat:NO];
@@ -139,14 +134,12 @@ int main(void) {
 }
 
 - (void) squelchMode:(id)sender {
-#pragma unused(sender)
 	BOOL squelchMode = ![preferences squelchMode];
 	[preferences setSquelchMode:squelchMode];
 	[self setImage];
 }
 
 - (void) stickyWhenIdle:(id)sender {
-#pragma unused(sender)
 	BOOL idleModeState = ![preferences stickyWhenAway];
 	[preferences setStickyWhenAway:idleModeState];
 }

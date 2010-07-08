@@ -74,7 +74,6 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 #pragma mark NSView overrides
 
 - (void) drawRect:(NSRect)rect {
-#pragma unused(rect)
 	// make sure that the view is big enough...
 	NSRect bounds = [self bounds];
 	if ((bounds.size.width < GrowlPositionPickerMinWidth)||(bounds.size.height < GrowlPositionPickerMinHeight))
@@ -112,7 +111,6 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	// turn on mouse moved tracking on the window...
 	NSWindow *window = [self window];
 	windowWatchesMouseMovedEvents = [window acceptsMouseMovedEvents];
@@ -121,7 +119,6 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	// revert the window to its previous setting...
 	if (!windowWatchesMouseMovedEvents) {
 		[[self window] setAcceptsMouseMovedEvents:NO];

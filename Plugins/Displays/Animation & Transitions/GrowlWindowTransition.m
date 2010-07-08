@@ -110,7 +110,6 @@
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)progress {
-#pragma unused(aWindow, progress)
 	//
 }
 

@@ -107,7 +107,6 @@
 
 // closes this window
 - (IBAction) closeWindow:(id)sender {
-#pragma unused(sender)
 	if ([self windowShouldClose:nil])
 		[[self window] close];
 }
@@ -231,7 +230,6 @@
 }
 
 - (IBAction) installGrowl:(id)sender {
-#pragma unused(sender)
 	[spinner startAnimation:sender];
 	[button_install setEnabled:NO];
 	[button_cancel  setEnabled:NO];
@@ -242,7 +240,6 @@
 }
 
 - (IBAction) cancel:(id)sender {
-#pragma unused(sender)
 	if (!updateVersion) {
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
@@ -275,7 +272,6 @@
 
 // called as the window closes
 - (BOOL) windowShouldClose:(id)sender {
-#pragma unused(sender)
 	//If the window closes via the close button or cmd-W, it should be treated as clicking Cancel.
 	[self cancel:nil];
 

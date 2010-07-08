@@ -41,7 +41,6 @@
 #pragma mark -
 
 - (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	[NSApp preventWindowOrdering];
 	return YES;
 }
@@ -55,12 +54,10 @@
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
-#pragma unused(theEvent)
     [self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
@@ -71,7 +68,6 @@
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
-#pragma unused(theEvent)
 	mouseOver = NO;
     [self setCloseBoxVisible:NO];
 	[self setNeedsDisplay:YES];
@@ -88,7 +84,6 @@
 }
 
 - (void) mouseUp:(NSEvent *)event {
-#pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
@@ -113,7 +108,6 @@ static NSButton *gCloseButton;
 }
 
 - (void) clickedCloseBox:(id)sender {
-#pragma unused(sender)
 	mouseOver = NO;
 	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
 		[[[self window] windowController] performSelector:@selector(clickedClose)];
@@ -160,16 +154,12 @@ static NSButton *gCloseButton;
 
 #pragma mark For subclasses
 - (void) setPriority:(int)priority {
-#pragma unused(priority)
 }
 - (void) setTitle:(NSString *) aTitle {
-#pragma unused(aTitle)
 }
 - (void) setText:(NSString *)aText {
-#pragma unused(aText)
 }
 - (void) setIcon:(NSImage *)anIcon {
-#pragma unused(anIcon)
 }
 - (void) sizeToFit {};
 

@@ -96,7 +96,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 
 
 - (void) drawRect:(NSRect) rect {
-#pragma unused (rect)
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 	CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);

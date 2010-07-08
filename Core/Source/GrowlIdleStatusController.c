@@ -73,7 +73,6 @@ static void setIdle(Boolean inIdle) {
  * notice immediately when the user returns.
  */
 static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
-#pragma unused(info)
 	double currentIdle = currentIdleTime();
 
 	if (isIdle) {

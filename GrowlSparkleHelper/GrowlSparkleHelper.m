@@ -50,7 +50,6 @@
 }
 
 - (void) silentUpdateCheck:(NSNotification*)note {
-#pragma unused(note)
 	NSLog(@"%s", __FUNCTION__);
 	shouldNotifyOfUpdate = YES;
 	SUUpdater *updater = [SUUpdater updaterForBundle:[GrowlPathUtilities growlPrefPaneBundle]];
@@ -59,7 +58,6 @@
 }
 
 - (void) checkForUpdates:(NSNotification*)note {
-#pragma unused(note)
 	NSLog(@"%s", __FUNCTION__);
 	shouldNotifyOfUpdate = NO;
 	SUUpdater *updater = [SUUpdater updaterForBundle:[GrowlPathUtilities growlPrefPaneBundle]];
@@ -68,13 +66,11 @@
 }
 
 - (void) die:(NSNotification*)note {
-#pragma unused(note)
 	NSLog(@"%s", __FUNCTION__);
 	[NSApp terminate:nil];
 }
 
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update {
-#pragma unused(updater, update)
 	NSLog(@"%s", __FUNCTION__);
 	if(shouldNotifyOfUpdate) {
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_UPDATE_AVAILABLE object:GROWL_HELPERAPP_BUNDLE_IDENTIFIER userInfo:NULL deliverImmediately:YES];
@@ -83,13 +79,11 @@
 }
 
 - (void) updaterDidNotFindUpdate:(SUUpdater *)update {
-#pragma unused(update)
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];
 }
 
 - (void)sparkleDidFinish:(SUUpdater*)updater {
-#pragma unused(updater)
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];
 }
@@ -97,7 +91,6 @@
 // so far only called when it is not installing an update
 - (void)updaterAlertDidFinishWithReturnCode:(NSUInteger)returnCode;
 {
-#pragma unused(returnCode)
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];
 }
