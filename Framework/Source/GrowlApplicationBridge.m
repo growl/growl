@@ -16,6 +16,7 @@
 #include "CFMutableDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlProcessUtilities.h"
 #import "GrowlPathway.h"
 #import "GrowlImageAdditions.h"
 
