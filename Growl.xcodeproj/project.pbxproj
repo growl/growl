@@ -1606,8 +1606,6 @@
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				315C88BB1068F9A200880530 /* Localization.xcconfig */,
-				933814B51050A7350014C550 /* CoreFoundation.framework */,
-				933814B91050A73D0014C550 /* Cocoa.framework */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
@@ -1801,6 +1799,8 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				933814B91050A73D0014C550 /* Cocoa.framework */,
+				933814B51050A7350014C550 /* CoreFoundation.framework */,
 				93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */,
 				950F79C5080EEE2B00CC5F62 /* WebKit.framework */,
 				95AA8653080065DE0045589D /* SystemConfiguration.framework */,
