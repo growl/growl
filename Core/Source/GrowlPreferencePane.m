@@ -15,6 +15,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlPlugin.h"
 #import "GrowlPluginController.h"
+#import "GrowlProcessUtilities.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
@@ -221,7 +222,7 @@
  * @brief Returns if GrowlMenu is currently running.
  */
 + (BOOL) isGrowlMenuRunning {
-	return [[GrowlPreferencesController sharedController] isRunning:@"com.Growl.MenuExtra"];
+	return Growl_ProcessExistsWithBundleIdentifier(@"com.Growl.MenuExtra");
 }
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
