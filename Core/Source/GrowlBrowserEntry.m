@@ -24,9 +24,9 @@
 - (id) init {
 	
 	if ((self = [super init])) {
-		[self addObserver:self forKeyPath:@"use" options:NSKeyValueChangeNewKey context:self];
-		[self addObserver:self forKeyPath:@"active" options:NSKeyValueChangeNewKey context:self];
-		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueChangeNewKey context:self];
+		[self addObserver:self forKeyPath:@"use" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"active" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
 	}
 	return self;
 }

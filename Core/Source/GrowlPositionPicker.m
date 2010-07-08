@@ -53,7 +53,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		selectedPosition = GrowlTopRightCorner;
 		rolloverPosition = GrowlNoOrigin;
 		
-		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueChangeNewKey context:self];
+		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueObservingOptionNew context:self];
 	}
 	return self;
 }
