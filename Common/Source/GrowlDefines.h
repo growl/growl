@@ -185,16 +185,6 @@
  */
 #define GROWL_NOTIFICATION_CLICK_CONTEXT			XSTR("NotificationClickContext")
 
-/*!	@defined GROWL_DISPLAY_PLUGIN
- *	@discussion The name of a display plugin which should be used for this notification.
- *    Optional. If this key is not set or the specified display plugin does not
- *    exist, the display plugin stored in the application ticket is used. This key
- *    allows applications to use different default display plugins for their
- *    notifications. The user can still override those settings in the preference
- *    pane.
- */
-#define GROWL_DISPLAY_PLUGIN				XSTR("NotificationDisplayPlugin")
-
 /*!	@defined GROWL_NOTIFICATION_IDENTIFIER
  *	@abstract An identifier for the notification for coalescing purposes.
  *   Notifications with the same identifier fall into the same class; only
