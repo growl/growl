@@ -112,7 +112,6 @@
 - (IBAction) startStopGrowl:(id)sender;
 - (BOOL) growlIsRunning;
 - (void) setGrowlIsRunning:(BOOL)flag;
-- (void) updateLogPopupMenu;
 
 #pragma mark GrowlMenu methods
 + (BOOL) isGrowlMenuRunning;
