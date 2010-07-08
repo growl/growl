@@ -1026,8 +1026,8 @@ static CFHashCode passthroughStringHash(const void *value) {
 @end
 
 #define ASSERT_IN_FUNCTION(condition, desc, ...)                                                      \
-	[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithCString:__func__] \
-															file:[NSString stringWithCString:__FILE__]  \
+	[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithFormat:@"%s", __func__] \
+															file:[NSString stringWithFormat:@"%s", __FILE__]  \
 													  lineNumber:__LINE__                                \
 													 description:desc, __VA_ARGS__];
 
