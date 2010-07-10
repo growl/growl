@@ -9,17 +9,12 @@
 #import "GrowlPlugin.h"
 
 
-@interface GrowlPlugin (PRIVATE)
-- (void) setDescription:(NSString *)newDesc;
-@end
-
-
 @implementation GrowlPlugin
 
 @synthesize name = pluginName;
 @synthesize author = pluginAuthor;
 @synthesize version = pluginVersion;
-@synthesize desc = pluginDesc;
+@synthesize pluginDescription = pluginDesc;
 @synthesize pathname = pluginPathName;
 @synthesize bundle = pluginBundle;
 @synthesize prefDomain;
@@ -46,7 +41,7 @@
 					  version:[infoDict objectForKey:(NSString *)kCFBundleVersionKey]
 					 pathname:[bundle bundlePath]];
 	if (self) {
-		[self setDescription:[infoDict objectForKey:@"GrowlPluginDescription"]];
+		self.pluginDescription = [infoDict objectForKey:@"GrowlPluginDescription"];
 		self.bundle = bundle;
 	}
 	return self;
