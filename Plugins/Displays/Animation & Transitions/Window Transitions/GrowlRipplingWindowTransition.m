@@ -18,7 +18,7 @@
 	return self;
 }
 
-- (void) animationShouldStart:(GrowlWindowTransition *)animation {
+- (BOOL) animationShouldStart:(GrowlWindowTransition *)animation {
 	[super animationShouldStart:animation];
 
 	if ([self currentProgress] < 1.0f) {
@@ -27,7 +27,7 @@
 	}
 	[self setCurrentProgress:1.0f];
 	//[self stopAnimation];
-		
+	return YES;	
 }
 
 - (void) setFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin {
