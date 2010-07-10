@@ -221,10 +221,12 @@ static SGHotKeyCenter *sharedCenter = nil;
 }
 
 - (void)_hotKeyUp:(SGHotKey *)hotKey {
+#pragma unused(hotKey)
   // Nothing!
 }
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef theHandlerRef, EventRef theEvent, void *userData ) {
+#pragma unused(theHandlerRef, userData)
   return [[SGHotKeyCenter sharedCenter] sendCarbonEvent:theEvent];
 }
 @end
