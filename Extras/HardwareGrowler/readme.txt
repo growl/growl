@@ -20,5 +20,3 @@ Bugs:
 		- it may be that they don't even have them.
 
 	It should probably have the option to run without appearing in the dock.
-
-	The icon isn't the greatest.
