@@ -30,8 +30,8 @@
 	NSString		*displayPluginName;
 	GrowlDisplayPlugin *displayPlugin;		    // Non-nil if this ticket uses a custom display plugin
 	
-	int				positionType;				// Integer that tracks the selected position type (default or custom currently)
-	int				selectedCustomPosition;		// Integer that tracks the selected custom position [int value translated from enum] FRAGILE
+	NSInteger		positionType;				// Integer that tracks the selected position type (default or custom currently)
+	NSInteger		selectedCustomPosition;		// Integer that tracks the selected custom position [int value translated from enum] FRAGILE
 
 	BOOL            changed;
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
@@ -39,6 +39,7 @@
 	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
 	
 	BOOL			synchronizeOnChanges;
+	
 }
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
@@ -61,32 +62,22 @@
 
 #pragma mark -
 
-- (BOOL) hasChanged;
-- (void) setHasChanged:(BOOL)flag;
+@property (nonatomic, assign) BOOL hasChanged;
 
 - (NSData *) iconData;
 - (void) setIconData:(NSData *) inIconData;
 
 - (NSString *) applicationName;
 
-- (BOOL) ticketEnabled;
-- (void) setTicketEnabled:(BOOL)inEnabled;
 
-- (BOOL) clickHandlersEnabled;
-- (void) setClickHandlersEnabled:(BOOL)inEnabled;
+@property (nonatomic, assign) BOOL ticketEnabled;
+@property (nonatomic, assign) BOOL clickHandlersEnabled;
+@property (nonatomic, assign) BOOL useDefaults;
+@property (nonatomic, assign) NSInteger positionType;
+@property (nonatomic, assign) NSInteger selectedPosition;
+@property (nonatomic, copy) NSString *displayPluginName;
 
-- (BOOL) useDefaults;
-- (void) setUseDefaults:(BOOL)flag;
-
-- (int) positionType;
-- (void) setPositionType:(int)inPositionType;
-
-- (int) selectedPosition;
-- (void) setSelectedPosition:(int)inPosition;
-
-- (NSString *) displayPluginName;
 - (GrowlDisplayPlugin *) displayPlugin;
-- (void) setDisplayPluginName: (NSString *)name;
 
 #pragma mark -
 
@@ -110,4 +101,5 @@
 #pragma mark Notification accessors
 - (NSArray *) notifications;
 - (GrowlNotificationTicket *) notificationTicketForName:(NSString *)name;
+
 @end

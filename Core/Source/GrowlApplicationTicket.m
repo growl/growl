@@ -28,6 +28,14 @@
 
 @implementation GrowlApplicationTicket
 
+@synthesize hasChanged = changed;
+@synthesize useDefaults;
+@synthesize selectedPosition = selectedCustomPosition;
+@synthesize positionType;
+@synthesize clickHandlersEnabled;
+@synthesize ticketEnabled;
+@synthesize displayPluginName;
+
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
 + (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
 	if (!dict)
@@ -181,11 +189,24 @@
 
 		changed = YES;
 		synchronizeOnChanges = YES;
+		
+		[self addObserver:self forKeyPath:@"displayPluginName" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"ticketEnabled" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"clickHandlersEnabled" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"positionType" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueObservingOptionNew context:self];
 	}
 	return self;
 }
 
 - (void) dealloc {
+	
+	[self removeObserver:self forKeyPath:@"displayPluginName"];
+	[self removeObserver:self forKeyPath:@"ticketEnabled"];
+	[self removeObserver:self forKeyPath:@"clickHandlersEnabled"];
+	[self removeObserver:self forKeyPath:@"positionType"];
+	[self removeObserver:self forKeyPath:@"selectedPosition"];
+	
 	[appName                  release];
 	[appId                    release];
 	[appPath                  release];
@@ -203,10 +224,10 @@
 
 #pragma mark -
 
-- (id) initTicketFromPath:(NSString *) ticketPath {
-	CFURLRef ticketURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ticketPath, kCFURLPOSIXPathStyle, false);
-	NSDictionary *ticketDict = (NSDictionary *)createPropertyListFromURL((NSURL *)ticketURL, kCFPropertyListImmutable, NULL, NULL);
-	CFRelease(ticketURL);
+- (id) initTicketFromPath:(NSString *) ticketPath {	
+	NSURL *ticketURL = [NSURL fileURLWithPath:ticketPath isDirectory:NO];
+	NSDictionary *ticketDict = (NSDictionary *)createPropertyListFromURL(ticketURL, kCFPropertyListImmutable, NULL, NULL);
+
 	if (!ticketDict) {
 		NSLog(@"Tried to init a ticket from this file, but it isn't a ticket file: %@", ticketPath);
 		[self release];
@@ -338,6 +359,17 @@
 	}
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if(([keyPath isEqualToString:@"displayPluginName"] ||
+	    [keyPath isEqualToString:@"ticketEnabled"] ||
+	    [keyPath isEqualToString:@"clickHandlersEnabled"] ||
+	    [keyPath isEqualToString:@"positionType"] ||
+	    [keyPath isEqualToString:@"selectedPosition"]) && [object isEqual:self])
+	{
+		[self synchronize];
+	}	
+}
 #pragma mark -
 
 - (NSData *) iconData {
@@ -386,81 +418,10 @@
 	return appName;
 }
 
-- (BOOL) ticketEnabled {
-	return ticketEnabled;
-}
-
-- (void) setTicketEnabled:(BOOL)inEnabled {
-	if (ticketEnabled != inEnabled) {
-		ticketEnabled = inEnabled;
-		[self synchronize];
-	}
-}
-
-- (BOOL) clickHandlersEnabled {
-	return clickHandlersEnabled;
-}
-
-- (void) setClickHandlersEnabled:(BOOL)inEnabled {
-	if (clickHandlersEnabled != inEnabled) {
-		clickHandlersEnabled = inEnabled;
-		
-		[self synchronize];
-	}
-}
-
-- (int) positionType {
-	return positionType;
-}
-
-- (void) setPositionType:(int)inPositionType {
-	positionType = inPositionType;
-	[self synchronize];
-}
-
-- (int) selectedPosition {
-	return selectedCustomPosition;
-}
-
-- (void) setSelectedPosition:(int)inPosition {
-	selectedCustomPosition = inPosition;
-	[self synchronize];
-}
-
-- (BOOL) useDefaults {
-	return useDefaults;
-}
-
-- (void) setUseDefaults:(BOOL)flag {
-	useDefaults = flag;
-}
-
-- (BOOL) hasChanged {
-	return changed;
-}
-
-- (void) setHasChanged:(BOOL)flag {
-	changed = flag;
-}
-
-- (NSString *) displayPluginName {
-	return displayPluginName;
-}
-
 - (GrowlDisplayPlugin *) displayPlugin {
 	if (!displayPlugin && displayPluginName)
 		displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil];
 	return displayPlugin;
-}
-
-- (void) setDisplayPluginName: (NSString *)name {
-	if (![displayPluginName isEqualToString:name]) {
-		[displayPluginName release];
-		displayPluginName = [name copy];
-		displayPlugin = nil;
-		
-		[self synchronize];
-	}
 }
 
 #pragma mark -
