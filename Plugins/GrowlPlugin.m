@@ -16,14 +16,23 @@
 
 @implementation GrowlPlugin
 
+@synthesize name = pluginName;
+@synthesize author = pluginAuthor;
+@synthesize version = pluginVersion;
+@synthesize desc = pluginDesc;
+@synthesize pathname = pluginPathName;
+@synthesize bundle = pluginBundle;
+@synthesize prefDomain;
+@synthesize preferencePane;
+
 //designated initialiser.
 - (id) initWithName:(NSString *)name author:(NSString *)author version:(NSString *)version pathname:(NSString *)pathname {
 	if ((self = [super init])) {
-		pluginName     = [name     copy];
-		pluginAuthor   = [author   copy];
-		pluginVersion  = [version  copy];
-		pluginPathname = [pathname copy];
-		prefDomain     = nil;
+		self.name = name;
+		self.author = author;
+		self.version = version;
+		self.pathname = pathname;
+		self.prefDomain = nil;
 	}
 	return self;
 }
@@ -38,7 +47,7 @@
 					 pathname:[bundle bundlePath]];
 	if (self) {
 		[self setDescription:[infoDict objectForKey:@"GrowlPluginDescription"]];
-		pluginBundle = [bundle retain];
+		self.bundle = bundle;
 	}
 	return self;
 }
@@ -54,47 +63,11 @@
 	[pluginDesc release];
 
 	[pluginBundle release];
-	[pluginPathname release];
+	[pluginPathName release];
 
 	[prefDomain release];
 
 	[super dealloc];
-}
-
-#pragma mark -
-
-- (NSString *) name {
-	return pluginName;
-}
-- (NSString *) author {
-	return pluginAuthor;
-}
-- (NSString *) version {
-	return pluginVersion;
-}
-- (NSString *) pluginDescription {
-	return pluginDesc;
-}
-- (void) setDescription:(NSString *)newDesc {
-	[pluginDesc release];
-	pluginDesc = [newDesc copy];
-}
-
-- (NSBundle *) bundle {
-	return pluginBundle;
-}
-- (NSString *) pathname {
-	return pluginPathname;
-}
-
-#pragma mark -
-
-- (NSString *) prefDomain {
-    return prefDomain;
-}
-
-- (NSPreferencePane *) preferencePane {
-	return preferencePane;
 }
 
 @end
