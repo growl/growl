@@ -35,13 +35,14 @@
 		[settings setValue:[NSNumber numberWithInteger:(cmdKey | shiftKey)] forKey:GTPModifiers];
 		[settings setValue:mDefaultTitleFormat forKey:@"titleString"];
 		[settings setValue:mDefaultMessageFormat forKey:@"descriptionString"];
+		[settings setValue:[NSNumber numberWithBool:NO] forKey:@"notifyInBGOnly"];
 		[self setSettings:settings];
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain:[self settings] forName:GTPBundleIdentifier];
 		
 	}
 	keyCode = [[[self settings] valueForKey:GTPKeyCode] integerValue];
 	modifiers = [[[self settings] valueForKey:GTPModifiers] integerValue];
-	
+						  
 	//configure the hotkey
 	_keyCombo = [[SGKeyCombo alloc] initWithKeyCode:keyCode modifiers:modifiers];
 	SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:GTPBundleIdentifier keyCombo:_keyCombo target:self action:@selector(showCurrentTrack:)] autorelease];
@@ -60,6 +61,29 @@
 	archivePlugin = nil;
 	plugins = [[self loadPlugins] retain];
 	NSLog(@"plugins: %@\n", plugins);
+}
+
+- (void)sendNotification:(id)sender
+{
+#pragma unused(sender)
+	BOOL notifyInBGOnly = [[[[NSUserDefaults standardUserDefaults] persistentDomainForName:GTPBundleIdentifier] valueForKey:@"notifyInBGOnly"] boolValue];
+	NSLog(@"GTP: %d %d", notifyInBGOnly, [self appInBackground]);
+	if((notifyInBGOnly && [self appInBackground]) || !notifyInBGOnly)
+		[self showCurrentTrack:nil];
+}
+
+- (BOOL)appInBackground
+{
+	Boolean result = NO;
+	
+	ProcessSerialNumber frontProcess;
+	ProcessSerialNumber currentProcess;
+	
+	GetFrontProcess(&frontProcess);
+	GetCurrentProcess(&currentProcess);
+	SameProcess(&frontProcess, &currentProcess, &result);
+	
+	return !result;
 }
 
 - (void)showCurrentTrack:(id)sender
@@ -120,7 +144,7 @@
 	NSImage			*iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:ITUNES_APP_NAME];
 	NSDictionary	*regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 								APP_NAME,                        GROWL_APP_NAME,
-								[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
+								[iTunesIcon TIFFRepresentation], GROWL_APP_ICON_DATA,
 								allNotes,                        GROWL_NOTIFICATIONS_ALL,
 								allNotes,                        GROWL_NOTIFICATIONS_DEFAULT,
 								readableNames,					 GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
@@ -145,11 +169,12 @@
 
 - (void)titleStringChanged:(NSString*)newTitle
 {
-	
+#pragma unused(newTitle)
 }
 
 - (void)descriptionStringChanged:(NSString*)newDescription
 {
+#pragma unused(newDescription)
 	
 }
 

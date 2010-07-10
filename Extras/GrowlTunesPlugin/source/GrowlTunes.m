@@ -169,7 +169,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			[notification setVisualPluginData:visualPluginData];
 			[notification setState:(message == kVisualPluginPlayMessage)];
 		
-			[[GTPController sharedInstance] showCurrentTrack:nil];
+			[[GTPController sharedInstance] sendNotification:nil];
 
 			visualPluginData->playing = true;
 			break;

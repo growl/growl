@@ -17,6 +17,13 @@
 @synthesize titleString = _titleString;
 @synthesize descriptionString = _descriptionString;
 
+@synthesize source = _source;
+@synthesize title = _title;
+@synthesize description = _description;
+@synthesize shortcut = _shortcut;
+
+@synthesize backgroundOnly = _backgroundOnly;
+
 - (void)setKeyCombo:(SGKeyCombo*)keyCombo
 {
 	_keyCombo = keyCombo;
@@ -85,6 +92,16 @@
 		[[[GTPController sharedInstance] notification] setDescriptionFormat:description];
 
 	}
+}
+
+- (IBAction)backgroundOnly:(NSButton*)sender
+{
+	NSMutableDictionary *defaults = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:GTPBundleIdentifier] mutableCopy];
+	if(!defaults)
+		defaults = [NSMutableDictionary dictionary];
+	[defaults setValue:[NSNumber numberWithBool:[sender state]] forKey:@"notifyInBGOnly"];
+	[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:GTPBundleIdentifier];
+	
 }
 #pragma mark SRRecorderDelegate
 - (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason

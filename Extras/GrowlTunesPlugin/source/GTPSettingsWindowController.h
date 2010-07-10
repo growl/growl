@@ -21,19 +21,29 @@
 
 @interface GTPSettingsWindowController : NSWindowController 
 {
-	id<GTPSettingsProtocol> _delegate;
+	id<GTPSettingsProtocol>		_delegate;
 	
-	IBOutlet NSTokenField *_source;
-	IBOutlet NSTokenField *_title;
-	NSArray *_titleString;
-	IBOutlet NSTokenField *_description;
-	NSArray *_descriptionString;
-	IBOutlet SRRecorderControl *_shortcut;
-			 SGKeyCombo			*_keyCombo;
+	NSTokenField				*_source;
+	NSTokenField				*_title;
+	NSArray						*_titleString;
+	NSTokenField				*_description;
+	NSArray						*_descriptionString;
+	SRRecorderControl			*_shortcut;
+	SGKeyCombo					*_keyCombo;
+	NSButton					*_backgroundOnly;
 }
 
 @property (assign) id<GTPSettingsProtocol> delegate;
 @property (assign) SGKeyCombo	*keyCombo;
 @property (assign) NSArray *titleString;
 @property (assign) NSArray *descriptionString;
+
+@property (assign) IBOutlet NSTokenField *source;
+@property (assign) IBOutlet NSTokenField *title;
+@property (assign) IBOutlet NSTokenField *description;
+@property (assign) IBOutlet SRRecorderControl *shortcut;
+@property (assign) IBOutlet NSButton *backgroundOnly;
+
+- (IBAction)backgroundOnly:(id)sender;
+
 @end

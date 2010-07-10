@@ -41,6 +41,8 @@
 #pragma mark Plug-ins
 
 - (NSMutableArray *) loadPlugins;
+- (BOOL)appInBackground;
+- (void)sendNotification:(id)sender;
 
 @property (retain) NSMutableDictionary *settings;
 @property (retain) GTPNotification *notification;

@@ -206,7 +206,7 @@
 	[result setValue:[self titleString] forKey:GROWL_NOTIFICATION_TITLE];
 	[result setValue:[self descriptionString] forKey:GROWL_NOTIFICATION_DESCRIPTION];
 	[result setValue:APP_NAME forKey:GROWL_NOTIFICATION_IDENTIFIER];
-	[result setValue:[self artwork] forKey:GROWL_NOTIFICATION_ICON];
+	[result setValue:[self artwork] forKey:GROWL_NOTIFICATION_ICON_DATA];
 	 
 	return result;
 }
