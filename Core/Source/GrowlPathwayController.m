@@ -129,13 +129,24 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 - (void) setServerEnabled:(BOOL)flag {
 	if (serverEnabled != flag) {
 		for (GrowlRemotePathway *remotePathway in remotePathways) {
-			BOOL success = [remotePathway setEnabled:flag];
-			if(!success)
-				[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to %hhi on pathway %@", flag, remotePathway];
+			remotePathway.enabled = flag;
 		}
 
 		serverEnabled = flag;
 	}
+}
+
+- (void) pathwayCouldNotEnable:(GrowlPathway *)pathway {
+	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to YES on pathway %@", pathway];
+
+	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotEnable userInfo:nil];
+	[NSApp presentError:error];
+}
+- (void) pathwayCouldNotDisable:(GrowlPathway *)pathway {
+	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to NO on pathway %@", pathway];
+
+	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotDisable userInfo:nil];
+	[NSApp presentError:error];
 }
 
 #pragma mark -

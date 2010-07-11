@@ -27,12 +27,6 @@
 
 #pragma mark -
 
-- (BOOL) setEnabled:(BOOL)flag {
-	enabled = (flag != NO);
-	return YES;
-}
-- (BOOL) isEnabled {
-	return enabled;
-}
+@synthesize enabled;
 
 @end

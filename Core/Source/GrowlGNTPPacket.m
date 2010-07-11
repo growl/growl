@@ -226,10 +226,10 @@
 		GNTPKey *key = [[[GNTPKey alloc] init] autorelease];
 		
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
-		NSString *encryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
-		if([GNTPKey isSupportedEncryptionAlgorithm:encryptionAlgorithm])
+		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
+		if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
 		{
-			[key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:encryptionAlgorithm]]; //this should be None if there is only one item
+			[key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
 			if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
 				[key setIV:[encryptionSubstrings objectAtIndex:1]];
 		}

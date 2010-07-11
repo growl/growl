@@ -103,6 +103,7 @@
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
+		31DF201A11E949460028E4B9 /* GrowlDefinesInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DF201911E949460028E4B9 /* GrowlDefinesInternal.m */; };
 		31E184E0108462F30011C78B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E184DF108462F30011C78B /* SenTestingKit.framework */; };
 		31E184F51084632C0011C78B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282741073A6BD70044A959 /* Cocoa.framework */; };
 		31E18503108463E60011C78B /* TestVersionParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E18502108463E60011C78B /* TestVersionParsing.m */; };
@@ -783,6 +784,7 @@
 		31B9BA5A1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionComparisonBetweenStringsConverting1_0To0_5.h; sourceTree = "<group>"; };
 		31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparisonBetweenStringsConverting1_0To0_5.m; sourceTree = "<group>"; };
 		31C7594A1047202B008547BF /* simple-mailer.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "simple-mailer.py"; path = "external_dependencies/simple-mailer.py"; sourceTree = SOURCE_ROOT; };
+		31DF201911E949460028E4B9 /* GrowlDefinesInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDefinesInternal.m; path = Common/Source/GrowlDefinesInternal.m; sourceTree = "<group>"; };
 		31E184D61084628D0011C78B /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit tests-Info.plist"; sourceTree = "<group>"; };
 		31E184DF108462F30011C78B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -1523,6 +1525,7 @@
 			children = (
 				C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */,
 				34E9AA79074BC98A00D59950 /* GrowlDefinesInternal.h */,
+				31DF201911E949460028E4B9 /* GrowlDefinesInternal.m */,
 				34E9DC16078FBF1B00662E8E /* GrowlDefines.h */,
 				A14BBE0E06EE1D5600530EED /* GrowlDisplayProtocol.h */,
 				32DBCFA20370C41700C91783 /* Growl_Prefix.pch */,
@@ -3374,6 +3377,7 @@
 				938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */,
 				93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */,
 				31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */,
+				31DF201A11E949460028E4B9 /* GrowlDefinesInternal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3931,6 +3935,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GROWLHELPERAPP=1",
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
@@ -4991,6 +4996,7 @@
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "GROWLHELPERAPP=1";
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
@@ -5010,6 +5016,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GROWLHELPERAPP=1",
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);

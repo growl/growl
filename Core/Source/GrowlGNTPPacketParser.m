@@ -65,7 +65,7 @@
 		if (connectionError) {
 			NSLog(@"Failed to connect: %@", connectionError);
 			[(NSString *)[outgoingSocket userData] release];
-			[outgoingSocket setUserData:nil];
+			[outgoingSocket setUserData:(long)nil];
 
 		} else {
 			[packet writeToSocket:outgoingSocket];
@@ -101,7 +101,7 @@
 		
 		/* Retained in sendPacket:toAddress: */
 		[(NSString *)[socket userData] release];
-		[socket setUserData:nil];
+		[socket setUserData:(long)nil];
 	}
 	
 	/* Note: We're tracking a GrowlGNTPPacket, but its specific packet (a GrowlNotificationGNTPPacket or 

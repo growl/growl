@@ -527,4 +527,27 @@ struct GrowlNetworkNotification {
 
 #define CHECK_FOR_UPDATES_NOTIFICATION @"com.growl.checkforupdatesrequested"
 
+#if GROWLHELPERAPP
+extern NSString *const GrowlErrorDomain;
+
+enum {
+	GrowlPluginErrorMinimum = 1000,
+	GrowlPluginErrorMaximum = GrowlPluginErrorMinimum + 999,
+	
+	GrowlDisplayErrorMinimum = GrowlPluginErrorMaximum  + 1,
+	GrowlDisplayErrorMaximum = GrowlDisplayErrorMinimum + 999,
+	
+	GrowlPathwayErrorMinimum = GrowlDisplayErrorMaximum + 1,
+	GrowlPathwayErrorMaximum = GrowlPathwayErrorMinimum + 999,
+};
+
+enum GrowlPathwayErrorCode {
+	//A pathway that can be toggled on or off could not be toggled on.
+	GrowlPathwayErrorCouldNotEnable = GrowlPathwayErrorMinimum,
+	//A pathway that can be toggled on or off could not be toggled off.
+	GrowlPathwayErrorCouldNotDisable,
+};
+
+#endif
+
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H

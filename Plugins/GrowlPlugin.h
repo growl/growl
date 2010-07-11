@@ -61,10 +61,10 @@
 @property (nonatomic, copy) NSString *version;
 
 /*!
- * @method desc
+ * @method pluginDescription
  * @abstract Returns the plugin's description.
  */
-@property (nonatomic, copy, getter=pluginDescription, setter=setDescription:) NSString *desc;
+@property (nonatomic, copy) NSString *pluginDescription;
 
 /*!
  * @method bundle

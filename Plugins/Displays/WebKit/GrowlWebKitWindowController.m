@@ -42,6 +42,10 @@
 - (NSString *)base64Encoding;
 @end
 
+@interface GrowlWebKitWindowController ()
+- (void) viewIsReady:(GrowlWebKitWindowView *)view;
+@end
+
 @implementation GrowlWebKitWindowController
 
 #define GrowlWebKitDurationPrefDefault				5.0
