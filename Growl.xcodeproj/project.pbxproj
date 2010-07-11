@@ -100,6 +100,7 @@
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		31436E1C11E52565003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31436E8211E59D6B003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
+		3153141B11EA189B00DD24C4 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
@@ -3157,6 +3158,7 @@
 				34725B200C0678B500499F50 /* CFMutableDictionaryAdditions.c in Sources */,
 				34725B210C0678B500499F50 /* CFDictionaryAdditions.c in Sources */,
 				34725B220C0678B500499F50 /* GrowlImageAdditions.m in Sources */,
+				3153141B11EA189B00DD24C4 /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
