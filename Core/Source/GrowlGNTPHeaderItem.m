@@ -63,7 +63,7 @@
 #define HEADER_DELIMITER_LENGTH 2
 #define CRLF_LENGTH 2
 		
-		int endOfHeaderName = [headerLine rangeOfString:HEADER_DELIMITER options:NSLiteralSearch].location;
+		NSInteger endOfHeaderName = [headerLine rangeOfString:HEADER_DELIMITER options:NSLiteralSearch].location;
 		if (endOfHeaderName == NSNotFound) {
 			/* Malformed header; no "name: value" setup */
 			if (outError)
