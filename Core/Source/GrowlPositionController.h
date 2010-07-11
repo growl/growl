@@ -36,7 +36,7 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  * GrowlDisplayWindowController takes care for it, but it does require the display plugin to relocate the notification, and display it again.
  */
 @interface GrowlPositionController : GrowlAbstractSingletonObject {
-	int selectedPositionType;
+	NSInteger selectedPositionType;
 	enum GrowlPositionOrigin selectedCustomPosition;
 	CFMutableDictionaryRef	reservedRects;
 	

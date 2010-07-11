@@ -284,7 +284,7 @@
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
 	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
-	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInt:positionType];
+	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInteger:positionType];
 	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInt:selectedCustomPosition];
 	NSData *theIconData = iconData;
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
