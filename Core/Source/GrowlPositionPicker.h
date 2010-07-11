@@ -20,9 +20,9 @@ extern NSString *GrowlPositionPickerChangedSelectionNotification;
 extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSView {	
-	enum GrowlPositionOrigin	selectedPosition;
-	enum GrowlPositionOrigin	lastPosition;
-	enum GrowlPositionOrigin	rolloverPosition;
+	NSUInteger					selectedPosition;
+	NSUInteger					lastPosition;
+	NSUInteger					rolloverPosition;
 	unsigned					trackingRectTag;
 	BOOL						mouseOverView;
 	BOOL						windowWatchesMouseMovedEvents;
@@ -32,5 +32,5 @@ extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 	NSBezierPath				*bottomLeftHotCorner;
 }
 
-@property (nonatomic, assign) enum GrowlPositionOrigin selectedPosition;
+@property (nonatomic, assign) NSUInteger selectedPosition;
 @end

@@ -133,7 +133,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		return;
 	
 	// did the mouse hit any of the hotcorners...?
-	enum GrowlPositionOrigin lastHit = rolloverPosition;
+	NSUInteger lastHit = rolloverPosition;
 	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if ([topLeftHotCorner containsPoint:mouseLoc]) {
 		rolloverPosition = GrowlTopLeftCorner;
@@ -154,7 +154,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	// did the mouse hit any of the hotcorners...?
-	enum GrowlPositionOrigin lastHit = selectedPosition;
+	NSUInteger lastHit = selectedPosition;
 	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if ([topLeftHotCorner containsPoint:mouseLoc]) {
 		[self setSelectedPosition:GrowlTopLeftCorner];
