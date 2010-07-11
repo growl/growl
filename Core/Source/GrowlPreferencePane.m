@@ -665,11 +665,13 @@
 	
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
 		NSPopUpButton *popUp = (NSPopUpButton *)sender;
-		if (sender == displayMenuButton || sender == notificationDisplayMenuButton)
-			pluginName = [[popUp selectedItem] representedObject];
+		id representedObject = [[popUp selectedItem] representedObject];
+		if ([representedObject isKindOfClass:[NSDictionary class]])
+			pluginToUse = representedObject;
+		else if ([representedObject isKindOfClass:[NSString class]])
+			pluginName = representedObject;
 		else
-#warning This does not work if the popup button is not using the exact same order as displayPluginsArrayController - a default or separator item breaks it
-			pluginToUse = [[displayPluginsArrayController content] objectAtIndex:[popUp indexOfSelectedItem]];
+			NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
 	}
 
 	if (!pluginName)
