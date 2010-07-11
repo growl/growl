@@ -11,7 +11,7 @@
 #import "GrowlGNTPBinaryChunk.h"
 #import "GrowlDefines.h"
 #import "GrowlImageAdditions.h"
-#import "NSCalendarDate+ISO8601Unparsing.h"
+#import "ISO8601DateFormatter.h"
 
 @implementation GrowlNotificationGNTPPacket
 
@@ -345,11 +345,14 @@
 
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
+	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	NSString *nowAsISO8601 = [formatter stringFromDate:[NSDate date]];
+
 	NSMutableArray *headersForCallbackResult = [[[self headersForResult] mutableCopy] autorelease];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackResult
 																		  value:(wasClicked ? GrowlGNTPCallbackClicked : GrowlGNTPCallbackClosed)]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackTimestamp
-																		  value:[[NSCalendarDate date] ISO8601DateString]]];
+																		  value:nowAsISO8601]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContext value:[self callbackContext]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContextType value:[self callbackContextType]]];
 	[headersForCallbackResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPApplicationNameHeader value:[self applicationName]]];
@@ -363,6 +366,9 @@
 
 - (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked
 {
+	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	NSString *nowAsISO8601 = [formatter stringFromDate:[NSDate date]];
+
 	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
 	[request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -370,7 +376,7 @@
 	NSMutableString *responsePost = [NSMutableString string];
 	[responsePost appendFormat:@"%@=%@", GrowlGNTPNotificationID, [self identifier]];
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackResult, (wasClicked ? GrowlGNTPCallbackClicked : GrowlGNTPCallbackClosed)];
-	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackTimestamp, [[NSCalendarDate date] ISO8601DateString]];
+	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackTimestamp, nowAsISO8601];
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackContextType, [self callbackContextType]];
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPNotificationCallbackContext, [self callbackContext]];
 	[responsePost appendFormat:@"&%@=%@", GrowlGNTPApplicationNameHeader, [self applicationName]];

@@ -13,7 +13,7 @@
 #import "GrowlCallbackGNTPPacket.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
-#import "NSCalendarDate+ISO8601Unparsing.h"
+#import "ISO8601DateFormatter.h"
 #import "GrowlApplicationAdditions.h"
 #import "GNTPKey.h"
 
@@ -382,11 +382,14 @@
 	}
 	/* New received header */
 	if ([dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]) {
+		ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+		NSString *nowAsISO8601 = [formatter stringFromDate:[NSDate date]];
+
 		/* Received: From <hostname> by <hostname> [with Growl] [id <identifier>]; <ISO 8601 date> */
 		NSString *nextReceived = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
 					[dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY], hostName, 
 					([dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID] ? [NSString stringWithFormat:@" id %@", [dict valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]] : @""),
-					[[NSCalendarDate date] ISO8601DateString]];
+					nowAsISO8601];
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Received" value:nextReceived]];
 	}

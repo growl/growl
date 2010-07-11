@@ -104,6 +104,7 @@
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
 		31DF201A11E949460028E4B9 /* GrowlDefinesInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DF201911E949460028E4B9 /* GrowlDefinesInternal.m */; };
+		31DF220411E987AD0028E4B9 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DF220311E987AD0028E4B9 /* ISO8601DateFormatter.m */; };
 		31E184E0108462F30011C78B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E184DF108462F30011C78B /* SenTestingKit.framework */; };
 		31E184F51084632C0011C78B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282741073A6BD70044A959 /* Cocoa.framework */; };
 		31E18503108463E60011C78B /* TestVersionParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E18502108463E60011C78B /* TestVersionParsing.m */; };
@@ -151,7 +152,6 @@
 		348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */; };
 		348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
-		34A269080EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */; };
 		34A269AD0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A269AC0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m */; };
 		34A43BF80EB9FFA800809538 /* GrowlGNTPPacketParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */; };
 		34A43BF90EB9FFAD00809538 /* GrowlGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 349908A60E7317150073B675 /* GrowlGNTPPacket.m */; };
@@ -785,6 +785,8 @@
 		31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparisonBetweenStringsConverting1_0To0_5.m; sourceTree = "<group>"; };
 		31C7594A1047202B008547BF /* simple-mailer.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "simple-mailer.py"; path = "external_dependencies/simple-mailer.py"; sourceTree = SOURCE_ROOT; };
 		31DF201911E949460028E4B9 /* GrowlDefinesInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDefinesInternal.m; path = Common/Source/GrowlDefinesInternal.m; sourceTree = "<group>"; };
+		31DF220211E987AD0028E4B9 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISO8601DateFormatter.h; path = external_dependencies/iso8601parser/ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		31DF220311E987AD0028E4B9 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISO8601DateFormatter.m; path = external_dependencies/iso8601parser/ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		31E184D61084628D0011C78B /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31E184D71084628D0011C78B /* Unit tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit tests-Info.plist"; sourceTree = "<group>"; };
 		31E184DF108462F30011C78B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -875,8 +877,6 @@
 		34A0931E0C90B0D500A82168 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallationPrompt.xib; sourceTree = "<group>"; };
 		34A093200C90B0DF00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Framework/Resources/sv.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
-		34A269060EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Unparsing.h"; path = "Common/Source/NSCalendarDate+ISO8601Unparsing.h"; sourceTree = "<group>"; };
-		34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Unparsing.m"; path = "Common/Source/NSCalendarDate+ISO8601Unparsing.m"; sourceTree = "<group>"; };
 		34A269AB0EBF308300C66E44 /* GrowlCallbackGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlCallbackGNTPPacket.h; path = Core/Source/GrowlCallbackGNTPPacket.h; sourceTree = "<group>"; };
 		34A269AC0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlCallbackGNTPPacket.m; path = Core/Source/GrowlCallbackGNTPPacket.m; sourceTree = "<group>"; };
 		34A441140EBA679900809538 /* GrowlGNTPOutgoingPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPOutgoingPacket.h; path = Core/Source/GrowlGNTPOutgoingPacket.h; sourceTree = "<group>"; };
@@ -1516,6 +1516,8 @@
 				959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */,
 				31199B9A11E2B0B90024377D /* GrowlProcessUtilities.h */,
 				31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */,
+				31DF220211E987AD0028E4B9 /* ISO8601DateFormatter.h */,
+				31DF220311E987AD0028E4B9 /* ISO8601DateFormatter.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1553,8 +1555,6 @@
 				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
 				07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */,
 				07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */,
-				34A269060EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.h */,
-				34A269070EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m */,
 				34F909330EC1FAAE00566EE6 /* GrowlApplicationAdditions.h */,
 				34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */,
 			);
@@ -3368,7 +3368,6 @@
 				34A43BFC0EB9FFBA00809538 /* GrowlGNTPHeaderItem.m in Sources */,
 				34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */,
 				34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */,
-				34A269080EBF259600C66E44 /* NSCalendarDate+ISO8601Unparsing.m in Sources */,
 				34A269AD0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m in Sources */,
 				34F909350EC1FAAE00566EE6 /* GrowlApplicationAdditions.m in Sources */,
 				938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */,
@@ -3378,6 +3377,7 @@
 				93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */,
 				31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */,
 				31DF201A11E949460028E4B9 /* GrowlDefinesInternal.m in Sources */,
+				31DF220411E987AD0028E4B9 /* ISO8601DateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
