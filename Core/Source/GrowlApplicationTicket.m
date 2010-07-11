@@ -175,7 +175,7 @@
 		
 		value = getObjectForKey(ticketDict, PositionTypeKey);
 		if (value)
-			positionType = [value intValue];
+			positionType = [value integerValue];
 		else
 			positionType = 0;	
 		
