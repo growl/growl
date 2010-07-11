@@ -192,12 +192,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		//TODO: fix this up so that it uses actual settings
 		for(NSMutableDictionary *entry in destinations)
 		{
-			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry valueForKey:@"uuid"]];
-			if(!key)
-			{
+			id uuid = [entry objectForKey:@"uuid"];
+			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:uuid];
+			if (uuid && !key) {
 				//key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
 				key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
-				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:[entry valueForKey:@"uuid"]];
+				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
 				[key release];
 			}
 		}
