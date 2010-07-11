@@ -96,7 +96,7 @@
 	[tickets         release];
 	[plugins         release];
 	[currentPlugin   release];
-	CFRelease(images);
+	[images          release];
 	[super dealloc];
 }
 
@@ -246,15 +246,15 @@
 
 - (void) cacheImages {
 	if (images)
-		CFArrayRemoveAllValues(images);
+		[images removeAllObjects];
 	else
-		images = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
+		images = [[NSMutableArray alloc] init];
 
 	for(GrowlApplicationTicket *ticket in [ticketsArrayController content]) {
 		NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(32.0, 32.0)];
-		CFArrayAppendValue(images, icon);
+		[images addObject:icon];
 	}
 }
 
@@ -569,7 +569,7 @@
 												 userInfo, false);
 			CFRelease(userInfo);
 			NSUInteger idx = [tickets indexOfObject:ticket];
-			CFArrayRemoveValueAtIndex(images, idx);
+			[images removeObjectAtIndex:idx];
 
 			NSUInteger oldSelectionIndex = [ticketsArrayController selectionIndex];
 
@@ -796,7 +796,7 @@
 	if (aTableColumn == applicationNameAndIconColumn) {
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 		NSUInteger idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
-		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,idx)];
+		[[aTableColumn dataCellForRow:rowIndex] setImage:[images objectAtIndex:idx]];
 	} else if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
 	}

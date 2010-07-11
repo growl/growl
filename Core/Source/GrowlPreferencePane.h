@@ -15,7 +15,7 @@
 @interface GrowlPreferencePane : NSPreferencePane {
 	int                             pid;
 
-	CFMutableArrayRef               images;
+	NSMutableArray                  *images;
 	NSMutableArray					*tickets;
 	NSArray							*plugins;
 
