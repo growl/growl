@@ -46,6 +46,10 @@ extern NSString *GrowlPathwayNotificationKey;
 - (BOOL) isServerEnabled;
 - (void) setServerEnabled:(BOOL)enabled;
 
+//Pathways that can be enabled/disabled (e.g., remote pathways) should send the pathway controller these message to report when those actions fail.
+- (void) pathwayCouldNotEnable:(GrowlPathway *)pathway;
+- (void) pathwayCouldNotDisable:(GrowlPathway *)pathway;
+
 #pragma mark Eating plug-ins
 
 //XXX make GrowlPathwayController a plug-in handler
