@@ -181,7 +181,7 @@
 		
 		value = getObjectForKey(ticketDict, GROWL_POSITION_PREFERENCE_KEY);
 		if (value)
-			selectedCustomPosition = [value intValue];
+			selectedCustomPosition = [value integerValue];
 		else
 			selectedCustomPosition = 0;				
 
@@ -285,7 +285,7 @@
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
 	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
 	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInteger:positionType];
-	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInt:selectedCustomPosition];
+	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInteger:selectedCustomPosition];
 	NSData *theIconData = iconData;
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,						GROWL_APP_NAME,
