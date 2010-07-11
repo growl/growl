@@ -395,6 +395,17 @@
 			return;
 		changed = YES;
 
+		//Test that this data is valid. If it isn't, set the data to nil instead.
+		BOOL isValidData = NO;
+		for (Class imageRepClass in [NSImageRep registeredImageRepClasses]) {
+			if ([imageRepClass canInitWithData:inIconData]) {
+				isValidData = YES;
+				break;
+			}
+		}
+		if (!isValidData)
+			inIconData = nil;
+
 		[iconData release];
 		iconData = [inIconData retain];
 		[icon release]; icon = nil;
