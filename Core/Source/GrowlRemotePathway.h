@@ -14,8 +14,7 @@
  *	then (and only then), your pathway should start listening.
  */
 @interface GrowlRemotePathway: GrowlPathway {
-	unsigned reserved: 31;
-	unsigned enabled: 1;
+	BOOL enabled;
 }
 
 #warning investigate an alternative mechanism for reporting failure to enable the pathway, this violates Cocoa design patterns.
