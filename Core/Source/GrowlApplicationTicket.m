@@ -713,7 +713,7 @@
 - (NSArray *) allowedNotifications {
 	NSMutableArray* allowed = [NSMutableArray array];
 
-	for (GrowlNotificationTicket *obj in allNotifications)
+	for (GrowlNotificationTicket *obj in [allNotifications objectEnumerator])
 		if ([obj enabled])
 			[allowed addObject:[obj name]];
 	return allowed;
