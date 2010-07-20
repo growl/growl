@@ -116,17 +116,13 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 						  NSLocalizedString(@"Interface:\ten0\nMedia:\t%@", "The %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex'"),
 						  media];
 		AppController_linkUp((CFStringRef)desc);
-		
-		if (ethernetStatus)
-			CFRelease(ethernetStatus);
-		ethernetStatus = CFRetain(newValue);
 	} else if (!newActive && oldActive) {
 		AppController_linkDown((CFStringRef)NSLocalizedString(@"Interface:\ten0", nil));
-		
-		if (ethernetStatus)
-			CFRelease(ethernetStatus);
-		ethernetStatus = CFRetain(newValue);
 	}
+
+	if (ethernetStatus)
+		CFRelease(ethernetStatus);
+	ethernetStatus = CFRetain(newValue);
 }
 
 /*
