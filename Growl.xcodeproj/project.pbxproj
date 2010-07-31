@@ -125,9 +125,7 @@
 		3433458D0790E3D600C84B15 /* Bezel.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0AB508B40767C87B006EA5CB /* Bezel.growlView */; };
 		3433502B0792769000C84B15 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
 		343350E00792769900C84B15 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
-		343354B30792F84B00C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		343354E50792FAFE00C84B15 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34422F700BF3ED2E001DA9ED /* GrowlApplication.m */; };
 		344EA4200CA857F70035CB69 /* NSFileManager+Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 344EA41E0CA857F70035CB69 /* NSFileManager+Authentication.h */; };
 		344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */; };
@@ -146,7 +144,6 @@
 		34725B210C0678B500499F50 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		34725B220C0678B500499F50 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		34725DA30C0678C200499F50 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
-		34725DA40C0678C200499F50 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		34725DA50C0678C200499F50 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		34725DA60C0678C200499F50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
@@ -360,7 +357,6 @@
 		A1CC412809E37A65009EF9BD /* closebox.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412609E37A65009EF9BD /* closebox.png */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
-		C4C58A0C0C9E3C7100F71519 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
 		CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
@@ -1338,7 +1334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				34725DA30C0678C200499F50 /* ApplicationServices.framework in Frameworks */,
-				34725DA40C0678C200499F50 /* Carbon.framework in Frameworks */,
 				34725DA50C0678C200499F50 /* AppKit.framework in Frameworks */,
 				34725DA60C0678C200499F50 /* Foundation.framework in Frameworks */,
 			);
@@ -1349,7 +1344,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				343350E00792769900C84B15 /* ApplicationServices.framework in Frameworks */,
-				343354B30792F84B00C84B15 /* Carbon.framework in Frameworks */,
 				957B5028083D155000F562B8 /* AppKit.framework in Frameworks */,
 				957B5029083D155100F562B8 /* Foundation.framework in Frameworks */,
 			);
@@ -1361,7 +1355,6 @@
 			files = (
 				344EA5EF0CA85B110035CB69 /* Security.framework in Frameworks */,
 				3433502B0792769000C84B15 /* ApplicationServices.framework in Frameworks */,
-				343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */,
 				957B502A083D155600F562B8 /* AppKit.framework in Frameworks */,
 				957B502B083D155900F562B8 /* Foundation.framework in Frameworks */,
 			);
@@ -1377,7 +1370,6 @@
 				83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */,
 				957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */,
 				957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */,
-				C4C58A0C0C9E3C7100F71519 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

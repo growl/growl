@@ -657,7 +657,7 @@
 
 // Popup buttons that post preview notifications support suppressing the preview with the Option key
 - (IBAction) showPreview:(id)sender {
-	if(([sender isKindOfClass:[NSPopUpButton class]]) && (GetCurrentKeyModifiers() & optionKey))
+	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
 	NSDictionary *pluginToUse = currentPlugin;
