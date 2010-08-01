@@ -24,11 +24,6 @@
 
 @synthesize backgroundOnly = _backgroundOnly;
 
-- (void)setKeyCombo:(SGKeyCombo*)keyCombo
-{
-	_keyCombo = keyCombo;
-}
-
 - (void)windowDidLoad
 {
 	KeyCombo combo = {SRCarbonToCocoaFlags(_keyCombo.modifiers), _keyCombo.keyCode};

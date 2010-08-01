@@ -43,6 +43,7 @@
 - (NSMutableArray *) loadPlugins;
 - (BOOL)appInBackground;
 - (void)sendNotification:(id)sender;
+- (NSData*)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album composedBy:(NSString*)composer isCompilation:(BOOL)compilation;
 
 @property (retain) NSMutableDictionary *settings;
 @property (retain) GTPNotification *notification;

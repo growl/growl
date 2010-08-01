@@ -140,15 +140,15 @@
 	
 	err = PlayerGetCurrentTrackCoverArt(data->appCookie, data->appProc, &coverArt, &format);
 	if((err == noErr) && coverArt)
-		[self setArtwork:[NSData dataWithBytes:*coverArt length:GetHandleSize(coverArt)]];
+		self.artwork = [NSData dataWithBytes:*coverArt length:GetHandleSize(coverArt)];
 	else
-		[[GTPController sharedInstance] artworkForTitle:[self title] byArtist:[self artist] onAlbum:[self album] composedBy:[self composer] isCompilation:[self compilation]];
+		self.artwork = [(GTPController*)[GTPController sharedInstance] artworkForTitle:[self title] byArtist:[self artist] onAlbum:[self album] composedBy:[self composer] isCompilation:[self compilation]];
 		 
-		 if(![self artwork])
-		 [self setArtwork:[[[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"] TIFFRepresentation]];
+	if(!self.artwork)
+		self.artwork = [[[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"] TIFFRepresentation];
 		 
-		 if (coverArt)
-		 DisposeHandle(coverArt);
+	if (coverArt)
+		DisposeHandle(coverArt);
 		 
 }
 
