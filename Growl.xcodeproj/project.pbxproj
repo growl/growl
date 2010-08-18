@@ -210,6 +210,7 @@
 		933818901052ACF70014C550 /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
 		933819021052AD7F0014C550 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933819011052AD7F0014C550 /* MainMenu.xib */; };
 		9338191D1052AE170014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
+		93491549121B7DC8005A822B /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
@@ -2314,6 +2315,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93491549121B7DC8005A822B /* CFGrowlDefines.h in Headers */,
 				34F60EBC078E1D3E00CECA86 /* GrowlApplicationBridge.h in Headers */,
 				34F60EC3078E1D5600CECA86 /* Growl.h in Headers */,
 				34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */,
