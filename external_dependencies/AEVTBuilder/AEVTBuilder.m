@@ -296,7 +296,7 @@ id STRING			= nil;
 - (NSAppleEventDescriptor *)sendWithImmediateReplyWithTimeout:(NSTimeInterval)timeoutInSeconds
 {
 	AppleEvent reply;
-	OSStatus err = AESendMessage([self aeDesc], &reply, kAEWaitReply, (timeoutInSeconds * 60.0));
+	OSStatus err = AESendMessage([self aeDesc], &reply, kAEWaitReply, (long)(timeoutInSeconds * 60.0));
 	NSAppleEventDescriptor *replyDescriptor = nil;
 	
 	if(err == noErr)
