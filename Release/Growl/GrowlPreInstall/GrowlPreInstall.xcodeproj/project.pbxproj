@@ -34,8 +34,8 @@
 		31A4F36A0DFF542600015999 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* GrowlPreInstall_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlPreInstall_Prefix.pch; sourceTree = "<group>"; };
 		34A96CE10C95E2A700F46006 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		34A96CF20C95E6F800F46006 /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEVTBuilder.h; sourceTree = "<group>"; };
-		34A96CF30C95E6F800F46006 /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEVTBuilder.m; sourceTree = "<group>"; };
+		34A96CF20C95E6F800F46006 /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVTBuilder.h; path = ../../../external_dependencies/AEVTBuilder/AEVTBuilder.h; sourceTree = "<group>"; };
+		34A96CF30C95E6F800F46006 /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = ../../../external_dependencies/AEVTBuilder/AEVTBuilder.m; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* GrowlPreInstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GrowlPreInstall; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6859EA3029092ED04C91782 /* GrowlPostInstall.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GrowlPostInstall.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */

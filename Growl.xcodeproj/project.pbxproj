@@ -865,8 +865,8 @@
 		347935930C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347935940C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		347935950C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = StatusItem/Resources/nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = Framework/Source/AEVTBuilder.m; sourceTree = "<group>"; };
-		348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVTBuilder.h; path = Framework/Source/AEVTBuilder.h; sourceTree = "<group>"; };
+		348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = external_dependencies/AEVTBuilder/AEVTBuilder.m; sourceTree = "<group>"; };
+		348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVTBuilder.h; path = external_dependencies/AEVTBuilder/AEVTBuilder.h; sourceTree = "<group>"; };
 		349908A50E7317150073B675 /* GrowlGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPPacket.h; path = Core/Source/GrowlGNTPPacket.h; sourceTree = "<group>"; };
 		349908A60E7317150073B675 /* GrowlGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPPacket.m; path = Core/Source/GrowlGNTPPacket.m; sourceTree = "<group>"; };
 		349B3FA10A620F1F008BE092 /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.xml; name = pl; path = Framework/Resources/pl.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
@@ -1849,6 +1849,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		31440E73122D83AF00F51BA0 /* AEVTBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
+				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
+			);
+			name = AEVTBuilder;
+			sourceTree = "<group>";
+		};
 		31E184BB1084625C0011C78B /* Unit tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1878,8 +1887,6 @@
 				34E9EFB40790926400662E8E /* GrowlInstallationPrompt.m */,
 				9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */,
 				952EFC9007C2869700952C6B /* GrowlInstallationPrompt.xib */,
-				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
-				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
 				344EA41E0CA857F70035CB69 /* NSFileManager+Authentication.h */,
 				344EA41F0CA857F70035CB69 /* NSFileManager+Authentication.m */,
 				31E194EB10C0D38000B48C1C /* GrowlVersionCheck.h */,
@@ -1975,6 +1982,7 @@
 			children = (
 				933816811050BA850014C550 /* dsa_pub.pem */,
 				93254758104E13B700130D3B /* Sparkle.xcodeproj */,
+				31440E73122D83AF00F51BA0 /* AEVTBuilder */,
 			);
 			name = external_dependencies;
 			sourceTree = "<group>";
