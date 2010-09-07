@@ -27,6 +27,7 @@
 #define AIRPORT_DISCONNECTED 1
 
 static CFDictionaryRef airportStatus;
+static CFDictionaryRef ethernetStatus;
 
 /** A reference to the SystemConfiguration dynamic store. */
 static SCDynamicStoreRef dynStore;
@@ -106,16 +107,22 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 }
 
 - (void)linkStatusChange:(NSDictionary *)newValue {
-	int active = [[newValue objectForKey:@"Active"] intValue];
+	int newActive = [[newValue objectForKey:@"Active"] intValue];
+	int oldActive = [[(NSDictionary*)ethernetStatus objectForKey:@"Active"] intValue];
 	
-	if (active) {
+	if (newActive && !oldActive) {
 		NSString *media = [self getMediaForInterface:"en0"];
 		NSString *desc = [NSString stringWithFormat:
 						  NSLocalizedString(@"Interface:\ten0\nMedia:\t%@", "The %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex'"),
 						  media];
 		AppController_linkUp((CFStringRef)desc);
-	} else
+	} else if (!newActive && oldActive) {
 		AppController_linkDown((CFStringRef)NSLocalizedString(@"Interface:\ten0", nil));
+	}
+
+	if (ethernetStatus)
+		CFRelease(ethernetStatus);
+	ethernetStatus = newValue ? CFRetain(newValue) : NULL;
 }
 
 /*
@@ -301,8 +308,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
 	CFRelease(rlSrc);
 	
-	airportStatus = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface/en1/AirPort"));
-	
+	airportStatus  = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface/en1/AirPort"));
+	ethernetStatus = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface/en0/Link"));
 	return self;
 }
 
@@ -313,6 +320,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		CFRelease(dynStore);
 	if (airportStatus)
 		CFRelease(airportStatus);
+	if (ethernetStatus)
+		CFRelease(ethernetStatus);
 	
 	[super dealloc];
 }

@@ -100,6 +100,9 @@
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
 		31436E1C11E52565003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31436E8211E59D6B003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
+		31440EB2122D934700F51BA0 /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		31440EB3122D934D00F51BA0 /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		31440F44122E080200F51BA0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		3153141B11EA189B00DD24C4 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
@@ -2324,6 +2327,7 @@
 			files = (
 				34F60EBC078E1D3E00CECA86 /* GrowlApplicationBridge.h in Headers */,
 				34F60EC3078E1D5600CECA86 /* Growl.h in Headers */,
+				31440EB3122D934D00F51BA0 /* CFGrowlDefines.h in Headers */,
 				34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */,
 				C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */,
 				31199B9C11E2B0B90024377D /* GrowlProcessUtilities.h in Headers */,
@@ -2335,6 +2339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34E9EE67079086E200662E8E /* GrowlApplicationBridge.h in Headers */,
+				31440EB2122D934700F51BA0 /* CFGrowlDefines.h in Headers */,
 				34E9EE69079086F000662E8E /* GrowlDefines.h in Headers */,
 				343354E50792FAFE00C84B15 /* Growl.h in Headers */,
 				348FEDFE0C9D019900A5B99E /* AEVTBuilder.h in Headers */,
@@ -3195,6 +3200,7 @@
 				348FEDFD0C9D019900A5B99E /* AEVTBuilder.m in Sources */,
 				344EA4210CA857F70035CB69 /* NSFileManager+Authentication.m in Sources */,
 				31E194EE10C0D38000B48C1C /* GrowlVersionCheck.c in Sources */,
+				31440F44122E080200F51BA0 /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
