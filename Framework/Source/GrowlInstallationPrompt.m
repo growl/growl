@@ -370,6 +370,7 @@
 	NSString *archivePath, *tmpDir;
 	NSTask	*unzip;
 	BOOL success = NO;
+	NSString *failureReason = nil;
 
 	bundle = [NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
@@ -448,7 +449,7 @@
 				ENDCATCH
 				[unzip release];
 			} else {
-				NSLog(@"GrowlInstallationPrompt: Could not find /System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper or /usr/bin/unzip");
+				failureReason = NSLocalizedString(@"Could not find a suitable tool with which to extract the Growl archive.", /*comment*/ nil);
 			}
 
 			if (success) {
@@ -495,16 +496,18 @@
 				//Install immediately. This method will be responsible for further upgrade logic.
 				success = [self continuePerformInstallGrowl:nil];
 			} else {
-				NSLog(@"GrowlInstallationPrompt: unzip with %@ failed", launchPath);
+				failureReason = [NSString stringWithFormat:NSLocalizedString(@"Could not run the extraction tool at %@.", /*comment*/ nil), launchPath];
 			}
 		}
 	} else {
-		NSLog(@"GrowlInstallationPrompt: Could not get a temporary directory");	
+		failureReason = NSLocalizedString(@"Could not get a temporary directory in which to extract the Growl archive.", /*comment*/ nil);	
 	}
 
 	if (!success) {
-#warning XXX - show this to the user; do not just log it.
-		NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
+		NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+			NSLocalizedString(@"Growl was not successfully installed.", /*comment*/ nil), NSLocalizedDescriptionKey, 
+			nil]];
+		[NSApp presentError:error];
 	}
 }
 
