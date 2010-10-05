@@ -12,7 +12,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class GrowlNotificationCenter, GrowlTicketController;
+@class GrowlNotificationCenter, GrowlTicketController, GrowlNotificationHistoryWindow;
 
 typedef enum {
 	GrowlNotificationResultPosted,
@@ -42,6 +42,10 @@ typedef enum {
 	CFRunLoopTimerRef			updateTimer;
 	
 	NSThread					*mainThread;
+   
+   NSDate               *awayDate;
+   NSDate               *returnDate;
+   GrowlNotificationHistoryWindow *historyWindow;
 }
 
 + (GrowlApplicationController *) sharedController;

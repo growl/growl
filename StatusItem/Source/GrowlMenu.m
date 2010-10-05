@@ -9,6 +9,8 @@
 #import "GrowlMenu.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlNotificationDatabase.h"
+#import "GrowlHistoryNotification.h"
 #include <unistd.h>
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
@@ -25,6 +27,9 @@
 #define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
 #define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
 #define kStickyWhenAwayMenuTooltip   NSLocalizedString(@"Toggles the sticky notification state", @"")
+#define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
+#define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@%\nTitle: %@\nDescription: %@\nClick to open the log", @"")
+#define kGrowlHistoryLogDisabled     NSLocalizedString(@"Growl History Disabled", @"")
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -73,6 +78,8 @@ int main(void) {
 		   selector:@selector(reloadPrefs:)
 			   name:GrowlPreferencesChanged
 			 object:nil];
+   
+   [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
 }
 
 #pragma mark -
@@ -108,6 +115,63 @@ int main(void) {
 	if (!pidValue || [pidValue intValue] != pid)
 		[self setImage];
 	[pool release];
+}
+
+-(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase *)database
+{
+   //We don't need to do anything because we don't retain references to any ManagedObjects
+   return NO;
+}
+
+-(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)database
+{
+   NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
+   NSArray *menuItems = [[statusItem menu] itemArray];
+   
+   unsigned int menuIndex = 8;
+   if([noteArray count] > 0)
+   {
+      for(id note in noteArray)
+      {
+         NSString *tooltip = [NSString stringWithFormat:kOpenGrowlLogTooltip, [note ApplicationName], [note Title], [note Description]];
+         //Do we presently have a menu item for this note? if so, change it, if not, add a new one
+         if(menuIndex < [menuItems count])
+         {
+            [[menuItems objectAtIndex:menuIndex] setTitle:[note Title]];
+            [[menuItems objectAtIndex:menuIndex] setToolTip:tooltip];
+            [[statusItem menu] itemChanged:[menuItems objectAtIndex:menuIndex]];
+         }else {
+            NSMenuItem *tempMenuItem = (NSMenuItem *)[[statusItem menu] addItemWithTitle:[note Title] action:@selector(openGrowlLog:) keyEquivalent:@""];
+            [tempMenuItem setTarget:self];
+            [tempMenuItem setToolTip:tooltip];
+            [[statusItem menu] itemChanged:tempMenuItem];
+         }
+         menuIndex++;
+      }
+      //Did we not get back 5? remove any extra listings
+      if ([noteArray count] < 5) {
+         unsigned int toRemove = 0;
+         for(toRemove = 0; toRemove < 5 - [noteArray count]; toRemove++)
+         {
+            [[statusItem menu] removeItemAtIndex:menuIndex];
+         }
+      }
+   }else {
+      if ([preferences isGrowlHistoryLogEnabled])
+         [[menuItems objectAtIndex:menuIndex] setTitle:kNoRecentNotifications];
+      else
+         [[menuItems objectAtIndex:menuIndex] setTitle:kGrowlHistoryLogDisabled];
+      [[menuItems objectAtIndex:menuIndex] setToolTip:@""];
+      [[menuItems objectAtIndex:menuIndex] setTarget:self];
+      
+      //Make sure there arent extra items at the moment since we don't seem to have any
+      unsigned int toRemove = 0;
+      for(toRemove = 0; toRemove < 4; toRemove++)
+      {
+         [[statusItem menu] removeItemAtIndex:toRemove + 9];
+      }
+   }
+
 }
 
 - (void) openGrowlPreferences:(id)sender {
@@ -151,6 +215,11 @@ int main(void) {
 		[statusItem setImage:clawImage];
 		[statusItem setAlternateImage:clawHighlightImage];
 	}
+}
+
+-(void)openGrowlLog:(id)sender
+{
+   //TODO: Make this open the pref pane, to the right tab somehow
 }
 
 - (NSMenu *) createMenu {
@@ -200,6 +269,37 @@ int main(void) {
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowlPreferences:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kOpenGrowlPreferencesTooltip];
+   
+	[m addItem:[NSMenuItem separatorItem]];
+   /*TODO: need to check against prefferences whether we are logging or not*/
+   NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
+   if([noteArray count] > 0)
+   {
+      unsigned int tag = 8;
+      for(id note in noteArray)
+      {
+         tempMenuItem = (NSMenuItem *)[m addItemWithTitle:[note Title] 
+                                                   action:@selector(openGrowlLog:)
+                                            keyEquivalent:@""];
+         [tempMenuItem setTarget:self];
+         [tempMenuItem setToolTip:[NSString stringWithFormat:kOpenGrowlLogTooltip, [note ApplicationName], [note Title], [note Description]]];
+         [tempMenuItem setTag:tag];
+         tag++;
+      }
+   }else {
+      NSString *tempString;
+      if ([preferences isGrowlHistoryLogEnabled])
+         tempString = kNoRecentNotifications;
+      else
+         tempString = kGrowlHistoryLogDisabled;
+      tempMenuItem = (NSMenuItem *)[m addItemWithTitle:tempString 
+                                                action:@selector(openGrowlLog:)
+                                         keyEquivalent:@""];
+      [tempMenuItem setTarget:self];
+      [tempMenuItem setEnabled:NO];
+      [tempMenuItem setTag:8];
+   }
+
 
 	return [m autorelease];
 }
@@ -223,6 +323,9 @@ int main(void) {
 		case 6:
 			[item setState:[preferences stickyWhenAway]];
 			break;
+      case 8:
+         return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
+         break;
 	}
 	return YES;
 }

@@ -358,6 +358,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setIdleThreshold:(NSNumber*)value {
 	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
 }
+
+
 #pragma mark Status Item
 
 - (BOOL) isGrowlMenuEnabled {
@@ -390,6 +392,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
 	[self setBool:enabled forKey:GrowlStartServerKey];
+}
+
+- (BOOL) isGrowlHistoryLogEnabled
+{
+   return [self boolForKey:GrowlHistoryLogEnabled];
+}
+
+- (void) setGrowlHistoryLogEnabled:(BOOL)flag
+{
+   [self setBool:flag forKey:GrowlHistoryLogEnabled];
 }
 
 #pragma mark Remote Growling

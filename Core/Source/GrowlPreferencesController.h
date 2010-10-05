@@ -39,6 +39,7 @@
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
 #define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
+#define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -97,6 +98,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSNumber*) idleThreshold;
 - (void) setIdleThreshold:(NSNumber*)value;
+
+- (BOOL) isGrowlHistoryLogEnabled;
+- (void) setGrowlHistoryLogEnabled:(BOOL)flag;
 
 #pragma mark GrowlMenu methods
 

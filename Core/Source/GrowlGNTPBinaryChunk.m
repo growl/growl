@@ -8,7 +8,7 @@
 
 #import "GrowlGNTPBinaryChunk.h"
 #import "AsyncSocket.h"
-#include <openssl/md5.h>
+#import <openssl/md5.h>
 
 @interface  GrowlGNTPBinaryChunk (PRIVATE)
 - (id)initWithData:(NSData *)inData identifier:(NSString *)inIdentifier;

@@ -9,10 +9,11 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlDefinesInternal.h"	// for NSInteger/NSUInteger
+#import "GrowlAbstractDatabase.h"
 
-@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin, GrowlPositionPicker;
+@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
 
-@interface GrowlPreferencePane : NSPreferencePane {
+@interface GrowlPreferencePane : NSPreferencePane <GrowlDatabaseUpdateDelegate> {
 	int                             pid;
 
 	NSMutableArray                  *images;
@@ -37,6 +38,7 @@
 	 */
 	GrowlPluginController			*pluginController;
 	GrowlPreferencesController		*preferencesController;
+   GrowlNotificationDatabase     *historyController;
 
 	//"General" tab pane
 	IBOutlet NSButton				*startStopGrowl;
@@ -82,6 +84,10 @@
 	//About box tab pane
 	IBOutlet NSTextField			*aboutVersionString;
 	IBOutlet NSTextView				*aboutBoxTextView;
+   
+   //History tab pane
+   IBOutlet NSArrayController *historyArrayController;
+   IBOutlet NSTableView       *historyTable;
 }
 
 - (NSString *) bundleVersion;
@@ -96,6 +102,7 @@
 
 - (GrowlPluginController *) pluginController;
 - (GrowlPreferencesController *) preferencesController;
+- (GrowlNotificationDatabase *) historyController;
 
 #pragma mark "Applications" tab pane
 - (BOOL) canRemoveTicket;
