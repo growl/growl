@@ -28,5 +28,7 @@
 	<integer>30</integer>
 	<key>GrowlSelectedPosition</key>
 	<integer>3</integer>
+	<key>GrowlHistoryLogEnabled</key>
+	<true/>
 </dict>
 </plist>

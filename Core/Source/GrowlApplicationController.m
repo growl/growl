@@ -14,6 +14,10 @@
 #import "GrowlApplicationNotification.h"
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
+#import "GrowlNotificationDatabase.h"
+#import "GrowlNotificationDatabase+GHAAdditions.h"
+#import "GrowlNotificationHistoryWindow.h"
+#import "GrowlHistoryNotification.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -58,8 +62,10 @@
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
 //Notifications posted by GrowlApplicationController
-#define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
-#define USER_RETURNED_NOTIFICATION		@"User returned"
+#define USER_WENT_IDLE_NOTIFICATION       @"User went idle"
+#define USER_RETURNED_NOTIFICATION        @"User returned"
+#define HISTORY_IDENTIFIER                @"HISTORY_NOTIFICATION_IDENTIFIER"
+#define HISTORY_CLICK_CONTEXT             @"HISTORY_CLICK_CONTEXT"
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
@@ -239,6 +245,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
+      
 	}
 
 	return self;
@@ -246,9 +253,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) idleStatus:(NSNotification *)notification {
 	if ([[notification object] isEqualToString:@"Idle"]) {
+      if(awayDate)
+         [awayDate release];
+      awayDate = [[NSDate date] retain];
+      
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		int idleThreshold;
 		NSNumber *value = [preferences objectForKey:@"IdleThreshold"];
+      [awayDate addTimeInterval:-([value intValue])];
 		NSString *description;
 
 		idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
@@ -265,6 +277,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 								   clickContext:nil
 									 identifier:nil];
 	} else {
+      if(returnDate)
+         [returnDate release];
+      returnDate = [[NSDate date] retain];
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
 									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
 							   notificationName:USER_RETURNED_NOTIFICATION
@@ -664,8 +679,21 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[uuid release];
 		CFRelease(uuidRef);
 	}
+   
+   BOOL displayNotification = YES;
+   GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 
-	if (![preferences squelchMode]) {
+   //determine whether we should be displaying this notification at all
+   if (GrowlIdleStatusController_isIdle()) {
+      //if we are away, and sticky while away is set, we need to check whether it is the history counter
+      if (![[aDict objectForKey:GROWL_APP_NAME] isEqualToString:@"Growl"] || ![[aDict objectForKey:GROWL_NOTIFICATION_NAME] isEqualToString:NOTIFICATION_HISTORY_NOTIFICATION]) {
+         displayNotification = NO;
+      }
+   }
+   if ([preferences squelchMode])
+      displayNotification = NO;
+   
+	if (displayNotification) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
 
 		if (!display)
@@ -697,10 +725,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			}
 			display = defaultDisplayPlugin;
 		}
-
-		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
+      
 		[display displayNotification:appNotification];
-		[appNotification release];
+
 
 		NSString *soundName = [notification sound];
 		if (soundName) {
@@ -722,7 +749,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			}
 		}
 	}
-
+   
+   [appNotification release];
+   [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
+   if(GrowlIdleStatusController_isIdle())
+   {
+      NSUInteger numberOfNotifications = [[GrowlNotificationDatabase sharedInstance] historyCountBetween:awayDate and:[NSDate date]];
+      
+      NSString* description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
+      //Send out the notification, overwriting the previous one
+      [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Notification History:", nil)
+                                  description:description
+                             notificationName:NOTIFICATION_HISTORY_NOTIFICATION
+                                     iconData:nil
+                                     priority:0
+                                     isSticky:YES 
+                                 clickContext:HISTORY_CLICK_CONTEXT
+                                   identifier:HISTORY_IDENTIFIER];
+   }   
+   
 	// send to DO observers
 	[growlNotificationCenter notifyObservers:aDict];
 
@@ -867,8 +912,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext {
-	[self launchSparkleHelper];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
+   if ([clickContext isEqualToString:UPDATE_AVAILABLE_NOTIFICATION]) {
+      [self launchSparkleHelper];
+      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
+   }
+   
+   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT]){
+      if(!historyWindow)
+      {
+         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
+         historyWindow = [window retain];
+         [window release];
+         [historyWindow window];
+      }
+      [historyWindow setAwayDate:awayDate returnDate:returnDate];
+      [historyWindow showWindow:self];
+   }
 }
 
 - (void) growlNotificationTimedOut:(id)clickContext {
@@ -1204,17 +1263,19 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		NSLocalizedString(@"A Growl update is available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"You are now considered idle by Growl", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"You are no longer considered idle by Growl", nil), USER_RETURNED_NOTIFICATION,
+      NSLocalizedString(@"There were notifications while you were away", nil), NOTIFICATION_HISTORY_NOTIFICATION,
 		nil];
 
 	NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:
 		NSLocalizedString(@"Growl update available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"User went idle", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"User returned", nil), USER_RETURNED_NOTIFICATION,
+      NSLocalizedString(@"Notification History", nil), NOTIFICATION_HISTORY_NOTIFICATION,
 		nil];
 	
 	NSDictionary	*growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
-		[NSArray arrayWithObject:UPDATE_AVAILABLE_NOTIFICATION], GROWL_NOTIFICATIONS_DEFAULT,
+		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, NOTIFICATION_HISTORY_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
+		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, NOTIFICATION_HISTORY_NOTIFICATION, nil], GROWL_NOTIFICATIONS_DEFAULT,
 		humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 		descriptions, GROWL_NOTIFICATIONS_DESCRIPTIONS,
 		nil];

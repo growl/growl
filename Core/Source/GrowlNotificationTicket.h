@@ -32,6 +32,7 @@ enum GrowlPriority {
 	enum GrowlPriority       priority;
 	unsigned                 GANReserved: 31;
 	unsigned                 enabled: 1;
+   BOOL                     logNotification: YES;
 }
 
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)name;
@@ -44,6 +45,7 @@ enum GrowlPriority {
 				   notificationDescription:(NSString *)inNotificationDescription
 								  priority:(enum GrowlPriority)inPriority
 								   enabled:(BOOL)inEnabled
+                        logEnabled:(BOOL)inLogEnabled
 									sticky:(int)inSticky
 						 displayPluginName:(NSString *)display
 									 sound:(NSString *)sound;
@@ -70,6 +72,10 @@ enum GrowlPriority {
 - (BOOL) enabled;
 - (void) setEnabled:(BOOL)flag;
 
+
+- (BOOL) logNotification;
+- (void) setLogNotification:(BOOL)flag;
+   
 - (int) sticky;
 - (void) setSticky:(int)sticky;
 

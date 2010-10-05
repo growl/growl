@@ -15,6 +15,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlPlugin.h"
 #import "GrowlPluginController.h"
+#import "GrowlNotificationDatabase.h"
 #import "GrowlProcessUtilities.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
@@ -144,6 +145,8 @@
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 	
+   [[self historyController] setUpdateDelegate:self];
+   
 	// Select the default style if possible. 
 	{
 		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
@@ -424,6 +427,13 @@
 		preferencesController = [GrowlPreferencesController sharedController];
 
 	return preferencesController;
+}
+
+- (GrowlNotificationDatabase *) historyController {
+   if(!historyController)
+      historyController = [GrowlNotificationDatabase sharedInstance];
+   
+   return historyController;
 }
 
 - (NSArray *) sounds {
@@ -960,6 +970,22 @@
 	}
 
 	[popUp selectItem:selectedItem];
+}
+
+#pragma mark HistoryTab
+
+-(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase*)database
+{
+   return NO;
+}
+
+-(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)database
+{
+   [historyTable noteNumberOfRowsChanged];
+   NSError *error = nil;
+   [historyArrayController fetchWithRequest:[historyArrayController defaultFetchRequest] merge:YES error:&error];
+   if(error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 }
 
 #pragma mark -

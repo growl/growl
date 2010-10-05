@@ -41,11 +41,14 @@
 	NSString *inDisplay = [dict objectForKey:@"Display"];
 	NSString *inSound = [dict objectForKey:@"Sound"];
 
+   BOOL logEnabled = getBooleanForKey(dict, @"Logging");
+
 	return [self initWithName:inName
 			humanReadableName:inHumanReadableName
 	  notificationDescription:inNotificationDescription
 					 priority:inPriority
 					  enabled:inEnabled
+              logEnabled:logEnabled
 					   sticky:inSticky
 			displayPluginName:inDisplay
 						sound:inSound];
@@ -57,6 +60,7 @@
 	  notificationDescription:nil
 					 priority:GrowlPriorityUnset
 					  enabled:YES
+              logEnabled:YES
 					   sticky:NSMixedState
 			displayPluginName:nil
 						sound:nil];
@@ -67,6 +71,7 @@
 				   notificationDescription:(NSString *)inNotificationDescription
 								  priority:(enum GrowlPriority)inPriority
 								   enabled:(BOOL)inEnabled
+                        logEnabled:(BOOL)inLogEnabled
 									sticky:(int)inSticky
 						 displayPluginName:(NSString *)display
 									 sound:(NSString *)inSound
@@ -77,6 +82,7 @@
 		notificationDescription = [inNotificationDescription retain];
 		priority				= inPriority;
 		enabled					= inEnabled;
+      logNotification      = inLogEnabled;
 		sticky					= inSticky;
 		displayPluginName		= [display copy];
 		sound					= [inSound retain];
@@ -99,10 +105,12 @@
 - (NSDictionary *) dictionaryRepresentation {
 	NSNumber    *enabledValue = [[NSNumber alloc] initWithBool:enabled];
 	NSNumber     *stickyValue = [[NSNumber alloc] initWithInt:sticky];
+   NSNumber    *loggingValue = [[NSNumber alloc] initWithBool:logNotification];
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		name,         @"Name",
 		enabledValue, @"Enabled",
 		stickyValue,  @"Sticky",
+      loggingValue, @"Logging",
 		nil];
 	[enabledValue release];
 	[stickyValue  release];
@@ -179,6 +187,14 @@
 	enabled = flag;
 	[ticket setUseDefaults:NO];
 	[ticket synchronize];
+}
+
+- (BOOL) logNotification {
+   return logNotification;
+}
+
+- (void) setLogNotification:(BOOL)flag {
+   logNotification = flag;
 }
 
 - (GrowlApplicationTicket *) ticket {
