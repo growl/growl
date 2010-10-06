@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="260"/>
+			<integer value="261"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -162,7 +162,7 @@
 															<string key="NSColorName">controlBackgroundColor</string>
 															<object class="NSColor" key="NSColor" id="1062596856">
 																<int key="NSColorSpace">3</int>
-																<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
+																<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 															</object>
 														</object>
 														<object class="NSColor" key="NSTextColor" id="423562417">
@@ -355,6 +355,7 @@
 								<int key="NSCellFlags2">268436480</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="407278005"/>
+								<string key="NSPlaceholderString">Search</string>
 								<reference key="NSControlView" ref="253919421"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<int key="NSTextBezelStyle">1</int>
