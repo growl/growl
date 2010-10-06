@@ -4575,7 +4575,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					$BUILT_PRODUCTS_DIR,
+					external_dependencies/Sparkle/build/$CONFIGURATION,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -4603,7 +4606,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = external_dependencies/Sparkle/build/$CONFIGURATION;
+				FRAMEWORK_SEARCH_PATHS = (
+					$BUILT_PRODUCTS_DIR,
+					external_dependencies/Sparkle/build/$CONFIGURATION,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
