@@ -13,9 +13,10 @@
 @implementation GrowlImageCache
 
 @dynamic Checksum;
+@dynamic ImageData;
 @dynamic Image;
 @dynamic Notifications;
-
+/*
 +(void)initialize
 {
    if(self == [GrowlImageCache class])
@@ -24,15 +25,42 @@
 		[NSValueTransformer setValueTransformer:transformer forName:@"NSImageToDataTransformer"];
    }
 }
-
+*/
 -(void)setImage:(NSData*)data andHash:(NSString*)hash
 {
-   self.Image = data;
+   self.ImageData = data;
+   [self setPrimitiveValue:[[[NSImage alloc]initWithData:data] autorelease] forKey:@"Image"];
    self.Checksum = hash;
 }
 
-@end
+-(NSImage*)Image
+{
+   [self willAccessValueForKey:@"Image"];
+   NSImage *image = [self primitiveValueForKey:@"Image"];
+   [self didAccessValueForKey:@"Image"];
+   
+   if (!image)
+   {
+      NSData *imageData = [self ImageData];
+      if (imageData != nil)
+      {
+         image = [[[NSImage alloc] initWithData:imageData] autorelease];
+         [self setPrimitiveValue:image forKey:@"Image"];
+      }
+   }
+   return image;
+}
 
+-(void)setImage:(NSImage*)image
+{
+   [self willChangeValueForKey:@"Image"];
+   [self setPrimitiveValue:image forKey:@"Image"];
+   [self didChangeValueForKey:@"Image"];
+   [self setValue:[image PNGRepresentation] forKey:@"ImageData"];
+}
+
+@end
+/*
 @implementation NSImageToDataTransformer
 
 
@@ -61,3 +89,4 @@
 }
 
 @end
+*/

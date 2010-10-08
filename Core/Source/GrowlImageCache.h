@@ -9,15 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 @class GrowlHistoryNotification;
-
+/*
 @interface NSImageToDataTransformer : NSValueTransformer {
 }
 @end
-
+*/
 @interface GrowlImageCache : NSManagedObject {
 }
 @property (nonatomic, retain) NSString * Checksum;
-@property (nonatomic, retain) id Image;
+@property (nonatomic, retain) NSData * ImageData;
+@property (nonatomic, retain) NSImage *Image;
 @property (nonatomic, retain) NSSet* Notifications;
 
 -(void)setImage:(NSData*)data andHash:(NSString*)hash;
