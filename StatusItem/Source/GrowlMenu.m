@@ -148,10 +148,10 @@ int main(void) {
          }
          menuIndex++;
       }
-      //Did we not get back 5? remove any extra listings
-      if ([noteArray count] < 5) {
-         unsigned int toRemove = 0;
-         for(toRemove = 0; toRemove < 5 - [noteArray count]; toRemove++)
+      //Did we not get back less than are on the menu? remove any extra listings
+      if ([noteArray count] < [[[statusItem menu] itemArray] count] - 8) {
+         unsigned long int toRemove = 0;
+         for(toRemove = [[[statusItem menu] itemArray] count] - [noteArray count] - 8 ; toRemove > 0; toRemove--)
          {
             [[statusItem menu] removeItemAtIndex:menuIndex];
          }
