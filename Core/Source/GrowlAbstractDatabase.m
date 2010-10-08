@@ -90,13 +90,21 @@
          NSSet *objectURISet = [NSUnarchiver unarchiveObjectWithData:[[note userInfo] objectForKey:saveTypeKey]];
          
          for(NSURL *objectURI in objectURISet) {
-            NSManagedObject *object = [managedObjectContext objectWithID:[persistentStoreCoordinator managedObjectIDForURIRepresentation:objectURI]];
-            [managedObjectContext refreshObject:object mergeChanges:NO];
+            NSManagedObjectID *objectID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
+            /* Database on first run sometimes doesn't like finding URIR's, 
+             * the view will still update, but additional testing is needed to verify
+             * lack of side affects to ignoring this.
+             */
+            if(!objectID)
+               continue;
+            NSManagedObject *object = [[self managedObjectContext] objectWithID:objectID];
+            [[self managedObjectContext] refreshObject:object mergeChanges:NO];
          }
       }
    }
 
-   [updateDelegate GrowlDatabaseDidUpdate:self];
+   if(updateDelegate)
+      [updateDelegate GrowlDatabaseDidUpdate:self];
 }
 
 /**
@@ -112,7 +120,7 @@
    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
    if (coordinator != nil) {
       managedObjectContext = [NSManagedObjectContext new];
-      [managedObjectContext setPersistentStoreCoordinator: coordinator];
+      [managedObjectContext setPersistentStoreCoordinator:coordinator];
    }
    return managedObjectContext;
 }
