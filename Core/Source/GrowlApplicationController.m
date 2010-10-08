@@ -756,7 +756,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    {
       NSUInteger numberOfNotifications = [[GrowlNotificationDatabase sharedInstance] historyCountBetween:awayDate and:[NSDate date]];
       
-      NSString* description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
+      NSString* description;
+      
+      if(numberOfNotifications == 1)
+         description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
+      else
+         description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
       //Send out the notification, overwriting the previous one
       [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Notification History:", nil)
                                   description:description
