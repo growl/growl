@@ -120,7 +120,7 @@ int main(void) {
 -(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase *)database
 {
    //We don't need to do anything because we don't retain references to any ManagedObjects
-   return NO;
+   return YES;
 }
 
 -(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)database
