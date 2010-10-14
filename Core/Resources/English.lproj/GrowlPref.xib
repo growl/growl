@@ -11,8 +11,8 @@
 			<string key="NS.object.0">788</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="2154"/>
 			<integer value="234"/>
+			<integer value="2129"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2710,11 +2710,12 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<reference key="NSSuperview" ref="630730195"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSStepperCell" key="NSCell" id="726292074">
-													<int key="NSCellFlags">-2146566624</int>
+													<int key="NSCellFlags">917024</int>
 													<int key="NSCellFlags2">0</int>
 													<reference key="NSControlView" ref="591148368"/>
 													<double key="NSValue">1</double>
-													<double key="NSMaxValue">100</double>
+													<double key="NSMinValue">1</double>
+													<double key="NSMaxValue">1000</double>
 													<double key="NSIncrement">1</double>
 													<bool key="NSAutorepeat">YES</bool>
 												</object>
@@ -2736,6 +2737,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 															<object class="NSLocale" key="locale" id="241299481">
 																<string key="NS.identifier"/>
 															</object>
+															<real value="1000" key="maximum"/>
+															<real value="1" key="minimum"/>
 															<string key="negativeInfinitySymbol">-∞</string>
 															<string key="nilSymbol"/>
 															<integer value="1" key="numberStyle"/>
@@ -2753,15 +2756,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 															<string key="NSString">NaN</string>
 															<dictionary key="NSAttributes" id="458230408"/>
 														</object>
-														<object class="NSDecimalNumberPlaceholder" key="NS.min" id="679371093">
-															<int key="NS.exponent">0</int>
-															<int key="NS.length">0</int>
-															<bool key="NS.negative">YES</bool>
-															<bool key="NS.compact">NO</bool>
-															<int key="NS.mantissa.bo">1</int>
-															<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
-														</object>
-														<reference key="NS.max" ref="679371093"/>
+														<real value="1" key="NS.min"/>
+														<real value="1000" key="NS.max"/>
 														<object class="NSDecimalNumberHandler" key="NS.rounding">
 															<int key="NS.roundingmode">3</int>
 															<bool key="NS.raise.overflow">YES</bool>
@@ -2839,6 +2835,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 															<boolean value="YES" key="allowsFloats"/>
 															<integer value="1040" key="formatterBehavior"/>
 															<reference key="locale" ref="241299481"/>
+															<real value="1" key="minimum"/>
 															<string key="negativeInfinitySymbol">-∞</string>
 															<string key="nilSymbol"/>
 															<integer value="1" key="numberStyle"/>
@@ -2856,8 +2853,15 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 															<string key="NSString">NaN</string>
 															<reference key="NSAttributes" ref="458230408"/>
 														</object>
-														<reference key="NS.min" ref="679371093"/>
-														<reference key="NS.max" ref="679371093"/>
+														<real value="1" key="NS.min"/>
+														<object class="NSDecimalNumberPlaceholder" key="NS.max">
+															<int key="NS.exponent">0</int>
+															<int key="NS.length">0</int>
+															<bool key="NS.negative">YES</bool>
+															<bool key="NS.compact">NO</bool>
+															<int key="NS.mantissa.bo">1</int>
+															<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
+														</object>
 														<object class="NSDecimalNumberHandler" key="NS.rounding">
 															<int key="NS.roundingmode">3</int>
 															<bool key="NS.raise.overflow">YES</bool>
@@ -5912,6 +5916,86 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 					</object>
 					<int key="connectionID">2373</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.isGrowlHistoryTrimByCount</string>
+						<reference key="source" ref="319276967"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="319276967"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">value: preferencesController.isGrowlHistoryTrimByCount</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.isGrowlHistoryTrimByCount</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2378</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
+						<reference key="source" ref="726292074"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="726292074"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryDayLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryDayLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2390</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
+						<reference key="source" ref="764734103"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="764734103"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryDayLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryDayLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2391</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryCountLimit</string>
+						<reference key="source" ref="645774625"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="645774625"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryCountLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryCountLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2392</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.isGrowlHistoryTrimByDate</string>
+						<reference key="source" ref="332655446"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="332655446"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">value: preferencesController.isGrowlHistoryTrimByDate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.isGrowlHistoryTrimByDate</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2393</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -8418,7 +8502,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2373</int>
+			<int key="maxID">2393</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

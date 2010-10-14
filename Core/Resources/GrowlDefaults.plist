@@ -30,5 +30,13 @@
 	<integer>3</integer>
 	<key>GrowlHistoryLogEnabled</key>
 	<true/>
+	<key>GrowlHistoryCountLimit</key>
+	<integer>1000</integer>
+	<key>GrowlHistoryDayLimit</key>
+	<integer>7</integer>
+	<key>GrowlHistoryTrimByDate</key>
+	<true/>
+	<key>GrowlHistoryTrimByCount</key>
+	<true/>
 </dict>
 </plist>

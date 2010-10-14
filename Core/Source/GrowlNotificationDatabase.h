@@ -13,14 +13,18 @@
 
 @class GrowlNotificationHistoryWindow;
 
-@interface GrowlNotificationDatabase : GrowlAbstractDatabase {   
+@interface GrowlNotificationDatabase : GrowlAbstractDatabase {
+   NSTimer *maintenanceTimer;
+   NSTimer *cacheMaintenenceTimer;
 }
 
 -(NSUInteger)historyCountBetween:(NSDate*)start and:(NSDate*)end;
--(NSArray*)historyArrayBetween:(NSDate*)start and:(NSDate*)end sortByApplication:(BOOL)flag;
+//-(NSArray*)historyArrayBetween:(NSDate*)start and:(NSDate*)end sortByApplication:(BOOL)flag;
 -(NSFetchRequest*)fetchRequestForStart:(NSDate*)start andEnd:(NSDate*)end;
 -(NSArray*)mostRecentNotifications:(unsigned int)amount;
 
+-(void)storeMaintenance:(NSTimer*)theTimer;
+-(void)imageCacheMaintenance:(NSTimer*)theTimer;
 -(void)userReturnedAndClosedList;
 
 @end

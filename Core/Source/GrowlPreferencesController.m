@@ -394,14 +394,41 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setBool:enabled forKey:GrowlStartServerKey];
 }
 
-- (BOOL) isGrowlHistoryLogEnabled
-{
+#pragma mark Notification History
+
+- (BOOL) isGrowlHistoryLogEnabled {
    return [self boolForKey:GrowlHistoryLogEnabled];
 }
-
-- (void) setGrowlHistoryLogEnabled:(BOOL)flag
-{
+- (void) setGrowlHistoryLogEnabled:(BOOL)flag {
    [self setBool:flag forKey:GrowlHistoryLogEnabled];
+}
+
+- (NSUInteger) growlHistoryDayLimit {
+	return [self integerForKey:GrowlHistoryDayLimit];
+}
+- (void) setGrowlHistoryDayLimit:(NSUInteger)limit {
+	[self setInteger:limit forKey:GrowlHistoryDayLimit];
+}
+
+- (NSUInteger) growlHistoryCountLimit {
+   return [self integerForKey:GrowlHistoryCountLimit];
+}
+- (void) setGrowlHistoryCountLimit:(NSUInteger)limit {
+	[self setInteger:limit forKey:GrowlHistoryCountLimit];
+}
+
+- (BOOL) isGrowlHistoryTrimByDate {
+   return [self boolForKey:GrowlHistoryTrimByDate];
+}
+- (void) setGrowlHistoryTrimByDate:(BOOL)flag {
+   [self setBool:flag forKey:GrowlHistoryTrimByDate];
+}
+
+- (BOOL) isGrowlHistoryTrimByCount {
+   return [self boolForKey:GrowlHistoryTrimByCount];
+}
+- (void) setGrowlHistoryTrimByCount:(BOOL)flag {
+   [self setBool:flag forKey:GrowlHistoryTrimByDate];
 }
 
 #pragma mark Remote Growling

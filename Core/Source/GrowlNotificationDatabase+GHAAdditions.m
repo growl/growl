@@ -18,7 +18,40 @@
 
 -(void)setupMaintenanceTimers
 {
+   //While this is only compiled with GHA, we want to be really sure we are GHA.
+   if(![[[NSProcessInfo processInfo] processName] isEqualToString:@"GrowlHelperApp"])
+   {
+      NSLog(@"We arent GHA, we shouldn't be setting up maintenance timers");
+      return;
+   }
    
+   if(maintenanceTimer || cacheMaintenenceTimer)
+   {
+      NSLog(@"Timers appear to already be setup, setupMaintenanceTimers should only be called once");
+      return;
+   }
+   NSLog(@"Setup timers, this should only happen once");
+
+   //Setup timers, every half hour for DB maintenance, every night for Cache cleanup   
+   maintenanceTimer = [[NSTimer timerWithTimeInterval:30 * 60 
+                                               target:self
+                                             selector:@selector(storeMaintenance:)
+                                             userInfo:nil
+                                              repeats:YES] retain];
+   [[NSRunLoop mainRunLoop] addTimer:maintenanceTimer forMode:NSRunLoopCommonModes];
+   //TODO: Fix this to use ~midnight
+   NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+   [components setHour:23];
+   [components setMinute:59];
+   NSDate *firstImageCacheDate = [[NSCalendar currentCalendar] dateFromComponents:components];
+   NSLog(@"First image cache check will run at %@", firstImageCacheDate);
+   cacheMaintenenceTimer = [[NSTimer alloc] initWithFireDate:firstImageCacheDate
+                                                    interval:24 * 3600
+                                                      target:self
+                                                    selector:@selector(imageCacheMaintenance:) 
+                                                    userInfo:nil
+                                                     repeats:YES];
+   [[NSRunLoop mainRunLoop] addTimer:cacheMaintenenceTimer forMode:NSRunLoopCommonModes];
 }
 
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict

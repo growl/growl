@@ -245,6 +245,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
+         
+      [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
       
 	}
 

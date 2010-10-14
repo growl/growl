@@ -40,6 +40,10 @@
 #define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
 #define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
+#define GrowlHistoryCountLimit      XSTR("GrowlHistoryCountLimit")
+#define GrowlHistoryDayLimit        XSTR("GrowlHistoryDayLimit")
+#define GrowlHistoryTrimByCount     XSTR("GrowlHistoryTrimByCount")
+#define GrowlHistoryTrimByDate      XSTR("GrowlHistoryTrimByDate")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -101,6 +105,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isGrowlHistoryLogEnabled;
 - (void) setGrowlHistoryLogEnabled:(BOOL)flag;
+
+- (NSUInteger) growlHistoryDayLimit;
+- (void) setGrowlHistoryDayLimit:(NSUInteger)limit;
+- (NSUInteger) growlHistoryCountLimit;
+- (void) setGrowlHistoryCountLimit:(NSUInteger)limit;
+
+- (BOOL) isGrowlHistoryTrimByDate;
+- (void) setGrowlHistoryTrimByDate:(BOOL)flag;
+- (BOOL) isGrowlHistoryTrimByCount;
+- (void) setGrowlHistoryTrimByCount:(BOOL)flag;
 
 #pragma mark GrowlMenu methods
 
