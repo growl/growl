@@ -315,6 +315,18 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 #pragma mark UI
 
+- (NSUInteger) selectedPreferenceTab{
+   return [self integerForKey:GrowlSelectedPrefPane];
+}
+- (void) setSelectedPreferenceTab:(NSUInteger)tab{
+   if (tab < 6 ) {
+      [self setInteger:tab forKey:GrowlSelectedPrefPane];
+   }else {
+      [self setInteger:0 forKey:GrowlSelectedPrefPane];
+   }
+
+}
+
 - (CFIndex)selectedPosition {
 	return [self integerForKey:GROWL_POSITION_PREFERENCE_KEY];
 }
@@ -554,7 +566,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[self willChangeValueForKey:@"remoteRegistrationAllowed"];
 		[self didChangeValueForKey:@"remoteRegistrationAllowed"];
 	}
-	
+	if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
+		[self willChangeValueForKey:@"selectedPreferenceTab"];
+		[self didChangeValueForKey:@"selectedPreferenceTab"];
+	}	
 	[pool release];
 }
 

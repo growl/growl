@@ -38,5 +38,7 @@
 	<true/>
 	<key>GrowlHistoryTrimByCount</key>
 	<true/>
+	<key>GrowlSelectedPrefPane</key>
+	<integer>0</integer>
 </dict>
 </plist>

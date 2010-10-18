@@ -44,6 +44,7 @@
 #define GrowlHistoryDayLimit        XSTR("GrowlHistoryDayLimit")
 #define GrowlHistoryTrimByCount     XSTR("GrowlHistoryTrimByCount")
 #define GrowlHistoryTrimByDate      XSTR("GrowlHistoryTrimByDate")
+#define GrowlSelectedPrefPane       XSTR("GrowlSelectedPrefPane")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -105,6 +106,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isGrowlHistoryLogEnabled;
 - (void) setGrowlHistoryLogEnabled:(BOOL)flag;
+
+- (NSUInteger) selectedPreferenceTab;
+- (void) setSelectedPreferenceTab:(NSUInteger)tab;
+
+#pragma mark Notification History
 
 - (NSUInteger) growlHistoryDayLimit;
 - (void) setGrowlHistoryDayLimit:(NSUInteger)limit;

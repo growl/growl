@@ -219,7 +219,8 @@ int main(void) {
 
 -(void)openGrowlLog:(id)sender
 {
-   //TODO: Make this open the pref pane, to the right tab somehow
+   [preferences setSelectedPreferenceTab:4];
+   [self openGrowlPreferences:nil];
 }
 
 - (NSMenu *) createMenu {
