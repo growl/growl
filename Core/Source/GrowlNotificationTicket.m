@@ -195,6 +195,7 @@
 
 - (void) setLogNotification:(BOOL)flag {
    logNotification = flag;
+	[ticket synchronize];
 }
 
 - (GrowlApplicationTicket *) ticket {
