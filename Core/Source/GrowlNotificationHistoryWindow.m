@@ -33,7 +33,12 @@
 
 -(void)windowDidLoad
 {
-   NSLog(@"Window Did Load");
+}
+
+
+-(void)windowWillClose:(NSNotification *)notification
+{
+   [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
 }
 
 -(void)showWindow:(id)sender

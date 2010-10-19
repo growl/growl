@@ -924,7 +924,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
    }
    
-   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT]){
+   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT])
+   {
       if(!historyWindow)
       {
          GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
@@ -938,7 +939,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) growlNotificationTimedOut:(id)clickContext {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
+   if ([clickContext isEqualToString:UPDATE_AVAILABLE_NOTIFICATION])
+   {
+      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE 
+                                                                     object:nil 
+                                                                   userInfo:nil 
+                                                         deliverImmediately:YES];
+   }
+   
+   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT])
+   {
+      [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
+   }
 } 
 
 - (void) launchSparkleHelper {
