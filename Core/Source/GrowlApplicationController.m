@@ -126,6 +126,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 @implementation GrowlApplicationController
 
+@synthesize isAway;
+
 + (GrowlApplicationController *) sharedController {
 	return [self sharedInstance];
 }
@@ -247,7 +249,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
          
       [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
-      
+      isAway = NO;
 	}
 
 	return self;
@@ -255,9 +257,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) idleStatus:(NSNotification *)notification {
 	if ([[notification object] isEqualToString:@"Idle"]) {
-      if(awayDate)
+      if(!isAway)
+      {   
          [awayDate release];
-      awayDate = [[NSDate date] retain];
+         awayDate = [[NSDate date] retain];
+         isAway = YES;
+      }
       
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		int idleThreshold;
@@ -279,9 +284,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 								   clickContext:nil
 									 identifier:nil];
 	} else {
-      if(returnDate)
-         [returnDate release];
-      returnDate = [[NSDate date] retain];
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
 									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
 							   notificationName:USER_RETURNED_NOTIFICATION
@@ -686,7 +688,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 
    //determine whether we should be displaying this notification at all
-   if (GrowlIdleStatusController_isIdle()) {
+   if (isAway) {
       //if we are away, and sticky while away is set, we need to check whether it is the history counter
       if (![[aDict objectForKey:GROWL_APP_NAME] isEqualToString:@"Growl"] || ![[aDict objectForKey:GROWL_NOTIFICATION_NAME] isEqualToString:NOTIFICATION_HISTORY_NOTIFICATION]) {
          displayNotification = NO;
@@ -754,7 +756,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    
    [appNotification release];
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
-   if(GrowlIdleStatusController_isIdle())
+   if(isAway)
    {
       NSUInteger numberOfNotifications = [[GrowlNotificationDatabase sharedInstance] historyCountBetween:awayDate and:[NSDate date]];
       
@@ -933,8 +935,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          [window release];
          [historyWindow window];
       }
-      [historyWindow setAwayDate:awayDate returnDate:returnDate];
+      [historyWindow setAwayDate:awayDate returnDate:[NSDate date]];
       [historyWindow showWindow:self];
+      isAway = NO;
    }
 }
 
@@ -949,6 +952,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    
    if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT])
    {
+      isAway = NO;
       [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
    }
 } 
