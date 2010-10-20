@@ -51,7 +51,7 @@
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict
 {
    NSError *error = nil;
-   BOOL isAway = [[GrowlApplicationController sharedInstance] isAway];
+   BOOL isAway = GrowlIdleStatusController_isIdle();
    BOOL deleteUponReturn = NO;
    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];

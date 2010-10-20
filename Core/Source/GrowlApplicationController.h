@@ -44,10 +44,9 @@ typedef enum {
 	NSThread					*mainThread;
    
    NSDate               *awayDate;
-   BOOL                 isAway;
+   NSDate               *returnDate;
    GrowlNotificationHistoryWindow *historyWindow;
 }
-@property (readonly) BOOL isAway;
 
 + (GrowlApplicationController *) sharedController;
 
