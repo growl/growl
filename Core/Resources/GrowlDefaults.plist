@@ -30,6 +30,8 @@
 	<integer>3</integer>
 	<key>GrowlHistoryLogEnabled</key>
 	<true/>
+	<key>GrowlHistoryRetainAllWhileAway</key>
+	<true/>
 	<key>GrowlHistoryCountLimit</key>
 	<integer>1000</integer>
 	<key>GrowlHistoryDayLimit</key>

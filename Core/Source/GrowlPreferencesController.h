@@ -40,6 +40,7 @@
 #define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
 #define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
+#define GrowlHistoryRetainAllWhileAway XSTR("GrowlHistoryRetainAllWhileAway")
 #define GrowlHistoryCountLimit      XSTR("GrowlHistoryCountLimit")
 #define GrowlHistoryDayLimit        XSTR("GrowlHistoryDayLimit")
 #define GrowlHistoryTrimByCount     XSTR("GrowlHistoryTrimByCount")
@@ -104,13 +105,15 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSNumber*) idleThreshold;
 - (void) setIdleThreshold:(NSNumber*)value;
 
-- (BOOL) isGrowlHistoryLogEnabled;
-- (void) setGrowlHistoryLogEnabled:(BOOL)flag;
-
 - (NSUInteger) selectedPreferenceTab;
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
 
 #pragma mark Notification History
+- (BOOL) isGrowlHistoryLogEnabled;
+- (void) setGrowlHistoryLogEnabled:(BOOL)flag;
+
+- (BOOL) retainAllNotesWhileAway;
+- (void) setRetainAllNotesWhileAway:(BOOL)flag;
 
 - (NSUInteger) growlHistoryDayLimit;
 - (void) setGrowlHistoryDayLimit:(NSUInteger)limit;

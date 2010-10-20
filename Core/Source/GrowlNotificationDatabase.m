@@ -48,41 +48,7 @@
 
 -(NSUInteger)historyCountBetween:(NSDate*)start and:(NSDate*)end
 {
-   NSError *error = nil;
-   NSFetchRequest *request = [self fetchRequestForStart:start andEnd:end];
-   NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-   if(error)
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-   return count;
-}
-/*
--(NSArray*)historyArrayBetween:(NSDate*)start and:(NSDate*)end sortByApplication:(BOOL)flag
-{
-   NSError *error = nil;
-   
-   NSFetchRequest *request = [self fetchRequestForStart:start andEnd:end];
-   
-   NSSortDescriptor *dateSort = [[[NSSortDescriptor alloc] initWithKey:@"Time" ascending:NO] autorelease];
-   NSArray *sortArray;
-   if(flag)
-   {
-      NSSortDescriptor *appSort = [[NSSortDescriptor alloc] initWithKey:@"ApplicatioName" ascending:NO];
-      sortArray = [NSArray arrayWithObjects:appSort, dateSort, nil];
-   }else {
-      sortArray = [NSArray arrayWithObject:dateSort];
-   }
-
-   
-   [request setSortDescriptors:sortArray];
-   
-   NSArray *awayHistory = [managedObjectContext executeFetchRequest:request error:&error];
-   if(error)
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-   return awayHistory;   
-}
-*/
--(NSFetchRequest*)fetchRequestForStart:(NSDate*)start andEnd:(NSDate*)end
-{
+   NSError *error = nil;   
    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification" 
                                                         inManagedObjectContext:managedObjectContext];
    NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -90,7 +56,11 @@
    
    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", start, end];
    [request setPredicate:predicate];
-   return [request autorelease];
+   
+   NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+   if(error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+   return count;
 }
 
 -(NSArray*)mostRecentNotifications:(unsigned int)amount
@@ -123,85 +93,110 @@
  */
 -(void)storeMaintenance:(NSTimer*)theTimer
 {
-   NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification"
-                                                        inManagedObjectContext:managedObjectContext];
-
    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if([preferences isGrowlHistoryTrimByDate])
    {
-      NSError *error = nil;
-      NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-      [request setEntity:entityDescription];
-      
-      NSSortDescriptor *dateSort = [[[NSSortDescriptor alloc] initWithKey:@"Time" ascending:NO] autorelease];
-      [request setSortDescriptors:[NSArray arrayWithObject:dateSort]];
-      
-      NSInteger trimDays = -[preferences growlHistoryDayLimit];
-      NSDate *trimDate = [[NSCalendarDate date] dateByAddingYears:0 months:0 days:trimDays hours:0 minutes:0 seconds:0];
-      NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time <= %@", trimDate];
-      [request setPredicate:predicate];
-   
-      NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
-      if(error)
-      {
-         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-         return;
-      }
-      NSLog(@"%d notes older than %@, trimming.", [notes count], trimDate);
-      for(NSManagedObject *note in notes)
-      {
-         [managedObjectContext deleteObject:note];
-      }
-      [managedObjectContext save:&error];
-      if(error)
-         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
+      [self trimByDate];
    }
    
    if([preferences isGrowlHistoryTrimByCount])
-   {      
-      NSError *error = nil;
-      NSFetchRequest *countRequest = [[[NSFetchRequest alloc] init] autorelease];
-      [countRequest setEntity:entityDescription];
-      
-      NSUInteger totalCount = [managedObjectContext countForFetchRequest:countRequest error:&error];
-      if(error)
-      {
-         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-         return;
-      }
-      NSUInteger countLimit = [preferences growlHistoryCountLimit];
-      if (totalCount <= countLimit)
-      {
-         NSLog(@"Only %d notifications, not trimming", totalCount);
-         return;
-      }
-      
-      NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-      [request setEntity:entityDescription];
-      [request setFetchLimit:totalCount - countLimit];
-      
-      NSSortDescriptor *dateSort = [[[NSSortDescriptor alloc] initWithKey:@"Time" ascending:YES] autorelease];
-      [request setSortDescriptors:[NSArray arrayWithObject:dateSort]];
-      
-      NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
-      
-      NSLog(@"Found %d notifications, limit is %d, retrieved %d to trim.", totalCount, countLimit, [notes count]);
-      if(error)
-      {
-         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-         return;
-      }
-      for(NSManagedObject *note in notes)
-      {
-         [managedObjectContext deleteObject:note];
-      }
-      [managedObjectContext save:&error];
-      if(error)
-         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);         
+   {
+      [self trimByCount];
+   }
+   
+   if(!lastImageCheck || [[NSDate date] timeIntervalSinceDate:lastImageCheck] > 3600 * 24)
+   {
+      [self imageCacheMaintenance];
+      if(lastImageCheck)
+         [lastImageCheck release];
+      lastImageCheck = [[NSDate date] retain];
+   }
+   
+   NSError *error = nil;
+   [managedObjectContext save:&error];
+   if(error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+}
+
+-(void)trimByDate
+{
+   NSError *error = nil;
+   
+   NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification"
+                                                        inManagedObjectContext:managedObjectContext];
+   
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];   
+   
+   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+   [request setEntity:entityDescription];
+   
+   NSSortDescriptor *dateSort = [[[NSSortDescriptor alloc] initWithKey:@"Time" ascending:NO] autorelease];
+   [request setSortDescriptors:[NSArray arrayWithObject:dateSort]];
+   
+   NSInteger trimDays = -[preferences growlHistoryDayLimit];
+   NSDate *trimDate = [[NSCalendarDate date] dateByAddingYears:0 months:0 days:trimDays hours:0 minutes:0 seconds:0];
+   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time <= %@", trimDate];
+   [request setPredicate:predicate];
+   
+   NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
+   if(error)
+   {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      return;
+   }
+   NSLog(@"%d notes older than %@, trimming.", [notes count], trimDate);
+   for(NSManagedObject *note in notes)
+   {
+      [managedObjectContext deleteObject:note];
    }
 }
 
--(void)imageCacheMaintenance:(NSTimer*)theTimer
+-(void)trimByCount
+{
+   NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification"
+                                                        inManagedObjectContext:managedObjectContext];
+   
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   
+   NSError *error = nil;
+   NSFetchRequest *countRequest = [[[NSFetchRequest alloc] init] autorelease];
+   [countRequest setEntity:entityDescription];
+   
+   NSUInteger totalCount = [managedObjectContext countForFetchRequest:countRequest error:&error];
+   if(error)
+   {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      return;
+   }
+   NSUInteger countLimit = [preferences growlHistoryCountLimit];
+   if (totalCount <= countLimit)
+   {
+      NSLog(@"Only %d notifications, not trimming", totalCount);
+      return;
+   }
+   
+   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+   [request setEntity:entityDescription];
+   [request setFetchLimit:totalCount - countLimit];
+   
+   NSSortDescriptor *dateSort = [[[NSSortDescriptor alloc] initWithKey:@"Time" ascending:YES] autorelease];
+   [request setSortDescriptors:[NSArray arrayWithObject:dateSort]];
+   
+   NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
+   
+   NSLog(@"Found %d notifications, limit is %d, retrieved %d to trim.", totalCount, countLimit, [notes count]);
+   if(error)
+   {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      return;
+   }
+   for(NSManagedObject *note in notes)
+   {
+      [managedObjectContext deleteObject:note];
+   }
+}
+
+-(void)imageCacheMaintenance
 {
    NSError *error = nil;
    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Image" 
@@ -243,7 +238,7 @@
    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
    [request setEntity:entityDescriptipn];
    
-   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY deleteUponReturn == %@", [NSNumber numberWithBool:YES]];
+   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"deleteUponReturn == %@", [NSNumber numberWithBool:YES]];
    [request setPredicate:predicate];
 
    NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
@@ -252,7 +247,13 @@
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
       return;
    }
-   NSLog(@"Removing %d notes which should not be retained", [notes count]);
+   if([notes count] == 0)
+   {
+      NSLog(@"No notes which should not be logged permanently");
+      return;
+   }
+   
+   NSLog(@"Removing %d notes which should no longer be retained", [notes count]);
    for(NSManagedObject *note in notes)
    {
       [managedObjectContext deleteObject:note];

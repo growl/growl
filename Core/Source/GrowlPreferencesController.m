@@ -415,6 +415,13 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    [self setBool:flag forKey:GrowlHistoryLogEnabled];
 }
 
+- (BOOL) retainAllNotesWhileAway {
+   return [self boolForKey:GrowlHistoryRetainAllWhileAway];
+}
+- (void) setRetainAllNotesWhileAway:(BOOL)flag {
+   [self setBool:flag forKey:GrowlHistoryRetainAllWhileAway];
+}
+
 - (NSUInteger) growlHistoryDayLimit {
 	return [self integerForKey:GrowlHistoryDayLimit];
 }
