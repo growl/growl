@@ -26,6 +26,18 @@
    return self;
 }
 
+-(void)dealloc
+{
+   [historyTable release]; historyTable = nil;
+   [arrayController release]; historyTable = nil;
+   historyController = nil;
+   
+   [awayDate release]; awayDate = nil;
+   [returnDate release]; returnDate = nil;
+   
+   [super dealloc];
+}
+
 -(void)windowWillLoad
 {
 
