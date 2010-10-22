@@ -114,6 +114,7 @@
 		nil];
 	[enabledValue release];
 	[stickyValue  release];
+   [loggingValue release];
 	if (priority != GrowlPriorityUnset)
 		setIntegerForKey(dict, @"Priority", priority);
 	if (displayPluginName)
