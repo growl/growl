@@ -69,6 +69,8 @@
 
 -(void)databaseDidUpdate:(NSNotification*)note
 {
+   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
    /* verify we need to update something, processID should be unique
     * no need to go around telling the database to forget all it knows unless it needs to
     */
@@ -101,10 +103,13 @@
             [[self managedObjectContext] refreshObject:object mergeChanges:NO];
          }
       }
+      [mutableUserInfo release];
    }
 
    if(updateDelegate)
       [updateDelegate GrowlDatabaseDidUpdate:self];
+   
+   [pool release];
 }
 
 /**
@@ -168,13 +173,13 @@
    return persistentStoreCoordinator;
 }
 
--(void)dealloc
+-(void)destroy
 {
    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-   [managedObjectContext release];
-   [managedObjectModel release];
-   [persistentStoreCoordinator release];
-   [super dealloc];
+   [managedObjectContext release]; managedObjectContext = nil;
+   [managedObjectModel release]; managedObjectModel = nil;
+   [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
+   [super destroy];
 }
 
 @end
