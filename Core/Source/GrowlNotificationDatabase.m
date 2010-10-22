@@ -26,10 +26,12 @@
    return self;
 }
 
--(void)dealloc
+-(void)destroy
 {
-   [[NSNotificationCenter defaultCenter] removeObserver:self];
-   [super dealloc]; 
+   [maintenanceTimer invalidate];
+   [maintenanceTimer release]; maintenanceTimer = nil;
+   [lastImageCheck release]; lastImageCheck = nil;
+   [super destroy]; 
 }
 
 -(NSString*)storePath
@@ -51,7 +53,7 @@
    NSError *error = nil;   
    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification" 
                                                         inManagedObjectContext:managedObjectContext];
-   NSFetchRequest *request = [[NSFetchRequest alloc] init];
+   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
    [request setEntity:entityDescription];
    
    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", start, end];
