@@ -9,11 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @class GrowlHistoryNotification;
-/*
-@interface NSImageToDataTransformer : NSValueTransformer {
-}
-@end
-*/
 @interface GrowlImageCache : NSManagedObject {
 }
 @property (nonatomic, retain) NSString * Checksum;

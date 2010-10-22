@@ -16,16 +16,7 @@
 @dynamic ImageData;
 @dynamic Image;
 @dynamic Notifications;
-/*
-+(void)initialize
-{
-   if(self == [GrowlImageCache class])
-   {
-      NSImageToDataTransformer *transformer = [[NSImageToDataTransformer alloc] init];
-		[NSValueTransformer setValueTransformer:transformer forName:@"NSImageToDataTransformer"];
-   }
-}
-*/
+
 -(void)setImage:(NSData*)data andHash:(NSString*)hash
 {
    self.ImageData = data;
@@ -60,33 +51,4 @@
 }
 
 @end
-/*
-@implementation NSImageToDataTransformer
 
-
-+ (BOOL)allowsReverseTransformation {
-	return YES;
-}
-
-+ (Class)transformedValueClass {
-	return [NSData class];
-}
-
-- (id)transformedValue:(id)value {
-   NSData *data = nil; 
-   if([value isMemberOfClass:[NSImage class]])
-   {
-      data = [value PNGRepresentation];
-   }else{
-      data = value;
-   }
-	return data;
-}
-
-- (id)reverseTransformedValue:(id)value {
-	NSImage *nsImage = [[NSImage alloc] initWithData:value];
-	return [nsImage autorelease];
-}
-
-@end
-*/
