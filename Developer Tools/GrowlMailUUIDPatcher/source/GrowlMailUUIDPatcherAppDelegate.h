@@ -12,22 +12,31 @@
     NSWindow *window;
 	NSTextField *status;
 	NSTextField *needsUpdate;
+	NSButton *updateButton;
 	
 	NSString *mailAppUUID;
 	NSString *messageFrameworkUUID;
+	
+	NSArray *paths;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *status;
 @property (assign) IBOutlet NSTextField *needsUpdate;
+@property (assign) IBOutlet NSButton *updateButton;
 
 @property (retain) NSString *mailAppUUID;
 @property (retain) NSString *messageFrameworkUUID;
 
+@property (retain) NSArray *paths;
+
 - (void)getUUIDs;
 - (NSArray*)growlMailPaths;
-- (void)verify:(NSArray*)paths;
+- (void)verify;
 - (BOOL)checkPlist:(NSString*)path;
 - (IBAction)updatePlist:(id)sender;
+- (BOOL)mailIsRunning;
+- (void)relaunchMail;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 
 @end
