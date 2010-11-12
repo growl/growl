@@ -29,7 +29,7 @@ NSString *mailAppBundleID = @"com.apple.mail";
 	// Insert code here to initialize your application 
 	
 	self.paths = [self growlMailPaths];
-	if([paths count])
+	if([self.paths count])
 	{
 		[self getUUIDs];
 		[self verify];
