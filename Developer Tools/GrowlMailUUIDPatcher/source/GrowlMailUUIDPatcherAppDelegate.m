@@ -8,11 +8,11 @@
 
 #import "GrowlMailUUIDPatcherAppDelegate.h"
 
-NSString *localGrowlMail = @"~/Library/Mail/Bundles/GrowlMail.mailbundle";
-NSString *localDisabled = @"~/Library/Mail/Bundles (Disabled)/";
-NSString *localDisabledGrowlMail = @"~/Library/Mail/Bundles (Disabled)/GrowlMail.mailbundle";
-NSString *globalGrowlMail = @"/Library/Mail/Bundles/GrowlMail.mailbundle";
-NSString *globalDisabledGrowlMail = @"/Library/Mail/Bundles (Disabled)/GrowlMail.mailbundle";
+NSString *userGrowlMailPath = @"~/Library/Mail/Bundles/GrowlMail.mailbundle";
+NSString *userDisabledBundlesFolderPath = @"~/Library/Mail/Bundles (Disabled)/";
+NSString *userDisabledGrowlMailPath = @"~/Library/Mail/Bundles (Disabled)/GrowlMail.mailbundle";
+NSString *localGrowlMailPath = @"/Library/Mail/Bundles/GrowlMail.mailbundle";
+NSString *localDisabledGrowlMailPath = @"/Library/Mail/Bundles (Disabled)/GrowlMail.mailbundle";
 NSString *mailAppBundleID = @"com.apple.mail";
 
 @implementation GrowlMailUUIDPatcherAppDelegate
@@ -65,9 +65,9 @@ NSString *mailAppBundleID = @"com.apple.mail";
 	NSMutableArray *result = [NSMutableArray array];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
-	if([fileManager fileExistsAtPath:[localGrowlMail stringByExpandingTildeInPath]])
-		[result addObject:[localGrowlMail stringByExpandingTildeInPath]];
-	if([fileManager fileExistsAtPath:[localDisabled stringByExpandingTildeInPath]] && ![fileManager fileExistsAtPath:[localDisabledGrowlMail stringByExpandingTildeInPath]])
+	if([fileManager fileExistsAtPath:[userGrowlMailPath stringByExpandingTildeInPath]])
+		[result addObject:[userGrowlMailPath stringByExpandingTildeInPath]];
+	if([fileManager fileExistsAtPath:[userDisabledBundlesFolderPath stringByExpandingTildeInPath]] && ![fileManager fileExistsAtPath:[userDisabledGrowlMailPath stringByExpandingTildeInPath]])
 	{		
 		NSString *disabled = [@"~/Library/Mail/Bundles (Disabled %ld)/" stringByExpandingTildeInPath];
 
@@ -76,16 +76,16 @@ NSString *mailAppBundleID = @"com.apple.mail";
 			NSString *disabledPath = [NSString stringWithFormat:disabled, i];
 			NSString *disabledGrowlMailPath = [disabledPath stringByAppendingPathComponent:@"GrowlMail.mailBundle"];
 			if([fileManager fileExistsAtPath:disabledPath] && [fileManager fileExistsAtPath:disabledGrowlMailPath])
-				localDisabledGrowlMail = [disabledGrowlMailPath retain];
+				userDisabledGrowlMailPath = [disabledGrowlMailPath retain];
 		}
 	}
 	
-	if([fileManager fileExistsAtPath:[localDisabledGrowlMail stringByExpandingTildeInPath]])
-		[result addObject:[localDisabledGrowlMail stringByExpandingTildeInPath]];
-	if([fileManager fileExistsAtPath:globalGrowlMail])
-		[result addObject:globalGrowlMail];
-	if([fileManager fileExistsAtPath:globalDisabledGrowlMail])
-		[result addObject:globalDisabledGrowlMail];
+	if([fileManager fileExistsAtPath:[userDisabledGrowlMailPath stringByExpandingTildeInPath]])
+		[result addObject:[userDisabledGrowlMailPath stringByExpandingTildeInPath]];
+	if([fileManager fileExistsAtPath:localGrowlMailPath])
+		[result addObject:localGrowlMailPath];
+	if([fileManager fileExistsAtPath:localDisabledGrowlMailPath])
+		[result addObject:localDisabledGrowlMailPath];
 	
 	return result;
 }
@@ -156,10 +156,10 @@ NSString *mailAppBundleID = @"com.apple.mail";
 		if(success)
 		{
 			NSError *error = nil;
-			if([path isEqualTo:[localDisabledGrowlMail stringByExpandingTildeInPath]])
-				[[NSFileManager defaultManager] moveItemAtPath:path toPath:[localGrowlMail stringByExpandingTildeInPath] error:&error];
-			if([path isEqualToString:globalDisabledGrowlMail])
-				[[NSFileManager defaultManager] moveItemAtPath:path toPath:globalGrowlMail error:&error];
+			if([path isEqualTo:[userDisabledGrowlMailPath stringByExpandingTildeInPath]])
+				[[NSFileManager defaultManager] moveItemAtPath:path toPath:[userGrowlMailPath stringByExpandingTildeInPath] error:&error];
+			if([path isEqualToString:localDisabledGrowlMailPath])
+				[[NSFileManager defaultManager] moveItemAtPath:path toPath:localGrowlMailPath error:&error];
 			
 			if(!error && [self mailIsRunning])
 				if([[NSAlert alertWithMessageText:@"GrowlMail has been updated" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"GrowlMail has been updated, relaunch Mail.app now."] runModal] == NSAlertDefaultReturn)
