@@ -17,16 +17,16 @@
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		256AC3D80F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMailUUIDPatcherAppDelegate.h; path = source/GrowlMailUUIDPatcherAppDelegate.h; sourceTree = "<group>"; };
-		256AC3D90F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMailUUIDPatcherAppDelegate.m; path = source/GrowlMailUUIDPatcherAppDelegate.m; sourceTree = "<group>"; };
-		256AC3F00F4B6AF500CF3369 /* GrowlMailUUIDPatcher_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMailUUIDPatcher_Prefix.pch; path = source/GrowlMailUUIDPatcher_Prefix.pch; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = source/main.m; sourceTree = "<group>"; };
+		256AC3D80F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailUUIDPatcherAppDelegate.h; sourceTree = "<group>"; };
+		256AC3D90F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailUUIDPatcherAppDelegate.m; sourceTree = "<group>"; };
+		256AC3F00F4B6AF500CF3369 /* GrowlMailUUIDPatcher_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailUUIDPatcher_Prefix.pch; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8D1107310486CEB800E47090 /* GrowlMailUUIDPatcher-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GrowlMailUUIDPatcher-Info.plist"; path = "resources/GrowlMailUUIDPatcher-Info.plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* GrowlMailUUIDPatcher-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GrowlMailUUIDPatcher-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GrowlMailUUIDPatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlMailUUIDPatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		93CB250011E92511002AF0A9 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		93CB250211E92511002AF0A9 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		93CB250011E92511002AF0A9 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93CB250211E92511002AF0A9 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +48,7 @@
 				256AC3D90F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m */,
 			);
 			name = Classes;
+			path = source;
 			sourceTree = "<group>";
 		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
@@ -95,6 +96,7 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
+			path = source;
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
@@ -105,6 +107,7 @@
 				93CB250111E92511002AF0A9 /* MainMenu.xib */,
 			);
 			name = Resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -188,7 +191,7 @@
 		93CB24FF11E92511002AF0A9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				93CB250011E92511002AF0A9 /* English */,
+				93CB250011E92511002AF0A9 /* InfoPlist.strings */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -196,7 +199,7 @@
 		93CB250111E92511002AF0A9 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				93CB250211E92511002AF0A9 /* English */,
+				93CB250211E92511002AF0A9 /* MainMenu.xib */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
