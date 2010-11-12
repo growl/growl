@@ -156,12 +156,13 @@ NSString *mailAppBundleID = @"com.apple.mail";
 		if(success)
 		{
 			NSError *error = nil;
+			BOOL successForUserGrowlMail = YES, successForLocalGrowlMail = YES;
 			if([path isEqualTo:[userDisabledGrowlMailPath stringByExpandingTildeInPath]])
-				[[NSFileManager defaultManager] moveItemAtPath:path toPath:[userGrowlMailPath stringByExpandingTildeInPath] error:&error];
+				successForUserGrowlMail = [[NSFileManager defaultManager] moveItemAtPath:path toPath:[userGrowlMailPath stringByExpandingTildeInPath] error:&error];
 			if([path isEqualToString:localDisabledGrowlMailPath])
-				[[NSFileManager defaultManager] moveItemAtPath:path toPath:localGrowlMailPath error:&error];
-			
-			if(!error && [self mailIsRunning])
+				successForLocalGrowlMail = [[NSFileManager defaultManager] moveItemAtPath:path toPath:localGrowlMailPath error:&error];
+
+			if(successForUserGrowlMail && successForLocalGrowlMail && [self mailIsRunning])
 				if([[NSAlert alertWithMessageText:@"GrowlMail has been updated" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"GrowlMail has been updated, relaunch Mail.app now."] runModal] == NSAlertDefaultReturn)
 					[self relaunchMail];
 		}
