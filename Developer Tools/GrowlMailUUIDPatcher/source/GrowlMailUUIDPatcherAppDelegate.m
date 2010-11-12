@@ -94,7 +94,7 @@ NSString *mailAppBundleID = @"com.apple.mail";
 {
 	for(NSString *path in paths)
 	{
-		if(![self checkPlist:path])
+		if(![self plistAtPathPromisesCompatibilityWithCurrentMailAndMessageFramework:path])
 		{
 			NSString *update = [needsUpdate stringValue];
 			update = [update stringByAppendingString:[NSString stringWithFormat:@"%@ needs to be updated\n", path]];
@@ -114,7 +114,7 @@ NSString *mailAppBundleID = @"com.apple.mail";
 	}
 }
 
-- (BOOL)checkPlist:(NSString*)path
+- (BOOL)plistAtPathPromisesCompatibilityWithCurrentMailAndMessageFramework:(NSString*)path
 {
 	NSBundle *mailBundle = [NSBundle bundleWithPath:path];
 	

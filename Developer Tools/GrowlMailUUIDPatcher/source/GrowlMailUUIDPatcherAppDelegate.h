@@ -33,7 +33,7 @@
 - (void)getUUIDs;
 - (NSArray*)growlMailPaths;
 - (void)verify;
-- (BOOL)checkPlist:(NSString*)path;
+- (BOOL)plistAtPathPromisesCompatibilityWithCurrentMailAndMessageFramework:(NSString*)path;
 - (IBAction)updatePlist:(id)sender;
 - (BOOL)mailIsRunning;
 - (void)relaunchMail;
