@@ -43,11 +43,11 @@ NSString *mailAppBundleID = @"com.apple.mail";
 
 - (void)dealloc
 {
-	//release our retained property values
-	self.paths = nil;
-	self.messageFrameworkUUID = nil;
-	self.mailAppUUID = nil;
-	
+	[paths release];
+
+	[messageFrameworkUUID release];
+	[mailAppUUID release];
+
 	[super dealloc];
 }
 
