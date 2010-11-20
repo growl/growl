@@ -83,7 +83,7 @@
 						   withObject:messageBody
 						waitUntilDone:NO];
 
-	[pool release];
+	[pool drain];
 }
 
 - (void) GMShowNotificationPart2:(MessageBody *)messageBody {

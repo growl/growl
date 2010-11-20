@@ -53,6 +53,13 @@
 			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
 		};
+		931536F0129850E100184FA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
+			remoteInfo = GrowlSparkleHelper;
+		};
 		9598A04B086F4C790014C386 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
@@ -351,6 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				95AE2753085C44A600271F5F /* Growl.prefPane */,
+				931536F1129850E100184FA5 /* GrowlSparkleHelper.app */,
 				95AE2757085C44A600271F5F /* GrowlHelperApp.app */,
 				95AE2759085C44A600271F5F /* GrowlMenu.app */,
 				95AE275B085C44A600271F5F /* Growl.framework */,
@@ -404,6 +412,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 95E4A3630855C16F006B3F45 /* Build configuration list for PBXProject "GrowlMail" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -446,6 +455,13 @@
 			fileType = "compiled.mach-o.dylib";
 			path = Growl.dylib;
 			remoteRef = 347930E20C85E3EC007ADCAA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		931536F1129850E100184FA5 /* GrowlSparkleHelper.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlSparkleHelper.app;
+			remoteRef = 931536F0129850E100184FA5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95AD1E5C0970955A00D6E4BA /* Nano.growlView */ = {
