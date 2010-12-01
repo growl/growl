@@ -62,23 +62,4 @@
 	return fatal ? [NSImage imageNamed:@"WhiteXOnRedCircle"] : [NSImage imageNamed:NSImageNameCaution];
 }
 
-- (CGFloat) messageHeightWithWidth:(CGFloat)width {
-	NSSize targetSize = { width, 1000.0f };
-	NSFont *font = [NSFont systemFontOfSize:0.0f];
-	NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-		font, NSFontAttributeName,
-		nil];
-	NSTextStorage *storage = [[[NSTextStorage alloc] initWithString:message attributes:attrs] autorelease];
-	NSTextContainer *container = [[[NSTextContainer alloc] initWithContainerSize:targetSize] autorelease];
-	[container setLineFragmentPadding:0.0f];
-	NSLayoutManager *layoutMgr = [[[NSLayoutManager alloc] init] autorelease];
-	[layoutMgr addTextContainer:container];
-	[storage addLayoutManager:layoutMgr];
-
-	[layoutMgr ensureLayoutForCharacterRange:(NSRange){ 0UL, [storage length] }];
-	CGFloat height = [layoutMgr boundingRectForGlyphRange:(NSRange){ 0UL, [layoutMgr numberOfGlyphs] } inTextContainer:container].size.height;
-	height += [layoutMgr defaultBaselineOffsetForFont:font]; //I'm not sure whether this is necessary or the correct thing to add, but the measurement looks right with it and is too short without it. -PRH
-	return height;
-}
-
 @end

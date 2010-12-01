@@ -36,6 +36,4 @@
 //Returns either the caution image (NSImageNameCaution) or the white-X-on-red-circle image.
 - (NSImage *) fatalityImage;
 
-- (CGFloat) messageHeightWithWidth:(CGFloat)width;
-
 @end

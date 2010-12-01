@@ -12,7 +12,7 @@
 
 #include "GrowlVersionUtilities.h"
 
-@interface GrowlMailUUIDPatcher ()
+@interface GrowlMailUUIDPatcher () <NSTableViewDelegate>
 
 //Returns the selected bundle or nil if none is selected.
 - (GrowlMailFoundBundle *) selectedBundle;
@@ -135,11 +135,15 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 	CGFloat heightAbove = heightOfWindow - NSMaxY(tableFrameInWindowSpace);
 
 	CGFloat newHeightOfTable = 0.0f;
-	for (GrowlMailWarningNote *note in self.warningNotes) {
-		newHeightOfTable += [note messageHeightWithWidth:[[warningNotesTable tableColumnWithIdentifier:@"message"] width]];
+	for (NSUInteger i = 0UL, numNotes = [warningNotes count]; i < numNotes; ++i) {
+		newHeightOfTable += [self tableView:warningNotesTable heightOfRow:i];
 	}
 	if (newHeightOfTable < 1.0f)
 		newHeightOfTable = 1.0f;
+	else {
+		//Icky fudge factor to avoid the descent of the last line of the last row being cut off in some cases.
+		newHeightOfTable += 4.0f;
+	}
 
 	CGFloat newHeightOfWindow = heightAbove + newHeightOfTable + heightBelow;
 	CGFloat windowTop = windowFrame.origin.y + windowFrame.size.height;
@@ -213,7 +217,29 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 #pragma mark NSTableViewDelegate protocol conformance
 
 - (CGFloat) tableView:(NSTableView *)theTableView heightOfRow:(NSInteger)row {
-	CGFloat height = [[self.warningNotes objectAtIndex:row] messageHeightWithWidth:[[theTableView tableColumnWithIdentifier:@"message"] width]];
+	CGFloat height = [warningNotesTable rowHeight];
+	/*This code is adapted from an Apple code sample:
+	 *	http://developer.apple.com/mac/library/samplecode/CocoaTipsAndTricks/Listings/TableViewVariableRowHeights_TableViewVariableRowHeightsAppDelegate_m.html
+	 *It is more reliable than measuring the text directly. Thanks to Jesper for telling me about it. -PRH
+	 */ {
+		// It is important to use a constant value when calculating the height. Querying the tableColumn width will not work, since it dynamically changes as the user resizes -- however, we don't get a notification that the user "did resize" it until after the mouse is let go. We use the latter as a hook for telling the table that the heights changed. We must return the same height from this method every time, until we tell the table the heights have changed. Not doing so will quicly cause drawing problems.
+		NSString *tableColumnIdentifier = @"message";
+		NSTableColumn *tableColumnToWrap = [warningNotesTable tableColumnWithIdentifier:tableColumnIdentifier];
+		NSInteger columnToWrap = [warningNotesTable.tableColumns indexOfObject:tableColumnToWrap];
+
+		// Grab the fully prepared cell with our content filled in. Note that in IB the cell's Layout is set to Wraps.
+		NSCell *cell = [warningNotesTable preparedCellAtColumn:columnToWrap row:row];
+
+		// See how tall it naturally would want to be if given a restricted with, but unbound height
+		NSRect constrainedBounds = NSMakeRect(0, 0, [[warningNotesTable tableColumnWithIdentifier:tableColumnIdentifier] width], CGFLOAT_MAX);
+		NSSize naturalSize = [cell cellSizeForBounds:constrainedBounds];
+
+		// Make sure we have a minimum height -- use the table's set height as the minimum.
+		if (naturalSize.height > height) {
+			height = naturalSize.height;
+		}
+	}
+	
 	CGFloat iconColumnWidth = [[theTableView tableColumnWithIdentifier:@"fatality"] width];
 	if (height < iconColumnWidth)
 		height = iconColumnWidth;
