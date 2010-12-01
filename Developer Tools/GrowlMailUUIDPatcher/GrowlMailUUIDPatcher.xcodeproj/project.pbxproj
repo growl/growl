@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		256AC3DA0F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m */; };
+		31C9F0F91290387F003C19A4 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 31C9F0F71290387F003C19A4 /* GrowlVersionUtilities.c */; };
+		31C9F13012905662003C19A4 /* GrowlMailWarningNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C9F12F12905662003C19A4 /* GrowlMailWarningNote.m */; };
+		31D40B00128DE80E004DFBF9 /* GrowlMailUUIDPatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D40AFF128DE80E004DFBF9 /* GrowlMailUUIDPatcher.m */; };
+		31D40B03128DE814004DFBF9 /* GrowlMailFoundBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D40B02128DE814004DFBF9 /* GrowlMailFoundBundle.m */; };
+		31D40B0A128DF2B3004DFBF9 /* GMCompatibilityUUIDs.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D40B09128DF2B3004DFBF9 /* GMCompatibilityUUIDs.m */; };
+		31D40B19128DFA1C004DFBF9 /* GrowlMailBundles.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31D40B18128DFA1C004DFBF9 /* GrowlMailBundles.xib */; };
+		31D40B94128E65AC004DFBF9 /* WhiteCheckmarkOnGreenCircle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 31D40B93128E65AC004DFBF9 /* WhiteCheckmarkOnGreenCircle.tiff */; };
+		31D40B99128E67A6004DFBF9 /* WhiteXOnRedCircle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 31D40B98128E67A6004DFBF9 /* WhiteXOnRedCircle.tiff */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		93CB250311E92511002AF0A9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93CB24FF11E92511002AF0A9 /* InfoPlist.strings */; };
@@ -23,6 +31,19 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		31C9F0F71290387F003C19A4 /* GrowlVersionUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlVersionUtilities.c; path = ../../Common/Source/GrowlVersionUtilities.c; sourceTree = SOURCE_ROOT; };
+		31C9F0F81290387F003C19A4 /* GrowlVersionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlVersionUtilities.h; path = ../../Common/Source/GrowlVersionUtilities.h; sourceTree = SOURCE_ROOT; };
+		31C9F12E12905662003C19A4 /* GrowlMailWarningNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailWarningNote.h; sourceTree = "<group>"; };
+		31C9F12F12905662003C19A4 /* GrowlMailWarningNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailWarningNote.m; sourceTree = "<group>"; };
+		31D40AFE128DE80E004DFBF9 /* GrowlMailUUIDPatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailUUIDPatcher.h; sourceTree = "<group>"; };
+		31D40AFF128DE80E004DFBF9 /* GrowlMailUUIDPatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailUUIDPatcher.m; sourceTree = "<group>"; };
+		31D40B01128DE814004DFBF9 /* GrowlMailFoundBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailFoundBundle.h; sourceTree = "<group>"; };
+		31D40B02128DE814004DFBF9 /* GrowlMailFoundBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailFoundBundle.m; sourceTree = "<group>"; };
+		31D40B08128DF2B3004DFBF9 /* GMCompatibilityUUIDs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMCompatibilityUUIDs.h; sourceTree = "<group>"; };
+		31D40B09128DF2B3004DFBF9 /* GMCompatibilityUUIDs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMCompatibilityUUIDs.m; sourceTree = "<group>"; };
+		31D40B16128DFA19004DFBF9 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GrowlMailBundles.xib; sourceTree = "<group>"; };
+		31D40B93128E65AC004DFBF9 /* WhiteCheckmarkOnGreenCircle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WhiteCheckmarkOnGreenCircle.tiff; sourceTree = "<group>"; };
+		31D40B98128E67A6004DFBF9 /* WhiteXOnRedCircle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WhiteXOnRedCircle.tiff; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GrowlMailUUIDPatcher-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GrowlMailUUIDPatcher-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GrowlMailUUIDPatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlMailUUIDPatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93CB250011E92511002AF0A9 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -46,6 +67,16 @@
 			children = (
 				256AC3D80F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m */,
+				31D40AFE128DE80E004DFBF9 /* GrowlMailUUIDPatcher.h */,
+				31D40AFF128DE80E004DFBF9 /* GrowlMailUUIDPatcher.m */,
+				31D40B01128DE814004DFBF9 /* GrowlMailFoundBundle.h */,
+				31D40B02128DE814004DFBF9 /* GrowlMailFoundBundle.m */,
+				31D40B08128DF2B3004DFBF9 /* GMCompatibilityUUIDs.h */,
+				31D40B09128DF2B3004DFBF9 /* GMCompatibilityUUIDs.m */,
+				31C9F0F81290387F003C19A4 /* GrowlVersionUtilities.h */,
+				31C9F0F71290387F003C19A4 /* GrowlVersionUtilities.c */,
+				31C9F12E12905662003C19A4 /* GrowlMailWarningNote.h */,
+				31C9F12F12905662003C19A4 /* GrowlMailWarningNote.m */,
 			);
 			name = Classes;
 			path = source;
@@ -105,6 +136,9 @@
 				8D1107310486CEB800E47090 /* GrowlMailUUIDPatcher-Info.plist */,
 				93CB24FF11E92511002AF0A9 /* InfoPlist.strings */,
 				93CB250111E92511002AF0A9 /* MainMenu.xib */,
+				31D40B18128DFA1C004DFBF9 /* GrowlMailBundles.xib */,
+				31D40B93128E65AC004DFBF9 /* WhiteCheckmarkOnGreenCircle.tiff */,
+				31D40B98128E67A6004DFBF9 /* WhiteXOnRedCircle.tiff */,
 			);
 			name = Resources;
 			path = resources;
@@ -170,6 +204,9 @@
 			files = (
 				93CB250311E92511002AF0A9 /* InfoPlist.strings in Resources */,
 				93CB250411E92511002AF0A9 /* MainMenu.xib in Resources */,
+				31D40B19128DFA1C004DFBF9 /* GrowlMailBundles.xib in Resources */,
+				31D40B94128E65AC004DFBF9 /* WhiteCheckmarkOnGreenCircle.tiff in Resources */,
+				31D40B99128E67A6004DFBF9 /* WhiteXOnRedCircle.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,12 +219,25 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* GrowlMailUUIDPatcherAppDelegate.m in Sources */,
+				31D40B00128DE80E004DFBF9 /* GrowlMailUUIDPatcher.m in Sources */,
+				31D40B03128DE814004DFBF9 /* GrowlMailFoundBundle.m in Sources */,
+				31D40B0A128DF2B3004DFBF9 /* GMCompatibilityUUIDs.m in Sources */,
+				31C9F0F91290387F003C19A4 /* GrowlVersionUtilities.c in Sources */,
+				31C9F13012905662003C19A4 /* GrowlMailWarningNote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		31D40B18128DFA1C004DFBF9 /* GrowlMailBundles.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31D40B16128DFA19004DFBF9 /* English */,
+			);
+			name = GrowlMailBundles.xib;
+			sourceTree = "<group>";
+		};
 		93CB24FF11E92511002AF0A9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -244,11 +294,31 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.6;
+				WARNING_CFLAGS = (
+					"-Wextra",
+					"-Wno-unused-parameter",
+				);
 			};
 			name = Debug;
 		};
@@ -257,10 +327,30 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.6;
+				WARNING_CFLAGS = (
+					"-Wextra",
+					"-Wno-unused-parameter",
+				);
 			};
 			name = Release;
 		};
