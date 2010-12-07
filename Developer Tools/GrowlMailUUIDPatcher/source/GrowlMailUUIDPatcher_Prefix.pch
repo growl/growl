@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'GrowlMailUUIDPatcher' target in the 'GrowlMailUUIDPatcher' project
 //
 
+#define NS_BUILD_32_LIKE_64 1
+
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif
