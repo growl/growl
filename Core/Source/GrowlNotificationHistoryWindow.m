@@ -15,7 +15,6 @@
 @synthesize historyTable;
 @synthesize arrayController;
 @synthesize awayDate;
-@synthesize returnDate;
 
 -(id)init
 {
@@ -33,7 +32,6 @@
    historyController = nil;
    
    [awayDate release]; awayDate = nil;
-   [returnDate release]; returnDate = nil;
    
    [super dealloc];
 }
@@ -59,13 +57,12 @@
    [super showWindow:sender];
 }
 
--(void)setAwayDate:(NSDate*)newAway returnDate:(NSDate*)newReturn
+-(void)resetArrayWithDate:(NSDate*)newAway
 {
    self.awayDate = newAway;
-   self.returnDate = newReturn;
 
    NSError *error = nil;
-   [arrayController setFetchPredicate:[NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", awayDate, returnDate]];
+   [arrayController setFetchPredicate:[NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", awayDate, [NSDate date]]];
    [arrayController fetchWithRequest:[arrayController defaultFetchRequest] merge:NO error:&error];
    if (error)
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);

@@ -109,7 +109,7 @@
    if(updateDelegate)
       [updateDelegate GrowlDatabaseDidUpdate:self];
    
-   [pool release];
+   [pool drain];
 }
 
 /**

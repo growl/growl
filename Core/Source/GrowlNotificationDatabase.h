@@ -16,15 +16,20 @@
 @interface GrowlNotificationDatabase : GrowlAbstractDatabase {
    NSTimer *maintenanceTimer;
    NSDate *lastImageCheck;
+   NSDate *awayDate;
+   BOOL notificationsWhileAway;
 }
+@property (readonly) NSDate *awayDate;
+@property (readonly) BOOL notificationsWhileAway;
 
--(NSUInteger)historyCountBetween:(NSDate*)start and:(NSDate*)end;
+-(NSUInteger)awayHistoryCount;
 -(NSArray*)mostRecentNotifications:(unsigned int)amount;
 
 -(void)storeMaintenance:(NSTimer*)theTimer;
 -(void)trimByDate;
 -(void)trimByCount;
 -(void)imageCacheMaintenance;
+-(void)userReturnedAndOpenedList;
 -(void)userReturnedAndClosedList;
 
 @end

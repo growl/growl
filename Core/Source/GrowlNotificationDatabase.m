@@ -18,16 +18,21 @@
 
 @implementation GrowlNotificationDatabase
 
+@synthesize awayDate;
+@synthesize notificationsWhileAway;
+
 -(id)initSingleton
 {
    if((self = [super initSingleton]))
    {
+      notificationsWhileAway = NO;
    }
    return self;
 }
 
 -(void)destroy
 {
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
    [maintenanceTimer invalidate];
    [maintenanceTimer release]; maintenanceTimer = nil;
    [lastImageCheck release]; lastImageCheck = nil;
@@ -48,15 +53,15 @@
 {
 }
 
--(NSUInteger)historyCountBetween:(NSDate*)start and:(NSDate*)end
+-(NSUInteger)awayHistoryCount
 {
-   NSError *error = nil;   
+   NSError *error = nil;
    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Notification" 
                                                         inManagedObjectContext:managedObjectContext];
    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
    [request setEntity:entityDescription];
    
-   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", start, end];
+   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", awayDate, [NSDate date]];
    [request setPredicate:predicate];
    
    NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
@@ -231,9 +236,14 @@
    if(error)
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
 }
+-(void)userReturnedAndOpenedList
+{
+   notificationsWhileAway = NO;
+}
 
 -(void)userReturnedAndClosedList
 {
+   notificationsWhileAway = NO;
    NSError *error = nil;
    NSEntityDescription *entityDescriptipn = [NSEntityDescription entityForName:@"Notification" 
                                                         inManagedObjectContext:managedObjectContext];

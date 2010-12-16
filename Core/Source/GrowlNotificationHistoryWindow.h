@@ -16,14 +16,13 @@
    IBOutlet NSArrayController *arrayController;
    GrowlNotificationDatabase *historyController;
    
-   NSDate *awayDate, *returnDate;
+   NSDate *awayDate;
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
 @property (assign) IBOutlet NSArrayController *arrayController;
 @property (nonatomic, retain) NSDate *awayDate;
-@property (nonatomic, retain) NSDate *returnDate;
 
--(void)setAwayDate:(NSDate*)newAway returnDate:(NSDate*)newReturn;
+-(void)resetArrayWithDate:(NSDate*)newAway;
 
 @end

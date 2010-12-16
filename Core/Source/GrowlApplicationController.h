@@ -12,6 +12,9 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
+#define HISTORY_IDENTIFIER                @"HISTORY_NOTIFICATION_IDENTIFIER"
+#define HISTORY_CLICK_CONTEXT             @"HISTORY_CLICK_CONTEXT"
+
 @class GrowlNotificationCenter, GrowlTicketController, GrowlNotificationHistoryWindow;
 
 typedef enum {
@@ -43,9 +46,7 @@ typedef enum {
 	
 	NSThread					*mainThread;
    
-   NSDate               *awayDate;
-   NSDate               *returnDate;
-   GrowlNotificationHistoryWindow *historyWindow;
+    GrowlNotificationHistoryWindow *historyWindow;
 }
 
 + (GrowlApplicationController *) sharedController;

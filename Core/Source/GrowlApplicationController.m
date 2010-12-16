@@ -64,8 +64,6 @@
 //Notifications posted by GrowlApplicationController
 #define USER_WENT_IDLE_NOTIFICATION       @"User went idle"
 #define USER_RETURNED_NOTIFICATION        @"User returned"
-#define HISTORY_IDENTIFIER                @"HISTORY_NOTIFICATION_IDENTIFIER"
-#define HISTORY_CLICK_CONTEXT             @"HISTORY_CLICK_CONTEXT"
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
@@ -255,14 +253,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) idleStatus:(NSNotification *)notification {
 	if ([[notification object] isEqualToString:@"Idle"]) {
-      if(awayDate)
-         [awayDate release];
-      awayDate = [[NSDate date] retain];
       
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		int idleThreshold;
 		NSNumber *value = [preferences objectForKey:@"IdleThreshold"];
-      [awayDate addTimeInterval:-([value intValue])];
 		NSString *description;
 
 		idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
@@ -279,9 +273,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 								   clickContext:nil
 									 identifier:nil];
 	} else {
-      if(returnDate)
-         [returnDate release];
-      returnDate = [[NSDate date] retain];
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
 									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
 							   notificationName:USER_RETURNED_NOTIFICATION
@@ -685,8 +676,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    BOOL displayNotification = YES;
    GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 
+   [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
+
    //determine whether we should be displaying this notification at all
-   if (GrowlIdleStatusController_isIdle()) {
+   if ([[GrowlNotificationDatabase sharedInstance] notificationsWhileAway]) {
       //if we are away, and sticky while away is set, we need to check whether it is the history counter
       if (![[aDict objectForKey:GROWL_APP_NAME] isEqualToString:@"Growl"] || ![[aDict objectForKey:GROWL_NOTIFICATION_NAME] isEqualToString:NOTIFICATION_HISTORY_NOTIFICATION]) {
          displayNotification = NO;
@@ -753,27 +746,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	}
    
    [appNotification release];
-   [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
-   if(GrowlIdleStatusController_isIdle())
-   {
-      NSUInteger numberOfNotifications = [[GrowlNotificationDatabase sharedInstance] historyCountBetween:awayDate and:[NSDate date]];
-      
-      NSString* description;
-      
-      if(numberOfNotifications == 1)
-         description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
-      else
-         description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
-      //Send out the notification, overwriting the previous one
-      [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Notification History:", nil)
-                                  description:description
-                             notificationName:NOTIFICATION_HISTORY_NOTIFICATION
-                                     iconData:nil
-                                     priority:0
-                                     isSticky:YES 
-                                 clickContext:HISTORY_CLICK_CONTEXT
-                                   identifier:HISTORY_IDENTIFIER];
-   }   
    
 	// send to DO observers
 	[growlNotificationCenter notifyObservers:aDict];
@@ -933,7 +905,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          [window release];
          [historyWindow window];
       }
-      [historyWindow setAwayDate:awayDate returnDate:returnDate];
+      [[GrowlNotificationDatabase sharedInstance] userReturnedAndOpenedList];
+      [historyWindow resetArrayWithDate:[[GrowlNotificationDatabase sharedInstance] awayDate]];
       [historyWindow showWindow:self];
    }
 }
