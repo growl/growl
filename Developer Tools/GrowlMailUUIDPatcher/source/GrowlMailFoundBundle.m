@@ -29,7 +29,10 @@
 @synthesize URL;
 
 - (BOOL) isCompatibleWithCurrentMailAndMessageFramework {
-	NSArray *compatibilityUUIDs = [[NSBundle bundleWithURL:URL] objectForInfoDictionaryKey:@"SupportedPluginCompatibilityUUIDs"];
+	//Can't use -[NSBundle objectForInfoDictionaryKey:] or -[NSBundle infoDictionary] here because NSBundle caches it, and that value is stale after the patcher does its work.
+	NSURL *infoPlistURL = [[URL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
+	NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfURL:infoPlistURL];
+	NSArray *compatibilityUUIDs = [infoPlist objectForKey:@"SupportedPluginCompatibilityUUIDs"];
 	return [compatibilityUUIDs containsObject:GMCurrentMailCompatibilityUUID()] && [compatibilityUUIDs containsObject:GMCurrentMessageFrameworkCompatibilityUUID()];
 }
 
