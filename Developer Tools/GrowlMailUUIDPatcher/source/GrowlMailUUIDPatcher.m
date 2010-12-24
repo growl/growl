@@ -103,7 +103,7 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 }
 
 - (BOOL) canAndShouldPatchSelectedBundle {
-	return [self.warningNotes valueForKeyPath:@"@sum.fatal"] == 0UL;
+	return self.selectedBundle && (!self.selectedBundle.isCompatibleWithCurrentMailAndMessageFramework) && ([[self.warningNotes valueForKeyPath:@"@sum.fatal"] unsignedIntegerValue] == 0UL);
 }
 
 @synthesize warningNotes;
@@ -172,46 +172,63 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 }
 
 - (IBAction) patchSelectedBundle:(id)sender {
-	[NSApp beginSheetModalForWindow:window completionHandler:^(NSInteger returnCode) {
-		if (returnCode == NSOKButton) {
-			NSURL *bundleURL = self.selectedBundle.URL;
-			NSURL *infoDictURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
+	[NSApp beginSheet:confirmationSheet modalForWindow:window modalDelegate:self didEndSelector:@selector(confirmationSheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+- (void) confirmationSheetDidEnd:(NSWindow *)sheet
+					  returnCode:(NSInteger)returnCode
+					 contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSOKButton) {
+		GrowlMailFoundBundle *bundle = self.selectedBundle;
+		NSURL *bundleURL = bundle.URL;
+		NSURL *infoDictURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
 
-			NSInputStream *inStream = [NSInputStream inputStreamWithURL:infoDictURL];
-			NSError *error = nil;
-			NSPropertyListFormat format = 0;
-			[inStream open];
-			NSMutableDictionary *dict = [NSPropertyListSerialization propertyListWithStream:inStream
-																					options:NSPropertyListMutableContainers
-																					 format:&format
-																					  error:&error];
-			[inStream close];
-			if (!dict) {
+		NSInputStream *inStream = [NSInputStream inputStreamWithURL:infoDictURL];
+		NSError *error = nil;
+		NSPropertyListFormat format = 0;
+		[inStream open];
+		NSMutableDictionary *dict = [NSPropertyListSerialization propertyListWithStream:inStream
+																				options:NSPropertyListMutableContainers
+																				 format:&format
+																				  error:&error];
+		[inStream close];
+		if (!dict) {
+			[window presentError:error];
+		} else {
+			NSMutableArray *UUIDs = [dict objectForKey:@"SupportedPluginCompatibilityUUIDs"];
+			if (![UUIDs containsObject:mailUUID])
+				[UUIDs addObject:mailUUID];
+			if (![UUIDs containsObject:messageFrameworkUUID])
+				[UUIDs addObject:messageFrameworkUUID];
+
+			NSData *data = [NSPropertyListSerialization dataWithPropertyList:dict
+																	  format:format
+																	 options:0
+																	   error:&error];
+			if (!data) {
 				[window presentError:error];
 			} else {
-				NSMutableArray *UUIDs = [dict objectForKey:@"SupportedPluginCompatibilityUUIDs"];
-				if (![UUIDs containsObject:mailUUID])
-					[UUIDs addObject:mailUUID];
-				if (![UUIDs containsObject:messageFrameworkUUID])
-					[UUIDs addObject:messageFrameworkUUID];
-
-				NSData *data = [NSPropertyListSerialization dataWithPropertyList:dict
-																		  format:format
-																		 options:0
-																		   error:&error];
-				if (!data) {
+				[bundle willChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
+				BOOL wrote = [data writeToURL:infoDictURL
+									  options:NSDataWritingAtomic
+										error:&error];
+				[bundle didChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
+				if (!wrote) {
 					[window presentError:error];
-				} else {
-					BOOL wrote = [data writeToURL:infoDictURL
-										  options:NSDataWritingAtomic
-											error:&error];
-					if (!wrote) {
-						[window presentError:error];
-					}
 				}
 			}
 		}
-	}]; //beginSheet:completionHandler:
+	}
+	[sheet close];
+}
+
+- (IBAction) ok:(id) sender {
+	NSWindow *dialog = [sender respondsToSelector:@selector(window)] ? [sender window] : sender;
+	[NSApp endSheet:dialog returnCode:NSOKButton];
+}
+- (IBAction) cancel:(id) sender {
+	NSWindow *dialog = [sender respondsToSelector:@selector(window)] ? [sender window] : sender;
+	[NSApp endSheet:dialog returnCode:NSCancelButton];
 }
 
 #pragma mark NSTableViewDelegate protocol conformance
