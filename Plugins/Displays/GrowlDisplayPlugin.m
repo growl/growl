@@ -132,6 +132,9 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	GrowlNotificationDisplayBridge *theBridge;
 
 	[wc retain];
+	//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
+	GrowlNotificationDisplayBridge *bridgeFromWC = [[[wc bridge] retain] autorelease];
+
 
 	if(queue)
 	{
@@ -154,13 +157,13 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 		}
 	} else {
 		//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-		theBridge = [[[wc bridge] retain] autorelease];
+		theBridge = bridgeFromWC;
 		[theBridge removeWindowController:wc];
 		[activeBridges removeObjectIdenticalTo:theBridge];
 	}
 
 	if (coalescableBridges) {
-		NSString *identifier = [[[[wc bridge] notification] auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_IDENTIFIER];
+        NSString *identifier = [[[bridgeFromWC notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 		if (identifier)
 			[coalescableBridges removeObjectForKey:identifier];
 	}
