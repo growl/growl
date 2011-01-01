@@ -3659,10 +3659,9 @@
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
-				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
@@ -4662,10 +4661,9 @@
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
-				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 			};
@@ -4683,10 +4681,9 @@
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
-				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
