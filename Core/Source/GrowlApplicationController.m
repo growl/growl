@@ -34,6 +34,7 @@
 #include "CFMutableDictionaryAdditions.h"
 #include "cdsa.h"
 #include <SystemConfiguration/SystemConfiguration.h>
+#include <AudioToolbox/AudioToolbox.h>
 #include <sys/errno.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -48,7 +49,7 @@
 #define USER_WENT_IDLE_NOTIFICATION		@"User went idle"
 #define USER_RETURNED_NOTIFICATION		@"User returned"
 
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon);
+static void soundCompletionCallbackProc(SystemSoundID soundID, void *refcon);
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
 
@@ -244,8 +245,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
-
-		soundCompletionCallback = NewSystemSoundCompletionUPP(soundCompletionCallbackProc);
 	}
 
 	return self;
@@ -308,8 +307,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	cdsaShutdown();
 	
-	DisposeSystemSoundCompletionUPP(soundCompletionCallback);
-
 	[super destroy];
 }
 
@@ -545,6 +542,19 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	return err;
 }
+- (OSStatus) getURL:(out NSURL **)outURL forSoundNamed:(NSString *)soundName {
+	FSRef ref;
+	OSStatus err = [self getFSRef:&ref forSoundNamed:soundName];
+	if (err == noErr) {
+		CFURLRef CFURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
+		NSURL *URL = [NSMakeCollectable(CFURL) autorelease];
+		if (outURL != NULL)
+			*outURL = URL;
+		if (!URL)
+			err = errFSBadFSRef; //For lack of any more specific knowledge.
+	}
+	return err;
+}
 
 #pragma mark Dispatching notifications
 
@@ -677,14 +687,19 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			NSError *error = nil;
 			NSDictionary *userInfo;
 
-			FSRef soundRef;
-			OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
+			NSURL *soundURL;
+			OSStatus err = [self getURL:&soundURL forSoundNamed:soundName];
 			if (err == noErr) {
-				SystemSoundActionID actionID;
-				err = SystemSoundGetActionID(&soundRef, &actionID);
-				if (err == noErr) {
-					err = SystemSoundSetCompletionRoutine(actionID, CFRunLoopGetCurrent(), /*runLoopMode*/ NULL, soundCompletionCallback, /*refcon*/ NULL);
-					SystemSoundPlay(actionID);
+				SystemSoundID soundID;
+				err = AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
+				if (err == kAudioServicesNoError) {
+					err = AudioServicesAddSystemSoundCompletion(soundID, CFRunLoopGetCurrent(), /*runLoopMode*/ NULL, soundCompletionCallbackProc, /*refcon*/ NULL);
+
+					//GCH ticket #70: Since the user set up this sound, we should play it regardless of the system's UI-sounds preference.
+					UInt32 shouldBeSubjectToUISoundsPref = false;
+					err = AudioServicesSetProperty(kAudioServicesPropertyIsUISound, sizeof(soundID), &soundID, sizeof(shouldBeSubjectToUISoundsPref), &shouldBeSubjectToUISoundsPref);
+
+					AudioServicesPlaySystemSound(soundID);
 					userInfo = nil;
 				} else {
 					userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -1279,11 +1294,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 @end
 
-static OSStatus soundCompletionCallbackProc(SystemSoundActionID actionID, void *refcon) 
+static void soundCompletionCallbackProc(SystemSoundID soundID, void *refcon) 
 {
 #pragma unused(refcon)
 
-	SystemSoundRemoveCompletionRoutine(actionID);
+	AudioServicesRemoveSystemSoundCompletion(soundID);
 
-	return SystemSoundRemoveActionID(actionID);
+	AudioServicesDisposeSystemSoundID(soundID);
 }

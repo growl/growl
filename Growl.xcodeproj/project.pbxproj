@@ -96,6 +96,7 @@
 		0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */; };
 		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
+		317ED5CC12CFCB7F00263CFC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 317ED5CB12CFCB7F00263CFC /* AudioToolbox.framework */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
 		31C7594B1047202B008547BF /* simple-mailer.py in Resources */ = {isa = PBXBuildFile; fileRef = 31C7594A1047202B008547BF /* simple-mailer.py */; };
@@ -697,6 +698,7 @@
 		31340CDA0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPropertyListFilePathway.h; path = Core/Source/GrowlPropertyListFilePathway.h; sourceTree = "<group>"; };
 		31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPropertyListFilePathway.m; path = Core/Source/GrowlPropertyListFilePathway.m; sourceTree = "<group>"; };
 		315C88BB1068F9A200880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		317ED5CB12CFCB7F00263CFC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		318984C3108825F10086E973 /* TestVersionUnparsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionUnparsing.h; sourceTree = "<group>"; };
 		318984C4108825F10086E973 /* TestVersionUnparsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionUnparsing.m; sourceTree = "<group>"; };
 		31B9BA5A1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionComparisonBetweenStringsConverting1_0To0_5.h; sourceTree = "<group>"; };
@@ -1312,6 +1314,7 @@
 				95C36A640753299E009FAEA2 /* AppKit.framework in Frameworks */,
 				95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */,
 				93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */,
+				317ED5CC12CFCB7F00263CFC /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1694,6 +1697,7 @@
 				343354B20792F84B00C84B15 /* Carbon.framework */,
 				93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */,
 				31E184DF108462F30011C78B /* SenTestingKit.framework */,
+				317ED5CB12CFCB7F00263CFC /* AudioToolbox.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
