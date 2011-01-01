@@ -795,11 +795,21 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	//First look for a running GHA. It might not actually be within a Growl prefpane bundle.
 	growlHelperAppPath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
-	if (!growlHelperAppPath) {
+	if (growlHelperAppPath) {
+		//The GHA bundle path should be: .../Growl.prefPane/Contents/Resources/GrowlHelperApp.app
+		NSArray *growlHelperAppPathComponents = [growlHelperAppPath pathComponents];
+		NSString *growlPrefPaneBundlePath = [NSString pathWithComponents:[growlHelperAppPathComponents subarrayWithRange:(NSRange){ 0UL, [growlHelperAppPathComponents count] - 3UL }]];
+		growlPrefPaneBundle = [NSBundle bundleWithPath:growlPrefPaneBundlePath];
+		//Make sure we actually got a Growl.prefPane and not, say, a Growl project folder. (NSBundle can be liberal in its acceptance of a directory as a bundle at times.)
+		if (![[growlPrefPaneBundle bundleIdentifier] isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER])
+			growlPrefPaneBundle = nil;
+	} else {
 		//Look for an installed-but-not-running GHA.
-		growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
 		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
 														   ofType:@"app"];
+	}
+	if (!growlPrefPaneBundle) {
+		growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
 	}
 
 #ifdef GROWL_WITH_INSTALLER

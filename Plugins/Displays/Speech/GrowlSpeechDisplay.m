@@ -34,7 +34,7 @@
 		CFMakeCollectable(voice);
 		[voice autorelease];
 	} else {
-		voice = [NSSpeechSynthesizer defaultVoice];
+		//Leaving the voice set to nil means we get the default voice the speech rate selected in the Speech preferences pane.
 	}
 	NSString *title = [notification title];
 	NSString *desc = [notification notificationDescription];

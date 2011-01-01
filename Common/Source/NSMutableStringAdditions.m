@@ -14,9 +14,7 @@
 @implementation NSMutableString (GrowlAdditions)
 
 - (void) appendCharacter:(unichar)ch {
-	NSString *tmp = [[NSString alloc] initWithCharactersNoCopy:&ch length:1U freeWhenDone:NO];
-	[self appendString:tmp];
-	[tmp release];
+	CFStringAppendCharacters((CFMutableStringRef)self, &ch, /*numChars*/ 1L);
 }
 
 @end

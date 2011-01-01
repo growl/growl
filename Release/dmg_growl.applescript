@@ -18,7 +18,7 @@ on process_disk_image(volumeName, artPath)
 				set icon size to 64
 				set arrangement to not arranged
 			end tell
-			set background picture of opts to file ".background:growlDMGBackground.png"
+			set background picture of opts to file ".background:GrowlDiskImageBackground.png"
 			set position of item "Growl.pkg" to {147, 75}
 			set position of item "Extras" to {100, 320}
 			--set position of item "Scripts" to {36, 153}

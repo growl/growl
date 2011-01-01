@@ -3,8 +3,8 @@
 ###   * Set VERSION or GROWLMAIL_VERSION below.
 ###   * make version.
 #
-VERSION=1.2.1hg
-GROWLMAIL_VERSION=1.2.1b1
+VERSION=1.2.1
+GROWLMAIL_VERSION=1.2.2
 
 #
 #########################
@@ -78,7 +78,8 @@ version:
 	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/;s/INSERT_GROWLMAIL_VERSION_HERE/$(GROWLMAIL_VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
 clean-all:
-	find $(SRC_DIR) -name build -prune -print0 | xargs -0 rm -R
+	@# Note: We need to use .../* in order to not descend into .hg and corrupt the repository.
+	find $(SRC_DIR)/* -name build -prune -print0 | xargs -0 rm -R
 
 compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
 compile-growl: build-dir-clean
@@ -113,7 +114,6 @@ $(DSYM_DIR):
 	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLTUNES_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
-	mv $(GROWLMAIL_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 
 $(GROWL_DIR):
@@ -129,8 +129,10 @@ $(GROWL_DIR)/Growl.pkg: $(GROWL_DIR)
 # These are temporary; they'll go away once we have an Extras tab.
 $(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlmail compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
 	mkdir '$@'
-$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras $(GROWLMAIL_DIR)
-	cp -R '$(GROWLMAIL_DIR)' '$@'
+$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
+	mkdir '$@'
+$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.webloc: GrowlMail/GrowlMail.webloc $(GROWL_DIR)/Extras/GrowlMail
+	cp '$<' '$@'
 $(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras $(GROWLSAFARI_DIR)
 	cp -R '$(GROWLSAFARI_DIR)' '$@'
 $(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras $(GROWLTUNES_DIR)
@@ -159,10 +161,7 @@ $(HARDWAREGROWLER_DIR):
 	cp '$(SRC_DIR)'/Extras/HardwareGrowler/*.txt '$@'
 $(GROWLNOTIFY_DIR):
 	mkdir '$@'
-	cp '$(GROWLNOTIFY_BUILD_DIR)/growlnotify' '$@'
-	cp '$(SRC_DIR)/Extras/growlnotify/growlnotify.1' '$@'
-	cp '$(SRC_DIR)/Extras/growlnotify/install.sh' '$@'
-	cp '$(SRC_DIR)'/Extras/growlnotify/*.txt '$@'
+	$(PACKAGE_MAKER) --no-relocate --doc growlnotify/growlnotify.pmdoc --out '$@'/growlnotify.pkg --version $(GROWLNOTIFY_VERSION) --id info.growl.growlnotify.pkg -v	
 
 $(SDK_DIR):
 	@# build the SDK
@@ -217,10 +216,10 @@ $(SDK_DIR):
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
-$(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
+$(BUILD_DIR)/$(RELEASE_FILENAME).dmg: compile-growl $(GROWL_DIR)/Uninstall\ Growl.app $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.webloc $(GROWL_DIR)/Get\ more\ styles.webloc $(GROWL_DIR)/Growl.pkg $(GROWL_DIR)/Extras/GrowlMail/GrowlMail.webloc $(GROWL_DIR)/Extras/GrowlSafari $(GROWL_DIR)/Extras/GrowlTunes $(GROWL_DIR)/Extras/HardwareGrowler $(GROWL_DIR)/Extras/growlnotify
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
-	cp $(SRC_DIR)/images/dmg/growlDMGBackground.png $(GROWL_DIR)/.background
+	cp $(SRC_DIR)/images/dmg/GrowlDiskImageBackground.png $(GROWL_DIR)/.background
 	./ensureCustomIconsExtracted $(ART_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME).dmg $(GROWL_DIR) $(RELEASE_NAME) dmg_growl.applescript $(ART_DIR)
 	rm $(ART_DIR)/GrowlIcon

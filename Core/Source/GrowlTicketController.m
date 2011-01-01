@@ -20,7 +20,6 @@
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
-		[self loadAllSavedTickets];
 	}
 	return self;
 }
@@ -64,9 +63,9 @@
 				 	 */
 					if (clobber || ![ticketsByApplicationName objectForKey:applicationName])
 						[ticketsByApplicationName setObject:newTicket forKey:applicationName];
-
-					[newTicket release];
 				}
+				
+				[newTicket release];
 			}
 		}
 	}

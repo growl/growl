@@ -868,7 +868,7 @@
 	if (versionString) {
 		NSString *versionStringWithHgVersion = nil;
 		struct Version version;
-		if (parseVersionString(versionString, &version)) {
+		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
 			const char *hgRevisionUTF8 = [[[self bundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
 			if (hgRevisionUTF8) {
 				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);

@@ -41,8 +41,6 @@ typedef enum {
 } iTunesState;
 
 @interface GrowlTunesController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
-	NSTimer				*pollTimer;
-	NSAppleScript		*pollScript;
 	NSAppleScript		*getInfoScript;
 	NSMutableArray		*plugins;
 	NSStatusItem		*statusItem;
@@ -54,8 +52,6 @@ typedef enum {
 	id <GrowlTunesPluginArchive> archivePlugin;
 
 	iTunesState			state;
-	BOOL				polling;
-	double				pollInterval;
 	int					trackID;
 	NSString			*trackURL;		//The file location of the last-known track in iTunes, @"" for none
 	NSString			*lastPostedDescription;
@@ -66,14 +62,6 @@ typedef enum {
 
 - (BOOL) iTunesIsRunning;
 - (BOOL) quitiTunes;
-
-- (void) setPolling:(BOOL)flag;
-
-#pragma mark Poll timer
-
-- (void) poll:(NSTimer *)timer;
-- (void) startTimer;
-- (void) stopTimer;
 
 #pragma mark Status item
 
