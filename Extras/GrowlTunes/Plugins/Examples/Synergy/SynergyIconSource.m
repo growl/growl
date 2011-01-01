@@ -2,7 +2,7 @@
 //  SynergyIconSource.m
 //  GrowlTunes-Synergy
 //
-//  Created by Mac-arena the Bored Zo on 08/31/2004.
+//  Created by Peter Hosey on 08/31/2004.
 //  Public domain.
 //	based on a patch submitted by J. Nicholas Jitkoff to the Growl project.
 //

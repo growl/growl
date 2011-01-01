@@ -2,8 +2,8 @@
 //  GrowlAmazonXMLResponse.h
 //  GrowlTunes-Amazon
 //
-//  Created by Mac-arena the Bored Zo on 2005-03-21.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Created by Peter Hosey on 2005-03-21.
+//  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

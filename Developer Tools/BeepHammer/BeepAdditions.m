@@ -2,7 +2,7 @@
 //  BeepAdditions.m
 //  Beep-Cocoa
 //
-//  Created by Mac-arena the Bored Zo on 2004-12-06.
+//  Created by Peter Hosey on 2004-12-06.
 //
 
 #import "BeepAdditions.h"

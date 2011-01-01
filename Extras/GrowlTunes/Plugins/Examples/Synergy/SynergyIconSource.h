@@ -2,8 +2,7 @@
 //  SynergyIconSource.h
 //  GrowlTunes-Synergy
 //
-//  Created by Mac-arena the Bored Zo on 08/31/2004.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Created by Peter Hosey on 08/31/2004.
 //
 
 #import <Cocoa/Cocoa.h>
