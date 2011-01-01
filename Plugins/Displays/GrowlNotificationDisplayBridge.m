@@ -2,7 +2,7 @@
 //  GrowlNotificationDisplayBridge.m
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-05.
+//  Created by Peter Hosey on 2005-06-05.
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 

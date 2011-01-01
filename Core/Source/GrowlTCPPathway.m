@@ -2,7 +2,7 @@
 //  GrowlTCPPathway.m
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2006-02-13.
+//  Created by Peter Hosey on 2006-02-13.
 //  Copyright 2006 The Growl Project. All rights reserved.
 //
 

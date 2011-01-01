@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Matthew Walton on 11/09/2004.
-//  Copyright 2004-2006 The Growl Project. All rights reserved.
+//  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 //  Most of this is lifted from KABubbleWindowController in the Growl source
 

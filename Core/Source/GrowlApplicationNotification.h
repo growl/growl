@@ -2,7 +2,7 @@
 //	GrowlApplicationNotification.h
 //	Growl
 //
-//	Created by Mac-arena the Bored Zo on 2005-07-31.
+//	Created by Peter Hosey on 2005-07-31.
 //	Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 

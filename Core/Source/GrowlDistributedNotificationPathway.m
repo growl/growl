@@ -2,7 +2,7 @@
 //  GrowlDistributedNotificationPathway.m
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2005-03-12.
+//  Created by Peter Hosey on 2005-03-12.
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 

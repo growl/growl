@@ -2,7 +2,7 @@
 //  GrowlDisplayWindowController.h
 //  Display Plugins
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-03.
+//  Created by Peter Hosey on 2005-06-03.
 //  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 

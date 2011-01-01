@@ -2,8 +2,8 @@
 //  GrowlTicketController.m
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-08.
-//  Copyright 2005-2006 Mac-arena the Bored Zo. All rights reserved.
+//  Created by Peter Hosey on 2005-06-08.
+//  Copyright 2005-2006 Peter Hosey. All rights reserved.
 //
 
 #import "GrowlTicketController.h"
