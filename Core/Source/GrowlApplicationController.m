@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Karl Adam on Thu Apr 22 2004.
-//  Renamed from GrowlController by Mac-arena the Bored Zo on 2005-06-28.
+//  Renamed from GrowlController by Peter Hosey on 2005-06-28.
 //  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details

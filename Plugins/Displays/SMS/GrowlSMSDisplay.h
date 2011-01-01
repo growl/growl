@@ -3,7 +3,7 @@
 //  Growl Display Plugins
 //
 //  Created by Diggory Laycock
-//  Copyright 2005-2006 The Growl Project All rights reserved.
+//  Copyright 2005Ð2011 The Growl Project All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
