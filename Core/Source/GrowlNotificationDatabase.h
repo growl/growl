@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlAbstractDatabase.h"
 
-#define NOTIFICATION_HISTORY_NOTIFICATION @"Growl Notification History"
-
 @class GrowlNotificationHistoryWindow;
 
 @interface GrowlNotificationDatabase : GrowlAbstractDatabase {
@@ -18,6 +16,7 @@
    NSDate *lastImageCheck;
    NSDate *awayDate;
    BOOL notificationsWhileAway;
+   GrowlNotificationHistoryWindow *historyWindow;
 }
 @property (readonly) NSDate *awayDate;
 @property (readonly) BOOL notificationsWhileAway;

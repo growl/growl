@@ -16,8 +16,6 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlNotificationDatabase+GHAAdditions.h"
-#import "GrowlNotificationHistoryWindow.h"
-#import "GrowlHistoryNotification.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -673,22 +671,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		CFRelease(uuidRef);
 	}
    
-   BOOL displayNotification = YES;
    GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
-
-   //determine whether we should be displaying this notification at all
-   if ([[GrowlNotificationDatabase sharedInstance] notificationsWhileAway]) {
-      //if we are away, and sticky while away is set, we need to check whether it is the history counter
-      if (![[aDict objectForKey:GROWL_APP_NAME] isEqualToString:@"Growl"] || ![[aDict objectForKey:GROWL_NOTIFICATION_NAME] isEqualToString:NOTIFICATION_HISTORY_NOTIFICATION]) {
-         displayNotification = NO;
-      }
-   }
-   if ([preferences squelchMode])
-      displayNotification = NO;
    
-	if (displayNotification) {
+	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
 
 		if (!display)
@@ -895,20 +882,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       [self launchSparkleHelper];
       [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
    }
-   
-   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT])
-   {
-      if(!historyWindow)
-      {
-         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
-         historyWindow = [window retain];
-         [window release];
-         [historyWindow window];
-      }
-      [[GrowlNotificationDatabase sharedInstance] userReturnedAndOpenedList];
-      [historyWindow resetArrayWithDate:[[GrowlNotificationDatabase sharedInstance] awayDate]];
-      [historyWindow showWindow:self];
-   }
 }
 
 - (void) growlNotificationTimedOut:(id)clickContext {
@@ -918,11 +891,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
                                                                      object:nil 
                                                                    userInfo:nil 
                                                          deliverImmediately:YES];
-   }
-   
-   if([clickContext isEqualToString:HISTORY_CLICK_CONTEXT])
-   {
-      [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
    }
 } 
 
@@ -1255,19 +1223,17 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		NSLocalizedString(@"A Growl update is available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"You are now considered idle by Growl", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"You are no longer considered idle by Growl", nil), USER_RETURNED_NOTIFICATION,
-      NSLocalizedString(@"There were notifications while you were away", nil), NOTIFICATION_HISTORY_NOTIFICATION,
 		nil];
 
 	NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:
 		NSLocalizedString(@"Growl update available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"User went idle", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"User returned", nil), USER_RETURNED_NOTIFICATION,
-      NSLocalizedString(@"Notification History", nil), NOTIFICATION_HISTORY_NOTIFICATION,
 		nil];
 	
 	NSDictionary	*growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, NOTIFICATION_HISTORY_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
-		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, NOTIFICATION_HISTORY_NOTIFICATION, nil], GROWL_NOTIFICATIONS_DEFAULT,
+		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
+		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, nil], GROWL_NOTIFICATIONS_DEFAULT,
 		humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 		descriptions, GROWL_NOTIFICATIONS_DESCRIPTIONS,
 		nil];

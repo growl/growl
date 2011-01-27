@@ -14,15 +14,19 @@
 @interface GrowlNotificationHistoryWindow : NSWindowController <GrowlDatabaseUpdateDelegate> {
    IBOutlet NSTableView *historyTable;
    IBOutlet NSArrayController *arrayController;
+   IBOutlet NSTextField *countLabel;
    GrowlNotificationDatabase *historyController;
    
    NSDate *awayDate;
+   BOOL expanded;
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
 @property (assign) IBOutlet NSArrayController *arrayController;
+@property (assign) IBOutlet NSTextField *countLabel;
 @property (nonatomic, retain) NSDate *awayDate;
 
+-(void)updateTableView;
 -(void)resetArrayWithDate:(NSDate*)newAway;
 
 @end

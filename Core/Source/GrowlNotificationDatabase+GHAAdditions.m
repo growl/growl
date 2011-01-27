@@ -13,6 +13,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlIdleStatusController.h"
 #import "GrowlHistoryNotification.h"
+#import "GrowlNotificationHistoryWindow.h"
 
 @implementation GrowlNotificationDatabase (GHAAditions)
 
@@ -80,13 +81,6 @@
       return;
    }
    
-   //Ignore our own notification, it would be a bit recursive, and infinite loopish...
-   if([[noteDict objectForKey:GROWL_APP_NAME] isEqualToString:@"Growl"] && [[noteDict objectForKey:GROWL_NOTIFICATION_NAME] isEqualToString:NOTIFICATION_HISTORY_NOTIFICATION])
-   {
-      //NSLog(@"Not logging internally generated history coalesce notification");
-      return;
-   }
-   
    /* Ignore the notification if we arent logging and arent idle
     * Note that this breaks growl menu most recent notifications
     */
@@ -116,27 +110,27 @@
    [notification setDeleteUponReturn:[NSNumber numberWithBool:deleteUponReturn]];
    if (![[notification managedObjectContext] save:&error])
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-      
+   
+   
    if(isAway)
    {
       notificationsWhileAway = YES;
-      NSUInteger numberOfNotifications = [self awayHistoryCount];
       
-      NSString* description;
+      if(!historyWindow)
+      {
+         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
+         historyWindow = [window retain];
+         [window release];
+         [historyWindow window];
+      }
       
-      if(numberOfNotifications == 1)
-         description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
-      else
-         description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
-      //Send out the notification, overwriting the previous one
-      [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Notification History:", nil)
-                                  description:description
-                             notificationName:NOTIFICATION_HISTORY_NOTIFICATION
-                                     iconData:nil
-                                     priority:0
-                                     isSticky:YES 
-                                 clickContext:HISTORY_CLICK_CONTEXT
-                                   identifier:HISTORY_IDENTIFIER];
+      if(![[historyWindow window] isVisible])
+      {
+         [historyWindow resetArrayWithDate:awayDate];
+         [historyWindow showWindow:self];
+      }else {
+         [historyWindow updateTableView];
+      }
    }
 }
 

@@ -14,6 +14,7 @@
 #import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
+#import "GrowlNotificationHistoryWindow.h"
 #import <CoreData/CoreData.h>
 
 @implementation GrowlNotificationDatabase
@@ -47,10 +48,6 @@
 -(NSString*)storeType
 {
    return @"NotificationHistoryDB";
-}
-
-- (void) logNotificationWithDictionary:(NSDictionary *)noteDict whileAway:(BOOL)awayFlag
-{
 }
 
 -(NSUInteger)awayHistoryCount
