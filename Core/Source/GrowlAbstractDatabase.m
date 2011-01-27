@@ -14,6 +14,7 @@
 
 @synthesize updateDelegate;
 @synthesize managedObjectContext;
+@synthesize uiManagedObjectContext;
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
@@ -130,6 +131,19 @@
    return managedObjectContext;
 }
 
+- (NSManagedObjectContext *)uiManagedObjectContext {
+	
+   if (uiManagedObjectContext != nil) {
+      return uiManagedObjectContext;
+   }
+	
+   NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+   if (coordinator != nil) {
+      uiManagedObjectContext = [NSManagedObjectContext new];
+      [uiManagedObjectContext setPersistentStoreCoordinator:coordinator];
+   }
+   return uiManagedObjectContext;
+}
 
 /**
  Returns the managed object model for the application.

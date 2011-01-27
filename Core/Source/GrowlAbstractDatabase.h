@@ -21,6 +21,7 @@
    NSPersistentStoreCoordinator *persistentStoreCoordinator;
    NSManagedObjectModel *managedObjectModel;
    NSManagedObjectContext *managedObjectContext;
+   NSManagedObjectContext *uiManagedObjectContext;
    
    id<GrowlDatabaseUpdateDelegate> updateDelegate;
    NSNumber *processID;
@@ -28,6 +29,7 @@
 @property (nonatomic, retain) id<GrowlDatabaseUpdateDelegate> updateDelegate;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSManagedObjectContext *uiManagedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 -(NSString*)storePath;
