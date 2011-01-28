@@ -447,7 +447,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    return [self boolForKey:GrowlHistoryTrimByCount];
 }
 - (void) setGrowlHistoryTrimByCount:(BOOL)flag {
-   [self setBool:flag forKey:GrowlHistoryTrimByDate];
+   [self setBool:flag forKey:GrowlHistoryTrimByCount];
 }
 
 #pragma mark Remote Growling
