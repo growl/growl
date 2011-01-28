@@ -11,8 +11,8 @@
 			<string key="NS.object.0">788</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="100"/>
 			<integer value="234"/>
+			<integer value="2129"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -55,7 +55,7 @@
 										<characters key="NS.bytes">1</characters>
 									</object>
 									<object class="NSView" key="NSView" id="181255167">
-										<reference key="NSNextResponder" ref="842014074"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSButton" id="209350309">
@@ -333,7 +333,6 @@
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {539, 433}}</string>
-										<reference key="NSSuperview" ref="842014074"/>
 									</object>
 									<string key="NSLabel">General</string>
 									<reference key="NSColor" ref="93958591"/>
@@ -2381,7 +2380,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 								<object class="NSTabViewItem" id="714548492">
 									<string key="NSIdentifier">5</string>
 									<object class="NSView" key="NSView" id="630730195">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="842014074"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSButton" id="320754302">
@@ -3401,6 +3400,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {539, 433}}</string>
+										<reference key="NSSuperview" ref="842014074"/>
 									</object>
 									<string key="NSLabel">History</string>
 									<reference key="NSColor" ref="93958591"/>
@@ -3686,13 +3686,13 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
 							</array>
-							<reference key="NSSelectedTabViewItem" ref="534946864"/>
+							<reference key="NSSelectedTabViewItem" ref="714548492"/>
 							<reference key="NSFont" ref="980613253"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<array class="NSMutableArray" key="NSSubviews">
-								<reference ref="181255167"/>
+								<reference ref="630730195"/>
 							</array>
 						</object>
 					</array>
@@ -6050,6 +6050,38 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						</object>
 					</object>
 					<int key="connectionID">2406</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">validateHistoryTrimSetting:</string>
+						<reference key="source" ref="852059746"/>
+						<reference key="destination" ref="957718955"/>
+					</object>
+					<int key="connectionID">2407</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">validateHistoryTrimSetting:</string>
+						<reference key="source" ref="852059746"/>
+						<reference key="destination" ref="332655446"/>
+					</object>
+					<int key="connectionID">2408</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">trimByCountCheck</string>
+						<reference key="source" ref="852059746"/>
+						<reference key="destination" ref="319276967"/>
+					</object>
+					<int key="connectionID">2409</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">trimByDateCheck</string>
+						<reference key="source" ref="852059746"/>
+						<reference key="destination" ref="332655446"/>
+					</object>
+					<int key="connectionID">2410</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8581,7 +8613,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2406</int>
+			<int key="maxID">2410</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8638,6 +8670,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<string key="showDisabledDisplays:">id</string>
 						<string key="showPreview:">id</string>
 						<string key="startStopGrowl:">id</string>
+						<string key="validateHistoryTrimSetting:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeNameOfDisplayForApplication:">
@@ -8696,6 +8729,10 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 							<string key="name">startStopGrowl:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="validateHistoryTrimSetting:">
+							<string key="name">validateHistoryTrimSetting:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="aboutBoxTextView">NSTextView</string>
@@ -8729,6 +8766,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<string key="soundMenuButton">NSPopUpButton</string>
 						<string key="startStopGrowl">NSButton</string>
 						<string key="ticketsArrayController">TicketsArrayController</string>
+						<string key="trimByCountCheck">NSButton</string>
+						<string key="trimByDateCheck">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="aboutBoxTextView">
@@ -8854,6 +8893,14 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<object class="IBToOneOutletInfo" key="ticketsArrayController">
 							<string key="name">ticketsArrayController</string>
 							<string key="candidateClassName">TicketsArrayController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="trimByCountCheck">
+							<string key="name">trimByCountCheck</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="trimByDateCheck">
+							<string key="name">trimByDateCheck</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

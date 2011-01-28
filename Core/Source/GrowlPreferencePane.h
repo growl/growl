@@ -88,6 +88,8 @@
    //History tab pane
    IBOutlet NSArrayController *historyArrayController;
    IBOutlet NSTableView       *historyTable;
+   IBOutlet NSButton          *trimByCountCheck;
+   IBOutlet NSButton          *trimByDateCheck;
 }
 
 - (NSString *) bundleVersion;
@@ -146,6 +148,9 @@
 
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
+
+#pragma mark HistoryTab
+-(IBAction)validateHistoryTrimSetting:(id)sender;
 
 #pragma mark About Tab methods
 - (void) setupAboutTab;

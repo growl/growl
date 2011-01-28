@@ -988,6 +988,27 @@
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 }
 
+-(IBAction)validateHistoryTrimSetting:(id)sender
+{
+   if([trimByDateCheck state] == NSOffState && [trimByCountCheck state] == NSOffState)
+   {
+      NSLog(@"User tried turning off both automatic trim options");
+      NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Turning off both automatic trim functions is not allowed.", nil)
+                                       defaultButton:NSLocalizedString(@"Ok", nil)
+                                     alternateButton:nil
+                                         otherButton:nil
+                           informativeTextWithFormat:NSLocalizedString(@"To prevent the history database from growing indefinitely, at least one type of automatic trim must be active", nil)];
+      [alert runModal];
+      if ([sender isEqualTo:trimByDateCheck]) {
+         [preferencesController setGrowlHistoryTrimByDate:YES];
+      }
+      
+      if([sender isEqualTo:trimByCountCheck]){
+         [preferencesController setGrowlHistoryTrimByCount:YES];
+      }
+   }
+}
+
 #pragma mark -
 
 /*!

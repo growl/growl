@@ -98,6 +98,13 @@
 -(void)storeMaintenance:(NSTimer*)theTimer
 {
    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   
+   if(![preferences isGrowlHistoryTrimByDate] && ![preferences isGrowlHistoryTrimByCount])
+   {
+      NSLog(@"Setting trimByDate since both have been turned off outside of the UI");
+      [preferences setGrowlHistoryTrimByDate:YES];
+   }
+   
    if([preferences isGrowlHistoryTrimByDate])
    {
       [self trimByDate];
