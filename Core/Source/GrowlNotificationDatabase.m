@@ -242,7 +242,7 @@
 }
 -(void)userReturnedAndOpenedList
 {
-   notificationsWhileAway = NO;
+   //notificationsWhileAway = NO;
 }
 
 -(void)userReturnedAndClosedList
