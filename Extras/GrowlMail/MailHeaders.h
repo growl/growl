@@ -323,6 +323,13 @@
 
 @end
 
+@interface MailCalDAVAccount : MailAccount
+{
+    NSString *_title;
+    BOOL _isBeingDeleted;
+}
+@end
+
 @interface MailboxUid : NSObject
 {
     NSString *uniqueId;

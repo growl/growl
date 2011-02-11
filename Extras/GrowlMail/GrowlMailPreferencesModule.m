@@ -41,18 +41,27 @@
 + (NSArray *) remoteMailAccounts;
 @end
 
+static BOOL isLocalAccount(MailAccount *account) {
+	Class localAccountClass = NSClassFromString(@"LocalAccount");
+	return localAccountClass && [account isKindOfClass:localAccountClass];
+}
+static BOOL isCalDAVAccount(MailAccount *account) {
+	Class CalDAVAccountClass = NSClassFromString(@"MailCalDAVAccount");
+	return CalDAVAccountClass && [account isKindOfClass:CalDAVAccountClass];
+}
+
 @implementation MailAccount(GrowlMail)
 + (NSArray *) remoteMailAccounts; {
 	//we check this because on 10.6 mailAccounts includes additional unwanted caldav account references
+	//On some systems, even though they're running Snow Leopard, either this check is failing or this method no longer works as advertised. For this reason, plus to exclude CalDAV accounts on Leopard (if +mailAccounts includes them there), we need to do additional filtering below.
 	SEL mailAccountSelector = @selector(mailAccounts);
 	if([MailAccount respondsToSelector:@selector(mailAccountsExcludingCalDAVAccounts)])
 		mailAccountSelector = @selector(mailAccountsExcludingCalDAVAccounts);
 	
 	NSArray *mailAccounts = [MailAccount performSelector:mailAccountSelector];
 	NSMutableArray *remoteAccounts = [NSMutableArray arrayWithCapacity:[mailAccounts count]];
-	Class localAccountClass = [LocalAccount class];
 	for(id account in mailAccounts) {
-		if (![account isKindOfClass:localAccountClass])
+		if (!(isLocalAccount(account) || isCalDAVAccount(account)))
 			[remoteAccounts addObject:account];
 	}
 
