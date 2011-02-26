@@ -50,6 +50,11 @@
    return @"NotificationHistoryDB";
 }
 
+-(NSString*)modelName
+{
+   return @"GrowlNotificationHistory";
+}
+
 -(NSUInteger)awayHistoryCount
 {
    NSError *error = nil;

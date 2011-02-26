@@ -48,6 +48,11 @@
    return nil;
 }
 
+-(NSString*)modelName
+{
+   return nil;
+}
+
 -(void)databaseDidSave:(NSNotification*)note
 {
    NSMutableDictionary *savedURIs = [NSMutableDictionary dictionaryWithObject:processID forKey:@"kDatabaseProcessID"];
@@ -155,7 +160,9 @@
       return managedObjectModel;
    }
    //TODO: make this work better
-   managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:[NSArray arrayWithObject:[GrowlPathUtilities helperAppBundle]]] retain];    
+   NSString *modelName = [self modelName];
+   NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtilities helperAppBundle] pathForResource:modelName ofType:@"mom"] ];
+   managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
    return managedObjectModel;
 }
 
