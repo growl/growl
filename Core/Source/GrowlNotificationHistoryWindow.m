@@ -24,6 +24,7 @@
       expanded = NO;
       [[self window] setFrame:NSRectFromCGRect(CGRectMake(0, 0, 397, 60)) display:YES animate:NO];
       [[self window] center];
+      [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
    }
    return self;
 }
