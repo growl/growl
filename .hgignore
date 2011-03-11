@@ -9,6 +9,8 @@ build
 *.pbxuser
 *.perspective
 *.perspectivev3
+*.xcworkspace
+*.xcuserdatad
 
 *~.nib
 
