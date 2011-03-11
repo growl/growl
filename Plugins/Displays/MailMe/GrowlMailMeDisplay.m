@@ -105,8 +105,24 @@
 				kSecProtocolTypeSMTP, kSecAuthenticationTypeAny,
 				&passwordLength, &passwordBytes,
 				/*itemRef*/ NULL);
+
 			if (err != noErr) {
-				NSLog(@"MailMe: Could not get password for SMTP account %@: %i/%s", userAtHostPort, (int)err, GetMacOSStatusCommentString(err));
+				//Try looking it up as a MobileMe account.
+				NSMutableArray *usernameComponents = [[[username componentsSeparatedByString:@"@"] mutableCopy] autorelease];
+				[usernameComponents removeLastObject];
+				username = [usernameComponents componentsJoinedByString:@"@"];
+
+				NSString *serviceName = @"iTools";
+
+				err = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+					(UInt32)[serviceName length], [serviceName UTF8String],
+					(UInt32)[username length],    [username UTF8String],
+					&passwordLength,              &passwordBytes,
+					/*itemRef*/ NULL);
+
+				if (err != noErr) {
+					NSLog(@"MailMe: Could not get password for SMTP account %@: %i/%s", userAtHostPort, (int)err, GetMacOSStatusCommentString(err));
+				}
 			} else {
 				NSData *passwordData = [NSData dataWithBytesNoCopy:passwordBytes length:passwordLength freeWhenDone:NO];
 
