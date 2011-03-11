@@ -13,6 +13,8 @@
 
 #import "GrowlDisplayWindowController.h"
 
+#include <execinfo.h>
+
 //Used to silence a warning when forwarding one of these messages to the display or notification.
 @protocol WindowControllerListener <NSObject>
 
@@ -56,6 +58,18 @@
 }
 
 - (void) dealloc {
+	{
+		enum { maxStackHeight = 64 };
+		void *stackAddresses[maxStackHeight];
+		int numAddresses = backtrace(stackAddresses, maxStackHeight);
+		char **symbolsUTF8 = backtrace_symbols(stackAddresses, numAddresses);
+		NSMutableArray *stackTraceSymbols = [NSMutableArray arrayWithCapacity:numAddresses];
+		for (int i = 0; i < numAddresses; ++i) {
+			[stackTraceSymbols addObject:[NSString stringWithUTF8String:symbolsUTF8[i]]];
+		}
+		NSLog(@"%@ deallocating; stack trace:\n%@\n"@"window controllers: %@", self, stackTraceSymbols, windowControllers);
+		free(symbolsUTF8);
+	}
 	[windowControllers release];
 
 	[notification release];
