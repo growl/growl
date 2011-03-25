@@ -215,11 +215,13 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 		if (!data) {
 			[window presentError:error];
 		} else {
+			[self willChangeValueForKey:@"canAndShouldPatchSelectedBundle"];
 			[bundle willChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
 			BOOL wrote = [data writeToURL:infoDictURL
 								  options:NSDataWritingAtomic
 									error:&error];
 			[bundle didChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
+			[self didChangeValueForKey:@"canAndShouldPatchSelectedBundle"];
 			if (!wrote) {
 				[window presentError:error];
 			}
