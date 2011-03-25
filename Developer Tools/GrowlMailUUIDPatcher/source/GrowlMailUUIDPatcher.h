@@ -12,6 +12,8 @@
 	NSWindow *window;
 	NSTableView *warningNotesTable;
 	NSPanel *confirmationSheet;
+	NSButton *okButton; //Deliberately not an outlet to resist attempts by users to defeat delayed enabling
+	NSTimer *delayedEnableTimer;
 	NSIndexSet *selectedBundleIndexes;
 
 	NSMutableArray /*of NSStrings*/ *warningNotes;

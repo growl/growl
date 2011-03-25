@@ -12,6 +12,8 @@
 
 #include "GrowlVersionUtilities.h"
 
+#import <objc/runtime.h>
+
 @interface GrowlMailUUIDPatcher () <NSTableViewDelegate>
 
 //Returns the selected bundle or nil if none is selected.
@@ -19,7 +21,13 @@
 
 - (void) recomputeSelectedBundleNotes;
 
+- (NSButton *) buttonInWindow:(NSWindow *)window withAction:(SEL)action;
+- (NSButton *) buttonDescendantOfView:(NSView *)view withAction:(SEL)action;
+- (void) enableOKButton:(NSTimer *)timer;
+
 @end
+
+#define BUTTON_ENABLING_DELAY 15.0 /*seconds*/
 
 //This is due to be replaced by an appcast, as soon as we work out how we want to do that.
 static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
@@ -72,6 +80,8 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 }
 
 - (void) dealloc {
+	[delayedEnableTimer invalidate];
+	[delayedEnableTimer release];
 	[confirmationSheet close];
 	[confirmationSheet release];
 	[window close];
@@ -171,13 +181,51 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 	//The only reason this is here is because NSArrayController hates being bound to this property if there's no setter.
 }
 
+static Class buttonClass = Nil;
+- (NSButton *) buttonInWindow:(NSWindow *)windowToSearch withAction:(SEL)action {
+	if (!buttonClass)
+		buttonClass = [NSButton class];
+	return [self buttonDescendantOfView:[windowToSearch contentView] withAction:action];
+}
+//Note: buttonDescendantOfView:withAction: won't work unless buttonInWindow:withAction: has been called previously (since it initializes the buttonClass variable).
+- (NSButton *) buttonDescendantOfView:(NSView *)view withAction:(SEL)action {
+	if ([view isKindOfClass:buttonClass]) {
+		NSButton *button = (NSButton *)view;
+		if (sel_isEqual([button action], action))
+			return button;
+	}
+
+	for (NSView *subview in [view subviews]) {
+		NSButton *foundButton = [self buttonDescendantOfView:subview withAction:action];
+		if (foundButton)
+			return foundButton;
+	}
+
+	return nil;
+}
+
 - (IBAction) patchSelectedBundle:(id)sender {
+	//First, find the OK button, disable it, and prepare to enable it in some number of seconds.
+	//We search out the button rather than use an outlet so that the user cannot simply enable the button and disconnect the outlet.
+	okButton = [self buttonInWindow:confirmationSheet withAction:@selector(ok:)]; //Not retained because the window's view hierarchy owns it
+	[okButton setEnabled:NO];
+	[delayedEnableTimer invalidate];
+	[delayedEnableTimer release];
+	delayedEnableTimer = [[NSTimer scheduledTimerWithTimeInterval:BUTTON_ENABLING_DELAY target:self selector:@selector(enableOKButton:) userInfo:nil repeats:NO] retain];
+	
 	[NSApp beginSheet:confirmationSheet modalForWindow:window modalDelegate:self didEndSelector:@selector(confirmationSheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+- (void) enableOKButton:(NSTimer *)timer {
+	[okButton setEnabled:YES];
 }
 - (void) confirmationSheetDidEnd:(NSWindow *)sheet
 					  returnCode:(NSInteger)returnCode
 					 contextInfo:(void *)contextInfo
 {
+	[delayedEnableTimer invalidate];
+	[delayedEnableTimer release];
+	delayedEnableTimer = nil;
+
 	if (returnCode == NSOKButton) {
 		GrowlMailFoundBundle *bundle = self.selectedBundle;
 		NSURL *bundleURL = bundle.URL;
