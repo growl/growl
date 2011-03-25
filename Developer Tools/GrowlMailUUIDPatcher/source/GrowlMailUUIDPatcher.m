@@ -21,6 +21,8 @@
 
 - (void) recomputeSelectedBundleNotes;
 
+- (void) applyChangeToFoundBundle:(GrowlMailFoundBundle *)bundle;
+
 - (NSButton *) buttonInWindow:(NSWindow *)window withAction:(SEL)action;
 - (NSButton *) buttonDescendantOfView:(NSView *)view withAction:(SEL)action;
 - (void) enableOKButton:(NSTimer *)timer;
@@ -181,6 +183,51 @@ static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
 	//The only reason this is here is because NSArrayController hates being bound to this property if there's no setter.
 }
 
+- (void) applyChangeToFoundBundle:(GrowlMailFoundBundle *)bundle {
+	NSParameterAssert(bundle != nil);
+	NSParameterAssert([bundle isKindOfClass:[GrowlMailFoundBundle class]]);
+
+	NSURL *bundleURL = bundle.URL;
+	NSURL *infoDictURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
+
+	NSInputStream *inStream = [NSInputStream inputStreamWithURL:infoDictURL];
+	NSError *error = nil;
+	NSPropertyListFormat format = 0;
+	[inStream open];
+	NSMutableDictionary *dict = [NSPropertyListSerialization propertyListWithStream:inStream
+																			options:NSPropertyListMutableContainers
+																			 format:&format
+																			  error:&error];
+	[inStream close];
+	if (!dict) {
+		[window presentError:error];
+	} else {
+		NSMutableArray *UUIDs = [dict objectForKey:@"SupportedPluginCompatibilityUUIDs"];
+		if (![UUIDs containsObject:mailUUID])
+			[UUIDs addObject:mailUUID];
+		if (![UUIDs containsObject:messageFrameworkUUID])
+			[UUIDs addObject:messageFrameworkUUID];
+
+		NSData *data = [NSPropertyListSerialization dataWithPropertyList:dict
+																  format:format
+																 options:0
+																   error:&error];
+		if (!data) {
+			[window presentError:error];
+		} else {
+			[bundle willChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
+			BOOL wrote = [data writeToURL:infoDictURL
+								  options:NSDataWritingAtomic
+									error:&error];
+			[bundle didChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
+			if (!wrote) {
+				[window presentError:error];
+			}
+		}
+	}
+
+}
+
 static Class buttonClass = Nil;
 - (NSButton *) buttonInWindow:(NSWindow *)windowToSearch withAction:(SEL)action {
 	if (!buttonClass)
@@ -227,46 +274,9 @@ static Class buttonClass = Nil;
 	delayedEnableTimer = nil;
 
 	if (returnCode == NSOKButton) {
-		GrowlMailFoundBundle *bundle = self.selectedBundle;
-		NSURL *bundleURL = bundle.URL;
-		NSURL *infoDictURL = [[bundleURL URLByAppendingPathComponent:@"Contents"] URLByAppendingPathComponent:@"Info.plist"];
-
-		NSInputStream *inStream = [NSInputStream inputStreamWithURL:infoDictURL];
-		NSError *error = nil;
-		NSPropertyListFormat format = 0;
-		[inStream open];
-		NSMutableDictionary *dict = [NSPropertyListSerialization propertyListWithStream:inStream
-																				options:NSPropertyListMutableContainers
-																				 format:&format
-																				  error:&error];
-		[inStream close];
-		if (!dict) {
-			[window presentError:error];
-		} else {
-			NSMutableArray *UUIDs = [dict objectForKey:@"SupportedPluginCompatibilityUUIDs"];
-			if (![UUIDs containsObject:mailUUID])
-				[UUIDs addObject:mailUUID];
-			if (![UUIDs containsObject:messageFrameworkUUID])
-				[UUIDs addObject:messageFrameworkUUID];
-
-			NSData *data = [NSPropertyListSerialization dataWithPropertyList:dict
-																	  format:format
-																	 options:0
-																	   error:&error];
-			if (!data) {
-				[window presentError:error];
-			} else {
-				[bundle willChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
-				BOOL wrote = [data writeToURL:infoDictURL
-									  options:NSDataWritingAtomic
-										error:&error];
-				[bundle didChangeValueForKey:@"isCompatibleWithCurrentMailAndMessageFramework"];
-				if (!wrote) {
-					[window presentError:error];
-				}
-			}
-		}
+		[self applyChangeToFoundBundle:self.selectedBundle];
 	}
+
 	[sheet close];
 }
 
