@@ -3,7 +3,7 @@
 //  GrowlMailUUIDPatcher
 //
 //  Created by Peter Hosey on 2010-11-14.
-//  Copyright 2010 The Growl Project. All rights reserved.
+//  Copyright 2010–2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlMailWarningNote.h"
