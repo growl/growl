@@ -654,8 +654,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, sticky);
-	else if ([preferences stickyWhenAway] && !getBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY))
-		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlIdleStatusController_isIdle());
+/*	else if ([preferences stickyWhenAway] && !getBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY))
+		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlIdleStatusController_isIdle());*/
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);

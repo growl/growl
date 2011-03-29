@@ -31,6 +31,8 @@
 #define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@%\nTitle: %@\nDescription: %@\nClick to open the log", @"")
 #define kGrowlHistoryLogDisabled     NSLocalizedString(@"Growl History Disabled", @"")
 
+#define kMenuItemsBeforeHistory      6
+
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
@@ -128,7 +130,7 @@ int main(void) {
    NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
    NSArray *menuItems = [[statusItem menu] itemArray];
    
-   unsigned int menuIndex = 8;
+   unsigned int menuIndex = kMenuItemsBeforeHistory;
    if([noteArray count] > 0)
    {
       for(id note in noteArray)
@@ -149,9 +151,9 @@ int main(void) {
          menuIndex++;
       }
       //Did we not get back less than are on the menu? remove any extra listings
-      if ([noteArray count] < [[[statusItem menu] itemArray] count] - 8) {
+      if ([noteArray count] < [[[statusItem menu] itemArray] count] - kMenuItemsBeforeHistory) {
          unsigned long int toRemove = 0;
-         for(toRemove = [[[statusItem menu] itemArray] count] - [noteArray count] - 8 ; toRemove > 0; toRemove--)
+         for(toRemove = [[[statusItem menu] itemArray] count] - [noteArray count] - kMenuItemsBeforeHistory ; toRemove > 0; toRemove--)
          {
             [[statusItem menu] removeItemAtIndex:menuIndex];
          }
@@ -168,7 +170,7 @@ int main(void) {
       unsigned int toRemove = 0;
       for(toRemove = 0; toRemove < 4; toRemove++)
       {
-         [[statusItem menu] removeItemAtIndex:toRemove + 9];
+         [[statusItem menu] removeItemAtIndex:toRemove + kMenuItemsBeforeHistory + 1];
       }
    }
 
@@ -254,14 +256,14 @@ int main(void) {
 	[tempMenuItem setTag:4];
 	[tempMenuItem setToolTip:kSquelchModeTooltip];
 	 */
-	
+	/*
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStickyWhenAwayMenu action:@selector(stickyWhenIdle:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:6];
 	[tempMenuItem setToolTip:kStickyWhenAwayMenuTooltip];
 
 	[m addItem:[NSMenuItem separatorItem]];
-
+*/
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
 	[tempMenuItem setTarget:self];
@@ -325,6 +327,10 @@ int main(void) {
 			[item setState:[preferences stickyWhenAway]];
 			break;
       case 8:
+      case 9:
+      case 10:
+      case 11:
+      case 12:
          return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
          break;
 	}

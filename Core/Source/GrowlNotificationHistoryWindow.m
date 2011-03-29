@@ -24,6 +24,7 @@
       expanded = NO;
       [[self window] setFrame:NSRectFromCGRect(CGRectMake(0, 0, 397, 60)) display:YES animate:NO];
       [[self window] center];
+      [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
    }
    return self;
 }
@@ -52,7 +53,13 @@
 {
    if(expanded)
       return;
-      
+   
+   NSError *error = nil;
+   [arrayController fetchWithRequest:[arrayController defaultFetchRequest] merge:NO error:&error];
+   [self updateTableView];
+   if (error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+   
    CGRect temp = NSRectToCGRect([[self window] frame]);
    NSInteger oldX = temp.origin.x;
    NSInteger oldY = temp.origin.y;

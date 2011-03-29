@@ -34,6 +34,7 @@
 
 -(NSString*)storePath;
 -(NSString*)storeType;
+-(NSString*)modelName;
 -(void)databaseDidSave:(NSNotification*)note;
 -(void)databaseDidUpdate:(NSNotification*)note;
 
