@@ -150,9 +150,9 @@ int main(void) {
          }
          menuIndex++;
       }
-      //Did we not get back less than are on the menu? remove any extra listings
+      //Did we get back less than are on the menu? remove any extra listings
       if ([noteArray count] < [[[statusItem menu] itemArray] count] - kMenuItemsBeforeHistory) {
-         unsigned long int toRemove = 0;
+         NSInteger toRemove = 0;
          for(toRemove = [[[statusItem menu] itemArray] count] - [noteArray count] - kMenuItemsBeforeHistory ; toRemove > 0; toRemove--)
          {
             [[statusItem menu] removeItemAtIndex:menuIndex];
@@ -167,10 +167,10 @@ int main(void) {
       [[menuItems objectAtIndex:menuIndex] setTarget:self];
       
       //Make sure there arent extra items at the moment since we don't seem to have any
-      unsigned int toRemove = 0;
-      for(toRemove = 0; toRemove < 4; toRemove++)
+      NSInteger toRemove = 0;
+      for(toRemove = [menuItems count]; toRemove > kMenuItemsBeforeHistory + 1; toRemove--)
       {
-         [[statusItem menu] removeItemAtIndex:toRemove + kMenuItemsBeforeHistory + 1];
+         [[statusItem menu] removeItemAtIndex:toRemove - 1];
       }
    }
 
