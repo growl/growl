@@ -151,6 +151,8 @@
 
 #pragma mark HistoryTab
 -(IBAction)validateHistoryTrimSetting:(id)sender;
+- (IBAction) deleteSelectedHistoryItems:(id)sender;
+- (IBAction) clearAllHistory:(id)sender;
 
 #pragma mark About Tab methods
 - (void) setupAboutTab;

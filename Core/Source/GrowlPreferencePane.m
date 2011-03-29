@@ -1009,6 +1009,36 @@
    }
 }
 
+- (IBAction) deleteSelectedHistoryItems:(id)sender
+{
+   [[GrowlNotificationDatabase sharedInstance] deleteSelectedObjects:[historyArrayController selectedObjects]];
+}
+
+- (IBAction) clearAllHistory:(id)sender
+{
+   NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! About to delete ALL history", nil)
+                                    defaultButton:NSLocalizedString(@"Cancel", nil)
+                                  alternateButton:NSLocalizedString(@"Ok", nil)
+                                      otherButton:nil
+                        informativeTextWithFormat:NSLocalizedString(@"This action cannot be undone, please confirm that you want to delete the entire notification history", nil)];
+   [alert beginSheetModalForWindow:[sender window]
+                     modalDelegate:self
+                    didEndSelector:@selector(clearAllHistoryAlert:didReturn:contextInfo:)
+                       contextInfo:nil];
+}
+
+- (IBAction) clearAllHistoryAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
+{
+   switch (returnCode) {
+      case NSAlertDefaultReturn:
+         NSLog(@"Doing nothing");
+         break;
+      case NSAlertAlternateReturn:
+         [[GrowlNotificationDatabase sharedInstance] deleteAllHistory];
+         break;
+   }
+}
+
 #pragma mark -
 
 /*!
