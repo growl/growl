@@ -132,6 +132,7 @@
    if (coordinator != nil) {
       managedObjectContext = [NSManagedObjectContext new];
       [managedObjectContext setPersistentStoreCoordinator:coordinator];
+      [managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
    }
    return managedObjectContext;
 }
@@ -146,6 +147,7 @@
    if (coordinator != nil) {
       uiManagedObjectContext = [NSManagedObjectContext new];
       [uiManagedObjectContext setPersistentStoreCoordinator:coordinator];
+      [uiManagedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
    }
    return uiManagedObjectContext;
 }
