@@ -24,6 +24,9 @@
 -(NSUInteger)awayHistoryCount;
 -(NSArray*)mostRecentNotifications:(unsigned int)amount;
 
+-(void)deleteSelectedObjects:(NSArray*)objects;
+-(void)deleteAllHistory;
+
 -(void)storeMaintenance:(NSTimer*)theTimer;
 -(void)trimByDate;
 -(void)trimByCount;

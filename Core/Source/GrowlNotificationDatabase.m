@@ -96,6 +96,56 @@
 }
 
 #pragma mark -
+-(void)deleteSelectedObjects:(NSArray*)objects
+{
+   NSError *error = nil;
+   NSEntityDescription *entityDescriptipn = [NSEntityDescription entityForName:@"Notification" 
+                                                        inManagedObjectContext:[self managedObjectContext]];
+   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+   [request setEntity:entityDescriptipn];
+   
+   NSArray *notes = [[self managedObjectContext] executeFetchRequest:request error:&error];
+   if(error)
+   {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      return;
+   }
+   
+   for(NSManagedObject *note in notes)
+   {
+      if([objects containsObject:note])
+         [[self managedObjectContext] deleteObject:note];
+   }
+   [[self managedObjectContext] save:&error];
+   if(error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
+}
+-(void)deleteAllHistory
+{
+   NSError *error = nil;
+   NSEntityDescription *entityDescriptipn = [NSEntityDescription entityForName:@"Notification" 
+                                                        inManagedObjectContext:[self managedObjectContext]];
+   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+   [request setEntity:entityDescriptipn];
+   
+   NSArray *notes = [[self managedObjectContext] executeFetchRequest:request error:&error];
+   if(error)
+   {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      return;
+   }
+   
+   NSLog(@"Deleting Entire History");
+   for(NSManagedObject *note in notes)
+   {
+      [[self managedObjectContext] deleteObject:note];
+   }
+   [[self managedObjectContext] save:&error];
+   if(error)
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
+}
+
+#pragma mark -
 #pragma mark Notification History Maintenance
 /* StoreMaintenance cleans out old messages on a timer, either x max, y days old,
  * or whichever comes first depending on user prefrences.  Called only every half hour? need to decide that
