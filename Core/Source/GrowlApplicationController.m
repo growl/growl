@@ -198,7 +198,37 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:uuid];
 			if (uuid && !key) {
 				//key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
-				key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+            //key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+            
+            NSString *password = nil;
+            unsigned char *passwordChars;
+            UInt32 passwordLength;
+            OSStatus status;
+            const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
+            const char *computerNameChars = [[entry objectForKey:@"computer"] UTF8String];
+            status = SecKeychainFindGenericPassword(NULL,
+                                                    (UInt32)strlen(growlOutgoing), growlOutgoing,
+                                                    (UInt32)strlen(computerNameChars), computerNameChars,
+                                                    &passwordLength, (void **)&passwordChars, NULL);		
+            if (status == noErr) {
+               password = [[NSString alloc] initWithBytes:passwordChars
+                                                   length:passwordLength
+                                                 encoding:NSUTF8StringEncoding];
+               SecKeychainItemFreeContent(NULL, passwordChars);
+            } else {
+               if (status != errSecItemNotFound)
+                  NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [entry objectForKey:@"computer"], status);
+               password = nil;
+            }
+            if (!password){
+               NSLog(@"Couldnt find password for %@, try using no security", [entry objectForKey:@"computer"]);
+               key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+            }
+            else
+               key = [[GNTPKey alloc] keyWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+            
+            [password release];
+            
 				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
 				[key release];
 			}
@@ -476,11 +506,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (void) forwardNotification:(NSDictionary *)dict
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
+
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType
 																					forDict:dict];
 	[self sendViaTCP:outgoingPacket];
-
+   
 	[pool release];
 }
 	
@@ -675,6 +705,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
    
+   if([preferences isForwardingEnabled])
+      [self performSelectorInBackground:@selector(forwardNotification:) withObject:[dict copy]];
+   
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
 
@@ -790,7 +823,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		NSLog(@"Failed application registration for application %@; wrote failed registration dictionary %p to %@", appName, userInfo, path);
 		success = NO;
 	}
-
+   
+   if([[GrowlPreferencesController sharedController] isForwardingEnabled])
+      [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[userInfo copy]];
+   
 	return success;
 }
 
@@ -1356,7 +1392,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (BOOL)Growl_isLikelyIPAddress
 {
 	/* TODO: Use inet_pton(), which will handle ipv4 and ipv6 */
-	return ([[self componentsSeparatedByString:@"."] count] == 4);
+   if(inet_pton(AF_INET, [self cStringUsingEncoding:NSUTF8StringEncoding], nil) == 1 ||
+      inet_pton(AF_INET6, [self cStringUsingEncoding:NSUTF8StringEncoding], nil) == 1)
+      return YES;
+   else
+      return NO;
+	//return ([[self componentsSeparatedByString:@"."] count] == 4);
 }
 
 @end
