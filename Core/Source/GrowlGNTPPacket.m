@@ -277,8 +277,10 @@
             hashStringError = YES;
       }
       
-      if (([items count] < 4 && [key encryptionAlgorithm] != GNTPNone) || hashStringError) {
-         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption, set error and return appropriately");
+      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![self isLocalHost:[[self socket] connectedHost]])) ||
+          hashStringError) 
+      {
+         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
          errorCode = GrowlGNTPUnauthorizedErrorCode;
          errorDescription = @"Missing, malformed, or invalid key hash string";
       }
