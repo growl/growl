@@ -352,7 +352,10 @@
 		if ([humanReadableNames objectForKey:notificationName])
 			[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
 																			value:[humanReadableNames objectForKey:notificationName]]];			
-		
+		else
+			[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
+                                                                   value:notificationName]];			
+      
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Enabled"
 																		value:([defaultNotifications containsObject:notificationName] ?
 																			   @"Yes" :
