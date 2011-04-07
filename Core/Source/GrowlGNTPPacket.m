@@ -24,6 +24,7 @@
 - (void)readNextHeader;
 - (void)beginProcessingProtocolIdentifier;
 - (void)networkPacketReadComplete;
+- (BOOL)isLocalHost:(NSString *)inHost;
 @end
 
 @implementation GrowlGNTPPacket
@@ -218,6 +219,9 @@
 		return NO;
 	}
 
+   NSInteger errorCode = 0;
+   NSString *errorDescription = nil;
+
 	NSLog(@"items: %@", items);
 	/* GNTP was eaten by our first-four byte read, so we start at the version number, /1.0 */
 	if ([[items objectAtIndex:0] isEqualToString:@"/1.0"]) {
@@ -229,40 +233,75 @@
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
 		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
       
-      if(![packetEncryptionAlgorithm isEqual:GNTPNone])
+      if(![packetEncryptionAlgorithm isEqual:GNTPNone] && [self isLocalHost:[[self socket] connectedHost]]){
+         NSLog(@"LocalHost with encryption, for now ignoring");
+      }
+      
+      if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
       {
-         if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
-         {
-            [key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
-            if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
-               [key setIV:HexUnencode([encryptionSubstrings objectAtIndex:1])];
+         [key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
+         if([encryptionSubstrings count] == 2)
+            [key setIV:HexUnencode([encryptionSubstrings objectAtIndex:1])];
+         else {
+            if ([key encryptionAlgorithm] != GNTPNone) {
+               errorCode = GrowlGNTPUnauthorizedErrorCode;
+               errorDescription = @"Missing initialization vector for encryption";
+            }
          }
-         
+      }
+      
+      BOOL hashStringError = NO;
+      if([items count] == 4)
+      {
          NSArray *keySubstrings = [[items objectAtIndex:3] componentsSeparatedByString:@":"];
          NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
-         if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm])
-         {
+         if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm]) {
             [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
-            if([keySubstrings count] == 2)
-            {
+            if([keySubstrings count] == 2) {
                NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
-               if([keyHashStrings count] == 2)
-               {
-                  [key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
+               if([keyHashStrings count] == 2) {
+                  //[key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
                   [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length] - 2)])];
                   [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
                   NSData *IV = [key IV];
                   [key generateKey];
-                  [key setIV:IV];
+                  if(IV)
+                     [key setIV:IV];
+                  if (![[keyHashStrings objectAtIndex:0] isEqualToString:HexEncode([key keyHash])])
+                     hashStringError = YES;
                }
+               else 
+                  hashStringError = YES;
             }
-         }
-         
+         }else
+            hashStringError = YES;
       }
-		[self setKey:key];
-		return YES;
-	}
+      
+      if (([items count] < 4 && [key encryptionAlgorithm] != GNTPNone) || hashStringError) {
+         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption, set error and return appropriately");
+         errorCode = GrowlGNTPUnauthorizedErrorCode;
+         errorDescription = @"Missing, malformed, or invalid key hash string";
+      }
+      
+      if(!errorDescription && errorCode == 0)
+      {
+         [self setKey:key];
+         return YES;
+      }
+	}else {
+      NSLog(@"Invalid protocol version");
+      errorCode = GrowlGNTPUnknownProtocolVersionErrorCode;
+      errorDescription = @"Invalid protocol version.  Only version 1.0 is supported";
+   }
 
+   if(errorCode == 0 && !errorDescription) {
+      errorCode = GrowlGNTPInvalidRequestErrorCode;
+      errorDescription = @"Somehow we got here parsing the protocol identifier without an error, this should be impossible, either its valid or its not";
+   }
+   
+   [self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+                                      code:errorCode
+                                  userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedFailureReasonErrorKey]]];
 	return NO;
 }
 
@@ -681,7 +720,9 @@
 
 - (BOOL)isLocalHost:(NSString *)inHost
 {
-	if ([inHost isEqualToString:@"127.0.0.1"])
+	if ([inHost isEqualToString:@"127.0.0.1"] || 
+       [inHost isEqualToString:@"::1"] || 
+       [inHost isEqualToString:@"0:0:0:0:0:0:0:1"])
 		return YES;
 	else {
 		return NO;
@@ -745,7 +786,9 @@
 		case GrowlProtocolIdentifierRead:
 			if ([self parseProtocolIdentifier:data]) {
 				[self configureToParsePacket];
-			}
+			}else{
+            [self errorOccurred];
+         }
 			break;			
 		case GrowlFlashPolicyRequestRead:
 			[self respondToFlashPolicyRequest];
