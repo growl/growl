@@ -48,6 +48,7 @@
 	[specificPacket setDelegate:packet];
 	[specificPacket setAction:[packet action]];
 	[specificPacket setPacketID:[packet packetID]];
+   [specificPacket setKey:[packet key]];
 
 	return specificPacket;
 }
@@ -227,28 +228,37 @@
 		
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
 		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
-		if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
-		{
-			[key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
-			if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
-				[key setIV:[encryptionSubstrings objectAtIndex:1]];
-		}
-		
-		NSArray *keySubstrings = [[items objectAtIndex:3] componentsSeparatedByString:@":"];
-		NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
-		if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm])
-		{
-			[key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
-			if([keySubstrings count] == 2)
-			{
-				NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
-				if([keyHashStrings count] == 2)
-				{
-					[key setKeyHash:[keyHashStrings objectAtIndex:0]];
-					[key setSalt:[keyHashStrings objectAtIndex:1]];
-				}
-			}
-		}
+      
+      if(![packetEncryptionAlgorithm isEqual:GNTPNone])
+      {
+         if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
+         {
+            [key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
+            if([encryptionSubstrings count] == 2) //if we've got 2 parts we've got everything we need	
+               [key setIV:HexUnencode([encryptionSubstrings objectAtIndex:1])];
+         }
+         
+         NSArray *keySubstrings = [[items objectAtIndex:3] componentsSeparatedByString:@":"];
+         NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
+         if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm])
+         {
+            [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
+            if([keySubstrings count] == 2)
+            {
+               NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
+               if([keyHashStrings count] == 2)
+               {
+                  [key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
+                  [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length] - 2)])];
+                  [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
+                  NSData *IV = [key IV];
+                  [key generateKey];
+                  [key setIV:IV];
+               }
+            }
+         }
+         
+      }
 		[self setKey:key];
 		return YES;
 	}
@@ -319,28 +329,59 @@
 - (GrowlReadDirective)parseHeader:(NSData *)inData
 {
 	NSError *anError;
-	/*if(![[self encryptionAlgorithm] isEqualToString:GrowlGNTPNone])
-	{
-		NSLog(@"%@ %@ %@", [self keyHash], [self keyHashSalt], [self IV]);
-		GNTPKey *key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA256 encryptionAlgorithm:GNTPAES];
-		[key setSalt:[self keyHashSalt]];
-		[key generateKey];
-		[key setIV:[self IV]];
-		
-		NSData *decryptedHeaders = [key decrypt:inData];
-	}
-	else*/
-	{
+   GrowlReadDirective directive = GrowlReadDirective_Error;
+	if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[AsyncSocket CRLFData]])
+   {
+      NSData *decryptedData = [[self key] decrypt:inData];
+      NSString *allHeaders = [[[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding] autorelease];
+      NSMutableArray *splitHeaders = [[allHeaders componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] mutableCopy];
+      [splitHeaders removeLastObject];
+      BOOL previousBlank = NO;
+      BOOL CRLFSent = NO;
+      for(NSString *header in splitHeaders){
+         NSData *headerData = nil;
+         if ([header isEqualToString:@""]) {
+            if(previousBlank)
+            {
+               if(!CRLFSent){
+                  previousBlank = NO;
+                  headerData = [AsyncSocket CRLFData];
+                  CRLFSent = YES;
+               }
+            }else {
+               previousBlank = YES;
+            }
+         }else {
+            previousBlank = NO;
+            CRLFSent = NO;
+            NSMutableData *mData = [[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+            [mData appendData:[AsyncSocket CRLFData]];
+            headerData = mData;
+         }
+         if(headerData)
+         {
+            GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:headerData error:&anError];
+            if (headerItem) {
+               directive = [self receivedHeaderItem:headerItem];
+               
+            } else {
+               [self setError:anError];
+               return GrowlReadDirective_Error;
+            }            
+         }
+      }
+   } else {
 		
 		GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
 		if (headerItem) {
-			return [self receivedHeaderItem:headerItem];
+			directive = [self receivedHeaderItem:headerItem];
 			
 		} else {
 			[self setError:anError];
 			return GrowlReadDirective_Error;
 		}
 	}
+   return directive;
 }
 
 - (NSArray *)customHeaders
@@ -573,7 +614,12 @@
  */
 - (GrowlReadDirective)parseBinaryData:(NSData *)inData
 {
-	[binaryDataByIdentifier setObject:inData
+   NSData *decryptedData = inData;
+   if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[AsyncSocket CRLFData]])
+   {
+      decryptedData = [[self key] decrypt:inData];
+   }
+	[binaryDataByIdentifier setObject:decryptedData
 							   forKey:currentBinaryIdentifier];
 	[pendingBinaryIdentifiers removeObject:currentBinaryIdentifier];
 
