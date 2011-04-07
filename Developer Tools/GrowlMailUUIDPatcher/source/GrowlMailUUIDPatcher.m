@@ -32,7 +32,7 @@
 #define BUTTON_ENABLING_DELAY 15.0 /*seconds*/
 
 //This is due to be replaced by an appcast, as soon as we work out how we want to do that.
-static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.2";
+static NSString *const hardCodedGrowlMailCurrentVersionNumber = @"1.2.3";
 
 @implementation GrowlMailUUIDPatcher
 
