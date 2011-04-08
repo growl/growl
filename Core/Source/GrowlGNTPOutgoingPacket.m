@@ -140,7 +140,6 @@
 			NSMutableDictionary *dictionary = [[dict mutableCopy] autorelease];
 			[dictionary removeObjectForKey:@"ApplicationIcon"];
 			[dictionary removeObjectForKey:@"NotificationIcon"];
-			NSLog(@"%@", dictionary);
 			[outgoingPacket setAction:GrowlGNTPNotificationMessageType];	
 			[GrowlNotificationGNTPPacket getHeaders:&headersArray
 									   binaryChunks:&binaryArray
