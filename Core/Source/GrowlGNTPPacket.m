@@ -17,6 +17,8 @@
 #import "GrowlApplicationAdditions.h"
 #import "GNTPKey.h"
 
+#define CRLF "\x0D\x0A"
+
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
 - (void)setAction:(NSString *)inAction;
@@ -375,30 +377,15 @@
    {
       NSData *decryptedData = [[self key] decrypt:inData];
       NSString *allHeaders = [[[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding] autorelease];
-      NSMutableArray *splitHeaders = [[allHeaders componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] mutableCopy];
+      NSMutableArray *splitHeaders = [[allHeaders componentsSeparatedByString:@CRLF] mutableCopy];
       [splitHeaders removeLastObject];
-      BOOL previousBlank = NO;
-      BOOL CRLFSent = NO;
+      
       for(NSString *header in splitHeaders){
          NSData *headerData = nil;
-         if ([header isEqualToString:@""]) {
-            if(previousBlank)
-            {
-               if(!CRLFSent){
-                  previousBlank = NO;
-                  headerData = [AsyncSocket CRLFData];
-                  CRLFSent = YES;
-               }
-            }else {
-               previousBlank = YES;
-            }
-         }else {
-            previousBlank = NO;
-            CRLFSent = NO;
-            NSMutableData *mData = [[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-            [mData appendData:[AsyncSocket CRLFData]];
-            headerData = mData;
-         }
+         NSMutableData *mData = [[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+         [mData appendData:[AsyncSocket CRLFData]];
+         headerData = mData;
+         
          if(headerData)
          {
             GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:headerData error:&anError];
@@ -681,7 +668,7 @@
 	/* XXX We should validate the received packet in its entirey NOW */
 	
 	/* If we're going to ever read anything else on this socket, it must first be preceeded by the GNTP/1.0 END tag */
-#define CRLF "\x0D\x0A"	
+	
 	NSData *endData = [[NSString stringWithFormat:@"" CRLF CRLF] dataUsingEncoding:NSUTF8StringEncoding];	
 
 	[socket readDataToData:endData
@@ -908,6 +895,7 @@
 {
 	//we copy and remove the icon data because...well....looking at the data doesn't really help us
 	NSMutableDictionary *growlDictionary = [[[self growlDictionary] mutableCopy] autorelease];
+   [growlDictionary removeObjectForKey:GROWL_APP_ICON_DATA];
 	[growlDictionary removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
 	if (specificPacket)
 		return [NSString stringWithFormat:@"<%@ %x: %@ --> %@>", NSStringFromClass([self class]), self, growlDictionary, specificPacket];
