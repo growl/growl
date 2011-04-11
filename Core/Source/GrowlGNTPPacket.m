@@ -269,13 +269,17 @@
                   [key generateKey];
                   if(IV)
                      [key setIV:IV];
-                  if (![[keyHashStrings objectAtIndex:0] isEqualToString:HexEncode([key keyHash])])
+
+				  if ([[keyHashStrings objectAtIndex:0] caseInsensitiveCompare:HexEncode([key keyHash])] != NSOrderedSame)
                      hashStringError = YES;
                }
                else 
                   hashStringError = YES;
             }
-         }else
+			else
+				 hashStringError = YES;
+         }
+		 else
             hashStringError = YES;
       }
       
