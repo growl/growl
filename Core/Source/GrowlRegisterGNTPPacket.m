@@ -96,7 +96,9 @@
 	} else if (mApplicationIconURL) {
 		/* XXX Blocking */
 		data = [NSData dataWithContentsOfURL:mApplicationIconURL];
-	}
+	} else {
+      data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
+   }
 
 	return data;
 }
@@ -130,7 +132,7 @@
 	if (![currentNotification valueForKey:GROWL_NOTIFICATION_NAME])
 		errorString = @"Notification-Name is a required header for each notification in a REGISTER request";
 	else if (![currentNotification valueForKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME])
-		errorString = @"Notification-Display-Name is a required header for each notification in a REGISTER request";
+		[currentNotification setValue:[currentNotification valueForKey:GROWL_NOTIFICATION_NAME] forKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME];
 
 	if (errorString)
 		*anError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
@@ -161,8 +163,6 @@
 				NSString *errorString = nil;
 				if (![self applicationName]) {
 					errorString = @"Application-Name is a required header for registration";
-				} else if (![self applicationIconID] && ![self applicationIconURL]) {
-					errorString = @"Application-Icon is a required header for registration";
 				} else if (numberOfNotifications == -1) {
 					errorString = @"Notifications-Count	is a required header for registration";
 				}
