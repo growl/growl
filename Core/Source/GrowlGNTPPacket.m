@@ -379,7 +379,16 @@
    GrowlReadDirective directive = GrowlReadDirective_Error;
 	if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[AsyncSocket CRLFData]])
    {
-      NSData *decryptedData = [[self key] decrypt:inData];
+	   //not really thrilled with doing it this way, but there's a CRLF being included in the data that's getting passed to decrypt which is causing CCCrypt to throw
+	   //a kCCParamError
+	   NSRange truncationRange = NSMakeRange(0, [inData length]-2);
+	   NSRange crlfRange = NSMakeRange([inData length]-2, 2);
+	   NSData *crlf = [inData subdataWithRange:crlfRange];
+	   NSData *truncatedData = inData;
+	   if([crlf isEqualToData:[AsyncSocket CRLFData]])
+		   truncatedData = [inData subdataWithRange:truncationRange];
+	   
+	   NSData *decryptedData = [[self key] decrypt:truncatedData];
       NSString *allHeaders = [[[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding] autorelease];
       NSMutableArray *splitHeaders = [[allHeaders componentsSeparatedByString:@CRLF] mutableCopy];
       [splitHeaders removeLastObject];
