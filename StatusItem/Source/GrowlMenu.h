@@ -11,6 +11,11 @@
 
 @class GrowlPreferencesController, NSStatusItem;
 
+enum {
+	kGrowlNotRunningState,
+	kGrowlRunningState
+};
+
 @interface GrowlMenu : NSObject <GrowlApplicationBridgeDelegate, GrowlDatabaseUpdateDelegate> {
 	int							pid;
 	GrowlPreferencesController	*preferences;
@@ -26,9 +31,8 @@
 - (void) openGrowlPreferences:(id)sender;
 - (void) stopGrowl:(id)sender;
 - (void) startGrowl:(id)sender;
-- (void) squelchMode:(id)sender;
 - (NSMenu *) createMenu;
-- (void) setImage;
+- (void) setImage:(NSNumber*)state;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
 - (void) setGrowlMenuEnabled:(BOOL)state;
 

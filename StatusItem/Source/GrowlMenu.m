@@ -63,7 +63,7 @@ int main(void) {
 	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
 	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
 
-	[self setImage];
+	[self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
 
 	[statusItem setMenu:m]; // retains m
 	[statusItem setToolTip:@"Growl"];
@@ -89,7 +89,8 @@ int main(void) {
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
 	[preferences setStartAtLogin:growlMenuPath enabled:state];
-	[preferences setBool:state forKey:GrowlMenuExtraKey];
+
+	[self performSelector:@selector(setImage:) withObject:[NSNumber numberWithBool:[preferences isGrowlRunning]] afterDelay:1.0f inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, NSModalPanelRunLoopMode, nil ]];
 }
 
 - (void) applicationWillTerminate:(NSNotification *)aNotification {
@@ -115,7 +116,11 @@ int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
 	if (!pidValue || [pidValue intValue] != pid)
-		[self setImage];
+		[self setImage:kGrowlNotRunningState];
+	else {
+		[self setImage:[NSNumber numberWithUnsignedInteger:kGrowlRunningState]];
+	}
+
 	[pool release];
 }
 
@@ -199,24 +204,29 @@ int main(void) {
 	}
 }
 
-- (void) squelchMode:(id)sender {
-	BOOL squelchMode = ![preferences squelchMode];
-	[preferences setSquelchMode:squelchMode];
-	[self setImage];
-}
-
 - (void) stickyWhenIdle:(id)sender {
 	BOOL idleModeState = ![preferences stickyWhenAway];
 	[preferences setStickyWhenAway:idleModeState];
 }
 
-- (void) setImage {
-	if ([preferences squelchMode]) {
-		[statusItem setImage:squelchImage];
-	} else {
-		[statusItem setImage:clawImage];
-		[statusItem setAlternateImage:clawHighlightImage];
+- (void) setImage:(NSNumber*)state {
+	
+	NSImage *normalImage = nil;
+	NSImage *pressedImage = nil;
+	switch([state unsignedIntegerValue])
+	{
+		case kGrowlNotRunningState:
+			normalImage = squelchImage;
+			pressedImage = clawHighlightImage;
+			break;
+		case kGrowlRunningState:
+		default:
+			normalImage = clawImage;
+			pressedImage = clawHighlightImage;
+			break;
 	}
+	[statusItem setImage:normalImage];
+	[statusItem setAlternateImage:pressedImage];
 }
 
 -(void)openGrowlLog:(id)sender
@@ -249,21 +259,6 @@ int main(void) {
 
 	[m addItem:[NSMenuItem separatorItem]];
 
-	/*
-	 //Squelch mode is "log-only" mode... but logging was removed from Growl 1.1.
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setTag:4];
-	[tempMenuItem setToolTip:kSquelchModeTooltip];
-	 */
-	/*
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStickyWhenAwayMenu action:@selector(stickyWhenIdle:) keyEquivalent:@""];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setTag:6];
-	[tempMenuItem setToolTip:kStickyWhenAwayMenuTooltip];
-
-	[m addItem:[NSMenuItem separatorItem]];
-*/
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
 	[tempMenuItem setTarget:self];
@@ -308,9 +303,14 @@ int main(void) {
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
+	BOOL isGrowlRunning = [preferences isGrowlRunning];
+	//we do this because growl might have died or been launched, and NSWorkspace doesn't post 
+	//notifications to its notificationCenter for LSUIElement apps for NSWorkspaceDidLaunchApplicationNotification or NSWorkspaceDidTerminateApplicationNotification
+	[self setImage:[NSNumber numberWithBool:isGrowlRunning]];
+	
 	switch ([item tag]) {
 		case 1:
-			if ([preferences isGrowlRunning]) {
+			if (isGrowlRunning) {
 				[item setTitle:kRestartGrowl];
 				[item setToolTip:kRestartGrowlTooltip];
 			} else {
@@ -319,13 +319,7 @@ int main(void) {
 			}
 			break;
 		case 2:
-			return [preferences isGrowlRunning];
-		case 4:
-			[item setState:[preferences squelchMode]];
-			break;
-		case 6:
-			[item setState:[preferences stickyWhenAway]];
-			break;
+			return isGrowlRunning;
       case 8:
       case 9:
       case 10:
