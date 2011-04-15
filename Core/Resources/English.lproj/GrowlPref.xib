@@ -11,8 +11,7 @@
 			<string key="NS.object.0">823</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="234"/>
-			<integer value="2129"/>
+			<integer value="291"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2001,7 +2000,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 								<object class="NSTabViewItem" id="747668290">
 									<string key="NSIdentifier">4</string>
 									<object class="NSView" key="NSView" id="1013818818">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="842014074"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSButton" id="54840242">
@@ -2350,7 +2349,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<reference key="NSSuperview" ref="1013818818"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="96018142">
-													<int key="NSCellFlags">-2080244224</int>
+													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">134217728</int>
 													<string key="NSContents">Gradient Button</string>
 													<reference key="NSSupport" ref="980613253"/>
@@ -2369,6 +2368,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {539, 433}}</string>
+										<reference key="NSSuperview" ref="842014074"/>
 									</object>
 									<string key="NSLabel">Network</string>
 									<reference key="NSColor" ref="93958591"/>
@@ -2377,7 +2377,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 								<object class="NSTabViewItem" id="714548492">
 									<string key="NSIdentifier">5</string>
 									<object class="NSView" key="NSView" id="630730195">
-										<reference key="NSNextResponder" ref="842014074"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSButton" id="320754302">
@@ -3438,7 +3438,6 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {539, 433}}</string>
-										<reference key="NSSuperview" ref="842014074"/>
 									</object>
 									<string key="NSLabel">History</string>
 									<reference key="NSColor" ref="93958591"/>
@@ -3724,13 +3723,13 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
 							</array>
-							<reference key="NSSelectedTabViewItem" ref="714548492"/>
+							<reference key="NSSelectedTabViewItem" ref="747668290"/>
 							<reference key="NSFont" ref="980613253"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<array class="NSMutableArray" key="NSSubviews">
-								<reference ref="630730195"/>
+								<reference ref="1013818818"/>
 							</array>
 						</object>
 					</array>
@@ -3742,7 +3741,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSCustomView" id="588414189">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="371339559">
@@ -3770,7 +3769,6 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 					</object>
 				</array>
 				<string key="NSFrameSize">{354, 289}</string>
-				<reference key="NSSuperview"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
@@ -4285,14 +4283,6 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<reference key="destination" ref="616805124"/>
 					</object>
 					<int key="connectionID">451</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">resolveService:</string>
-						<reference key="source" ref="852059746"/>
-						<reference key="destination" ref="288915071"/>
-					</object>
-					<int key="connectionID">456</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -6063,6 +6053,14 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<reference key="destination" ref="694226603"/>
 					</object>
 					<int key="connectionID">2419</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeSelectedForwardDestination:</string>
+						<reference key="source" ref="852059746"/>
+						<reference key="destination" ref="426495938"/>
+					</object>
+					<int key="connectionID">2420</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8163,9 +8161,9 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 					<bytes key="NSTransformStruct">P4AAAL+AAABDg4AAw5WAAA</bytes>
 				</object>
 				<boolean value="YES" key="1193.ImportedFromIB2"/>
-				<string key="12.IBEditorWindowLastContentRect">{{344, 325}, {585, 495}}</string>
+				<string key="12.IBEditorWindowLastContentRect">{{398, 107}, {585, 495}}</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.IBWindowTemplateEditedContentRect">{{344, 325}, {585, 495}}</string>
+				<string key="12.IBWindowTemplateEditedContentRect">{{398, 107}, {585, 495}}</string>
 				<boolean value="YES" key="12.ImportedFromIB2"/>
 				<boolean value="YES" key="12.windowTemplate.hasMinSize"/>
 				<string key="12.windowTemplate.minSize">{224.664, 10}</string>
@@ -8643,7 +8641,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2419</int>
+			<int key="maxID">2420</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8697,7 +8695,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 						<string key="openGrowlDonate:">id</string>
 						<string key="openGrowlWebSite:">id</string>
 						<string key="playSound:">id</string>
-						<string key="resolveService:">id</string>
+						<string key="removeSelectedForwardDestination:">id</string>
 						<string key="showApplicationConfigurationTab:">id</string>
 						<string key="showDisabledDisplays:">id</string>
 						<string key="showPreview:">id</string>
@@ -8749,8 +8747,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 							<string key="name">playSound:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="resolveService:">
-							<string key="name">resolveService:</string>
+						<object class="IBActionInfo" key="removeSelectedForwardDestination:">
+							<string key="name">removeSelectedForwardDestination:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showApplicationConfigurationTab:">

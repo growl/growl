@@ -19,6 +19,11 @@
 	return self;
 }
 
+- (void)removeKeyForUUID:(NSString*)uuid
+{
+   [_storage removeObjectForKey:uuid];
+}
+
 - (void)setKey:(GNTPKey*)key forUUID:(NSString*)uuid
 {
 	[_storage setValue:key forKey:uuid];

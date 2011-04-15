@@ -14,6 +14,7 @@
 	NSMutableDictionary *_storage;
 }
 
+- (void)removeKeyForUUID:(NSString*)uuid;
 - (void)setKey:(GNTPKey*)key forUUID:(NSString*)uuid;
 - (GNTPKey*)keyForUUID:(NSString*)uuid;
 
