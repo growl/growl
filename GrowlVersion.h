@@ -4,8 +4,8 @@
 #define GROWL_VERSION 1.2.2b1
 #define GROWL_VERSION_STRING "1.2.2b1"
 
-#define GROWLMAIL_VERSION 1.2.2
-#define GROWLMAIL_VERSION_STRING "1.2.2"
+#define GROWLMAIL_VERSION 1.2.3
+#define GROWLMAIL_VERSION_STRING "1.2.3"
 
 #include "hgRevision.h"
 
