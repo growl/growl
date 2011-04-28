@@ -1277,9 +1277,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	return growlReg;
 }
 
-- (NSImage *)applicationIconDataForGrowl
+- (NSData *)applicationIconDataForGrowl
 {
-	return [NSImage imageNamed:@"growl-icon"];
+	return [[NSImage imageNamed:@"growl-icon"] PNGRepresentation];
 }
 
 /*click feedback comes here first. GAB picks up the DN and calls our
