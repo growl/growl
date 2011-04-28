@@ -10,6 +10,7 @@
 #include "CFURLAdditions.h"
 #include "CFGrowlAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
+#include <stdbool.h>
 #include <Carbon/Carbon.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -114,7 +115,7 @@ URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
 				struct stat sb;
 				fstat(fd, &sb);
 				close(fd);
-				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/(Boolean)(sb.st_mode & S_IFDIR));
+				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/ (bool)(sb.st_mode & S_IFDIR));
 			}
 		}
 	}
