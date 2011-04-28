@@ -114,7 +114,7 @@ URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
 				struct stat sb;
 				fstat(fd, &sb);
 				close(fd);
-				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/ (sb.st_mode & S_IFDIR));
+				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/(Boolean)(sb.st_mode & S_IFDIR));
 			}
 		}
 	}

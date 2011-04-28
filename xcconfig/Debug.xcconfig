@@ -1,0 +1,32 @@
+//Automatically extracted from the Release configuration of the Growl Xcode project using xcconfig-extract revision 12f44ab4aa70.
+//If you want to change one of these settings, please delete it from this section and add it with the new value in the section below. 
+//DO NOT EDIT THE BUILD SETTINGS ON THE TARGETS!
+
+#include "Common.xcconfig"
+
+//compiler settings
+GCC_OPTIMIZATION_LEVEL = 0
+
+//build processing
+GCC_DEBUGGING_SYMBOLS = default
+GCC_GENERATE_DEBUGGING_SYMBOLS = YES
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+DEAD_CODE_STRIPPING = NO
+STRIP_STYLE = debugging
+DEPLOYMENT_POSTPROCESSING = NO
+SEPARATE_STRIP = NO
+STRIP_INSTALLED_PRODUCT = NO
+COPY_PHASE_STRIP = NO
+
+//warnings
+GCC_WARN_UNINITIALIZED_AUTOS = NO
+
+//nib/xib related settings
+IBC_STRIP_NIBS = NO
+IBC_FLATTEN_NIBS = NO
+
+
+//rez settings
+REZ_PREPROCESSOR_DEFINITIONS = DEBUG
+REZ_RESOURCE_MAP_READ_ONLY = YES
+

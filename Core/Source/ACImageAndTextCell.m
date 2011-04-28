@@ -94,8 +94,8 @@
 				  inView:(NSView *)controlView
 				  editor:(NSText *)textObj
 				delegate:(id)anObject
-				   start:(int)selStart
-				  length:(int)selLength {
+				   start:(NSInteger)selStart
+				  length:(NSInteger)selLength {
 	NSRect textFrame, imageFrame;
 
 	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0 + [image size].width, NSMinXEdge);
