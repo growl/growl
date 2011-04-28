@@ -22,29 +22,6 @@
 
 #import <ApplicationServices/ApplicationServices.h>
 
-
-/*!
- * The 10.3+ exception handling can only work if -fobjc-exceptions is enabled
- */
-#if 0
-	#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-	# define TRY		@try {
-	# define ENDTRY		}
-	# define CATCH		@catch(NSException *localException) {
-	# define ENDCATCH	}
-	#else
-	# define TRY		NS_DURING
-	# define ENDTRY
-	# define CATCH		NS_HANDLER
-	# define ENDCATCH	NS_ENDHANDLER
-	#endif
-#else
-	# define TRY		NS_DURING
-	# define ENDTRY
-	# define CATCH		NS_HANDLER
-	# define ENDCATCH	NS_ENDHANDLER
-#endif
-
 @interface GrowlApplicationBridge (PRIVATE)
 /*!
  *	@method launchGrowlIfInstalled
@@ -285,12 +262,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 		if (currentGrowlProxy) {
 			//Post to Growl via GrowlApplicationBridgePathway
-			TRY
+			@try {
 				[currentGrowlProxy postNotificationWithDictionary:userInfo];
-			ENDTRY
-			CATCH
+			}
+			@catch(NSException *localException) {
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
-			ENDCATCH
+			}
 		} else {
 			//NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 
@@ -606,8 +583,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 														 name:NSConnectionDidDieNotification
 													   object:connection];
 			
-			TRY
-			{
+			@try {
 				NSDistantObject *theProxy = [connection rootProxy];
 				if ([theProxy respondsToSelector:@selector(registerApplicationWithDictionary:)]) {
 					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
@@ -617,13 +593,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					growlProxy = nil;
 				}
 			}
-			ENDTRY
-				CATCH
-			{
+			@catch(NSException *localException) {
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
 				growlProxy = nil;
 			}
-			ENDCATCH
 		}
 	}
 	

@@ -35,29 +35,6 @@
 # define NSAppKitVersionNumber10_3 743
 #endif
 
-/*!
-* The 10.3+ exception handling can only work if -fobjc-exceptions is enabled
- */
-#if 0
-	#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-		# define TRY		@try {
-		# define ENDTRY		}
-		# define CATCH		@catch(NSException *localException) {
-		# define ENDCATCH	}
-	#else
-		# define TRY		NS_DURING
-		# define ENDTRY
-		# define CATCH		NS_HANDLER
-		# define ENDCATCH	NS_ENDHANDLER
-	#endif
-#else
-	# define TRY		NS_DURING
-	# define ENDTRY
-	# define CATCH		NS_HANDLER
-	# define ENDCATCH	NS_ENDHANDLER
-#endif
-
-
 @interface NSWorkspace (ProcessSerialNumberFinder)
 - (ProcessSerialNumber)processSerialNumberForApplicationWithIdentifier:(NSString *)identifier;
 @end
@@ -433,7 +410,7 @@
 				[unzip setArguments:arguments];
 				[unzip setCurrentDirectoryPath:tmpDir];
 
-				TRY
+				@try {
 					[unzip launch];
 					[unzip waitUntilExit];
 					/* The BOMArchiveHelper, as of 10.4.8, appears to return a termination status of -1 even with success. Weird. */
@@ -442,11 +419,11 @@
 						NSLog(@"GrowlInstallationPrompt: unzip task %@ (launchPath %@, arguments %@, currentDir %@) returned termination status of %i",
 							  unzip, launchPath, arguments, tmpDir, [unzip terminationStatus]);
 					}
-				ENDTRY
-				CATCH
+				}
+				@catch(NSException *localException) {
 					NSLog(@"GrowlInstallationPrompt: unzip task %@ failed.",unzip);
 					success = NO;
-				ENDCATCH
+				}
 				[unzip release];
 			} else {
 				failureReason = NSLocalizedString(@"Could not find a suitable tool with which to extract the Growl archive.", /*comment*/ nil);
