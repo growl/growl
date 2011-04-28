@@ -17,6 +17,10 @@
 			<string>Growl Application Ticket</string>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.growl.ticket</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -33,6 +37,10 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.growl.view</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
@@ -51,6 +59,10 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.growl.style</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
@@ -88,6 +100,44 @@
 	<string>GrowlApplication</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.bundle</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl Display Plugin</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.view</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>growlView</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.bundle</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl WebKit Style</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.style</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>growlStyle</string>
+				</array>
+			</dict>
+		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
