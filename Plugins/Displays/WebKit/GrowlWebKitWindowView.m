@@ -175,11 +175,11 @@
 											   withObject:self];
 }
 
-- (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
+- (NSUInteger) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
 	return 0U; //WebDragDestinationActionNone;
 }
 
-- (unsigned) webView:(WebView *)sender dragSourceActionMaskForPoint:(NSPoint)point {
+- (NSUInteger) webView:(WebView *)sender dragSourceActionMaskForPoint:(NSPoint)point {
 	return 0U; //WebDragSourceActionNone;
 }
 
