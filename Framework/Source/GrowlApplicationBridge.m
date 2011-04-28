@@ -737,7 +737,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (BOOL) _launchGrowlIfInstalledWithRegistrationDictionary:(NSDictionary *)regDict {
 	BOOL success = NO;
-	NSBundle *growlPrefPaneBundle;
+	NSBundle *growlPrefPaneBundle = nil;
 	NSString *growlHelperAppPath;
 
 	//First look for a running GHA. It might not actually be within a Growl prefpane bundle.
@@ -750,11 +750,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		//Make sure we actually got a Growl.prefPane and not, say, a Growl project folder. (NSBundle can be liberal in its acceptance of a directory as a bundle at times.)
 		if (![[growlPrefPaneBundle bundleIdentifier] isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER])
 			growlPrefPaneBundle = nil;
-	} else {
-		//Look for an installed-but-not-running GHA.
-		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
-														   ofType:@"app"];
-	}
+	} 
+	
 	if (!growlPrefPaneBundle) {
 		growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
 	}

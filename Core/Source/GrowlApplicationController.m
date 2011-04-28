@@ -839,9 +839,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (NSDictionary *) versionDictionary {
 	if (!versionInfo) {
 		NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-		BOOL parseSucceeded = parseVersionString(versionString, &version);
-		NSAssert1(parseSucceeded, @"Could not parse version string: %@", versionString);
 
+		// Due to the way NSAssert1 works, this will generate an unused variable
+		// warning if we compile in release mode.  With -Wall -Werror on, this is
+		// Bad Juju.  So we need to use gcc compiler attributes to cancel the error.
+		BOOL parseSucceeded __attribute__((unused)) = parseVersionString(versionString, &version);
+		NSAssert1(parseSucceeded, @"Could not parse version string: %@", versionString);
+		
 		if (version.releaseType == releaseType_svn)
 			version.development = (u_int32_t)HG_REVISION;
 
