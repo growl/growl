@@ -349,12 +349,13 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];	
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Name"
 																		value:notificationName]];
-		if ([humanReadableNames objectForKey:notificationName])
+		if ([humanReadableNames objectForKey:notificationName]) {
 			[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
 																			value:[humanReadableNames objectForKey:notificationName]]];			
-		else
+		} else {
 			[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Display-Name"
                                                                    value:notificationName]];			
+		}
       
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Enabled"
 																		value:([defaultNotifications containsObject:notificationName] ?
