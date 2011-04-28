@@ -204,7 +204,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             unsigned char *passwordChars;
             UInt32 passwordLength;
             OSStatus status;
-            const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
+            const char *growlOutgoing = "GrowlOutgoingNetworkConnection";
             const char *computerNameChars = [[entry objectForKey:@"computer"] UTF8String];
             status = SecKeychainFindGenericPassword(NULL,
                                                     (UInt32)strlen(growlOutgoing), growlOutgoing,
