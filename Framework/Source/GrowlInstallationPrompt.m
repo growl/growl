@@ -450,7 +450,8 @@
 				//If there's an existing version of Growl, system preferneces must not be running
 				NSString *oldGrowlPath = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 				if (oldGrowlPath) {
-					ProcessSerialNumber psn = [[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"];
+					//Volatile because otherwise the compiler complains that longjmp may clobber this.
+					volatile ProcessSerialNumber psn = [[NSWorkspace sharedWorkspace] processSerialNumberForApplicationWithIdentifier:@"com.apple.systempreferences"];
 					if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
 						NSAppleEventDescriptor *descriptor;
 						/* tell application "System Preferences" to quit. The name may be localized, so we can't use applescript directly. */
