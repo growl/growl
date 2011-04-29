@@ -15,18 +15,26 @@
    IBOutlet NSTableView *historyTable;
    IBOutlet NSArrayController *arrayController;
    IBOutlet NSTextField *countLabel;
+   IBOutlet NSView *storage;
+   IBOutlet NSView *listAndDetails;
+   IBOutlet NSTableColumn *appNameAndIconColumn;
    GrowlNotificationDatabase *historyController;
    
    NSDate *awayDate;
    BOOL expanded;
+   NSSize expandSize;
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
 @property (assign) IBOutlet NSArrayController *arrayController;
 @property (assign) IBOutlet NSTextField *countLabel;
+@property (assign) IBOutlet NSView *storage;
+@property (assign) IBOutlet NSView *listAndDetails;
+
 @property (nonatomic, retain) NSDate *awayDate;
 
 -(void)updateTableView;
 -(void)resetArrayWithDate:(NSDate*)newAway;
+-(void)shrinkWindow;
 
 @end
