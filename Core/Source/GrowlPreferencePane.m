@@ -783,6 +783,18 @@
 - (IBAction) openGrowlDonate:(id)sender {
  	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/donate.php"]];
 }
+
+#pragma mark Network Tab Methods
+
+- (IBAction) removeSelectedForwardDestination:(id)sender
+{
+   [networkTableView noteNumberOfRowsChanged];
+   [self willChangeValueForKey:@"services"];
+   [services removeObjectAtIndex:[networkTableView selectedRow]];
+   [self didChangeValueForKey:@"services"];
+   [self writeForwardDestinations];
+}
+
 #pragma mark TableView data source methods
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView {
@@ -827,7 +839,6 @@
 	NSString *name = [aNetService name];
 	GrowlBrowserEntry *entry = nil;
 	for (entry in services) {
-		NSLog(@"name: %@", [entry computerName]);
 		if ([[entry computerName] isEqualToString:name]) {
 			[entry setActive:YES];
 			return;
@@ -872,10 +883,6 @@
 }
 
 #pragma mark Bonjour
-
-- (void) resolveService:(id)sender {
-	NSLog(@"What calls resolveService:?");
-}
 
 - (NSMutableArray *) services {
 	return services;

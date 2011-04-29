@@ -126,7 +126,7 @@
 + (BOOL) isGrowlMenuRunning;
 
 #pragma mark "Network" tab pane
-- (IBAction) resolveService:(id)sender;
+- (IBAction) removeSelectedForwardDestination:(id)sender;
 - (void) writeForwardDestinations;
 
 - (NSMutableArray *) services;

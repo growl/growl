@@ -190,49 +190,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		}
 		
 		[self preferencesChanged:nil];
-
-		//TODO: fix this up so that it uses actual settings
-		for(NSMutableDictionary *entry in destinations)
-		{
-			id uuid = [entry objectForKey:@"uuid"];
-			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:uuid];
-			if (uuid && !key) {
-				//key = [[GNTPKey alloc] keyWithPassword:@"testing" hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
-            //key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
-            
-            NSString *password = nil;
-            unsigned char *passwordChars;
-            UInt32 passwordLength;
-            OSStatus status;
-            const char *growlOutgoing = "GrowlOutgoingNetworkConnection";
-            const char *computerNameChars = [[entry objectForKey:@"computer"] UTF8String];
-            status = SecKeychainFindGenericPassword(NULL,
-                                                    (UInt32)strlen(growlOutgoing), growlOutgoing,
-                                                    (UInt32)strlen(computerNameChars), computerNameChars,
-                                                    &passwordLength, (void **)&passwordChars, NULL);		
-            if (status == noErr) {
-               password = [[NSString alloc] initWithBytes:passwordChars
-                                                   length:passwordLength
-                                                 encoding:NSUTF8StringEncoding];
-               SecKeychainItemFreeContent(NULL, passwordChars);
-            } else {
-               if (status != errSecItemNotFound)
-                  NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [entry objectForKey:@"computer"], status);
-               password = nil;
-            }
-            if (!password){
-               NSLog(@"Couldnt find password for %@, try using no security", [entry objectForKey:@"computer"]);
-               key = [[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
-            }
-            else
-               key = [[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
-            
-            [password release];
-            
-				[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
-				[key release];
-			}
-		}
 		
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
 															   selector:@selector(applicationLaunched:)
@@ -476,7 +433,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 	for(NSDictionary *entry in destinations) {
 		if ([[entry objectForKey:@"use"] boolValue]) {
-			NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
+			//NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
 			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
@@ -496,7 +453,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 											   nil]
 								waitUntilDone:NO];
 		} else {
-			NSLog(@"6  destination %@", entry);
+			//NSLog(@"6  destination %@", entry);
 		}
 	}
 
@@ -993,9 +950,52 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	if (!note || (object && [object isEqual:GrowlEnableForwardKey]))
 		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
 	if (!note || (object && [object isEqual:GrowlForwardDestinationsKey])) {
+      NSMutableArray *oldList = [destinations mutableCopyWithZone:nil];
 		[destinations release];
-		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];
-	}
+		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];         
+      
+      for(NSDictionary *dict in destinations)
+      {
+         NSString *uuid = [dict valueForKey:@"uuid"];
+         GNTPKey *key = nil;
+         NSString *password = nil;
+         unsigned char *passwordChars;
+         UInt32 passwordLength;
+         OSStatus status;
+         const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
+         const char *computerNameChars = [[dict objectForKey:@"computer"] UTF8String];
+         status = SecKeychainFindGenericPassword(NULL,
+                                                 (UInt32)strlen(growlOutgoing), growlOutgoing,
+                                                 (UInt32)strlen(computerNameChars), computerNameChars,
+                                                 &passwordLength, (void **)&passwordChars, NULL);		
+         if (status == noErr) {
+            password = [[NSString alloc] initWithBytes:passwordChars
+                                                length:passwordLength
+                                              encoding:NSUTF8StringEncoding];
+            SecKeychainItemFreeContent(NULL, passwordChars);
+         } else {
+            if (status != errSecItemNotFound)
+               NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [dict objectForKey:@"computer"], status);
+            password = nil;
+         }
+         
+         if (!password){
+            NSLog(@"Couldnt find password for %@, try using no security", [dict objectForKey:@"computer"]);
+            key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+         }
+         else
+            key = [[GNTPKey alloc] keyWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+         [[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
+         
+         [oldList removeObject:dict];
+      }
+      
+      if([oldList count] > 0) {
+         NSLog(@"Removing keys which were removed");
+         for(NSDictionary *dict in oldList)
+            [[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict valueForKey:@"uuid"]];
+      }
+   }
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
 	if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
