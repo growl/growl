@@ -981,10 +981,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          
          if (!password){
             NSLog(@"Couldnt find password for %@, try using no security", [dict objectForKey:@"computer"]);
-            key = [[GNTPKey alloc] keyWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+            key = [[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
          }
          else
-            key = [[GNTPKey alloc] keyWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+            key = [[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
          [[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
          
          [oldList removeObject:dict];
