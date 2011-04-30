@@ -9,6 +9,7 @@
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
+#import "GrowlApplicationController.h"
 
 #define GROWL_ROLLUP_WINDOW_HEIGHT @"GrowlRollupWindowHeight"
 #define GROWL_ROLLUP_WINDOW_WIDTH @"GrowlRollupWindowWidth"
@@ -45,6 +46,8 @@
          height = GROWL_ROLLUP_MIN_WINDOW_HEIGHT;
       
       expandSize = NSMakeSize(width, height);
+      
+      [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
    }
    return self;
 }
@@ -152,6 +155,15 @@
 
    if (error)
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+}
+
+-(IBAction)userDoubleClickedNote:(id)sender
+{
+   if([arrayController selectionIndex] != NSNotFound)
+   {
+      GrowlHistoryNotification *note = [[arrayController arrangedObjects] objectAtIndex:[arrayController selectionIndex]];
+      [[GrowlApplicationController sharedInstance] growlNotificationDict:[note GrowlDictionary] didCloseViaNotificationClick:YES onLocalMachine:YES];
+   }
 }
 
 -(GrowlNotificationDatabase*)historyController

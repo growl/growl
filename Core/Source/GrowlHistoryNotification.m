@@ -23,6 +23,7 @@
 @dynamic Identifier;
 @dynamic Image;
 @dynamic deleteUponReturn;
+@dynamic GrowlDictionary;
 
 -(void)setWithNoteDictionary:(NSDictionary*)noteDict
 {
@@ -67,6 +68,11 @@
       [newCache setImage:imageData andHash:hash];
       self.Image = newCache;
    }
+   
+   NSMutableDictionary *mutableDict = [noteDict mutableCopyWithZone:nil];
+   [mutableDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
+   [mutableDict removeObjectForKey:GROWL_APP_ICON_DATA];
+   self.GrowlDictionary = mutableDict;
 }
 
 -(NSString*)hashForData:(NSData*)data
@@ -82,6 +88,12 @@
                            digest[12], digest[13],
                            digest[14], digest[15]];
 	return identifier;
+}
+
+- (BOOL)validateGrowlDictionary:(id *)valueRef error:(NSError **)outError 
+{
+   // Insert custom validation logic here.
+   return [(NSObject*)*valueRef isKindOfClass:[NSDictionary class]];
 }
 
 @end
