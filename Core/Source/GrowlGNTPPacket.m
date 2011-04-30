@@ -390,12 +390,12 @@
 	   
 	   NSData *decryptedData = [[self key] decrypt:truncatedData];
       NSString *allHeaders = [[[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding] autorelease];
-      NSMutableArray *splitHeaders = [[allHeaders componentsSeparatedByString:@CRLF] mutableCopy];
+      NSMutableArray *splitHeaders = [[[allHeaders componentsSeparatedByString:@CRLF] mutableCopy] autorelease];
       [splitHeaders removeLastObject];
       
       for(NSString *header in splitHeaders){
          NSData *headerData = nil;
-         NSMutableData *mData = [[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+         NSMutableData *mData = [[[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
          [mData appendData:[AsyncSocket CRLFData]];
          headerData = mData;
          

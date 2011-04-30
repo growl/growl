@@ -950,7 +950,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	if (!note || (object && [object isEqual:GrowlEnableForwardKey]))
 		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
 	if (!note || (object && [object isEqual:GrowlForwardDestinationsKey])) {
-      NSMutableArray *oldList = [destinations mutableCopyWithZone:nil];
+      NSMutableArray *oldList = [[destinations mutableCopyWithZone:nil] autorelease];
 		[destinations release];
 		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];         
       
@@ -969,9 +969,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
                                                  (UInt32)strlen(computerNameChars), computerNameChars,
                                                  &passwordLength, (void **)&passwordChars, NULL);		
          if (status == noErr) {
-            password = [[NSString alloc] initWithBytes:passwordChars
+            password = [[[NSString alloc] initWithBytes:passwordChars
                                                 length:passwordLength
-                                              encoding:NSUTF8StringEncoding];
+                                              encoding:NSUTF8StringEncoding] autorelease];
             SecKeychainItemFreeContent(NULL, passwordChars);
          } else {
             if (status != errSecItemNotFound)
@@ -981,10 +981,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          
          if (!password){
             NSLog(@"Couldnt find password for %@, try using no security", [dict objectForKey:@"computer"]);
-            key = [[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone];
+            key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
          }
          else
-            key = [[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES];
+            key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES] autorelease];
          [[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
          
          [oldList removeObject:dict];

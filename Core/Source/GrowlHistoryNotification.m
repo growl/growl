@@ -69,7 +69,7 @@
       self.Image = newCache;
    }
    
-   NSMutableDictionary *mutableDict = [noteDict mutableCopyWithZone:nil];
+   NSMutableDictionary *mutableDict = [[noteDict mutableCopyWithZone:nil] autorelease];
    [mutableDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
    [mutableDict removeObjectForKey:GROWL_APP_ICON_DATA];
    self.GrowlDictionary = mutableDict;
