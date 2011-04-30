@@ -381,8 +381,6 @@
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
 		BCC0657A1253F2730039CE5E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		BCC065CC1253F7C80039CE5E /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC065CB1253F7C80039CE5E /* libcrypto.dylib */; };
-		BCE4E4F412EB2DF900226BB0 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
-		BCE4E4FD12EB2E2D00226BB0 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
@@ -3341,7 +3339,6 @@
 				BC9AEAB41257F42D00759016 /* GrowlHistoryNotification.m in Sources */,
 				BC9AEAB51257F42E00759016 /* GrowlImageCache.m in Sources */,
 				BC9AEAB61257F42F00759016 /* GrowlNotificationDatabase.m in Sources */,
-				BCE4E4FD12EB2E2D00226BB0 /* GrowlNotificationHistoryWindow.m in Sources */,
 				BC9AEC041257FDDB00759016 /* GrowlNotificationHistory.xcdatamodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3387,7 +3384,6 @@
 				BC28C363124CDEF400DB83D4 /* GrowlHistoryNotification.m in Sources */,
 				BC28C392124CE1B700DB83D4 /* GrowlNotificationHistory.xcdatamodel in Sources */,
 				BC9AE9741255952700759016 /* GrowlImageCache.m in Sources */,
-				BCE4E4F412EB2DF900226BB0 /* GrowlNotificationHistoryWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

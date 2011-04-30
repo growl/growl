@@ -126,10 +126,10 @@
       
       if(![[historyWindow window] isVisible])
       {
-         [historyWindow resetArrayWithDate:awayDate];
+         [(GrowlNotificationHistoryWindow*)historyWindow resetArrayWithDate:awayDate];
          [historyWindow showWindow:self];
       }else {
-         [historyWindow updateTableView];
+         [(GrowlNotificationHistoryWindow*)historyWindow updateTableView];
       }
    }
 }

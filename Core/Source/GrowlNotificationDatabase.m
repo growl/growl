@@ -14,7 +14,6 @@
 #import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
-#import "GrowlNotificationHistoryWindow.h"
 #import <CoreData/CoreData.h>
 
 @implementation GrowlNotificationDatabase
