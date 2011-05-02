@@ -247,7 +247,7 @@
          else {
             if ([key encryptionAlgorithm] != GNTPNone) {
                errorCode = GrowlGNTPUnauthorizedErrorCode;
-               errorDescription = @"Missing initialization vector for encryption";
+               errorDescription = NSLocalizedString(@"Missing initialization vector for encryption", /*comment*/ @"GNTP packet parsing error");
             }
          }
       }
@@ -288,7 +288,7 @@
       {
          NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
          errorCode = GrowlGNTPUnauthorizedErrorCode;
-         errorDescription = @"Missing, malformed, or invalid key hash string";
+         errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", /*comment*/ @"GNTP packet parsing error");
       }
       
       if(!errorDescription && errorCode == 0)
@@ -299,12 +299,12 @@
 	}else {
       NSLog(@"Invalid protocol version");
       errorCode = GrowlGNTPUnknownProtocolVersionErrorCode;
-      errorDescription = @"Invalid protocol version.  Only version 1.0 is supported";
+      errorDescription = NSLocalizedString(@"Invalid protocol version.  Only version 1.0 is supported", /*comment*/ @"GNTP packet parsing error");
    }
 
    if(errorCode == 0 && !errorDescription) {
       errorCode = GrowlGNTPInvalidRequestErrorCode;
-      errorDescription = @"Somehow we got here parsing the protocol identifier without an error, this should be impossible, either its valid or its not";
+      errorDescription = NSLocalizedString(@"Somehow we got here parsing the protocol identifier without an error, this should be impossible, either its valid or its not", /*comment*/ @"GNTP packet parsing error");
    }
    
    [self setError:[NSError errorWithDomain:GROWL_NETWORK_DOMAIN
