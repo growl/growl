@@ -24,7 +24,7 @@
 				<string>growlView</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>growl-icon</string>
+			<string>Growl</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Display Plugin</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -42,7 +42,7 @@
 				<string>growlStyle</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>growl-icon</string>
+			<string>Growl</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl WebKit Style</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -58,7 +58,7 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlHelperApp</string>
 	<key>CFBundleIconFile</key>
-	<string>growl-icon</string>
+	<string>Growl</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.GrowlHelperApp</string>
 	<key>CFBundleInfoDictionaryVersion</key>

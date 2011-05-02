@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlMenu</string>
 	<key>CFBundleIconFile</key>
-	<string>growl-icon</string>
+	<string>Growl</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.MenuExtra</string>
 	<key>CFBundleInfoDictionaryVersion</key>
