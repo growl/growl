@@ -21,8 +21,8 @@
 
 @interface GrowlGNTPPacket ()
 - (id)initForSocket:(AsyncSocket *)inSocket;
-- (void)setAction:(NSString *)inAction;
-- (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
+//- (void)setAction:(NSString *)inAction;
+//- (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
 - (void)readNextHeader;
 - (void)beginProcessingProtocolIdentifier;
 - (void)networkPacketReadComplete;
@@ -172,19 +172,23 @@
 
 - (void)finishReadingFlashPolicyRequest
 {
-	[socket readDataToData:[@"\0" dataUsingEncoding:NSUTF8StringEncoding]
+	// This is stupid, yes.  But you cannot put a \0 into a string literal under LLVM without
+	// generating warnings, so we have to do this trick to avoid -Wall -Werror failing.
+	[socket readDataToData:[[NSString stringWithFormat:@"%c", 0] dataUsingEncoding:NSUTF8StringEncoding]
 			   withTimeout:-1
 					   tag:GrowlFlashPolicyRequestRead];
 }
 
 - (void)respondToFlashPolicyRequest
 {
-	NSData *responseData = [@"<?xml version=\"1.0\"?>"
-							"<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">"
-							"<cross-domain-policy> "
-							"<site-control permitted-cross-domain-policies=\"master-only\"/>"
-							"<allow-access-from domain=\"*\" to-ports=\"*\" />"
-							"</cross-domain-policy>\0" dataUsingEncoding:NSUTF8StringEncoding];
+	// Same stupid compiler trick as above.
+	NSData *responseData = [[NSString stringWithFormat:
+						    @"<?xml version=\"1.0\"?>"
+							 "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">"
+							 "<cross-domain-policy> "
+							 "<site-control permitted-cross-domain-policies=\"master-only\"/>"
+							 "<allow-access-from domain=\"*\" to-ports=\"*\" />"
+							 "</cross-domain-policy>%c",0] dataUsingEncoding:NSUTF8StringEncoding];
 	[socket writeData:responseData
 		  withTimeout:-1
 				  tag:0];
@@ -701,7 +705,7 @@
 - (void)errorOccurred
 {
 	NSLog (@"Error occurred: Error domain %@, code %d (%@).",
-		   [[self error] domain], [[self error] code], [[self error] localizedDescription]);
+		   [[self error] domain], (int)[[self error] code], [[self error] localizedDescription]);
 	[[self delegate] packet:self failedReadingWithError:[self error]];
 
 	[socket disconnectAfterWriting];

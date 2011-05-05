@@ -99,7 +99,7 @@
 			SecKeychainItemFreeContent(NULL, passwordChars);
 		} else {
 			if (status != errSecItemNotFound)
-				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [self computerName], status);
+				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [self computerName], (int)status);
 			password = nil;
 		}
 		

@@ -209,7 +209,7 @@
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
       return;
    }
-   NSLog(@"%d notes older than %@, trimming.", [notes count], trimDate);
+   NSLog(@"%d notes older than %@, trimming.", (int)[notes count], trimDate);
    for(NSManagedObject *note in notes)
    {
       [managedObjectContext deleteObject:note];
@@ -236,7 +236,7 @@
    NSUInteger countLimit = [preferences growlHistoryCountLimit];
    if (totalCount <= countLimit)
    {
-      NSLog(@"Only %d notifications, not trimming", totalCount);
+      NSLog(@"Only %d notifications, not trimming", (int)totalCount);
       return;
    }
    
@@ -249,7 +249,7 @@
    
    NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
    
-   NSLog(@"Found %d notifications, limit is %d, retrieved %d to trim.", totalCount, countLimit, [notes count]);
+   NSLog(@"Found %d notifications, limit is %d, retrieved %d to trim.", (int)totalCount, (int)countLimit, (int)[notes count]);
    if(error)
    {
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -284,7 +284,7 @@
       NSLog(@"No images to cull found");
       return;
    }
-   NSLog(@"Culling %d images from cache", [images count]);
+   NSLog(@"Culling %d images from cache", (int)[images count]);
    
    for(NSManagedObject *image in images)
    {
@@ -323,7 +323,7 @@
       return;
    }
    
-   NSLog(@"Removing %d notes which should no longer be retained", [notes count]);
+   NSLog(@"Removing %d notes which should no longer be retained", (int)[notes count]);
    for(NSManagedObject *note in notes)
    {
       [managedObjectContext deleteObject:note];

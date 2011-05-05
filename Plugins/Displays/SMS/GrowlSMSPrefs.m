@@ -99,7 +99,7 @@
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
 		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", status);
+			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", (int)status);
 		passwordString = @"";
 	}
 

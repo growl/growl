@@ -89,7 +89,7 @@
 }
 
 // so far only called when it is not installing an update
-- (void)updaterAlertDidFinishWithReturnCode:(NSUInteger)returnCode;
+- (void)updaterAlertDidFinishWithReturnCode:(NSUInteger)returnCode
 {
 	NSLog(@"%s", __FUNCTION__);
 	[self die:nil];

@@ -127,7 +127,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	return serverEnabled;
 }
 - (void) setServerEnabled:(BOOL)flag {
-	if (serverEnabled != flag) {
+	if ((BOOL)serverEnabled != flag) {
 		for (GrowlRemotePathway *remotePathway in remotePathways) {
 			remotePathway.enabled = flag;
 		}

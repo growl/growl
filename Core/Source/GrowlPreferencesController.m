@@ -479,7 +479,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		}
 	} else {
 		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+			NSLog(@"Failed to retrieve password from keychain. Error: %d", (int)status);
 		passwordString = @"";
 	}
 

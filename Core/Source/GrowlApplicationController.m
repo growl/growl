@@ -402,7 +402,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	if (err != nil)
 		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
 			   sock,
-			   [err domain], [err code], [err localizedDescription]);
+			   [err domain], (int)[err code], [err localizedDescription]);
 	else
 		NSLog (@"Socket will disconnect. No error.");
 	
@@ -975,7 +975,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             SecKeychainItemFreeContent(NULL, passwordChars);
          } else {
             if (status != errSecItemNotFound)
-               NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [dict objectForKey:@"computer"], status);
+               NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [dict objectForKey:@"computer"], (int)status);
             password = nil;
          }
          

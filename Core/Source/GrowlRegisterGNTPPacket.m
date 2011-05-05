@@ -88,6 +88,11 @@
 	/* XXX Start loading the URL in the background? */
 }
 
+- (NSURL *)applicationIconURL
+{
+	return mApplicationIconURL;
+}
+
 - (NSData *)applicationIconData
 {
 	NSData *data = nil;

@@ -16,7 +16,7 @@
 
 @implementation GrowlWebKitDisplayPlugin
 
-- (id) initWithStyleBundle:(NSBundle *)styleBundle; {
+- (id) initWithStyleBundle:(NSBundle *)styleBundle {
 	if ((self = [super initWithBundle:styleBundle])) {
 		NSDictionary *styleInfo = [styleBundle infoDictionary];
 		style = [[styleInfo valueForKey:@"CFBundleName"] retain];

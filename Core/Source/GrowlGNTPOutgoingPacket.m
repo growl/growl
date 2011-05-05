@@ -201,6 +201,11 @@
 	[[self key] generateKey];
 }
 
+- (GNTPKey *)key
+{
+	return mKey;
+}
+
 - (void)addHeaderItem:(GrowlGNTPHeaderItem *)inItem
 {
 	[headerItems addObject:inItem];

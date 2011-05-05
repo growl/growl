@@ -62,7 +62,7 @@ restart:;
 		} else {
 			if (err != noErr) {
 				//Unexpected failure of GetProcessInformation (Process Manager got confused?). Assume severe breakage and bail.
-				NSLog(@"Couldn't get information about process %lu,%lu: GetProcessInformation returned %i/%s", psn.highLongOfPSN, psn.lowLongOfPSN, err, GetMacOSStatusCommentString(err));
+				NSLog(@"Couldn't get information about process %u,%u: GetProcessInformation returned %i/%s", (unsigned int)psn.highLongOfPSN, (unsigned int)psn.lowLongOfPSN, (int)err, GetMacOSStatusCommentString(err));
 				err = noErr; //So our NSLog for GetNextProcess doesn't complain. (I wish I had Python's while..else block.)
 				break;
 			} else {
@@ -72,7 +72,7 @@ restart:;
 		}
 	}
 	if (err != procNotFound) {
-		NSLog(@"%s: GetNextProcess returned %i/%s", __PRETTY_FUNCTION__, err, GetMacOSStatusCommentString(err));
+		NSLog(@"%s: GetNextProcess returned %i/%s", __PRETTY_FUNCTION__, (int)err, GetMacOSStatusCommentString(err));
 	}
 
 	return bundle;

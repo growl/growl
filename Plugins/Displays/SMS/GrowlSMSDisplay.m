@@ -89,7 +89,7 @@
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
 		if (status != errSecItemNotFound)
-			NSLog(@"SMS display: Failed to retrieve SMS Account password from keychain. Error: %d", status);
+			NSLog(@"SMS display: Failed to retrieve SMS Account password from keychain. Error: %d", (int)status);
 		passwordString = CFSTR("");
 	}
 
@@ -299,10 +299,10 @@
 }
 
 - (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-	NSLog(@"SMS display: Error Parsing XML response from SMS Gateway - %i, Description: %@, Line: %i, Column: %i",	[parseError code],
+	NSLog(@"SMS display: Error Parsing XML response from SMS Gateway - %i, Description: %@, Line: %i, Column: %i",	(int)[parseError code],
 		  [[parser parserError] localizedDescription],
-		  [parser lineNumber],
-		  [parser columnNumber]);
+		  (int)[parser lineNumber],
+		  (int)[parser columnNumber]);
 }
 
 

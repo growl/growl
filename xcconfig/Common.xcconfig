@@ -7,7 +7,7 @@
 //
 
 //compiler settings
-GCC_VERSION = 4.2
+GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 GCC_OPTIMIZATION_LEVEL = 0
 GCC_C_LANGUAGE_STANDARD = gnu99
 
@@ -28,8 +28,10 @@ MACOSX_DEPLOYMENT_TARGET = 10.5
 ARCHS = i386 ppc x86_64 //$(ARCHS_STANDARD_32_64_BIT) as of Xcode 3.2.6 Std 32/64 no longer includes ppc
 VALID_ARCHS = i386 ppc ppc7400 ppc970 x86_64
 
-//warnings
-WARNING_CFLAGS = -W -Wall -Wpointer-arith -Wformat=2 -Wfloat-equal -Wno-unused-parameter
+//warnings 
+// -- no-format-nonliteral is /required/ for our CF extensions to compile with -Wall -Werror -Wformat enabled.
+//    If it is not there, all NSLog(CFSTR()) calls in .c files will generate an error. :(
+WARNING_CFLAGS = -W -Wall -Wpointer-arith -Wformat=2 -Wfloat-equal -Wno-unused-parameter -Wno-format-nonliteral
 
 GCC_WARN_SIGN_COMPARE = YES
 GCC_ENABLE_FIX_AND_CONTINUE = NO
