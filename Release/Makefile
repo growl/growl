@@ -3,7 +3,7 @@
 ###   * Set VERSION or GROWLMAIL_VERSION below.
 ###   * make version.
 #
-VERSION=1.2.2b1
+VERSION=1.2.2b2
 GROWLMAIL_VERSION=1.2.4b1
 
 #
