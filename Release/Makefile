@@ -58,7 +58,7 @@ ART_DIR=Artwork
 
 #########################
 
-.PHONY: all all-withlocalchanges assertnochanges assertnoconflicts version clean-all compile compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer clean build-dir-clean realclean release release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-growlnotify release-hardwaregrowler release-sdk displaysample framework-archive 
+.PHONY: all all-withlocalchanges assertnochanges assertnoconflicts version clean-all compile compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer clean build-dir-clean release release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-growlnotify release-hardwaregrowler release-sdk displaysample framework-archive 
 
 all: assertnochanges version compile release
 all-withlocalchanges: assertnoconflicts version compile release
@@ -102,9 +102,6 @@ clean:
 	rm -rf $(BUILD_DIR)
 build-dir-clean: clean-all
 	mkdir $(BUILD_DIR)
-
-realclean: clean
-	../build.sh clean
 
 $(DSYM_TBZ): $(DSYM_DIR)
 	tar -C $(DSYM_PARENT_DIR) -cjf $(DSYM_TBZ) $(DSYM_DIR_NAME)

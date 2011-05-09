@@ -19,16 +19,9 @@ BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 CP=ditto --rsrc
 RM=rm
 
-.PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean
+.PHONY : all growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean
 
-all:
-	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
-
-growl:
-	xcodebuild -target Growl -configuration $(BUILDCONFIGURATION) build
-
-growlhelperapp:
-	xcodebuild -target GrowlHelperApp -configuration $(BUILDCONFIGURATION) build
+all: frameworks
 
 frameworks: growlapplicationbridge growlapplicationbridge-withinstaller
 
