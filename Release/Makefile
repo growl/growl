@@ -84,17 +84,23 @@ clean-all:
 compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
 compile-growl: build-dir-clean
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
+	touch $(GROWL_BUILD_DIR)/*.dSYM
 # All of these depend on the hgRevision.h header, and most depend on the Growl framework.
 compile-growlmail: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
+	touch $(GROWL_BUILD_DIR)/*.dSYM $(GROWLMAIL_BUILD_DIR)/*.dSYM
 compile-growlsafari: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
+	touch $(GROWL_BUILD_DIR)/*.dSYM $(GROWLSAFARI_BUILD_DIR)/*.dSYM
 compile-growlnotify: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
+	touch $(GROWL_BUILD_DIR)/*.dSYM $(GROWLNOTIFY_BUILD_DIR)/*.dSYM
 compile-hardwaregrowler: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
+	touch $(GROWL_BUILD_DIR)/*.dSYM $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM
 compile-growltunes: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+	touch $(GROWL_BUILD_DIR)/*.dSYM $(GROWLTUNES_BUILD_DIR)/*.dSYM
 compile-beephammer: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Developer\ Tools/BeepHammer
 
