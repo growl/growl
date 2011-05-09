@@ -22,8 +22,23 @@ if [[ "x$REVISION" = "x" ]]; then
 		REVISION=0
 	fi
 fi
-echo "*** Building Growl Revision: $REVISION"
+
 mkdir -p "`dirname "$HEADERPATH"`"
+
+if [[ -f "$HEADERPATH" ]]; then
+	#Determine whether the header already contains our current revision.
+	pushd Tools/printRevision > /dev/null
+	make HEADERPATH="../../$HEADERPATH" > /dev/null
+	LAST_REVISION=$(./printRevision)
+	popd > /dev/null
+
+	if [[ "$REVISION" -eq "$LAST_REVISION" ]]; then
+		#The revision has not changed! No need to rewrite the file.
+		exit 0
+	fi
+fi
+
+echo "*** Building Growl Revision: $REVISION"
 
 echo "#define HG_REVISION $REVISION" > "$HEADERPATH"
 echo "#define HG_REVISION_STRING \"$REVISION\"" >> "$HEADERPATH"
