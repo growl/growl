@@ -243,6 +243,7 @@ $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip: $(BUILD_DIR)/$(GROWLMAIL_RELEASE
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM: compile-growlmail
 	mkdir $@
 	mv $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle.dSYM $@
+	mv $(GROWL_BUILD_DIR)/Growl.framework.dSYM $@
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM.tbz: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM
 	tar -C $(dir $<) -cjf $@ $(notdir $^)
 
