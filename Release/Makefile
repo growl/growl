@@ -235,14 +235,14 @@ $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg: $(SDK_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
 
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME): compile-growlmail $(GROWLMAIL_DIR)
-	cp -R $(GROWLMAIL_DIR) $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
+	mv $(GROWLMAIL_DIR) $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)/License.txt: ../License.txt
 	cp $^ $@
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME) $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)/License.txt
 	cd $(BUILD_DIR) && zip -q -r -9 $(notdir $@) $(notdir $^)
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM: compile-growlmail
 	mkdir $@
-	cp -R $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle.dSYM $@
+	mv $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle.dSYM $@
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM.tbz: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM
 	tar -C $(dir $<) -cjf $@ $(notdir $^)
 
