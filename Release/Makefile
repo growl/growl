@@ -86,7 +86,8 @@ compile-growl: build-dir-clean
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 	touch $(GROWL_BUILD_DIR)/*.dSYM
 # All of these depend on the hgRevision.h header, and most depend on the Growl framework.
-compile-growlmail: compile-growl
+compile-growlmail: build-dir-clean
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR) growlapplicationbridge
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
 	touch $(GROWL_BUILD_DIR)/*.dSYM $(GROWLMAIL_BUILD_DIR)/*.dSYM
 compile-growlsafari: compile-growl
