@@ -33,11 +33,14 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		314B18D40F98248700ACAFD6 /* main.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = main.scpt; sourceTree = "<group>"; };
-		315C88981068F98C00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
+		315C88981068F98C00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA19056A9B5C006CE269 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/main.xib; sourceTree = "<group>"; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
+		93A042E91382169500C46F0A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = SOURCE_ROOT; };
+		93A042EA1382169500C46F0A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		93A042EB1382169500C46F0A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = SOURCE_ROOT; };
 		955A4DB908617521009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/main.xib; sourceTree = "<group>"; };
 		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95E7903F0835F1E00098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/main.xib; sourceTree = "<group>"; };
@@ -60,13 +63,13 @@
 		089C166AFE841209C02AAC07 /* Automator Action */ = {
 			isa = PBXGroup;
 			children = (
+				93A042E61382167B00C46F0A /* xcconfigs */,
 				65AABA0F056A9AD1006CE269 /* Scripts */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				65942E140711D4310089E4F1 /* Info.plist */,
-				315C88981068F98C00880530 /* Localization.xcconfig */,
 			);
 			name = "Automator Action";
 			sourceTree = "<group>";
@@ -128,6 +131,17 @@
 				314B18D40F98248700ACAFD6 /* main.scpt */,
 			);
 			name = Scripts;
+			sourceTree = "<group>";
+		};
+		93A042E61382167B00C46F0A /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				93A042E91382169500C46F0A /* Common.xcconfig */,
+				93A042EA1382169500C46F0A /* Debug.xcconfig */,
+				93A042EB1382169500C46F0A /* Release.xcconfig */,
+				315C88981068F98C00880530 /* Localization.xcconfig */,
+			);
+			name = xcconfigs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,11 +233,13 @@
 		};
 		315C88971068F98300880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../../../Info.plist-Prefix.pch";
 				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
@@ -232,6 +248,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Show Growl Notification";
 				SECTORDER_FLAGS = "";
+				SYMROOT = ../../../build;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -244,6 +261,7 @@
 		};
 		95EE279B0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A042EA1382169500C46F0A /* Debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -252,6 +270,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../../../Info.plist-Prefix.pch";
 				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
@@ -260,6 +279,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Show Growl Notification";
 				SECTORDER_FLAGS = "";
+				SYMROOT = ../../../build;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -272,11 +292,13 @@
 		};
 		95EE279C0855AA6E0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "../../../Info.plist-Prefix.pch";
 				INSTALL_PATH = "($USER_LIBRARY_DIR)/Automator";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
@@ -285,6 +307,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Show Growl Notification";
 				SECTORDER_FLAGS = "";
+				SYMROOT = ../../../build;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
