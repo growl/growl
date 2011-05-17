@@ -81,8 +81,10 @@
     * no need to go around telling the database to forget all it knows unless it needs to
     */
    NSNumber *remotePID = [[note userInfo] objectForKey:@"kDatabaseProcessID"];
-   if([remotePID unsignedIntValue] == [processID unsignedIntValue])
+   if([remotePID unsignedIntValue] == [processID unsignedIntValue]) {
+      [pool drain];
       return;
+   }
    
    /* Ask the delegate if we can do a reset */
    if(!updateDelegate || [updateDelegate CanGrowlDatabaseHardReset:self])
@@ -202,6 +204,7 @@
    [managedObjectContext release]; managedObjectContext = nil;
    [managedObjectModel release]; managedObjectModel = nil;
    [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
+   [processID release]; processID = nil;
    [super destroy];
 }
 

@@ -16,6 +16,7 @@
 @dynamic ImageData;
 @dynamic Image;
 @dynamic Notifications;
+@dynamic Thumbnail;
 
 -(void)setImage:(NSData*)data andHash:(NSString*)hash
 {
@@ -40,6 +41,22 @@
       }
    }
    return image;
+}
+
+-(NSImage*)Thumbnail
+{
+   [self willAccessValueForKey:@"Thumbnail"];
+   NSImage *thumb = [self primitiveValueForKey:@"Thumbnail"];
+   [self didAccessValueForKey:@"Thumbnail"];
+   
+   if(!thumb)
+   {
+      thumb = [[self Image] copyWithZone:nil];
+      [thumb setScalesWhenResized:YES];
+      [thumb setSize:NSMakeSize(32, 32)];
+      [self setPrimitiveValue:thumb forKey:@"Thumbnail"];
+   }
+   return thumb;
 }
 
 -(void)setImage:(NSImage*)image

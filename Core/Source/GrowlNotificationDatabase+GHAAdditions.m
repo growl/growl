@@ -127,9 +127,8 @@
       if(![[historyWindow window] isVisible])
       {
          [(GrowlNotificationHistoryWindow*)historyWindow resetArrayWithDate:awayDate];
-         [historyWindow showWindow:self];
       }else {
-         [(GrowlNotificationHistoryWindow*)historyWindow updateTableView];
+         [(GrowlNotificationHistoryWindow*)historyWindow updateTableView:YES];
       }
    }
 }

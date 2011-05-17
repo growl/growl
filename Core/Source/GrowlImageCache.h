@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSData * ImageData;
 @property (nonatomic, retain) NSImage *Image;
 @property (nonatomic, retain) NSSet* Notifications;
+@property (nonatomic, readonly) NSImage *Thumbnail;
 
 -(void)setImage:(NSData*)data andHash:(NSString*)hash;
 

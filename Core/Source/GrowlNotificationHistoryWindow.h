@@ -16,12 +16,16 @@
    IBOutlet NSArrayController *arrayController;
    IBOutlet NSTextField *countLabel;
    IBOutlet NSView *storage;
-   IBOutlet NSView *listAndDetails;
-   IBOutlet NSTableColumn *appNameAndIconColumn;
+   IBOutlet NSView *countView;
+   IBOutlet NSView *searchView;
+   IBOutlet NSTableColumn *dateColumn;
+   IBOutlet NSTableColumn *notificationColumn;
+   IBOutlet NSTableHeaderView *headerView;
    GrowlNotificationDatabase *historyController;
    
    NSDate *awayDate;
    BOOL expanded;
+   BOOL currentlyShown;
    NSSize expandSize;
 }
 
@@ -29,12 +33,17 @@
 @property (assign) IBOutlet NSArrayController *arrayController;
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSView *storage;
-@property (assign) IBOutlet NSView *listAndDetails;
+@property (nonatomic, retain) IBOutlet NSView *countView;
+@property (nonatomic, retain) IBOutlet NSView *searchView;
+@property (assign) IBOutlet NSTableColumn *dateColumn;
+@property (assign) IBOutlet NSTableColumn *notificationColumn;
+@property (assign) IBOutlet NSTableHeaderView *headerView;
 
 @property (nonatomic, retain) NSDate *awayDate;
 
--(void)updateTableView;
+-(void)updateTableView:(BOOL)willMerge;
 -(void)resetArrayWithDate:(NSDate*)newAway;
 -(void)shrinkWindow;
+-(IBAction)openFullLog:(id)sender;
 
 @end
