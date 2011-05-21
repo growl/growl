@@ -1151,7 +1151,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				if (![ticket objectForKey:GROWL_APP_NAME])
 					[ticket setObject:appName forKey:GROWL_APP_NAME];
 
-				if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
+				if ([GrowlApplicationTicket isValidAutoDiscoverableTicketDictionary:ticket]) {
 					/* set the app's location in the dictionary, avoiding costly
 					 *	lookups later.
 					 */

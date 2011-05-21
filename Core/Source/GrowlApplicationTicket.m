@@ -40,8 +40,7 @@
 
 @synthesize loggingEnabled;
 
-//these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
-+ (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
++ (BOOL) isValidAutoDiscoverableTicketDictionary:(NSDictionary *)dict {
 	if (!dict)
 		return NO;
 
