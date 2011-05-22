@@ -104,7 +104,7 @@
       appHost = [NSString stringWithFormat:@"%@ - %@", hostName, appName];
    else
       appHost = appName;
-	return [ticketsByApplicationName objectForKey:appHost];
+	return [[[ticketsByApplicationName objectForKey:appHost] retain] autorelease];
 }
 - (void) addTicket:(GrowlApplicationTicket *) newTicket {
 	NSString *appName = [newTicket appNameHostName];
