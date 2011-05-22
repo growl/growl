@@ -567,7 +567,7 @@
 		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 		NSString *path = [ticket path];
 
-		if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
+		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
 			CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
 			CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
 			CFTypeRef   values[2] = { [ticket applicationName], pidValue };

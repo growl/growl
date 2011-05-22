@@ -21,7 +21,7 @@
 - (NSData *)GNTPRepresentation;
 @end
 
-@interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate> {
+@interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate, NSNetServiceDelegate> {
 	GrowlTCPServer			*tcpServer;
 	
 	GrowlGNTPPacketParser	*networkPacketParser;
