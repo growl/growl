@@ -16,11 +16,8 @@
 	NSTrackingRectTag	trackingRectTag;
 }
 
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
+@property (assign) id target;
+@property (assign) SEL action;
 
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;

@@ -11,31 +11,14 @@
 
 @implementation GrowlNotificationView
 
+@synthesize target;
+@synthesize action;
+
 - (id) init {
 	if( (self = [super init ]) ) {
 		closeBoxOrigin = NSMakePoint(0,0);
 	}
 	return self;
-}
-
-#pragma mark -
-
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id) object {
-	target = object;
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
 }
 
 #pragma mark -

@@ -14,7 +14,6 @@
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
-#import "GrowlRipplingWindowTransition.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlApplicationNotification.h"
 
