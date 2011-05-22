@@ -156,7 +156,10 @@
 				[stdinFH closeFile];
 
 				[task waitUntilExit];
-				success = ([task terminationStatus] == 0);
+				int status = [task terminationStatus];
+				success = (status == 0);
+				if (!success) 
+					NSLog(@"(MailMe) WARNING: Could not send message using simple-mailer; it returned exit status %d.", status);
 
 				SecKeychainItemFreeContent(/*attrList*/ NULL, passwordBytes);
 			}
