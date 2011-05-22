@@ -22,7 +22,7 @@ static GrowlApplicationController *applicationController = nil;
 	return self;
 }
 
-- (BOOL) registerApplicationWithDictionary:(NSDictionary *)dict {
+- (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[applicationController performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
 											withObject:dict
@@ -31,7 +31,7 @@ static GrowlApplicationController *applicationController = nil;
 	return YES;
 }
 
-- (void) postNotificationWithDictionary:(NSDictionary *)dict {
+- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[applicationController performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
 											withObject:dict
@@ -39,7 +39,7 @@ static GrowlApplicationController *applicationController = nil;
 	[pool release];
 }
 
-- (NSString *) growlVersion {
+- (bycopy NSString *) growlVersion {
 	return [GrowlApplicationController growlVersion];
 }
 @end

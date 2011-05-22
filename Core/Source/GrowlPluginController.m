@@ -838,10 +838,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 
 		// first remove old copy if present
-		[fileManager removeFileAtPath:destination handler:nil];
+		[fileManager removeItemAtPath:destination error:nil];
 
 		// copy new version to destination
-		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
+		if ([fileManager copyItemAtPath:filename toPath:destination error:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 			if([self hasNativeArchitecture:destination])

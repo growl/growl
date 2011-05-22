@@ -10,7 +10,7 @@
 
 @implementation GrowlRemotePathway
 
-- (BOOL) registerApplicationWithDictionary:(NSDictionary *)dict {
+- (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict {
 	if (enabled && [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
 		[super registerApplicationWithDictionary:dict];		
 		return YES;
@@ -19,7 +19,7 @@
 	}
 }
 
-- (void) postNotificationWithDictionary:(NSDictionary *)dict {
+- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
 	if (enabled) {
 		[super postNotificationWithDictionary:dict];
 	}

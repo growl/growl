@@ -21,11 +21,11 @@
 	[super dealloc];
 }
 
-- (void) addObserver:(id<GrowlNotificationObserver>)observer {
+- (oneway void) addObserver:(byref id<GrowlNotificationObserver>)observer {
 	[observers addObject:observer];
 }
 
-- (void) removeObserver:(id<GrowlNotificationObserver>)observer {
+- (oneway void) removeObserver:(byref id<GrowlNotificationObserver>)observer {
 	[observers removeObject:observer];
 }
 

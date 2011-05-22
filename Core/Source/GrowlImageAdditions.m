@@ -68,9 +68,14 @@
 			}
 		}
 	}
-	if (!bestRep)
-		bestRep = [self bestRepresentationForDevice:nil];
-
+	if (!bestRep) {	
+        if([self respondsToSelector:@selector(bestRepresentationForRect:context:hints:)]) {
+            bestRep = [self bestRepresentationForRect:NSZeroRect context:nil hints:nil]; 
+        }
+        else {
+            bestRep = (NSImageRep*)[self performSelector:@selector(bestRepresentationForDevice:) withObject:nil];
+        }
+    }
 	return bestRep;
 }
 

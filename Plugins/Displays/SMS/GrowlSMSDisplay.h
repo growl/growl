@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayPlugin.h"
 
-@interface GrowlSMSDisplay: GrowlDisplayPlugin {
+@interface GrowlSMSDisplay: GrowlDisplayPlugin<NSXMLParserDelegate> {
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;

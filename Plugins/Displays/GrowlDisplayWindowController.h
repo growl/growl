@@ -25,7 +25,7 @@ typedef enum {
 	GrowlDisplayTransitioningOutStatus
 } GrowlDisplayStatus;
 
-@interface GrowlDisplayWindowController : NSWindowController {
+@interface GrowlDisplayWindowController : NSWindowController <NSWindowDelegate, NSAnimationDelegate> {
 	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
 
