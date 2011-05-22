@@ -276,7 +276,7 @@ restart:;
 		if ([searchPath count]) {
 			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support/Growl"];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil])
 				path = nil;
 		}
 
@@ -296,7 +296,7 @@ restart:;
 		if (path) {
 			path = [path stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil])
 				path = nil;
 		}
 
@@ -316,7 +316,7 @@ restart:;
 		if (path) {
 			path = [path stringByAppendingPathComponent:NAME_OF_TICKETS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil])
 				path = nil;
 		}
 
@@ -338,7 +338,7 @@ restart:;
 		directory = [GrowlPathUtilities screenshotsDirectory];
 
 	//build a set of all the files in the directory, without their filename extensions.
-	NSArray *origContents = [mgr directoryContentsAtPath:directory];
+	NSArray *origContents = [mgr contentsOfDirectoryAtPath:directory error:nil];
 	NSMutableSet *directoryContents = [[NSMutableSet alloc] initWithCapacity:[origContents count]];
 
 	for (NSString *existingFilename in origContents)
