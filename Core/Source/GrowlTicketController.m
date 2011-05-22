@@ -54,7 +54,7 @@
 					if([applicationName isEqual:@"Growl"])
 					{
 						[self removeTicketForApplicationName:@"Growl"];
-						[mgr removeFileAtPath:filename handler:nil];
+						[mgr removeItemAtPath:filename error:nil];
 					}
 
 					/*if we haven't already loaded a ticket for this application,
