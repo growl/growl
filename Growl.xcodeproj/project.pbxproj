@@ -246,8 +246,6 @@
 		93BC4057095DEDFF0002B365 /* Nano.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
 		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93C70A2E10CB66B4005B5B80 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
-		93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */; };
-		93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92B90B5AF8CA000C39CD /* AWRippler.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -1119,10 +1117,6 @@
 		93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; };
 		93C0AED51084092E0037829B /* GrowlGNTPEncryptedHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPEncryptedHeaders.h; path = Core/Source/GrowlGNTPEncryptedHeaders.h; sourceTree = "<group>"; };
 		93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPEncryptedHeaders.m; path = Core/Source/GrowlGNTPEncryptedHeaders.m; sourceTree = "<group>"; };
-		93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlRipplingWindowTransition.h; sourceTree = "<group>"; };
-		93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlRipplingWindowTransition.m; sourceTree = "<group>"; };
-		93CD92B90B5AF8CA000C39CD /* AWRippler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AWRippler.m; sourceTree = "<group>"; };
-		93CD92BA0B5AF8CA000C39CD /* AWRippler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AWRippler.h; sourceTree = "<group>"; };
 		93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
@@ -2123,17 +2117,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		93AB058A100C2DB8008D7D30 /* Unused */ = {
-			isa = PBXGroup;
-			children = (
-				93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */,
-				93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */,
-				93CD92BA0B5AF8CA000C39CD /* AWRippler.h */,
-				93CD92B90B5AF8CA000C39CD /* AWRippler.m */,
-			);
-			name = Unused;
-			sourceTree = "<group>";
-		};
 		93BC37A4095A66610002B365 /* Nano */ = {
 			isa = PBXGroup;
 			children = (
@@ -2398,7 +2381,6 @@
 		EE1AF8D10897DA9400F486FD /* Window Transitions */ = {
 			isa = PBXGroup;
 			children = (
-				93AB058A100C2DB8008D7D30 /* Unused */,
 				EE1AF8D20897DA9400F486FD /* GrowlFadingWindowTransition.h */,
 				EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */,
 				EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */,
@@ -3208,7 +3190,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source generateHgRevision.sh";
+			shellScript = "#source generateHgRevision.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3521,8 +3503,6 @@
 				07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */,
 				072DE9BB09A10DEB006516DD /* GrowlTCPPathway.m in Sources */,
 				070C5DB009A7978F004F1E8C /* GrowlPathwayController.m in Sources */,
-				93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */,
-				93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */,
 				34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */,
 				31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */,
 				340903280E3DEB8400FCB0F7 /* GrowlTCPServer.m in Sources */,
@@ -4042,6 +4022,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -5027,6 +5008,7 @@
 		};
 		95EE277E0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
@@ -5161,6 +5143,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -5168,6 +5151,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
