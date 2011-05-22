@@ -101,7 +101,7 @@
 }
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName {
-	return [ticketsByApplicationName objectForKey:appName];
+	return [[[ticketsByApplicationName objectForKey:appName] retain] autorelease];
 }
 - (void) addTicket:(GrowlApplicationTicket *) newTicket {
 	NSString *appName = [newTicket applicationName];
