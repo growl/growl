@@ -211,7 +211,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			lastCheck = now;
 		}
 		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
+        //10.5 suppport
+		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck dateByAddingTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
 
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self

@@ -397,7 +397,7 @@
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
-		if ((object == ticketsArrayController))
+		if (object == ticketsArrayController)
 			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 		else if (object == displayPluginsArrayController)
 			[self reloadDisplayPluginView];
@@ -451,7 +451,7 @@
 			if (isDirectory) {
 				[soundNames addObject:@"-"];
 				
-				NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:directory];
+				NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
 
 				for (NSString *filename in files) {
 					NSString *file = [filename stringByDeletingPathExtension];
