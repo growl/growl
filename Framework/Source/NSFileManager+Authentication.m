@@ -58,7 +58,7 @@
 - (BOOL)deletePathWithAuthentication:(NSString *)path
 {
 	if ([self isWritableFileAtPath:path] && [self isWritableFileAtPath:[path stringByDeletingLastPathComponent]]) {
-		return [self removeFileAtPath:path handler:nil];
+		return [self removeItemAtPath:path error:nil];
 	} else
 		return [self _deletePathWithForcedAuthentication:path];
 }

@@ -68,6 +68,7 @@
 			}
 		}
 	}
+    //10.5 support
 	if (!bestRep) {	
         if([self respondsToSelector:@selector(bestRepresentationForRect:context:hints:)]) {
             bestRep = [self bestRepresentationForRect:NSZeroRect context:nil hints:nil]; 

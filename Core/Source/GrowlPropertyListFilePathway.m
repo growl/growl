@@ -40,7 +40,7 @@ static GrowlPropertyListFilePathway *sharedController = nil;
 	 *	surprise him with a 'Recovered items' folder in his Trash.
 	 */
 	if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
-		[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:filename error:nil];
 
 	if (regDict) {
 		//Register this app using the indicated dictionary

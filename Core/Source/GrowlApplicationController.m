@@ -487,7 +487,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (OSStatus) getFSRef:(out FSRef *)outRef forSoundNamed:(NSString *)soundName {
 	BOOL foundIt = NO;
 
-	NSArray *soundTypes = [NSSound soundUnfilteredFileTypes];
+	NSArray *soundTypes = [NSSound soundUnfilteredTypes];
 
 	//Throw away all the HFS types, leaving only filename extensions.
 	NSPredicate *noHFSTypesPredicate = [NSPredicate predicateWithFormat:@"NOT (self BEGINSWITH \"'\")"];
@@ -760,9 +760,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		NSFileManager *mgr = [NSFileManager defaultManager];
 		NSString *userLibraryFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) lastObject];
 		NSString *logsFolder = [userLibraryFolder stringByAppendingPathComponent:@"Logs"];
-		[mgr createDirectoryAtPath:logsFolder attributes:nil];
+		[mgr createDirectoryAtPath:logsFolder withIntermediateDirectories:YES attributes:nil error:nil];
 		NSString *failedTicketsFolder = [logsFolder stringByAppendingPathComponent:@"Failed Growl registrations"];
-		[mgr createDirectoryAtPath:failedTicketsFolder attributes:nil];
+		[mgr createDirectoryAtPath:failedTicketsFolder withIntermediateDirectories:YES attributes:nil error:nil];
 		NSString *path = [failedTicketsFolder stringByAppendingPathComponent:filename];
 
 		//NSFileHandle will not create the file for us, so we must create it separately.
@@ -1116,16 +1116,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
 
 	destDir = [searchPath objectAtIndex:0U]; //first == last == ~/Library
-	[fs createDirectoryAtPath:destDir attributes:nil];
 	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
-	[fs createDirectoryAtPath:destDir attributes:nil];
 	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
-	[fs createDirectoryAtPath:destDir attributes:nil];
 
 	subDir  = [destDir stringByAppendingPathComponent:@"Tickets"];
-	[fs createDirectoryAtPath:subDir attributes:nil];
+	[fs createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:nil];
 	subDir  = [destDir stringByAppendingPathComponent:@"Plugins"];
-	[fs createDirectoryAtPath:subDir attributes:nil];
+	[fs createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:nil];
 }
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
