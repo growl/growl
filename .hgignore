@@ -1,6 +1,7 @@
 syntax: glob
 build
 *.o
+Tools/printRevision/printRevision
 *.swp
 
 *.mode1
