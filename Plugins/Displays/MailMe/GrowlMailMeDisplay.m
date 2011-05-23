@@ -123,7 +123,11 @@
 				if (err != noErr) {
 					NSLog(@"MailMe: Could not get password for SMTP account %@: %i/%s", userAtHostPort, (int)err, GetMacOSStatusCommentString(err));
 				}
-			} else {
+			}
+
+			//If we successfully got either a regular SMTP password or a MobileMe password…
+			if (err == noErr) {
+				//…then let's proceed with sending the message.
 				NSData *passwordData = [NSData dataWithBytesNoCopy:passwordBytes length:passwordLength freeWhenDone:NO];
 
 				//Use only stock Python and matching modules.
