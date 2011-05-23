@@ -81,7 +81,7 @@ clean-all:
 	@# Note: We need to use .../* in order to not descend into .hg and corrupt the repository.
 	find $(SRC_DIR)/* -name build -prune -print0 | xargs -0 rm -R
 
-compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
+compile: compile-growl compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
 compile-growl: build-dir-clean
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 	touch $(GROWL_BUILD_DIR)/*.dSYM
@@ -131,7 +131,7 @@ $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.we
 $(GROWL_DIR)/Growl.pkg: $(GROWL_DIR)
 	$(PACKAGE_MAKER) --no-relocate --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
 # These are temporary; they'll go away once we have an Extras tab.
-$(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlmail compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
+$(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
 	mkdir '$@'
 $(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
 	mkdir '$@'
@@ -247,7 +247,7 @@ $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM: compile-growlmail
 $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM.tbz: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM
 	tar -C $(dir $<) -cjf $@ $(notdir $^)
 
-release: build-dir-clean release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-hardwaregrowler release-growlnotify release-sdk
+release: build-dir-clean release-dsym release-growl release-growlsafari release-growltunes release-hardwaregrowler release-growlnotify release-sdk
 release-dsym: build-dir-clean $(DSYM_TBZ)
 release-growl: build-dir-clean $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
 	@echo Build finished
