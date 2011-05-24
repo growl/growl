@@ -41,7 +41,9 @@
 	NSString *inDisplay = [dict objectForKey:@"Display"];
 	NSString *inSound = [dict objectForKey:@"Sound"];
 
-   BOOL logEnabled = getBooleanForKey(dict, @"Logging");
+   BOOL logEnabled = YES;
+   if([dict valueForKey:@"Logging"])
+      logEnabled = getBooleanForKey(dict, @"Logging");
 
 	return [self initWithName:inName
 			humanReadableName:inHumanReadableName
