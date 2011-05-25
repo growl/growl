@@ -1,5 +1,7 @@
 /*
- Copyright (c) The Growl Project, 2004-2005
+ (NOTE: When updating the copyright year, also update the one in the usage message below!)
+
+ Copyright (c) The Growl Project, 2004-2011
  All rights reserved.
 
 
