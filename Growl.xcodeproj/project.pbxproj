@@ -323,10 +323,6 @@
 		95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */; };
 		95D89B55082422C50068A4BD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950F79C5080EEE2B00CC5F62 /* WebKit.framework */; };
 		95D89BC308242AD80068A4BD /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 9596C4EF081063DB00F43859 /* template.html */; };
-		95D8C1A508B0A07500A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
-		95D8C1A608B0A07900A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
-		95D8C1A708B0A07D00A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
-		95D8C1A808B0A08200A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		95D8C62A083D552B003601C3 /* Candybars.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 95D8C60E083D552B003601C3 /* Candybars.growlStyle */; };
 		95D8C62B083D552B003601C3 /* Crystal.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 95D8C61A083D552B003601C3 /* Crystal.growlStyle */; };
 		95D93724086EFA7C00A1AD50 /* NSViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D93723086EFA7200A1AD50 /* NSViewAdditions.m */; };
@@ -400,7 +396,6 @@
 		DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DD493C31084BDF0200D1CCCB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		DDFADA6C084D1C770055DBC8 /* SMS.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* SMS.growlView */; };
-		E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		E14410E90A94072E0063C4DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		E14410EA0A94072E0063C4DC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
@@ -1178,8 +1173,6 @@
 		955A4EDC08617747009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = StatusItem/Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* CFMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMutableStringAdditions.h; path = Common/Source/CFMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* CFMutableStringAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CFMutableStringAdditions.c; path = Common/Source/CFMutableStringAdditions.c; sourceTree = "<group>"; };
-		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = "<group>"; };
-		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlBezierPathAdditions.c; path = Core/Source/GrowlBezierPathAdditions.c; sourceTree = "<group>"; };
 		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
 		956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 		9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = Common/Source/NSWorkspaceAdditions.h; sourceTree = "<group>"; };
@@ -1639,8 +1632,6 @@
 				9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */,
 				9574B7AB0838CB5500106CA3 /* CFGrowlAdditions.h */,
 				070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */,
-				956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */,
-				956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */,
 				955C236B081537280013C3CF /* CFMutableStringAdditions.h */,
 				955C236C081537280013C3CF /* CFMutableStringAdditions.c */,
 				95F975AB084A23F500915BFE /* CFMutableDictionaryAdditions.h */,
@@ -3222,7 +3213,6 @@
 				0A7F5EEC0767C30800E1C1E4 /* GrowlBubblesPrefsController.m in Sources */,
 				0A7F5EEE0767C30800E1C1E4 /* GrowlBubblesWindowController.m in Sources */,
 				0A7F5EF00767C30800E1C1E4 /* GrowlBubblesWindowView.m in Sources */,
-				95D8C1A608B0A07900A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 				955539E408DAD83D00D49CB1 /* CFDictionaryAdditions.c in Sources */,
 				939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */,
 			);
@@ -3236,7 +3226,6 @@
 				0A7F5F3F0767C3F600E1C1E4 /* GrowlBezelPrefs.m in Sources */,
 				0A7F5F410767C3F600E1C1E4 /* GrowlBezelWindowController.m in Sources */,
 				0A7F5F430767C3F600E1C1E4 /* GrowlBezelWindowView.m in Sources */,
-				95D8C1A708B0A07D00A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 				95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3249,7 +3238,6 @@
 				0A7F5F9B0767C6C500E1C1E4 /* GrowlSmokePrefsController.m in Sources */,
 				0A7F5F9D0767C6C500E1C1E4 /* GrowlSmokeWindowController.m in Sources */,
 				0A7F5F9F0767C6C500E1C1E4 /* GrowlSmokeWindowView.m in Sources */,
-				95D8C1A808B0A08200A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 				955538CF08DAD19F00D49CB1 /* CFDictionaryAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3451,7 +3439,6 @@
 				955437E207E048BE005534FA /* GrowlBrushedPrefsController.m in Sources */,
 				955437E407E048BF005534FA /* GrowlBrushedWindowController.m in Sources */,
 				955437E607E048C0005534FA /* GrowlBrushedWindowView.m in Sources */,
-				95D8C1A508B0A07500A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 				955539E308DAD82C00D49CB1 /* CFDictionaryAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3559,7 +3546,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */,
 				E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */,
 				E144111C0A9408840063C4DC /* GrowliCalDisplay.m in Sources */,
 				E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */,

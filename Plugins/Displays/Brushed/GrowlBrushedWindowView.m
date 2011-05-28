@@ -10,7 +10,6 @@
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlBezierPathAdditions.h"
 #import "NSMutableAttributedStringAdditions.h"
 #import <WebKit/WebPreferences.h>
 
@@ -86,22 +85,22 @@
 	}
 
 	// set up path for rounded corners
-	addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
-	CGContextSetLineWidth(context, 2.0);
+    NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shadedBounds xRadius:GrowlBrushedBorderRadius yRadius:GrowlBrushedBorderRadius];
+	[bezierPath setLineWidth:2.0f];
 
 	// draw background
 	NSWindow *window = [self window];
 	NSColor *bgColor = [window backgroundColor];
-	CGPathDrawingMode drawingMode;
 	if (mouseOver) {
-		drawingMode = kCGPathFillStroke;
 		[bgColor setFill];
 		[[NSColor keyboardFocusIndicatorColor] setStroke];
+        
+        [bezierPath fill];
+        [bezierPath stroke];
 	} else {
-		drawingMode = kCGPathFill;
 		[bgColor set];
+        [bezierPath fill];
 	}
-	CGContextDrawPath(context, drawingMode);
 
 	// draw the title and the text
 	NSRect drawRect;

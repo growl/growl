@@ -10,7 +10,6 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlBezierPathAdditions.h"
 #import "NSMutableAttributedStringAdditions.h"
 #import <WebKit/WebPreferences.h>
 
@@ -95,8 +94,6 @@
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
-	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-
 	// calculate bounds based on icon-float pref on or off
 	CGRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
@@ -113,20 +110,19 @@
 	}
 
 	// set up bezier path for rounded corners
-	addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
-	CGContextSetLineWidth(context, 2.0);
+    NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shadedBounds xRadius:GrowlSmokeBorderRadius yRadius:GrowlSmokeBorderRadius];
+	[bezierPath setLineWidth:2.0f];
 
 	// draw background
-	CGPathDrawingMode drawingMode;
 	if (mouseOver) {
-		drawingMode = kCGPathFillStroke;
 		[bgColor setFill];
 		[textColor setStroke];
+        [bezierPath fill];
+        [bezierPath stroke];
 	} else {
-		drawingMode = kCGPathFill;
 		[bgColor set];
+        [bezierPath fill];
 	}
-	CGContextDrawPath(context, drawingMode);
 
 	// draw the title and the text
 	NSRect drawRect;

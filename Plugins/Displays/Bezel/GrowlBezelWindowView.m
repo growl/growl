@@ -9,7 +9,6 @@
 #import "GrowlBezelWindowView.h"
 #import "GrowlBezelPrefs.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlBezierPathAdditions.h"
 
 #define BORDER_RADIUS 20.0
 
@@ -57,8 +56,9 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 
 	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
-	addRoundedRectToPath(context, bounds, BORDER_RADIUS);
-
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds xRadius:BORDER_RADIUS yRadius:BORDER_RADIUS];
+    [path setClip];
+    
 	CGFloat opacityPref = BEZEL_OPACITY_DEFAULT;
 	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
 	CGFloat alpha = opacityPref * 0.01;
@@ -70,12 +70,12 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 		case 0:
 			// default style
 			[[backgroundColor colorWithAlphaComponent:alpha] set];
-			CGContextFillPath(context);
+			[path fill];
 			break;
 		case 1:
 			// charcoal
 			CGContextSaveGState(context);
-			CGContextClip(context);
+			[path setClip];
 
 			struct CGFunctionCallbacks callbacks = { 0U, CharcoalShadeInterpolate, NULL };
 			CGFunctionRef function = CGFunctionCreate( &alpha,

@@ -12,7 +12,6 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowliCalDefines.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlBezierPathAdditions.h"
 #import "NSMutableAttributedStringAdditions.h"
 #import <WebKit/WebPreferences.h>
 
@@ -119,7 +118,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+	//addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+    NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
+    [bezierPath setClip];
 	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
 
 	CGContextSaveGState(context);
@@ -178,10 +179,10 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	CGContextFillPath(context);
 	CGColorSpaceRelease(cspace);
 
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+    bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
+	[bezierPath setLineWidth:BORDER_WIDTH_PX];
 	[borderColor set];
-	CGContextStrokePath(context);
+	[bezierPath stroke];
 
 	NSRect drawRect;
 	drawRect.origin.x = CGRectGetMaxX(shape) - iconSize - ICON_HSPACE_PX;

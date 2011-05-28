@@ -11,7 +11,6 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlBubblesDefines.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlBezierPathAdditions.h"
 #import "NSMutableAttributedStringAdditions.h"
 #import <WebKit/WebPreferences.h>
 
@@ -104,11 +103,11 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+    NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
+	[bezierPath setLineWidth:BORDER_WIDTH_PX];
 
 	CGContextSaveGState(context);
-	CGContextClip(context);
+    [bezierPath setClip];
 
 	// Create a callback function to generate the
 	// fill clipped graphics context with our gradient
@@ -149,13 +148,13 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 
 	CGContextRestoreGState(context);
 
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+    bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
+	[bezierPath setLineWidth:BORDER_WIDTH_PX];
 	if (mouseOver)
 		[highlightColor set];
 	else
 		[borderColor set];
-	CGContextStrokePath(context);
+	[bezierPath stroke];
 
 	NSRect drawRect;
 	drawRect.origin.x = PANEL_HSPACE_PX;
