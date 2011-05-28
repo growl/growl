@@ -1099,6 +1099,7 @@
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlQL.xcodeproj; path = Plugins/System/GrowlQL/GrowlQL.xcodeproj; sourceTree = "<group>"; };
+		93A2B4941369AE5C00E2F067 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		93BC379E095A662B0002B365 /* Nano.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nano.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		93BC37AE095A66950002B365 /* GrowlNanoDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNanoDisplay.h; path = Plugins/Displays/Nano/GrowlNanoDisplay.h; sourceTree = "<group>"; };
 		93BC37AF095A66950002B365 /* GrowlNanoDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlNanoDisplay.m; path = Plugins/Displays/Nano/GrowlNanoDisplay.m; sourceTree = "<group>"; };
@@ -1681,6 +1682,7 @@
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				BCC065CB1253F7C80039CE5E /* libcrypto.dylib */,
+				93C64CE2138CC74C005A2760 /* Recovered References */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
@@ -2132,6 +2134,14 @@
 				93BC37B6095A66950002B365 /* Info.plist */,
 			);
 			name = Nano;
+			sourceTree = "<group>";
+		};
+		93C64CE2138CC74C005A2760 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				93A2B4941369AE5C00E2F067 /* Localization.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		93EA7FF61369089600AB89AE /* xcconfig */ = {
@@ -4028,13 +4038,10 @@
 		};
 		315C88D71068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
 				INFOPLIST_FILE = Core/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
 				PRODUCT_NAME = Growl;
@@ -4044,6 +4051,7 @@
 		};
 		315C88D81068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -4065,6 +4073,7 @@
 		};
 		315C88D91068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
@@ -4075,6 +4084,7 @@
 		};
 		315C88DA1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -4100,6 +4110,7 @@
 		};
 		315C88DB1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -4207,10 +4218,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
 				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = Plugins/Displays/iCal/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
@@ -4387,6 +4394,7 @@
 		};
 		31E184D81084628E0011C78B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
@@ -4465,6 +4473,7 @@
 		};
 		34725DCA0C0678C800499F50 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -4501,6 +4510,7 @@
 		};
 		933818181052AA1A0014C550 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					$BUILT_PRODUCTS_DIR,
@@ -4543,6 +4553,7 @@
 		};
 		9340E3060C94D4B300A1F682 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4565,6 +4576,7 @@
 		};
 		93BC379C095A662B0002B365 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4601,6 +4613,7 @@
 		};
 		95E17B9A085E21C400990AB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -4639,6 +4652,7 @@
 		};
 		95EE274C0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4675,6 +4689,7 @@
 		};
 		95EE27510855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4711,6 +4726,7 @@
 		};
 		95EE27560855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4747,6 +4763,7 @@
 		};
 		95EE275B0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4783,6 +4800,7 @@
 		};
 		95EE27600855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4819,6 +4837,7 @@
 		};
 		95EE27650855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4879,6 +4898,7 @@
 		};
 		95EE276A0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -4915,6 +4935,7 @@
 		};
 		95EE276F0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = source;
@@ -4951,6 +4972,7 @@
 		};
 		95EE27740855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -4988,6 +5010,7 @@
 		};
 		95EE27790855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
@@ -5024,10 +5047,6 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
 				INFOPLIST_FILE = Core/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
 				PRODUCT_NAME = Growl;
@@ -5037,6 +5056,7 @@
 		};
 		95EE27880855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -5087,6 +5107,7 @@
 		};
 		95EE278D0855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -5157,6 +5178,7 @@
 		};
 		E14410ED0A94072E0063C4DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -5175,10 +5197,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
 				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = Plugins/Displays/iCal/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
