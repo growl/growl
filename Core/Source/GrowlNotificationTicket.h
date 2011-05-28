@@ -31,7 +31,7 @@ enum GrowlPriority {
 	int                      sticky;
 	enum GrowlPriority       priority;
 	unsigned                 GANReserved: 31;
-	unsigned                 enabled: 1;
+	BOOL                    enabled: 1;
    BOOL                     logNotification: YES;
 }
 
@@ -55,38 +55,20 @@ enum GrowlPriority {
 - (NSDictionary *) dictionaryRepresentation;
 
 - (BOOL) isEqualToNotification:(GrowlNotificationTicket *) other;
-
-#pragma mark -
-
-- (NSString *) name;
-
-- (NSString *) humanReadableName;
-- (void) setHumanReadableName:(NSString *)inHumanReadableName;
-
-- (NSString *) notificationDescription;
-- (void) setNotificationDescription:(NSString *)inNotificationDescription;
-
-- (enum GrowlPriority) priority;
-- (void) setPriority:(enum GrowlPriority)newPriority;
-
-- (BOOL) enabled;
-- (void) setEnabled:(BOOL)flag;
-
-
-- (BOOL) logNotification;
-- (void) setLogNotification:(BOOL)flag;
-   
-- (int) sticky;
-- (void) setSticky:(int)sticky;
-
-- (GrowlApplicationTicket *) ticket;
-- (void) setTicket:(GrowlApplicationTicket *)newTicket;
-
-- (NSString *) displayPluginName;
-- (void) setDisplayPluginName: (NSString *)pluginName;
 - (GrowlDisplayPlugin *) displayPlugin;
 
-- (NSString *) sound;
-- (void) setSound:(NSString *)value;
+#pragma mark -
+   
+
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *humanReadableName;
+@property (nonatomic, retain) NSString *notificationDescription;
+@property (nonatomic, assign) enum GrowlPriority priority;
+@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic, assign) BOOL logNotification;
+@property (nonatomic, assign) int sticky;
+@property (nonatomic, assign) GrowlApplicationTicket *ticket;
+@property (nonatomic, copy) NSString *displayPluginName;
+@property (nonatomic, retain) NSString *sound;
 
 @end

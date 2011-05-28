@@ -15,6 +15,17 @@
 
 @implementation GrowlNotificationTicket
 
+@synthesize name;
+@synthesize humanReadableName;
+@synthesize priority;
+@synthesize enabled;
+@synthesize logNotification;
+@synthesize sticky;
+@synthesize ticket;
+@synthesize displayPluginName;
+@synthesize sound;
+@synthesize notificationDescription;
+
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)theName {
 	return [[[GrowlNotificationTicket alloc] initWithName:theName] autorelease];
 }
@@ -79,15 +90,15 @@
 									 sound:(NSString *)inSound
 {
 	if ((self = [self init])) {
-		name					= [inName retain];
-		humanReadableName		= [inHumanReadableName retain];
-		notificationDescription = [inNotificationDescription retain];
-		priority				= inPriority;
-		enabled					= inEnabled;
-      logNotification      = inLogEnabled;
-		sticky					= inSticky;
-		displayPluginName		= [display copy];
-		sound					= [inSound retain];
+		self.name                       = inName;
+		self.humanReadableName          = inHumanReadableName;
+		self.notificationDescription    = inNotificationDescription;
+		self.priority                   = inPriority;
+		self.enabled					= inEnabled;
+        self.logNotification            = inLogEnabled;
+		self.sticky                     = inSticky;
+		self.displayPluginName          = display;
+		self.sound                      = inSound;
 	}
 	return self;
 }
@@ -149,70 +160,28 @@
 
 #pragma mark -
 
-- (NSString *) name {
-	return [[name retain] autorelease];
-}
-
 - (NSString *) humanReadableName {
-	return (humanReadableName ? [[humanReadableName retain] autorelease] : [self name]);
+	return (humanReadableName ? humanReadableName : [self name]);
 }
 
-- (void) setHumanReadableName:(NSString *)inHumanReadableName {
-	if (humanReadableName != inHumanReadableName) {
-		[humanReadableName release];
-		humanReadableName = [inHumanReadableName retain];
-	}
-}
-
-- (NSString *) notificationDescription {
-	return notificationDescription;
-}
-
-- (void) setNotificationDescription:(NSString *)inNotificationDescription {
-	if (notificationDescription != inNotificationDescription) {
-		[notificationDescription release];
-		notificationDescription = [inNotificationDescription retain];
-	}
-}
-
-- (enum GrowlPriority) priority {
-	return priority;
-}
 - (void) setPriority:(enum GrowlPriority)newPriority {
-	priority = newPriority;
+	self.priority = newPriority;
 	[ticket synchronize];
 }
 
-- (BOOL) enabled {
-	return enabled;
-}
 - (void) setEnabled:(BOOL)flag {
-	enabled = flag;
+	self.enabled = flag;
 	[ticket setUseDefaults:NO];
 	[ticket synchronize];
 }
 
-- (BOOL) logNotification {
-   return logNotification;
-}
-
 - (void) setLogNotification:(BOOL)flag {
-   logNotification = flag;
+   self.logNotification = flag;
 	[ticket synchronize];
-}
-
-- (GrowlApplicationTicket *) ticket {
-	return ticket;
-}
-- (void) setTicket:(GrowlApplicationTicket *)newTicket {
-	ticket = newTicket;
 }
 
 // With sticky, 1 is on, 0 is off, -1 means use what's passed
 // This corresponds to NSOnState, NSOffState, and NSMixedState
-- (int) sticky {
-	return sticky;
-}
 - (void) setSticky:(int)value {
 	sticky = value;
 	[ticket synchronize];
@@ -222,8 +191,7 @@
 	return displayPluginName;
 }
 - (void) setDisplayPluginName:(NSString *)pluginName {
-	[displayPluginName release];
-	displayPluginName = [pluginName copy];
+	self.displayPluginName = pluginName;
 	displayPlugin = nil;
 	[ticket synchronize];
 }
@@ -238,13 +206,9 @@
 	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
 }
 
-- (NSString *) sound {
-	return sound;
-}
 - (void) setSound:(NSString *)value {
 	if (value != sound) {
-		[sound release];
-		sound = [value retain];
+		self.sound = value;
 		[ticket synchronize];
 	}
 }
