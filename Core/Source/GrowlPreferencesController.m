@@ -345,13 +345,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setObject:name forKey:GrowlDisplayPluginKey];
 }
 
-- (BOOL) squelchMode {
-	return [self boolForKey:GrowlSquelchModeKey];
-}
-- (void) setSquelchMode:(BOOL)flag {
-	[self setBool:flag forKey:GrowlSquelchModeKey];
-}
-
 - (BOOL) stickyWhenAway {
 	return [self boolForKey:GrowlStickyWhenAwayKey];
 }
@@ -544,10 +537,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
 		[self willChangeValueForKey:@"defaultDisplayPluginName"];
 		[self didChangeValueForKey:@"defaultDisplayPluginName"];
-	}
-	if (!object || [object isEqualToString:GrowlSquelchModeKey]) {
-		[self willChangeValueForKey:@"squelchMode"];
-		[self didChangeValueForKey:@"squelchMode"];
 	}
 	if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
 		[self willChangeValueForKey:@"growlMenuEnabled"];

@@ -666,61 +666,59 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    if([preferences isForwardingEnabled])
       [self performSelectorInBackground:@selector(forwardNotification:) withObject:[dict copy]];
    
-	if (![preferences squelchMode]) {
-		GrowlDisplayPlugin *display = [notification displayPlugin];
-
-		if (!display)
-			display = [ticket displayPlugin];
-
-		if (!display) {
-			if (!defaultDisplayPlugin) {
-				NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-				defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
-				if (!defaultDisplayPlugin) {
-					//User's selected default display has gone AWOL. Change to the default default.
-					NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-					NSURL *fileURL = [NSURL fileURLWithPath:file];
-					NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-					if (defaultDefaults) {
-						displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
-						if (!displayPluginName)
-							GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
-						else {
-							defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
-
-							//Now fix the user's preferences to forget about the missing display plug-in.
-							[preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
-						}
-
-						[defaultDefaults release];
-					}
-				}
-			}
-			display = defaultDisplayPlugin;
-		}
-      
-		[display displayNotification:appNotification];
-
-
-		NSString *soundName = [notification sound];
-		if (soundName) {
-			NSError *error = nil;
-			NSDictionary *userInfo;
-
-			FSRef soundRef;
-			OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
-			if (err == noErr) {
-			} else {
-				userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
-					nil];
-			}
-
-			if (err != noErr) {
-				error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:userInfo];
-				[NSApp presentError:error];
-			}
-		}
+    GrowlDisplayPlugin *display = [notification displayPlugin];
+    
+    if (!display)
+        display = [ticket displayPlugin];
+    
+    if (!display) {
+        if (!defaultDisplayPlugin) {
+            NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
+            defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
+            if (!defaultDisplayPlugin) {
+                //User's selected default display has gone AWOL. Change to the default default.
+                NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+                NSURL *fileURL = [NSURL fileURLWithPath:file];
+                NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+                if (defaultDefaults) {
+                    displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
+                    if (!displayPluginName)
+                        GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
+                    else {
+                        defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+                        
+                        //Now fix the user's preferences to forget about the missing display plug-in.
+                        [preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
+                    }
+                    
+                    [defaultDefaults release];
+                }
+            }
+        }
+        display = defaultDisplayPlugin;
+    }
+    
+    [display displayNotification:appNotification];
+    
+    
+    NSString *soundName = [notification sound];
+    if (soundName) {
+        NSError *error = nil;
+        NSDictionary *userInfo;
+        
+        FSRef soundRef;
+        OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
+        if (err == noErr) {
+        } else {
+            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
+                        nil];
+        }
+        
+        if (err != noErr) {
+            error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:userInfo];
+            [NSApp presentError:error];
+        }
 	}
    
    [appNotification release];

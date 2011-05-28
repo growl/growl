@@ -21,8 +21,6 @@
 #define kStopGrowlTooltip            NSLocalizedString(@"Stop Growl", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
-#define kSquelchMode                 NSLocalizedString(@"Log only, don't display", @"")
-#define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
 #define kStopGrowlMenu               NSLocalizedString(@"Hide Status Item", @"")
 #define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
 #define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
@@ -61,7 +59,7 @@ int main(void) {
 
 	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
 	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
-	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
+	disabledImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
 
 	[self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
 
@@ -102,7 +100,7 @@ int main(void) {
 //	[statusItem            release];
 	[clawImage             release];
 	[clawHighlightImage    release];
-	[squelchImage          release];
+	[disabledImage          release];
 	[super dealloc];
 }
 
@@ -216,7 +214,7 @@ int main(void) {
 	switch([state unsignedIntegerValue])
 	{
 		case kGrowlNotRunningState:
-			normalImage = squelchImage;
+			normalImage = disabledImage;
 			pressedImage = clawHighlightImage;
 			break;
 		case kGrowlRunningState:

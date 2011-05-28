@@ -35,7 +35,6 @@
 #define	GrowlCustomHistKey2			XSTR("Custom log history 2")
 #define	GrowlCustomHistKey3			XSTR("Custom log history 3")
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
-#define GrowlSquelchModeKey			XSTR("GrowlSquelchMode")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
 #define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
@@ -95,9 +94,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
-
-- (BOOL) squelchMode;
-- (void) setSquelchMode:(BOOL)flag;
 
 - (BOOL) stickyWhenAway;
 - (void) setStickyWhenAway:(BOOL)flag;

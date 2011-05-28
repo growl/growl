@@ -354,16 +354,6 @@
 
 	[self setDisplayPlugins:[[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName]];
 
-#ifdef THIS_CODE_WAS_REMOVED_AND_I_DONT_KNOW_WHY
-	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
-		[self setTickets:[[ticketController allSavedTickets] allValues]];
-
-	[preferencesController setSquelchMode:[preferencesController squelchMode]];
-	[preferencesController setGrowlMenuEnabled:[preferencesController isGrowlMenuEnabled]];
-
-	[self cacheImages];
-#endif
-
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferencesController boolForKey:GrowlEnabledKey])
 		[preferencesController launchGrowl:NO];

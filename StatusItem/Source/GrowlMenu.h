@@ -23,7 +23,7 @@ enum {
 
 	NSImage						*clawImage;
 	NSImage						*clawHighlightImage;
-	NSImage						*squelchImage;
+	NSImage						*disabledImage;
 }
 
 - (void) shutdown:(id)sender;

@@ -20,8 +20,6 @@
 	<integer>0</integer>
 	<key>GrowlMenuExtra</key>
 	<false/>
-	<key>GrowlSquelchMode</key>
-	<false/>
 	<key>StickyWhenAway</key>
 	<false/>
 	<key>IdleThreshold</key>
