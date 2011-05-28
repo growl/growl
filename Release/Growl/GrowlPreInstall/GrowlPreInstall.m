@@ -43,7 +43,8 @@ int main (int argc, char **argv) {
 
 	/* delete old Growl installations */
 	NSString *destinationDirectory = [NSString stringWithUTF8String:argv[2]];
-	if (YES || [destinationDirectory hasPrefix:@"/Library"]) {
+	NSLog(@"Installing to directory %@", destinationDirectory);
+	if ([destinationDirectory hasPrefix:@"/Library"]) {
 		//We are installing to /Library/PreferencePanes, so delete a prefpane in the user Library if there is one.
 
 		//Get the home directory for the console (GUI) user from System Configuration, because NSHomeDirectory (at least under Leopard's Installer) will return the home directory for root.
