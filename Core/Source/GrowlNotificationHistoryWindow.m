@@ -48,7 +48,6 @@
       [[self window] center];
       [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
       [(NSPanel*)[self window] setFloatingPanel:YES];
-      [(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded:YES];
       
       [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
       
@@ -83,7 +82,7 @@
    [super dealloc];
 }
 
--(void)windowDidBecomeKey:(NSNotification *)notification
+-(IBAction)expandWindow:(id)sender
 {
    if(expanded)
       return;

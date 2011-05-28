@@ -41,6 +41,7 @@
 
 @property (nonatomic, retain) NSDate *awayDate;
 
+-(IBAction)expandWindow:(id)sender;
 -(void)updateTableView:(BOOL)willMerge;
 -(void)resetArrayWithDate:(NSDate*)newAway;
 -(void)shrinkWindow;
