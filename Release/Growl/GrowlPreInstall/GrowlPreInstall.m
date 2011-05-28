@@ -27,6 +27,7 @@
 @end
 
 int main (int argc, char **argv) {
+	int status = EXIT_SUCCESS;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSAppleEventDescriptor *descriptor;
@@ -42,7 +43,7 @@ int main (int argc, char **argv) {
 
 	/* delete old Growl installations */
 	NSString *destinationDirectory = [NSString stringWithUTF8String:argv[2]];
-	if ([destinationDirectory hasPrefix:@"/Library"]) {
+	if (YES || [destinationDirectory hasPrefix:@"/Library"]) {
 		//We are installing to /Library/PreferencePanes, so delete a prefpane in the user Library if there is one.
 
 		//Get the home directory for the console (GUI) user from System Configuration, because NSHomeDirectory (at least under Leopard's Installer) will return the home directory for root.
@@ -57,12 +58,17 @@ int main (int argc, char **argv) {
 			homeDirectory = [NSString stringWithUTF8String:pwd->pw_dir];
 		}
 
-		[[NSFileManager defaultManager] removeFileAtPath:[[[homeDirectory
-															stringByAppendingPathComponent:@"Library"]
-														   stringByAppendingPathComponent:@"PreferencePanes"] 
-														  stringByAppendingPathComponent:@"Growl.prefPane"] handler:nil];
+		NSString *path = [[[homeDirectory
+			stringByAppendingPathComponent:@"Library"]
+			stringByAppendingPathComponent:@"PreferencePanes"] 
+			stringByAppendingPathComponent:@"Growl.prefPane"];
+		NSError *error = nil;
+		if (![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+			NSLog(@"Could not remove old prefpane at %@ while installing to %@ (preinstall running as user %@): Error %@", path, destinationDirectory, NSUserName(), error);
+			status = EXIT_FAILURE;
+		}
 	}
 
 	[pool release];
-	return 0;
+	return status;
 }
