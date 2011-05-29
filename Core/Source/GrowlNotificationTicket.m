@@ -207,10 +207,8 @@
 }
 
 - (void) setSound:(NSString *)value {
-	if (value != sound) {
-		self.sound = value;
-		[ticket synchronize];
-	}
+    self.sound = value;
+    [ticket synchronize];
 }
 
 @end
