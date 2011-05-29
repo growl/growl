@@ -26,7 +26,6 @@
 - (void)readNextHeader;
 - (void)beginProcessingProtocolIdentifier;
 - (void)networkPacketReadComplete;
-- (BOOL)isLocalHost:(NSString *)inHost;
 @end
 
 @implementation GrowlGNTPPacket
@@ -239,7 +238,7 @@
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
 		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
       
-      if(![packetEncryptionAlgorithm isEqual:GNTPNone] && [self isLocalHost:[[self socket] connectedHost]]){
+      if(![packetEncryptionAlgorithm isEqual:GNTPNone] && [[[self socket] connectedHost] isLocalHost]){
          NSLog(@"LocalHost with encryption, for now ignoring");
       }
       
@@ -287,7 +286,7 @@
             hashStringError = YES;
       }
       
-      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![self isLocalHost:[[self socket] connectedHost]])) ||
+      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![[[self socket] connectedHost] isLocalHost])) ||
           hashStringError) 
       {
          NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
@@ -724,17 +723,6 @@
 
 #pragma mark Incoming network processing
 
-- (BOOL)isLocalHost:(NSString *)inHost
-{
-	if ([inHost isEqualToString:@"127.0.0.1"] || 
-       [inHost isEqualToString:@"::1"] || 
-       [inHost isEqualToString:@"0:0:0:0:0:0:0:1"])
-		return YES;
-	else {
-		return NO;
-	}
-}
-
 - (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally
 {
 	wasInitiatedLocally = inWasInitiatedLocally;
@@ -746,7 +734,7 @@
  **/
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
 {
-	if ([self isLocalHost:inHost] ||
+	if ([inHost isLocalHost] ||
 		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
 		wasInitiatedLocally) {
 		[self startProcessing];

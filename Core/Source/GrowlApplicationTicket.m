@@ -12,6 +12,7 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlDefines.h"
 #import "GrowlDisplayPlugin.h"
+#import "NSStringAdditions.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlImageAdditions.h"
@@ -27,6 +28,8 @@
 #pragma mark -
 
 @implementation GrowlApplicationTicket
+@synthesize appNameHostName;
+@synthesize isLocalHost;
 
 @synthesize hasChanged = changed;
 @synthesize useDefaults;
@@ -72,6 +75,26 @@
 
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
 		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
+      NSString *host = [ticketDict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+      if ([host hasSuffix:@".local"]) {
+         host = [host substringToIndex:([hostName length] - [@".local" length])];
+      }
+      if(!host){
+         isLocalHost = YES;
+      }else {
+         if ([ticketDict valueForKey:@"isGrowlAppLocalHost"]) {
+            isLocalHost = [[ticketDict valueForKey:@"isGrowlAppLocalHost"] boolValue];
+         }else {
+            isLocalHost = [host isLocalHost];
+         }
+      }
+      if(isLocalHost){
+         appNameHostName = appName;
+      }else {
+         hostName = [host retain];
+         appNameHostName = [[NSString alloc] initWithFormat:@"%@ - %@", hostName, appName];
+      }
+      
 		if (appId && ![appId isKindOfClass:[NSString class]]) {
 			NSLog(@"Ticket for application %@ contains invalid bundle ID %@! Rejecting.", appName, appId);
 			[self release];
@@ -263,7 +286,7 @@
 - (void) saveTicketToPath:(NSString *)destDir {
 	// Save a Plist file of this object to configure the prefs of apps that aren't running
 	// construct a dictionary of our state data then save that dictionary to a file.
-	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
+	NSString *savePath = [destDir stringByAppendingPathComponent:[appNameHostName stringByAppendingPathExtension:@"growlTicket"]];
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
 	for (GrowlNotificationTicket *obj in [allNotifications objectEnumerator]) {
 		[saveNotifications addObject:[obj dictionaryRepresentation]];
@@ -286,6 +309,7 @@
 	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
 	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInteger:positionType];
 	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInteger:selectedCustomPosition];
+   NSNumber *localHost = [NSNumber numberWithBool:isLocalHost];
 	NSData *theIconData = iconData;
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,						GROWL_APP_NAME,
@@ -298,6 +322,7 @@
 		positionTypeValue,				PositionTypeKey,
 		selectedCustomPositionValue,	GROWL_POSITION_PREFERENCE_KEY,
 		location,						GROWL_APP_LOCATION,
+      localHost,               @"isGrowlAppLocalHost",
 		nil];
 	[useDefaultsValue					release];
 	[ticketEnabledValue					release];
@@ -306,6 +331,9 @@
 	[selectedCustomPositionValue		release];
 	[saveNotifications					release];
 	
+   if (hostName)
+      [saveDict setObject:hostName forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+      
 	if (displayPluginName)
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 
@@ -426,7 +454,7 @@
 }
 
 - (NSString *) applicationName {
-	return appName;
+   return appName;
 }
 
 - (GrowlDisplayPlugin *) displayPlugin {
@@ -751,7 +779,7 @@
 }
 
 - (NSComparisonResult) caseInsensitiveCompare:(GrowlApplicationTicket *)aTicket {
-	return [appName caseInsensitiveCompare:[aTicket applicationName]];
+	return [appNameHostName caseInsensitiveCompare:[aTicket appNameHostName]];
 }
 
 #pragma mark Notification Accessors

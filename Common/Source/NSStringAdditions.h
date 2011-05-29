@@ -17,4 +17,8 @@
 
 - (BOOL) isSubpathOf:(NSString *)superpath;
 
+- (BOOL) Growl_isLikelyDomainName;
+- (BOOL) Growl_isLikelyIPAddress;
+- (BOOL) isLocalHost;
+
 @end

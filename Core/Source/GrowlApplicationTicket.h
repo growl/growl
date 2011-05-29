@@ -13,7 +13,9 @@
 @class GrowlNotificationTicket, GrowlDisplayPlugin;
 
 @interface GrowlApplicationTicket : NSObject {
+   NSString    *appNameHostName;           // This is <appName> - <hostName>
 	NSString		*appName;					// This app's name for display by notifications that want it
+   NSString    *hostName;              // This is the host which registered this
 	NSString		*appId;						// This app's bundle identifier
 	NSString		*appPath;					// This app's location on disk (cached here and in saved tickets)
 	NSData			*iconData;					// This app's icon data
@@ -39,6 +41,7 @@
 	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
 	
 	BOOL			synchronizeOnChanges;
+   BOOL        isLocalHost;               //If we are local host, this is a faster way of checking than doing string checks
 	
 }
 
@@ -68,7 +71,8 @@
 - (void) setIconData:(NSData *) inIconData;
 
 - (NSString *) applicationName;
-
+@property (nonatomic, readonly) NSString* appNameHostName;
+@property (nonatomic, readonly) BOOL isLocalHost;
 
 @property (nonatomic, assign) BOOL ticketEnabled;
 @property (nonatomic, assign) BOOL clickHandlersEnabled;

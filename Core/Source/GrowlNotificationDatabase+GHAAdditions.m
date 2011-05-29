@@ -72,7 +72,9 @@
    
    BOOL deleteUponReturn = NO;
    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-   GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+   NSString *appName = [noteDict objectForKey:GROWL_APP_NAME];
+   NSString *hostName = [noteDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+   GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
    GrowlNotificationTicket *notificationTicket = [ticket notificationTicketForName:[noteDict objectForKey:GROWL_NOTIFICATION_NAME]];
   
    if(![self managedObjectContext])

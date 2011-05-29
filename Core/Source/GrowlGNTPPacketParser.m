@@ -285,7 +285,8 @@
 {
 	if (viaClick) {
 		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-		GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName];
+      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+		GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
 		
 		/* Don't advertise that the notification closed via a click if click handlers are disabled */
 		if (ticket && ![ticket clickHandlersEnabled])

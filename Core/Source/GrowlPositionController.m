@@ -14,6 +14,7 @@
 #import "NSMutableStringAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlTicketController.h"
+#import "GrowlApplicationNotification.h"
 
 #import "GrowlLog.h"
 
@@ -209,7 +210,9 @@
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
 	GrowlLog *growlLog = [GrowlLog sharedController];
 	
-	GrowlApplicationTicket *displayTicket = [[GrowlTicketController sharedController] ticketForApplicationName:[[displayController notification] applicationName]];
+   NSString *appName = [[displayController notification] applicationName];
+   NSString *hostName = [[[displayController notification] auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+	GrowlApplicationTicket *displayTicket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
 	selectedPositionType = [displayTicket positionType];
 	selectedCustomPosition = (enum GrowlPositionOrigin)[displayTicket selectedPosition];
 

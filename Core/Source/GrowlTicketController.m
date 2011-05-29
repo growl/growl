@@ -8,6 +8,7 @@
 
 #import "GrowlTicketController.h"
 #import "GrowlPathUtilities.h"
+#import "NSStringAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
 
@@ -44,7 +45,7 @@
 		if ((!isDir) && [[filename pathExtension] isEqualToString:GROWL_PATHEXTENSION_TICKET]) {
 			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
 			if (newTicket) {
-				NSString *applicationName = [newTicket applicationName];
+				NSString *applicationName = [newTicket appNameHostName];
 				if (!applicationName) {
 					NSLog(@"Invalid ticket (no application name inside): %@", [filename lastPathComponent]);
 				} else {
@@ -99,11 +100,16 @@
 	return [[ticketsByApplicationName copy] autorelease];
 }
 
-- (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName {
-	return [ticketsByApplicationName objectForKey:appName];
+- (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName hostName:(NSString*)hostName {
+   NSString *appHost;
+   if(hostName && ![hostName isLocalHost])
+      appHost = [NSString stringWithFormat:@"%@ - %@", hostName, appName];
+   else
+      appHost = appName;
+	return [ticketsByApplicationName objectForKey:appHost];
 }
 - (void) addTicket:(GrowlApplicationTicket *) newTicket {
-	NSString *appName = [newTicket applicationName];
+	NSString *appName = [newTicket appNameHostName];
 	if (!appName)
 		NSLog(@"GrowlTicketController: cannot add ticket because it has no application name (description follows)\n%@", newTicket);
 	else {
