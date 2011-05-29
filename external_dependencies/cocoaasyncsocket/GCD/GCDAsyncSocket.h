@@ -919,3 +919,7 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
 - (void)socketDidSecure:(GCDAsyncSocket *)sock;
 
 @end
+
+OSStatus SSLReadFunction(SSLConnectionRef connection, void *data, size_t *dataLength);
+OSStatus SSLWriteFunction(SSLConnectionRef connection, const void *data, size_t *dataLength);
+

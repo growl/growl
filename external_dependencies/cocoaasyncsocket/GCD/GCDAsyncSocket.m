@@ -596,7 +596,7 @@ enum GCDAsyncSocketConfig
 	const void *termBuf = [term bytes];
 	
 	NSUInteger bufLen = MIN(bytesDone, (termLength - 1));
-	void *buf = [buffer mutableBytes] + startOffset + bytesDone - bufLen;
+	void *buf = (char*)[buffer mutableBytes] + startOffset + bytesDone - bufLen;
 	
 	NSUInteger preLen = termLength - bufLen;
 	void *pre = (void *)[preBuffer bytes];
@@ -622,7 +622,7 @@ enum GCDAsyncSocketConfig
 				break;
 			}
 			
-			buf++;
+			buf=(char*)buf+1;
 			bufLen--;
 			preLen++;
 		}
@@ -632,14 +632,14 @@ enum GCDAsyncSocketConfig
 			
 			if (memcmp(pre, termBuf, termLength) == 0)
 			{
-				NSUInteger preOffset = pre - [preBuffer bytes]; // pointer arithmetic
+				NSUInteger preOffset = (char*)pre - (char*)[preBuffer bytes]; // pointer arithmetic
 				
 				result = preOffset + termLength;
 				found = YES;
 				break;
 			}
 			
-			pre++;
+			pre = (char*)pre+1;
 		}
 	}
 	
@@ -682,7 +682,7 @@ enum GCDAsyncSocketConfig
 	
 	while (i + termLength <= buffLength)
 	{
-		void *subBuffer = buff + startOffset + i;
+		void *subBuffer = (char*)buff + startOffset + i;
 		
 		if (memcmp(subBuffer, termBuff, termLength) == 0)
 		{
@@ -1195,7 +1195,7 @@ enum GCDAsyncSocketConfig
 
 - (id)userData
 {
-	__block id result;
+	__block id result = nil;
 	
 	dispatch_block_t block = ^{
 		
@@ -1789,7 +1789,7 @@ enum GCDAsyncSocketConfig
                onPort:(UInt16)port
          viaInterface:(NSString *)interface
           withTimeout:(NSTimeInterval)timeout
-                error:(NSError **)errPtr;
+                error:(NSError **)errPtr
 {
 	LogTrace();
 	
@@ -2769,7 +2769,7 @@ enum GCDAsyncSocketConfig
 
 - (BOOL)isDisconnected
 {
-	__block BOOL result;
+	__block BOOL result = 0;
 	
 	dispatch_block_t block = ^{
 		result = (flags & kSocketStarted) ? NO : YES;
@@ -2785,7 +2785,7 @@ enum GCDAsyncSocketConfig
 
 - (BOOL)isConnected
 {
-	__block BOOL result;
+	__block BOOL result = 0;
 	
 	dispatch_block_t block = ^{
 		result = (flags & kConnected) ? YES : NO;
@@ -3866,7 +3866,7 @@ enum GCDAsyncSocketConfig
 		
 		// Copy bytes from prebuffer into packet buffer
 		
-		void *buffer = [currentRead->buffer mutableBytes] + currentRead->startOffset + currentRead->bytesDone;
+		void *buffer = (char*)[currentRead->buffer mutableBytes] + currentRead->startOffset + currentRead->bytesDone;
 		
 		memcpy(buffer, [partialReadBuffer bytes], bytesToCopy);
 		
@@ -3992,7 +3992,7 @@ enum GCDAsyncSocketConfig
 		{
 			[currentRead ensureCapacityForAdditionalDataOfLength:bytesToRead];
 			
-			buffer = [currentRead->buffer mutableBytes] + currentRead->startOffset + currentRead->bytesDone;
+			buffer = (char*)[currentRead->buffer mutableBytes] + currentRead->startOffset + currentRead->bytesDone;
 		}
 		
 		// Read data into buffer
@@ -4138,7 +4138,7 @@ enum GCDAsyncSocketConfig
 					// Copy bytes from prebuffer into read buffer
 					
 					void *preBuf = [partialReadBuffer mutableBytes];
-					void *readBuf = [currentRead->buffer mutableBytes] + currentRead->startOffset
+					void *readBuf = (char*)[currentRead->buffer mutableBytes] + currentRead->startOffset
 					                                                   + currentRead->bytesDone;
 					
 					memcpy(readBuf, preBuf, bytesToRead);
@@ -4178,7 +4178,7 @@ enum GCDAsyncSocketConfig
 						NSInteger underflow = bytesRead - overflow;
 						
 						// Copy excess data into partialReadBuffer
-						void *overflowBuffer = buffer + currentRead->bytesDone + underflow;
+						void *overflowBuffer = (char*)buffer + currentRead->bytesDone + underflow;
 						
 						[partialReadBuffer appendBytes:overflowBuffer length:overflow];
 						
@@ -4234,7 +4234,7 @@ enum GCDAsyncSocketConfig
 					// Copy bytes from prebuffer into read buffer
 					
 					void *preBuf = [partialReadBuffer mutableBytes];
-					void *readBuf = [currentRead->buffer mutableBytes] + currentRead->startOffset
+					void *readBuf = (char*)[currentRead->buffer mutableBytes] + currentRead->startOffset
 					                                                   + currentRead->bytesDone;
 					
 					memcpy(readBuf, preBuf, bytesRead);
@@ -4437,7 +4437,7 @@ enum GCDAsyncSocketConfig
 			[currentRead->buffer setLength:buffSize];
 		}
 		
-		void *buffer = [currentRead->buffer mutableBytes] + currentRead->startOffset;
+		void *buffer = (char*)[currentRead->buffer mutableBytes] + currentRead->startOffset;
 		
 		result = [NSData dataWithBytesNoCopy:buffer length:currentRead->bytesDone freeWhenDone:NO];
 	}
@@ -4852,7 +4852,7 @@ enum GCDAsyncSocketConfig
 			
 			if (hasNewDataToWrite)
 			{
-				void *buffer = (void *)[currentWrite->buffer bytes] + currentWrite->bytesDone + bytesWritten;
+				void *buffer = (char *)[currentWrite->buffer bytes] + currentWrite->bytesDone + bytesWritten;
 				
 				NSUInteger bytesToWrite = [currentWrite->buffer length] - currentWrite->bytesDone - bytesWritten;
 				
@@ -4866,14 +4866,14 @@ enum GCDAsyncSocketConfig
 				BOOL keepLooping = YES;
 				while (keepLooping)
 				{
-					size_t sslBytesToWrite = MIN(bytesRemaining, 32768);
+					size_t sslBytesToWrite = MIN(bytesRemaining, 32768U);
 					size_t sslBytesWritten = 0;
 					
 					result = SSLWrite(sslContext, buffer, sslBytesToWrite, &sslBytesWritten);
 					
 					if (result == noErr)
 					{
-						buffer += sslBytesWritten;
+						buffer = (char*)buffer + sslBytesWritten;
 						bytesWritten += sslBytesWritten;
 						bytesRemaining -= sslBytesWritten;
 						
@@ -4904,7 +4904,7 @@ enum GCDAsyncSocketConfig
 	{
 		int socketFD = (socket4FD == SOCKET_NULL) ? socket6FD : socket4FD;
 		
-		void *buffer = (void *)[currentWrite->buffer bytes] + currentWrite->bytesDone;
+		void *buffer = (char *)[currentWrite->buffer bytes] + currentWrite->bytesDone;
 		
 		NSUInteger bytesToWrite = [currentWrite->buffer length] - currentWrite->bytesDone;
 		
@@ -5285,7 +5285,7 @@ enum GCDAsyncSocketConfig
 			
 			readIntoPreBuffer = NO;
 			bytesToRead = totalBytesLeft;
-			buf = buffer + totalBytesRead;
+			buf = (char*)buffer + totalBytesRead;
 		}
 		
 		ssize_t result = read(socketFD, buf, bytesToRead);
@@ -5319,7 +5319,7 @@ enum GCDAsyncSocketConfig
 		}
 		else
 		{
-			ssize_t bytesReadFromSocket = result;
+			size_t bytesReadFromSocket = result;
 			
 			if (socketFDBytesAvailable > bytesReadFromSocket)
 				socketFDBytesAvailable -= bytesReadFromSocket;
@@ -5332,7 +5332,7 @@ enum GCDAsyncSocketConfig
 				
 				LogVerbose(@"Copying %u bytes from sslReadBuffer", (unsigned)bytesToCopy);
 				
-				memcpy(buffer + totalBytesRead, [sslReadBuffer bytes], bytesToCopy);
+				memcpy((char*)buffer + totalBytesRead, [sslReadBuffer bytes], bytesToCopy);
 				
 				[sslReadBuffer setLength:bytesReadFromSocket];
 				[sslReadBuffer replaceBytesInRange:NSMakeRange(0, bytesToCopy) withBytes:NULL length:0];
