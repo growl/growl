@@ -99,11 +99,33 @@
 		self.sticky                     = inSticky;
 		self.displayPluginName          = display;
 		self.sound                      = inSound;
+        
+        [self addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"humanReadableName" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"notificationDescription" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"priority" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"logNotification" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"sticky" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"displayPluginName" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"sound" options:NSKeyValueObservingOptionNew context:&self];
+        
 	}
 	return self;
 }
 
 - (void) dealloc {
+    
+    [self removeObserver:self forKeyPath:@"name"];
+    [self removeObserver:self forKeyPath:@"humanReadableName"];
+    [self removeObserver:self forKeyPath:@"notificationDescription"];
+    [self removeObserver:self forKeyPath:@"priority"];
+    [self removeObserver:self forKeyPath:@"enabled"];
+    [self removeObserver:self forKeyPath:@"logNotification"];
+    [self removeObserver:self forKeyPath:@"sticky"];
+    [self removeObserver:self forKeyPath:@"displayPluginName"];
+    [self removeObserver:self forKeyPath:@"sound"];
+    
 	[name release];
 	[humanReadableName release];
 	[displayPluginName release];
@@ -160,40 +182,26 @@
 
 #pragma mark -
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if([keyPath isEqualToString:@"priority"]) {
+        [ticket synchronize];
+    } else if( [keyPath isEqualToString:@"enabled"]) {
+        [ticket setUseDefaults:NO];
+        [ticket synchronize];
+    } else if( [keyPath isEqualToString:@"logNotification"]) {
+        [ticket synchronize];
+    } else if( [keyPath isEqualToString:@"sticky"]) {
+        [ticket synchronize];
+    } else if( [keyPath isEqualToString:@"displayPluginName"]) {
+        displayPlugin = nil;
+        [ticket synchronize];
+    } else if( [keyPath isEqualToString:@"sound"]) {
+        [ticket synchronize];
+    }
+}
+
 - (NSString *) humanReadableName {
 	return (humanReadableName ? humanReadableName : [self name]);
-}
-
-- (void) setPriority:(enum GrowlPriority)newPriority {
-	self.priority = newPriority;
-	[ticket synchronize];
-}
-
-- (void) setEnabled:(BOOL)flag {
-	self.enabled = flag;
-	[ticket setUseDefaults:NO];
-	[ticket synchronize];
-}
-
-- (void) setLogNotification:(BOOL)flag {
-   self.logNotification = flag;
-	[ticket synchronize];
-}
-
-// With sticky, 1 is on, 0 is off, -1 means use what's passed
-// This corresponds to NSOnState, NSOffState, and NSMixedState
-- (void) setSticky:(int)value {
-	sticky = value;
-	[ticket synchronize];
-}
-
-- (NSString *) displayPluginName {
-	return displayPluginName;
-}
-- (void) setDisplayPluginName:(NSString *)pluginName {
-	self.displayPluginName = pluginName;
-	displayPlugin = nil;
-	[ticket synchronize];
 }
 
 - (GrowlDisplayPlugin *) displayPlugin {
@@ -204,11 +212,6 @@
 
 - (NSComparisonResult) humanReadableNameCompare:(GrowlNotificationTicket *)inTicket {
 	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
-}
-
-- (void) setSound:(NSString *)value {
-    self.sound = value;
-    [ticket synchronize];
 }
 
 @end
