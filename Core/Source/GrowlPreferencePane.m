@@ -27,6 +27,8 @@
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
 #include "SparkleHelperDefines.h"
+#import "GrowlVersionCheck.h"
+#import "GrowlApplicationAdditions.h"
 
 #include <Carbon/Carbon.h>
 
@@ -43,7 +45,7 @@
 
 @implementation GrowlPreferencePane
 @synthesize growlIsRunning;
-@synthesize displayPlugins;
+@synthesize displayPlugins = plugins;
 @synthesize services;
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -188,7 +190,9 @@
 
 - (BOOL)meetsRequirements {
     BOOL result = NO;
-    if(GrowlCheckOSXVersion())
+    unsigned major, minor, bugFix;
+    [NSApp getSystemVersionMajor:&major minor:&minor bugFix:&bugFix];
+    if((major >= 10) && (minor >= 6))
         result = YES;
     return result;
 }

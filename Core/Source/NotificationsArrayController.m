@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 12/24/05.
-//  Copyright 2005-2006 __MyCompanyName__. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import "NotificationsArrayController.h"

@@ -3,7 +3,7 @@
  *  Growl
  *
  *  Created by Rudy Richter on 9/3/09.
- *  Copyright 2009 __MyCompanyName__. All rights reserved.
+ *  Copyright 2009 The Growl Project. All rights reserved.
  *
  */ 
 

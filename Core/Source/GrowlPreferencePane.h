@@ -92,6 +92,8 @@
    IBOutlet NSButton          *trimByDateCheck;
 }
 
+- (BOOL)meetsRequirements;
+
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
 - (void) launchSparkleHelper;
@@ -156,8 +158,8 @@
 - (IBAction) openGrowlDonate:(id)sender;
 
 #pragma mark Properties
-@property (assign) growlIsRunning;
-@property (retain) displayPlugins;
-@property (retain) services;
+@property (assign) BOOL growlIsRunning;
+@property (retain) NSArray *displayPlugins;
+@property (retain) NSMutableArray *services;
 
 @end
