@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlPreferencePane.h"
 #import "GrowlPositioningDefines.h"
 
 /* Size should be 150 * 100 */

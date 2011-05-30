@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <PreferencePanes/PreferencePanes.h>
-#import "GrowlDefinesInternal.h"	// for NSInteger/NSUInteger
 #import "GrowlAbstractDatabase.h"
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;

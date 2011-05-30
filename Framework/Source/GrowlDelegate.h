@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlApplicationBridge.h"
+#import <Growl/GrowlApplicationBridge.h>
 
 /*
  * A convenience class for applications which don't need feedback from
@@ -20,10 +20,8 @@
 	NSData			*applicationIconDataForGrowl;
 }
 - (id) initWithAllNotifications:(NSArray *)allNotifications defaultNotifications:(NSArray *)defaultNotifications;
-- (NSDictionary *) registrationDictionaryForGrowl;
-- (NSString *) applicationNameForGrowl;
-- (void) setApplicationNameForGrowl:(NSString *)name;
-- (NSData *) applicationIconDataForGrowl;
-- (void) setApplicationIconDataForGrowl:(NSData *)data;
 
+@property (retain) NSString *applicationNameForGrowl;
+@property (retain) NSData *applicationIconDataForGrowl;
+@property (retain) NSDictionary *registrationDictionaryForGrowl;
 @end

@@ -9,9 +9,13 @@
 #import "GrowlDelegate.h"
 
 @implementation GrowlDelegate
+@synthesize applicationNameForGrowl;
+@synthesize applicationIconDataForGrowl;
+@synthesize registrationDictionaryForGrowl = registrationDictionary;
+
 - (id) initWithAllNotifications:(NSArray *)allNotifications defaultNotifications:(NSArray *)defaultNotifications {
 	if ((self = [self init])) {
-		registrationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+		self.registrationDictionaryForGrowl = [[NSDictionary alloc] initWithObjectsAndKeys:
 			allNotifications,     GROWL_NOTIFICATIONS_ALL,
 			defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 			nil];
@@ -20,36 +24,10 @@
 }
 
 - (void) dealloc {
-	[registrationDictionary      release];
-	[applicationNameForGrowl     release];
+	[registrationDictionary release];
+	[applicationNameForGrowl release];
 	[applicationIconDataForGrowl release];
 	[super dealloc];
-}
-
-- (NSDictionary *) registrationDictionaryForGrowl {
-	return registrationDictionary;
-}
-
-- (NSString *) applicationNameForGrowl {
-	return applicationNameForGrowl;
-}
-
-- (void) setApplicationNameForGrowl:(NSString *)name {
-	if (name != applicationNameForGrowl) {
-		[applicationNameForGrowl release];
-		applicationNameForGrowl = [name retain];
-	}
-}
-
-- (NSData *) applicationIconDataForGrowl {
-	return applicationIconDataForGrowl;
-}
-
-- (void) setApplicationIconDataForGrowl:(NSData *)data {
-	if (data != applicationIconDataForGrowl) {
-		[applicationIconDataForGrowl release];
-		applicationIconDataForGrowl = [data retain];
-	}
 }
 
 @end
