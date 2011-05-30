@@ -10,7 +10,7 @@
 #include <CoreServices/CoreServices.h>
 #include "CFGrowlAdditions.h"
 
-static const SInt32 minimumOSXVersionForGrowl = 0x1050; //Leopard (10.5.0)
+static const SInt32 minimumOSXVersionForGrowl = 0x1060; //Snow Leopard (10.6.0)
 
 Boolean GrowlCheckOSXVersion(void) {
 	SInt32 OSXVersion = 0;

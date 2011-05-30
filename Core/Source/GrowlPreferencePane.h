@@ -119,8 +119,6 @@
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
-- (BOOL) growlIsRunning;
-- (void) setGrowlIsRunning:(BOOL)flag;
 
 #pragma mark GrowlMenu methods
 + (BOOL) isGrowlMenuRunning;
@@ -143,9 +141,6 @@
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
-- (NSArray *) displayPlugins;
-- (void) setDisplayPlugins:(NSArray *)thePlugins;
-
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
 
@@ -159,5 +154,10 @@
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlBugSubmissionPage:(id)sender;
 - (IBAction) openGrowlDonate:(id)sender;
+
+#pragma mark Properties
+@property (assign) growlIsRunning;
+@property (retain) displayPlugins;
+@property (retain) services;
 
 @end

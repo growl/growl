@@ -35,12 +35,6 @@
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(16.0, 58.0, 354.0, 289.0)
 
-@interface NSNetService(TigerCompatibility)
-
-- (void) resolveWithTimeout:(NSTimeInterval)timeout;
-
-@end
-
 @interface GrowlPreferencePane (PRIVATE)
 
 - (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
@@ -48,15 +42,18 @@
 @end
 
 @implementation GrowlPreferencePane
+@synthesize growlIsRunning;
+@synthesize displayPlugins;
+@synthesize services;
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	//	Check that we're running Panther
 	//	if a user with a previous OS version tries to launch us - switch out the pane.
 
 	NSApp = [NSApplication sharedApplication];
-	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)]) {
-		if (NSRunInformationalAlertPanel(NSLocalizedStringFromTableInBundle(@"System requirements not met", nil, bundle, "Title for the dialogue shown if attempting to run Growl on 10.2 or earlier"),
-										 NSLocalizedStringFromTableInBundle(@"Mac OS X 10.3 \"Panther\" or greater is required.", nil, bundle, nil), 
+	if (![self meetsRequirements]) {
+		if (NSRunInformationalAlertPanel(NSLocalizedStringFromTableInBundle(@"System requirements not met", nil, bundle, "Title for the dialogue shown if attempting to run Growl on 10.5 or earlier"),
+										 NSLocalizedStringFromTableInBundle(@"Mac OS X 10.6 \"Snow Leopard\" or greater is required.", nil, bundle, nil), 
 										 NSLocalizedStringFromTableInBundle(@"Quit", nil, bundle, "Quit button title"), 
 										 NSLocalizedStringFromTableInBundle(@"Upgrade Mac OS X...", nil, bundle, "Button title"), 
 										 nil) == NSAlertAlternateReturn) {
@@ -189,6 +186,12 @@
 														  object:nil];
 }
 
+- (BOOL)meetsRequirements {
+    BOOL result = NO;
+    if(GrowlCheckOSXVersion())
+        result = YES;
+    return result;
+}
 #pragma mark -
 
 /*!
@@ -352,7 +355,7 @@
 		[self cacheImages];
 	}
 
-	[self setDisplayPlugins:[[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName]];
+	self.displayPlugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferencesController boolForKey:GrowlEnabledKey])
@@ -362,14 +365,6 @@
 		[self reloadDisplayPluginView];
 	else
 		[self loadViewForDisplay:nil];
-}
-
-- (BOOL) growlIsRunning {
-	return growlIsRunning;
-}
-
-- (void) setGrowlIsRunning:(BOOL)flag {
-	growlIsRunning = flag;
 }
 
 - (void) updateRunningStatus {
@@ -874,24 +869,6 @@
 
 #pragma mark Bonjour
 
-- (NSMutableArray *) services {
-	return services;
-}
-
-- (void) setServices:(NSMutableArray *)theServices {
-	if (theServices != services) {
-		if (theServices) {
-			if (services)
-				[services setArray:theServices];
-			else
-				services = [theServices retain];
-		} else {
-			[services release];
-			services = nil;
-		}
-	}
-}
-
 - (NSUInteger) countOfServices {
 	return [services count];
 }
@@ -913,19 +890,6 @@
 - (void) checkGrowlRunning {
 	[self setGrowlIsRunning:[preferencesController isGrowlRunning]];
 	[self updateRunningStatus];
-}
-
-#pragma mark "Display Options" tab pane
-
-- (NSArray *) displayPlugins {
-	return plugins;
-}
-
-- (void) setDisplayPlugins:(NSArray *)thePlugins {
-	if (thePlugins != plugins) {
-		[plugins release];
-		plugins = [thePlugins retain];
-	}
 }
 
 #pragma mark Display pop-up menus

@@ -23,25 +23,9 @@ extern CFIndex CFStringGetMaximumSizeOfFileSystemRepresentation(CFStringRef stri
 
 char *createFileSystemRepresentationOfString(CFStringRef str) {
 	char *buffer;
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
-	/* CFStringGetFileSystemRepresentation will cause a link error despite the weak_import attribute above on 10.5 when compiling with 10.2 compatibility using gcc 3.3.
-	 * PPC will therefore always use the 10.3 and below method of creating a file system representation.
-	 */
-	if (CFStringGetFileSystemRepresentation) {
-		CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(str);
-		buffer = malloc(size);
-		CFStringGetFileSystemRepresentation(str, buffer, size);
-	} else 
-#endif
-	{
-		buffer = malloc(512);
-		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, str, kCFURLPOSIXPathStyle, false);
-		if (!CFURLGetFileSystemRepresentation(url, false, (UInt8 *)buffer, 512)) {
-			free(buffer);
-			buffer = NULL;
-		}
-		CFRelease(url);
-	}
+    CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(str);
+    buffer = malloc(size);
+    CFStringGetFileSystemRepresentation(str, buffer, size);
 	return buffer;
 }
 
@@ -356,197 +340,6 @@ end:
 	return newDirectory;
 }
 
-#ifndef COPYFORK_BUFSIZE
-#	define COPYFORK_BUFSIZE 5242880U /*5 MiB*/
-#endif
-
-static OSStatus copyFork(const struct HFSUniStr255 *forkName, const FSRef *srcFile, const FSRef *destDir, const struct HFSUniStr255 *destName, FSRef *outDestFile) {
-	OSStatus err, closeErr;
-	struct FSForkIOParam srcPB = {
-		.ref = srcFile,
-		.forkNameLength = forkName->length,
-		.forkName = forkName->unicode,
-		.permissions = fsRdPerm,
-	};
-	unsigned char debuggingPathBuf[PATH_MAX] = "";
-	OSStatus debuggingPathErr;
-
-	err = PBOpenForkSync(&srcPB);
-	if (err != noErr) {
-		debuggingPathErr = FSRefMakePath(srcFile, debuggingPathBuf, PATH_MAX);
-		if (debuggingPathErr != noErr)
-			snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for source file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-		NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBOpenForkSync (source: %s) returned %li"), debuggingPathBuf, (long)err);
-	} else {
-		FSRef destFile;
-
-		/*the first thing to do is get the name of the destination file, if one
-		 *	wasn't provided.
-		 *and while we're at it, we get the catalogue info as well.
-		 */
-		struct FSCatalogInfo catInfo;
-		struct FSRefParam refPB = {
-			.ref       = srcFile,
-			.whichInfo = kFSCatInfoGettableInfo & kFSCatInfoSettableInfo,
-			.catInfo   = &catInfo,
-			.spec      = NULL,
-			.parentRef = NULL,
-			.outName   = destName ? NULL : (struct HFSUniStr255 *)(destName = alloca(sizeof(struct HFSUniStr255))),
-		};
-
-		err = PBGetCatalogInfoSync(&refPB);
-		if (err != noErr) {
-			debuggingPathErr = FSRefMakePath(srcFile, debuggingPathBuf, PATH_MAX);
-			if (debuggingPathErr != noErr)
-				snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for source file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-			NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBGetCatalogInfoSync (source: %s) returned %li"), debuggingPathBuf, (long)err);
-		} else {
-			refPB.ref              = destDir;
-			refPB.nameLength       = destName->length;
-			refPB.name             = destName->unicode;
-			refPB.textEncodingHint = kTextEncodingUnknown;
-			refPB.newRef           = &destFile;
-
-			const char *functionName = "PBMakeFSRefUnicodeSync"; //for error-reporting message
-
-			err = PBMakeFSRefUnicodeSync(&refPB);
-			if ((err != noErr) && (err != fnfErr)) {
-			handleMakeFSRefError:
-				debuggingPathErr = FSRefMakePath(destDir, debuggingPathBuf, PATH_MAX);
-				if (debuggingPathErr != noErr)
-					snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for destination directory: FSRefMakePath returned %li)", (long)debuggingPathErr);
-
-				//get filename too
-				CFStringRef debuggingFilename = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault,
-																				   destName->unicode,
-																				   destName->length,
-																				   /*contentsDeallocator*/ kCFAllocatorNull);
-				if (!debuggingFilename)
-					debuggingFilename = CFStringCreateWithCStringNoCopy(kCFAllocatorDefault, "(could not get filename for destination file: CFStringCreateWithCharactersNoCopy returned NULL)", kCFStringEncodingASCII, /*contentsDeallocator*/ kCFAllocatorNull);
-
-				NSLog(CFSTR("in copyFork in CFGrowlAdditions: %s (destination: %s/%@) returned %li"), functionName, debuggingPathBuf, debuggingFilename, (long)err);
-
-				if (debuggingFilename) CFRelease(debuggingFilename);
-			} else {
-				//that file doesn't exist in that folder; create it.
-				err = PBCreateFileUnicodeSync(&refPB);
-				if (err == noErr) {
-					/*make sure the Finder knows about the new file.
-					 *FNNotify returns a status code too, but this isn't an
-					 *	essential step, so we just ignore it.
-					 */
-					FNNotify(destDir, kFNDirectoryModifiedMessage, kNilOptions);
-				} else if (err == dupFNErr) {
-					/*dupFNErr: the file already exists.
-					 *we can safely ignore this error.
-					 */
-					err = noErr;
-				} else {
-					functionName = "PBCreateFileUnicodeSync";
-					goto handleMakeFSRefError;
-				}
-			}
-		}
-		if (err == noErr) {
-			if (outDestFile)
-				memcpy(outDestFile, &destFile, sizeof(destFile));
-
-			struct FSForkIOParam destPB = {
-				.ref            = &destFile,
-				.forkNameLength = forkName->length,
-				.forkName       = forkName->unicode,
-				.permissions    = fsWrPerm,
-			};
-			err = PBOpenForkSync(&destPB);
-			NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBOpenForkSync (dest) returned %li"), (long)err);
-			if (err != noErr) {
-				debuggingPathErr = FSRefMakePath(&destFile, debuggingPathBuf, PATH_MAX);
-				if (debuggingPathErr != noErr)
-					snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for dest file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-				NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBOpenForkSync (destination: %s) returned %li"), debuggingPathBuf, (long)err);
-			} else {
-				void *buf = malloc(COPYFORK_BUFSIZE);
-				if (buf) {
-					srcPB.buffer = destPB.buffer = buf;
-					srcPB.requestCount = COPYFORK_BUFSIZE;
-					while (err == noErr) {
-						err = PBReadForkSync(&srcPB);
-						if (err == eofErr) {
-							err = noErr;
-							if (srcPB.actualCount == 0)
-								break;
-						}
-						if (err != noErr) {
-							debuggingPathErr = FSRefMakePath(&destFile, debuggingPathBuf, PATH_MAX);
-							if (debuggingPathErr != noErr)
-								snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for source file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-							NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBReadForkSync (source: %s) returned %li"), debuggingPathBuf, (long)err);
-						} else {
-							destPB.requestCount = srcPB.actualCount;
-							err = PBWriteForkSync(&destPB);
-							if (err != noErr) {
-								debuggingPathErr = FSRefMakePath(&destFile, debuggingPathBuf, PATH_MAX);
-								if (debuggingPathErr != noErr)
-									snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for dest file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-								NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBWriteForkSync (destination: %s) returned %li"), debuggingPathBuf, (long)err);
-							}
-						}
-					}
-
-					free(buf);
-				}
-
-				closeErr = PBCloseForkSync(&destPB);
-				if (closeErr != noErr) {
-					debuggingPathErr = FSRefMakePath(&destFile, debuggingPathBuf, PATH_MAX);
-					if (debuggingPathErr != noErr)
-						snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for dest file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-					NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBCloseForkSync (destination: %s) returned %li"), debuggingPathBuf, (long)err);
-				}
-				if (err == noErr) err = closeErr;
-			}
-		}
-
-		closeErr = PBCloseForkSync(&srcPB);
-		if (closeErr != noErr) {
-			debuggingPathErr = FSRefMakePath(&destFile, debuggingPathBuf, PATH_MAX);
-			if (debuggingPathErr != noErr)
-				snprintf((char *)debuggingPathBuf, PATH_MAX, "(could not get path for source file: FSRefMakePath returned %li)", (long)debuggingPathErr);
-			NSLog(CFSTR("in copyFork in CFGrowlAdditions: PBCloseForkSync (source: %s) returned %li"), debuggingPathBuf, (long)err);
-		}
-		if (err == noErr) err = closeErr;
-	}
-
-	return err;
-}
-
-static OSStatus GrowlCopyObjectSync(const FSRef *fileRef, const FSRef *destRef, FSRef *destFileRef) {
-	OSStatus err;
-	struct HFSUniStr255 forkName;
-	struct FSForkIOParam forkPB = {
-		.ref = fileRef,
-		.forkIterator = {
-			.initialize = 0
-		},
-		.outForkName = &forkName,
-	};
-
-	do {
-		err = PBIterateForksSync(&forkPB);
-		NSLog(CFSTR("PBIterateForksSync returned %li"), (long)err);
-		if (err != noErr) {
-			if (err != errFSNoMoreItems)
-				NSLog(CFSTR("in GrowlCopyObjectSync in CFGrowlAdditions: PBIterateForksSync returned %li"), (long)err);
-		} else {
-			err = copyFork(&forkName, fileRef, destRef, /*destName*/ NULL, /*outDestFile*/ destFileRef);
-			//copyFork prints its own error messages
-		}
-	} while (err == noErr);
-	if (err == errFSNoMoreItems) err = noErr;
-
-	return err;
-}
-
 URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE dest)
 {
 	CFURLRef destFileURL = NULL;
@@ -561,20 +354,8 @@ URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE des
 	else {
 		OSStatus err;
 
-		/*
-		 * 10.2 has a problem with weak symbols in frameworks so we use
-		 * MAC_OS_X_VERSION_MIN_REQUIRED >= 10.3.
-		 */
-#if defined(NSAppKitVersionNumber10_3) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-		if (FSCopyObjectSync) {
-			err = FSCopyObjectSync(&fileRef, &destRef, /*destName*/ NULL, &destFileRef, kFSFileOperationOverwrite);
-		} else {
-#endif
-			err = GrowlCopyObjectSync(&fileRef, &destRef, &destFileRef);
-#if defined(NSAppKitVersionNumber10_3) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
-		}
-#endif
-
+        err = FSCopyObjectSync(&fileRef, &destRef, /*destName*/ NULL, &destFileRef, kFSFileOperationOverwrite);
+        
 		if (err == noErr)
 			destFileURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &destFileRef);
 		else
