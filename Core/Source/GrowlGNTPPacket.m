@@ -16,6 +16,7 @@
 #import "ISO8601DateFormatter.h"
 #import "GrowlApplicationAdditions.h"
 #import "GNTPKey.h"
+#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 #define CRLF "\x0D\x0A"
 
@@ -456,7 +457,7 @@
 
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
 {
-	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+	NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
 	if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}
@@ -515,7 +516,7 @@
 	NSArray *receivedHeaders = [[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
 	NSString *myHostString;
 
-	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+	NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
 	if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}

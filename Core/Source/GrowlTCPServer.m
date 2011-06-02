@@ -1,5 +1,6 @@
 #import "GrowlTCPServer.h"
 #import "AsyncSocket.h"
+#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 /*!
  * @class GrowlTCPServer
@@ -92,7 +93,7 @@
         if (name) {
             publishingName = name;
         } else {
-            NSString * thisHostName = [[NSProcessInfo processInfo] hostName];
+            NSString * thisHostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
             if ([thisHostName hasSuffix:@".local"]) {
                 publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
             }

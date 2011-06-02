@@ -9,6 +9,7 @@
 
 #import "NSStringAdditions.h"
 #include <arpa/inet.h>
+#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 @implementation NSString (GrowlAdditions)
 
@@ -63,9 +64,10 @@
 
 - (BOOL)Growl_isLikelyIPAddress
 {
-	/* TODO: Use inet_pton(), which will handle ipv4 and ipv6 */
-   if(inet_pton(AF_INET, [self cStringUsingEncoding:NSUTF8StringEncoding], nil) == 1 ||
-      inet_pton(AF_INET6, [self cStringUsingEncoding:NSUTF8StringEncoding], nil) == 1)
+    void * ipV4;
+    void * ipV6;
+   if(inet_pton(AF_INET, [self cStringUsingEncoding:NSUTF8StringEncoding], &ipV4) == 1 ||
+      inet_pton(AF_INET6, [self cStringUsingEncoding:NSUTF8StringEncoding], &ipV6) == 1)
       return YES;
    else
       return NO;
@@ -73,15 +75,16 @@
 
 - (BOOL)isLocalHost
 {
-   NSString *hostName = [[NSProcessInfo processInfo] hostName];
-   if ([hostName hasSuffix:@".local"]) {
+    NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
+    [hostName autorelease];
+    if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}
 	if ([self isEqualToString:@"127.0.0.1"] || 
-       [self isEqualToString:@"::1"] || 
-       [self isEqualToString:@"0:0:0:0:0:0:0:1"] ||
-       [self caseInsensitiveCompare:@"localhost"] == NSOrderedSame ||
-       [self caseInsensitiveCompare:hostName] == NSOrderedSame)
+        [self isEqualToString:@"::1"] || 
+        [self isEqualToString:@"0:0:0:0:0:0:0:1"] ||
+        [self caseInsensitiveCompare:@"localhost"] == NSOrderedSame ||
+        [self caseInsensitiveCompare:hostName] == NSOrderedSame)
 		return YES;
 	else {
 		return NO;
