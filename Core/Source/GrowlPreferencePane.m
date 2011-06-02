@@ -30,6 +30,9 @@
 #import "GrowlVersionCheck.h"
 #import "GrowlApplicationAdditions.h"
 
+#include <Security/SecKeychain.h>
+#include <Security/SecKeychainItem.h>
+
 #include <Carbon/Carbon.h>
 
 #define PING_TIMEOUT		3
@@ -778,11 +781,32 @@
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
+   GrowlBrowserEntry *toRemove = [services objectAtIndex:[networkTableView selectedRow]];
    [networkTableView noteNumberOfRowsChanged];
    [self willChangeValueForKey:@"services"];
    [services removeObjectAtIndex:[networkTableView selectedRow]];
    [self didChangeValueForKey:@"services"];
    [self writeForwardDestinations];
+   
+   if(![toRemove password])
+      return;
+
+   OSStatus status;
+	SecKeychainItemRef itemRef = nil;
+	const char *uuidChars = [[toRemove uuid] UTF8String];
+	status = SecKeychainFindGenericPassword(NULL,
+                                           (UInt32)strlen("GrowlOutgoingNetworkConnection"), "GrowlOutgoingNetworkConnection",
+                                           (UInt32)strlen(uuidChars), uuidChars,
+                                           NULL, NULL, &itemRef);
+   if (status == errSecItemNotFound) {
+      // Do nothing, we cant find it
+	} else {
+		status = SecKeychainItemDelete(itemRef);
+      if(status != errSecSuccess)
+         NSLog(@"Error deleting the password for %@: %@", [toRemove computerName], SecCopyErrorMessageString(status, NULL));
+		if (itemRef)
+			CFRelease(itemRef);
+   }
 }
 
 - (IBAction)newManualForwader:(id)sender {
