@@ -65,7 +65,7 @@
 
 	if (image) {
 		retRect.size = [image size];
-		retRect.origin.x = cellFrame.origin.x + 3.0;
+		retRect.origin.x = cellFrame.origin.x + 15.0;
 		retRect.origin.y = cellFrame.origin.y
 			+ GrowlCGFloatCeiling((cellFrame.size.height - retRect.size.height) * 0.5);
 	} else {
@@ -82,7 +82,7 @@
 				 event:(NSEvent *)theEvent {
 	NSRect textFrame, imageFrame;
 
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0 + [image size].width, NSMinXEdge);
+	NSDivideRect (aRect, &imageFrame, &textFrame, 15.0 + [image size].width, NSMinXEdge);
 	[super editWithFrame: textFrame
 				  inView: controlView
 				  editor: textObj
@@ -98,7 +98,7 @@
 				  length:(NSInteger)selLength {
 	NSRect textFrame, imageFrame;
 
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0 + [image size].width, NSMinXEdge);
+	NSDivideRect (aRect, &imageFrame, &textFrame, 15.0 + [image size].width, NSMinXEdge);
 	[super selectWithFrame: textFrame
 					inView: controlView
 					editor:textObj
@@ -134,7 +134,8 @@
 		NSSize textSize = [string size];
 		if (cellFrame.size.height > textSize.height) {
 			cellFrame.origin.y += (cellFrame.size.height - textSize.height)/2;
-			[string drawAtPoint:cellFrame.origin];
+            cellFrame.size.height = textSize.height;
+            [super drawWithFrame:cellFrame inView:controlView];
 		} else {
 			[super drawWithFrame:cellFrame inView:controlView];
 		}
@@ -143,7 +144,7 @@
 
 - (NSSize) cellSize {
 	NSSize cellSize = [super cellSize];
-	cellSize.width += (image ? [image size].width + 3.0 : 3.0);
+	cellSize.width += (image ? [image size].width + 15.0 : 3.0);
 	return cellSize;
 }
 
