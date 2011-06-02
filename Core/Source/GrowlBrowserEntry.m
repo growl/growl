@@ -8,6 +8,7 @@
 
 #import "GrowlBrowserEntry.h"
 #import "GrowlPreferencePane.h"
+#import "NSStringAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
 #include <Security/SecKeychain.h>
@@ -20,6 +21,7 @@
 @synthesize uuid = _uuid;
 @synthesize use = _use;
 @synthesize active = _active;
+@synthesize manualEntry = _manualEntry;
 
 - (id) init {
 	
@@ -50,6 +52,7 @@
 		[self setComputerName:[dict valueForKey:@"computer"]];
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
+        [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
 	}
 
 	return self;
@@ -68,6 +71,7 @@
 		[self setComputerName:name];
 		[self setUse:FALSE];
 		[self setActive:TRUE];
+        [self setManualEntry:NO];
 	}
 
 	return self;
@@ -87,10 +91,10 @@
 		unsigned char *passwordChars;
 		UInt32 passwordLength;
 		OSStatus status;
-		const char *computerNameChars = [[self computerName] UTF8String];
+		const char *uuidChars = [[self uuid] UTF8String];
 		status = SecKeychainFindGenericPassword(NULL,
 												(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-												(UInt32)strlen(computerNameChars), computerNameChars,
+												(UInt32)strlen(uuidChars), uuidChars,
 												&passwordLength, (void **)&passwordChars, NULL);		
 		if (status == noErr) {
 			password = [[NSString alloc] initWithBytes:passwordChars
@@ -121,23 +125,23 @@
 	const char *passwordChars = password ? [password UTF8String] : "";
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
-	const char *computerNameChars = [[self computerName] UTF8String];
+	const char *uuidChars = [[self uuid] UTF8String];
 	status = SecKeychainFindGenericPassword(NULL,
 											(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											(UInt32)strlen(computerNameChars), computerNameChars,
+											(UInt32)strlen(uuidChars), uuidChars,
 											NULL, NULL, &itemRef);
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword(NULL,
 											   (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											   (UInt32)strlen(computerNameChars), computerNameChars,
+											   (UInt32)strlen(uuidChars), uuidChars,
 											   (UInt32)strlen(passwordChars), passwordChars, NULL);
 		if (status)
 			NSLog(@"Failed to add password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, (UInt32)strlen(computerNameChars), (char *)computerNameChars },
+			{ kSecAccountItemAttr, (UInt32)strlen(uuidChars), (char *)uuidChars },
 			{ kSecServiceItemAttr, (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
 		};
 		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
@@ -160,7 +164,38 @@
 }
 
 - (NSMutableDictionary *) properties {
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self uuid], @"uuid", [self computerName], @"computer", [NSNumber numberWithBool:[self use]], @"use", [NSNumber numberWithBool:[self active]], @"active", nil];
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self uuid], @"uuid",
+                                                             [self computerName], @"computer", 
+                                                             [NSNumber numberWithBool:[self use]], @"use",
+                                                             [NSNumber numberWithBool:[self active]], @"active",
+                                                             [NSNumber numberWithBool:[self manualEntry]], @"manualEntry", nil];
+}
+
+-(BOOL)validateValue:(id *)ioValue forKey:(NSString *)inKey error:(NSError **)outError
+{
+    if(![inKey isEqualToString:@"computerName"])
+        return [super validateValue:ioValue forKey:inKey error:outError];
+    
+    NSString *newString = (NSString*)*ioValue;
+    if(([newString Growl_isLikelyIPAddress] || [newString Growl_isLikelyDomainName]) && 
+       ![newString isLocalHost]){
+        return YES;
+    }
+    
+    NSString *description;
+    if([newString isLocalHost]){
+        NSLog(@"Error, don't enter localhost in any of its forms");
+        description = NSLocalizedString(@"Please do not enter localhost, Growl does not support forwarding to itself.", @"Localhost in a forwarding destination is not allowed");
+    }else{
+        NSLog(@"Error, enter a valid host name or IP");
+        description = NSLocalizedString(@"Please enter a valid IPv4 or IPv6 address, or a valid domain name", @"A valid IP or domain is needed to forward to");
+    }
+    
+    NSDictionary *eDict = [NSDictionary dictionaryWithObject:description
+                                                      forKey:NSLocalizedDescriptionKey];
+    if(outError != NULL)
+        *outError = [[[NSError alloc] initWithDomain:@"GrowlNetworking" code:2 userInfo:eDict] autorelease];
+    return NO;
 }
 
 - (void) dealloc {

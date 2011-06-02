@@ -142,6 +142,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
 	
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
+   [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 	
    [[self historyController] setUpdateDelegate:self];
@@ -784,6 +785,16 @@
    [self writeForwardDestinations];
 }
 
+- (IBAction)newManualForwader:(id)sender {
+    GrowlBrowserEntry *newEntry = [[[GrowlBrowserEntry alloc] initWithComputerName:@""] autorelease];
+    [newEntry setManualEntry:YES];
+    [newEntry setOwner:self];
+    [networkTableView noteNumberOfRowsChanged];
+    [self willChangeValueForKey:@"services"];
+    [services addObject:newEntry];
+    [self didChangeValueForKey:@"services"];
+}
+
 #pragma mark TableView data source methods
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView {
@@ -812,7 +823,23 @@
 		[[aTableColumn dataCellForRow:rowIndex] setImage:[images objectAtIndex:idx]];
 	} else if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
-	}
+	} else if (aTableColumn == serviceNameColumn) {
+        NSCell *cell = [aTableColumn dataCellForRow:rowIndex];
+        static NSImage *manualImage = nil;
+        static NSImage *bonjourImage = nil;
+        if(!manualImage){
+            manualImage = [[NSImage imageNamed:NSImageNameNetwork] retain];
+            bonjourImage = [[NSImage imageNamed:NSImageNameBonjour] retain];
+            NSSize imageSize = NSMakeSize([cell cellSize].height, [cell cellSize].height);
+            [manualImage setSize:imageSize];
+            [bonjourImage setSize:imageSize];
+        }
+        GrowlBrowserEntry *entry = [services objectAtIndex:rowIndex];
+        if([entry manualEntry])
+            [cell setImage:manualImage];
+        else
+            [cell setImage:bonjourImage];
+    }
 
 	return nil;
 }
@@ -828,23 +855,15 @@
 	NSString *name = [aNetService name];
 	GrowlBrowserEntry *entry = nil;
 	for (entry in services) {
-		if ([[entry computerName] isEqualToString:name]) {
+		if ([[entry computerName] caseInsensitiveCompare:name] == NSOrderedSame) {
 			[entry setActive:YES];
 			return;
 		}
 	}
 
-	// don't add the local machine
-	CFStringRef localHostName = nil;
-	localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
-															   /*nameEncoding*/ NULL);
-	if(!localHostName)
-		localHostName = CFRetain(CFSTR("localhost"));
-	
-	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
-	CFRelease(localHostName);
-	if (isLocalHost == kCFCompareEqualTo)
-		return;
+	// don't add the local machine    
+    if([name isLocalHost])
+        return;
 
 	// add a new entry at the end
 	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name];

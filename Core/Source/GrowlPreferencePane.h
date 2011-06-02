@@ -77,6 +77,7 @@
 	NSMutableArray					*services;
 	NSNetServiceBrowser				*browser;
 	int								currentServiceIndex;
+    IBOutlet NSTableColumn          *serviceNameColumn;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
 	IBOutlet NSTableView			*networkTableView;
 	
@@ -126,6 +127,7 @@
 
 #pragma mark "Network" tab pane
 - (IBAction) removeSelectedForwardDestination:(id)sender;
+- (IBAction)newManualForwader:(id)sender;
 - (void) writeForwardDestinations;
 
 - (NSMutableArray *) services;

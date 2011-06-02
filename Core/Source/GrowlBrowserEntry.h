@@ -16,6 +16,7 @@
 	NSString				*_uuid;
 	BOOL					_use;
 	BOOL					_active;
+    BOOL                    _manualEntry;
 	
 	NSString				*password;
 	BOOL					didPasswordLookup;
@@ -35,4 +36,5 @@
 @property (retain) NSString *computerName;
 @property (assign) BOOL use;
 @property (assign) BOOL active;
+@property (assign) BOOL manualEntry;
 @end

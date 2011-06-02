@@ -351,8 +351,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		serverAddr.sin_family = AF_INET;
 		serverAddr.sin_addr.s_addr = inet_addr([name UTF8String]);
 		serverAddr.sin_port = htons(GROWL_TCP_PORT);
-		NSLog(@"address: %@", [name UTF8String]);
-		return [NSData dataWithBytes:&serverAddr length:serverAddr.sin_len];
+      return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
 	} 
 	
 	/* If we make it here, treat it as a computer name on the local network */ 
@@ -956,10 +955,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          UInt32 passwordLength;
          OSStatus status;
          const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
-         const char *computerNameChars = [[dict objectForKey:@"computer"] UTF8String];
+         const char *uuidChars = [uuid UTF8String];
          status = SecKeychainFindGenericPassword(NULL,
                                                  (UInt32)strlen(growlOutgoing), growlOutgoing,
-                                                 (UInt32)strlen(computerNameChars), computerNameChars,
+                                                 (UInt32)strlen(uuidChars), uuidChars,
                                                  &passwordLength, (void **)&passwordChars, NULL);		
          if (status == noErr) {
             password = [[[NSString alloc] initWithBytes:passwordChars
@@ -968,12 +967,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             SecKeychainItemFreeContent(NULL, passwordChars);
          } else {
             if (status != errSecItemNotFound)
-               NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [dict objectForKey:@"computer"], (int)status);
+               NSLog(@"Failed to retrieve password for %@ with UUID %@ from keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
             password = nil;
          }
          
          if (!password){
-            NSLog(@"Couldnt find password for %@, try using no security", [dict objectForKey:@"computer"]);
             key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
          }
          else
@@ -984,7 +982,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       }
       
       if([oldList count] > 0) {
-         NSLog(@"Removing keys which were removed");
          for(NSDictionary *dict in oldList)
             [[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict valueForKey:@"uuid"]];
       }
