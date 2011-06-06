@@ -4,7 +4,7 @@
 ###   * make version.
 #
 VERSION=1.2.2
-GROWLMAIL_VERSION=1.2.4
+GROWLMAIL_VERSION=1.2.5
 
 #
 #########################
