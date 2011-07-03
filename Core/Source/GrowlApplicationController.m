@@ -975,7 +975,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
          }
          else
-            key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPAES] autorelease];
+            key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
          [[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
          
          [oldList removeObject:dict];
