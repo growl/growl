@@ -110,7 +110,7 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 			result = [NSData dataWithBytesNoCopy:value length:CC_SHA512_DIGEST_LENGTH freeWhenDone:YES];
 			break;
 		}
-		case GNTPNone:
+		case GNTPNoHash:
 		default:
 			break;
 	}
@@ -254,7 +254,7 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 		case GNTPSHA512:
 			result = GrowlGNTPSHA512;
 			break;
-		case GNTPNone:
+		case GNTPNoHash:
 		default:
 			result = GrowlGNTPNone;
 			break;
