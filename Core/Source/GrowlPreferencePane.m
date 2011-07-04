@@ -26,7 +26,6 @@
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
-#include "SparkleHelperDefines.h"
 #import "GrowlVersionCheck.h"
 #import "GrowlApplicationAdditions.h"
 
@@ -208,22 +207,6 @@
 - (NSString *) bundleVersion {
 	return [[self bundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
-
-/*!
- * @brief Checks if a newer version of Growl is available at the Growl download site.
- *
- * The version.xml file is a property list which contains version numbers and
- * download URLs for several components.
- */
-- (IBAction) checkVersion:(id)sender {
-	[self launchSparkleHelper];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
-}
-
-- (void) launchSparkleHelper {
-	[[NSWorkspace sharedWorkspace] launchApplication:[[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlSparkleHelper" ofType:@"app"]];
-}
-
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	CFURLRef downloadURL = (CFURLRef)contextInfo;

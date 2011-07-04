@@ -4,7 +4,7 @@
 PATH="$PATH:/opt/local/bin:/usr/local/bin:/sw/bin"
 
 #this is done because the mercurial source install seems to put it in this location
-export PYTHONPATH="$PYTHONPATH:/usr/local/lib/python2.6/site-packages"
+export PYTHONPATH="$PYTHONPATH:/usr/local/lib/python2.6/site-packages:/Library/Python/2.6/site-packages"
 
 #this is done because Xcode won't actually run the script if the output file already exists, which is bad
 HEADERPATH="$TARGET_BUILD_DIR/include/hgRevision.h"

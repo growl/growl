@@ -54,22 +54,11 @@
 #import "GNTPKey.h"
 #import "GrowlGNTPKeyController.h"
 
-#import "SparkleHelperDefines.h"
-
-// check every 24 hours
-#define UPDATE_CHECK_INTERVAL	24.0*3600.0
-
 //Notifications posted by GrowlApplicationController
 #define USER_WENT_IDLE_NOTIFICATION       @"User went idle"
 #define USER_RETURNED_NOTIFICATION        @"User returned"
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
-
-static void checkVersion(CFRunLoopTimerRef timer, void *context) {
-		// only run update check if it's enabled, TODO: maybe remove timer?
-		if([[GrowlPreferencesController sharedController] isBackgroundUpdateCheckEnabled])
-				[((GrowlApplicationController*)context) timedCheckForUpdates:nil];
-	}
 
 @interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
@@ -197,24 +186,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				   name:@"GrowlIdleStatus"
 				 object:nil];
 				
-		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
-		NSDate *now = [NSDate date];
-		if (!lastCheck || [now timeIntervalSinceDate:lastCheck] > UPDATE_CHECK_INTERVAL) {
-			checkVersion(NULL, self);
-			lastCheck = now;
-		}
-		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-        //10.5 suppport
-		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck dateByAddingTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
-		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
-
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(growlSparkleHelperFoundUpdate:)
-																name:SPARKLE_HELPER_UPDATE_AVAILABLE
-															  object:[[NSBundle mainBundle] bundleIdentifier]
-												  suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
-
-		
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
 		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
@@ -859,61 +830,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	quitAfterOpen = flag;
 }
 
-#pragma mark Sparkle Updates
-
-- (void) timedCheckForUpdates:(NSNotification*)note {
-	[self launchSparkleHelper];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_INTERVAL_INITIATED object:nil userInfo:nil deliverImmediately:YES];
-}
-
-- (void) growlNotificationWasClicked:(id)clickContext {
-   if ([clickContext isEqualToString:UPDATE_AVAILABLE_NOTIFICATION]) {
-      [self launchSparkleHelper];
-      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_USER_INITIATED object:nil userInfo:nil deliverImmediately:YES];
-   }
-}
-
-- (void) growlNotificationTimedOut:(id)clickContext {
-   if ([clickContext isEqualToString:UPDATE_AVAILABLE_NOTIFICATION])
-   {
-      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE 
-                                                                     object:nil 
-                                                                   userInfo:nil 
-                                                         deliverImmediately:YES];
-   }
-} 
-
-- (void) launchSparkleHelper {
-	LSLaunchFSRefSpec spec;
-	FSRef appRef;
-	OSStatus status = FSPathMakeRef((UInt8 *)[[[GrowlPathUtilities growlPrefPaneBundle] pathForResource:@"GrowlSparkleHelper" ofType:@"app"] fileSystemRepresentation], &appRef, NULL);
-	if (status == noErr) {
-		
-		spec.appRef = &appRef;
-		spec.numDocs = 0;
-		spec.itemRefs = NULL;
-		spec.passThruParams = NULL;
-		spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
-		spec.asyncRefCon = NULL;
-		status = LSOpenFromRefSpec(&spec, NULL);
-	}
-}
-
-- (void) growlSparkleHelperFoundUpdate:(NSNotification*)note {
-	CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
-	CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
-	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-								description:(NSString *)description
-						   notificationName:UPDATE_AVAILABLE_NOTIFICATION
-								   iconData:[self applicationIconDataForGrowl]
-								   priority:1
-								   isSticky:YES
-							   clickContext:UPDATE_AVAILABLE_NOTIFICATION
-								 identifier:UPDATE_AVAILABLE_NOTIFICATION];
-	CFRelease(title);
-	CFRelease(description);
-}
-
 #pragma mark What NSThread should implement as a class method
 
 - (NSThread *)mainThread {
@@ -1149,8 +1065,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
-	// kill sparkle helper if it's still running
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:SPARKLE_HELPER_DIE object:nil userInfo:nil deliverImmediately:YES];
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 
@@ -1247,20 +1161,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (NSDictionary *)registrationDictionaryForGrowl
 {	
 	NSDictionary *descriptions = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSLocalizedString(@"A Growl update is available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"You are now considered idle by Growl", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"You are no longer considered idle by Growl", nil), USER_RETURNED_NOTIFICATION,
 		nil];
 
 	NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSLocalizedString(@"Growl update available", nil), UPDATE_AVAILABLE_NOTIFICATION,
 		NSLocalizedString(@"User went idle", nil), USER_WENT_IDLE_NOTIFICATION,
 		NSLocalizedString(@"User returned", nil), USER_RETURNED_NOTIFICATION,
 		nil];
 	
 	NSDictionary	*growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
-		[NSArray arrayWithObjects:UPDATE_AVAILABLE_NOTIFICATION, nil], GROWL_NOTIFICATIONS_DEFAULT,
+		[NSArray arrayWithObjects:USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
+		[NSArray arrayWithObjects: nil], GROWL_NOTIFICATIONS_DEFAULT,
 		humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 		descriptions, GROWL_NOTIFICATIONS_DESCRIPTIONS,
 		nil];

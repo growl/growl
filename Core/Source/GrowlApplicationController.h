@@ -70,13 +70,5 @@ typedef enum {
 - (void) setQuitAfterOpen:(BOOL)flag;
 
 - (NSThread *)mainThread;
-
-#pragma mark Sparkle
-
-- (void) timedCheckForUpdates:(NSNotification*)note;
-- (void) growlNotificationWasClicked:(id)clickContext;
-- (void) growlNotificationTimedOut:(id)clickContext;
-- (void) launchSparkleHelper;
-- (void) growlSparkleHelperFoundUpdate:(NSNotification*)note;
 	
 @end

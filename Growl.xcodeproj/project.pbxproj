@@ -98,7 +98,6 @@
 		31199C0311E2BC040024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
-		31436E1C11E52565003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31436E8211E59D6B003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31440EB2122D934700F51BA0 /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		31440F44122E080200F51BA0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
@@ -200,18 +199,6 @@
 		93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
-		933816821050BA850014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
-		933818331052AA490014C550 /* GrowlSparkleHelper.app in Resources */ = {isa = PBXBuildFile; fileRef = 933818151052AA160014C550 /* GrowlSparkleHelper.app */; };
-		9338184F1052AA970014C550 /* GrowlSparkleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 933814181050969E0014C550 /* GrowlSparkleHelper.m */; };
-		933818501052AA970014C550 /* SparkleHelperMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 93381480105098430014C550 /* SparkleHelperMain.m */; };
-		9338186A1052AC770014C550 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93254764104E13B800130D3B /* Sparkle.framework */; };
-		933818861052ACBD0014C550 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
-		933818891052ACD20014C550 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
-		9338188C1052ACE90014C550 /* CFURLAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */; };
-		9338188D1052ACE90014C550 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
-		933818901052ACF70014C550 /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
-		933819021052AD7F0014C550 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933819011052AD7F0014C550 /* MainMenu.xib */; };
-		9338191D1052AE170014C550 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 933816811050BA850014C550 /* dsa_pub.pem */; };
 		93491549121B7DC8005A822B /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
@@ -516,54 +503,12 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
-		93254763104E13B800130D3B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Sparkle;
-		};
-		93254765104E13B800130D3B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B5F90209C4CEE200B25A18;
-			remoteInfo = "Sparkle Test App";
-		};
-		93254767104E13B800130D3B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DAAEFC960DA571DF0051E0D0;
-			remoteInfo = "relaunch tool";
-		};
-		93254769104E13B800130D3B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 612279D90DB5470200AB99EA;
-			remoteInfo = "Sparkle Unit Tests";
-		};
 		933532A1093643DA007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 95075AAF0817F5DB00D862A5;
 			remoteInfo = GrowlMenu;
-		};
-		9338182F1052AA310014C550 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 933818141052AA160014C550;
-			remoteInfo = GrowlSparkleHelper;
-		};
-		933818681052AC5E0014C550 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Sparkle;
 		};
 		9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -696,16 +641,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		933818851052ACBD0014C550 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9338186A1052AC770014C550 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1054,22 +989,12 @@
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Core/Resources/Info.plist; sourceTree = "<group>"; };
 		8D202CF80486D31800D8A456 /* Growl.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Growl.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
-		93254758104E13B700130D3B /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = external_dependencies/Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
 		932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlShrinkingWindowTransition.m; sourceTree = "<group>"; };
 		932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlScaleWindowTransition.h; sourceTree = "<group>"; };
 		932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlScaleWindowTransition.m; sourceTree = "<group>"; };
-		933814171050969E0014C550 /* GrowlSparkleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlSparkleHelper.h; path = GrowlSparkleHelper/GrowlSparkleHelper.h; sourceTree = "<group>"; };
-		933814181050969E0014C550 /* GrowlSparkleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSparkleHelper.m; path = GrowlSparkleHelper/GrowlSparkleHelper.m; sourceTree = "<group>"; };
-		93381480105098430014C550 /* SparkleHelperMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkleHelperMain.m; path = GrowlSparkleHelper/SparkleHelperMain.m; sourceTree = "<group>"; };
-		933814901050A33A0014C550 /* SparkleHelperDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkleHelperDefines.h; path = GrowlSparkleHelper/SparkleHelperDefines.h; sourceTree = "<group>"; };
 		933814B51050A7350014C550 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		933814B91050A73D0014C550 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		933814DC1050A88C0014C550 /* GrowlSparkleHelper.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlSparkleHelper.pch; path = GrowlSparkleHelper/GrowlSparkleHelper.pch; sourceTree = "<group>"; };
-		933816811050BA850014C550 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = external_dependencies/Sparkle/dsa_pub.pem; sourceTree = "<group>"; };
-		933818151052AA160014C550 /* GrowlSparkleHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlSparkleHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		933819011052AD7F0014C550 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = GrowlSparkleHelper/MainMenu.xib; sourceTree = "<group>"; };
-		933819061052ADE80014C550 /* GrowlSparkleHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GrowlSparkleHelper-Info.plist"; path = "GrowlSparkleHelper/GrowlSparkleHelper-Info.plist"; sourceTree = "<group>"; };
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		937E64310817193800AEC1C6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Core/Resources/English.lproj/About.rtf; sourceTree = "<group>"; };
@@ -1444,13 +1369,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		933818131052AA160014C550 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		93BC3797095A662B0002B365 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1669,7 +1587,6 @@
 				93405B0D080D8BD100903735 /* StatusItem */,
 				CB5F835E0638B67C00EADD7A /* Prefpane */,
 				34CEA3930680A77C00670E0D /* Growl.framework */,
-				93381413105093AE0014C550 /* SparkleHelper */,
 				63C0610006C8948700B0B7D4 /* AppleScript */,
 				CB5F836E0638B69900EADD7A /* HelperApp */,
 				07803B3808E7E67000299E08 /* Plug-ins */,
@@ -1919,7 +1836,6 @@
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
 				34725B0F0C0678A000499F50 /* Growl.dylib */,
 				31E184D61084628D0011C78B /* Unit tests.octest */,
-				933818151052AA160014C550 /* GrowlSparkleHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2048,36 +1964,9 @@
 			isa = PBXGroup;
 			children = (
 				93FB21A61391B50D002E1F86 /* GCDAsyncSocket */,
-				933816811050BA850014C550 /* dsa_pub.pem */,
-				93254758104E13B700130D3B /* Sparkle.xcodeproj */,
 				31440E73122D83AF00F51BA0 /* AEVTBuilder */,
 			);
 			name = external_dependencies;
-			sourceTree = "<group>";
-		};
-		93254759104E13B700130D3B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				93254764104E13B800130D3B /* Sparkle.framework */,
-				93254766104E13B800130D3B /* Sparkle Test App.app */,
-				93254768104E13B800130D3B /* relaunch */,
-				9325476A104E13B800130D3B /* Sparkle Unit Tests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		93381413105093AE0014C550 /* SparkleHelper */ = {
-			isa = PBXGroup;
-			children = (
-				933819061052ADE80014C550 /* GrowlSparkleHelper-Info.plist */,
-				933814171050969E0014C550 /* GrowlSparkleHelper.h */,
-				933814181050969E0014C550 /* GrowlSparkleHelper.m */,
-				93381480105098430014C550 /* SparkleHelperMain.m */,
-				933814901050A33A0014C550 /* SparkleHelperDefines.h */,
-				933814DC1050A88C0014C550 /* GrowlSparkleHelper.pch */,
-				933819011052AD7F0014C550 /* MainMenu.xib */,
-			);
-			name = SparkleHelper;
 			sourceTree = "<group>";
 		};
 		93405B0D080D8BD100903735 /* StatusItem */ = {
@@ -2679,32 +2568,12 @@
 			dependencies = (
 				933532A2093643DA007C8B10 /* PBXTargetDependency */,
 				3433455E0790E25300C84B15 /* PBXTargetDependency */,
-				933818301052AA310014C550 /* PBXTargetDependency */,
 			);
 			name = Growl;
 			productInstallPath = "$(HOME)/Library/PreferencePanes";
 			productName = Growl;
 			productReference = 8D202CF80486D31800D8A456 /* Growl.prefPane */;
 			productType = "com.apple.product-type.bundle";
-		};
-		933818141052AA160014C550 /* GrowlSparkleHelper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9338181A1052AA1A0014C550 /* Build configuration list for PBXNativeTarget "GrowlSparkleHelper" */;
-			buildPhases = (
-				933818111052AA160014C550 /* Resources */,
-				933818851052ACBD0014C550 /* CopyFiles */,
-				933818121052AA160014C550 /* Sources */,
-				933818131052AA160014C550 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				933818691052AC5E0014C550 /* PBXTargetDependency */,
-			);
-			name = GrowlSparkleHelper;
-			productName = GrowlSparkleHelper;
-			productReference = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
-			productType = "com.apple.product-type.application";
 		};
 		93BC378E095A662B0002B365 /* Nano */ = {
 			isa = PBXNativeTarget;
@@ -2865,15 +2734,10 @@
 					ProductGroup = 93A042A41382150A00C46F0A /* Products */;
 					ProjectRef = 93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */;
 				},
-				{
-					ProductGroup = 93254759104E13B700130D3B /* Products */;
-					ProjectRef = 93254758104E13B700130D3B /* Sparkle.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
 				8D202CE80486D31800D8A456 /* Growl */,
-				933818141052AA160014C550 /* GrowlSparkleHelper */,
 				CB61E5170637763C00E0DDC7 /* GrowlHelperApp */,
 				95075AAF0817F5DB00D862A5 /* GrowlMenu */,
 				34F60EAA078E1CD500CECA86 /* Growl.framework */,
@@ -2897,34 +2761,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		93254764104E13B800130D3B /* Sparkle.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sparkle.framework;
-			remoteRef = 93254763104E13B800130D3B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		93254766104E13B800130D3B /* Sparkle Test App.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Sparkle Test App.app";
-			remoteRef = 93254765104E13B800130D3B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		93254768104E13B800130D3B /* relaunch */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = relaunch;
-			remoteRef = 93254767104E13B800130D3B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9325476A104E13B800130D3B /* Sparkle Unit Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Sparkle Unit Tests.octest";
-			remoteRef = 93254769104E13B800130D3B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		93A042A2138214F800C46F0A /* Show Growl Notification.action */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -3011,7 +2847,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				933818331052AA490014C550 /* GrowlSparkleHelper.app in Resources */,
 				95075B740817FE1E00D862A5 /* GrowlMenu.app in Resources */,
 				9528EF8007F5A2DF00061D90 /* Localizable.strings in Resources */,
 				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
@@ -3024,16 +2859,6 @@
 				95BF38FE0851F82200873BE1 /* WebKitPrefs.xib in Resources */,
 				7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */,
 				938CAC1F1080D51100259421 /* GrowlPref.xib in Resources */,
-				933816821050BA850014C550 /* dsa_pub.pem in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		933818111052AA160014C550 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9338191D1052AE170014C550 /* dsa_pub.pem in Resources */,
-				933819021052AD7F0014C550 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3205,7 +3030,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#source generateHgRevision.sh";
+			shellScript = "source generateHgRevision.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3399,21 +3224,6 @@
 				BC9AEAB61257F42F00759016 /* GrowlNotificationDatabase.m in Sources */,
 				BC9AEC041257FDDB00759016 /* GrowlNotificationHistory.xcdatamodel in Sources */,
 				93FB227B13932DA7002E1F86 /* GrowlApplicationAdditions.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		933818121052AA160014C550 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				933818901052ACF70014C550 /* CFMutableDictionaryAdditions.c in Sources */,
-				9338188C1052ACE90014C550 /* CFURLAdditions.c in Sources */,
-				9338188D1052ACE90014C550 /* CFGrowlAdditions.c in Sources */,
-				933818891052ACD20014C550 /* GrowlPathUtilities.m in Sources */,
-				933818861052ACBD0014C550 /* GrowlApplicationBridge.m in Sources */,
-				9338184F1052AA970014C550 /* GrowlSparkleHelper.m in Sources */,
-				933818501052AA970014C550 /* SparkleHelperMain.m in Sources */,
-				31436E1C11E52565003007A0 /* GrowlProcessUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3627,16 +3437,6 @@
 			isa = PBXTargetDependency;
 			target = 95075AAF0817F5DB00D862A5 /* GrowlMenu */;
 			targetProxy = 933532A1093643DA007C8B10 /* PBXContainerItemProxy */;
-		};
-		933818301052AA310014C550 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 933818141052AA160014C550 /* GrowlSparkleHelper */;
-			targetProxy = 9338182F1052AA310014C550 /* PBXContainerItemProxy */;
-		};
-		933818691052AC5E0014C550 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sparkle;
-			targetProxy = 933818681052AC5E0014C550 /* PBXContainerItemProxy */;
 		};
 		9340E2EB0C94D48300A1F682 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4510,49 +4310,6 @@
 			};
 			name = Release;
 		};
-		933818181052AA1A0014C550 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					$BUILT_PRODUCTS_DIR,
-					external_dependencies/Sparkle/build/$CONFIGURATION,
-				);
-				GCC_PREFIX_HEADER = GrowlSparkleHelper/GrowlSparkleHelper.pch;
-				INFOPLIST_FILE = "GrowlSparkleHelper/GrowlSparkleHelper-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					Sparkle,
-				);
-				PRODUCT_NAME = GrowlSparkleHelper;
-			};
-			name = Debug;
-		};
-		933818191052AA1A0014C550 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					$BUILT_PRODUCTS_DIR,
-					external_dependencies/Sparkle/build/$CONFIGURATION,
-				);
-				GCC_PREFIX_HEADER = GrowlSparkleHelper/GrowlSparkleHelper.pch;
-				INFOPLIST_FILE = "GrowlSparkleHelper/GrowlSparkleHelper-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					Sparkle,
-				);
-				PRODUCT_NAME = GrowlSparkleHelper;
-			};
-			name = Release;
-		};
 		9340E3060C94D4B300A1F682 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
@@ -5230,15 +4987,6 @@
 				34725DCA0C0678C800499F50 /* Debug */,
 				315C88DB1068F9AA00880530 /* Localization */,
 				34725DCB0C0678C800499F50 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		9338181A1052AA1A0014C550 /* Build configuration list for PBXNativeTarget "GrowlSparkleHelper" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				933818181052AA1A0014C550 /* Debug */,
-				933818191052AA1A0014C550 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
