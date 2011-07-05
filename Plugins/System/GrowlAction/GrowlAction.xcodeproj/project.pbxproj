@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -170,9 +170,16 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -226,7 +233,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Localization;
@@ -236,7 +243,6 @@
 			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_PREFIX_HEADER = "../../../Info.plist-Prefix.pch";
@@ -265,7 +271,6 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "";
@@ -295,7 +300,6 @@
 			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_PREFIX_HEADER = "../../../Info.plist-Prefix.pch";
@@ -325,7 +329,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Debug;
@@ -337,7 +341,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/../../build";
 			};
 			name = Release;
