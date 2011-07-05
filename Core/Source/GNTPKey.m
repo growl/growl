@@ -7,10 +7,8 @@
 //
 
 #import "GNTPKey.h"
-#import <openssl/rand.h>
-#import <openssl/md5.h>
-#import <openssl/sha.h>
 #import <openssl/evp.h>
+#import <Security/SecRandom.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonDigest.h>
 
@@ -58,7 +56,7 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 		{
 			unsigned char *value = (unsigned char*)calloc(CC_MD5_DIGEST_LENGTH, sizeof(unsigned char));
 			if(value)
-				MD5(bytes, length, value);
+				CC_MD5(bytes, (unsigned int)length, value);
 			result = [NSData dataWithBytesNoCopy:value length:CC_MD5_DIGEST_LENGTH freeWhenDone:YES];
 			break;
 		}
@@ -66,7 +64,7 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 		{	
 			unsigned char *value = (unsigned char*)calloc(CC_SHA1_DIGEST_LENGTH, sizeof(unsigned char));
 			if(value)
-				SHA1(bytes, length, value);
+				CC_SHA1(bytes, (unsigned int)length, value);
 			result = [NSData dataWithBytesNoCopy:value length:CC_SHA1_DIGEST_LENGTH freeWhenDone:YES];
 			break;
 		}
@@ -214,7 +212,7 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
     buffer = (unsigned char *)calloc(length, sizeof(unsigned char));
     NSAssert((buffer != NULL), @"Cannot calloc memory for buffer.");
     
-    RAND_bytes(buffer, length);
+    SecRandomCopyBytes(kSecRandomDefault, length, buffer);
     
     return [NSData dataWithBytesNoCopy:buffer length:length freeWhenDone:YES];;
 }
@@ -357,10 +355,12 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 	unsigned char *iv = (unsigned char *)calloc(blockSize, sizeof(unsigned char));
 	if (iv) {
 		bzero(iv, blockSize * sizeof(unsigned char));
-		unsigned char evpKey[EVP_MAX_KEY_LENGTH] = {"\0"};
+		//unsigned char evpKey[EVP_MAX_KEY_LENGTH] = {"\0"};
 		if (cipher) {
+            /* TODO: Find replacement for EVP in OpenSSL*/
+            
 			//Cast explanation: EVP_BytesToKey takes an int for the length, but NSData's length method returns NSUInteger. As long as encryption keys are created by hashing strings, they are not likely to ever be large enough for their lengths to exceed the range of an int.
-			EVP_BytesToKey(cipher, EVP_md5(), NULL, (const unsigned char*)[[self encryptionKey] bytes], (int)[[self encryptionKey] length], 1, evpKey, iv);
+			//EVP_BytesToKey(cipher, EVP_md5(), NULL, (const unsigned char*)[[self encryptionKey] bytes], (int)[[self encryptionKey] length], 1, evpKey, iv);
 		}
 
 		ivData = [NSData dataWithBytesNoCopy:iv length:blockSize freeWhenDone:YES];

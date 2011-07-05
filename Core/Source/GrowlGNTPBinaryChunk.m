@@ -8,7 +8,7 @@
 
 #import "GrowlGNTPBinaryChunk.h"
 #import "AsyncSocket.h"
-#import <openssl/md5.h>
+#import <CommonCrypto/CommonHMAC.h>
 
 @interface  GrowlGNTPBinaryChunk (PRIVATE)
 - (id)initWithData:(NSData *)inData identifier:(NSString *)inIdentifier;
@@ -66,7 +66,8 @@
 
 + (NSString *)identifierForBinaryData:(NSData *)data
 {
-	unsigned char *digest = MD5([data bytes], [data length], NULL);	
+	unsigned char *digest = malloc(sizeof(unsigned char)*CC_MD5_DIGEST_LENGTH);
+    CC_MD5([data bytes], (unsigned int)[data length], digest);
 	NSString *identifier = [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 							digest[0], digest[1], 
 							digest[2], digest[3],
