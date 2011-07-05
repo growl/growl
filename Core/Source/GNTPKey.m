@@ -371,6 +371,8 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 
 - (NSString*)key
 {
+    if([self hashAlgorithm] == GNTPNoHash)
+        return GrowlGNTPNone;
 	NSString *algorithm = [self hashAlgorithmString];
 	NSString *keyHash = HexEncode([self keyHash]);
 	NSString *salt = HexEncode([self salt]);
