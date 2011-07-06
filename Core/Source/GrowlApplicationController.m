@@ -157,19 +157,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			[defaultDefaults release];
 		}
 
-		if ([GrowlPathUtilities runningHelperAppBundle] != [NSBundle mainBundle]) {
-			/*We are not the real GHA.
-			 *We are another GHA that a pre-1.1.3 GAB has invoked to register an application by a plist file.
-			 *This means that we should not start up the pathway controller; we should, instead, start up the plist-file pathway directly, and wait up to one second for -application:openFile: messages, and forward them to the plist-file pathway (as appropriate), and quit one second after the last one.
-			 */
-			NSLog(@"%@", @"It appears that at least one other instance of Growl is running. This one will quit.");
-			quitAfterOpen = YES;
-		} else {
-			//This class doesn't exist in the prefpane.
-			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-			if (pathwayControllerClass)
-				[pathwayControllerClass sharedController];
-		}
+        //This class doesn't exist in the prefpane.
+        Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+        if (pathwayControllerClass)
+            [pathwayControllerClass sharedController];
 		
 		[self preferencesChanged:nil];
 		
@@ -1044,14 +1035,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[NSApp performSelector:@selector(terminate:)
 					withObject:nil
 					afterDelay:1.0];
-	} else {
-		/*If Growl is not enabled and was not already running before
-		 *	(for example, via an autolaunch even though the user's last
-		 *	preference setting was to click "Stop Growl," setting enabled to NO),
-		 *	quit having registered; otherwise, remain running.
-		 */
-		if (!growlIsEnabled)
-			[NSApp terminate:nil];
 	}
 }
 

@@ -20,7 +20,7 @@
 -(void)setupMaintenanceTimers
 {
    //While this is only compiled with GHA, we want to be really sure we are GHA.
-   if(![[[NSProcessInfo processInfo] processName] isEqualToString:@"GrowlHelperApp"])
+   if(![[[NSProcessInfo processInfo] processName] isEqualToString:@"Growl"])
    {
       NSLog(@"We arent GHA, we shouldn't be setting up maintenance timers");
       return;

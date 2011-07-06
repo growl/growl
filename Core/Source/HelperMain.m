@@ -19,9 +19,9 @@ int main(int argc, const char *argv[]) {
 	// (This is 64-bit only because the 32-bit API has NSMenuView, and the -menuBarHeight method is a recent addition.)
 	[NSApp setMainMenu:[[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease]];
 #endif
-	[pool release];
 
 	[NSApp run];
+	[pool release];
 
 	return EXIT_SUCCESS;
 }

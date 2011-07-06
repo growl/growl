@@ -165,7 +165,7 @@
    }
    //TODO: make this work better
    NSString *modelName = [self modelName];
-   NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtilities helperAppBundle] pathForResource:modelName ofType:@"mom"] ];
+   NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:modelName ofType:@"mom"] ];
    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
    return managedObjectModel;
 }
