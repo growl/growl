@@ -8,6 +8,7 @@
 
 #include "GrowlIdleStatusController.h"
 #include "GrowlPreferencesController.h"
+#include <ApplicationServices/ApplicationServices.h>
 
 //Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
 
@@ -16,12 +17,9 @@
 //Poll every second when the user is idle
 #define MACHINE_IDLE_POLL_INTERVAL		1
 
-//Private idle function
-extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
-
 static int					idleThreshold;
 static Boolean				isIdle;
-static double				lastSeenIdle;
+static CFTimeInterval		lastSeenIdle;
 static CFRunLoopTimerRef	idleTimer;
 
 /*!
@@ -33,8 +31,8 @@ static CFRunLoopTimerRef	idleTimer;
  * out notifications when the machine becomes idle, stays idle, and returns to
  * an active state.
  */
-static double currentIdleTime(void) {
-	double idleTime = CGSSecondsSinceLastInputEvent(-1);
+static CFTimeInterval currentIdleTime(void) {
+	CFTimeInterval idleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateHIDSystemState, kCGAnyInputEventType);
 
 	/* On MDD Powermacs, the above function will return a large value when the
 	 * machine is active (perhaps a -1?).
@@ -73,8 +71,7 @@ static void setIdle(Boolean inIdle) {
  * notice immediately when the user returns.
  */
 static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
-	double currentIdle = currentIdleTime();
-
+	CFTimeInterval currentIdle = currentIdleTime();
 	if (isIdle) {
 		/* If the machine is less idle than the last time we recorded, it means
 		 * that activity has occured and the user is no longer idle.
