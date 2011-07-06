@@ -21,9 +21,7 @@
 #define CRLF "\x0D\x0A"
 
 @interface GrowlGNTPPacket ()
-- (id)initForSocket:(AsyncSocket *)inSocket;
-//- (void)setAction:(NSString *)inAction;
-//- (void)setEncryptionAlgorithm:(NSString *)inEncryptionAlgorithm;
+- (id)initForSocket:(GCDAsyncSocket *)inSocket;
 - (void)readNextHeader;
 - (void)beginProcessingProtocolIdentifier;
 - (void)networkPacketReadComplete;
@@ -36,7 +34,7 @@
 @synthesize encryptionAlgorithm;
 @synthesize delegate = mDelegate;
 
-+ (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket
++ (GrowlGNTPPacket *)networkPacketForSocket:(GCDAsyncSocket *)inSocket
 {
 	return [[[self alloc] initForSocket:inSocket] autorelease];
 }
@@ -56,11 +54,11 @@
 	return specificPacket;
 }
 
-- (id)initForSocket:(AsyncSocket *)inSocket
+- (id)initForSocket:(GCDAsyncSocket *)inSocket
 {
 	if ((self = [self init])) {
 		socket = [inSocket retain];
-		[socket setDelegate:self];
+		[socket synchronouslySetDelegate:self];
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
 	}
@@ -84,7 +82,7 @@
 	[super dealloc];
 }
 
-- (AsyncSocket *)socket
+- (GCDAsyncSocket *)socket
 {
 	return socket;
 }
@@ -151,7 +149,7 @@
 
 - (void)finishProcessingProtocolIdentifier
 {
-	[socket readDataToData:[AsyncSocket CRLFData]
+	[socket readDataToData:[GCDAsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlProtocolIdentifierRead];	
 }
@@ -351,7 +349,7 @@
 #pragma mark Headers
 - (void)readNextHeader
 {
-	[socket readDataToData:[AsyncSocket CRLFData]
+	[socket readDataToData:[GCDAsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlHeaderRead];
 }
@@ -381,7 +379,7 @@
 {
 	NSError *anError;
    GrowlReadDirective directive = GrowlReadDirective_Error;
-	if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[AsyncSocket CRLFData]])
+	if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[GCDAsyncSocket CRLFData]])
    {
 	   //not really thrilled with doing it this way, but there's a CRLF being included in the data that's getting passed to decrypt which is causing CCCrypt to throw
 	   //a kCCParamError
@@ -389,7 +387,7 @@
 	   NSRange crlfRange = NSMakeRange([inData length]-2, 2);
 	   NSData *crlf = [inData subdataWithRange:crlfRange];
 	   NSData *truncatedData = inData;
-	   if([crlf isEqualToData:[AsyncSocket CRLFData]])
+	   if([crlf isEqualToData:[GCDAsyncSocket CRLFData]])
 		   truncatedData = [inData subdataWithRange:truncationRange];
 	   
 	   NSData *decryptedData = [[self key] decrypt:truncatedData];
@@ -400,7 +398,7 @@
       for(NSString *header in splitHeaders){
          NSData *headerData = nil;
          NSMutableData *mData = [[[header dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
-         [mData appendData:[AsyncSocket CRLFData]];
+         [mData appendData:[GCDAsyncSocket CRLFData]];
          headerData = mData;
          
          if(headerData)
@@ -570,7 +568,7 @@
 #pragma mark Binary Headers
 - (void)readNextHeaderOfBinaryChunk
 {
-	[socket readDataToData:[AsyncSocket CRLFData]
+	[socket readDataToData:[GCDAsyncSocket CRLFData]
 			   withTimeout:-1
 					   tag:GrowlBinaryHeaderRead];	
 }
@@ -660,7 +658,7 @@
 - (GrowlReadDirective)parseBinaryData:(NSData *)inData
 {
    NSData *decryptedData = inData;
-   if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[AsyncSocket CRLFData]])
+   if([[self key] encryptionAlgorithm] != GNTPNone && ![inData isEqualToData:[GCDAsyncSocket CRLFData]])
    {
       decryptedData = [[self key] decrypt:inData];
    }
@@ -730,25 +728,10 @@
 }
 
 /**
- * Called when a socket connects and is ready for reading and writing.
- * The host parameter will be an IP address, not a DNS name.
- **/
-- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)inHost port:(UInt16)inPort
-{
-	if ([inHost isLocalHost] ||
-		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey] ||
-		wasInitiatedLocally) {
-		[self startProcessing];
-	} else {
-		[sock disconnect];
-	}
-}
-
-/**
  * Called when a socket has completed reading the requested data into memory.
  * Not called if there is an error.
  **/
-- (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
 #ifdef DEBUG
 	NSString *received = [[[NSString alloc] initWithData:data
@@ -852,7 +835,7 @@
  not, however, a good place to do cleanup. The socket must still exist when this
  method returns.
  */
--(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
 	if (err != nil) {
 		[self setError:err];

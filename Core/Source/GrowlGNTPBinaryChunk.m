@@ -7,7 +7,7 @@
 //
 
 #import "GrowlGNTPBinaryChunk.h"
-#import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 #import <CommonCrypto/CommonHMAC.h>
 
 @interface  GrowlGNTPBinaryChunk (PRIVATE)
@@ -58,8 +58,8 @@
 	
 	[gntpData appendData:[rep dataUsingEncoding:NSUTF8StringEncoding]];
 	[gntpData appendData:_data];
-	[gntpData appendData:[AsyncSocket CRLFData]]; /* End the data */
-	[gntpData appendData:[AsyncSocket CRLFData]]; /* Blank line after the chunk */
+	[gntpData appendData:[GCDAsyncSocket CRLFData]]; /* End the data */
+	[gntpData appendData:[GCDAsyncSocket CRLFData]]; /* Blank line after the chunk */
 	
 	return gntpData;
 }

@@ -44,7 +44,7 @@
 #include <arpa/inet.h>
 
 //XXX Networking; move me
-#import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 #import "GrowlGNTPOutgoingPacket.h"
 //#import "GrowlTCPPathway.h"
 #import "GrowlNotificationGNTPPacket.h"
@@ -354,7 +354,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
  not, however, a good place to do cleanup. The socket must still exist when this
  method returns.
  */
--(void) onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
+-(void) onSocket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
 	if (err != nil)
 		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
@@ -367,7 +367,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[sock release];
 }
 
-- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+- (void)onSocket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
 	NSLog(@"Connected to %@ on %@:%hu", sock, host, port);
 }

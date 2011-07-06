@@ -8,7 +8,7 @@
 
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlGNTPPacketParser.h"
-#import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 
 @interface GrowlGNTPHeaderItem (PRIVATE)
 - (id)initForData:(NSData *)inData error:(NSError **)outError;
@@ -49,7 +49,7 @@
 
 - (id)initForData:(NSData *)inData error:(NSError **)outError
 {
-	if ([inData isEqualToData:[AsyncSocket CRLFData]]) {
+	if ([inData isEqualToData:[GCDAsyncSocket CRLFData]]) {
 		/* Blank line received; this separates one section or block from another */
 		[self release];
 		return [[GrowlGNTPHeaderItem separatorHeaderItem] retain];
@@ -115,7 +115,7 @@
 {
 #define CRLF "\x0D\x0A"
 	if (self == [[self class] separatorHeaderItem])
-		return [AsyncSocket CRLFData];
+		return [GCDAsyncSocket CRLFData];
 	else 
 		return [[NSString stringWithFormat:@"%@: %@" CRLF, headerName, headerValue] dataUsingEncoding:NSUTF8StringEncoding];
 }

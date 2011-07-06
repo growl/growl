@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 #import "GrowlGNTPPacket.h"
 
 @protocol GrowlGNTPPacketDelegate;
@@ -25,6 +25,6 @@ typedef enum {
 
 + (GrowlGNTPPacketParser *)sharedParser;
 - (void)sendPacket:(GrowlGNTPOutgoingPacket *)packet toAddress:(NSData *)destAddress;
-- (void)didAcceptNewSocket:(AsyncSocket *)socket;
+- (void)didAcceptNewSocket:(GCDAsyncSocket *)socket;
 
 @end

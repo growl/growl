@@ -9,10 +9,10 @@ typedef enum {
     kTCPServerNoSocketsAvailable = 3,
 } TCPServerErrorCode;
 
-@class AsyncSocket;
+@class GCDAsyncSocket;
 
 @protocol GrowlTCPServerDelegate
-- (void)didAcceptNewSocket:(AsyncSocket *)sock;
+- (void)didAcceptNewSocket:(GCDAsyncSocket *)sock;
 @end
 
 @interface GrowlTCPServer : NSObject {
@@ -24,7 +24,7 @@ typedef enum {
     uint16_t port;
     NSNetService *netService;
 	
-	AsyncSocket *asyncSocket;
+	GCDAsyncSocket *asyncSocket;
 }
 
 - (id <GrowlTCPServerDelegate>)delegate;

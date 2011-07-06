@@ -68,7 +68,7 @@
 /*!
  * @brief The TCP server accepted a new socket. Pass it to the network packet parser.
  */
-- (void)didAcceptNewSocket:(AsyncSocket *)sock
+- (void)didAcceptNewSocket:(GCDAsyncSocket *)sock
 {
 	NSLog(@"%@: Telling %@ we accepted", self, networkPacketParser);
 	[networkPacketParser didAcceptNewSocket:sock];

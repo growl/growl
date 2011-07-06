@@ -56,8 +56,8 @@
 	/* Will deallocate once sending is complete if we don't care about the reply, or after we get a reply if
 	 * desired.
 	 */
-	AsyncSocket *outgoingSocket = [[AsyncSocket alloc] initWithDelegate:self];
-	[outgoingSocket setUserData:(long)[[packet packetID] retain]];
+	GCDAsyncSocket *outgoingSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+	[outgoingSocket setUserData:[[packet packetID] retain]];
 	NSLog(@"outgoingsocket is %p; userData is %@", outgoingSocket, (NSString *)[outgoingSocket userData]);
 	@try {
 		NSError *connectionError = nil;
@@ -65,7 +65,7 @@
 		if (connectionError) {
 			NSLog(@"Failed to connect: %@", connectionError);
 			[(NSString *)[outgoingSocket userData] release];
-			[outgoingSocket setUserData:(long)nil];
+			[outgoingSocket setUserData:nil];
 
 		} else {
 			[packet writeToSocket:outgoingSocket];
@@ -91,7 +91,7 @@
 	
 
 #pragma mark -
-- (GrowlGNTPPacket *)setupPacketForSocket:(AsyncSocket *)socket
+- (GrowlGNTPPacket *)setupPacketForSocket:(GCDAsyncSocket *)socket
 {
 	GrowlGNTPPacket *packet = [GrowlGNTPPacket networkPacketForSocket:socket];
 	[packet setDelegate:self];
@@ -101,7 +101,7 @@
 		
 		/* Retained in sendPacket:toAddress: */
 		[(NSString *)[socket userData] release];
-		[socket setUserData:(long)nil];
+		[socket setUserData:nil];
 	}
 	
 	/* Note: We're tracking a GrowlGNTPPacket, but its specific packet (a GrowlNotificationGNTPPacket or 
@@ -113,17 +113,17 @@
 	return packet;
 }
 
-- (BOOL)onSocketWillConnect:(AsyncSocket *)socket
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-	GrowlGNTPPacket *packet = [self setupPacketForSocket:socket];
+	GrowlGNTPPacket *packet = [self setupPacketForSocket:sock];
 	[packet setWasInitiatedLocally:YES];
-
-	return YES;
+    [packet startProcessing];
 }
 
-- (void)didAcceptNewSocket:(AsyncSocket *)socket
+- (void)didAcceptNewSocket:(GCDAsyncSocket *)socket
 {
-	[self setupPacketForSocket:socket];
+	GrowlGNTPPacket *packet = [self setupPacketForSocket:socket];
+    [packet startProcessing];
 }
 
 /*!

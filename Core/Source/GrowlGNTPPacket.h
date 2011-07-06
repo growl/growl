@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AsyncSocket.h"
+#import "GCDAsyncSocket.h"
 #import "GrowlGNTPDefines.h"
 #import "GNTPKey.h"
 
@@ -76,7 +76,7 @@ typedef enum {
 @end
 
 @interface GrowlGNTPPacket : NSObject <GrowlGNTPPacketDelegate> {
-	AsyncSocket *socket;
+	GCDAsyncSocket *socket;
 	NSString	*host;
 
 	id<GrowlGNTPPacketDelegate> mDelegate;
@@ -101,7 +101,7 @@ typedef enum {
 	NSString *encryptionAlgorithm;
 }
 
-+ (GrowlGNTPPacket *)networkPacketForSocket:(AsyncSocket *)inSocket;
++ (GrowlGNTPPacket *)networkPacketForSocket:(GCDAsyncSocket *)inSocket;
 
 /*!
  * @brief Start listening for incoming data
@@ -110,7 +110,7 @@ typedef enum {
  */
 - (void)startProcessing;
 
-- (AsyncSocket *)socket;
+- (GCDAsyncSocket *)socket;
 
 - (GrowlPacketType)packetType;
 - (NSString *)packetID;

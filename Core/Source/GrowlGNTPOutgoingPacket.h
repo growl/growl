@@ -40,7 +40,7 @@ typedef enum {
 - (void)addBinaryChunk:(GrowlGNTPBinaryChunk *)inChunk;
 - (void)addBinaryChunks:(NSArray *)inItems;
 
-- (void)writeToSocket:(AsyncSocket *)socket;
+- (void)writeToSocket:(GCDAsyncSocket *)socket;
 
 - (BOOL)needsPersistentConnectionForCallback;
 

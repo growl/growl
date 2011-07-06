@@ -291,7 +291,7 @@
 	return allOutgoingItems;
 }
 
-- (void)writeToSocket:(AsyncSocket *)socket
+- (void)writeToSocket:(GCDAsyncSocket*)socket
 {	
 	for(id <GNTPOutgoingItem> item in [self outgoingItems]) {
 		[socket writeData:[item GNTPRepresentation]
