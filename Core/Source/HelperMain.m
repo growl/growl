@@ -14,6 +14,7 @@ int main(int argc, const char *argv[]) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[GrowlApplication sharedApplication];
 	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
+
 #ifdef __LP64__
 	// So that we can calculate the main menu's height later on:
 	// (This is 64-bit only because the 32-bit API has NSMenuView, and the -menuBarHeight method is a recent addition.)

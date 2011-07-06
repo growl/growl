@@ -26,6 +26,7 @@
 #import "GrowlIdleStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
+#import "GrowlMenu.h"
 #import "HgRevision.h"
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
@@ -103,6 +104,7 @@ static BOOL isAnyDisplayCaptured(void) {
 static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 @implementation GrowlApplicationController
+@synthesize statusMenu;
 
 + (GrowlApplicationController *) sharedController {
 	return [self sharedInstance];
@@ -1024,7 +1026,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+    self.statusMenu = [[[GrowlMenu alloc] init] autorelease];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 	                                                               object:nil
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];

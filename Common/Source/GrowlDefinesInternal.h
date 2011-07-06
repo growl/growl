@@ -166,7 +166,7 @@
  *	@defined    GROWL_HELPERAPP_BUNDLE_IDENTIFIER
  *	@discussion The bundle identifier for the Growl background application (GrowlHelperApp).
  */
-#define GROWL_HELPERAPP_BUNDLE_IDENTIFIER	XSTR("com.Growl.GrowlHelperApp")
+#define GROWL_HELPERAPP_BUNDLE_IDENTIFIER	XSTR("info.growl.growl")
 
 /*!
  *	@defined    GROWL_PREFPANE_NAME

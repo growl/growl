@@ -31,55 +31,46 @@
 
 #define kMenuItemsBeforeHistory      6
 
-int main(void) {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[NSApplication sharedApplication];
-
-	GrowlMenu *menu = [[[GrowlMenu alloc] init] autorelease];
-	[NSApp setDelegate:menu];
-	[NSApp run];
-
-	// dead code
-	[pool release];
-
-	return EXIT_SUCCESS;
-}
-
 @implementation GrowlMenu
 
-- (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-	pid = getpid();
-	preferences = [GrowlPreferencesController sharedController];
-
-	NSMenu *m = [self createMenu];
-
-	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
-
-	NSBundle *bundle = [NSBundle mainBundle];
-
-	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
-	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
-	disabledImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
-
-	[self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
-
-	[statusItem setMenu:m]; // retains m
-	[statusItem setToolTip:@"Growl"];
-	[statusItem setHighlightMode:YES];
-
-	[self setGrowlMenuEnabled:YES];
-
-	NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-	[nc addObserver:self
-		   selector:@selector(shutdown:)
-			   name:@"GrowlMenuShutdown"
-			 object:nil];
-	[nc addObserver:self
-		   selector:@selector(reloadPrefs:)
-			   name:GrowlPreferencesChanged
-			 object:nil];
-   
-   [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
+- (id) init {
+    
+    if ((self = [super init]))
+    {
+        pid = getpid();
+        preferences = [GrowlPreferencesController sharedController];
+        
+        NSMenu *m = [self createMenu];
+        
+        statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
+        
+        NSBundle *bundle = [NSBundle mainBundle];
+        
+        clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
+        clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
+        disabledImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
+        
+        [self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
+        
+        [statusItem setMenu:m]; // retains m
+        [statusItem setToolTip:@"Growl"];
+        [statusItem setHighlightMode:YES];
+        
+        [self setGrowlMenuEnabled:YES];
+        
+        NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(shutdown:)
+                   name:@"GrowlMenuShutdown"
+                 object:nil];
+        [nc addObserver:self
+               selector:@selector(reloadPrefs:)
+                   name:GrowlPreferencesChanged
+                 object:nil];
+        
+        [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
+    }
+    return self;
 }
 
 #pragma mark -
@@ -91,10 +82,6 @@ int main(void) {
 	[self performSelector:@selector(setImage:) withObject:[NSNumber numberWithBool:[preferences isGrowlRunning]] afterDelay:1.0f inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, NSModalPanelRunLoopMode, nil ]];
 }
 
-- (void) applicationWillTerminate:(NSNotification *)aNotification {
-	[self release];
-}
-
 - (void) dealloc {
 //	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 //	[statusItem            release];
@@ -102,11 +89,6 @@ int main(void) {
 	[clawHighlightImage    release];
 	[disabledImage          release];
 	[super dealloc];
-}
-
-- (void) shutdown:(id)sender {
-	[self setGrowlMenuEnabled:NO];
-	[NSApp terminate:sender];
 }
 
 - (void) reloadPrefs:(NSNotification *)notification {
@@ -180,26 +162,15 @@ int main(void) {
 }
 
 - (void) openGrowlPreferences:(id)sender {
-	NSString *prefPane = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
-	[[NSWorkspace sharedWorkspace] openFile:prefPane];
+//TODO: open the config window here
 }
 
 - (void) stopGrowl:(id)sender {
-	//If Growl is running, we should stop it.
-	if ([preferences isGrowlRunning])
-		[preferences setGrowlRunning:NO noMatterWhat:NO];
+//TODO: turn on squelch mode
 }
 
 - (void) startGrowl:(id)sender {
-	if (![preferences isGrowlRunning]) {
-		//If Growl isn't running, we should start it.
-		[preferences setGrowlRunning:YES noMatterWhat:NO];
-	} else {
-		//If Growl is running, we should restart it.
-		//Actually, we should HUP it, but we don't.
-		[preferences setGrowlRunning:NO noMatterWhat:NO];
-		[preferences setGrowlRunning:YES noMatterWhat:YES];
-	}
+//TODO: turn off squelch mode
 }
 
 - (void) stickyWhenIdle:(id)sender {

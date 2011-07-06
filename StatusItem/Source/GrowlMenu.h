@@ -26,7 +26,6 @@ enum {
 	NSImage						*disabledImage;
 }
 
-- (void) shutdown:(id)sender;
 - (void) reloadPrefs:(NSNotification *)notification;
 - (void) openGrowlPreferences:(id)sender;
 - (void) stopGrowl:(id)sender;
