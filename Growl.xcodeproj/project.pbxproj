@@ -864,7 +864,6 @@
 		34B02B150C8791F600DD25D6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = Plugins/Displays/WebKit/sv.lproj/WebKitPrefs.xib; sourceTree = "<group>"; };
 		34B2755208423BE80092A5A0 /* growlmenu-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "growlmenu-alt.png"; path = "StatusItem/Resources/growlmenu-alt.png"; sourceTree = "<group>"; };
 		34B2755308423BE80092A5A0 /* growlmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growlmenu.png; path = StatusItem/Resources/growlmenu.png; sourceTree = "<group>"; };
-		34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = "MenuExtra-Info.plist"; path = "StatusItem/Resources/MenuExtra-Info.plist"; sourceTree = "<group>"; };
 		34B2755608423BE80092A5A0 /* squelch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = squelch.png; path = StatusItem/Resources/squelch.png; sourceTree = "<group>"; };
 		34B2755C08423BFF0092A5A0 /* GrowlMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlMenu.h; path = StatusItem/Source/GrowlMenu.h; sourceTree = "<group>"; };
 		34B2755D08423BFF0092A5A0 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = StatusItem/Source/GrowlMenu.m; sourceTree = "<group>"; };
@@ -1946,7 +1945,6 @@
 				34B2755308423BE80092A5A0 /* growlmenu.png */,
 				34B2755208423BE80092A5A0 /* growlmenu-alt.png */,
 				34B2755608423BE80092A5A0 /* squelch.png */,
-				34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
