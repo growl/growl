@@ -122,9 +122,13 @@
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
    [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
-	
-   [[self historyController] setUpdateDelegate:self];
-   
+	    
+    GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(growlDatabaseDidUpdate:) 
+                                                 name:@"GrowlDatabaseUpdated" 
+                                               object:db];
+    
     [self reloadPreferences:nil];
 
 	// Select the default style if possible. 
@@ -932,16 +936,11 @@
 
 #pragma mark HistoryTab
 
--(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase*)database
-{
-   return NO;
-}
-
--(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)database
+-(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
    [historyTable noteNumberOfRowsChanged];
    NSError *error = nil;
-   [historyArrayController fetchWithRequest:[historyArrayController defaultFetchRequest] merge:YES error:&error];
+   [historyArrayController fetchWithRequest:[historyArrayController defaultFetchRequest] merge:NO error:&error];
    if(error)
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 }

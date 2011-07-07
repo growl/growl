@@ -17,7 +17,7 @@ enum {
 	kGrowlRunningState
 };
 
-@interface GrowlMenu : NSObject <GrowlApplicationBridgeDelegate, GrowlDatabaseUpdateDelegate> {
+@interface GrowlMenu : NSObject <GrowlApplicationBridgeDelegate> {
 	int							pid;
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;

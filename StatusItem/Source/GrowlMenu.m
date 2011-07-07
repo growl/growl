@@ -62,7 +62,11 @@
                    name:GrowlPreferencesChanged
                  object:nil];*/
         
-        [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
+        GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(growlDatabaseDidUpdate:) 
+                                                     name:@"GrowlDatabaseUpdated"
+                                                   object:db];
     }
     return self;
 }
@@ -83,13 +87,7 @@
 	[super dealloc];
 }
 
--(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase *)database
-{
-   //We don't need to do anything because we don't retain references to any ManagedObjects
-   return YES;
-}
-
--(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)database
+-(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
    NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
    NSArray *menuItems = [[statusItem menu] itemArray];

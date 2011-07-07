@@ -12,7 +12,7 @@
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
 
-@interface GrowlPreferencePane : NSWindowController <GrowlDatabaseUpdateDelegate, NSNetServiceBrowserDelegate> {
+@interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate> {
 	int                             pid;
 
 	NSMutableArray                  *images;

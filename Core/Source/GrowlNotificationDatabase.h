@@ -29,7 +29,6 @@
 -(void)trimByDate;
 -(void)trimByCount;
 -(void)imageCacheMaintenance;
--(void)userReturnedAndOpenedList;
 -(void)userReturnedAndClosedList;
 
 @end

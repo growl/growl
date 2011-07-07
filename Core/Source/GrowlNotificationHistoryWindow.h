@@ -11,7 +11,7 @@
 
 @class GrowlNotificationDatabase;
 
-@interface GrowlNotificationHistoryWindow : NSWindowController <GrowlDatabaseUpdateDelegate> {
+@interface GrowlNotificationHistoryWindow : NSWindowController {
    IBOutlet NSTableView *historyTable;
    IBOutlet NSArrayController *arrayController;
    IBOutlet NSTextField *countLabel;

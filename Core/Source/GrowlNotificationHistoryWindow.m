@@ -49,7 +49,12 @@
       [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
       [(NSPanel*)[self window] setFloatingPanel:YES];
       
-      [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
+       NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];       
+       GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
+       [nc addObserver:self 
+              selector:@selector(growlDatabaseDidUpdate:) 
+                  name:@"GrowlDatabaseUpdated"
+                object:db];
       
       NSInteger height = [[GrowlPreferencesController sharedController] integerForKey:GROWL_ROLLUP_WINDOW_HEIGHT];
       NSInteger width = [[GrowlPreferencesController sharedController] integerForKey:GROWL_ROLLUP_WINDOW_WIDTH];
@@ -253,12 +258,7 @@
 #pragma mark -
 #pragma mark GrowlDatabaseUpdateDelegate methods
 
--(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase*)db
-{
-   return NO;
-}
-
--(void)GrowlDatabaseDidUpdate:(GrowlAbstractDatabase*)db
+-(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
    [self updateTableView:NO];
 }

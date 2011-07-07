@@ -96,7 +96,7 @@
    if(tooltipString)
       return tooltipString;
 
-   if(note) {      
+   if(note && [note ApplicationName] && [note Title] && [note Description]) {      
       NSDictionary *font = [NSDictionary dictionaryWithObject:[NSFont toolTipsFontOfSize:0] forKey:NSFontAttributeName];
       NSString *string = [NSString stringWithFormat:@"%@ - %@\n%@", [note ApplicationName], [note Title], [note Description]];
       tooltipString = [[NSAttributedString alloc] initWithString:string attributes:font];
@@ -111,7 +111,7 @@
    if(applicationLine)
       return applicationLine;
    
-   if(note){
+   if(note && [note Title] && [note ApplicationName]){
       NSFont *boldFont = [NSFont boldSystemFontOfSize:0];
       NSColor *white = [NSColor whiteColor];
       NSDictionary *appAttr = [NSDictionary dictionaryWithObject:boldFont forKey:NSFontAttributeName];
@@ -135,7 +135,7 @@
    if(descriptionLine)
       return descriptionLine;
    
-   if(note){
+   if(note && [note Description]){
       NSDictionary *white = [NSDictionary dictionaryWithObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
       descriptionLine = [[NSAttributedString alloc] initWithString:[note Description] attributes:white];
    }else {

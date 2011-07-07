@@ -44,9 +44,7 @@
       self.Identifier = [noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
    
    //Check for the image;
-   NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:[self managedObjectContext]];
-   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-   [request setEntity:entityDescription];
+   NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Image"] autorelease];
    
    NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
    NSString *hash = [self hashForData:imageData];
@@ -64,7 +62,8 @@
    if ([cacheResult count] > 0) {
       self.Image = [cacheResult objectAtIndex:0];
    }else{
-      GrowlImageCache *newCache = [NSEntityDescription insertNewObjectForEntityForName:@"Image" inManagedObjectContext:[self managedObjectContext]];
+      GrowlImageCache *newCache = [NSEntityDescription insertNewObjectForEntityForName:@"Image" 
+                                                                inManagedObjectContext:[self managedObjectContext]];
       [newCache setImage:imageData andHash:hash];
       self.Image = newCache;
    }

@@ -12,9 +12,7 @@
 
 @implementation GrowlAbstractDatabase
 
-@synthesize updateDelegate;
 @synthesize managedObjectContext;
-@synthesize uiManagedObjectContext;
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
@@ -23,17 +21,10 @@
    if((self = [super initSingleton]))
    {
       [self managedObjectContext];
-      [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                          selector:@selector(databaseDidUpdate:)
-                                                              name:RemoteDatabaseDidUpdate
-                                                            object:[self storeType]
-                                                suspensionBehavior:NSNotificationSuspensionBehaviorCoalesce];
       [[NSNotificationCenter defaultCenter] addObserver:self
                                                selector:@selector(databaseDidSave:)
                                                    name:NSManagedObjectContextDidSaveNotification
                                                  object:[self managedObjectContext]];
-      NSProcessInfo *proc = [NSProcessInfo processInfo];
-      processID = [[NSNumber numberWithUnsignedInt:[proc processIdentifier]] retain];
    }
    return self;
 }
@@ -55,69 +46,8 @@
 
 -(void)databaseDidSave:(NSNotification*)note
 {
-   NSMutableDictionary *savedURIs = [NSMutableDictionary dictionaryWithObject:processID forKey:@"kDatabaseProcessID"];
-   
-   for(NSString *saveTypeKey in [[note userInfo] allKeys]) {
-      NSMutableSet *saveTypeSet = [NSMutableSet set];
-      
-      for(id object in [[[note userInfo] objectForKey:saveTypeKey] allObjects]) {
-         NSURL *objectURI = [[(NSManagedObject *)object objectID] URIRepresentation];
-         [saveTypeSet addObject:objectURI];
-      }
-      [savedURIs setObject:[NSArchiver archivedDataWithRootObject:saveTypeSet] forKey:saveTypeKey];
-   }
-   
-   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:RemoteDatabaseDidUpdate 
-                                                                  object:[self storeType]
-                                                                userInfo:(NSDictionary*)savedURIs
-                                                      deliverImmediately:YES];
-}
-
--(void)databaseDidUpdate:(NSNotification*)note
-{
-   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-   /* verify we need to update something, processID should be unique
-    * no need to go around telling the database to forget all it knows unless it needs to
-    */
-   NSNumber *remotePID = [[note userInfo] objectForKey:@"kDatabaseProcessID"];
-   if([remotePID unsignedIntValue] == [processID unsignedIntValue]) {
-      [pool drain];
-      return;
-   }
-   
-   /* Ask the delegate if we can do a reset */
-   if(!updateDelegate || [updateDelegate CanGrowlDatabaseHardReset:self])
-   {
-      [[self managedObjectContext] reset];
-   }else {
-      //TODO: test this properly
-      //we dont want this object in the rest of the info
-      NSMutableDictionary *mutableUserInfo = [[note userInfo] mutableCopy];
-      [mutableUserInfo removeObjectForKey:@"kDatabaseProcessID"];
-      
-      for(NSString *saveTypeKey in [mutableUserInfo allKeys]) {
-         NSSet *objectURISet = [NSUnarchiver unarchiveObjectWithData:[[note userInfo] objectForKey:saveTypeKey]];
-         
-         for(NSURL *objectURI in objectURISet) {
-            NSManagedObjectID *objectID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
-            /* Database on first run sometimes doesn't like finding URIR's, 
-             * the view will still update, but additional testing is needed to verify
-             * lack of side affects to ignoring this.
-             */
-            if(!objectID)
-               continue;
-            NSManagedObject *object = [[self managedObjectContext] objectWithID:objectID];
-            [[self managedObjectContext] refreshObject:object mergeChanges:NO];
-         }
-      }
-      [mutableUserInfo release];
-   }
-
-   if(updateDelegate)
-      [updateDelegate GrowlDatabaseDidUpdate:self];
-   
-   [pool drain];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrowlDatabaseUpdated" 
+                                                        object:self];
 }
 
 /**
@@ -132,26 +62,11 @@
 	
    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
    if (coordinator != nil) {
-      managedObjectContext = [NSManagedObjectContext new];
+      managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
       [managedObjectContext setPersistentStoreCoordinator:coordinator];
       [managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
    }
    return managedObjectContext;
-}
-
-- (NSManagedObjectContext *)uiManagedObjectContext {
-	
-   if (uiManagedObjectContext != nil) {
-      return uiManagedObjectContext;
-   }
-	
-   NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-   if (coordinator != nil) {
-      uiManagedObjectContext = [NSManagedObjectContext new];
-      [uiManagedObjectContext setPersistentStoreCoordinator:coordinator];
-      [uiManagedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-   }
-   return uiManagedObjectContext;
 }
 
 /**
@@ -200,11 +115,10 @@
 
 -(void)destroy
 {
-   [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
    [managedObjectContext release]; managedObjectContext = nil;
    [managedObjectModel release]; managedObjectModel = nil;
    [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
-   [processID release]; processID = nil;
    [super destroy];
 }
 

@@ -18,14 +18,7 @@
 @implementation GrowlNotificationDatabase (GHAAditions)
 
 -(void)setupMaintenanceTimers
-{
-   //While this is only compiled with GHA, we want to be really sure we are GHA.
-   if(![[[NSProcessInfo processInfo] processName] isEqualToString:@"Growl"])
-   {
-      NSLog(@"We arent GHA, we shouldn't be setting up maintenance timers");
-      return;
-   }
-   
+{   
    if(maintenanceTimer)
    {
       NSLog(@"Timer appears to already be setup, setupMaintenanceTimers should only be called once");
@@ -65,7 +58,6 @@
 
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict
 {
-   NSError *error = nil;
    BOOL isAway = GrowlIdleStatusController_isIdle();
    if(notificationsWhileAway)
       isAway = YES;
@@ -104,14 +96,18 @@
       //NSLog(@"We are away, shouldnt log this message, and we are rolling up, mark for deletion upon return");
       deleteUponReturn = YES;
    }
-      
-   GrowlHistoryNotification *notification = [NSEntityDescription insertNewObjectForEntityForName:@"Notification" inManagedObjectContext:[[GrowlNotificationDatabase sharedInstance] managedObjectContext]];
-   
-   // Whatever notification we set above, set its values and save
-   [notification setWithNoteDictionary:noteDict];
-   [notification setDeleteUponReturn:[NSNumber numberWithBool:deleteUponReturn]];
-   if (![[notification managedObjectContext] save:&error])
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+
+    [managedObjectContext performBlock:^(void) {
+        NSError *error = nil;
+        GrowlHistoryNotification *notification = [NSEntityDescription insertNewObjectForEntityForName:@"Notification" 
+                                                                               inManagedObjectContext:managedObjectContext];
+        
+        // Whatever notification we set above, set its values and save
+        [notification setWithNoteDictionary:noteDict];
+        [notification setDeleteUponReturn:[NSNumber numberWithBool:deleteUponReturn]];
+        if (![managedObjectContext save:&error])
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }];
    
    
    if(isAway)
