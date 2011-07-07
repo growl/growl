@@ -8,6 +8,7 @@
 
 #import "GrowlMenu.h"
 #import "GrowlPreferencesController.h"
+#import "GrowlPreferencePane.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
@@ -33,22 +34,19 @@
 
 @implementation GrowlMenu
 
+@synthesize settingsWindow;
+@synthesize statusItem;
+
 - (id) init {
     
     if ((self = [super init]))
     {
-        pid = getpid();
         preferences = [GrowlPreferencesController sharedController];
         
         NSMenu *m = [self createMenu];
         
-        statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
-        
-        NSBundle *bundle = [NSBundle mainBundle];
-        
-        clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
-        clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
-        disabledImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
+        self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+                
         
         [self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
         
@@ -58,15 +56,11 @@
         
         [self setGrowlMenuEnabled:YES];
         
-        NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-        [nc addObserver:self
-               selector:@selector(shutdown:)
-                   name:@"GrowlMenuShutdown"
-                 object:nil];
-        [nc addObserver:self
+        //NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+        /*[nc addObserver:self
                selector:@selector(reloadPrefs:)
                    name:GrowlPreferencesChanged
-                 object:nil];
+                 object:nil];*/
         
         [[GrowlNotificationDatabase sharedInstance] setUpdateDelegate:self];
     }
@@ -85,23 +79,8 @@
 - (void) dealloc {
 //	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 //	[statusItem            release];
-	[clawImage             release];
-	[clawHighlightImage    release];
-	[disabledImage          release];
+
 	[super dealloc];
-}
-
-- (void) reloadPrefs:(NSNotification *)notification {
-	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
-	if (!pidValue || [pidValue intValue] != pid)
-		[self setImage:kGrowlNotRunningState];
-	else {
-		[self setImage:[NSNumber numberWithUnsignedInteger:kGrowlRunningState]];
-	}
-
-	[pool release];
 }
 
 -(BOOL)CanGrowlDatabaseHardReset:(GrowlAbstractDatabase *)database
@@ -163,6 +142,10 @@
 
 - (void) openGrowlPreferences:(id)sender {
 //TODO: open the config window here
+    if(!settingsWindow)
+        settingsWindow = [[GrowlPreferencePane alloc] initWithWindowNibName:@"GrowlPref"];
+    
+    [settingsWindow showWindow:self];
 }
 
 - (void) stopGrowl:(id)sender {
@@ -185,13 +168,13 @@
 	switch([state unsignedIntegerValue])
 	{
 		case kGrowlNotRunningState:
-			normalImage = disabledImage;
-			pressedImage = clawHighlightImage;
+			normalImage = [NSImage imageNamed:@"squelch.png"];
+			pressedImage = [NSImage imageNamed:@"growlmenu.png"];
 			break;
 		case kGrowlRunningState:
 		default:
-			normalImage = clawImage;
-			pressedImage = clawHighlightImage;
+			normalImage = [NSImage imageNamed:@"growlmenu.png"];
+			pressedImage = [NSImage imageNamed:@"growlmenu-alt.png"];
 			break;
 	}
 	[statusItem setImage:normalImage];

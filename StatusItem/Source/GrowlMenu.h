@@ -10,6 +10,7 @@
 #import "GrowlAbstractDatabase.h"
 
 @class GrowlPreferencesController, NSStatusItem;
+@class GrowlPreferencePane;
 
 enum {
 	kGrowlNotRunningState,
@@ -20,13 +21,10 @@ enum {
 	int							pid;
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;
-
-	NSImage						*clawImage;
-	NSImage						*clawHighlightImage;
-	NSImage						*disabledImage;
+    
+    GrowlPreferencePane          *settingsWindow;
 }
 
-- (void) reloadPrefs:(NSNotification *)notification;
 - (void) openGrowlPreferences:(id)sender;
 - (void) stopGrowl:(id)sender;
 - (void) startGrowl:(id)sender;
@@ -34,5 +32,8 @@ enum {
 - (void) setImage:(NSNumber*)state;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
 - (void) setGrowlMenuEnabled:(BOOL)state;
+
+@property (retain) GrowlPreferencePane *settingsWindow;
+@property (retain) NSStatusItem *statusItem;
 
 @end

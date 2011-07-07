@@ -12,7 +12,7 @@
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
 
-@interface GrowlPreferencePane : NSPreferencePane <GrowlDatabaseUpdateDelegate, NSNetServiceBrowserDelegate> {
+@interface GrowlPreferencePane : NSWindowController <GrowlDatabaseUpdateDelegate, NSNetServiceBrowserDelegate> {
 	int                             pid;
 
 	NSMutableArray                  *images;
@@ -91,8 +91,6 @@
    IBOutlet NSButton          *trimByCountCheck;
    IBOutlet NSButton          *trimByDateCheck;
 }
-
-- (BOOL)meetsRequirements;
 
 - (NSString *) bundleVersion;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;

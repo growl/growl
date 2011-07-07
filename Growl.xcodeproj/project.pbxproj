@@ -14,7 +14,6 @@
 				9340E2EE0C94D48E00A1F682 /* CopyFiles */,
 			);
 			dependencies = (
-				9340E2EB0C94D48300A1F682 /* PBXTargetDependency */,
 			);
 			name = SystemPreferencesTesting;
 			productName = SystemPreferencesTesting;
@@ -39,10 +38,8 @@
 		071426120910D4EC00F7C755 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
 		072867D308D1648400ABF0B0 /* NSSetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 072867D108D1648400ABF0B0 /* NSSetAdditions.m */; };
 		072DE9BB09A10DEB006516DD /* GrowlTCPPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */; };
-		0790135607D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */; };
-		07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
 		07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
 		07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */; };
 		0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.xib */; };
@@ -88,14 +85,12 @@
 		0A7F625C0767C84E00E1C1E4 /* GrowlMusicVideoPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62530767C84E00E1C1E4 /* GrowlMusicVideoPrefs.m */; };
 		0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */; };
 		0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */; };
-		0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
 		31199B9C11E2B0B90024377D /* GrowlProcessUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 31199B9A11E2B0B90024377D /* GrowlProcessUtilities.h */; };
 		31199B9D11E2B0B90024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31199C0011E2BA660024377D /* TestProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199BFF11E2BA660024377D /* TestProcessUtilities.m */; };
 		31199C0311E2BC040024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
-		31436E8211E59D6B003007A0 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		3153141B11EA189B00DD24C4 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
 		31B9BA5C1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B9BA5B1086C4CA007DA1E2 /* TestVersionComparisonBetweenStringsConverting1_0To0_5.m */; };
@@ -109,7 +104,6 @@
 		31E185E51084A9780011C78B /* TestVersionComparison.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E185E41084A9780011C78B /* TestVersionComparison.m */; };
 		31E1863F1084B7500011C78B /* TestVersionComparisonBetweenStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */; };
 		340903280E3DEB8400FCB0F7 /* GrowlTCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */; };
-		342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		3433456E0790E39200C84B15 /* Bubbles.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508AE0767C87B006EA5CB /* Bubbles.growlView */; };
 		343345880790E3D600C84B15 /* Smoke.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508AF0767C87B006EA5CB /* Smoke.growlView */; };
 		343345890790E3D600C84B15 /* MailMe.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508B00767C87B006EA5CB /* MailMe.growlView */; };
@@ -134,8 +128,6 @@
 		34725DA30C0678C200499F50 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
 		34725DA50C0678C200499F50 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		34725DA60C0678C200499F50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
-		347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
-		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		34A269AD0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A269AC0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m */; };
 		34A43BF80EB9FFA800809538 /* GrowlGNTPPacketParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */; };
 		34A43BF90EB9FFAD00809538 /* GrowlGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 349908A60E7317150073B675 /* GrowlGNTPPacket.m */; };
@@ -145,41 +137,26 @@
 		34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */; };
 		34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A441450EBA69A600809538 /* GrowlGNTPBinaryChunk.m */; };
 		34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F427A4095E69D30044B280 /* NotificationsArrayController.m */; };
 		34F60EBA078E1D3E00CECA86 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		34F60EBC078E1D3E00CECA86 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F60EC3078E1D5600CECA86 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F909350EC1FAAE00566EE6 /* GrowlApplicationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */; };
-		525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */; };
 		52861FF006DC463E00D3A356 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		5286205806DC4C2F00D3A356 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
-		5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
 		63C92DDA06D05D22007368FA /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 63C92DD406D05D22007368FA /* Growl.sdef */; };
 		63C92DDD06D05D22007368FA /* GrowlScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 63C92DD706D05D22007368FA /* GrowlScripting.r */; };
 		740CC072093A508100092801 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
-		743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
-		743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */; };
-		743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */; };
 		745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
 		745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
 		745352B109313ABD0000B26A /* GrowlWebKitDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */; };
 		745352D509313B3B0000B26A /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
-		7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
-		7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */; };
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
-		83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
-		8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
-		93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
 		93491549121B7DC8005A822B /* CFGrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 9555378B08DAC3A600D49CB1 /* CFGrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
-		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
-		938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 938841E91025EA7C001DF30F /* GHA-Stubs.m */; };
-		938CAC1F1080D51100259421 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938CAC131080D51100259421 /* GrowlPref.xib */; };
 		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
 		938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */; };
 		938CB10C1081250600259421 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
@@ -192,15 +169,19 @@
 		93A60E0313C40A2100514EF8 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		93A60E0413C40A2300514EF8 /* squelch.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755608423BE80092A5A0 /* squelch.png */; };
 		93A60E4013C4159B00514EF8 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A60E3F13C4159B00514EF8 /* Growl.icns */; };
-		93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */; };
-		93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
-		93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlIdleStatusController.c */; };
-		93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
-		93AB062A100C2EBE008D7D30 /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
-		93AB062D100C2EC7008D7D30 /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
-		93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DD14D80748B04700CC05A4 /* GrowlPathway.m */; };
-		93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 31340CDB0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m */; };
-		93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
+		93A60E5B13C549A600514EF8 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
+		93A60E5C13C549A900514EF8 /* GrowlBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */; };
+		93A60E5D13C549AC00514EF8 /* GrowlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E243E3087E9053008151E6 /* GrowlPreferencePane.m */; };
+		93A60E5E13C549B100514EF8 /* NotificationsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F427A4095E69D30044B280 /* NotificationsArrayController.m */; };
+		93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
+		93A60E6013C549C000514EF8 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
+		93A60E6113C549C300514EF8 /* TicketsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */; };
+		93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
+		93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
+		93A60E6413C54A2200514EF8 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
+		93A60E6513C54A2500514EF8 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938CAC131080D51100259421 /* GrowlPref.xib */; };
+		93A60E6613C54A2800514EF8 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */; };
+		93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BF38FC0851F82200873BE1 /* WebKitPrefs.xib */; };
 		93BC3796095A662B0002B365 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		93BC3799095A662B0002B365 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
@@ -215,15 +196,9 @@
 		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
-		93FB227B13932DA7002E1F86 /* GrowlApplicationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		950568E60812C2960096EC5C /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
-		950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 950627A40840D34900C01CD2 /* growl-claw32.tiff */; };
-		950AB7CE08D6CE1B008289CD /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
-		951A8F4D08746DEC0046595C /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */; };
-		951A8F5108746E0F0046595C /* GrowlTicketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27A08745B9000EA34BF /* GrowlTicketController.m */; };
-		9528EF8007F5A2DF00061D90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 954F013B074135D400EA8AB5 /* Localizable.strings */; };
 		953F5CF107403B67008E2AEB /* GrowlNotifyScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */; };
 		953F5D3807403BC7008E2AEB /* GrowlRegisterScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */; };
 		953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
@@ -244,35 +219,25 @@
 		956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		9574B6FC0838C7A100106CA3 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */; };
 		9574B75A0838CA1E00106CA3 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
-		9574B75C0838CA1E00106CA3 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
 		9574B7AE0838CB5500106CA3 /* CFURLAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */; };
 		9574B8050838CEBE00106CA3 /* CFURLAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */; };
-		9574B96D0838F41F00106CA3 /* CFURLAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */; };
 		9574BBAA08392CC500106CA3 /* GrowlSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 9574BBA808392CC500106CA3 /* GrowlSuite.scriptSuite */; };
 		9574BBAB08392CC500106CA3 /* GrowlSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 9574BBA908392CC500106CA3 /* GrowlSuite.scriptTerminology */; };
-		957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
-		957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		957B5028083D155000F562B8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		957B5029083D155100F562B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		95812DBB08118FB9004FF8F5 /* GrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95812DB908118FB9004FF8F5 /* GrowlDelegate.m */; };
-		9596C5FB081102BE00F43859 /* GrowlBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */; };
 		959DBE4C08127BA4009BB468 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
 		959DBE9A08127ED9009BB468 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
-		959DBE9B08127EDF009BB468 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
-		95A9E435080B2CAB006A2F29 /* TicketsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */; };
 		95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
-		95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
 		95B2B27C08745BAF00EA34BF /* GrowlApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27608745B9000EA34BF /* GrowlApplicationController.m */; };
 		95B2B27D08745BBC00EA34BF /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */; };
 		95B2B27E08745BC000EA34BF /* GrowlTicketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27A08745B9000EA34BF /* GrowlTicketController.m */; };
 		95B92F470865BA5D00DA02F0 /* NSMutableAttributedStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */; };
-		95BF38FE0851F82200873BE1 /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BF38FC0851F82200873BE1 /* WebKitPrefs.xib */; };
 		95C36A620753299E009FAEA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		95C36A630753299E009FAEA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		95C36A640753299E009FAEA2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */; };
 		95D74011084B68C5000D67BC /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
-		95D89A95082418DA0068A4BD /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
 		95D89B21082422A00068A4BD /* GrowlWebKitWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F797A080EED5C00CC5F62 /* GrowlWebKitWindowController.m */; };
 		95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */; };
 		95D89B55082422C50068A4BD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950F79C5080EEE2B00CC5F62 /* WebKit.framework */; };
@@ -281,23 +246,15 @@
 		95D8C62B083D552B003601C3 /* Crystal.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 95D8C61A083D552B003601C3 /* Crystal.growlStyle */; };
 		95D93724086EFA7C00A1AD50 /* NSViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D93723086EFA7200A1AD50 /* NSViewAdditions.m */; };
 		95DD14E10748B04700CC05A4 /* GrowlPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DD14D80748B04700CC05A4 /* GrowlPathway.m */; };
-		95E243E4087E905F008151E6 /* GrowlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E243E3087E9053008151E6 /* GrowlPreferencePane.m */; };
-		95E2457208EEAC510092EAAC /* GrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2457008EEAC510092EAAC /* GrowlPlugin.m */; };
 		95E2457408EEAC510092EAAC /* GrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2457008EEAC510092EAAC /* GrowlPlugin.m */; };
-		95E2457808EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2457608EEAC630092EAAC /* GrowlDisplayPlugin.m */; };
 		95E2457A08EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2457608EEAC630092EAAC /* GrowlDisplayPlugin.m */; };
-		95E2458208EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2458008EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m */; };
 		95E2458408EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E2458008EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m */; };
-		95E246A008EF02E80092EAAC /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
-		95E678F907511471002BF4E6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		95EC864B08DDB4D000110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95EC864C08DDB4D800110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95EC864D08DDB4DD00110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95EC864E08DDB4E600110810 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95F975AE084A23F500915BFE /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
 		95F9767C084A297400915BFE /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
-		95F9771E084A2C7700915BFE /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
-		95F9771F084A2C7A00915BFE /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95F97733084A2CA000915BFE /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* CFMutableDictionaryAdditions.c */; };
 		95F97734084A2CA300915BFE /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		95FC347607E0458E00BD8674 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
@@ -311,26 +268,15 @@
 		BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
 		BC90D472122167490022B24D /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC90D470122167490022B24D /* AwayHistoryWindow.xib */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
-		BC9AEAB31257F42C00759016 /* GrowlAbstractDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */; };
-		BC9AEAB41257F42D00759016 /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
-		BC9AEAB51257F42E00759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
-		BC9AEAB61257F42F00759016 /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
-		BC9AEAC41257F47400759016 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC065CB1253F7C80039CE5E /* libcrypto.dylib */; };
-		BC9AEC041257FDDB00759016 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
-		BC9AEDCB1258027700759016 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
 		BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */; };
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
-		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
 		CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
 		CB5F83A80638B8C800EADD7A /* HelperMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5F83A60638B8C800EADD7A /* HelperMain.m */; };
-		CB5FA1BD0638CA2C00EADD7A /* Growl.app in Resources */ = {isa = PBXBuildFile; fileRef = CB61E5180637763C00E0DDC7 /* Growl.app */; };
-		CB910DA7074E0A3A00278FC5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = CB910DA6074E0A3A00278FC5 /* License.txt */; };
-		CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
 		CBF0743F0659B202000B4B77 /* GrowlApplicationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */; };
 		DD4939FF084BAD4500D1CCCB /* GrowlSMSDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */; };
 		DD493A00084BAD4500D1CCCB /* GrowlSMSPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4939FE084BAD4500D1CCCB /* GrowlSMSPrefs.m */; };
@@ -353,7 +299,6 @@
 		EE1AF8D90897DA9400F486FD /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
 		EE88147C08EE836E005D5380 /* GrowlSlidingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */; };
 		EED7068B08C743D9004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
-		EED707A608C74E7F004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -385,13 +330,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = "hg revision";
-		};
-		3433455D0790E25300C84B15 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CB61E5170637763C00E0DDC7;
-			remoteInfo = GrowlHelperApp;
 		};
 		343345630790E25B00C84B15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -434,13 +372,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0A7F5FE80767C7B300E1C1E4;
 			remoteInfo = MusicVideo;
-		};
-		9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D202CE80486D31800D8A456;
-			remoteInfo = Growl;
 		};
 		93A042A1138214F800C46F0A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -551,15 +482,6 @@
 				93A042BA1382159800C46F0A /* Show Growl Notification.action in Copy Automator Plugin */,
 			);
 			name = "Copy Automator Plugin";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9338147E105097450014C550 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 6;
-			files = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9340E2EE0C94D48E00A1F682 /* CopyFiles */ = {
@@ -877,7 +799,6 @@
 		83282746073A6C110044A959 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Core/Resources/Info.plist; sourceTree = "<group>"; };
-		8D202CF80486D31800D8A456 /* Growl.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Growl.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
 		932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlShrinkingWindowTransition.m; sourceTree = "<group>"; };
 		932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlScaleWindowTransition.h; sourceTree = "<group>"; };
@@ -887,8 +808,6 @@
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		937E64310817193800AEC1C6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Core/Resources/English.lproj/About.rtf; sourceTree = "<group>"; };
-		938841E81025EA7C001DF30F /* GHA-Stubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GHA-Stubs.h"; path = "Core/Source/GHA-Stubs.h"; sourceTree = "<group>"; };
-		938841E91025EA7C001DF30F /* GHA-Stubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GHA-Stubs.m"; path = "Core/Source/GHA-Stubs.m"; sourceTree = "<group>"; };
 		938CAC141080D51100259421 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = Core/Resources/cs.lproj/GrowlPref.xib; sourceTree = "<group>"; };
 		938CAC151080D51100259421 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = Core/Resources/de.lproj/GrowlPref.xib; sourceTree = "<group>"; };
 		938CAC161080D51100259421 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Core/Resources/English.lproj/GrowlPref.xib; sourceTree = "<group>"; };
@@ -1222,21 +1141,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8D202CF20486D31800D8A456 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BC9AEDCB1258027700759016 /* CoreData.framework in Frameworks */,
-				BC9AEAC41257F47400759016 /* libcrypto.dylib in Frameworks */,
-				95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */,
-				95E678F907511471002BF4E6 /* Security.framework in Frameworks */,
-				0AEE179D0702C4960024B1A0 /* ApplicationServices.framework in Frameworks */,
-				83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */,
-				957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */,
-				957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		93BC3797095A662B0002B365 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1475,8 +1379,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				938841E81025EA7C001DF30F /* GHA-Stubs.h */,
-				938841E91025EA7C001DF30F /* GHA-Stubs.m */,
 				C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */,
 				C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */,
 				9596C5F8081102BE00F43859 /* GrowlBrowserEntry.h */,
@@ -1670,7 +1572,6 @@
 			children = (
 				346F74470C96F561000FEAE6 /* Show Growl Notification.action */,
 				95D1662E0834EBEF00D996B2 /* GrowlImporter.mdimporter */,
-				8D202CF80486D31800D8A456 /* Growl.prefPane */,
 				CB61E5180637763C00E0DDC7 /* Growl.app */,
 				0AB508AE0767C87B006EA5CB /* Bubbles.growlView */,
 				95FC347907E0458E00BD8674 /* Brushed.growlView */,
@@ -2357,27 +2258,6 @@
 			productReference = 34F60EAB078E1CD500CECA86 /* Growl.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8D202CE80486D31800D8A456 /* GrowlPrefPane */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 95EE277D0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlPrefPane" */;
-			buildPhases = (
-				9338147E105097450014C550 /* CopyFiles */,
-				8D202CEC0486D31800D8A456 /* Resources */,
-				8D202CF00486D31800D8A456 /* Sources */,
-				8D202CF20486D31800D8A456 /* Frameworks */,
-				340832FE075C2C0A00703011 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3433455E0790E25300C84B15 /* PBXTargetDependency */,
-			);
-			name = GrowlPrefPane;
-			productInstallPath = "$(HOME)/Library/PreferencePanes";
-			productName = Growl;
-			productReference = 8D202CF80486D31800D8A456 /* Growl.prefPane */;
-			productType = "com.apple.product-type.bundle";
-		};
 		93BC378E095A662B0002B365 /* Nano */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 93BC379B095A662B0002B365 /* Build configuration list for PBXNativeTarget "Nano" */;
@@ -2523,7 +2403,6 @@
 			);
 			projectRoot = "";
 			targets = (
-				8D202CE80486D31800D8A456 /* GrowlPrefPane */,
 				CB61E5170637763C00E0DDC7 /* Growl.app */,
 				34F60EAA078E1CD500CECA86 /* Growl.framework */,
 				34725B0E0C0678A000499F50 /* Growl.dylib */,
@@ -2618,23 +2497,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8D202CEC0486D31800D8A456 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9528EF8007F5A2DF00061D90 /* Localizable.strings in Resources */,
-				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
-				CB5FA1BD0638CA2C00EADD7A /* Growl.app in Resources */,
-				CB910DA7074E0A3A00278FC5 /* License.txt in Resources */,
-				3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */,
-				937E64320817193800AEC1C6 /* About.rtf in Resources */,
-				950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */,
-				95BF38FE0851F82200873BE1 /* WebKitPrefs.xib in Resources */,
-				7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */,
-				938CAC1F1080D51100259421 /* GrowlPref.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		93BC378F095A662B0002B365 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2666,8 +2528,12 @@
 				9574BBAB08392CC500106CA3 /* GrowlSuite.scriptTerminology in Resources */,
 				A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */,
 				A1CC412809E37A65009EF9BD /* closebox.png in Resources */,
+				93A60E6513C54A2500514EF8 /* GrowlPref.xib in Resources */,
+				93A60E6613C54A2800514EF8 /* PositionPickerBackground.jpg in Resources */,
+				93A60E6413C54A2200514EF8 /* About.rtf in Resources */,
 				BC90D472122167490022B24D /* AwayHistoryWindow.xib in Resources */,
 				93A60E4013C4159B00514EF8 /* Growl.icns in Resources */,
+				93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2730,19 +2596,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "SetFile -a B \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\"";
-		};
-		340832FE075C2C0A00703011 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'";
 		};
 		34F6105E078E4D4B00CECA86 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2888,62 +2741,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8D202CF00486D31800D8A456 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */,
-				CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */,
-				5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */,
-				936FAB04074482BF00A7D430 /* RRTableView.m in Sources */,
-				0790135607D9321B0023B640 /* GrowlVersionUtilities.c in Sources */,
-				95A9E435080B2CAB006A2F29 /* TicketsArrayController.m in Sources */,
-				9596C5FB081102BE00F43859 /* GrowlBrowserEntry.m in Sources */,
-				959DBE9B08127EDF009BB468 /* GrowlPathUtilities.m in Sources */,
-				95D89A95082418DA0068A4BD /* GrowlWebKitPrefsController.m in Sources */,
-				9574B75C0838CA1E00106CA3 /* NSStringAdditions.m in Sources */,
-				9574B96D0838F41F00106CA3 /* CFURLAdditions.c in Sources */,
-				95F9771E084A2C7700915BFE /* CFMutableDictionaryAdditions.c in Sources */,
-				95F9771F084A2C7A00915BFE /* CFDictionaryAdditions.c in Sources */,
-				951A8F4D08746DEC0046595C /* GrowlPreferencesController.m in Sources */,
-				951A8F5108746E0F0046595C /* GrowlTicketController.m in Sources */,
-				95E243E4087E905F008151E6 /* GrowlPreferencePane.m in Sources */,
-				EED707A608C74E7F004651D0 /* GrowlAbstractSingletonObject.m in Sources */,
-				950AB7CE08D6CE1B008289CD /* CFGrowlAdditions.c in Sources */,
-				95E2457208EEAC510092EAAC /* GrowlPlugin.m in Sources */,
-				95E2457808EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */,
-				95E2458208EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */,
-				95E246A008EF02E80092EAAC /* GrowlPositionController.m in Sources */,
-				743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */,
-				743EDE14092740F5002A9670 /* GrowlWebKitDisplayPlugin.m in Sources */,
-				743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */,
-				C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */,
-				34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */,
-				07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */,
-				7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */,
-				347262880C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
-				342157C00C2AE377004003BB /* PriorityTransformer.m in Sources */,
-				93AB056F100C2ABF008D7D30 /* GrowlDisplayWindowController.m in Sources */,
-				93AB060B100C2E5A008D7D30 /* GrowlNotificationView.m in Sources */,
-				93AB0622100C2E94008D7D30 /* GrowlIdleStatusController.c in Sources */,
-				93AB0626100C2EB1008D7D30 /* GrowlApplicationNotification.m in Sources */,
-				93AB062A100C2EBE008D7D30 /* GrowlNotificationCenter.m in Sources */,
-				93AB062D100C2EC7008D7D30 /* GrowlApplicationBridgePathway.m in Sources */,
-				93AB0632100C2ED9008D7D30 /* GrowlPathway.m in Sources */,
-				93AB0636100C2F07008D7D30 /* GrowlPropertyListFilePathway.m in Sources */,
-				93AB0651100C2F18008D7D30 /* GrowlApplicationBridge.m in Sources */,
-				938841EA1025EA7C001DF30F /* GHA-Stubs.m in Sources */,
-				93239CD611DAD9CA008DEFD3 /* GrowlImageAdditions.m in Sources */,
-				31436E8211E59D6B003007A0 /* GrowlProcessUtilities.m in Sources */,
-				BC9AEAB31257F42C00759016 /* GrowlAbstractDatabase.m in Sources */,
-				BC9AEAB41257F42D00759016 /* GrowlHistoryNotification.m in Sources */,
-				BC9AEAB51257F42E00759016 /* GrowlImageCache.m in Sources */,
-				BC9AEAB61257F42F00759016 /* GrowlNotificationDatabase.m in Sources */,
-				BC9AEC041257FDDB00759016 /* GrowlNotificationHistory.xcdatamodel in Sources */,
-				93FB227B13932DA7002E1F86 /* GrowlApplicationAdditions.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		93BC3791095A662B0002B365 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2972,6 +2769,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A60E5B13C549A600514EF8 /* ACImageAndTextCell.m in Sources */,
+				93A60E5C13C549A900514EF8 /* GrowlBrowserEntry.m in Sources */,
+				93A60E5D13C549AC00514EF8 /* GrowlPreferencePane.m in Sources */,
+				93A60E5E13C549B100514EF8 /* NotificationsArrayController.m in Sources */,
 				071426120910D4EC00F7C755 /* GrowlDisplayWindowController.m in Sources */,
 				CBF0743F0659B202000B4B77 /* GrowlApplicationTicket.m in Sources */,
 				CB5F83A80638B8C800EADD7A /* HelperMain.m in Sources */,
@@ -3053,6 +2854,11 @@
 				BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */,
 				BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */,
 				BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */,
+				93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */,
+				93A60E6113C549C300514EF8 /* TicketsArrayController.m in Sources */,
+				93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
+				93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */,
+				93A60E6013C549C000514EF8 /* RRTableView.m in Sources */,
 				BC705D711382D38B004C632D /* GrowlHistoryWindowNotificationCell.m in Sources */,
 				93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */,
 			);
@@ -3088,11 +2894,6 @@
 			target = 95E17B8F085E216A00990AB3 /* hg revision */;
 			targetProxy = 31CDCFF510882EF400984B53 /* PBXContainerItemProxy */;
 		};
-		3433455E0790E25300C84B15 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CB61E5170637763C00E0DDC7 /* Growl.app */;
-			targetProxy = 3433455D0790E25300C84B15 /* PBXContainerItemProxy */;
-		};
 		343345640790E25B00C84B15 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0A7F5EC40767C2A600E1C1E4 /* Bubbles */;
@@ -3122,11 +2923,6 @@
 			isa = PBXTargetDependency;
 			target = 0A7F5FE80767C7B300E1C1E4 /* MusicVideo */;
 			targetProxy = 3433459B0790E40B00C84B15 /* PBXContainerItemProxy */;
-		};
-		9340E2EB0C94D48300A1F682 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D202CE80486D31800D8A456 /* GrowlPrefPane */;
-			targetProxy = 9340E2EA0C94D48300A1F682 /* PBXContainerItemProxy */;
 		};
 		93A042B71382157700C46F0A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3475,19 +3271,6 @@
 			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-			};
-			name = Localization;
-		};
-		315C88D71068F9AA00880530 /* Localization */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				INFOPLIST_FILE = Core/Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
-				PRODUCT_NAME = Growl;
-				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Localization;
 		};
@@ -4358,31 +4141,6 @@
 			};
 			name = Release;
 		};
-		95EE277E0855AA6C0045DB39 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				INFOPLIST_FILE = Core/Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
-				PRODUCT_NAME = Growl;
-				WRAPPER_EXTENSION = prefPane;
-			};
-			name = Debug;
-		};
-		95EE277F0855AA6C0045DB39 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				INFOPLIST_FILE = Core/Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
-				PRODUCT_NAME = Growl;
-				WRAPPER_EXTENSION = prefPane;
-			};
-			name = Release;
-		};
 		95EE27880855AA6C0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
@@ -4624,16 +4382,6 @@
 				95EE27740855AA6C0045DB39 /* Debug */,
 				315C88D81068F9AA00880530 /* Localization */,
 				95EE27750855AA6C0045DB39 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		95EE277D0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlPrefPane" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				95EE277E0855AA6C0045DB39 /* Debug */,
-				315C88D71068F9AA00880530 /* Localization */,
-				95EE277F0855AA6C0045DB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

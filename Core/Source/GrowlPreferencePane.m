@@ -49,45 +49,6 @@
 @synthesize displayPlugins = plugins;
 @synthesize services;
 
-- (id) initWithBundle:(NSBundle *)bundle {
-	//	Check that we're running Panther
-	//	if a user with a previous OS version tries to launch us - switch out the pane.
-
-	NSApp = [NSApplication sharedApplication];
-	if (![self meetsRequirements]) {
-		if (NSRunInformationalAlertPanel(NSLocalizedStringFromTableInBundle(@"System requirements not met", nil, bundle, "Title for the dialogue shown if attempting to run Growl on 10.5 or earlier"),
-										 NSLocalizedStringFromTableInBundle(@"Mac OS X 10.6 \"Snow Leopard\" or greater is required.", nil, bundle, nil), 
-										 NSLocalizedStringFromTableInBundle(@"Quit", nil, bundle, "Quit button title"), 
-										 NSLocalizedStringFromTableInBundle(@"Upgrade Mac OS X...", nil, bundle, "Button title"), 
-										 nil) == NSAlertAlternateReturn) {
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.apple.com/macosx/"]];
-		}
-		[NSApp terminate:nil];
-	}
-
-	if ((self = [super initWithBundle:bundle])) {
-		pid = getpid();
-		loadedPrefPanes = [[NSMutableArray alloc] init];
-		preferencesController = [GrowlPreferencesController sharedController];
-
-		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
-		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
-		[nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
-
-		CFStringRef file = (CFStringRef)[bundle pathForResource:@"GrowlDefaults" ofType:@"plist"];
-		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
-		NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-		CFRelease(fileURL);
-		if (defaultDefaults) {
-			[preferencesController registerDefaults:defaultDefaults];
-			[defaultDefaults release];
-		}
-	}
-
-	return self;
-}
-
 - (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[browser         release];
@@ -102,6 +63,25 @@
 }
 
 - (void) awakeFromNib {
+    
+    pid = getpid();
+    loadedPrefPanes = [[NSMutableArray alloc] init];
+    preferencesController = [GrowlPreferencesController sharedController];
+    
+    NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
+    [nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
+    [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
+    
+    CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+    CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, false);
+    NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+    CFRelease(fileURL);
+    if (defaultDefaults) {
+        [preferencesController registerDefaults:defaultDefaults];
+        [defaultDefaults release];
+    }
+
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
@@ -128,9 +108,6 @@
 	
 	[self setupAboutTab];
 
-	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
-		[preferencesController enableGrowlMenu];
-
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
 	
@@ -148,6 +125,8 @@
 	
    [[self historyController] setUpdateDelegate:self];
    
+    [self reloadPreferences:nil];
+
 	// Select the default style if possible. 
 	{
 		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
@@ -190,21 +169,13 @@
 														  object:nil];
 }
 
-- (BOOL)meetsRequirements {
-    BOOL result = NO;
-    unsigned major, minor, bugFix;
-    [NSApp getSystemVersionMajor:&major minor:&minor bugFix:&bugFix];
-    if((major >= 10) && (minor >= 6))
-        result = YES;
-    return result;
-}
 #pragma mark -
 
 /*!
  * @brief Returns the bundle version of the Growl.prefPane bundle.
  */
 - (NSString *) bundleVersion {
-	return [[self bundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+	return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -221,9 +192,9 @@
 	return Growl_ProcessExistsWithBundleIdentifier(@"com.Growl.MenuExtra");
 }
 
-//subclassed from NSPreferencePane; called before the pane is displayed.
-- (void) willSelect {
-	NSString *lastVersion = [preferencesController objectForKey:LastKnownVersionKey];
+- (void) showWindow:(id)sender
+{
+    NSString *lastVersion = [preferencesController objectForKey:LastKnownVersionKey];
 	NSString *currentVersion = [self bundleVersion];
 	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
 		if ([preferencesController isGrowlRunning]) {
@@ -232,12 +203,9 @@
 		}
 		[preferencesController setObject:currentVersion forKey:LastKnownVersionKey];
 	}
-
+    
 	[self checkGrowlRunning];
-}
-
-- (void) didSelect {
-	[self reloadPreferences:nil];
+    [super showWindow:sender];
 }
 
 - (void) cacheImages {
@@ -359,7 +327,7 @@
 
 - (void) updateRunningStatus {
 	[startStopGrowl setEnabled:YES];
-	NSBundle *bundle = [self bundle];
+	NSBundle *bundle = [NSBundle mainBundle];
 	[startStopGrowl setTitle:
 		growlIsRunning ? NSLocalizedStringFromTableInBundle(@"Stop Growl",nil,bundle,@"")
 					   : NSLocalizedStringFromTableInBundle(@"Start Growl",nil,bundle,@"")];
@@ -466,7 +434,7 @@
 	[growlRunningProgress startAnimation:self];
 
 	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[NSBundle mainBundle],@"")];
 
 	[preferencesController setGrowlRunning:YES noMatterWhat:NO];
 
@@ -485,7 +453,7 @@
 	[growlRunningProgress startAnimation:self];
 
 	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[NSBundle mainBundle],@"")];
 
 	// Ask the Growl Helper App to shutdown
 	[preferencesController setGrowlRunning:NO noMatterWhat:NO];
@@ -526,13 +494,13 @@
 
 - (void) deleteTicket:(id)sender {
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
-	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [self bundle], nil), appName]
-									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [self bundle], "Button title for removing something")
-								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [self bundle], "Button title for canceling")
+	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [NSBundle mainBundle], nil), appName]
+									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [NSBundle mainBundle], "Button title for removing something")
+								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [NSBundle mainBundle], "Button title for canceling")
 									   otherButton:nil
 						 informativeTextWithFormat:[NSString stringWithFormat:
-													NSLocalizedStringFromTableInBundle(@"This will remove all Growl settings for %@.", nil, [self bundle], ""), appName]];
-	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
+													NSLocalizedStringFromTableInBundle(@"This will remove all Growl settings for %@.", nil, [NSBundle mainBundle], ""), appName]];
+	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"growl-icon"]] autorelease]];
 	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
@@ -624,7 +592,7 @@
 	[disabledDisplaysList setString:[[pluginController disabledPlugins] componentsJoinedByString:@"\n"]];
 	
 	[NSApp beginSheet:disabledDisplaysSheet 
-	   modalForWindow:[[self mainView] window]
+	   modalForWindow:[self window]
 		modalDelegate:nil
 	   didEndSelector:nil
 		  contextInfo:nil];
@@ -725,12 +693,12 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
-	NSString *versionString = [[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	if (versionString) {
 		NSString *versionStringWithHgVersion = nil;
 		struct Version version;
 		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
-			const char *hgRevisionUTF8 = [[[self bundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
+			const char *hgRevisionUTF8 = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
 			if (hgRevisionUTF8) {
 				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
 
@@ -742,9 +710,9 @@
 	}
 
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
-										[[self bundle] objectForInfoDictionaryKey:@"CFBundleName"], 
+										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"], 
 										versionString]];
-	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
+	[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
 - (IBAction) openGrowlWebSite:(id)sender {
