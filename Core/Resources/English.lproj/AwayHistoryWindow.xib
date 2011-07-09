@@ -59,8 +59,6 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{185, 20}, {117, 17}}</string>
 							<reference key="NSSuperview" ref="376014043"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="110439836">
 								<int key="NSCellFlags">68288064</int>
@@ -105,7 +103,6 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrameSize">{487, 272}</string>
 											<reference key="NSSuperview" ref="883132227"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="808371625"/>
 											<string key="NSReuseIdentifierKey">_NS:1197</string>
 											<bool key="NSEnabled">YES</bool>
@@ -197,7 +194,6 @@
 									</array>
 									<string key="NSFrameSize">{487, 272}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="648629535"/>
 									<string key="NSReuseIdentifierKey">_NS:1195</string>
 									<reference key="NSDocView" ref="648629535"/>
@@ -209,7 +205,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{393, 17}, {15, 259}}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="357378349"/>
 									<string key="NSReuseIdentifierKey">_NS:1214</string>
 									<reference key="NSTarget" ref="12437970"/>
@@ -221,7 +216,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{1, 267}, {401, 15}}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="141870442"/>
 									<string key="NSReuseIdentifierKey">_NS:1216</string>
 									<int key="NSsFlags">1</int>
@@ -232,7 +226,6 @@
 							</array>
 							<string key="NSFrame">{{0, 45}, {487, 272}}</string>
 							<reference key="NSSuperview" ref="376014043"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="883132227"/>
 							<string key="NSReuseIdentifierKey">_NS:1193</string>
 							<int key="NSsFlags">133680</int>
@@ -244,7 +237,6 @@
 					</array>
 					<string key="NSFrameSize">{487, 317}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="12437970"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
@@ -1369,64 +1361,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">1121</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">GrowlNotificationHistoryWindow</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="expandWindow:">id</string>
-						<string key="openFullLog:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="expandWindow:">
-							<string key="name">expandWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openFullLog:">
-							<string key="name">openFullLog:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="arrayController">NSArrayController</string>
-						<string key="countLabel">NSTextField</string>
-						<string key="historyTable">NSTableView</string>
-						<string key="notificationColumn">NSTableColumn</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="arrayController">
-							<string key="name">arrayController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="countLabel">
-							<string key="name">countLabel</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="historyTable">
-							<string key="name">historyTable</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="notificationColumn">
-							<string key="name">notificationColumn</string>
-							<string key="candidateClassName">NSTableColumn</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GrowlNotificationHistoryWindow.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
@@ -1439,7 +1374,7 @@
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<integer value="3200" key="NS.object.0"/>
+			<real value="4100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
