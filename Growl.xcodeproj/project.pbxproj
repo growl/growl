@@ -867,7 +867,6 @@
 		950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowView.h; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.h; sourceTree = "<group>"; };
 		950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowView.m; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.m; sourceTree = "<group>"; };
 		950F79C5080EEE2B00CC5F62 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		951152B808753AA700DBB3EA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = Core/Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		951152B908753AC500DBB3EA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/About.rtf; sourceTree = "<group>"; };
 		951152BA08753ADA00DBB3EA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = StatusItem/Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95125DE70802D3E8007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Bubbles/Info.plist; sourceTree = "<group>"; };
@@ -3174,7 +3173,6 @@
 				95B00A3008468932004A8623 /* cs */,
 				95B00A3108468941004A8623 /* zh_CN */,
 				955A4E5D0861767F009B6EA5 /* fr */,
-				951152B808753AA700DBB3EA /* ru */,
 				347930790C85E291007ADCAA /* zh_TW */,
 				347935940C864534007ADCAA /* nl */,
 				34B02AD90C87911400DD25D6 /* pt_BR */,
