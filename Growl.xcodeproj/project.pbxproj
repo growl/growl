@@ -180,7 +180,6 @@
 		93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		93A60E6413C54A2200514EF8 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		93A60E6513C54A2500514EF8 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 938CAC131080D51100259421 /* GrowlPref.xib */; };
-		93A60E6613C54A2800514EF8 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */; };
 		93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BF38FC0851F82200873BE1 /* WebKitPrefs.xib */; };
 		93BC3796095A662B0002B365 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
@@ -195,6 +194,7 @@
 		93BC4057095DEDFF0002B365 /* Nano.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
 		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
+		93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -678,8 +678,6 @@
 		347935930C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		347935940C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = Core/Resources/nl.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		347935950C864534007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = StatusItem/Resources/nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVTBuilder.m; path = external_dependencies/AEVTBuilder/AEVTBuilder.m; sourceTree = "<group>"; };
-		348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVTBuilder.h; path = external_dependencies/AEVTBuilder/AEVTBuilder.h; sourceTree = "<group>"; };
 		349908A50E7317150073B675 /* GrowlGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPPacket.h; path = Core/Source/GrowlGNTPPacket.h; sourceTree = "<group>"; };
 		349908A60E7317150073B675 /* GrowlGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPPacket.m; path = Core/Source/GrowlGNTPPacket.m; sourceTree = "<group>"; };
 		34A266380EBE75AF00C66E44 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
@@ -791,7 +789,6 @@
 		743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitDisplayPlugin.m; path = Plugins/Displays/WebKit/GrowlWebKitDisplayPlugin.m; sourceTree = "<group>"; };
 		7471F9B60A066E2A000D13BF /* GrowlPositionPicker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPositionPicker.h; path = Core/Source/GrowlPositionPicker.h; sourceTree = "<group>"; };
 		7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionPicker.m; path = Core/Source/GrowlPositionPicker.m; sourceTree = "<group>"; };
-		7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = PositionPickerBackground.jpg; path = Core/Resources/PositionPickerBackground.jpg; sourceTree = "<group>"; };
 		74BBDE8A094399D30011CFE9 /* GrowlFlippingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlFlippingWindowTransition.h; sourceTree = "<group>"; };
 		74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlFlippingWindowTransition.m; sourceTree = "<group>"; };
 		8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NotifyOS9.growlStyle; path = Core/Resources/NotifyOS9.growlStyle; sourceTree = "<group>"; };
@@ -851,6 +848,8 @@
 		93C0AED51084092E0037829B /* GrowlGNTPEncryptedHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPEncryptedHeaders.h; path = Core/Source/GrowlGNTPEncryptedHeaders.h; sourceTree = "<group>"; };
 		93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPEncryptedHeaders.m; path = Core/Source/GrowlGNTPEncryptedHeaders.m; sourceTree = "<group>"; };
 		93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		93E01DF413C93C6000885286 /* Growl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Growl.entitlements; sourceTree = "<group>"; };
+		93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = PositionPickerBackground.jpg; path = Core/Resources/PositionPickerBackground.jpg; sourceTree = "<group>"; };
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93EA804613690D8800AB89AE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
@@ -1339,6 +1338,7 @@
 		089C166AFE841209C02AAC07 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
+				93E01DF413C93C6000885286 /* Growl.entitlements */,
 				93EA7FF61369089600AB89AE /* xcconfig */,
 				93254753104E135B00130D3B /* external_dependencies */,
 				953C3EFE0747970800F2A737 /* Documentation */,
@@ -1374,7 +1374,7 @@
 				8D202CF70486D31800D8A456 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				950627A40840D34900C01CD2 /* growl-claw32.tiff */,
-				7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */,
+				93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1593,15 +1593,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		31440E73122D83AF00F51BA0 /* AEVTBuilder */ = {
-			isa = PBXGroup;
-			children = (
-				348FEDFC0C9D019900A5B99E /* AEVTBuilder.h */,
-				348FEDFB0C9D019900A5B99E /* AEVTBuilder.m */,
-			);
-			name = AEVTBuilder;
-			sourceTree = "<group>";
-		};
 		31E184BB1084625C0011C78B /* Unit tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1700,7 +1691,6 @@
 			isa = PBXGroup;
 			children = (
 				93FB21A61391B50D002E1F86 /* GCDAsyncSocket */,
-				31440E73122D83AF00F51BA0 /* AEVTBuilder */,
 			);
 			name = external_dependencies;
 			sourceTree = "<group>";
@@ -2542,11 +2532,11 @@
 				A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */,
 				A1CC412809E37A65009EF9BD /* closebox.png in Resources */,
 				93A60E6513C54A2500514EF8 /* GrowlPref.xib in Resources */,
-				93A60E6613C54A2800514EF8 /* PositionPickerBackground.jpg in Resources */,
 				93A60E6413C54A2200514EF8 /* About.rtf in Resources */,
 				BC90D472122167490022B24D /* AwayHistoryWindow.xib in Resources */,
 				93A60E4013C4159B00514EF8 /* Growl.icns in Resources */,
 				93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */,
+				93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3284,7 +3274,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Localization;
 		};
@@ -3292,6 +3284,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3306,6 +3300,7 @@
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Localization;
 		};
@@ -4121,6 +4116,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4132,13 +4129,15 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		95EE27750855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Growl code-signing certificate";
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4152,6 +4151,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -4212,7 +4212,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -4220,7 +4222,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

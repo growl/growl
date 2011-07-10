@@ -1,4 +1,0 @@
-﻿/* Localized versions of Info.plist keys */
-
-CFBundleName = "GrowlMail";
-NSHumanReadableCopyright = "Kopierecht (c) 2004-2010 Growl Team.";

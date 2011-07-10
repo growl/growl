@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -75,26 +75,12 @@
 			remoteGlobalIDString = 31E184D61084628D0011C78B;
 			remoteInfo = "Unit tests";
 		};
-		9323A1B211DEE1CF008DEFD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
-			remoteInfo = GrowlSparkleHelper;
-		};
 		9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
-		};
-		9533C299085C3ED6009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D202CF80486D31800D8A456;
-			remoteInfo = Growl;
 		};
 		9533C29D085C3ED6009F8046 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -103,26 +89,12 @@
 			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
 			remoteInfo = GrowlHelperApp;
 		};
-		9533C29F085C3ED6009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
-			remoteInfo = GrowlMenu;
-		};
 		9533C2A1085C3ED6009F8046 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
 			remoteInfo = Growl.framework;
-		};
-		9533C2A3085C3ED6009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 34F60EF9078E226300CECA86;
-			remoteInfo = "Growl-WithInstaller.framework";
 		};
 		9533C2A5085C3ED6009F8046 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -240,6 +212,7 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93E01DA813C934A600885286 /* HardwareGrowler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowler.entitlements; sourceTree = "<group>"; };
 		950445A309B57BED000EAB59 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -345,6 +318,7 @@
 		29B97314FDCFA39411CA2CEA /* HarwareNotifier */ = {
 			isa = PBXGroup;
 			children = (
+				93E01DA813C934A600885286 /* HardwareGrowler.entitlements */,
 				9533C287085C3ED6009F8046 /* Growl.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -398,13 +372,9 @@
 		9533C288085C3ED6009F8046 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9533C29A085C3ED6009F8046 /* Growl.prefPane */,
-				9323A1B311DEE1CF008DEFD3 /* GrowlSparkleHelper.app */,
-				9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */,
-				9533C2A0085C3ED6009F8046 /* GrowlMenu.app */,
+				9533C29E085C3ED6009F8046 /* Growl.app */,
 				9533C2A2085C3ED6009F8046 /* Growl.framework */,
 				179B92770C14D0C3004FB187 /* Growl.dylib */,
-				9533C2A4085C3ED6009F8046 /* Growl-WithInstaller.framework */,
 				9533C2A6085C3ED6009F8046 /* Speech.growlView */,
 				9533C2A8085C3ED6009F8046 /* Brushed.growlView */,
 				9533C2AA085C3ED6009F8046 /* Bubbles.growlView */,
@@ -449,8 +419,12 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -501,13 +475,6 @@
 			remoteRef = 31F7A3BA10905C510049993D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9323A1B311DEE1CF008DEFD3 /* GrowlSparkleHelper.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlSparkleHelper.app;
-			remoteRef = 9323A1B211DEE1CF008DEFD3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9504459009B57BB5000EAB59 /* Nano.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -515,25 +482,11 @@
 			remoteRef = 9504458F09B57BB5000EAB59 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9533C29A085C3ED6009F8046 /* Growl.prefPane */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Growl.prefPane;
-			remoteRef = 9533C299085C3ED6009F8046 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9533C29E085C3ED6009F8046 /* GrowlHelperApp.app */ = {
+		9533C29E085C3ED6009F8046 /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = GrowlHelperApp.app;
+			path = Growl.app;
 			remoteRef = 9533C29D085C3ED6009F8046 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9533C2A0085C3ED6009F8046 /* GrowlMenu.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlMenu.app;
-			remoteRef = 9533C29F085C3ED6009F8046 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9533C2A2085C3ED6009F8046 /* Growl.framework */ = {
@@ -541,13 +494,6 @@
 			fileType = wrapper.framework;
 			path = Growl.framework;
 			remoteRef = 9533C2A1085C3ED6009F8046 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9533C2A4085C3ED6009F8046 /* Growl-WithInstaller.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller.framework";
-			remoteRef = 9533C2A3085C3ED6009F8046 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9533C2A6085C3ED6009F8046 /* Speech.growlView */ = {
@@ -733,7 +679,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_VERSION = 4.0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -754,7 +699,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -763,13 +708,14 @@
 		315C882F1068F83900880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -789,7 +735,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = HardwareGrowler;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -805,6 +753,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -824,6 +773,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -843,6 +793,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -859,14 +810,15 @@
 		95E4A2B60855C0DB006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -884,8 +836,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = HardwareGrowler;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -898,13 +852,14 @@
 		95E4A2B70855C0DB006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -924,7 +879,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = HardwareGrowler;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -943,7 +900,6 @@
 				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_VERSION = 4.0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -964,7 +920,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -976,7 +932,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_VERSION = 4.0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -998,7 +953,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};

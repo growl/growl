@@ -32,4 +32,7 @@ extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 }
 
 @property (nonatomic, assign) NSUInteger selectedPosition;
+
++ (NSImage*)imageForCurrentOS;
+
 @end
