@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlPlugin.h"
 
-@class GrowlApplicationNotification, GrowlNotificationDisplayBridge;
+@class GrowlNotification, GrowlNotificationDisplayBridge;
 @class GrowlDisplayWindowController;
 
 //Info.plist keys for plug-in bundles.
@@ -40,7 +40,7 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
  *  @discussion Unless you have a specific reason to override this method you should not do so.
  *  All the magic should happen in the window controller's <code>setNotification:</code>
  */
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
+- (void) displayNotification:(GrowlNotification *)notification;
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in

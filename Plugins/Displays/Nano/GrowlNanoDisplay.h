@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlDisplayPlugin.h"
 
-@class GrowlApplicationNotification;
+@class GrowlNotification;
 
 @interface GrowlNanoDisplay : GrowlDisplayPlugin {
 }

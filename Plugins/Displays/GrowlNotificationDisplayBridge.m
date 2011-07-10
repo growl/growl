@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayWindowController.h"
 #import "GrowlDisplayPlugin.h"
@@ -23,27 +23,27 @@
 
 @implementation GrowlNotificationDisplayBridge
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc {
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlNotification *)newNotification windowControllerClass:(Class)wcc {
 	return [[[self alloc] initWithDisplay:newDisplay
 							 notification:newNotification
 					windowControllerClass:wcc] autorelease];
 }
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc {
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc {
 	return [[[self alloc] initWithDisplay:newDisplay
 							 notification:newNotification
 							windowNibName:newWindowNibName
 					windowControllerClass:wcc] autorelease];
 }
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc {
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlNotification *)newNotification windowControllerClass:(Class)wcc {
 	return [self initWithDisplay:newDisplay
 					notification:newNotification
 				   windowNibName:nil
 		   windowControllerClass:wcc];
 }
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc  {
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc  {
 	if ((self = [self init])) {
 		windowControllerClass = (wcc ? wcc : NSClassFromString(@"GrowlDisplayWindowController"));
 		display               =  newDisplay;
@@ -82,7 +82,7 @@
     return display;
 }
 
-- (GrowlApplicationNotification *) notification{
+- (GrowlNotification *) notification{
     return notification;
 }
 
@@ -127,7 +127,7 @@
 }
 
 #pragma mark -
-- (void)setNotification:(GrowlApplicationNotification *)inNotification
+- (void)setNotification:(GrowlNotification *)inNotification
 {
 	if (notification != inNotification) {
 		[notification release];

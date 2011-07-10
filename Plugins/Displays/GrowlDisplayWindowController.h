@@ -16,7 +16,7 @@
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
-@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification, GrowlNotificationView;
+@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlNotification, GrowlNotificationView;
 
 typedef enum {
 	GrowlDisplayUnknownStatus = 0,
@@ -26,7 +26,7 @@ typedef enum {
 } GrowlDisplayStatus;
 
 @interface GrowlDisplayWindowController : NSWindowController <NSWindowDelegate, NSAnimationDelegate> {
-	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
+	GrowlNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
 
 	SEL					             action;
@@ -108,11 +108,11 @@ typedef enum {
 #pragma mark -
 
 /* Not to be called directly...these are managed via bindings */
-- (GrowlApplicationNotification *) notification;
-- (void) setNotification:(GrowlApplicationNotification *)theNotification;
+- (GrowlNotification *) notification;
+- (void) setNotification:(GrowlNotification *)theNotification;
 
 /* Used to make an existing window controller update to a new or modified notification */
-- (void) updateToNotification:(GrowlApplicationNotification *)theNotification;
+- (void) updateToNotification:(GrowlNotification *)theNotification;
 
 /* Not to be called directly...for KVO compliance only */
 - (GrowlNotificationDisplayBridge *)bridge;

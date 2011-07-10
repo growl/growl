@@ -12,7 +12,7 @@
 #import "GrowlDisplayWindowController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
@@ -55,7 +55,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 #pragma mark -
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) displayNotification:(GrowlNotification *)notification {
 	NSString *windowNibName = [self windowNibName];
 	GrowlNotificationDisplayBridge *thisBridge = nil;
 	

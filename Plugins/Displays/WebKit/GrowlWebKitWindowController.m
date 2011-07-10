@@ -15,7 +15,7 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #include "CFGrowlAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
@@ -274,7 +274,7 @@
 	[myWindow invalidateShadow];
 }
 
-- (void) setNotification:(GrowlApplicationNotification *)theNotification {
+- (void) setNotification:(GrowlNotification *)theNotification {
     if (notification == theNotification)
 		return;
 

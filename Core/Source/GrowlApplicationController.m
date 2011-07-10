@@ -11,7 +11,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlApplicationTicket.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
@@ -274,7 +274,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[desc     release];
 	[priority release];
 	[sticky   release];
-	GrowlApplicationNotification *notification = [[GrowlApplicationNotification alloc] initWithDictionary:info];
+	GrowlNotification *notification = [[GrowlNotification alloc] initWithDictionary:info];
 	[info release];
 	[displayPlugin displayNotification:notification];
 	[notification release];
@@ -616,7 +616,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		CFRelease(uuidRef);
 	}
    
-   GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
+   GrowlNotification *appNotification = [[GrowlNotification alloc] initWithDictionary:aDict];
 
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
    
@@ -1237,13 +1237,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 #pragma mark Click feedback from displays
 
 - (void) notificationClicked:(NSNotification *)notification {
-	GrowlApplicationNotification *growlNotification = [notification object];
+	GrowlNotification *growlNotification = [notification object];
 		
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:YES onLocalMachine:YES];
 }
 
 - (void) notificationTimedOut:(NSNotification *)notification {
-	GrowlApplicationNotification *growlNotification = [notification object];
+	GrowlNotification *growlNotification = [notification object];
 	
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:NO onLocalMachine:YES];
 }

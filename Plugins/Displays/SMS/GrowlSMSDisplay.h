@@ -22,7 +22,7 @@
 	BOOL				inMessageSendResponseElement;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
+- (void) displayNotification:(GrowlNotification *)notification;
 
 - (NSData *)responseData;
 - (void)setResponseData:(NSData *)newResponseData;
