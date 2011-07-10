@@ -51,7 +51,7 @@
    
    if(!thumb)
    {
-      thumb = [[self Image] copyWithZone:nil];
+      thumb = [[[self Image] copyWithZone:nil] autorelease];
       [thumb setScalesWhenResized:YES];
       [thumb setSize:NSMakeSize(32, 32)];
       [self setPrimitiveValue:thumb forKey:@"Thumbnail"];
