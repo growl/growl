@@ -4110,7 +4110,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
 			};
 			name = Debug;
@@ -4130,7 +4129,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
 			};
 			name = Release;
