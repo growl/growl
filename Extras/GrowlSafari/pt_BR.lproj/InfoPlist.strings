@@ -1,4 +1,0 @@
-﻿/* Localized versions of Info.plist keys */
-
-CFBundleName = "GrowlSafari";
-NSHumanReadableCopyright = "© Projeto Growl, 2004-2010";

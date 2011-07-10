@@ -1,6 +1,0 @@
-break ptrace
-commands 1
-return
-continue
-end
-r
