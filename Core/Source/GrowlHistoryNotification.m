@@ -23,6 +23,7 @@
 @dynamic Identifier;
 @dynamic Image;
 @dynamic deleteUponReturn;
+@dynamic showInRollup;
 @dynamic GrowlDictionary;
 
 -(void)setWithNoteDictionary:(NSDictionary*)noteDict

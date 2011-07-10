@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="GrowlNotificationHistory.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="560" systemVersion="11A511" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Image" representedClassName="GrowlImageCache">
+        <attribute name="Checksum" attributeType="String" indexed="YES"/>
+        <attribute name="Image" optional="YES" transient="YES"/>
+        <attribute name="ImageData" attributeType="Binary" valueTransformerName="NSImageToDataTransformer"/>
+        <attribute name="Thumbnail" optional="YES" transient="YES"/>
+        <relationship name="Notifications" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Notification" inverseName="Image" inverseEntity="Notification" indexed="YES"/>
+    </entity>
+    <entity name="Notification" representedClassName="GrowlHistoryNotification">
+        <attribute name="AppID" optional="YES" attributeType="String"/>
+        <attribute name="ApplicationName" attributeType="String" indexed="YES"/>
+        <attribute name="deleteUponReturn" attributeType="Boolean" defaultValueString="NO"/>
+        <attribute name="Description" attributeType="String"/>
+        <attribute name="GrowlDictionary" attributeType="Transformable"/>
+        <attribute name="Identifier" optional="YES" attributeType="String"/>
+        <attribute name="Name" attributeType="String"/>
+        <attribute name="Priority" optional="YES" attributeType="Integer 16" minValueString="-2" maxValueString="2" defaultValueString="0"/>
+        <attribute name="showInRollup" attributeType="Boolean" defaultValueString="NO"/>
+        <attribute name="Time" attributeType="Date" indexed="YES"/>
+        <attribute name="Title" attributeType="String"/>
+        <relationship name="Image" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="Notifications" inverseEntity="Image" indexed="YES"/>
+    </entity>
+    <elements>
+        <element name="Image" positionX="97" positionY="108" width="128" height="120"/>
+        <element name="Notification" positionX="286" positionY="114" width="128" height="225"/>
+    </elements>
+</model>

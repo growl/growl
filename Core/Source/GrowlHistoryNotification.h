@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString * Identifier;
 @property (nonatomic, retain) GrowlImageCache *Image;
 @property (nonatomic, retain) NSNumber * deleteUponReturn;
+@property (nonatomic, retain) NSNumber * showInRollup;
 @property (nonatomic, retain) id GrowlDictionary;
 
 -(void)setWithNoteDictionary:(NSDictionary*)noteDict;

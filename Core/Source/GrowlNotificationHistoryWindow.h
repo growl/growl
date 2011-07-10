@@ -18,9 +18,7 @@
    IBOutlet NSTableColumn *notificationColumn;
    GrowlNotificationDatabase *historyController;
    
-   NSDate *awayDate;
    BOOL currentlyShown;
-   NSSize expandSize;
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
@@ -28,10 +26,9 @@
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
 
-@property (nonatomic, retain) NSDate *awayDate;
-
 -(void)updateTableView:(BOOL)willMerge;
--(void)resetArrayWithDate:(NSDate*)newAway;
--(IBAction)openFullLog:(id)sender;
+-(void)resetArray;
+-(IBAction)deleteNotifications:(id)sender;
+-(CGFloat)heightForDescription:(NSString*)description forWidth:(CGFloat)width;
 
 @end

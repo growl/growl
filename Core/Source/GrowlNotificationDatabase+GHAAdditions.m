@@ -97,18 +97,21 @@
       deleteUponReturn = YES;
    }
 
-    [managedObjectContext performBlock:^(void) {
-        NSError *error = nil;
+    void (^logBlock)(void) = ^{
+       // NSError *error = nil;
         GrowlHistoryNotification *notification = [NSEntityDescription insertNewObjectForEntityForName:@"Notification" 
                                                                                inManagedObjectContext:managedObjectContext];
         
         // Whatever notification we set above, set its values and save
         [notification setWithNoteDictionary:noteDict];
         [notification setDeleteUponReturn:[NSNumber numberWithBool:deleteUponReturn]];
-        if (![managedObjectContext save:&error])
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }];
-   
+        [notification setShowInRollup:[NSNumber numberWithBool:isAway]];
+    };
+    if(![[NSThread currentThread] isMainThread])
+        [managedObjectContext performBlockAndWait:logBlock];
+    else
+        logBlock();
+    [self saveDatabase:NO];
    
    if(isAway)
    {
@@ -124,7 +127,7 @@
       
       if(![[historyWindow window] isVisible])
       {
-         [(GrowlNotificationHistoryWindow*)historyWindow resetArrayWithDate:awayDate];
+         [(GrowlNotificationHistoryWindow*)historyWindow resetArray];
       }else {
          [(GrowlNotificationHistoryWindow*)historyWindow updateTableView:YES];
       }
