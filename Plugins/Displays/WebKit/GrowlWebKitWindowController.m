@@ -303,7 +303,8 @@
 #pragma mark positioning methods
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSRect viewFrame = [[[self window] contentView] frame];
+	NSView *contentView = [[self window] contentView];
+	NSRect viewFrame = [contentView frame];
 	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
 	NSPoint idealOrigin;
 
