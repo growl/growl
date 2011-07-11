@@ -105,7 +105,7 @@
 #pragma mark -
 -(void)deleteSelectedObjects:(NSArray*)objects
 {
-    [managedObjectContext performBlock:^(void) {
+    void (^deleteBlock)(void) = ^{
         NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Notification"] autorelease];
         NSError *error = nil;
         
@@ -121,14 +121,16 @@
             if([objects containsObject:note])
                 [managedObjectContext deleteObject:note];
         }
-        [managedObjectContext save:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }];
+    };
+    if(![[NSThread currentThread] isMainThread])
+        [managedObjectContext performBlock:deleteBlock];
+    else
+        deleteBlock();
+    [self saveDatabase:NO];
 }
 -(void)deleteAllHistory
 {
-    [managedObjectContext performBlock:^(void) {
+    void (^deleteBlock)(void) = ^{
         NSError *error = nil;
         NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Notification"] autorelease];
         
@@ -144,10 +146,12 @@
         {
             [[self managedObjectContext] deleteObject:note];
         }
-        [[self managedObjectContext] save:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
-    }];
+    };
+    if(![[NSThread currentThread] isMainThread])
+        [managedObjectContext performBlock:deleteBlock];
+    else
+        deleteBlock();
+    [self saveDatabase:NO];
 }
 
 #pragma mark -
@@ -182,13 +186,7 @@
          [lastImageCheck release];
       lastImageCheck = [[NSDate date] retain];
    }
-        
-   [managedObjectContext performBlock:^(void) {
-       NSError *error = nil;
-       [managedObjectContext save:&error];
-       if(error)
-           NSLog(@"Unresolved error %@, %@", error, [error userInfo]);       
-   }];
+   [self saveDatabase:NO];
 }
 
 -(void)trimByDate
@@ -287,9 +285,6 @@
         {
             [managedObjectContext deleteObject:image];
         }
-        [managedObjectContext save:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
     }];
 }
 
@@ -297,12 +292,11 @@
 {
     notificationsWhileAway = NO;
     
-    
     [managedObjectContext performBlock:^(void) {
         NSError *error = nil;
         NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Notification"] autorelease];
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"deleteUponReturn == %@", [NSNumber numberWithBool:YES]];
+        NSNumber *boolYES = [NSNumber numberWithBool:YES];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(deleteUponReturn == %@) OR (showInRollup == %@)", boolYES, boolYES];
         [request setPredicate:predicate];
         
         NSArray *notes = [managedObjectContext executeFetchRequest:request error:&error];
@@ -312,15 +306,15 @@
             return;
         }
         
-        for(NSManagedObject *note in notes)
+        for(GrowlHistoryNotification *note in notes)
         {
-            [managedObjectContext deleteObject:note];
-        }
-        [managedObjectContext save:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);   
-        
+            if([[note deleteUponReturn] boolValue])
+                [managedObjectContext deleteObject:note];
+            else
+                [note setShowInRollup:[NSNumber numberWithBool:NO]];
+        }        
     }];
+    [self saveDatabase:NO];
 }
 
 @end

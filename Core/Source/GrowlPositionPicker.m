@@ -37,7 +37,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	if (self != [GrowlPositionPicker class])
 		return;
 	
-	backgroundImage = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
+	backgroundImage = [self imageForCurrentOS];
 	imageBounds = NSMakeRect(0.0,0.0,[backgroundImage size].width,[backgroundImage size].height);
 	unselectedColor = [[NSColor colorWithDeviceWhite:1.0 alpha:GrowlPositionPickerHotCornerUnselectedAlpha] retain];
 	rolloverColor = [[NSColor grayColor] retain];
@@ -70,6 +70,18 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	[super dealloc];
 }
 
++ (NSImage*)imageForCurrentOS {
+    NSImage *result = nil;
+    
+    if(floor(NSAppKitVersionNumber) <= 1138)
+        result = [[NSImage alloc] initByReferencingFile:@"/Library/Desktop Pictures/Andromeda Galaxy.jpg"];
+    else if(floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6)
+        result = [[NSImage alloc] initByReferencingFile:@"/Library/Desktop Pictures/Nature/Aurora.jpg"];
+    else
+        result = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
+    
+    return result;
+}
 #pragma mark -
 #pragma mark NSView overrides
 

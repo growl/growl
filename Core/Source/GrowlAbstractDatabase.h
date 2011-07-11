@@ -24,5 +24,7 @@
 -(NSString*)storeType;
 -(NSString*)modelName;
 -(void)databaseDidSave:(NSNotification*)note;
+-(void)databaseDidChange:(NSNotification*)note;
+-(void)saveDatabase:(BOOL)doItNow;
 
 @end

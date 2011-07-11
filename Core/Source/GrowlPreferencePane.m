@@ -940,7 +940,7 @@
 {
    [historyTable noteNumberOfRowsChanged];
    NSError *error = nil;
-   [historyArrayController fetchWithRequest:[historyArrayController defaultFetchRequest] merge:NO error:&error];
+   [historyArrayController fetch:self];
    if(error)
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 }

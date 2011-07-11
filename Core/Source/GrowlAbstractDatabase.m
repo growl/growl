@@ -25,6 +25,10 @@
                                                selector:@selector(databaseDidSave:)
                                                    name:NSManagedObjectContextDidSaveNotification
                                                  object:[self managedObjectContext]];
+       [[NSNotificationCenter defaultCenter] addObserver:self
+                                                selector:@selector(databaseDidChange:)
+                                                    name:NSManagedObjectContextObjectsDidChangeNotification
+                                                  object:[self managedObjectContext]];
    }
    return self;
 }
@@ -46,8 +50,34 @@
 
 -(void)databaseDidSave:(NSNotification*)note
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GrowlDatabaseSaved" 
+                                                        object:self
+                                                      userInfo:[note userInfo]];
+}
+
+-(void)databaseDidChange:(NSNotification*)note
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"GrowlDatabaseUpdated" 
-                                                        object:self];
+                                                        object:self
+                                                      userInfo:[note userInfo]];
+}
+
+
+/* most database save requests should use this, this makes it easier to make save fancier down the road
+ * We could make it so it doesn't save after every operation, and waits and clumps them together
+ */
+-(void)saveDatabase:(BOOL)doItNow
+{
+    void (^saveBlock)(void) = ^{
+        NSError *error = nil;
+        [managedObjectContext save:&error];
+        if(error)
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);       
+    };
+    if(doItNow)
+        [managedObjectContext performBlockAndWait:saveBlock];
+    else
+        [managedObjectContext performBlock:saveBlock];
 }
 
 /**

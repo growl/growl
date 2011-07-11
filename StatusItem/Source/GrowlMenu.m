@@ -29,6 +29,8 @@
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
 #define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@%\nTitle: %@\nDescription: %@\nClick to open the log", @"")
 #define kGrowlHistoryLogDisabled     NSLocalizedString(@"Growl History Disabled", @"")
+#define kGrowlQuit                   NSLocalizedString(@"Quit", @"")
+#define kQuitGrowlMenuTooltip        NSLocalizedString(@"Quit growl", @"")
 
 #define kMenuItemsBeforeHistory      6
 
@@ -37,16 +39,18 @@
 @synthesize settingsWindow;
 @synthesize statusItem;
 
+
+#pragma mark -
+
 - (id) init {
     
-    if ((self = [super init]))
-    {
+    if ((self = [super init])) {
         preferences = [GrowlPreferencesController sharedController];
         
         NSMenu *m = [self createMenu];
         
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-                
+        
         
         [self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
         
@@ -58,9 +62,9 @@
         
         //NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
         /*[nc addObserver:self
-               selector:@selector(reloadPrefs:)
-                   name:GrowlPreferencesChanged
-                 object:nil];*/
+         selector:@selector(reloadPrefs:)
+         name:GrowlPreferencesChanged
+         object:nil];*/
         
         GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
         [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -71,21 +75,16 @@
     return self;
 }
 
-#pragma mark -
-
-- (void) setGrowlMenuEnabled:(BOOL)state {
-	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
-	[preferences setStartAtLogin:growlMenuPath enabled:state];
-
-	[self performSelector:@selector(setImage:) withObject:[NSNumber numberWithBool:[preferences isGrowlRunning]] afterDelay:1.0f inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, NSModalPanelRunLoopMode, nil ]];
-}
-
 - (void) dealloc {
 //	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 //	[statusItem            release];
 
 	[super dealloc];
 }
+
+#pragma mark -
+#pragma mark Growl History
+#pragma mark -
 
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
@@ -138,25 +137,44 @@
 
 }
 
-- (void) openGrowlPreferences:(id)sender {
-//TODO: open the config window here
+#pragma mark -
+#pragma mark IBActions
+#pragma mark -
+
+- (IBAction) openGrowlPreferences:(id)sender {
     if(!settingsWindow)
         settingsWindow = [[GrowlPreferencePane alloc] initWithWindowNibName:@"GrowlPref"];
-    
+ 
+    [NSApp activateIgnoringOtherApps:YES];
     [settingsWindow showWindow:self];
 }
 
-- (void) stopGrowl:(id)sender {
+- (IBAction) stopGrowl:(id)sender {
 //TODO: turn on squelch mode
 }
 
-- (void) startGrowl:(id)sender {
+- (IBAction) startGrowl:(id)sender {
 //TODO: turn off squelch mode
 }
 
-- (void) stickyWhenIdle:(id)sender {
+- (IBAction) stickyWhenIdle:(id)sender {
 	BOOL idleModeState = ![preferences stickyWhenAway];
 	[preferences setStickyWhenAway:idleModeState];
+}
+
+- (IBAction)openGrowlLog:(id)sender
+{
+    [preferences setSelectedPreferenceTab:4];
+    [self openGrowlPreferences:nil];
+}
+
+#pragma mark -
+
+- (void) setGrowlMenuEnabled:(BOOL)state {
+	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
+	[preferences setStartAtLogin:growlMenuPath enabled:state];
+    
+	[self performSelector:@selector(setImage:) withObject:[NSNumber numberWithBool:[preferences isGrowlRunning]] afterDelay:1.0f inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, NSModalPanelRunLoopMode, nil ]];
 }
 
 - (void) setImage:(NSNumber*)state {
@@ -177,12 +195,6 @@
 	}
 	[statusItem setImage:normalImage];
 	[statusItem setAlternateImage:pressedImage];
-}
-
--(void)openGrowlLog:(id)sender
-{
-   [preferences setSelectedPreferenceTab:4];
-   [self openGrowlPreferences:nil];
 }
 
 - (NSMenu *) createMenu {
@@ -248,6 +260,11 @@
       [tempMenuItem setTag:8];
    }
 
+    [m addItem:[NSMenuItem separatorItem]];
+    
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kGrowlQuit action:@selector(terminate:) keyEquivalent:@""];
+	[tempMenuItem setTarget:NSApp];
+	[tempMenuItem setToolTip:kQuitGrowlMenuTooltip];
 
 	return [m autorelease];
 }
