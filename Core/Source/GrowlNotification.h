@@ -17,7 +17,6 @@
 }
 
 + (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict;
-
 - (GrowlNotification *) initWithDictionary:(NSDictionary *)dict;
 
 //You can pass nil for description.
