@@ -6,15 +6,6 @@
 //
 
 @interface GrowlNotification: NSObject
-{
-	NSString *name, *applicationName;
-	NSString *title, *description;
-	NSAttributedString *attributedTitle, *attributedDescription;
-
-	NSDictionary *dictionary, *auxiliaryDictionary;
-
-	unsigned GANReserved: 30;
-}
 
 + (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict;
 - (GrowlNotification *) initWithDictionary:(NSDictionary *)dict;
@@ -49,14 +40,15 @@
 
 #pragma mark -
 
-- (NSString *) name;
-- (NSString *) applicationName;
+@property(nonatomic, copy) NSString *name;
+@property(nonatomic, copy) NSString *applicationName;
 
-- (NSString *) title;
+@property(nonatomic, copy) NSString *title;
+@property(nonatomic, copy) NSString *messageText;
 
+//Compatibility alias for messageText.
 - (NSString *) notificationDescription;
 
-- (NSDictionary *) auxiliaryDictionary;
-- (void) setAuxiliaryDictionary:(NSDictionary *)newAuxDict;
+@property(nonatomic, copy) NSDictionary *auxiliaryDictionary;
 
 @end
