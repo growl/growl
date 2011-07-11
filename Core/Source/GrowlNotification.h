@@ -49,6 +49,13 @@
 //Compatibility alias for messageText.
 - (NSString *) notificationDescription;
 
+@property(nonatomic, copy) NSImage *icon;
+
+@property(nonatomic, copy) NSString *identifier;
+
+@property(nonatomic, assign, getter=isSticky) BOOL sticky;
+@property(nonatomic, assign) NSInteger priority;
+
 @property(nonatomic, copy) NSDictionary *auxiliaryDictionary;
 
 @end

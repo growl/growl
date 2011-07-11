@@ -17,6 +17,10 @@
 @synthesize applicationName;
 @synthesize title;
 @synthesize messageText;
+@synthesize icon;
+@synthesize identifier;
+@synthesize sticky;
+@synthesize priority;
 @synthesize auxiliaryDictionary;
 
 + (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict {
