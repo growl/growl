@@ -248,7 +248,7 @@ static NSMutableDictionary *existingInstances;
 - (void) didFinishTransitionsBeforeDisplay {
 	[self cancelDisplayDelayedPerforms];
 
-	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue] ||
+	if (![notification isSticky] ||
 		![self supportsStickyNotifications]) {
 		[self performSelector:@selector(stopDisplay)
 				   withObject:nil
