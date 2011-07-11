@@ -1,27 +1,26 @@
 //
-//	GrowlApplicationNotification.m
+//	GrowlNotification.m
 //	Growl
 //
-//	Created by Mac-arena the Bored Zo on 2005-07-31.
-//	Copyright 2005-2006 The Growl Project. All rights reserved.
+//	Copyright 2005-2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlDefines.h"
 
-@implementation GrowlApplicationNotification
+@implementation GrowlNotification
 
-+ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict {
++ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict {
 	return [[[self alloc] initWithDictionary:dict] autorelease];
 }
 
-- (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict {
+- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
 				   applicationName:[dict objectForKey:GROWL_APP_NAME]
 							 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
 					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]])) {
 		NSMutableDictionary *mutableDict = [dict mutableCopy];
-		[mutableDict removeObjectsForKeys:[[GrowlApplicationNotification standardKeys] allObjects]];
+		[mutableDict removeObjectsForKeys:[[GrowlNotification standardKeys] allObjects]];
 		if ([mutableDict count])
 			[self setAuxiliaryDictionary:mutableDict];
 		[mutableDict release];
@@ -29,8 +28,7 @@
 	return self;
 }
 
-//you can pass nil for description.
-- (GrowlApplicationNotification *) initWithName:(NSString *)newName
+- (GrowlNotification *) initWithName:(NSString *)newName
                                 applicationName:(NSString *)newAppName
                                           title:(NSString *)newTitle
                                     description:(NSString *)newDesc
@@ -81,11 +79,11 @@
 	NSMutableDictionary *dict = nil;
 
 	if (!keys) {
-		//try cache first.
+		//Try cache first.
 		if (dictionary)
 			return [[dictionary retain] autorelease];
 
-		//no joy - create it.
+		//No joy - create it.
 		dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 			name,            GROWL_NOTIFICATION_NAME,
 			applicationName, GROWL_APP_NAME,
@@ -97,7 +95,7 @@
 			if (![dict objectForKey:key])
 				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	} else {
-		//only include keys in the set.
+		//Only include keys in the set.
 		dict = [[NSMutableDictionary alloc] initWithCapacity:[keys count]];
 
 		if ([keys containsObject:GROWL_NOTIFICATION_NAME])
@@ -118,7 +116,7 @@
 	[dict release];
 
 	if (!keys) {
-		//update our cache.
+		//Update our cache.
 		[dictionary release];
 		 dictionary = nil;
 

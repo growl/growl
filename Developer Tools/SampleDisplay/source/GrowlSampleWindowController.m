@@ -11,7 +11,7 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 #import "GrowlSlidingWindowTransition.h"
 
@@ -100,7 +100,7 @@
 
 #pragma mark -
 
-- (void) setNotification: (GrowlApplicationNotification *) theNotification {
+- (void) setNotification: (GrowlNotification *) theNotification {
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;

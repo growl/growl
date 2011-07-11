@@ -14,7 +14,7 @@
 #import "NSMutableStringAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlTicketController.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 #import "GrowlLog.h"
 

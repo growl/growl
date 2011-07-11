@@ -14,7 +14,7 @@
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
 #include "CFDictionaryAdditions.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 @implementation GrowlMusicVideoWindowController
 

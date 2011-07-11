@@ -11,7 +11,7 @@
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 #include "CFDictionaryAdditions.h"

@@ -8,7 +8,7 @@
 #import "GrowlSampleDisplay.h"
 #import "GrowlSampleWindowController.h"
 #import "GrowlSamplePrefs.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import <GrowlDefinesInternal.h>
 #import <GrowlDefines.h>
 
@@ -46,7 +46,7 @@
 
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	GrowlSampleWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
-	GrowlApplicationNotification *note = [theBridge notification];
+	GrowlNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];
 	
 	[controller setNotifyingApplicationName:[note applicationName]];
