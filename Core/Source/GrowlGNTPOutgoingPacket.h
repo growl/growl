@@ -19,6 +19,8 @@ typedef enum {
 	GrowlGNTPOutgoingPacket_SubscribeType
 } GrowlGNTPOutgoingPacketType;
 
+@class GrowlNotification;
+
 @interface GrowlGNTPOutgoingPacket : NSObject {
 	NSMutableArray *headerItems;
 	NSMutableArray *binaryChunks;
@@ -31,6 +33,9 @@ typedef enum {
 
 + (GrowlGNTPOutgoingPacket *)outgoingPacket;
 + (GrowlGNTPOutgoingPacket *)outgoingPacketOfType:(GrowlGNTPOutgoingPacketType)type forDict:(NSDictionary *)dict;
+
++ (GrowlGNTPOutgoingPacket *)outgoingPacketForNotification:(GrowlNotification *)notification;
++ (GrowlGNTPOutgoingPacket *)outgoingPacketForRegistrationWithNotifications:(NSArray /*of GrowlNotifications*/ *)allNotifications;
 
 - (NSString *)packetID;
 
