@@ -53,10 +53,8 @@
 - (NSString *) applicationName;
 
 - (NSString *) title;
-- (NSAttributedString *) attributedTitle;
 
 - (NSString *) notificationDescription;
-- (NSAttributedString *) attributedDescription;
 
 - (NSDictionary *) auxiliaryDictionary;
 - (void) setAuxiliaryDictionary:(NSDictionary *)newAuxDict;

@@ -138,15 +138,9 @@
 - (NSString *) title {
 	return title;
 }
-- (NSAttributedString *) attributedTitle {
-	return [[[NSAttributedString alloc] initWithString:title] autorelease];
-}
 
 - (NSString *) notificationDescription {
 	return description;
-}
-- (NSAttributedString *) attributedDescription {
-	return [[[NSAttributedString alloc] initWithString:[self notificationDescription]] autorelease];
 }
 
 - (NSDictionary *) auxiliaryDictionary {
