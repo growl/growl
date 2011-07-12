@@ -15,4 +15,6 @@
 - (BOOL) getFileType:(out NSString **)outFileType creatorCode:(out NSString **)outCreatorCode forURL:(NSURL *)URL;
 - (BOOL) getFileType:(out NSString **)outFileType creatorCode:(out NSString **)outCreatorCode forFile:(NSString *)path;
 
+- (NSDictionary *) launchedApplicationWithIdentifier:(NSString *) identifier;
+
 @end
