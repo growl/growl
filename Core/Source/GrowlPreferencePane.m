@@ -938,11 +938,7 @@
 
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
-   [historyTable noteNumberOfRowsChanged];
-   NSError *error = nil;
-   [historyArrayController fetch:self];
-   if(error)
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    [historyArrayController fetch:self];
 }
 
 -(IBAction)validateHistoryTrimSetting:(id)sender

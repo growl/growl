@@ -74,13 +74,6 @@
 {
    if(!currentlyShown)
       return;
-
-   NSError *error = nil;
-    [historyTable noteNumberOfRowsChanged];
-   [arrayController fetch:self];
-   
-   if (error)
-       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
    
    NSUInteger numberOfNotifications = [[arrayController arrangedObjects] count];
     
@@ -101,6 +94,8 @@
    
    currentlyShown = YES;
    [self showWindow:self];
+    [historyTable reloadData];
+    [self updateTableView:NO];
 }
 
 -(IBAction)userDoubleClickedNote:(id)sender
@@ -125,13 +120,18 @@
         return;
     }
     GrowlNotificationRowView *view = [historyTable rowViewAtRow:row makeIfNecessary:NO];
-    if(view && view.mouseInside){
+    if(view && view.mouseInside && ![[historyTable selectedRowIndexes] containsIndex:row]){
         [rowsToDelete addIndex:row];
-    }
-    else if([[historyTable selectedRowIndexes] containsIndex:row]){
+    }else if([[historyTable selectedRowIndexes] containsIndex:row]){
         [rowsToDelete addIndexes:[historyTable selectedRowIndexes]];
     }
-    NSLog(@"Rows to remove from the rollup: %@", rowsToDelete);
+    if([rowsToDelete count] == 0)
+        return;
+    //NSLog(@"Rows to remove from the rollup: %@", rowsToDelete);
+    for(GrowlHistoryNotification *note in[[arrayController arrangedObjects] objectsAtIndexes:rowsToDelete]){
+        [note setShowInRollup:[NSNumber numberWithBool:NO]];
+    }
+    [historyController saveDatabase:NO];
 }
 
 -(GrowlNotificationDatabase*)historyController
@@ -140,6 +140,18 @@
       historyController = [GrowlNotificationDatabase sharedInstance];
       
    return historyController;
+}
+
+-(void)updateRowHeights
+{
+    if([[arrayController arrangedObjects] count] == 0)
+        return;
+    
+    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[arrayController arrangedObjects] count] - 1)];
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:0.0];
+    [historyTable noteHeightOfRowsWithIndexesChanged:set];
+    [NSAnimationContext endGrouping];
 }
 
 -(CGFloat)heightForDescription:(NSString*)description forWidth:(CGFloat)width
@@ -170,6 +182,24 @@
 	return nil;
 }
 
+-(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if(tableColumn == notificationColumn){
+        GrowlNotificationCellView *cellView = [tableView makeViewWithIdentifier:@"NotificationCellView" owner:self];
+        [cellView setObjectValue:[[arrayController arrangedObjects] objectAtIndex:row]];
+        [[cellView deleteButton] setHidden:![[arrayController selectionIndexes] containsIndex:row]];
+        return cellView;
+    }
+    return nil;
+}
+
+-(NSView*)tableView:(NSTableView*)tableView rowViewForRow:(NSInteger)row
+{
+    GrowlNotificationRowView *rowView = [tableView makeViewWithIdentifier:NSTableViewRowViewKey owner:self];
+    [rowView setMouseInside:NO];
+    return rowView;
+}
+
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
     NSString *description = [[[arrayController arrangedObjects] objectAtIndex:row] Description];
@@ -178,7 +208,6 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
-    // Bold the text in the selected items, and unbold non-selected items
     [historyTable enumerateAvailableRowViewsUsingBlock:^(NSTableRowView *rowView, NSInteger row) {
         NSView *cellView = [rowView viewAtColumn:0];
         if ([cellView isKindOfClass:[GrowlNotificationCellView class]] && [rowView isKindOfClass:[GrowlNotificationRowView class]]) {
@@ -198,11 +227,7 @@
 
 - (void)windowDidResize:(NSNotification *)note
 {
-    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[arrayController arrangedObjects] count] - 1)];
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.0];
-    [historyTable noteHeightOfRowsWithIndexesChanged:set];
-    [NSAnimationContext endGrouping];
+    [self updateRowHeights];
 }
 
 #pragma mark -
