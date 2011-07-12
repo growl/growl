@@ -25,7 +25,6 @@
 		07A2B52A07FBDCAD009917B6 /* GrowlTunes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07A2B52907FBDCAD009917B6 /* GrowlTunes.xib */; };
 		07B1BAB6077D59B200474D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07B1BAB5077D59B200474D89 /* Localizable.strings */; };
 		0A5ECB47073444AB0032ED97 /* jackItunesArtwork.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 0A5ECB46073444AB0032ED97 /* jackItunesArtwork.scpt */; };
-		0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F26070B142500593A33 /* GrowlTunes-Amazon.plugin */; };
 		0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B6185070B304600593A33 /* GrowlTunes-ARTchive.plugin */; };
 		0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0A8B5F16070B141D00593A33 /* GrowlTunes-Synergy.plugin */; };
 		315C88561068F84B00880530 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 315C88551068F84B00880530 /* Localization.xcconfig */; };
@@ -192,7 +191,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */,
 				0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */,
 				0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */,
 			);
