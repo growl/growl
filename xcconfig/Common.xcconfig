@@ -25,7 +25,7 @@ USER_HEADER_SEARCH_PATHS = $TARGET_BUILD_DIR/include/
 //target platform
 SDKROOT = macosx10.7
 MACOSX_DEPLOYMENT_TARGET = 10.7
-ARCHS = i386 x86_64 //$(ARCHS_STANDARD_32_64_BIT) as of Xcode 3.2.6 Std 32/64 no longer includes ppc
+ARCHS = x86_64
 VALID_ARCHS = i386 x86_64
 
 //warnings 
