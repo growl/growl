@@ -9,7 +9,31 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlNotificationView.h"
 
-@interface GrowlSmokeWindowView : GrowlNotificationView
+@interface GrowlSmokeWindowView : GrowlNotificationView {
+	BOOL				haveTitle;
+	BOOL				haveText;
+	NSImage				*icon;
+	CGFloat				iconSize;
+	CGFloat				textHeight;
+	CGFloat				titleHeight;
+	CGFloat				lineHeight;
+	NSProgressIndicator	*progressIndicator;
+
+	NSFont				*textFont;
+	NSShadow			*textShadow;
+	NSColor				*textColor;
+	NSColor				*bgColor;
+
+	NSLayoutManager		*textLayoutManager;
+	NSTextStorage		*textStorage;
+	NSTextContainer		*textContainer;
+	NSRange				textRange;
+
+	NSTextStorage		*titleStorage;
+	NSTextContainer		*titleContainer;
+	NSLayoutManager		*titleLayoutManager;
+	NSRange				titleRange;
+}
 
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;

@@ -29,31 +29,6 @@
 @end
 
 @implementation GrowlSmokeWindowView
-{
-	BOOL				haveTitle;
-	BOOL				haveText;
-	NSImage				*icon;
-	CGFloat				iconSize;
-	CGFloat				textHeight;
-	CGFloat				titleHeight;
-	CGFloat				lineHeight;
-	NSProgressIndicator	*progressIndicator;
-
-	NSFont				*textFont;
-	NSShadow			*textShadow;
-	NSColor				*textColor;
-	NSColor				*bgColor;
-
-	NSLayoutManager		*textLayoutManager;
-	NSTextStorage		*textStorage;
-	NSTextContainer		*textContainer;
-	NSRange				textRange;
-
-	NSTextStorage		*titleStorage;
-	NSTextContainer		*titleContainer;
-	NSLayoutManager		*titleLayoutManager;
-	NSRange				titleRange;
-}
 
 - (id) initWithFrame:(NSRect)frame {
 	if ((self = [super initWithFrame:frame])) {
