@@ -78,20 +78,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		9323A20111DEE1FE008DEFD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 933818151052AA160014C550 /* GrowlSparkleHelper.app */;
-			remoteInfo = GrowlSparkleHelper;
-		};
-		95AC231808563965006241FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D202CF80486D31800D8A456;
-			remoteInfo = Growl;
-		};
 		95AC231C08563965006241FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
@@ -99,26 +85,12 @@
 			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
 			remoteInfo = GrowlHelperApp;
 		};
-		95AC231E08563965006241FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
-			remoteInfo = GrowlMenu;
-		};
 		95AC232008563965006241FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
 			remoteInfo = Growl.framework;
-		};
-		95AC232208563965006241FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 34F60EF9078E226300CECA86;
-			remoteInfo = "Growl-WithInstaller.framework";
 		};
 		95AC232408563965006241FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -300,7 +272,7 @@
 		9574BAB308391F3A00106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = ../../Common/Source/NSWorkspaceAdditions.h; sourceTree = SOURCE_ROOT; };
 		9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSWorkspaceAdditions.m; path = ../../Common/Source/NSWorkspaceAdditions.m; sourceTree = SOURCE_ROOT; };
 		95B00A9908468AB7004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */ = {isa = PBXFileReference; explicitFileType = sourcecode.scpt; fileEncoding = 30; name = jackItunesInfo.scpt; path = Scripts/jackItunesInfo.scpt; sourceTree = "<group>"; };
+		CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */ = {isa = PBXFileReference; explicitFileType = sourcecode.scpt; fileEncoding = 30; lastKnownFileType = file; name = jackItunesInfo.scpt; path = Scripts/jackItunesInfo.scpt; sourceTree = "<group>"; };
 		CBB772AD07A5DD9F00D77326 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD5BBFF907B7D50400048F1D /* GrowlTunes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GrowlTunes.icns; sourceTree = "<group>"; };
 		DD86247B080D8421001ACC9F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -449,13 +421,9 @@
 		95AC230808563965006241FD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				95AC231908563965006241FD /* Growl.prefPane */,
-				9323A20211DEE1FE008DEFD3 /* GrowlSparkleHelper.app */,
-				95AC231D08563965006241FD /* GrowlHelperApp.app */,
-				95AC231F08563965006241FD /* GrowlMenu.app */,
+				95AC231D08563965006241FD /* Growl.app */,
 				95AC232108563965006241FD /* Growl.framework */,
 				347930BB0C85E35C007ADCAA /* Growl.dylib */,
-				95AC232308563965006241FD /* Growl-WithInstaller.framework */,
 				95AC232508563965006241FD /* Speech.growlView */,
 				95AC232708563965006241FD /* Brushed.growlView */,
 				95AC232908563965006241FD /* Bubbles.growlView */,
@@ -533,6 +501,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 95E4A2ED0855C125006B3F45 /* Build configuration list for PBXProject "GrowlTunes" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -601,32 +570,11 @@
 			remoteRef = 347930BE0C85E35C007ADCAA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9323A20211DEE1FE008DEFD3 /* GrowlSparkleHelper.app */ = {
+		95AC231D08563965006241FD /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = GrowlSparkleHelper.app;
-			remoteRef = 9323A20111DEE1FE008DEFD3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AC231908563965006241FD /* Growl.prefPane */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Growl.prefPane;
-			remoteRef = 95AC231808563965006241FD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AC231D08563965006241FD /* GrowlHelperApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlHelperApp.app;
+			path = Growl.app;
 			remoteRef = 95AC231C08563965006241FD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AC231F08563965006241FD /* GrowlMenu.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlMenu.app;
-			remoteRef = 95AC231E08563965006241FD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95AC232108563965006241FD /* Growl.framework */ = {
@@ -634,13 +582,6 @@
 			fileType = wrapper.framework;
 			path = Growl.framework;
 			remoteRef = 95AC232008563965006241FD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95AC232308563965006241FD /* Growl-WithInstaller.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller.framework";
-			remoteRef = 95AC232208563965006241FD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95AC232508563965006241FD /* Speech.growlView */ = {
