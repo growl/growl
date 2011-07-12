@@ -865,7 +865,7 @@ enum {
 #pragma mark Plug-ins
 
 // This function is used to sort plugins, trying first the local ones, and then the network ones
-static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
+static NSInteger comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
 #pragma unused(context)
 	BOOL b1 = [plugin1 usesNetwork];
 	BOOL b2 = [plugin2 usesNetwork];
