@@ -9,9 +9,6 @@
 #import "GrowlDefines.h"
 
 @implementation GrowlNotification
-{
-	NSDictionary *cachedDictionaryRepresentation;
-}
 
 @synthesize name;
 @synthesize applicationName;

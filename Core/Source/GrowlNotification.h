@@ -6,6 +6,24 @@
 //
 
 @interface GrowlNotification: NSObject
+{
+	NSString *name;
+	NSString *applicationName;
+
+	NSString *title;
+	NSString *messageText;
+
+	NSImage *icon;
+
+	NSString *identifier;
+
+	BOOL sticky;
+	NSInteger priority;
+
+	NSDictionary *auxiliaryDictionary;
+
+	NSDictionary *cachedDictionaryRepresentation;
+}
 
 + (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict;
 - (GrowlNotification *) initWithDictionary:(NSDictionary *)dict;
