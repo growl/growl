@@ -241,6 +241,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		311242C613CC12860055A2AD /* GrowlTunes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlTunes.entitlements; sourceTree = "<group>"; };
 		315C88551068F84B00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* GrowlTunes_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunes_Prefix.pch; sourceTree = "<group>"; };
 		347930C50C85E36B007ADCAA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -366,6 +367,7 @@
 		29B97314FDCFA39411CA2CEA /* GrowlTunes */ = {
 			isa = PBXGroup;
 			children = (
+				311242C613CC12860055A2AD /* GrowlTunes.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				07A2B56F07FBE67A009917B6 /* Additions */,
 				0A8B5F01070B139600593A33 /* Plugins */,
@@ -822,6 +824,8 @@
 		315C88581068F85C00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlTunes.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -863,6 +867,8 @@
 		95E4A2DA0855C125006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlTunes.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -905,6 +911,8 @@
 		95E4A2DB0855C125006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlTunes.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = c99;
