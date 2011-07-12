@@ -15,7 +15,7 @@
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
 #import "GrowlWindowTransition.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 @implementation GrowlBezelWindowController
 

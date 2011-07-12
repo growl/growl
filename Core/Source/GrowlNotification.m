@@ -1,27 +1,36 @@
 //
-//	GrowlApplicationNotification.m
+//	GrowlNotification.m
 //	Growl
 //
-//	Created by Mac-arena the Bored Zo on 2005-07-31.
-//	Copyright 2005-2006 The Growl Project. All rights reserved.
+//	Copyright 2005-2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlDefines.h"
 
-@implementation GrowlApplicationNotification
+@implementation GrowlNotification
 
-+ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict {
+@synthesize name;
+@synthesize applicationName;
+@synthesize title;
+@synthesize messageText;
+@synthesize icon;
+@synthesize identifier;
+@synthesize sticky;
+@synthesize priority;
+@synthesize auxiliaryDictionary;
+
++ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict {
 	return [[[self alloc] initWithDictionary:dict] autorelease];
 }
 
-- (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict {
+- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
 				   applicationName:[dict objectForKey:GROWL_APP_NAME]
 							 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
 					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]])) {
 		NSMutableDictionary *mutableDict = [dict mutableCopy];
-		[mutableDict removeObjectsForKeys:[[GrowlApplicationNotification standardKeys] allObjects]];
+		[mutableDict removeObjectsForKeys:[[GrowlNotification standardKeys] allObjects]];
 		if ([mutableDict count])
 			[self setAuxiliaryDictionary:mutableDict];
 		[mutableDict release];
@@ -29,8 +38,7 @@
 	return self;
 }
 
-//you can pass nil for description.
-- (GrowlApplicationNotification *) initWithName:(NSString *)newName
+- (GrowlNotification *) initWithName:(NSString *)newName
                                 applicationName:(NSString *)newAppName
                                           title:(NSString *)newTitle
                                     description:(NSString *)newDesc
@@ -40,7 +48,7 @@
 		applicationName = [newAppName   copy];
 
 		title           = [newTitle     copy];
-		description     = [newDesc      copy];
+		messageText     = [newDesc      copy];
 	}
 	return self;
 }
@@ -49,10 +57,10 @@
 	[name            release];
 	[applicationName release];
 	[title           release];
-	[description     release];
-
-	[dictionary          release];
+	[messageText     release];
 	[auxiliaryDictionary release];
+
+	[cachedDictionaryRepresentation release];
 
 	[super dealloc];
 }
@@ -81,23 +89,23 @@
 	NSMutableDictionary *dict = nil;
 
 	if (!keys) {
-		//try cache first.
-		if (dictionary)
-			return [[dictionary retain] autorelease];
+		//Try cache first.
+		if (cachedDictionaryRepresentation)
+			return [[cachedDictionaryRepresentation retain] autorelease];
 
-		//no joy - create it.
+		//No joy - create it.
 		dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 			name,            GROWL_NOTIFICATION_NAME,
 			applicationName, GROWL_APP_NAME,
 			title,           GROWL_NOTIFICATION_TITLE,
-			description,     GROWL_NOTIFICATION_DESCRIPTION,
+			messageText,     GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 
 		for (id key in auxiliaryDictionary)
 			if (![dict objectForKey:key])
 				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	} else {
-		//only include keys in the set.
+		//Only include keys in the set.
 		dict = [[NSMutableDictionary alloc] initWithCapacity:[keys count]];
 
 		if ([keys containsObject:GROWL_NOTIFICATION_NAME])
@@ -107,7 +115,7 @@
 		if ([keys containsObject:GROWL_NOTIFICATION_TITLE])
 			[dict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 		if ([keys containsObject:GROWL_NOTIFICATION_DESCRIPTION])
-			[dict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+			[dict setObject:messageText forKey:GROWL_NOTIFICATION_DESCRIPTION];
 
 		for (id key in auxiliaryDictionary)
 			if ([keys containsObject:key] && ![dict objectForKey:key])
@@ -118,11 +126,11 @@
 	[dict release];
 
 	if (!keys) {
-		//update our cache.
-		[dictionary release];
-		 dictionary = nil;
+		//Update our cache.
+		[cachedDictionaryRepresentation release];
+		 cachedDictionaryRepresentation = nil;
 
-		dictionary = [result retain];
+		cachedDictionaryRepresentation = [result retain];
 	}
 
 	return result;
@@ -130,30 +138,10 @@
 
 #pragma mark -
 
-- (NSString *) name {
-	return name;
-}
-- (NSString *) applicationName {
-	return applicationName;
-}
-
-- (NSString *) title {
-	return title;
-}
-- (NSAttributedString *) attributedTitle {
-	return [[[NSAttributedString alloc] initWithString:title] autorelease];
-}
-
 - (NSString *) notificationDescription {
-	return description;
-}
-- (NSAttributedString *) attributedDescription {
-	return [[[NSAttributedString alloc] initWithString:[self notificationDescription]] autorelease];
+	return self.messageText;
 }
 
-- (NSDictionary *) auxiliaryDictionary {
-	return auxiliaryDictionary;
-}
 - (void) setAuxiliaryDictionary:(NSDictionary *)newAuxDict {
 	[auxiliaryDictionary release];
 	 auxiliaryDictionary = [newAuxDict copy];
@@ -162,8 +150,8 @@
 	 *so if the auxiliary dictionary changes, we must dirty the cache used by
 	 *	-dictionaryRepresentation.
 	 */
-	[dictionary release];
-	 dictionary = nil;
+	[cachedDictionaryRepresentation release];
+	 cachedDictionaryRepresentation = nil;
 }
 
 @end

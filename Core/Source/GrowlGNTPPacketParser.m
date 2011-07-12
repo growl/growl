@@ -8,7 +8,7 @@
 
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlApplicationController.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
 #import "GrowlTicketController.h"
@@ -323,13 +323,13 @@
 }
 
 - (void) notificationClicked:(NSNotification *)notification {
-	GrowlApplicationNotification *growlNotification = [notification object];
+	GrowlNotification *growlNotification = [notification object];
 	
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:YES];
 }
 
 - (void) notificationTimedOut:(NSNotification *)notification {
-	GrowlApplicationNotification *growlNotification = [notification object];
+	GrowlNotification *growlNotification = [notification object];
 	
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:NO];
 }

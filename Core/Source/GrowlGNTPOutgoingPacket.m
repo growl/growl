@@ -15,6 +15,9 @@
 /* XXX For GNTPOutgoingItem which should probably move */
 #import "GrowlTCPPathway.h"
 
+#import "GrowlDefines.h"
+#import "GrowlNotification.h"
+
 @interface GrowlGNTPInitialHeaderItem : NSObject <GNTPOutgoingItem>
 {
 	NSString *mAction;
@@ -169,6 +172,18 @@
 	[outgoingPacket addBinaryChunks:binaryArray];
 	
 	return outgoingPacket;
+}
+
++ (GrowlGNTPOutgoingPacket *)outgoingPacketForNotification:(GrowlNotification *)notification {
+	return [self outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType forDict:[notification dictionaryRepresentation]];
+}
++ (GrowlGNTPOutgoingPacket *)outgoingPacketForRegistrationWithNotifications:(NSArray /*of GrowlNotifications*/ *)allNotifications {
+	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey], GROWL_APP_NAME,
+		[[NSBundle mainBundle] bundleIdentifier], GROWL_APP_ID,
+		[allNotifications valueForKey:@"name"], GROWL_NOTIFICATIONS_ALL,
+		nil];
+	return [self outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType forDict:regDict];
 }
 
 - (id)init

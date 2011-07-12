@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class GrowlApplicationNotification;
+@class GrowlNotification;
 
 @interface GrowlBrushedWindowController : GrowlDisplayWindowController {
 	unsigned	uid;

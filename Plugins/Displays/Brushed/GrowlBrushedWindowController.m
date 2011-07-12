@@ -11,7 +11,7 @@
 #import "GrowlBrushedWindowView.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"

@@ -15,6 +15,6 @@
 	NSMutableArray *tasks;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
+- (void) displayNotification:(GrowlNotification *)notification;
 
 @end

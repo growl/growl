@@ -12,7 +12,7 @@
 #import "GrowlBrushedPrefsController.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlBrushedDisplay

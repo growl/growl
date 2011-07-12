@@ -7,7 +7,7 @@
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 #define destAddressKey @"MailMe - Recipient address"
 
@@ -60,7 +60,7 @@
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) displayNotification:(GrowlNotification *)notification {
 	NSString *destAddress = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
 	[NSMakeCollectable(destAddress) autorelease];

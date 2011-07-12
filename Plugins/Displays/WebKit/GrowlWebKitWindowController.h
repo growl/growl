@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class WebView, GrowlApplicationNotification, GrowlNotificationDisplayBridge;
+@class WebView, GrowlNotification, GrowlNotificationDisplayBridge;
 
 @interface GrowlWebKitWindowController : GrowlDisplayWindowController {
 	NSString		*templateHTML;

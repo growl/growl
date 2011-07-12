@@ -11,7 +11,7 @@
 #import "GrowlBubblesWindowView.h"
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
 #import "GrowlWindowTransition.h"

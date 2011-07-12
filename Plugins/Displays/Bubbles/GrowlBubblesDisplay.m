@@ -11,7 +11,7 @@
 #import "GrowlBubblesDisplay.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 #include "CFDictionaryAdditions.h"

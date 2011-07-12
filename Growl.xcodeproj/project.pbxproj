@@ -40,7 +40,7 @@
 		072DE9BB09A10DEB006516DD /* GrowlTCPPathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */; };
 		0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */; };
-		07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
+		07F9B7A508A49F6D00DF7F42 /* GrowlNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlNotification.m */; };
 		07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */; };
 		0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.xib */; };
 		0A7F5DA60767C13200E1C1E4 /* GrowlSpeechDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5DA00767C13200E1C1E4 /* GrowlSpeechDisplay.m */; };
@@ -527,8 +527,8 @@
 		0790135507D9321B0023B640 /* GrowlVersionUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlVersionUtilities.c; path = Common/Source/GrowlVersionUtilities.c; sourceTree = "<group>"; };
 		07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
-		07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationNotification.h; path = Core/Source/GrowlApplicationNotification.h; sourceTree = "<group>"; };
-		07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationNotification.m; path = Core/Source/GrowlApplicationNotification.m; sourceTree = "<group>"; };
+		07F9B7A208A49F6D00DF7F42 /* GrowlNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotification.h; path = Core/Source/GrowlNotification.h; sourceTree = "<group>"; };
+		07F9B7A308A49F6D00DF7F42 /* GrowlNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotification.m; path = Core/Source/GrowlNotification.m; sourceTree = "<group>"; };
 		07FCFFC107E2F90C00F0A1CF /* GrowlRemotePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRemotePathway.h; path = Core/Source/GrowlRemotePathway.h; sourceTree = "<group>"; };
 		07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRemotePathway.m; path = Core/Source/GrowlRemotePathway.m; sourceTree = "<group>"; };
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -827,7 +827,6 @@
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlQL.xcodeproj; path = Plugins/System/GrowlQL/GrowlQL.xcodeproj; sourceTree = "<group>"; };
-		93A2B4941369AE5C00E2F067 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		93A60E3F13C4159B00514EF8 /* Growl.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Growl.icns; path = images/Growl.icns; sourceTree = "<group>"; };
 		93BC379E095A662B0002B365 /* Nano.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nano.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		93BC37AE095A66950002B365 /* GrowlNanoDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNanoDisplay.h; path = Plugins/Displays/Nano/GrowlNanoDisplay.h; sourceTree = "<group>"; };
@@ -869,7 +868,6 @@
 		950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowView.h; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.h; sourceTree = "<group>"; };
 		950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowView.m; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.m; sourceTree = "<group>"; };
 		950F79C5080EEE2B00CC5F62 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		951152B808753AA700DBB3EA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = Core/Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		951152B908753AC500DBB3EA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/About.rtf; sourceTree = "<group>"; };
 		951152BA08753ADA00DBB3EA /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = StatusItem/Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95125DE70802D3E8007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Bubbles/Info.plist; sourceTree = "<group>"; };
@@ -1005,7 +1003,6 @@
 		BCBCDD74121BA00300C07D0D /* GrowlHistoryNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlHistoryNotification.h; path = Core/Source/GrowlHistoryNotification.h; sourceTree = "<group>"; };
 		BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlHistoryNotification.m; path = Core/Source/GrowlHistoryNotification.m; sourceTree = "<group>"; };
 		BCBCDD90121BA05100C07D0D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		BCC065CB1253F7C80039CE5E /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCellView.h; path = Core/Source/GrowlNotificationCellView.h; sourceTree = "<group>"; };
 		BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationCellView.m; path = Core/Source/GrowlNotificationCellView.m; sourceTree = "<group>"; };
 		BCD6012B13C769B40013EEDE /* GrowlNotificationRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationRowView.h; path = Core/Source/GrowlNotificationRowView.h; sourceTree = "<group>"; };
@@ -1351,8 +1348,6 @@
 				31E184BB1084625C0011C78B /* Unit tests */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				BCC065CB1253F7C80039CE5E /* libcrypto.dylib */,
-				93C64CE2138CC74C005A2760 /* Recovered References */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
@@ -1769,14 +1764,6 @@
 			name = Nano;
 			sourceTree = "<group>";
 		};
-		93C64CE2138CC74C005A2760 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				93A2B4941369AE5C00E2F067 /* Localization.xcconfig */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		93EA7FF61369089600AB89AE /* xcconfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -1906,8 +1893,8 @@
 		CB34BEC507E09557001D7D7C /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */,
-				07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */,
+				07F9B7A208A49F6D00DF7F42 /* GrowlNotification.h */,
+				07F9B7A308A49F6D00DF7F42 /* GrowlNotification.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -2810,7 +2797,7 @@
 				95B2B27E08745BC000EA34BF /* GrowlTicketController.m in Sources */,
 				EE1AF8D70897DA9400F486FD /* GrowlWindowTransition.m in Sources */,
 				EE1AF8D90897DA9400F486FD /* GrowlFadingWindowTransition.m in Sources */,
-				07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */,
+				07F9B7A508A49F6D00DF7F42 /* GrowlNotification.m in Sources */,
 				EED7068B08C743D9004651D0 /* GrowlAbstractSingletonObject.m in Sources */,
 				072867D308D1648400ABF0B0 /* NSSetAdditions.m in Sources */,
 				95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */,
@@ -3196,7 +3183,6 @@
 				95B00A3008468932004A8623 /* cs */,
 				95B00A3108468941004A8623 /* zh_CN */,
 				955A4E5D0861767F009B6EA5 /* fr */,
-				951152B808753AA700DBB3EA /* ru */,
 				347930790C85E291007ADCAA /* zh_TW */,
 				347935940C864534007ADCAA /* nl */,
 				34B02AD90C87911400DD25D6 /* pt_BR */,
@@ -3282,7 +3268,6 @@
 		};
 		315C88D81068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
@@ -3306,8 +3291,8 @@
 		};
 		315C88DA1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3333,7 +3318,6 @@
 		};
 		315C88DB1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A2B4941369AE5C00E2F067 /* Localization.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -4127,7 +4111,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
 			};
@@ -4149,7 +4132,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
-				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
 			};
@@ -4159,6 +4141,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4185,6 +4168,7 @@
 		95EE27890855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;

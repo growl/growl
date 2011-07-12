@@ -13,7 +13,7 @@
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlNotificationView.h"
 
 #include "GrowlLog.h"
@@ -248,7 +248,7 @@ static NSMutableDictionary *existingInstances;
 - (void) didFinishTransitionsBeforeDisplay {
 	[self cancelDisplayDelayedPerforms];
 
-	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue] ||
+	if (![notification isSticky] ||
 		![self supportsStickyNotifications]) {
 		[self performSelector:@selector(stopDisplay)
 				   withObject:nil
@@ -484,12 +484,12 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 #pragma mark Notifications
 
-- (GrowlApplicationNotification *) notification {
+- (GrowlNotification *) notification {
 	// Only here for binding conformance
     return notification;
 }
 
-- (void) setNotification:(GrowlApplicationNotification *)theNotification {
+- (void) setNotification:(GrowlNotification *)theNotification {
     if (notification != theNotification) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 														name:GROWL_CLOSE_NOTIFICATION
@@ -529,7 +529,7 @@ static NSMutableDictionary *existingInstances;
 											   object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
 }
 
-- (void) updateToNotification:(GrowlApplicationNotification *)theNotification {
+- (void) updateToNotification:(GrowlNotification *)theNotification {
 	[self setNotification:theNotification];
 
 	switch (displayStatus) {

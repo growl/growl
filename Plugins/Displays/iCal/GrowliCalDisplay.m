@@ -12,7 +12,7 @@
 #import "GrowliCalDisplay.h"
 #import "GrowliCalWindowController.h"
 #import "GrowliCalPrefsController.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 #include "CFDictionaryAdditions.h"

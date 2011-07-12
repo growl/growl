@@ -9,7 +9,7 @@
 #import "GrowlSMSPrefs.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
@@ -47,7 +47,7 @@
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) displayNotification:(GrowlNotification *)notification {
 	NSString	*accountNameValue = nil;
 	NSString	*apiIDValue = nil;
 	NSString	*destinationNumberValue = nil;

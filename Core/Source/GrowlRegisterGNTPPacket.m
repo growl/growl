@@ -73,7 +73,7 @@
 	[applicationIconID autorelease];
 	applicationIconID = [string retain];
 	
-	if (!pendingBinaryIdentifiers) pendingBinaryIdentifiers = [[NSMutableArray alloc] init];
+	if (!pendingBinaryIdentifiers) pendingBinaryIdentifiers = [[NSMutableSet alloc] init];
 	[pendingBinaryIdentifiers addObject:applicationIconID];
 }
 - (NSString *)applicationIconID

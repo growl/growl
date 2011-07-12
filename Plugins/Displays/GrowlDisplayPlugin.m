@@ -12,7 +12,7 @@
 #import "GrowlDisplayWindowController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
@@ -55,11 +55,11 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 #pragma mark -
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) displayNotification:(GrowlNotification *)notification {
 	NSString *windowNibName = [self windowNibName];
 	GrowlNotificationDisplayBridge *thisBridge = nil;
 	
-	NSString *identifier = [[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	NSString *identifier = notification.identifier;
 
 	if (identifier) {
 		thisBridge = [coalescableBridges objectForKey:identifier];
@@ -160,7 +160,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	}
 
 	if (coalescableBridges) {
-		NSString *identifier = [[[[wc bridge] notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+		NSString *identifier = [[[wc bridge] notification] identifier];
 		if (identifier)
 			[coalescableBridges removeObjectForKey:identifier];
 	}

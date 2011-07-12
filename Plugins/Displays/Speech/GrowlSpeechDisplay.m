@@ -11,7 +11,7 @@
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlSpeechDisplay
@@ -27,7 +27,7 @@
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) displayNotification:(GrowlNotification *)notification {
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 	if (voice) {

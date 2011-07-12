@@ -10,7 +10,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class GrowlApplicationNotification;
+@class GrowlNotification;
 
 @interface GrowliCalWindowController : GrowlDisplayWindowController {
 	unsigned	uid;

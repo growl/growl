@@ -12,7 +12,7 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "NSWindow+Transforms.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotification.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 #include "CFDictionaryAdditions.h"
