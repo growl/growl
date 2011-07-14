@@ -5,7 +5,6 @@
 //
 
 #import "GrowlMistView.h"
-#import "NSBezierPathAdditions.h"
 #import "NSImageAdditions.h"
 
 @implementation GrowlMistView
