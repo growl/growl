@@ -24,6 +24,8 @@
  */
 @implementation GrowlRegisterGNTPPacket
 
+#if GROWLHELPERAPP
+
 @synthesize applicationIconURL = mApplicationIconURL;
 
 - (id)init
@@ -322,6 +324,8 @@
 	
 	return growlDictionary;
 }
+
+#endif
 
 + (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict
 {

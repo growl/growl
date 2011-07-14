@@ -101,6 +101,8 @@ typedef enum {
 	NSString *encryptionAlgorithm;
 }
 
+#if GROWLHELPERAPP
+
 + (GrowlGNTPPacket *)networkPacketForSocket:(GCDAsyncSocket *)inSocket;
 
 /*!
@@ -125,21 +127,29 @@ typedef enum {
 
 @property (retain) NSString *action;
 @property (retain) GNTPKey *key;
-@property (assign) id <GrowlGNTPPacketDelegate> delegate;
 @property (retain) NSString *encryptionAlgorithm;
+
+#endif
+
+@property (assign) id <GrowlGNTPPacketDelegate> delegate;
+
 @end
 
 @interface GrowlGNTPPacket (ForSubclasses)
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray;
+#if GROWLHELPERAPP
 - (void)setError:(NSError *)error;
 - (void)addCustomHeader:(GrowlGNTPHeaderItem *)inItem;
 - (NSArray *)customHeaders;
+#endif
 @end
 
 @interface GrowlGNTPPacket (GNTPInternal)
+#if GROWLHELPERAPP
 - (NSArray *)headersForResult;
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers;
 - (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked;
 - (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked;
+#endif
 @end

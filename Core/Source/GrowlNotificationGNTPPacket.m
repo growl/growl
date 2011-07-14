@@ -15,6 +15,8 @@
 
 @implementation GrowlNotificationGNTPPacket
 
+#if GROWLHELPERAPP
+
 - (id)init
 {
 	if ((self = [super init])) {
@@ -307,6 +309,8 @@
 	}
 }
 
+#endif
+
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers
 {		
 	BOOL hasContext = NO, hasContextType = NO, hasTarget = NO;
@@ -342,6 +346,8 @@
 		return GrowlGNTP_NoCallback;	
 	}
 }
+
+#if GROWLHELPERAPP
 
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked
 {
@@ -426,6 +432,8 @@
 	
 	return growlDictionary;
 }
+
+#endif
 
 + (void)getHeaders:(NSArray **)outHeadersArray binaryChunks:(NSArray **)outBinaryChunks notificationID:(NSString **)outNotificationID forNotificationDict:(NSDictionary *)dict
 {

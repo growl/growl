@@ -29,6 +29,10 @@ typedef enum {
 
 + (void)getHeaders:(NSArray **)outHeadersArray andBinaryChunks:(NSArray **)outBinaryChunks forRegistrationDict:(NSDictionary *)dict;
 
+#if GROWLHELPERAPP
+
 @property (retain) NSURL *applicationIconURL;
+
+#endif
 
 @end

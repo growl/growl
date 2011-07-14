@@ -16,7 +16,10 @@
 #import "ISO8601DateFormatter.h"
 #import "GrowlApplicationAdditions.h"
 #import "GNTPKey.h"
+#import "GrowlDefinesInternal.h"
 #import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+
+#if GROWLHELPERAPP
 
 #define CRLF "\x0D\x0A"
 
@@ -27,12 +30,18 @@
 - (void)networkPacketReadComplete;
 @end
 
+#endif
+
 @implementation GrowlGNTPPacket
+
+#if GROWLHELPERAPP
 
 @synthesize action = mAction;
 @synthesize key = mKey;
 @synthesize encryptionAlgorithm;
+#endif
 @synthesize delegate = mDelegate;
+#if GROWLHELPERAPP
 
 + (GrowlGNTPPacket *)networkPacketForSocket:(GCDAsyncSocket *)inSocket
 {
@@ -453,6 +462,8 @@
 	return array;
 }
 
+#endif
+
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
 {
 	NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
@@ -503,6 +514,8 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:platformVersion]];
 	}
 }
+
+#if GROWLHELPERAPP
 
 /*!
  * @brief Return YES if this packet has previously been received by this host
@@ -848,6 +861,8 @@
 	[[self delegate] packetDidDisconnect:self];
 }
 
+#endif
+
 #pragma mark GrowlGNTPPacketDelegate
 /*!
  * @brief Called by our specific packet; we'll pass it on to our delegate
@@ -879,6 +894,8 @@
 
 #pragma mark -
 
+#if GROWLHELPERAPP
+
 #import "GrowlDefines.h"
 - (NSString *)description
 {
@@ -892,5 +909,6 @@
 		return [NSString stringWithFormat:@"<%@ %x: %@>", NSStringFromClass([self class]), self, growlDictionary];
 }
 
-@end
+#endif
 
+@end
