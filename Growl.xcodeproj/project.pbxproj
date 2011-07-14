@@ -306,8 +306,6 @@
 		FFD4B76A13CE8BEA0002F2AE /* GrowlMistView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD4B76013CE8BEA0002F2AE /* GrowlMistView.m */; };
 		FFD4B76B13CE8BEA0002F2AE /* GrowlMistWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FFD4B76113CE8BEA0002F2AE /* GrowlMistWindowController.h */; };
 		FFD4B76C13CE8BEA0002F2AE /* GrowlMistWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD4B76213CE8BEA0002F2AE /* GrowlMistWindowController.m */; };
-		FFD4B76D13CE8BEA0002F2AE /* NSBezierPathAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FFD4B76313CE8BEA0002F2AE /* NSBezierPathAdditions.h */; };
-		FFD4B76E13CE8BEA0002F2AE /* NSBezierPathAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD4B76413CE8BEA0002F2AE /* NSBezierPathAdditions.m */; };
 		FFD4B76F13CE8BEA0002F2AE /* NSImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FFD4B76513CE8BEA0002F2AE /* NSImageAdditions.h */; };
 		FFD4B77013CE8BEA0002F2AE /* NSImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD4B76613CE8BEA0002F2AE /* NSImageAdditions.m */; };
 /* End PBXBuildFile section */
@@ -1064,8 +1062,6 @@
 		FFD4B76013CE8BEA0002F2AE /* GrowlMistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistView.m; path = Framework/Source/Mist/GrowlMistView.m; sourceTree = "<group>"; };
 		FFD4B76113CE8BEA0002F2AE /* GrowlMistWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMistWindowController.h; path = Framework/Source/Mist/GrowlMistWindowController.h; sourceTree = "<group>"; };
 		FFD4B76213CE8BEA0002F2AE /* GrowlMistWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistWindowController.m; path = Framework/Source/Mist/GrowlMistWindowController.m; sourceTree = "<group>"; };
-		FFD4B76313CE8BEA0002F2AE /* NSBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSBezierPathAdditions.h; path = Framework/Source/Mist/NSBezierPathAdditions.h; sourceTree = "<group>"; };
-		FFD4B76413CE8BEA0002F2AE /* NSBezierPathAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSBezierPathAdditions.m; path = Framework/Source/Mist/NSBezierPathAdditions.m; sourceTree = "<group>"; };
 		FFD4B76513CE8BEA0002F2AE /* NSImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSImageAdditions.h; path = Framework/Source/Mist/NSImageAdditions.h; sourceTree = "<group>"; };
 		FFD4B76613CE8BEA0002F2AE /* NSImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSImageAdditions.m; path = Framework/Source/Mist/NSImageAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2088,8 +2084,6 @@
 				FFD4B76013CE8BEA0002F2AE /* GrowlMistView.m */,
 				FFD4B76113CE8BEA0002F2AE /* GrowlMistWindowController.h */,
 				FFD4B76213CE8BEA0002F2AE /* GrowlMistWindowController.m */,
-				FFD4B76313CE8BEA0002F2AE /* NSBezierPathAdditions.h */,
-				FFD4B76413CE8BEA0002F2AE /* NSBezierPathAdditions.m */,
 				FFD4B76513CE8BEA0002F2AE /* NSImageAdditions.h */,
 				FFD4B76613CE8BEA0002F2AE /* NSImageAdditions.m */,
 			);
@@ -2123,7 +2117,6 @@
 				FFD4B76713CE8BEA0002F2AE /* GrowlMiniDispatch.h in Headers */,
 				FFD4B76913CE8BEA0002F2AE /* GrowlMistView.h in Headers */,
 				FFD4B76B13CE8BEA0002F2AE /* GrowlMistWindowController.h in Headers */,
-				FFD4B76D13CE8BEA0002F2AE /* NSBezierPathAdditions.h in Headers */,
 				FFD4B76F13CE8BEA0002F2AE /* NSImageAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2774,7 +2767,6 @@
 				FFD4B76813CE8BEA0002F2AE /* GrowlMiniDispatch.m in Sources */,
 				FFD4B76A13CE8BEA0002F2AE /* GrowlMistView.m in Sources */,
 				FFD4B76C13CE8BEA0002F2AE /* GrowlMistWindowController.m in Sources */,
-				FFD4B76E13CE8BEA0002F2AE /* NSBezierPathAdditions.m in Sources */,
 				FFD4B77013CE8BEA0002F2AE /* NSImageAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

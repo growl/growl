@@ -1,9 +1,7 @@
 //
 //  GrowlMiniDispatch.m
-//  SmokeLite
 //
 //  Created by Rachel Blackman on 7/13/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "GrowlMiniDispatch.h"

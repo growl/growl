@@ -1,9 +1,7 @@
 //
 //  GrowlMistView.m
-//  SmokeLite
 //
 //  Created by Rachel Blackman on 7/11/11.
-//  Copyright 2011 Riverdark Studios. All rights reserved.
 //
 
 #import "GrowlMistView.h"
@@ -20,9 +18,9 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		clipPath = [[NSBezierPath bezierPathWithRoundedRect:[self bounds] cornerRadius:8] retain];
+		clipPath = [[NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:8 yRadius:8] retain];
 		NSRect insetRect = NSInsetRect([self bounds], 1, 1);
-		strokePath = [[NSBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:8] retain];
+		strokePath = [[NSBezierPath bezierPathWithRoundedRect:insetRect xRadius:8 yRadius:8] retain];
 		NSMutableParagraphStyle *titleParaStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopyWithZone:nil] autorelease];
 		[titleParaStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 		notificationTitleFont = [[NSFont boldSystemFontOfSize:MIST_TITLE_SIZE] retain];
@@ -63,11 +61,11 @@
 	[super setFrame:frameRect];
 	
 	[clipPath release];
-	clipPath = [[NSBezierPath bezierPathWithRoundedRect:[self bounds] cornerRadius:8] retain];
+	clipPath = [[NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:8 yRadius:8] retain];
 
 	[strokePath release];
 	NSRect insetRect = NSInsetRect([self bounds], 1, 1);
-	strokePath = [[NSBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:8] retain];
+	strokePath = [[NSBezierPath bezierPathWithRoundedRect:insetRect xRadius:8 yRadius:8] retain];
 	
 	[self removeTrackingArea:trackingArea];
 	[trackingArea release];
