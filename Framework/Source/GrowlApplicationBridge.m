@@ -7,10 +7,6 @@
 //
 
 #import "GrowlApplicationBridge.h"
-#ifdef GROWL_WITH_INSTALLER
-#import "GrowlInstallationPrompt.h"
-#import "GrowlVersionUtilities.h"
-#endif
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
@@ -19,6 +15,7 @@
 #import "GrowlProcessUtilities.h"
 #import "GrowlPathway.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlMiniDispatch.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -76,17 +73,11 @@ static NSDictionary *cachedRegistrationDictionary = nil;
 static NSString	*appName = nil;
 static NSData	*appIconData = nil;
 
+static GrowlMiniDispatch *miniDispatch = nil;
+
 static id		delegate = nil;
 static BOOL		growlLaunched = NO;
 static NSProxy<GrowlNotificationProtocol> *growlProxy = nil;
-
-#ifdef GROWL_WITH_INSTALLER
-static NSMutableArray	*queuedGrowlNotifications = nil;
-
-static BOOL				userChoseNotToInstallGrowl = NO;
-static BOOL				promptedToInstallGrowl = NO;
-static BOOL				promptedToUpgradeGrowl = NO;
-#endif
 
 //used primarily by GIP, but could be useful elsewhere.
 static BOOL		registerWhenGrowlIsReady = NO;
@@ -185,11 +176,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 						 name:growlNotificationTimedOutName
 					   object:nil];
 	[growlNotificationTimedOutName release];
-
-#ifdef GROWL_WITH_INSTALLER
-	//Determine if the user has previously told us not to ever request installation again
-	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation:Do Not Prompt Again"];
-#endif
 
 	growlLaunched = [self _launchGrowlIfInstalledWithRegistrationDictionary:cachedRegistrationDictionary];
 }
@@ -296,22 +282,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 															   deliverImmediately:NO];
 		}
 	} else {
-#ifdef GROWL_WITH_INSTALLER
-		/*if Growl launches, and the user hasn't already said NO to installing
-		 *	it, store this notification for posting
-		 */
-		if (!userChoseNotToInstallGrowl) {
-			if (!queuedGrowlNotifications)
-				queuedGrowlNotifications = [[NSMutableArray alloc] init];
-			[queuedGrowlNotifications addObject:userInfo];
-
-			//if we have not already asked the user to install Growl, do it now
-			if (!promptedToInstallGrowl) {
-				[GrowlInstallationPrompt showInstallationPrompt];
-				promptedToInstallGrowl = YES;
-			}
-		}
-#endif
+        if (!miniDispatch) {
+            miniDispatch = [[GrowlMiniDispatch alloc] init];
+            miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
+        }
+        [miniDispatch displayNotification:userInfo];
 	}
 }
 
