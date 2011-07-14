@@ -818,11 +818,13 @@ enum GCDAsyncSocketConfig
 		
 		if (sq)
 		{
+#ifndef NS_BLOCK_ASSERTIONS
 			NSString *assertMsg = @"The given socketQueue parameter must not be a concurrent queue.";
 			
 			NSAssert(sq != dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), assertMsg);
 			NSAssert(sq != dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), assertMsg);
 			NSAssert(sq != dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), assertMsg);
+#endif
 			
 			dispatch_retain(sq);
 			socketQueue = sq;
