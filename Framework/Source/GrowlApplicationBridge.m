@@ -249,20 +249,19 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 		[firstAttempt begin];
 	} else {
-		//NOTE: Merge conflict
-		//Peter's version
-		if (!queuedGrowlNotifications)
-			queuedGrowlNotifications = [[NSMutableArray alloc] init];
-		[queuedGrowlNotifications addObject:userInfo];
+		if ([self isGrowlInstalled]) {
+			if (!queuedGrowlNotifications)
+				queuedGrowlNotifications = [[NSMutableArray alloc] init];
+			[queuedGrowlNotifications addObject:userInfo];
 
-		[self registerWithDictionary:nil];
-		//Rachel's version
-        if (!miniDispatch) {
-            miniDispatch = [[GrowlMiniDispatch alloc] init];
-            miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
-        }
-        [miniDispatch displayNotification:userInfo];
-		//End conflict
+			[self registerWithDictionary:nil];
+		} else {
+			if (!miniDispatch) {
+				miniDispatch = [[GrowlMiniDispatch alloc] init];
+				miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
+			}
+			[miniDispatch displayNotification:userInfo];
+		}
 	}
 }
 
