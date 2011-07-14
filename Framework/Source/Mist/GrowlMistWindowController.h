@@ -21,6 +21,7 @@
 
 	GrowlMistView				*mistView;
 	
+	NSViewAnimation 			*fadeAnimation;
 	NSTimer						*lifetime;
 	BOOL						 closed;
 	BOOL						 sticky;

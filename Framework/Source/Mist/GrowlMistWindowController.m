@@ -48,6 +48,7 @@
 - (void)dealloc {
 	[lifetime invalidate];
 	[lifetime release];
+	[fadeAnimation stopAnimation]; //We'll release it in our response to the callback notifying us that it's stopping.
 	[mistView release];
 	[userInfo release];
 	[super dealloc];
@@ -65,14 +66,12 @@
     NSArray *animations;
     animations = [NSArray arrayWithObject:fadeIn];
 	
-    NSViewAnimation *animation;
-    animation = [[NSViewAnimation alloc]
+    fadeAnimation = [[NSViewAnimation alloc]
 				 initWithViewAnimations:animations];
 	
-    [animation setAnimationBlockingMode:NSAnimationNonblocking];
-    [animation setDuration:0.3];
-    [animation startAnimation];	
-	[animation autorelease];
+    [fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+    [fadeAnimation setDuration:0.3];
+    [fadeAnimation startAnimation];	
 	visible = YES;
 }
 
@@ -108,14 +107,13 @@
     NSArray *animations;
     animations = [NSArray arrayWithObject:fadeOut];
 	
-    NSViewAnimation *animation;
-    animation = [[NSViewAnimation alloc]
+    fadeAnimation = [[NSViewAnimation alloc]
 				 initWithViewAnimations:animations];
 	
-    [animation setAnimationBlockingMode:NSAnimationNonblocking];
-    [animation setDuration:0.3];
-	[animation setDelegate:self];
-    [animation startAnimation];	
+    [fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+    [fadeAnimation setDuration:0.3];
+	[fadeAnimation setDelegate:self];
+    [fadeAnimation startAnimation];	
 }
 
 - (void)mistViewDismissed:(BOOL)wasClosed
