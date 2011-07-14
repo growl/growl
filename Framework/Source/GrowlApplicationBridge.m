@@ -15,7 +15,9 @@
 #import "GrowlProcessUtilities.h"
 #import "GrowlPathway.h"
 #import "GrowlImageAdditions.h"
+#if !GROWLHELPERAPP
 #import "GrowlMiniDispatch.h"
+#endif
 
 #import "GrowlApplicationBridgeRegistrationAttempt.h"
 #import "GrowlApplicationBridgeNotificationAttempt.h"
@@ -49,7 +51,9 @@ static NSDictionary *cachedRegistrationDictionary = nil;
 static NSString	*appName = nil;
 static NSData	*appIconData = nil;
 
+#if !GROWLHELPERAPP
 static GrowlMiniDispatch *miniDispatch = nil;
+#endif
 
 static id		delegate = nil;
 static BOOL		growlLaunched = NO;
@@ -249,18 +253,23 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 		[firstAttempt begin];
 	} else {
-		if ([self isGrowlInstalled]) {
+#if !GROWLHELPERAPP
+		if ([self isGrowlInstalled])
+#endif
+		{
 			if (!queuedGrowlNotifications)
 				queuedGrowlNotifications = [[NSMutableArray alloc] init];
 			[queuedGrowlNotifications addObject:userInfo];
 
 			[self registerWithDictionary:nil];
+#if !GROWLHELPERAPP
 		} else {
 			if (!miniDispatch) {
 				miniDispatch = [[GrowlMiniDispatch alloc] init];
 				miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
 			}
 			[miniDispatch displayNotification:userInfo];
+#endif
 		}
 	}
 }
