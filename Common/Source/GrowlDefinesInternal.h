@@ -411,6 +411,6 @@ enum GrowlPathwayErrorCode {
 
 #endif
 
-extern const NSInteger GrowlVisualDisplayWindowLevel;
+#define GrowlVisualDisplayWindowLevel NSStatusWindowLevel
 
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
