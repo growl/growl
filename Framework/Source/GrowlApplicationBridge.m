@@ -7,10 +7,6 @@
 //
 
 #import "GrowlApplicationBridge.h"
-#ifdef GROWL_WITH_INSTALLER
-#import "GrowlInstallationPrompt.h"
-#import "GrowlVersionUtilities.h"
-#endif
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
@@ -19,6 +15,7 @@
 #import "GrowlProcessUtilities.h"
 #import "GrowlPathway.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlMiniDispatch.h"
 
 #import "GrowlApplicationBridgeRegistrationAttempt.h"
 #import "GrowlApplicationBridgeNotificationAttempt.h"
@@ -51,6 +48,8 @@
 static NSDictionary *cachedRegistrationDictionary = nil;
 static NSString	*appName = nil;
 static NSData	*appIconData = nil;
+
+static GrowlMiniDispatch *miniDispatch = nil;
 
 static id		delegate = nil;
 static BOOL		growlLaunched = NO;
@@ -250,11 +249,20 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 		[firstAttempt begin];
 	} else {
+		//NOTE: Merge conflict
+		//Peter's version
 		if (!queuedGrowlNotifications)
 			queuedGrowlNotifications = [[NSMutableArray alloc] init];
 		[queuedGrowlNotifications addObject:userInfo];
 
 		[self registerWithDictionary:nil];
+		//Rachel's version
+        if (!miniDispatch) {
+            miniDispatch = [[GrowlMiniDispatch alloc] init];
+            miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
+        }
+        [miniDispatch displayNotification:userInfo];
+		//End conflict
 	}
 }
 
