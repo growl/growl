@@ -16,17 +16,18 @@
 
 - (id)initWithNotificationTitle:(NSString *)title text:(NSString *)text image:(NSImage *)image sticky:(BOOL)isSticky userInfo:(id)info delegate:(id)aDelegate
 {
-	mistView = [[GrowlMistView alloc] initWithFrame:NSZeroRect];
-	mistView.notificationTitle = title;
-	mistView.notificationText = text;
-	mistView.notificationImage = image;
-	mistView.delegate = self;
-	[mistView sizeToFit];
+	GrowlMistView *mistViewForSetup = [[[GrowlMistView alloc] initWithFrame:NSZeroRect] autorelease];
+	mistViewForSetup.notificationTitle = title;
+	mistViewForSetup.notificationText = text;
+	mistViewForSetup.notificationImage = image;
+	mistViewForSetup.delegate = self;
+	[mistViewForSetup sizeToFit];
 	
-	NSRect mistRect = mistView.frame;
+	NSRect mistRect = mistViewForSetup.frame;
 	NSWindow *tempWindow = [[NSWindow alloc] initWithContentRect:mistRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:YES]; 
 	self = [super initWithWindow:tempWindow];
 	if (self) {
+		mistView = [mistViewForSetup retain];
 		[tempWindow setContentView:mistView];
 		[tempWindow setOpaque:NO];
 		[tempWindow setBackgroundColor:[NSColor clearColor]];
@@ -37,9 +38,6 @@
 		sticky = isSticky;
 		if (!sticky)
 			lifetime = [[NSTimer scheduledTimerWithTimeInterval:MIST_LIFETIME target:self selector:@selector(lifetimeExpired:) userInfo:nil repeats:NO] retain];
-	}
-	else {
-		[mistView release];
 	}
 	[tempWindow release];
 	return self;
