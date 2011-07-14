@@ -6,6 +6,7 @@
 
 #import "GrowlMistWindowController.h"
 
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlMistWindowController
 @synthesize sticky;
@@ -31,6 +32,7 @@
 		[tempWindow setContentView:mistView];
 		[tempWindow setOpaque:NO];
 		[tempWindow setBackgroundColor:[NSColor clearColor]];
+		[tempWindow setLevel:GrowlVisualDisplayWindowLevel];
 		[tempWindow setAcceptsMouseMovedEvents:YES];
 		userInfo = [info retain];
 		delegate = aDelegate;
