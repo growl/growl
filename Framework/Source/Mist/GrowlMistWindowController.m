@@ -59,8 +59,8 @@
 	
 	NSDictionary *fadeIn = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [self window], NSViewAnimationTargetKey,
-							 NSViewAnimationFadeInEffect,
-							 NSViewAnimationEffectKey, nil];	
+							 NSViewAnimationFadeInEffect, NSViewAnimationEffectKey,
+							nil];	
 	
     NSArray *animations;
     animations = [NSArray arrayWithObject:fadeIn];
