@@ -54,7 +54,7 @@
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
-	[panel setLevel:NSStatusWindowLevel];
+	[panel setLevel:GrowlVisualDisplayWindowLevel];
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];

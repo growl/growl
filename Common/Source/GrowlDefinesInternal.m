@@ -7,3 +7,5 @@
 //
 
 NSString *const GrowlErrorDomain = @"GrowlErrorDomain";
+
+const NSInteger GrowlVisualDisplayWindowLevel = NSStatusWindowLevel;

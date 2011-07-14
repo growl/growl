@@ -46,7 +46,7 @@
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
-	[panel setLevel:NSStatusWindowLevel];
+	[panel setLevel:GrowlVisualDisplayWindowLevel];
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
