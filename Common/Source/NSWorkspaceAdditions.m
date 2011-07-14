@@ -42,12 +42,4 @@
 	return success;
 }
 
-- (NSDictionary *) launchedApplicationWithIdentifier:(NSString *) identifier {
-	for (NSDictionary *process in [[NSWorkspace sharedWorkspace] launchedApplications])
-		if ([identifier caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
-			return process;
-
-	return nil;
-}
-
 @end
