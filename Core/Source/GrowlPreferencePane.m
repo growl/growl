@@ -319,10 +319,6 @@
 
 	self.displayPlugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
 
-	// If Growl is enabled, ensure the helper app is launched
-	if ([preferencesController boolForKey:GrowlEnabledKey])
-		[preferencesController launchGrowl:NO];
-
 	if ([plugins count] > 0U)
 		[self reloadDisplayPluginView];
 	else
