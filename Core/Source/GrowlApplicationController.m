@@ -857,7 +857,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 		for(NSDictionary *dict in destinations)
 		{
-			NSString *uuid = [dict valueForKey:@"uuid"];
+			NSString *uuid = [dict objectForKey:@"uuid"];
 			GNTPKey *key = nil;
 			NSString *password = nil;
 			unsigned char *passwordChars;
