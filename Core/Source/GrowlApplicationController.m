@@ -852,32 +852,68 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
 	if (!note || (object && [object isEqual:GrowlForwardDestinationsKey])) {
 		NSMutableArray *oldList = [[destinations mutableCopyWithZone:nil] autorelease];
-		[destinations release];
-		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];         
+		NSArray *newList = [[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey];
+		NSMutableArray *mutableDestinations = [[newList mutableCopy] autorelease];         
 
-		for(NSDictionary *dict in destinations)
+		NSUInteger idx = 0UL;
+		for(NSDictionary *dict in newList)
 		{
-			NSString *uuid = [dict objectForKey:@"uuid"];
 			GNTPKey *key = nil;
-			NSString *password = nil;
-			unsigned char *passwordChars;
-			UInt32 passwordLength;
+
 			OSStatus status;
 			const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
-			const char *uuidChars = [uuid UTF8String];
-			status = SecKeychainFindGenericPassword(NULL,
-				(UInt32)strlen(growlOutgoing), growlOutgoing,
-				(UInt32)strlen(uuidChars), uuidChars,
-				&passwordLength, (void **)&passwordChars, NULL);		
-			if (status == noErr) {
-				password = [[[NSString alloc] initWithBytes:passwordChars
-					length:passwordLength
-					encoding:NSUTF8StringEncoding] autorelease];
-				SecKeychainItemFreeContent(NULL, passwordChars);
-			} else {
-				if (status != errSecItemNotFound)
-					NSLog(@"Failed to retrieve password for %@ with UUID %@ from keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
-				password = nil;
+			const char *uuidChars = NULL;
+
+			NSString *uuid = [dict objectForKey:@"uuid"];
+			NSString *password = nil;
+			if (!uuid) {
+				//Stored destination that does not have a UUID: Migrate it to UUID-based storage.
+				password = [dict objectForKey:@"password"];
+				if (password) {
+					CFUUIDRef cfUUID = CFUUIDCreate(kCFAllocatorDefault);
+					if (cfUUID) {
+						uuid = [NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, cfUUID)) autorelease];
+						CFRelease(cfUUID);
+					}
+
+					if (uuid) {
+						uuidChars = [uuid UTF8String];
+
+						status = SecKeychainAddGenericPassword(NULL,
+							(UInt32)strlen(growlOutgoing), growlOutgoing,
+							(UInt32)strlen(uuidChars), uuidChars,
+							(UInt32)[password length], [password UTF8String],
+							NULL);
+						if (status != noErr) {
+							NSLog(@"Failed to store password for %@ with UUID %@ in keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
+						}
+
+						NSMutableDictionary *amendedDict = [[dict mutableCopy] autorelease];
+						[amendedDict removeObjectForKey:@"password"];
+						[amendedDict setObject:uuid forKey:@"uuid"];
+						[mutableDestinations replaceObjectAtIndex:idx withObject:amendedDict];
+					}
+				}
+			}
+			else
+			{
+				unsigned char *passwordChars;
+				UInt32 passwordLength;
+				uuidChars = [uuid UTF8String];
+				status = SecKeychainFindGenericPassword(NULL,
+					(UInt32)strlen(growlOutgoing), growlOutgoing,
+					(UInt32)strlen(uuidChars), uuidChars,
+					&passwordLength, (void **)&passwordChars, NULL);		
+				if (status == noErr) {
+					password = [[[NSString alloc] initWithBytes:passwordChars
+						length:passwordLength
+						encoding:NSUTF8StringEncoding] autorelease];
+					SecKeychainItemFreeContent(NULL, passwordChars);
+				} else {
+					if (status != errSecItemNotFound)
+						NSLog(@"Failed to retrieve password for %@ with UUID %@ from keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
+					password = nil;
+				}
 			}
 
 			if (!password)
@@ -887,12 +923,16 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
 
 			[oldList removeObject:dict];
+			++idx;
 		}
 
 		if([oldList count] > 0) {
 			for(NSDictionary *dict in oldList)
 				[[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict objectForKey:@"uuid"]];
 		}
+
+		[destinations release];
+		destinations = [mutableDestinations retain];
    }
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
