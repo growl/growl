@@ -288,6 +288,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
+#if GROWL_PREFPANE_AND_HELPERAPP_ARE_SEPARATE
 	NSString *helperPath = [[GrowlPathUtilities helperAppBundle] bundlePath];
 	NSURL *helperURL = [NSURL fileURLWithPath:helperPath];
 
@@ -299,6 +300,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	                                options:options
 	         additionalEventParamDescriptor:nil
 	                      launchIdentifiers:NULL];
+#endif
 }
 
 - (void) terminateGrowl {
