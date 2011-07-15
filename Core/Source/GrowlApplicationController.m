@@ -891,7 +891,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 		if([oldList count] > 0) {
 			for(NSDictionary *dict in oldList)
-				[[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict valueForKey:@"uuid"]];
+				[[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict objectForKey:@"uuid"]];
 		}
    }
 	if (!note || !object)
