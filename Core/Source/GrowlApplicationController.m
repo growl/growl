@@ -868,14 +868,17 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			NSString *password = nil;
 			if (!uuid) {
 				//Stored destination that does not have a UUID: Migrate it to UUID-based storage.
+				CFUUIDRef cfUUID = CFUUIDCreate(kCFAllocatorDefault);
+				if (cfUUID) {
+					uuid = [NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, cfUUID)) autorelease];
+					CFRelease(cfUUID);
+				}
+
+				NSMutableDictionary *amendedDict = [[dict mutableCopy] autorelease];
+				[amendedDict setObject:uuid forKey:@"uuid"];
+
 				password = [dict objectForKey:@"password"];
 				if (password) {
-					CFUUIDRef cfUUID = CFUUIDCreate(kCFAllocatorDefault);
-					if (cfUUID) {
-						uuid = [NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, cfUUID)) autorelease];
-						CFRelease(cfUUID);
-					}
-
 					if (uuid) {
 						uuidChars = [uuid UTF8String];
 
@@ -884,16 +887,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 							(UInt32)strlen(uuidChars), uuidChars,
 							(UInt32)[password length], [password UTF8String],
 							NULL);
-						if (status != noErr) {
+						if (status == noErr) {
+							[amendedDict removeObjectForKey:@"password"];
+						} else {
 							NSLog(@"Failed to store password for %@ with UUID %@ in keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
 						}
-
-						NSMutableDictionary *amendedDict = [[dict mutableCopy] autorelease];
-						[amendedDict removeObjectForKey:@"password"];
-						[amendedDict setObject:uuid forKey:@"uuid"];
-						[mutableDestinations replaceObjectAtIndex:idx withObject:amendedDict];
 					}
 				}
+
+				[mutableDestinations replaceObjectAtIndex:idx withObject:amendedDict];
 			}
 			else
 			{
