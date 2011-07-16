@@ -21,6 +21,7 @@
 	NSDictionary *dictionary;
 	GrowlCommunicationAttempt *nextAttempt;
 	id <GrowlCommunicationAttemptDelegate> delegate;
+	NSError *error;
 }
 
 //Designated initializer
