@@ -21,6 +21,8 @@
 
 #import "GrowlApplicationBridgeRegistrationAttempt.h"
 #import "GrowlApplicationBridgeNotificationAttempt.h"
+#import "GrowlGNTPRegistrationAttempt.h"
+#import "GrowlGNTPNotificationAttempt.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -244,12 +246,18 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
 		GrowlCommunicationAttempt *firstAttempt;
+		GrowlGNTPNotificationAttempt *gntpNotify;
 		GrowlApplicationBridgeNotificationAttempt *gabNotify;
 		
 		firstAttempt = 
+		gntpNotify = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+		gntpNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+		[[self attempts] addObject:gntpNotify];
+
 		gabNotify = [[[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
 		gabNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
 		[[self attempts] addObject:gabNotify];
+		gntpNotify.nextAttempt = gabNotify;
 
 		[firstAttempt begin];
 	} else {
@@ -306,13 +314,19 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	cachedRegistrationDictionary = [regDict retain];
 
 	GrowlCommunicationAttempt *firstAttempt;
+	GrowlGNTPRegistrationAttempt *gntpRegister;
 	GrowlApplicationBridgeRegistrationAttempt *gabRegister;
 
 	firstAttempt =
+	gntpRegister = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+	gntpRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+	[attempts addObject:gntpRegister];
+
 	gabRegister = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
 	gabRegister.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
 	gabRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
 	[attempts addObject:gabRegister];
+	gntpRegister.nextAttempt = gabRegister;
 
 	[firstAttempt begin];
 
