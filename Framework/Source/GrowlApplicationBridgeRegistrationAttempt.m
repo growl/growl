@@ -58,17 +58,17 @@
 
 					//Write the registration dictionary out to the temporary directory
 					NSData *plistData;
-					NSString *error;
+					NSString *errorString;
 					plistData = [NSPropertyListSerialization dataFromPropertyList:self.dictionary
 																		   format:NSPropertyListBinaryFormat_v1_0
-																 errorDescription:&error];
+																 errorDescription:&errorString];
 					if (plistData) {
 						if (![plistData writeToFile:regDictPath atomically:NO])
 							NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@", regDictPath);
 					} else {
-						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
+						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, errorString);
 						NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", self.dictionary);
-						[error release];
+						[errorString release];
 					}
 
 					if ([[NSFileManager defaultManager] fileExistsAtPath:regDictPath]) {
