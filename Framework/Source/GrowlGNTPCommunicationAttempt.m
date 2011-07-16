@@ -30,12 +30,13 @@
 	NSAssert1(socket == nil, @"%@ appears to already be sending!", self);
 	//GrowlGNTPOutgoingPacket *packet = [self packet];
 	socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-	NSError *error = nil;
+	NSError *errorReturned = nil;
 	if (![socket connectToHost:@"localhost"
 				   onPort:GROWL_TCP_PORT
 			  withTimeout:15.0
-					error:&error])
+					error:&errorReturned])
 	{
+		self.error = errorReturned;
 		[self failed];
 	}
 }
@@ -45,7 +46,8 @@
 	[socket disconnectAfterWriting];
 }
 
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)error {
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
+	self.error = socketError;
 	[self failed];
 }
 

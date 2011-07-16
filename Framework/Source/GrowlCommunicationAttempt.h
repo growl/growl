@@ -36,6 +36,10 @@
 
 @property(nonatomic, assign) id <GrowlCommunicationAttemptDelegate> delegate;
 
+//Users of this class should examine this property if the attempt fails and they want to know why.
+//Only subclasses should assign to it.
+@property(nonatomic, retain) NSError *error;
+
 //Start to try to communicate the dictionary. Subclasses: You must implement this completely yourself; this class's implementation throws an exception.
 - (void) begin;
 

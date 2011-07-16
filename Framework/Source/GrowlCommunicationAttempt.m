@@ -12,6 +12,7 @@
 @synthesize dictionary;
 @synthesize nextAttempt;
 @synthesize delegate;
+@synthesize error;
 
 - (id) init {
 	Class class = [self class];
