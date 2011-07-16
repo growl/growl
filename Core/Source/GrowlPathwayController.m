@@ -47,13 +47,20 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 		pathways = [[NSMutableSet alloc] initWithCapacity:4U];
 		remotePathways = [[NSMutableSet alloc] initWithCapacity:2U];
 
-		GrowlPathway *pw = [GrowlPropertyListFilePathway standardPathway];
-		if (pw)
-			[self installPathway:pw];
+		BOOL loadOldPathways = YES;
+		NSNumber *num = [[NSUserDefaults standardUserDefaults] objectForKey:@"GrowlPreGNTPCompatibility"];
+		if (num && [num respondsToSelector:@selector(boolValue)] && ([num boolValue] == NO))
+			loadOldPathways = NO;
 
-		pw = [GrowlApplicationBridgePathway standardPathway];
-		if (pw)
-			[self installPathway:pw];
+		if (loadOldPathways) {
+			GrowlPathway *pw = [GrowlPropertyListFilePathway standardPathway];
+			if (pw)
+				[self installPathway:pw];
+
+			pw = [GrowlApplicationBridgePathway standardPathway];
+			if (pw)
+				[self installPathway:pw];
+		}
 
 		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
 		[self installPathway:rpw];
