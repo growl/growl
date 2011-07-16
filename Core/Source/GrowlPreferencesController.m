@@ -56,17 +56,17 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(growlPreferencesChanged:)
-																name:GrowlPreferencesChanged
-															  object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+			selector:@selector(growlPreferencesChanged:)
+			name:GrowlPreferencesChanged
+			object:nil];
 		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
 	}
 	return self;
 }
 
 - (void) destroy {
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	CFRelease(loginItems);
 
 	[super destroy];
@@ -109,7 +109,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	CFStringRef pidKey = CFSTR("pid");
 	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&pidKey, (const void **)&pidValue, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFRelease(pidValue);
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 										 (CFStringRef)GrowlPreferencesChanged,
 										 /*object*/ key,
 										 /*userInfo*/ userInfo,

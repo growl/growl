@@ -50,6 +50,7 @@
 @synthesize services;
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[browser         release];
 	[services        release];
@@ -68,8 +69,9 @@
     loadedPrefPanes = [[NSMutableArray alloc] init];
     preferencesController = [GrowlPreferencesController sharedController];
     
-    NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
+    NSDistributedNotificationCenter *dnc = [NSNotificationCenter defaultCenter];
+    [dnc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
     [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
     
@@ -281,7 +283,7 @@
 }
 
 /*!
- * @brief Called when a distributed GrowlPreferencesChanged notification is received.
+ * @brief Called when a GrowlPreferencesChanged notification is received.
  */
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
@@ -516,7 +518,7 @@
 			CFTypeRef   values[2] = { [ticket applicationName], pidValue };
 			CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 			CFRelease(pidValue);
-			CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 												 (CFStringRef)GrowlPreferencesChanged,
 												 CFSTR("GrowlTicketDeleted"),
 												 userInfo, false);
@@ -630,7 +632,7 @@
 	if (!pluginName)
 		pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
 			
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																   object:pluginName];
 }
 

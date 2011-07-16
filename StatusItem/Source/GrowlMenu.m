@@ -60,7 +60,7 @@
         
         [self setGrowlMenuEnabled:YES];
         
-        //NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+        //NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         /*[nc addObserver:self
          selector:@selector(reloadPrefs:)
          name:GrowlPreferencesChanged

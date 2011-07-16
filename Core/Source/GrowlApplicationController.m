@@ -116,26 +116,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
-		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
+		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
-		[NSDNC addObserver:self
+		[nc addObserver:self
 				  selector:@selector(preferencesChanged:)
 					  name:GrowlPreferencesChanged
 					object:nil];
-		[NSDNC addObserver:self
+		[nc addObserver:self
 				  selector:@selector(showPreview:)
 					  name:GrowlPreview
 					object:nil];
-		[NSDNC addObserver:self
+		[nc addObserver:self
 				  selector:@selector(shutdown:)
 					  name:GROWL_SHUTDOWN
 					object:nil];
-		[NSDNC addObserver:self
+		[nc addObserver:self
 				  selector:@selector(replyToPing:)
 					  name:GROWL_PING
 					object:nil];
 
-		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self
 			   selector:@selector(notificationClicked:)
 				   name:GROWL_NOTIFICATION_CLICKED
