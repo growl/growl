@@ -9,6 +9,7 @@
 #import "GrowlGNTPCommunicationAttempt.h"
 
 #import "GrowlGNTPOutgoingPacket.h"
+#import "GrowlDefinesInternal.h"
 
 #import "GCDAsyncSocket.h"
 
@@ -19,11 +20,33 @@
 	return nil;
 }
 
+- (void) failed {
+	[super failed];
+	[socket release];
+	socket = nil;
+}
+
 - (void) begin {
 	NSAssert1(socket == nil, @"%@ appears to already be sending!", self);
 	//GrowlGNTPOutgoingPacket *packet = [self packet];
-	socket = [[GCDAsyncSocket alloc] init];
-	
+	socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+	NSError *error = nil;
+	if (![socket connectToHost:@"localhost"
+				   onPort:GROWL_TCP_PORT
+			  withTimeout:15.0
+					error:&error])
+	{
+		[self failed];
+	}
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
+	[[self packet] writeToSocket:sock];
+	[socket disconnectAfterWriting];
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)error {
+	[self failed];
 }
 
 @end
