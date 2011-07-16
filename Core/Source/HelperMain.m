@@ -15,10 +15,11 @@ int main(int argc, const char *argv[]) {
 	[GrowlApplication sharedApplication];
 	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
 
-	[NSApp run];
+	int status = NSApplicationMain(argc, argv);
+
 	[pool release];
 
-	return EXIT_SUCCESS;
+	return status;
 }
 
 
