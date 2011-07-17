@@ -320,12 +320,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	firstAttempt =
 	gntpRegister = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
 	gntpRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-	[attempts addObject:gntpRegister];
+	[[self attempts] addObject:gntpRegister];
 
 	gabRegister = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
 	gabRegister.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
 	gabRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-	[attempts addObject:gabRegister];
+	[[self attempts] addObject:gabRegister];
 	gntpRegister.nextAttempt = gabRegister;
 
 	[firstAttempt begin];
