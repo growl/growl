@@ -48,7 +48,10 @@
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
 	self.error = socketError;
-	[self failed];
+	if (socketError)
+		[self failed];
+	else
+		[self succeeded];
 }
 
 @end
