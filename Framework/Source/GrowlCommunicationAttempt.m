@@ -9,7 +9,13 @@
 
 @implementation GrowlCommunicationAttempt
 
++ (GrowlCommunicationAttemptType) attemptType {
+	NSAssert1(NO, @"attemptType message received by class %@, which does not override it!", self);
+	return GrowlCommunicationAttemptTypeNone;
+}
+
 @synthesize dictionary;
+@synthesize attemptType;
 @synthesize nextAttempt;
 @synthesize delegate;
 @synthesize error;
@@ -25,6 +31,7 @@
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
 		dictionary = [dict retain];
+		attemptType = [[self class] attemptType];
 	}
 	return self;
 }

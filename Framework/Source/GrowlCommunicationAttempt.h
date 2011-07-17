@@ -16,18 +16,33 @@
 
 @end
 
+enum {
+	GrowlCommunicationAttemptTypeNone,
+	GrowlCommunicationAttemptTypeRegister,
+	GrowlCommunicationAttemptTypeNotify,
+	GrowlCommunicationAttemptTypeSubscribe, //as yet unused
+};
+typedef NSUInteger GrowlCommunicationAttemptType;
+
 @interface GrowlCommunicationAttempt : NSObject
 {
 	NSDictionary *dictionary;
+	GrowlCommunicationAttemptType attemptType;
 	GrowlCommunicationAttempt *nextAttempt;
 	id <GrowlCommunicationAttemptDelegate> delegate;
 	NSError *error;
 }
 
+//To be overridden by subclasses. If your subclass can be any attempt type, return GrowlCommunicationAttemptTypeNone and initialize the attemptType variable in your -initWithDictionary:. GrowlCommunicationAttempt's implementation of +attemptType throws an exception.
++ (GrowlCommunicationAttemptType) attemptType;
+
 //Designated initializer
 - (id) initWithDictionary:(NSDictionary *)dict;
 
 @property(nonatomic, readonly) NSDictionary *dictionary;
+
+//Initialized automatically by -[GrowlCommunicationAttempt initWithDictionary:] with the value returned by [[self class] attemptType].
+@property(nonatomic, readonly) GrowlCommunicationAttemptType attemptType;
 
 //Automatically creates (with the same dictionary) a new attempt that is an instance of this class and sets it as this attempt's next attempt.
 - (id) makeNextAttemptOfClass:(Class)classToTryNext;
