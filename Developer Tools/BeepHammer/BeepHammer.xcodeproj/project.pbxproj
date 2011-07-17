@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,8 +31,6 @@
 		34FBA3120CA0554800958660 /* BeepMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 073B927606855EBF0068C763 /* BeepMain.m */; };
 		34FBA3130CA0554800958660 /* BeepAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0717FC2C076587750083E17E /* BeepAdditions.m */; };
 		34FBA3160CA0554800958660 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
-		34FBA3480CA056C300958660 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
-		34FBA3490CA056C700958660 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */; };
 		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.xib */; };
 		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -45,26 +43,12 @@
 			remoteGlobalIDString = 31E184D61084628D0011C78B;
 			remoteInfo = "Unit tests";
 		};
-		34FBA2DC0CA0551E00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D202CF80486D31800D8A456;
-			remoteInfo = Growl;
-		};
 		34FBA2DE0CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
 			remoteInfo = GrowlHelperApp;
-		};
-		34FBA2E00CA0551E00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
-			remoteInfo = GrowlMenu;
 		};
 		34FBA2E20CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -79,13 +63,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 34725B0F0C0678A000499F50;
 			remoteInfo = Growl.dylib;
-		};
-		34FBA2E60CA0551E00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 34F60EF9078E226300CECA86;
-			remoteInfo = "Growl-WithInstaller.framework";
 		};
 		34FBA2E80CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -164,20 +141,6 @@
 			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
-		34FBA3200CA0558A00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 34F60EF8078E226300CECA86;
-			remoteInfo = "Growl-WithInstaller.framework";
-		};
-		9323A10611DEDF35008DEFD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 933818151052AA160014C550;
-			remoteInfo = GrowlSparkleHelper;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -197,7 +160,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				34FBA3490CA056C700958660 /* Growl-WithInstaller.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +190,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FBA3480CA056C300958660 /* Growl-WithInstaller.framework in Frameworks */,
 				34FBA3160CA0554800958660 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,13 +264,9 @@
 		34FBA2C80CA0551E00958660 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				34FBA2DD0CA0551E00958660 /* Growl.prefPane */,
-				9323A10711DEDF35008DEFD3 /* GrowlSparkleHelper.app */,
-				34FBA2DF0CA0551E00958660 /* GrowlHelperApp.app */,
-				34FBA2E10CA0551E00958660 /* GrowlMenu.app */,
+				34FBA2DF0CA0551E00958660 /* Growl.app */,
 				34FBA2E30CA0551E00958660 /* Growl.framework */,
 				34FBA2E50CA0551E00958660 /* Growl.dylib */,
-				34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */,
 				34FBA2E90CA0551E00958660 /* Speech.growlView */,
 				34FBA2EB0CA0551E00958660 /* Brushed.growlView */,
 				34FBA2ED0CA0551E00958660 /* Bubbles.growlView */,
@@ -362,7 +319,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				34FBA3210CA0558A00958660 /* PBXTargetDependency */,
 			);
 			name = "BeepHammer Growl-WithInstaller";
 			productName = Beep;
@@ -394,9 +350,16 @@
 /* Begin PBXProject section */
 		073B925106855E0F0068C763 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 95E4A3920855C1A3006B3F45 /* Build configuration list for PBXProject "BeepHammer" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 073B924D06855E0F0068C763;
 			productRefGroup = 073B925C06855E200068C763 /* Products */;
 			projectDirPath = "";
@@ -422,25 +385,11 @@
 			remoteRef = 31F7A217109058860049993D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		34FBA2DD0CA0551E00958660 /* Growl.prefPane */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Growl.prefPane;
-			remoteRef = 34FBA2DC0CA0551E00958660 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34FBA2DF0CA0551E00958660 /* GrowlHelperApp.app */ = {
+		34FBA2DF0CA0551E00958660 /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = GrowlHelperApp.app;
+			path = Growl.app;
 			remoteRef = 34FBA2DE0CA0551E00958660 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34FBA2E10CA0551E00958660 /* GrowlMenu.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlMenu.app;
-			remoteRef = 34FBA2E00CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34FBA2E30CA0551E00958660 /* Growl.framework */ = {
@@ -455,13 +404,6 @@
 			fileType = "compiled.mach-o.dylib";
 			path = Growl.dylib;
 			remoteRef = 34FBA2E40CA0551E00958660 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34FBA2E70CA0551E00958660 /* Growl-WithInstaller.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller.framework";
-			remoteRef = 34FBA2E60CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34FBA2E90CA0551E00958660 /* Speech.growlView */ = {
@@ -534,13 +476,6 @@
 			remoteRef = 34FBA2FA0CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9323A10711DEDF35008DEFD3 /* GrowlSparkleHelper.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = GrowlSparkleHelper.app;
-			remoteRef = 9323A10611DEDF35008DEFD3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -601,11 +536,6 @@
 			name = Growl.framework;
 			targetProxy = 34FBA2FC0CA0552D00958660 /* PBXContainerItemProxy */;
 		};
-		34FBA3210CA0558A00958660 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Growl-WithInstaller.framework";
-			targetProxy = 34FBA3200CA0558A00958660 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -651,7 +581,6 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -681,7 +610,6 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -710,7 +638,6 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = BeepHammer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -739,7 +666,6 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
 				PRODUCT_NAME = BeepHammer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
