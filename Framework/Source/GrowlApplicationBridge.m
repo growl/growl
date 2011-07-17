@@ -69,7 +69,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 #endif
 
 static BOOL registeredWithGrowl = NO;
-static NSMutableArray *attempts = nil;
+static NSMutableArray *_attempts = nil;
 
 //used primarily by GIP, but could be useful elsewhere.
 static BOOL		registerWhenGrowlIsReady = NO;
@@ -79,9 +79,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 @implementation GrowlApplicationBridge
 
 + (NSMutableArray *) attempts {
-	if (!attempts)
-		attempts = [[NSMutableArray alloc] init];
-	return attempts;
+	if (!_attempts)
+		_attempts = [[NSMutableArray alloc] init];
+	return _attempts;
 }
 
 + (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
