@@ -1,5 +1,5 @@
 //
-//  GrowlApplicationAdditions.h
+//  GrowlOperatingSystemVersion.h
 //  Growl
 //
 //  Created by Evan Schoenberg on 11/5/08.//

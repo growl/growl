@@ -26,7 +26,6 @@
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
-#import "GrowlApplicationAdditions.h"
 
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>

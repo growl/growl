@@ -1,11 +1,11 @@
 //
-//  GrowlApplicationAdditions.m
+//  GrowlOperatingSystemVersion.m
 //  Growl
 //
 //  Created by Evan Schoenberg on 11/5/08.
 //
 
-#import "GrowlApplicationAdditions.h"
+#import "GrowlOperatingSystemVersion.h"
 
 void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor,NSUInteger *outIncremental)
 {

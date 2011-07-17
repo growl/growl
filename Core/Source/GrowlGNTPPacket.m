@@ -14,7 +14,7 @@
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
 #import "ISO8601DateFormatter.h"
-#import "GrowlApplicationAdditions.h"
+#import "GrowlOperatingSystemVersion.h"
 #import "GNTPKey.h"
 #import "GrowlDefinesInternal.h"
 #import <SystemConfiguration/SCDynamicStoreCopySpecific.h>

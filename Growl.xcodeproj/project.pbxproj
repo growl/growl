@@ -215,7 +215,7 @@
 		34F60EBA078E1D3E00CECA86 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		34F60EBC078E1D3E00CECA86 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F60EC3078E1D5600CECA86 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34F909350EC1FAAE00566EE6 /* GrowlApplicationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */; };
+		34F909350EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F909340EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m */; };
 		52861FF006DC463E00D3A356 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		5286205806DC4C2F00D3A356 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
 		63C92DDA06D05D22007368FA /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 63C92DD406D05D22007368FA /* Growl.sdef */; };
@@ -870,8 +870,8 @@
 		34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationBridge.m; path = Framework/Source/GrowlApplicationBridge.m; sourceTree = "<group>"; };
 		34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridge.h; path = Framework/Source/GrowlApplicationBridge.h; sourceTree = "<group>"; };
 		34F60EC2078E1D5600CECA86 /* Growl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Growl.h; path = Framework/Source/Growl.h; sourceTree = "<group>"; };
-		34F909330EC1FAAE00566EE6 /* GrowlApplicationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationAdditions.h; path = Common/Source/GrowlApplicationAdditions.h; sourceTree = "<group>"; };
-		34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationAdditions.m; path = Common/Source/GrowlApplicationAdditions.m; sourceTree = "<group>"; };
+		34F909330EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; name = GrowlOperatingSystemVersion.h; path = Common/Source/GrowlOperatingSystemVersion.h; sourceTree = "<group>"; };
+		34F909340EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOperatingSystemVersion.m; path = Common/Source/GrowlOperatingSystemVersion.m; sourceTree = "<group>"; };
 		52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = GrowlDefaults.plist; path = Core/Resources/GrowlDefaults.plist; sourceTree = "<group>"; };
 		5286205506DC4C2F00D3A356 /* GrowlPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPluginController.h; path = Core/Source/GrowlPluginController.h; sourceTree = "<group>"; };
 		5286205606DC4C2F00D3A356 /* GrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GrowlPluginController.m; path = Core/Source/GrowlPluginController.m; sourceTree = "<group>"; };
@@ -1405,8 +1405,8 @@
 				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
 				07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */,
 				07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */,
-				34F909330EC1FAAE00566EE6 /* GrowlApplicationAdditions.h */,
-				34F909340EC1FAAE00566EE6 /* GrowlApplicationAdditions.m */,
+				34F909330EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.h */,
+				34F909340EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -3045,7 +3045,7 @@
 				34A441160EBA679900809538 /* GrowlGNTPOutgoingPacket.m in Sources */,
 				34A441460EBA69A600809538 /* GrowlGNTPBinaryChunk.m in Sources */,
 				34A269AD0EBF308300C66E44 /* GrowlCallbackGNTPPacket.m in Sources */,
-				34F909350EC1FAAE00566EE6 /* GrowlApplicationAdditions.m in Sources */,
+				34F909350EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m in Sources */,
 				938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */,
 				938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */,
 				938CB10C1081250600259421 /* GNTPKey.m in Sources */,
