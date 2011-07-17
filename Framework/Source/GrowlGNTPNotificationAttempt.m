@@ -12,6 +12,10 @@
 
 @implementation GrowlGNTPNotificationAttempt
 
++ (GrowlCommunicationAttemptType) attemptType {
+	return GrowlCommunicationAttemptTypeNotify;
+}
+
 - (GrowlGNTPOutgoingPacket *) packet {
 	return [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType forDict:self.dictionary];
 }

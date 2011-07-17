@@ -16,6 +16,10 @@
 
 @implementation GrowlApplicationBridgeRegistrationAttempt
 
++ (GrowlCommunicationAttemptType) attemptType {
+	return GrowlCommunicationAttemptTypeRegister;
+}
+
 @synthesize applicationName;
 
 - (void) begin {

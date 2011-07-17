@@ -9,6 +9,10 @@
 
 @implementation GrowlApplicationBridgeNotificationAttempt
 
++ (GrowlCommunicationAttemptType) attemptType {
+	return GrowlCommunicationAttemptTypeNotify;
+}
+
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSConnectionDidDieNotification
