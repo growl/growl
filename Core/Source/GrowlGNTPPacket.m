@@ -499,10 +499,10 @@
 		static NSString *platformVersion = nil;
 		
 		if (!determinedMachineInfo) {
-			unsigned major, minor, bugFix;
-			[NSApp getSystemVersionMajor:&major minor:&minor bugFix:&bugFix];
+			NSUInteger major, minor, bugFix;
+			GrowlGetSystemVersion(&major, &minor, &bugFix);
 		
-			platformVersion = [[NSString stringWithFormat:@"%u.%u.%u", major, minor, bugFix] retain];
+			platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
 			growlVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
 			determinedMachineInfo = YES;
 		}

@@ -7,39 +7,33 @@
 
 #import "GrowlApplicationAdditions.h"
 
-@implementation NSApplication (GrowlApplicationAdditions)
-
-- (void)getSystemVersionMajor:(unsigned *)major
-                        minor:(unsigned *)minor
-                       bugFix:(unsigned *)bugFix
+void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor,NSUInteger *outIncremental)
 {
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
     if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) goto fail;
     if (systemVersion < 0x1040)
     {
-        if (major) *major = ((systemVersion & 0xF000) >> 12) * 10 +
+        if (outMajor) *outMajor = ((systemVersion & 0xF000) >> 12) * 10 +
             ((systemVersion & 0x0F00) >> 8);
-        if (minor) *minor = (systemVersion & 0x00F0) >> 4;
-        if (bugFix) *bugFix = (systemVersion & 0x000F);
+        if (outMinor) *outMinor = (systemVersion & 0x00F0) >> 4;
+        if (outIncremental) *outIncremental = (systemVersion & 0x000F);
     }
     else
     {
         if ((err = Gestalt(gestaltSystemVersionMajor, &versionMajor)) != noErr) goto fail;
         if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr) goto fail;
         if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) goto fail;
-        if (major) *major = versionMajor;
-        if (minor) *minor = versionMinor;
-        if (bugFix) *bugFix = versionBugFix;
+        if (outMajor) *outMajor = versionMajor;
+        if (outMinor) *outMinor = versionMinor;
+        if (outIncremental) *outIncremental = versionBugFix;
     }
     
     return;
     
 fail:
     NSLog(@"Unable to obtain system version: %ld", (long)err);
-    if (major) *major = 10;
-    if (minor) *minor = 0;
-    if (bugFix) *bugFix = 0;
+    if (outMajor) *outMajor = 10;
+    if (outMinor) *outMinor = 0;
+    if (outIncremental) *outIncremental = 0;
 }
-
-@end
