@@ -7,7 +7,7 @@
 
 #import "GrowlOperatingSystemVersion.h"
 
-void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor,NSUInteger *outIncremental)
+void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor, NSUInteger *outIncremental)
 {
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;

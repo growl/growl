@@ -6,4 +6,4 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor,NSUInteger *outIncremental);
+extern void GrowlGetSystemVersion(NSUInteger *outMajor, NSUInteger *outMinor, NSUInteger *outIncremental);
