@@ -561,10 +561,6 @@
 		34FBA3180CA0554800958660 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
@@ -574,12 +570,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/BeepHammer-WithInstaller.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
@@ -590,10 +580,6 @@
 		34FBA3190CA0554800958660 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
@@ -603,12 +589,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/BeepHammer-WithInstaller.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "BeepHammer Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
@@ -619,10 +599,6 @@
 		95E4A38F0855C1A3006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
@@ -631,12 +607,6 @@
 				INFOPLIST_FILE = "BeepHammer-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BeepHammer;
 				SECTORDER_FLAGS = "";
@@ -647,10 +617,6 @@
 		95E4A3900855C1A3006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					"../../build/$(CONFIGURATION)",
-				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
@@ -659,12 +625,6 @@
 				INFOPLIST_FILE = "BeepHammer-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BeepHammer;
 				SECTORDER_FLAGS = "";
