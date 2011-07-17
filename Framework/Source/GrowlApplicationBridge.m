@@ -69,6 +69,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 #endif
 
 static BOOL registeredWithGrowl = NO;
+//Do not touch the attempts variable directly! Use the +attempts method every time, to ensure that the array exists.
 static NSMutableArray *_attempts = nil;
 
 //used primarily by GIP, but could be useful elsewhere.
