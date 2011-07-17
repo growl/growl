@@ -638,6 +638,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark GrowlCommunicationAttemptDelegate protocol conformance
 
 + (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
+	if (attempt.attemptType == GrowlCommunicationAttemptTypeRegister) {
+		registeredWithGrowl = YES;
+	}
 }
 + (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
 }
