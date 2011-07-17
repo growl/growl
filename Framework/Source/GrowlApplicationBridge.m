@@ -637,9 +637,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #pragma mark GrowlCommunicationAttemptDelegate protocol conformance
 
-//I'm not sure whether we want to implement these here or not. The attempts' delegate protocol itself may be unnecessary and due for removal under YAGNI. -prh
-//Note: These must be class methods, since we use the class itself as attempts' delegate.
-
 + (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
 }
 + (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
