@@ -2818,7 +2818,8 @@ enum GCDAsyncSocketConfig
 		
 		dispatch_sync(socketQueue, ^{
 			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-			
+
+			NSLog(@"Socket's IPv4 FD is %i; IPv6 FD is %i; NULL socket is %i", socket4FD, socket6FD, SOCKET_NULL);
 			if (socket4FD != SOCKET_NULL)
 				result = [[self connectedHostFromSocket4:socket4FD] retain];
 			else if (socket6FD != SOCKET_NULL)
@@ -2826,6 +2827,7 @@ enum GCDAsyncSocketConfig
 			
 			[pool drain];
 		});
+		NSLog(@"Connected host: %@", result);
 		
 		return [result autorelease];
 	}

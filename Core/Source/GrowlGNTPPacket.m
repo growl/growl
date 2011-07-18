@@ -750,7 +750,8 @@
 	NSString *received = [[[NSString alloc] initWithData:data
 												encoding:NSUTF8StringEncoding] autorelease];
 	received = [received stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	NSLog(@"Recv: \"%@\"", received);
+	NSLog(@"Socket %@ Recv: \"%@\"", sock, received);
+	NSLog(@"This packet's own socket is %@", [self socket]);
 #endif
 
 	switch (tag) {

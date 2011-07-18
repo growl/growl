@@ -21,6 +21,7 @@
 }
 
 - (void) failed {
+	NSLog(@"%@ failed because %@", self, self.error);
 	[super failed];
 	[socket release];
 	socket = nil;
@@ -36,6 +37,7 @@
 			  withTimeout:15.0
 					error:&errorReturned])
 	{
+		NSLog(@"Failed to connect: %@", errorReturned);
 		self.error = errorReturned;
 		[self failed];
 	}
@@ -47,6 +49,7 @@
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
+	NSLog(@"Got disconnected: %@", socketError);
 	self.error = socketError;
 	if (socketError)
 		[self failed];

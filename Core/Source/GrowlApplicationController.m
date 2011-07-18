@@ -531,8 +531,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
+	NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
 	if (!ticket) {
 		[pool release];
+		NSLog(@"Never heard of this app!");
 		return GrowlNotificationResultNotRegistered;
 	}
 
@@ -540,6 +542,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		[pool release];
+		NSLog(@"The user disabled this notification!");
 		return GrowlNotificationResultDisabled;
 	}
 
@@ -685,6 +688,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[aDict release];
 	[pool release];
 	
+	NSLog(@"Notification successful");
 	return GrowlNotificationResultPosted;
 }
 
@@ -692,6 +696,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:userInfo];
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
+	NSLog(@"Registering application with name %@", appName);
    NSString *hostName = [userInfo objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName hostName:hostName];
 
@@ -738,6 +743,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    
    if([[GrowlPreferencesController sharedController] isForwardingEnabled])
       [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[userInfo copy]];
+
+	NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
    
 	return success;
 }
