@@ -246,7 +246,7 @@
 	[outgoingPacket setAction:@"-ERROR"];
 	[outgoingPacket addHeaderItems:[packet headersForResult]];
 	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
-																	value:[[inError userInfo] objectForKey:NSLocalizedFailureReasonErrorKey]]];
+																	value:[[inError userInfo] objectForKey:NSLocalizedDescriptionKey]]];
 	[outgoingPacket writeToSocket:[packet socket]];
 }
 
