@@ -348,7 +348,21 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"X-Application-BundleID" value:[dict objectForKey:GROWL_APP_ID]]];
 	
 	NSArray *allNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotifications = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSArray *defaultNotificationsArray = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSMutableSet *defaultNotifications = [NSMutableSet setWithArray:defaultNotificationsArray];
+	for (NSObject *object in defaultNotificationsArray) {
+		if ([object isKindOfClass:[NSNumber class]]) {
+			NSNumber *indexNum = (NSNumber *)object;
+			NSUInteger idx = [indexNum unsignedIntegerValue];
+			if (idx < [allNotifications count]) {
+				[defaultNotifications addObject:[allNotifications objectAtIndex:idx]];
+			} else {
+				//Never mind trying to use these numbers as indexes.
+				NSLog(@"Bogus default notifications array from application %@: %@ contains indexes that are outside the range of all-notifications array %@", appName, defaultNotificationsArray, allNotifications);
+				break;
+			}
+		}
+	}
 	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notifications-Count"
 																	value:[NSString stringWithFormat:@"%i", [allNotifications count]]]];
