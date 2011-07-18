@@ -163,8 +163,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	Boolean    foundIt = false;
 
 	//get the prefpane bundle and find GHA within it.
-	NSBundle *prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
-	NSString *pathToGHA      = [prefPaneBundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
 	if(pathToGHA) {
 		//get the file url to GHA.
 		CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
@@ -189,7 +188,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		CFRelease(urlToGHA);
 	}
 	else {
-		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour prefpane bundle is:%@\n your pathToGHA is:%@", prefPaneBundle, pathToGHA);
+		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
 	}
 	
 	return foundIt;
@@ -197,7 +196,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
 	[self setStartAtLogin:pathToGHA enabled:flag];
 }
 

@@ -39,6 +39,8 @@
 	GrowlPreferencesController		*preferencesController;
    GrowlNotificationDatabase     *historyController;
 
+    IBOutlet NSToolbar              *toolbar;
+    
 	//"General" tab pane
 	IBOutlet NSButton				*startStopGrowl;
 	IBOutlet NSTextField			*growlRunningStatus;
@@ -103,6 +105,10 @@
 - (GrowlPluginController *) pluginController;
 - (GrowlPreferencesController *) preferencesController;
 - (GrowlNotificationDatabase *) historyController;
+
+#pragma mark Toolbar support
+-(void)setSelectedTab:(NSUInteger)tab;
+-(IBAction)selectedTabChanged:(id)sender;
 
 #pragma mark "Applications" tab pane
 - (BOOL) canRemoveTicket;

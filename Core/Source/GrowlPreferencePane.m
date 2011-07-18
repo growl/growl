@@ -32,11 +32,6 @@
 
 #include <Carbon/Carbon.h>
 
-#define PING_TIMEOUT		3
-
-//This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(16.0, 58.0, 354.0, 289.0)
-
 @interface GrowlPreferencePane (PRIVATE)
 
 - (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
@@ -288,8 +283,8 @@
 	// ignore notifications which are sent by ourselves
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
-	if (!pidValue || [pidValue intValue] != pid)
+	/*NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
+	if (!pidValue || [pidValue intValue] != pid)*/
 		[self reloadPreferences:[notification object]];
 	
 	[pool release];
@@ -317,6 +312,9 @@
 		[self setTickets:[[ticketController allSavedTickets] allValues]];
 		[self cacheImages];
 	}
+    
+    if(!object || [object isEqualToString:GrowlSelectedPrefPane])
+        [self setSelectedTab:[preferencesController selectedPreferenceTab]];
 
 	self.displayPlugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
 
@@ -463,6 +461,28 @@
 	[self performSelector:@selector(checkGrowlRunning)
 			   withObject:nil
 			   afterDelay:4.0];
+}
+
+#pragma mark Toolbar support
+
+-(void)setSelectedTab:(NSUInteger)tab
+{
+    [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
+}
+
+-(IBAction)selectedTabChanged:(id)sender
+{
+    [preferencesController setSelectedPreferenceTab:[[sender itemIdentifier] integerValue]];
+}
+
+-(BOOL)validateToolbarItem:(NSToolbarItem *)theItem
+{
+    return [[toolbar visibleItems] containsObject:theItem];
+}
+
+-(NSArray*)toolbarSelectableItems:(NSToolbar*)theToolbar
+{
+    return [toolbar visibleItems];
 }
 
 #pragma mark "General" tab pane
@@ -672,7 +692,7 @@
 		newView = displayDefaultPrefView;
 	if (displayPrefView != newView) {
 		// Make sure the new view is framed correctly
-		[newView setFrame:DISPLAY_PREF_FRAME];
+		[newView setFrame:[displayPrefView frame]];
 		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
 		displayPrefView = newView;
 
