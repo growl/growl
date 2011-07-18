@@ -495,6 +495,7 @@
 	if (![dict objectForKey:GROWL_GNTP_ORIGIN_MACHINE]) {
 		/* No origin machine --> We are the origin */
 		static BOOL determinedMachineInfo = NO;
+		static NSString *growlName = nil;
 		static NSString *growlVersion = nil;
 		static NSString *platformVersion = nil;
 		
@@ -503,12 +504,21 @@
 			GrowlGetSystemVersion(&major, &minor, &bugFix);
 		
 			platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
-			growlVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
+			NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+			if ([[thisBundle bundleIdentifier] isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]) {
+				//This bundle *is* Growl!
+				growlName = [@"Growl" copy];
+			} else {
+				//This bundle is the Growl framework or an application that built the sources directly in.
+				growlName = [@"Growl.framework" copy];
+			}
+
+			growlVersion = [[[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
 			determinedMachineInfo = YES;
 		}
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Machine-Name" value:hostName]];
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Name" value:@"Growl"]];
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Name" value:growlName]];
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Software-Version" value:growlVersion]];
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Name" value:@"Mac OS X"]];
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Origin-Platform-Version" value:platformVersion]];
