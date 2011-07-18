@@ -333,8 +333,9 @@
 	NSMutableArray *binaryChunks = [NSMutableArray array];
 	
 	/* First build the application and number of notifications part */
-	if ([dict objectForKey:GROWL_APP_NAME])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:[dict objectForKey:GROWL_APP_NAME]]];
+	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
+	if (appName)
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Application-Name" value:appName]];
 	if ([dict objectForKey:GROWL_APP_ICON_DATA]) {
 		NSData *iconData = [dict objectForKey:GROWL_APP_ICON_DATA];
 		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
