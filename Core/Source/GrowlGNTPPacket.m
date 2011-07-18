@@ -247,7 +247,7 @@
 		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
       
       if(![packetEncryptionAlgorithm isEqual:GNTPNone] && [[[self socket] connectedHost] isLocalHost]){
-         NSLog(@"LocalHost with encryption, for now ignoring");
+         NSLog(@"LocalHost with encryption %@, for now ignoring", packetEncryptionAlgorithm);
       }
       
       if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
