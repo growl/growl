@@ -242,6 +242,7 @@
  */
 - (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
 {
+	NSLog(@"Failed reading with error: %@", inError);
 	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
 	[outgoingPacket setAction:@"-ERROR"];
 	[outgoingPacket addHeaderItems:[packet headersForResult]];
