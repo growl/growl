@@ -261,11 +261,14 @@
 	NSMutableArray *allOutgoingItems = [NSMutableArray array];
 
 	GrowlGNTPInitialHeaderItem *header = [GrowlGNTPInitialHeaderItem initialHeaderItemWithAction:[self action]];
-    [header setKey:[[self key] key]];
-    [header setEncryption:[[self key] encryption]];
+	GNTPKey *keyToUse = [self key];
+	if (keyToUse) {
+		[header setKey:[keyToUse key]];
+		[header setEncryption:[keyToUse encryption]];
+	}
     [allOutgoingItems addObject:header];
 	
-	if([[self key] encryptionAlgorithm] != GNTPNone)
+	if([keyToUse encryptionAlgorithm] != GNTPNone)
 	{
 		NSMutableData *headers = [NSMutableData data];
 		
@@ -273,7 +276,7 @@
 		{
 			[headers appendData:[headerItem GNTPRepresentation]];
 		}
-		NSData *data = [[self key] encrypt:headers];
+		NSData *data = [keyToUse encrypt:headers];
 		GrowlGNTPEncryptedHeaders *encryptedHeaders = [GrowlGNTPEncryptedHeaders headerItemFromData:data error:NULL];
 		[allOutgoingItems addObject:encryptedHeaders];
 		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
@@ -285,11 +288,11 @@
 		[allOutgoingItems addObject:[GrowlGNTPHeaderItem separatorHeaderItem]];
 		
 		NSMutableArray *encryptedChunks = [NSMutableArray array];
-		if([[self key] encryptionAlgorithm] != GNTPNone)
+		if([keyToUse encryptionAlgorithm] != GNTPNone)
 		{
 			for(GrowlGNTPBinaryChunk *chunk in binaryChunks)
 			{
-				GrowlGNTPBinaryChunk *encryptedChunk = [GrowlGNTPBinaryChunk chunkForData:[[self key] encrypt:[chunk data]] withIdentifier:[chunk identifier]];
+				GrowlGNTPBinaryChunk *encryptedChunk = [GrowlGNTPBinaryChunk chunkForData:[keyToUse encrypt:[chunk data]] withIdentifier:[chunk identifier]];
 				[encryptedChunks addObject:encryptedChunk];
 			}
 		}
