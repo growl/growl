@@ -746,7 +746,7 @@
  **/
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-#ifdef DEBUG
+#ifndef NDEBUG
 	NSString *received = [[[NSString alloc] initWithData:data
 												encoding:NSUTF8StringEncoding] autorelease];
 	received = [received stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
