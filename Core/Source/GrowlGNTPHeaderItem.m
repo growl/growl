@@ -122,7 +122,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@ %x: name=%@, value=%@>", NSStringFromClass([self class]), self, headerName, headerValue];
+	return [NSString stringWithFormat:@"<%@ %p: name=%@, value=%@>", NSStringFromClass([self class]), self, headerName, headerValue];
 }
 
 @end

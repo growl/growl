@@ -760,7 +760,7 @@
 	NSString *received = [[[NSString alloc] initWithData:data
 												encoding:NSUTF8StringEncoding] autorelease];
 	received = [received stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	NSLog(@"Socket %@ Recv: \"%@\"", sock, received);
+	NSLog(@"Socket %@ with FD %i Recv: \"%@\"", sock, [sock socket4FD], received);
 	NSLog(@"This packet's own socket is %@", [self socket]);
 #endif
 

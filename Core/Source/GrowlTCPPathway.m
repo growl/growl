@@ -70,7 +70,7 @@
  */
 - (void)didAcceptNewSocket:(GCDAsyncSocket *)sock
 {
-	NSLog(@"%@: Telling %@ we accepted", self, networkPacketParser);
+	NSLog(@"%@: Telling %@ we accepted on socket %@ with FD %i", self, networkPacketParser, sock, [sock socket4FD]);
 	[networkPacketParser didAcceptNewSocket:sock];
 }
 
