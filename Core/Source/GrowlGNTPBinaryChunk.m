@@ -53,7 +53,7 @@
 	NSMutableData *gntpData = [NSMutableData data];
 	NSMutableString *rep = [NSMutableString string];
 	[rep appendFormat:@"Identifier: %@" CRLF, _identifier];
-	[rep appendFormat:@"Length: %d" CRLF, [_data length]];
+	[rep appendFormat:@"Length: %lu" CRLF, [_data length]];
 	[rep appendString:@CRLF];
 	
 	[gntpData appendData:[rep dataUsingEncoding:NSUTF8StringEncoding]];
