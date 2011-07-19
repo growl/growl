@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "GrowlTCPPathway.h"
 
-@interface GrowlGNTPBinaryChunk : NSObject {
+@interface GrowlGNTPBinaryChunk : NSObject <GNTPOutgoingItem> {
 	NSData   *_data;
 	NSString *_identifier;
 }
