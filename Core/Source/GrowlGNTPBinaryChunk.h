@@ -17,7 +17,6 @@
 
 + (GrowlGNTPBinaryChunk *)chunkForData:(NSData *)inData withIdentifier:(NSString *)inIdentifier;
 + (NSString *)identifierForBinaryData:(NSData *)data;
-- (NSData *)GNTPRepresentation;
 
 - (NSString *)identifier;
 - (NSUInteger)length;
