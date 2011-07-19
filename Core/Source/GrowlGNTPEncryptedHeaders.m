@@ -30,4 +30,8 @@
 {
 	return [self headers];
 }
+- (NSString *)GNTPRepresentationAsString
+{
+	return [[self GNTPRepresentation] description];
+}
 @end

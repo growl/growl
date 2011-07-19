@@ -48,20 +48,36 @@
 
 #define CRLF "\x0D\x0A"
 
+- (NSString *) stringThatPrecedesTheData {
+	NSMutableString *prologue = [NSMutableString string];
+	[prologue appendFormat:@"Identifier: %@" CRLF, _identifier];
+	[prologue appendFormat:@"Length: %lu" CRLF, [_data length]];
+	[prologue appendString:@CRLF];
+	return prologue;
+}
+- (NSString *) stringThatFollowsTheData {
+	NSMutableString *postlogue = [NSMutableString string];
+	[postlogue appendString:@CRLF]; /* End the data */
+	[postlogue appendString:@CRLF]; /* Blank line after the chunk */
+	return postlogue;
+}
+
 - (NSData *)GNTPRepresentation
 {
 	NSMutableData *gntpData = [NSMutableData data];
-	NSMutableString *rep = [NSMutableString string];
-	[rep appendFormat:@"Identifier: %@" CRLF, _identifier];
-	[rep appendFormat:@"Length: %lu" CRLF, [_data length]];
-	[rep appendString:@CRLF];
-	
-	[gntpData appendData:[rep dataUsingEncoding:NSUTF8StringEncoding]];
+	[gntpData appendData:[[self stringThatPrecedesTheData] dataUsingEncoding:NSUTF8StringEncoding]];
 	[gntpData appendData:_data];
-	[gntpData appendData:[GCDAsyncSocket CRLFData]]; /* End the data */
-	[gntpData appendData:[GCDAsyncSocket CRLFData]]; /* Blank line after the chunk */
+	[gntpData appendData:[[self stringThatFollowsTheData] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	return gntpData;
+}
+
+- (NSString *) GNTPRepresentationAsString {
+	NSMutableString *gntpString = [NSMutableString string];
+	[gntpString appendString:[self stringThatPrecedesTheData]];
+	[gntpString appendString:[_data description]];
+	[gntpString appendString:[self stringThatFollowsTheData]];
+	return gntpString;
 }
 
 + (NSString *)identifierForBinaryData:(NSData *)data

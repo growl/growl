@@ -19,6 +19,9 @@
  * The returned NSData is CRLF terminated and UTF8 encoded.
  */
 - (NSData *)GNTPRepresentation;
+
+//Primarily for debugging purposes, though subclasses may put the implementation here and simply implement -GNTPRepresentation to send this string dataUsingEncoding:NSUTF8StringEncoding.
+- (NSString *) GNTPRepresentationAsString;
 @end
 
 @interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate, NSNetServiceDelegate> {

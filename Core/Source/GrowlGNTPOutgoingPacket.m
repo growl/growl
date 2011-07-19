@@ -58,7 +58,7 @@
 	[mAction release];
 	[super dealloc];
 }
-- (NSData *)GNTPRepresentation
+- (NSString *)GNTPRepresentationAsString
 {
 #define CRLF "\x0D\x0A"	
 	NSString *result = nil;
@@ -66,8 +66,11 @@
 	if([[self key] caseInsensitiveCompare:GrowlGNTPNone] != NSOrderedSame)
 		result = [result stringByAppendingFormat:@" %@", [self key]];
 	result = [result stringByAppendingFormat:@"" CRLF];
-	
-	return [result dataUsingEncoding:NSUTF8StringEncoding];	
+	return result;
+}
+- (NSData *)GNTPRepresentation
+{
+	return [[self GNTPRepresentationAsString] dataUsingEncoding:NSUTF8StringEncoding];	
 }
 @end
 
@@ -96,7 +99,7 @@
 	}
 	return self;
 }
-- (NSData *)GNTPRepresentation
+- (NSString *)GNTPRepresentationAsString
 {
 #define CRLF "\x0D\x0A"
 	NSString *result = nil;
@@ -109,7 +112,11 @@
 			result = [NSString stringWithFormat:@"%s%s", CRLF, CRLF];
 			break;
 	}
-	return [result dataUsingEncoding:NSUTF8StringEncoding]; 	
+	return result;
+}
+- (NSData *)GNTPRepresentation
+{
+	return [[self GNTPRepresentationAsString] dataUsingEncoding:NSUTF8StringEncoding]; 	
 }
 @end
 
@@ -312,7 +319,7 @@
 - (void)writeToSocket:(GCDAsyncSocket*)socket
 {	
 	for(id <GNTPOutgoingItem> item in [self outgoingItems]) {
-		NSLog(@"Writing to socket: %@", [[[NSString alloc] initWithData:[item GNTPRepresentation] encoding:NSUTF8StringEncoding] autorelease]);
+		NSLog(@"Writing to socket: %@", [item GNTPRepresentationAsString]);
 		[socket writeData:[item GNTPRepresentation]
 			  withTimeout:-1
 					  tag:0];

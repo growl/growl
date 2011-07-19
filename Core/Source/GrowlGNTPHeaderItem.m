@@ -111,13 +111,16 @@
 	headerValue = [string retain];
 }
 
-- (NSData *)GNTPRepresentation
-{
+- (NSString *)GNTPRepresentationAsString {
 #define CRLF "\x0D\x0A"
 	if (self == [[self class] separatorHeaderItem])
-		return [GCDAsyncSocket CRLFData];
+		return @CRLF;
 	else 
-		return [[NSString stringWithFormat:@"%@: %@" CRLF, headerName, headerValue] dataUsingEncoding:NSUTF8StringEncoding];
+		return [NSString stringWithFormat:@"%@: %@" CRLF, headerName, headerValue];
+}
+
+- (NSData *)GNTPRepresentation {
+	return [[self GNTPRepresentationAsString] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSString *)description
