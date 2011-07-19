@@ -2510,6 +2510,7 @@ enum GCDAsyncSocketConfig
 	
 	// The sockets will be closed by the cancel handlers of the corresponding source
 	
+	NSLog(@"socket4FD: Closing socket with error %@", error);
 	socket4FD = SOCKET_NULL;
 	socket6FD = SOCKET_NULL;
 	
