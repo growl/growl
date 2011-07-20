@@ -45,7 +45,15 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
 	[[self packet] writeToSocket:sock];
-	[socket disconnectAfterWriting];
+	//After we send in our request, the notifications system will send back a response that ends with a CRLF.
+#define CRLF "\x0D\0x0A"
+	[socket readDataToData:[@CRLF dataUsingEncoding:NSUTF8StringEncoding] withTimeout:10.0 tag:-1L];
+	[socket disconnectAfterReading];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+	NSString *readString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+	NSLog(@"Response: %@", readString);
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
