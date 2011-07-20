@@ -811,8 +811,7 @@ enum GCDAsyncSocketConfig
 			dispatch_retain(dq);
 			delegateQueue = dq;
 		}
-
-		NSLog(@"socket4FD: Initing %@", self);
+		
 		socket4FD = SOCKET_NULL;
 		socket6FD = SOCKET_NULL;
 		connectIndex = 0;
@@ -848,7 +847,6 @@ enum GCDAsyncSocketConfig
 
 - (void)dealloc
 {
-	NSLog(@"socket4FD: %@ deallocking", self);
 	LogInfo(@"%@ - %@ (start)", THIS_METHOD, self);
 	
 	if (dispatch_get_current_queue() == socketQueue)
@@ -1418,7 +1416,6 @@ enum GCDAsyncSocketConfig
 		if (enableIPv4)
 		{
 			LogVerbose(@"Creating IPv4 socket");
-			NSLog(@"socket4FD: Accepting %@", self);
 			socket4FD = createSocket(AF_INET, interface4);
 			
 			if (socket4FD == SOCKET_NULL)
@@ -1634,7 +1631,7 @@ enum GCDAsyncSocketConfig
 			GCDAsyncSocket *acceptedSocket = [[GCDAsyncSocket alloc] initWithDelegate:delegate
 			                                                            delegateQueue:delegateQueue
 			                                                              socketQueue:childSocketQueue];
-			NSLog(@"socket4FD: Created accepted socket %@; setting its socket FD to %i", acceptedSocket, childSocketFD);
+			
 			if (isIPv4)
 				acceptedSocket->socket4FD = childSocketFD;
 			else
@@ -2180,7 +2177,7 @@ enum GCDAsyncSocketConfig
 	else
 	{
 		LogVerbose(@"Creating IPv4 socket");
-		NSLog(@"socket4FD: Connecting socket %@", self);
+		
 		socket4FD = socket(AF_INET, SOCK_STREAM, 0);
 		
 		socketFD = socket4FD;
@@ -2510,7 +2507,6 @@ enum GCDAsyncSocketConfig
 	
 	// The sockets will be closed by the cancel handlers of the corresponding source
 	
-	NSLog(@"socket4FD: Closing socket with error %@", error);
 	socket4FD = SOCKET_NULL;
 	socket6FD = SOCKET_NULL;
 	
@@ -2822,8 +2818,7 @@ enum GCDAsyncSocketConfig
 		
 		dispatch_sync(socketQueue, ^{
 			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-			NSLog(@"Socket %@'s IPv4 FD is %i; IPv6 FD is %i; NULL socket is %i", self, socket4FD, socket6FD, SOCKET_NULL);
+			
 			if (socket4FD != SOCKET_NULL)
 				result = [[self connectedHostFromSocket4:socket4FD] retain];
 			else if (socket6FD != SOCKET_NULL)
@@ -2831,7 +2826,6 @@ enum GCDAsyncSocketConfig
 			
 			[pool drain];
 		});
-		NSLog(@"Connected host: %@", result);
 		
 		return [result autorelease];
 	}
