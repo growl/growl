@@ -759,6 +759,8 @@
 #ifndef NDEBUG
 	NSString *received = [[[NSString alloc] initWithData:data
 												encoding:NSUTF8StringEncoding] autorelease];
+	if (!received)
+		received = [data description];
 	received = [received stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	NSLog(@"Socket %@ with FD %i Recv: \"%@\"", sock, [sock socket4FD], received);
 	NSLog(@"This packet's own socket is %@", [self socket]);
