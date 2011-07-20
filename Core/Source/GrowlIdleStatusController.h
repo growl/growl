@@ -14,6 +14,7 @@
 //30 seconds of inactivity is considered idle
 #define MACHINE_IDLE_THRESHOLD			30
 
+void GrowlIdleStatusController_setThreshold(int idle);
 void GrowlIdleStatusController_init(void);
 Boolean GrowlIdleStatusController_isIdle(void);
 void GrowlIdleStatusController_dealloc(void);

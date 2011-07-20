@@ -88,6 +88,13 @@ static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
 	lastSeenIdle = currentIdle;
 }
 
+void GrowlIdleStatusController_setThreshold(int idle){
+    if(idle > 0)
+        idleThreshold = idle;
+    else
+        idleThreshold = MACHINE_IDLE_THRESHOLD;
+}
+
 void GrowlIdleStatusController_init(void) {
 	CFNumberRef value = GrowlPreferencesController_objectForKey(CFSTR("IdleThreshold"));
 	if (value)
