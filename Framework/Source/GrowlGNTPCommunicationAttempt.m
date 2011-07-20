@@ -13,7 +13,16 @@
 
 #import "GCDAsyncSocket.h"
 
+@interface GrowlGNTPCommunicationAttempt ()
+
+@property(nonatomic, retain) NSString *responseParseErrorString, *bogusResponse;
+
+@end
+
+
 @implementation GrowlGNTPCommunicationAttempt
+
+@synthesize responseParseErrorString, bogusResponse;
 
 - (GrowlGNTPOutgoingPacket *) packet {
 	NSAssert1(NO, @"Subclass dropped the ball: Communication attempt %@  does not know how to create a GNTP packet", self);
@@ -25,6 +34,11 @@
 	[super failed];
 	[socket release];
 	socket = nil;
+}
+
+- (void) couldNotParseResponseWithReason:(NSString *)reason responseString:(NSString *)responseString {
+	self.responseParseErrorString = reason;
+	self.bogusResponse = responseParseErrorString;
 }
 
 - (void) begin {
@@ -54,15 +68,55 @@
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
 	NSString *readString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 	NSLog(@"Response: %@", readString);
+
+	NSScanner *scanner = readString ? [[[NSScanner alloc] initWithString:readString] autorelease] : nil;
+
+	if (![scanner scanString:@"GNTP/1.0 " intoString:NULL])
+		[self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
+
+	else {
+		NSMutableCharacterSet *responseTypeCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
+		[responseTypeCharacters addCharactersInString:@"-"];
+
+		NSString *responseType = nil;
+
+		BOOL scannedResponseType = [scanner scanCharactersFromSet:responseTypeCharacters intoString:&responseType];
+		if (!scannedResponseType)
+			[self couldNotParseResponseWithReason:@"Garbage in place of response type" responseString:readString];
+
+		else {
+			if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
+				attemptSuceeded = YES;
+
+			} else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {
+				NSString *errorString = nil;
+				[scanner scanUpToString:@CRLF intoString:&errorString];
+
+				[self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Growl or other notification system returned error: %@", errorString] responseString:readString];
+
+			} else {
+				[self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Unrecognized response type: %@", responseType] responseString:readString];
+			}
+		}
+	}
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
 	NSLog(@"Got disconnected: %@", socketError);
-	self.error = socketError;
-	if (socketError)
-		[self failed];
-	else
-		[self succeeded];
+	if (!attemptSuceeded) {
+		if (!socketError) {
+			NSDictionary *dict = [NSDictionary dictionaryWithObject:self.responseParseErrorString forKey:NSLocalizedDescriptionKey];
+			socketError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:dict];
+		}
+
+		self.error = socketError;
+		if (socketError)
+			[self failed];
+
+		return;
+	}
+
+	[self succeeded];
 }
 
 @end

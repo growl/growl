@@ -15,6 +15,8 @@
 {
 	GrowlGNTPOutgoingPacket *packet;
 	GCDAsyncSocket *socket;
+	NSString *responseParseErrorString, *bogusResponse;
+	BOOL attemptSuceeded;
 }
 
 //Lazily constructs the packet for self.dictionary.
