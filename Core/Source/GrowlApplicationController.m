@@ -1083,8 +1083,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
+//We return yes, so we can handle activating the right window.
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-	return NO;
+    return YES;
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -1093,6 +1094,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
+}
+
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
+    [NSApp activateIgnoringOtherApps:YES];
+    //if our history window isn't up, bring up preferences
+    if(![[[[GrowlNotificationDatabase sharedInstance] historyWindow] window] isVisible])
+        [[self statusMenu] openGrowlPreferences:self];
+    return YES;
 }
 
 #pragma mark Auto-discovery
