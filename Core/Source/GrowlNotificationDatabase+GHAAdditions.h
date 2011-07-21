@@ -23,7 +23,6 @@
 @interface GrowlNotificationDatabase (GHAAditions)
 
 -(void)setupMaintenanceTimers;
--(void)idleStatus:(NSNotification*)notification;
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict;
 
 @end

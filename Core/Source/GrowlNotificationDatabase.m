@@ -18,7 +18,7 @@
 
 @implementation GrowlNotificationDatabase
 
-@synthesize awayDate;
+@synthesize historyWindow;
 @synthesize notificationsWhileAway;
 
 -(id)initSingleton
@@ -52,27 +52,6 @@
 -(NSString*)modelName
 {
    return @"GrowlNotificationHistory";
-}
-
--(NSUInteger)awayHistoryCount
-{
-    NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Notifcation"] autorelease];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Time >= %@ AND Time <= %@", awayDate, [NSDate date]];
-    [request setPredicate:predicate];
-    
-    __block NSUInteger count = 0;
-    void (^countBlock)(void) = ^{
-        NSError *error = nil;
-        [managedObjectContext countForFetchRequest:request error:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    };
-    if(![[NSThread currentThread] isMainThread])
-        [managedObjectContext performBlockAndWait:countBlock];
-    else
-        countBlock();
-    return count;
 }
 
 -(NSArray*)mostRecentNotifications:(unsigned int)amount

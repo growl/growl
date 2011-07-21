@@ -12,14 +12,12 @@
 @interface GrowlNotificationDatabase : GrowlAbstractDatabase {
    NSTimer *maintenanceTimer;
    NSDate *lastImageCheck;
-   NSDate *awayDate;
    BOOL notificationsWhileAway;
    NSWindowController *historyWindow;
 }
-@property (readonly) NSDate *awayDate;
+@property (readonly) NSWindowController *historyWindow;
 @property (readonly) BOOL notificationsWhileAway;
 
--(NSUInteger)awayHistoryCount;
 -(NSArray*)mostRecentNotifications:(unsigned int)amount;
 
 -(void)deleteSelectedObjects:(NSArray*)objects;

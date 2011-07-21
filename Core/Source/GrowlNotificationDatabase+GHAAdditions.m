@@ -40,20 +40,6 @@
    [components setMinute:59];
    lastImageCheck = [[[NSCalendar currentCalendar] dateFromComponents:components] retain];
    NSLog(@"Next image check no earlier than 24 hours from %@", lastImageCheck);
-   
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(idleStatus:)
-                                                name:@"GrowlIdleStatus"
-                                              object:nil];
-}
-
--(void)idleStatus:(NSNotification*)notification
-{
-	if ([[notification object] isEqualToString:@"Idle"] && !notificationsWhileAway) {
-      if(awayDate)
-         [awayDate release];
-      awayDate = [[NSDate date] retain];
-   }
 }
 
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict
