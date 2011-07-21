@@ -14,25 +14,21 @@
 #import "GrowlHistoryNotification.h"
 #include <unistd.h>
 
-#define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
-#define kRestartGrowlTooltip         NSLocalizedString(@"Restart Growl", @"")
-#define kStartGrowl                  NSLocalizedString(@"Start Growl", @"")
-#define kStartGrowlTooltip           NSLocalizedString(@"Start Growl", @"")
-#define kStopGrowl                   NSLocalizedString(@"Stop Growl", @"")
-#define kStopGrowlTooltip            NSLocalizedString(@"Stop Growl", @"")
+#define kStartGrowl                  NSLocalizedString(@"Resume Growl", @"")
+#define kStartGrowlTooltip           NSLocalizedString(@"Resume Growl visual notifications", @"")
+#define kStopGrowl                   NSLocalizedString(@"Pause Growl", @"")
+#define kStopGrowlTooltip            NSLocalizedString(@"Pause Growl visual notifications", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
-#define kStopGrowlMenu               NSLocalizedString(@"Hide Status Item", @"")
-#define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
-#define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
-#define kStickyWhenAwayMenuTooltip   NSLocalizedString(@"Toggles the sticky notification state", @"")
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
 #define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@%\nTitle: %@\nDescription: %@\nClick to open the log", @"")
 #define kGrowlHistoryLogDisabled     NSLocalizedString(@"Growl History Disabled", @"")
 #define kGrowlQuit                   NSLocalizedString(@"Quit", @"")
-#define kQuitGrowlMenuTooltip        NSLocalizedString(@"Quit growl", @"")
+#define kQuitGrowlMenuTooltip        NSLocalizedString(@"Quit Growl entirely", @"")
 
-#define kMenuItemsBeforeHistory      6
+#define kStartStopMenuTag           1
+#define kHistoryItemTag             6
+#define kMenuItemsBeforeHistory     5
 
 @implementation GrowlMenu
 
@@ -52,7 +48,7 @@
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
         
         
-        [self setImage:[NSNumber numberWithBool:[preferences isGrowlRunning]]];
+        [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
         
         [statusItem setMenu:m]; // retains m
         [statusItem setToolTip:@"Growl"];
@@ -149,17 +145,18 @@
     [settingsWindow showWindow:self];
 }
 
-- (IBAction) stopGrowl:(id)sender {
-//TODO: turn on squelch mode
-}
-
-- (IBAction) startGrowl:(id)sender {
-//TODO: turn off squelch mode
-}
-
-- (IBAction) stickyWhenIdle:(id)sender {
-	BOOL idleModeState = ![preferences stickyWhenAway];
-	[preferences setStickyWhenAway:idleModeState];
+- (IBAction) startStopGrowl:(id)sender {
+    BOOL squelch = [preferences squelchMode] ? NO : YES;
+    [preferences setSquelchMode:squelch];
+    
+    if (!squelch) {
+        [sender setTitle:kStopGrowl];
+        [sender setToolTip:kStopGrowlTooltip];
+    } else {
+        [sender setTitle:kStartGrowl];
+        [sender setToolTip:kStartGrowlTooltip];
+    }
+    [self setImage:[NSNumber numberWithBool:!squelch]];
 }
 
 - (IBAction)openGrowlLog:(id)sender
@@ -171,10 +168,10 @@
 #pragma mark -
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
-	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
-	[preferences setStartAtLogin:growlMenuPath enabled:state];
+	/*NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
+	[preferences setStartAtLogin:growlMenuPath enabled:state];*/
     
-	[self performSelector:@selector(setImage:) withObject:[NSNumber numberWithBool:[preferences isGrowlRunning]] afterDelay:1.0f inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, NSModalPanelRunLoopMode, nil ]];
+	[self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
 }
 
 - (void) setImage:(NSNumber*)state {
@@ -203,39 +200,32 @@
 
 	NSMenuItem *tempMenuItem;
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStartGrowl action:@selector(startGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStartGrowl action:@selector(startStopGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
-	[tempMenuItem setTag:1];
+	[tempMenuItem setTag:kStartStopMenuTag];
 
-	if ([preferences isGrowlRunning]) {
-		[tempMenuItem setTitle:kRestartGrowl];
-		[tempMenuItem setToolTip:kRestartGrowlTooltip];
+	if (![preferences squelchMode]) {
+		[tempMenuItem setTitle:kStopGrowl];
+		[tempMenuItem setToolTip:kStopGrowlTooltip];
 	} else {
 		[tempMenuItem setToolTip:kStartGrowlTooltip];
 	}
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowl action:@selector(stopGrowl:) keyEquivalent:@""];
-	[tempMenuItem setTag:2];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setToolTip:kStopGrowlTooltip];
-
 	[m addItem:[NSMenuItem separatorItem]];
-
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
-	[tempMenuItem setTag:5];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowlPreferences:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kOpenGrowlPreferencesTooltip];
    
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kGrowlQuit action:@selector(terminate:) keyEquivalent:@""];
+	[tempMenuItem setTarget:NSApp];
+	[tempMenuItem setToolTip:kQuitGrowlMenuTooltip];
+    
 	[m addItem:[NSMenuItem separatorItem]];
    /*TODO: need to check against prefferences whether we are logging or not*/
    NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
    if([noteArray count] > 0)
    {
-      unsigned int tag = 8;
       for(id note in noteArray)
       {
          tempMenuItem = (NSMenuItem *)[m addItemWithTitle:[note Title] 
@@ -243,8 +233,7 @@
                                             keyEquivalent:@""];
          [tempMenuItem setTarget:self];
          [tempMenuItem setToolTip:[NSString stringWithFormat:kOpenGrowlLogTooltip, [note ApplicationName], [note Title], [note Description]]];
-         [tempMenuItem setTag:tag];
-         tag++;
+         [tempMenuItem setTag:kHistoryItemTag];
       }
    }else {
       NSString *tempString;
@@ -257,43 +246,32 @@
                                          keyEquivalent:@""];
       [tempMenuItem setTarget:self];
       [tempMenuItem setEnabled:NO];
-      [tempMenuItem setTag:8];
+      [tempMenuItem setTag:kHistoryItemTag];
    }
-
-    [m addItem:[NSMenuItem separatorItem]];
     
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kGrowlQuit action:@selector(terminate:) keyEquivalent:@""];
-	[tempMenuItem setTarget:NSApp];
-	[tempMenuItem setToolTip:kQuitGrowlMenuTooltip];
 
 	return [m autorelease];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
-	BOOL isGrowlRunning = [preferences isGrowlRunning];
+	BOOL isGrowlRunning = ![preferences squelchMode];
 	//we do this because growl might have died or been launched, and NSWorkspace doesn't post 
 	//notifications to its notificationCenter for LSUIElement apps for NSWorkspaceDidLaunchApplicationNotification or NSWorkspaceDidTerminateApplicationNotification
 	[self setImage:[NSNumber numberWithBool:isGrowlRunning]];
 	
 	switch ([item tag]) {
-		case 1:
+		case kStartStopMenuTag:
 			if (isGrowlRunning) {
-				[item setTitle:kRestartGrowl];
-				[item setToolTip:kRestartGrowlTooltip];
+				[item setTitle:kStopGrowl];
+				[item setToolTip:kStopGrowlTooltip];
 			} else {
 				[item setTitle:kStartGrowl];
 				[item setToolTip:kStartGrowlTooltip];
 			}
 			break;
-		case 2:
-			return isGrowlRunning;
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-      case 12:
-         return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
-         break;
+        case kHistoryItemTag:
+            return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
+            break;
 	}
 	return YES;
 }

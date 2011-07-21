@@ -20,8 +20,6 @@
 	<integer>0</integer>
 	<key>GrowlMenuExtra</key>
 	<false/>
-	<key>StickyWhenAway</key>
-	<false/>
 	<key>IdleThreshold</key>
 	<integer>30</integer>
 	<key>GrowlSelectedPosition</key>
@@ -40,5 +38,7 @@
 	<true/>
 	<key>GrowlSelectedPrefPane</key>
 	<integer>0</integer>
+	<key>GrowlSquelchMode</key>
+	<false/>
 </dict>
 </plist>

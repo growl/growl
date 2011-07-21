@@ -18,6 +18,7 @@
 #endif
 
 #define GrowlPreferencesChanged		XSTR("GrowlPreferencesChanged")
+#define GrowlSquelchMode            XSTR("GrowlSquelchMode")
 #define GrowlPreview				XSTR("GrowlPreview")
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
@@ -36,7 +37,6 @@
 #define	GrowlCustomHistKey3			XSTR("Custom log history 3")
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
-#define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
 #define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
 #define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
 #define GrowlHistoryRetainAllWhileAway XSTR("GrowlHistoryRetainAllWhileAway")
@@ -74,15 +74,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
-- (BOOL) isGrowlRunning;
-- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw;
-- (void) launchGrowl:(BOOL)noMatterWhat;
-- (void) terminateGrowl;
-
-#pragma mark GrowlMenu running state
-
-- (void) enableGrowlMenu;
-- (void) disableGrowlMenu;
+- (void) setSquelchMode:(BOOL)squelch;
+- (BOOL) squelchMode;
 
 #pragma mark -
 //Simplified accessors
@@ -94,9 +87,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
-
-- (BOOL) stickyWhenAway;
-- (void) setStickyWhenAway:(BOOL)flag;
 
 - (NSNumber*) idleThreshold;
 - (void) setIdleThreshold:(NSNumber*)value;
@@ -120,11 +110,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setGrowlHistoryTrimByDate:(BOOL)flag;
 - (BOOL) isGrowlHistoryTrimByCount;
 - (void) setGrowlHistoryTrimByCount:(BOOL)flag;
-
-#pragma mark GrowlMenu methods
-
-- (BOOL) isGrowlMenuEnabled;
-- (void) setGrowlMenuEnabled:(BOOL)state;
 
 #pragma mark "Network" tab pane
 

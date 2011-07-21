@@ -62,7 +62,6 @@ typedef enum {
 
 - (void) preferencesChanged:(NSNotification *) note;
 
-- (void) shutdown:(NSNotification *)note;
 - (void) replyToPing:(NSNotification *)note;
 
 #pragma mark Accessors

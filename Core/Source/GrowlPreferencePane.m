@@ -39,7 +39,6 @@
 @end
 
 @implementation GrowlPreferencePane
-@synthesize growlIsRunning;
 @synthesize displayPlugins = plugins;
 @synthesize services;
 
@@ -63,10 +62,7 @@
     loadedPrefPanes = [[NSMutableArray alloc] init];
     preferencesController = [GrowlPreferencesController sharedController];
     
-    NSDistributedNotificationCenter *dnc = [NSNotificationCenter defaultCenter];
-    [dnc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
     [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
     
     CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
@@ -176,36 +172,6 @@
  */
 - (NSString *) bundleVersion {
 	return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-}
-
-- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	CFURLRef downloadURL = (CFURLRef)contextInfo;
-	if (returnCode == NSAlertDefaultReturn)
-		[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
-	CFRelease(downloadURL);
-}
-
-/*!
- * @brief Returns if GrowlMenu is currently running.
- */
-+ (BOOL) isGrowlMenuRunning {
-	return Growl_ProcessExistsWithBundleIdentifier(@"com.Growl.MenuExtra");
-}
-
-- (void) showWindow:(id)sender
-{
-    NSString *lastVersion = [preferencesController objectForKey:LastKnownVersionKey];
-	NSString *currentVersion = [self bundleVersion];
-	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
-		if ([preferencesController isGrowlRunning]) {
-			[preferencesController setGrowlRunning:NO noMatterWhat:NO];
-			[preferencesController setGrowlRunning:YES noMatterWhat:YES];
-		}
-		[preferencesController setObject:currentVersion forKey:LastKnownVersionKey];
-	}
-    
-	[self checkGrowlRunning];
-    [super showWindow:sender];
 }
 
 - (void) cacheImages {
@@ -324,18 +290,6 @@
 		[self loadViewForDisplay:nil];
 }
 
-- (void) updateRunningStatus {
-	[startStopGrowl setEnabled:YES];
-	NSBundle *bundle = [NSBundle mainBundle];
-	[startStopGrowl setTitle:
-		growlIsRunning ? NSLocalizedStringFromTableInBundle(@"Stop Growl",nil,bundle,@"")
-					   : NSLocalizedStringFromTableInBundle(@"Start Growl",nil,bundle,@"")];
-	[growlRunningStatus setStringValue:
-		growlIsRunning ? NSLocalizedStringFromTableInBundle(@"Growl is running.",nil,bundle,@"")
-					   : NSLocalizedStringFromTableInBundle(@"Growl is stopped.",nil,bundle,@"")];
-	[growlRunningProgress stopAnimation:self];
-}
-
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
@@ -422,46 +376,6 @@
 	}
 }
 
-#pragma mark Growl running state
-
-/*!
- * @brief Launches GrowlHelperApp.
- */
-- (void) launchGrowl {
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[NSBundle mainBundle],@"")];
-
-	[preferencesController setGrowlRunning:YES noMatterWhat:NO];
-
-	// After 4 seconds force a status update, in case Growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];
-}
-
-/*!
- * @brief Terminates running GrowlHelperApp instances.
- */
-- (void) terminateGrowl {
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[NSBundle mainBundle],@"")];
-
-	// Ask the Growl Helper App to shutdown
-	[preferencesController setGrowlRunning:NO noMatterWhat:NO];
-
-	// After 4 seconds force a status update, in case growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];
-}
 
 #pragma mark Toolbar support
 
@@ -486,22 +400,6 @@
 }
 
 #pragma mark "General" tab pane
-
-- (IBAction) startStopGrowl:(id) sender {
-	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [preferencesController isGrowlRunning]) {
-		// Nope - lets just flip it and update status
-		[self setGrowlIsRunning:!growlIsRunning];
-		[self updateRunningStatus];
-		return;
-	}
-
-	// Our desired state is a toggle of the current state;
-	if (growlIsRunning)
-		[self terminateGrowl];
-	else
-		[self launchGrowl];
-}
 
 #pragma mark "Applications" tab pane
 
@@ -744,10 +642,6 @@
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
 }
 
-- (IBAction) openGrowlDonate:(id)sender {
- 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/donate.php"]];
-}
-
 #pragma mark Network Tab Methods
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
@@ -903,12 +797,6 @@
 	[services replaceObjectAtIndex:idx withObject:anObject];
 }
 
-#pragma mark Detecting Growl
-
-- (void) checkGrowlRunning {
-	[self setGrowlIsRunning:[preferencesController isGrowlRunning]];
-	[self updateRunningStatus];
-}
 
 #pragma mark Display pop-up menus
 
@@ -1041,24 +929,6 @@
 	[newTicket release];
 
 	[self cacheImages];
-	
-	[pool release];
-}
-
-- (void) growlLaunched:(NSNotification *)note {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	[self setGrowlIsRunning:YES];
-	[self updateRunningStatus];
-	
-	[pool release];
-}
-
-- (void) growlTerminated:(NSNotification *)note {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	[self setGrowlIsRunning:NO];
-	[self updateRunningStatus];
 	
 	[pool release];
 }

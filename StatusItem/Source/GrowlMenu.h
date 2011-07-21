@@ -26,8 +26,7 @@ enum {
 }
 
 - (void) openGrowlPreferences:(id)sender;
-- (void) stopGrowl:(id)sender;
-- (void) startGrowl:(id)sender;
+- (void) startStopGrowl:(id)sender;
 - (NSMenu *) createMenu;
 - (void) setImage:(NSNumber*)state;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;

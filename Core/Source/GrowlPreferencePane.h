@@ -27,7 +27,6 @@
 	GrowlPlugin						*currentPluginController;
 
 	BOOL                            canRemoveTicket;
-	BOOL                            growlIsRunning;
 
 	//cached controllers
 	/*these are cached to avoid redundant calls to
@@ -42,10 +41,6 @@
     IBOutlet NSToolbar              *toolbar;
     
 	//"General" tab pane
-	IBOutlet NSButton				*startStopGrowl;
-	IBOutlet NSTextField			*growlRunningStatus;
-	IBOutlet NSProgressIndicator	*growlRunningProgress;
-	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
 	IBOutlet GrowlPositionPicker	*globalPositionPicker;
 
@@ -95,10 +90,8 @@
 }
 
 - (NSString *) bundleVersion;
-- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void) reloadPreferences:(NSString *)object;
-- (void) updateRunningStatus;
 
 #pragma mark Bindings accessors (not for programmatic use)
 
@@ -121,12 +114,6 @@
 - (NSIndexSet *) selectedNotificationIndexes;
 - (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
 
-#pragma mark "General" tab pane
-- (IBAction) startStopGrowl:(id)sender;
-
-#pragma mark GrowlMenu methods
-+ (BOOL) isGrowlMenuRunning;
-
 #pragma mark "Network" tab pane
 - (IBAction) removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;
@@ -146,7 +133,6 @@
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
-- (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
 
 #pragma mark HistoryTab
@@ -158,10 +144,8 @@
 - (void) setupAboutTab;
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlBugSubmissionPage:(id)sender;
-- (IBAction) openGrowlDonate:(id)sender;
 
 #pragma mark Properties
-@property (assign) BOOL growlIsRunning;
 @property (retain) NSArray *displayPlugins;
 @property (retain) NSMutableArray *services;
 

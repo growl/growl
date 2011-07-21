@@ -127,10 +127,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					  name:GrowlPreview
 					object:nil];
 		[nc addObserver:self
-				  selector:@selector(shutdown:)
-					  name:GROWL_SHUTDOWN
-					object:nil];
-		[nc addObserver:self
 				  selector:@selector(replyToPing:)
 					  name:GROWL_PING
 					object:nil];
@@ -203,8 +199,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 		idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
 		description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", nil), idleThreshold];
-		if ([preferences stickyWhenAway])
-			description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", nil)];
 
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", nil)
 									description:description
@@ -216,7 +210,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 									 identifier:nil];
 	} else {
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
-									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
+									description:NSLocalizedString(@"User activity detected.", nil)
 							   notificationName:USER_RETURNED_NOTIFICATION
 									   iconData:growlIconData
 									   priority:-1
@@ -528,7 +522,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
-   NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+    NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
 	NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
@@ -625,40 +619,42 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    if([preferences isForwardingEnabled])
       [self performSelectorInBackground:@selector(forwardNotification:) withObject:[dict copy]];
    
-    GrowlDisplayPlugin *display = [notification displayPlugin];
-    
-    if (!display)
-        display = [ticket displayPlugin];
-    
-    if (!display) {
-        if (!defaultDisplayPlugin) {
-            NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-            defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
+    if(![preferences squelchMode])
+    {
+        GrowlDisplayPlugin *display = [notification displayPlugin];
+        
+        if (!display)
+            display = [ticket displayPlugin];
+        
+        if (!display) {
             if (!defaultDisplayPlugin) {
-                //User's selected default display has gone AWOL. Change to the default default.
-                NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-                NSURL *fileURL = [NSURL fileURLWithPath:file];
-                NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-                if (defaultDefaults) {
-                    displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
-                    if (!displayPluginName)
-                        GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
-                    else {
-                        defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+                NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
+                defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
+                if (!defaultDisplayPlugin) {
+                    //User's selected default display has gone AWOL. Change to the default default.
+                    NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+                    NSURL *fileURL = [NSURL fileURLWithPath:file];
+                    NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+                    if (defaultDefaults) {
+                        displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
+                        if (!displayPluginName)
+                            GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
+                        else {
+                            defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+                            
+                            //Now fix the user's preferences to forget about the missing display plug-in.
+                            [preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
+                        }
                         
-                        //Now fix the user's preferences to forget about the missing display plug-in.
-                        [preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
+                        [defaultDefaults release];
                     }
-                    
-                    [defaultDefaults release];
                 }
             }
+            display = defaultDisplayPlugin;
         }
-        display = defaultDisplayPlugin;
+        
+        [display displayNotification:appNotification];
     }
-    
-    [display displayNotification:appNotification];
-    
     
     NSString *soundName = [notification sound];
     if (soundName) {
@@ -850,6 +846,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
 		}
 	}
+	if (!note || (object && [object isEqual:GrowlStickyIdleThresholdKey]))
+		GrowlIdleStatusController_setThreshold([[[GrowlPreferencesController sharedController] idleThreshold] intValue]);
 	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqual:GrowlEnabledKey]))
@@ -970,10 +968,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	}
 	
 	[pool release];
-}
-
-- (void) shutdown:(NSNotification *) note {
-	[NSApp terminate:nil];
 }
 
 - (void) replyToPing:(NSNotification *) note {

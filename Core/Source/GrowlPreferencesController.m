@@ -246,45 +246,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 #pragma mark -
-#pragma mark GrowlMenu running state
-
-- (void) enableGrowlMenu {
-	NSBundle *bundle = [NSBundle bundleForClass:[GrowlPreferencesController class]];
-	NSString *growlMenuPath = [bundle pathForResource:@"GrowlMenu" ofType:@"app"];
-	NSURL *growlMenuURL = [NSURL fileURLWithPath:growlMenuPath];
-	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:growlMenuURL]
-	                withAppBundleIdentifier:nil
-	                                options:NSWorkspaceLaunchWithoutAddingToRecents | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchAsync
-	         additionalEventParamDescriptor:nil
-	                      launchIdentifiers:NULL];
-}
-
-- (void) disableGrowlMenu {
-	// Ask GrowlMenu to shutdown via the DNC
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-										 CFSTR("GrowlMenuShutdown"),
-										 /*object*/ NULL,
-										 /*userInfo*/ NULL,
-										 /*deliverImmediately*/ false);
-}
-
-#pragma mark -
 #pragma mark Growl running state
-
-- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw {
-	// Store the desired running-state of the helper app for use by GHA.
-	[self setBool:flag forKey:GrowlEnabledKey];
-
-	//now launch or terminate as appropriate.
-	if (flag)
-		[self launchGrowl:nmw];
-	else
-		[self terminateGrowl];
-}
-
-- (BOOL) isGrowlRunning {
-	return Growl_HelperAppIsRunning();
-}
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
 #if GROWL_PREFPANE_AND_HELPERAPP_ARE_SEPARATE
@@ -302,13 +264,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #endif
 }
 
-- (void) terminateGrowl {
-	// Ask the Growl Helper App to shutdown via the DNC
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-										 (CFStringRef)GROWL_SHUTDOWN,
-										 /*object*/ NULL,
-										 /*userInfo*/ NULL,
-										 /*deliverImmediately*/ false);
+- (void) setSquelchMode:(BOOL)squelch
+{
+    [self setBool:squelch forKey:GrowlSquelchMode];
+}
+
+- (BOOL) squelchMode
+{
+    return [self boolForKey:GrowlSquelchMode];
 }
 
 #pragma mark -
@@ -346,13 +309,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setObject:name forKey:GrowlDisplayPluginKey];
 }
 
-- (BOOL) stickyWhenAway {
-	return [self boolForKey:GrowlStickyWhenAwayKey];
-}
-- (void) setStickyWhenAway:(BOOL)flag {
-	[self setBool:flag forKey:GrowlStickyWhenAwayKey];
-}
-
 - (NSNumber*) idleThreshold {
 #ifdef __LP64__
 	return [NSNumber numberWithInteger:[self integerForKey:GrowlStickyIdleThresholdKey]];
@@ -363,23 +319,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setIdleThreshold:(NSNumber*)value {
 	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
-}
-
-
-#pragma mark Status Item
-
-- (BOOL) isGrowlMenuEnabled {
-	return [self boolForKey:GrowlMenuExtraKey];
-}
-
-- (void) setGrowlMenuEnabled:(BOOL)state {
-	if (state != [self isGrowlMenuEnabled]) {
-		[self setBool:state forKey:GrowlMenuExtraKey];
-		if (state)
-			[self enableGrowlMenu];
-		else
-			[self disableGrowlMenu];
-	}
 }
 
 #pragma mark Logging
@@ -550,10 +489,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	if (!object || [object isEqualToString:GrowlUpdateCheckKey]) {
 		[self willChangeValueForKey:@"backgroundUpdateCheckEnabled"];
 		[self didChangeValueForKey:@"backgroundUpdateCheckEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlStickyWhenAwayKey]) {
-		[self willChangeValueForKey:@"stickyWhenAway"];
-		[self didChangeValueForKey:@"stickyWhenAway"];
 	}
 	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
 		[self willChangeValueForKey:@"idleThreshold"];

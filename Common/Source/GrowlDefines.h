@@ -278,12 +278,6 @@
  *	 Growl_PostNotification.
  */
 #define GROWL_NOTIFICATION				XSTR("GrowlNotification")
-/*!	@defined GROWL_SHUTDOWN
-*	@abstract The distributed notification name that tells Growl to shutdown.
-*	@discussion The Growl preference pane posts this notification when the
-*	 "Stop Growl" button is clicked.
-*/
-#define GROWL_SHUTDOWN					XSTR("GrowlShutdown")
 /*!	@defined GROWL_PING
  *	@abstract A distributed notification to check whether Growl is running.
  *	@discussion This is used by the Growl preference pane. If it receives a
