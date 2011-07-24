@@ -111,6 +111,9 @@
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
 	
+    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
+    [historyTable setAutosaveTableColumns:YES];
+    
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
    [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
