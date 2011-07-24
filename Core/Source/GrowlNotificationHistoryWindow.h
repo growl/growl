@@ -26,7 +26,7 @@
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
 
--(void)updateTableView:(BOOL)willMerge;
+-(void)updateCount;
 -(void)resetArray;
 -(IBAction)deleteNotifications:(id)sender;
 -(CGFloat)heightForDescription:(NSString*)description forWidth:(CGFloat)width;

@@ -10,9 +10,11 @@
 
 @interface GrowlNotificationCellView : NSTableCellView{
     IBOutlet NSTextField *description;
+    IBOutlet NSImageView *icon;
     IBOutlet NSButton *deleteButton;
 }
 @property (assign) IBOutlet NSTextField *description;
+@property (assign) IBOutlet NSImageView *icon;
 @property (assign) IBOutlet NSButton *deleteButton;
 
 @end

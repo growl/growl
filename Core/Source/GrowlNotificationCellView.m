@@ -11,6 +11,7 @@
 @implementation GrowlNotificationCellView
 
 @synthesize description;
+@synthesize icon;
 @synthesize deleteButton;
 
 - (id)init
@@ -21,6 +22,12 @@
     }
     
     return self;
+}
+
+-(void)setObjectValue:(id)newValue
+{
+    [super setObjectValue:newValue];
+    [icon setImage:[[self objectValue] valueForKeyPath:@"Image.Image"]];
 }
 
 @end

@@ -114,8 +114,6 @@
       if(![[historyWindow window] isVisible])
       {
          [(GrowlNotificationHistoryWindow*)historyWindow resetArray];
-      }else {
-         [(GrowlNotificationHistoryWindow*)historyWindow updateTableView:YES];
       }
    }
 }

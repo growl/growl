@@ -36,21 +36,23 @@
       [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
       [(NSPanel*)[self window] setFloatingPanel:YES];
       
-       NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];       
-       GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
-       [nc addObserver:self 
-              selector:@selector(growlDatabaseDidUpdate:) 
-                  name:@"GrowlDatabaseUpdated"
-                object:db];
        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:YES];
        [arrayController setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
-      [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
+       [arrayController setPreservesSelection:YES];
+       
+       [arrayController addObserver:self 
+                         forKeyPath:@"arrangedObjects.count" 
+                            options:NSKeyValueObservingOptionNew 
+                            context:nil];
+       
+       [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
    }
    return self;
 }
 
 -(void)dealloc
 {
+    [arrayController removeObserver:self forKeyPath:@"arrangedObjects.count"];
    [historyTable release]; historyTable = nil;
    [arrayController release]; historyTable = nil;
    historyController = nil;
@@ -64,13 +66,13 @@
    currentlyShown = NO;
 }
 
--(void)showWindow:(id)sender
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-   [self updateTableView:NO];
-   [super showWindow:sender];
+    if([keyPath isEqualToString:@"arrangedObjects.count"] && [object isEqualTo:arrayController])
+        [self updateCount];
 }
 
--(void)updateTableView:(BOOL)willMerge
+-(void)updateCount
 {
    if(!currentlyShown)
       return;
@@ -95,7 +97,6 @@
    currentlyShown = YES;
    [self showWindow:self];
     [historyTable reloadData];
-    [self updateTableView:NO];
 }
 
 -(IBAction)userDoubleClickedNote:(id)sender
@@ -186,7 +187,6 @@
 {
     if(tableColumn == notificationColumn){
         GrowlNotificationCellView *cellView = [tableView makeViewWithIdentifier:@"NotificationCellView" owner:self];
-        [cellView setObjectValue:[[arrayController arrangedObjects] objectAtIndex:row]];
         [[cellView deleteButton] setHidden:![[arrayController selectionIndexes] containsIndex:row]];
         return cellView;
     }
@@ -228,14 +228,6 @@
 - (void)windowDidResize:(NSNotification *)note
 {
     [self updateRowHeights];
-}
-
-#pragma mark -
-#pragma mark GrowlDatabaseUpdateDelegate methods
-
--(void)growlDatabaseDidUpdate:(NSNotification*)notification
-{
-   [self updateTableView:NO];
 }
 
 @end
