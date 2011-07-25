@@ -64,7 +64,6 @@
 							<string key="NSFrame">{{185, 20}, {117, 17}}</string>
 							<reference key="NSSuperview" ref="376014043"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="110439836">
 								<int key="NSCellFlags">68288064</int>
@@ -449,7 +448,7 @@
 										<object class="NSDateFormatter" key="NSFormatter" id="479109526">
 											<dictionary class="NSMutableDictionary" key="NS.attributes">
 												<integer value="1" key="dateStyle"/>
-												<boolean value="NO" key="doesRelativeDateFormatting"/>
+												<boolean value="YES" key="doesRelativeDateFormatting"/>
 												<integer value="1040" key="formatterBehavior"/>
 												<integer value="1" key="timeStyle"/>
 											</dictionary>
