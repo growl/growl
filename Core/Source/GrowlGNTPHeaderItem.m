@@ -66,15 +66,16 @@
 		NSInteger endOfHeaderName = [headerLine rangeOfString:HEADER_DELIMITER options:NSLiteralSearch].location;
 		if (endOfHeaderName == NSNotFound) {
 			/* Malformed header; no "name: value" setup */
-			if (outError)
+			if (outError != NULL){
 				headerLine = [headerLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 				*outError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
 												code:GrowlGNTPHeaderError
 											userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Malformed header \"%@\"; \"name: value\" not found",
 																						 headerLine]
 																				 forKey:NSLocalizedFailureReasonErrorKey]];
-			[self release];
-			return nil;
+            }
+            [self release];
+            return nil;
 		}
 		
 		[self setHeaderName:[headerLine substringToIndex:endOfHeaderName]];

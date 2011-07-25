@@ -79,7 +79,7 @@
 
 	asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
 	success = [asyncSocket acceptOnPort:port error:(error ? error : NULL)];
-	NSLog(@"%@ now accepting (%@)", asyncSocket, *error);
+	NSLog(@"%@ now accepting (%@)", asyncSocket, (error ? *error : NULL));
     if (port == 0) {
         /* Now that the binding was successful, we get the port number if we let
 		 * the kernel determine it.
@@ -94,7 +94,7 @@
         if (name) {
             publishingName = name;
         } else {
-            NSString * thisHostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
+            NSString * thisHostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
             if ([thisHostName hasSuffix:@".local"]) {
                 publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
             }else

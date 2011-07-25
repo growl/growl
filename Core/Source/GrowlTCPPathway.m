@@ -24,7 +24,7 @@
 		/* We always want the TCP server to be running to allow localhost connections.
 		 * We'll ultimately ignore connections from outside localhost if networking is not enabled.
 		 */
-		self.tcpServer = [[GrowlTCPServer alloc] init];
+		self.tcpServer = [[[GrowlTCPServer alloc] init] autorelease];
 
 		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
 		[self.tcpServer setType:@"_gntp._tcp."];

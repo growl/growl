@@ -296,6 +296,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			
 			if ([addresses count]) {
 				/* DNS lookup success! */
+                CFRelease(host);
 				return [addresses objectAtIndex:0];
 			}
 		}
@@ -617,7 +618,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
    
    if([preferences isForwardingEnabled])
-      [self performSelectorInBackground:@selector(forwardNotification:) withObject:[dict copy]];
+      [self performSelectorInBackground:@selector(forwardNotification:) withObject:[[dict copy] autorelease]];
    
     if(![preferences squelchMode])
     {
@@ -738,7 +739,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	}
    
    if([[GrowlPreferencesController sharedController] isForwardingEnabled])
-      [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[userInfo copy]];
+      [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
 
 	NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
    

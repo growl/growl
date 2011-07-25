@@ -466,7 +466,7 @@
 
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
 {
-	NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
+	NSString *hostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
 	if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}
@@ -537,7 +537,7 @@
 	NSArray *receivedHeaders = [[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
 	NSString *myHostString;
 
-	NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
+	NSString *hostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
 	if ([hostName hasSuffix:@".local"]) {
 		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
 	}

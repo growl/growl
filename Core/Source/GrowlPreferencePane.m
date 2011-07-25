@@ -671,10 +671,10 @@
 	} else {
 		status = SecKeychainItemDelete(itemRef);
       if(status != errSecSuccess)
-         NSLog(@"Error deleting the password for %@: %@", [toRemove computerName], SecCopyErrorMessageString(status, NULL));
-		if (itemRef)
-			CFRelease(itemRef);
-   }
+         NSLog(@"Error deleting the password for %@: %@", [toRemove computerName], [(NSString*)SecCopyErrorMessageString(status, NULL) autorelease]);
+      if(itemRef)
+         CFRelease(itemRef);
+    }
 }
 
 - (IBAction)newManualForwader:(id)sender {

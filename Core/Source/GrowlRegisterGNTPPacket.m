@@ -141,15 +141,16 @@
 	else if (![currentNotification valueForKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME])
 		[currentNotification setValue:[currentNotification valueForKey:GROWL_NOTIFICATION_NAME] forKey:GROWL_NOTIFICATION_HUMAN_READABLE_NAME];
 
-	if (errorString)
-		*anError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
-									 code:GrowlGNTPRegistrationPacketError
-								 userInfo:[NSDictionary dictionaryWithObject:errorString
-																	  forKey:NSLocalizedFailureReasonErrorKey]];
-	else
-		*anError = nil;
-
-	return (*anError == nil);
+	if (errorString){
+        if(anError != NULL)
+            *anError = [NSError errorWithDomain:GROWL_NETWORK_DOMAIN
+                                           code:GrowlGNTPRegistrationPacketError
+                                       userInfo:[NSDictionary dictionaryWithObject:errorString
+                                                                            forKey:NSLocalizedFailureReasonErrorKey]];
+        return NO;
+    }
+    
+	return YES;
 }
 
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem

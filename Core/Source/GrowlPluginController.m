@@ -872,7 +872,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		stringByAppendingPathComponent:@"Library/Application Support/Growl/Plugins"]
 		stringByAppendingPathComponent:pluginFile];
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
-	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
+	NSString *filenameCopy = [[[NSString alloc] initWithString:filename] autorelease];
 
 	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
 	if(![self hasNativeArchitecture:filenameCopy]) {
