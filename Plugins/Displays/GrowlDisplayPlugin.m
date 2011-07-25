@@ -59,7 +59,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	NSString *windowNibName = [self windowNibName];
 	GrowlNotificationDisplayBridge *thisBridge = nil;
 	
-	NSString *identifier = notification.identifier;
+	NSString *identifier = [[notification auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_IDENTIFIER];
 
 	if (identifier) {
 		thisBridge = [coalescableBridges objectForKey:identifier];
@@ -160,7 +160,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	}
 
 	if (coalescableBridges) {
-		NSString *identifier = [[[wc bridge] notification] identifier];
+		NSString *identifier = [[[[wc bridge] notification] auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_IDENTIFIER];
 		if (identifier)
 			[coalescableBridges removeObjectForKey:identifier];
 	}
