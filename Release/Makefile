@@ -1,10 +1,9 @@
 ##########################
 ### Versioning:
-###   * Set VERSION or GROWLMAIL_VERSION below.
+###   * Set VERSION below.
 ###   * make version.
 #
 VERSION=1.3hg
-GROWLMAIL_VERSION=1.2.1
 
 #
 #########################
@@ -15,13 +14,10 @@ GROWLMAIL_VERSION=1.2.1
 RELEASE_FILENAME=Growl-$(VERSION)
 RELEASE_NAME="Growl-$(VERSION)"
 RELEASE_SDK_NAME="Growl $(VERSION) SDK"
-GROWLMAIL_RELEASE_FILENAME=GrowlMail-$(GROWLMAIL_VERSION)
 
 SRC_DIR=$(PWD)/..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
-GROWLMAIL_DIR=$(BUILD_DIR)/GrowlMail
-GROWLSAFARI_DIR=$(BUILD_DIR)/GrowlSafari
 GROWLTUNES_DIR=$(BUILD_DIR)/GrowlTunes
 HARDWAREGROWLER_DIR=$(BUILD_DIR)/HardwareGrowler
 GROWLNOTIFY_DIR=$(BUILD_DIR)/growlnotify
@@ -37,16 +33,12 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
 	GROWLTUNES_BUILD_DIR=$(SRC_DIR)/Extras/GrowlTunes/build/$(BUILDSTYLE)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
-	GROWLMAIL_BUILD_DIR=$(SRC_DIR)/Extras/GrowlMail/build/$(BUILDSTYLE)
-	GROWLSAFARI_BUILD_DIR=$(SRC_DIR)/Extras/GrowlSafari/build/$(BUILDSTYLE)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLNOTIFY_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLTUNES_BUILD_DIR=$(TARGET_BUILD_DIR)
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
-	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
-	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 # Use these variables instead of using dir/notdir calls all over the place.
 DSYM_DIR_NAME=Growl-dSYM-$(VERSION)
@@ -58,7 +50,7 @@ ART_DIR=Artwork
 
 #########################
 
-.PHONY: all all-withlocalchanges assertnochanges assertnoconflicts version clean-all compile compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer clean build-dir-clean realclean release release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-growlnotify release-hardwaregrowler release-sdk displaysample framework-archive 
+.PHONY: all all-withlocalchanges assertnochanges assertnoconflicts version clean-all compile compile-growl compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer clean build-dir-clean realclean release release-dsym release-growl release-growltunes release-growlnotify release-hardwaregrowler release-sdk displaysample framework-archive 
 
 all: assertnochanges version compile release
 all-withlocalchanges: assertnoconflicts version compile release
@@ -75,20 +67,15 @@ assertnoconflicts:
 	fi
 
 version:
-	sed -e "s/INSERT_VERSION_HERE/$(VERSION)/;s/INSERT_GROWLMAIL_VERSION_HERE/$(GROWLMAIL_VERSION)/" < "$(SRC_DIR)/GrowlVersion.h.tmpl" > "$(SRC_DIR)/GrowlVersion.h"
 
 clean-all:
 	@# Note: We need to use .../* in order to not descend into .hg and corrupt the repository.
 	find $(SRC_DIR)/* -name build -prune -print0 | xargs -0 rm -R
 
-compile: compile-growl compile-growlmail compile-growlsafari compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
+compile: compile-growl compile-growlnotify compile-hardwaregrowler compile-growltunes compile-beephammer
 compile-growl: build-dir-clean
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 # All of these depend on the hgRevision.h header, and most depend on the Growl framework.
-compile-growlmail: compile-growl
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
-compile-growlsafari: compile-growl
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
 compile-growlnotify: compile-growl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 compile-hardwaregrowler: compile-growl
@@ -114,7 +101,6 @@ $(DSYM_DIR):
 	mv $(GROWLNOTIFY_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(GROWLTUNES_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 	mv $(HARDWAREGROWLER_BUILD_DIR)/*.dSYM $(DSYM_DIR)
-	mv $(GROWLSAFARI_BUILD_DIR)/*.dSYM $(DSYM_DIR)
 
 $(GROWL_DIR):
 	mkdir '$@'
@@ -127,14 +113,8 @@ $(GROWL_DIR)/Growl\ Documentation.webloc $(GROWL_DIR)/Growl\ version\ history.we
 $(GROWL_DIR)/Growl.pkg: $(GROWL_DIR)
 	$(PACKAGE_MAKER) --no-relocate --doc Growl/Growl\ Installer.pmdoc --out $(GROWL_DIR)/Growl.pkg --version $(VERSION) --id com.growl.growl.pkg -v
 # These are temporary; they'll go away once we have an Extras tab.
-$(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growlmail compile-growlsafari compile-growltunes compile-hardwaregrowler compile-growlnotify
+$(GROWL_DIR)/Extras: $(GROWL_DIR) compile-growltunes compile-hardwaregrowler compile-growlnotify
 	mkdir '$@'
-$(GROWL_DIR)/Extras/GrowlMail: $(GROWL_DIR)/Extras
-	mkdir '$@'
-$(GROWL_DIR)/Extras/GrowlMail/GrowlMail.webloc: GrowlMail/GrowlMail.webloc $(GROWL_DIR)/Extras/GrowlMail
-	cp '$<' '$@'
-$(GROWL_DIR)/Extras/GrowlSafari: $(GROWL_DIR)/Extras $(GROWLSAFARI_DIR)
-	cp -R '$(GROWLSAFARI_DIR)' '$@'
 $(GROWL_DIR)/Extras/GrowlTunes: $(GROWL_DIR)/Extras $(GROWLTUNES_DIR)
 	cp -R '$(GROWLTUNES_DIR)' '$@'
 $(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras $(HARDWAREGROWLER_DIR)
@@ -142,15 +122,6 @@ $(GROWL_DIR)/Extras/HardwareGrowler: $(GROWL_DIR)/Extras $(HARDWAREGROWLER_DIR)
 $(GROWL_DIR)/Extras/growlnotify: $(GROWL_DIR)/Extras $(GROWLNOTIFY_DIR)
 	cp -R '$(GROWLNOTIFY_DIR)' '$@'
 
-$(GROWLMAIL_DIR):
-	mkdir '$@'
-	$(PACKAGE_MAKER) --no-relocate --doc GrowlMail/GrowlMail\ Installer.pmdoc --out '$@'/GrowlMail.pkg --version $(GROWLMAIL_VERSION) --id com.growl.growlmail.pkg -v	
-	cp -R "Uninstall GrowlMail.app" '$@'
-	/Developer/Tools/SetFile -a E '$@'/Uninstall\ GrowlMail.app
-	cp $(SRC_DIR)/Extras/GrowlMail/*.rtf '$@'
-$(GROWLSAFARI_DIR):
-	mkdir '$@'
-	$(PACKAGE_MAKER) --no-relocate --doc GrowlSafari/GrowlSafari\ Installer.pmdoc --out '$@'/GrowlSafari.pkg --version $(VERSION) --id com.growl.growlsafari.pkg -v	
 $(GROWLTUNES_DIR):
 	mkdir '$@'
 	cp -R '$(GROWLTUNES_BUILD_DIR)/GrowlTunes.app' '$@'
@@ -200,7 +171,7 @@ $(SDK_DIR):
 	
 	@# copy the frameworks
 	mkdir $(SDK_DIR)/Frameworks
-	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(GROWL_BUILD_DIR)/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
+	cp -R $(GROWL_BUILD_DIR)/Growl.framework $(SDK_DIR)/Frameworks
 	
 	@# copy the bindings
 	cp -R $(SRC_DIR)/Bindings $(SDK_DIR)
@@ -230,27 +201,12 @@ $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg: $(SDK_DIR)
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_FILENAME)-SDK.dmg $(SDK_DIR) $(RELEASE_SDK_NAME) dmg_sdk.applescript
 
-$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME): compile-growlmail $(GROWLMAIL_DIR)
-	cp -R $(GROWLMAIL_DIR) $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
-$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)/License.txt: ../License.txt
-	cp $^ $@
-$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)
-	cd $(BUILD_DIR) && zip -q -r -9 $(notdir $@) $(notdir $^)
-$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM: compile-growlmail
-	mkdir $@
-	cp -R $(GROWLMAIL_BUILD_DIR)/GrowlMail.mailbundle.dSYM $@
-$(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM.tbz: $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM
-	tar -C $(dir $<) -cjf $@ $(notdir $^)
 
-release: build-dir-clean release-dsym release-growl release-growlmail release-growlsafari release-growltunes release-hardwaregrowler release-growlnotify release-sdk
+release: build-dir-clean release-dsym release-growl release-growltunes release-hardwaregrowler release-growlnotify release-sdk
 release-dsym: build-dir-clean $(DSYM_TBZ)
 release-growl: build-dir-clean $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
 	@echo Build finished
 	-growlnotify -n 'Growl Release Makefile' 'Growl disk image built successfully' -m $(RELEASE_FILENAME).dmg --iconpath $(BUILD_DIR)/$(RELEASE_FILENAME).dmg
-release-growlmail: build-dir-clean $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME)-dSYM.tbz
-	-growlnotify -n 'Growl Release Makefile' 'GrowlMail archive built successfully' -m $(GROWLMAIL_RELEASE_FILENAME).zip --iconpath $(BUILD_DIR)/$(GROWLMAIL_RELEASE_FILENAME).zip
-release-growlsafari:
-	@#TODO
 release-growltunes:
 	@#TODO
 release-growlnotify:
