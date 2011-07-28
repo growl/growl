@@ -222,7 +222,8 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 				NSString *networkName = [newValue objectForKey:@"SSID_STR"];
 				if (!networkName)
 					networkName = [newValue objectForKey:@"SSID"];
-				AppController_airportConnect((CFStringRef)networkName, CFDataGetBytePtr(newBSSID));
+				if(networkName && newBSSID)
+                    AppController_airportConnect((CFStringRef)networkName, CFDataGetBytePtr(newBSSID));
 			}
 		}
 	}
