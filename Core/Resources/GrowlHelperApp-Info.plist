@@ -75,6 +75,8 @@
 	<string>com.Growl.GrowlHelperApp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Growl</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -89,6 +91,8 @@
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>LSUIElement</key>
+	<true/>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
@@ -159,7 +163,5 @@
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>LSUIElement</key>
-	<true/>
 </dict>
 </plist>
