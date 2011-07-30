@@ -223,8 +223,11 @@
 		if (priority >= -2 && priority <= 2)
 			[self setPriority:priority];
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationSticky] == NSOrderedSame) {
-		BOOL sticky = (([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame) ||
-						([value caseInsensitiveCompare:@"True"] == NSOrderedSame));
+		BOOL sticky = (
+			   ([value caseInsensitiveCompare:@"Yes"] == NSOrderedSame)
+			|| ([value caseInsensitiveCompare:@"True"] == NSOrderedSame)
+			|| [value boolValue]
+		);
 		[self setSticky:sticky];	
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationIcon] == NSOrderedSame) {
 		if ([value rangeOfString:@"x-growl-resource://" options:(NSLiteralSearch | NSAnchoredSearch | NSCaseInsensitiveSearch)].location != NSNotFound) {
