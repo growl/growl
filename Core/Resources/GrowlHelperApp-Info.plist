@@ -101,6 +101,8 @@
 	<string>GrowlApplication</string>
 	<key>NSServices</key>
 	<array/>
+	<key>OSAScriptingDefinition</key>
+	<string>Growl.sdef</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
