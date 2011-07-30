@@ -453,8 +453,13 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:@"Notification-Coalescing-ID" value:[dict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationText value:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]]];
-	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationSticky value:[dict objectForKey:GROWL_NOTIFICATION_STICKY]]];
+	if ([dict objectForKey:GROWL_NOTIFICATION_STICKY]) {
+		//The only two valid values for C99's _Bool type are 0 and 1. Anything else gets turned to 1 in the conversion.
+		NSString *boolString = [[dict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+			? @"Yes"
+			: @"No";
+		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationSticky value:boolString]];
+	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_PRIORITY])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationPriority value:[NSString stringWithFormat:@"%i", [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]) {
