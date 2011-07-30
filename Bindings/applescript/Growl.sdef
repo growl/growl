@@ -21,19 +21,19 @@
 			<parameter name="application name" code="appl" type="text" description="name of the application posting the notification.">
 				<cocoa key="appName"/>
 			</parameter>
-			<parameter name="image from location" optional="yes" code="iurl" type="location specifier" description="Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.">
-				<cocoa key="imageFromURL"/>
+			<parameter name="image from location" optional="yes" code="iurl" type="text" description="Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.">
+				<cocoa class="NSString" key="imageFromURL"/>
 			</parameter>
-			<parameter name="icon of file" optional="yes" code="ifil" type="location specifier" description="Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.">
-				<cocoa key="iconOfFile"/>
+			<parameter name="icon of file" optional="yes" code="ifil" type="text" description="Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.">
+				<cocoa class="NSString" key="iconOfFile"/>
 			</parameter>
 			<parameter name="icon of application" optional="yes" code="iapp" type="text" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'.">
 				<cocoa key="iconOfApplication"/>
 			</parameter>
-			<parameter name="image" optional="yes" code="imag" type="image" description="TIFF Image to be used for the notification.">
+			<parameter name="image" optional="yes" code="imag" type="Image" description="TIFF Image to be used for the notification.">
 				<cocoa key="image"/>
 			</parameter>
-			<parameter name="pictImage" optional="yes" code="pict" type="picture" description="PICT Image to be used for the notification.">
+			<parameter name="pictImage" optional="yes" code="pict" type="Picture" description="PICT Image to be used for the notification.">
 				<cocoa key="pictImage"/>
 			</parameter>
 			<parameter name="sticky" optional="yes" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
@@ -63,11 +63,11 @@
 				<cocoa key="iconOfApplication"/>
 			</parameter>
 		</command>
-		<value-type name="picture" code="PICT">
-			<cocoa class="NSData" name="Picture"/>
-		</value-type>
-		<value-type name="image" code="TIFF">
-			<cocoa class="NSData" name="Image"/>
-		</value-type>
+		<class name="Picture" code="PICT" plural="Pictures">
+			<cocoa class="NSData"/>
+		</class>
+		<class name="Image" code="TIFF" plural="Images">
+			<cocoa class="NSData"/>
+		</class>
 	</suite>
 </dictionary>
