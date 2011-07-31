@@ -133,7 +133,7 @@
 			[allNotificationsTemp setObject:notification forKey:name];
 			[notification release];
 		}
-		allNotifications = [allNotificationsTemp retain];
+		allNotifications = allNotificationsTemp;
 		allNotificationNames = allNamesTemp;
 
 		BOOL doLookup = YES;
