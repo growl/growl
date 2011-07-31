@@ -8,6 +8,7 @@
 
 #import "GrowlGNTPNotificationAttempt.h"
 
+#import "GrowlDefines.h"
 #import "GrowlGNTPOutgoingPacket.h"
 
 @implementation GrowlGNTPNotificationAttempt
@@ -18,6 +19,10 @@
 
 - (GrowlGNTPOutgoingPacket *) packet {
 	return [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType forDict:self.dictionary];
+}
+
+- (BOOL) expectsCallback {
+	return (_Bool)[self.dictionary objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
 
 @end

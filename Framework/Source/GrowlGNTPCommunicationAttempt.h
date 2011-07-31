@@ -16,10 +16,15 @@
 	GrowlGNTPOutgoingPacket *packet;
 	GCDAsyncSocket *socket;
 	NSString *responseParseErrorString, *bogusResponse;
+	NSString *callbackType;
+	NSMutableArray *callbackHeaderItems;
 	BOOL attemptSuceeded;
 }
 
 //Lazily constructs the packet for self.dictionary.
 - (GrowlGNTPOutgoingPacket *) packet;
+
+//Returns NO. Subclasses may overrido to conditionally or unconditionally return YES.
+- (BOOL) expectsCallback;
 
 @end

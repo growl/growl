@@ -9,6 +9,7 @@
 #import "GrowlGNTPCommunicationAttempt.h"
 
 #import "GrowlGNTPOutgoingPacket.h"
+#import "GrowlGNTPHeaderItem.h"
 #import "GrowlDefinesInternal.h"
 
 #import "GCDAsyncSocket.h"
@@ -19,14 +20,28 @@
 
 @end
 
+enum {
+	GrowlGNTPCommAttemptReadPhaseFirstResponseLine,
+	GrowlGNTPCommAttemptReadPhaseResponseHeaderLine,
+};
 
 @implementation GrowlGNTPCommunicationAttempt
 
 @synthesize responseParseErrorString, bogusResponse;
 
+- (void) dealloc {
+	[callbackHeaderItems release];
+
+	[super dealloc];
+}
+
 - (GrowlGNTPOutgoingPacket *) packet {
 	NSAssert1(NO, @"Subclass dropped the ball: Communication attempt %@  does not know how to create a GNTP packet", self);
 	return nil;
+}
+
+- (BOOL) expectsCallback {
+	return NO;
 }
 
 - (void) failed {
@@ -57,12 +72,15 @@
 	}
 }
 
+- (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
+#define CRLF "\x0D\0x0A"
+	[sock readDataToData:[@CRLF dataUsingEncoding:NSUTF8StringEncoding] withTimeout:10.0 tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+}
+
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
 	[[self packet] writeToSocket:sock];
-	//After we send in our request, the notifications system will send back a response that ends with a CRLF.
-#define CRLF "\x0D\0x0A"
-	[socket readDataToData:[@CRLF dataUsingEncoding:NSUTF8StringEncoding] withTimeout:10.0 tag:-1L];
-	[socket disconnectAfterReading];
+	//After we send in our request, the notifications system will send back a response consisting of at least one line.
+	[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
@@ -74,7 +92,7 @@
 	if (![scanner scanString:@"GNTP/1.0 " intoString:NULL])
 		[self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
 
-	else {
+	else if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {
 		NSMutableCharacterSet *responseTypeCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
 		[responseTypeCharacters addCharactersInString:@"-"];
 
@@ -85,8 +103,12 @@
 			[self couldNotParseResponseWithReason:@"Garbage in place of response type" responseString:readString];
 
 		else {
+			BOOL closeConnection = NO;
+
 			if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
 				attemptSuceeded = YES;
+
+				closeConnection = [self expectsCallback];
 
 			} else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {
 				NSString *errorString = nil;
@@ -94,9 +116,36 @@
 
 				[self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Growl or other notification system returned error: %@", errorString] responseString:readString];
 
+				closeConnection = YES;
+
+			} else if ([responseType isEqualToString:GrowlGNTPCallbackTypeHeader]) {
+				callbackHeaderItems = [[NSMutableArray alloc] init];
+				[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
+
 			} else {
 				[self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Unrecognized response type: %@", responseType] responseString:readString];
 			}
+
+			if (closeConnection)
+				[socket disconnectAfterReading];
+		}
+
+	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
+		if ([readString isEqualToString:@CRLF]) {
+			//Empty line: End of headers.
+			[sock disconnectAfterReading];
+		} else {
+			NSError *headerItemError = nil;
+			GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
+
+			if (headerItem)
+				[callbackHeaderItems addObject:headerItem];
+			else {
+				self.error = headerItemError;
+				attemptSuceeded = NO;
+			}
+			
+			[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
 		}
 	}
 }
