@@ -10,6 +10,7 @@
 #import "GrowlDisplayPlugin.h"
 
 @interface GrowlSpeechDisplay : GrowlDisplayPlugin {
+    dispatch_queue_t speech_queue;
 }
 
 @end

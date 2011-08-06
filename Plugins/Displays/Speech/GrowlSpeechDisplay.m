@@ -24,6 +24,7 @@
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
+    speech_queue = dispatch_queue_create("com.Growl.Speech", NULL);
 	return preferencePane;
 }
 
@@ -36,25 +37,34 @@
 	} else {
 		//Leaving the voice set to nil means we get the default voice the speech rate selected in the Speech preferences pane.
 	}
+    if([voice isEqualToString:GrowlSpeechSystemVoice])
+        voice = nil;
+    
 	NSString *title = [notification title];
 	NSString *desc = [notification notificationDescription];
 	
 	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
 	
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
-	[syn startSpeakingString:summary];
-
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
-		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
-		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-		[syn startSpeakingString:summary toURL:url];
-		[url release];
-	}
-
-	[syn autorelease];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
+	
+    dispatch_async(speech_queue, ^(void) {
+        while([NSSpeechSynthesizer isAnyApplicationSpeaking])
+        {
+        }
+        [syn startSpeakingString:summary];
+        
+        NSDictionary *noteDict = [notification dictionaryRepresentation];
+        if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
+            NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+            NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
+            [syn startSpeakingString:summary toURL:url];
+            [url release];
+        }
+        
+        [syn autorelease];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
+    });
 }
 
 - (BOOL)requiresPositioning {

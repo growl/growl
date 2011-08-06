@@ -19,13 +19,17 @@
 
 - (void) awakeFromNib {
 	NSArray *availableVoices = [NSSpeechSynthesizer availableVoices];
-	NSMutableArray *voiceAttributes = [[NSMutableArray alloc] initWithCapacity:[availableVoices count]];
+	NSMutableArray *voiceAttributes = [NSMutableArray array];
 	
+    NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
+    [defaultChoice setObject:GrowlSpeechSystemVoice forKey:NSVoiceIdentifier];
+    [defaultChoice setObject:NSLocalizedString(@"System Default Voice", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
+    [voiceAttributes addObject:defaultChoice];
+    
 	for (NSString *voiceIdentifier in availableVoices) {
 		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
 	}
 	[self setVoices:voiceAttributes];
-	[voiceAttributes release];
 
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
@@ -63,7 +67,9 @@
 			[lastPreview stopSpeaking];
 		}
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
-		NSSpeechSynthesizer *quickVoice = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
+		if([voice isEqualToString:GrowlSpeechSystemVoice])
+            voice = nil;
+        NSSpeechSynthesizer *quickVoice = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
 		[quickVoice startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"This is a preview of the %@ voice.", nil), [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
 		lastPreview = quickVoice;
 	}

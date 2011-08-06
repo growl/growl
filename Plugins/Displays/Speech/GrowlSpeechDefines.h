@@ -8,5 +8,5 @@
  */
 
 #define GrowlSpeechPrefDomain	@"com.growl.Speech"
-
+#define GrowlSpeechSystemVoice  @"com.Growl.Speech.system"
 #define GrowlSpeechVoicePref	@"Speech - Voice"
