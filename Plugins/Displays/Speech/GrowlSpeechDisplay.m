@@ -16,6 +16,13 @@
 
 @implementation GrowlSpeechDisplay
 
+- (id) init {
+    if((self = [super init])) {
+        speech_queue = dispatch_queue_create("com.Growl.Speech", NULL);
+    }
+    return self;
+}
+
 - (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
@@ -24,7 +31,7 @@
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
-    speech_queue = dispatch_queue_create("com.Growl.Speech", NULL);
+
 	return preferencePane;
 }
 

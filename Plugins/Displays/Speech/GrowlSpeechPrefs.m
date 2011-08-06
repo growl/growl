@@ -18,17 +18,18 @@
 }
 
 - (void) awakeFromNib {
-	NSArray *availableVoices = [NSSpeechSynthesizer availableVoices];
+	NSArray *availableVoices = [NSArray arrayWithObject:GrowlSpeechSystemVoice];
 	NSMutableArray *voiceAttributes = [NSMutableArray array];
 	
     NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
     [defaultChoice setObject:GrowlSpeechSystemVoice forKey:NSVoiceIdentifier];
-    [defaultChoice setObject:NSLocalizedString(@"System Default Voice", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
+    [defaultChoice setObject:NSLocalizedString(@"System Default", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
     [voiceAttributes addObject:defaultChoice];
     
-	for (NSString *voiceIdentifier in availableVoices) {
+	for (NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices]) {
 		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
 	}
+    availableVoices = [availableVoices arrayByAddingObjectsFromArray:[NSSpeechSynthesizer availableVoices]];
 	[self setVoices:voiceAttributes];
 
 	NSString *voice = nil;
