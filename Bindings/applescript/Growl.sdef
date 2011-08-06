@@ -36,7 +36,7 @@
 			<parameter name="pictImage" optional="yes" code="pict" type="Picture" description="PICT Image to be used for the notification.">
 				<cocoa key="pictImage"/>
 			</parameter>
-			<parameter name="sticky" optional="yes" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
+			<parameter name="sticky" optional="yes" code="stck" type="boolean" description="whether or not the notification displayed should remain on screen until the user dispenses with it. Defaults to false.">
 				<cocoa key="sticky"/>
 			</parameter>
 			<parameter name="priority" optional="yes" code="prio" type="integer" description="The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).">
