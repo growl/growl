@@ -134,6 +134,7 @@
 - (void) loadViewForDisplay:(NSString*)displayName;
 
 - (void) appRegistered: (NSNotification *) note;
+- (IBAction) openGrowlWebSiteToStyles:(id)sender;
 
 #pragma mark HistoryTab
 -(IBAction)validateHistoryTrimSetting:(id)sender;
