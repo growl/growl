@@ -66,6 +66,20 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>growlRegDict</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Growl Registration Dictionary</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.growl.regdict</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>Growl</string>
@@ -159,6 +173,25 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>growlTicket</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl Registration Dictionary</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.regdict</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>growlRegDict</string>
 				</array>
 			</dict>
 		</dict>
