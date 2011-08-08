@@ -79,7 +79,7 @@
 	[panel setContentView:view]; // retains subview
 	[view release];
 	
-	CGFloat xPosition = NSMaxX(screen) - (NSMaxX(screen) / 6);
+	CGFloat xPosition = NSMaxX(screen) - (sizeRect.size.width + 50.0);
 	CGFloat yPosition = NSMaxY(screen);
 	if([NSMenu menuBarVisible])
 #ifdef __LP64__
