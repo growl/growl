@@ -25,7 +25,6 @@
 @implementation GrowlNotificationHistoryWindow
 
 @synthesize historyTable;
-@synthesize arrayController;
 @synthesize countLabel;
 @synthesize notificationColumn;
 
@@ -43,15 +42,8 @@
                                                        managedObjectContext:[[self historyController] managedObjectContext]];
        
        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:YES];
-       [arrayController setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
-       [arrayController setPreservesSelection:YES];
-       
-       /*[arrayController addObserver:self 
-                         forKeyPath:@"arrangedObjects.count" 
-                            options:NSKeyValueObservingOptionNew 
-                            context:nil];*/
-       
+              
        [[NSNotificationCenter defaultCenter] addObserver:self 
                                                 selector:@selector(groupControllerUpdated:) 
                                                     name:@"GroupControllerUpdated" 
@@ -64,9 +56,9 @@
 
 -(void)dealloc
 {
-    [arrayController removeObserver:self forKeyPath:@"arrangedObjects.count"];
+   [groupController removeObserver:self forKeyPath:nil];
    [historyTable release]; historyTable = nil;
-   [arrayController release]; historyTable = nil;
+   [groupController release]; groupController = nil;
    historyController = nil;
    [groupController release];
    groupController = nil;
@@ -85,17 +77,10 @@
     [self updateCount];
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"arrangedObjects.count"] && [object isEqualTo:arrayController])
-        [self updateCount];
-}
-
 -(void)updateCount
 {
    if(!currentlyShown)
       return;
-   //NSUInteger numberOfNotifications = [[arrayController arrangedObjects] count];
    [historyTable reloadData];
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description;
@@ -122,7 +107,6 @@
 {
    if([historyTable selectedRow] != NSNotFound)
    {
-      //GrowlHistoryNotification *note = [[arrayController arrangedObjects] objectAtIndex:[arrayController selectionIndex]];
       id obj = [[groupController arrangedObjects] objectAtIndex:[historyTable selectedRow]];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
           [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 

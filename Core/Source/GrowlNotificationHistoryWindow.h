@@ -13,7 +13,6 @@
 
 @interface GrowlNotificationHistoryWindow : NSWindowController {
    IBOutlet NSTableView *historyTable;
-   IBOutlet NSArrayController *arrayController;
    IBOutlet NSTextField *countLabel;
    IBOutlet NSTableColumn *notificationColumn;
    GrowlNotificationDatabase *historyController;
@@ -24,7 +23,6 @@
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
-@property (assign) IBOutlet NSArrayController *arrayController;
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
 

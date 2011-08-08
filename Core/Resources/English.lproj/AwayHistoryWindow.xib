@@ -13,7 +13,6 @@
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSUserDefaultsController</string>
 			<string>NSScroller</string>
-			<string>NSArrayController</string>
 			<string>NSButton</string>
 			<string>NSScrollView</string>
 			<string>NSTextFieldCell</string>
@@ -63,7 +62,6 @@
 							<int key="NSvFlags">290</int>
 							<string key="NSFrame">{{185, 20}, {117, 17}}</string>
 							<reference key="NSSuperview" ref="376014043"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="110439836">
@@ -109,7 +107,6 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrameSize">{487, 272}</string>
 											<reference key="NSSuperview" ref="883132227"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="808371625"/>
 											<string key="NSReuseIdentifierKey">_NS:1197</string>
 											<bool key="NSEnabled">YES</bool>
@@ -197,7 +194,6 @@
 									</array>
 									<string key="NSFrameSize">{487, 272}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="648629535"/>
 									<string key="NSReuseIdentifierKey">_NS:1195</string>
 									<reference key="NSDocView" ref="648629535"/>
@@ -209,7 +205,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{393, 17}, {15, 259}}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="357378349"/>
 									<string key="NSReuseIdentifierKey">_NS:1214</string>
 									<reference key="NSTarget" ref="12437970"/>
@@ -222,7 +217,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{1, 267}, {401, 15}}</string>
 									<reference key="NSSuperview" ref="12437970"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="141870442"/>
 									<string key="NSReuseIdentifierKey">_NS:1216</string>
 									<int key="NSsFlags">1</int>
@@ -234,7 +228,6 @@
 							</array>
 							<string key="NSFrame">{{0, 45}, {487, 272}}</string>
 							<reference key="NSSuperview" ref="376014043"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="883132227"/>
 							<string key="NSReuseIdentifierKey">_NS:1193</string>
 							<int key="NSsFlags">133680</int>
@@ -247,62 +240,12 @@
 					</array>
 					<string key="NSFrameSize">{487, 317}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="12437970"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
-			</object>
-			<object class="NSArrayController" id="715104597">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>Time</string>
-					<string>Title</string>
-					<string>ApplicationName</string>
-					<string>Image.Image</string>
-					<string>Description</string>
-					<string>count</string>
-					<string>@count</string>
-					<string>Image.thumbnail</string>
-				</array>
-				<string key="NSObjectClassName"/>
-				<bool key="NSEditable">YES</bool>
-				<bool key="NSAutomaticallyPreparesContent">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy">
-					<string key="NSEntityName">Notification</string>
-					<object class="NSComparisonPredicate" key="NSFetchPredicate">
-						<object class="NSKeyPathExpression" key="NSLeftExpression">
-							<int key="NSExpressionType">3</int>
-							<string key="NSSelectorName">valueForKey:</string>
-							<object class="NSSelfExpression" key="NSOperand">
-								<int key="NSExpressionType">1</int>
-							</object>
-							<array class="NSMutableArray" key="NSArguments">
-								<object class="NSKeyPathSpecifierExpression">
-									<int key="NSExpressionType">10</int>
-									<string key="NSKeyPath">showInRollup</string>
-								</object>
-							</array>
-						</object>
-						<object class="NSConstantValueExpression" key="NSRightExpression">
-							<int key="NSExpressionType">0</int>
-							<integer value="1" key="NSConstantValue"/>
-						</object>
-						<object class="NSEqualityPredicateOperator" key="NSPredicateOperator">
-							<int key="NSOperatorType">4</int>
-							<int key="NSModifier">0</int>
-							<bool key="NSNegate">NO</bool>
-							<int key="NSOptions">0</int>
-						</object>
-					</object>
-				</object>
-				<bool key="_NSIsUsingManagedProxy">YES</bool>
-				<bool key="_NSUsesLazyFetching">YES</bool>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSUserDefaultsController" id="218385721">
 				<bool key="NSSharedInstance">YES</bool>
@@ -320,14 +263,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">arrayController</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="715104597"/>
-					</object>
-					<int key="connectionID">403</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="452553440"/>
 						<reference key="destination" ref="1001"/>
@@ -341,22 +276,6 @@
 						<reference key="destination" ref="357378349"/>
 					</object>
 					<int key="connectionID">605</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">managedObjectContext: historyController.managedObjectContext</string>
-						<reference key="source" ref="715104597"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="715104597"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">managedObjectContext: historyController.managedObjectContext</string>
-							<string key="NSBinding">managedObjectContext</string>
-							<string key="NSKeyPath">historyController.managedObjectContext</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">624</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1161,11 +1080,6 @@
 						</array>
 						<reference key="parent" ref="452553440"/>
 						<string key="objectName">View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">388</int>
-						<reference key="object" ref="715104597"/>
-						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">593</int>
@@ -2461,8 +2375,6 @@
 				<string key="1566.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1567.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1568.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="388.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="388.ibExternalFetchPredicateFormat">showInRollup == 1</string>
 				<boolean value="NO" key="593.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="593.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="594.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
