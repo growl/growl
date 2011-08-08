@@ -90,9 +90,13 @@
     }else{
         NSMutableArray *temp = [NSMutableArray array];
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [temp addObject:obj];
-            id controller = [groupControllers valueForKey:obj];
-            [temp addObjectsFromArray:[controller arrangedObjects]];
+            //If the app doesn't have any count (say a timing issue with its removal, or a filter predicate)
+            //Dont bother to add it
+            if([[[groupControllers valueForKey:obj] arrangedObjects] count] > 0){
+                [temp addObject:obj];
+                id controller = [groupControllers valueForKey:obj];
+                [temp addObjectsFromArray:[controller arrangedObjects]];
+            }
         }];
         _cacheArray = [temp copy];
     }
