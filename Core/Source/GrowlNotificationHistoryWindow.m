@@ -13,6 +13,7 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationCellView.h"
 #import "GrowlNotificationRowView.h"
+#import "GroupedArrayController.h"
 
 #define GROWL_ROLLUP_WINDOW_HEIGHT @"GrowlRollupWindowHeight"
 #define GROWL_ROLLUP_WINDOW_WIDTH @"GrowlRollupWindowWidth"
@@ -36,14 +37,25 @@
       [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
       [(NSPanel*)[self window] setFloatingPanel:YES];
       
+       groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
+                                                        basePredicateString:@"showInRollup == 1" 
+                                                                   groupKey:@"ApplicationName"
+                                                       managedObjectContext:[[self historyController] managedObjectContext]];
+       
        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:YES];
        [arrayController setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+       [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
        [arrayController setPreservesSelection:YES];
        
-       [arrayController addObserver:self 
+       /*[arrayController addObserver:self 
                          forKeyPath:@"arrangedObjects.count" 
                             options:NSKeyValueObservingOptionNew 
-                            context:nil];
+                            context:nil];*/
+       
+       [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                selector:@selector(groupControllerUpdated:) 
+                                                    name:@"GroupControllerUpdated" 
+                                                  object:groupController];
        
        [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
    }
@@ -56,6 +68,8 @@
    [historyTable release]; historyTable = nil;
    [arrayController release]; historyTable = nil;
    historyController = nil;
+   [groupController release];
+   groupController = nil;
       
    [super dealloc];
 }
@@ -64,6 +78,11 @@
 {
    [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
    currentlyShown = NO;
+}
+
+-(void)groupControllerUpdated:(NSNotification*)notification
+{
+    [self updateCount];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -76,9 +95,9 @@
 {
    if(!currentlyShown)
       return;
-   
-   NSUInteger numberOfNotifications = [[arrayController arrangedObjects] count];
-    
+   //NSUInteger numberOfNotifications = [[arrayController arrangedObjects] count];
+   [historyTable reloadData];
+   NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description;
    
    if(numberOfNotifications == 1){
@@ -101,10 +120,14 @@
 
 -(IBAction)userDoubleClickedNote:(id)sender
 {
-   if([arrayController selectionIndex] != NSNotFound)
+   if([historyTable selectedRow] != NSNotFound)
    {
-      GrowlHistoryNotification *note = [[arrayController arrangedObjects] objectAtIndex:[arrayController selectionIndex]];
-      [[GrowlApplicationController sharedInstance] growlNotificationDict:[note GrowlDictionary] didCloseViaNotificationClick:YES onLocalMachine:YES];
+      //GrowlHistoryNotification *note = [[arrayController arrangedObjects] objectAtIndex:[arrayController selectionIndex]];
+      id obj = [[groupController arrangedObjects] objectAtIndex:[historyTable selectedRow]];
+      if([obj isKindOfClass:[GrowlHistoryNotification class]])
+          [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
+                                                didCloseViaNotificationClick:YES 
+                                                              onLocalMachine:YES];
    }
 }
 
@@ -129,8 +152,9 @@
     if([rowsToDelete count] == 0)
         return;
     //NSLog(@"Rows to remove from the rollup: %@", rowsToDelete);
-    for(GrowlHistoryNotification *note in[[arrayController arrangedObjects] objectsAtIndexes:rowsToDelete]){
-        [note setShowInRollup:[NSNumber numberWithBool:NO]];
+    for(id obj in [[groupController arrangedObjects] objectsAtIndexes:rowsToDelete]){
+        if([obj isKindOfClass:[GrowlHistoryNotification class]])
+            [obj setShowInRollup:[NSNumber numberWithBool:NO]];
     }
     [historyController saveDatabase:NO];
 }
@@ -145,10 +169,10 @@
 
 -(void)updateRowHeights
 {
-    if([[arrayController arrangedObjects] count] == 0)
+    if([[groupController arrangedObjects] count] == 0)
         return;
     
-    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[arrayController arrangedObjects] count] - 1)];
+    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[groupController arrangedObjects] count] - 1)];
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:0.0];
     [historyTable noteHeightOfRowsWithIndexesChanged:set];
@@ -172,23 +196,38 @@
 
 #pragma mark TableView Data source methods
 
+- (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
+{
+    return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[NSString class]];
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [[arrayController arrangedObjects] count];
+    return [[groupController arrangedObjects] count];
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-   if(aTableColumn == notificationColumn){
-      return [[arrayController arrangedObjects] objectAtIndex:rowIndex];
+   if(aTableColumn == notificationColumn || [self tableView:aTableView isGroupRow:rowIndex]){
+      return [[groupController arrangedObjects] objectAtIndex:rowIndex];
    }
-	return nil;
+   return nil;
 }
 
 -(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if(tableColumn == notificationColumn){
-        GrowlNotificationCellView *cellView = [tableView makeViewWithIdentifier:@"NotificationCellView" owner:self];
-        [[cellView deleteButton] setHidden:![[arrayController selectionIndexes] containsIndex:row]];
-        return cellView;
+        if([groupController grouped]){
+            GrowlNotificationCellView *cellView = [tableView makeViewWithIdentifier:@"GroupNoteCell" owner:self];
+            [[cellView deleteButton] setHidden:![[historyTable selectedRowIndexes] containsIndex:row]];
+            return cellView;
+        }else{
+            GrowlNotificationCellView *cellView = [tableView makeViewWithIdentifier:@"NotificationCellView" owner:self];
+            [[cellView deleteButton] setHidden:![[historyTable selectedRowIndexes] containsIndex:row]];
+            return cellView;
+        }
+    }else if([self tableView:tableView isGroupRow:row]){
+        NSTableCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
+        [groupView setObjectValue:[self tableView:tableView objectValueForTableColumn:tableColumn row:row]];
+        return groupView;
     }
     return nil;
 }
@@ -202,9 +241,17 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    NSString *description = [[[arrayController arrangedObjects] objectAtIndex:row] Description];
-    CGFloat width = [[self window] frame].size.width;
-    return [self heightForDescription:description forWidth:width];
+    if([self tableView:tableView isGroupRow:row]){
+        return 34;
+    }else{
+        id obj = [[groupController arrangedObjects] objectAtIndex:row];
+        if([obj isKindOfClass:[GrowlHistoryNotification class]]){
+            NSString *description = [[[groupController arrangedObjects] objectAtIndex:row] Description];
+            CGFloat width = [[self window] frame].size.width;
+            return [self heightForDescription:description forWidth:width];
+        }else
+            return GROWL_ROW_MINIMUM_HEIGHT;
+    }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {

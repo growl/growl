@@ -344,6 +344,7 @@
 		BC90D472122167490022B24D /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC90D470122167490022B24D /* AwayHistoryWindow.xib */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
 		BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */; };
+		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
@@ -1090,6 +1091,8 @@
 		BC9AE9721255952700759016 /* GrowlImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageCache.m; path = Core/Source/GrowlImageCache.m; sourceTree = "<group>"; };
 		BC9AF57A125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GrowlNotificationDatabase+GHAAdditions.h"; path = "Core/Source/GrowlNotificationDatabase+GHAAdditions.h"; sourceTree = "<group>"; };
 		BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GrowlNotificationDatabase+GHAAdditions.m"; path = "Core/Source/GrowlNotificationDatabase+GHAAdditions.m"; sourceTree = "<group>"; };
+		BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupedArrayController.h; path = Core/Source/GroupedArrayController.h; sourceTree = "<group>"; };
+		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
 		BCBCDD71121B9FD900C07D0D /* GrowlNotificationDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationDatabase.h; path = Core/Source/GrowlNotificationDatabase.h; sourceTree = "<group>"; };
 		BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationDatabase.m; path = Core/Source/GrowlNotificationDatabase.m; sourceTree = "<group>"; };
 		BCBCDD74121BA00300C07D0D /* GrowlHistoryNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlHistoryNotification.h; path = Core/Source/GrowlHistoryNotification.h; sourceTree = "<group>"; };
@@ -1987,6 +1990,8 @@
 			children = (
 				BC62F8301236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.h */,
 				BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */,
+				BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */,
+				BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */,
 				BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */,
 				BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */,
 				BCD6012B13C769B40013EEDE /* GrowlNotificationRowView.h */,
@@ -3057,6 +3062,7 @@
 				313B904413CF1D370075C9A3 /* GrowlGNTPCommunicationAttempt.m in Sources */,
 				313B904513CF1D4F0075C9A3 /* GrowlApplicationBridgeRegistrationAttempt.m in Sources */,
 				313B904613CF1D530075C9A3 /* GrowlApplicationBridgeNotificationAttempt.m in Sources */,
+				BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

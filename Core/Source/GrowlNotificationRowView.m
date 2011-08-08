@@ -52,18 +52,24 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent {
     self.mouseInside = YES;
-    [[(GrowlNotificationCellView*)[self viewAtColumn:0] deleteButton] setHidden:NO];
+    if([[self viewAtColumn:0] isKindOfClass:[GrowlNotificationCellView class]])
+        [[(GrowlNotificationCellView*)[self viewAtColumn:0] deleteButton] setHidden:NO];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
     self.mouseInside = NO;
-    if(!self.selected)
-        [[(GrowlNotificationCellView*)[self viewAtColumn:0] deleteButton] setHidden:YES];
+    if(!self.selected){
+        if([[self viewAtColumn:0] isKindOfClass:[GrowlNotificationCellView class]])
+            [[(GrowlNotificationCellView*)[self viewAtColumn:0] deleteButton] setHidden:YES];
+    }
 }
 
 // interiorBackgroundStyle is normaly "dark" when the selection is drawn (self.selected == YES) and we are in a key window (self.emphasized == YES). However, we always draw a dark selection, so we override this method to always return a light color.
 - (NSBackgroundStyle)interiorBackgroundStyle {
-    return NSBackgroundStyleDark;  
+    if(![self isGroupRowStyle])
+        return NSBackgroundStyleDark;
+    else
+        return NSBackgroundStyleLight;
 }
 
 - (void)drawBackgroundInRect:(NSRect)dirtyRect {

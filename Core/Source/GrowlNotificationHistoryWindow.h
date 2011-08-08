@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlNotificationDatabase;
+@class GrowlNotificationDatabase, GroupedArrayController;
 
 @interface GrowlNotificationHistoryWindow : NSWindowController {
    IBOutlet NSTableView *historyTable;
@@ -17,6 +17,8 @@
    IBOutlet NSTextField *countLabel;
    IBOutlet NSTableColumn *notificationColumn;
    GrowlNotificationDatabase *historyController;
+    
+   GroupedArrayController *groupController;
    
    BOOL currentlyShown;
 }
@@ -26,6 +28,7 @@
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
 
+-(GrowlNotificationDatabase*)historyController;
 -(void)updateCount;
 -(void)resetArray;
 -(IBAction)deleteNotifications:(id)sender;
