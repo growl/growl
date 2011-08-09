@@ -41,7 +41,7 @@
                                                                    groupKey:@"ApplicationName"
                                                        managedObjectContext:[[self historyController] managedObjectContext]];
        
-       NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:YES];
+       NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
               
        [[NSNotificationCenter defaultCenter] addObserver:self 
