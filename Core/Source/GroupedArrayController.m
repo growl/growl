@@ -19,6 +19,7 @@
 @synthesize groupKey;
 @synthesize currentGroups;
 @synthesize groupControllers;
+@synthesize showGroup;
 @synthesize countController;
 
 - (id)initWithEntityName:(NSString*)entity
@@ -53,6 +54,7 @@
                               options:NSKeyValueObservingOptionNew 
                               context:nil];
         self.groupControllers = [NSMutableDictionary dictionary];
+        self.showGroup = [NSMutableDictionary dictionary];
         self.currentGroups = [NSMutableArray array];
         self.grouped = YES;
         self.updateArray = YES;
@@ -60,6 +62,16 @@
     }
     
     return self;
+}
+
+-(void)toggleShowGroup:(NSString*)groupID
+{
+    if(![showGroup valueForKey:groupID])
+        return;
+    
+    BOOL current = [[showGroup valueForKey:groupID] boolValue];
+    [showGroup setValue:[NSNumber numberWithBool:current ? NO : YES] forKey:groupID];
+    [self notifyUpdates];
 }
 
 -(void)setGrouped:(BOOL)newGroup
@@ -94,8 +106,10 @@
             //Dont bother to add it
             if([[[groupControllers valueForKey:obj] arrangedObjects] count] > 0){
                 [temp addObject:obj];
-                id controller = [groupControllers valueForKey:obj];
-                [temp addObjectsFromArray:[controller arrangedObjects]];
+                if([[showGroup valueForKey:obj] boolValue]){
+                    id controller = [groupControllers valueForKey:obj];
+                    [temp addObjectsFromArray:[controller arrangedObjects]];
+                }
             }
         }];
         _cacheArray = [temp copy];
@@ -145,6 +159,7 @@
     [added enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSString *groupID = obj;
         [currentGroups addObject:groupID];
+        [showGroup setValue:[NSNumber numberWithBool:YES] forKey:groupID];
         
         NSArrayController *newController = [[NSArrayController alloc] init];
         [newController setManagedObjectContext:self.context];

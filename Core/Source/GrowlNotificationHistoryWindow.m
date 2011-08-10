@@ -107,13 +107,15 @@
 
 -(IBAction)userDoubleClickedNote:(id)sender
 {
-   if([historyTable selectedRow] != NSNotFound)
+   if([historyTable clickedRow] != NSNotFound)
    {
-      id obj = [[groupController arrangedObjects] objectAtIndex:[historyTable selectedRow]];
+      id obj = [[groupController arrangedObjects] objectAtIndex:[historyTable clickedRow]];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
           [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
                                                 didCloseViaNotificationClick:YES 
                                                               onLocalMachine:YES];
+       else if([obj isKindOfClass:[NSString class]])
+           [groupController toggleShowGroup:obj];
    }
 }
 
