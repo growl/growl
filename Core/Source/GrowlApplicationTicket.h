@@ -70,6 +70,8 @@
 - (NSData *) iconData;
 - (void) setIconData:(NSData *) inIconData;
 
+- (NSImage *) icon;
+
 - (NSString *) applicationName;
 @property (nonatomic, readonly) NSString* appNameHostName;
 @property (nonatomic, readonly) BOOL isLocalHost;

@@ -77,7 +77,7 @@
 		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
       NSString *host = [ticketDict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
       if ([host hasSuffix:@".local"]) {
-         host = [host substringToIndex:([hostName length] - [@".local" length])];
+         host = [host substringToIndex:([host length] - [@".local" length])];
       }
       if(!host){
          isLocalHost = YES;
