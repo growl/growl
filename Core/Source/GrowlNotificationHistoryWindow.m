@@ -10,6 +10,8 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlApplicationController.h"
+#import "GrowlTicketController.h"
+#import "GrowlApplication.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationCellView.h"
 #import "GrowlNotificationRowView.h"
@@ -143,6 +145,23 @@
     [historyController saveDatabase:NO];
 }
 
+- (IBAction)deleteAppNotifications:(id)sender {
+    NSUInteger row = [historyTable rowForView:sender];
+    if(![self tableView:historyTable isGroupRow:row]){
+        NSLog(@"Row not found, or not application");
+        return;
+    }
+    NSString *appName = [self tableView:historyTable objectValueForTableColumn:nil row:row];
+    NSArrayController *appController = [[groupController groupControllers] valueForKey:appName];
+    if(!appController)
+        return;
+    [[appController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if([obj isKindOfClass:[GrowlHistoryNotification class]])
+            [obj setShowInRollup:[NSNumber numberWithBool:NO]];
+    }];
+    [historyController saveDatabase:NO];
+}
+
 -(GrowlNotificationDatabase*)historyController
 {
    if(!historyController)
@@ -211,6 +230,15 @@
     }else if([self tableView:tableView isGroupRow:row]){
         NSTableCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
         [groupView setObjectValue:[self tableView:tableView objectValueForTableColumn:tableColumn row:row]];
+        
+        NSString *appName = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+        NSImage *icon = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] icon];
+        if(icon){
+            [[groupView imageView] setImage:icon];
+        }else{
+            [[groupView imageView] setImage:nil];
+        }
+            
         return groupView;
     }
     return nil;
@@ -218,9 +246,13 @@
 
 -(NSView*)tableView:(NSTableView*)tableView rowViewForRow:(NSInteger)row
 {
-    GrowlNotificationRowView *rowView = [tableView makeViewWithIdentifier:NSTableViewRowViewKey owner:self];
-    [rowView setMouseInside:NO];
-    return rowView;
+    if(![self tableView:tableView isGroupRow:row]){
+        GrowlNotificationRowView *rowView = [tableView makeViewWithIdentifier:NSTableViewRowViewKey owner:self];
+        [rowView setMouseInside:NO];
+        return rowView;
+    }else{
+        return [tableView makeViewWithIdentifier:@"GroupRowView" owner:self];
+    }
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row

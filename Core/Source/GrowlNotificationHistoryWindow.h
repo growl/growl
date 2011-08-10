@@ -11,7 +11,7 @@
 
 @class GrowlNotificationDatabase, GroupedArrayController;
 
-@interface GrowlNotificationHistoryWindow : NSWindowController {
+@interface GrowlNotificationHistoryWindow : NSWindowController <NSTableViewDelegate, NSTableViewDataSource> {
    IBOutlet NSTableView *historyTable;
    IBOutlet NSTextField *countLabel;
    IBOutlet NSTableColumn *notificationColumn;
@@ -30,6 +30,7 @@
 -(void)updateCount;
 -(void)resetArray;
 -(IBAction)deleteNotifications:(id)sender;
+-(IBAction)deleteAppNotifications:(id)sender;
 -(CGFloat)heightForDescription:(NSString*)description forWidth:(CGFloat)width;
 
 @end
