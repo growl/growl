@@ -10,6 +10,7 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageCache.h"
+#import "NSStringAdditions.h"
 #import <CommonCrypto/CommonHMAC.h>
 
 @implementation GrowlHistoryNotification
@@ -28,7 +29,26 @@
 
 -(void)setWithNoteDictionary:(NSDictionary*)noteDict
 {
-   self.AppID = [noteDict objectForKey:GROWL_APP_ID];
+    NSString *appName = [noteDict objectForKey:GROWL_APP_ID];
+    NSString *host = [noteDict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+    NSString *appHost;
+    BOOL isLocalHost = NO;
+    
+    if ([host hasSuffix:@".local"]) {
+        host = [host substringToIndex:([host length] - [@".local" length])];
+    }
+    if(!host){
+        isLocalHost = YES;
+    }else {
+        isLocalHost = [host isLocalHost];
+    }
+    if(isLocalHost){
+        appHost = appName;
+    }else {
+        appHost = [[NSString alloc] initWithFormat:@"%@ - %@", host, appName];
+    }
+    
+   self.AppID = appHost;
    self.ApplicationName = [noteDict objectForKey:GROWL_APP_NAME];
    self.Description = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
    self.Name = [noteDict objectForKey:GROWL_NOTIFICATION_NAME];
