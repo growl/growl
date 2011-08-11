@@ -7,6 +7,7 @@
 //
 
 #import "GrowlNotificationCellView.h"
+#import "GrowlHistoryNotification.h"
 
 @implementation GrowlNotificationCellView
 
@@ -26,7 +27,11 @@
 
 -(void)setObjectValue:(id)newValue
 {
-    [super setObjectValue:newValue];
+    if([newValue isKindOfClass:[GrowlHistoryNotification class]])
+        [super setObjectValue:newValue];
+    else
+        [super setObjectValue:nil];
+
     [icon setImage:[[self objectValue] valueForKeyPath:@"Image.Image"]];
 }
 
