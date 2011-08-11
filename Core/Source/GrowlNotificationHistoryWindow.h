@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "GrowlAbstractDatabase.h"
+#import "GroupedArrayController.h"
 
 @class GrowlNotificationDatabase, GroupedArrayController;
 
-@interface GrowlNotificationHistoryWindow : NSWindowController <NSTableViewDelegate, NSTableViewDataSource> {
+@interface GrowlNotificationHistoryWindow : NSWindowController <NSTableViewDelegate, NSTableViewDataSource, GroupedArrayControllerDelegate> {
    IBOutlet NSTableView *historyTable;
    IBOutlet NSTextField *countLabel;
    IBOutlet NSTableColumn *notificationColumn;

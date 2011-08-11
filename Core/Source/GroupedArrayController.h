@@ -8,7 +8,17 @@
 
 #import <AppKit/AppKit.h>
 
-@class GrowlNotificationDatabase;
+@class GrowlNotificationDatabase, GroupedArrayController;
+
+@protocol GroupedArrayControllerDelegate <NSObject>
+
+-(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController;
+-(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController;
+-(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet;
+-(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet;
+-(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end;
+
+@end
 
 @interface GroupedArrayController : NSObject
 
@@ -17,8 +27,9 @@
                 groupKey:(NSString*)key
     managedObjectContext:(NSManagedObjectContext*)aContext;
 
+@property (nonatomic, assign) id<GroupedArrayControllerDelegate> delegate;
 @property (nonatomic) BOOL grouped;
-@property (nonatomic) BOOL updateArray;
+@property (nonatomic) BOOL shouldUpdateArray;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) NSString *entityName;
 @property (nonatomic, retain) NSString *basePredicateString;
@@ -27,10 +38,13 @@
 @property (nonatomic, retain) NSMutableDictionary *groupControllers;
 @property (nonatomic, retain) NSMutableDictionary *showGroup;
 @property (nonatomic, retain) NSArrayController *countController;
+@property (nonatomic, retain) NSArray *arrangedObjects;
 
 -(NSArray*)arrangedObjects;
+-(void)toggleGrouped;
 -(void)toggleShowGroup:(NSString*)groupID;
--(void)notifyUpdates;
+-(NSArray*)newArray;
+-(void)updateArray;
 -(void)updateArrayGroups;
 
 @end

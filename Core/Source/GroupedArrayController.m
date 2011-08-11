@@ -7,12 +7,12 @@
 //
 
 #import "GroupedArrayController.h"
-#import "GrowlNotificationDatabase.h"
 
 @implementation GroupedArrayController
 
+@synthesize delegate;
 @synthesize grouped;
-@synthesize updateArray;
+@synthesize shouldUpdateArray;
 @synthesize context;
 @synthesize entityName;
 @synthesize basePredicateString;
@@ -21,6 +21,7 @@
 @synthesize groupControllers;
 @synthesize showGroup;
 @synthesize countController;
+@synthesize arrangedObjects;
 
 - (id)initWithEntityName:(NSString*)entity
      basePredicateString:(NSString*)predicate
@@ -43,62 +44,117 @@
         [countController setAutomaticallyRearrangesObjects:YES];
         [countController setUsesLazyFetching:YES];
         [countController setEditable:YES];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(databaseDidChange:) 
-                                                     name:NSManagedObjectContextObjectsDidChangeNotification
-                                                   object:self.context];
-                
+
         [countController addObserver:self 
                            forKeyPath:@"arrangedObjects.count" 
-                              options:NSKeyValueObservingOptionNew 
+                              options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                               context:nil];
+        
+        [countController fetch:nil];
+        
         self.groupControllers = [NSMutableDictionary dictionary];
         self.showGroup = [NSMutableDictionary dictionary];
         self.currentGroups = [NSMutableArray array];
         self.grouped = YES;
-        self.updateArray = YES;
-        
     }
     
     return self;
 }
 
+-(void)toggleGrouped
+{
+    if(grouped){
+        [self setGrouped:NO];
+    }else{
+        [self setGrouped:YES];
+    }
+}
+
 -(void)toggleShowGroup:(NSString*)groupID
 {
-    if(![showGroup valueForKey:groupID])
+    if(![showGroup valueForKey:groupID] || !grouped)
         return;
     
     BOOL current = [[showGroup valueForKey:groupID] boolValue];
     [showGroup setValue:[NSNumber numberWithBool:current ? NO : YES] forKey:groupID];
-    [self notifyUpdates];
+    [self updateArray];
 }
 
 -(void)setGrouped:(BOOL)newGroup
 {
     [self willChangeValueForKey:@"grouped"];
     grouped = newGroup;
-    [self notifyUpdates];
     [self didChangeValueForKey:@"grouped"];
+    [self updateArray];
 }
 
-/* Our arranged objects, based on whether we are grouped or not
+-(void)updateArray
+{
+    shouldUpdateArray = YES;
+    NSArray *destination = [self newArray];
+    NSArray *current = arrangedObjects;
+    self.arrangedObjects = destination;
+    
+    if(!delegate)
+        return;
+    
+    if([destination isEqualToArray:current]){
+        //No changes
+        return;
+    }else if([current count] == 0){
+        //Add all
+        [delegate groupedControllerBeginUpdates:self];
+        [delegate groupedController:self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
+        [delegate groupedControllerEndUpdates:self];
+    }else if([destination count] == 0){
+        //Remove all
+        [delegate groupedControllerBeginUpdates:self];
+        [delegate groupedController:self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
+        [delegate groupedControllerEndUpdates:self];
+    }else{
+        //Add/Remove in the right order to make NSTableView happy
+        NSMutableArray *currentCopy = [current mutableCopy];
+        [delegate groupedControllerBeginUpdates:self];
+        
+        __block GroupedArrayController *blockSafeSelf = self;
+        
+        [destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+            NSInteger oldIndex = [currentCopy indexOfObject:obj];
+            if(oldIndex == NSNotFound){
+                [delegate groupedController:blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
+            }else{
+                [delegate groupedController:blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
+                [currentCopy removeObjectAtIndex:0];
+            }
+        }];
+        
+        if([currentCopy count] > 0){
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([destination count], [currentCopy count])];
+            [delegate groupedController:self removeIndexes:indexSet];
+        }
+        
+        [currentCopy release];
+        [delegate groupedControllerEndUpdates:self];
+    }
+}
+
+/* Our new arranged objects, based on whether we are grouped or not
  * Cached array keeps value so we don't have to redo this every call to it
  * If we are grouped, we build the array, if not, we simply ask countController for its
  */
--(NSArray*)arrangedObjects
+-(NSArray*)newArray
 {
-    static NSArray *_cacheArray = nil;
-    if(_cacheArray && !updateArray)
+    NSArray *_cacheArray = nil;
+    if(_cacheArray && !shouldUpdateArray)
         return _cacheArray;
 
     if(_cacheArray){
         [_cacheArray release];
         _cacheArray = nil;
     }
-    
+    shouldUpdateArray = NO;
     if(!grouped){
-        return [countController arrangedObjects];
+        _cacheArray = [[countController arrangedObjects] copy];
     }else{
         NSMutableArray *temp = [NSMutableArray array];
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -116,24 +172,11 @@
     }
     return _cacheArray;
 }
-
-//Force fetch's because setAutomaticallyPreparesContent isn't working? (need to fix)
--(void)databaseDidChange:(NSNotification*)note
-{
-    [self.countController fetch:nil];
-    [groupControllers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [obj fetch:nil];
-    }];
-}
-
--(void)notifyUpdates
-{
-    self.updateArray = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"GroupControllerUpdated" object:self];
-}
         
 -(void)updateArrayGroups
 {
+    __block GroupedArrayController *blockSafeSelf = self;
+
     //Determine which groups have been added and removed
     NSMutableSet *added = [NSMutableSet set];
     NSMutableSet *current = [NSMutableSet setWithArray:currentGroups];
@@ -149,9 +192,9 @@
     
     /* There weren't any updates to groups, no need to go further
        only notify of updates if we are grouped at this point */
-    if([added count ] == 0 && [removed count] == 0){
+    if([added count] == 0 && [removed count] == 0){
         if(!grouped)
-            [self notifyUpdates];
+            [self updateArray];
         return;
     }
     
@@ -162,43 +205,50 @@
         [showGroup setValue:[NSNumber numberWithBool:YES] forKey:groupID];
         
         NSArrayController *newController = [[NSArrayController alloc] init];
-        [newController setManagedObjectContext:self.context];
+        [newController setManagedObjectContext:context];
         [newController setEntityName:entityName];
         [newController setAutomaticallyPreparesContent:YES];
         [newController setAutomaticallyRearrangesObjects:YES];
-        NSString *format = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, self.groupKey, groupID];
+        NSString *format = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
         [newController setFetchPredicate:[NSPredicate predicateWithFormat:format]];
         [newController setSortDescriptors:[countController sortDescriptors]];
         
-        [newController addObserver:self 
+        [newController addObserver:blockSafeSelf 
                         forKeyPath:@"arrangedObjects.count" 
-                           options:NSKeyValueObservingOptionNew 
-                           context:nil];
-        [newController fetch:self];
+                           options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
+                           context:groupID];
+
+        [newController fetch:blockSafeSelf];
         [groupControllers setValue:newController forKey:groupID];
         [newController release];
         newController = nil;
     }];
     
-    //remove any new arrayControllers
+    //remove any old arrayControllers
     [removed enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSString *groupID = obj;
         [groupControllers removeObjectForKey:groupID];
         [currentGroups removeObject:groupID];
+        [showGroup removeObjectForKey:groupID];
     }];
     
     [currentGroups sortUsingSelector:@selector(compare:)];
-         
-    [self notifyUpdates];
+    
+    [self updateArray];
 }
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)ctxt
 {
     if([keyPath isEqualToString:@"arrangedObjects.count"]){
         if([object isEqualTo:countController]){
             [self updateArrayGroups];
         }else{
-            [self notifyUpdates];
+            NSString *groupID = ctxt;
+            if(groupID){
+                BOOL show = [[showGroup valueForKey:groupID] boolValue];
+                if(grouped && show)
+                    [self updateArray];
+            }
         }
     }
 }

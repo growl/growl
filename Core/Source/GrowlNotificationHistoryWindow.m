@@ -42,15 +42,11 @@
                                                         basePredicateString:@"showInRollup == 1" 
                                                                    groupKey:@"ApplicationName"
                                                        managedObjectContext:[[self historyController] managedObjectContext]];
+       [groupController setDelegate:self];
        
        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
               
-       [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                selector:@selector(groupControllerUpdated:) 
-                                                    name:@"GroupControllerUpdated" 
-                                                  object:groupController];
-       
        [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
    }
    return self;
@@ -74,16 +70,11 @@
    currentlyShown = NO;
 }
 
--(void)groupControllerUpdated:(NSNotification*)notification
-{
-    [self updateCount];
-}
-
 -(void)updateCount
 {
    if(!currentlyShown)
       return;
-   [historyTable reloadData];
+   
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description;
    
@@ -293,6 +284,30 @@
 - (void)windowDidResize:(NSNotification *)note
 {
     [self updateRowHeights];
+}
+
+#pragma mark GroupedArrayControllerDelegate methods
+
+-(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController
+{
+    [historyTable beginUpdates];
+}
+-(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController
+{
+    [historyTable endUpdates];
+    [self updateCount];
+}
+-(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet
+{
+    [historyTable insertRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap|NSTableViewAnimationSlideLeft];
+}
+-(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet
+{
+    [historyTable removeRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationSlideRight];
+}
+-(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end
+{
+    [historyTable moveRowAtIndex:start toIndex:end];
 }
 
 @end
