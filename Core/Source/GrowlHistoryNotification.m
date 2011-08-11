@@ -45,7 +45,7 @@
     if(isLocalHost){
         appHost = appName;
     }else {
-        appHost = [[NSString alloc] initWithFormat:@"%@ - %@", host, appName];
+        appHost = [NSString stringWithFormat:@"%@ - %@", host, appName];
     }
     
    self.AppID = appHost;

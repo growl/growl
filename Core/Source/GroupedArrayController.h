@@ -43,7 +43,7 @@
 -(NSArray*)arrangedObjects;
 -(void)toggleGrouped;
 -(void)toggleShowGroup:(NSString*)groupID;
--(NSArray*)newArray;
+-(NSArray*)updatedArray;
 -(void)updateArray;
 -(void)updateArrayGroups;
 

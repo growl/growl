@@ -91,7 +91,7 @@
 -(void)updateArray
 {
     shouldUpdateArray = YES;
-    NSArray *destination = [self newArray];
+    NSArray *destination = [self updatedArray];
     NSArray *current = arrangedObjects;
     self.arrangedObjects = destination;
     
@@ -142,9 +142,9 @@
  * Cached array keeps value so we don't have to redo this every call to it
  * If we are grouped, we build the array, if not, we simply ask countController for its
  */
--(NSArray*)newArray
+-(NSArray*)updatedArray
 {
-    NSArray *_cacheArray = nil;
+    static NSArray *_cacheArray = nil;
     if(_cacheArray && !shouldUpdateArray)
         return _cacheArray;
 
