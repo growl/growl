@@ -12,7 +12,6 @@
 
 @synthesize delegate;
 @synthesize grouped;
-@synthesize shouldUpdateArray;
 @synthesize context;
 @synthesize entityName;
 @synthesize basePredicateString;
@@ -90,17 +89,12 @@
 
 -(void)updateArray
 {
-    shouldUpdateArray = YES;
     NSArray *destination = [self updatedArray];
-    NSArray *current = arrangedObjects;
+    NSArray *current = [arrangedObjects retain];
     self.arrangedObjects = destination;
     
-    if(!delegate)
-        return;
-    
-    if([destination isEqualToArray:current]){
-        //No changes
-        return;
+    if(!delegate || [destination isEqualToArray:current]){
+        //No changes, easiest to do nothing, current is released below if block, so just let it drop to the bottom
     }else if([current count] == 0){
         //Add all
         [delegate groupedControllerBeginUpdates:self];
@@ -136,6 +130,7 @@
         [currentCopy release];
         [delegate groupedControllerEndUpdates:self];
     }
+    [current release];
 }
 
 /* Our new arranged objects, based on whether we are grouped or not
@@ -144,17 +139,9 @@
  */
 -(NSArray*)updatedArray
 {
-    static NSArray *_cacheArray = nil;
-    if(_cacheArray && !shouldUpdateArray)
-        return _cacheArray;
-
-    if(_cacheArray){
-        [_cacheArray release];
-        _cacheArray = nil;
-    }
-    shouldUpdateArray = NO;
+    NSArray *array = nil;
     if(!grouped){
-        _cacheArray = [[countController arrangedObjects] copy];
+        array = [countController arrangedObjects];
     }else{
         NSMutableArray *temp = [NSMutableArray array];
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -168,9 +155,9 @@
                 }
             }
         }];
-        _cacheArray = [temp copy];
+        array = [[temp copy] autorelease];
     }
-    return _cacheArray;
+    return array;
 }
         
 -(void)updateArrayGroups

@@ -29,7 +29,6 @@
 
 @property (nonatomic, assign) id<GroupedArrayControllerDelegate> delegate;
 @property (nonatomic) BOOL grouped;
-@property (nonatomic) BOOL shouldUpdateArray;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) NSString *entityName;
 @property (nonatomic, retain) NSString *basePredicateString;
