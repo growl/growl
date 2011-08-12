@@ -48,6 +48,7 @@
        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
               
        [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
+       transitionGroup = NO;
    }
    return self;
 }
@@ -105,8 +106,10 @@
           [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
                                                 didCloseViaNotificationClick:YES 
                                                               onLocalMachine:YES];
-       else if([obj isKindOfClass:[NSString class]])
-           [groupController toggleShowGroup:obj];
+      else if([obj isKindOfClass:[NSString class]]){
+          transitionGroup = YES;
+          [groupController toggleShowGroup:obj];
+      }
    }
 }
 
@@ -296,14 +299,21 @@
 {
     [historyTable endUpdates];
     [self updateCount];
+    transitionGroup = NO;
 }
 -(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet
 {
-    [historyTable insertRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap|NSTableViewAnimationSlideLeft];
+    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
+    if (!transitionGroup)
+        options = options|NSTableViewAnimationSlideLeft;
+    [historyTable insertRowsAtIndexes:indexSet withAnimation:options];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet
 {
-    [historyTable removeRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectFade|NSTableViewAnimationSlideRight];
+    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
+    if (!transitionGroup)
+        options = options|NSTableViewAnimationSlideRight;
+    [historyTable removeRowsAtIndexes:indexSet withAnimation:options];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end
 {

@@ -21,6 +21,7 @@
    GroupedArrayController *groupController;
    
    BOOL currentlyShown;
+   BOOL transitionGroup;
 }
 
 @property (assign) IBOutlet NSTableView *historyTable;
