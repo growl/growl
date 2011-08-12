@@ -273,6 +273,12 @@
 		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */; };
+		93E7121813F5652C0025D733 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121313F5652C0025D733 /* General.png */; };
+		93E7121913F5652C0025D733 /* Displays.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121413F5652C0025D733 /* Displays.png */; };
+		93E7121A13F5652C0025D733 /* Applications.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121513F5652C0025D733 /* Applications.png */; };
+		93E7121B13F5652C0025D733 /* History.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121613F5652C0025D733 /* History.png */; };
+		93E7121C13F5652C0025D733 /* Forwarding.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121713F5652C0025D733 /* Forwarding.png */; };
+		93E7122113F568430025D733 /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7122013F568430025D733 /* About.png */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -946,6 +952,12 @@
 		93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		93E01DF413C93C6000885286 /* Growl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Growl.entitlements; sourceTree = "<group>"; };
 		93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = PositionPickerBackground.jpg; path = Core/Resources/PositionPickerBackground.jpg; sourceTree = "<group>"; };
+		93E7121313F5652C0025D733 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = General.png; path = Core/Resources/General.png; sourceTree = "<group>"; };
+		93E7121413F5652C0025D733 /* Displays.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Displays.png; path = Core/Resources/Displays.png; sourceTree = "<group>"; };
+		93E7121513F5652C0025D733 /* Applications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Applications.png; path = Core/Resources/Applications.png; sourceTree = "<group>"; };
+		93E7121613F5652C0025D733 /* History.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = History.png; path = Core/Resources/History.png; sourceTree = "<group>"; };
+		93E7121713F5652C0025D733 /* Forwarding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Forwarding.png; path = Core/Resources/Forwarding.png; sourceTree = "<group>"; };
+		93E7122013F568430025D733 /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = About.png; path = Core/Resources/About.png; sourceTree = "<group>"; };
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93EA804613690D8800AB89AE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
@@ -1478,6 +1490,12 @@
 				938CAC131080D51100259421 /* GrowlPref.xib */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */,
+				93E7122013F568430025D733 /* About.png */,
+				93E7121313F5652C0025D733 /* General.png */,
+				93E7121413F5652C0025D733 /* Displays.png */,
+				93E7121513F5652C0025D733 /* Applications.png */,
+				93E7121613F5652C0025D733 /* History.png */,
+				93E7121713F5652C0025D733 /* Forwarding.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2706,6 +2724,12 @@
 				93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */,
 				313B904913D1B32C0075C9A3 /* MainMenu.xib in Resources */,
 				932177BC13E4AB9F00157729 /* Growl.sdef in Resources */,
+				93E7121813F5652C0025D733 /* General.png in Resources */,
+				93E7121913F5652C0025D733 /* Displays.png in Resources */,
+				93E7121A13F5652C0025D733 /* Applications.png in Resources */,
+				93E7121B13F5652C0025D733 /* History.png in Resources */,
+				93E7121C13F5652C0025D733 /* Forwarding.png in Resources */,
+				93E7122113F568430025D733 /* About.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
