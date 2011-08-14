@@ -15,7 +15,9 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationCellView.h"
 #import "GrowlNotificationRowView.h"
+#import "GrowlRollupGroupCellView.h"
 #import "GroupedArrayController.h"
+#import "GroupController.h"
 
 #define GROWL_ROLLUP_WINDOW_HEIGHT @"GrowlRollupWindowHeight"
 #define GROWL_ROLLUP_WINDOW_WIDTH @"GrowlRollupWindowWidth"
@@ -99,16 +101,26 @@
 
 -(IBAction)userDoubleClickedNote:(id)sender
 {
-   if([historyTable clickedRow] != NSNotFound)
-   {
-      id obj = [[groupController arrangedObjects] objectAtIndex:[historyTable clickedRow]];
+   NSInteger row = NSNotFound;
+   if([sender isKindOfClass:[NSTableView class]]){
+       row = [historyTable clickedRow];
+   }else if([sender isKindOfClass:[NSButton class]]){
+       //We use bindings, so the showGroup is already toggled, just tell it to update the array
+       transitionGroup = YES;
+       [groupController updateArray];
+       return;
+   }
+   
+   if(row != NSNotFound && row >= 0)
+   {      
+      id obj = [[groupController arrangedObjects] objectAtIndex:row];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
           [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
                                                 didCloseViaNotificationClick:YES 
                                                               onLocalMachine:YES];
-      else if([obj isKindOfClass:[NSString class]]){
+      else if([obj isKindOfClass:[GroupController class]]){
           transitionGroup = YES;
-          [groupController toggleShowGroup:obj];
+          [groupController toggleShowGroup:[obj groupID]];
       }
    }
 }
@@ -147,8 +159,8 @@
         NSLog(@"Row not found, or not application");
         return;
     }
-    NSString *appName = [self tableView:historyTable objectValueForTableColumn:nil row:row];
-    NSArrayController *appController = [[groupController groupControllers] valueForKey:appName];
+
+    NSArrayController *appController = [[[groupController arrangedObjects] objectAtIndex:row] groupArray];
     if(!appController)
         return;
     [[appController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -197,7 +209,7 @@
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-    return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[NSString class]];
+    return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -224,17 +236,18 @@
             return cellView;
         }
     }else if([self tableView:tableView isGroupRow:row]){
-        NSTableCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
-        [groupView setObjectValue:[self tableView:tableView objectValueForTableColumn:tableColumn row:row]];
-        
-        NSString *appName = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+        GrowlRollupGroupCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
+       
+        NSString *appName = [[self tableView:tableView objectValueForTableColumn:tableColumn row:row] groupID   ];
         NSImage *icon = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] icon];
         if(icon){
             [[groupView imageView] setImage:icon];
         }else{
             [[groupView imageView] setImage:nil];
         }
-            
+        
+        [[groupView deleteButton] setState:NSOnState];
+        
         return groupView;
     }
     return nil;
@@ -280,6 +293,11 @@
             }
         }
     }];
+}
+
+-(BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+   return ![self tableView:tableView isGroupRow:row];
 }
 
 #pragma mark Window delegate methods

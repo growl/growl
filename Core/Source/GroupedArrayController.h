@@ -35,7 +35,6 @@
 @property (nonatomic, retain) NSString *groupKey;
 @property (nonatomic, retain) NSMutableArray *currentGroups;
 @property (nonatomic, retain) NSMutableDictionary *groupControllers;
-@property (nonatomic, retain) NSMutableDictionary *showGroup;
 @property (nonatomic, retain) NSArrayController *countController;
 @property (nonatomic, retain) NSArray *arrangedObjects;
 

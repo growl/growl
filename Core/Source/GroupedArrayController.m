@@ -7,6 +7,7 @@
 //
 
 #import "GroupedArrayController.h"
+#import "GroupController.h"
 
 @implementation GroupedArrayController
 
@@ -18,7 +19,6 @@
 @synthesize groupKey;
 @synthesize currentGroups;
 @synthesize groupControllers;
-@synthesize showGroup;
 @synthesize countController;
 @synthesize arrangedObjects;
 
@@ -52,7 +52,6 @@
         [countController fetch:nil];
         
         self.groupControllers = [NSMutableDictionary dictionary];
-        self.showGroup = [NSMutableDictionary dictionary];
         self.currentGroups = [NSMutableArray array];
         self.grouped = YES;
     }
@@ -71,12 +70,13 @@
 
 -(void)toggleShowGroup:(NSString*)groupID
 {
-    if(![showGroup valueForKey:groupID] || !grouped)
+    GroupController *controller = [groupControllers valueForKey:groupID];
+    if(!controller)
         return;
     
-    BOOL current = [[showGroup valueForKey:groupID] boolValue];
-    [showGroup setValue:[NSNumber numberWithBool:current ? NO : YES] forKey:groupID];
-    [self updateArray];
+    [controller setShowGroup:[controller showGroup] ? NO : YES];
+    if(grouped)
+        [self updateArray];
 }
 
 -(void)setGrouped:(BOOL)newGroup
@@ -147,11 +147,10 @@
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             //If the app doesn't have any count (say a timing issue with its removal, or a filter predicate)
             //Dont bother to add it
-            if([[[groupControllers valueForKey:obj] arrangedObjects] count] > 0){
+            if([[[obj groupArray] arrangedObjects] count] > 0){
                 [temp addObject:obj];
-                if([[showGroup valueForKey:obj] boolValue]){
-                    id controller = [groupControllers valueForKey:obj];
-                    [temp addObjectsFromArray:[controller arrangedObjects]];
+                if([obj showGroup]){
+                    [temp addObjectsFromArray:[[obj groupArray] arrangedObjects]];
                 }
             }
         }];
@@ -166,8 +165,8 @@
 
     //Determine which groups have been added and removed
     NSMutableSet *added = [NSMutableSet set];
-    NSMutableSet *current = [NSMutableSet setWithArray:currentGroups];
-    NSMutableSet *removed = [NSMutableSet setWithArray:currentGroups];
+    NSMutableSet *current = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
+    NSMutableSet *removed = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
         
     [[self.countController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *groupName = [obj valueForKey:self.groupKey];
@@ -188,9 +187,7 @@
     //Add any new groups to the groupControllers, making new array controllers for them
     [added enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSString *groupID = obj;
-        [currentGroups addObject:groupID];
-        [showGroup setValue:[NSNumber numberWithBool:YES] forKey:groupID];
-        
+                
         NSArrayController *newController = [[NSArrayController alloc] init];
         [newController setManagedObjectContext:context];
         [newController setEntityName:entityName];
@@ -199,14 +196,19 @@
         NSString *format = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
         [newController setFetchPredicate:[NSPredicate predicateWithFormat:format]];
         [newController setSortDescriptors:[countController sortDescriptors]];
+
+        [newController fetch:blockSafeSelf];
+        GroupController *newGroup = [[GroupController alloc] initWithGroupID:groupID arrayController:newController];
+        [currentGroups addObject:newGroup];
+        [groupControllers setValue:newGroup forKey:groupID];
         
         [newController addObserver:blockSafeSelf 
                         forKeyPath:@"arrangedObjects.count" 
                            options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
-                           context:groupID];
-
-        [newController fetch:blockSafeSelf];
-        [groupControllers setValue:newController forKey:groupID];
+                           context:newGroup];
+        
+        [newGroup release];
+        newGroup = nil;
         [newController release];
         newController = nil;
     }];
@@ -214,9 +216,11 @@
     //remove any old arrayControllers
     [removed enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSString *groupID = obj;
+        GroupController *group = [[groupControllers valueForKey:groupID] retain];
         [groupControllers removeObjectForKey:groupID];
-        [currentGroups removeObject:groupID];
-        [showGroup removeObjectForKey:groupID];
+        [currentGroups removeObject:group];
+        [[group groupArray] removeObserver:self forKeyPath:@"arrangedObjects.count"];
+        [group release];
     }];
     
     [currentGroups sortUsingSelector:@selector(compare:)];
@@ -229,11 +233,10 @@
     if([keyPath isEqualToString:@"arrangedObjects.count"]){
         if([object isEqualTo:countController]){
             [self updateArrayGroups];
-        }else{
-            NSString *groupID = ctxt;
-            if(groupID){
-                BOOL show = [[showGroup valueForKey:groupID] boolValue];
-                if(grouped && show)
+        }else{            
+            if(ctxt != NULL && [(id)ctxt isKindOfClass:[GroupController class]]){
+                GroupController *group = (GroupController*)ctxt;
+                if(grouped && [group showGroup])
                     [self updateArray];
             }
         }
