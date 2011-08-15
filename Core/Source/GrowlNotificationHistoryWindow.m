@@ -92,7 +92,10 @@
    
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description = nil;
-   if(numberOfNotifications == 1){
+   if(numberOfNotifications == 0){
+      [self close];
+      return;
+   }else if(numberOfNotifications == 1){
       description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
    } else {
       description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
