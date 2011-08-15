@@ -47,9 +47,9 @@
    if((self = [super initWithWindowNibName:@"AwayHistoryWindow" owner:self]))
    {
       currentlyShown = NO;
-      [[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
-      [(NSPanel*)[self window] setFloatingPanel:YES];
-      
+       [self setWindowFrameAutosaveName:@"GrowlNotificationRollup"];
+       [[self window] setFrameAutosaveName:@"GrowlNotificationRollup"];
+
        groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
                                                         basePredicateString:@"showInRollup == 1" 
                                                                    groupKey:@"ApplicationName"
@@ -91,8 +91,7 @@
       return;
    
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
-   NSString* description;
-   
+   NSString* description = nil;
    if(numberOfNotifications == 1){
       description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
    } else {
@@ -104,8 +103,6 @@
 
 -(void)resetArray
 {   
-   [[self window] center];
-   
    currentlyShown = YES;
    [self showWindow:self];
     [historyTable reloadData];

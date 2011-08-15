@@ -11,7 +11,6 @@
 			<string key="NS.object.0">1617</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSUserDefaultsController</string>
 			<string>NSScroller</string>
 			<string>NSNumberFormatter</string>
 			<string>NSButton</string>
@@ -256,10 +255,9 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSFrameAutosaveName">GrowlNotificationRollup</string>
+				<int key="NSWindowCollectionBehavior">5</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
-			</object>
-			<object class="NSUserDefaultsController" id="218385721">
-				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -611,39 +609,6 @@
 						</object>
 					</object>
 					<int key="connectionID">1447</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentHeight: values.GrowlRollupHeight</string>
-						<reference key="source" ref="452553440"/>
-						<reference key="destination" ref="218385721"/>
-						<object class="NSNibBindingConnector" key="connector" id="114302470">
-							<reference key="NSSource" ref="452553440"/>
-							<reference key="NSDestination" ref="218385721"/>
-							<string key="NSLabel">contentHeight: values.GrowlRollupHeight</string>
-							<string key="NSBinding">contentHeight</string>
-							<string key="NSKeyPath">values.GrowlRollupHeight</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1458</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentWidth: values.GrowlRollupWidth</string>
-						<reference key="source" ref="452553440"/>
-						<reference key="destination" ref="218385721"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="452553440"/>
-							<reference key="NSDestination" ref="218385721"/>
-							<string key="NSLabel">contentWidth: values.GrowlRollupWidth</string>
-							<string key="NSBinding">contentWidth</string>
-							<string key="NSKeyPath">values.GrowlRollupWidth</string>
-							<reference key="NSPreviousConnector" ref="114302470"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1460</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1956,11 +1921,6 @@
 						<reference key="parent" ref="808371625"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1456</int>
-						<reference key="object" ref="218385721"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1461</int>
 						<reference key="object" ref="49300935"/>
 						<array class="NSMutableArray" key="children">
@@ -2950,7 +2910,6 @@
 				<string key="1403.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1404.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1414.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1456.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1461.CustomClassName">GrowlRollupGroupCellView</string>
 				<array key="1461.IBNSViewMetadataConstraints">
 					<reference ref="430610564"/>
@@ -3275,22 +3234,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlRollupTableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableRowView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 			</array>
