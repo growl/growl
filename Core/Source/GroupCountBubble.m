@@ -22,8 +22,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    CGFloat radius = (dirtyRect.size.height / 2.0);
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:dirtyRect xRadius:radius yRadius:radius];
+    CGFloat radius = (self.bounds.size.height / 2.0);
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:self.bounds xRadius:radius yRadius:radius];
     [[NSColor colorWithCalibratedWhite:.25 alpha:.5] setFill];
     [[NSColor colorWithCalibratedWhite:.15 alpha:.6] setStroke];
     [path setLineWidth:.5];
