@@ -19,6 +19,8 @@
    GrowlNotificationDatabase *historyController;
     
    GroupedArrayController *groupController;
+
+   NSMutableArray *rowHeights;
    
    BOOL currentlyShown;
    BOOL transitionGroup;

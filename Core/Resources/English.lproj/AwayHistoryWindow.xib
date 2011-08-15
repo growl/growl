@@ -1580,7 +1580,7 @@
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">6</double>
 								</object>
-								<float key="priority">1000</float>
+								<float key="priority">750</float>
 								<int key="scoringType">9</int>
 								<int key="contentType">3</int>
 								<reference key="containingView" ref="808371625"/>
@@ -1899,11 +1899,6 @@
 						<reference key="parent" ref="808371625"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1166</int>
-						<reference key="object" ref="32912914"/>
-						<reference key="parent" ref="808371625"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1331</int>
 						<reference key="object" ref="75736193"/>
 						<reference key="parent" ref="808371625"/>
@@ -1918,6 +1913,7 @@
 						<int key="objectID">1299</int>
 						<reference key="object" ref="126301817"/>
 						<reference key="parent" ref="808371625"/>
+						<string key="objectName">Vertical Space (22) - Static Text - Multiline Label - Growl Notification Cell View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1313</int>
@@ -1927,16 +1923,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1289</int>
 						<reference key="object" ref="781984559"/>
-						<reference key="parent" ref="808371625"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1358</int>
-						<reference key="object" ref="979909888"/>
-						<reference key="parent" ref="808371625"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1359</int>
-						<reference key="object" ref="825932570"/>
 						<reference key="parent" ref="808371625"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2386,7 +2372,7 @@
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">6</double>
 								</object>
-								<float key="priority">1000</float>
+								<float key="priority">750</float>
 								<int key="scoringType">9</int>
 								<int key="contentType">3</int>
 								<reference key="containingView" ref="74304638"/>
@@ -2504,11 +2490,6 @@
 						<reference key="parent" ref="767598479"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1498</int>
-						<reference key="object" ref="1030645191"/>
-						<reference key="parent" ref="74304638"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1499</int>
 						<reference key="object" ref="202807511"/>
 						<reference key="parent" ref="74304638"/>
@@ -2534,11 +2515,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1503</int>
 						<reference key="object" ref="139970307"/>
-						<reference key="parent" ref="74304638"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1504</int>
-						<reference key="object" ref="318281562"/>
 						<reference key="parent" ref="74304638"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2590,11 +2566,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1517</int>
 						<reference key="object" ref="175316932"/>
-						<reference key="parent" ref="74304638"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1518</int>
-						<reference key="object" ref="450457525"/>
 						<reference key="parent" ref="74304638"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2661,11 +2632,6 @@
 						<int key="objectID">1530</int>
 						<reference key="object" ref="37424043"/>
 						<reference key="parent" ref="750124156"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1543</int>
-						<reference key="object" ref="951249482"/>
-						<reference key="parent" ref="74304638"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1462</int>
@@ -2762,16 +2728,6 @@
 						<reference key="parent" ref="49300935"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1864</int>
-						<reference key="object" ref="925265183"/>
-						<reference key="parent" ref="49300935"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1867</int>
-						<reference key="object" ref="18072326"/>
-						<reference key="parent" ref="49300935"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1879</int>
 						<reference key="object" ref="97022373"/>
 						<array class="NSMutableArray" key="children">
@@ -2835,21 +2791,6 @@
 						<reference key="parent" ref="49300935"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1903</int>
-						<reference key="object" ref="897076874"/>
-						<reference key="parent" ref="49300935"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1904</int>
-						<reference key="object" ref="125967528"/>
-						<reference key="parent" ref="49300935"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1938</int>
-						<reference key="object" ref="1056764539"/>
-						<reference key="parent" ref="49300935"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1764</int>
 						<reference key="object" ref="680476696"/>
 						<array class="NSMutableArray" key="children">
@@ -2899,6 +2840,66 @@
 						<int key="objectID">1967</int>
 						<reference key="object" ref="612122294"/>
 						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1864</int>
+						<reference key="object" ref="925265183"/>
+						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1903</int>
+						<reference key="object" ref="897076874"/>
+						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1938</int>
+						<reference key="object" ref="1056764539"/>
+						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1904</int>
+						<reference key="object" ref="125967528"/>
+						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1867</int>
+						<reference key="object" ref="18072326"/>
+						<reference key="parent" ref="49300935"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1504</int>
+						<reference key="object" ref="318281562"/>
+						<reference key="parent" ref="74304638"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1498</int>
+						<reference key="object" ref="1030645191"/>
+						<reference key="parent" ref="74304638"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1543</int>
+						<reference key="object" ref="951249482"/>
+						<reference key="parent" ref="74304638"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1518</int>
+						<reference key="object" ref="450457525"/>
+						<reference key="parent" ref="74304638"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1358</int>
+						<reference key="object" ref="979909888"/>
+						<reference key="parent" ref="808371625"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1359</int>
+						<reference key="object" ref="825932570"/>
+						<reference key="parent" ref="808371625"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1166</int>
+						<reference key="object" ref="32912914"/>
+						<reference key="parent" ref="808371625"/>
 					</object>
 				</array>
 			</object>
@@ -2974,7 +2975,7 @@
 				<string key="1462.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1463.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1497.CustomClassName">GrowlNotificationCellView</string>
-				<array class="NSMutableArray" key="1497.IBNSViewMetadataConstraints">
+				<array key="1497.IBNSViewMetadataConstraints">
 					<reference ref="257493907"/>
 					<reference ref="450457525"/>
 					<reference ref="175316932"/>
@@ -2982,9 +2983,7 @@
 					<reference ref="118415763"/>
 					<reference ref="730835111"/>
 					<reference ref="282220232"/>
-					<reference ref="302183558"/>
 					<reference ref="786265863"/>
-					<reference ref="1047511805"/>
 					<reference ref="318281562"/>
 					<reference ref="475223754"/>
 					<reference ref="139970307"/>
@@ -2993,6 +2992,8 @@
 					<reference ref="202807511"/>
 					<reference ref="1030645191"/>
 					<reference ref="951249482"/>
+					<reference ref="1047511805"/>
+					<reference ref="302183558"/>
 				</array>
 				<string key="1497.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1497.userInterfaceItemIdentifier">GroupNoteCell</string>
@@ -3102,7 +3103,7 @@
 				<string key="686.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="690.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="691.CustomClassName">GrowlNotificationCellView</string>
-				<array class="NSMutableArray" key="691.IBNSViewMetadataConstraints">
+				<array key="691.IBNSViewMetadataConstraints">
 					<reference ref="983351545"/>
 					<reference ref="32912914"/>
 					<reference ref="882790969"/>
@@ -3111,9 +3112,7 @@
 					<reference ref="20623139"/>
 					<reference ref="975672761"/>
 					<reference ref="629052406"/>
-					<reference ref="993502106"/>
 					<reference ref="126301817"/>
-					<reference ref="781984559"/>
 					<reference ref="979909888"/>
 					<reference ref="825932570"/>
 					<reference ref="458429467"/>
@@ -3123,6 +3122,8 @@
 					<reference ref="224282589"/>
 					<reference ref="576609822"/>
 					<reference ref="717723682"/>
+					<reference ref="781984559"/>
+					<reference ref="993502106"/>
 				</array>
 				<string key="691.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="691.userInterfaceItemIdentifier">NotificationCellView</string>
@@ -3148,7 +3149,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1967</int>
+			<int key="maxID">2008</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

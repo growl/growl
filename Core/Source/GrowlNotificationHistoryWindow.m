@@ -24,7 +24,17 @@
 
 #define GROWL_DESCRIPTION_WIDTH_PAD 42.0
 #define GROWL_DESCRIPTION_HEIGHT_PAD 28.0
-#define GROWL_ROW_MINIMUM_HEIGHT 50.0
+#define GROWL_ROW_MINIMUM_HEIGHT 48.0
+#define GROWL_ROW_UNSELECTED_MAX_HEIGHT 62.0
+#define GROWL_ROW_MAX_HEIGHT 113.0
+
+@interface GrowlNotificationHistoryWindow (PrivateMethods)
+
+-(void)updateRowHeights;
+-(CGFloat)heightForRow:(NSUInteger)row;
+-(CGFloat)heightForDescription:(NSString *)description forWidth:(CGFloat)width;
+
+@end
 
 @implementation GrowlNotificationHistoryWindow
 
@@ -51,6 +61,8 @@
               
        [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
        transitionGroup = NO;
+       
+       rowHeights = [[NSMutableArray alloc] init];
    }
    return self;
 }
@@ -178,16 +190,66 @@
    return historyController;
 }
 
+#pragma mark Row Height methods
+
 -(void)updateRowHeights
 {
     if([[groupController arrangedObjects] count] == 0)
         return;
     
-    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[groupController arrangedObjects] count] - 1)];
+    /* we got out of sync somehow, we will fix here */
+    BOOL rebuilding = NO;
+    if([rowHeights count] != [[groupController arrangedObjects] count]){
+        NSLog(@"Row height array and group controller got out of sync, rebuilding row height array");
+        rebuilding = YES;
+        [rowHeights removeAllObjects];
+    }
+    
+    __block GrowlNotificationHistoryWindow *blockSafeSelf = self;
+    NSMutableIndexSet *modified = [NSMutableIndexSet indexSet];
+    [[groupController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        CGFloat newHeight = [blockSafeSelf heightForRow:idx];
+        if(!rebuilding){
+            CGFloat oldHeight = [[rowHeights objectAtIndex:idx] floatValue];
+            
+            if(newHeight > oldHeight || newHeight < oldHeight){
+                [rowHeights replaceObjectAtIndex:idx withObject:[NSNumber numberWithFloat:newHeight]];
+                [modified addIndex:idx];
+            }
+        }else{
+            [rowHeights insertObject:[NSNumber numberWithFloat:newHeight] atIndex:idx];
+            [modified addIndex:idx];
+        }
+    }];
+    
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.0];
-    [historyTable noteHeightOfRowsWithIndexesChanged:set];
+    [[NSAnimationContext currentContext] setDuration:.25];
+    [historyTable noteHeightOfRowsWithIndexesChanged:modified];
     [NSAnimationContext endGrouping];
+}
+
+/* This method always returns the current value, and not the cached one */
+-(CGFloat)heightForRow:(NSUInteger)row
+{
+    CGFloat result = GROWL_ROW_MINIMUM_HEIGHT;
+    if([self tableView:historyTable isGroupRow:row]){
+        result = 34.0;
+    }else{
+        id obj = [[groupController arrangedObjects] objectAtIndex:row];
+        if([obj isKindOfClass:[GrowlHistoryNotification class]]){
+            NSString *description = [[[groupController arrangedObjects] objectAtIndex:row] Description];
+            CGFloat width = [[self window] frame].size.width;
+            result = [self heightForDescription:description forWidth:width];
+            if([[historyTable selectedRowIndexes] containsIndex:row]){
+/*              if (result > GROWL_ROW_MAX_HEIGHT)
+                    result = GROWL_ROW_MAX_HEIGHT;*/
+            }else{
+                if(result > GROWL_ROW_UNSELECTED_MAX_HEIGHT)
+                    result = GROWL_ROW_UNSELECTED_MAX_HEIGHT;
+            }
+        }
+    }
+    return result;
 }
 
 -(CGFloat)heightForDescription:(NSString*)description forWidth:(CGFloat)width
@@ -264,19 +326,13 @@
     }
 }
 
+/* We should have ALWAYS have a valid cached value, but just in case we don't, call the method that will give us the current, valid value*/
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    if([self tableView:tableView isGroupRow:row]){
-        return 34;
-    }else{
-        id obj = [[groupController arrangedObjects] objectAtIndex:row];
-        if([obj isKindOfClass:[GrowlHistoryNotification class]]){
-            NSString *description = [[[groupController arrangedObjects] objectAtIndex:row] Description];
-            CGFloat width = [[self window] frame].size.width;
-            return [self heightForDescription:description forWidth:width];
-        }else
-            return GROWL_ROW_MINIMUM_HEIGHT;
-    }
+    if((NSUInteger)row < [rowHeights count] && [[rowHeights objectAtIndex:row] floatValue] > 0.0)
+        return [[rowHeights objectAtIndex:row] floatValue];
+
+    return [self heightForRow:row];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
@@ -293,12 +349,15 @@
             }
         }
     }];
+    
+    [self updateRowHeights];
 }
 
 -(BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
    return ![self tableView:tableView isGroupRow:row];
 }
+
 
 #pragma mark Window delegate methods
 
@@ -311,12 +370,16 @@
 
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController
 {
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:.25];
     [historyTable beginUpdates];
 }
 -(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController
 {
     [historyTable endUpdates];
+    [NSAnimationContext endGrouping];
     [self updateCount];
+    [self updateRowHeights];
     transitionGroup = NO;
 }
 -(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet
@@ -325,6 +388,12 @@
     if (!transitionGroup)
         options = options|NSTableViewAnimationSlideLeft;
     [historyTable insertRowsAtIndexes:indexSet withAnimation:options];
+    
+    __block GrowlNotificationHistoryWindow *blockSafeSelf = self;
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        NSNumber *height = [NSNumber numberWithFloat:[blockSafeSelf heightForRow:idx]];
+        [rowHeights insertObject:height atIndex:idx];
+    }];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet
 {
@@ -332,10 +401,17 @@
     if (!transitionGroup)
         options = options|NSTableViewAnimationSlideRight;
     [historyTable removeRowsAtIndexes:indexSet withAnimation:options];
+    
+    [rowHeights removeObjectsAtIndexes:indexSet];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end
 {
     [historyTable moveRowAtIndex:start toIndex:end];
+    
+    id temp = [[rowHeights objectAtIndex:start] retain];
+    [rowHeights removeObjectAtIndex:start];
+    [rowHeights insertObject:temp atIndex:end];
+    [temp release];
 }
 
 @end
