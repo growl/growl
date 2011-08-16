@@ -1,8 +1,0 @@
-#!/bin/zsh -f
-
-PACKAGE_RESOURCES_DIR="."
-INSTALL_DESTINATION_DIR="$2"
-
-# Open GHA first so that, hopefully, Growl will already be running when the user lands in the prefpane.
-"${PACKAGE_RESOURCES_DIR}/OpenAppWithoutAddingToRecents" "${INSTALL_DESTINATION_DIR}/Growl.prefPane/Contents/Resources/GrowlHelperApp.app" 
-"${PACKAGE_RESOURCES_DIR}/OpenDocWithoutAddingToRecents" "${INSTALL_DESTINATION_DIR}/Growl.prefPane"

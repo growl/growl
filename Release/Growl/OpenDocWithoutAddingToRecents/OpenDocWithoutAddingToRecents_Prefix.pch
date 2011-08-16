@@ -1,8 +1,0 @@
-//Launch Services is in Core Services on 10.5 and later.
-#include <CoreServices/CoreServices.h>
-//Launch Services is in Application Services on Tiger.
-#include <ApplicationServices/ApplicationServices.h>
-
-#ifdef __OBJC__
-#	import <Foundation/Foundation.h>
-#endif
