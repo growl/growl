@@ -350,6 +350,7 @@
 		BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
 		BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
 		BC90D472122167490022B24D /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC90D470122167490022B24D /* AwayHistoryWindow.xib */; };
+		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
 		BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
@@ -1107,6 +1108,7 @@
 		BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationHistoryWindow.m; path = Core/Source/GrowlNotificationHistoryWindow.m; sourceTree = "<group>"; };
 		BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = GrowlNotificationHistory.xcdatamodel; path = Core/Resources/GrowlNotificationHistory.xcdatamodel; sourceTree = "<group>"; };
 		BC90D471122167490022B24D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Core/Resources/English.lproj/AwayHistoryWindow.xib; sourceTree = "<group>"; };
+		BC94845513FB21690036382B /* Growl_512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Growl_512x512.png; path = Core/Resources/Growl_512x512.png; sourceTree = "<group>"; };
 		BC9AE9711255952700759016 /* GrowlImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageCache.h; path = Core/Source/GrowlImageCache.h; sourceTree = "<group>"; };
 		BC9AE9721255952700759016 /* GrowlImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageCache.m; path = Core/Source/GrowlImageCache.m; sourceTree = "<group>"; };
 		BC9AF57A125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GrowlNotificationDatabase+GHAAdditions.h"; path = "Core/Source/GrowlNotificationDatabase+GHAAdditions.h"; sourceTree = "<group>"; };
@@ -1505,6 +1507,7 @@
 				93E7121513F5652C0025D733 /* Applications.png */,
 				93E7121613F5652C0025D733 /* History.png */,
 				93E7121713F5652C0025D733 /* Forwarding.png */,
+				BC94845513FB21690036382B /* Growl_512x512.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2745,6 +2748,7 @@
 				93E7121B13F5652C0025D733 /* History.png in Resources */,
 				93E7121C13F5652C0025D733 /* Forwarding.png in Resources */,
 				93E7122113F568430025D733 /* About.png in Resources */,
+				BC94845613FB21690036382B /* Growl_512x512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

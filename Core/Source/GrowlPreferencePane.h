@@ -43,6 +43,7 @@
 	//"General" tab pane
 	IBOutlet NSArrayController		*notificationsArrayController;
 	IBOutlet GrowlPositionPicker	*globalPositionPicker;
+    IBOutlet NSSegmentedControl     *startAtLoginSwitch;
 
 	//"Applications" tab pane
 	IBOutlet NSTableView			*growlApplications;
@@ -102,6 +103,10 @@
 #pragma mark Toolbar support
 -(void)setSelectedTab:(NSUInteger)tab;
 -(IBAction)selectedTabChanged:(id)sender;
+
+#pragma mark "General" tab pane
+-(IBAction)startGrowlAtLogin:(id)sender;
+-(IBAction)launchAdditionalDownloads:(id)sender;
 
 #pragma mark "Applications" tab pane
 - (BOOL) canRemoveTicket;

@@ -93,9 +93,13 @@
 		[entry release];
 	}
 	[self setServices:theServices];
+    
+    if([preferencesController shouldStartGrowlAtLogin])
+        [startAtLoginSwitch setSelectedSegment:0];
+    else
+        [startAtLoginSwitch setSelectedSegment:1];
 
 	[browser setDelegate:self];
-	//[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 	[browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
 	
 	[self setupAboutTab];
@@ -403,6 +407,17 @@
 }
 
 #pragma mark "General" tab pane
+
+-(IBAction)startGrowlAtLogin:(id)sender{
+    if([(NSSegmentedControl*)sender selectedSegment] == 0)
+        [preferencesController setShouldStartGrowlAtLogin:YES];
+    else
+        [preferencesController setShouldStartGrowlAtLogin:NO];
+}
+
+-(IBAction)launchAdditionalDownloads:(id)sender{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
+}
 
 #pragma mark "Applications" tab pane
 
