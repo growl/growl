@@ -96,9 +96,9 @@
       [self close];
       return;
    }else if(numberOfNotifications == 1){
-      description = [NSString stringWithFormat:NSLocalizedString(@"There was %d notification while you were away", nil), numberOfNotifications];
+      description = [NSString stringWithFormat:NSLocalizedString(@"There was %lu notification while you were away", nil), numberOfNotifications];
    } else {
-      description = [NSString stringWithFormat:NSLocalizedString(@"There were %d notifications while you were away", nil), numberOfNotifications];
+      description = [NSString stringWithFormat:NSLocalizedString(@"There were %lu notifications while you were away", nil), numberOfNotifications];
    }
 
     [countLabel setObjectValue:description];
@@ -368,6 +368,10 @@
 
 #pragma mark GroupedArrayControllerDelegate methods
 
+-(void)groupedControllerUpdatedTotalCount:(GroupedArrayController*)groupedController
+{
+    [self updateCount];
+}
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController
 {
     [NSAnimationContext beginGrouping];
@@ -378,7 +382,6 @@
 {
     [historyTable endUpdates];
     [NSAnimationContext endGrouping];
-    [self updateCount];
     [self updateRowHeights];
     transitionGroup = NO;
 }

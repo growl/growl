@@ -233,6 +233,8 @@
     if([keyPath isEqualToString:@"arrangedObjects.count"]){
         if([object isEqualTo:countController]){
             [self updateArrayGroups];
+            if(delegate)
+                [delegate groupedControllerUpdatedTotalCount:self];
         }else{            
             if(ctxt != NULL && [(id)ctxt isKindOfClass:[GroupController class]]){
                 GroupController *group = (GroupController*)ctxt;

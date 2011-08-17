@@ -12,6 +12,7 @@
 
 @protocol GroupedArrayControllerDelegate <NSObject>
 
+-(void)groupedControllerUpdatedTotalCount:(GroupedArrayController*)groupedController;
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController;
 -(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController;
 -(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet;
