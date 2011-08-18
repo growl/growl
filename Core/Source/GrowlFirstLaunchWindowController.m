@@ -7,7 +7,9 @@
 //
 
 #import "GrowlFirstLaunchWindowController.h"
+#import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
+#import "GrowlMenu.h"
 
 #define FIRST_LAUNCH_WELCOME_TITLE      NSLocalizedString(@"Welcome to Growl!",@"Title welcoming a new user to growl")
 #define FIRST_LAUNCH_START_GROWL_TITLE  NSLocalizedString(@"Let Growl Start at Login", @"Title for starting growl at login")
@@ -56,6 +58,11 @@
     [self updateViews];
 }
 
+-(void)windowWillClose:(NSNotification *)notification
+{
+    [[GrowlApplicationController sharedController] performSelector:@selector(firstLaunchClosed) withObject:nil afterDelay:1.0];
+}
+
 - (void)setState:(NSUInteger)newState
 {
     if(state != newState){
@@ -97,17 +104,37 @@
             nextState = FIRST_LAUNCH_DONE_ID;
             break;
         case FIRST_LAUNCH_DONE_ID:
-            [[self window] close];
+            [self close];
         default:
             return;
             break;
     }
     
+    
+    CGFloat currentHeight = contentView.frame.size.height;
+    CGFloat newHeight = newContentView.frame.size.height;
+    
+    NSRect newFrame = [self window].frame;
+    CGFloat difference = newHeight - currentHeight;
+    newFrame.origin.y = newFrame.origin.y - difference;
+    newFrame.size.height = newFrame.size.height + (difference);
+    [[self window] setFrame:newFrame display:YES animate:YES];
+    
     [nextPageIntro setStringValue:newContinue];
     [pageTitle setStringValue:newTitle];
-    [currentContent removeFromSuperview];
+    if(currentContent){
+        [contentView replaceSubview:currentContent with:newContentView];
+    }else{
+        [contentView addSubview:newContentView];
+    }
     currentContent = newContentView;
-    [contentView addSubview:currentContent];
+}
+
+-(void)close
+{
+    [super close];
+    //Do this on a later loop so that the window has time to close
+    [[GrowlApplicationController sharedController] performSelector:@selector(firstLaunchClosed) withObject:nil afterDelay:1.0];
 }
 
 -(IBAction)nextPage:(id)sender
@@ -117,7 +144,7 @@
 
 -(IBAction)exit:(id)sender
 {
-    [[self window] close];
+    [self close];
 }
 
 -(IBAction)enableGrowlAtLogin:(id)sender
@@ -129,13 +156,13 @@
 
 -(IBAction)openGrowlUninstallerPage:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/uninstall.php"]];
+    //TODO FIX ME WITH RIGHT ADDRESS
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/"]];
 }
 
 -(IBAction)openPreferences:(id)sender
 {
-    //[[self statusMenu] openGrowlPreferences:self];
-
+    [[[GrowlApplicationController sharedController] statusMenu] openGrowlPreferences:self];
 }
 
 -(IBAction)openRollup:(id)sender

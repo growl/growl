@@ -983,6 +983,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[pool release];
 }
 
+- (void)firstLaunchClosed
+{
+    if(firstLaunchWindow){
+        [firstLaunchWindow release];
+        firstLaunchWindow = nil;
+    }
+}
+
 #pragma mark NSApplication Delegate Methods
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {

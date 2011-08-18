@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GrowlFirstLaunchWindowController : NSWindowController
+@interface GrowlFirstLaunchWindowController : NSWindowController <NSWindowDelegate>
 
 @property (nonatomic, assign) IBOutlet NSView *contentView;
 @property (nonatomic, assign) IBOutlet NSView *currentContent;
@@ -25,6 +25,7 @@
 @property (nonatomic) NSUInteger nextState;
 
 - (void)updateViews;
+-(void)close;
 
 -(IBAction)nextPage:(id)sender;
 -(IBAction)exit:(id)sender;
