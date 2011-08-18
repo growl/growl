@@ -159,12 +159,6 @@
 		313B902213CEFC470075C9A3 /* GrowlRegisterGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */; };
 		313B902313CEFC470075C9A3 /* GrowlNotificationGNTPPacket.h in Headers */ = {isa = PBXBuildFile; fileRef = 3404D38E0E958D2C00629487 /* GrowlNotificationGNTPPacket.h */; };
 		313B902413CEFC470075C9A3 /* GrowlNotificationGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3404D38F0E958D2C00629487 /* GrowlNotificationGNTPPacket.m */; };
-		313B904113CF1D370075C9A3 /* GrowlCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 3112428D13CBE56B0055A2AD /* GrowlCommunicationAttempt.m */; };
-		313B904213CF1D370075C9A3 /* GrowlGNTPRegistrationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 313B8FAB13CED9450075C9A3 /* GrowlGNTPRegistrationAttempt.m */; };
-		313B904313CF1D370075C9A3 /* GrowlGNTPNotificationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 313B8FB213CED9BF0075C9A3 /* GrowlGNTPNotificationAttempt.m */; };
-		313B904413CF1D370075C9A3 /* GrowlGNTPCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 313B8FB813CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.m */; };
-		313B904513CF1D4F0075C9A3 /* GrowlApplicationBridgeRegistrationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 3112429A13CBEB100055A2AD /* GrowlApplicationBridgeRegistrationAttempt.m */; };
-		313B904613CF1D530075C9A3 /* GrowlApplicationBridgeNotificationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 311242A013CBEB320055A2AD /* GrowlApplicationBridgeNotificationAttempt.m */; };
 		313B904913D1B32C0075C9A3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 313B904713D1B32C0075C9A3 /* MainMenu.xib */; };
 		3153141B11EA189B00DD24C4 /* GrowlProcessUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 31199B9B11E2B0B90024377D /* GrowlProcessUtilities.m */; };
 		318984C5108825F10086E973 /* TestVersionUnparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 318984C4108825F10086E973 /* TestVersionUnparsing.m */; };
@@ -288,7 +282,6 @@
 		953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
 		95416E06086343180098C914 /* GrowlIdleStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlIdleStatusController.c */; };
 		954F013D074135D400EA8AB5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 954F013B074135D400EA8AB5 /* Localizable.strings */; };
-		9550518107DE4B4A002F5315 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		955437E007E048BE005534FA /* GrowlBrushedDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */; };
 		955437E207E048BE005534FA /* GrowlBrushedPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */; };
 		955437E407E048BF005534FA /* GrowlBrushedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC316507E03B2600BD8674 /* GrowlBrushedWindowController.m */; };
@@ -3064,7 +3057,6 @@
 				CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */,
 				0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */,
 				95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */,
-				9550518107DE4B4A002F5315 /* GrowlApplicationBridge.m in Sources */,
 				CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */,
 				070B90FD07E1AEFA00F10FA7 /* CFGrowlAdditions.c in Sources */,
 				07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */,
@@ -3142,12 +3134,6 @@
 				93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */,
 				BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */,
 				BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */,
-				313B904113CF1D370075C9A3 /* GrowlCommunicationAttempt.m in Sources */,
-				313B904213CF1D370075C9A3 /* GrowlGNTPRegistrationAttempt.m in Sources */,
-				313B904313CF1D370075C9A3 /* GrowlGNTPNotificationAttempt.m in Sources */,
-				313B904413CF1D370075C9A3 /* GrowlGNTPCommunicationAttempt.m in Sources */,
-				313B904513CF1D4F0075C9A3 /* GrowlApplicationBridgeRegistrationAttempt.m in Sources */,
-				313B904613CF1D530075C9A3 /* GrowlApplicationBridgeNotificationAttempt.m in Sources */,
 				BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */,
 				BCE2FE2513F428CC00804133 /* GrowlRollupTableView.m in Sources */,
 				BC00437013F6D16A00EED11C /* GrowlRollupGroupCellView.m in Sources */,

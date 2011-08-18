@@ -142,8 +142,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				 object:nil];
 
 		ticketController = [GrowlTicketController sharedController];
-
-		[GrowlApplicationBridge setGrowlDelegate:self];
 		
 		[self versionDictionary];
 
@@ -170,10 +168,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
 
 		GrowlIdleStatusController_init();
-		[nc addObserver:self
-			   selector:@selector(idleStatus:)
-				   name:@"GrowlIdleStatus"
-				 object:nil];
 				
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
@@ -188,37 +182,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	}
 
 	return self;
-}
-
-- (void) idleStatus:(NSNotification *)notification {
-	if ([[notification object] isEqualToString:@"Idle"]) {
-      
-		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-		int idleThreshold;
-		NSNumber *value = [preferences objectForKey:@"IdleThreshold"];
-		NSString *description;
-
-		idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
-		description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", nil), idleThreshold];
-
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", nil)
-									description:description
-							   notificationName:USER_WENT_IDLE_NOTIFICATION
-									   iconData:growlIconData
-									   priority:-1
-									   isSticky:NO
-								   clickContext:nil
-									 identifier:nil];
-	} else {
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
-									description:NSLocalizedString(@"User activity detected.", nil)
-							   notificationName:USER_RETURNED_NOTIFICATION
-									   iconData:growlIconData
-									   priority:-1
-									   isSticky:NO
-								   clickContext:nil
-									 identifier:nil];
-	}
 }
 
 - (void) destroy {
@@ -597,8 +560,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, sticky);
-/*	else if ([preferences stickyWhenAway] && !getBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY))
-		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlIdleStatusController_isIdle());*/
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
@@ -1203,40 +1164,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 #pragma mark Growl Application Bridge delegate
-/*!
- * @brief Returns the application name Growl will use
- */
-- (NSString *)applicationNameForGrowl
-{
-	return @"Growl";
-}
-
-- (NSDictionary *)registrationDictionaryForGrowl
-{	
-	NSDictionary *descriptions = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSLocalizedString(@"You are now considered idle by Growl", nil), USER_WENT_IDLE_NOTIFICATION,
-		NSLocalizedString(@"You are no longer considered idle by Growl", nil), USER_RETURNED_NOTIFICATION,
-		nil];
-
-	NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSLocalizedString(@"User went idle", nil), USER_WENT_IDLE_NOTIFICATION,
-		NSLocalizedString(@"User returned", nil), USER_RETURNED_NOTIFICATION,
-		nil];
-	
-	NSDictionary	*growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSArray arrayWithObjects:USER_WENT_IDLE_NOTIFICATION, USER_RETURNED_NOTIFICATION, nil], GROWL_NOTIFICATIONS_ALL,
-		[NSArray arrayWithObjects: nil], GROWL_NOTIFICATIONS_DEFAULT,
-		humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
-		descriptions, GROWL_NOTIFICATIONS_DESCRIPTIONS,
-		nil];
-	
-	return growlReg;
-}
-
-- (NSData *)applicationIconDataForGrowl
-{
-	return [[NSImage imageNamed:@"growl-icon"] PNGRepresentation];
-}
 
 /*click feedback comes here first. GAB picks up the DN and calls our
  *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
