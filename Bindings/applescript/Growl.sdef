@@ -7,7 +7,10 @@
 
 <dictionary title="Growl Terminology">
 	<suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">
-		<command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
+		<value-type name="Image" code="TIFF">
+			<cocoa class="NSData" name="Image"/>
+		</value-type>
+        <command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
 			<cocoa class="GrowlNotifyScriptCommand"/>
 			<parameter name="with name" code="name" type="text" description="name of the notification to display">
 				<cocoa key="notificationName"/>
@@ -31,10 +34,7 @@
 				<cocoa key="iconOfApplication"/>
 			</parameter>
 			<parameter name="image" optional="yes" code="imag" type="Image" description="TIFF Image to be used for the notification.">
-				<cocoa key="image"/>
-			</parameter>
-			<parameter name="pictImage" optional="yes" code="pict" type="Picture" description="PICT Image to be used for the notification.">
-				<cocoa key="pictImage"/>
+				<cocoa class="NSData" key="image"/>
 			</parameter>
 			<parameter name="sticky" optional="yes" code="stck" type="boolean" description="whether or not the notification displayed should remain on screen until the user dispenses with it. Defaults to false.">
 				<cocoa key="sticky"/>
@@ -63,11 +63,5 @@
 				<cocoa key="iconOfApplication"/>
 			</parameter>
 		</command>
-		<class name="Picture" code="PICT" plural="Pictures">
-			<cocoa class="NSData"/>
-		</class>
-		<class name="Image" code="TIFF" plural="Images">
-			<cocoa class="NSData"/>
-		</class>
 	</suite>
 </dictionary>
