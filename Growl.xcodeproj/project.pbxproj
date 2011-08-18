@@ -357,6 +357,7 @@
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
+		BCC79AB313FD5364003CFCB9 /* GrowlAppleScriptSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */; };
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
@@ -1122,6 +1123,8 @@
 		BCBCDD74121BA00300C07D0D /* GrowlHistoryNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlHistoryNotification.h; path = Core/Source/GrowlHistoryNotification.h; sourceTree = "<group>"; };
 		BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlHistoryNotification.m; path = Core/Source/GrowlHistoryNotification.m; sourceTree = "<group>"; };
 		BCBCDD90121BA05100C07D0D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BCC79AB113FD5363003CFCB9 /* GrowlAppleScriptSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppleScriptSupport.h; path = Core/Source/GrowlAppleScriptSupport.h; sourceTree = "<group>"; };
+		BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppleScriptSupport.m; path = Core/Source/GrowlAppleScriptSupport.m; sourceTree = "<group>"; };
 		BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCellView.h; path = Core/Source/GrowlNotificationCellView.h; sourceTree = "<group>"; };
 		BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationCellView.m; path = Core/Source/GrowlNotificationCellView.m; sourceTree = "<group>"; };
 		BCD6012B13C769B40013EEDE /* GrowlNotificationRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationRowView.h; path = Core/Source/GrowlNotificationRowView.h; sourceTree = "<group>"; };
@@ -1838,6 +1841,8 @@
 				953F5D2707403BC7008E2AEB /* GrowlRegisterScriptCommand.h */,
 				953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */,
 				953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */,
+				BCC79AB113FD5363003CFCB9 /* GrowlAppleScriptSupport.h */,
+				BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */,
 				932177BB13E4AB9F00157729 /* Growl.sdef */,
 			);
 			name = AppleScript;
@@ -3149,6 +3154,7 @@
 				BC00439A13F6DF6500EED11C /* GroupController.m in Sources */,
 				BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */,
 				BCDB88F413FC3FB200244F59 /* GrowlFirstLaunchWindowController.m in Sources */,
+				BCC79AB313FD5364003CFCB9 /* GrowlAppleScriptSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
