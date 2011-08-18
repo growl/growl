@@ -40,5 +40,9 @@
 	<integer>0</integer>
 	<key>GrowlSquelchMode</key>
 	<false/>
+	<key>GrowlAllowStartAtLogin</key>
+	<false/>
+	<key>GrowlFirstLaunch</key>
+	<true/>
 </dict>
 </plist>

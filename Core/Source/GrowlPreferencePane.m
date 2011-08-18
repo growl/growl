@@ -409,15 +409,41 @@
 #pragma mark "General" tab pane
 
 -(IBAction)startGrowlAtLogin:(id)sender{
-    if([(NSSegmentedControl*)sender selectedSegment] == 0)
-        [preferencesController setShouldStartGrowlAtLogin:YES];
-    else
+    if([(NSSegmentedControl*)sender selectedSegment] == 0){
+        if(![preferencesController allowStartAtLogin]){
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
+                                             defaultButton:NSLocalizedString(@"Ok", nil)
+                                           alternateButton:NSLocalizedString(@"Cancel", nil)
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl launch everytime you login, so that it is available for applications which use it at all times", nil)];
+            [alert beginSheetModalForWindow:[sender window]
+                              modalDelegate:self
+                             didEndSelector:@selector(startGrowlAtLoginAlert:didReturn:contextInfo:)
+                                contextInfo:nil];
+        }else{
+            [preferencesController setShouldStartGrowlAtLogin:YES];
+        }
+    }else{
         [preferencesController setShouldStartGrowlAtLogin:NO];
+    }
 }
 
 -(IBAction)launchAdditionalDownloads:(id)sender{
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
 }
+
+- (IBAction)startGrowlAtLoginAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
+{
+    switch (returnCode) {
+        case NSAlertDefaultReturn:
+            [preferencesController setAllowStartAtLogin:YES];
+            [preferencesController setShouldStartGrowlAtLogin:YES];
+            break;
+        default:
+            break;
+    }
+}
+
 
 #pragma mark "Applications" tab pane
 

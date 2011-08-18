@@ -31,6 +31,7 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlFirstLaunchWindowController.h"
 #include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
@@ -1068,6 +1069,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
+    //NSNumber *firstLaunchNum = [[GrowlPreferencesController sharedController] objectForKey:GrowlFirstLaunch];
+    if(/*!firstLaunchNum || [firstLaunchNum boolValue]*/ YES){
+        [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
+        firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
+        [firstLaunchWindow showWindow:self];
+    }
+    
     self.statusMenu = [[[GrowlMenu alloc] init] autorelease];
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 	                                                               object:nil

@@ -12,7 +12,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class GrowlNotificationCenter, GrowlTicketController, GrowlMenu;
+@class GrowlNotificationCenter, GrowlTicketController, GrowlMenu, GrowlFirstLaunchWindowController;
 
 typedef enum {
 	GrowlNotificationResultPosted,
@@ -44,7 +44,8 @@ typedef enum {
 	NSThread					*mainThread;
     
     GrowlMenu                   *statusMenu;
-   
+    
+    GrowlFirstLaunchWindowController *firstLaunchWindow;
 }
 
 + (GrowlApplicationController *) sharedController;

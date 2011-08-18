@@ -279,7 +279,6 @@
 		93E7121B13F5652C0025D733 /* History.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121613F5652C0025D733 /* History.png */; };
 		93E7121C13F5652C0025D733 /* Forwarding.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121713F5652C0025D733 /* Forwarding.png */; };
 		93E7122113F568430025D733 /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7122013F568430025D733 /* About.png */; };
-		93E7124813FC874A0025D733 /* GrowlAppleScriptSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7124713FC874A0025D733 /* GrowlAppleScriptSupport.m */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -361,6 +360,8 @@
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
+		BCDB88F413FC3FB200244F59 /* GrowlFirstLaunchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB88F313FC3FB200244F59 /* GrowlFirstLaunchWindowController.m */; };
+		BCDB88FB13FC40D200244F59 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDB88F913FC40D200244F59 /* FirstLaunchWindow.xib */; };
 		BCE2FE2513F428CC00804133 /* GrowlRollupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
@@ -963,8 +964,6 @@
 		93E7121613F5652C0025D733 /* History.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = History.png; path = Core/Resources/History.png; sourceTree = "<group>"; };
 		93E7121713F5652C0025D733 /* Forwarding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Forwarding.png; path = Core/Resources/Forwarding.png; sourceTree = "<group>"; };
 		93E7122013F568430025D733 /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = About.png; path = Core/Resources/About.png; sourceTree = "<group>"; };
-		93E7124613FC874A0025D733 /* GrowlAppleScriptSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppleScriptSupport.h; path = Core/Source/GrowlAppleScriptSupport.h; sourceTree = "<group>"; };
-		93E7124713FC874A0025D733 /* GrowlAppleScriptSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppleScriptSupport.m; path = Core/Source/GrowlAppleScriptSupport.m; sourceTree = "<group>"; };
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93EA804613690D8800AB89AE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
@@ -1129,6 +1128,9 @@
 		BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationRowView.m; path = Core/Source/GrowlNotificationRowView.m; sourceTree = "<group>"; };
 		BCDB220113F70E9300040108 /* GroupCountBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupCountBubble.h; path = Core/Source/GroupCountBubble.h; sourceTree = "<group>"; };
 		BCDB220213F70E9300040108 /* GroupCountBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupCountBubble.m; path = Core/Source/GroupCountBubble.m; sourceTree = "<group>"; };
+		BCDB88F213FC3FB200244F59 /* GrowlFirstLaunchWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFirstLaunchWindowController.h; path = Core/Source/GrowlFirstLaunchWindowController.h; sourceTree = "<group>"; };
+		BCDB88F313FC3FB200244F59 /* GrowlFirstLaunchWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlFirstLaunchWindowController.m; path = Core/Source/GrowlFirstLaunchWindowController.m; sourceTree = "<group>"; };
+		BCDB88FA13FC40D200244F59 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Core/Resources/English.lproj/FirstLaunchWindow.xib; sourceTree = "<group>"; };
 		BCE2FE2313F428CC00804133 /* GrowlRollupTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRollupTableView.h; path = Core/Source/GrowlRollupTableView.h; sourceTree = "<group>"; };
 		BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRollupTableView.m; path = Core/Source/GrowlRollupTableView.m; sourceTree = "<group>"; };
 		C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Pseudo-Coda.growlStyle"; path = "Core/Resources/Pseudo-Coda.growlStyle"; sourceTree = "<group>"; };
@@ -1837,8 +1839,6 @@
 				953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */,
 				953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */,
 				932177BB13E4AB9F00157729 /* Growl.sdef */,
-				93E7124613FC874A0025D733 /* GrowlAppleScriptSupport.h */,
-				93E7124713FC874A0025D733 /* GrowlAppleScriptSupport.m */,
 			);
 			name = AppleScript;
 			sourceTree = "<group>";
@@ -2046,6 +2046,32 @@
 			name = Rollup;
 			sourceTree = "<group>";
 		};
+		BCDB88F113FC3F7700244F59 /* FirstLaunch */ = {
+			isa = PBXGroup;
+			children = (
+				BCDB88F513FC3FC900244F59 /* Classes */,
+				BCDB88F613FC3FDB00244F59 /* Resources */,
+			);
+			name = FirstLaunch;
+			sourceTree = "<group>";
+		};
+		BCDB88F513FC3FC900244F59 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BCDB88F213FC3FB200244F59 /* GrowlFirstLaunchWindowController.h */,
+				BCDB88F313FC3FB200244F59 /* GrowlFirstLaunchWindowController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		BCDB88F613FC3FDB00244F59 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BCDB88F913FC40D200244F59 /* FirstLaunchWindow.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		CB0EBFBA0790941300CA2157 /* Pathways */ = {
 			isa = PBXGroup;
 			children = (
@@ -2083,6 +2109,7 @@
 		CB5F836E0638B69900EADD7A /* HelperApp */ = {
 			isa = PBXGroup;
 			children = (
+				BCDB88F113FC3F7700244F59 /* FirstLaunch */,
 				CB5F835E0638B67C00EADD7A /* Prefpane */,
 				93405B0D080D8BD100903735 /* StatusItem */,
 				34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */,
@@ -2754,6 +2781,7 @@
 				93E7121C13F5652C0025D733 /* Forwarding.png in Resources */,
 				93E7122113F568430025D733 /* About.png in Resources */,
 				BC94845613FB21690036382B /* Growl_512x512.png in Resources */,
+				BCDB88FB13FC40D200244F59 /* FirstLaunchWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3120,7 +3148,7 @@
 				BC00437013F6D16A00EED11C /* GrowlRollupGroupCellView.m in Sources */,
 				BC00439A13F6DF6500EED11C /* GroupController.m in Sources */,
 				BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */,
-				93E7124813FC874A0025D733 /* GrowlAppleScriptSupport.m in Sources */,
+				BCDB88F413FC3FB200244F59 /* GrowlFirstLaunchWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3510,6 +3538,14 @@
 				BC90D471122167490022B24D /* English */,
 			);
 			name = AwayHistoryWindow.xib;
+			sourceTree = "<group>";
+		};
+		BCDB88F913FC40D200244F59 /* FirstLaunchWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCDB88FA13FC40D200244F59 /* English */,
+			);
+			name = FirstLaunchWindow.xib;
 			sourceTree = "<group>";
 		};
 		DD493A03084BAD7700D1CCCB /* GrowlSMSPrefs.xib */ = {

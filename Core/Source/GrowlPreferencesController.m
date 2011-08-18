@@ -159,6 +159,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark -
 #pragma mark Start-at-login control
 
+- (BOOL) allowStartAtLogin{
+    return [self boolForKey:GrowlAllowStartAtLogin];
+}
+
+- (void) setAllowStartAtLogin:(BOOL)start{
+    [self setBool:start forKey:GrowlAllowStartAtLogin];
+}
+
 - (BOOL) shouldStartGrowlAtLogin {
 	Boolean    foundIt = false;
 

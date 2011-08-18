@@ -46,6 +46,9 @@
 #define GrowlHistoryTrimByDate      XSTR("GrowlHistoryTrimByDate")
 #define GrowlSelectedPrefPane       XSTR("GrowlSelectedPrefPane")
 
+#define GrowlFirstLaunch            XSTR("GrowlFirstLaunch")
+#define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -70,6 +73,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
 - (void) synchronize;
 
+- (BOOL) allowStartAtLogin;
+- (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
