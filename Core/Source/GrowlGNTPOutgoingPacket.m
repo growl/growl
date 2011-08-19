@@ -319,7 +319,7 @@
 - (void)writeToSocket:(GCDAsyncSocket*)socket
 {	
 	for(id <GNTPOutgoingItem> item in [self outgoingItems]) {
-		NSLog(@"Writing to socket: %@", [item GNTPRepresentationAsString]);
+		//NSLog(@"Writing to socket: %@", [item GNTPRepresentationAsString]);
 		[socket writeData:[item GNTPRepresentation]
 			  withTimeout:-1
 					  tag:0];
