@@ -39,7 +39,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 240}, {390, 457}}</string>
+				<string key="NSWindowRect">{{196, 240}, {390, 425}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Welcome to Growl!</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -52,7 +52,7 @@
 						<object class="NSTextField" id="940576605">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{17, 420}, {356, 17}}</string>
+							<string key="NSFrame">{{17, 388}, {356, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="79617542"/>
@@ -92,10 +92,10 @@
 						<object class="NSButton" id="404596357">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">288</int>
-							<string key="NSFrame">{{147, 44}, {97, 32}}</string>
+							<string key="NSFrame">{{147, 12}, {97, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="111720273"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:161</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="525532226">
@@ -117,30 +117,6 @@
 								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
-						<object class="NSButton" id="111720273">
-							<reference key="NSNextResponder" ref="1006"/>
-							<int key="NSvFlags">288</int>
-							<string key="NSFrame">{{143, 12}, {104, 32}}</string>
-							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
-							<string key="NSReuseIdentifierKey">_NS:161</string>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="901842438">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">No thanks</string>
-								<reference key="NSSupport" ref="533298401"/>
-								<string key="NSCellIdentifier">_NS:161</string>
-								<reference key="NSControlView" ref="111720273"/>
-								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
 						<object class="NSImageView" id="306912219">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">288</int>
@@ -152,7 +128,7 @@
 								<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 								<string>NeXT TIFF v4.0 pasteboard type</string>
 							</set>
-							<string key="NSFrame">{{161, 125}, {68, 68}}</string>
+							<string key="NSFrame">{{161, 93}, {68, 68}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="102585298"/>
@@ -174,7 +150,7 @@
 						<object class="NSCustomView" id="79617542">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{20, 201}, {350, 211}}</string>
+							<string key="NSFrame">{{20, 169}, {350, 211}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="306912219"/>
@@ -184,7 +160,7 @@
 						<object class="NSTextField" id="102585298">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{17, 80}, {356, 37}}</string>
+							<string key="NSFrame">{{17, 48}, {356, 37}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="404596357"/>
@@ -206,7 +182,7 @@
 							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{390, 457}</string>
+					<string key="NSFrameSize">{390, 425}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="940576605"/>
@@ -233,7 +209,7 @@
 								<bytes key="NS.bytes">R3Jvd2wgaXMgYW4gdW5vYnRydXNpdmUgbm90aWZpY2F0aW9uIHN5c3RlbSB1c2VkIGJ5IGEgbnVtYmVy
 IG9mIGFwcGxpY2F0aW9ucy4gIEdyb3dsLmFwcCBhbGxvd3MgeW91IHRvIGZ1bGx5IGNvbnRyb2wgYW5k
 IGN1c3RvbWl6ZSBob3cgdGhvc2UgYXBwbGljYXRpb25zIGRpc3BsYXkgbm90aWZpY2F0aW9ucy4gIOKA
-qOKAqFRoaXMgaW50cm9kdWN0aW9uIHRvIGdyb3dsIHdpbGwgd2FsayB5b3UgdGhyb3VnaCBzZXR1cCBv
+qOKAqFRoaXMgaW50cm9kdWN0aW9uIHRvIEdyb3dsIHdpbGwgd2FsayB5b3UgdGhyb3VnaCBzZXR1cCBv
 ZiBHcm93bCwgdG8gY3VzdG9taXplIGl0IHRvIHlvdXIgcHJlZmVyZW5jZXMuICBFdmVuIGlmIHlvdSBh
 cmUgYW4gZXhwZXJpZW5jZWQgdXNlciBvZiBHcm93bCwgR3Jvd2wgMS4zIGJyaW5ncyB3aXRoIGl0IG1h
 bnkgY2hhbmdlcywgYW5kIGl0IGlzIHJlY29tZW5kZWQgdGhhdCB5b3UgZ2V0IHRvIGtub3cgaXQsIGFu
@@ -260,9 +236,8 @@ ZCByZW1vdmUgYW55IGV4aXN0aW5nIGluc3RhbGxhdGlvbnMgb2YgR3Jvd2w</bytes>
 					<object class="NSButton" id="506258405">
 						<reference key="NSNextResponder" ref="924601407"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{63, 2}, {224, 32}}</string>
+						<string key="NSFrame">{{63, 0}, {224, 32}}</string>
 						<reference key="NSSuperview" ref="924601407"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:161</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="68119610">
@@ -283,7 +258,7 @@ ZCByZW1vdmUgYW55IGV4aXN0aW5nIGluc3RhbGxhdGlvbnMgb2YgR3Jvd2w</bytes>
 					<object class="NSTextField" id="890997314">
 						<reference key="NSNextResponder" ref="924601407"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{-3, 36}, {356, 68}}</string>
+						<string key="NSFrame">{{-3, 36}, {356, 51}}</string>
 						<reference key="NSSuperview" ref="924601407"/>
 						<reference key="NSNextKeyView" ref="506258405"/>
 						<string key="NSReuseIdentifierKey">_NS:3596</string>
@@ -291,7 +266,7 @@ ZCByZW1vdmUgYW55IGV4aXN0aW5nIGluc3RhbGxhdGlvbnMgb2YgR3Jvd2w</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="785556956">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">In order for Growl to be effective, it must be running.  If you allow us, we will add ourselves to your user account's login items, and we will run every time you login.  </string>
+							<string key="NSContents">For Growl to work, it must be running.  If you allow it, Growll will add itself to your user account's login items, and it will run every time you login.  </string>
 							<reference key="NSSupport" ref="652772401"/>
 							<string key="NSCellIdentifier">_NS:3596</string>
 							<reference key="NSControlView" ref="890997314"/>
@@ -300,7 +275,7 @@ ZCByZW1vdmUgYW55IGV4aXN0aW5nIGluc3RhbGxhdGlvbnMgb2YgR3Jvd2w</bytes>
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{350, 106}</string>
+				<string key="NSFrameSize">{350, 89}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="890997314"/>
 				<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -368,40 +343,18 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSButton" id="735408556">
-						<reference key="NSNextResponder" ref="786763348"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{54, 4}, {243, 32}}</string>
-						<reference key="NSSuperview" ref="786763348"/>
-						<string key="NSReuseIdentifierKey">_NS:161</string>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="218612070">
-							<int key="NSCellFlags">67239424</int>
-							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Show me a preview of the rollup</string>
-							<reference key="NSSupport" ref="533298401"/>
-							<string key="NSCellIdentifier">_NS:161</string>
-							<reference key="NSControlView" ref="735408556"/>
-							<int key="NSButtonFlags">-2038284033</int>
-							<int key="NSButtonFlags2">129</int>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-					</object>
 					<object class="NSTextField" id="450924084">
 						<reference key="NSNextResponder" ref="786763348"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{-3, 40}, {356, 51}}</string>
+						<string key="NSFrame">{{-3, 5}, {356, 51}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
-						<reference key="NSNextKeyView" ref="735408556"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:3596</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="645094641">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">Also new is history, and the notification rollup.  When you are idle, notifications will be stored in a window for your perusal when you return to your computer.  </string>
+							<string key="NSContents">Also new is history, and the notification rollup.  When you are idle, notifications will be stored in a window for when you return to your computer.  </string>
 							<reference key="NSSupport" ref="652772401"/>
 							<string key="NSCellIdentifier">_NS:3596</string>
 							<reference key="NSControlView" ref="450924084"/>
@@ -412,8 +365,9 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 					<object class="NSButton" id="183682827">
 						<reference key="NSNextResponder" ref="786763348"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{62, 91}, {227, 32}}</string>
+						<string key="NSFrame">{{62, 56}, {227, 32}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="450924084"/>
 						<string key="NSReuseIdentifierKey">_NS:161</string>
 						<bool key="NSEnabled">YES</bool>
@@ -435,15 +389,16 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 					<object class="NSTextField" id="992885052">
 						<reference key="NSNextResponder" ref="786763348"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{-3, 127}, {356, 51}}</string>
+						<string key="NSFrame">{{-3, 92}, {356, 51}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="183682827"/>
 						<string key="NSReuseIdentifierKey">_NS:3596</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="230080979">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">Growl 1.3 comes with a number of changes and new features for users.  Growl Now runs as a status bar item, and preferences can be reached from there</string>
+							<string key="NSContents">Growl 1.3 comes with a number of changes and new features for users.  Growl now runs as a status bar item, and preferences can be reached from there</string>
 							<reference key="NSSupport" ref="652772401"/>
 							<string key="NSCellIdentifier">_NS:3596</string>
 							<reference key="NSControlView" ref="992885052"/>
@@ -452,8 +407,9 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{350, 178}</string>
+				<string key="NSFrameSize">{350, 143}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="992885052"/>
 				<string key="NSReuseIdentifierKey">_NS:499</string>
 				<string key="NSClassName">NSView</string>
@@ -468,14 +424,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						<reference key="destination" ref="404596357"/>
 					</object>
 					<int key="connectionID">577</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="404596357"/>
-						<reference key="destination" ref="111720273"/>
-					</object>
-					<int key="connectionID">580</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -524,14 +472,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						<reference key="destination" ref="404596357"/>
 					</object>
 					<int key="connectionID">754</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">exit:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="111720273"/>
-					</object>
-					<int key="connectionID">755</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -622,10 +562,9 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						<array class="NSMutableArray" key="children">
 							<reference ref="940576605"/>
 							<reference ref="79617542"/>
-							<reference ref="306912219"/>
 							<reference ref="102585298"/>
 							<reference ref="404596357"/>
-							<reference ref="111720273"/>
+							<reference ref="306912219"/>
 						</array>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -654,19 +593,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						<int key="objectID">41</int>
 						<reference key="object" ref="142718462"/>
 						<reference key="parent" ref="940576605"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">193</int>
-						<reference key="object" ref="111720273"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="901842438"/>
-						</array>
-						<reference key="parent" ref="1006"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">194</int>
-						<reference key="object" ref="901842438"/>
-						<reference key="parent" ref="111720273"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">578</int>
@@ -758,7 +684,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 							<reference ref="992885052"/>
 							<reference ref="183682827"/>
 							<reference ref="450924084"/>
-							<reference ref="735408556"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -809,19 +734,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						<string key="objectName">Custom View</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">631</int>
-						<reference key="object" ref="735408556"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="218612070"/>
-						</array>
-						<reference key="parent" ref="786763348"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">632</int>
-						<reference key="object" ref="218612070"/>
-						<reference key="parent" ref="735408556"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">757</int>
 						<reference key="object" ref="102585298"/>
 						<array class="NSMutableArray" key="children">
@@ -867,8 +779,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1.IBWindowTemplateEditedContentRect">{{357, 418}, {480, 270}}</string>
 				<integer value="1" key="1.NSWindowTemplate.visibleAtLaunch"/>
-				<string key="193.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="194.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -892,8 +802,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 				<string key="625.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="628.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="630.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="631.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="632.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="633.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="634.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="635.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -915,18 +823,12 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="enableGrowlAtLogin:">id</string>
-						<string key="exit:">id</string>
 						<string key="nextPage:">id</string>
 						<string key="openPreferences:">id</string>
-						<string key="openRollup:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="enableGrowlAtLogin:">
 							<string key="name">enableGrowlAtLogin:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="exit:">
-							<string key="name">exit:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="nextPage:">
@@ -935,10 +837,6 @@ dmlldyBkaXJlY3Rpb25zIGZvciBtYW51YWwgdW5pbnN0YWxsYXRpb24uICA</bytes>
 						</object>
 						<object class="IBActionInfo" key="openPreferences:">
 							<string key="name">openPreferences:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openRollup:">
-							<string key="name">openRollup:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

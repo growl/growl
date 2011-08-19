@@ -23,9 +23,9 @@
 
 #define FIRST_LAUNCH_WELCOME_ID 1
 #define FIRST_LAUNCH_START_GROWL_ID 2
-#define FIRST_LAUNCH_OLD_GROWL_ID 3
-#define FIRST_LAUNCH_WHATS_NEW_ID 4
-#define FIRST_LAUNCH_DONE_ID 5
+#define FIRST_LAUNCH_WHATS_NEW_ID 3
+#define FIRST_LAUNCH_DONE_ID 4
+#define FIRST_LAUNCH_OLD_GROWL_ID 5
 
 @implementation GrowlFirstLaunchWindowController
 
@@ -52,10 +52,14 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [self updateViews];
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    [self updateViews];
 }
 
 -(void)windowWillClose:(NSNotification *)notification
@@ -88,18 +92,18 @@
         case FIRST_LAUNCH_START_GROWL_ID:
             newContentView = startAtLoginView;
             newTitle = FIRST_LAUNCH_START_GROWL_TITLE;
-            newContinue = FIRST_LAUNCH_OLD_GROWL_NEXT;
-            nextState = FIRST_LAUNCH_OLD_GROWL_ID;
-            break;
-        case FIRST_LAUNCH_OLD_GROWL_ID:
-            newContentView = removeOldGrowlView;
-            newTitle = FIRST_LAUNCH_OLD_GROWL_TITLE;
             newContinue = [NSString stringWithFormat:FIRST_LAUNCH_WHATS_NEW_NEXT, version];
             nextState = FIRST_LAUNCH_WHATS_NEW_ID;
             break;
         case FIRST_LAUNCH_WHATS_NEW_ID:
             newContentView = whatsNewView;
             newTitle = [NSString stringWithFormat:FIRST_LAUNCH_WHATS_NEW_TITLE, version];
+            newContinue = FIRST_LAUNCH_OLD_GROWL_NEXT;
+            nextState = FIRST_LAUNCH_OLD_GROWL_ID;
+            break;
+        case FIRST_LAUNCH_OLD_GROWL_ID:
+            newContentView = removeOldGrowlView;
+            newTitle = FIRST_LAUNCH_OLD_GROWL_TITLE;
             newContinue = FIRST_LAUNCH_DONE_NEXT;
             nextState = FIRST_LAUNCH_DONE_ID;
             break;
@@ -130,21 +134,9 @@
     currentContent = newContentView;
 }
 
--(void)close
-{
-    [super close];
-    //Do this on a later loop so that the window has time to close
-    [[GrowlApplicationController sharedController] performSelector:@selector(firstLaunchClosed) withObject:nil afterDelay:1.0];
-}
-
 -(IBAction)nextPage:(id)sender
 {
     [self setState:nextState];
-}
-
--(IBAction)exit:(id)sender
-{
-    [self close];
 }
 
 -(IBAction)enableGrowlAtLogin:(id)sender
@@ -156,18 +148,12 @@
 
 -(IBAction)openGrowlUninstallerPage:(id)sender
 {
-    //TODO FIX ME WITH RIGHT ADDRESS
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/uninstall-old-growl.php"]];
 }
 
 -(IBAction)openPreferences:(id)sender
 {
     [[[GrowlApplicationController sharedController] statusMenu] openGrowlPreferences:self];
-}
-
--(IBAction)openRollup:(id)sender
-{
-    //Open the rollup, or display an image or something?
 }
 
 @end

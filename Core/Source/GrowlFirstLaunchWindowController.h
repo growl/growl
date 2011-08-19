@@ -25,12 +25,9 @@
 @property (nonatomic) NSUInteger nextState;
 
 - (void)updateViews;
--(void)close;
 
 -(IBAction)nextPage:(id)sender;
--(IBAction)exit:(id)sender;
 -(IBAction)enableGrowlAtLogin:(id)sender;
 -(IBAction)openPreferences:(id)sender;
--(IBAction)openRollup:(id)sender;
 
 @end
