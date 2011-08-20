@@ -5,8 +5,30 @@
 	AppleScript command support for Growl notifications.
 -->
 
-<dictionary title="Growl Terminology">
-	<suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">
+<dictionary title="Growl Terminology" xmlns:xi="http://www.w3.org/2003/XInclude">    
+	<xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+    <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
+        <class name="application" code="capp" description="Growl" inherits="application">
+            <cocoa class="GrowlApplication"/>
+            <responds-to command="pause">
+                <cocoa method=""/>
+            </responds-to>
+            <responds-to command="resume">
+                <cocoa method=""/>
+            </responds-to>
+            <property name="is paused" code="paus" type="boolean" access="r" description="Is growl paused?">
+                <cocoa key="paused"/>
+            </property>
+        </class>
+
+        <command name="pause" code="pausepls" description="Stops display of incoming notifications">
+            <cocoa class="GrowlControlPauseScriptCommand"/>
+        </command>
+        <command name="resume" code="resumpls" description="Starts display of subsequent incoming notifications">
+            <cocoa class="GrowlControlResumeScriptCommand"/>
+        </command>
+    </suite>
+    <suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">
 		<value-type name="Image" code="TIFF">
 			<cocoa class="NSData" name="Image"/>
 		</value-type>
@@ -52,12 +74,12 @@
 				<cocoa key="asApplication"/>
 			</parameter>
 			<parameter name="all notifications" code="anot" description="list of all notifications to register.">
-				<type type="text" list="yes"/>
 				<cocoa key="allNotifications"/>
+				<type type="text" list="yes"/>
 			</parameter>
 			<parameter name="default notifications" code="dnot" description="list of default notifications to register.">
-				<type type="text" list="yes"/>
 				<cocoa key="defaultNotifications"/>
+				<type type="text" list="yes"/>
 			</parameter>
 			<parameter name="icon of application" optional="yes" code="iapp" type="text" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'.">
 				<cocoa key="iconOfApplication"/>

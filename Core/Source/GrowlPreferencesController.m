@@ -274,7 +274,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setSquelchMode:(BOOL)squelch
 {
+    [self willChangeValueForKey:@"squelchMode"];
     [self setBool:squelch forKey:GrowlSquelchMode];
+    [self didChangeValueForKey:@"squelchMode"];
 }
 
 - (BOOL) squelchMode

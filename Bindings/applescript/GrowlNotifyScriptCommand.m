@@ -3,13 +3,8 @@
 //  Growl
 //
 //  Created by Patrick Linskey on Tue Aug 10 2004.
-//  Copyright (c) 2004-2006 The Growl Project. All rights reserved.
+//  Copyright (c) 2004-2011 The Growl Project. All rights reserved.
 //
-
-/*
- *  To do:
- *		- change the name of GrowlHelperApp to just Growl, so you can 'tell application "Growl"'
- */
 
 /*
  *  Some sample scripts:

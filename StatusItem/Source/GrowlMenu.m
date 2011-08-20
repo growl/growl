@@ -67,6 +67,8 @@
                                                  selector:@selector(growlDatabaseDidUpdate:) 
                                                      name:@"GrowlDatabaseUpdated"
                                                    object:db];
+        
+        [preferences addObserver:self forKeyPath:@"squelchMode" options:NSKeyValueObservingOptionNew context:&self];
     }
     return self;
 }
@@ -75,9 +77,26 @@
 //	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 //	[statusItem            release];
 
+    [preferences removeObserver:self forKeyPath:@"squelchMode"];
 	[super dealloc];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"squelchMode"])
+    {
+        NSMenuItem *menuItem = [[[statusItem menu] itemArray] objectAtIndex:0U];
+        BOOL squelch = [preferences squelchMode] ? NO : YES;        
+        if (!squelch) {
+            [menuItem setTitle:kStopGrowl];
+            [menuItem setToolTip:kStopGrowlTooltip];
+        } else {
+            [menuItem setTitle:kStartGrowl];
+            [menuItem setToolTip:kStartGrowlTooltip];
+        }
+        [self setImage:[NSNumber numberWithBool:squelch]];
+    }
+}
 #pragma mark -
 #pragma mark Growl History
 #pragma mark -
@@ -148,15 +167,6 @@
 - (IBAction) startStopGrowl:(id)sender {
     BOOL squelch = [preferences squelchMode] ? NO : YES;
     [preferences setSquelchMode:squelch];
-    
-    if (!squelch) {
-        [sender setTitle:kStopGrowl];
-        [sender setToolTip:kStopGrowlTooltip];
-    } else {
-        [sender setTitle:kStartGrowl];
-        [sender setToolTip:kStartGrowlTooltip];
-    }
-    [self setImage:[NSNumber numberWithBool:!squelch]];
 }
 
 - (IBAction)openGrowlLog:(id)sender

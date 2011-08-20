@@ -40,4 +40,8 @@
 	autoreleasePoolRefreshTimer = nil;
 }
 
+- (BOOL)paused
+{
+    return [[GrowlPreferencesController sharedController] squelchMode];
+}
 @end
