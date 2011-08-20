@@ -148,7 +148,7 @@
 
 -(IBAction)openGrowlUninstallerPage:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/uninstall-old-growl.php"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
 }
 
 -(IBAction)openPreferences:(id)sender
