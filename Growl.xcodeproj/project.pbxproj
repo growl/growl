@@ -275,6 +275,7 @@
 		93E7122113F568430025D733 /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7122013F568430025D733 /* About.png */; };
 		93E7128513FE04200025D733 /* GrowlControlPauseScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */; };
 		93E7128813FE05170025D733 /* GrowlControlResumeScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */; };
+		93E7129013FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -964,6 +965,8 @@
 		93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlPauseScriptCommand.m; path = Bindings/applescript/GrowlControlPauseScriptCommand.m; sourceTree = "<group>"; };
 		93E7128613FE05160025D733 /* GrowlControlResumeScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlResumeScriptCommand.h; path = Bindings/applescript/GrowlControlResumeScriptCommand.h; sourceTree = "<group>"; };
 		93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlResumeScriptCommand.m; path = Bindings/applescript/GrowlControlResumeScriptCommand.m; sourceTree = "<group>"; };
+		93E7128E13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlCloseAllScriptCommand.h; path = Bindings/applescript/GrowlControlCloseAllScriptCommand.h; sourceTree = "<group>"; };
+		93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlCloseAllScriptCommand.m; path = Bindings/applescript/GrowlControlCloseAllScriptCommand.m; sourceTree = "<group>"; };
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93EA804613690D8800AB89AE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
@@ -1954,6 +1957,8 @@
 				93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */,
 				93E7128613FE05160025D733 /* GrowlControlResumeScriptCommand.h */,
 				93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */,
+				93E7128E13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.h */,
+				93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */,
 			);
 			name = "Growl Control";
 			sourceTree = "<group>";
@@ -3177,6 +3182,7 @@
 				BCC79AB313FD5364003CFCB9 /* GrowlAppleScriptSupport.m in Sources */,
 				93E7128513FE04200025D733 /* GrowlControlPauseScriptCommand.m in Sources */,
 				93E7128813FE05170025D733 /* GrowlControlResumeScriptCommand.m in Sources */,
+				93E7129013FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,10 +5,9 @@
 	AppleScript command support for Growl notifications.
 -->
 
-<dictionary title="Growl Terminology" xmlns:xi="http://www.w3.org/2003/XInclude">    
-	<xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+<dictionary title="Growl Terminology">    
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
-        <class name="application" code="capp" description="Growl" inherits="application">
+        <class name="application" code="capp" description="Growl">
             <cocoa class="GrowlApplication"/>
             <responds-to command="pause">
                 <cocoa method=""/>
@@ -16,11 +15,16 @@
             <responds-to command="resume">
                 <cocoa method=""/>
             </responds-to>
+            <responds-to command="close all notifications">
+                <cocoa method=""/>
+            </responds-to>
             <property name="is paused" code="paus" type="boolean" access="r" description="Is growl paused?">
                 <cocoa key="paused"/>
             </property>
         </class>
-
+        <command name="close all notifications" code="closeall" description="close all on-screen notifications">
+            <cocoa class="GrowlControlCloseAllScriptCommand"/>
+        </command>
         <command name="pause" code="pausepls" description="Stops display of incoming notifications">
             <cocoa class="GrowlControlPauseScriptCommand"/>
         </command>

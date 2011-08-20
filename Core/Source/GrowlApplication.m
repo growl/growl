@@ -44,4 +44,5 @@
 {
     return [[GrowlPreferencesController sharedController] squelchMode];
 }
+
 @end
