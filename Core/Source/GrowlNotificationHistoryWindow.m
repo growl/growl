@@ -300,13 +300,15 @@
     }else if([self tableView:tableView isGroupRow:row]){
         GrowlRollupGroupCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
        
-        NSString *appName = [[self tableView:tableView objectValueForTableColumn:tableColumn row:row] groupID   ];
-        NSImage *icon = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] icon];
+        NSString *appName = [[self tableView:tableView objectValueForTableColumn:tableColumn row:row] groupID];
+        NSData *iconData = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] iconData];
+        NSImage *icon = [[NSImage alloc] initWithData:iconData];
         if(icon){
             [[groupView imageView] setImage:icon];
         }else{
-            [[groupView imageView] setImage:nil];
+            [[groupView imageView] setImage:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)]];
         }
+        [icon release];
         
         [[groupView deleteButton] setState:NSOnState];
         

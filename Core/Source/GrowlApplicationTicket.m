@@ -440,12 +440,6 @@
 	}
 }
 
-- (NSImage *)icon {
-	if (!icon && iconData)
-		icon = [[NSImage alloc] initWithData:iconData];
-
-	return icon;
-}
 - (void)setIcon:(NSImage *)inIcon {
 	[self setIconData:[inIcon PNGRepresentation]];
 
