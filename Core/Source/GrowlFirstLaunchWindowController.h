@@ -24,6 +24,8 @@
 @property (nonatomic) NSUInteger state;
 @property (nonatomic) NSUInteger nextState;
 
++(BOOL)shouldRunFirstLaunch;
+
 - (void)updateViews;
 
 -(IBAction)nextPage:(id)sender;
