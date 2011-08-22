@@ -235,7 +235,6 @@
 		938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB16D1081324100259421 /* GrowlGNTPKeyController.m */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
 		93A042BA1382159800C46F0A /* Show Growl Notification.action in Copy Automator Plugin */ = {isa = PBXBuildFile; fileRef = 93A042A2138214F800C46F0A /* Show Growl Notification.action */; };
-		93A042C7138215DA00C46F0A /* GrowlQL.qlgenerator in Copy QuickLook Plugin */ = {isa = PBXBuildFile; fileRef = 93A042AB1382150A00C46F0A /* GrowlQL.qlgenerator */; };
 		93A60E0113C4095000514EF8 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B2755D08423BFF0092A5A0 /* GrowlMenu.m */; };
 		93A60E0213C40A1E00514EF8 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
 		93A60E0313C40A2100514EF8 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
@@ -483,13 +482,6 @@
 			remoteGlobalIDString = 8D576316048677EA00EA77CD;
 			remoteInfo = GrowlQL;
 		};
-		93A042B61382157700C46F0A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
-			remoteInfo = GrowlQL;
-		};
 		93A042B81382157700C46F0A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */;
@@ -595,7 +587,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				93A042C7138215DA00C46F0A /* GrowlQL.qlgenerator in Copy QuickLook Plugin */,
 			);
 			name = "Copy QuickLook Plugin";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2596,7 +2587,6 @@
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
-				93A042B71382157700C46F0A /* PBXTargetDependency */,
 				93A042B91382157700C46F0A /* PBXTargetDependency */,
 			);
 			name = Growl.app;
@@ -3245,11 +3235,6 @@
 			isa = PBXTargetDependency;
 			target = 0A7F5FE80767C7B300E1C1E4 /* MusicVideo */;
 			targetProxy = 3433459B0790E40B00C84B15 /* PBXContainerItemProxy */;
-		};
-		93A042B71382157700C46F0A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GrowlQL;
-			targetProxy = 93A042B61382157700C46F0A /* PBXContainerItemProxy */;
 		};
 		93A042B91382157700C46F0A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
