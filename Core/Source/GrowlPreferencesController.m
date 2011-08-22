@@ -305,13 +305,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	return [self integerForKey:GROWL_POSITION_PREFERENCE_KEY];
 }
 
-- (BOOL) isBackgroundUpdateCheckEnabled {
-	return [self boolForKey:GrowlUpdateCheckKey];
-}
-- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
-	[self setBool:flag forKey:GrowlUpdateCheckKey];
-}
-
 - (NSString *) defaultDisplayPluginName {
 	return [self objectForKey:GrowlDisplayPluginKey];
 }
@@ -495,10 +488,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
 		[self willChangeValueForKey:@"forwardingEnabled"];
 		[self didChangeValueForKey:@"forwardingEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlUpdateCheckKey]) {
-		[self willChangeValueForKey:@"backgroundUpdateCheckEnabled"];
-		[self didChangeValueForKey:@"backgroundUpdateCheckEnabled"];
 	}
 	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
 		[self willChangeValueForKey:@"idleThreshold"];

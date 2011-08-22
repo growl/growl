@@ -12,8 +12,6 @@
 	<true/>
 	<key>GrowlEnableForward</key>
 	<false/>
-	<key>GrowlUpdateCheck</key>
-	<true/>
 	<key>GrowlLoggingEnabled</key>
 	<false/>
 	<key>GrowlLogType</key>

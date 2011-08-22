@@ -28,8 +28,6 @@
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
 #define GrowlUDPPortKey				XSTR("GrowlUDPPort")
 #define GrowlTCPPortKey				XSTR("GrowlTCPPort")
-#define GrowlUpdateCheckKey			XSTR("GrowlUpdateCheck")
-#define LastUpdateCheckKey			XSTR("LastUpdateCheck")
 #define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
 #define	GrowlLogTypeKey				XSTR("GrowlLogType")
 #define	GrowlCustomHistKey1			XSTR("Custom log history 1")
@@ -86,9 +84,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 //Simplified accessors
 
 #pragma mark UI
-
-- (BOOL) isBackgroundUpdateCheckEnabled;
-- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
 
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
