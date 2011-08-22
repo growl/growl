@@ -1039,7 +1039,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
     //NSNumber *firstLaunchNum = [[GrowlPreferencesController sharedController] objectForKey:GrowlFirstLaunch];
-    if(/*!firstLaunchNum || [firstLaunchNum boolValue]*/ YES){
+    if(/*[GrowlFirstLaunchWindowController shouldRunFirstLaunch]*/ YES){
         [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
         firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
         [firstLaunchWindow showWindow:self];
