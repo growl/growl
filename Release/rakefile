@@ -1,0 +1,146 @@
+
+TOOLCHAIN = ENV['TOOLCHAIN'] || '/Developer'
+CONFIGURATION = ENV['CONFIGURATION'] || 'Release'
+XCODEBUILD = "#{TOOLCHAIN}/usr/bin/xcodebuild"
+SRCROOT = File.expand_path("..")
+DESTDIR = File.expand_path("distribution")
+BUILD_ROOT = File.join(DESTDIR, "build")
+PRODUCT_ROOT = File.join(DESTDIR, "product")
+CSI = "3rd Party Mac Developer Installer: The Growl Project, LLC"
+BETA=0
+
+task :default => "package_everything"
+
+task :package_everything => [:setup, "package:growlnotify", "package:hardwaregrowler", "package:growltunes", "package:growl", "package:sdk"] do
+puts "Done Packaging"
+end
+
+task :package_sdk => [:setup, "package:sdk"] do
+end
+
+task :setup do
+	if(CONFIGURATION == "Beta")
+		CONFIGURATION="Release"
+		BETA=1
+	end
+	
+	FileUtils.rm_rf(DESTDIR)
+	FileUtils.mkdir_p(PRODUCT_ROOT)
+end
+
+#you shouldn't need to call any of the following tasks directly
+namespace "build" do
+
+	task :growlnotify do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/growlnotify/growlnotify.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/growlnotify"
+	end
+
+	task :growl do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target Growl.app -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/growl"
+	end
+
+	task :hardwaregrowler do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/HardwareGrowler/HardwareGrowler.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/hardwaregrowler"
+	end
+	
+	task :growltunes do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/GrowlTunes/GrowlTunes.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/growltunes"
+	end
+	
+	task :beephammer do
+		system "#{XCODEBUILD} -project \"#{SRCROOT}/Developer Tools/BeepHammer/BeepHammer.xcodeproj\" -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/beephammer"
+	end
+
+	task :framework do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target Growl.framework -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/framework"
+	end
+end
+
+
+namespace "package" do
+	
+	task :growlnotify => ["build:growlnotify"] do
+		#curdir = FileUtils.pwd()
+		#FileUtils.cd("#{BUILD_ROOT}/growlnotify/#{CONFIGURATION}")
+		#package up growlnotify
+		#system "cp -Rp growlnotify.zip #{PRODUCT_ROOT}"
+		#system "zip -r #{PRODUCT_ROOT}/growlnotify-dSYM.zip growlnotify.dSYM"
+		#FileUtils.cd(curdir)
+	end
+
+	task :growl => ["build:growl"] do
+		curdir = FileUtils.pwd()
+		FileUtils.cd("#{BUILD_ROOT}/growl/#{CONFIGURATION}")
+		if(!BETA)
+			system "productbuild --component Growl.app /Applications --sign \"#{CSI}\" Growl.pkg && cp -Rp Growl.pkg #{PRODUCT_ROOT}"
+		elsif (BETA)
+			system "zip -r #{PRODUCT_ROOT}/Growl.zip Growl.app/"
+		end
+		system "zip -r #{PRODUCT_ROOT}/Growl-dSYM.zip *.dSYM"
+		FileUtils.cd(curdir)
+		
+	end
+
+	task :hardwaregrowler => ["build:hardwaregrowler"] do
+		curdir = FileUtils.pwd()
+		FileUtils.cd("#{BUILD_ROOT}/hardwaregrowler/#{CONFIGURATION}")
+		if(!BETA)
+			system "productbuild --component HardwareGrowler.app /Applications --sign \"#{CSI}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{PRODUCT_ROOT}"
+		elsif (BETA)
+			system "zip -r #{PRODUCT_ROOT}/HardwareGrowler.zip HardwareGrowler.app/"
+		end
+		system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-dSYM.zip HardwareGrowler.dSYM"
+		FileUtils.cd(curdir)
+	end
+	
+	task :growltunes => ["build:growltunes"] do
+		curdir = FileUtils.pwd()
+		FileUtils.cd("#{BUILD_ROOT}/growltunes/#{CONFIGURATION}")
+		if(!BETA)
+			system "productbuild --component GrowlTunes.app /Applications --sign \"#{CSI}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{PRODUCT_ROOT}"
+		elsif (BETA)
+			system "zip -r #{PRODUCT_ROOT}/GrowlTunes.zip GrowlTunes.app/"
+		end
+		system "zip -r #{PRODUCT_ROOT}/GrowlTunes-dSYM.zip GrowlTunes.dSYM"
+		FileUtils.cd(curdir)
+	end
+	
+	task :sdk => ["build:beephammer", "build:framework"] do
+		FileUtils.mkdir_p("#{DESTDIR}/SDK")
+		FileUtils.cd("#{DESTDIR}/SDK")
+		FileUtils.mkdir_p("Developer Tools")
+		FileUtils.mkdir_p("Framework")
+		FileUtils.mkdir_p("Framework/Source")
+		FileUtils.mkdir_p("Bindings")
+		
+		#copy over the framework source
+		FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.m", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefines.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefinesInternal.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.m", "Framework/Source") 
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlAdditions.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlAdditions.c", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlDefines.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFURLAdditions.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFURLAdditions.c", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFMutableDictionaryAdditions.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Common/Source/CFMutableDictionaryAdditions.c", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Core/Source/GrowlPreferencesController.h", "Framework/Source")
+		FileUtils.cp("#{SRCROOT}/Core/Source/GrowlTicketController.h", "Framework/Source")
+
+		#copy over the bindings
+		FileUtils.cp_r("#{SRCROOT}/Bindings", ".")
+		
+		#copy over the framework
+		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework")
+		
+		#copy over developer tools
+		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
+		
+		FileUtils.cd("..")
+		system "zip -r #{PRODUCT_ROOT}/Growl-SDK.zip SDK/"
+		
+	end
+end
