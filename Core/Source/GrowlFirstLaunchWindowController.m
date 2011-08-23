@@ -112,20 +112,17 @@
          if(![preferences allowStartAtLogin]){
             newContinue = FIRST_LAUNCH_START_GROWL_NEXT;
             nextState = FIRST_LAUNCH_START_GROWL_ID;
-         }else
-            NSLog(@"Skipping start at login");
+         }
       case FIRST_LAUNCH_START_GROWL_ID:
          if(!newContinue && [GrowlFirstLaunchWindowController previousVersionOlder]){
             newContinue = [NSString stringWithFormat:FIRST_LAUNCH_WHATS_NEW_NEXT, current];
             nextState = FIRST_LAUNCH_WHATS_NEW_ID;
-         }else
-            NSLog(@"Skipping whats new");
+         }
       case FIRST_LAUNCH_WHATS_NEW_ID:
          if(!newContinue && [GrowlPathUtilities growlPrefPaneBundle] != nil){
             newContinue = FIRST_LAUNCH_OLD_GROWL_NEXT;
             nextState = FIRST_LAUNCH_OLD_GROWL_ID;
-         }else
-            NSLog(@"Skipping remove old growl");
+         }
       case FIRST_LAUNCH_OLD_GROWL_ID:
          if(!newContinue){
             newContinue = FIRST_LAUNCH_DONE_NEXT;
@@ -169,24 +166,20 @@
             return;
             break;
     }
-    
-    
-    CGFloat currentHeight = contentView.frame.size.height;
-    CGFloat newHeight = newContentView.frame.size.height;
-    
-    NSRect newFrame = [self window].frame;
-    CGFloat difference = newHeight - currentHeight;
-    newFrame.origin.y = newFrame.origin.y - difference;
-    newFrame.size.height = newFrame.size.height + (difference);
-    [[self window] setFrame:newFrame display:YES animate:YES];
-    
+   
+    CGFloat height = contentView.frame.size.height;
+    CGFloat yOrigin = height - newContentView.frame.size.height;
+   
     [pageTitle setStringValue:newTitle];
     if(currentContent){
+        [currentContent retain];
         [contentView replaceSubview:currentContent with:newContentView];
     }else{
         [contentView addSubview:newContentView];
     }
+
     currentContent = newContentView;
+    [currentContent setFrameOrigin:NSMakePoint(0, yOrigin)];
 }
 
 -(IBAction)nextPage:(id)sender
