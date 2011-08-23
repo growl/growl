@@ -143,14 +143,16 @@
      * If we clicked or pressed delete while on a selected note, delete that one
      * If there are other selected notes, and we clicked delete, or a selected one, delete those as well
      */
-    NSUInteger row = [historyTable rowForView:sender];
+    NSInteger row = [historyTable rowForView:sender];
     NSMutableIndexSet *rowsToDelete = [NSMutableIndexSet indexSet];
-    if(row == NSNotFound){
-        NSLog(@"no row for this button");
+    if(row == -1 || row > [historyTable numberOfRows]){
+        NSLog(@"no row for this delete event");
         return;
     }
-    GrowlNotificationRowView *view = [historyTable rowViewAtRow:row makeIfNecessary:NO];
-    if(view && view.mouseInside && ![[historyTable selectedRowIndexes] containsIndex:row]){
+   
+    NSTableRowView *view = [historyTable rowViewAtRow:row makeIfNecessary:NO];
+    if(view && [view isKindOfClass:[GrowlNotificationRowView class]] && [(GrowlNotificationRowView*)view mouseInside] && 
+       ![[historyTable selectedRowIndexes] containsIndex:row]){
         [rowsToDelete addIndex:row];
     }else if([[historyTable selectedRowIndexes] containsIndex:row]){
         [rowsToDelete addIndexes:[historyTable selectedRowIndexes]];
