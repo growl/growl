@@ -21,6 +21,8 @@
 @property (nonatomic, assign) IBOutlet NSView *removeOldGrowlView;
 @property (nonatomic, assign) IBOutlet NSView *whatsNewView;
 
+@property (nonatomic, assign) IBOutlet NSButton *continueButton;
+
 @property (nonatomic) NSUInteger state;
 @property (nonatomic) NSUInteger nextState;
 

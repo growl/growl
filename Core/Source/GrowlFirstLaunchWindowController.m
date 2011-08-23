@@ -41,6 +41,8 @@
 @synthesize removeOldGrowlView;
 @synthesize whatsNewView;
 
+@synthesize continueButton;
+
 @synthesize state;
 @synthesize nextState;
 
@@ -134,6 +136,9 @@
          return;
    }
    [nextPageIntro setStringValue:newContinue];
+   
+   if(nextState == FIRST_LAUNCH_DONE_ID)
+      [continueButton setTitle:NSLocalizedString(@"Done", @"Done")];
 }
 
 - (void)updateViews
