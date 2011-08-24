@@ -285,6 +285,12 @@
 		[self setTickets:[[ticketController allSavedTickets] allValues]];
 		[self cacheImages];
 	}
+   if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
+      if([preferencesController isGrowlHistoryLogEnabled])
+         [historyOnOffSwitch setSelectedSegment:0];
+      else
+         [historyOnOffSwitch setSelectedSegment:1];
+   }
     
     if(!object || [object isEqualToString:GrowlSelectedPrefPane])
         [self setSelectedTab:[preferencesController selectedPreferenceTab]];
@@ -887,6 +893,15 @@
 }
 
 #pragma mark HistoryTab
+
+- (IBAction) toggleHistory:(id)sender
+{
+   if([(NSSegmentedControl*)sender selectedSegment] == 0){
+      [preferencesController setGrowlHistoryLogEnabled:YES];
+   }else{
+      [preferencesController setGrowlHistoryLogEnabled:NO];
+   }
+}
 
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {

@@ -84,6 +84,7 @@
 	IBOutlet NSTextView				*aboutBoxTextView;
    
    //History tab pane
+   IBOutlet NSSegmentedControl *historyOnOffSwitch;
    IBOutlet NSArrayController *historyArrayController;
    IBOutlet NSTableView       *historyTable;
    IBOutlet NSButton          *trimByCountCheck;
@@ -142,6 +143,7 @@
 - (IBAction) openGrowlWebSiteToStyles:(id)sender;
 
 #pragma mark HistoryTab
+- (IBAction) toggleHistory:(id)sender;
 -(IBAction)validateHistoryTrimSetting:(id)sender;
 - (IBAction) deleteSelectedHistoryItems:(id)sender;
 - (IBAction) clearAllHistory:(id)sender;
