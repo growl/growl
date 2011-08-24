@@ -39,7 +39,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 240}, {390, 359}}</string>
+				<string key="NSWindowRect">{{196, 240}, {390, 424}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Welcome to Growl!</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -52,7 +52,7 @@
 						<object class="NSTextField" id="940576605">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{17, 322}, {356, 17}}</string>
+							<string key="NSFrame">{{17, 387}, {356, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="79617542"/>
@@ -150,7 +150,7 @@
 						<object class="NSCustomView" id="79617542">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{20, 169}, {350, 145}}</string>
+							<string key="NSFrame">{{20, 169}, {350, 210}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="306912219"/>
@@ -182,7 +182,7 @@
 							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{390, 359}</string>
+					<string key="NSFrameSize">{390, 424}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="940576605"/>
@@ -339,19 +339,43 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">282</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSTextField" id="450924084">
+					<object class="NSButton" id="1068741557">
 						<reference key="NSNextResponder" ref="786763348"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{-3, 7}, {356, 51}}</string>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{107, 2}, {136, 32}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
+						<string key="NSReuseIdentifierKey">_NS:161</string>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="37533427">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">134217728</int>
+							<string key="NSContents">Disable History</string>
+							<reference key="NSSupport" ref="533298401"/>
+							<string key="NSCellIdentifier">_NS:161</string>
+							<reference key="NSControlView" ref="1068741557"/>
+							<int key="NSButtonFlags">-2038284033</int>
+							<int key="NSButtonFlags2">129</int>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
+					<object class="NSTextField" id="450924084">
+						<reference key="NSNextResponder" ref="786763348"/>
+						<int key="NSvFlags">266</int>
+						<string key="NSFrame">{{-3, 38}, {356, 85}}</string>
+						<reference key="NSSuperview" ref="786763348"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1068741557"/>
 						<string key="NSReuseIdentifierKey">_NS:3596</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="645094641">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">Also new is history, and the notification rollup.  When you are idle, notifications will be stored in a window for when you return to your computer.  </string>
+							<string key="NSContents">Also new is history, and the notification rollup.  When you are idle, notifications will be stored in a window for when you return to your computer. History is on by default, but you can click below to turn it off</string>
 							<reference key="NSSupport" ref="652772401"/>
 							<string key="NSCellIdentifier">_NS:3596</string>
 							<reference key="NSControlView" ref="450924084"/>
@@ -362,7 +386,7 @@
 					<object class="NSButton" id="183682827">
 						<reference key="NSNextResponder" ref="786763348"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{62, 58}, {227, 32}}</string>
+						<string key="NSFrame">{{62, 123}, {227, 32}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="450924084"/>
@@ -386,7 +410,7 @@
 					<object class="NSTextField" id="992885052">
 						<reference key="NSNextResponder" ref="786763348"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{-3, 94}, {356, 51}}</string>
+						<string key="NSFrame">{{-3, 159}, {356, 51}}</string>
 						<reference key="NSSuperview" ref="786763348"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="183682827"/>
@@ -404,7 +428,7 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{350, 145}</string>
+				<string key="NSFrameSize">{350, 210}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="992885052"/>
@@ -525,6 +549,14 @@
 						<reference key="destination" ref="404596357"/>
 					</object>
 					<int key="connectionID">1034</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">enableHistory:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1068741557"/>
+					</object>
+					<int key="connectionID">1037</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -688,6 +720,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="992885052"/>
 							<reference ref="183682827"/>
+							<reference ref="1068741557"/>
 							<reference ref="450924084"/>
 						</array>
 						<reference key="parent" ref="0"/>
@@ -773,6 +806,19 @@
 						<reference key="object" ref="370460165"/>
 						<reference key="parent" ref="294597376"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1035</int>
+						<reference key="object" ref="1068741557"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="37533427"/>
+						</array>
+						<reference key="parent" ref="786763348"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1036</int>
+						<reference key="object" ref="37533427"/>
+						<reference key="parent" ref="1068741557"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -784,6 +830,8 @@
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1.IBWindowTemplateEditedContentRect">{{357, 418}, {480, 270}}</string>
 				<integer value="1" key="1.NSWindowTemplate.visibleAtLaunch"/>
+				<string key="1035.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1036.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -819,7 +867,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1034</int>
+			<int key="maxID">1037</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -827,11 +875,16 @@
 					<string key="className">GrowlFirstLaunchWindowController</string>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="disableHistory:">id</string>
 						<string key="enableGrowlAtLogin:">id</string>
 						<string key="nextPage:">id</string>
 						<string key="openPreferences:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="disableHistory:">
+							<string key="name">disableHistory:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="enableGrowlAtLogin:">
 							<string key="name">enableGrowlAtLogin:</string>
 							<string key="candidateClassName">id</string>

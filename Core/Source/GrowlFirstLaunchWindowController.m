@@ -209,4 +209,9 @@
     [[[GrowlApplicationController sharedController] statusMenu] openGrowlPreferences:self];
 }
 
+-(IBAction)disableHistory:(id)sender
+{
+   [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
+}
+
 @end

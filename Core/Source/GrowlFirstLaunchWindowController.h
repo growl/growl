@@ -33,5 +33,6 @@
 -(IBAction)nextPage:(id)sender;
 -(IBAction)enableGrowlAtLogin:(id)sender;
 -(IBAction)openPreferences:(id)sender;
+-(IBAction)disableHistory:(id)sender;
 
 @end
