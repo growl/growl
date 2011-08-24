@@ -552,11 +552,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">enableHistory:</string>
+						<string key="label">disableHistory:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1068741557"/>
 					</object>
-					<int key="connectionID">1037</int>
+					<int key="connectionID">1038</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -867,7 +867,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1037</int>
+			<int key="maxID">1038</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
