@@ -19,6 +19,8 @@
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlWebKitPluginHandler.h"
+#import "GrowlApplicationController.h"
+#import "GrowlMenu.h"
 
 @interface GrowlPluginController (PRIVATE)
 - (void) registerDefaultPluginHandlers;
@@ -819,11 +821,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSAlertAlternateReturn) {
-		NSBundle *prefPane = [GrowlPathUtilities growlPrefPaneBundle];
+      GrowlMenu *menu = [[GrowlApplicationController sharedController] statusMenu];
 
-		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile:[prefPane bundlePath]])
-			NSLog(@"Could not open Growl PrefPane");
-	}
+		if (menu){
+         [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:2];
+         [menu openGrowlPreferences:self];
+      }
+   }
 }
 
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
