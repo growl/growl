@@ -6,8 +6,6 @@
 	<string>Smoke</string>
 	<key>GrowlStartServer</key>
 	<false/>
-	<key>GrowlRemoteRegistration</key>
-	<false/>
 	<key>GrowlEnabled</key>
 	<true/>
 	<key>GrowlEnableForward</key>

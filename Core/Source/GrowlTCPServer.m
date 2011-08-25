@@ -131,7 +131,7 @@
 {
 	NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
     if ([[newSocket connectedHost] isLocalHost] ||
-		[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey]) {
+        [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
         [[self delegate] didAcceptNewSocket:newSocket];
 	} else {
 		[newSocket disconnect];

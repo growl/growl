@@ -67,7 +67,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 		[rpw release];
 
 		//set it to the contrary value, so that -setServerEnabledFromPreferences (which compares the values) will turn the server on if necessary.
-		serverEnabled = ![[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
+		serverEnabled = ![[GrowlPreferencesController sharedController] isGrowlServerEnabled];
 		[self setServerEnabledFromPreferences];
 	}
 
@@ -175,7 +175,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 @implementation GrowlPathwayController (PRIVATE)
 
 - (void) setServerEnabledFromPreferences {
-	[self setServerEnabled:[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey]];
+	[self setServerEnabled:[[GrowlPreferencesController sharedController] isGrowlServerEnabled]];
 }
 
 @end

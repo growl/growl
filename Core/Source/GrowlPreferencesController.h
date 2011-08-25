@@ -23,7 +23,6 @@
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
-#define GrowlRemoteRegistrationKey	XSTR("GrowlRemoteRegistration")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
 #define GrowlUDPPortKey				XSTR("GrowlUDPPort")
@@ -115,9 +114,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isGrowlServerEnabled;
 - (void) setGrowlServerEnabled:(BOOL)enabled;
-
-- (BOOL) isRemoteRegistrationAllowed;
-- (void) setRemoteRegistrationAllowed:(BOOL)flag;
 
 - (BOOL) isForwardingEnabled;
 - (void) setForwardingEnabled:(BOOL)enabled;

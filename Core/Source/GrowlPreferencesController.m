@@ -387,14 +387,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 #pragma mark Remote Growling
 
-- (BOOL) isRemoteRegistrationAllowed {
-	return [self boolForKey:GrowlRemoteRegistrationKey];
-}
-
-- (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	[self setBool:flag forKey:GrowlRemoteRegistrationKey];
-}
-
 - (NSString *) remotePassword {
 	unsigned char *password;
 	UInt32 passwordLength;
@@ -491,10 +483,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
 		[self willChangeValueForKey:@"idleThreshold"];
 		[self didChangeValueForKey:@"idleThreshold"];
-	}
-	if (!object || [object isEqualToString:GrowlRemoteRegistrationKey]) {
-		[self willChangeValueForKey:@"remoteRegistrationAllowed"];
-		[self didChangeValueForKey:@"remoteRegistrationAllowed"];
 	}
 	if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
 		[self willChangeValueForKey:@"selectedPreferenceTab"];

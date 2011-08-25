@@ -11,7 +11,7 @@
 @implementation GrowlRemotePathway
 
 - (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict {
-	if (enabled && [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
+	if (enabled && [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
 		[super registerApplicationWithDictionary:dict];		
 		return YES;
 	} else {
