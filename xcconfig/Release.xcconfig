@@ -4,6 +4,8 @@
 
 #include "Common.xcconfig"
 
+CODE_SIGN_IDENTITY = 3rd Party Mac Developer Application: The Growl Project, LLC
+
 //compiler settings
 GCC_OPTIMIZATION_LEVEL = s
 GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64 NDEBUG NS_BLOCK_ASSERTIONS
