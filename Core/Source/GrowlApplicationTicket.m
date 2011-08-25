@@ -16,9 +16,7 @@
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlImageAdditions.h"
-#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
-#include "CFDictionaryAdditions.h"
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
@@ -249,7 +247,7 @@
 
 - (id) initTicketFromPath:(NSString *) ticketPath {	
 	NSURL *ticketURL = [NSURL fileURLWithPath:ticketPath isDirectory:NO];
-	NSDictionary *ticketDict = (NSDictionary *)createPropertyListFromURL(ticketURL, kCFPropertyListImmutable, NULL, NULL);
+	NSDictionary *ticketDict = [NSDictionary dictionaryWithContentsOfURL:ticketURL];
 
 	if (!ticketDict) {
 		NSLog(@"Tried to init a ticket from this file, but it isn't a ticket file: %@", ticketPath);
@@ -258,7 +256,6 @@
 	}
 
 	self = [self initWithDictionary:ticketDict];
-	[ticketDict release];
 	return self;
 }
 

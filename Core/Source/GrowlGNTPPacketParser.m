@@ -12,7 +12,7 @@
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
 #import "GrowlTicketController.h"
-#include "CFGrowlAdditions.h"
+#import "NSStringAdditions.h"
 
 @implementation GrowlGNTPPacketParser
 
@@ -78,12 +78,10 @@
 		}
 		
 	} @catch (NSException *e) {
-		NSString *addressString = createStringWithAddressData(destAddress);
-		NSString *hostName = createHostNameForAddressData(destAddress);
+		NSString *addressString = [NSString stringWithAddressData:destAddress];
+		NSString *hostName = [NSString hostNameForAddressData:destAddress];
 		NSLog(@"Warning: Exception %@ while forwarding Growl notification to %@ (%@). Is that system on and connected?",
 			  e, addressString, hostName);
-		[addressString release];
-		[hostName      release];
 	} @finally {
 		//Success!
 	}

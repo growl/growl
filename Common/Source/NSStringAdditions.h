@@ -21,4 +21,7 @@
 - (BOOL) Growl_isLikelyIPAddress;
 - (BOOL) isLocalHost;
 
++(NSString*)stringWithAddressData:(NSData*)aAddressData;
++(NSString*)hostNameForAddressData:(NSData *)aAddressData;
+
 @end

@@ -15,7 +15,6 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
-#include "CFDictionaryAdditions.h"
 
 @implementation GrowlBrushedWindowController
 

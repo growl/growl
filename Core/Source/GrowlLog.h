@@ -10,7 +10,6 @@
 #define GROWL_LOG_H
 
 #include <CoreFoundation/CoreFoundation.h>
-#include "CFGrowlAdditions.h"
 
 void GrowlLog_log(NSString *format, ...);
 void GrowlLog_logNotificationDictionary(NSDictionary *noteDict);

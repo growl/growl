@@ -32,10 +32,7 @@
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlFirstLaunchWindowController.h"
-#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
-#include "CFDictionaryAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>
 #include <string.h>
@@ -145,9 +142,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		
 		[self versionDictionary];
 
-		NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-		NSURL *fileURL = [NSURL fileURLWithPath:file];
-		NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
+		NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
 		if (defaultDefaults) {
 			[preferences registerDefaults:defaultDefaults];
 			[defaultDefaults release];
@@ -559,11 +555,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
 	if (sticky >= 0)
-		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, sticky);
+		[aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
-	setBooleanForKey(aDict, GROWL_CLICK_HANDLER_ENABLED, [ticket clickHandlersEnabled]);
+   [aDict setObject:[NSNumber numberWithBool:saveScreenshot] forKey:GROWL_SCREENSHOT_MODE];
+   [aDict setObject:[NSNumber numberWithBool:[ticket clickHandlersEnabled]] forKey:GROWL_CLICK_HANDLER_ENABLED];
 
 	/* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
 	if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
@@ -597,7 +593,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
                     //User's selected default display has gone AWOL. Change to the default default.
                     NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
                     NSURL *fileURL = [NSURL fileURLWithPath:file];
-                    NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+                   NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
                     if (defaultDefaults) {
                         displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
                         if (!displayPluginName)
@@ -1097,8 +1093,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	if (appPath) {
 		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
 		if (ticketPath) {
-			CFURLRef ticketURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ticketPath, kCFURLPOSIXPathStyle, false);
-			NSMutableDictionary *ticket = (NSMutableDictionary *)createPropertyListFromURL((NSURL *)ticketURL, kCFPropertyListMutableContainers, NULL, NULL);
+			NSURL *ticketURL = [NSURL fileURLWithPath:ticketPath];
+			NSMutableDictionary *ticket = [NSDictionary dictionaryWithContentsOfURL:ticketURL];
 
 			if (ticket) {
 				NSString *appName = [userInfo objectForKey:@"NSApplicationName"];
@@ -1132,7 +1128,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					 * we need to use LS in order to launch it with this specific
 					 *	GHA, rather than some other.
 					 */
-					CFURLRef myURL      = (CFURLRef)copyCurrentProcessURL();
+					CFURLRef myURL = (CFURLRef)[[NSBundle mainBundle] bundleURL];
 					NSArray *URLsToOpen = [NSArray arrayWithObject:[NSURL fileURLWithPath:ticketPath]];
 					struct LSLaunchURLSpec spec = {
 						.appURL = myURL,
@@ -1154,9 +1150,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					else
 						NSLog(@"%@ (located at %@) contains a ticket with no format version number; Growl requires that a registration dictionary include a format version number, so that Growl knows whether it will understand the dictionary's format. This ticket will be ignored.", appName, appPath);
 				}
-				[ticket release];
 			}
-			CFRelease(ticketURL);
 		}
 	}
 

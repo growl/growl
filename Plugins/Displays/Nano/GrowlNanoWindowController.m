@@ -16,7 +16,6 @@
 #import "GrowlFadingWindowTransition.h"
 
 #import "GrowlNotification.h"
-#include "CFDictionaryAdditions.h"
 
 @implementation GrowlNanoWindowController
 

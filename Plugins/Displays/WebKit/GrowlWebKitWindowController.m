@@ -16,8 +16,6 @@
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotification.h"
-#include "CFGrowlAdditions.h"
-#include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
 #import "NSMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"

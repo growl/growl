@@ -10,8 +10,6 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
 #import "GrowlDisplayPlugin.h"
-#include "CFDictionaryAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 
 @implementation GrowlNotificationTicket
 
@@ -151,15 +149,15 @@
 	[stickyValue  release];
    [loggingValue release];
 	if (priority != GrowlPriorityUnset)
-		setIntegerForKey(dict, @"Priority", priority);
+      [dict setObject:[NSNumber numberWithInteger:priority] forKey:@"Priority"];
 	if (displayPluginName)
-		setObjectForKey(dict, @"Display", displayPluginName);
+      [dict setObject:displayPluginName forKey:@"Display"];
 	if (notificationDescription)
-		setObjectForKey(dict, @"NotificationDescription", notificationDescription);
+      [dict setObject:notificationDescription forKey:@"NotificationDescription"];
 	if (humanReadableName)
-		setObjectForKey(dict, @"HumanReadableName", humanReadableName);
+      [dict setObject:humanReadableName forKey:@"HumanReadableName"];
 	if (sound)
-		setObjectForKey(dict, @"Sound", sound);
+      [dict setObject:sound forKey:@"Sound"];
 
 	return dict;
 }

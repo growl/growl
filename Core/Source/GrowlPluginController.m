@@ -11,8 +11,6 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlDefinesInternal.h"
-#include "CFDictionaryAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 
 #import "GrowlPathUtilities.h"
 

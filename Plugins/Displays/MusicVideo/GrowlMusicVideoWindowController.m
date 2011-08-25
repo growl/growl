@@ -13,7 +13,6 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
-#include "CFDictionaryAdditions.h"
 #import "GrowlNotification.h"
 
 @implementation GrowlMusicVideoWindowController

@@ -8,8 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #include "CFURLAdditions.h"
-#include "CFGrowlAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 #include <stdbool.h>
 #include <Carbon/Carbon.h>
 #include <unistd.h>
@@ -108,7 +106,11 @@ NSURL *createFileURLWithDockDescription(NSDictionary *dict) {
 			if (pathStyleNum)
 				CFNumberGetValue(pathStyleNum, kCFNumberIntType, &pathStyle);
 
-			char *filename = createFileSystemRepresentationOfString(path);
+			char *filename;
+         CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
+         filename  = malloc(size);
+         CFStringGetFileSystemRepresentation(path, filename, size);
+         
 			int fd = open(filename, O_RDONLY, 0);
 			free(filename);
 			if (fd != -1) {

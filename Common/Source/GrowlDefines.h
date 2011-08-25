@@ -5,8 +5,6 @@
 #ifndef _GROWLDEFINES_H
 #define _GROWLDEFINES_H
 
-#include <Growl/CFGrowlDefines.h>
-
 #ifdef __OBJC__
 #define XSTR(x) (@x)
 #else

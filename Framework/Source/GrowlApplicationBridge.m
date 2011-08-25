@@ -7,9 +7,7 @@
 //
 
 #import "GrowlApplicationBridge.h"
-#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlProcessUtilities.h"
@@ -230,13 +228,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		notifName,	 GROWL_NOTIFICATION_NAME,
 		nil];
 
-	if (title)			setObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE, title);
-	if (description)	setObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION, description);
-	if (iconData)		setObjectForKey(noteDict, GROWL_NOTIFICATION_ICON_DATA, iconData);
-	if (clickContext)	setObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT, clickContext);
-	if (priority)		setIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY, priority);
-	if (isSticky)		setBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY, isSticky);
-	if (identifier)		setObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER, identifier);
+	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
+	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	if (priority)		[noteDict setObject:[NSNumber numberWithInteger:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
+	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];
@@ -414,7 +412,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	if ((!keys) || [keys containsObject:GROWL_APP_LOCATION]) {
 		if (![mRegDict objectForKey:GROWL_APP_LOCATION]) {
-			NSURL *myURL = copyCurrentProcessURL();
+			NSURL *myURL = [[NSBundle mainBundle] bundleURL];
 			if (myURL) {
 				NSDictionary *file_data = createDockDescriptionWithURL(myURL);
 				if (file_data) {
@@ -524,9 +522,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		iconData = [(NSImage *)iconData PNGRepresentation];
 
 	if (!iconData) {
-		NSURL *URL = copyCurrentProcessURL();
-		iconData = [copyIconDataForURL(URL) autorelease];
-		[NSMakeCollectable(URL) release];
+		NSString *path = [[NSBundle mainBundle] bundlePath];
+		iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] PNGRepresentation];
 	}
 
 	return iconData;

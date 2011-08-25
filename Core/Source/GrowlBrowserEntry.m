@@ -9,8 +9,6 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlPreferencePane.h"
 #import "NSStringAdditions.h"
-#include "CFDictionaryAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 

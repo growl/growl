@@ -9,7 +9,6 @@
 #import "GrowlPropertyListFilePathway.h"
 
 #import "GrowlApplicationController.h"
-#include "CFGrowlAdditions.h"
 #import "NSStringAdditions.h"
 
 static GrowlPropertyListFilePathway *sharedController = nil;
@@ -29,8 +28,8 @@ static GrowlPropertyListFilePathway *sharedController = nil;
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 	BOOL retVal = NO;
 
-	CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);
-	NSDictionary *regDict = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+   NSURL *fileURL = [NSURL fileURLWithPath:filename];
+	NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfURL:fileURL];
 	CFRelease(fileURL);
 
 	/*GrowlApplicationBridge 0.6 communicates registration to Growl by

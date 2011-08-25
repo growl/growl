@@ -13,7 +13,6 @@
 #import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
-#include "CFDictionaryAdditions.h"
 
 @implementation GrowlNanoDisplay
 

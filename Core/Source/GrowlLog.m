@@ -86,7 +86,7 @@ static GrowlLog *singleton = nil;
 			if (fp) {
 				// NSLog already includes a timestamp; we have to fake it
 				NSDate *date = [NSDate date];
-				NSString *dateString = [createStringWithDate(date) autorelease];
+				NSString *dateString = [date descriptionWithLocale:[NSLocale currentLocale]];
 
 				fputs([dateString UTF8String], fp);
 				fputc(' ', fp);

@@ -9,8 +9,6 @@
 #import "GrowlTicketController.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
-#include "CFDictionaryAdditions.h"
-#include "CFMutableDictionaryAdditions.h"
 
 @implementation GrowlTicketController
 

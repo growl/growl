@@ -9,6 +9,8 @@
 
 #import "NSStringAdditions.h"
 #include <arpa/inet.h>
+#include <netdb.h>
+
 #import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 @implementation NSString (GrowlAdditions)
@@ -89,6 +91,44 @@
 	else {
 		return NO;
 	}
+}
+
++(NSString*)stringWithAddressData:(NSData*)aAddressData {
+	struct sockaddr *socketAddress = (struct sockaddr *)[aAddressData bytes];
+	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+	//      at max, which is 40 bytes (0-terminated)
+	// IPv4 Addresses are "255.255.255.255" at max which is smaller
+	char stringBuffer[40];
+	NSString* addressAsString = nil;
+	if (socketAddress->sa_family == AF_INET) {
+		struct sockaddr_in *ipv4 = (struct sockaddr_in *)socketAddress;
+		if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, 40))
+         addressAsString = [NSString stringWithFormat:@"%s:%d", stringBuffer, ipv4->sin_port];
+		else
+			addressAsString = @"IPv4 un-ntopable";
+	} else if (socketAddress->sa_family == AF_INET6) {
+		struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)socketAddress;
+		if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, 40))
+			// Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
+         addressAsString = [NSString stringWithFormat:@"[%s]:%d", stringBuffer, ipv6->sin6_port ];
+		else
+			addressAsString = @"IPv6 un-ntopable";
+	} else
+		addressAsString = @"neither IPv6 nor IPv4";
+   
+	return addressAsString;
+}
+
++(NSString*)hostNameForAddressData:(NSData *)aAddressData {
+	char hostname[NI_MAXHOST];
+	struct sockaddr *socketAddress = (struct sockaddr *)[aAddressData bytes];
+	if (getnameinfo(socketAddress, (socklen_t)[aAddressData length],
+                   hostname, (socklen_t)sizeof(hostname),
+                   /*serv*/ NULL, /*servlen*/ 0,
+                   NI_NAMEREQD))
+		return nil;
+	else
+      return [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
 }
 
 @end

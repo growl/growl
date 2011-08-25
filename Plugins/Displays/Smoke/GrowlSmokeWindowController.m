@@ -15,7 +15,6 @@
 #import "GrowlNotification.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
-#include "CFDictionaryAdditions.h"
 
 @implementation GrowlSmokeWindowController
 

@@ -24,7 +24,6 @@
 #import "ACImageAndTextCell.h"
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
-#include "CFGrowlAdditions.h"
 #include "GrowlPositionPicker.h"
 
 #include <Security/SecKeychain.h>
@@ -65,13 +64,10 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
     
-    CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-    CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, false);
-    NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-    CFRelease(fileURL);
+    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
+    NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
     if (defaultDefaults) {
         [preferencesController registerDefaults:defaultDefaults];
-        [defaultDefaults release];
     }
 
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];

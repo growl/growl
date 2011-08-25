@@ -13,7 +13,6 @@
 #import "GrowlBubblesDefines.h"
 #import "GrowlNotification.h"
 #import "NSWindow+Transforms.h"
-#include "CFDictionaryAdditions.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlPositionController.h"

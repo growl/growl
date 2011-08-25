@@ -12,7 +12,6 @@
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitWindowController.h"
 #import "GrowlDefines.h"
-#import "CFDictionaryAdditions.h"
 
 @implementation GrowlWebKitDisplayPlugin
 
