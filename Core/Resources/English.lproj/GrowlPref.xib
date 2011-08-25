@@ -6225,19 +6225,19 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: self</string>
+						<string key="label">enabled: preferencesController.forwardingEnabled</string>
 						<reference key="source" ref="426495938"/>
 						<reference key="destination" ref="852059746"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="426495938"/>
 							<reference key="NSDestination" ref="852059746"/>
-							<string key="NSLabel">enabled: self</string>
+							<string key="NSLabel">enabled: preferencesController.forwardingEnabled</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">self</string>
+							<string key="NSKeyPath">preferencesController.forwardingEnabled</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">2608</int>
+					<int key="connectionID">2610</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8601,7 +8601,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2608</int>
+			<int key="maxID">2610</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
