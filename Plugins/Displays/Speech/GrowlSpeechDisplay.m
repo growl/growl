@@ -61,7 +61,7 @@
         [syn startSpeakingString:summary];
         
         NSDictionary *noteDict = [notification dictionaryRepresentation];
-        if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
+        if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
             NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
             NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
             [syn startSpeakingString:summary toURL:url];

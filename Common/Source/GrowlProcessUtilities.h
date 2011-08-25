@@ -8,7 +8,7 @@
 
 #include "GrowlDefines.h"
 
-bool Growl_GetPSNForProcessWithBundlePath(STRING_TYPE bundlePath, ProcessSerialNumber *outPSN);
-bool Growl_ProcessExistsWithBundleIdentifier(STRING_TYPE bundleID);
+BOOL Growl_GetPSNForProcessWithBundlePath(NSString *bundlePath, ProcessSerialNumber *outPSN);
+BOOL Growl_ProcessExistsWithBundleIdentifier(NSString *bundleID);
 
-bool Growl_HelperAppIsRunning(void);
+BOOL Growl_HelperAppIsRunning(void);

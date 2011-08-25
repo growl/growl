@@ -22,7 +22,7 @@
 #define _CFURLStringTypeKey CFSTR("_CFURLStringType")
 
 //'alias' as in the Alias Manager.
-URL_TYPE createFileURLWithAliasData(DATA_TYPE aliasData) {
+NSURL *createFileURLWithAliasData(NSData *aliasData) {
 	if (!aliasData) {
 		NSLog(CFSTR("WARNING: createFileURLWithAliasData called with NULL aliasData"));
 		return NULL;
@@ -61,7 +61,7 @@ URL_TYPE createFileURLWithAliasData(DATA_TYPE aliasData) {
 	return url;
 }
 
-DATA_TYPE createAliasDataWithURL(URL_TYPE theURL) {
+NSData *createAliasDataWithURL(NSURL *theURL) {
 	//return NULL for non-file: URLs.
 	CFStringRef scheme = CFURLCopyScheme(theURL);
 	CFComparisonResult isFileURL = CFStringCompare(scheme, CFSTR("file"), kCFCompareCaseInsensitive);
@@ -91,7 +91,7 @@ DATA_TYPE createAliasDataWithURL(URL_TYPE theURL) {
 }
 
 //these are the type of external representations used by Dock.app.
-URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
+NSURL *createFileURLWithDockDescription(NSDictionary *dict) {
 	CFURLRef url = NULL;
 
 	CFStringRef path      = CFDictionaryGetValue(dict, _CFURLStringKey);
@@ -123,7 +123,7 @@ URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
 	return url;
 }
 
-DICTIONARY_TYPE createDockDescriptionWithURL(URL_TYPE theURL) {
+NSDictionary *createDockDescriptionWithURL(NSURL *theURL) {
 	CFMutableDictionaryRef dict;
 
 	if (!theURL) {

@@ -12,7 +12,7 @@
 
 #include <stdarg.h>
 
-void GrowlLog_log(STRING_TYPE format, ...) {
+void GrowlLog_log(NSString *format, ...) {
 	va_list args;
 	va_start(args, format);
 	
@@ -21,15 +21,15 @@ void GrowlLog_log(STRING_TYPE format, ...) {
 	va_end(args);
 }
 
-void GrowlLog_logNotificationDictionary(DICTIONARY_TYPE noteDict) {
+void GrowlLog_logNotificationDictionary(NSDictionary *noteDict) {
 	[[GrowlLog sharedController] writeNotificationDictionaryToLog:(NSDictionary *)noteDict];
 }
 
-void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict) {
+void GrowlLog_logRegistrationDictionary(NSDictionary *regDict) {
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:(NSDictionary *)regDict];
 }
 
-STRING_TYPE GrowlLog_StringFromRect(NSRect rect) {
+NSString *GrowlLog_StringFromRect(NSRect rect) {
 	if ([[GrowlLog sharedController] isLoggingEnabled])
 		return NSStringFromRect(rect);
 	else

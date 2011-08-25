@@ -29,7 +29,7 @@ char *createFileSystemRepresentationOfString(CFStringRef str) {
 	return buffer;
 }
 
-STRING_TYPE createStringWithDate(CFDateRef date) {
+NSString *createStringWithDate(CFDateRef date) {
 	CFLocaleRef locale = CFLocaleCopyCurrent();
 	CFDateFormatterRef dateFormatter = CFDateFormatterCreate(kCFAllocatorDefault,
 															 locale,
@@ -43,7 +43,7 @@ STRING_TYPE createStringWithDate(CFDateRef date) {
 	return dateString;
 }
 
-STRING_TYPE createStringWithContentsOfFile(CFStringRef filename, CFStringEncoding encoding) {
+NSString *createStringWithContentsOfFile(CFStringRef filename, CFStringEncoding encoding) {
 	CFStringRef str = NULL;
 
 	char *path = createFileSystemRepresentationOfString(filename);
@@ -64,7 +64,7 @@ STRING_TYPE createStringWithContentsOfFile(CFStringRef filename, CFStringEncodin
 	return str;
 }
 
-STRING_TYPE createStringWithStringAndCharacterAndString(STRING_TYPE str0, UniChar ch, STRING_TYPE str1) {
+NSString *createStringWithStringAndCharacterAndString(NSString *str0, UniChar ch, NSString *str1) {
 	CFStringRef cfstr0 = (CFStringRef)str0;
 	CFStringRef cfstr1 = (CFStringRef)str1;
 	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
@@ -86,14 +86,14 @@ STRING_TYPE createStringWithStringAndCharacterAndString(STRING_TYPE str0, UniCha
 	return CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, /*contentsDeallocator*/ kCFAllocatorMalloc);
 }
 
-char *copyCString(STRING_TYPE str, CFStringEncoding encoding) {
+char *copyCString(NSString *str, CFStringEncoding encoding) {
 	CFIndex size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), encoding) + 1;
 	char *buffer = calloc(size, 1);
 	CFStringGetCString(str, buffer, size, encoding);
 	return buffer;
 }
 
-STRING_TYPE copyCurrentProcessName(void) {
+NSString *copyCurrentProcessName(void) {
 	ProcessSerialNumber PSN = { 0, kCurrentProcess };
 	CFStringRef name = NULL;
 	OSStatus err = CopyProcessName(&PSN, &name);
@@ -104,7 +104,7 @@ STRING_TYPE copyCurrentProcessName(void) {
 	return name;
 }
 
-URL_TYPE copyCurrentProcessURL(void) {
+NSURL *copyCurrentProcessURL(void) {
 	ProcessSerialNumber psn = { 0, kCurrentProcess };
 	FSRef fsref;
 	CFURLRef URL = NULL;
@@ -116,14 +116,14 @@ URL_TYPE copyCurrentProcessURL(void) {
 	}
 	return URL;
 }
-STRING_TYPE copyCurrentProcessPath(void) {
+NSString *copyCurrentProcessPath(void) {
 	CFURLRef URL = copyCurrentProcessURL();
 	CFStringRef path = CFURLCopyFileSystemPath(URL, kCFURLPOSIXPathStyle);
 	CFRelease(URL);
 	return path;
 }
 
-URL_TYPE copyTemporaryFolderURL(void) {
+NSURL *copyTemporaryFolderURL(void) {
 	FSRef ref;
 	CFURLRef url = NULL;
 
@@ -135,7 +135,7 @@ URL_TYPE copyTemporaryFolderURL(void) {
 
 	return url;
 }
-STRING_TYPE copyTemporaryFolderPath(void) {
+NSString *copyTemporaryFolderPath(void) {
 	CFStringRef path = NULL;
 
 	CFURLRef url = copyTemporaryFolderURL();
@@ -147,7 +147,7 @@ STRING_TYPE copyTemporaryFolderPath(void) {
 	return path;
 }
 
-DATA_TYPE readFile(const char *filename)
+NSData *readFile(const char *filename)
 {
 	CFDataRef data;
 	// read the file into a CFDataRef
@@ -166,7 +166,7 @@ DATA_TYPE readFile(const char *filename)
 	return data;
 }
 
-URL_TYPE copyURLForApplication(STRING_TYPE appName)
+NSURL *copyURLForApplication(NSString *appName)
 {
 	CFURLRef appURL = NULL;
 	OSStatus err = LSFindApplicationForInfo(/*inCreator*/  kLSUnknownCreator,
@@ -177,7 +177,7 @@ URL_TYPE copyURLForApplication(STRING_TYPE appName)
 	return (err == noErr) ? appURL : NULL;
 }
 
-STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData) {
+NSString *createStringWithAddressData(NSData *aAddressData) {
 	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
 	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
 	//      at max, which is 40 bytes (0-terminated)
@@ -203,7 +203,7 @@ STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData) {
 	return addressAsString;
 }
 
-STRING_TYPE createHostNameForAddressData(DATA_TYPE aAddressData) {
+NSString *createHostNameForAddressData(NSData *aAddressData) {
 	char hostname[NI_MAXHOST];
 	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
 	if (getnameinfo(socketAddress, (socklen_t)CFDataGetLength(aAddressData),
@@ -215,7 +215,7 @@ STRING_TYPE createHostNameForAddressData(DATA_TYPE aAddressData) {
 		return CFStringCreateWithCString(kCFAllocatorDefault, hostname, kCFStringEncodingASCII);
 }
 
-DATA_TYPE copyIconDataForPath(STRING_TYPE path) {
+NSData *copyIconDataForPath(NSString *path) {
 	CFDataRef data = NULL;
 
 	//false is probably safest, and is harmless when the object really is a directory.
@@ -228,7 +228,7 @@ DATA_TYPE copyIconDataForPath(STRING_TYPE path) {
 	return data;
 }
 
-DATA_TYPE copyIconDataForURL(URL_TYPE URL)
+NSData *copyIconDataForURL(NSURL *URL)
 {
 	CFDataRef data = NULL;
 
@@ -264,7 +264,7 @@ DATA_TYPE copyIconDataForURL(URL_TYPE URL)
 	return data;
 }
 
-URL_TYPE createURLByMakingDirectoryAtURLWithName(URL_TYPE parent, STRING_TYPE name)
+NSURL *createURLByMakingDirectoryAtURLWithName(NSURL *parent, NSString *name)
 {
 	CFURLRef newDirectory = NULL;
 
@@ -340,7 +340,7 @@ end:
 	return newDirectory;
 }
 
-URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE dest)
+NSURL *createURLByCopyingFileFromURLToDirectoryURL(NSURL *file, NSURL *dest)
 {
 	CFURLRef destFileURL = NULL;
 
@@ -365,7 +365,7 @@ URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE des
 	return destFileURL;
 }
 
-PLIST_TYPE createPropertyListFromURL(URL_TYPE file, u_int32_t mutability, CFPropertyListFormat *outFormat, STRING_TYPE *outErrorString)
+NSObject *createPropertyListFromURL(NSURL *file, u_int32_t mutability, CFPropertyListFormat *outFormat, NSString **outErrorString)
 {
 	CFPropertyListRef plist = NULL;
 

@@ -11,15 +11,14 @@
 #define HAVE_CFURLADDITIONS_H
 
 #include <CoreFoundation/CoreFoundation.h>
-#include "CFGrowlDefines.h"
 
 //'alias' as in the Alias Manager.
-URL_TYPE createFileURLWithAliasData(DATA_TYPE aliasData);
-DATA_TYPE createAliasDataWithURL(URL_TYPE theURL);
+NSURL *createFileURLWithAliasData(NSData *aliasData);
+NSData *createAliasDataWithURL(NSURL *theURL);
 
 //these are the type of external representations used by Dock.app.
-URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict);
+NSURL *createFileURLWithDockDescription(NSDictionary *dict);
 //createDockDescriptionWithURL returns NULL for non-file: URLs.
-DICTIONARY_TYPE createDockDescriptionWithURL(URL_TYPE theURL);
+NSDictionary *createDockDescriptionWithURL(NSURL *theURL);
 
 #endif

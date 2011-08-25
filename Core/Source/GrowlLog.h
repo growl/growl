@@ -12,14 +12,14 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include "CFGrowlAdditions.h"
 
-void GrowlLog_log(STRING_TYPE format, ...);
-void GrowlLog_logNotificationDictionary(DICTIONARY_TYPE noteDict);
-void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict);
+void GrowlLog_log(NSString *format, ...);
+void GrowlLog_logNotificationDictionary(NSDictionary *noteDict);
+void GrowlLog_logRegistrationDictionary(NSDictionary *regDict);
 
 #ifdef __OBJC__
 
 //Faster than NSStringFromRect when logging is turned off.
-STRING_TYPE GrowlLog_StringFromRect(NSRect rect);
+NSString *GrowlLog_StringFromRect(NSRect rect);
 
 @interface GrowlLog: NSObject
 {

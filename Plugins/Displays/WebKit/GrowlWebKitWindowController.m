@@ -233,11 +233,11 @@
 		  frame:(WebFrame *)frame
 	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
-	int actionKey = getIntegerForKey(actionInformation, WebActionNavigationTypeKey);
+	int actionKey = [[actionInformation objectForKey:WebActionNavigationTypeKey] intValue];
 	if (actionKey == WebNavigationTypeOther) {
 		[listener use];
 	} else {
-		NSURL *url = getObjectForKey(actionInformation, WebActionOriginalURLKey);
+		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
 
 		//Ignore file URLs, but open anything else
 		if (![url isFileURL])
@@ -292,7 +292,7 @@
 	else
 		icon = (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
 	
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	int priority    = [[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 
 	NSPanel *panel = (NSPanel *)[self window];
 	WebView *view = [panel contentView];

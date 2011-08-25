@@ -11,25 +11,25 @@
 #import "GrowlDefinesInternal.h"
 
 //All arguments are optional, meaning that they can be NULL/nil.
-static bool Growl_GetPSNForProcessWithBundle(STRING_TYPE bundleIDArg, STRING_TYPE bundlePath, ProcessSerialNumber *outPSN);
+static BOOL Growl_GetPSNForProcessWithBundle(NSString *bundleIDArg, NSString *bundlePath, ProcessSerialNumber *outPSN);
 
 #pragma mark -
 
-bool Growl_GetPSNForProcessWithBundlePath(STRING_TYPE bundlePath, ProcessSerialNumber *outPSN) {
+BOOL Growl_GetPSNForProcessWithBundlePath(NSString *bundlePath, ProcessSerialNumber *outPSN) {
 	return Growl_GetPSNForProcessWithBundle(/*bundleID*/ nil, bundlePath, outPSN);
 }
 
-bool Growl_ProcessExistsWithBundleIdentifier(STRING_TYPE bundleID) {
-	return Growl_GetPSNForProcessWithBundle(bundleID, /*bundlePath*/ nil, /*outPSN*/ NULL);
+BOOL Growl_ProcessExistsWithBundleIdentifier(NSString *bundleID) {
+	return [[NSRunningApplication runningApplicationsWithBundleIdentifier:bundleID] count];
 }
 
-bool Growl_HelperAppIsRunning(void) {
+BOOL Growl_HelperAppIsRunning(void) {
 	return Growl_ProcessExistsWithBundleIdentifier(GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
 }
 
 #pragma mark -
 
-static bool Growl_GetPSNForProcessWithBundle(STRING_TYPE bundleIDArg, STRING_TYPE bundlePathArg, ProcessSerialNumber *outPSN) {
+static bool Growl_GetPSNForProcessWithBundle(NSString *bundleIDArg, NSString *bundlePathArg, ProcessSerialNumber *outPSN) {
 	NSString *theBundleIdentifier = (NSString *)bundleIDArg;
 	NSString *theBundlePath = (NSString *)bundlePathArg;
 	

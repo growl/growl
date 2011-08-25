@@ -44,17 +44,17 @@
 	if (!dict)
 		return NO;
 
-	NSNumber *versionNum = getObjectForKey(dict, GROWL_TICKET_VERSION);
+	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];
 	if ([versionNum intValue] == 1) {
-		return getObjectForKey(dict, GROWL_NOTIFICATIONS_ALL)
-			&& getObjectForKey(dict, GROWL_APP_NAME);
+		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
+			&& [dict objectForKey:GROWL_APP_NAME];
 	} else {
 		return NO;
 	}
 }
 
 + (BOOL) isKnownTicketVersion:(NSDictionary *)dict {
-	id version = getObjectForKey(dict, GROWL_TICKET_VERSION);
+	id version = [dict objectForKey:GROWL_TICKET_VERSION];
 	return version && ([version intValue] == 1);
 }
 
@@ -73,8 +73,8 @@
 	if ((self = [self init])) {
 		synchronizeOnChanges = NO;
 
-		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
-		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
+		appName = [[ticketDict objectForKey:GROWL_APP_NAME] retain];
+		appId = [[ticketDict objectForKey:GROWL_APP_ID] retain];
       NSString *host = [ticketDict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
       if ([host hasSuffix:@".local"]) {
          host = [host substringToIndex:([host length] - [@".local" length])];
@@ -138,10 +138,10 @@
 
 		BOOL doLookup = YES;
 		NSString *fullPath = nil;
-		id location = getObjectForKey(ticketDict, GROWL_APP_LOCATION);
+		id location = [ticketDict objectForKey:GROWL_APP_LOCATION];
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
-				NSDictionary *file_data = getObjectForKey((NSDictionary *)location, @"file-data");
+				NSDictionary *file_data = [(NSDictionary *)location objectForKey:@"file-data"];
 				CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
 				if (url) {
 					fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
@@ -176,13 +176,13 @@
 
 		[self setIconData:[ticketDict objectForKey:GROWL_APP_ICON_DATA]];
 
-		id value = getObjectForKey(ticketDict, UseDefaultsKey);
+		id value = [ticketDict objectForKey:UseDefaultsKey];
 		if (value)
 			useDefaults = [value boolValue];
 		else
 			useDefaults = YES;
 
-		value = getObjectForKey(ticketDict, TicketEnabledKey);
+		value = [ticketDict objectForKey:TicketEnabledKey];
 		if (value)
 			ticketEnabled = [value boolValue];
 		else
@@ -190,19 +190,19 @@
 
 		displayPluginName = [[ticketDict objectForKey:GrowlDisplayPluginKey] copy];
 
-		value = getObjectForKey(ticketDict, ClickHandlersEnabledKey);
+		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
 		if (value)
 			clickHandlersEnabled = [value boolValue];
 		else
 			clickHandlersEnabled = YES;
 		
-		value = getObjectForKey(ticketDict, PositionTypeKey);
+		value = [ticketDict objectForKey:PositionTypeKey];
 		if (value)
 			positionType = [value integerValue];
 		else
 			positionType = 0;	
 		
-		value = getObjectForKey(ticketDict, GROWL_POSITION_PREFERENCE_KEY);
+		value = [ticketDict objectForKey:GROWL_POSITION_PREFERENCE_KEY];
 		if (value)
 			selectedCustomPosition = [value integerValue];
 		else

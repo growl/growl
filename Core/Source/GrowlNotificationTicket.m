@@ -35,18 +35,18 @@
 }
 
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
-	NSString *inName = getObjectForKey(dict, @"Name");
+	NSString *inName = [dict objectForKey:@"Name"];
 
-	NSString *inHumanReadableName = getObjectForKey(dict, @"HumanReadableName");
+	NSString *inHumanReadableName = [dict objectForKey:@"HumanReadableName"];
 
-	NSString *inNotificationDescription = getObjectForKey(dict, @"NotificationDescription");
+	NSString *inNotificationDescription = [dict objectForKey:@"NotificationDescription"];
 
-	id value = getObjectForKey(dict, @"Priority");
+	id value = [dict objectForKey:@"Priority"];
 	enum GrowlPriority inPriority = value ? [value intValue] : GrowlPriorityUnset;
 
-	BOOL inEnabled = getBooleanForKey(dict, @"Enabled");
+	BOOL inEnabled = [[dict objectForKey:@"Enabled"] boolValue];
 
-	int  inSticky  = getIntegerForKey(dict, @"Sticky");
+	int  inSticky  = [[dict objectForKey:@"Sticky"] intValue];
 	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
 
 	NSString *inDisplay = [dict objectForKey:@"Display"];
@@ -54,7 +54,7 @@
 
    BOOL logEnabled = YES;
    if([dict valueForKey:@"Logging"])
-      logEnabled = getBooleanForKey(dict, @"Logging");
+       logEnabled = [[dict objectForKey:@"Logging"] boolValue];
 
 	return [self initWithName:inName
 			humanReadableName:inHumanReadableName
