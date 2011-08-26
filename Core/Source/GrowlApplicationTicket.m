@@ -140,10 +140,9 @@
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
 				NSDictionary *file_data = [(NSDictionary *)location objectForKey:@"file-data"];
-				CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
+				NSURL *url = createFileURLWithDockDescription(file_data);
 				if (url) {
-					fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
-					CFRelease(url);
+					fullPath = [url path];
 				}
 			} else if ([location isKindOfClass:[NSString class]]) {
 				fullPath = location;

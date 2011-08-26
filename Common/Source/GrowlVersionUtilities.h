@@ -1,6 +1,7 @@
 #ifndef _GROWLVERSIONUTILITIES_H
 #define _GROWLVERSIONUTILITIES_H
 
+#import <Foundation/Foundation.h>
 #include "GrowlDefines.h"
 #include <sys/types.h>
 #include <stdbool.h>
@@ -46,7 +47,7 @@ struct Version {
  *spaces are allowed around the release type, and if the release type is svn,
  *	an optional 'r' is allowed immediately before the development version.
  */
-bool parseVersionString(NSString *string, struct Version *outVersion);
+BOOL parseVersionString(NSString *string, struct Version *outVersion);
 
 //this function follows CF rules for object retention: because it is a 'create' function, you must release the string you receive.
 NSString *createVersionDescription(const struct Version v);

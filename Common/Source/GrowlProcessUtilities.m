@@ -29,7 +29,7 @@ BOOL Growl_HelperAppIsRunning(void) {
 
 #pragma mark -
 
-static bool Growl_GetPSNForProcessWithBundle(NSString *bundleIDArg, NSString *bundlePathArg, ProcessSerialNumber *outPSN) {
+static BOOL Growl_GetPSNForProcessWithBundle(NSString *bundleIDArg, NSString *bundlePathArg, ProcessSerialNumber *outPSN) {
 	NSString *theBundleIdentifier = (NSString *)bundleIDArg;
 	NSString *theBundlePath = (NSString *)bundlePathArg;
 	

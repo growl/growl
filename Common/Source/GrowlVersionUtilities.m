@@ -3,17 +3,13 @@
 
 #include "GrowlVersionUtilities.h"
 
-CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
-	CFSTR("hg"), CFSTR("d"), CFSTR("a"), CFSTR("b"), NULL,
+NSString *releaseTypeNames[numberOfReleaseTypes] = {
+	@"hg", @"d", @"a", @"b", NULL,
 };
-
-//TEMP: for debugging version parsing and comparison.
-//see GrowlApplicationBridge-Carbon.c for information about why NSLog is declared here.
-extern void NSLog(CFStringRef format, ...);
 
 #pragma mark Parsing and unparsing
 
-bool parseVersionString(CFStringRef string, struct Version *outVersion) {
+BOOL parseVersionString(NSString *string, struct Version *outVersion) {
 	if (!string) {
 		return false;
 	}
@@ -22,8 +18,8 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseType_release, myDevelopment = 0U;
 
 	CFIndex maxAllocation = getpagesize();
-	CFRange range = { 0, CFStringGetLength(string) };
-	Boolean canConvert = CFStringGetBytes(string, range,
+	CFRange range = { 0, [string length] };
+	Boolean canConvert = CFStringGetBytes((CFStringRef)string, range,
 											  kCFStringEncodingUTF8,
 											  /*lossByte*/ 0U,
 											  /*isExternalRepresentation*/ false,
@@ -41,7 +37,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 
 	CFIndex i = 0;
 	CFIndex length = 0;
-	canConvert = CFStringGetBytes(string, range,
+	canConvert = CFStringGetBytes((CFStringRef)string, range,
 								  kCFStringEncodingUTF8,
 								  /*lossByte*/ 0U,
 								  /*isExternalRepresentation*/ false,
@@ -186,7 +182,7 @@ end:
 	return parsed;
 }
 
-CFStringRef createVersionDescription(const struct Version v) {
+NSString* createVersionDescription(const struct Version v) {
 	/*the struct Version structure contains two u_int16_ts, two u_int8_ts, and one u_int32_t.
 	 *the maximum number of decimal digits in an u_int32_t is 10 (UINT_MAX=4294967295).
 	 *the maximum number of decimal digits in an u_int16_t is 5 (USHRT_MAX=65535).
@@ -208,7 +204,7 @@ CFStringRef createVersionDescription(const struct Version v) {
 		}
 		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%u"), releaseTypeNames[v.releaseType], v.development);
 	}
-	return str;
+	return (NSString*)str;
 }
 
 #pragma mark -
@@ -230,7 +226,7 @@ CFComparisonResult compareVersions(const struct Version a, const struct Version 
 	return kCFCompareEqualTo;
 }
 
-CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
+CFComparisonResult compareVersionStrings(NSString* a, NSString* b) {
 	if (a == b)  return kCFCompareEqualTo;
 	else if (!a) return kCFCompareGreaterThan;
 	else if (!b) return kCFCompareLessThan;
@@ -241,7 +237,7 @@ CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
 	parsed_a = parseVersionString(a, &v_a);
 	parsed_b = parseVersionString(b, &v_b);
 
-	CFStringRef aDesc = createVersionDescription(v_a), bDesc = createVersionDescription(v_b);
+	NSString *aDesc = createVersionDescription(v_a), *bDesc = createVersionDescription(v_b);
 
 	if (aDesc) CFRelease(aDesc);
 	if (bDesc) CFRelease(bDesc);
@@ -255,18 +251,4 @@ CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
 	}
 
 	return compareVersions(v_a, v_b);
-}
-
-//this function is explained in the header.
-CFComparisonResult compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStringRef b) {
-	if (a == b)  return kCFCompareEqualTo;
-	else if (!a) return kCFCompareGreaterThan;
-	else if (!b) return kCFCompareLessThan;
-
-	CFStringRef  one_zero = CFSTR("1.0");
-	CFStringRef zero_five = CFSTR("0.5");
-	if (CFEqual(a, one_zero)) a = zero_five;
-	if (CFEqual(b, one_zero)) b = zero_five;
-
-	return compareVersionStrings(a, b);
 }
