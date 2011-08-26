@@ -414,16 +414,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		if (![mRegDict objectForKey:GROWL_APP_LOCATION]) {
 			NSURL *myURL = [[NSBundle mainBundle] bundleURL];
 			if (myURL) {
-				NSDictionary *file_data = createDockDescriptionWithURL(myURL);
+				NSDictionary *file_data = dockDescriptionWithURL(myURL);
 				if (file_data) {
 					NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:file_data, @"file-data", nil];
-					[file_data release];
 					[mRegDict setObject:location forKey:GROWL_APP_LOCATION];
 					[location release];
 				} else {
 					[mRegDict removeObjectForKey:GROWL_APP_LOCATION];
 				}
-				[NSMakeCollectable(myURL) release];
 			}
 		}
 	}

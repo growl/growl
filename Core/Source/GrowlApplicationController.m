@@ -146,7 +146,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
 		if (defaultDefaults) {
 			[preferences registerDefaults:defaultDefaults];
-			[defaultDefaults release];
 		}
 
         //This class doesn't exist in the prefpane.
@@ -1129,9 +1128,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					 *	lookups later.
 					 */
 					NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
-					NSDictionary *file_data = createDockDescriptionWithURL(url);
+					NSDictionary *file_data = dockDescriptionWithURL(url);
 					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
-					[file_data release];
 					[ticket setObject:location forKey:GROWL_APP_LOCATION];
 					[url release];
 

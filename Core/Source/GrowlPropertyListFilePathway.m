@@ -30,7 +30,6 @@ static GrowlPropertyListFilePathway *sharedController = nil;
 
    NSURL *fileURL = [NSURL fileURLWithPath:filename];
 	NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-	CFRelease(fileURL);
 
 	/*GrowlApplicationBridge 0.6 communicates registration to Growl by
 	 *	writing a dictionary file to the temporary items folder, then
@@ -44,7 +43,6 @@ static GrowlPropertyListFilePathway *sharedController = nil;
 	if (regDict) {
 		//Register this app using the indicated dictionary
 		[self registerApplicationWithDictionary:regDict];
-		[regDict release];
 
 		retVal = YES;
 	}

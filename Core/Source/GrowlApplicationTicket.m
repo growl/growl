@@ -140,7 +140,7 @@
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
 				NSDictionary *file_data = [(NSDictionary *)location objectForKey:@"file-data"];
-				NSURL *url = createFileURLWithDockDescription(file_data);
+				NSURL *url = fileURLWithDockDescription(file_data);
 				if (url) {
 					fullPath = [url path];
 				}
@@ -291,14 +291,13 @@
 	NSDictionary *file_data = nil;
 	if (appPath) {
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
-		file_data = createDockDescriptionWithURL(url);
+		file_data = dockDescriptionWithURL(url);
 		[url release];
 	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 	if (!location)
 		location = [NSNumber numberWithBool:NO];
-	[file_data release];
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
@@ -578,12 +577,9 @@
 	if (location) {
 		if ([location isKindOfClass:[NSDictionary class]]) {
 			NSDictionary *file_data = [location objectForKey:@"file-data"];
-			CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
+			NSURL *url = fileURLWithDockDescription(file_data);
 			if (url) {
-				fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
-				if(fullPath)
-					CFMakeCollectable(fullPath);		
-				CFRelease(url);
+				fullPath = [url path];
 			}
 		} else if ([location isKindOfClass:[NSString class]]) {
 			fullPath = location;

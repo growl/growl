@@ -21,7 +21,7 @@ static NSString *_CFURLStringKey     = @"_CFURLString";
 static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
 
 //'alias' as in the Alias Manager.
-NSURL *createFileURLWithAliasData(NSData *aliasData) {
+NSURL *fileURLWithAliasData(NSData *aliasData) {
 	if (!aliasData) {
 		NSLog(@"WARNING: createFileURLWithAliasData called with NULL aliasData");
 		return NULL;
@@ -54,7 +54,8 @@ NSURL *createFileURLWithAliasData(NSData *aliasData) {
 		} else {
 			NSLog(@"in createFileURLWithAliasData: FSCopyAliasInfo returned a NULL path");
 		}
-		CFRelease(path);
+      if(path)
+         CFRelease(path);
 	}
 
 	return [url autorelease];
@@ -90,14 +91,14 @@ NSData *createAliasDataWithURL(NSURL *theURL) {
 }
 
 //these are the type of external representations used by Dock.app.
-NSURL *createFileURLWithDockDescription(NSDictionary *dict) {
+NSURL *fileURLWithDockDescription(NSDictionary *dict) {
 	NSURL *url = nil;
 
 	NSString *path      = [dict valueForKey:_CFURLStringKey];
 	NSData *aliasData = [dict valueForKey:_CFURLAliasDataKey];
 
 	if (aliasData)
-		url = createFileURLWithAliasData(aliasData);
+		url = fileURLWithAliasData(aliasData);
 
 	if (!url) {
 		if (path) {
@@ -118,6 +119,7 @@ NSURL *createFileURLWithDockDescription(NSDictionary *dict) {
 				fstat(fd, &sb);
 				close(fd);
 				url = (NSURL*)CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, pathStyle, /*isDirectory*/ (bool)(sb.st_mode & S_IFDIR));
+            [url autorelease];
 			}
 		}
 	}
@@ -125,7 +127,7 @@ NSURL *createFileURLWithDockDescription(NSDictionary *dict) {
 	return url;
 }
 
-NSDictionary *createDockDescriptionWithURL(NSURL *theURL) {
+NSDictionary *dockDescriptionWithURL(NSURL *theURL) {
 	NSMutableDictionary *dict;
 
 	if (!theURL) {
