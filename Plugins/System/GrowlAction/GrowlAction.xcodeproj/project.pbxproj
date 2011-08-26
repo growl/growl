@@ -299,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
