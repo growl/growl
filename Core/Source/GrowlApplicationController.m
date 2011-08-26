@@ -263,14 +263,33 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		if (host) CFRelease(host);
 		
 	} else if ([name Growl_isLikelyIPAddress]) {
-		struct sockaddr_in serverAddr;
-		
-		memset(&serverAddr, 0, sizeof(serverAddr));
-		serverAddr.sin_family = AF_INET;
-		serverAddr.sin_addr.s_addr = inet_addr([name UTF8String]);
-		serverAddr.sin_port = htons(GROWL_TCP_PORT);
-      return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
-	} 
+      struct in_addr addr4;
+      struct in6_addr addr6;
+      
+      if(inet_pton(AF_INET, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr4) == 1){
+         struct sockaddr_in serverAddr;
+         
+         memset(&serverAddr, 0, sizeof(serverAddr));
+         serverAddr.sin_len = sizeof(struct sockaddr_in);
+         serverAddr.sin_family = AF_INET;
+         serverAddr.sin_addr.s_addr = addr4.s_addr;
+         serverAddr.sin_port = htons(GROWL_TCP_PORT);
+         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
+      }
+      else if(inet_pton(AF_INET6, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr6) == 1){
+         struct sockaddr_in6 serverAddr;
+         
+         memset(&serverAddr, 0, sizeof(serverAddr));
+         serverAddr.sin6_len        = sizeof(struct sockaddr_in6);
+         serverAddr.sin6_family     = AF_INET6;
+         serverAddr.sin6_addr       = addr6;
+         serverAddr.sin6_port       = htons(GROWL_TCP_PORT);
+         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
+      }else{
+         NSLog(@"No address (shouldnt happen)");
+         return nil;
+      }
+   } 
 	
 	/* If we make it here, treat it as a computer name on the local network */ 
 	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:type name:name] autorelease];
