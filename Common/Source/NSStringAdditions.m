@@ -15,13 +15,6 @@
 
 @implementation NSString (GrowlAdditions)
 
-//for greater polymorphism with NSNumber.
-- (BOOL) boolValue {
-	return [self intValue] != 0
-		|| (CFStringCompare((CFStringRef)self, CFSTR("yes"), kCFCompareCaseInsensitive) == kCFCompareEqualTo)
-		|| (CFStringCompare((CFStringRef)self, CFSTR("true"), kCFCompareCaseInsensitive) == kCFCompareEqualTo);
-}
-
 - (unsigned long) unsignedLongValue {
 	return strtoul([self UTF8String], /*endptr*/ NULL, /*base*/ 0);
 }
