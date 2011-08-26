@@ -200,8 +200,8 @@
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
 	opacity *= 0.01;
 
-	NSString *titleHTML = [title escapeForHTML];
-	NSString *textHTML = [text escapeForHTML];
+	NSString *titleHTML = [title stringByEscapingForHTML];
+	NSString *textHTML = [text stringByEscapingForHTML];
 	NSString *opacityString = [NSString stringWithFormat:@"%f", opacity];
 
 	[htmlString replaceOccurrencesOfString:@"%baseurl%" withString:[baseURL absoluteString] options:0 range:NSMakeRange(0, [htmlString length])];

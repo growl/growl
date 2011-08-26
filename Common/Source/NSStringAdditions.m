@@ -10,6 +10,7 @@
 #import "NSStringAdditions.h"
 #include <arpa/inet.h>
 #include <netdb.h>
+#import "NSMutableStringAdditions.h"
 
 #import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
@@ -124,7 +125,7 @@
       return [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
 }
 
-- (NSString*)escapeForHTML
+- (NSString*)stringByEscapingForHTML
 {
     return [[[self mutableCopy] escapeForHTML] autorelease];
 }

@@ -23,6 +23,6 @@
 +(NSString*)stringWithAddressData:(NSData*)aAddressData;
 +(NSString*)hostNameForAddressData:(NSData *)aAddressData;
 
-- (NSString*)escapeForHTML;
+- (NSString*)stringByEscapingForHTML;
 
 @end
