@@ -2460,10 +2460,12 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																	<reference key="NSNextKeyView" ref="624646849"/>
 																	<reference key="NSTableView" ref="288915071"/>
 																</object>
-																<object class="_NSCornerView" key="NSCornerView">
-																	<nil key="NSNextResponder"/>
+																<object class="_NSCornerView" key="NSCornerView" id="326826528">
+																	<reference key="NSNextResponder" ref="122053016"/>
 																	<int key="NSvFlags">-2147483392</int>
 																	<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
+																	<reference key="NSSuperview" ref="122053016"/>
+																	<reference key="NSWindow"/>
 																	<reference key="NSNextKeyView" ref="605878052"/>
 																</object>
 																<array class="NSMutableArray" key="NSTableColumns">
@@ -2618,16 +2620,18 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 														<reference key="NSBGColor" ref="909300743"/>
 														<int key="NScvFlags">4</int>
 													</object>
+													<reference ref="326826528"/>
 												</array>
 												<string key="NSFrame">{{20, 116}, {519, 269}}</string>
 												<reference key="NSSuperview" ref="1013818818"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="605878052"/>
+												<reference key="NSNextKeyView" ref="326826528"/>
 												<int key="NSsFlags">133682</int>
 												<reference key="NSVScroller" ref="624646849"/>
 												<reference key="NSHScroller" ref="731637616"/>
 												<reference key="NSContentView" ref="417001831"/>
 												<reference key="NSHeaderClipView" ref="605878052"/>
+												<reference key="NSCornerView" ref="326826528"/>
 												<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 											</object>
 											<object class="NSButton" id="644823870">
@@ -5220,22 +5224,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">1388</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: preferencesController.remoteRegistrationAllowed</string>
-						<reference key="source" ref="688121374"/>
-						<reference key="destination" ref="852059746"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="688121374"/>
-							<reference key="NSDestination" ref="852059746"/>
-							<string key="NSLabel">enabled: preferencesController.remoteRegistrationAllowed</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">preferencesController.remoteRegistrationAllowed</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1389</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">showDisabledDisplays:</string>
 						<reference key="source" ref="852059746"/>
@@ -6238,6 +6226,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">2610</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: preferencesController.growlServerEnabled</string>
+						<reference key="source" ref="688121374"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="688121374"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">enabled: preferencesController.growlServerEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">preferencesController.growlServerEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2612</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8601,7 +8605,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2610</int>
+			<int key="maxID">2612</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
