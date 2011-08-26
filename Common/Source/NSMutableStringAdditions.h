@@ -12,4 +12,7 @@
 
 - (void) appendCharacter:(unichar)ch;
 
+- (NSMutableString*)escapeForJavaScript;
+- (NSMutableString*)escapeForHTML;
+
 @end

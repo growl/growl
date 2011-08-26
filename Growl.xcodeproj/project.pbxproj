@@ -283,7 +283,6 @@
 		955437E807E048CB005534FA /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FC329D07E03B3400BD8674 /* BrushedPrefs.xib */; };
 		95543EE107E04BA9005534FA /* Brushed.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 95FC347907E0458E00BD8674 /* Brushed.growlView */; };
 		955497B5081125BD0062E27B /* Plain.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 9554979A081125A60062E27B /* Plain.growlStyle */; };
-		955C236E081537280013C3CF /* CFMutableStringAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 955C236C081537280013C3CF /* CFMutableStringAdditions.c */; };
 		956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		9574B6FC0838C7A100106CA3 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */; };
 		9574B75A0838CA1E00106CA3 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
@@ -987,8 +986,6 @@
 		955A4E5C0861766D009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Core/Resources/fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4E5D0861767F009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Core/Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955A4EDC08617747009B6EA5 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = StatusItem/Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		955C236B081537280013C3CF /* CFMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMutableStringAdditions.h; path = Common/Source/CFMutableStringAdditions.h; sourceTree = "<group>"; };
-		955C236C081537280013C3CF /* CFMutableStringAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CFMutableStringAdditions.c; path = Common/Source/CFMutableStringAdditions.c; sourceTree = "<group>"; };
 		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
 		956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 		9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = Common/Source/NSWorkspaceAdditions.h; sourceTree = "<group>"; };
@@ -1415,8 +1412,6 @@
 			children = (
 				95B4A3D808D8458C009A3DDE /* CFURLAdditions.h */,
 				9574B7AC0838CB5500106CA3 /* CFURLAdditions.m */,
-				955C236B081537280013C3CF /* CFMutableStringAdditions.h */,
-				955C236C081537280013C3CF /* CFMutableStringAdditions.c */,
 			);
 			name = "CF, Carbon, Quartz";
 			sourceTree = "<group>";
@@ -3041,7 +3036,6 @@
 				07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */,
 				959DBE4C08127BA4009BB468 /* GrowlPathUtilities.m in Sources */,
 				950568E60812C2960096EC5C /* GrowlLog.m in Sources */,
-				955C236E081537280013C3CF /* CFMutableStringAdditions.c in Sources */,
 				953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */,
 				95D89B21082422A00068A4BD /* GrowlWebKitWindowController.m in Sources */,
 				95D89B22082422A10068A4BD /* GrowlWebKitWindowView.m in Sources */,

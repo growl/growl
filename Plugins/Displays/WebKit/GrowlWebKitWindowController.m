@@ -16,12 +16,12 @@
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotification.h"
-#include "CFMutableStringAdditions.h"
 #import "NSMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlImageAdditions.h"
+#import "NSStringAdditions.h"
 
 /*
  * A panel that always pretends to be the key window.
@@ -165,27 +165,27 @@
 }
 
 - (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
-	CFStringRef priorityName;
+	NSString *priorityName;
 	switch (priority) {
 		case -2:
-			priorityName = CFSTR("verylow");
+			priorityName = @"verylow";
 			break;
 		case -1:
-			priorityName = CFSTR("moderate");
+			priorityName = @"moderate";
 			break;
 		default:
 		case 0:
-			priorityName = CFSTR("normal");
+			priorityName = @"normal";
 			break;
 		case 1:
-			priorityName = CFSTR("high");
+			priorityName = @"high";
 			break;
 		case 2:
-			priorityName = CFSTR("emergency");
+			priorityName = @"emergency";
 			break;
 	}
 
-	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
+	NSMutableString *htmlString = [[templateHTML mutableCopy] autorelease];
 
 	NSString *imageMediaType = @"image/png";
 	NSData *imageData = [icon PNGRepresentation];
@@ -200,26 +200,22 @@
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
 	opacity *= 0.01;
 
-	CFStringRef titleHTML = createStringByEscapingForHTML((CFStringRef)title);
-	CFStringRef textHTML = createStringByEscapingForHTML((CFStringRef)text);
-	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
+	NSString *titleHTML = [title escapeForHTML];
+	NSString *textHTML = [text escapeForHTML];
+	NSString *opacityString = [NSString stringWithFormat:@"%f", opacity];
 
-	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,				 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("growlimage://%image%"), (CFStringRef)growlImageString, CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    (CFStringRef)titleHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     (CFStringRef)textHTML,		 CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	[htmlString replaceOccurrencesOfString:@"%baseurl%" withString:[baseURL absoluteString] options:0 range:NSMakeRange(0, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%opacity%" withString:opacityString options:0 range:NSMakeRange(0, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%priority%" withString:priorityName options:0 range:NSMakeRange(0, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"growlimage://%image%" withString:growlImageString options:0 range:NSMakeRange(0, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%title%" withString:titleHTML options:0 range:NSMakeRange(0, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%text%" withString:textHTML options:0 range:NSMakeRange(0, [htmlString length])];
 
-	CFRelease(opacityString);
-	CFRelease(titleHTML);
-	CFRelease(textHTML);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 
 	[webFrame loadHTMLString:(NSString *)htmlString baseURL:baseURL];
 	[[webFrame frameView] setAllowsScrolling:NO];
-	CFRelease(htmlString);
 }
 
 /*!

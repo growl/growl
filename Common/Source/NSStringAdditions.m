@@ -124,4 +124,9 @@
       return [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
 }
 
+- (NSString*)escapeForHTML
+{
+    return [[[self mutableCopy] escapeForHTML] autorelease];
+}
+
 @end

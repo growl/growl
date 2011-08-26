@@ -11,7 +11,6 @@
 
 @interface NSString (GrowlAdditions)
 
-- (BOOL) boolValue;
 - (unsigned long) unsignedLongValue;
 - (unsigned) unsignedIntValue;
 
@@ -23,5 +22,7 @@
 
 +(NSString*)stringWithAddressData:(NSData*)aAddressData;
 +(NSString*)hostNameForAddressData:(NSData *)aAddressData;
+
+- (NSString*)escapeForHTML;
 
 @end
