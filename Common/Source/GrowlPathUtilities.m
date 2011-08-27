@@ -25,57 +25,18 @@ static NSBundle *prefPaneBundle;
 //Returns the oldest matching process.
 + (NSBundle *) bundleForProcessWithBundleIdentifier:(NSString *)identifier
 {
-
-restart:;
-	OSStatus err;
-	NSBundle *bundle = nil;
-	struct ProcessSerialNumber psn = { 0, 0 };
-	UInt32 oldestProcessLaunchDate = UINT_MAX;
-
-	while ((err = GetNextProcess(&psn)) == noErr) {
-		struct ProcessInfoRec info = { .processInfoLength = (UInt32)sizeof(struct ProcessInfoRec) };
-		err = GetProcessInformation(&psn, &info);
-		if (err == noErr) {
-			//Compare the launch dates first, since it's cheaper than comparing bundle IDs.
-			if (info.processLaunchDate < oldestProcessLaunchDate) {
-				//This one is older (fewer ticks since startup), so this is our current prospect to be the result.
-				NSDictionary *dict = (NSDictionary *)ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-				
-				if (dict) {
-					CFMakeCollectable(dict);
-					pid_t pid = 0;
-					GetProcessPID(&psn, &pid);
-					if ([[dict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:identifier]) {
-						NSString *bundlePath = [dict objectForKey:@"BundlePath"];
-						if (bundlePath) {
-							bundle = [NSBundle bundleWithPath:bundlePath];
-							oldestProcessLaunchDate = info.processLaunchDate;
-						}
-					}
-
-					[dict release];
-				} else {
-					//ProcessInformationCopyDictionary returning NULL probably means that the process disappeared out from under us (i.e., exited) in between GetProcessInformation and ProcessInformationCopyDictionary. Start over.
-					goto restart;
-				}
-			}
-		} else {
-			if (err != noErr) {
-				//Unexpected failure of GetProcessInformation (Process Manager got confused?). Assume severe breakage and bail.
-				NSLog(@"Couldn't get information about process %u,%u: GetProcessInformation returned %i/%s", (unsigned int)psn.highLongOfPSN, (unsigned int)psn.lowLongOfPSN, (int)err, GetMacOSStatusCommentString(err));
-				err = noErr; //So our NSLog for GetNextProcess doesn't complain. (I wish I had Python's while..else block.)
-				break;
-			} else {
-				//Process disappeared out from under us (i.e., exited) in between GetNextProcess and GetProcessInformation. Start over.
-				goto restart;
-			}
-		}
-	}
-	if (err != procNotFound) {
-		NSLog(@"%s: GetNextProcess returned %i/%s", __PRETTY_FUNCTION__, (int)err, GetMacOSStatusCommentString(err));
-	}
-
-	return bundle;
+   NSArray *possibilities = [NSRunningApplication runningApplicationsWithBundleIdentifier:identifier];
+   if([possibilities count] > 0){
+      //NSLog(@"Found %lu applications for identifier %@", [possibilities count], identifier);
+      NSRunningApplication *oldest = nil;
+      for(NSRunningApplication *app in possibilities){
+         if(!oldest || [[oldest launchDate] compare:[app launchDate]] == NSOrderedDescending)
+            oldest = app;
+      }
+      if(oldest)
+         return [NSBundle bundleWithURL:[oldest bundleURL]];
+   }
+   return nil;
 }
 
 //Obtains the bundle for the active GrowlHelperApp process. Returns nil if there is no such process.
@@ -183,10 +144,7 @@ restart:;
 	if (!helperAppBundle) {
 		helperAppBundle = [self runningHelperAppBundle];
 		if (!helperAppBundle) {
-			//look in the prefpane bundle.
-			NSBundle *bundle = [GrowlPathUtilities growlPrefPaneBundle];
-			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
-			helperAppBundle = [NSBundle bundleWithPath:helperAppPath];
+			helperAppBundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 		}
 	}
 	return helperAppBundle;
