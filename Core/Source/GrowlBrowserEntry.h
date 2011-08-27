@@ -13,7 +13,8 @@
 @interface GrowlBrowserEntry : NSObject {
 	
 	NSString				*_name;
-	NSString				*_uuid;
+	NSString                *_domain;
+    NSString				*_uuid;
 	BOOL					_use;
 	BOOL					_active;
     BOOL                    _manualEntry;
@@ -37,4 +38,5 @@
 @property (assign) BOOL use;
 @property (assign) BOOL active;
 @property (assign) BOOL manualEntry;
+@property (retain) NSString *domain;
 @end

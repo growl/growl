@@ -242,7 +242,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
  * @param name The name of the server
  * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
  */
-- (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name
+- (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name withDomain:(NSString*)domain
 {
 	if ([name hasSuffix:@".local"])
 		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
@@ -290,8 +290,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       }
    } 
 	
+    NSString *machineDomain = domain;
+    if(!machineDomain)
+        machineDomain = @"local.";
 	/* If we make it here, treat it as a computer name on the local network */ 
-	NSNetService *service = [[[NSNetService alloc] initWithDomain:@"local." type:type name:name] autorelease];
+	NSNetService *service = [[[NSNetService alloc] initWithDomain:machineDomain type:type name:name] autorelease];
 	if (!service) {
 		/* No such service exists. The computer is probably offline. */
 		return nil;
@@ -363,7 +366,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	for(NSDictionary *entry in destinations) {
 		if ([[entry objectForKey:@"use"] boolValue]) {
 			//NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
-			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"]];
+			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"] withDomain:[entry objectForKey:@"domain"]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);

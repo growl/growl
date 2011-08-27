@@ -20,6 +20,7 @@
 @synthesize use = _use;
 @synthesize active = _active;
 @synthesize manualEntry = _manualEntry;
+@synthesize domain = _domain;
 
 - (id) init {
 	
@@ -35,22 +36,14 @@
 	if ((self = [self init])) {
 		NSString *uuid = [dict valueForKey:@"uuid"];
 		if(!uuid)
-		{
-			CFUUIDRef newUUID = CFUUIDCreate(kCFAllocatorDefault);
-			if(newUUID)
-			{
-				CFStringRef UUIDString = CFUUIDCreateString(kCFAllocatorDefault, newUUID);
-				[self setUuid:(NSString*)UUIDString];
-				CFRelease(newUUID);
-				CFRelease(UUIDString);
-			}
-		}
-		else
-			[self setUuid:uuid];
+			uuid = [[NSProcessInfo processInfo] globallyUniqueString];        
+        [self setUuid:uuid];
 		[self setComputerName:[dict valueForKey:@"computer"]];
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
         [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
+        [self setDomain:[dict valueForKey:@"domain"]];
+
 	}
 
 	return self;
@@ -58,18 +51,12 @@
 
 - (id) initWithComputerName:(NSString *)name {
 	if ((self = [self init])) {		
-		CFUUIDRef newUUID = CFUUIDCreate(kCFAllocatorDefault);
-		if(newUUID)
-		{
-			CFStringRef UUIDString = CFUUIDCreateString(kCFAllocatorDefault, newUUID);
-			[self setUuid:(NSString*)UUIDString];
-			CFRelease(newUUID);
-			CFRelease(UUIDString);
-		}
+        [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[self setComputerName:name];
 		[self setUse:FALSE];
 		[self setActive:TRUE];
         [self setManualEntry:NO];
+        [self setDomain:@"local."];
 	}
 
 	return self;
@@ -166,7 +153,8 @@
                                                              [self computerName], @"computer", 
                                                              [NSNumber numberWithBool:[self use]], @"use",
                                                              [NSNumber numberWithBool:[self active]], @"active",
-                                                             [NSNumber numberWithBool:[self manualEntry]], @"manualEntry", nil];
+                                                             [NSNumber numberWithBool:[self manualEntry]], @"manualEntry",
+                                                             [self domain], @"domain", nil];
 }
 
 -(BOOL)validateValue:(id *)ioValue forKey:(NSString *)inKey error:(NSError **)outError

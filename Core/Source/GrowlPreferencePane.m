@@ -805,6 +805,9 @@
 
 	// add a new entry at the end
 	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name];
+    [entry setDomain:[aNetService domain]];
+    [entry setOwner:self];
+    
 	[self willChangeValueForKey:@"services"];
 	[services addObject:entry];
 	[self didChangeValueForKey:@"services"];

@@ -725,10 +725,12 @@
  */
 - (void)errorOccurred
 {
-	NSLog (@"Error occurred: Error domain %@, code %d (%@).",
+	if([[self error] code] != 7)
+    {
+        NSLog (@"Error occurred: Error domain %@, code %d (%@).",
 		   [[self error] domain], (int)[[self error] code], [[self error] localizedDescription]);
-	[[self delegate] packet:self failedReadingWithError:[self error]];
-
+        [[self delegate] packet:self failedReadingWithError:[self error]];
+    }
 	[socket disconnectAfterWriting];
 }
 
