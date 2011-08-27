@@ -23,6 +23,8 @@ typedef enum {
     NSString *type;
     uint16_t port;
     NSNetService *netService;
+   
+   BOOL running;
 	
 	GCDAsyncSocket *asyncSocket;
 }
@@ -43,6 +45,9 @@ typedef enum {
 - (void)setPort:(uint16_t)value;
 
 - (NSNetService *)netService;
+
+- (void)publish;
+- (void)unpublish;
 
 - (BOOL)start:(NSError **)error;
 - (BOOL)stop;

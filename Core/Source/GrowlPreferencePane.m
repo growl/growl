@@ -775,8 +775,15 @@
         GrowlBrowserEntry *entry = [services objectAtIndex:rowIndex];
         if([entry manualEntry])
             [cell setImage:manualImage];
-        else
+        else{
             [cell setImage:bonjourImage];
+            if(![entry active]){
+               NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+               NSAttributedString *string = [[NSAttributedString alloc] initWithString:[entry computerName] attributes:attr];
+               return string;
+            }
+        }
+        return [entry computerName];
     }
 
 	return nil;
@@ -823,6 +830,8 @@
 	for (GrowlBrowserEntry *currentEntry in services) {
 		if ([[currentEntry computerName] isEqualToString:name]) {
 			[currentEntry setActive:NO];
+         [networkTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[services indexOfObject:currentEntry]] 
+                                     columnIndexes:[NSIndexSet indexSetWithIndex:1]];
 			break;
 		}
 	}

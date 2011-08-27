@@ -2,6 +2,7 @@
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
 #import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+#import "GrowlPreferencesController.h"
 
 /*!
  * @class GrowlTCPServer
@@ -10,10 +11,18 @@
 @implementation GrowlTCPServer
 
 - (id)init {
-    return self;
+   if((self = [super init])){
+      [[NSNotificationCenter defaultCenter] addObserver:self 
+                                               selector:@selector(preferencesChanged:) 
+                                                   name:GrowlPreferencesChanged 
+                                                 object:nil];
+      running = NO;
+   }
+   return self;
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stop];
     [domain release];
     [name release];
@@ -74,6 +83,34 @@
 	return netService;
 }
 
+- (void)publish
+{
+   // we can only publish the service if we have a type to publish with
+   if (type && running && !netService && [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
+      NSString *publishingDomain = domain ? domain : @"";
+      NSString *publishingName = nil;
+      if (name) {
+         publishingName = name;
+      } else {
+         NSString * thisHostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
+         if ([thisHostName hasSuffix:@".local"]) {
+            publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
+         }else
+            publishingName = thisHostName;
+      }
+      
+      netService = [[NSNetService alloc] initWithDomain:publishingDomain type:type name:publishingName port:port];
+      [netService publish];
+   }
+}
+
+- (void)unpublish
+{
+   [netService stop];
+   [netService release];
+   netService = nil;
+}
+
 - (BOOL)start:(NSError **)error {
 	BOOL success;
 
@@ -86,41 +123,35 @@
 		 */
 		port = [asyncSocket localPort];
 	}
-
-    // we can only publish the service if we have a type to publish with
-    if (type) {
-        NSString *publishingDomain = domain ? domain : @"";
-        NSString *publishingName = nil;
-        if (name) {
-            publishingName = name;
-        } else {
-            NSString * thisHostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
-            if ([thisHostName hasSuffix:@".local"]) {
-                publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
-            }else
-                publishingName = thisHostName;
-        }
-
-        netService = [[NSNetService alloc] initWithDomain:publishingDomain type:type name:publishingName port:port];
-        [netService publish];
-    }
-
-    return success;
+   
+   running = YES;
+   [self publish];
+   
+   return success;
 }
 
 - (BOOL)stop {
-    [netService stop];
-    [netService release];
-    netService = nil;
+   [self unpublish];
 	NSLog(@"Stop %@", self);
 	
 	[asyncSocket disconnectAfterWriting];
 	[asyncSocket release]; asyncSocket = nil;
+   running = NO;
     
 	return YES;
 }
 
 #pragma mark -
+
+-(void)preferencesChanged:(NSNotification*)note
+{
+   if(![note object] || [[note object] isEqualToString:GrowlStartServerKey]){
+      if([[GrowlPreferencesController sharedController] isGrowlServerEnabled])
+         [self publish];
+      else
+         [self unpublish];
+   }
+}
 
 /*!
  * @brief Our listening socket accepted a new socket. Pass it to our delegate (GrowlTCPPathway) for handling
