@@ -1160,7 +1160,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
 					if (err != noErr)
 						NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
-					CFRelease(myURL);
 				} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 					NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 				} else {
