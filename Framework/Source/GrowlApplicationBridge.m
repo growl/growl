@@ -26,10 +26,6 @@
 
 @interface GrowlApplicationBridge (PRIVATE)
 
-#ifdef GROWL_WITH_INSTALLER
-+ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle;
-#endif
-
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
  *	@abstract Obtain the name of the current application.
  *	@param regDict	The dictionary to search, or <code>nil</code> not to.
@@ -59,12 +55,6 @@ static id		delegate = nil;
 static BOOL		growlLaunched = NO;
 
 static NSMutableArray	*queuedGrowlNotifications = nil;
-
-#ifdef GROWL_WITH_INSTALLER
-static BOOL				userChoseNotToInstallGrowl = NO;
-static BOOL				promptedToInstallGrowl = NO;
-static BOOL				promptedToUpgradeGrowl = NO;
-#endif
 
 static BOOL registeredWithGrowl = NO;
 //Do not touch the attempts variable directly! Use the +attempts method every time, to ensure that the array exists.
@@ -174,11 +164,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					   object:nil];
 	[growlNotificationTimedOutName release];
 
-#ifdef GROWL_WITH_INSTALLER
-	//Determine if the user has previously told us not to ever request installation again
-	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation:Do Not Prompt Again"];
-#endif
-
 	[self reregisterGrowlNotifications];
 }
 
@@ -284,21 +269,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) isGrowlInstalled {
-	return ([GrowlPathUtilities growlPrefPaneBundle] != nil);
+	return ([GrowlPathUtilities helperAppBundle] != nil);
 }
 
 + (BOOL) isGrowlRunning {
 	return Growl_HelperAppIsRunning();
-}
-
-+ (void) displayInstallationPromptIfNeeded {
-#ifdef GROWL_WITH_INSTALLER
-    //if we have not already asked the user to install Growl, do it now
-    if (!promptedToInstallGrowl) {
-        [GrowlInstallationPrompt showInstallationPrompt];
-        promptedToInstallGrowl = YES;
-    }
-#endif
 }
 
 #pragma mark -
@@ -478,11 +453,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (NSDictionary *) frameworkInfoDictionary {
-#ifdef GROWL_WITH_INSTALLER
-	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlwithinstallerframework")));
-#else
 	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlframework")));
-#endif
 }
 
 #pragma mark -
@@ -581,54 +552,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	[pool drain];
 }
-
-#ifdef GROWL_WITH_INSTALLER
-/*Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can
- *	avoid prompting again this session (or ever if they checked Don't Ask Again)
- */
-+ (void) _userChoseNotToInstallGrowl {
-	//Note the user's action so we stop queueing notifications, etc.
-	userChoseNotToInstallGrowl = YES;
-
-	//Clear our queued notifications; we won't be needing them
-	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
-}
-
-// Check against our current version number and ensure the installed Growl pane is the same or later
-+ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle {
-	NSString *ourGrowlPrefPaneInfoPath;
-	NSDictionary *infoDictionary;
-	NSString *packagedVersion, *installedVersion;
-	BOOL upgradeIsAvailable;
-
-	ourGrowlPrefPaneInfoPath = [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] pathForResource:@"GrowlPrefPaneInfo"
-																												  ofType:@"plist"];
-
-	NSObject *infoPropertyList = createPropertyListFromURL([NSURL fileURLWithPath:ourGrowlPrefPaneInfoPath],
-														   kCFPropertyListImmutable,
-														   /* outFormat */ NULL, /* outErrorString */ NULL);
-	NSDictionary *infoDict = ([infoPropertyList isKindOfClass:[NSDictionary class]] ? (NSDictionary *)infoPropertyList : nil);
-
-	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-
-	infoDictionary = [growlPrefPaneBundle infoDictionary];
-	installedVersion = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
-
-	//If the installed version is earlier than our packaged version, we can offer an upgrade.
-	upgradeIsAvailable = (compareVersionStringsTranslating1_0To0_5(packagedVersion, installedVersion) == kCFCompareGreaterThan);
-	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
-		NSString	*lastDoNotPromptVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
-
-		if (!lastDoNotPromptVersion ||
-			(compareVersionStringsTranslating1_0To0_5(packagedVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan))
-		{
-			[GrowlInstallationPrompt showUpdatePromptForVersion:packagedVersion];
-			promptedToUpgradeGrowl = YES;
-		}
-	}
-	[infoDict release];
-}
-#endif
 
 #pragma mark GrowlCommunicationAttemptDelegate protocol conformance
 

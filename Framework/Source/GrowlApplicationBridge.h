@@ -23,9 +23,6 @@
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;
 
-//Internal notification when the user chooses not to install (to avoid continuing to cache notifications awaiting installation)
-#define GROWL_USER_CHOSE_NOT_TO_INSTALL_NOTIFICATION @"User chose not to install"
-
 //------------------------------------------------------------------------------
 #pragma mark -
 
@@ -565,11 +562,6 @@
  */
 - (NSAttributedString *)growlUpdateInformation;
 
-@end
-
-//private
-@interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
-+ (void) _userChoseNotToInstallGrowl;
 @end
 
 #endif /* __GrowlApplicationBridge_h__ */
