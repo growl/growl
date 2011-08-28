@@ -25,11 +25,21 @@
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "GrowlPositionPicker.h"
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
 #include <Carbon/Carbon.h>
+
+/** A reference to the SystemConfiguration dynamic store. */
+static SCDynamicStoreRef dynStore;
+
+/** Our run loop source for notification. */
+static CFRunLoopSourceRef rlSrc;
+
+static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
 
 @interface GrowlPreferencePane (PRIVATE)
 
@@ -40,10 +50,15 @@
 @implementation GrowlPreferencePane
 @synthesize displayPlugins = plugins;
 @synthesize services;
+@synthesize networkAddressString;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+   if (rlSrc)
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
+   if (dynStore)
+		CFRelease(dynStore);
 	[browser         release];
 	[services        release];
 	[pluginPrefPane  release];
@@ -97,6 +112,39 @@
 
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
+   
+   self.networkAddressString = nil;
+   
+   SCDynamicStoreContext context = {0, self, NULL, NULL, NULL};
+   
+	dynStore = SCDynamicStoreCreate(kCFAllocatorDefault,
+                                   CFBundleGetIdentifier(CFBundleGetMainBundle()),
+                                   scCallback,
+                                   &context);
+	if (!dynStore) {
+		NSLog(@"SCDynamicStoreCreate() failed: %s", SCErrorString(SCError()));
+	}
+   
+   const CFStringRef keys[1] = {
+		CFSTR("State:/Network/Interface/*"),
+	};
+	CFArrayRef watchedKeys = CFArrayCreate(kCFAllocatorDefault,
+                                          (const void **)keys,
+                                          1,
+                                          &kCFTypeArrayCallBacks);
+	if (!SCDynamicStoreSetNotificationKeys(dynStore,
+                                          NULL,
+                                          watchedKeys)) {
+		NSLog(@"SCDynamicStoreSetNotificationKeys() failed: %s", SCErrorString(SCError()));
+		CFRelease(dynStore);
+		dynStore = NULL;
+	}
+	CFRelease(watchedKeys);
+   
+   rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
+   CFRelease(rlSrc);
+
 	
 	[self setupAboutTab];
 
@@ -287,6 +335,9 @@
       else
          [historyOnOffSwitch setSelectedSegment:1];
    }
+   
+   if(!object || [object isEqualToString:GrowlStartServerKey])
+      [self updateAddresses];
     
     if(!object || [object isEqualToString:GrowlSelectedPrefPane])
         [self setSelectedTab:[preferencesController selectedPreferenceTab]];
@@ -731,6 +782,70 @@
     [self willChangeValueForKey:@"services"];
     [services addObject:newEntry];
     [self didChangeValueForKey:@"services"];
+}
+
+-(void)updateAddresses
+{
+   if(![preferencesController isGrowlServerEnabled]){
+      self.networkAddressString = nil;
+      return;
+   }
+   NSMutableString *newString = nil;
+   struct ifaddrs *interfaces = NULL;
+   struct ifaddrs *current = NULL;
+   
+   if(getifaddrs(&interfaces) == 0)
+   {
+      current = interfaces;
+      while (current != NULL) {
+         NSString *currentString = nil;
+         
+         NSString *interface = [NSString stringWithUTF8String:current->ifa_name];
+         
+         if(![interface isEqualToString:@"lo0"] && ![interface isEqualToString:@"utun0"])
+         {
+            if (current->ifa_addr->sa_family == AF_INET) {
+               char stringBuffer[INET_ADDRSTRLEN];
+               struct sockaddr_in *ipv4 = (struct sockaddr_in *)current->ifa_addr;
+               if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, INET_ADDRSTRLEN))
+                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
+            } else if (current->ifa_addr->sa_family == AF_INET6) {
+               char stringBuffer[INET6_ADDRSTRLEN];
+               struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)current->ifa_addr;
+               if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, INET6_ADDRSTRLEN))
+                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
+            }          
+            
+            if(currentString && ![currentString isLocalHost]){
+               if(!newString)
+                  newString = [[currentString mutableCopy] autorelease];
+               else
+                  [newString appendFormat:@"\n%@", currentString];
+            }
+         }
+         
+         current = current->ifa_next;
+      }
+   }
+   if(newString){
+      self.networkAddressString = newString;
+      NSLog(@"new addresses %@", newString);
+   }
+   else
+      self.networkAddressString = nil;
+   
+   freeifaddrs(interfaces);
+}
+
+static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
+	GrowlPreferencePane *prefPane = info;
+	CFIndex count = CFArrayGetCount(changedKeys);
+	for (CFIndex i=0; i<count; ++i) {
+		CFStringRef key = CFArrayGetValueAtIndex(changedKeys, i);
+      if (CFStringCompare(key, CFSTR("State:/Network/Interface"), 0) == kCFCompareEqualTo) {
+			[prefPane updateAddresses];
+		}
+	}
 }
 
 #pragma mark TableView data source methods

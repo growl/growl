@@ -78,6 +78,7 @@
     IBOutlet NSTableColumn          *serviceNameColumn;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
 	IBOutlet NSTableView			*networkTableView;
+   NSString                   *networkAddressString;
 	
 	//About box tab pane
 	IBOutlet NSTextField			*aboutVersionString;
@@ -121,6 +122,7 @@
 - (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
 
 #pragma mark "Network" tab pane
+-(void)updateAddresses;
 - (IBAction) removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;
 - (void) writeForwardDestinations;
@@ -156,5 +158,6 @@
 #pragma mark Properties
 @property (retain) NSArray *displayPlugins;
 @property (retain) NSMutableArray *services;
+@property (retain) NSString *networkAddressString;
 
 @end
