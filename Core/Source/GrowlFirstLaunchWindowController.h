@@ -7,31 +7,29 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlFirstLaunchStrings.h"
 
 @interface GrowlFirstLaunchWindowController : NSWindowController <NSWindowDelegate>
 
-@property (nonatomic, assign) IBOutlet NSView *contentView;
-@property (nonatomic, assign) IBOutlet NSView *currentContent;
-
 @property (nonatomic, assign) IBOutlet NSTextField *pageTitle;
 @property (nonatomic, assign) IBOutlet NSTextField *nextPageIntro;
+@property (nonatomic, assign) IBOutlet NSTextField *pageBody;
 
-@property (nonatomic, assign) IBOutlet NSView *welcomeView;
-@property (nonatomic, assign) IBOutlet NSView *startAtLoginView;
-@property (nonatomic, assign) IBOutlet NSView *removeOldGrowlView;
-@property (nonatomic, assign) IBOutlet NSView *whatsNewView;
-
+@property (nonatomic, assign) IBOutlet NSButton *actionButton;
 @property (nonatomic, assign) IBOutlet NSButton *continueButton;
 
-@property (nonatomic) NSUInteger state;
-@property (nonatomic) NSUInteger nextState;
+@property (nonatomic) GrowlFirstLaunchState state;
+@property (nonatomic) GrowlFirstLaunchState nextState;
 
 +(BOOL)shouldRunFirstLaunch;
 
 - (void)updateViews;
 
 -(IBAction)nextPage:(id)sender;
+-(IBAction)actionButton:(id)sender;
 -(IBAction)enableGrowlAtLogin:(id)sender;
+-(IBAction)openGrowlUninstallerPage:(id)sender;
+-(IBAction)openGrowlGNTPPage:(id)sender;
 -(IBAction)openPreferences:(id)sender;
 -(IBAction)disableHistory:(id)sender;
 
