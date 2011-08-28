@@ -625,8 +625,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
                             //Now fix the user's preferences to forget about the missing display plug-in.
                             [preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
                         }
-                        
-                        [defaultDefaults release];
                     }
                 }
             }

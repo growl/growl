@@ -895,7 +895,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             if(![entry active]){
                NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
                NSAttributedString *string = [[NSAttributedString alloc] initWithString:[entry computerName] attributes:attr];
-               return string;
+               return [string autorelease];
             }
         }
         return [entry computerName];
