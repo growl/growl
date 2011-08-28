@@ -89,20 +89,17 @@
 
 +(NSString*)stringWithAddressData:(NSData*)aAddressData {
 	struct sockaddr *socketAddress = (struct sockaddr *)[aAddressData bytes];
-	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
-	//      at max, which is 40 bytes (0-terminated)
-	// IPv4 Addresses are "255.255.255.255" at max which is smaller
-	char stringBuffer[40];
+	char stringBuffer[INET6_ADDRSTRLEN];
 	NSString* addressAsString = nil;
 	if (socketAddress->sa_family == AF_INET) {
 		struct sockaddr_in *ipv4 = (struct sockaddr_in *)socketAddress;
-		if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, 40))
+		if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, INET6_ADDRSTRLEN))
          addressAsString = [NSString stringWithFormat:@"%s:%d", stringBuffer, ipv4->sin_port];
 		else
 			addressAsString = @"IPv4 un-ntopable";
 	} else if (socketAddress->sa_family == AF_INET6) {
 		struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)socketAddress;
-		if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, 40))
+		if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, INET6_ADDRSTRLEN))
 			// Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
          addressAsString = [NSString stringWithFormat:@"[%s]:%d", stringBuffer, ipv6->sin6_port ];
 		else
