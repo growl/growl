@@ -94,7 +94,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 	[self setCanRemoveTicket:NO];
 
-	browser = [[NSNetServiceBrowser alloc] init];
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
@@ -110,10 +109,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     if([preferencesController shouldStartGrowlAtLogin])
         [startAtLoginSwitch setSelectedSegment:0];
     else
-        [startAtLoginSwitch setSelectedSegment:1];
-
-	[browser setDelegate:self];
-	[browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
+        [startAtLoginSwitch setSelectedSegment:1];   
    
    self.networkAddressString = nil;
    
@@ -217,6 +213,19 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 															name:GROWL_APP_REGISTRATION_CONF
 														  object:nil];
 }
+
+- (void)showWindow:(id)sender
+{
+   [super showWindow:sender];
+   if([preferencesController selectedPreferenceTab] == 3)
+      [self startBrowsing];
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+   [self stopBrowsing];
+}
+
 
 #pragma mark -
 
@@ -369,10 +378,13 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 - (void) writeForwardDestinations {
+   NSArray *currentNames = [[preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
 
-	for(GrowlBrowserEntry *entry in services)
-		[destinations addObject:[entry properties]];
+   [services enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([obj use] || [obj password] || [obj manualEntry] || [currentNames containsObject:[obj computerName]])
+         [destinations addObject:[obj properties]];
+   }];
 	[preferencesController setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
@@ -450,6 +462,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 -(void)setSelectedTab:(NSUInteger)tab
 {
     [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
+    if(tab == 3){
+       [self startBrowsing];
+    }else{
+       [self stopBrowsing];
+    }
 }
 
 -(IBAction)selectedTabChanged:(id)sender
@@ -798,6 +815,23 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     [self didChangeValueForKey:@"services"];
 }
 
+-(void)startBrowsing
+{
+   if(!browser){
+      browser = [[NSNetServiceBrowser alloc] init];
+      [browser setDelegate:self];
+      [browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
+   }
+}
+
+-(void)stopBrowsing
+{
+   if(browser){
+      [browser stop];
+      //Will release in stoppedBrowsing delegate
+   }
+}
+
 -(void)updateAddresses
 {
    if(![preferencesController isGrowlServerEnabled]){
@@ -924,6 +958,25 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 #pragma mark NSNetServiceBrowser Delegate Methods
 
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
+{
+   //We switched away from the network pane, remove any unused services which are not already in the file
+   NSArray *destinationNames = [[preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
+   NSMutableArray *toRemove = [NSMutableArray array];
+   [services enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![obj use] && ![obj password] && ![obj manualEntry] && ![destinationNames containsObject:[obj computerName]])
+         [toRemove addObject:obj];
+   }];
+   [self willChangeValueForKey:@"services"];
+   [services removeObjectsInArray:toRemove];
+   [self didChangeValueForKey:@"services"];
+   
+   /* Now we can get rid of the browser, otherwise we don't get this delegate call, 
+    * and possibly, something behind the scenes might not like releasing earlier*/
+   [browser release];
+    browser = nil;
+}
+
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
@@ -953,40 +1006,33 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		[self writeForwardDestinations];
 }
 
-- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
-	
+- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing 
+{
+   NSArray *destinationNames = [[preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
+	GrowlBrowserEntry *toRemove = nil;
 	NSString *name = [aNetService name];
 	for (GrowlBrowserEntry *currentEntry in services) {
 		if ([[currentEntry computerName] isEqualToString:name]) {
 			[currentEntry setActive:NO];
          [networkTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[services indexOfObject:currentEntry]] 
                                      columnIndexes:[NSIndexSet indexSetWithIndex:1]];
+         
+         /* If we dont need this one anymore, get rid of it */
+         if(!currentEntry.use && !currentEntry.password && ![destinationNames containsObject:currentEntry.computerName])
+            toRemove = currentEntry;
 			break;
 		}
 	}
+   
+   if(toRemove){
+      [self willChangeValueForKey:@"services"];
+      [services removeObject:toRemove];
+      [self didChangeValueForKey:@"services"];
+   }
 
 	if (!moreComing)
 		[self writeForwardDestinations];
 }
-
-#pragma mark Bonjour
-
-- (NSUInteger) countOfServices {
-	return [services count];
-}
-
-- (id) objectInServicesAtIndex:(unsigned)idx {
-	return [services objectAtIndex:idx];
-}
-
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)idx {
-	[services insertObject:anObject atIndex:idx];
-}
-
-- (void) replaceObjectInServicesAtIndex:(unsigned)idx withObject:(id)anObject {
-	[services replaceObjectAtIndex:idx withObject:anObject];
-}
-
 
 #pragma mark Display pop-up menus
 

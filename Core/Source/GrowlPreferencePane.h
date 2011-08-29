@@ -12,7 +12,7 @@
 
 @class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
 
-@interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate> {
+@interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate, NSWindowDelegate> {
 	int                             pid;
 
 	NSMutableArray                  *images;
@@ -125,6 +125,8 @@
 
 #pragma mark "Network" tab pane
 -(void)updateAddresses;
+-(void)startBrowsing;
+-(void)stopBrowsing;
 - (IBAction) removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;
 - (void) writeForwardDestinations;
