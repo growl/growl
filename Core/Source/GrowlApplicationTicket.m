@@ -364,9 +364,8 @@
 		pid,     @"pid",
 		nil];
 	[pid release];
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																   object:@"GrowlTicketChanged"
-																 userInfo:userInfo];
+	//this should no longer be necessary
+    //[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:@"GrowlTicketChanged" userInfo:userInfo];
 	[userInfo release];	
 }
 
