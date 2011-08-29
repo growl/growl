@@ -160,13 +160,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
-	
-    //watch for new sounds
-    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:@"/System/Library/Sounds"];
-    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:@"/Library/Sounds"];
-    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:[@"~/Library/Sounds" stringByExpandingTildeInPath]];
-    
-    
+	    
     [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
     [historyTable setAutosaveTableColumns:YES];
     
