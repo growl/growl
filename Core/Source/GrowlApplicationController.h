@@ -46,6 +46,8 @@ typedef enum {
     GrowlMenu                   *statusMenu;
     
     GrowlFirstLaunchWindowController *firstLaunchWindow;
+    
+    NSString                    *audioDeviceIdentifier;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -75,5 +77,7 @@ typedef enum {
 
 - (NSThread *)mainThread;
 	
+@property (retain) NSString                    *audioDeviceIdentifier;
 @property (retain) GrowlMenu                   *statusMenu;
+
 @end

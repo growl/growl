@@ -51,6 +51,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 @synthesize displayPlugins = plugins;
 @synthesize services;
 @synthesize networkAddressString;
+@synthesize demoSound;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -67,6 +68,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[plugins         release];
 	[currentPlugin   release];
 	[images          release];
+    [demoSound       release];
 	[super dealloc];
 }
 
@@ -159,11 +161,17 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
 	
+    //watch for new sounds
+    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:@"/System/Library/Sounds"];
+    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:@"/Library/Sounds"];
+    [[NSWorkspace sharedWorkspace] noteFileSystemChanged:[@"~/Library/Sounds" stringByExpandingTildeInPath]];
+    
+    
     [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
     [historyTable setAutosaveTableColumns:YES];
     
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
-   [serviceNameColumn setDataCell:imageTextCell];
+    [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 	    
     GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
@@ -350,6 +358,12 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		[self loadViewForDisplay:nil];
 }
 
+- (void) reloadSounds
+{
+    [self willChangeValueForKey:@"sounds"];
+    [self didChangeValueForKey:@"sounds"];
+}
+
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
@@ -393,7 +407,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 - (NSArray *) sounds {
-	NSMutableArray *soundNames = [[NSMutableArray alloc] init];
+    NSMutableArray *soundNames = [[NSMutableArray alloc] init];
 	
 	NSArray *paths = [NSArray arrayWithObjects:@"/System/Library/Sounds",
 												@"/Library/Sounds",
@@ -405,10 +419,10 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
 			if (isDirectory) {
-				[soundNames addObject:@"-"];
 				
 				NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
-
+                if([files count])
+                    [soundNames addObject:@"-"];
 				for (NSString *filename in files) {
 					NSString *file = [filename stringByDeletingPathExtension];
 			
@@ -562,8 +576,14 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 -(IBAction)playSound:(id)sender
 {
+    if(self.demoSound && [self.demoSound isPlaying])
+        [self.demoSound stop];
+
 	if([sender indexOfSelectedItem] > 0) // The 0 item is "None"
-		[[NSSound soundNamed:[[sender selectedItem] title]] play];
+    {
+        self.demoSound = [NSSound soundNamed:[[sender selectedItem] title]];		
+        [self.demoSound play];
+    }
 }
 
 - (IBAction) showApplicationConfigurationTab:(id)sender {

@@ -36,7 +36,7 @@
 	 */
 	GrowlPluginController			*pluginController;
 	GrowlPreferencesController		*preferencesController;
-   GrowlNotificationDatabase     *historyController;
+    GrowlNotificationDatabase     *historyController;
 
     IBOutlet NSToolbar              *toolbar;
     
@@ -90,6 +90,8 @@
    IBOutlet NSTableView       *historyTable;
    IBOutlet NSButton          *trimByCountCheck;
    IBOutlet NSButton          *trimByDateCheck;
+    
+    NSSound                    *demoSound;
 }
 
 - (NSString *) bundleVersion;
@@ -156,6 +158,7 @@
 - (IBAction) openGrowlBugSubmissionPage:(id)sender;
 
 #pragma mark Properties
+@property (retain) NSSound *demoSound;
 @property (retain) NSArray *displayPlugins;
 @property (retain) NSMutableArray *services;
 @property (retain) NSString *networkAddressString;

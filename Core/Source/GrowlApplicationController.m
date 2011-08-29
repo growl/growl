@@ -41,6 +41,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <CoreAudio/AudioHardware.h>
+
 //XXX Networking; move me
 #import "GCDAsyncSocket.h"
 #import "GrowlGNTPOutgoingPacket.h"
@@ -103,6 +105,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 @implementation GrowlApplicationController
 @synthesize statusMenu;
+@synthesize audioDeviceIdentifier;
 
 + (GrowlApplicationController *) sharedController {
 	return [self sharedInstance];
@@ -416,83 +419,30 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	
 #pragma mark Retrieving sounds
 
-- (OSStatus) getFSRef:(out FSRef *)outRef forSoundNamed:(NSString *)soundName {
-	BOOL foundIt = NO;
-
-	NSArray *soundTypes = [NSSound soundUnfilteredTypes];
-
-	//Throw away all the HFS types, leaving only filename extensions.
-	NSPredicate *noHFSTypesPredicate = [NSPredicate predicateWithFormat:@"NOT (self BEGINSWITH \"'\")"];
-	soundTypes = [soundTypes filteredArrayUsingPredicate:noHFSTypesPredicate];
-
-	//If there are no types left, abort.
-	if ([soundTypes count] == 0U)
-		return unknownFormatErr;
-
-	//We only want the filename extensions, not the HFS types.
-	//Also, we want the longest one last so that we can use lastObject's length to allocate the buffer.
-	NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"length" ascending:YES] autorelease];
-	NSArray *sortDescs = [NSArray arrayWithObject:sortDesc];
-	soundTypes = [soundTypes sortedArrayUsingDescriptors:sortDescs];
-
-	NSMutableArray *filenames = [NSMutableArray arrayWithCapacity:[soundTypes count]];
-	for (NSString *soundType in soundTypes) {
-		[filenames addObject:[soundName stringByAppendingPathExtension:soundType]];
-	}
-
-	//The additions are for appending '.' plus the longest filename extension.
-	size_t filenameLen = [soundName length] + 1U + [[soundTypes lastObject] length];
-	unichar *filenameBuf = malloc(filenameLen * sizeof(unichar));
-	if (!filenameBuf) return memFullErr;
-
-	FSRef folderRef;
-	OSStatus err;
-
-	err = FSFindFolder(kUserDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
-	if (err == noErr) {
-		//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-		for (NSString *filename in filenames) {
-			[filename getCharacters:filenameBuf];
-			err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
-			if (err == noErr) {
-				foundIt = YES;
-				break;
-			}
-		}
-	}
-
-	if (!foundIt) {
-		err = FSFindFolder(kLocalDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
-		if (err == noErr) {
-			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-			for (NSString *filename in filenames) {
-				[filename getCharacters:filenameBuf];
-				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
-				if (err == noErr) {
-					foundIt = YES;
-					break;
-				}
-			}
-		}
-	}
-
-	if (!foundIt) {
-		err = FSFindFolder(kSystemDomain, kSystemSoundsFolderType, kDontCreateFolder, &folderRef);
-		if (err == noErr) {
-			//Folder exists. If it didn't, FSFindFolder would have returned fnfErr.
-			for (NSString *filename in filenames) {
-				[filename getCharacters:filenameBuf];
-				err = FSMakeFSRefUnicode(&folderRef, [filename length], filenameBuf, kTextEncodingUnknown, outRef);
-				if (err == noErr) {
-					break;
-				}
-			}
-		}
-	}
-
-	free(filenameBuf);
-
-	return err;
++ (NSString*)getAudioDevice
+{
+    NSString *result = nil;
+    AudioObjectPropertyAddress propertyAddress = {kAudioHardwarePropertyDefaultSystemOutputDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
+    UInt32 propertySize;
+    
+    if(AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize) == noErr)
+    {
+        AudioObjectID deviceID;
+        if(AudioObjectGetPropertyData(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize, &deviceID) == noErr)
+        {
+            NSString *UID = nil;
+            propertySize = sizeof(UID);
+            propertyAddress.mSelector = kAudioDevicePropertyDeviceUID;
+            propertyAddress.mScope = kAudioObjectPropertyScopeGlobal;
+            propertyAddress.mElement = kAudioObjectPropertyElementMaster;
+            if (AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, NULL, &propertySize, &UID) == noErr)
+            {
+                result = [NSString stringWithString:UID];
+                CFRelease(UID);
+            }
+        }
+    }
+    return result;    
 }
 
 #pragma mark Dispatching notifications
@@ -636,22 +586,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
     
     NSString *soundName = [notification sound];
     if (soundName) {
-        NSError *error = nil;
-        NSDictionary *userInfo;
+        NSSound *sound = [NSSound soundNamed:soundName];
         
-        FSRef soundRef;
-        OSStatus err = [self getFSRef:&soundRef forSoundNamed:soundName];
-        if (err == noErr) {
-        } else {
-            userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\": %s", /*comment*/ nil), soundName, GetMacOSStatusCommentString(err)], NSLocalizedDescriptionKey,
-                        nil];
+        if (!sound) {
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
+                            nil];
+                
+                NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
+                [NSApp presentError:error];
         }
         
-        if (err != noErr) {
-            error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:userInfo];
-            [NSApp presentError:error];
-        }
+        if(!audioDeviceIdentifier)
+            self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
+        [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
+        [sound play];
+
 	}
    
    [appNotification release];
