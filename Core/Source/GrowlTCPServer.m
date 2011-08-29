@@ -87,6 +87,7 @@
 {
    // we can only publish the service if we have a type to publish with
    if (type && running && !netService && [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
+   NSLog(@"publishing");
       NSString *publishingDomain = domain ? domain : @"";
       NSString *publishingName = nil;
       if (name) {
@@ -106,6 +107,7 @@
 
 - (void)unpublish
 {
+   NSLog(@"unpublishing");
    [netService stop];
    [netService release];
    netService = nil;

@@ -45,4 +45,9 @@
     return [[GrowlPreferencesController sharedController] squelchMode];
 }
 
+- (BOOL)allowsIncomingNetwork
+{
+   return [[GrowlPreferencesController sharedController] isGrowlServerEnabled];
+}
+
 @end

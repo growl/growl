@@ -15,11 +15,20 @@
             <responds-to command="resume">
                 <cocoa method=""/>
             </responds-to>
+            <responds-to command="disable incoming network">
+                <cocoa method=""/>
+            </responds-to>
+            <responds-to command="enable incoming network">
+               <cocoa method=""/>
+            </responds-to>
             <responds-to command="close all notifications">
                 <cocoa method=""/>
             </responds-to>
-            <property name="is paused" code="paus" type="boolean" access="r" description="Is growl paused?">
+            <property name="is paused" code="paus" type="boolean" access="r" description="Is Growl paused?">
                 <cocoa key="paused"/>
+            </property>
+            <property name="allows incoming network" code="innt" type="boolean" access="r" description="Is Growl accepting notifications from the network?">
+               <cocoa key="allowsIncomingNetwork"/>
             </property>
         </class>
         <command name="close all notifications" code="closeall" description="close all on-screen notifications">
@@ -30,6 +39,12 @@
         </command>
         <command name="resume" code="resumpls" description="Starts display of subsequent incoming notifications">
             <cocoa class="GrowlControlResumeScriptCommand"/>
+        </command>
+        <command name="disable incoming network" code="pausinnt" description="Disables incoming network notifications">
+           <cocoa class="GrowlControlDisableInNetworkScriptCommand"/>
+        </command>
+        <command name="enable incoming network" code="resuinnt" description="Enables incoming network notifications">
+           <cocoa class="GrowlControlEnableInNetworkScriptCommand"/>
         </command>
     </suite>
     <suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">
