@@ -131,12 +131,6 @@
 - (IBAction)newManualForwader:(id)sender;
 - (void) writeForwardDestinations;
 
-- (NSMutableArray *) services;
-- (void) setServices:(NSMutableArray *)theServices;
-- (NSUInteger) countOfServices;
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
-- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
-
 #pragma mark "Display Options" tab pane
 - (IBAction) showDisabledDisplays:(id)sender;
 - (IBAction) endDisabledDisplays:(id)sender;
