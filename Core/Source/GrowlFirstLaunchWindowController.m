@@ -216,10 +216,9 @@
     [preferences setAllowStartAtLogin:YES];
 }
 
-/*TODO: MAKE POINT AT RIGHT PAGE*/
 -(IBAction)openGrowlUninstallerPage:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
 }
 
 /*TODO: MAKE POINT AT RIGHT PAGE*/
