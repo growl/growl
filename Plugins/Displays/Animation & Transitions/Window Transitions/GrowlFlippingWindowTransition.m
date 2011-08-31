@@ -23,10 +23,10 @@
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-				[aWindow setScaleX:(flipsX ? inProgress : 1.0) Y:(flipsY ? inProgress : 1.0)];
+				//[aWindow setScaleX:(flipsX ? inProgress : 1.0) Y:(flipsY ? inProgress : 1.0)];
 				break;
 			case GrowlReverseTransition:
-				[aWindow setScaleX:(flipsX ? 1.0 - inProgress : 1.0) Y:(flipsY ? 1.0 - inProgress : 1.0)];
+				//[aWindow setScaleX:(flipsX ? 1.0 - inProgress : 1.0) Y:(flipsY ? 1.0 - inProgress : 1.0)];
 				break;
 			default:
 				break;
