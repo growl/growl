@@ -7,7 +7,6 @@
 //
 
 #import "GrowlShrinkingWindowTransition.h"
-#import "NSWindow+Transforms.h"
 
 
 @implementation GrowlShrinkingWindowTransition

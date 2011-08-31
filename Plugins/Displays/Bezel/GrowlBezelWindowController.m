@@ -9,7 +9,6 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelWindowView.h"
 #import "GrowlBezelPrefs.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
@@ -66,7 +65,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:GrowlVisualDisplayWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];

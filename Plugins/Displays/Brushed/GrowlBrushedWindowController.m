@@ -12,7 +12,6 @@
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlNotification.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 
@@ -54,7 +53,7 @@
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setLevel:GrowlVisualDisplayWindowLevel];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];

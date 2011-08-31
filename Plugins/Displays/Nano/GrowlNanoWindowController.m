@@ -10,7 +10,6 @@
 #import "GrowlNanoWindowController.h"
 #import "GrowlNanoWindowView.h"
 #import "GrowlNanoPrefs.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
@@ -62,7 +61,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSFloatingWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];

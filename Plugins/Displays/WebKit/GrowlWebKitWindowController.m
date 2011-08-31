@@ -10,7 +10,6 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitDefines.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
@@ -112,7 +111,7 @@
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:GrowlVisualDisplayWindowLevel];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setCanHide:NO];

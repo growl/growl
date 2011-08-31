@@ -7,7 +7,6 @@
 //
 
 #import "GrowlFlippingWindowTransition.h"
-#import "NSWindow+Transforms.h"
 
 @implementation GrowlFlippingWindowTransition
 
