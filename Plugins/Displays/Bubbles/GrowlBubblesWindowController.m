@@ -12,7 +12,6 @@
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
 #import "GrowlNotification.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlPositionController.h"
@@ -52,7 +51,7 @@
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:GrowlVisualDisplayWindowLevel];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setAlphaValue:0.0];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
