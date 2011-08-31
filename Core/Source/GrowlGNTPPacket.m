@@ -244,9 +244,9 @@
 		GNTPKey *key = [[[GNTPKey alloc] init] autorelease];
 		
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
-		NSString *packetEncryptionAlgorithm = [encryptionSubstrings objectAtIndex:0];
+		NSString *packetEncryptionAlgorithm = [[encryptionSubstrings objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
       
-      if(![packetEncryptionAlgorithm isEqual:GNTPNone] && [[[self socket] connectedHost] isLocalHost]){
+      if(![packetEncryptionAlgorithm isEqualToString:GrowlGNTPNone] && [[[self socket] connectedHost] isLocalHost]){
          NSLog(@"LocalHost with encryption %@, for now ignoring", packetEncryptionAlgorithm);
       }
       
