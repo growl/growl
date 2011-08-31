@@ -204,10 +204,10 @@
 	}
 	
 	/* Set up to listen again on the same socket with a new packet */
-	GrowlGNTPPacket *newPacket = [GrowlGNTPPacket networkPacketForSocket:[packet socket]];
+	/*GrowlGNTPPacket *newPacket = [GrowlGNTPPacket networkPacketForSocket:[packet socket]];
 	[newPacket setDelegate:self];	
 	[currentNetworkPackets setObject:newPacket
-							  forKey:[newPacket packetID]];
+							  forKey:[newPacket packetID]];*/
 
 	/* And stop caring about the old packet if we just received a callback */
 	if ([packet packetType] == GrowlCallbackPacketType) {
@@ -215,7 +215,7 @@
 	}
 
 	/* Now await incoming data using the new packet */
-	[newPacket startProcessing];
+	//[newPacket startProcessing];
 }
 
 /*!
