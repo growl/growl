@@ -1,4 +1,4 @@
-//
+﻿//
 //  GrowlApplicationController.m
 //  Growl
 //
@@ -924,7 +924,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	NSString *pathExtension = [filename pathExtension];
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
-		//If the auto-quit flag is set, it's probably because we are not the real GHA�we're some other GHA that a broken (pre-1.1.3) GAB opened this file with. If that's the case, find the real one and open the file with it.
+		//If the auto-quit flag is set, it's probably because we are not the real GHA—we're some other GHA that a broken (pre-1.1.3) GAB opened this file with. If that's the case, find the real one and open the file with it.
 		BOOL registerItOurselves = YES;
 		NSString *realHelperAppBundlePath = nil;
 
