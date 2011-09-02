@@ -110,25 +110,18 @@ namespace "package" do
 		FileUtils.cd("#{DESTDIR}/SDK")
 		FileUtils.mkdir_p("Developer Tools")
 		FileUtils.mkdir_p("Framework")
-		FileUtils.mkdir_p("Framework/Source")
+		FileUtils.mkdir_p("Framework/Legacy")
 		FileUtils.mkdir_p("Bindings")
 		
 		#copy over the framework source
-		FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.m", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefines.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefinesInternal.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.m", "Framework/Source") 
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlAdditions.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlAdditions.c", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFGrowlDefines.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFURLAdditions.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFURLAdditions.c", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFMutableDictionaryAdditions.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Common/Source/CFMutableDictionaryAdditions.c", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Core/Source/GrowlPreferencesController.h", "Framework/Source")
-		FileUtils.cp("#{SRCROOT}/Core/Source/GrowlTicketController.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.m", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefines.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefinesInternal.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.m", "Framework/Source") 
+		#FileUtils.cp("#{SRCROOT}/Core/Source/GrowlPreferencesController.h", "Framework/Source")
+		#FileUtils.cp("#{SRCROOT}/Core/Source/GrowlTicketController.h", "Framework/Source")
 
 		#copy over the bindings
 		FileUtils.cp_r("#{SRCROOT}/Bindings", ".")
@@ -136,6 +129,9 @@ namespace "package" do
 		#copy over the framework
 		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework")
 		
+		#copy over the 1.2.2 framework
+		FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
+
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
 		
