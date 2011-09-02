@@ -18,7 +18,7 @@
 	NSString *responseParseErrorString, *bogusResponse;
 	NSString *callbackType;
 	NSMutableArray *callbackHeaderItems;
-	BOOL attemptSuceeded;
+	BOOL attemptSucceeded;
 }
 
 //Lazily constructs the packet for self.dictionary.

@@ -74,7 +74,7 @@ enum {
 
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
 #define CRLF "\x0D\0x0A"
-	[sock readDataToData:[@CRLF dataUsingEncoding:NSUTF8StringEncoding] withTimeout:10.0 tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:10.0 tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
@@ -89,10 +89,13 @@ enum {
 
 	NSScanner *scanner = readString ? [[[NSScanner alloc] initWithString:readString] autorelease] : nil;
 
-	if (![scanner scanString:@"GNTP/1.0 " intoString:NULL])
+	if (![scanner scanString:@"GNTP/1.0 " intoString:NULL]){
 		[self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
+      [socket disconnect];
+      return;
+   }
 
-	else if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {
+	if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {
 		NSMutableCharacterSet *responseTypeCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
 		[responseTypeCharacters addCharactersInString:@"-"];
 
@@ -106,10 +109,10 @@ enum {
 			BOOL closeConnection = NO;
 
 			if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
-				attemptSuceeded = YES;
+				attemptSucceeded = YES;
 
 				closeConnection = [self expectsCallback];
-
+            [self succeeded];
 			} else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {
 				NSString *errorString = nil;
 				[scanner scanUpToString:@CRLF intoString:&errorString];
@@ -127,13 +130,13 @@ enum {
 			}
 
 			if (closeConnection)
-				[socket disconnectAfterReading];
+				[socket disconnect];
 		}
 
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
 		if ([readString isEqualToString:@CRLF]) {
 			//Empty line: End of headers.
-			[sock disconnectAfterReading];
+			[sock disconnect];
 		} else {
 			NSError *headerItemError = nil;
 			GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
@@ -142,7 +145,7 @@ enum {
 				[callbackHeaderItems addObject:headerItem];
 			else {
 				self.error = headerItemError;
-				attemptSuceeded = NO;
+				attemptSucceeded = NO;
 			}
 			
 			[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
@@ -152,7 +155,7 @@ enum {
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
 	NSLog(@"Got disconnected: %@", socketError);
-	if (!attemptSuceeded) {
+	if (!attemptSucceeded) {
 		if (!socketError) {
 			NSDictionary *dict = [NSDictionary dictionaryWithObject:self.responseParseErrorString forKey:NSLocalizedDescriptionKey];
 			socketError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:dict];
