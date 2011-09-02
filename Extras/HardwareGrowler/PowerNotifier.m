@@ -13,8 +13,6 @@
 
 #include "AppController.h"
 
-extern void NSLog(CFStringRef format, ...);
-
 static CFRunLoopSourceRef powerNotifierRunLoopSource = NULL;
 static HGPowerSource lastPowerSource;
 static CFBooleanRef lastChargingState;

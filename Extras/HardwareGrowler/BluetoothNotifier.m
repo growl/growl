@@ -4,8 +4,6 @@
 #include <IOBluetooth/Bluetooth.h>
 #include <IOBluetooth/IOBluetoothUserLib.h>
 
-extern void NSLog(CFStringRef format, ...);
-
 static IOBluetoothUserNotificationRef	connectionNotification;
 static Boolean							initializing;
 
@@ -18,7 +16,7 @@ static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotification
 }
 
 static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
-#pragma unused(userRefCon,status,inRef)
+#pragma unused(userRefCon,inRef)
 	// NSLog(@"BT Device connection: %@" , [device name]);
 	Boolean keyExistsAndHasValidFormat;
 	if (!initializing || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))

@@ -9,8 +9,6 @@
 #include "SyncNotifier.h"
 #include "AppController.h"
 
-extern void NSLog(CFStringRef format, ...);
-
 static void syncStarted(CFNotificationCenterRef center,
 						void *observer,
 						CFStringRef name,

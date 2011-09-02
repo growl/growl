@@ -2,7 +2,7 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOMessage.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
-#include <CFGrowlAdditions.h>
+//#include <CFGrowlAdditions.h>
 #include "FireWireNotifier.h"
 #include "USBNotifier.h"
 #include "BluetoothNotifier.h"
@@ -80,74 +80,57 @@ static BOOL					sleeping;
 
 #pragma mark Icons
 
-static CFDataRef firewireLogo(void)
+static NSData* firewireLogo(void)
 {
-	static CFDataRef firewireLogoData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* firewireLogoData = nil;
 
 	if (!firewireLogoData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-												 CFSTR("FireWireLogo"),
-												 CFSTR("png"),
-												 /*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			firewireLogoData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+      NSString *path = [[NSBundle mainBundle] pathForImageResource:@"FireWireLogo"];
+      if(path)
+         firewireLogoData = [[NSData alloc] initWithContentsOfFile:path];
 	}
 
 	return firewireLogoData;
 }
 
-static CFDataRef usbLogo(void)
+static NSData* usbLogo(void)
 {
-	static CFDataRef usbLogoData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* usbLogoData = nil;
 
 	if (!usbLogoData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("usbLogoWhite"),
-													CFSTR("png"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			usbLogoData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+      NSString *path = [[NSBundle mainBundle] pathForImageResource:@"usbLogoWhite"];
+		if (path)
+         usbLogoData = [[NSData alloc] initWithContentsOfFile:path];
 	}
 
 	return usbLogoData;
 }
 
-static CFDataRef bluetoothLogo(void)
+static NSData* bluetoothLogo(void)
 {
-	static CFDataRef bluetoothLogoData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* bluetoothLogoData = nil;
 
 	if (!bluetoothLogoData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("BluetoothLogo"),
-													CFSTR("png"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			bluetoothLogoData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+		NSString* path = [[NSBundle mainBundle] pathForImageResource:@"BluetoothLogo"];
+		if (path)
+         bluetoothLogoData = [[NSData alloc] initWithContentsOfFile:path];
 	}
 
 	return bluetoothLogoData;
 }
 
-static CFDataRef airportIcon(void)
+static NSData* airportIcon(void)
 {
-	static CFDataRef airportIconData = NULL;
+	static NSData* airportIconData = nil;
 
 	if (!airportIconData) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Airport Utility.app");
-		if (appURL) {
-			airportIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-			CFRelease(appURL);
+      NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"AirPort Utility.app"];
+		if (path) {
+			airportIconData = [[NSData alloc] initWithContentsOfFile:path];
 		} else {
-			appURL = (CFURLRef)copyURLForApplication(@"Airport Admin Utility.app");
-			if (appURL) {
-				airportIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-				CFRelease(appURL);
+         path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Airport Admin Utility.app"];
+			if (path) {
+            airportIconData = [[NSData alloc] initWithContentsOfFile:path];
 			}			
 		}
 	}
@@ -155,85 +138,68 @@ static CFDataRef airportIcon(void)
 	return airportIconData;
 }
 
-static CFDataRef ipIcon(void)
+static NSData* ipIcon(void)
 {
-	static CFDataRef ipIconData = NULL;
+	static NSData* ipIconData = nil;
 
 	if (!ipIconData) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Network Utility.app");
-		if (appURL) {
-			ipIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-			CFRelease(appURL);
+      NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Network Utility.app"];
+		if (path) {
+			ipIconData = [[NSData alloc] initWithContentsOfFile:path];
 		}
 	}
 
 	return ipIconData;
 }
 
-static CFDataRef iSyncIcon(void)
+static NSData* iSyncIcon(void)
 {
-	static CFDataRef iSyncIconData = NULL;
+	static NSData* iSyncIconData = NULL;
 
 	if (!iSyncIconData) {
-		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"iSync.app");
-		if (appURL) {
-			iSyncIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
-			CFRelease(appURL);
+      NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iSync.app"];
+		if (path) {
+			iSyncIconData = [[NSData alloc] initWithContentsOfFile:path];
 		}
 	}
 
 	return iSyncIconData;
 }
 
-static CFDataRef powerBatteryIcon(void)
+static NSData* powerBatteryIcon(void)
 {
-	static CFDataRef batteryIconData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* batteryIconData = NULL;
 
 	if (!batteryIconData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("Power-Battery"),
-													CFSTR("png"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			batteryIconData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+      NSString *path = [[NSBundle mainBundle] pathForImageResource:@"Power-Battery"];
+      if(path)
+         batteryIconData = [[NSData alloc] initWithContentsOfFile:path];
 	}
 
 	return batteryIconData;
 }
 
-static CFDataRef powerACIcon(void)
+static NSData* powerACIcon(void)
 {
-	static CFDataRef ACPowerIconData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* ACPowerIconData = NULL;
 
 	if (!ACPowerIconData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("Power-AC"),
-													CFSTR("png"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			ACPowerIconData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
-	}
+      NSString *path = [[NSBundle mainBundle] pathForImageResource:@"Power-AC"];
+      if(path)
+         ACPowerIconData = [[NSData alloc] initWithContentsOfFile:path];
+   }
 
 	return ACPowerIconData;
 }
 
-static CFDataRef powerACChargingIcon(void)
+static NSData* powerACChargingIcon(void)
 {
-	static CFDataRef ACChargingPowerIconData = NULL;
-	char imagePath[PATH_MAX];
+	static NSData* ACChargingPowerIconData = NULL;
 
 	if (!ACChargingPowerIconData) {
-		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
-													CFSTR("Power-ACCharging"),
-													CFSTR("png"),
-													/*subDirName*/ NULL);
-		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
-			ACChargingPowerIconData = (CFDataRef)readFile(imagePath);
-		CFRelease(imageURL);
+      NSString *path = [[NSBundle mainBundle] pathForImageResource:@"Power-ACCharging"];
+      if(path)
+         ACChargingPowerIconData = [[NSData alloc] initWithContentsOfFile:path];
 	}
 
 	return ACChargingPowerIconData;
@@ -537,7 +503,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 	NSString		*title = nil;
 	NSMutableString *description = [NSMutableString string];
 	NSString		*notificationName = nil;
-	CFDataRef		imageData = NULL;
+	NSData		*imageData = nil;
 
 	BOOL		haveBatteryTime = (batteryTime != -1);
 	BOOL		haveBatteryPercentage = (batteryPercentage != -1);

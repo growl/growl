@@ -5,7 +5,6 @@
 #include <IOKit/usb/IOUSBLib.h>
 #include <IOKit/usb/USB.h>
 
-extern void NSLog(CFStringRef format, ...);
 
 static IONotificationPortRef	ioKitNotificationPort;
 static CFRunLoopSourceRef		notificationRunLoopSource;
@@ -27,7 +26,7 @@ static void usbDeviceAdded(void *refCon, io_iterator_t iterator) {
 			//	but apparently not firewire
 			nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 			if (nameResult != KERN_SUCCESS) {
-				NSLog(CFSTR("%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x"), __PRETTY_FUNCTION__, thisObject, nameResult);
+				NSLog(@"%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x", __PRETTY_FUNCTION__, (void*)thisObject, nameResult);
 				continue;
 			}
 
@@ -66,7 +65,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 		//	but apparently not firewire
 		nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 		if (nameResult != KERN_SUCCESS) {
-			NSLog(CFSTR("%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x"), __PRETTY_FUNCTION__, thisObject, nameResult);
+			NSLog(@"%s: Could not get name for USB object %p: IORegistryEntryGetName returned 0x%x", __PRETTY_FUNCTION__, (void*)thisObject, nameResult);
 			continue;
 		}
 
@@ -115,7 +114,7 @@ static void registerForUSBNotifications(void) {
 													  &addedIterator);
 
 	if (matchingResult)
-		NSLog(CFSTR("matching notification registration failed: %d"), matchingResult);
+		NSLog(@"matching notification registration failed: %d", matchingResult);
 
 	//	Prime the Notifications (And Deal with the existing devices)...
 	usbDeviceAdded(NULL, addedIterator);
@@ -136,7 +135,7 @@ static void registerForUSBNotifications(void) {
 	// we call our device removed method here...
 	//
 	if (kIOReturnSuccess != removeNoteResult)
-		NSLog(CFSTR("Couldn't add device removal notification"));
+		NSLog(@"Couldn't add device removal notification");
 	else
 		usbDeviceRemoved(NULL, removedIterator);
 

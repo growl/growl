@@ -8,7 +8,7 @@
 
 #import "VolumeNotifier.h"
 #import "AppController.h"
-#include "CFGrowlAdditions.h"
+//#include "CFGrowlAdditions.h"
 
 // wait 10 minutes for a corresponding did unmount notification
 #define VolumeNotifierUnmountWaitSeconds	600.0
@@ -56,7 +56,7 @@ static NSData *mountIconData(void)
 - (id) initForMountWithPath:(NSString *)aPath {
 	if ((self = [self initWithPath:aPath])) {
 		if (path) {
-			iconData = copyIconDataForPath(path);
+			iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] retain];
 		} else {
 			iconData = [mountIconData() retain];
 		}
@@ -69,7 +69,7 @@ static NSData *mountIconData(void)
 	if ((self = [self initWithPath:aPath])) {
 		if (path) {
 			//Get the icon for the volume.
-			NSImage *icon = [[[NSImage alloc] initWithData:[copyIconDataForPath(path) autorelease]] autorelease];
+			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
 			NSSize iconSize = [icon size];
 			//Also get the standard Eject icon.
 			NSImage *ejectIcon = ejectIconImage();

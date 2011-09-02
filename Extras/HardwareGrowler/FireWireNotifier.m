@@ -2,7 +2,6 @@
 #include "AppController.h"
 #include <IOKit/IOKitLib.h>
 
-extern void NSLog(CFStringRef format, ...);
 
 static IONotificationPortRef			ioKitNotificationPort;
 static CFRunLoopSourceRef				notificationRunLoopSource;
@@ -16,7 +15,7 @@ static CFStringRef nameForFireWireObject(io_object_t thisObject) {
 
 	nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 	if (nameResult != KERN_SUCCESS) {
-		NSLog(CFSTR("Could not get name for FireWire object: IORegistryEntryGetName returned 0x%x"), nameResult);
+		NSLog(@"Could not get name for FireWire object: IORegistryEntryGetName returned 0x%x", nameResult);
 		return NULL;
 	}
 	CFStringRef tempDeviceName = CFStringCreateWithCString(kCFAllocatorDefault,
@@ -106,7 +105,7 @@ static void registerForFireWireNotifications(void) {
 													  &addedIterator);
 
 	if (matchingResult)
-		NSLog(CFSTR("matching notification registration failed: %d)"), matchingResult);
+		NSLog(@"matching notification registration failed: %d)", matchingResult);
 
 	//	Prime the notifications (And deal with the existing devices)...
 	fwDeviceAdded(NULL, addedIterator);
@@ -127,7 +126,7 @@ static void registerForFireWireNotifications(void) {
 	// we call our device removed method here...
 	//
 	if (kIOReturnSuccess != removeNoteResult)
-		NSLog(CFSTR("Couldn't add device removal notification"));
+		NSLog(@"Couldn't add device removal notification");
 	else
 		fwDeviceRemoved(NULL, removedIterator);
 
