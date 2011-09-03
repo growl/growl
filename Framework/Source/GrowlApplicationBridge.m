@@ -63,6 +63,8 @@ static NSMutableArray *_attempts = nil;
 //used primarily by GIP, but could be useful elsewhere.
 static BOOL		registerWhenGrowlIsReady = NO;
 
+static BOOL    attemptingToRegister = NO;
+
 #pragma mark -
 
 @implementation GrowlApplicationBridge
@@ -253,7 +255,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				queuedGrowlNotifications = [[NSMutableArray alloc] init];
 			[queuedGrowlNotifications addObject:userInfo];
 
-			[self registerWithDictionary:nil];
+         if(!attemptingToRegister)
+            [self registerWithDictionary:nil];
 #if !GROWLHELPERAPP
 		} else {
 			if (!miniDispatch) {
@@ -279,11 +282,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) registerWithDictionary:(NSDictionary *)regDict {
+   if(attemptingToRegister){
+      NSLog(@"Attempting to register while an attempt is already running");
+   }
 	if (regDict)
 		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
 		regDict = [self bestRegistrationDictionary];
 
+   attemptingToRegister = YES;
+   
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [regDict retain];
 
@@ -517,6 +525,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #pragma mark -
 
++ (void) _emptyQueue
+{
+   for (NSDictionary *noteDict in queuedGrowlNotifications) {
+      [self notifyWithDictionary:noteDict];
+   }
+   [queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
+}
+
 + (void) _growlIsReady:(NSNotification *)notification {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -543,11 +559,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		registerWhenGrowlIsReady = NO;
 	} else {
 		registeredWithGrowl = YES;
-
-		for (NSDictionary *noteDict in queuedGrowlNotifications) {
-			[self notifyWithDictionary:noteDict];
-		}
-		[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
+      [self _emptyQueue];
 	}
 
 	[pool drain];
@@ -558,9 +570,15 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
 	if (attempt.attemptType == GrowlCommunicationAttemptTypeRegister) {
 		registeredWithGrowl = YES;
+      attemptingToRegister = NO;
+      
+      [self _emptyQueue];
 	}
 }
 + (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
+   if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
+      attemptingToRegister = NO;
+   }
 }
 
 @end

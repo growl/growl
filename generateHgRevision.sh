@@ -1,7 +1,8 @@
 #We do this so that people who launch Xcode from the UI will be able to run
 #hg.  If we come across any other paths here where people would install
 #hg by default, we should add them here.
-PATH="$PATH:/opt/local/bin:/usr/local/bin:/sw/bin"
+#paths are, in order: homebrew, macports, local, fink
+PATH="$PATH:/usr/local/share/python:/opt/local/bin:/usr/local/bin:/sw/bin"
 
 #this is done because the mercurial source install seems to put it in this location
 export PYTHONPATH="$PYTHONPATH:/usr/local/lib/python2.6/site-packages:/Library/Python/2.6/site-packages"
