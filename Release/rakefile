@@ -1,4 +1,6 @@
 
+GROWLVERSION = ENV['VERSION'] || "1.3.0b1"
+
 TOOLCHAIN = ENV['TOOLCHAIN'] || '/Developer'
 CONFIGURATION = ENV['CONFIGURATION'] || 'Release'
 XCODEBUILD = "#{TOOLCHAIN}/usr/bin/xcodebuild"
@@ -19,6 +21,7 @@ task :package_sdk => [:setup, "package:sdk"] do
 end
 
 task :setup do
+	system("sed -e \"s/INSERT_VERSION_HERE/#{GROWLVERSION}/\" < \"#{SRCROOT}/GrowlVersion.h.tmpl\" > \"#{SRCROOT}/GrowlVersion.h\"")
 	if(CONFIGURATION == "Beta")
 		CONFIGURATION="Release"
 		BETA=1
