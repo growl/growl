@@ -234,12 +234,12 @@
  * This is unrelated to success vs. error; all we do here is stop tracking the packet.
  * Removing it from the currentNetworkPackets dictionary will likely lead to the object being released, as well.
  *
- * If we're going to send a URL callback later, we'll keep it in our currentNetworkPackets until that is sent since we
+ * If we're going to send a URL or TCP callback later, we'll keep it in our currentNetworkPackets until that is sent since we
  * want to have all its data at that time.
  */
 - (void)packetDidDisconnect:(GrowlGNTPPacket *)packet
 {
-	if ([packet callbackResultSendBehavior] != GrowlGNTP_URLCallback)
+	if ([packet callbackResultSendBehavior] == GrowlGNTP_NoCallback)
 		[currentNetworkPackets removeObjectForKey:[packet packetID]];
 }
 
@@ -301,7 +301,7 @@
 
 	NSString *notificationID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	GrowlGNTPPacket *existingPacket = (notificationID ? [currentNetworkPackets objectForKey:notificationID] : nil);
-	NSLog(@"didCloseViaNotificationClick --> %@ --> %@", notificationID, existingPacket);
+	//NSLog(@"didCloseViaNotificationClick --> %@ --> %@", notificationID, existingPacket);
 	if (existingPacket) {
 		switch ([existingPacket callbackResultSendBehavior]) {
 			case GrowlGNTP_NoCallback:
