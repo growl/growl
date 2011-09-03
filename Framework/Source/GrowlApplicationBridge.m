@@ -316,6 +316,7 @@ static BOOL    attemptingToRegister = NO;
 }
 
 + (void) reregisterGrowlNotifications {
+   registeredWithGrowl = NO;
 	[self registerWithDictionary:nil];
 }
 
@@ -579,6 +580,16 @@ static BOOL    attemptingToRegister = NO;
    if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
       attemptingToRegister = NO;
    }
+   [[self attempts] removeObject:attempt];
+}
++ (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
+   [[self attempts] removeObject:attempt];
+}
++ (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
+   if(!queuedGrowlNotifications)
+      queuedGrowlNotifications = [[NSMutableArray alloc] init];
+   [queuedGrowlNotifications addObject:[attempt dictionary]];
+   [self reregisterGrowlNotifications];
 }
 
 @end

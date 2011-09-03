@@ -11,6 +11,7 @@
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlGNTPNotificationAttempt.h"
 
 #import "GCDAsyncSocket.h"
 
@@ -23,6 +24,7 @@
 enum {
 	GrowlGNTPCommAttemptReadPhaseFirstResponseLine,
 	GrowlGNTPCommAttemptReadPhaseResponseHeaderLine,
+   GrowlGNTPCommAttemptReadExtraPacketData,
 };
 
 enum {
@@ -80,6 +82,19 @@ enum {
 	}
 }
 
+/* We read to a triple CRLF, one for the last line of the packet, 2 for finishing the packet */ 
+- (void) readRestOfPacket:(GCDAsyncSocket*)sock
+{
+   static NSData *triple = nil;
+   if(!triple){
+      NSMutableData *data = [NSMutableData dataWithData:[GCDAsyncSocket CRLFData]];
+      [data appendData:[GCDAsyncSocket CRLFData]];
+      [data appendData:[GCDAsyncSocket CRLFData]];
+      triple = [data copy];
+   }
+   [sock readDataToData:triple withTimeout:10.0 tag:GrowlGNTPCommAttemptReadExtraPacketData];
+}
+
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
 	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:10.0 tag:tag];
 }
@@ -92,21 +107,28 @@ enum {
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
 	NSString *readString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+   //NSLog(@"read: %@", readString);
    
-	if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {
+   if(tag == GrowlGNTPCommAttemptReadExtraPacketData){
+      //No op, we possibly told it to read more after this
+      //NSLog(@"Exhausting packet");
+   }else if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {      
       NSArray *components = [readString componentsSeparatedByString:@" "];
       if([components count] != 3){
+         NSLog(@"Not enough, or too many components in initial header");
          [self couldNotParseResponseWithReason:@"Not enough, or too many components in initial header" responseString:readString];
          [socket disconnect];
          return;
       }
       if (![[components objectAtIndex:0] isEqualToString:@"GNTP/1.0"]){
+         NSLog(@"Response from Growl or other notification system was patent nonsense");
          [self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
          [socket disconnect];
          return;
       }
       if(![[[components objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:GrowlGNTPNone]){
-         [self couldNotParseResponseWithReason:@"We shouldn't have encryption on a response to localhost" responseString:readString];
+         NSLog(@"We shouldn't have encryption on a response from localhost");
+         [self couldNotParseResponseWithReason:@"We shouldn't have encryption on a response from localhost" responseString:readString];
          [socket disconnect];
          return;
       }
@@ -117,26 +139,32 @@ enum {
       
       if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
          attemptSucceeded = YES;
-         
-         closeConnection = [self expectsCallback];
          [self succeeded];
+         
+         [self readRestOfPacket:socket];
+         closeConnection = ![self expectsCallback];
+         if(!closeConnection)
+            [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+
       } else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {            
          /* We need to know what we are getting for an error, which is in a seperate header */
          [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
          responseReadType = GrowlGNTPCommAttemptReadError;
          
-      } else if ([responseType isEqualToString:GrowlGNTPCallbackTypeHeader]) {
-         callbackHeaderItems = [[NSMutableArray alloc] init];
-         
+      } else if ([responseType isEqualToString:GrowlGNTPCallbackTypeHeader]) {         
          [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
          
          responseReadType = GrowlGNTPCommAttemptReadFeedback;
       } else {
          [self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Unrecognized response type: %@", responseType] responseString:readString];
+         closeConnection = YES;
       }
       
-      if (closeConnection)
+      if (closeConnection){
+         NSLog(@"Closing connection");
          [socket disconnect];
+         [self finished];
+      }
       
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
       NSError *headerItemError = nil;
@@ -160,6 +188,7 @@ enum {
                break;
          }
          [callbackHeaderItems release]; callbackHeaderItems = nil;
+         [self finished];
 		}
 	}
 }
@@ -181,11 +210,21 @@ enum {
             *stop = YES;
       }
    }];
-   
-   if(code)
-      NSLog(@"%@", [code GNTPRepresentationAsString]);
-   if(description)
-      NSLog(@"%@",[description GNTPRepresentationAsString]);
+
+   if(code){
+      GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[[code headerValue] integerValue];
+      if(errCode == GrowlGNTPUserDisabledErrorCode)
+         [self stopAttempts];
+      if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
+          errCode == GrowlGNTPUnknownNotificationErrorCode) &&
+         [self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
+         NSLog(@"Failed to notify due to missing registration, queue and reregister");
+         [self queueAndReregister];
+      }
+   }else{
+      NSLog(@"No error code, assuming failed");
+      [self failed];
+   }
 }
 
 - (void)parseFeedback
@@ -227,11 +266,13 @@ enum {
 		self.error = socketError;
 		if (socketError)
 			[self failed];
+      [self finished];
 
 		return;
 	}
 
 	[self succeeded];
+   [self finished];
 }
 
 @end
