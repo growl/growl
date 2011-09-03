@@ -13,6 +13,8 @@
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt;
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt;
+- (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt;
+- (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt;
 
 @end
 
@@ -60,7 +62,10 @@ typedef NSUInteger GrowlCommunicationAttemptType;
 - (void) begin;
 
 //Subclasses: Send these messages to yourself when succeeding or failing.
+- (void) queueAndReregister;
+- (void) stopAttempts;
 - (void) succeeded;
 - (void) failed;
+- (void) finished;
 
 @end

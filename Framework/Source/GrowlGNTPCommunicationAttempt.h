@@ -19,6 +19,7 @@
 	NSString *callbackType;
 	NSMutableArray *callbackHeaderItems;
 	BOOL attemptSucceeded;
+   int responseReadType;
 }
 
 //Lazily constructs the packet for self.dictionary.
@@ -26,5 +27,8 @@
 
 //Returns NO. Subclasses may overrido to conditionally or unconditionally return YES.
 - (BOOL) expectsCallback;
+
+- (void)parseError;
+- (void)parseFeedback;
 
 @end

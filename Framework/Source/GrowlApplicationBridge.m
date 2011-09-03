@@ -228,7 +228,7 @@ static BOOL    attemptingToRegister = NO;
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
-	if (registeredWithGrowl) {
+	if (registeredWithGrowl && [self isGrowlRunning]) {
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
 		GrowlCommunicationAttempt *firstAttempt;
@@ -248,7 +248,7 @@ static BOOL    attemptingToRegister = NO;
 		[firstAttempt begin];
 	} else {
 #if !GROWLHELPERAPP
-		if ([self isGrowlInstalled])
+		if ([self isGrowlRunning])
 #endif
 		{
 			if (!queuedGrowlNotifications)
@@ -316,6 +316,7 @@ static BOOL    attemptingToRegister = NO;
 }
 
 + (void) reregisterGrowlNotifications {
+   registeredWithGrowl = NO;
 	[self registerWithDictionary:nil];
 }
 
@@ -579,6 +580,16 @@ static BOOL    attemptingToRegister = NO;
    if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
       attemptingToRegister = NO;
    }
+   [[self attempts] removeObject:attempt];
+}
++ (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
+   [[self attempts] removeObject:attempt];
+}
++ (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
+   if(!queuedGrowlNotifications)
+      queuedGrowlNotifications = [[NSMutableArray alloc] init];
+   [queuedGrowlNotifications addObject:[attempt dictionary]];
+   [self reregisterGrowlNotifications];
 }
 
 @end

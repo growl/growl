@@ -32,6 +32,7 @@
 	if ((self = [super init])) {
 		dictionary = [dict retain];
 		attemptType = [[self class] attemptType];
+      nextAttempt = nil;
 	}
 	return self;
 }
@@ -57,12 +58,31 @@
 	NSAssert1(NO, @"Subclass dropped the ball: %@ does not implement -begin!", self);
 }
 
+- (void) queueAndReregister{
+   //Called when we get that we aren't registered
+   [self.delegate queueAndReregister:self];
+   [self stopAttempts];
+   [self finished];
+}
+- (void) stopAttempts {
+   GrowlCommunicationAttempt *next = [self nextAttempt];
+   while(next != nil){
+      GrowlCommunicationAttempt *temp = [next retain];
+      [next finished];
+      next = [next nextAttempt];
+      [temp release];
+   }
+}
 - (void) succeeded {
 	[self.delegate attemptDidSucceed:self];
+   [self stopAttempts];
 }
 - (void) failed {
 	[self.nextAttempt begin];
 	[self.delegate attemptDidFail:self];
+}
+- (void) finished {
+   [self.delegate finishedWithAttempt:self];
 }
 
 @end
