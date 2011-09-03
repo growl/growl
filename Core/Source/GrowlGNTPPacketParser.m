@@ -88,6 +88,22 @@
 }	
 	
 
+-(void)sendErrorString:(NSString*)errDescrip 
+              withCode:(GrowlGNTPErrorCode)code 
+             forPacket:(GrowlGNTPPacket*)packet 
+{
+   GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+   /* Don't send -OK since we're sending -ERROR */
+   [outgoingPacket setAction:GrowlGNTPErrorResponseType];
+   [outgoingPacket addHeaderItems:[packet headersForResult]];
+   [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
+                                                                   value:errDescrip]];
+   if(code != 0)
+      [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Code" 
+                                                                      value:[NSString stringWithFormat:@"%d", code]]];
+   [outgoingPacket writeToSocket:[packet socket]];
+}
+
 #pragma mark -
 - (GrowlGNTPPacket *)setupPacketForSocket:(GCDAsyncSocket *)socket
 {
@@ -151,26 +167,20 @@
 					break;
 				case GrowlNotificationResultNotRegistered:
 				{
-					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+               [self sendErrorString:@"Application and notification must be registered before notifying"
+                            withCode:GrowlGNTPUnknownNotificationErrorCode
+                           forPacket:packet];
 					shouldSendOKResponse = NO;
-					/* Don't send -OK since we're sending -ERROR */
-					[outgoingPacket setAction:@"-ERROR"];
-					[outgoingPacket addHeaderItems:[packet headersForResult]];
-					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
-																					value:@"Application and notification must be registered before notifying"]];
-					[outgoingPacket writeToSocket:[packet socket]];
 					break;
 				}
 				case GrowlNotificationResultDisabled:
 				{
-					GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+               /*There is no defined error code for user disabled, faking with 1001 for now*/
+               [self sendErrorString:@"User has disabled display of this notification, or it is disabled by default and has not been enabled"
+                            withCode:GrowlGNTPUserDisabledErrorCode
+                           forPacket:packet];
 					/* Don't send -OK since we're sending -ERROR */
 					shouldSendOKResponse = NO;
-					[outgoingPacket setAction:@"-ERROR"];
-					[outgoingPacket addHeaderItems:[packet headersForResult]];
-					[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
-																					value:@"User has disabled display of this notification, or it is disabled by default and has not been enabled"]];
-					[outgoingPacket writeToSocket:[packet socket]];
 					break;
 				}
 			}
@@ -241,12 +251,9 @@
 - (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
 {
 	NSLog(@"Failed reading with error: %@", inError);
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-	[outgoingPacket setAction:@"-ERROR"];
-	[outgoingPacket addHeaderItems:[packet headersForResult]];
-	[outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
-																	value:[[inError userInfo] objectForKey:NSLocalizedDescriptionKey]]];
-	[outgoingPacket writeToSocket:[packet socket]];
+   [self sendErrorString:[[inError userInfo] objectForKey:NSLocalizedDescriptionKey]
+                withCode:(GrowlGNTPErrorCode)[inError code]
+               forPacket:packet];
 }
 
 - (void)packet:(GrowlGNTPPacket *)packet willChangePacketIDFrom:(NSString *)oldPacketID to:(NSString *)newPacketID

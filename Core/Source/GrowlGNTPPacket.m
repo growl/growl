@@ -342,7 +342,7 @@
 		/* An OK response can be silently dropped */
 		[self networkPacketReadComplete];
 
-	} else if ([mAction caseInsensitiveCompare:@"-ERROR"] == NSOrderedSame) {
+	} else if ([mAction caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {
 		NSLog(@"%@: Error :(", self);
 		//XXX
 /*		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain]; */
