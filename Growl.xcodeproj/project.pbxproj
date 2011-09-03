@@ -3577,6 +3577,7 @@
 		};
 		315C88D81068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -3584,9 +3585,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"GROWLHELPERAPP=1",
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
+					"NS_BUILD_32_LIKE_64=1",
+					"NDEBUG=1",
+					"NS_BLOCK_ASSERTIONS=1",
+					"BETA=1",
+					GROWLHELPERAPP,
 				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -3599,6 +3602,7 @@
 		};
 		315C88DA1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3626,6 +3630,7 @@
 		};
 		315C88DD1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3646,6 +3651,7 @@
 		};
 		315C88DE1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3666,6 +3672,7 @@
 		};
 		315C88DF1068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3686,6 +3693,7 @@
 		};
 		315C88E01068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3702,6 +3710,7 @@
 		};
 		315C88E11068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3722,6 +3731,7 @@
 		};
 		315C88E21068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3742,6 +3752,7 @@
 		};
 		315C88E31068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3762,6 +3773,7 @@
 		};
 		315C88E41068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3794,6 +3806,7 @@
 		};
 		315C88E51068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3814,6 +3827,7 @@
 		};
 		315C88E61068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3834,6 +3848,7 @@
 		};
 		315C88E71068F9AA00880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3881,6 +3896,7 @@
 		};
 		31E184D91084628E0011C78B /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
@@ -3903,6 +3919,7 @@
 		};
 		31E184DA1084628E0011C78B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
@@ -3943,6 +3960,7 @@
 		};
 		93BC379D095A662B0002B365 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3983,6 +4001,7 @@
 		};
 		95E17B9B085E21C400990AB3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4019,6 +4038,7 @@
 		};
 		95EE274D0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4056,6 +4076,7 @@
 		};
 		95EE27520855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4093,6 +4114,7 @@
 		};
 		95EE27570855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4130,6 +4152,7 @@
 		};
 		95EE275C0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4167,6 +4190,7 @@
 		};
 		95EE27610855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4216,6 +4240,7 @@
 		};
 		95EE27660855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4265,6 +4290,7 @@
 		};
 		95EE276B0855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4302,6 +4328,7 @@
 		};
 		95EE27700855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4329,7 +4356,12 @@
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "GROWLHELPERAPP=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NS_BUILD_32_LIKE_64,
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+					GROWLHELPERAPP,
+				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
@@ -4341,14 +4373,16 @@
 		};
 		95EE27750855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"GROWLHELPERAPP=1",
+					NS_BUILD_32_LIKE_64,
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
+					GROWLHELPERAPP,
 				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -4389,6 +4423,7 @@
 		};
 		95EE27890855AA6C0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4453,6 +4488,7 @@
 		};
 		E14410EE0A94072E0063C4DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
