@@ -20,3 +20,4 @@ Icon?
 external_dependencies/Sparkle/dsa_p{ub,riv}.pem
 
 Release/distribution
+DerivedData
