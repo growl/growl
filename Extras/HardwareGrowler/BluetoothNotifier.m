@@ -1,8 +1,7 @@
 #include "BluetoothNotifier.h"
 #include "AppController.h"
 #include <stdlib.h>
-#include <IOBluetooth/Bluetooth.h>
-#include <IOBluetooth/IOBluetoothUserLib.h>
+#include <IOBluetooth/IOBluetooth.h>
 
 static IOBluetoothUserNotificationRef	connectionNotification;
 static Boolean							initializing;
@@ -10,7 +9,7 @@ static Boolean							initializing;
 static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
 #pragma unused(userRefCon)
 	// NSLog(@"BT Device Disconnection: %@" , [device name]);
-	AppController_bluetoothDidDisconnect(IOBluetoothDeviceGetName(objectRef));
+	AppController_bluetoothDidDisconnect([IOBluetoothDevice withDeviceRef:objectRef].name);
 
 	IOBluetoothUserNotificationUnregister(inRef);
 }
@@ -20,7 +19,7 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 	// NSLog(@"BT Device connection: %@" , [device name]);
 	Boolean keyExistsAndHasValidFormat;
 	if (!initializing || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
-		AppController_bluetoothDidConnect(IOBluetoothDeviceGetName(objectRef));
+		AppController_bluetoothDidConnect([IOBluetoothDevice withDeviceRef:objectRef].name);
 
 	IOBluetoothDeviceRegisterForDisconnectNotification(objectRef, bluetoothDisconnection, NULL);
 }

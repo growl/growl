@@ -2,7 +2,6 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOMessage.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
-//#include <CFGrowlAdditions.h>
 #include "FireWireNotifier.h"
 #include "USBNotifier.h"
 #include "BluetoothNotifier.h"
@@ -265,11 +264,11 @@ void AppController_usbDidDisconnect(CFStringRef deviceName) {
 
 #pragma mark Bluetooth
 
-void AppController_bluetoothDidConnect(CFStringRef device) {
+void AppController_bluetoothDidConnect(NSString *device) {
 //	NSLog(@"Bluetooth Connect: %@", device);
 	CFStringRef title = NotifierBluetoothConnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-							description:(NSString *)device
+							description:device
 							notificationName:(NSString *)NotifierBluetoothConnectionNotification
 							iconData:(NSData *)bluetoothLogo()
 							priority:0
@@ -278,11 +277,11 @@ void AppController_bluetoothDidConnect(CFStringRef device) {
 	CFRelease(title);
 }
 
-void AppController_bluetoothDidDisconnect(CFStringRef device) {
+void AppController_bluetoothDidDisconnect(NSString *device) {
 //	NSLog(@"Bluetooth Disconnect: %@", device);
 	CFStringRef title = NotifierBluetoothDisconnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-							description:(NSString *)device
+							description:device
 							notificationName:(NSString *)NotifierBluetoothDisconnectionNotification
 							iconData:(NSData *)bluetoothLogo()
 							priority:0
