@@ -59,8 +59,8 @@ disambiguated.
 
 Variable Declarations
 ---------------------
-Always initialise variables at declaration time or immediately afterwards. 
-Never use a variable's value without initialising it first.
+Always initialize variables at declaration time or immediately afterwards. 
+Never use a variable's value without initializing it first.
 
 Fail to adhere to this rule and we shall slowly lower you into a vat of gently 
 boiling acid.
