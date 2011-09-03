@@ -163,6 +163,7 @@
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
 		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
 		9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93265928140DD2180037AA2C /* Starwl.growlStyle */; };
+		932659551411B78C0037AA2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 932659521411B7810037AA2C /* Localizable.strings */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
 		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
@@ -806,6 +807,7 @@
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
 		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		93265928140DD2180037AA2C /* Starwl.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Starwl.growlStyle; path = Core/Resources/Starwl.growlStyle; sourceTree = "<group>"; };
+		932659531411B7810037AA2C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
 		932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlShrinkingWindowTransition.m; sourceTree = "<group>"; };
 		932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlScaleWindowTransition.h; sourceTree = "<group>"; };
@@ -1452,6 +1454,7 @@
 			isa = PBXGroup;
 			children = (
 				95125DE90802D3FE007FF92A /* Info.plist */,
+				932659521411B7810037AA2C /* Localizable.strings */,
 				0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.xib */,
 				0A7F5D9E0767C13200E1C1E4 /* GrowlSpeechDefines.h */,
 				0A7F5D9F0767C13200E1C1E4 /* GrowlSpeechDisplay.h */,
@@ -2234,6 +2237,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE275A0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Speech" */;
 			buildPhases = (
+				932659431411B69A0037AA2C /* Generate Localizable.strings */,
 				0A7F5CC90767BFD000E1C1E4 /* Resources */,
 				0A7F5CCA0767BFD000E1C1E4 /* Sources */,
 				0A7F5CCB0767BFD000E1C1E4 /* Frameworks */,
@@ -2251,6 +2255,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27500855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Bubbles" */;
 			buildPhases = (
+				932659581411B7D30037AA2C /* Generate Localizable.strings */,
 				0A7F5EC50767C2A600E1C1E4 /* Resources */,
 				0A7F5EC70767C2A600E1C1E4 /* Sources */,
 				0A7F5ECA0767C2A600E1C1E4 /* Frameworks */,
@@ -2268,6 +2273,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27550855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Bezel" */;
 			buildPhases = (
+				9326595A1411B8090037AA2C /* Generate Localizable.strings */,
 				0A7F5F120767C38200E1C1E4 /* Resources */,
 				0A7F5F140767C38200E1C1E4 /* Sources */,
 				0A7F5F190767C38200E1C1E4 /* Frameworks */,
@@ -2285,6 +2291,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE275F0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Smoke" */;
 			buildPhases = (
+				9326595B1411B8270037AA2C /* Generate Localizable.strings */,
 				0A7F5F700767C68000E1C1E4 /* Resources */,
 				0A7F5F720767C68000E1C1E4 /* Sources */,
 				0A7F5F770767C68000E1C1E4 /* Frameworks */,
@@ -2302,6 +2309,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27640855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "MailMe" */;
 			buildPhases = (
+				9326595D1411B8640037AA2C /* Generate Localizable.strings */,
 				0A7F5FB80767C70600E1C1E4 /* Resources */,
 				0A7F5FBA0767C70600E1C1E4 /* Sources */,
 				0A7F5FBF0767C70600E1C1E4 /* Frameworks */,
@@ -2320,6 +2328,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27690855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "MusicVideo" */;
 			buildPhases = (
+				9326595E1411B8890037AA2C /* Generate Localizable.strings */,
 				0A7F5FE90767C7B300E1C1E4 /* Resources */,
 				0A7F5FEB0767C7B300E1C1E4 /* Sources */,
 				0A7F5FF00767C7B300E1C1E4 /* Frameworks */,
@@ -2377,6 +2386,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 93BC379B095A662B0002B365 /* Build configuration list for PBXNativeTarget "Nano" */;
 			buildPhases = (
+				9326595C1411B83E0037AA2C /* Generate Localizable.strings */,
 				93BC378F095A662B0002B365 /* Resources */,
 				93BC3791095A662B0002B365 /* Sources */,
 				93BC3797095A662B0002B365 /* Frameworks */,
@@ -2394,6 +2404,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE274B0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Brushed" */;
 			buildPhases = (
+				932659571411B7B00037AA2C /* Generate Localizable.strings */,
 				95FC346E07E0458E00BD8674 /* Resources */,
 				95FC347007E0458E00BD8674 /* Sources */,
 				95FC347507E0458E00BD8674 /* Frameworks */,
@@ -2411,6 +2422,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27730855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.app" */;
 			buildPhases = (
+				932659421411B6070037AA2C /* Generate Localizable.strings */,
 				CB61E5140637763C00E0DDC7 /* Resources */,
 				CB61E5150637763C00E0DDC7 /* Sources */,
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
@@ -2443,6 +2455,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE276E0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "SMS" */;
 			buildPhases = (
+				9326595F1411B8A20037AA2C /* Generate Localizable.strings */,
 				DD4939C8084BACA700D1CCCB /* Resources */,
 				DD4939C9084BACA700D1CCCB /* Sources */,
 				DD4939CA084BACA700D1CCCB /* Frameworks */,
@@ -2460,6 +2473,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */;
 			buildPhases = (
+				932659591411B7F00037AA2C /* Generate Localizable.strings */,
 				E14410DF0A94072E0063C4DC /* Resources */,
 				E14410E10A94072E0063C4DC /* Sources */,
 				E14410E80A94072E0063C4DC /* Frameworks */,
@@ -2557,6 +2571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.xib in Resources */,
+				932659551411B78C0037AA2C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2716,6 +2731,166 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
+		};
+		932659421411B6070037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Core/Source/*.h",
+				"$(SRCROOT)/Core/Source/*.m",
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+				"$(SRCROOT)/Core/Resources/English.lproj",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Core/Resources/English.lproj Core/Source/*.h Core/Source/*.m";
+			showEnvVarsInLog = 0;
+		};
+		932659431411B69A0037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Speech/English.lproj Plugins/Displays/Speech/*.h Plugins/Displays/Speech/*.m";
+			showEnvVarsInLog = 0;
+		};
+		932659571411B7B00037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Brushed/English.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
+			showEnvVarsInLog = 0;
+		};
+		932659581411B7D30037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Bubbles/English.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m";
+		};
+		932659591411B7F00037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/iCal/English.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m";
+		};
+		9326595A1411B8090037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Bezel/English.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m";
+		};
+		9326595B1411B8270037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Smoke/English.lproj Plugins/Displays/Smoke/*.h Plugins/Displays/Smoke/*.m";
+		};
+		9326595C1411B83E0037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Nano/English.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
+		};
+		9326595D1411B8640037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/MailMe/English.lproj Plugins/Displays/MailMe/*.h Plugins/Displays/MailMe/*.m";
+		};
+		9326595E1411B8890037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/MusicVideo/English.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m";
+		};
+		9326595F1411B8A20037AA2C /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/SMS/English.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3234,6 +3409,14 @@
 				347935950C864534007ADCAA /* nl */,
 				34B02AD80C87911400DD25D6 /* pt_BR */,
 				34B02B120C8791F600DD25D6 /* sv */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		932659521411B7810037AA2C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				932659531411B7810037AA2C /* English */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
