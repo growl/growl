@@ -24,6 +24,12 @@
             <responds-to command="close all notifications">
                 <cocoa method=""/>
             </responds-to>
+            <responds-to command="show rollup">
+                <cocoa method=""/>
+            </responds-to>
+            <responds-to command="hide rollup">
+                <cocoa method=""/>
+            </responds-to>
             <property name="is paused" code="paus" type="boolean" access="r" description="Is Growl paused?">
                 <cocoa key="paused"/>
             </property>
@@ -45,6 +51,12 @@
         </command>
         <command name="enable incoming network" code="resuinnt" description="Enables incoming network notifications">
            <cocoa class="GrowlControlEnableInNetworkScriptCommand"/>
+        </command>
+        <command name="show rollup" code="showroll" description="Shows the notification rollup">
+            <cocoa class="GrowlControlShowRollupScriptCommand"/>
+        </command>
+        <command name="hide rollup" code="hideroll" description="Hides the notification rollup">
+            <cocoa class="GrowlControlHideRollupScriptCommand"/>
         </command>
     </suite>
     <suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">

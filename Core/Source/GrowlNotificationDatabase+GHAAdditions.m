@@ -101,21 +101,31 @@
    
    if(isAway)
    {
-      notificationsWhileAway = YES;
-      
-      if(!historyWindow)
-      {
-         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
-         historyWindow = [window retain];
-         [window release];
-         [historyWindow window];
-      }
-      
-      if(![[historyWindow window] isVisible])
-      {
-         [(GrowlNotificationHistoryWindow*)historyWindow resetArray];
-      }
+       [self showRollup];
    }
+}
+
+-(void)showRollup
+{
+    notificationsWhileAway = YES;
+    
+    if(!historyWindow)
+    {
+        GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
+        historyWindow = [window retain];
+        [window release];
+        [historyWindow window];
+    }
+    
+    if(![[historyWindow window] isVisible])
+    {
+        [(GrowlNotificationHistoryWindow*)historyWindow resetArray];
+    }
+}
+
+-(void)hideRollup
+{
+    [historyWindow close];
 }
 
 @end

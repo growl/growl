@@ -164,6 +164,8 @@
 		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
 		9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93265928140DD2180037AA2C /* Starwl.growlStyle */; };
 		932659551411B78C0037AA2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 932659521411B7810037AA2C /* Localizable.strings */; };
+		93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */; };
+		9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9326596A141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
 		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
@@ -808,6 +810,10 @@
 		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		93265928140DD2180037AA2C /* Starwl.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Starwl.growlStyle; path = Core/Resources/Starwl.growlStyle; sourceTree = "<group>"; };
 		932659531411B7810037AA2C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93265966141295720037AA2C /* GrowlControlShowRollupScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlShowRollupScriptCommand.h; path = Bindings/applescript/GrowlControlShowRollupScriptCommand.h; sourceTree = "<group>"; };
+		93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlShowRollupScriptCommand.m; path = Bindings/applescript/GrowlControlShowRollupScriptCommand.m; sourceTree = "<group>"; };
+		93265969141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlHideRollupScriptCommand.h; path = Bindings/applescript/GrowlControlHideRollupScriptCommand.h; sourceTree = "<group>"; };
+		9326596A141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlHideRollupScriptCommand.m; path = Bindings/applescript/GrowlControlHideRollupScriptCommand.m; sourceTree = "<group>"; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
 		932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlShrinkingWindowTransition.m; sourceTree = "<group>"; };
 		932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlScaleWindowTransition.h; sourceTree = "<group>"; };
@@ -1843,6 +1849,10 @@
 				BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */,
 				BC3390CB140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.h */,
 				BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */,
+				93265966141295720037AA2C /* GrowlControlShowRollupScriptCommand.h */,
+				93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */,
+				93265969141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.h */,
+				9326596A141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m */,
 			);
 			name = "Growl Control";
 			sourceTree = "<group>";
@@ -3144,6 +3154,8 @@
 				BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */,
 				BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */,
 				BC86333E140FFB3600A26483 /* GrowlMenu.m in Sources */,
+				93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */,
+				9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
