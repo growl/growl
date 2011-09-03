@@ -228,7 +228,7 @@ static BOOL    attemptingToRegister = NO;
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
-	if (registeredWithGrowl) {
+	if (registeredWithGrowl && [self isGrowlRunning]) {
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
 		GrowlCommunicationAttempt *firstAttempt;
@@ -248,7 +248,7 @@ static BOOL    attemptingToRegister = NO;
 		[firstAttempt begin];
 	} else {
 #if !GROWLHELPERAPP
-		if ([self isGrowlInstalled])
+		if ([self isGrowlRunning])
 #endif
 		{
 			if (!queuedGrowlNotifications)
