@@ -12,6 +12,7 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlGNTPNotificationAttempt.h"
+#import "GrowlApplicationBridge.h"
 
 #import "GCDAsyncSocket.h"
 
@@ -247,12 +248,37 @@ enum {
       }
    }];
    
-   if(result)
-      NSLog(@"%@", [result GNTPRepresentationAsString]);
-   if(context)
-      NSLog(@"%@", [context GNTPRepresentationAsString]);
-   if(contextType)
-      NSLog(@"%@", [contextType GNTPRepresentationAsString]);
+   NSString *resultString = [result headerValue];
+   int resultValue = 0;
+   if([resultString isEqualToString:GrowlGNTPCallbackClicked] || [resultString isEqualToString:GrowlGNTPCallbackClick])
+      resultValue = 1;
+   else if([resultString isEqualToString:GrowlGNTPCallbackClosed] || [resultString isEqualToString:GrowlGNTPCallbackClose])
+      resultValue = 2;
+   
+   id clickContext = nil;
+   if([[contextType headerValue] caseInsensitiveCompare:@"String"] == NSOrderedSame)
+      clickContext = [context headerValue];
+
+   //In the future, we need to implement dictionary support
+   if(!clickContext)
+      return;
+   
+   NSObject<GrowlApplicationBridgeDelegate> *growlDelegate = [GrowlApplicationBridge growlDelegate];
+   
+   switch (resultValue) {
+      case 1:
+         //it was clicked
+         if ([growlDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+            [growlDelegate growlNotificationWasClicked:clickContext];
+         break;
+      case 2:
+         //it closed, same as timed out
+      default:
+         if ([growlDelegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+            [growlDelegate growlNotificationTimedOut:clickContext];
+         //it timed out
+         break;
+   }
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
