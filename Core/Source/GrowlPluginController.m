@@ -137,7 +137,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		                                    &callbacks);
 
 		//Find plugins inside GHA itself first
-		[self findPluginsInDirectory:[[GrowlPathUtilities helperAppBundle] builtInPlugInsPath]];
+		[self findPluginsInDirectory:[[NSBundle mainBundle] builtInPlugInsPath]];
 		
 		/* Then find plug-ins in Library/Application Support/Growl/Plugins directories. This allows GHA to override externally installed plugins,
 		 * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
