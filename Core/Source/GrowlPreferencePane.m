@@ -170,6 +170,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
                                                  name:@"GrowlDatabaseUpdated" 
                                                object:db];
     
+   [applicationsTab selectFirstTabViewItem:self];
+   
     [self reloadPreferences:nil];
 
 	// Select the default style if possible. 
