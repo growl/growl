@@ -297,9 +297,12 @@
       if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![[[self socket] connectedHost] isLocalHost])) ||
           hashStringError) 
       {
-         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
-         errorCode = GrowlGNTPUnauthorizedErrorCode;
-         errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", /*comment*/ @"GNTP packet parsing error");
+         if([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] != NSOrderedSame)
+         {
+            NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
+            errorCode = GrowlGNTPUnauthorizedErrorCode;
+            errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", /*comment*/ @"GNTP packet parsing error");
+         }
       }
       
       if(!errorDescription && errorCode == 0)
