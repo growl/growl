@@ -586,6 +586,9 @@ static BOOL    attemptingToRegister = NO;
    [[self attempts] removeObject:attempt];
 }
 + (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
+   if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
+      return;
+   
    if(!queuedGrowlNotifications)
       queuedGrowlNotifications = [[NSMutableArray alloc] init];
    [queuedGrowlNotifications addObject:[attempt dictionary]];
