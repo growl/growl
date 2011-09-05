@@ -1,0 +1,5 @@
+/* The voice chosen as the system voice in the Speech preference pane */
+"System Default" = "Výchozí systémové";
+
+/* No comment provided by engineer. */
+"This is a preview of the %@ voice." = "Toto je ukázka hlasu %@.";
