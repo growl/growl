@@ -76,8 +76,8 @@ typedef enum {
 	GrowlGNTPUnauthorizedErrorCode = 400,
 	GrowlGNTPUnknownApplicationErrorCode = 401,
 	GrowlGNTPUnknownNotificationErrorCode = 402,
+   GrowlGNTPUserDisabledErrorCode = 404,
 	GrowlGNTPInternalServerErrorErrorCode = 500,
-   GrowlGNTPUserDisabledErrorCode = 1001
 } GrowlGNTPErrorCode;
 
 #pragma mark Encryption
