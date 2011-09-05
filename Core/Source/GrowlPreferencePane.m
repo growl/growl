@@ -299,11 +299,14 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	else
 		currentPlugin = nil;
 
-	NSString *currentPluginName = [currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
-	currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
-	[self loadViewForDisplay:currentPluginName];
-	[displayAuthor setStringValue:[currentPlugin objectForKey:@"GrowlPluginAuthor"]];
-	[displayVersion setStringValue:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
+	if(currentPlugin)
+    {
+        NSString *currentPluginName = [currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
+        currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
+        [self loadViewForDisplay:currentPluginName];
+        [displayAuthor setStringValue:[currentPlugin objectForKey:@"GrowlPluginAuthor"]];
+        [displayVersion setStringValue:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
+    }
 }
 
 /*!
