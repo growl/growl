@@ -145,11 +145,11 @@
 	return data;
 }
 
-- (NSString *)callbackContext
+- (id)callbackContext
 {
 	return [notificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 }
-- (void)setCallbackContext:(NSString *)value
+- (void)setCallbackContext:(id)value
 {
 	[notificationDict setObject:value
 						 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
@@ -240,10 +240,31 @@
 			[self setIconURL:[NSURL URLWithString:value]];
 		}
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
-		[self setCallbackContext:value];
-	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
-		[self setCallbackContextType:value];
+      id clickContext = nil;
+      if([self callbackContextType] && [[self callbackContextType] caseInsensitiveCompare:@"PList"]){
+            clickContext = [NSPropertyListSerialization propertyListWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
+                                                                     options:0
+                                                                      format:NULL
+                                                                       error:nil];
+      }
+      //If we don't know the type yet, or it isn't a PList, just set it as a string
+      if(!clickContext)
+         clickContext = value;
 
+		[self setCallbackContext:clickContext];
+	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
+      [self setCallbackContextType:value];
+      //If we already have our context, and we find out it should be a PList serlialized, reset it
+		if([self callbackContext] && [[self callbackContext] isKindOfClass:[NSString class]] 
+         && [value caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+      {
+         id newContext = [NSPropertyListSerialization propertyListWithData:[[self callbackContext] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                   options:0
+                                                                    format:NULL
+                                                                     error:nil];
+         
+         [self setCallbackContext:newContext];
+      }
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackTarget] == NSOrderedSame) {
 		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
@@ -473,8 +494,41 @@
 		[binaryChunks addObject:[GrowlGNTPBinaryChunk chunkForData:iconData withIdentifier:identifier]];
 	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]) {
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContext value:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]]];
-		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContextType value:@"String"]];
+      NSString *type = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+      id context = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      NSString *contextString = nil;
+      
+      //No sense sending a huge XML for a string
+      if(!type && [context isKindOfClass:[NSString class]])
+         type = @"String";
+      
+      //If we dont have a type here, we assume we can make a PList out of it since it likely came from one of our apps
+      if(!type)
+         type = @"PList";
+      
+      //If we have a type of PList, try to make a PList out of the data.  
+      if([type caseInsensitiveCompare:@"PList"] == NSOrderedSame){
+         NSError *error = nil;
+         NSData *data = [NSPropertyListSerialization dataWithPropertyList:context 
+                                                                   format:NSPropertyListXMLFormat_v1_0 
+                                                                  options:0 
+                                                                    error:&error];
+         if(!error){
+            contextString = [NSString stringWithUTF8String:[data bytes]];
+            NSLog(@"PList: %@", contextString);
+         }else{
+            NSLog(@"Error creating PList XML: %@", error);
+         }
+      }else{
+         //If we aren't a PList, we left whatever we got originally as a string
+         contextString = context;
+      }
+      
+      //If we managed to get both a context string succesfully, send it out
+      if(contextString){
+         [headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContext value:contextString]];
+         [headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackContextType value:type]];
+      }
 	}
 	if ([dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET])
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationCallbackTarget value:[dict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET]]];

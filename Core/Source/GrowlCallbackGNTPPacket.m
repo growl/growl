@@ -67,22 +67,39 @@
 	if ([name caseInsensitiveCompare:GrowlGNTPNotificationID] == NSOrderedSame) {
 		[self setIdentifier:value];
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame) {
-		if ([value caseInsensitiveCompare:@"CLICKED"] == NSOrderedSame) {
+		if ([value caseInsensitiveCompare:@"CLICKED"] == NSOrderedSame || [value caseInsensitiveCompare:@"CLICK"] == NSOrderedSame) {
 			[self setCallbackType:GrowlGNTPCallback_Clicked];
 		} else {
 			[self setCallbackType:GrowlGNTPCallback_Closed];			
 		}
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
-		id propertyList = [NSPropertyListSerialization propertyListFromData:[value dataUsingEncoding:NSUTF8StringEncoding]
-														   mutabilityOption:NSPropertyListImmutable
-																	 format:NULL
-														   errorDescription:NULL];
-		[callbackDict setObject:(propertyList ? propertyList : value)
+      id clickContext = nil;
+      NSString *type = [callbackDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+      if(type && [type caseInsensitiveCompare:@"PList"]){
+         clickContext = [NSPropertyListSerialization propertyListWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
+                                                                  options:0
+                                                                   format:NULL
+                                                                    error:nil];
+      }else
+         clickContext = value;
+      
+		[callbackDict setObject:clickContext
 							 forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame) {
 		[callbackDict setObject:value
 							 forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+      NSString *context = [callbackDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      if(context && [context isKindOfClass:[NSString class]] && [value caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+      {
+         id newContext = [NSPropertyListSerialization propertyListWithData:[context dataUsingEncoding:NSUTF8StringEncoding]
+                                                                   options:0
+                                                                    format:NULL
+                                                                     error:nil];
+         
+         [callbackDict setObject:newContext
+                          forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      }
 	} else if ([name caseInsensitiveCompare:GrowlGNTPApplicationNameHeader] == NSOrderedSame) {
 		[callbackDict setValue:value forKey:GROWL_APP_NAME];
 	} else if ([name caseInsensitiveCompare:GrowlGNTPApplicationPIDHeader] == NSOrderedSame) {
