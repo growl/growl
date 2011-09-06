@@ -1,7 +1,7 @@
 ﻿/* Localized versions of Info.plist keys */
 
 CFBundleName = "GrowlAction";
-NSHumanReadableCopyright = "Copyright 2010, The Growl Project.";
+NSHumanReadableCopyright = "Copyright 2011, The Growl Project.";
 
 /*  AMApplication localized strings  */
 "Automator" = "Automator";

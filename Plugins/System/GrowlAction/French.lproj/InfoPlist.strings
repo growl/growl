@@ -13,7 +13,7 @@ AMDescription localized strings */
 /* AMKeywords localized strings */
 "Choose" = "Choisir";
 "Get" = "Avoir";
-"NSHumanReadableCopyright" = "Projet Growl, Copyright 2010.";
+"NSHumanReadableCopyright" = "Projet Growl, Copyright 2011.";
 
 /* AMCategory localized strings */
 "Utility" = "Utilitaire";
