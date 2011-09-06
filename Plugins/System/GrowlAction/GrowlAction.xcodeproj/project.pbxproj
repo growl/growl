@@ -41,6 +41,8 @@
 		93A042E91382169500C46F0A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = SOURCE_ROOT; };
 		93A042EA1382169500C46F0A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = SOURCE_ROOT; };
 		93A042EB1382169500C46F0A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = SOURCE_ROOT; };
+		93E0537E1415D1BF00FC4F76 /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/main.xib; sourceTree = "<group>"; };
+		93E0537F1415D1CE00FC4F76 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4DB908617521009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/main.xib; sourceTree = "<group>"; };
 		955A4DBA0861752A009B6EA5 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95E7903F0835F1E00098656C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/main.xib; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				nl,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
@@ -208,6 +211,7 @@
 				089C167EFE841241C02AAC07 /* English */,
 				95E790460835F25A0098656C /* German */,
 				955A4DBA0861752A009B6EA5 /* French */,
+				93E0537F1415D1CE00FC4F76 /* nl */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -218,6 +222,7 @@
 				65AABA19056A9B5C006CE269 /* English */,
 				95E7903F0835F1E00098656C /* German */,
 				955A4DB908617521009B6EA5 /* French */,
+				93E0537E1415D1BF00FC4F76 /* nl */,
 			);
 			name = main.xib;
 			sourceTree = "<group>";
