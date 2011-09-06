@@ -45,13 +45,6 @@
 			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
-		34FBA2E40CA0551E00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 34725B0F0C0678A000499F50;
-			remoteInfo = Growl.dylib;
-		};
 		34FBA2E80CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
@@ -235,7 +228,6 @@
 			children = (
 				34FBA2DF0CA0551E00958660 /* Growl.app */,
 				34FBA2E30CA0551E00958660 /* Growl.framework */,
-				34FBA2E50CA0551E00958660 /* Growl.dylib */,
 				34FBA2E90CA0551E00958660 /* Speech.growlView */,
 				34FBA2EB0CA0551E00958660 /* Brushed.growlView */,
 				34FBA2ED0CA0551E00958660 /* Bubbles.growlView */,
@@ -337,13 +329,6 @@
 			fileType = wrapper.framework;
 			path = Growl.framework;
 			remoteRef = 34FBA2E20CA0551E00958660 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34FBA2E50CA0551E00958660 /* Growl.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = Growl.dylib;
-			remoteRef = 34FBA2E40CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34FBA2E90CA0551E00958660 /* Speech.growlView */ = {
