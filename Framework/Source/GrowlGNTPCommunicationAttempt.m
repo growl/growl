@@ -39,6 +39,10 @@ enum {
 
 - (void) dealloc {
 	[callbackHeaderItems release];
+   
+   [socket synchronouslySetDelegate:nil];
+   [socket release];
+   socket = nil;
 
 	[super dealloc];
 }
