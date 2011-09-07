@@ -943,15 +943,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
         GrowlBrowserEntry *entry = [services objectAtIndex:rowIndex];
         if([entry manualEntry])
             [cell setImage:manualImage];
-        else{
+        else
             [cell setImage:bonjourImage];
-            if(![entry active]){
-               NSDictionary *attr = [NSDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-               NSAttributedString *string = [[NSAttributedString alloc] initWithString:[entry computerName] attributes:attr];
-               return [string autorelease];
-            }
-        }
-        return [entry computerName];
     }
 
 	return nil;

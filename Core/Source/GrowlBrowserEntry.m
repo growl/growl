@@ -14,6 +14,36 @@
 
 #define GrowlBrowserEntryKeychainServiceName "GrowlOutgoingNetworkConnection"
 
+@interface GNTPHostAvailableColorTransformer : NSValueTransformer
+@end
+
+@implementation GNTPHostAvailableColorTransformer
+
++ (void)load
+{
+   if (self == [GNTPHostAvailableColorTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GNTPHostAvailableColorTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSColor class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   return [value boolValue] ? [NSColor blackColor] : [NSColor redColor];
+}
+
+@end
+
 @implementation GrowlBrowserEntry
 @synthesize computerName = _name;
 @synthesize uuid = _uuid;
