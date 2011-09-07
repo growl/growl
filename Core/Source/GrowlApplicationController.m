@@ -44,9 +44,7 @@
 #include <CoreAudio/AudioHardware.h>
 
 //XXX Networking; move me
-#import "GCDAsyncSocket.h"
 #import "GrowlGNTPOutgoingPacket.h"
-//#import "GrowlTCPPathway.h"
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPPacketParser.h"
@@ -323,32 +321,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	
 	return [addresses objectAtIndex:0];
 }	
-
-/*
- This will be called whenever AsyncSocket is about to disconnect. In Echo Server,
- it does not do anything other than report what went wrong (this delegate method
- is the only place to get that information), but in a more serious app, this is
- a good place to do disaster-recovery by getting partially-read data. This is
- not, however, a good place to do cleanup. The socket must still exist when this
- method returns.
- */
--(void) onSocket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-	if (err != nil)
-		NSLog (@"Socket %@ will disconnect. Error domain %@, code %d (%@).",
-			   sock,
-			   [err domain], (int)[err code], [err localizedDescription]);
-	else
-		NSLog (@"Socket will disconnect. No error.");
-	
-	NSLog(@"Releasing %@", sock);
-	[sock release];
-}
-
-- (void)onSocket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-	NSLog(@"Connected to %@ on %@:%hu", sock, host, port);
-}
 
 - (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
 {
