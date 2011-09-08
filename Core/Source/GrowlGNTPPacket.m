@@ -11,6 +11,7 @@
 #import "GrowlNotificationGNTPPacket.h"
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
+#import "GrowlErrorGNTPPacket.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPHeaderItem.h"
 #import "ISO8601DateFormatter.h"
@@ -125,6 +126,8 @@
 		return GrowlCallbackPacketType;
 	else if ([mAction caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame)
 		return GrowlOKPacketType;
+   else if ([mAction caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame)
+      return GrowlErrorPacketType;
 	else
 		return GrowlUnknownPacketType;
 }
@@ -346,9 +349,7 @@
 		[self networkPacketReadComplete];
 
 	} else if ([mAction caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {
-		NSLog(@"%@: Error :(", self);
-		//XXX
-/*		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain]; */
+		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain];
 	} else {
 		NSLog(@"Unknown request type: %@", mAction);
 	}

@@ -11,8 +11,10 @@
 #import "GrowlNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
+#import "GrowlErrorGNTPPacket.h"
 #import "GrowlTicketController.h"
 #import "NSStringAdditions.h"
+#import "GrowlGNTPDefines.h"
 
 @implementation GrowlGNTPPacketParser
 
@@ -134,6 +136,13 @@
     [packet startProcessing];
 }
 
+/* The only sockets which should have PacketParser as its delegate are outgoing packets, we don't care about disconnected or no error */
+- (void)socketDidDisconnect:(GCDAsyncSocket*)sock withError:(NSError *)err
+{
+   if(err && [err code] != 7)
+      NSLog(@"Outgoing packet (ID: %@) disconnected from host %@ with error: %@", (NSString*)[sock userData], [sock connectedHost], err);
+}
+
 - (void)didAcceptNewSocket:(GCDAsyncSocket *)socket
 {
 	GrowlGNTPPacket *packet = [self setupPacketForSocket:socket];
@@ -197,7 +206,28 @@
 												  didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket *)packet callbackType] == GrowlGNTPCallback_Clicked)
 																onLocalMachine:NO];
 			break;
-		case GrowlOKPacketType:
+      case GrowlErrorPacketType:
+      {
+         GrowlGNTPErrorCode code = [(GrowlErrorGNTPPacket*)packet errorCode];
+         NSString *description = [(GrowlErrorGNTPPacket*)packet errorDescription];
+         switch (code) {
+            case GrowlGNTPUnknownApplicationErrorCode:
+            case GrowlGNTPUnknownNotificationErrorCode:
+               NSLog(@"The application or notification is not registered on the host, we should try to reregister and resend");
+               break;
+            case GrowlGNTPUserDisabledErrorCode:
+               //Do nothing, remote host has disabled display of this notification
+               break;
+            default:
+               //We don't handle any other case specifically, log it out.
+               NSLog(@"Error packet, Error-Code: %d, Error-Description: %@", code, description);
+               break;
+         }
+         //Whatever error we had, dont send a -OK
+         shouldSendOKResponse = NO;
+         break;
+		}
+      case GrowlOKPacketType:
 			/* Ourobourous is not hungry tonight */ 
 			shouldSendOKResponse = NO;
 			break;

@@ -286,6 +286,8 @@
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
 		BCDB88FB13FC40D200244F59 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDB88F913FC40D200244F59 /* FirstLaunchWindow.xib */; };
 		BCE2FE2513F428CC00804133 /* GrowlRollupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */; };
+		BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
+		BCEE30E71418262500DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
 		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
@@ -1037,6 +1039,8 @@
 		BCDB88FA13FC40D200244F59 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Core/Resources/English.lproj/FirstLaunchWindow.xib; sourceTree = "<group>"; };
 		BCE2FE2313F428CC00804133 /* GrowlRollupTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRollupTableView.h; path = Core/Source/GrowlRollupTableView.h; sourceTree = "<group>"; };
 		BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRollupTableView.m; path = Core/Source/GrowlRollupTableView.m; sourceTree = "<group>"; };
+		BCEE30E41418180E00DB5395 /* GrowlErrorGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlErrorGNTPPacket.h; path = Core/Source/GrowlErrorGNTPPacket.h; sourceTree = "<group>"; };
+		BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlErrorGNTPPacket.m; path = Core/Source/GrowlErrorGNTPPacket.m; sourceTree = "<group>"; };
 		C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Pseudo-Coda.growlStyle"; path = "Core/Resources/Pseudo-Coda.growlStyle"; sourceTree = "<group>"; };
 		C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
@@ -1673,6 +1677,8 @@
 				346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */,
 				349908A50E7317150073B675 /* GrowlGNTPPacket.h */,
 				349908A60E7317150073B675 /* GrowlGNTPPacket.m */,
+				BCEE30E41418180E00DB5395 /* GrowlErrorGNTPPacket.h */,
+				BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */,
 				3404D3890E958D0D00629487 /* GrowlRegisterGNTPPacket.h */,
 				3404D38A0E958D0D00629487 /* GrowlRegisterGNTPPacket.m */,
 				3404D38E0E958D2C00629487 /* GrowlNotificationGNTPPacket.h */,
@@ -3018,6 +3024,7 @@
 				313B901D13CEFC460075C9A3 /* GrowlRegisterGNTPPacket.m in Sources */,
 				313B901F13CEFC460075C9A3 /* GrowlNotificationGNTPPacket.m in Sources */,
 				31E60C5713D2AA2C00669E2A /* GrowlOperatingSystemVersion.m in Sources */,
+				BCEE30E71418262500DB5395 /* GrowlErrorGNTPPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3148,6 +3155,7 @@
 				BC86333E140FFB3600A26483 /* GrowlMenu.m in Sources */,
 				93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */,
 				9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */,
+				BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
