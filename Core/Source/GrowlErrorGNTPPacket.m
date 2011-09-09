@@ -42,6 +42,7 @@
    return GrowlReadDirective_Continue;
 }
 
+#if GROWLHELPERAPP
 - (NSDictionary *)growlDictionary
 {
 	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
@@ -50,6 +51,12 @@
    [growlDictionary setValue:errorDescription forKey:@"Error-Description"];
 	
 	return growlDictionary;
+}
+#endif
+
+-(GrowlGNTPCallbackBehavior)callbackResultSendBehavior
+{
+   return GrowlGNTP_NoCallback;
 }
 
 @end
