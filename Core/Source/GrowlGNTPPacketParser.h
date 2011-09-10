@@ -27,4 +27,6 @@ typedef enum {
 - (void)sendPacket:(GrowlGNTPOutgoingPacket *)packet toAddress:(NSData *)destAddress;
 - (void)didAcceptNewSocket:(GCDAsyncSocket *)socket;
 
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick;
+
 @end

@@ -33,6 +33,43 @@
 
 #endif
 
+@implementation GrowlOkGNTPPacket
+@synthesize responseAction;
+
+- (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
+{
+   NSString *name = [headerItem headerName];
+   NSString *value = [headerItem headerValue];
+   
+   if([name caseInsensitiveCompare:@"Response-Action"] == NSOrderedSame){
+      self.responseAction = value;
+   }
+   
+   if(responseAction || headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
+      return GrowlReadDirective_PacketComplete;
+   }
+   return GrowlReadDirective_Continue;
+}
+
+#if GROWLHELPERAPP
+- (NSDictionary *)growlDictionary
+{
+	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
+	
+   [growlDictionary setValue:responseAction forKey:@"Response-Action"];
+	
+	return growlDictionary;
+}
+#endif
+
+-(GrowlGNTPCallbackBehavior)callbackResultSendBehavior
+{
+   return GrowlGNTP_NoCallback;
+}
+
+@end
+
+
 @implementation GrowlGNTPPacket
 
 #if GROWLHELPERAPP
@@ -40,6 +77,7 @@
 @synthesize action = mAction;
 @synthesize key = mKey;
 @synthesize encryptionAlgorithm;
+@synthesize originPacket;
 #endif
 @synthesize delegate = mDelegate;
 #if GROWLHELPERAPP
@@ -60,6 +98,8 @@
 	[specificPacket setAction:[packet action]];
 	[specificPacket setPacketID:[packet packetID]];
    [specificPacket setKey:[packet key]];
+   [specificPacket setOriginPacket:[packet originPacket]];
+   [specificPacket setWasInitiatedLocally:[packet wasInitiatedLocally]];
 
 	return specificPacket;
 }
@@ -71,6 +111,7 @@
 		[socket synchronouslySetDelegate:self];
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
+      networkReadComplete = NO;
 	}
 	
 	return self;
@@ -83,6 +124,7 @@
 
 	[socket release];
 	[specificPacket release];
+   [originPacket release];
 	[mAction release];
 	[binaryDataByIdentifier release];
 	[pendingBinaryIdentifiers release];
@@ -300,7 +342,9 @@
       if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![[[self socket] connectedHost] isLocalHost])) ||
           hashStringError) 
       {
-         if([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] != NSOrderedSame)
+         if([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] != NSOrderedSame && 
+            [[self action] caseInsensitiveCompare:GrowlGNTPOKResponseType] != NSOrderedSame &&
+            [[self action] caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] != NSOrderedSame)
          {
             NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
             errorCode = GrowlGNTPUnauthorizedErrorCode;
@@ -345,9 +389,8 @@
 		specificPacket = [[GrowlCallbackGNTPPacket specificNetworkPacketForPacket:self] retain];
 
 	} else if ([mAction caseInsensitiveCompare:@"-OK"] == NSOrderedSame) {
-		/* An OK response can be silently dropped */
-		[self networkPacketReadComplete];
-
+      specificPacket = [[GrowlOkGNTPPacket specificNetworkPacketForPacket:self] retain];
+      
 	} else if ([mAction caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {
 		specificPacket = [[GrowlErrorGNTPPacket specificNetworkPacketForPacket:self] retain];
 	} else {
@@ -707,6 +750,12 @@
  */
 - (void)networkPacketReadComplete
 {
+   /*We have already done this once, due to the asynch nature of AsyncSocket, 
+     we could wind up here on a closed network connection, and a succesfull read */
+   if(networkReadComplete)
+      return;
+   
+   networkReadComplete = YES;
 	/* XXX We should validate the received packet in its entirey NOW */
 	
 	/* If we're going to ever read anything else on this socket, it must first be preceeded by the GNTP/1.0 END tag */
@@ -754,6 +803,11 @@
 - (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally
 {
 	wasInitiatedLocally = inWasInitiatedLocally;
+}
+
+- (BOOL)wasInitiatedLocally
+{
+   return wasInitiatedLocally;
 }
 
 /**

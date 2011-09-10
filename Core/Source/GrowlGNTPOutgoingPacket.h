@@ -22,6 +22,7 @@ typedef enum {
 @class GrowlNotification;
 
 @interface GrowlGNTPOutgoingPacket : NSObject {
+   NSDictionary *growlDictionary;
 	NSMutableArray *headerItems;
 	NSMutableArray *binaryChunks;
 	NSString *mAction;
@@ -51,5 +52,7 @@ typedef enum {
 
 @property (retain) NSString *action;
 @property (retain) GNTPKey *key;
+@property (retain) NSDictionary *growlDictionary;
+@property (retain) NSMutableArray *headerItems;
 
 @end

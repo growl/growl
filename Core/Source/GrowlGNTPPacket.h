@@ -11,7 +11,7 @@
 #import "GrowlGNTPDefines.h"
 #import "GNTPKey.h"
 
-@class GrowlGNTPPacket, GrowlGNTPHeaderItem;
+@class GrowlGNTPPacket, GrowlGNTPHeaderItem, GrowlGNTPOutgoingPacket;
 
 typedef enum {
 	GrowlInitialBytesIdentifierRead = 1,
@@ -95,8 +95,11 @@ typedef enum {
 	unsigned long currentBinaryLength;
 	
 	GrowlGNTPPacket *specificPacket;
+   /* Origin packet is the packet we sent out */
+   GrowlGNTPOutgoingPacket *originPacket;
 
 	BOOL wasInitiatedLocally;
+   BOOL networkReadComplete;
 	NSError *error;
 	
 	NSString *encryptionAlgorithm;
@@ -123,12 +126,14 @@ typedef enum {
 - (BOOL)hasBeenReceivedPreviously;
 
 - (void)setWasInitiatedLocally:(BOOL)inWasInitiatedLocally;
+- (BOOL)wasInitiatedLocally;
 
 - (NSError *)error;
 
 @property (retain) NSString *action;
 @property (retain) GNTPKey *key;
 @property (retain) NSString *encryptionAlgorithm;
+@property (retain) GrowlGNTPOutgoingPacket *originPacket;
 
 #endif
 
@@ -153,4 +158,11 @@ typedef enum {
 - (NSArray *)headersForCallbackResult_wasClicked:(BOOL)wasClicked;
 - (NSURLRequest *)urlRequestForCallbackResult_wasClicked:(BOOL)wasClicked;
 #endif
+@end
+
+@interface GrowlOkGNTPPacket : GrowlGNTPPacket {
+   NSString *responseAction;
+}
+@property (nonatomic, retain) NSString *responseAction;
+
 @end

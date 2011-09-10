@@ -127,6 +127,8 @@
 @implementation GrowlGNTPOutgoingPacket
 @synthesize action = mAction;
 @synthesize key = mKey;
+@synthesize growlDictionary;
+@synthesize headerItems;
 
 + (GrowlGNTPOutgoingPacket *)outgoingPacket
 {
@@ -136,7 +138,8 @@
 + (GrowlGNTPOutgoingPacket *)outgoingPacketOfType:(GrowlGNTPOutgoingPacketType)type forDict:(NSDictionary *)dict
 {
 	GrowlGNTPOutgoingPacket *outgoingPacket = [self outgoingPacket];
-	
+	outgoingPacket.growlDictionary = dict;
+   
 	NSArray *headersArray = nil;
 	NSArray *binaryArray = nil;
 		
