@@ -166,7 +166,6 @@ enum {
       }
       
       if (closeConnection){
-         NSLog(@"Closing connection");
          [socket disconnect];
          [self finished];
       }
@@ -288,7 +287,9 @@ enum {
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
-	NSLog(@"Got disconnected: %@", socketError);
+   if(socketError && [socketError code] != 7)
+      NSLog(@"Got disconnected: %@", socketError);
+   
 	if (!attemptSucceeded) {
 		if (!socketError) {
 			NSDictionary *dict = [NSDictionary dictionaryWithObject:self.responseParseErrorString forKey:NSLocalizedDescriptionKey];
