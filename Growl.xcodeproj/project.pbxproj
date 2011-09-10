@@ -206,17 +206,8 @@
 		93E055FD141BDA5900FC4F76 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E05542141BD06B00FC4F76 /* MainMenu.xib */; };
 		93E055FE141BDA5900FC4F76 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E05544141BD06B00FC4F76 /* GrowlPref.xib */; };
 		93E4EDF2141C1C13005A26CF /* GrowlNanoPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EDE9141C1C13005A26CF /* GrowlNanoPrefs.xib */; };
-		93E4EDF3141C1C13005A26CF /* GrowlNanoDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37AF095A66950002B365 /* GrowlNanoDisplay.m */; };
-		93E4EDF4141C1C13005A26CF /* GrowlNanoPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B1095A66950002B365 /* GrowlNanoPrefs.m */; };
-		93E4EDF5141C1C13005A26CF /* GrowlNanoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B3095A66950002B365 /* GrowlNanoWindowController.m */; };
 		93E4EDFF141C1C59005A26CF /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EDF6141C1C59005A26CF /* iCalPrefs.xib */; };
-		93E4EE00141C1C59005A26CF /* GrowliCalDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411130A9408840063C4DC /* GrowliCalDisplay.m */; };
-		93E4EE01141C1C59005A26CF /* GrowliCalPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411150A9408840063C4DC /* GrowliCalPrefsController.m */; };
-		93E4EE02141C1C59005A26CF /* GrowliCalWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411170A9408840063C4DC /* GrowliCalWindowController.m */; };
 		93E4EE0C141C1C7B005A26CF /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EE03141C1C7B005A26CF /* BrushedPrefs.xib */; };
-		93E4EE0D141C1C7B005A26CF /* GrowlBrushedDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */; };
-		93E4EE0E141C1C7B005A26CF /* GrowlBrushedPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */; };
-		93E4EE0F141C1C7B005A26CF /* GrowlBrushedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC316507E03B2600BD8674 /* GrowlBrushedWindowController.m */; };
 		93E4EE3B141C226A005A26CF /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055BC141BD46500FC4F76 /* GrowlMailMePrefs.xib */; };
 		93E4EE3C141C2271005A26CF /* GrowlSMSPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EDE0141C1B7D005A26CF /* GrowlSMSPrefs.xib */; };
 		93E7121813F5652C0025D733 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121313F5652C0025D733 /* General.png */; };
@@ -3065,9 +3056,6 @@
 				93BC37BE095A66950002B365 /* GrowlNanoPrefs.m in Sources */,
 				93BC37BF095A66950002B365 /* GrowlNanoWindowController.m in Sources */,
 				93BC37C0095A66950002B365 /* GrowlNanoWindowView.m in Sources */,
-				93E4EDF3141C1C13005A26CF /* GrowlNanoDisplay.m in Sources */,
-				93E4EDF4141C1C13005A26CF /* GrowlNanoPrefs.m in Sources */,
-				93E4EDF5141C1C13005A26CF /* GrowlNanoWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3079,9 +3067,6 @@
 				955437E207E048BE005534FA /* GrowlBrushedPrefsController.m in Sources */,
 				955437E407E048BF005534FA /* GrowlBrushedWindowController.m in Sources */,
 				955437E607E048C0005534FA /* GrowlBrushedWindowView.m in Sources */,
-				93E4EE0D141C1C7B005A26CF /* GrowlBrushedDisplay.m in Sources */,
-				93E4EE0E141C1C7B005A26CF /* GrowlBrushedPrefsController.m in Sources */,
-				93E4EE0F141C1C7B005A26CF /* GrowlBrushedWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3211,9 +3196,6 @@
 				E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */,
 				E144111E0A9408840063C4DC /* GrowliCalWindowController.m in Sources */,
 				E144111F0A9408840063C4DC /* GrowliCalWindowView.m in Sources */,
-				93E4EE00141C1C59005A26CF /* GrowliCalDisplay.m in Sources */,
-				93E4EE01141C1C59005A26CF /* GrowliCalPrefsController.m in Sources */,
-				93E4EE02141C1C59005A26CF /* GrowliCalWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

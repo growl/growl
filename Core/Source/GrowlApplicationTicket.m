@@ -90,7 +90,7 @@
          appNameHostName = appName;
       }else {
          hostName = [host retain];
-         appNameHostName = [[NSString alloc] initWithFormat:@"%@ - %@", hostName, appName];
+         appNameHostName = [[[NSString alloc] initWithFormat:@"%@ - %@", hostName, appName] autorelease];
       }
       
 		if (appId && ![appId isKindOfClass:[NSString class]]) {
