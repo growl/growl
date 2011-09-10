@@ -13,7 +13,6 @@ def xibify(path)
             system command
             system "hg add \"#{newsubpath}\""
             system "hg rm \"#{subpath}\""
-            FileUtils.rm_r(subpath)
             
             Find.prune
         end
