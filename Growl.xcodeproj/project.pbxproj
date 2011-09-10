@@ -178,7 +178,6 @@
 		93A60E6113C549C300514EF8 /* TicketsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */; };
 		93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
 		93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
-		93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BF38FC0851F82200873BE1 /* WebKitPrefs.xib */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		93BC3799095A662B0002B365 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		93BC379A095A662B0002B365 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
@@ -193,32 +192,15 @@
 		93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */; };
 		93E0537C1415AE4300FC4F76 /* Garageband.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */; };
 		93E0557A141BD1ED00FC4F76 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E05572141BD1ED00FC4F76 /* BrushedPrefs.xib */; };
-		93E0557B141BD1ED00FC4F76 /* GrowlBrushedDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */; };
-		93E0557C141BD1ED00FC4F76 /* GrowlBrushedPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */; };
 		93E05585141BD27100FC4F76 /* BubblesPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0557D141BD27100FC4F76 /* BubblesPrefs.xib */; };
-		93E05586141BD27100FC4F76 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
-		93E05587141BD27100FC4F76 /* GrowlBubblesPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5EE20767C30800E1C1E4 /* GrowlBubblesPrefsController.m */; };
 		93E05590141BD2D600FC4F76 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E05588141BD2D600FC4F76 /* iCalPrefs.xib */; };
-		93E05591141BD2D600FC4F76 /* GrowliCalDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411130A9408840063C4DC /* GrowliCalDisplay.m */; };
-		93E05592141BD2D600FC4F76 /* GrowliCalPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411150A9408840063C4DC /* GrowliCalPrefsController.m */; };
 		93E0559B141BD32700FC4F76 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E05593141BD32700FC4F76 /* GrowlBezelPrefs.xib */; };
-		93E0559C141BD32700FC4F76 /* GrowlBezelDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5F330767C3F600E1C1E4 /* GrowlBezelDisplay.m */; };
-		93E0559D141BD32700FC4F76 /* GrowlBezelPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5F350767C3F600E1C1E4 /* GrowlBezelPrefs.m */; };
-		93E0559E141BD32700FC4F76 /* GrowlBezelWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5F370767C3F600E1C1E4 /* GrowlBezelWindowController.m */; };
 		93E055AE141BD3A500FC4F76 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E055A7141BD3A500FC4F76 /* Localizable.strings */; };
 		93E055AF141BD3A500FC4F76 /* GrowlSpeechPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0559F141BD38F00FC4F76 /* GrowlSpeechPrefs.xib */; };
-		93E055B0141BD3A500FC4F76 /* GrowlSpeechDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5DA00767C13200E1C1E4 /* GrowlSpeechDisplay.m */; };
 		93E055B9141BD41F00FC4F76 /* SmokePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055B1141BD41F00FC4F76 /* SmokePrefs.xib */; };
-		93E055BA141BD41F00FC4F76 /* GrowlSmokeDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5F8F0767C6C500E1C1E4 /* GrowlSmokeDisplay.m */; };
-		93E055BB141BD41F00FC4F76 /* GrowlSmokePrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F5F910767C6C500E1C1E4 /* GrowlSmokePrefsController.m */; };
 		93E055DA141BD4DE00FC4F76 /* GrowlMusicVideoPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055D2141BD4DE00FC4F76 /* GrowlMusicVideoPrefs.xib */; };
-		93E055DB141BD4DE00FC4F76 /* GrowlMusicVideoDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62510767C84E00E1C1E4 /* GrowlMusicVideoDisplay.m */; };
-		93E055DC141BD4DE00FC4F76 /* GrowlMusicVideoPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62530767C84E00E1C1E4 /* GrowlMusicVideoPrefs.m */; };
-		93E055DD141BD4DE00FC4F76 /* GrowlMusicVideoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */; };
 		93E055E6141BD51E00FC4F76 /* GrowlNanoPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055DE141BD51E00FC4F76 /* GrowlNanoPrefs.xib */; };
-		93E055E7141BD51E00FC4F76 /* GrowlNanoDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37AF095A66950002B365 /* GrowlNanoDisplay.m */; };
-		93E055E8141BD51E00FC4F76 /* GrowlNanoPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B1095A66950002B365 /* GrowlNanoPrefs.m */; };
-		93E055E9141BD51E00FC4F76 /* GrowlNanoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B3095A66950002B365 /* GrowlNanoWindowController.m */; };
+		93E055F2141BD76D00FC4F76 /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0553C141BD06B00FC4F76 /* WebKitPrefs.xib */; };
 		93E7121813F5652C0025D733 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121313F5652C0025D733 /* General.png */; };
 		93E7121913F5652C0025D733 /* Displays.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121413F5652C0025D733 /* Displays.png */; };
 		93E7121A13F5652C0025D733 /* Applications.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121513F5652C0025D733 /* Applications.png */; };
@@ -2637,7 +2619,6 @@
 				A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */,
 				A1CC412809E37A65009EF9BD /* closebox.png in Resources */,
 				93A60E4013C4159B00514EF8 /* Growl.icns in Resources */,
-				93A60E6713C54A3900514EF8 /* WebKitPrefs.xib in Resources */,
 				93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */,
 				932177BC13E4AB9F00157729 /* Growl.sdef in Resources */,
 				93E7121813F5652C0025D733 /* General.png in Resources */,
@@ -2647,6 +2628,7 @@
 				93E7121C13F5652C0025D733 /* Forwarding.png in Resources */,
 				93E7122113F568430025D733 /* About.png in Resources */,
 				BC94845613FB21690036382B /* Growl_512x512.png in Resources */,
+				93E055F2141BD76D00FC4F76 /* WebKitPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2722,11 +2704,11 @@
 			);
 			name = "Generate Localizable.strings";
 			outputPaths = (
-				"$(SRCROOT)/Core/Resources/English.lproj",
+				"$(SRCROOT)/Core/Resources/en.lproj",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Core/Resources/English.lproj Core/Source/*.h Core/Source/*.m";
+			shellScript = "genstrings -o Core/Resources/en.lproj Core/Source/*.h Core/Source/*.m";
 			showEnvVarsInLog = 0;
 		};
 		932659431411B69A0037AA2C /* Generate Localizable.strings */ = {
@@ -2741,7 +2723,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Speech/English.lproj Plugins/Displays/Speech/*.h Plugins/Displays/Speech/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Speech/en.lproj Plugins/Displays/Speech/*.h Plugins/Displays/Speech/*.m";
 			showEnvVarsInLog = 0;
 		};
 		932659571411B7B00037AA2C /* Generate Localizable.strings */ = {
@@ -2756,7 +2738,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Brushed/English.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Brushed/en.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
 			showEnvVarsInLog = 0;
 		};
 		932659581411B7D30037AA2C /* Generate Localizable.strings */ = {
@@ -2771,7 +2753,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Bubbles/English.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Bubbles/en.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m";
 		};
 		932659591411B7F00037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2785,7 +2767,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/iCal/English.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m";
+			shellScript = "genstrings -o Plugins/Displays/iCal/en.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m";
 		};
 		9326595A1411B8090037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2799,7 +2781,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Bezel/English.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Bezel/en.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m";
 		};
 		9326595B1411B8270037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2813,7 +2795,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Smoke/English.lproj Plugins/Displays/Smoke/*.h Plugins/Displays/Smoke/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Smoke/en.lproj Plugins/Displays/Smoke/*.h Plugins/Displays/Smoke/*.m";
 		};
 		9326595C1411B83E0037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2827,7 +2809,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Nano/English.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
+			shellScript = "genstrings -o Plugins/Displays/Nano/en.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
 		};
 		9326595D1411B8640037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2841,7 +2823,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/MailMe/English.lproj Plugins/Displays/MailMe/*.h Plugins/Displays/MailMe/*.m";
+			shellScript = "genstrings -o Plugins/Displays/MailMe/en.lproj Plugins/Displays/MailMe/*.h Plugins/Displays/MailMe/*.m";
 		};
 		9326595E1411B8890037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2855,7 +2837,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/MusicVideo/English.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m";
+			shellScript = "genstrings -o Plugins/Displays/MusicVideo/en.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m";
 		};
 		9326595F1411B8A20037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2869,7 +2851,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/SMS/English.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m";
+			shellScript = "genstrings -o Plugins/Displays/SMS/en.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2893,7 +2875,6 @@
 			files = (
 				0A7F5DA60767C13200E1C1E4 /* GrowlSpeechDisplay.m in Sources */,
 				0A7F5DA80767C13200E1C1E4 /* GrowlSpeechPrefs.m in Sources */,
-				93E055B0141BD3A500FC4F76 /* GrowlSpeechDisplay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2905,8 +2886,6 @@
 				0A7F5EEE0767C30800E1C1E4 /* GrowlBubblesWindowController.m in Sources */,
 				0A7F5EF00767C30800E1C1E4 /* GrowlBubblesWindowView.m in Sources */,
 				939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */,
-				93E05586141BD27100FC4F76 /* GrowlBubblesDisplay.m in Sources */,
-				93E05587141BD27100FC4F76 /* GrowlBubblesPrefsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2918,9 +2897,6 @@
 				0A7F5F3F0767C3F600E1C1E4 /* GrowlBezelPrefs.m in Sources */,
 				0A7F5F410767C3F600E1C1E4 /* GrowlBezelWindowController.m in Sources */,
 				0A7F5F430767C3F600E1C1E4 /* GrowlBezelWindowView.m in Sources */,
-				93E0559C141BD32700FC4F76 /* GrowlBezelDisplay.m in Sources */,
-				93E0559D141BD32700FC4F76 /* GrowlBezelPrefs.m in Sources */,
-				93E0559E141BD32700FC4F76 /* GrowlBezelWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2932,8 +2908,6 @@
 				0A7F5F9B0767C6C500E1C1E4 /* GrowlSmokePrefsController.m in Sources */,
 				0A7F5F9D0767C6C500E1C1E4 /* GrowlSmokeWindowController.m in Sources */,
 				0A7F5F9F0767C6C500E1C1E4 /* GrowlSmokeWindowView.m in Sources */,
-				93E055BA141BD41F00FC4F76 /* GrowlSmokeDisplay.m in Sources */,
-				93E055BB141BD41F00FC4F76 /* GrowlSmokePrefsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2954,9 +2928,6 @@
 				0A7F625C0767C84E00E1C1E4 /* GrowlMusicVideoPrefs.m in Sources */,
 				0A7F625E0767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m in Sources */,
 				0A7F62600767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m in Sources */,
-				93E055DB141BD4DE00FC4F76 /* GrowlMusicVideoDisplay.m in Sources */,
-				93E055DC141BD4DE00FC4F76 /* GrowlMusicVideoPrefs.m in Sources */,
-				93E055DD141BD4DE00FC4F76 /* GrowlMusicVideoWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3018,9 +2989,6 @@
 				93BC37BE095A66950002B365 /* GrowlNanoPrefs.m in Sources */,
 				93BC37BF095A66950002B365 /* GrowlNanoWindowController.m in Sources */,
 				93BC37C0095A66950002B365 /* GrowlNanoWindowView.m in Sources */,
-				93E055E7141BD51E00FC4F76 /* GrowlNanoDisplay.m in Sources */,
-				93E055E8141BD51E00FC4F76 /* GrowlNanoPrefs.m in Sources */,
-				93E055E9141BD51E00FC4F76 /* GrowlNanoWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3032,8 +3000,6 @@
 				955437E207E048BE005534FA /* GrowlBrushedPrefsController.m in Sources */,
 				955437E407E048BF005534FA /* GrowlBrushedWindowController.m in Sources */,
 				955437E607E048C0005534FA /* GrowlBrushedWindowView.m in Sources */,
-				93E0557B141BD1ED00FC4F76 /* GrowlBrushedDisplay.m in Sources */,
-				93E0557C141BD1ED00FC4F76 /* GrowlBrushedPrefsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3163,8 +3129,6 @@
 				E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */,
 				E144111E0A9408840063C4DC /* GrowliCalWindowController.m in Sources */,
 				E144111F0A9408840063C4DC /* GrowliCalWindowView.m in Sources */,
-				93E05591141BD2D600FC4F76 /* GrowliCalDisplay.m in Sources */,
-				93E05592141BD2D600FC4F76 /* GrowliCalPrefsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
