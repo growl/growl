@@ -10,6 +10,8 @@
 		314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 314B18D40F98248700ACAFD6 /* main.scpt */; settings = {ATTRIBUTES = (); }; };
 		65942E110711D4310089E4F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		65942E120711D4310089E4F1 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AABA78056AB2A5006CE269 /* Automator.framework */; };
+		93E055F3141BD8C500FC4F76 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E05419141BCB8F00FC4F76 /* InfoPlist.strings */; };
+		93E055F5141BD8CA00FC4F76 /* main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E0541B141BCB8F00FC4F76 /* main.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -206,6 +208,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E055F3141BD8C500FC4F76 /* InfoPlist.strings in Resources */,
+				93E055F5141BD8CA00FC4F76 /* main.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
