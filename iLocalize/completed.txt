@@ -1,2 +1,6 @@
 Dutch(nl)
 Greek(el)
+Italian(it)
+Norwegian Bokmal(nb)
+Czech(cs)
+Korean--South Korean(ko_KR)
