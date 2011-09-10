@@ -259,7 +259,7 @@ aHVyZS9wcmljaW5nLnBocA</string>
 							<object class="NSTextFieldCell" key="NSCell" id="44676633">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">71303168</int>
-								<string key="NSContents">비밀번호:</string>
+								<string key="NSContents">암호:</string>
 								<reference key="NSSupport" ref="104135842"/>
 								<reference key="NSControlView" ref="53768597"/>
 								<reference key="NSBackgroundColor" ref="320353781"/>

@@ -41,7 +41,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 240}, {390, 370}}</string>
 				<int key="NSWTFlags">544735232</int>
-				<string key="NSWindowTitle">Growl에 오신것을 환영합니다!</string>
+				<string key="NSWindowTitle">Growl 사용을 환영합니다!</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>

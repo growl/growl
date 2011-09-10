@@ -356,7 +356,7 @@
 							<object class="NSButtonCell" key="NSCell" id="446629636">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">아쿠아 대신 금속 테마 사용</string>
+								<string key="NSContents">금속 테마 대신 아쿠아 사용</string>
 								<reference key="NSSupport" ref="186163904"/>
 								<reference key="NSControlView" ref="217975936"/>
 								<int key="NSButtonFlags">1211912703</int>

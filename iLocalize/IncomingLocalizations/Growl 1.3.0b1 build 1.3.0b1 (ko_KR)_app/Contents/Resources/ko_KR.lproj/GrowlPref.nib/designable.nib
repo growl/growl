@@ -86,7 +86,7 @@
 								<characters key="NS.bytes">2D20F5DD-3B63-4DCB-AC68-C171D66A6FE8</characters>
 							</object>
 							<string key="NSToolbarItemLabel">네트워크</string>
-							<string key="NSToolbarItemPaletteLabel">Network</string>
+							<string key="NSToolbarItemPaletteLabel">네트워크</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -108,7 +108,7 @@
 								<characters key="NS.bytes">35DD270D-D6E9-4E2C-B130-43936219E626</characters>
 							</object>
 							<string key="NSToolbarItemLabel">정보</string>
-							<string key="NSToolbarItemPaletteLabel">About</string>
+							<string key="NSToolbarItemPaletteLabel">정보</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -130,7 +130,7 @@
 								<characters key="NS.bytes">8C1EF1A2-9BAC-48F4-98F6-21992ED2DC4D</characters>
 							</object>
 							<string key="NSToolbarItemLabel">알림 기록</string>
-							<string key="NSToolbarItemPaletteLabel">History</string>
+							<string key="NSToolbarItemPaletteLabel">알림 기록</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -152,7 +152,7 @@
 								<characters key="NS.bytes">A7BB308B-B8EB-4777-A34A-51F0C565C055</characters>
 							</object>
 							<string key="NSToolbarItemLabel">일반</string>
-							<string key="NSToolbarItemPaletteLabel">General</string>
+							<string key="NSToolbarItemPaletteLabel">일반</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -173,8 +173,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">CE9B74F3-0422-4072-821F-E75FEBB49552</characters>
 							</object>
-							<string key="NSToolbarItemLabel">모양</string>
-							<string key="NSToolbarItemPaletteLabel">Displays</string>
+							<string key="NSToolbarItemLabel">모양새</string>
+							<string key="NSToolbarItemPaletteLabel">모양새</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -195,8 +195,8 @@
 							<object class="NSMutableString" key="NSToolbarItemIdentifier">
 								<characters key="NS.bytes">D9A225C2-9AB3-4AA0-8419-912019077726</characters>
 							</object>
-							<string key="NSToolbarItemLabel">프로그램</string>
-							<string key="NSToolbarItemPaletteLabel">Applications</string>
+							<string key="NSToolbarItemLabel">응용 프로그램</string>
+							<string key="NSToolbarItemPaletteLabel">응용 프로그램</string>
 							<string key="NSToolbarItemToolTip"/>
 							<nil key="NSToolbarItemView"/>
 							<object class="NSCustomResource" key="NSToolbarItemImage">
@@ -291,18 +291,18 @@
 											<object class="NSTextField" id="374469680">
 												<reference key="NSNextResponder" ref="181255167"/>
 												<int key="NSvFlags">268</int>
-												<string key="NSFrame">{{47, 334}, {195, 17}}</string>
+												<string key="NSFrame">{{20, 334}, {216, 17}}</string>
 												<reference key="NSSuperview" ref="181255167"/>
 												<reference key="NSNextKeyView" ref="265824684"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="933135927">
 													<int key="NSCellFlags">68288064</int>
-													<int key="NSCellFlags2">272630784</int>
+													<int key="NSCellFlags2">138413056</int>
 													<string key="NSContents">자리 비우면 알림을 모아서 보여주기</string>
-													<object class="NSFont" key="NSSupport">
-														<string key="NSName">AppleGothic</string>
+													<object class="NSFont" key="NSSupport" id="735299932">
+														<string key="NSName">LucidaGrande</string>
 														<double key="NSSize">13</double>
-														<int key="NSfFlags">16</int>
+														<int key="NSfFlags">1044</int>
 													</object>
 													<reference key="NSControlView" ref="374469680"/>
 													<object class="NSColor" key="NSBackgroundColor" id="93958591">
@@ -389,7 +389,7 @@
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">272629760</int>
 													<string key="NSContents">초 동안 동작 없을 때</string>
-													<reference key="NSSupport" ref="980613253"/>
+													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="1060832893"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
 													<reference key="NSTextColor" ref="254331509"/>
@@ -407,7 +407,7 @@
 											<object class="NSTextField" id="176569420">
 												<reference key="NSNextResponder" ref="181255167"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{38, 211}, {198, 34}}</string>
+												<string key="NSFrame">{{38, 211}, {198, 17}}</string>
 												<reference key="NSSuperview" ref="181255167"/>
 												<reference key="NSNextKeyView" ref="410908874"/>
 												<bool key="NSEnabled">YES</bool>
@@ -459,11 +459,7 @@
 												<object class="NSSegmentedCell" key="NSCell" id="933833953">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">0</int>
-													<object class="NSFont" key="NSSupport" id="735299932">
-														<string key="NSName">LucidaGrande</string>
-														<double key="NSSize">13</double>
-														<int key="NSfFlags">1044</int>
-													</object>
+													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="854694990"/>
 													<array class="NSMutableArray" key="NSSegmentImages">
 														<object class="NSSegmentItem">
@@ -531,7 +527,7 @@
 													<object class="NSButtonCell" id="91057990">
 														<int key="NSCellFlags">-2080244224</int>
 														<int key="NSCellFlags2">0</int>
-														<string key="NSContents">모든 노트 합치기</string>
+														<string key="NSContents">모든 알림 합쳐서</string>
 														<reference key="NSSupport" ref="735299932"/>
 														<reference key="NSControlView" ref="627279759"/>
 														<int key="NSTag">1</int>
@@ -552,7 +548,7 @@
 													<object class="NSButtonCell" id="951281589">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">0</int>
-														<string key="NSContents">기록된 노트만 합치기</string>
+														<string key="NSContents">기록에 보관된 알림만</string>
 														<reference key="NSSupport" ref="735299932"/>
 														<reference key="NSControlView" ref="627279759"/>
 														<int key="NSButtonFlags">1211912703</int>
@@ -590,7 +586,7 @@
 										<string key="NSFrameSize">{559, 479}</string>
 										<reference key="NSNextKeyView" ref="854694990"/>
 									</object>
-									<string key="NSLabel">General</string>
+									<string key="NSLabel">일반</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
@@ -609,7 +605,7 @@
 													<object class="NSTabViewItem" id="166863055">
 														<string key="NSIdentifier">application</string>
 														<object class="NSView" key="NSView" id="16743561">
-															<nil key="NSNextResponder"/>
+															<reference key="NSNextResponder" ref="225402107"/>
 															<int key="NSvFlags">256</int>
 															<array class="NSMutableArray" key="NSSubviews">
 																<object class="NSScrollView" id="122426890">
@@ -649,7 +645,7 @@
 																							<object class="NSTableHeaderCell" key="NSHeaderCell">
 																								<int key="NSCellFlags">75628096</int>
 																								<int key="NSCellFlags2">2048</int>
-																								<string key="NSContents">프로그램</string>
+																								<string key="NSContents">응용 프로그램</string>
 																								<object class="NSFont" key="NSSupport" id="26">
 																									<string key="NSName">LucidaGrande</string>
 																									<double key="NSSize">11</double>
@@ -692,7 +688,7 @@
 																							<object class="NSTableHeaderCell" key="NSHeaderCell">
 																								<int key="NSCellFlags">75628096</int>
 																								<int key="NSCellFlags2">134219776</int>
-																								<string key="NSContents">활성</string>
+																								<string key="NSContents">사용</string>
 																								<reference key="NSSupport" ref="26"/>
 																								<object class="NSColor" key="NSBackgroundColor" id="574817624">
 																									<int key="NSColorSpace">6</int>
@@ -908,7 +904,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<int key="NSCellFlags2">268436480</int>
 																		<string key="NSContents"/>
 																		<reference key="NSSupport" ref="980613253"/>
-																		<string key="NSPlaceholderString">프로그램 검색</string>
+																		<string key="NSPlaceholderString">응용 프로그램</string>
 																		<reference key="NSControlView" ref="585564087"/>
 																		<bool key="NSDrawsBackground">YES</bool>
 																		<int key="NSTextBezelStyle">1</int>
@@ -1004,16 +1000,17 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																</object>
 															</array>
 															<string key="NSFrameSize">{559, 479}</string>
+															<reference key="NSSuperview" ref="225402107"/>
 															<reference key="NSNextKeyView" ref="585564087"/>
 														</object>
-														<string key="NSLabel">Application</string>
+														<string key="NSLabel">응용 프로그램</string>
 														<reference key="NSColor" ref="93958591"/>
 														<reference key="NSTabView" ref="225402107"/>
 													</object>
 													<object class="NSTabViewItem" id="248833337">
 														<string key="NSIdentifier">configure</string>
 														<object class="NSView" key="NSView" id="1045490142">
-															<reference key="NSNextResponder" ref="225402107"/>
+															<nil key="NSNextResponder"/>
 															<int key="NSvFlags">256</int>
 															<array class="NSMutableArray" key="NSSubviews">
 																<object class="NSButton" id="350009209">
@@ -1073,7 +1070,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																	<object class="NSTextFieldCell" key="NSCell" id="89650705">
 																		<int key="NSCellFlags">67239488</int>
 																		<int key="NSCellFlags2">4196864</int>
-																		<string key="NSContents">시스템 폰트 글자</string>
+																		<string key="NSContents">시스템 서체 글자</string>
 																		<object class="NSFont" key="NSSupport">
 																			<string key="NSName">LucidaGrande-Bold</string>
 																			<double key="NSSize">13</double>
@@ -1322,7 +1319,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																						<int key="NSvFlags">256</int>
 																						<string key="NSFrame">{{12, 68}, {443, 24}}</string>
 																						<reference key="NSSuperview" ref="578533076"/>
-																						<reference key="NSNextKeyView" ref="945343364"/>
+																						<reference key="NSNextKeyView" ref="1045490142"/>
 																						<bool key="NSEnabled">YES</bool>
 																						<object class="NSTextFieldCell" key="NSCell" id="307480010">
 																							<int key="NSCellFlags">67239424</int>
@@ -1348,7 +1345,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																						<object class="NSButtonCell" key="NSCell" id="108870458">
 																							<int key="NSCellFlags">67239488</int>
 																							<int key="NSCellFlags2">2048</int>
-																							<string key="NSContents">사용하기</string>
+																							<string key="NSContents">사용</string>
 																							<reference key="NSSupport" ref="980613253"/>
 																							<reference key="NSControlView" ref="544735984"/>
 																							<int key="NSButtonFlags">1211912703</int>
@@ -1889,7 +1886,6 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																</object>
 															</array>
 															<string key="NSFrameSize">{559, 479}</string>
-															<reference key="NSSuperview" ref="225402107"/>
 															<reference key="NSNextKeyView" ref="557476403"/>
 														</object>
 														<string key="NSLabel">설정</string>
@@ -1897,19 +1893,19 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 														<reference key="NSTabView" ref="225402107"/>
 													</object>
 												</array>
-												<reference key="NSSelectedTabViewItem" ref="248833337"/>
+												<reference key="NSSelectedTabViewItem" ref="166863055"/>
 												<reference key="NSFont" ref="980613253"/>
 												<int key="NSTvFlags">6</int>
 												<bool key="NSAllowTruncatedLabels">YES</bool>
 												<array class="NSMutableArray" key="NSSubviews">
-													<reference ref="1045490142"/>
+													<reference ref="16743561"/>
 												</array>
 											</object>
 										</array>
 										<string key="NSFrameSize">{559, 479}</string>
 										<reference key="NSNextKeyView" ref="225402107"/>
 									</object>
-									<string key="NSLabel">Applications</string>
+									<string key="NSLabel">응용 프로그램</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
@@ -1957,7 +1953,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<object class="NSTableHeaderCell" key="NSHeaderCell">
 																			<int key="NSCellFlags">75628096</int>
 																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">알림 모양 보이기</string>
+																			<string key="NSContents">알림 모양</string>
 																			<reference key="NSSupport" ref="24"/>
 																			<object class="NSColor" key="NSBackgroundColor">
 																				<int key="NSColorSpace">3</int>
@@ -2280,7 +2276,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 										<string key="NSFrameSize">{559, 479}</string>
 										<reference key="NSNextKeyView" ref="997935212"/>
 									</object>
-									<string key="NSLabel">옵션 보이기</string>
+									<string key="NSLabel">모양새</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
@@ -2323,8 +2319,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="997321355">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">4194304</int>
-													<string key="NSContents">서버 비밀번호:</string>
-													<reference key="NSSupport" ref="980613253"/>
+													<string key="NSContents">서버 암호:</string>
+													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="638696591"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
 													<reference key="NSTextColor" ref="254331509"/>
@@ -2361,7 +2357,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																<int key="NSvFlags">256</int>
 																<string key="NSFrameSize">{517, 202}</string>
 																<reference key="NSSuperview" ref="417001831"/>
-																<reference key="NSNextKeyView" ref="940625217"/>
+																<reference key="NSNextKeyView" ref="605878052"/>
 																<bool key="NSEnabled">YES</bool>
 																<object class="NSTableHeaderView" key="NSHeaderView" id="420204122">
 																	<reference key="NSNextResponder" ref="605878052"/>
@@ -2371,7 +2367,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																	<reference key="NSNextKeyView" ref="624646849"/>
 																	<reference key="NSTableView" ref="288915071"/>
 																</object>
-																<object class="_NSCornerView" key="NSCornerView" id="940625217">
+																<object class="_NSCornerView" key="NSCornerView">
 																	<nil key="NSNextResponder"/>
 																	<int key="NSvFlags">-2147483392</int>
 																	<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
@@ -2448,7 +2444,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<object class="NSTableHeaderCell" key="NSHeaderCell">
 																			<int key="NSCellFlags">75628096</int>
 																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">비밀번호</string>
+																			<string key="NSContents">암호</string>
 																			<reference key="NSSupport" ref="26"/>
 																			<reference key="NSBackgroundColor" ref="574817624"/>
 																			<reference key="NSTextColor" ref="509280688"/>
@@ -2713,7 +2709,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="891656723">
 													<int key="NSCellFlags">68288064</int>
 													<int key="NSCellFlags2">272761856</int>
-													<string key="NSContents">Growl 버전 1.3 이상 사용하는 컴퓨터를 나타냅니다.</string>
+													<string key="NSContents">은 Growl 버전 1.3 이상 사용하는 컴퓨터를 나타냅니다.</string>
 													<reference key="NSSupport" ref="26"/>
 													<reference key="NSControlView" ref="63035810"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
@@ -2730,7 +2726,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="491007080">
 													<int key="NSCellFlags">68288064</int>
 													<int key="NSCellFlags2">272761856</int>
-													<string key="NSContents">알림 전달을 위해 수동으로 입력한 컴퓨터입니다.</string>
+													<string key="NSContents">은 알림 전달을 위해 수동으로 입력한 컴퓨터입니다.</string>
 													<reference key="NSSupport" ref="26"/>
 													<reference key="NSControlView" ref="567150163"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
@@ -2775,14 +2771,14 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 										<string key="NSFrameSize">{559, 479}</string>
 										<reference key="NSNextKeyView" ref="54840242"/>
 									</object>
-									<string key="NSLabel">Network</string>
+									<string key="NSLabel">네트워크</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
 								<object class="NSTabViewItem" id="714548492">
 									<string key="NSIdentifier">5</string>
 									<object class="NSView" key="NSView" id="630730195">
-										<reference key="NSNextResponder" ref="842014074"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSStepper" id="591148368">
@@ -2813,7 +2809,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="173111428">
 													<int key="NSCellFlags">-1804468671</int>
 													<int key="NSCellFlags2">272630784</int>
-													<reference key="NSSupport" ref="980613253"/>
+													<reference key="NSSupport" ref="735299932"/>
 													<object class="NSNumberFormatter" key="NSFormatter" id="350566754">
 														<dictionary class="NSMutableDictionary" key="NS.attributes">
 															<boolean value="YES" key="allowsFloats"/>
@@ -2870,8 +2866,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSButtonCell" key="NSCell" id="56895213">
 													<int key="NSCellFlags">-2080244224</int>
 													<int key="NSCellFlags2">67108864</int>
-													<string key="NSContents">해당 일 경과후 삭제</string>
-													<reference key="NSSupport" ref="980613253"/>
+													<string key="NSContents">보관할 기간 (일)</string>
+													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="332655446"/>
 													<int key="NSButtonFlags">1210864127</int>
 													<int key="NSButtonFlags2">2</int>
@@ -2893,8 +2889,8 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSButtonCell" key="NSCell" id="957718955">
 													<int key="NSCellFlags">-2080244224</int>
 													<int key="NSCellFlags2">67108864</int>
-													<string key="NSContents">해당 개수 이후 삭제</string>
-													<reference key="NSSupport" ref="980613253"/>
+													<string key="NSContents">보관할 최대 개수</string>
+													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="319276967"/>
 													<int key="NSButtonFlags">1210864127</int>
 													<int key="NSButtonFlags2">2</int>
@@ -2916,7 +2912,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="774690240">
 													<int key="NSCellFlags">-1804468671</int>
 													<int key="NSCellFlags2">272630784</int>
-													<reference key="NSSupport" ref="980613253"/>
+													<reference key="NSSupport" ref="735299932"/>
 													<object class="NSNumberFormatter" key="NSFormatter" id="702666840">
 														<dictionary class="NSMutableDictionary" key="NS.attributes">
 															<boolean value="YES" key="allowsFloats"/>
@@ -3029,7 +3025,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<object class="NSTableHeaderCell" key="NSHeaderCell">
 																			<int key="NSCellFlags">75628096</int>
 																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">프로그램</string>
+																			<string key="NSContents">응용 프로그램</string>
 																			<reference key="NSSupport" ref="26"/>
 																			<object class="NSColor" key="NSBackgroundColor" id="199023844">
 																				<int key="NSColorSpace">3</int>
@@ -3094,7 +3090,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<object class="NSTableHeaderCell" key="NSHeaderCell">
 																			<int key="NSCellFlags">75628096</int>
 																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">시간</string>
+																			<string key="NSContents">알림일</string>
 																			<reference key="NSSupport" ref="26"/>
 																			<reference key="NSBackgroundColor" ref="574817624"/>
 																			<reference key="NSTextColor" ref="509280688"/>
@@ -3120,7 +3116,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																		<int key="NSResizingMask">3</int>
 																		<bool key="NSIsResizeable">YES</bool>
 																		<reference key="NSTableView" ref="763752716"/>
-																		<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
+																		<object class="NSSortDescriptor" key="NSSortDescriptorPrototype" id="1008223580">
 																			<string key="NSKey">Time</string>
 																			<bool key="NSAscending">YES</bool>
 																			<string key="NSSelector">compare:</string>
@@ -3135,6 +3131,9 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																<int key="NSTvFlags">1581252608</int>
 																<reference key="NSDelegate"/>
 																<reference key="NSDataSource"/>
+																<array key="NSSortDescriptors">
+																	<reference ref="1008223580"/>
+																</array>
 																<int key="NSColumnAutoresizingStyle">4</int>
 																<int key="NSDraggingSourceMaskForLocal">15</int>
 																<int key="NSDraggingSourceMaskForNonLocal">0</int>
@@ -3611,7 +3610,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="1038291148">
 													<int key="NSCellFlags">70385217</int>
 													<int key="NSCellFlags2">272630784</int>
-													<string key="NSContents">프로그램 - 제목</string>
+													<string key="NSContents">응용 프로그램 - 제목</string>
 													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="502443600"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
@@ -3628,7 +3627,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 												<object class="NSTextFieldCell" key="NSCell" id="575092971">
 													<int key="NSCellFlags">68288064</int>
 													<int key="NSCellFlags2">272630784</int>
-													<string key="NSContents">알림 기록 활성:</string>
+													<string key="NSContents">알림 기록 사용:</string>
 													<reference key="NSSupport" ref="735299932"/>
 													<reference key="NSControlView" ref="1072525762"/>
 													<reference key="NSBackgroundColor" ref="93958591"/>
@@ -3681,17 +3680,16 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 											</object>
 										</array>
 										<string key="NSFrameSize">{559, 479}</string>
-										<reference key="NSSuperview" ref="842014074"/>
 										<reference key="NSNextKeyView" ref="1072525762"/>
 									</object>
-									<string key="NSLabel">History</string>
+									<string key="NSLabel">알림 기록</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
 								<object class="NSTabViewItem" id="626188781">
 									<string key="NSIdentifier">6</string>
 									<object class="NSView" key="NSView" id="107834658">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="842014074"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSScrollView" id="61294914">
@@ -3857,7 +3855,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<object class="NSButtonCell" key="NSCell" id="413447456">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">134217728</int>
-													<string key="NSContents">Growl 버그 제보</string>
+													<string key="NSContents">Growl 버그 신고</string>
 													<reference key="NSSupport" ref="980613253"/>
 													<reference key="NSControlView" ref="395420703"/>
 													<int key="NSButtonFlags">-2038021889</int>
@@ -3892,26 +3890,27 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											</object>
 										</array>
 										<string key="NSFrameSize">{559, 479}</string>
+										<reference key="NSSuperview" ref="842014074"/>
 										<reference key="NSNextKeyView" ref="82425487"/>
 									</object>
-									<string key="NSLabel">About</string>
+									<string key="NSLabel">정보</string>
 									<reference key="NSColor" ref="93958591"/>
 									<reference key="NSTabView" ref="842014074"/>
 								</object>
 							</array>
-							<reference key="NSSelectedTabViewItem" ref="714548492"/>
+							<reference key="NSSelectedTabViewItem" ref="626188781"/>
 							<reference key="NSFont" ref="980613253"/>
 							<int key="NSTvFlags">6</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<array class="NSMutableArray" key="NSSubviews">
-								<reference ref="630730195"/>
+								<reference ref="107834658"/>
 							</array>
 						</object>
 					</array>
 					<string key="NSFrameSize">{559, 479}</string>
 					<reference key="NSNextKeyView" ref="842014074"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{224.66399999999999, 88}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -4309,7 +4308,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="NSFrameSize">{343, 224}</string>
 					<reference key="NSNextKeyView" ref="946154185"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{340, 197}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -4318,7 +4317,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
-				<reference key="NSNextKeyView" ref="544735984"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -6295,6 +6293,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="1013818818"/>
 						</array>
 						<reference key="parent" ref="842014074"/>
+						<string key="objectName">Tab View Item - Network</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">276</int>
@@ -6420,6 +6419,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="107834658"/>
 						</array>
 						<reference key="parent" ref="842014074"/>
+						<string key="objectName">Tab View Item - About</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">515</int>
@@ -6961,6 +6961,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="718716518"/>
 						</array>
 						<reference key="parent" ref="149015983"/>
+						<string key="objectName">Static Text - 아래 알림 모양은 Growl 1.1을 완전히 지원하지 않아서 비활성화 되었습니다.</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1410</int>

@@ -593,7 +593,7 @@
 										<reference ref="308525521"/>
 										<object class="NSMenuItem" id="902460501">
 											<reference key="NSMenu" ref="538670302"/>
-											<string key="NSTitle">부드럽게 사라지기</string>
+											<string key="NSTitle">사라지기</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>

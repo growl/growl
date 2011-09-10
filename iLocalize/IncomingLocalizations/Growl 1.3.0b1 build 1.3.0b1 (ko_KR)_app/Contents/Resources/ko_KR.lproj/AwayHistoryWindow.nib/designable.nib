@@ -66,7 +66,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="110439836">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">138413056</int>
-								<string key="NSContents">자리 비운 동안의 노트</string>
+								<string key="NSContents">자리 비운 동안의 알림</string>
 								<object class="NSFont" key="NSSupport" id="407278005">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -348,7 +348,7 @@
 									<object class="NSTextFieldCell" key="NSCell" id="995063868">
 										<int key="NSCellFlags">67239488</int>
 										<int key="NSCellFlags2">272631808</int>
-										<string key="NSContents">- 노트 제목</string>
+										<string key="NSContents">- 알림 제목</string>
 										<reference key="NSSupport" ref="407278005"/>
 										<reference key="NSControlView" ref="631496807"/>
 										<reference key="NSBackgroundColor" ref="419207456"/>
@@ -844,7 +844,7 @@
 									<object class="NSTextFieldCell" key="NSCell" id="825119035">
 										<int key="NSCellFlags">67239488</int>
 										<int key="NSCellFlags2">272631808</int>
-										<string key="NSContents">노트 제목</string>
+										<string key="NSContents">알림 제목</string>
 										<reference key="NSSupport" ref="407278005"/>
 										<reference key="NSControlView" ref="533087947"/>
 										<reference key="NSBackgroundColor" ref="419207456"/>

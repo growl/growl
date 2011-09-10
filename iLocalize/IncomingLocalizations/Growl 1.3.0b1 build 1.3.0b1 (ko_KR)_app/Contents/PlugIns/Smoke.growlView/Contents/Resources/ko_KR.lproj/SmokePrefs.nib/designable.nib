@@ -965,7 +965,7 @@
 										<reference ref="580138926"/>
 										<object class="NSMenuItem" id="203799410">
 											<reference key="NSMenu" ref="237231263"/>
-											<string key="NSTitle">큼</string>
+											<string key="NSTitle">크게</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
