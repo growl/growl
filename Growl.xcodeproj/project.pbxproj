@@ -217,6 +217,8 @@
 		93E4EE0D141C1C7B005A26CF /* GrowlBrushedDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */; };
 		93E4EE0E141C1C7B005A26CF /* GrowlBrushedPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */; };
 		93E4EE0F141C1C7B005A26CF /* GrowlBrushedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC316507E03B2600BD8674 /* GrowlBrushedWindowController.m */; };
+		93E4EE3B141C226A005A26CF /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055BC141BD46500FC4F76 /* GrowlMailMePrefs.xib */; };
+		93E4EE3C141C2271005A26CF /* GrowlSMSPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EDE0141C1B7D005A26CF /* GrowlSMSPrefs.xib */; };
 		93E7121813F5652C0025D733 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121313F5652C0025D733 /* General.png */; };
 		93E7121913F5652C0025D733 /* Displays.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121413F5652C0025D733 /* Displays.png */; };
 		93E7121A13F5652C0025D733 /* Applications.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121513F5652C0025D733 /* Applications.png */; };
@@ -2638,6 +2640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31C7594B1047202B008547BF /* simple-mailer.py in Resources */,
+				93E4EE3B141C226A005A26CF /* GrowlMailMePrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2708,6 +2711,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E4EE3C141C2271005A26CF /* GrowlSMSPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
