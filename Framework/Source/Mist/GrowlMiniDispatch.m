@@ -24,82 +24,112 @@
 	[super dealloc];
 }
 
-- (void)animationDidEnd:(NSAnimation *)animation {
-	[repositionAnimation release];
-	repositionAnimation = nil;
+- (void)queueWindow:(GrowlMistWindowController*)newWindow
+{
+   if(!queuedWindows)
+      queuedWindows = [[NSMutableArray alloc] init];
+   [queuedWindows addObject:newWindow];
 }
 
-- (void)animationDidStop:(NSAnimation *)animation {
-	
+- (BOOL)insertWindow:(GrowlMistWindowController*)newWindow
+{
+   __block CGRect screenRect = NSRectToCGRect([[NSScreen mainScreen] visibleFrame]);
+	__block CGPoint upperRight = {(screenRect.origin.x + screenRect.size.width - 10), (screenRect.origin.y + screenRect.size.height - 10)};
+   __block CGRect newWindowFrame = NSRectToCGRect([[newWindow window] frame]);
+   newWindowFrame.origin.x = upperRight.x - newWindowFrame.size.width;
+   newWindowFrame.origin.y = upperRight.y - newWindowFrame.size.height;
+   
+   __block NSUInteger indexToInsert = NSNotFound;
+   __block NSInteger skipCount = 0;
+   __block NSInteger displayed = 1;
+   
+   //We can insert right at the default start if there aren't any mist windows at the moment
+   if([windows count] > 0)
+   {
+      [windows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         CGRect currentFrame = [[obj window] frame];
+         if(skipCount > 0){
+            skipCount--;
+         }else if (currentFrame.origin.x > newWindowFrame.origin.x){
+            /* Current is in a column to the right of the column we are looking at, 
+             *  skip it and move to the next since we didn't fit at bottom of screen*/
+            skipCount++;
+         }else if (currentFrame.origin.x < newWindowFrame.origin.x){
+            /* Current is in a column to the left of the column we are looking at
+             * this should only happen if the column is empty and free*/
+            *stop = YES;
+            indexToInsert = idx;
+         }else{
+            BOOL intersect = CGRectIntersectsRect(newWindowFrame, currentFrame);
+            BOOL moved = NO;
+            if(intersect){
+               newWindowFrame.origin.y = currentFrame.origin.y - newWindowFrame.size.height - 10;
+               moved = YES;
+            }
+            
+            /* Is current or next position off the bottom? */
+            if(newWindowFrame.origin.y - 10 < 0){
+               newWindowFrame.origin.x -= (newWindowFrame.size.width + 10);
+               newWindowFrame.origin.y = upperRight.y - newWindowFrame.size.height;
+               moved = YES;
+            }
+            
+            /* Is it now off the screen? */
+            if(newWindowFrame.origin.x < 0){
+               NSLog(@"No screen real estate left, putting in queue");
+               *stop = YES;
+               indexToInsert = [windows count];
+               displayed = -1;
+            }else if(!moved){
+               /* We are on the screen, we haven't moved since the test,
+                * and we are not occupying the current inspection frame's space
+                * We assume this is an ok place to stop, it is possibly naive */
+               *stop = YES;
+               indexToInsert = idx;
+            }
+         }
+      }];
+   }
+   
+   if(displayed < 0){
+      return NO;
+   }else{
+      if([windows count] == 0)
+         [windows addObject:newWindow];
+      else if(indexToInsert >= [windows count])
+         [windows addObject:newWindow];
+      else
+         [windows insertObject:newWindow atIndex:indexToInsert];
+      [[newWindow window] setFrame:newWindowFrame display:NO];
+      [newWindow fadeIn];
+   }
+   return YES;
 }
 
-- (void)repositionAllWindows {
-	// Calculate positions of all windows.
-	
-	NSRect screenRect = [[NSScreen mainScreen] visibleFrame];
-	NSPoint upperRight = NSMakePoint((screenRect.origin.x + screenRect.size.width - 10), (screenRect.origin.y + screenRect.size.height - 10));
-	
-	NSMutableArray *animations = [NSMutableArray array];
-	
-	BOOL hasSelected = NO;
-	GrowlMistWindowController *windowWalk;
-	
-	for (windowWalk in windows) {
-		if (windowWalk.selected)
-			hasSelected = YES;
-	}
-	
-	if (hasSelected) {
-		[self performSelector:@selector(repositionAllWindows) withObject:nil afterDelay:1];
-		return;
-	}
-
-	
-	for (windowWalk in windows) {
-		NSRect windowFrame = [[windowWalk window] frame];
-		NSRect newWindowFrame = windowFrame;
-		newWindowFrame.origin.x = upperRight.x - newWindowFrame.size.width;
-		newWindowFrame.origin.y = upperRight.y - newWindowFrame.size.height;
-		
-		if (!NSContainsRect(screenRect, newWindowFrame)) {
-			// Scoot up and over!
-			newWindowFrame.origin.y = screenRect.origin.y + screenRect.size.height - 10;
-			newWindowFrame.origin.x -= newWindowFrame.size.width + 10;
-		}
-		
-		upperRight.x = newWindowFrame.origin.x + newWindowFrame.size.width;
-		upperRight.y = newWindowFrame.origin.y - 10;
-
-		if (!NSEqualRects(windowFrame, newWindowFrame)) {
-			if (windowWalk.visible) {
-				// Scoot us to the new position
-				NSDictionary *animDict = [NSDictionary dictionaryWithObjectsAndKeys:
-												[windowWalk window], NSViewAnimationTargetKey,
-												[NSValue valueWithRect:newWindowFrame], NSViewAnimationEndFrameKey,
-										  nil];
-				[animations addObject:animDict];
-			}
-			else {
-				// We haven't appeared yet, just push us.
-				[[windowWalk window] setFrame:newWindowFrame display:NO];
-			}
-		}
-	}
-	
-	if ([animations count]) {
-		if (repositionAnimation) {
-			[repositionAnimation stopAnimation];
-			[repositionAnimation release];
-			repositionAnimation = nil;
-		}
-		
-		repositionAnimation = [[NSViewAnimation alloc] initWithViewAnimations:animations];
-		[repositionAnimation setDelegate:self];
-		[repositionAnimation setDuration:0.3];
-		[repositionAnimation setAnimationBlockingMode:NSAnimationNonblocking];
-		[repositionAnimation setFrameRate:0.0];
-		[repositionAnimation startAnimation];
-	}
+- (void)dequeueWindows
+{
+   if(!queuedWindows)
+      return;
+   
+   NSMutableArray *toRemove = [NSMutableArray array];
+   
+   //We display them in order of receipt, if there is a note it can't display right now, we break and will catch it when there is space
+   [queuedWindows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([self insertWindow:obj]){
+         [toRemove addObject:obj];
+         [obj fadeIn];
+      }else
+         *stop = YES;
+   }];
+   
+   //Mutable arrays don't like being mutated while being enumerated
+   if([toRemove count] > 0)
+      [queuedWindows removeObjectsInArray:toRemove];
+   
+   if([queuedWindows count] == 0){
+      [queuedWindows release];
+      queuedWindows = nil;
+   }
 }
 
 - (void)displayNotification:(NSDictionary *)notification {
@@ -129,10 +159,9 @@
 																								  sticky:sticky 
 																								userInfo:userInfo 
 																								delegate:self];
-	
-	[windows addObject:mistWindow];
-	[self repositionAllWindows];
-	[mistWindow fadeIn];
+
+   if(![self insertWindow:mistWindow])
+      [self queueWindow:mistWindow];
 	[mistWindow release];
 }
 
@@ -141,8 +170,7 @@
 	[window retain];
 	[windows removeObject:window];
 	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(repositionAllWindows) object:nil];
-	[self performSelector:@selector(repositionAllWindows) withObject:nil afterDelay:0.5];
+   [self dequeueWindows];
 	
 	id info = window.userInfo;
 	
@@ -157,8 +185,7 @@
 	[window retain];
 	[windows removeObject:window];
 
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(repositionAllWindows) object:nil];
-	[self performSelector:@selector(repositionAllWindows) withObject:nil afterDelay:0.5];
+   [self dequeueWindows];
 	
 	id info = window.userInfo;
 

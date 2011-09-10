@@ -17,15 +17,13 @@
 @interface GrowlMiniDispatch : NSObject <NSAnimationDelegate> {
 
 	NSMutableArray *windows;
-	NSViewAnimation *repositionAnimation;
+   NSMutableArray *queuedWindows;
 	
 	id				delegate;
 	
 }
 
 @property (nonatomic,assign) id delegate;
-
-- (void)repositionAllWindows;
 
 - (void)displayNotification:(NSDictionary *)notification;
 
