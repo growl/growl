@@ -285,6 +285,13 @@ static BOOL    attemptingToRegister = NO;
    if(attemptingToRegister){
       NSLog(@"Attempting to register while an attempt is already running");
    }
+   
+   //Will register when growl is running and ready
+   if(![self isGrowlRunning]){
+      registerWhenGrowlIsReady = YES;
+      return NO;
+   }
+   
 	if (regDict)
 		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
