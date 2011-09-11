@@ -154,5 +154,10 @@
 	}
 }
 
+- (void)closeAllNotifications
+{
+   if([[self delegate] respondsToSelector:@selector(closeAllNotifications:)])
+      [[self delegate] closeAllNotifications:self];
+}
 
 @end

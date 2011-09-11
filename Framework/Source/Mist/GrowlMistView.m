@@ -177,9 +177,13 @@
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	if ([[self delegate] respondsToSelector:@selector(mistViewDismissed:)]) {
-		[[self delegate] mistViewDismissed:NO];
-	}
+   if(([theEvent modifierFlags] & NSAlternateKeyMask) != 0){
+      if([[self delegate] respondsToSelector:@selector(closeAllNotifications)])
+         [[self delegate] closeAllNotifications];
+   }else{
+      if ([[self delegate] respondsToSelector:@selector(mistViewDismissed:)])
+         [[self delegate] mistViewDismissed:NO];
+   }
 }
 
 @end
