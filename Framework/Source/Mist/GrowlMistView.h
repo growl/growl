@@ -37,6 +37,7 @@
 @optional
 - (void)mistViewDismissed:(BOOL)closed;
 - (void)mistViewSelected:(BOOL)selected;
+- (void)closeAllNotifications;
 @end
 
 

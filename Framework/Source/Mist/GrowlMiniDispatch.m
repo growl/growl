@@ -195,5 +195,12 @@
 	[window release];
 }
 
+- (void)closeAllNotifications:(GrowlMistWindowController *)window
+{
+   [windows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([obj respondsToSelector:@selector(mistViewDismissed:)])
+         [obj mistViewDismissed:NO];
+   }];
+}
 
 @end

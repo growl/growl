@@ -14,6 +14,7 @@
 @optional
 - (void)mistNotificationDismissed:(GrowlMistWindowController *)window;
 - (void)mistNotificationClicked:(GrowlMistWindowController *)window;
+- (void)closeAllNotifications:(GrowlMistWindowController *)window;
 @end
 
 
