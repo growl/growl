@@ -72,6 +72,11 @@
 #define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@ (%@)"), "")
 #define NotifierNetworkIpReleasedDescription()			CFCopyLocalizedString(CFSTR("No IP address now"), "")
 
+
+#define NotifierAirPortIdentifier	@"airport"
+#define NotifierPowerIdentifier		@"power"
+#define NotifierSyncIdentifier		@"sync"
+
 static io_connect_t			powerConnection;
 static io_object_t			powerNotifier;
 static CFRunLoopSourceRef	powerRunLoopSource;
@@ -216,7 +221,8 @@ void AppController_fwDidConnect(CFStringRef deviceName) {
 							iconData:(NSData *)firewireLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:(NSString *)deviceName];
 	CFRelease(title);
 }
 
@@ -230,7 +236,8 @@ void AppController_fwDidDisconnect(CFStringRef deviceName) {
 							iconData:(NSData *)firewireLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:(NSString *) deviceName];
 	CFRelease(title);
 }
 
@@ -245,7 +252,8 @@ void AppController_usbDidConnect(CFStringRef deviceName) {
 							iconData:(NSData *)usbLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:(NSString *)deviceName];
 	CFRelease(title);
 }
 
@@ -258,7 +266,8 @@ void AppController_usbDidDisconnect(CFStringRef deviceName) {
 							iconData:(NSData *)usbLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:(NSString *)deviceName];
 	CFRelease(title);
 }
 
@@ -273,7 +282,8 @@ void AppController_bluetoothDidConnect(NSString *device) {
 							iconData:(NSData *)bluetoothLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:device];
 	CFRelease(title);
 }
 
@@ -286,7 +296,8 @@ void AppController_bluetoothDidDisconnect(NSString *device) {
 							iconData:(NSData *)bluetoothLogo()
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+						  identifier:device];
 	CFRelease(title);
 }
 
@@ -311,7 +322,8 @@ void AppController_volumeDidMount(VolumeInfo *info) {
 							iconData:[info iconData]
 							priority:0
 							isSticky:NO
-							clickContext:context];
+							clickContext:context
+							identifier:[info name]];
 	CFRelease(title);
 }
 
@@ -326,7 +338,8 @@ void AppController_volumeDidUnmount(VolumeInfo *info) {
 							iconData:[info iconData]
 							priority:0
 							isSticky:NO
-							clickContext:nil];
+							clickContext:nil
+							identifier:[info name]];
 	CFRelease(title);
 }
 
@@ -357,7 +370,8 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 								   iconData:(NSData *)airportIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:NotifierAirPortIdentifier];
 	CFRelease(title);
 }
 
@@ -381,7 +395,8 @@ void AppController_airportDisconnect(CFStringRef networkName) {
 								   iconData:(NSData *)airportIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:NotifierAirPortIdentifier];
 
 	CFRelease(title);
 	CFRelease(description);
@@ -441,7 +456,8 @@ void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 /*identifier:(NSString *)ip*/];
 	CFRelease(title);
 	CFRelease(description);
 }
@@ -477,7 +493,8 @@ void AppController_syncStarted(void) {
 								   iconData:(NSData *)iSyncIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:NotifierSyncIdentifier];
 	CFRelease(title);
 }
 
@@ -491,7 +508,8 @@ void AppController_syncFinished(void) {
 								   iconData:(NSData *)iSyncIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:NotifierSyncIdentifier];
 	CFRelease(title);
 }
 
@@ -548,7 +566,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil
-									 identifier:title];
+									 identifier:NotifierPowerIdentifier];
 }
 
 static void powerCallback(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
