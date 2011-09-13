@@ -11,6 +11,7 @@
 		0A95FC910739AAC800E585F8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A95FC900739AAC800E585F8 /* AppKit.framework */; };
 		8DD76F9A0486AA7600D96B5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.m */; settings = {ATTRIBUTES = (); }; };
 		9526BDA6081BD22600B9D0D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9526BDA5081BD22600B9D0D0 /* Security.framework */; };
+		BC9EED4E141FE3B000BA137C /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9EED4D141FE3B000BA137C /* GrowlImageAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../Common/Source/GrowlDefinesInternal.h; sourceTree = SOURCE_ROOT; };
 		9595184F07E4859F004A4471 /* GrowlPathway.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathway.h; path = ../../Core/Source/GrowlPathway.h; sourceTree = SOURCE_ROOT; };
 		95C876E007D9DF4100C69DEE /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../Common/Source/GrowlDefines.h; sourceTree = SOURCE_ROOT; };
+		BC9EED4C141FE3B000BA137C /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = ../../Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
+		BC9EED4D141FE3B000BA137C /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = ../../Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +50,7 @@
 				95C876E007D9DF4100C69DEE /* GrowlDefines.h */,
 				95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */,
 				32A70AAB03705E1F00C91783 /* growlnotify_Prefix.pch */,
+				BC9EED4C141FE3B000BA137C /* GrowlImageAdditions.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -75,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB7796FE84155DC02AAC07 /* main.m */,
+				BC9EED4D141FE3B000BA137C /* GrowlImageAdditions.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9A0486AA7600D96B5E /* main.m in Sources */,
+				BC9EED4E141FE3B000BA137C /* GrowlImageAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +241,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
 			};
@@ -254,7 +260,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
