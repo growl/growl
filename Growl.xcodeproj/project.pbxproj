@@ -202,6 +202,14 @@
 		93E4EE0C141C1C7B005A26CF /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EE03141C1C7B005A26CF /* BrushedPrefs.xib */; };
 		93E4EE3B141C226A005A26CF /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E055BC141BD46500FC4F76 /* GrowlMailMePrefs.xib */; };
 		93E4EE3C141C2271005A26CF /* GrowlSMSPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EDE0141C1B7D005A26CF /* GrowlSMSPrefs.xib */; };
+		93E4EF16141F02DD005A26CF /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA5141EFCA0005A26CF /* About.rtf */; };
+		93E4EF17141F02DD005A26CF /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA7141EFCA0005A26CF /* AwayHistoryWindow.xib */; };
+		93E4EF18141F02DD005A26CF /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA9141EFCA1005A26CF /* FirstLaunchWindow.xib */; };
+		93E4EF19141F02DD005A26CF /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAB141EFCA1005A26CF /* GrowlPref.xib */; };
+		93E4EF1A141F02DD005A26CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */; };
+		93E4EF1B141F02DD005A26CF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
+		93E4EF1C141F02DD005A26CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEB1141EFCA1005A26CF /* MainMenu.xib */; };
+		93E4EF1D141F02DD005A26CF /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEB3141EFCA1005A26CF /* WebKitPrefs.xib */; };
 		93E7121813F5652C0025D733 /* General.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121313F5652C0025D733 /* General.png */; };
 		93E7121913F5652C0025D733 /* Displays.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121413F5652C0025D733 /* Displays.png */; };
 		93E7121A13F5652C0025D733 /* Applications.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E7121513F5652C0025D733 /* Applications.png */; };
@@ -2746,6 +2754,14 @@
 				93E7121C13F5652C0025D733 /* Forwarding.png in Resources */,
 				93E7122113F568430025D733 /* About.png in Resources */,
 				BC94845613FB21690036382B /* Growl_512x512.png in Resources */,
+				93E4EF16141F02DD005A26CF /* About.rtf in Resources */,
+				93E4EF17141F02DD005A26CF /* AwayHistoryWindow.xib in Resources */,
+				93E4EF18141F02DD005A26CF /* FirstLaunchWindow.xib in Resources */,
+				93E4EF19141F02DD005A26CF /* GrowlPref.xib in Resources */,
+				93E4EF1A141F02DD005A26CF /* InfoPlist.strings in Resources */,
+				93E4EF1B141F02DD005A26CF /* Localizable.strings in Resources */,
+				93E4EF1C141F02DD005A26CF /* MainMenu.xib in Resources */,
+				93E4EF1D141F02DD005A26CF /* WebKitPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
