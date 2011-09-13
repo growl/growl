@@ -813,7 +813,6 @@
 		93E4EE1B141C1DCA005A26CF /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93E4EE1C141C1DDC005A26CF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93E4EE1D141C1E13005A26CF /* lv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = lv; path = lv.lproj/BrushedPrefs.xib; sourceTree = "<group>"; };
-		93E4EE25141C1E60005A26CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/BrushedPrefs.xib"; sourceTree = "<group>"; };
 		93E4EE26141C1E66005A26CF /* lv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = lv; path = lv.lproj/BubblesPrefs.xib; sourceTree = "<group>"; };
 		93E4EE27141C1E69005A26CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/BubblesPrefs.xib"; sourceTree = "<group>"; };
 		93E4EE28141C1E70005A26CF /* lv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = lv; path = lv.lproj/iCalPrefs.xib; sourceTree = "<group>"; };
@@ -970,6 +969,7 @@
 		93E4EF12141EFCA1005A26CF /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93E4EF13141EFCA1005A26CF /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt_PT; path = pt_PT.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		93E4EF14141EFCA1005A26CF /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt_PT; path = pt_PT.lproj/WebKitPrefs.xib; sourceTree = "<group>"; };
+		93E4EF15141EFE68005A26CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/BrushedPrefs.xib"; sourceTree = "<group>"; };
 		93E7121313F5652C0025D733 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = General.png; path = Core/Resources/General.png; sourceTree = "<group>"; };
 		93E7121413F5652C0025D733 /* Displays.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Displays.png; path = Core/Resources/Displays.png; sourceTree = "<group>"; };
 		93E7121513F5652C0025D733 /* Applications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Applications.png; path = Core/Resources/Applications.png; sourceTree = "<group>"; };
@@ -3538,10 +3538,10 @@
 				93E4EE0A141C1C7B005A26CF /* it */,
 				93E4EE0B141C1C7B005A26CF /* el */,
 				93E4EE1D141C1E13005A26CF /* lv */,
-				93E4EE25141C1E60005A26CF /* pt-PT */,
 				93E4EE5F141ED8A4005A26CF /* es */,
 				93E4EE77141EE2B6005A26CF /* ja */,
 				93E4EE8E141EE5C6005A26CF /* de */,
+				93E4EF15141EFE68005A26CF /* pt-PT */,
 			);
 			name = BrushedPrefs.xib;
 			sourceTree = "<group>";
