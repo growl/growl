@@ -23,11 +23,7 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathway.h"
-#import "MD5Authenticator.h"
 #import "GrowlVersion.h"
-#include "GrowlUDPUtils.h"
-#include "cdsa.h"
-#include "CFGrowlAdditions.h"
 
 #include <unistd.h>
 #include <getopt.h>
@@ -63,11 +59,6 @@ static const char usage[] =
 "    -d,--identifier Specify a notification identifier (used for coalescing)\n"
 "    -H,--host       Specify a hostname to which to send a remote notification.\n"
 "    -P,--password   Password used for remote notifications.\n"
-"    -u,--udp        Use UDP instead of DO to send a remote notification.\n"
-"       --port       Port number for UDP notifications.\n"
-"    -A,--auth       Specify digest algorithm for UDP authentication.\n"
-"                    Either MD5 [Default], SHA256 or NONE.\n"
-"    -c,--crypt      Encrypt UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "       --progress   Set a progress value for this notification.\n"
 "\n"
@@ -135,14 +126,12 @@ int main(int argc, const char **argv) {
 	int          priority = 0;
 	double       progress;
 	BOOL         haveProgress = NO;
-	BOOL         useUDP = NO;
 	BOOL         crypt = NO;
 	int          flag;
 	char        *port = NULL;
 	int          code = EXIT_SUCCESS;
 	char        *password = NULL;
 	char        *identifier = NULL;
-	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		NULL,	'h' },
@@ -155,7 +144,6 @@ int main(int argc, const char **argv) {
 		{ "message",	required_argument,	NULL,	'm' },
 		{ "priority",	required_argument,	NULL,	'p' },
 		{ "host",		required_argument,	NULL,	'H' },
-		{ "udp",		no_argument,		NULL,	'u' },
 		{ "password",	required_argument,	NULL,	'P' },
 		{ "port",		required_argument,	&flag,	 2  },
 		{ "version",	no_argument,		NULL,	'v' },
@@ -228,9 +216,6 @@ int main(int argc, const char **argv) {
 			break;
 		case 'H':
 			host = optarg;
-			break;
-		case 'u':
-			useUDP = YES;
 			break;
 		case 'P':
 			password = optarg;
@@ -404,73 +389,7 @@ int main(int argc, const char **argv) {
 		if (cdsaInit()) {
 			NSLog(@"ERROR: Could not initialize CDSA.");
 		} else {
-			if (useUDP) {
-				int              sock;
-				unsigned         size;
-				CSSM_DATA        registrationPacket;
-				CSSM_DATA        notificationPacket;
-				struct addrinfo *ai;
-				struct addrinfo  hints;
-				int              error;
-
-				memset(&hints, 0, sizeof(hints));
-				hints.ai_family = PF_UNSPEC;
-				hints.ai_socktype = SOCK_DGRAM;
-				hints.ai_protocol = IPPROTO_UDP;
-				error = getaddrinfo(host, port ? port : STRINGIFY(GROWL_UDP_PORT), &hints, &ai);
-				if (error) {
-					fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(error));
-					code = EXIT_FAILURE;
-				} else {
-					sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
-					if (sock == -1) {
-						perror("socket");
-						code = EXIT_FAILURE;
-					} else {
-						registrationPacket.Data = GrowlUDPUtils_registrationToPacket((NSDictionary *)registerInfo,
-																					 authMethod,
-																					 password,
-																					 (unsigned *)&registrationPacket.Length);
-						notificationPacket.Data = GrowlUDPUtils_notificationToPacket((NSDictionary *)notificationInfo,
-																					 authMethod,
-																					 password,
-																					 (unsigned *)&notificationPacket.Length);
-						if (crypt) {
-							CSSM_DATA passwordData;
-							passwordData.Data = (uint8 *)password;
-							if (password)
-								passwordData.Length = strlen(password);
-							else
-								passwordData.Length = 0U;
-
-							GrowlUDPUtils_cryptPacket(&registrationPacket, CSSM_ALGID_AES, &passwordData, YES);
-							GrowlUDPUtils_cryptPacket(&notificationPacket, CSSM_ALGID_AES, &passwordData, YES);
-						}
-						size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
-						if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0)
-							perror("setsockopt: SO_SNDBUF");
-						size = 1;
-						if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char *)&size, sizeof(size)) < 0)
-							perror("setsockopt: SO_BROADCAST");
-
-						//printf( "sendbuf: %d\n", size );
-						//printf( "registration packet length: %d\n", registrationPacket.Length );
-						//printf( "notification packet length: %d\n", notificationPacket.Length );
-						if (sendto(sock, registrationPacket.Data, registrationPacket.Length, 0, ai->ai_addr, ai->ai_addrlen) < 0) {
-							perror("sendto");
-							code = EXIT_FAILURE;
-						}
-						if (sendto(sock, notificationPacket.Data, notificationPacket.Length, 0, ai->ai_addr, ai->ai_addrlen) < 0) {
-							perror("sendto");
-							code = EXIT_FAILURE;
-						}
-						free(registrationPacket.Data);
-						free(notificationPacket.Data);
-						close(sock);
-					}
-					freeaddrinfo(ai);
-				}
-			} else {
+			{
 				NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
 				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
 				CFStringRef passwordString;
