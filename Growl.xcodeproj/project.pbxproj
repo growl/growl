@@ -959,6 +959,25 @@
 		93E4EE7F141EE3C8005A26CF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/GrowlMusicVideoPrefs.xib; sourceTree = "<group>"; };
 		93E4EE80141EE3DA005A26CF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/GrowlNanoPrefs.xib; sourceTree = "<group>"; };
 		93E4EE81141EE3F7005A26CF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/GrowlSMSPrefs.xib; sourceTree = "<group>"; };
+		93E4EE84141EE571005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlSMSPrefs.xib; sourceTree = "<group>"; };
+		93E4EE85141EE578005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlNanoPrefs.xib; sourceTree = "<group>"; };
+		93E4EE86141EE58A005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlMusicVideoPrefs.xib; sourceTree = "<group>"; };
+		93E4EE87141EE593005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlMailMePrefs.xib; sourceTree = "<group>"; };
+		93E4EE88141EE59F005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SmokePrefs.xib; sourceTree = "<group>"; };
+		93E4EE89141EE5A5005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlSpeechPrefs.xib; sourceTree = "<group>"; };
+		93E4EE8A141EE5AA005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93E4EE8B141EE5B2005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlBezelPrefs.xib; sourceTree = "<group>"; };
+		93E4EE8C141EE5B8005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/iCalPrefs.xib; sourceTree = "<group>"; };
+		93E4EE8D141EE5C0005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/BubblesPrefs.xib; sourceTree = "<group>"; };
+		93E4EE8E141EE5C6005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/BrushedPrefs.xib; sourceTree = "<group>"; };
+		93E4EE8F141EE5CD005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/GrowlPref.xib; sourceTree = "<group>"; };
+		93E4EE90141EE5D2005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		93E4EE91141EE5D8005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/AwayHistoryWindow.xib; sourceTree = "<group>"; };
+		93E4EE92141EE5DE005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/FirstLaunchWindow.xib; sourceTree = "<group>"; };
+		93E4EE93141EE5E4005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/WebKitPrefs.xib; sourceTree = "<group>"; };
+		93E4EE94141EE5EA005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93E4EE95141EE5EF005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/About.rtf; sourceTree = "<group>"; };
+		93E4EE96141EE5F5005A26CF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93E7121313F5652C0025D733 /* General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = General.png; path = Core/Resources/General.png; sourceTree = "<group>"; };
 		93E7121413F5652C0025D733 /* Displays.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Displays.png; path = Core/Resources/Displays.png; sourceTree = "<group>"; };
 		93E7121513F5652C0025D733 /* Applications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Applications.png; path = Core/Resources/Applications.png; sourceTree = "<group>"; };
@@ -3337,6 +3356,7 @@
 				93E4EE43141CC901005A26CF /* ko-KR */,
 				93E4EE57141ED866005A26CF /* es */,
 				93E4EE6D141EE184005A26CF /* ja */,
+				93E4EE96141EE5F5005A26CF /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3356,6 +3376,7 @@
 				93E4EE1E141C1E2C005A26CF /* pt-PT */,
 				93E4EE58141ED86E005A26CF /* es */,
 				93E4EE6E141EE18A005A26CF /* ja */,
+				93E4EE95141EE5EF005A26CF /* de */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3375,6 +3396,7 @@
 				93E4EE1F141C1E32005A26CF /* pt-PT */,
 				93E4EE59141ED875005A26CF /* es */,
 				93E4EE6F141EE18F005A26CF /* ja */,
+				93E4EE94141EE5EA005A26CF /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3394,6 +3416,7 @@
 				93E4EE20141C1E38005A26CF /* pt-PT */,
 				93E4EE5A141ED880005A26CF /* es */,
 				93E4EE70141EE195005A26CF /* ja */,
+				93E4EE93141EE5E4005A26CF /* de */,
 			);
 			name = WebKitPrefs.xib;
 			sourceTree = "<group>";
@@ -3413,6 +3436,7 @@
 				93E4EE21141C1E42005A26CF /* pt-PT */,
 				93E4EE5B141ED886005A26CF /* es */,
 				93E4EE71141EE19B005A26CF /* ja */,
+				93E4EE92141EE5DE005A26CF /* de */,
 			);
 			name = FirstLaunchWindow.xib;
 			sourceTree = "<group>";
@@ -3432,6 +3456,7 @@
 				93E4EE22141C1E48005A26CF /* pt-PT */,
 				93E4EE5C141ED88D005A26CF /* es */,
 				93E4EE72141EE1A1005A26CF /* ja */,
+				93E4EE91141EE5D8005A26CF /* de */,
 			);
 			name = AwayHistoryWindow.xib;
 			sourceTree = "<group>";
@@ -3451,6 +3476,7 @@
 				93E4EE23141C1E4E005A26CF /* pt-PT */,
 				93E4EE5D141ED892005A26CF /* es */,
 				93E4EE73141EE1A6005A26CF /* ja */,
+				93E4EE90141EE5D2005A26CF /* de */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -3470,6 +3496,7 @@
 				93E4EE24141C1E57005A26CF /* pt-PT */,
 				93E4EE5E141ED899005A26CF /* es */,
 				93E4EE74141EE1AC005A26CF /* ja */,
+				93E4EE8F141EE5CD005A26CF /* de */,
 			);
 			name = GrowlPref.xib;
 			sourceTree = "<group>";
@@ -3489,6 +3516,7 @@
 				93E4EE27141C1E69005A26CF /* pt-PT */,
 				93E4EE60141ED8B8005A26CF /* es */,
 				93E4EE78141EE2D3005A26CF /* ja */,
+				93E4EE8D141EE5C0005A26CF /* de */,
 			);
 			name = BubblesPrefs.xib;
 			sourceTree = "<group>";
@@ -3508,6 +3536,7 @@
 				93E4EE2B141C1E7D005A26CF /* lv */,
 				93E4EE62141ED8C6005A26CF /* es */,
 				93E4EE7A141EE30D005A26CF /* ja */,
+				93E4EE8B141EE5B2005A26CF /* de */,
 			);
 			name = GrowlBezelPrefs.xib;
 			sourceTree = "<group>";
@@ -3527,6 +3556,7 @@
 				93E4EE2E141C1E94005A26CF /* lv */,
 				93E4EE64141ED8D6005A26CF /* es */,
 				93E4EE7C141EE380005A26CF /* ja */,
+				93E4EE89141EE5A5005A26CF /* de */,
 			);
 			name = GrowlSpeechPrefs.xib;
 			sourceTree = "<group>";
@@ -3546,6 +3576,7 @@
 				93E4EE2C141C1E8B005A26CF /* pt-PT */,
 				93E4EE63141ED8CF005A26CF /* es */,
 				93E4EE7B141EE372005A26CF /* ja */,
+				93E4EE8A141EE5AA005A26CF /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3565,6 +3596,7 @@
 				93E4EE30141C1E9F005A26CF /* lv */,
 				93E4EE65141ED8E0005A26CF /* es */,
 				93E4EE7D141EE39A005A26CF /* ja */,
+				93E4EE88141EE59F005A26CF /* de */,
 			);
 			name = SmokePrefs.xib;
 			sourceTree = "<group>";
@@ -3584,6 +3616,7 @@
 				93E4EE32141C1EA9005A26CF /* pt-PT */,
 				93E4EE66141ED8E7005A26CF /* es */,
 				93E4EE7E141EE3AC005A26CF /* ja */,
+				93E4EE87141EE593005A26CF /* de */,
 			);
 			name = GrowlMailMePrefs.xib;
 			sourceTree = "<group>";
@@ -3603,6 +3636,7 @@
 				93E4EE34141C1EB2005A26CF /* lv */,
 				93E4EE67141ED8EC005A26CF /* es */,
 				93E4EE7F141EE3C8005A26CF /* ja */,
+				93E4EE86141EE58A005A26CF /* de */,
 			);
 			name = GrowlMusicVideoPrefs.xib;
 			sourceTree = "<group>";
@@ -3622,6 +3656,7 @@
 				93E4EE38141C1EC6005A26CF /* lv */,
 				93E4EE69141ED8FB005A26CF /* es */,
 				93E4EE81141EE3F7005A26CF /* ja */,
+				93E4EE84141EE571005A26CF /* de */,
 			);
 			name = GrowlSMSPrefs.xib;
 			sourceTree = "<group>";
@@ -3641,6 +3676,7 @@
 				93E4EE36141C1EBD005A26CF /* lv */,
 				93E4EE68141ED8F4005A26CF /* es */,
 				93E4EE80141EE3DA005A26CF /* ja */,
+				93E4EE85141EE578005A26CF /* de */,
 			);
 			name = GrowlNanoPrefs.xib;
 			sourceTree = "<group>";
@@ -3660,6 +3696,7 @@
 				93E4EE29141C1E75005A26CF /* pt-PT */,
 				93E4EE61141ED8BF005A26CF /* es */,
 				93E4EE79141EE2F7005A26CF /* ja */,
+				93E4EE8C141EE5B8005A26CF /* de */,
 			);
 			name = iCalPrefs.xib;
 			sourceTree = "<group>";
@@ -3679,6 +3716,7 @@
 				93E4EE25141C1E60005A26CF /* pt-PT */,
 				93E4EE5F141ED8A4005A26CF /* es */,
 				93E4EE77141EE2B6005A26CF /* ja */,
+				93E4EE8E141EE5C6005A26CF /* de */,
 			);
 			name = BrushedPrefs.xib;
 			sourceTree = "<group>";

@@ -1,0 +1,5 @@
+/* The voice chosen as the system voice in the Speech preference pane */
+"System Default" = "System-Voreinstellung";
+
+/* No comment provided by engineer. */
+"This is a preview of the %@ voice." = "Die ist eine Vorschau der %@ Stimme.";
