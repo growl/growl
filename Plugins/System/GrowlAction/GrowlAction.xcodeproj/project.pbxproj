@@ -59,6 +59,8 @@
 		93E4EE19141C1DB0005A26CF /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93E4EE39141C20C3005A26CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		93E4EE3A141C20CB005A26CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/main.xib"; sourceTree = "<group>"; };
+		93E4EE6B141ED906005A26CF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93E4EE6C141ED90D005A26CF /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/main.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 				fr,
 				lv,
 				"pt-PT",
+				es,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
@@ -238,6 +241,7 @@
 				93E0561F141C15C100FC4F76 /* fr */,
 				93E4EE19141C1DB0005A26CF /* lv */,
 				93E4EE39141C20C3005A26CF /* pt-PT */,
+				93E4EE6B141ED906005A26CF /* es */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -255,6 +259,7 @@
 				93E05620141C15C800FC4F76 /* fr */,
 				93E4EE18141C1DA9005A26CF /* lv */,
 				93E4EE3A141C20CB005A26CF /* pt-PT */,
+				93E4EE6C141ED90D005A26CF /* es */,
 			);
 			name = main.xib;
 			sourceTree = "<group>";
