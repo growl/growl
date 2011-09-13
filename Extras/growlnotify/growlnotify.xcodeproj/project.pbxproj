@@ -3,18 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0A95FC1D0739AA7300E585F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		0A95FC910739AAC800E585F8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A95FC900739AAC800E585F8 /* AppKit.framework */; };
 		8DD76F9A0486AA7600D96B5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.m */; settings = {ATTRIBUTES = (); }; };
-		9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9526247D074F92F600C5F344 /* GrowlUDPUtils.c */; };
-		9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */; };
 		9526BDA6081BD22600B9D0D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9526BDA5081BD22600B9D0D0 /* Security.framework */; };
-		95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */; };
-		95CF98F5082A5DA5001A409D /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98F3082A5DA5001A409D /* cdsa.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,18 +20,10 @@
 		0A95FC900739AAC800E585F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* growlnotify_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growlnotify_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* growlnotify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = growlnotify; sourceTree = BUILT_PRODUCTS_DIR; };
-		9526247C074F92F600C5F344 /* GrowlUDPUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlUDPUtils.h; path = ../../Core/Source/GrowlUDPUtils.h; sourceTree = SOURCE_ROOT; };
-		9526247D074F92F600C5F344 /* GrowlUDPUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlUDPUtils.c; path = ../../Core/Source/GrowlUDPUtils.c; sourceTree = SOURCE_ROOT; };
-		9526BD9B081BCFD500B9D0D0 /* MD5Authenticator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MD5Authenticator.h; path = ../../Common/Source/MD5Authenticator.h; sourceTree = SOURCE_ROOT; };
-		9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MD5Authenticator.m; path = ../../Common/Source/MD5Authenticator.m; sourceTree = SOURCE_ROOT; };
 		9526BDA5081BD22600B9D0D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../Common/Source/GrowlDefinesInternal.h; sourceTree = SOURCE_ROOT; };
 		9595184F07E4859F004A4471 /* GrowlPathway.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathway.h; path = ../../Core/Source/GrowlPathway.h; sourceTree = SOURCE_ROOT; };
-		95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
-		95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
 		95C876E007D9DF4100C69DEE /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../Common/Source/GrowlDefines.h; sourceTree = SOURCE_ROOT; };
-		95CF98F3082A5DA5001A409D /* cdsa.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = cdsa.c; path = ../../Common/Source/cdsa.c; sourceTree = SOURCE_ROOT; };
-		95CF98F4082A5DA5001A409D /* cdsa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cdsa.h; path = ../../Common/Source/cdsa.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +43,9 @@
 		07C7692606831F1D0025D426 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				95A0BACE08CB005400760A33 /* CFGrowlAdditions.h */,
-				95CF98F4082A5DA5001A409D /* cdsa.h */,
 				9595184F07E4859F004A4471 /* GrowlPathway.h */,
 				95C876E007D9DF4100C69DEE /* GrowlDefines.h */,
 				95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */,
-				9526247C074F92F600C5F344 /* GrowlUDPUtils.h */,
-				9526BD9B081BCFD500B9D0D0 /* MD5Authenticator.h */,
 				32A70AAB03705E1F00C91783 /* growlnotify_Prefix.pch */,
 			);
 			name = Headers;
@@ -90,10 +74,6 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				95A0BACD08CB005400760A33 /* CFGrowlAdditions.c */,
-				95CF98F3082A5DA5001A409D /* cdsa.c */,
-				9526BD9C081BCFD500B9D0D0 /* MD5Authenticator.m */,
-				9526247D074F92F600C5F344 /* GrowlUDPUtils.c */,
 				08FB7796FE84155DC02AAC07 /* main.m */,
 			);
 			name = Source;
@@ -142,9 +122,16 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 95E4A2860855C0B7006B3F45 /* Build configuration list for PBXProject "growlnotify" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* growlnotify */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -160,10 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9A0486AA7600D96B5E /* main.m in Sources */,
-				9526247F074F92F600C5F344 /* GrowlUDPUtils.c in Sources */,
-				9526BD9D081BCFD500B9D0D0 /* MD5Authenticator.m in Sources */,
-				95CF98F5082A5DA5001A409D /* cdsa.c in Sources */,
-				95A0BACF08CB005400760A33 /* CFGrowlAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +159,6 @@
 				DEBUGGING_SYMBOLS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -214,7 +196,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -247,18 +228,15 @@
 		95E4A2870855C0B7006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				HEADER_SEARCH_PATHS = ../..;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
 			};
 			name = Debug;
@@ -266,8 +244,8 @@
 		95E4A2880855C0B7006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "i386 x86_64";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -276,8 +254,8 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.7;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
