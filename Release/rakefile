@@ -1,5 +1,12 @@
 
-GROWLVERSION = ENV['VERSION'] || "1.3.0b1"
+#To build Growl, follow this example:
+#CONFIGURATION=Localization rake build:growl
+#
+#The configuration is specified, along with the target to build. Rake does the building.
+#Change the version number before building.
+
+
+GROWLVERSION = ENV['VERSION'] || "1.3.0b2"
 
 TOOLCHAIN = ENV['TOOLCHAIN'] || '/Developer'
 CONFIGURATION = ENV['CONFIGURATION'] || 'Release'
