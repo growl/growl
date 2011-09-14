@@ -87,7 +87,11 @@
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt
 {
-   //Other cases should handle this
+   //We should only be here if we were waiting on feedback, and we didn't get it, either due to time out, or other reason
+   if(attempt == notificationAttempt && !stopLoop){
+      stopLoop = YES;
+      returnCode = EXIT_SUCCESS;
+   }
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt
 {
