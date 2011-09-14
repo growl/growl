@@ -66,12 +66,10 @@
    //Start notification
    if(attempt == registrationAttempt){
       if(!sendingNote){
-         NSLog(@"registration succeeded, sending note");
          [notificationAttempt begin];
          sendingNote = YES;
       }
    }else if(attempt == notificationAttempt && !wait){
-      NSLog(@"not waiting on feedback");
       returnCode = EXIT_SUCCESS;
       stopLoop = YES;
    }
@@ -80,9 +78,9 @@
 {
    //We failed at first step
    if(attempt == registrationAttempt){
-      NSLog(@"We failed to register, perhaps Growl 1.3 or higher is not running on the specified host (%@)", [(GrowlGNTPCommunicationAttempt*)attempt host]);
+      NSLog(@"Failed to register with %@", [(GrowlGNTPCommunicationAttempt*)attempt host]);
    }else if(attempt == notificationAttempt){
-      NSLog(@"We failed to notify");
+      NSLog(@"We failed to notify after succesfully registering");
    }
    returnCode = EXIT_FAILURE;
    stopLoop = YES;

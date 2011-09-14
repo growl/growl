@@ -339,15 +339,14 @@ int main(int argc, const char **argv) {
       hostName = [NSString stringWithUTF8String:host];
    NSString *pass = nil;
    if(password != NULL)
-    pass = [NSString stringWithUTF8String:password];
-   if(!pass && hostName && ![hostName isLocalHost])
-      NSLog(@"ERROR! No password for remote");
+      pass = [NSString stringWithUTF8String:password];
    
    GrowlNotify *notifier = [[GrowlNotify alloc] initWithRegistrationDict:registerInfo
                                                         notificationDict:notificationInfo
                                                                     host:hostName
                                                                 password:pass];
    code = [notifier start:wait];
+   [notifier release];
 
 	[pool release];
 
