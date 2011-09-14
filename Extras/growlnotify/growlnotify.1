@@ -14,16 +14,14 @@
 .Op Fl p Ar priority
 .Op Fl H Ar host
 .Op Fl P Ar password
-.Op Fl -port Ar port
 .Op Fl n Ar name
 .Op Fl A Ar method
-.Op Fl -progress Ar value
 .Op Fl m Ar message
 .Op Fl t
 .Op Ar title
 .Sh DESCRIPTION          \" Section Header - required - don't modify
 .Nm
-posts a distributed notification to Growl.
+posts a notification using GNTP to Growl, or other GNTP enabled listeners, such as Growl for Windows.
 .Pp
 The options are as follows:
 .Bl -tag -width Fl
@@ -92,17 +90,6 @@ The argument is the host to send the notification to.
 .It Fl P , Fl -password
 Sets the password to be used for the remote notification.
 This is necessary if the remote host requires a password for remote notifications.
-.It Fl u , Fl -udp
-Sends the remote notification with UDP instead of Distributed Objects.
-.It Fl -port
-Sets the port number to use for UDP notifications.
-.It Fl A , Fl -auth
-Specify digest algorithm for UDP authentication.
-Either MD5 [Default], SHA256 or NONE.
-.It Fl c , Fl -crypt
-Encrypt UDP notifications. By default, UDP notifications are sent unencrypted.
-.It Fl -progress
-Set a progress value for this notification.
 .El
 .Pp
 .Nm
@@ -143,3 +130,6 @@ The same as the previous one but suitable for embedding in a script (such as a S
 .Xr stdin 4
 .Sh HISTORY           \" Document history if command behaves in a unique manner 
 First appeared as an example for Growl 0.5.
+GrowlNotify 1.3 changed behavior significantly. All the old methods (UDP, NSDNC, etc) of talking to Growl have been removed, replaced with GNTP (Growl Network Transport Protocol).  
+Options relating directly to the old UDP system have been removed.  
+Progress option removed.
