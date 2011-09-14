@@ -30,6 +30,7 @@
 		BCBC3D1014201FA40032BCA0 /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3D0C14201FA40032BCA0 /* GrowlGNTPEncryptedHeaders.m */; };
 		BCBC3D1114201FA40032BCA0 /* GrowlGNTPHeaderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3D0E14201FA40032BCA0 /* GrowlGNTPHeaderItem.m */; };
 		BCBC3D141420229C0032BCA0 /* GrowlOperatingSystemVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3D131420229B0032BCA0 /* GrowlOperatingSystemVersion.m */; };
+		BCBC3D3B14202A6F0032BCA0 /* GrowlNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3D3A14202A6E0032BCA0 /* GrowlNotify.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,8 @@
 		BCBC3D0E14201FA40032BCA0 /* GrowlGNTPHeaderItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPHeaderItem.m; path = ../../Core/Source/GrowlGNTPHeaderItem.m; sourceTree = "<group>"; };
 		BCBC3D121420229B0032BCA0 /* GrowlOperatingSystemVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOperatingSystemVersion.h; path = ../../Common/Source/GrowlOperatingSystemVersion.h; sourceTree = "<group>"; };
 		BCBC3D131420229B0032BCA0 /* GrowlOperatingSystemVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOperatingSystemVersion.m; path = ../../Common/Source/GrowlOperatingSystemVersion.m; sourceTree = "<group>"; };
+		BCBC3D3914202A6E0032BCA0 /* GrowlNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlNotify.h; sourceTree = "<group>"; };
+		BCBC3D3A14202A6E0032BCA0 /* GrowlNotify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotify.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				08FB7796FE84155DC02AAC07 /* main.m */,
+				BCBC3D3914202A6E0032BCA0 /* GrowlNotify.h */,
+				BCBC3D3A14202A6E0032BCA0 /* GrowlNotify.m */,
 				BCBC3CCD14201B240032BCA0 /* GCDAsyncSocket.h */,
 				BCBC3CCE14201B240032BCA0 /* GCDAsyncSocket.m */,
 				BCBC3CDE14201C040032BCA0 /* Additions */,
@@ -283,6 +288,7 @@
 				BCBC3D1014201FA40032BCA0 /* GrowlGNTPEncryptedHeaders.m in Sources */,
 				BCBC3D1114201FA40032BCA0 /* GrowlGNTPHeaderItem.m in Sources */,
 				BCBC3D141420229C0032BCA0 /* GrowlOperatingSystemVersion.m in Sources */,
+				BCBC3D3B14202A6F0032BCA0 /* GrowlNotify.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

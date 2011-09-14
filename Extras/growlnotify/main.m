@@ -25,6 +25,9 @@
 #import "GrowlPathway.h"
 #import "GrowlVersion.h"
 #import "GrowlImageAdditions.h"
+#import "NSStringAdditions.h"
+
+#import "GrowlNotify.h"
 
 #include <unistd.h>
 #include <getopt.h>
@@ -331,8 +334,20 @@ int main(int argc, const char **argv) {
    
    /* TODO: GNTP Registration, and notification */
    
-   NSLog(@"Registration info: %@", registerInfo);
-   NSLog(@"Notification info: %@", notificationInfo);
+   NSString *hostName = nil;
+   if(host != NULL)
+      hostName = [NSString stringWithUTF8String:host];
+   NSString *pass = nil;
+   if(password != NULL)
+    pass = [NSString stringWithUTF8String:password];
+   if(!pass && hostName && ![hostName isLocalHost])
+      NSLog(@"ERROR! No password for remote");
+   
+   GrowlNotify *notifier = [[GrowlNotify alloc] initWithRegistrationDict:registerInfo
+                                                        notificationDict:notificationInfo
+                                                                    host:hostName
+                                                                password:pass];
+   [notifier start];
 
 	[pool release];
 
