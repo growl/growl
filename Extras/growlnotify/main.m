@@ -347,7 +347,7 @@ int main(int argc, const char **argv) {
                                                         notificationDict:notificationInfo
                                                                     host:hostName
                                                                 password:pass];
-   [notifier start];
+   code = [notifier start:wait];
 
 	[pool release];
 

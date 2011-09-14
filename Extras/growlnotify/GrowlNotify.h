@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GrowlCommunicationAttempt.h"
 
+#define NOTIFICATION_CLICKED 2
+
 @class GrowlGNTPRegistrationAttempt, GrowlGNTPNotificationAttempt;
 
 @interface GrowlNotify : NSObject <GrowlCommunicationAttemptDelegate>{
@@ -16,6 +18,10 @@
    GrowlGNTPNotificationAttempt *notificationAttempt;
    
    BOOL sendingNote;
+   BOOL stopLoop;
+   BOOL wait;
+   
+   int returnCode;
 }
 
 @property (nonatomic, retain) GrowlGNTPRegistrationAttempt *registrationAttempt;
@@ -26,6 +32,6 @@
                           host:(NSString*)hostName
                       password:(NSString*)pass;
 
-- (void)start;
+- (int)start:(BOOL)shouldWait;
 
 @end

@@ -35,6 +35,9 @@
        self.notificationAttempt.password = pass;
        
        sendingNote = NO;
+       stopLoop = NO;
+       
+       returnCode = EXIT_SUCCESS;
     }
     
     return self;
@@ -47,14 +50,15 @@
    [super dealloc];
 }
 
--(void)start
+-(int)start:(BOOL)shouldWait
 {
-   NSRunLoop *runloop = [NSRunLoop mainRunLoop];
-   //Setup our runloop here someplace
-   NSLog(@"testing");
+   wait = shouldWait;
+   NSRunLoop *runloop = [NSRunLoop currentRunLoop];
    [registrationAttempt begin];
-   NSLog(@"testing again");
-   [runloop run];
+   while(!stopLoop){
+      [runloop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.01]];
+   }
+   return returnCode;
 }
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt
@@ -66,8 +70,11 @@
          [notificationAttempt begin];
          sendingNote = YES;
       }
-   }else if(attempt == notificationAttempt)
-      NSLog(@"waiting on click feedback");
+   }else if(attempt == notificationAttempt && !wait){
+      NSLog(@"not waiting on feedback");
+      returnCode = EXIT_SUCCESS;
+      stopLoop = YES;
+   }
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt
 {
@@ -77,25 +84,31 @@
    }else if(attempt == notificationAttempt){
       NSLog(@"We failed to notify");
    }
+   returnCode = EXIT_FAILURE;
+   stopLoop = YES;
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt
 {
-   
+   //Other cases should handle this
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt
 {
-   
+   //We should simply fail here
+   returnCode = EXIT_FAILURE  ;
+   stopLoop = YES;
 }
 
 //Sent after success
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   NSLog(@"attempt (%@) clicked", attempt);
+   returnCode = NOTIFICATION_CLICKED;
+   stopLoop = YES;
 }
 
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   NSLog(@"attempt (%@) timedout", attempt);
+   returnCode = EXIT_SUCCESS;
+   stopLoop = YES;
 }
 
 @end
