@@ -296,7 +296,7 @@ enum {
          //it closed, same as timed out
       default:
          if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
-            [delegate notificationClicked:self context:context];
+            [delegate notificationTimedOut:self context:context];
          //it timed out
          break;
    }
