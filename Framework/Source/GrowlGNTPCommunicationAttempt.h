@@ -20,7 +20,12 @@
 	NSMutableArray *callbackHeaderItems;
 	BOOL attemptSucceeded;
    int responseReadType;
+   
+   NSString *host;
+   NSString *password;
 }
+@property (nonatomic, retain) NSString *host;
+@property (nonatomic, retain) NSString *password;
 
 //Lazily constructs the packet for self.dictionary.
 - (GrowlGNTPOutgoingPacket *) packet;

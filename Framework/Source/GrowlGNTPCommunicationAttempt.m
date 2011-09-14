@@ -13,8 +13,10 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlGNTPNotificationAttempt.h"
 #import "GrowlApplicationBridge.h"
+#import "NSStringAdditions.h"
 
 #import "GCDAsyncSocket.h"
+#import "GNTPKey.h"
 
 @interface GrowlGNTPCommunicationAttempt ()
 
@@ -36,6 +38,8 @@ enum {
 @implementation GrowlGNTPCommunicationAttempt
 
 @synthesize responseParseErrorString, bogusResponse;
+@synthesize host;
+@synthesize password;
 
 - (void) dealloc {
 	[callbackHeaderItems release];
@@ -75,8 +79,14 @@ enum {
    
    responseReadType = -1;
    
+   NSString *hostToUse = nil;
+   if(!self.host || [host isLocalHost])
+      hostToUse = @"localhost";
+   else
+      hostToUse = host;
+   
 	NSError *errorReturned = nil;
-	if (![socket connectToHost:@"localhost"
+	if (![socket connectToHost:hostToUse
 				   onPort:GROWL_TCP_PORT
 			  withTimeout:15.0
 					error:&errorReturned])
@@ -105,7 +115,15 @@ enum {
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
-	[[self packet] writeToSocket:sock];
+   GrowlGNTPOutgoingPacket *outPacket = [self packet];
+
+   if(password){
+      GNTPKey *key = [[GNTPKey alloc] initWithPassword:password
+                                         hashAlgorithm:GNTPSHA512
+                                   encryptionAlgorithm:GNTPNone];
+      [outPacket setKey:key];
+   }
+   [outPacket writeToSocket:sock];
 	//After we send in our request, the notifications system will send back a response consisting of at least one line.
 	[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 }

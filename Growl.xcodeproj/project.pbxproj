@@ -280,6 +280,7 @@
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
 		BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
+		BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
@@ -3112,6 +3113,7 @@
 				313B901F13CEFC460075C9A3 /* GrowlNotificationGNTPPacket.m in Sources */,
 				31E60C5713D2AA2C00669E2A /* GrowlOperatingSystemVersion.m in Sources */,
 				BCEE30E71418262500DB5395 /* GrowlErrorGNTPPacket.m in Sources */,
+				BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
