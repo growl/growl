@@ -16,6 +16,10 @@
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt;
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt;
 
+//Sent after success
+- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context;
+- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context; 
+
 @end
 
 enum {

@@ -602,4 +602,13 @@ static BOOL    attemptingToRegister = NO;
    [self reregisterGrowlNotifications];
 }
 
+- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
+{
+   [delegate growlNotificationWasClicked:context];
+}
+- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
+{
+   [delegate growlNotificationTimedOut:context];
+}
+
 @end

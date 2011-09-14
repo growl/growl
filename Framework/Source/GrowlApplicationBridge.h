@@ -18,7 +18,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import <Growl/GrowlDefines.h>
+#import "GrowlDefines.h"
 
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;

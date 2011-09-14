@@ -267,20 +267,18 @@ enum {
                                                                  error:NULL];
    else
       clickContext = [context headerValue];
-      
-   NSObject<GrowlApplicationBridgeDelegate> *growlDelegate = [GrowlApplicationBridge growlDelegate];
-   
+         
    switch (resultValue) {
       case 1:
          //it was clicked
-         if ([growlDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [growlDelegate growlNotificationWasClicked:clickContext];
+         if ([delegate respondsToSelector:@selector(notificationClicked:context:)])
+            [delegate notificationClicked:self context:context];
          break;
       case 2:
          //it closed, same as timed out
       default:
-         if ([growlDelegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-            [growlDelegate growlNotificationTimedOut:clickContext];
+         if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
+            [delegate notificationClicked:self context:context];
          //it timed out
          break;
    }
