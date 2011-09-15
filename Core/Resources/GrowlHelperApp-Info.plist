@@ -12,15 +12,13 @@
 				<string>growlTicket</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>growl-icon</string>
+			<string>Growl.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Application Ticket</string>
 			<key>CFBundleTypeRole</key>
-			<string>None</string>
+			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.growl.ticket</string>
-			</array>
+			<array/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -28,17 +26,25 @@
 				<string>growlView</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Growl</string>
+			<string>Growl.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Display Plugin</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>DISP</string>
-			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.growl.view</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
+			<key>NSDocumentClass</key>
+			<string>GrowlDisplayPlugin</string>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>com.growl.view</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -46,35 +52,39 @@
 				<string>growlStyle</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>growl-icon</string>
+			<string>Growl.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl WebKit Style</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>GWKS</string>
-			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.growl.style</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
+			<key>NSDocumentClass</key>
+			<string>GrowlWebKitDisplayPlugin</string>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>com.growl.style</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>growlRegDict</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Growl.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Registration Dictionary</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.growl.regdict</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -116,18 +126,28 @@
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
+			<key>LSTypeIsPackage</key>
+			<true/>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>com.apple.bundle</string>
+				<string>public.item</string>
+				<string>public.composite-content</string>
+				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Growl Display Plugin</string>
+			<key>UTTypeIconFile</key>
+			<string>Growl.icns</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.growl.view</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://growl.info</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
+				<key>com.apple.ostype</key>
+				<array>
+					<string>DISP</string>
+				</array>
 				<key>public.filename-extension</key>
 				<array>
 					<string>growlView</string>
@@ -137,10 +157,14 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>com.apple.bundle</string>
+				<string>public.item</string>
+				<string>public.composite-content</string>
+				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Growl WebKit Style</string>
+			<key>UTTypeIconFile</key>
+			<string>Growl.icns</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.growl.style</string>
 			<key>UTTypeReferenceURL</key>
@@ -150,44 +174,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>growlStyle</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Growl Application Ticket</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.growl.ticket</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://growl.info</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>growlTicket</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Growl Registration Dictionary</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.growl.regdict</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://growl.info</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>growlRegDict</string>
 				</array>
 			</dict>
 		</dict>
