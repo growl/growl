@@ -1023,6 +1023,25 @@
 		93EA7FFD136908B100AB89AE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		93EA7FFE136908B100AB89AE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93EA804613690D8800AB89AE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		93EC276C1421BEB600F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = da.lproj/About.rtf; sourceTree = "<group>"; };
+		93EC276D1421BEC900F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/AwayHistoryWindow.xib; sourceTree = "<group>"; };
+		93EC276E1421BEEC00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/FirstLaunchWindow.xib; sourceTree = "<group>"; };
+		93EC276F1421BEF300F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlPref.xib; sourceTree = "<group>"; };
+		93EC27701421BEFA00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93EC27711421BF0000F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93EC27721421BF0700F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		93EC27731421BF0D00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/WebKitPrefs.xib; sourceTree = "<group>"; };
+		93EC27771421BF3500F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/BrushedPrefs.xib; sourceTree = "<group>"; };
+		93EC27781421BF7100F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/BubblesPrefs.xib; sourceTree = "<group>"; };
+		93EC27791421BF7B00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/iCalPrefs.xib; sourceTree = "<group>"; };
+		93EC277A1421BF8400F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlBezelPrefs.xib; sourceTree = "<group>"; };
+		93EC277B1421BF8C00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93EC277C1421BF9400F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlSpeechPrefs.xib; sourceTree = "<group>"; };
+		93EC277D1421BF9D00F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/SmokePrefs.xib; sourceTree = "<group>"; };
+		93EC277E1421BFA700F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlMailMePrefs.xib; sourceTree = "<group>"; };
+		93EC277F1421BFB000F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlMusicVideoPrefs.xib; sourceTree = "<group>"; };
+		93EC27801421BFB700F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlNanoPrefs.xib; sourceTree = "<group>"; };
+		93EC27811421BFC300F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = da.lproj/GrowlSMSPrefs.xib; sourceTree = "<group>"; };
 		93FB21A71391B524002E1F86 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
@@ -2719,6 +2738,7 @@
 				"ko-KR",
 				es,
 				pt_PT,
+				da,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -3506,6 +3526,7 @@
 				93E4EE60141ED8B8005A26CF /* es */,
 				93E4EE78141EE2D3005A26CF /* ja */,
 				93E4EE8D141EE5C0005A26CF /* de */,
+				93EC27781421BF7100F94A35 /* da */,
 			);
 			name = BubblesPrefs.xib;
 			sourceTree = "<group>";
@@ -3526,6 +3547,7 @@
 				93E4EE62141ED8C6005A26CF /* es */,
 				93E4EE7A141EE30D005A26CF /* ja */,
 				93E4EE8B141EE5B2005A26CF /* de */,
+				93EC277A1421BF8400F94A35 /* da */,
 			);
 			name = GrowlBezelPrefs.xib;
 			sourceTree = "<group>";
@@ -3546,6 +3568,7 @@
 				93E4EE64141ED8D6005A26CF /* es */,
 				93E4EE7C141EE380005A26CF /* ja */,
 				93E4EE89141EE5A5005A26CF /* de */,
+				93EC277C1421BF9400F94A35 /* da */,
 			);
 			name = GrowlSpeechPrefs.xib;
 			sourceTree = "<group>";
@@ -3566,6 +3589,7 @@
 				93E4EE63141ED8CF005A26CF /* es */,
 				93E4EE7B141EE372005A26CF /* ja */,
 				93E4EE8A141EE5AA005A26CF /* de */,
+				93EC277B1421BF8C00F94A35 /* da */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3586,6 +3610,7 @@
 				93E4EE65141ED8E0005A26CF /* es */,
 				93E4EE7D141EE39A005A26CF /* ja */,
 				93E4EE88141EE59F005A26CF /* de */,
+				93EC277D1421BF9D00F94A35 /* da */,
 			);
 			name = SmokePrefs.xib;
 			sourceTree = "<group>";
@@ -3606,6 +3631,7 @@
 				93E4EE66141ED8E7005A26CF /* es */,
 				93E4EE7E141EE3AC005A26CF /* ja */,
 				93E4EE87141EE593005A26CF /* de */,
+				93EC277E1421BFA700F94A35 /* da */,
 			);
 			name = GrowlMailMePrefs.xib;
 			sourceTree = "<group>";
@@ -3626,6 +3652,7 @@
 				93E4EE67141ED8EC005A26CF /* es */,
 				93E4EE7F141EE3C8005A26CF /* ja */,
 				93E4EE86141EE58A005A26CF /* de */,
+				93EC277F1421BFB000F94A35 /* da */,
 			);
 			name = GrowlMusicVideoPrefs.xib;
 			sourceTree = "<group>";
@@ -3646,6 +3673,7 @@
 				93E4EE69141ED8FB005A26CF /* es */,
 				93E4EE81141EE3F7005A26CF /* ja */,
 				93E4EE84141EE571005A26CF /* de */,
+				93EC27811421BFC300F94A35 /* da */,
 			);
 			name = GrowlSMSPrefs.xib;
 			sourceTree = "<group>";
@@ -3666,6 +3694,7 @@
 				93E4EE68141ED8F4005A26CF /* es */,
 				93E4EE80141EE3DA005A26CF /* ja */,
 				93E4EE85141EE578005A26CF /* de */,
+				93EC27801421BFB700F94A35 /* da */,
 			);
 			name = GrowlNanoPrefs.xib;
 			sourceTree = "<group>";
@@ -3686,6 +3715,7 @@
 				93E4EE61141ED8BF005A26CF /* es */,
 				93E4EE79141EE2F7005A26CF /* ja */,
 				93E4EE8C141EE5B8005A26CF /* de */,
+				93EC27791421BF7B00F94A35 /* da */,
 			);
 			name = iCalPrefs.xib;
 			sourceTree = "<group>";
@@ -3706,6 +3736,7 @@
 				93E4EE77141EE2B6005A26CF /* ja */,
 				93E4EE8E141EE5C6005A26CF /* de */,
 				93E4EF15141EFE68005A26CF /* pt-PT */,
+				93EC27771421BF3500F94A35 /* da */,
 			);
 			name = BrushedPrefs.xib;
 			sourceTree = "<group>";
@@ -3726,6 +3757,7 @@
 				93E4EEFD141EFCA1005A26CF /* nb */,
 				93E4EF05141EFCA1005A26CF /* nl */,
 				93E4EF0D141EFCA1005A26CF /* pt_PT */,
+				93EC276C1421BEB600F94A35 /* da */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3746,6 +3778,7 @@
 				93E4EEFE141EFCA1005A26CF /* nb */,
 				93E4EF06141EFCA1005A26CF /* nl */,
 				93E4EF0E141EFCA1005A26CF /* pt_PT */,
+				93EC276D1421BEC900F94A35 /* da */,
 			);
 			name = AwayHistoryWindow.xib;
 			sourceTree = "<group>";
@@ -3766,6 +3799,7 @@
 				93E4EEFF141EFCA1005A26CF /* nb */,
 				93E4EF07141EFCA1005A26CF /* nl */,
 				93E4EF0F141EFCA1005A26CF /* pt_PT */,
+				93EC276E1421BEEC00F94A35 /* da */,
 			);
 			name = FirstLaunchWindow.xib;
 			sourceTree = "<group>";
@@ -3786,6 +3820,7 @@
 				93E4EF00141EFCA1005A26CF /* nb */,
 				93E4EF08141EFCA1005A26CF /* nl */,
 				93E4EF10141EFCA1005A26CF /* pt_PT */,
+				93EC276F1421BEF300F94A35 /* da */,
 			);
 			name = GrowlPref.xib;
 			sourceTree = "<group>";
@@ -3806,6 +3841,7 @@
 				93E4EF01141EFCA1005A26CF /* nb */,
 				93E4EF09141EFCA1005A26CF /* nl */,
 				93E4EF11141EFCA1005A26CF /* pt_PT */,
+				93EC27701421BEFA00F94A35 /* da */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3826,6 +3862,7 @@
 				93E4EF02141EFCA1005A26CF /* nb */,
 				93E4EF0A141EFCA1005A26CF /* nl */,
 				93E4EF12141EFCA1005A26CF /* pt_PT */,
+				93EC27711421BF0000F94A35 /* da */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3846,6 +3883,7 @@
 				93E4EF03141EFCA1005A26CF /* nb */,
 				93E4EF0B141EFCA1005A26CF /* nl */,
 				93E4EF13141EFCA1005A26CF /* pt_PT */,
+				93EC27721421BF0700F94A35 /* da */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -3866,6 +3904,7 @@
 				93E4EF04141EFCA1005A26CF /* nb */,
 				93E4EF0C141EFCA1005A26CF /* nl */,
 				93E4EF14141EFCA1005A26CF /* pt_PT */,
+				93EC27731421BF0D00F94A35 /* da */,
 			);
 			name = WebKitPrefs.xib;
 			sourceTree = "<group>";
