@@ -2609,7 +2609,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 											<object class="NSTextField" id="476671703">
 												<reference key="NSNextResponder" ref="1013818818"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{17, 40}, {101, 14}}</string>
+												<string key="NSFrame">{{17, 40}, {104, 14}}</string>
 												<reference key="NSSuperview" ref="1013818818"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="405891612"/>
