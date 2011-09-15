@@ -6,8 +6,6 @@
 //  Copyright 2009 The Growl Project. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #pragma mark Encryption
 NSString *GrowlGNTPNone = @"NONE";
 NSString *GrowlGNTPMD5 = @"MD5";

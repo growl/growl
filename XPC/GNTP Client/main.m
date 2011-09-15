@@ -7,7 +7,8 @@
 //
 
 #include <xpc/xpc.h>
-#include <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
+#import "GrowlDefines.h"
 
 static NSDictionary * xpcDictionaryToNSDict(xpc_object_t object)
 {
@@ -73,7 +74,8 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
         
         // Here we unpack our dictionary.
         NSDictionary *dict = xpcDictionaryToNSDict(event);
-        
+        NSLog(@"test %@", [dict valueForKey:GROWL_APP_NAME]);
+      
         if (!strcmp(purpose,"registration")) {
             // The rest of our xpc_dictionary is a registration packet.  
             

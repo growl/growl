@@ -20,7 +20,10 @@
         return NO;
     }
     
-    xpcConnection = xpc_connection_create("com.growl.GNTPService", NULL);
+    //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService
+    NSString *bundleID = [NSString stringWithFormat:@"%@.GNTPClientService"];
+    
+    xpcConnection = xpc_connection_create([bundleID UTF8String], NULL);
     if (!xpcConnection)
         return NO;
     

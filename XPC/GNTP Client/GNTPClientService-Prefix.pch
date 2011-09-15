@@ -2,3 +2,6 @@
 // Prefix header for all source files of the 'GNTP' target in the 'GNTP' project
 //
 
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#endif
