@@ -8,10 +8,31 @@
 
 #import "GrowlXPCCommunicationAttempt.h"
 #import "GrowlDefines.h"
+#import "NSObject+XPCHelpers.h"
 
 #import <xpc/xpc.h>
 
 @implementation GrowlXPCCommunicationAttempt
+
++ (NSString*)XPCBundleID
+{
+   return [NSString stringWithFormat:@"%@.GNTPClientService"];
+}
+
++ (BOOL)canCreateConnection
+{
+   static xpc_connection_t connect = NULL;
+   
+   if (xpc_connection_create == NULL)
+      return NO;
+   
+   if(!connect){   
+      connect = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
+      if(!connect)
+         return NO;
+   }
+   return YES;
+}
 
 - (BOOL) establishConnection
 {
@@ -20,10 +41,8 @@
         return NO;
     }
     
-    //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService
-    NSString *bundleID = [NSString stringWithFormat:@"%@.GNTPClientService"];
-    
-    xpcConnection = xpc_connection_create([bundleID UTF8String], NULL);
+    //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService    
+    xpcConnection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
     if (!xpcConnection)
         return NO;
     
@@ -66,31 +85,9 @@
     // Add the known parameters, yay!
     xpc_dictionary_set_string(xpcMessage, "growlMessagePurpose", [purpose UTF8String]);
     
-    // And now we start building the message.
-    for (NSString *key in [self.dictionary allKeys]) {
-        id keyValue = [self.dictionary objectForKey:key];
-        
-        if ([keyValue isKindOfClass:[NSString class]]) {
-            NSString *keyString = (NSString *)keyValue;
-            xpc_dictionary_set_string(xpcMessage, [key UTF8String], [keyString UTF8String]);
-        }
-        else if ([keyValue isKindOfClass:[NSData class]]) {
-            NSData *keyData = (NSData *)keyValue;
-            xpc_dictionary_set_data(xpcMessage, [key UTF8String], [keyData bytes], [keyData length]);
-        }
-        else if ([keyValue isKindOfClass:[NSNumber class]]) {
-            // Okay, we need to get a little clever here, since I can't tell if this is a bool or no.
-            // At least, not without checking what this parameter is.
-            
-            NSNumber *keyNumber = (NSNumber *)keyValue;
-            if ([key isEqualToString:GROWL_NOTIFICATION_STICKY]) {
-                xpc_dictionary_set_bool(xpcMessage, [key UTF8String], [keyNumber boolValue]);
-            }
-            else {
-                xpc_dictionary_set_int64(xpcMessage, [key UTF8String], [keyNumber integerValue]);
-            }
-        }
-    }
+    xpc_object_t growlDict = [self.dictionary newXPCObject];
+    xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
+    xpc_release(growlDict);
     
     xpc_connection_send_message_with_reply(xpcConnection, xpcMessage, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT ,0), handler);
     

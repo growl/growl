@@ -21,6 +21,7 @@
 #import "GrowlApplicationBridgeNotificationAttempt.h"
 #import "GrowlGNTPRegistrationAttempt.h"
 #import "GrowlGNTPNotificationAttempt.h"
+#import "GrowlXPCCommunicationAttempt.h"
 #import "GrowlXPCRegistrationAttempt.h"
 #import "GrowlXPCNotificationAttempt.h"
 
@@ -234,24 +235,30 @@ static BOOL    attemptingToRegister = NO;
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
 		GrowlCommunicationAttempt *firstAttempt;
-        GrowlXPCNotificationAttempt *xpcNotify;
-		GrowlGNTPNotificationAttempt *gntpNotify;
+      GrowlXPCNotificationAttempt *xpcNotify = nil;
+		GrowlGNTPNotificationAttempt *gntpNotify = nil;
 		GrowlApplicationBridgeNotificationAttempt *gabNotify;
-		
-		firstAttempt = 
-        xpcNotify = [[[GrowlXPCNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
-        xpcNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-        [[self attempts] addObject:xpcNotify];
-        
-		gntpNotify = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
-		gntpNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-		[[self attempts] addObject:gntpNotify];
-        xpcNotify.nextAttempt = gntpNotify;
 
+      if([GrowlXPCCommunicationAttempt canCreateConnection]){
+         firstAttempt = 
+         xpcNotify = [[[GrowlXPCNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+         xpcNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+         [[self attempts] addObject:xpcNotify];
+      }else{
+         firstAttempt =
+         gntpNotify = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+         gntpNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+         [[self attempts] addObject:gntpNotify];
+      }
+      
 		gabNotify = [[[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
 		gabNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
 		[[self attempts] addObject:gabNotify];
-		gntpNotify.nextAttempt = gabNotify;
+     
+      if(xpcNotify)
+         xpcNotify.nextAttempt = gabNotify;
+      else
+         gntpNotify.nextAttempt = gabNotify;
 
 		[firstAttempt begin];
 	} else {
@@ -307,29 +314,37 @@ static BOOL    attemptingToRegister = NO;
 
    attemptingToRegister = YES;
    
+      
+   
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [regDict retain];
 
 	GrowlCommunicationAttempt *firstAttempt;
-    GrowlXPCRegistrationAttempt *xpcRegister;
-	GrowlGNTPRegistrationAttempt *gntpRegister;
+   GrowlXPCRegistrationAttempt *xpcRegister = nil;
+	GrowlGNTPRegistrationAttempt *gntpRegister = nil;
 	GrowlApplicationBridgeRegistrationAttempt *gabRegister;
-
-	firstAttempt =
-    xpcRegister = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
-    xpcRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-    [[self attempts] addObject:xpcRegister];
-    
-	gntpRegister = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
-	gntpRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-	[[self attempts] addObject:gntpRegister];
-    xpcRegister.nextAttempt = gntpRegister;
+   
+   if([GrowlXPCCommunicationAttempt canCreateConnection]){
+      firstAttempt =
+      xpcRegister = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      xpcRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+      [[self attempts] addObject:xpcRegister];
+   }else{
+      firstAttempt =
+      gntpRegister = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      gntpRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+      [[self attempts] addObject:gntpRegister];
+   }
 
 	gabRegister = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
 	gabRegister.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
 	gabRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
 	[[self attempts] addObject:gabRegister];
-	gntpRegister.nextAttempt = gabRegister;
+   
+   if(xpcRegister)
+      xpcRegister.nextAttempt = gabRegister;
+   else
+      gntpRegister.nextAttempt =gabRegister;
 
 	[firstAttempt begin];
 

@@ -17,6 +17,8 @@
     
 }
 
++ (BOOL)canCreateConnection;
+
 // This creates our XPC connection.
 - (BOOL) establishConnection;
 
