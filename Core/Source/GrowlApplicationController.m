@@ -913,6 +913,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			//Have the property-list-file pathway process this registration dictionary file.
 			GrowlPropertyListFilePathway *pathway = [GrowlPropertyListFilePathway standardPathway];
 			[pathway application:theApplication openFile:filename];
+            retVal = YES;
 		} else {
 			//We're definitely not the real GHA, so pass it to the real GHA to be registered.
 			[[NSWorkspace sharedWorkspace] openFile:filename
