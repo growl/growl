@@ -45,11 +45,11 @@
    }
    else if (newType == XPC_TYPE_INT64) {
       int64_t intValue = xpc_int64_get_value(object);
-      nsValue = [NSNumber numberWithInteger:intValue];
+      nsValue = [NSNumber numberWithInteger:(NSInteger)intValue];
    }
    else if (newType == XPC_TYPE_UINT64) {
       uint64_t uintValue = xpc_uint64_get_value(object);
-      nsValue = [NSNumber numberWithUnsignedInteger:uintValue];
+      nsValue = [NSNumber numberWithUnsignedInteger:(NSUInteger)uintValue];
    }
    else if (newType == XPC_TYPE_DOUBLE) {
       double_t doubleValue = xpc_double_get_value(object);

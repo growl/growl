@@ -16,7 +16,7 @@
 
 + (NSString*)XPCBundleID
 {
-   return [NSString stringWithFormat:@"%@.GNTPClientService"];
+   return [NSString stringWithFormat:@"%@.GNTPClientService", [[NSBundle mainBundle] bundleIdentifier]];
 }
 
 + (BOOL)canCreateConnection
@@ -34,6 +34,15 @@
    return YES;
 }
 
+- (void)finished
+{
+   if(xpcConnection){
+      xpc_release(xpcConnection);
+      xpcConnection = NULL;
+   }
+   [super finished];
+}
+
 - (BOOL) establishConnection
 {
     if (xpc_connection_create == NULL) {
@@ -41,11 +50,34 @@
         return NO;
     }
     
-    //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService    
-    xpcConnection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
+   __block GrowlXPCCommunicationAttempt *blockSafe = self;
+    //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService 
+   xpcConnection = xpc_connection_create(/*"com.Growl.BeepHammer.GNTPClientService"*/[[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
     if (!xpcConnection)
         return NO;
-    
+   xpc_connection_set_event_handler(xpcConnection, ^(xpc_object_t object) {
+      xpc_type_t type = xpc_get_type(object);
+      
+      if (type == XPC_TYPE_ERROR) {
+         
+         if (object == XPC_ERROR_CONNECTION_INTERRUPTED) {
+            NSLog(@"Interrupted connection to XPC service");
+         } else if (object == XPC_ERROR_CONNECTION_INVALID) {
+            NSString *errorDescription = [NSString stringWithUTF8String:xpc_dictionary_get_string(object, XPC_ERROR_KEY_DESCRIPTION)];
+            NSLog(@"Connection Invalid error for XPC service (%@)", errorDescription);
+            xpc_release(xpcConnection);
+            xpcConnection = NULL;
+            [blockSafe failed];
+            [blockSafe finished];
+         } else {
+            NSLog(@"Unexpected error for XPC service");
+         }
+      } else {
+         [blockSafe handleReply:object];
+      }
+
+   });
+   xpc_connection_resume(xpcConnection);
     return YES;
 }
 
@@ -67,8 +99,11 @@
         return;
     }
     
-    BOOL success = xpc_dictionary_get_bool(reply, "success");
-    
+   NSDictionary *dict = [NSObject xpcObjectToNSObject:reply];
+   NSLog(@"response dict: %@", dict);
+   
+   BOOL success = [[dict objectForKey:@"Success"] boolValue];
+   
     if (success)
         [self succeeded];
     else
@@ -83,14 +118,14 @@
     xpc_object_t xpcMessage = xpc_dictionary_create(NULL, NULL, 0);
     
     // Add the known parameters, yay!
-    xpc_dictionary_set_string(xpcMessage, "growlMessagePurpose", [purpose UTF8String]);
+    xpc_dictionary_set_string(xpcMessage, "GrowlDictType", [purpose UTF8String]);
     
-    xpc_object_t growlDict = [self.dictionary newXPCObject];
+    xpc_object_t growlDict = [(NSObject*)self.dictionary newXPCObject];
     xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
     xpc_release(growlDict);
     
     if (handler) {
-       xpc_connection_send_message_with_reply(xpcConnection, xpcMessage, dispatch_get_main_queue(), handler);
+       xpc_connection_send_message_with_reply(self->xpcConnection, xpcMessage, dispatch_get_main_queue(), handler);
     }else{
        xpc_connection_send_message(xpcConnection, xpcMessage);
     }

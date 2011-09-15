@@ -272,6 +272,8 @@
 		BC038449140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC038448140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m */; };
 		BC1FA5EF142223E900F1C147 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D46B142222D600C98C98 /* InfoPlist.strings */; };
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
+		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
+		BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */; };
 		BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */; };
 		BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */; };
@@ -1138,6 +1140,8 @@
 		BC038448140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlFirstLaunchWindowController.m; path = Core/Source/GrowlFirstLaunchWindowController.m; sourceTree = "<group>"; };
 		BC1FA5FF1422380900F1C147 /* NSObject+XPCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+XPCHelpers.h"; path = "Common/Source/NSObject+XPCHelpers.h"; sourceTree = SOURCE_ROOT; };
 		BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+XPCHelpers.m"; path = "Common/Source/NSObject+XPCHelpers.m"; sourceTree = SOURCE_ROOT; };
+		BC1FA6031422401D00F1C147 /* GrowlNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotifier.h; path = "GNTP Client/GrowlNotifier.h"; sourceTree = "<group>"; };
+		BC1FA6041422401D00F1C147 /* GrowlNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotifier.m; path = "GNTP Client/GrowlNotifier.m"; sourceTree = "<group>"; };
 		BC28C121124B8B0500DB83D4 /* GrowlAbstractDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractDatabase.h; path = Core/Source/GrowlAbstractDatabase.h; sourceTree = "<group>"; };
 		BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractDatabase.m; path = Core/Source/GrowlAbstractDatabase.m; sourceTree = "<group>"; };
 		BC3390C9140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlDisableInNetworkScriptCommand.h; path = Bindings/applescript/GrowlControlDisableInNetworkScriptCommand.h; sourceTree = "<group>"; };
@@ -1219,7 +1223,7 @@
 		EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlSlidingWindowTransition.h; sourceTree = "<group>"; };
 		EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractSingletonObject.m; path = Core/Source/GrowlAbstractSingletonObject.m; sourceTree = "<group>"; };
 		EED7068A08C743D9004651D0 /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = Core/Source/GrowlAbstractSingletonObject.h; sourceTree = "<group>"; };
-		FF93C8E314218EB3007EAC43 /* com.Growl.GrowlHelperApp.GNTPClientService.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.Growl.GrowlHelperApp.GNTPClientService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.Growl.BeepHammer.GNTPClientService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF93C8E414218EB3007EAC43 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FF93C90E1421935E007EAC43 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FF93C90F1421935E007EAC43 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -1774,7 +1778,7 @@
 				93BC379E095A662B0002B365 /* Nano.growlView */,
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
 				31E184D61084628D0011C78B /* Unit tests.octest */,
-				FF93C8E314218EB3007EAC43 /* com.Growl.GrowlHelperApp.GNTPClientService.xpc */,
+				FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2141,6 +2145,8 @@
 			isa = PBXGroup;
 			children = (
 				BCA9D4621422228A00C98C98 /* main.m */,
+				BC1FA6031422401D00F1C147 /* GrowlNotifier.h */,
+				BC1FA6041422401D00F1C147 /* GrowlNotifier.m */,
 				FF93C8E714218EB3007EAC43 /* Supporting Files */,
 			);
 			name = "XPC Client";
@@ -2719,7 +2725,7 @@
 			);
 			name = GNTPClientService;
 			productName = GNTP;
-			productReference = FF93C8E314218EB3007EAC43 /* com.Growl.GrowlHelperApp.GNTPClientService.xpc */;
+			productReference = FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -3277,6 +3283,7 @@
 				FF93C91F1421958F007EAC43 /* GrowlXPCCommunicationAttempt.m in Sources */,
 				FF93C9211421958F007EAC43 /* GrowlXPCNotificationAttempt.m in Sources */,
 				FF93C9231421958F007EAC43 /* GrowlXPCRegistrationAttempt.m in Sources */,
+				BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3453,6 +3460,7 @@
 				FF93C90A142190A4007EAC43 /* GNTPKey.m in Sources */,
 				BCA9D4631422228A00C98C98 /* main.m in Sources */,
 				BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */,
+				BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4906,7 +4914,7 @@
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "com.Growl.GrowlHelperApp.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -4937,7 +4945,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "com.Growl.GrowlHelperApp.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -4967,7 +4975,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "com.Growl.GrowlHelperApp.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};

@@ -22,7 +22,7 @@
         return;
     }
     
-    if (![self sendMessageWithPurpose:@"registration" andReplyHandler:^(xpc_object_t reply) { [self handleReply:reply]; }])
+    if (![self sendMessageWithPurpose:@"notification" andReplyHandler:^(xpc_object_t reply) { [self handleReply:reply]; }])
         [self failed];
 }
 

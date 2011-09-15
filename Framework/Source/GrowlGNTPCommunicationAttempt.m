@@ -41,6 +41,8 @@ enum {
 @synthesize host;
 @synthesize password;
 
+@synthesize connection;
+
 - (void) dealloc {
 	[callbackHeaderItems release];
    

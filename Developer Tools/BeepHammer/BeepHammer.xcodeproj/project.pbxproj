@@ -19,6 +19,7 @@
 		31DF20A80B1F86170096DEBB /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20A60B1F86170096DEBB /* plus-8.png */; };
 		34FBA2FE0CA0553700958660 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBA2E30CA0551E00958660 /* Growl.framework */; };
 		34FBA2FF0CA0553D00958660 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E30CA0551E00958660 /* Growl.framework */; };
+		BC1FA63114224D1B00F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */; };
 		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.xib */; };
 		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -122,6 +123,20 @@
 			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
+		BC1FA62A14224CB300F1C147 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BC8E2C91142299D700FF769C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -132,6 +147,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				34FBA2FF0CA0553D00958660 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC1FA63014224D0E00F1C147 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/XPCServices;
+			dstSubfolderSpec = 1;
+			files = (
+				BC1FA63114224D1B00F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +177,7 @@
 		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../Common/Resources/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		34FBA2C70CA0551E00958660 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9323A12B11DEE007008DEFD3 /* BeepHammer-WithInstaller.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BeepHammer-WithInstaller.plist"; sourceTree = "<group>"; };
+		BC1FA62F14224D0200F1C147 /* BeepHammer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BeepHammer.entitlements; sourceTree = "<group>"; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +198,7 @@
 		073B924D06855E0F0068C763 = {
 			isa = PBXGroup;
 			children = (
+				BC1FA62F14224D0200F1C147 /* BeepHammer.entitlements */,
 				073B927606855EBF0068C763 /* BeepMain.m */,
 				073B926E06855E860068C763 /* Classes */,
 				073B927106855E900068C763 /* Resources */,
@@ -239,6 +266,7 @@
 				34FBA2F90CA0551E00958660 /* MusicVideo.growlView */,
 				34FBA2FB0CA0551E00958660 /* SMS.growlView */,
 				31F7A218109058860049993D /* Unit tests.octest */,
+				BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,10 +295,12 @@
 				CBBC7DDF0659313D00684B79 /* Resources */,
 				CBBC7DE00659313D00684B79 /* Sources */,
 				CBBC7DE10659313D00684B79 /* Frameworks */,
+				BC1FA63014224D0E00F1C147 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BC8E2C92142299D700FF769C /* PBXTargetDependency */,
 				34FBA2FD0CA0552D00958660 /* PBXTargetDependency */,
 			);
 			name = BeepHammer;
@@ -401,6 +431,13 @@
 			remoteRef = 34FBA2FA0CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.Growl.BeepHammer.GNTPClientService.xpc;
+			remoteRef = BC1FA62A14224CB300F1C147 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -438,6 +475,11 @@
 			name = Growl.framework;
 			targetProxy = 34FBA2FC0CA0552D00958660 /* PBXContainerItemProxy */;
 		};
+		BC8E2C92142299D700FF769C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GNTPClientService;
+			targetProxy = BC8E2C91142299D700FF769C /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -463,6 +505,8 @@
 		95E4A38F0855C1A3006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BeepHammer.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -482,6 +526,8 @@
 		95E4A3900855C1A3006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BeepHammer.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

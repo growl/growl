@@ -7,6 +7,7 @@
 //
 
 #import "GrowlCommunicationAttempt.h"
+#import <xpc/xpc.h>
 
 @class GrowlGNTPOutgoingPacket;
 @class GCDAsyncSocket;
@@ -23,9 +24,13 @@
    
    NSString *host;
    NSString *password;
+   
+   //For the XPC version
+   xpc_connection_t connection;
 }
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic) xpc_connection_t connection;
 
 //Lazily constructs the packet for self.dictionary.
 - (GrowlGNTPOutgoingPacket *) packet;
