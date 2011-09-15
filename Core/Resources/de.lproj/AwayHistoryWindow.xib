@@ -311,7 +311,7 @@
 								<object class="NSTextField" id="324244413">
 									<reference key="NSNextResponder" ref="808371625"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{47, 44}, {153, 17}}</string>
+									<string key="NSFrame">{{47, 44}, {42, 17}}</string>
 									<reference key="NSSuperview" ref="808371625"/>
 									<reference key="NSNextKeyView" ref="749880600"/>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -320,7 +320,7 @@
 									<object class="NSTextFieldCell" key="NSCell" id="870442961">
 										<int key="NSCellFlags">67239488</int>
 										<int key="NSCellFlags2">272631808</int>
-										<string key="NSContents">Name der Anwendung</string>
+										<string key="NSContents">Name</string>
 										<object class="NSFont" key="NSSupport">
 											<string key="NSName">LucidaGrande-Bold</string>
 											<double key="NSSize">13</double>
@@ -339,7 +339,7 @@
 								<object class="NSTextField" id="631496807">
 									<reference key="NSNextResponder" ref="808371625"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{202, 44}, {137, 17}}</string>
+									<string key="NSFrame">{{91, 44}, {137, 17}}</string>
 									<reference key="NSSuperview" ref="808371625"/>
 									<reference key="NSNextKeyView" ref="842464451"/>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>

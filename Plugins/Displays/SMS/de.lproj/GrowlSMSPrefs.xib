@@ -34,7 +34,7 @@
 			<object class="NSWindowTemplate" id="470289919">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{118, 400}, {354, 289}}</string>
+				<string key="NSWindowRect">{{491, 258}, {354, 289}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Fenster</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -161,7 +161,7 @@
 						<object class="NSTextField" id="245635640">
 							<reference key="NSNextResponder" ref="434045050"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{87, 50}, {146, 17}}</string>
+							<string key="NSFrame">{{140, 33}, {93, 34}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="326410489"/>
@@ -182,6 +182,7 @@
 							<string key="NSFrame">{{90, 20}, {149, 22}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<int key="NSTag">3</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="24565177">
@@ -300,7 +301,7 @@ aWNpbmcucGhwA</string>
 						<object class="NSTextField" id="924435054">
 							<reference key="NSNextResponder" ref="434045050"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{143, 256}, {201, 17}}</string>
+							<string key="NSFrame">{{143, 245}, {194, 28}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="520959494"/>
