@@ -74,6 +74,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (void) awakeFromNib {
     
+    [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+    
     pid = getpid();
     loadedPrefPanes = [[NSMutableArray alloc] init];
     preferencesController = [GrowlPreferencesController sharedController];
@@ -218,8 +220,18 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (void)showWindow:(id)sender
 {
-   [super showWindow:sender];
-   if([preferencesController selectedPreferenceTab] == 3)
+    //if we're visible but not on the active space then go ahead and close the window
+    if ([self.window isVisible] && ![self.window isOnActiveSpace])
+        [self.window orderOut:self];
+        
+    //we change the collection behavior so that the window is brought over to the active space
+    //instead of restoring its position on its previous home. If we don't perform a collection
+    //behavior reset the window will cause us to space jump.
+    [self.window setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
+    [super showWindow:sender];
+    [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+   
+    if([preferencesController selectedPreferenceTab] == 3)
       [self startBrowsing];
 }
 
