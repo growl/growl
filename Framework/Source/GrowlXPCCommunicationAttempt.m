@@ -143,11 +143,11 @@
       }
       [self finished];
    }else{
-      if (success)
+      if (success){
          [self succeeded];
          if([self attemptType] == GrowlCommunicationAttemptTypeRegister)
             [self finished];
-      else{
+      }else{
          GrowlGNTPErrorCode reason = (GrowlGNTPErrorCode)[[dict objectForKey:@"Error-Code"] integerValue];
          NSString *description = [dict objectForKey:@"Error-Description"];
          NSLog(@"Failed with code %d, \"%@\"", reason, description);
