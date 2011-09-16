@@ -1552,6 +1552,14 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				93E4EEA5141EFCA0005A26CF /* About.rtf */,
+				93E4EEA7141EFCA0005A26CF /* AwayHistoryWindow.xib */,
+				93E4EEA9141EFCA1005A26CF /* FirstLaunchWindow.xib */,
+				93E4EEAB141EFCA1005A26CF /* GrowlPref.xib */,
+				93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */,
+				93E4EEAF141EFCA1005A26CF /* Localizable.strings */,
+				93E4EEB1141EFCA1005A26CF /* MainMenu.xib */,
+				93E4EEB3141EFCA1005A26CF /* WebKitPrefs.xib */,
 				93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */,
 				93E7122013F568430025D733 /* About.png */,
 				93E7121313F5652C0025D733 /* General.png */,
@@ -1979,22 +1987,6 @@
 			path = Plugins/Displays/Nano;
 			sourceTree = "<group>";
 		};
-		93E053BC141BC54200FC4F76 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				93E4EEA5141EFCA0005A26CF /* About.rtf */,
-				93E4EEA7141EFCA0005A26CF /* AwayHistoryWindow.xib */,
-				93E4EEA9141EFCA1005A26CF /* FirstLaunchWindow.xib */,
-				93E4EEAB141EFCA1005A26CF /* GrowlPref.xib */,
-				93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */,
-				93E4EEAF141EFCA1005A26CF /* Localizable.strings */,
-				93E4EEB1141EFCA1005A26CF /* MainMenu.xib */,
-				93E4EEB3141EFCA1005A26CF /* WebKitPrefs.xib */,
-			);
-			name = Resources;
-			path = Core/Resources;
-			sourceTree = "<group>";
-		};
 		93E7128013FDFAAF0025D733 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -2230,7 +2222,6 @@
 		CB5F836E0638B69900EADD7A /* HelperApp */ = {
 			isa = PBXGroup;
 			children = (
-				93E053BC141BC54200FC4F76 /* Resources */,
 				BCDB88F113FC3F7700244F59 /* FirstLaunch */,
 				CB5F835E0638B67C00EADD7A /* Prefpane */,
 				93405B0D080D8BD100903735 /* StatusItem */,
@@ -3790,6 +3781,7 @@
 				93350158142399230077C0D7 /* ko */,
 			);
 			name = About.rtf;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEA7141EFCA0005A26CF /* AwayHistoryWindow.xib */ = {
@@ -3811,6 +3803,7 @@
 				93350159142399310077C0D7 /* ko */,
 			);
 			name = AwayHistoryWindow.xib;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEA9141EFCA1005A26CF /* FirstLaunchWindow.xib */ = {
@@ -3832,6 +3825,7 @@
 				9335015A142399390077C0D7 /* ko */,
 			);
 			name = FirstLaunchWindow.xib;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEAB141EFCA1005A26CF /* GrowlPref.xib */ = {
@@ -3853,6 +3847,7 @@
 				9335015B1423993F0077C0D7 /* ko */,
 			);
 			name = GrowlPref.xib;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */ = {
@@ -3874,6 +3869,7 @@
 				9335015C142399450077C0D7 /* ko */,
 			);
 			name = InfoPlist.strings;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEAF141EFCA1005A26CF /* Localizable.strings */ = {
@@ -3895,6 +3891,7 @@
 				9335015D1423994B0077C0D7 /* ko */,
 			);
 			name = Localizable.strings;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEB1141EFCA1005A26CF /* MainMenu.xib */ = {
@@ -3916,6 +3913,7 @@
 				9335015E142399510077C0D7 /* ko */,
 			);
 			name = MainMenu.xib;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		93E4EEB3141EFCA1005A26CF /* WebKitPrefs.xib */ = {
@@ -3937,6 +3935,7 @@
 				9335015F142399570077C0D7 /* ko */,
 			);
 			name = WebKitPrefs.xib;
+			path = Core/Resources;
 			sourceTree = "<group>";
 		};
 		BCA9D46B142222D600C98C98 /* InfoPlist.strings */ = {
