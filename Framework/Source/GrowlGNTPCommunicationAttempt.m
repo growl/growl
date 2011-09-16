@@ -292,13 +292,13 @@ enum {
       case 1:
          //it was clicked
          if ([delegate respondsToSelector:@selector(notificationClicked:context:)])
-            [delegate notificationClicked:self context:context];
+            [delegate notificationClicked:self context:clickContext];
          break;
       case 2:
          //it closed, same as timed out
       default:
          if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
-            [delegate notificationTimedOut:self context:context];
+            [delegate notificationTimedOut:self context:clickContext];
          //it timed out
          break;
    }
