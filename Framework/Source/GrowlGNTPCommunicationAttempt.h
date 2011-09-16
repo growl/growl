@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic) xpc_connection_t connection;
+@property (nonatomic, retain) NSArray *callbackHeaderItems;
 
 //Lazily constructs the packet for self.dictionary.
 - (GrowlGNTPOutgoingPacket *) packet;

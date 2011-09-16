@@ -40,6 +40,7 @@ enum {
 @synthesize responseParseErrorString, bogusResponse;
 @synthesize host;
 @synthesize password;
+@synthesize callbackHeaderItems;
 
 @synthesize connection;
 
