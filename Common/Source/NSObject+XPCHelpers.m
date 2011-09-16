@@ -71,10 +71,10 @@
       returnVal = xpc_dictionary_create(NULL, NULL, 0);
       [(NSDictionary*)self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
          xpc_object_t xpcObj = [obj newXPCObject];
-         if(xpcObj){
+         if(xpcObj != NULL){
             xpc_dictionary_set_value(returnVal, [key UTF8String], xpcObj);
+            xpc_release(xpcObj);
          }
-         xpc_release(xpcObj);
       }];
    }else if ([self isKindOfClass:[NSString class]]){
       returnVal = xpc_string_create([(NSString*)self UTF8String]);
@@ -84,8 +84,10 @@
       returnVal = xpc_array_create(NULL, 0);
       [(NSArray*)self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          xpc_object_t appendVal = [obj newXPCObject];
-         xpc_array_set_value(returnVal, XPC_ARRAY_APPEND, appendVal);
-			xpc_release(appendVal);
+         if(appendVal != NULL){
+            xpc_array_set_value(returnVal, XPC_ARRAY_APPEND, appendVal);
+            xpc_release(appendVal);
+         }
       }];
    }else if ([self isKindOfClass:[NSNumber class]]){
       if(self == (NSNumber *)kCFBooleanTrue){
