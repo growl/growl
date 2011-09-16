@@ -66,7 +66,7 @@
 
 -(xpc_object_t)newXPCObject
 {
-   xpc_object_t returnVal = NULL;
+   __block xpc_object_t returnVal = NULL;
    if ([self isKindOfClass:[NSDictionary class]]) {
       returnVal = xpc_dictionary_create(NULL, NULL, 0);
       [(NSDictionary*)self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
