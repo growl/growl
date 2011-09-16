@@ -9,6 +9,7 @@
 #import "GrowlXPCCommunicationAttempt.h"
 #import "GrowlDefines.h"
 #import "NSObject+XPCHelpers.h"
+#import "GrowlGNTPDefines.h"
 
 #import <xpc/xpc.h>
 
@@ -20,18 +21,27 @@
 }
 
 + (BOOL)canCreateConnection
-{
-   static xpc_connection_t connect = NULL;
-   
+{   
+   static BOOL searched = NO;
+   static BOOL found = NO;
    if (xpc_connection_create == NULL)
       return NO;
    
-   if(!connect){   
-      connect = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
-      if(!connect)
-         return NO;
-   }
-   return YES;
+   if(searched) 
+      return found;
+   
+   NSString *appPath = [[NSBundle mainBundle] bundlePath];
+   NSString *xpcSubPath = [NSString stringWithFormat:@"Contents/XPCServices/%@", [self XPCBundleID]];
+   NSString *xpcPath = [[appPath  stringByAppendingPathComponent:xpcSubPath] stringByAppendingPathExtension:@"xpc"];
+   NSLog(@"xpc path: %@", xpcSubPath);
+   
+   searched = YES;
+   //If the file exists, and we can create an XPC, lets use it instead.
+   if([[NSFileManager defaultManager] fileExistsAtPath:xpcPath]){
+      found = YES;
+      return YES;
+   }else
+      return NO;
 }
 
 - (NSString *)purpose
@@ -52,10 +62,6 @@
 
 - (void)finished
 {
-   if(xpcConnection){
-      xpc_release(xpcConnection);
-      xpcConnection = NULL;
-   }
    [super finished];
 }
 
@@ -77,17 +83,18 @@
       if (type == XPC_TYPE_ERROR) {
          
          if (object == XPC_ERROR_CONNECTION_INTERRUPTED) {
-            NSLog(@"Interrupted connection to XPC service %@", blockSafe);
+            //NSLog(@"Interrupted connection to XPC service %@", blockSafe);
          } else if (object == XPC_ERROR_CONNECTION_INVALID) {
             NSString *errorDescription = [NSString stringWithUTF8String:xpc_dictionary_get_string(object, XPC_ERROR_KEY_DESCRIPTION)];
             NSLog(@"Connection Invalid error for XPC service (%@)", errorDescription);
             xpc_release(xpcConnection);
             xpcConnection = NULL;
             [blockSafe failed];
-            [blockSafe finished];
          } else {
             NSLog(@"Unexpected error for XPC service");
+            [blockSafe failed];
          }
+         [blockSafe finished];
       } else {
          [blockSafe handleReply:object];
       }
@@ -107,11 +114,13 @@
     
     if (XPC_TYPE_ERROR == type) {
         [self failed];
+        [self finished];
         return; 
     }
     
     if (XPC_TYPE_DICTIONARY != type) {
         [self failed];
+        [self finished];
         return;
     }
     
@@ -139,8 +148,15 @@
          if([self attemptType] == GrowlCommunicationAttemptTypeRegister)
             [self finished];
       else{
-         [self failed];
-         [self finished];
+         GrowlGNTPErrorCode reason = (GrowlGNTPErrorCode)[[dict objectForKey:@"Error-Code"] integerValue];
+         NSString *description = [dict objectForKey:@"Error-Description"];
+         NSLog(@"Failed with code %d, \"%@\"", reason, description);
+         if([responseAction isEqualToString:@"notification"] && reason == GrowlGNTPUserDisabledErrorCode){
+            [self stopAttempts];
+         }else{
+            [self failed];
+            [self finished];
+         }
       }
    }
 }
