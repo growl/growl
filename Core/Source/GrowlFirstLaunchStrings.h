@@ -17,7 +17,7 @@ typedef enum{
 }GrowlFirstLaunchState;
 
 #define FirstLaunchWelcomeTitle     NSLocalizedString(@"Welcome to Growl!",@"Title welcoming a new user to growl")
-#define FirstLaunchWelcomeBody      NSLocalizedString(@"Welcome to the Growl walkthrough. Even if you have used Growl before, it would be helpful to you if you take a moment to to get to know Growl 1.3.", @"");
+#define FirstLaunchWelcomeBody      NSLocalizedString(@"Welcome to the Growl walkthrough. Even if you have used Growl before, it would be helpful to you if you take a moment to get to know Growl 1.3.", @"");
 
 #define FirstLaunchDoneNext         NSLocalizedString(@"You are all ready to go, enjoy Growl!", @"Done with first launch dialog")
 
