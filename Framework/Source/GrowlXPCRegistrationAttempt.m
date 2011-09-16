@@ -15,15 +15,9 @@
 	return GrowlCommunicationAttemptTypeRegister;
 }
 
-- (void) begin
+-(NSString*)purpose
 {
-    if (![self establishConnection]) {
-        [self failed];
-        return;
-    }
-    
-    if (![self sendMessageWithPurpose:@"registration" andReplyHandler:^(xpc_object_t reply) { [self handleReply:reply]; }])
-        [self failed];
+   return @"registration";
 }
 
 @end

@@ -18,6 +18,7 @@
 }
 
 + (BOOL)canCreateConnection;
+- (NSString *)purpose;
 
 // This creates our XPC connection.
 - (BOOL) establishConnection;
@@ -28,10 +29,5 @@
 // This generates an XPC message for the communication dictionary, but
 // will never wait for a reply.
 - (BOOL) sendMessageWithPurpose:(NSString *)purpose;
-
-// This generates an XPC message for the communication dictionary, and
-// will wait for a reply.  Upon receiving a reply, the handler block
-// will be executed with the reply object as the sole parameter.
-- (BOOL) sendMessageWithPurpose:(NSString *)purpose andReplyHandler:(void (^)(xpc_object_t))handler;
 
 @end

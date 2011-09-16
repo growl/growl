@@ -15,15 +15,9 @@
 	return GrowlCommunicationAttemptTypeNotify;
 }
 
-- (void) begin
+-(NSString*)purpose
 {
-    if (![self establishConnection]) {
-        [self failed];
-        return;
-    }
-    
-    if (![self sendMessageWithPurpose:@"notification" andReplyHandler:^(xpc_object_t reply) { [self handleReply:reply]; }])
-        [self failed];
+   return @"notification";
 }
 
 @end

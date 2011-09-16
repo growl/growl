@@ -34,6 +34,22 @@
    return YES;
 }
 
+- (NSString *)purpose
+{
+   return @"erehwon";
+}
+
+- (void)begin
+{
+   if (![self establishConnection]) {
+      [self failed];
+      return;
+   }
+   
+   if (![self sendMessageWithPurpose:[self purpose]])
+      [self failed];
+}
+
 - (void)finished
 {
    if(xpcConnection){
@@ -61,7 +77,7 @@
       if (type == XPC_TYPE_ERROR) {
          
          if (object == XPC_ERROR_CONNECTION_INTERRUPTED) {
-            NSLog(@"Interrupted connection to XPC service");
+            NSLog(@"Interrupted connection to XPC service %@", blockSafe);
          } else if (object == XPC_ERROR_CONNECTION_INVALID) {
             NSString *errorDescription = [NSString stringWithUTF8String:xpc_dictionary_get_string(object, XPC_ERROR_KEY_DESCRIPTION)];
             NSLog(@"Connection Invalid error for XPC service (%@)", errorDescription);
@@ -100,17 +116,36 @@
     }
     
    NSDictionary *dict = [NSObject xpcObjectToNSObject:reply];
-   NSLog(@"response dict: %@", dict);
+   NSLog(@"Response dict: %@", dict);
+   NSString *responseAction = [dict objectForKey:@"GrowlActionType"];
+   BOOL success = [dict objectForKey:@"Success"] != nil ? [[dict objectForKey:@"Success"] boolValue] : NO;
    
-   BOOL success = [[dict objectForKey:@"Success"] boolValue];
-   
-    if (success)
-        [self succeeded];
-    else
-        [self failed];
+   if([responseAction isEqualToString:@"reregister"]){
+      [self queueAndReregister];
+   }else if([responseAction isEqualToString:@"feedback"]){
+      BOOL clicked = [[dict objectForKey:@"Clicked"] boolValue];
+      NSString *context = [dict objectForKey:@"Context"];
+      if(clicked){
+         if(delegate && [delegate respondsToSelector:@selector(notificationClicked:context:)])
+            [delegate notificationClicked:self context:context];
+      }else{
+         if(delegate && [delegate respondsToSelector:@selector(notificationTimedOut:context:)])
+            [delegate notificationTimedOut:self context:context];
+      }
+      [self finished];
+   }else{
+      if (success)
+         [self succeeded];
+         if([self attemptType] == GrowlCommunicationAttemptTypeRegister)
+            [self finished];
+      else{
+         [self failed];
+         [self finished];
+      }
+   }
 }
 
-- (BOOL) sendMessageWithPurpose:(NSString *)purpose andReplyHandler:(void (^)(xpc_object_t))handler
+- (BOOL) sendMessageWithPurpose:(NSString *)purpose
 {
     if (!xpcConnection)
         return NO;
@@ -124,19 +159,10 @@
     xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
     xpc_release(growlDict);
     
-    if (handler) {
-       xpc_connection_send_message_with_reply(self->xpcConnection, xpcMessage, dispatch_get_main_queue(), handler);
-    }else{
-       xpc_connection_send_message(xpcConnection, xpcMessage);
-    }
+    xpc_connection_send_message(xpcConnection, xpcMessage);
     xpc_release(xpcMessage);
     
     return YES;
-}
-
-- (BOOL) sendMessageWithPurpose:(NSString *)purpose
-{
-    return [self sendMessageWithPurpose:purpose andReplyHandler:nil];
 }
 
 @end
