@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+XPCHelpers.h"
+#import "GrowlImageAdditions.h"
 
 
 @implementation NSObject (NSObject_XPCHelpers)
@@ -80,6 +81,9 @@
       returnVal = xpc_string_create([(NSString*)self UTF8String]);
    }else if ([self isKindOfClass:[NSData class]]){
       returnVal = xpc_data_create([(NSData*)self bytes], [(NSData*)self length]);
+   }else if ([self isKindOfClass:[NSImage class]]){
+      NSData *pngRep = [(NSImage*)self PNGRepresentation];
+      returnVal = xpc_data_create([pngRep bytes], [pngRep length]);
    }else if ([self isKindOfClass:[NSArray class]]){
       returnVal = xpc_array_create(NULL, 0);
       [(NSArray*)self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
