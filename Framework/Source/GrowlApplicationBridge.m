@@ -633,11 +633,13 @@ static BOOL    attemptingToRegister = NO;
 
 + (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   [delegate growlNotificationWasClicked:context];
+   if(delegate && [delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+      [delegate growlNotificationWasClicked:context];
 }
 + (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   [delegate growlNotificationTimedOut:context];
+   if(delegate && [delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+      [delegate growlNotificationTimedOut:context];
 }
 
 @end
