@@ -162,9 +162,9 @@
  */
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-	NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
-    if ([[newSocket connectedHost] isLocalHost] ||
+   if ([[newSocket connectedHost] isLocalHost] ||
         [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
+        //NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
         [[self delegate] didAcceptNewSocket:newSocket];
 	} else {
 		[newSocket disconnect];

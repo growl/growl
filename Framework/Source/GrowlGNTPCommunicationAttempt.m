@@ -323,7 +323,6 @@ enum {
 		return;
 	}
 
-	[self succeeded];
    [self finished];
 }
 

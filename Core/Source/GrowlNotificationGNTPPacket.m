@@ -485,10 +485,8 @@
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationPriority value:[NSString stringWithFormat:@"%i", [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]]]];
 	if ([dict objectForKey:GROWL_NOTIFICATION_ICON_DATA]) {
 		NSData *iconData = [dict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
-#ifndef XPCSERVICE
 		if ([iconData isKindOfClass:[NSImage class]])
 			iconData = [(NSImage *)iconData PNGRepresentation];
-#endif
 		NSString *identifier = [GrowlGNTPBinaryChunk identifierForBinaryData:iconData];
 		
 		[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationIcon
@@ -517,7 +515,6 @@
                                                                     error:&error];
          if(!error){
             contextString = [NSString stringWithUTF8String:[data bytes]];
-            NSLog(@"PList: %@", contextString);
          }else{
             NSLog(@"Error creating PList XML: %@", error);
          }

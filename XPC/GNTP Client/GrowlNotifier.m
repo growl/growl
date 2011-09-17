@@ -49,6 +49,7 @@
    
    [response setValue:context forKey:@"Context"];
    [response setValue:[NSNumber numberWithBool:clicked] forKey:@"Clicked"];
+   [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt{
@@ -71,11 +72,10 @@
    if([attempt isKindOfClass:[GrowlGNTPRegistrationAttempt class]]){
       [response setValue:@"registration" forKey:@"GrowlActionType"];
    }else{
-      //We should only have GNTP Registration and Notification
+      //We should only have GNTP Registration and Notification for now
       [response setValue:@"notification" forKey:@"GrowlActionType"];
    }
    
-   NSLog(@"callback header items %@", [(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems]);
    [[(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([[obj headerName] isEqualToString:@"Error-Code"])
          [response setValue:[obj headerValue] forKey:[obj headerName]];
@@ -88,6 +88,9 @@
    [currentAttempts removeObject:attempt];
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
+   NSDictionary *response = [NSDictionary dictionaryWithObject:@"finishedAttempt" forKey:@"GrowlActionType"];
+   
+   [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
    [currentAttempts removeObject:attempt];
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
@@ -104,4 +107,9 @@
    [self sendXPCFeedback:attempt context:context clicked:NO];
 }
 
+- (void)stoppedAttempts:(GrowlCommunicationAttempt *)attempt{
+   NSDictionary *response = [NSDictionary dictionaryWithObject:@"stoppedAttempts" forKey:@"GrowlActionType"];
+   
+   [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
+}
 @end

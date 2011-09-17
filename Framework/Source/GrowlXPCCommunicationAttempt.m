@@ -33,7 +33,6 @@
    NSString *appPath = [[NSBundle mainBundle] bundlePath];
    NSString *xpcSubPath = [NSString stringWithFormat:@"Contents/XPCServices/%@", [self XPCBundleID]];
    NSString *xpcPath = [[appPath  stringByAppendingPathComponent:xpcSubPath] stringByAppendingPathExtension:@"xpc"];
-   NSLog(@"xpc path: %@", xpcSubPath);
    
    searched = YES;
    //If the file exists, and we can create an XPC, lets use it instead.
@@ -125,9 +124,7 @@
     }
     
    NSDictionary *dict = [NSObject xpcObjectToNSObject:reply];
-   NSLog(@"Response dict: %@", dict);
    NSString *responseAction = [dict objectForKey:@"GrowlActionType"];
-   BOOL success = [dict objectForKey:@"Success"] != nil ? [[dict objectForKey:@"Success"] boolValue] : NO;
    
    if([responseAction isEqualToString:@"reregister"]){
       [self queueAndReregister];
@@ -141,12 +138,14 @@
          if(delegate && [delegate respondsToSelector:@selector(notificationTimedOut:context:)])
             [delegate notificationTimedOut:self context:context];
       }
+   }else if([responseAction isEqualToString:@"stoppedAttempts"]){
+      [self stopAttempts];
+   }else if([responseAction isEqualToString:@"finishedAttempt"]){
       [self finished];
    }else{
+      BOOL success = [dict objectForKey:@"Success"] != nil ? [[dict objectForKey:@"Success"] boolValue] : NO;
       if (success){
          [self succeeded];
-         if([self attemptType] == GrowlCommunicationAttemptTypeRegister)
-            [self finished];
       }else{
          GrowlGNTPErrorCode reason = (GrowlGNTPErrorCode)[[dict objectForKey:@"Error-Code"] integerValue];
          NSString *description = [dict objectForKey:@"Error-Description"];
@@ -155,7 +154,6 @@
             [self stopAttempts];
          }else{
             [self failed];
-            [self finished];
          }
       }
    }

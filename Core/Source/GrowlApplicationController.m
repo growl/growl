@@ -592,7 +592,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:userInfo];
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	NSLog(@"Registering application with name %@", appName);
+	//NSLog(@"Registering application with name %@", appName);
    NSString *hostName = [userInfo objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName hostName:hostName];
 
@@ -640,7 +640,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    if([[GrowlPreferencesController sharedController] isForwardingEnabled])
       [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
 
-	NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
+	//NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
    
 	return success;
 }

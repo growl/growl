@@ -20,6 +20,9 @@
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context;
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context; 
 
+@optional
+- (void) stoppedAttempts:(GrowlCommunicationAttempt *)attempt;
+
 @end
 
 enum {

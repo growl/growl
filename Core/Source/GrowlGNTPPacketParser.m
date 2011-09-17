@@ -104,7 +104,6 @@
    [outgoingPacket writeToSocket:[packet socket]];
    
    /* We won't be sending anymore on this socket */
-   [[packet socket] disconnectAfterWriting];
 }
 
 #pragma mark -
@@ -170,7 +169,7 @@
 	BOOL shouldSendOKResponse = YES;
    BOOL shouldListenForCallback = NO;
    BOOL shouldSendCallback = NO;
-	NSLog(@"incoming Packet: %@", packet);
+	//NSLog(@"incoming Packet: %@", packet);
 	
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:

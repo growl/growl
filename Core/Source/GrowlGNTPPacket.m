@@ -280,7 +280,7 @@
    NSInteger errorCode = 0;
    NSString *errorDescription = nil;
 
-	NSLog(@"items: %@", items);
+	//NSLog(@"items: %@", items);
 	/* GNTP was eaten by our first-four byte read, so we start at the version number, /1.0 */
 	if ([[items objectAtIndex:0] isEqualToString:@"/1.0"]) {
 		/* We only support version 1.0 at this time */

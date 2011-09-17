@@ -72,6 +72,9 @@
       next = [next nextAttempt];
       [temp release];
    }
+   
+   if(delegate && [delegate respondsToSelector:@selector(stoppedAttempts:)])
+      [self.delegate stoppedAttempts:self];
 }
 - (void) succeeded {
 	[self.delegate attemptDidSucceed:self];
