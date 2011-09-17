@@ -535,6 +535,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             [preferencesController setShouldStartGrowlAtLogin:YES];
             break;
         default:
+            [startAtLoginSwitch setSelectedSegment:1];
             break;
     }
 }
