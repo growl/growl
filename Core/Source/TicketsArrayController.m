@@ -30,7 +30,7 @@
 		NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[sorted count]];
 		for (GrowlApplicationTicket *ticket in sorted) {
 			// Filter application's name
-			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+			if ([[ticket appNameHostName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[matchedObjects addObject:ticket];
 			}
 		}

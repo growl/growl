@@ -608,6 +608,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		if ([newApp hasChanged])
 			[newApp saveTicket];
 		[ticketController addTicket:newApp];
+      
+      if([[GrowlPreferencesController sharedController] isForwardingEnabled])
+         [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF 
+                                                          object:[newApp appNameHostName]
+                                                        userInfo:nil];
 
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
@@ -637,8 +644,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		success = NO;
 	}
    
-   if([[GrowlPreferencesController sharedController] isForwardingEnabled])
-      [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
 
 	//NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
    

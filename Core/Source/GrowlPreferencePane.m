@@ -159,6 +159,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
 	    
+   [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(appRegistered:)
+                                                name:GROWL_APP_REGISTRATION_CONF
+                                              object:nil];
+   
     [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
     [historyTable setAutosaveTableColumns:YES];
     
@@ -209,13 +214,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 - (void)selectRow:(NSIndexSet *)indexSet
 {
 	[displayPluginsTable selectRowIndexes:indexSet byExtendingSelection:NO];
-}
-
-- (void) mainViewDidLoad {
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-														selector:@selector(appRegistered:)
-															name:GROWL_APP_REGISTRATION_CONF
-														  object:nil];
 }
 
 - (void)showWindow:(id)sender
@@ -552,7 +550,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 - (void) deleteTicket:(id)sender {
-	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
+	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] appNameHostName];
 	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [NSBundle mainBundle], nil), appName]
 									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [NSBundle mainBundle], "Button title for removing something")
 								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [NSBundle mainBundle], "Button title for canceling")
@@ -572,7 +570,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
 			CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
 			CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
-			CFTypeRef   values[2] = { [ticket applicationName], pidValue };
+			CFTypeRef   values[2] = { [ticket appNameHostName], pidValue };
 			CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 			CFRelease(pidValue);
 			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
@@ -1172,7 +1170,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	int removalIndex = -1;
 	int	i = 0;
 	for (GrowlApplicationTicket *ticket in tickets) {
-		if ([[ticket applicationName] isEqualToString:app]) {
+		if ([[ticket appNameHostName] isEqualToString:app]) {
 			removalIndex = i;
 			break;
 		}
