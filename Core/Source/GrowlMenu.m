@@ -21,7 +21,7 @@
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
-#define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@%\nTitle: %@\nDescription: %@\nClick to open the log", @"")
+#define kOpenGrowlLogTooltip         NSLocalizedString(@"Application: %@\nTitle: %@\nDescription: %@\nClick to open the log", @"")
 #define kGrowlHistoryLogDisabled     NSLocalizedString(@"Growl History Disabled", @"")
 #define kGrowlQuit                   NSLocalizedString(@"Quit", @"")
 #define kQuitGrowlMenuTooltip        NSLocalizedString(@"Quit Growl entirely", @"")
