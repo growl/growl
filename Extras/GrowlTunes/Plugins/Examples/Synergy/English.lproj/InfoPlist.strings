@@ -1,4 +1,0 @@
-﻿/* Localized versions of Info.plist keys */
-
-CFBundleName = "GrowlTunes-Synergy";
-NSHumanReadableCopyright = "© 2004 J. Nicholas Jitkoff, 2004–2010 Growl Team";
