@@ -42,6 +42,7 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 
 - (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
+- (BOOL) isEnabled: (CFStringRef) type;
 
 @end
 

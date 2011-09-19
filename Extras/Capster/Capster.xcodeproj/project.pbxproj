@@ -1,0 +1,399 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D1D90BC133FDBFF00D733C9 /* capster_mini_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D90BB133FDBFF00D733C9 /* capster_mini_off.png */; };
+		1D5D9D8C1327173700BAAA31 /* capster_mini_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D8A1327173700BAAA31 /* capster_mini_green.png */; };
+		1D5D9D8D1327173700BAAA31 /* capster_mini_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D8B1327173700BAAA31 /* capster_mini_red.png */; };
+		1D5D9D91132729D300BAAA31 /* GrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5D9D90132729D200BAAA31 /* GrowlController.m */; };
+		1D5D9D9413272C1300BAAA31 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5D9D9313272C1300BAAA31 /* StatusbarController.m */; };
+		1D5D9D971327409200BAAA31 /* capster_led_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D951327409200BAAA31 /* capster_led_green.png */; };
+		1D5D9D981327409200BAAA31 /* capster_led_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D961327409200BAAA31 /* capster_led_red.png */; };
+		1D634FFF131F45AA00762055 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 1D634FFE131F45AA00762055 /* Growl Registration Ticket.growlRegDict */; };
+		1D635002131F482F00762055 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1D635000131F473100762055 /* Growl.framework */; };
+		1D635003131F486400762055 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D635000131F473100762055 /* Growl.framework */; };
+		1D79B21913203252001A1197 /* caps_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B21713203251001A1197 /* caps_off.png */; };
+		1D79B21A13203252001A1197 /* caps_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B21813203251001A1197 /* caps_on.png */; };
+		1D79B22013204D7D001A1197 /* caps_ter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B21F13204D7D001A1197 /* caps_ter.png */; };
+		1D79B23213206026001A1197 /* capster_mini.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B23113206025001A1197 /* capster_mini.png */; };
+		1D79B234132062BA001A1197 /* capster.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B233132062B9001A1197 /* capster.icns */; };
+		1D85923013229B710019B4BD /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D85922F13229B710019B4BD /* defaults.plist */; };
+		1DCC5617131F013D006F18CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCC5616131F013D006F18CF /* Cocoa.framework */; };
+		1DCC5621131F013F006F18CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DCC561F131F013F006F18CF /* InfoPlist.strings */; };
+		1DCC5624131F013F006F18CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC5623131F013F006F18CF /* main.m */; };
+		1DCC5627131F013F006F18CF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DCC5625131F013F006F18CF /* Credits.rtf */; };
+		1DCC562A131F013F006F18CF /* CapsterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC5629131F013F006F18CF /* CapsterAppDelegate.m */; };
+		1DCC562D131F0140006F18CF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DCC562B131F0140006F18CF /* MainMenu.xib */; };
+		1DCC5651131F10FB006F18CF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCC5650131F10FB006F18CF /* Carbon.framework */; };
+		1DCC5664131F1D59006F18CF /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCC5663131F1D59006F18CF /* ApplicationServices.framework */; };
+		1DDC3212131F22D7002C2FFF /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDC3211131F22D7002C2FFF /* Quartz.framework */; };
+		1DDC3215131F22E5002C2FFF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDC3214131F22E5002C2FFF /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1D634FCF131F433300762055 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1D635002131F482F00762055 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1D1D90BB133FDBFF00D733C9 /* capster_mini_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_mini_off.png; sourceTree = "<group>"; };
+		1D5D9D8A1327173700BAAA31 /* capster_mini_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_mini_green.png; sourceTree = "<group>"; };
+		1D5D9D8B1327173700BAAA31 /* capster_mini_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_mini_red.png; sourceTree = "<group>"; };
+		1D5D9D8F132729D200BAAA31 /* GrowlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlController.h; sourceTree = "<group>"; };
+		1D5D9D90132729D200BAAA31 /* GrowlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlController.m; sourceTree = "<group>"; };
+		1D5D9D9213272C1300BAAA31 /* StatusbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusbarController.h; sourceTree = "<group>"; };
+		1D5D9D9313272C1300BAAA31 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
+		1D5D9D951327409200BAAA31 /* capster_led_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_led_green.png; sourceTree = "<group>"; };
+		1D5D9D961327409200BAAA31 /* capster_led_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_led_red.png; sourceTree = "<group>"; };
+		1D634FFE131F45AA00762055 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		1D635000131F473100762055 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../Growl.framework; sourceTree = "<group>"; };
+		1D79B21713203251001A1197 /* caps_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caps_off.png; sourceTree = "<group>"; };
+		1D79B21813203251001A1197 /* caps_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caps_on.png; sourceTree = "<group>"; };
+		1D79B21F13204D7D001A1197 /* caps_ter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caps_ter.png; sourceTree = "<group>"; };
+		1D79B23113206025001A1197 /* capster_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_mini.png; sourceTree = "<group>"; };
+		1D79B233132062B9001A1197 /* capster.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = capster.icns; sourceTree = "<group>"; };
+		1D85922F13229B710019B4BD /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		1DCC5612131F013D006F18CF /* Capster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DCC5616131F013D006F18CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1DCC5619131F013D006F18CF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1DCC561A131F013D006F18CF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1DCC561B131F013D006F18CF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1DCC561E131F013F006F18CF /* Capster-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Capster-Info.plist"; sourceTree = "<group>"; };
+		1DCC5620131F013F006F18CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1DCC5622131F013F006F18CF /* Capster-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Capster-Prefix.pch"; sourceTree = "<group>"; };
+		1DCC5623131F013F006F18CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1DCC5626131F013F006F18CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1DCC5628131F013F006F18CF /* CapsterAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CapsterAppDelegate.h; sourceTree = "<group>"; };
+		1DCC5629131F013F006F18CF /* CapsterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CapsterAppDelegate.m; sourceTree = "<group>"; };
+		1DCC562C131F0140006F18CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1DCC5650131F10FB006F18CF /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		1DCC5663131F1D59006F18CF /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		1DDC3211131F22D7002C2FFF /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		1DDC3214131F22E5002C2FFF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1DCC560F131F013D006F18CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DDC3215131F22E5002C2FFF /* QuartzCore.framework in Frameworks */,
+				1DDC3212131F22D7002C2FFF /* Quartz.framework in Frameworks */,
+				1DCC5664131F1D59006F18CF /* ApplicationServices.framework in Frameworks */,
+				1DCC5651131F10FB006F18CF /* Carbon.framework in Frameworks */,
+				1DCC5617131F013D006F18CF /* Cocoa.framework in Frameworks */,
+				1D635003131F486400762055 /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1DCC5607131F013B006F18CF = {
+			isa = PBXGroup;
+			children = (
+				1DDC3214131F22E5002C2FFF /* QuartzCore.framework */,
+				1DDC3211131F22D7002C2FFF /* Quartz.framework */,
+				1DCC5663131F1D59006F18CF /* ApplicationServices.framework */,
+				1DCC5650131F10FB006F18CF /* Carbon.framework */,
+				1DCC561C131F013D006F18CF /* Capster */,
+				1DCC5615131F013D006F18CF /* Frameworks */,
+				1DCC5613131F013D006F18CF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1DCC5613131F013D006F18CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DCC5612131F013D006F18CF /* Capster.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1DCC5615131F013D006F18CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DCC5616131F013D006F18CF /* Cocoa.framework */,
+				1DCC5618131F013D006F18CF /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1DCC5618131F013D006F18CF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DCC5619131F013D006F18CF /* AppKit.framework */,
+				1DCC561A131F013D006F18CF /* CoreData.framework */,
+				1DCC561B131F013D006F18CF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1DCC561C131F013D006F18CF /* Capster */ = {
+			isa = PBXGroup;
+			children = (
+				1D635000131F473100762055 /* Growl.framework */,
+				1DCC5628131F013F006F18CF /* CapsterAppDelegate.h */,
+				1DCC5629131F013F006F18CF /* CapsterAppDelegate.m */,
+				1D5D9D8F132729D200BAAA31 /* GrowlController.h */,
+				1D5D9D90132729D200BAAA31 /* GrowlController.m */,
+				1D5D9D9213272C1300BAAA31 /* StatusbarController.h */,
+				1D5D9D9313272C1300BAAA31 /* StatusbarController.m */,
+				1DCC562B131F0140006F18CF /* MainMenu.xib */,
+				1DCC561D131F013F006F18CF /* Supporting Files */,
+			);
+			name = Capster;
+			path = "Growl Caps Notifier";
+			sourceTree = "<group>";
+		};
+		1DCC561D131F013F006F18CF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1D1D90BB133FDBFF00D733C9 /* capster_mini_off.png */,
+				1D79B233132062B9001A1197 /* capster.icns */,
+				1D79B23113206025001A1197 /* capster_mini.png */,
+				1D5D9D8A1327173700BAAA31 /* capster_mini_green.png */,
+				1D5D9D8B1327173700BAAA31 /* capster_mini_red.png */,
+				1D5D9D951327409200BAAA31 /* capster_led_green.png */,
+				1D5D9D961327409200BAAA31 /* capster_led_red.png */,
+				1D85922F13229B710019B4BD /* defaults.plist */,
+				1D79B21F13204D7D001A1197 /* caps_ter.png */,
+				1D79B21713203251001A1197 /* caps_off.png */,
+				1D79B21813203251001A1197 /* caps_on.png */,
+				1D634FFE131F45AA00762055 /* Growl Registration Ticket.growlRegDict */,
+				1DCC561E131F013F006F18CF /* Capster-Info.plist */,
+				1DCC561F131F013F006F18CF /* InfoPlist.strings */,
+				1DCC5622131F013F006F18CF /* Capster-Prefix.pch */,
+				1DCC5623131F013F006F18CF /* main.m */,
+				1DCC5625131F013F006F18CF /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1DCC5611131F013D006F18CF /* Capster */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DCC5630131F0140006F18CF /* Build configuration list for PBXNativeTarget "Capster" */;
+			buildPhases = (
+				1DCC560E131F013D006F18CF /* Sources */,
+				1DCC560F131F013D006F18CF /* Frameworks */,
+				1DCC5610131F013D006F18CF /* Resources */,
+				1D634FCF131F433300762055 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Capster;
+			productName = "Growl Caps Notifier";
+			productReference = 1DCC5612131F013D006F18CF /* Capster.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1DCC5609131F013B006F18CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Tzikis;
+			};
+			buildConfigurationList = 1DCC560C131F013B006F18CF /* Build configuration list for PBXProject "Capster" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1DCC5607131F013B006F18CF;
+			productRefGroup = 1DCC5613131F013D006F18CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1DCC5611131F013D006F18CF /* Capster */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1DCC5610131F013D006F18CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DCC5621131F013F006F18CF /* InfoPlist.strings in Resources */,
+				1DCC5627131F013F006F18CF /* Credits.rtf in Resources */,
+				1DCC562D131F0140006F18CF /* MainMenu.xib in Resources */,
+				1D634FFF131F45AA00762055 /* Growl Registration Ticket.growlRegDict in Resources */,
+				1D79B21913203252001A1197 /* caps_off.png in Resources */,
+				1D79B21A13203252001A1197 /* caps_on.png in Resources */,
+				1D79B22013204D7D001A1197 /* caps_ter.png in Resources */,
+				1D79B23213206026001A1197 /* capster_mini.png in Resources */,
+				1D79B234132062BA001A1197 /* capster.icns in Resources */,
+				1D85923013229B710019B4BD /* defaults.plist in Resources */,
+				1D5D9D8C1327173700BAAA31 /* capster_mini_green.png in Resources */,
+				1D5D9D8D1327173700BAAA31 /* capster_mini_red.png in Resources */,
+				1D5D9D971327409200BAAA31 /* capster_led_green.png in Resources */,
+				1D5D9D981327409200BAAA31 /* capster_led_red.png in Resources */,
+				1D1D90BC133FDBFF00D733C9 /* capster_mini_off.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1DCC560E131F013D006F18CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DCC5624131F013F006F18CF /* main.m in Sources */,
+				1DCC562A131F013F006F18CF /* CapsterAppDelegate.m in Sources */,
+				1D5D9D91132729D300BAAA31 /* GrowlController.m in Sources */,
+				1D5D9D9413272C1300BAAA31 /* StatusbarController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1DCC561F131F013F006F18CF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DCC5620131F013F006F18CF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DCC5625131F013F006F18CF /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DCC5626131F013F006F18CF /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		1DCC562B131F0140006F18CF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DCC562C131F0140006F18CF /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DCC562E131F0140006F18CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1DCC562F131F0140006F18CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1DCC5631131F0140006F18CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Growl Caps Notifier\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Growl Caps Notifier/Capster-Prefix.pch";
+				GCC_VERSION = "";
+				INFOPLIST_FILE = "Growl Caps Notifier/Capster-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = Capster;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1DCC5632131F0140006F18CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Growl Caps Notifier\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Growl Caps Notifier/Capster-Prefix.pch";
+				GCC_VERSION = "";
+				INFOPLIST_FILE = "Growl Caps Notifier/Capster-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Capster;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DCC560C131F013B006F18CF /* Build configuration list for PBXProject "Capster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DCC562E131F0140006F18CF /* Debug */,
+				1DCC562F131F0140006F18CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DCC5630131F0140006F18CF /* Build configuration list for PBXNativeTarget "Capster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DCC5631131F0140006F18CF /* Debug */,
+				1DCC5632131F0140006F18CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1DCC5609131F013B006F18CF /* Project object */;
+}
