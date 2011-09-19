@@ -76,6 +76,8 @@
 #define NotifierAirPortIdentifier	@"airport"
 #define NotifierPowerIdentifier		@"power"
 #define NotifierSyncIdentifier		@"sync"
+#define NotifierNetworkLinkIdentifier @"link"
+#define NotifierNetworkIpIdentifier @"ip"
 
 static io_connect_t			powerConnection;
 static io_object_t			powerNotifier;
@@ -408,6 +410,12 @@ void AppController_linkUp(CFStringRef description) {
 	if (sleeping)
 		return;
 
+	
+	Boolean keyExistsAndHasValidFormat;
+	NSString* identifier = nil;
+	if (CFPreferencesGetAppBooleanValue(CFSTR("GroupNetwork"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
+		identifier = NotifierNetworkLinkIdentifier;
+		
 	CFStringRef title = NotifierNetworkLinkUpTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
@@ -415,7 +423,8 @@ void AppController_linkUp(CFStringRef description) {
 								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:identifier];
 	CFRelease(title);
 }
 
@@ -425,6 +434,11 @@ void AppController_linkDown(CFStringRef description) {
 	if (sleeping)
 		return;
 
+	Boolean keyExistsAndHasValidFormat;
+	NSString* identifier = nil;
+	if (CFPreferencesGetAppBooleanValue(CFSTR("GroupNetwork"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
+		identifier = NotifierNetworkLinkIdentifier;
+	
 	CFStringRef title = NotifierNetworkLinkDownTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
@@ -432,7 +446,8 @@ void AppController_linkDown(CFStringRef description) {
 								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:identifier];
 	CFRelease(title);
 }
 
@@ -442,6 +457,12 @@ void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 	if (sleeping)
 		return;
 
+	Boolean keyExistsAndHasValidFormat;
+	NSString* identifier = nil;
+	if (CFPreferencesGetAppBooleanValue(CFSTR("GroupNetwork"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
+		identifier = NotifierNetworkIpIdentifier;
+
+	
 	CFStringRef title = NotifierNetworkIpAcquiredTitle();
 	CFStringRef format = NotifierNetworkIpAcquiredDescription();
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
@@ -457,7 +478,7 @@ void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil
-								 /*identifier:(NSString *)ip*/];
+								 identifier:identifier];
 	CFRelease(title);
 	CFRelease(description);
 }
@@ -468,6 +489,11 @@ void AppController_ipReleased(void) {
 	if (sleeping)
 		return;
 
+	Boolean keyExistsAndHasValidFormat;
+	NSString* identifier = nil;
+	if (CFPreferencesGetAppBooleanValue(CFSTR("GroupNetwork"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
+		identifier = NotifierNetworkIpIdentifier;
+
 	CFStringRef title = NotifierNetworkIpReleasedTitle();
 	CFStringRef description = NotifierNetworkIpReleasedDescription();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -476,7 +502,8 @@ void AppController_ipReleased(void) {
 								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
-							   clickContext:nil];
+							   clickContext:nil
+								 identifier:identifier];
 	CFRelease(title);
 	CFRelease(description);
 }
