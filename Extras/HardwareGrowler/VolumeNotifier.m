@@ -56,7 +56,7 @@ static NSData *mountIconData(void)
 - (id) initForMountWithPath:(NSString *)aPath {
 	if ((self = [self initWithPath:aPath])) {
 		if (path) {
-			iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] retain];
+			iconData = [[[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation] retain];
 		} else {
 			iconData = [mountIconData() retain];
 		}
