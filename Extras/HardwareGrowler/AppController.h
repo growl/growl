@@ -36,8 +36,11 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 
 @interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
 	NetworkNotifier *networkNotifier;
+	IBOutlet NSMenu* statusMenu;
+	NSStatusItem* statusItem;
 }
 
+- (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
 
 @end

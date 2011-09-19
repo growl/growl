@@ -616,6 +616,9 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	BluetoothNotifier_init();
 	networkNotifier = [[NetworkNotifier alloc] init];
 	PowerNotifier_init();
+	
+	[self initMenu];
+
 }
 
 - (void) dealloc {
@@ -630,7 +633,8 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
 		IODeregisterForSystemPower(&powerNotifier);
 	}
-
+	
+	[statusItem dealloc];
 	[super dealloc];
 }
 
@@ -690,4 +694,18 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
 }
 
+
+- (void) initMenu{
+	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
+	[statusItem setMenu:statusMenu];
+
+	NSString* icon_path = [[NSBundle mainBundle] pathForResource:@"hwgrowler_statusbar_icn" ofType:@"png"];
+	NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
+	
+	[statusItem setImage:icon];
+	[icon release];
+	
+	[statusItem setHighlightMode:YES];
+
+}
 @end
