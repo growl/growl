@@ -151,6 +151,8 @@
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
+		835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
+		835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
 		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
@@ -508,6 +510,7 @@
 				8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */,
 				8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */,
 				8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */,
+				835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */,
 				93BC4057095DEDFF0002B365 /* Nano.growlView in Copy Growl Styles */,
 				95D8C62A083D552B003601C3 /* Candybars.growlStyle in Copy Growl Styles */,
 				9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */,
@@ -720,6 +723,7 @@
 		8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NotifyOSX.growlStyle; path = Core/Resources/NotifyOSX.growlStyle; sourceTree = "<group>"; };
 		83282741073A6BD70044A959 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		83282746073A6C110044A959 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
+		835A0ACD142A85E100B89123 /* Raaarr.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Raaarr.growlStyle; path = Core/Resources/Raaarr.growlStyle; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
 		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1956,6 +1960,7 @@
 		93A60E0513C4101600514EF8 /* styles */ = {
 			isa = PBXGroup;
 			children = (
+				835A0ACD142A85E100B89123 /* Raaarr.growlStyle */,
 				93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */,
 				93265928140DD2180037AA2C /* Starwl.growlStyle */,
 				C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */,
@@ -2911,6 +2916,7 @@
 				93E4EF1B141F02DD005A26CF /* Localizable.strings in Resources */,
 				93E4EF1C141F02DD005A26CF /* MainMenu.xib in Resources */,
 				93E4EF1D141F02DD005A26CF /* WebKitPrefs.xib in Resources */,
+				835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

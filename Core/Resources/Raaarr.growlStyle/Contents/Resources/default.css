@@ -1,0 +1,150 @@
+/*
+Copyright (c) The Growl Project, 2011
+All rights reserved.
+
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of Growl nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	position: relative;
+	width: 305px;
+	word-wrap: break-word;
+}
+
+#outer {
+	margin: 5px;
+	border: 1px solid rgba(0,0,0,0.4);
+	border-top: 1px solid rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+	-webkit-border-radius: 5px / 5px;
+	-moz-box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+	-moz-border-radius: 5px;
+	-webkit-animation-duration: 0.4s;
+	-webkit-transition: all 0.15s ease-in-out;
+}
+
+#outer .appear {
+	-webkit-animation-name: 'bubble';
+}
+
+#outer:hover {
+	-webkit-box-shadow: 0 0 5px rgba(255,255,255,1) !important;
+	-moz-box-shadow: 0 0 5px rgba(255,255,255,1) !important;
+}
+
+
+
+@-webkit-keyframes 'bubble' {
+      from {
+		opacity: 0;
+		-webkit-transform: scale(0.7);
+        -webkit-animation-timing-function: ease-out;
+      }
+ 
+      50% {
+		-webkit-transform: scale(1.02);
+        -webkit-animation-timing-function: cubic-bezier(0.5, 0.2, 0.3, 1.0);
+      }
+ 
+      to {
+		opacity: ignored;
+		-webkit-transform: scale(1.0);
+        -webkit-animation-timing-function: ease-in;
+      } 
+}
+
+#wrapper {	
+	background: -webkit-gradient(linear, left top, left bottom,
+		from(rgba(206,206,206,0.70)),
+		color-stop(0.4, rgba(216,216,216,0.80)),
+		color-stop(0.65, rgba(230,230,230,0.90)),
+		to(rgba(255,255,255,1)));
+	background: -moz-linear-gradient(-90deg,
+		rgba(206,206,206,0.70),
+		rgba(255,255,255,1));
+	border-top: 1px solid rgba(255,255,255,0.6);
+	overflow: hidden;
+	padding: 9px 9px 10px 53px;
+	position: relative;
+	-webkit-border-radius: 5px / 4px;
+	-moz-border-radius: 5px;
+	z-index: 1;
+	min-height: 34px;
+}
+
+#title, #text, #textwrapper, #icon {
+	position: relative; 
+}
+
+#title, #text {
+	text-align: left;
+	z-index: 3;
+	text-shadow: 0px 1px 0 rgba(255,255,255,0.6);
+}
+
+#title {
+	color: #222;
+	font: bold 13px "Lucida Grande", "Helvetica", sans-serif;
+	letter-spacing: 0.7pt;
+	line-height: 16px;
+}
+
+#text {
+	color: #444;
+	font: normal 11px "Lucida Grande", "Helvetica", sans-serif;
+	margin: 3px 0 0 0;
+	text-align: left;
+	line-height: 15px;
+}
+
+#textwrapper {
+	padding: 0 0 0 11px;
+	min-height: 34px;
+}
+
+#icon {
+	max-height: 36px; max-width: 36px;
+	left: 14px; top: 9px;
+	opacity: 1;
+	position: absolute;
+	z-index: 2;
+}
+
+#iconshadow {
+	position: absolute;
+	left: 13px;
+	top: 8px;
+	background: black;
+	z-index: 1;
+	opacity: 0.25;
+}
