@@ -1228,7 +1228,7 @@
 		EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlSlidingWindowTransition.h; sourceTree = "<group>"; };
 		EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractSingletonObject.m; path = Core/Source/GrowlAbstractSingletonObject.m; sourceTree = "<group>"; };
 		EED7068A08C743D9004651D0 /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = Core/Source/GrowlAbstractSingletonObject.h; sourceTree = "<group>"; };
-		FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.Growl.BeepHammer.GNTPClientService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF93C8E314218EB3007EAC43 /* com.company.application.GNTPClientService.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.company.application.GNTPClientService.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF93C90E1421935E007EAC43 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FF93C90F1421935E007EAC43 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FF93C914142193B8007EAC43 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -1790,7 +1790,7 @@
 				93BC379E095A662B0002B365 /* Nano.growlView */,
 				E14410EF0A94072E0063C4DC /* iCal.growlView */,
 				31E184D61084628D0011C78B /* Unit tests.octest */,
-				FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */,
+				FF93C8E314218EB3007EAC43 /* com.company.application.GNTPClientService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2721,7 +2721,7 @@
 			);
 			name = GNTPClientService;
 			productName = GNTP;
-			productReference = FF93C8E314218EB3007EAC43 /* com.Growl.BeepHammer.GNTPClientService.xpc */;
+			productReference = FF93C8E314218EB3007EAC43 /* com.company.application.GNTPClientService.xpc */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -4919,7 +4919,7 @@
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -4950,7 +4950,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -4980,7 +4980,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_NAME = "com.Growl.BeepHammer.$(TARGET_NAME)";
+				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};

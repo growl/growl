@@ -19,7 +19,6 @@
 		31DF20A80B1F86170096DEBB /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20A60B1F86170096DEBB /* plus-8.png */; };
 		34FBA2FE0CA0553700958660 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34FBA2E30CA0551E00958660 /* Growl.framework */; };
 		34FBA2FF0CA0553D00958660 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 34FBA2E30CA0551E00958660 /* Growl.framework */; };
-		BC1FA63114224D1B00F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */; };
 		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.xib */; };
 		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -150,16 +149,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC1FA63014224D0E00F1C147 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/XPCServices;
-			dstSubfolderSpec = 1;
-			files = (
-				BC1FA63114224D1B00F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -266,7 +255,7 @@
 				34FBA2F90CA0551E00958660 /* MusicVideo.growlView */,
 				34FBA2FB0CA0551E00958660 /* SMS.growlView */,
 				31F7A218109058860049993D /* Unit tests.octest */,
-				BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */,
+				BC1FA62B14224CB300F1C147 /* com.company.application.GNTPClientService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -295,7 +284,7 @@
 				CBBC7DDF0659313D00684B79 /* Resources */,
 				CBBC7DE00659313D00684B79 /* Sources */,
 				CBBC7DE10659313D00684B79 /* Frameworks */,
-				BC1FA63014224D0E00F1C147 /* CopyFiles */,
+				BC21533E142B8F42000EB362 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -431,10 +420,10 @@
 			remoteRef = 34FBA2FA0CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BC1FA62B14224CB300F1C147 /* com.Growl.BeepHammer.GNTPClientService.xpc */ = {
+		BC1FA62B14224CB300F1C147 /* com.company.application.GNTPClientService.xpc */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = com.Growl.BeepHammer.GNTPClientService.xpc;
+			path = com.company.application.GNTPClientService.xpc;
 			remoteRef = BC1FA62A14224CB300F1C147 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -455,6 +444,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC21533E142B8F42000EB362 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "XPC_START=\"$SRCROOT/../../build/$CONFIGURATION\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CBBC7DE00659313D00684B79 /* Sources */ = {

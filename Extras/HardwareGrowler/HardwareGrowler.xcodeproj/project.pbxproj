@@ -166,6 +166,13 @@
 			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
+		BC493887142A83BF00B1DF21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -224,6 +231,7 @@
 		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95AC16450858A3ED008213B8 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A8C08468A62004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BC493884142A742E00B1DF21 /* com.growl.hardwaregrowler.GNTPClientService.xpc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.growl.hardwaregrowler.GNTPClientService.xpc; path = ../../build/Debug/com.growl.hardwaregrowler.GNTPClientService.xpc; sourceTree = "<group>"; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
 		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Credits.rtf; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		DD43C6EF0840C0100022A0D1 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -291,6 +299,7 @@
 				9324AE7807BD77DB001CB55C /* Growl.framework */,
 				DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */,
 				DD54999A07BA61650010BE54 /* IOKit.framework */,
+				BC493884142A742E00B1DF21 /* com.growl.hardwaregrowler.GNTPClientService.xpc */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -383,7 +392,7 @@
 				9533C2B2085C3ED6009F8046 /* MusicVideo.growlView */,
 				9533C2B4085C3ED6009F8046 /* SMS.growlView */,
 				31F7A3BB10905C510049993D /* Unit tests.octest */,
-				1DD850471427A07F00458986 /* com.Growl.BeepHammer.GNTPClientService.xpc */,
+				1DD850471427A07F00458986 /* com.company.application.GNTPClientService.xpc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,11 +408,13 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				9324AE8407BD780A001CB55C /* CopyFiles */,
+				BC493886142A746600B1DF21 /* Growl XPC */,
 			);
 			buildRules = (
 			);
 			comments = "Rawr!!..\n\n";
 			dependencies = (
+				BC493888142A83BF00B1DF21 /* PBXTargetDependency */,
 				9533C2BC085C3F4E009F8046 /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
@@ -452,10 +463,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1DD850471427A07F00458986 /* com.Growl.BeepHammer.GNTPClientService.xpc */ = {
+		1DD850471427A07F00458986 /* com.company.application.GNTPClientService.xpc */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = com.Growl.BeepHammer.GNTPClientService.xpc;
+			path = com.company.application.GNTPClientService.xpc;
 			remoteRef = 1DD850461427A07F00458986 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -590,6 +601,20 @@
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Growl.framework\"\n\tln -s \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n";
 		};
+		BC493886142A746600B1DF21 /* Growl XPC */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Growl XPC";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "XPC_START=\"$SRCROOT/../../build/$CONFIGURATION\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -621,6 +646,11 @@
 			isa = PBXTargetDependency;
 			name = Growl.framework;
 			targetProxy = 9598A0A0086F4D410014C386 /* PBXContainerItemProxy */;
+		};
+		BC493888142A83BF00B1DF21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GNTPClientService;
+			targetProxy = BC493887142A83BF00B1DF21 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
