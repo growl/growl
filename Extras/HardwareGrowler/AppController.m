@@ -737,9 +737,10 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (BOOL) isEnabled: (CFStringRef*) type{
-	Boolean keyExistsAndHasValidFormat;
+	/*Boolean keyExistsAndHasValidFormat;
 	NSString* identifier = nil;
-	if (CFPreferencesGetAppBooleanValue(CFSTR(type), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
+	if (CFPreferencesGetAppBooleanValue(CFSTR(type), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))*/
+   return YES;
 
 }
 
