@@ -53,7 +53,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="811388856">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -62,7 +62,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{-3, 269}, {81, 17}}</string>
 							<reference key="NSSuperview" ref="811388856"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="906166337"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="551553397">
@@ -100,8 +99,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{83, 267}, {266, 22}}</string>
 							<reference key="NSSuperview" ref="811388856"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="338232029">
 								<int key="NSCellFlags">-1804468671</int>
@@ -130,8 +127,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{354, 289}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="654449396"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>

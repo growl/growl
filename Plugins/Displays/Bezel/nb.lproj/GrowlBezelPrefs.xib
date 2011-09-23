@@ -65,7 +65,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="655975921">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -183,7 +183,7 @@
 											</object>
 											<object class="NSAttributedString" id="176212247">
 												<string key="NSString">NaN</string>
-												<object class="NSDictionary" key="NSAttributes" id="785383805">
+												<object class="NSDictionary" key="NSAttributes" id="163237921">
 													<bool key="EncodedWithXMLCoder">YES</bool>
 													<reference key="dict.sortedKeys" ref="0"/>
 													<reference key="dict.values" ref="0"/>
@@ -191,7 +191,7 @@
 											</object>
 											<object class="NSAttributedString" id="496488892">
 												<string key="NSString">0%</string>
-												<reference key="NSAttributes" ref="785383805"/>
+												<reference key="NSAttributes" ref="163237921"/>
 											</object>
 											<string>.</string>
 											<integer value="1000"/>
@@ -318,11 +318,11 @@
 											</object>
 											<object class="NSAttributedString" id="341990639">
 												<string key="NSString">NaN</string>
-												<reference key="NSAttributes" ref="785383805"/>
+												<reference key="NSAttributes" ref="163237921"/>
 											</object>
 											<object class="NSAttributedString" id="306857941">
 												<string key="NSString">0 s</string>
-												<reference key="NSAttributes" ref="785383805"/>
+												<reference key="NSAttributes" ref="163237921"/>
 											</object>
 											<string>.</string>
 											<integer value="1000"/>
@@ -755,11 +755,11 @@
 											</object>
 											<object class="NSAttributedString" id="412497806">
 												<string key="NSString">NaN</string>
-												<reference key="NSAttributes" ref="785383805"/>
+												<reference key="NSAttributes" ref="163237921"/>
 											</object>
 											<object class="NSAttributedString" id="686040716">
 												<string key="NSString">0</string>
-												<reference key="NSAttributes" ref="785383805"/>
+												<reference key="NSAttributes" ref="163237921"/>
 											</object>
 											<string>.</string>
 											<integer value="1000"/>
@@ -843,7 +843,7 @@
 											</object>
 											<object class="NSTextFieldCell" key="NSDataCell">
 												<int key="NSCellFlags">338820672</int>
-												<int key="NSCellFlags2">1024</int>
+												<int key="NSCellFlags2">268436480</int>
 												<reference key="NSSupport" ref="730710197"/>
 												<reference key="NSFormatter" ref="274439460"/>
 												<reference key="NSControlView" ref="275174361"/>
@@ -930,7 +930,7 @@
 							<reference key="NSNextKeyView" ref="493410635"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="693853114">
-								<int key="NSCellFlags">-2076049856</int>
+								<int key="NSCellFlags">-2080244160</int>
 								<int key="NSCellFlags2">1024</int>
 								<reference key="NSSupport" ref="730710197"/>
 								<reference key="NSControlView" ref="381459565"/>
@@ -1000,7 +1000,7 @@
 							<reference key="NSNextKeyView" ref="518925191"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="574883755">
-								<int key="NSCellFlags">-2076049856</int>
+								<int key="NSCellFlags">-2080244160</int>
 								<int key="NSCellFlags2">1024</int>
 								<reference key="NSSupport" ref="730710197"/>
 								<reference key="NSControlView" ref="91511670"/>
@@ -1060,7 +1060,7 @@
 							<reference key="NSNextKeyView" ref="226314738"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="1047163355">
-								<int key="NSCellFlags">-2076049856</int>
+								<int key="NSCellFlags">-2080244160</int>
 								<int key="NSCellFlags2">1024</int>
 								<reference key="NSSupport" ref="730710197"/>
 								<reference key="NSControlView" ref="659621519"/>
@@ -1231,10 +1231,9 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{385, 238}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="331145761"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1837,6 +1836,11 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="331145761"/>
+							<reference ref="131513711"/>
+							<reference ref="506285760"/>
+							<reference ref="397081866"/>
+							<reference ref="783239718"/>
+							<reference ref="165275842"/>
 							<reference ref="70383741"/>
 							<reference ref="787119328"/>
 							<reference ref="483373084"/>
@@ -1865,11 +1869,6 @@
 							<reference ref="659460249"/>
 							<reference ref="872848596"/>
 							<reference ref="513371956"/>
-							<reference ref="131513711"/>
-							<reference ref="506285760"/>
-							<reference ref="783239718"/>
-							<reference ref="165275842"/>
-							<reference ref="397081866"/>
 						</object>
 						<reference key="parent" ref="1042833449"/>
 					</object>
