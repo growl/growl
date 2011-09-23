@@ -2,7 +2,13 @@
 
 require 'FileUtils'
 require 'rubygems'
-require 'osx/plist'
+
+begin
+   require 'osx/plist'
+   rescue LoadError
+   error_string = "\n\nYou must install the plist ruby gem in order to use this script. \n gem sources -a http://gems.github.com \n sudo gem install kballard-osx-plist\n"
+   raise error_string
+end
 
 $xpcExtension = ".xpc"
 $serviceName = "GNTPClientService"
