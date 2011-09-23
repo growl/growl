@@ -678,7 +678,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	
 	NSDictionary *pluginToUse = currentPlugin;
 	NSString *pluginName = nil;
-	
+	BOOL doTheApp = NO;
+    
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
 		NSPopUpButton *popUp = (NSPopUpButton *)sender;
 		id representedObject = [[popUp selectedItem] representedObject];
@@ -686,23 +687,23 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 			pluginToUse = representedObject;
 		else if ([representedObject isKindOfClass:[NSString class]])
 			pluginName = representedObject;
-		else
+		else {
+            doTheApp = YES;
 			NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
-	}
-
-	if (!pluginName)
-	{
+        }
+    }
+    
+	if (!pluginName && doTheApp) {
         //fall back to the application's plugin name
         
         NSArray *apps = [ticketsArrayController selectedObjects];
-        if(apps && [apps count])
-        {
+        if(apps && [apps count]) {
             NSDictionary *parentApp = [apps objectAtIndex:0U];
             pluginName = [parentApp valueForKey:@"displayPluginName"];
         }
-        if(!pluginName)
-            pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
 	}		
+    if(!pluginName)
+        pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																   object:pluginName];
 }
