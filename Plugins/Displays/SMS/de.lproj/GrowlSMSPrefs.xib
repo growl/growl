@@ -34,7 +34,7 @@
 			<object class="NSWindowTemplate" id="470289919">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{491, 258}, {354, 289}}</string>
+				<string key="NSWindowRect">{{118, 400}, {354, 289}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Fenster</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -142,7 +142,7 @@
 							<string key="NSFrame">{{230, 75}, {67, 22}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="245635640"/>
+							<reference key="NSNextKeyView" ref="326410489"/>
 							<int key="NSTag">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="387769058">
@@ -164,7 +164,7 @@
 							<string key="NSFrame">{{140, 33}, {93, 34}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="326410489"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="659023665">
 								<int key="NSCellFlags">67239424</int>
@@ -182,7 +182,7 @@
 							<string key="NSFrame">{{90, 20}, {149, 22}}</string>
 							<reference key="NSSuperview" ref="434045050"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSNextKeyView" ref="245635640"/>
 							<int key="NSTag">3</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="24565177">
@@ -326,7 +326,7 @@ aWNpbmcucGhwA</string>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="294196753"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>

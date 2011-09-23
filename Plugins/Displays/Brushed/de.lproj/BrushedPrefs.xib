@@ -46,7 +46,7 @@
 			<object class="NSWindowTemplate" id="186710618">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{832, 454}, {354, 289}}</string>
+				<string key="NSWindowRect">{{477, 279}, {354, 289}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Fenster:</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -430,11 +430,11 @@
 										</object>
 										<object class="NSAttributedString" key="attributedStringForNotANumber" id="325816755">
 											<string key="NSString">NaN</string>
-											<dictionary key="NSAttributes" id="577787268"/>
+											<dictionary key="NSAttributes" id="217946005"/>
 										</object>
 										<object class="NSAttributedString" key="attributedStringForZero" id="986603332">
 											<string key="NSString">0 s</string>
-											<reference key="NSAttributes" ref="577787268"/>
+											<reference key="NSAttributes" ref="217946005"/>
 										</object>
 										<integer value="1000" key="formatterBehavior"/>
 										<string key="groupingSeparator">,</string>
@@ -492,11 +492,11 @@
 										</object>
 										<object class="NSAttributedString" key="attributedStringForNotANumber" id="567281037">
 											<string key="NSString">NaN</string>
-											<reference key="NSAttributes" ref="577787268"/>
+											<reference key="NSAttributes" ref="217946005"/>
 										</object>
 										<object class="NSAttributedString" key="attributedStringForZero" id="284334622">
 											<string key="NSString">0</string>
-											<reference key="NSAttributes" ref="577787268"/>
+											<reference key="NSAttributes" ref="217946005"/>
 										</object>
 										<string key="decimalSeparator">.</string>
 										<integer value="1000" key="formatterBehavior"/>
@@ -731,7 +731,7 @@
 					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="336505226"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
