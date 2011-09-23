@@ -375,7 +375,7 @@
 												<integer value="1040" key="formatterBehavior"/>
 												<integer value="1" key="timeStyle"/>
 											</dictionary>
-											<string key="NS.format">dd-MM-yy HH:mm</string>
+											<string key="NS.format">M/d/yy h:mm a</string>
 											<bool key="NS.natural">NO</bool>
 										</object>
 										<reference key="NSControlView" ref="842464451"/>
@@ -820,7 +820,7 @@
 										<integer value="1040" key="formatterBehavior"/>
 										<integer value="1" key="timeStyle"/>
 									</dictionary>
-									<string key="NS.format">dd-MM-yy HH:mm</string>
+									<string key="NS.format">M/d/yy h:mm a</string>
 									<bool key="NS.natural">NO</bool>
 								</object>
 								<reference key="NSControlView" ref="693756575"/>
