@@ -12,7 +12,7 @@
 				<string>growlTicket</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-TICKET</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Application Ticket</string>
 			<key>CFBundleTypeRole</key>
@@ -26,7 +26,7 @@
 				<string>growlView</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-VIEW</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Display Plugin</string>
 			<key>CFBundleTypeRole</key>
@@ -52,7 +52,7 @@
 				<string>growlStyle</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-STYLE</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl WebKit Style</string>
 			<key>CFBundleTypeRole</key>
@@ -78,7 +78,7 @@
 				<string>growlRegDict</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-REGDICT</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Registration Dictionary</string>
 			<key>CFBundleTypeRole</key>
@@ -137,7 +137,7 @@
 			<key>UTTypeDescription</key>
 			<string>Growl Display Plugin</string>
 			<key>UTTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-DISPLAY</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.growl.view</string>
 			<key>UTTypeReferenceURL</key>
@@ -164,7 +164,7 @@
 			<key>UTTypeDescription</key>
 			<string>Growl WebKit Style</string>
 			<key>UTTypeIconFile</key>
-			<string>Growl.icns</string>
+			<string>Growl-WKMV</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.growl.style</string>
 			<key>UTTypeReferenceURL</key>

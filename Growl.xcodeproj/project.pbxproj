@@ -153,6 +153,12 @@
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
 		835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
+		835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */; };
+		835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */; };
+		835A0AE6142C73DE00B89123 /* Growl-TICKET.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE2142C73DE00B89123 /* Growl-TICKET.icns */; };
+		835A0AE7142C73DE00B89123 /* Growl-VIEW.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE3142C73DE00B89123 /* Growl-VIEW.icns */; };
+		835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */; };
+		835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE9142C74A100B89123 /* Growl-WKMV.icns */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
 		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
@@ -724,6 +730,12 @@
 		83282741073A6BD70044A959 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		83282746073A6C110044A959 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		835A0ACD142A85E100B89123 /* Raaarr.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Raaarr.growlStyle; path = Core/Resources/Raaarr.growlStyle; sourceTree = "<group>"; };
+		835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-REGDICT.icns"; path = "images/DocumentIcons/Growl-REGDICT.icns"; sourceTree = "<group>"; };
+		835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-STYLE.icns"; path = "images/DocumentIcons/Growl-STYLE.icns"; sourceTree = "<group>"; };
+		835A0AE2142C73DE00B89123 /* Growl-TICKET.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-TICKET.icns"; path = "images/DocumentIcons/Growl-TICKET.icns"; sourceTree = "<group>"; };
+		835A0AE3142C73DE00B89123 /* Growl-VIEW.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-VIEW.icns"; path = "images/DocumentIcons/Growl-VIEW.icns"; sourceTree = "<group>"; };
+		835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-DISPLAY.icns"; path = "images/DocumentIcons/Growl-DISPLAY.icns"; sourceTree = "<group>"; };
+		835A0AE9142C74A100B89123 /* Growl-WKMV.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-WKMV.icns"; path = "images/DocumentIcons/Growl-WKMV.icns"; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
 		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1914,6 +1926,19 @@
 			name = AppleScript;
 			sourceTree = "<group>";
 		};
+		835A0ADF142C732A00B89123 /* Document Icons */ = {
+			isa = PBXGroup;
+			children = (
+				835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */,
+				835A0AE9142C74A100B89123 /* Growl-WKMV.icns */,
+				835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */,
+				835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */,
+				835A0AE2142C73DE00B89123 /* Growl-TICKET.icns */,
+				835A0AE3142C73DE00B89123 /* Growl-VIEW.icns */,
+			);
+			name = "Document Icons";
+			sourceTree = "<group>";
+		};
 		93254753104E135B00130D3B /* external_dependencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -2242,6 +2267,7 @@
 		CB5F84730638BD4D00EADD7A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				835A0ADF142C732A00B89123 /* Document Icons */,
 				93A60E0513C4101600514EF8 /* styles */,
 				A1CC412509E37A65009EF9BD /* closebox_pressed.png */,
 				A1CC412609E37A65009EF9BD /* closebox.png */,
@@ -2917,6 +2943,12 @@
 				93E4EF1C141F02DD005A26CF /* MainMenu.xib in Resources */,
 				93E4EF1D141F02DD005A26CF /* WebKitPrefs.xib in Resources */,
 				835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */,
+				835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */,
+				835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */,
+				835A0AE6142C73DE00B89123 /* Growl-TICKET.icns in Resources */,
+				835A0AE7142C73DE00B89123 /* Growl-VIEW.icns in Resources */,
+				835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */,
+				835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
