@@ -169,7 +169,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="1014710350">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">71303168</int>
-								<string type="base64-UTF8" key="NSContents">U2HFhsSTbcSTamEgbnVtdXJzOgo</string>
+								<string type="base64-UTF8" key="NSContents">VGVsZWZvbmEgbnVtdXJzOgo</string>
 								<reference key="NSSupport" ref="104135842"/>
 								<reference key="NSControlView" ref="497807320"/>
 								<reference key="NSBackgroundColor" ref="320353781"/>

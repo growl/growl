@@ -370,7 +370,7 @@
 							<object class="NSButtonCell" key="NSCell" id="446629636">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Skrāpētā metāla vietā izmantot Aqua</string>
+								<string key="NSContents">Skrāpētā metāla stila vietā izmantot Aqua</string>
 								<reference key="NSSupport" ref="186163904"/>
 								<reference key="NSControlView" ref="217975936"/>
 								<int key="NSButtonFlags">1211912703</int>

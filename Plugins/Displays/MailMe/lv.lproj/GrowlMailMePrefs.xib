@@ -66,7 +66,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="551553397">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">71303168</int>
-								<string key="NSContents">Saņēmējs</string>
+								<string key="NSContents">Saņēmējs:</string>
 								<object class="NSFont" key="NSSupport" id="889315615">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -104,7 +104,7 @@
 								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="889315615"/>
-								<string key="NSPlaceholderString">Tavs e-pasts</string>
+								<string key="NSPlaceholderString">E-pasta adrese</string>
 								<reference key="NSControlView" ref="906166337"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<object class="NSColor" key="NSBackgroundColor">
@@ -173,7 +173,7 @@
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<boolean value="NO"/>
-									<string>Tavs e-pasts</string>
+									<string>E-pasta adrese</string>
 								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
