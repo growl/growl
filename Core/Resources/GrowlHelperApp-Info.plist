@@ -18,7 +18,13 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
-			<array/>
+			<array>
+				<string>com.growl.ticket</string>
+			</array>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>com.growl.ticket</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -84,7 +90,13 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
-			<array/>
+			<array>
+				<string>com.growl.regdict</string>
+			</array>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>com.growl.regdict</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -174,6 +186,48 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>growlStyle</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl Application Ticket</string>
+			<key>UTTypeIconFile</key>
+			<string>Growl-TICKET.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.ticket</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>growlTicket</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl Registration Dictionary</string>
+			<key>UTTypeIconFile</key>
+			<string>Growl-REGDICT.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.regdict</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>growlRegDict</string>
 				</array>
 			</dict>
 		</dict>
