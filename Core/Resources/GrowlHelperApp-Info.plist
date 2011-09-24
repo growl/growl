@@ -46,7 +46,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>GrowlDisplayPlugin</string>
+			<string></string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>com.growl.view</string>
@@ -72,7 +72,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>GrowlWebKitDisplayPlugin</string>
+			<string></string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>com.growl.style</string>
