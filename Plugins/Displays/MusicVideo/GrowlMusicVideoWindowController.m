@@ -69,7 +69,9 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-		CFNumberRef prefsDuration = NULL;
+        self.queuesNotifications = YES;
+
+        CFNumberRef prefsDuration = NULL;
 		READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
 		[self setDisplayDuration:(prefsDuration ?
 								  [(NSNumber *)prefsDuration doubleValue] :

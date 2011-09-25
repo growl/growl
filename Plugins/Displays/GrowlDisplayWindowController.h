@@ -2,8 +2,8 @@
 //  GrowlDisplayWindowController.h
 //  Display Plugins
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-03.
-//  Copyright 2004-2006 The Growl Project. All rights reserved.
+//  Created by Peter Hosey on 2005-06-03.
+//  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -39,7 +39,8 @@ typedef enum {
 	id					             delegate;
 
 	BOOL				             ignoresOtherNotifications;
-
+    BOOL                             queuesNotifications;
+    
 	CFTimeInterval                   transitionDuration;
 	NSMapTable                       *startTimes;
 	NSMapTable                       *endTimes;
@@ -48,7 +49,7 @@ typedef enum {
 	
 	CFTimeInterval		             displayDuration;
 	NSUInteger			             screenNumber;
-	NSUInteger			             screenshotMode: 1;
+	BOOL                             screenshotModeEnabled;
 
 	BOOL							 userRequestedClose;
 
@@ -119,24 +120,10 @@ typedef enum {
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 /* Subclasses should call this *after* calling -[super initWithWindw:] to set the overall transition duration ... could offer a user pref as well */
-- (CFTimeInterval) transitionDuration;
-- (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration;
-
-- (CFTimeInterval) displayDuration;
-- (void) setDisplayDuration:(CFTimeInterval)newDuration;
-
-- (BOOL) screenshotModeEnabled;
-- (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;
 
 - (NSScreen *) screen;
 - (void) setScreen:(NSScreen *)newScreen;
 - (void) setScreenNumber:(NSUInteger)newScreenNumber;
-
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
 
 - (id) clickContext;
 
@@ -151,8 +138,13 @@ typedef enum {
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *)flag;
 
-- (BOOL) ignoresOtherNotifications;
-- (void) setIgnoresOtherNotifications:(BOOL)flag;
+@property (nonatomic, assign) BOOL queuesNotifications;
+@property (nonatomic, assign) BOOL ignoresOtherNotifications;
+@property (nonatomic, assign) SEL action;
+@property (nonatomic, retain) id target;
+@property (nonatomic, assign) BOOL screenshotModeEnabled;
+@property (nonatomic, assign) CFTimeInterval displayDuration;
+@property (nonatomic, assign) CFTimeInterval transitionDuration;
 
 @end
 
