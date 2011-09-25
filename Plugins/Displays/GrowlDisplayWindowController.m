@@ -2,8 +2,8 @@
 //  GrowlDisplayWindowController.m
 //  Display Plugins
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-03.
-//  Copyright 2004-2006 The Growl Project. All rights reserved.
+//  Created by Peter Hosey on 2005-06-03.
+//  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
 #import "GrowlDisplayWindowController.h"
@@ -32,6 +32,14 @@ static NSMutableDictionary *existingInstances;
 @end
 
 @implementation GrowlDisplayWindowController
+
+@synthesize queuesNotifications;
+@synthesize ignoresOtherNotifications;
+@synthesize screenshotModeEnabled;
+@synthesize action;
+@synthesize target;
+@synthesize displayDuration;
+@synthesize transitionDuration;
 
 #pragma mark -
 #pragma mark Caching
@@ -85,6 +93,7 @@ static NSMutableDictionary *existingInstances;
 	if ((self = [super initWithWindow:window])) {
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
+        queuesNotifications = NO;
 		bridge = nil;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
@@ -167,7 +176,7 @@ static NSMutableDictionary *existingInstances;
 			[self didDisplayNotification];
 		}
 		
-	} else {
+	} else if(!self.queuesNotifications){
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
 															object:self];
 		
@@ -182,6 +191,8 @@ static NSMutableDictionary *existingInstances;
 		}
 		[self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
 	}
+    else
+        foundSpace = self.queuesNotifications;
 	
 	return foundSpace;		
 }
@@ -259,7 +270,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) didFinishTransitionsAfterDisplay {
-	[self cancelDisplayDelayedPerforms];
+    [self cancelDisplayDelayedPerforms];
 
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
@@ -274,14 +285,14 @@ static NSMutableDictionary *existingInstances;
 	[self didTakeDownNotification];
 
 	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
-		[[bridge display] displayWindowControllerDidTakeDownWindow:self];
-	else {
+        [[bridge display] displayWindowControllerDidTakeDownWindow:self];
+    else {
 		NSLog(@"%@ bridge does not respond to display",bridge);
 	}
 }
 
 - (void) didDisplayNotification {
-	if (screenshotMode)
+	if (screenshotModeEnabled)
 		[self takeScreenshot];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification
@@ -391,7 +402,7 @@ static NSMutableDictionary *existingInstances;
 	BOOL result = NO;
 	GrowlWindowTransition *transition;
 
-	for (transition in [windowTransitions allValues])
+    for (transition in [windowTransitions allValues])
 		if ([self startTransition:transition])
 			result = YES;
 	return result;
@@ -578,36 +589,6 @@ static NSMutableDictionary *existingInstances;
 
 #pragma mark -
 
-- (CFTimeInterval) transitionDuration {
-    return transitionDuration;
-}
-
-- (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration{
-    transitionDuration = theTransitionDuration;
-}
-
-#pragma mark -
-
-- (CFTimeInterval) displayDuration {
-	return displayDuration;
-}
-
-- (void) setDisplayDuration:(CFTimeInterval)newDuration {
-	displayDuration = newDuration;
-}
-
-#pragma mark -
-
-- (BOOL) screenshotModeEnabled {
-	return screenshotMode;
-}
-
-- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode {
-	screenshotMode = newScreenshotMode;
-}
-
-#pragma mark -
-
 - (NSScreen *) screen {
 	NSArray *screens = [NSScreen screens];
 	if (screenNumber < [screens count])
@@ -636,41 +617,8 @@ static NSMutableDictionary *existingInstances;
 
 #pragma mark -
 
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id)object {
-	if (object != target) {
-		[target release];
-		target = [object retain];
-	}
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
-}
-
-#pragma mark -
-
 - (id) clickContext {
 	return [[[self notification] dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-}
-
-#pragma mark -
-
-- (BOOL) ignoresOtherNotifications {
-	return ignoresOtherNotifications;
-}
-
-- (void) setIgnoresOtherNotifications:(BOOL)flag {
-	ignoresOtherNotifications = flag;
 }
 
 #pragma mark -

@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Rudy Richter on 12/12/2005.
-//  Copyright 2005-2006, The Growl Project. All rights reserved.
+//  Copyright 2005-2011, The Growl Project, LLC. All rights reserved.
 //
 
 
@@ -90,7 +90,8 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-		NanoEffectType effect = Nano_EFFECT_SLIDE;
+		self.queuesNotifications = YES;
+        NanoEffectType effect = Nano_EFFECT_SLIDE;
 		READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
 
 		switch (effect) {
