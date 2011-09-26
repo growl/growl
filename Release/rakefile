@@ -80,13 +80,15 @@ namespace "package" do
 
 	task :growl => ["build:growl"] do
 		curdir = FileUtils.pwd()
+		absolute = File.expand_path("#{PRODUCT_ROOT}")
+		FileUtils.mkdir_p(absolute)
 		FileUtils.cd("#{BUILD_ROOT}/growl/#{CONFIGURATION}")
-		if(!BETA)
-			system "productbuild --component Growl.app /Applications --sign \"#{CSI}\" Growl.pkg && cp -Rp Growl.pkg #{PRODUCT_ROOT}"
+		if(BETA==0)
+			system "productbuild --component Growl.app /Applications --sign \"#{CSI}\" Growl.pkg && cp -Rp Growl.pkg #{absolute}/"
 		elsif (BETA)
-			system "zip -r #{PRODUCT_ROOT}/Growl.zip Growl.app/"
+			system "zip -r #{absolute}/Growl.zip Growl.app/"
 		end
-		system "zip -r #{PRODUCT_ROOT}/Growl-dSYM.zip *.dSYM"
+		system "zip -r #{absolute}/Growl-dSYM.zip *.dSYM"
 		FileUtils.cd(curdir)
 		
 	end
