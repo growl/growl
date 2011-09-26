@@ -73,7 +73,7 @@
     
    __block GrowlXPCCommunicationAttempt *blockSafe = self;
     //Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService 
-   xpcConnection = xpc_connection_create(/*"com.Growl.BeepHammer.GNTPClientService"*/[[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
+   xpcConnection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
     if (!xpcConnection)
         return NO;
    xpc_connection_set_event_handler(xpcConnection, ^(xpc_object_t object) {
