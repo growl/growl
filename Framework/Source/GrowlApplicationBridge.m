@@ -44,6 +44,10 @@
  */
 + (NSData *) _applicationIconDataForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict;
 
++ (BOOL) _growlIsReachableUpdateCache:(BOOL)update;
++ (void) _checkSandbox;
++ (void) _fireMiniDispatch:(NSDictionary*)growlDict;
+
 @end
 
 static NSDictionary *cachedRegistrationDictionary = nil;
@@ -67,6 +71,10 @@ static NSMutableArray *_attempts = nil;
 static BOOL		registerWhenGrowlIsReady = NO;
 
 static BOOL    attemptingToRegister = NO;
+
+static BOOL    sandboxed = NO;
+static BOOL    networkClient = NO;
+static BOOL    hasGNTP = NO;
 
 #pragma mark -
 
@@ -230,58 +238,64 @@ static BOOL    attemptingToRegister = NO;
 	[noteDict release];
 }
 
-+ (void) notifyWithDictionary:(NSDictionary *)userInfo {
-	if (registeredWithGrowl && [self isGrowlRunning]) {
++ (void) notifyWithDictionary:(NSDictionary *)userInfo 
+{
+   //All the cases where growl is reachable *should* be covered now
+	if (registeredWithGrowl && [self _growlIsReachableUpdateCache:NO]) {
 		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
 
-		GrowlCommunicationAttempt *firstAttempt;
-      GrowlXPCNotificationAttempt *xpcNotify = nil;
-		GrowlGNTPNotificationAttempt *gntpNotify = nil;
-		GrowlApplicationBridgeNotificationAttempt *gabNotify;
+		GrowlCommunicationAttempt *firstAttempt = nil;
+		GrowlApplicationBridgeNotificationAttempt *secondAttempt = nil;
 
-      if([GrowlXPCCommunicationAttempt canCreateConnection]){
-         firstAttempt = 
-         xpcNotify = [[[GrowlXPCNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
-         xpcNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-         [[self attempts] addObject:xpcNotify];
-      }else{
-         firstAttempt =
-         gntpNotify = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
-         gntpNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-         [[self attempts] addObject:gntpNotify];
+      if(hasGNTP){
+         //These should be the only way we get marked as having gntp
+         if([GrowlXPCCommunicationAttempt canCreateConnection])
+            firstAttempt = [[[GrowlXPCNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+         else if(networkClient)
+            firstAttempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+         
+         if(firstAttempt){
+            firstAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+            [[self attempts] addObject:firstAttempt];
+         }
       }
       
-		gabNotify = [[[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
-		gabNotify.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-		[[self attempts] addObject:gabNotify];
+      if(!sandboxed){
+         secondAttempt = [[[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:userInfo] autorelease];
+         secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+         [[self attempts] addObject:secondAttempt];
      
-      if(xpcNotify)
-         xpcNotify.nextAttempt = gabNotify;
-      else
-         gntpNotify.nextAttempt = gabNotify;
-
-		[firstAttempt begin];
-	} else {
-#if !GROWLHELPERAPP
-		if ([self isGrowlRunning])
-#endif
-		{
-			if (!queuedGrowlNotifications)
-				queuedGrowlNotifications = [[NSMutableArray alloc] init];
-			[queuedGrowlNotifications addObject:userInfo];
-
+         if(firstAttempt)
+            firstAttempt.nextAttempt = secondAttempt;
+         else
+            firstAttempt = secondAttempt;
+      }
+      
+      //We should always have a first attempt if Growl is reachable
+      if(firstAttempt)
+         [firstAttempt begin];
+   }else{ 
+      if ([self isGrowlRunning])
+      {
+         if (!queuedGrowlNotifications)
+            queuedGrowlNotifications = [[NSMutableArray alloc] init];
+         [queuedGrowlNotifications addObject:userInfo];
+         
          if(!attemptingToRegister)
             [self registerWithDictionary:nil];
-#if !GROWLHELPERAPP
-		} else {
-			if (!miniDispatch) {
-				miniDispatch = [[GrowlMiniDispatch alloc] init];
-				miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
-			}
-			[miniDispatch displayNotification:userInfo];
-#endif
-		}
-	}
+      } else {
+         [self _fireMiniDispatch:userInfo];
+      }
+   }
+}
+
++ (void) _fireMiniDispatch:(NSDictionary*)growlDict
+{
+   if (!miniDispatch) {
+      miniDispatch = [[GrowlMiniDispatch alloc] init];
+      miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
+   }
+   [miniDispatch displayNotification:growlDict];
 }
 
 #pragma mark -
@@ -302,7 +316,7 @@ static BOOL    attemptingToRegister = NO;
    }
    
    //Will register when growl is running and ready
-   if(![self isGrowlRunning]){
+   if(![self _growlIsReachableUpdateCache:NO]){
       registerWhenGrowlIsReady = YES;
       return NO;
    }
@@ -319,32 +333,32 @@ static BOOL    attemptingToRegister = NO;
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [regDict retain];
 
-	GrowlCommunicationAttempt *firstAttempt;
-   GrowlXPCRegistrationAttempt *xpcRegister = nil;
-	GrowlGNTPRegistrationAttempt *gntpRegister = nil;
-	GrowlApplicationBridgeRegistrationAttempt *gabRegister;
+	GrowlCommunicationAttempt *firstAttempt = nil;
+   GrowlApplicationBridgeRegistrationAttempt *secondAttempt = nil;
    
-   if([GrowlXPCCommunicationAttempt canCreateConnection]){
-      firstAttempt =
-      xpcRegister = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
-      xpcRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-      [[self attempts] addObject:xpcRegister];
-   }else{
-      firstAttempt =
-      gntpRegister = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
-      gntpRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-      [[self attempts] addObject:gntpRegister];
+   if(hasGNTP){
+      //These should be the only way we get marked as having gntp
+      if([GrowlXPCCommunicationAttempt canCreateConnection])
+         firstAttempt = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      else if(networkClient)
+         firstAttempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      
+      if(firstAttempt){
+         firstAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+         [[self attempts] addObject:firstAttempt];
+      }
    }
 
-	gabRegister = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
-	gabRegister.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
-	gabRegister.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-	[[self attempts] addObject:gabRegister];
-   
-   if(xpcRegister)
-      xpcRegister.nextAttempt = gabRegister;
-   else
-      gntpRegister.nextAttempt =gabRegister;
+   if(!sandboxed){
+      secondAttempt = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      secondAttempt.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
+      secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
+      [[self attempts] addObject:secondAttempt];
+      if(firstAttempt)
+         firstAttempt.nextAttempt = secondAttempt;
+      else
+         firstAttempt = secondAttempt;
+   }
 
 	[firstAttempt begin];
 
@@ -573,6 +587,8 @@ static BOOL    attemptingToRegister = NO;
 + (void) _growlIsReady:(NSNotification *)notification {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+   //We may have gotten a new version of growl
+   [self _growlIsReachableUpdateCache:YES];
 	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
 	growlLaunched = YES;
 
@@ -602,6 +618,88 @@ static BOOL    attemptingToRegister = NO;
 	[pool drain];
 }
 
++ (BOOL) _growlIsReachableUpdateCache:(BOOL)update
+{
+   static BOOL _cached = NO;
+   static BOOL _reachable = NO;
+   
+   BOOL running = [self isGrowlRunning];
+   
+   //No sense in running version checks repeatedly, but if growl relaunched, we will recheck
+   if(_cached && !update){
+      if(running)
+         return _reachable;
+      else
+         return NO;
+   }
+   
+   //We dont say _cached = YES here because we haven't done the other checks yet
+   if(!running)
+      return NO;
+   
+   [self _checkSandbox];
+
+   //This is a bit of a hack, we check for Growl 1.2.2 and lower by seeing if the running helper app is inside Growl.prefpane
+   NSString *runningPath = [[[[NSRunningApplication runningApplicationsWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] objectAtIndex:0] bundleURL] absoluteString];
+   NSString *prefPaneSubpath = @"Growl.prefpane/Contents/Resources";
+   
+   if([runningPath rangeOfString:prefPaneSubpath options:NSCaseInsensitiveSearch].location != NSNotFound){
+      hasGNTP = NO;
+      _reachable = !sandboxed;
+      if(!_reachable)
+         NSLog(@"%@ could not reach Growl, You are running Growl version 1.2.2 or older, and %@ is sandboxed", appName, appName);
+   }else{
+      //If we are running 1.3+, and we are sandboxed, do we have network client, or an XPC?
+      hasGNTP = YES;
+      if(sandboxed){
+         if(networkClient || [GrowlXPCCommunicationAttempt canCreateConnection]){
+            _reachable = YES;
+         }else{
+            NSLog(@"%@ could not reach Growl, %@ is sandboxed and does not have the ability to talk to Growl, contact the developer to resolve this", appName, appName);
+            _reachable = NO;
+         }
+      }else
+         _reachable = YES;
+   }
+   
+   _cached = YES;
+   return _reachable;
+}
+
++ (void) _checkSandbox
+{
+   static BOOL checked = NO;
+   
+   //Sandboxing is not going to change on us while we are running
+   if(checked)
+      return;
+   
+   checked = YES;
+   
+   if(xpc_connection_create == NULL){
+      sandboxed = NO;
+      networkClient = NO; //Growl.app 1.3+ is required to be a network client, Growl.app 1.3+ requires 10.7+
+      return;
+   }
+
+   //This is a hacky way of detecting sandboxing, and whether we have network client on the main app is up to app developers
+   NSString *homeDirectory = NSHomeDirectory();
+   NSString *suffix = [NSString stringWithFormat:@"Containers/%@/Data", [[NSBundle mainBundle] bundleIdentifier]];
+   if([homeDirectory hasSuffix:suffix]){
+      sandboxed = YES;
+      if(delegate && [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)])
+         networkClient = [delegate hasNetworkClientEntitlement];
+      else
+         networkClient = NO;
+   }else{
+      sandboxed = NO;
+      networkClient = YES;
+   }
+   
+      
+   return;
+}
+
 #pragma mark GrowlCommunicationAttemptDelegate protocol conformance
 
 + (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
@@ -613,8 +711,11 @@ static BOOL    attemptingToRegister = NO;
 	}
 }
 + (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
-   if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
-      attemptingToRegister = NO;
+   if(attempt.nextAttempt == nil){
+      NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
+      if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
+         attemptingToRegister = NO;
+      }
    }
    [[self attempts] removeObject:attempt];
 }

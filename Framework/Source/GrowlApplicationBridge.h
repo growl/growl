@@ -507,61 +507,17 @@
  */
 - (void) growlNotificationTimedOut:(id)clickContext;
 
+
+/*!
+ * @method hasNetworkClientEntitlement
+ * @abstract Used only in sandboxed situations since we don't know whether the app has com.apple.security.network.client entitlement
+ * @discussion GrowlDelegate calls to find out if we have the com.apple.security.network.client entitlement,
+ *  since we can't find this out without hitting the sandbox.  We only call it if we detect that the application is sandboxed.
+ */
+- (BOOL) hasNetworkClientEntitlement;
+
 @end
 
 #pragma mark -
-/*!
- *	@category NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)
- *	@abstract Methods which may be optionally implemented by the Growl delegate when used with Growl-WithInstaller.framework.
- *	@discussion The methods in this informal protocol will only be called if
- *	 implemented by the delegate.  They allow greater control of the information
- *	 presented to the user when installing or upgrading Growl from within your
- *	 application when using Growl-WithInstaller.framework.
- */
-@interface NSObject (GrowlApplicationBridgeDelegate_Installation_InformalProtocol)
-
-/*!
- *	@method growlInstallationWindowTitle
- *	@abstract Return the title of the installation window.
- *	@discussion If not implemented, Growl will use a default, localized title.
- *	@result An NSString object to use as the title.
- */
-- (NSString *)growlInstallationWindowTitle;
-
-/*!
- *	@method growlUpdateWindowTitle
- *	@abstract Return the title of the upgrade window.
- *	@discussion If not implemented, Growl will use a default, localized title.
- *	@result An NSString object to use as the title.
- */
-- (NSString *)growlUpdateWindowTitle;
-
-/*!
- *	@method growlInstallationInformation
- *	@abstract Return the information to display when installing.
- *	@discussion This information may be as long or short as desired (the window
- *	 will be sized to fit it).  It will be displayed to the user as an
- *	 explanation of what Growl is and what it can do in your application.  It
- *	 should probably note that no download is required to install.
- *
- *	 If this is not implemented, Growl will use a default, localized explanation.
- *	@result An NSAttributedString object to display.
- */
-- (NSAttributedString *)growlInstallationInformation;
-
-/*!
- *	@method growlUpdateInformation
- *	@abstract Return the information to display when upgrading.
- *	@discussion This information may be as long or short as desired (the window
- *	 will be sized to fit it).  It will be displayed to the user as an
- *	 explanation that an updated version of Growl is included in your
- *	 application and no download is required.
- *
- *	 If this is not implemented, Growl will use a default, localized explanation.
- *	@result An NSAttributedString object to display.
- */
-- (NSAttributedString *)growlUpdateInformation;
-
-@end
 
 #endif /* __GrowlApplicationBridge_h__ */
