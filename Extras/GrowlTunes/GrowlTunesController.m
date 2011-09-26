@@ -31,6 +31,7 @@
 #import "GrowlTunesController.h"
 #import "GrowlTunesPlugin.h"
 #import "NSWorkspaceAdditions.h"
+#import "iTunes.h"
 
 @interface NSString (GrowlTunesMultiplicationAdditions)
 
@@ -55,7 +56,7 @@
 
 #define APP_NAME		        @"GrowlTunes"
 #define ITUNES_APP_NAME         @"iTunes.app"
-#define ITUNES_BUNDLE_ID        @"com.apple.itunes"
+#define ITUNES_BUNDLE_ID        @"com.apple.iTunes"
 
 #define NO_MENU_KEY             @"GrowlTunesWithoutMenu"
 #define RECENT_TRACK_COUNT_KEY  @"Recent Tracks Count"
@@ -77,8 +78,9 @@ enum {
 };
 
 @implementation GrowlTunesController
+@synthesize iTunes;
 
-- (id) init;
+- (id) init
 {
 	/* NOTE: The class currently gets instatiated from within a nib file, therefore init will get called 
 	 regardless. Would be cleaner if the app didnt use a nib file, but I didnt have the energy to work out
@@ -111,6 +113,8 @@ enum {
 	lastPostedDescription = @"";
 	trackRating = -1;
 
+    self.iTunes = [SBApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
+    
 	return self;
 }
 
@@ -133,7 +137,7 @@ enum {
 														selector:@selector(songChanged:)
 															name:@"com.apple.iTunes.playerInfo"
 														  object:nil];
-
+    
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:NO_MENU_KEY])
 		[self createStatusItem];
 }
@@ -152,6 +156,7 @@ enum {
 	[plugins release];
 	if (archivePlugin)
 		[archivePlugin release];
+    [iTunes release];
 }
 
 #pragma mark -
@@ -731,10 +736,7 @@ enum {
 #pragma unused(sender)
 	if (![self quitiTunes]) {
 		//quit failed, so it wasn't running: launch it.
-		[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:ITUNES_BUNDLE_ID
-															 options:NSWorkspaceLaunchDefault
-									  additionalEventParamDescriptor:nil
-													launchIdentifier:NULL];
+		[self.iTunes activate];
 	}
 }
 
@@ -744,26 +746,9 @@ enum {
 }
 
 - (BOOL) quitiTunes {
-	NSDictionary *iTunes = [[NSWorkspace sharedWorkspace] launchedApplicationWithIdentifier:ITUNES_BUNDLE_ID];
-	BOOL success = (iTunes != nil);
+	BOOL success = [self iTunesIsRunning];
 	if (success) {
-		NSAppleEventDescriptor *target = [[NSAppleEventDescriptor alloc] initWithDescriptorType:typeApplicationBundleID
-																						   data:[ITUNES_BUNDLE_ID dataUsingEncoding:NSUTF8StringEncoding]];
-		NSAppleEventDescriptor *event = [[NSAppleEventDescriptor alloc] initWithEventClass:kCoreEventClass
-																				   eventID:kAEQuitApplication
-																		  targetDescriptor:target
-																				  returnID:kAutoGenerateReturnID
-																			 transactionID:kAnyTransactionID];
-		OSStatus err = AESendMessage([event aeDesc],
-									 /*reply*/ NULL,
-									 /*sendMode*/ kAENoReply | kAENeverInteract | kAEDontRecord,
-									 kAEDefaultTimeout);
-		[target release];
-		[event release];
-		success = ((err == noErr) || (err == procNotFound));
-		//XXX this should be an alert panel (with a better message)
-		if (!success)
-			NSLog(@"Could not quit iTunes: AESendMessage returned %li", (long)err);
+        [self.iTunes quit];
 	}
 	return success;
 }
@@ -847,8 +832,9 @@ enum {
 	return [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
 }
 
-- (BOOL) iTunesIsRunning {
-	return [[NSWorkspace sharedWorkspace] launchedApplicationWithIdentifier:ITUNES_BUNDLE_ID] != nil;
+- (BOOL) iTunesIsRunning 
+{
+	return [[NSRunningApplication runningApplicationsWithBundleIdentifier:ITUNES_BUNDLE_ID] count];
 }
 
 - (void) jumpToTune:(id) sender {

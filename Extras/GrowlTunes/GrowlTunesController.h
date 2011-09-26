@@ -30,6 +30,7 @@
 
 #import <Growl/Growl.h>
 #import "GrowlAbstractSingletonObject.h"
+#import "iTunes.h"
 
 @protocol GrowlTunesPluginArchive;
 
@@ -41,7 +42,9 @@ typedef enum {
 } iTunesState;
 
 @interface GrowlTunesController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
-	NSAppleScript		*getInfoScript;
+	iTunesApplication       *iTunes;
+    
+    NSAppleScript		*getInfoScript;
 	NSMutableArray		*plugins;
 	NSStatusItem		*statusItem;
 	NSString			*playlistName;
@@ -72,5 +75,7 @@ typedef enum {
 #pragma mark Plug-ins
 
 - (NSMutableArray *) loadPlugins;
+
+@property (nonatomic, retain) iTunesApplication *iTunes;
 
 @end
