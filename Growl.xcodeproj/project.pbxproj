@@ -151,7 +151,6 @@
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
-		835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */; };
 		835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */; };
@@ -2942,7 +2941,6 @@
 				93E4EF1B141F02DD005A26CF /* Localizable.strings in Resources */,
 				93E4EF1C141F02DD005A26CF /* MainMenu.xib in Resources */,
 				93E4EF1D141F02DD005A26CF /* WebKitPrefs.xib in Resources */,
-				835A0ACE142A85E100B89123 /* Raaarr.growlStyle in Resources */,
 				835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */,
 				835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */,
 				835A0AE6142C73DE00B89123 /* Growl-TICKET.icns in Resources */,
