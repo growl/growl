@@ -138,7 +138,7 @@ namespace "package" do
 		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework", :remove_destination => true)
 		
 		#copy over the 1.2.2 framework
-		#FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
+		FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
 
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
@@ -148,7 +148,7 @@ namespace "package" do
       		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
 		
 		FileUtils.cd("..")
-		system "zip -r #{PRODUCT_ROOT}/Growl-SDK.zip SDK/"
+		system "zip -r #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip SDK/"
 		
 	end
 end
