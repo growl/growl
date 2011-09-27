@@ -457,7 +457,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "XPC_START=\"$SRCROOT/../../build/$CONFIGURATION\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
