@@ -487,6 +487,13 @@
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = SVNRevision;
 		};
+		BC67F48D14315F11001A64C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
+			remoteInfo = "hg revision";
+		};
 		DD493C92084BE7FB00D1CCCB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -2743,6 +2750,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BC67F48E14315F11001A64C3 /* PBXTargetDependency */,
 			);
 			name = GNTPClientService;
 			productName = GNTP;
@@ -3553,6 +3561,11 @@
 			isa = PBXTargetDependency;
 			target = 95E17B8F085E216A00990AB3 /* hg revision */;
 			targetProxy = 95E17BEE085E24B500990AB3 /* PBXContainerItemProxy */;
+		};
+		BC67F48E14315F11001A64C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* hg revision */;
+			targetProxy = BC67F48D14315F11001A64C3 /* PBXContainerItemProxy */;
 		};
 		DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
