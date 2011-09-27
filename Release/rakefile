@@ -64,6 +64,10 @@ namespace "build" do
 	task :framework do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target Growl.framework -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/framework"
 	end
+   
+   task :gntpclientxpc do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target GNTPClientService -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/gntpclientxpc"
+   end
 end
 
 
@@ -117,35 +121,31 @@ namespace "package" do
 		FileUtils.cd(curdir)
 	end
 	
-	task :sdk => ["build:beephammer", "build:framework"] do
+	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
 		FileUtils.mkdir_p("#{DESTDIR}/SDK")
 		FileUtils.cd("#{DESTDIR}/SDK")
 		FileUtils.mkdir_p("Developer Tools")
 		FileUtils.mkdir_p("Framework")
 		FileUtils.mkdir_p("Framework/Legacy")
 		FileUtils.mkdir_p("Bindings")
+      FileUtils.mkdir_p("XPC Client")
 		
-		#copy over the framework source
-		#FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.h", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Framework/Source/GrowlApplicationBridge.m", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefines.h", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlDefinesInternal.h", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.h", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Common/Source/GrowlPathUtilities.m", "Framework/Source") 
-		#FileUtils.cp("#{SRCROOT}/Core/Source/GrowlPreferencesController.h", "Framework/Source")
-		#FileUtils.cp("#{SRCROOT}/Core/Source/GrowlTicketController.h", "Framework/Source")
-
-		#copy over the bindings
-		FileUtils.cp_r("#{SRCROOT}/Bindings", ".")
+		#copy over the Applescript samples
+		FileUtils.cp("#{SRCROOT}/Bindings/applescript/Test Growl AppleScript.scpt", "Bindings")
+		FileUtils.cp("#{SRCROOT}/Bindings/applescript/Test GrowlControl AppleScript.scpt", "Bindings")
 		
 		#copy over the framework
 		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework")
 		
 		#copy over the 1.2.2 framework
-		FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
+		#FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
 
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
+      
+      #copy over XPC and its script
+      FileUtils.cp_r("#{BUILD_ROOT}/gntpclientxpc/#{CONFIGURATION}/com.company.application.GNTPClientService.xpc", "XPC Client")
+      FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
 		
 		FileUtils.cd("..")
 		system "zip -r #{PRODUCT_ROOT}/Growl-SDK.zip SDK/"
