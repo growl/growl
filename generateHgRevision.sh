@@ -8,7 +8,7 @@ PATH="$PATH:/usr/local/share/python:/opt/local/bin:/usr/local/bin:/sw/bin"
 export PYTHONPATH="$PYTHONPATH:/usr/local/lib/python2.6/site-packages:/Library/Python/2.6/site-packages"
 
 #this is done because Xcode won't actually run the script if the output file already exists, which is bad
-HEADERPATH="$TARGET_BUILD_DIR/include/hgRevision.h"
+HEADERPATH="$BUILT_PRODUCTS_DIR/include/hgRevision.h"
 
 #hg parent will present two revisions if the user has a pending merge.
 #The user probably shouldn't be building in such a circumstance, but,

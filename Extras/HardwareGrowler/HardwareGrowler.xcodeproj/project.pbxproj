@@ -6,21 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		9533C229085C3E8C009F8046 /* External Frameworks */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 9533C22E085C3E94009F8046 /* Build configuration list for PBXAggregateTarget "External Frameworks" */;
-			buildPhases = (
-				9533C2B7085C3EED009F8046 /* ShellScript */,
-			);
-			dependencies = (
-				9598A0A1086F4D410014C386 /* PBXTargetDependency */,
-			);
-			name = "External Frameworks";
-			productName = "External Frameworks";
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
 		1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
@@ -152,14 +137,7 @@
 			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
 		};
-		9533C2BB085C3F4E009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9533C229085C3E8C009F8046;
-			remoteInfo = "External Frameworks";
-		};
-		9598A0A0086F4D410014C386 /* PBXContainerItemProxy */ = {
+		BC31AD411435213B007124E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 1;
@@ -414,8 +392,8 @@
 			);
 			comments = "Rawr!!..\n\n";
 			dependencies = (
+				BC31AD421435213B007124E6 /* PBXTargetDependency */,
 				BC493888142A83BF00B1DF21 /* PBXTargetDependency */,
-				9533C2BC085C3F4E009F8046 /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
 			productInstallPath = "$(HOME)/Applications";
@@ -457,7 +435,6 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* HardwareGrowler */,
-				9533C229085C3E8C009F8046 /* External Frameworks */,
 			);
 		};
 /* End PBXProject section */
@@ -588,19 +565,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9533C2B7085C3EED009F8046 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Growl.framework\"\n\tln -s \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n";
-		};
 		BC493886142A746600B1DF21 /* Growl XPC */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -613,7 +577,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "XPC_START=\"$SRCROOT/../../build/$CONFIGURATION\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -637,15 +601,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9533C2BC085C3F4E009F8046 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9533C229085C3E8C009F8046 /* External Frameworks */;
-			targetProxy = 9533C2BB085C3F4E009F8046 /* PBXContainerItemProxy */;
-		};
-		9598A0A1086F4D410014C386 /* PBXTargetDependency */ = {
+		BC31AD421435213B007124E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
-			targetProxy = 9598A0A0086F4D410014C386 /* PBXContainerItemProxy */;
+			targetProxy = BC31AD411435213B007124E6 /* PBXContainerItemProxy */;
 		};
 		BC493888142A83BF00B1DF21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -774,66 +733,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Localization;
-		};
-		315C88301068F83900880530 /* Localization */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Localization;
-		};
-		9533C22F085C3E94009F8046 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Debug;
-		};
-		9533C230085C3E94009F8046 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Release;
 		};
 		95E4A2B60855C0DB006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -990,16 +889,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9533C22E085C3E94009F8046 /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9533C22F085C3E94009F8046 /* Debug */,
-				315C88301068F83900880530 /* Localization */,
-				9533C230085C3E94009F8046 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		95E4A2B50855C0DB006B3F45 /* Build configuration list for PBXNativeTarget "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

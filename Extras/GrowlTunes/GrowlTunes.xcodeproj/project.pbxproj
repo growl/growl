@@ -151,6 +151,13 @@
 			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
 		};
+		BC31ADB41435282E007124E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 837A04C61425AE6100B51388 /* ARTchive.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = "GrowlTunes-ARTchive";
+		};
 		E12224CE0936513B007CE8C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
@@ -404,19 +411,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95E4A2D90855C125006B3F45 /* Build configuration list for PBXNativeTarget "GrowlTunes" */;
 			buildPhases = (
-				E12224D809365155007CE8C1 /* ShellScript */,
-				9571A45A08623829008AEBB3 /* ShellScript */,
 				9561B0C608240A4500E55B5E /* AppleScript */,
 				8D1107290486CEB800E47090 /* Resources */,
 				0A8B5F37070B145800593A33 /* CopyFiles */,
 				CB9CC0E207A5DEE00057EF2C /* CopyFiles */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				9571A477086238F4008AEBB3 /* Rez */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BC31ADB51435282E007124E6 /* PBXTargetDependency */,
 				E12224CF0936513B007CE8C1 /* PBXTargetDependency */,
 			);
 			name = GrowlTunes;
@@ -594,49 +599,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		9571A477086238F4008AEBB3 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		9571A45A08623829008AEBB3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/GrowlTunes.sdef",
-			);
-			outputPaths = (
-				"$(SRCROOT)/GrowlTunesScripting.r",
-				"$(SRCROOT)/GrowlTunesSuite.scriptTerminology",
-				"$(SRCROOT)/GrowlTunesSuite.scriptSuite",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sdp -f ast -V 10.3 $SCRIPT_INPUT_FILE_0";
-		};
-		E12224D809365155007CE8C1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Growl.framework\"\n\tln -s \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n\nARTCHIVE_PLUGIN=\"$SRCROOT/Plugins/Examples/ARTchive/build/$CONFIGURATION/GrowlTunes-ARTchive.plugin\"\nif [ -d \"$ARTCHIVE_PLUGIN\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/GrowlTunes-ARTchive.plugin\"\n\tln -s \"$ARTCHIVE_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-ARTchive.plugin\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -653,6 +615,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BC31ADB51435282E007124E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "GrowlTunes-ARTchive";
+			targetProxy = BC31ADB41435282E007124E6 /* PBXContainerItemProxy */;
+		};
 		E12224CF0936513B007CE8C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
