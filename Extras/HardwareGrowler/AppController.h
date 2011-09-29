@@ -38,11 +38,15 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 	NetworkNotifier *networkNotifier;
 	IBOutlet NSMenu* statusMenu;
 	NSStatusItem* statusItem;
+	IBOutlet NSMenuItem *mainItem;
+	IBOutlet NSMenu *submenu;
 }
 
 - (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
 - (BOOL) isEnabled: (CFStringRef) type;
+- (IBAction)moveToDock:(id)sender;
+- (IBAction)moveToStatusbar:(id)sender;
 
 @end
 

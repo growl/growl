@@ -623,6 +623,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 @implementation AppController
+//@synthesize moveIcon;
 
 - (void) awakeFromNib {
 	// Register ourselves as a Growl delegate for registration purposes
@@ -643,9 +644,15 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	BluetoothNotifier_init();
 	networkNotifier = [[NetworkNotifier alloc] init];
 	PowerNotifier_init();
-	
-	[self initMenu];
 
+	[mainItem setSubmenu:submenu];
+
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
+		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	}
+	else{
+		[self initMenu];
+	}
 }
 
 - (void) dealloc {
@@ -736,11 +743,24 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 
 }
 
-- (BOOL) isEnabled: (CFStringRef*) type{
+- (BOOL) isEnabled: (CFStringRef) type{
 	/*Boolean keyExistsAndHasValidFormat;
 	NSString* identifier = nil;
 	if (CFPreferencesGetAppBooleanValue(CFSTR(type), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))*/
    return YES;
+
+}
+
+- (IBAction)moveToDock:(id)sender{
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HideDockIcon"];
+	[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+}
+- (IBAction)moveToStatusbar:(id)sender{
+	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideDockIcon"];
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setMessageText:@"This setting will take effect when Hardware Growler restarts"];
+	[alert runModal];
 
 }
 
