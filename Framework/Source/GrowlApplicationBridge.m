@@ -284,7 +284,9 @@ static BOOL    hasGNTP = NO;
          if(!attemptingToRegister)
             [self registerWithDictionary:nil];
       } else {
-         [self _fireMiniDispatch:userInfo];
+         dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [GrowlApplicationBridge _fireMiniDispatch:userInfo];
+         });
       }
    }
 }
