@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
+		1D0B2096143BAED2000F836E /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D0B2094143BAED1000F836E /* MainMenu.strings */; };
 		1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
 		315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
 		315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
@@ -170,6 +171,7 @@
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		179B928F0C14D110004FB187 /* VolumeNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeNotifier.m; sourceTree = "<group>"; };
+		1D0B2095143BAED2000F836E /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwgrowler_statusbar_icn.png; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 			children = (
 				95AC163A0858A3BF008213B8 /* Localizable.strings */,
 				950626460840CB8200C01CD2 /* BluetoothLogo.png */,
+				1D0B2094143BAED1000F836E /* MainMenu.strings */,
 				DDF9B81007BC20630007B5B7 /* readme.txt */,
 				DD1E135B07C923FD005BD5FC /* Credits.rtf */,
 				DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */,
@@ -559,6 +562,7 @@
 				315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */,
 				315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */,
 				1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */,
+				1D0B2096143BAED2000F836E /* MainMenu.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +628,14 @@
 				34CF44AD0C8D7D2300A2EFA4 /* ru */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1D0B2094143BAED1000F836E /* MainMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D0B2095143BAED2000F836E /* English */,
+			);
+			name = MainMenu.strings;
 			sourceTree = "<group>";
 		};
 		29B97318FDCFA39411CA2CEA /* MainMenu.xib */ = {

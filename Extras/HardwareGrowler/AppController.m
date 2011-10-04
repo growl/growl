@@ -759,7 +759,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 - (IBAction)moveToStatusbar:(id)sender{
 	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideDockIcon"];
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setMessageText:@"This setting will take effect when Hardware Growler restarts"];
+	[alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
 	[alert runModal];
 
 }
