@@ -48,6 +48,7 @@
 
 #define GrowlRollupShown            XSTR("GrowlRollupShown")
 #define GrowlRollupEnabled            XSTR("GrowlRollupEnabled")
+#define GrowlRollupAutomatic        XSTR("GrowlRollupAutomatic")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -101,6 +102,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setRollupShown:(BOOL)shown;
 - (BOOL) isRollupEnabled;
 - (void) setRollupEnabled:(BOOL)enabled;
+- (BOOL) isRollupAutomatic;
+- (void) setRollupAutomatic:(BOOL)automatic;
 
 - (BOOL) isGrowlHistoryLogEnabled;
 - (void) setGrowlHistoryLogEnabled:(BOOL)flag;

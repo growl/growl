@@ -44,5 +44,7 @@
 	<false/>
 	<key>GrowlRollupEnabled</key>
 	<true/>
+	<key>GrowlRollupAutomatic</key>
+	<true/>
 </dict>
 </plist>

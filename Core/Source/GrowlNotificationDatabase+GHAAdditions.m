@@ -106,7 +106,8 @@
    if(isAway)
    {
       notificationsWhileAway = YES;
-      [preferences setRollupShown:YES];
+      if(![preferences squelchMode] && [preferences isRollupAutomatic])
+         [preferences setRollupShown:YES];
    }
 }
 

@@ -279,6 +279,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
     [self willChangeValueForKey:@"squelchMode"];
     [self setBool:squelch forKey:GrowlSquelchMode];
     [self didChangeValueForKey:@"squelchMode"];
+   
+   if(!squelch && [[GrowlNotificationDatabase sharedInstance] notificationsWhileAway] && [self isRollupAutomatic]){
+       [self setRollupShown:YES];
+   }
 }
 
 - (BOOL) squelchMode
@@ -363,6 +367,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 - (void) setRollupEnabled:(BOOL)enabled{
    [self setBool:enabled forKey:GrowlRollupEnabled];
+}
+- (BOOL) isRollupAutomatic {
+   return [self boolForKey:GrowlRollupAutomatic];
+}
+- (void) setRollupAutomatic:(BOOL)automatic {
+   [self setBool:automatic forKey:GrowlRollupAutomatic];
 }
 
 - (BOOL) isGrowlHistoryLogEnabled {
