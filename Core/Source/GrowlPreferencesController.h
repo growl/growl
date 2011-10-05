@@ -46,6 +46,9 @@
 #define GrowlFirstLaunch            XSTR("GrowlFirstLaunch")
 #define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
 
+#define GrowlRollupShown            XSTR("GrowlRollupShown")
+#define GrowlRollupEnabled            XSTR("GrowlRollupEnabled")
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -94,6 +97,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
 
 #pragma mark Notification History
+- (BOOL) isRollupShown;
+- (void) setRollupShown:(BOOL)shown;
+- (BOOL) isRollupEnabled;
+- (void) setRollupEnabled:(BOOL)enabled;
+
 - (BOOL) isGrowlHistoryLogEnabled;
 - (void) setGrowlHistoryLogEnabled:(BOOL)flag;
 

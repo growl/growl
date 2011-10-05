@@ -7,15 +7,14 @@
 //
 
 #import "GrowlControlShowRollupScriptCommand.h"
-#import "GrowlNotificationDatabase.h"
-#import "GrowlNotificationDatabase+GHAAdditions.h"
+#import "GrowlPreferencesController.h"
 
 @implementation GrowlControlShowRollupScriptCommand
 
 - (id) performDefaultImplementation {
     
     //we always say yes, because this is not a toggle command
-    [[GrowlNotificationDatabase sharedInstance] showRollup];
+    [[GrowlPreferencesController sharedInstance] setRollupShown:YES];
     
     return nil;
 }

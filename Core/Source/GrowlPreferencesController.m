@@ -15,6 +15,9 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlProcessUtilities.h"
 #import "NSStringAdditions.h"
+#import "GrowlIdleStatusController.h"
+#import "GrowlNotificationDatabase.h"
+#import "GrowlNotificationDatabase+GHAAdditions.h"
 #include "CFURLAdditions.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
@@ -321,6 +324,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setIdleThreshold:(NSNumber*)value {
 	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
+   GrowlIdleStatusController_setThreshold([value intValue]);
 }
 
 #pragma mark Logging
@@ -342,6 +346,24 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 #pragma mark Notification History
+
+- (BOOL) isRollupShown {
+   return [self boolForKey:GrowlRollupShown];
+}
+- (void) setRollupShown:(BOOL)shown {
+   [self setBool:shown forKey:GrowlRollupShown];
+   if (shown) {
+      [[GrowlNotificationDatabase sharedInstance] showRollup];
+   }else{
+      [[GrowlNotificationDatabase sharedInstance] hideRollup];
+   }
+}
+- (BOOL) isRollupEnabled {
+   return [self boolForKey:GrowlRollupEnabled];
+}
+- (void) setRollupEnabled:(BOOL)enabled{
+   [self setBool:enabled forKey:GrowlRollupEnabled];
+}
 
 - (BOOL) isGrowlHistoryLogEnabled {
    return [self boolForKey:GrowlHistoryLogEnabled];

@@ -14,6 +14,7 @@
 #import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
+#import "GrowlNotificationDatabase+GHAAdditions.h"
 #import <CoreData/CoreData.h>
 
 @implementation GrowlNotificationDatabase
@@ -26,6 +27,8 @@
    if((self = [super initSingleton]))
    {
       notificationsWhileAway = NO;
+      if([[GrowlPreferencesController sharedInstance] isRollupShown])
+         [self showRollup];
    }
    return self;
 }

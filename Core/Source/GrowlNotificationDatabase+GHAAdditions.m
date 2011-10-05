@@ -44,9 +44,6 @@
 
 -(void)logNotificationWithDictionary:(NSDictionary*)noteDict
 {
-   BOOL isAway = GrowlIdleStatusController_isIdle();
-   if(notificationsWhileAway)
-      isAway = YES;
    
    BOOL deleteUponReturn = NO;
    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
@@ -54,7 +51,14 @@
    NSString *hostName = [noteDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
    GrowlNotificationTicket *notificationTicket = [ticket notificationTicketForName:[noteDict objectForKey:GROWL_NOTIFICATION_NAME]];
-  
+   
+   BOOL isAway = GrowlIdleStatusController_isIdle();
+   if(notificationsWhileAway || [(GrowlNotificationHistoryWindow*)historyWindow currentlyShown])
+      isAway = YES;
+   //If the rollup isn't enabled, we aren't away, check last
+   if(![preferences isRollupEnabled])
+      isAway = NO;
+   
    if(![self managedObjectContext])
    {
       NSLog(@"If we can't find/create the database, we can't log, return");
@@ -101,14 +105,13 @@
    
    if(isAway)
    {
-       [self showRollup];
+      notificationsWhileAway = YES;
+      [preferences setRollupShown:YES];
    }
 }
 
 -(void)showRollup
 {
-    notificationsWhileAway = YES;
-    
     if(!historyWindow)
     {
         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
@@ -125,7 +128,8 @@
 
 -(void)hideRollup
 {
-    [historyWindow close];
+   if([[historyWindow window] isVisible])
+      [historyWindow close];
 }
 
 @end

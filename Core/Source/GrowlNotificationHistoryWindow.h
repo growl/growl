@@ -30,6 +30,8 @@
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
 
+@property (readonly) BOOL currentlyShown;
+
 -(GrowlNotificationDatabase*)historyController;
 -(void)updateCount;
 -(void)resetArray;

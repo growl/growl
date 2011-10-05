@@ -40,5 +40,9 @@
 	<false/>
 	<key>GrowlFirstLaunch</key>
 	<true/>
+	<key>GrowlRollupShown</key>
+	<false/>
+	<key>GrowlRollupEnabled</key>
+	<true/>
 </dict>
 </plist>

@@ -42,6 +42,8 @@
 @synthesize countLabel;
 @synthesize notificationColumn;
 
+@synthesize currentlyShown;
+
 -(id)init
 {
    if((self = [super initWithWindowNibName:@"AwayHistoryWindow" owner:self]))
@@ -79,10 +81,17 @@
    [super dealloc];
 }
 
--(void)windowWillClose:(NSNotification *)notification
+-(BOOL)windowShouldClose:(NSNotification *)notfication
 {
    [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
+   return YES;
+}
+
+-(void)windowWillClose:(NSNotification *)notification
+{
    currentlyShown = NO;
+   //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
+   [[GrowlPreferencesController sharedInstance] setBool:NO forKey:GrowlRollupShown];
 }
 
 -(void)updateCount
@@ -93,7 +102,8 @@
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description = nil;
    if(numberOfNotifications == 0){
-      [self close];
+      //Use perform close so that userReturnedAndClosedList is called, which will set us back to having notes while away
+      [[self window] performClose:self];
       return;
    }else if(numberOfNotifications == 1){
       description = [NSString stringWithFormat:NSLocalizedString(@"There was %lu notification while you were away", nil), numberOfNotifications];

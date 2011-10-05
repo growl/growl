@@ -751,8 +751,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
 		}
 	}
-	if (!note || (object && [object isEqual:GrowlStickyIdleThresholdKey]))
-		GrowlIdleStatusController_setThreshold([[[GrowlPreferencesController sharedController] idleThreshold] intValue]);
 	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqual:GrowlEnabledKey]))

@@ -18,6 +18,10 @@
 #define kStartGrowlTooltip           NSLocalizedString(@"Resume Growl visual notifications", @"")
 #define kStopGrowl                   NSLocalizedString(@"Pause Growl", @"")
 #define kStopGrowlTooltip            NSLocalizedString(@"Pause Growl visual notifications", @"")
+#define kShowRollup                  NSLocalizedString(@"Show Rollup", @"")
+#define kShowRollupTooltip           NSLocalizedString(@"Show the History Rollup", @"")
+#define kHideRollup                  NSLocalizedString(@"Hide Rollup", @"")
+#define kHideRollupTooltip           NSLocalizedString(@"Hide the History Rollup", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
@@ -27,8 +31,9 @@
 #define kQuitGrowlMenuTooltip        NSLocalizedString(@"Quit Growl entirely", @"")
 
 #define kStartStopMenuTag           1
+#define kShowHideRollupTag          2
 #define kHistoryItemTag             6
-#define kMenuItemsBeforeHistory     5
+#define kMenuItemsBeforeHistory     6
 
 @implementation GrowlMenu
 
@@ -175,6 +180,11 @@
     [self openGrowlPreferences:nil];
 }
 
+- (IBAction)toggleRollup:(id)sender
+{
+   [preferences setRollupShown:![preferences isRollupShown]];
+}
+
 #pragma mark -
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
@@ -220,6 +230,16 @@
 	} else {
 		[tempMenuItem setToolTip:kStartGrowlTooltip];
 	}
+   
+   tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kShowRollup action:@selector(toggleRollup:) keyEquivalent:@""];
+   [tempMenuItem setTarget:self];
+   [tempMenuItem setTag:kShowHideRollupTag];
+   if([preferences isRollupShown]){
+      [tempMenuItem setTitle:kHideRollup];
+      [tempMenuItem setToolTip:kHideRollupTooltip];
+   }else{
+      [tempMenuItem setToolTip:kShowRollupTooltip];
+   }
 
 	[m addItem:[NSMenuItem separatorItem]];
 
@@ -279,9 +299,19 @@
 				[item setToolTip:kStartGrowlTooltip];
 			}
 			break;
-        case kHistoryItemTag:
-            return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
-            break;
+      case kShowHideRollupTag:
+         if ([preferences isRollupShown]) {
+				[item setTitle:kHideRollup];
+				[item setToolTip:kHideRollupTooltip];
+			} else {
+				[item setTitle:kShowRollup];
+				[item setToolTip:kShowRollupTooltip];
+			}
+
+         break;
+      case kHistoryItemTag:
+         return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
+         break;
 	}
 	return YES;
 }
