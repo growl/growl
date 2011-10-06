@@ -431,10 +431,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
     NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
-	NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
+	//NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
 	if (!ticket) {
 		[pool release];
-		NSLog(@"Never heard of this app!");
+		//NSLog(@"Never heard of this app!");
 		return GrowlNotificationResultNotRegistered;
 	}
 
@@ -442,7 +442,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		[pool release];
-		NSLog(@"The user disabled this notification!");
+		//NSLog(@"The user disabled this notification!");
 		return GrowlNotificationResultDisabled;
 	}
 
@@ -586,7 +586,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[aDict release];
 	[pool release];
 	
-	NSLog(@"Notification successful");
+	//NSLog(@"Notification successful");
 	return GrowlNotificationResultPosted;
 }
 
