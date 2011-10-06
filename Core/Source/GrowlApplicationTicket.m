@@ -22,6 +22,7 @@
 #define TicketEnabledKey		@"ticketEnabled"
 #define ClickHandlersEnabledKey	@"clickHandlersEnabled"
 #define PositionTypeKey			@"positionType"
+#define LoggingEnabled        @"Logging"
 
 #pragma mark -
 
@@ -36,6 +37,8 @@
 @synthesize clickHandlersEnabled;
 @synthesize ticketEnabled;
 @synthesize displayPluginName;
+
+@synthesize loggingEnabled;
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
 + (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
@@ -98,6 +101,11 @@
 			[self release];
 			return nil;
 		}
+      
+      if ([ticketDict valueForKey:LoggingEnabled])
+         loggingEnabled = [[ticketDict valueForKey:LoggingEnabled] boolValue];
+      else
+         loggingEnabled = YES;
 
 		humanReadableNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
 		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
@@ -215,6 +223,7 @@
 		[self addObserver:self forKeyPath:@"clickHandlersEnabled" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"positionType" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueObservingOptionNew context:self];
+		[self addObserver:self forKeyPath:@"loggingEnabled" options:NSKeyValueObservingOptionNew context:self];
 	}
 	return self;
 }
@@ -226,6 +235,7 @@
 	[self removeObserver:self forKeyPath:@"clickHandlersEnabled"];
 	[self removeObserver:self forKeyPath:@"positionType"];
 	[self removeObserver:self forKeyPath:@"selectedPosition"];
+	[self removeObserver:self forKeyPath:@"loggingEnabled"];   
 	
 	[appName                  release];
 	[appId                    release];
@@ -305,6 +315,7 @@
 	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInteger:positionType];
 	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInteger:selectedCustomPosition];
    NSNumber *localHost = [NSNumber numberWithBool:isLocalHost];
+   NSNumber *logNumber = [NSNumber numberWithBool:loggingEnabled];
 	NSData *theIconData = iconData;
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,						GROWL_APP_NAME,
@@ -318,6 +329,7 @@
 		selectedCustomPositionValue,	GROWL_POSITION_PREFERENCE_KEY,
 		location,						GROWL_APP_LOCATION,
       localHost,               @"isGrowlAppLocalHost",
+      logNumber,               LoggingEnabled,
 		nil];
 	[useDefaultsValue					release];
 	[ticketEnabledValue					release];
@@ -387,7 +399,8 @@
 	    [keyPath isEqualToString:@"ticketEnabled"] ||
 	    [keyPath isEqualToString:@"clickHandlersEnabled"] ||
 	    [keyPath isEqualToString:@"positionType"] ||
-	    [keyPath isEqualToString:@"selectedPosition"]) && [object isEqual:self])
+	    [keyPath isEqualToString:@"selectedPosition"] ||
+       [keyPath isEqualToString:@"loggingEnabled"]) && [object isEqual:self])
 	{
 		[self synchronize];
 	}	

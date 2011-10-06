@@ -43,6 +43,7 @@
 	BOOL			synchronizeOnChanges;
    BOOL        isLocalHost;               //If we are local host, this is a faster way of checking than doing string checks
 	
+   BOOL        loggingEnabled;
 }
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
@@ -80,6 +81,8 @@
 @property (nonatomic, assign) NSInteger positionType;
 @property (nonatomic, assign) NSInteger selectedPosition;
 @property (nonatomic, copy) NSString *displayPluginName;
+
+@property (nonatomic) BOOL loggingEnabled;
 
 - (GrowlDisplayPlugin *) displayPlugin;
 
