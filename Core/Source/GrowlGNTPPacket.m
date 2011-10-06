@@ -78,6 +78,7 @@
 @synthesize key = mKey;
 @synthesize encryptionAlgorithm;
 @synthesize originPacket;
+@synthesize connectedHost;
 #endif
 @synthesize delegate = mDelegate;
 #if GROWLHELPERAPP
@@ -112,6 +113,7 @@
 		
 		binaryDataByIdentifier = [[NSMutableDictionary alloc] init];
       networkReadComplete = NO;
+      self.connectedHost = [inSocket connectedHost];
 	}
 	
 	return self;
@@ -226,7 +228,7 @@
 {
 	// This is stupid, yes.  But you cannot put a \0 into a string literal under LLVM without
 	// generating warnings, so we have to do this trick to avoid -Wall -Werror failing.
-	[socket readDataToData:[[NSString stringWithFormat:@"%c", 0] dataUsingEncoding:NSUTF8StringEncoding]
+	[socket readDataToData:[GCDAsyncSocket ZeroData]
 			   withTimeout:-1
 					   tag:GrowlFlashPolicyRequestRead];
 }
@@ -234,13 +236,14 @@
 - (void)respondToFlashPolicyRequest
 {
 	// Same stupid compiler trick as above.
-	NSData *responseData = [[NSString stringWithFormat:
+	NSMutableData *responseData = [[[[NSString stringWithFormat:
 						    @"<?xml version=\"1.0\"?>"
 							 "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">"
 							 "<cross-domain-policy> "
 							 "<site-control permitted-cross-domain-policies=\"master-only\"/>"
 							 "<allow-access-from domain=\"*\" to-ports=\"*\" />"
-							 "</cross-domain-policy>%c",0] dataUsingEncoding:NSUTF8StringEncoding];
+							 "</cross-domain-policy>"] dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
+   [responseData appendData:[GCDAsyncSocket ZeroData]];
 	[socket writeData:responseData
 		  withTimeout:-1
 				  tag:0];
@@ -311,35 +314,49 @@
       BOOL hashStringError = NO;
       if([items count] == 4)
       {
-         NSArray *keySubstrings = [[items objectAtIndex:3] componentsSeparatedByString:@":"];
-         NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
-         if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm]) {
-            [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
-            if([keySubstrings count] == 2) {
-               NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
-               if([keyHashStrings count] == 2) {
-                  //[key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
-                  [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length] - 2)])];
-                  [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
-                  NSData *IV = [key IV];
-                  [key generateKey];
-                  if(IV)
-                     [key setIV:IV];
-
-				  if ([[keyHashStrings objectAtIndex:0] caseInsensitiveCompare:HexEncode([key keyHash])] != NSOrderedSame)
+         NSString *item4 = [[items objectAtIndex:3] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+         if([item4 caseInsensitiveCompare:@""] == NSOrderedSame){
+            NSLog(@"Empty item 4, possibly a flaw in the GNTP sender, ignoring");
+         } else {
+            NSArray *keySubstrings = [item4 componentsSeparatedByString:@":"];
+            NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
+            if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm]) {
+               [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
+               if([keySubstrings count] == 2) {
+                  NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
+                  if([keyHashStrings count] == 2) {
+                     //[key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
+                     [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length] - 2)])];
+                     [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
+                     NSData *IV = [key IV];
+                     [key generateKey];
+                     if(IV)
+                        [key setIV:IV];
+                     
+                     if ([[keyHashStrings objectAtIndex:0] caseInsensitiveCompare:HexEncode([key keyHash])] != NSOrderedSame)
+                        hashStringError = YES;
+                  }
+                  else 
                      hashStringError = YES;
                }
-               else 
+               else
                   hashStringError = YES;
             }
-			else
-				 hashStringError = YES;
+            else
+               hashStringError = YES;
          }
-		 else
-            hashStringError = YES;
       }
       
-      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![[[self socket] connectedHost] isLocalHost])) ||
+      NSString *conHost = nil;
+      if([[self socket] connectedHost])
+         conHost = [[self socket] connectedHost];
+      else if(connectedHost)
+         conHost = connectedHost;
+      else{
+         NSLog(@"We dont know what host sent this (will show as missing hash string error)");
+      }
+      
+      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![conHost isLocalHost])) ||
           hashStringError) 
       {
          if([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] != NSOrderedSame && 
@@ -470,7 +487,7 @@
          }
       }
    } else {
-		
+		NSLog(@"Header item: %@", [NSString stringWithUTF8String:[inData bytes]]);
 		GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
 		if (headerItem) {
 			directive = [self receivedHeaderItem:headerItem];

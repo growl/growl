@@ -103,6 +103,8 @@ typedef enum {
 	NSError *error;
 	
 	NSString *encryptionAlgorithm;
+   
+   NSString *connectedHost;
 }
 
 #if GROWLHELPERAPP
@@ -134,6 +136,7 @@ typedef enum {
 @property (retain) GNTPKey *key;
 @property (retain) NSString *encryptionAlgorithm;
 @property (retain) GrowlGNTPOutgoingPacket *originPacket;
+@property (retain) NSString *connectedHost;
 
 #endif
 
