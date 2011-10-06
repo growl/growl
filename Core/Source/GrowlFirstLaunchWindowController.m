@@ -27,7 +27,7 @@
 
 +(BOOL)previousVersionOlder
 {
-   NSString *current = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   NSString *current = @"1.3";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    
    return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
