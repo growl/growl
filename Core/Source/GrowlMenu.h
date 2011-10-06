@@ -21,8 +21,6 @@ enum {
 	int							pid;
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;
-    
-    GrowlPreferencePane          *settingsWindow;
 }
 
 - (void) openGrowlPreferences:(id)sender;

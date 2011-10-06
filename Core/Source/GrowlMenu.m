@@ -12,6 +12,7 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
+#import "GrowlApplicationController.h"
 #include <unistd.h>
 
 #define kStartGrowl                  NSLocalizedString(@"Resume Growl", @"")
@@ -162,11 +163,7 @@
 #pragma mark -
 
 - (IBAction) openGrowlPreferences:(id)sender {
-    if(!settingsWindow)
-        settingsWindow = [[GrowlPreferencePane alloc] initWithWindowNibName:@"GrowlPref"];
- 
-    [NSApp activateIgnoringOtherApps:YES];
-    [settingsWindow showWindow:self];
+   [[GrowlApplicationController sharedInstance] showPreferences];
 }
 
 - (IBAction) startStopGrowl:(id)sender {

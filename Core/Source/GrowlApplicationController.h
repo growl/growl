@@ -12,7 +12,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class GrowlNotificationCenter, GrowlTicketController, GrowlMenu, GrowlFirstLaunchWindowController;
+@class GrowlNotificationCenter, GrowlTicketController, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
 
 typedef enum {
 	GrowlNotificationResultPosted,
@@ -48,6 +48,8 @@ typedef enum {
     GrowlFirstLaunchWindowController *firstLaunchWindow;
     
     NSString                    *audioDeviceIdentifier;
+   
+   GrowlPreferencePane *preferencesWindow;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -68,7 +70,7 @@ typedef enum {
 - (void) replyToPing:(NSNotification *)note;
 
 - (void) firstLaunchClosed;
-
+- (void) showPreferences;
 #pragma mark Accessors
 
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).

@@ -32,6 +32,7 @@
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlFirstLaunchWindowController.h"
+#import "GrowlPreferencePane.h"
 #include "CFURLAdditions.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>
@@ -189,6 +190,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
 	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
+   [preferencesWindow release]; preferencesWindow = nil;
 
 	GrowlIdleStatusController_dealloc();
 
@@ -892,6 +894,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
     }
 }
 
+- (void) showPreferences
+{
+   if(!preferencesWindow)
+      preferencesWindow = [[GrowlPreferencePane alloc] initWithWindowNibName:@"GrowlPref"];
+   
+   [NSApp activateIgnoringOtherApps:YES];
+   [preferencesWindow showWindow:self];
+}
+
 #pragma mark NSApplication Delegate Methods
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
@@ -1069,6 +1080,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
 //We return yes, so we can handle activating the right window.
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+   [self showPreferences];
     return YES;
 }
 
@@ -1078,14 +1090,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
-}
-
-- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
-    [NSApp activateIgnoringOtherApps:YES];
-    //if our history window isn't up, bring up preferences
-    if(![[[[GrowlNotificationDatabase sharedInstance] historyWindow] window] isVisible])
-        [[self statusMenu] openGrowlPreferences:self];
-    return YES;
 }
 
 #pragma mark Auto-discovery
