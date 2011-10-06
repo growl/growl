@@ -18,6 +18,7 @@
 #import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlNotificationDatabase+GHAAdditions.h"
+#import "GrowlApplicationController.h"
 #include "CFURLAdditions.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
@@ -347,6 +348,73 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
 	[self setBool:enabled forKey:GrowlStartServerKey];
+}
+
+- (NSInteger) menuState {
+   return [self integerForKey:GrowlMenuState];
+}
+- (void) setMenuState:(NSInteger)state {
+   NSInteger current = [self menuState];
+   if(state == current)
+      return;
+   
+   switch (state) {
+      case GrowlStatusMenu:
+         if(current == GrowlDockMenu || current == GrowlBothMenus){
+            [self removeDockMenu];
+         }
+         break;
+      case GrowlDockMenu:
+      case GrowlBothMenus:
+         [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+         break;
+      case GrowlNoMenu:
+         if(![self isBackgroundAllowed]){
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will cause Growl to run in the background", nil)
+                                             defaultButton:NSLocalizedString(@"Ok", nil)
+                                           alternateButton:NSLocalizedString(@"Cancel", nil)
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl run in the background.\nTo access preferences with this, simply double click Growl.app in Finder or Launchpad, and the preferences will come up", nil)];
+            [alert setShowsSuppressionButton:YES];
+            NSInteger allow = [alert runModal];
+            BOOL suppress = [[alert suppressionButton] state] == NSOnState;
+            if(allow == NSAlertDefaultReturn)
+               [self removeDockMenu];
+            
+            if(suppress)
+               [self setBackgroundAllowed:YES];
+         }else
+            [self removeDockMenu];
+         
+         break;
+      default:
+         //Don't know what to do, leave it where it was
+         return;
+   }
+   
+   [[GrowlApplicationController sharedInstance] updateMenu:state];
+   [self setInteger:state forKey:GrowlMenuState];
+}
+
+- (void)removeDockMenu {
+   //We can't actually remove the dock menu without restarting, inform the user.
+   if(![self boolForKey:GrowlRelaunchWarnSuppress]){
+      NSAlert *alert = [[NSAlert alloc] init];
+      [alert setMessageText:NSLocalizedString(@"You need to restart Growl in order for this change to take effect",nil)];
+      [alert setShowsSuppressionButton:YES];
+      [alert runModal];
+      if([[alert suppressionButton] state] == NSOnState){
+         [self setBool:YES forKey:GrowlRelaunchWarnSuppress];
+      }
+      [alert release];
+   }
+}
+
+- (BOOL) isBackgroundAllowed {
+   return [self boolForKey:GrowlBackgroundAllowed];
+}
+- (void) setBackgroundAllowed:(BOOL)allow {
+   [self setBool:allow forKey:GrowlBackgroundAllowed];
 }
 
 #pragma mark Notification History

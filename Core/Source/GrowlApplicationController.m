@@ -903,7 +903,39 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    [preferencesWindow showWindow:self];
 }
 
+- (void) toggleStatusItem:(BOOL)toggle
+{
+   if(!statusMenu)
+      self.statusMenu = [[[GrowlMenu alloc] init] autorelease];
+   [statusMenu toggleStatusMenu:toggle];
+}
+
+- (void) updateMenu:(NSInteger)state
+{
+   switch (state) {
+      case GrowlStatusMenu:
+         [self toggleStatusItem:YES];
+         break;
+      case GrowlDockMenu:
+         [self toggleStatusItem:NO];
+         break;
+      case GrowlBothMenus:
+         [self toggleStatusItem:YES];
+         break;
+      case GrowlNoMenu:
+         [self toggleStatusItem:NO];
+         break;
+      default:
+         break;
+   }
+}
+
 #pragma mark NSApplication Delegate Methods
+
+- (NSMenu*)applicationDockMenu:(NSApplication*)app
+{
+   return [statusMenu createMenu:YES];
+}
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 	BOOL retVal = NO;
@@ -1061,9 +1093,19 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
         [firstLaunchWindow showWindow:self];
     }
-    
-    self.statusMenu = [[[GrowlMenu alloc] init] autorelease];
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+
+   NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
+   switch (menuState) {
+      case GrowlDockMenu:
+      case GrowlBothMenus:
+         [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+      default:
+         //No need to do anything, we hide in the shadows
+         break;
+   }
+   [self updateMenu:menuState];
+   
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 	                                                               object:nil
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];

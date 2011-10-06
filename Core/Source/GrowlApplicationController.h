@@ -71,6 +71,7 @@ typedef enum {
 
 - (void) firstLaunchClosed;
 - (void) showPreferences;
+- (void) updateMenu:(NSInteger)state;
 #pragma mark Accessors
 
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).

@@ -47,8 +47,16 @@
 #define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
 
 #define GrowlRollupShown            XSTR("GrowlRollupShown")
-#define GrowlRollupEnabled            XSTR("GrowlRollupEnabled")
+#define GrowlRollupEnabled          XSTR("GrowlRollupEnabled")
 #define GrowlRollupAutomatic        XSTR("GrowlRollupAutomatic")
+
+#define GrowlMenuState              XSTR("GrowlMenuState")
+#define GrowlBackgroundAllowed      XSTR("GrowlBackgroundAllowed")
+#define GrowlRelaunchWarnSuppress   XSTR("GrowlRelaunchWarnSuppress")
+#define GrowlStatusMenu             0
+#define GrowlDockMenu               1
+#define GrowlBothMenus              2
+#define GrowlNoMenu                 3
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -96,6 +104,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSUInteger) selectedPreferenceTab;
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
+
+- (NSInteger)menuState;
+- (void) setMenuState:(NSInteger)state;
+
+- (void)removeDockMenu;
+
+- (BOOL) isBackgroundAllowed;
+- (void) setBackgroundAllowed:(BOOL)allow;
 
 #pragma mark Notification History
 - (BOOL) isRollupShown;

@@ -21,16 +21,19 @@ enum {
 	int							pid;
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;
+   NSMenu                  *menu;
 }
 
+- (void)toggleStatusMenu:(BOOL)show;
 - (void) openGrowlPreferences:(id)sender;
 - (void) startStopGrowl:(id)sender;
-- (NSMenu *) createMenu;
+- (NSMenu *) createMenu:(BOOL)forDock;
 - (void) setImage:(NSNumber*)state;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
 - (void) setGrowlMenuEnabled:(BOOL)state;
 
 @property (retain) GrowlPreferencePane *settingsWindow;
 @property (retain) NSStatusItem *statusItem;
+@property (retain) NSMenu *menu;
 
 @end

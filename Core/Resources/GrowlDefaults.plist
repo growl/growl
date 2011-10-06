@@ -46,5 +46,11 @@
 	<true/>
 	<key>GrowlRollupAutomatic</key>
 	<true/>
+	<key>GrowlMenuState</key>
+	<integer>0</integer>
+	<key>GrowlAllowBackground</key>
+	<false/>
+	<key>GrowlRelaunchWarnSuppress</key>
+	<false/>
 </dict>
 </plist>

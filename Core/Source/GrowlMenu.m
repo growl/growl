@@ -40,7 +40,7 @@
 
 @synthesize settingsWindow;
 @synthesize statusItem;
-
+@synthesize menu;
 
 #pragma mark -
 
@@ -49,17 +49,8 @@
     if ((self = [super init])) {
         preferences = [GrowlPreferencesController sharedController];
         
-        NSMenu *m = [self createMenu];
-        
-        self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-        
-        
-        [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
-        
-        [statusItem setMenu:m]; // retains m
-        [statusItem setToolTip:@"Growl"];
-        [statusItem setHighlightMode:YES];
-        
+        self.menu = [self createMenu:NO];
+               
         [self setGrowlMenuEnabled:YES];
         
         //NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -80,10 +71,14 @@
 }
 
 - (void) dealloc {
-//	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
-//	[statusItem            release];
+	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+	[statusItem release];
+   statusItem = nil;
+   [menu release];
+   menu = nil;
 
-    [preferences removeObserver:self forKeyPath:@"squelchMode"];
+   [preferences removeObserver:self forKeyPath:@"squelchMode"];
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
 
@@ -91,7 +86,7 @@
 {
     if([keyPath isEqualToString:@"squelchMode"])
     {
-        NSMenuItem *menuItem = [[[statusItem menu] itemArray] objectAtIndex:0U];
+        NSMenuItem *menuItem = [[menu itemArray] objectAtIndex:0U];
         BOOL squelch = [preferences squelchMode] ? NO : YES;        
         if (!squelch) {
             [menuItem setTitle:kStopGrowl];
@@ -103,6 +98,31 @@
         [self setImage:[NSNumber numberWithBool:squelch]];
     }
 }
+
+- (void)toggleStatusMenu:(BOOL)show
+{
+   if(show){
+      if(statusItem)
+         return;
+      
+      self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+      
+      
+      [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
+      
+      [statusItem setMenu:menu]; // retains m
+      [statusItem setToolTip:@"Growl"];
+      [statusItem setHighlightMode:YES];
+   }else{
+      if(!statusItem)
+         return;
+      
+      [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+      [statusItem release];
+      statusItem = nil;
+   }
+}
+
 #pragma mark -
 #pragma mark Growl History
 #pragma mark -
@@ -110,7 +130,7 @@
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
    NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
-   NSArray *menuItems = [[statusItem menu] itemArray];
+   NSArray *menuItems = [menu itemArray];
    
    unsigned int menuIndex = kMenuItemsBeforeHistory;
    if([noteArray count] > 0)
@@ -123,21 +143,21 @@
          {
             [[menuItems objectAtIndex:menuIndex] setTitle:[note Title]];
             [[menuItems objectAtIndex:menuIndex] setToolTip:tooltip];
-            [[statusItem menu] itemChanged:[menuItems objectAtIndex:menuIndex]];
+            [menu itemChanged:[menuItems objectAtIndex:menuIndex]];
          }else {
-            NSMenuItem *tempMenuItem = (NSMenuItem *)[[statusItem menu] addItemWithTitle:[note Title] action:@selector(openGrowlLog:) keyEquivalent:@""];
+            NSMenuItem *tempMenuItem = (NSMenuItem *)[menu addItemWithTitle:[note Title] action:@selector(openGrowlLog:) keyEquivalent:@""];
             [tempMenuItem setTarget:self];
             [tempMenuItem setToolTip:tooltip];
-            [[statusItem menu] itemChanged:tempMenuItem];
+            [menu itemChanged:tempMenuItem];
          }
          menuIndex++;
       }
       //Did we get back less than are on the menu? remove any extra listings
-      if ([noteArray count] < [[[statusItem menu] itemArray] count] - kMenuItemsBeforeHistory) {
+      if ([noteArray count] < [[menu itemArray] count] - kMenuItemsBeforeHistory) {
          NSInteger toRemove = 0;
-         for(toRemove = [[[statusItem menu] itemArray] count] - [noteArray count] - kMenuItemsBeforeHistory ; toRemove > 0; toRemove--)
+         for(toRemove = [[menu itemArray] count] - [noteArray count] - kMenuItemsBeforeHistory ; toRemove > 0; toRemove--)
          {
-            [[statusItem menu] removeItemAtIndex:menuIndex];
+            [menu removeItemAtIndex:menuIndex];
          }
       }
    }else {
@@ -152,7 +172,7 @@
       NSInteger toRemove = 0;
       for(toRemove = [menuItems count]; toRemove > kMenuItemsBeforeHistory + 1; toRemove--)
       {
-         [[statusItem menu] removeItemAtIndex:toRemove - 1];
+         [menu removeItemAtIndex:toRemove - 1];
       }
    }
 
@@ -211,7 +231,7 @@
 	[statusItem setAlternateImage:pressedImage];
 }
 
-- (NSMenu *) createMenu {
+- (NSMenu *) createMenu:(BOOL)forDock {
 	NSZone *menuZone = [NSMenu menuZone];
 	NSMenu *m = [[NSMenu allocWithZone:menuZone] init];
 
@@ -221,7 +241,7 @@
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:kStartStopMenuTag];
 
-	if (![preferences squelchMode]) {
+	if (![[GrowlPreferencesController sharedController] squelchMode]) {
 		[tempMenuItem setTitle:kStopGrowl];
 		[tempMenuItem setToolTip:kStopGrowlTooltip];
 	} else {
@@ -231,7 +251,7 @@
    tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kShowRollup action:@selector(toggleRollup:) keyEquivalent:@""];
    [tempMenuItem setTarget:self];
    [tempMenuItem setTag:kShowHideRollupTag];
-   if([preferences isRollupShown]){
+   if([[GrowlPreferencesController sharedController] isRollupShown]){
       [tempMenuItem setTitle:kHideRollup];
       [tempMenuItem setToolTip:kHideRollupTooltip];
    }else{
@@ -244,38 +264,40 @@
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kOpenGrowlPreferencesTooltip];
    
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kGrowlQuit action:@selector(terminate:) keyEquivalent:@""];
-	[tempMenuItem setTarget:NSApp];
-	[tempMenuItem setToolTip:kQuitGrowlMenuTooltip];
-    
-	[m addItem:[NSMenuItem separatorItem]];
-   /*TODO: need to check against prefferences whether we are logging or not*/
-   NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
-   if([noteArray count] > 0)
-   {
-      for(id note in noteArray)
+   if(!forDock){
+      tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kGrowlQuit action:@selector(terminate:) keyEquivalent:@""];
+      [tempMenuItem setTarget:NSApp];
+      [tempMenuItem setToolTip:kQuitGrowlMenuTooltip];
+      
+      [m addItem:[NSMenuItem separatorItem]];
+      /*TODO: need to check against prefferences whether we are logging or not*/
+      NSArray *noteArray = [[GrowlNotificationDatabase sharedInstance] mostRecentNotifications:5];
+      if([noteArray count] > 0)
       {
-         tempMenuItem = (NSMenuItem *)[m addItemWithTitle:[note Title] 
+         for(id note in noteArray)
+         {
+            tempMenuItem = (NSMenuItem *)[m addItemWithTitle:[note Title] 
+                                                      action:@selector(openGrowlLog:)
+                                               keyEquivalent:@""];
+            [tempMenuItem setTarget:self];
+            [tempMenuItem setToolTip:[NSString stringWithFormat:kOpenGrowlLogTooltip, [note ApplicationName], [note Title], [note Description]]];
+            [tempMenuItem setTag:kHistoryItemTag];
+         }
+      }else {
+         NSString *tempString;
+         if ([[GrowlPreferencesController sharedController] isGrowlHistoryLogEnabled])
+            tempString = kNoRecentNotifications;
+         else
+            tempString = kGrowlHistoryLogDisabled;
+         tempMenuItem = (NSMenuItem *)[m addItemWithTitle:tempString 
                                                    action:@selector(openGrowlLog:)
                                             keyEquivalent:@""];
          [tempMenuItem setTarget:self];
-         [tempMenuItem setToolTip:[NSString stringWithFormat:kOpenGrowlLogTooltip, [note ApplicationName], [note Title], [note Description]]];
+         [tempMenuItem setEnabled:NO];
          [tempMenuItem setTag:kHistoryItemTag];
       }
-   }else {
-      NSString *tempString;
-      if ([preferences isGrowlHistoryLogEnabled])
-         tempString = kNoRecentNotifications;
-      else
-         tempString = kGrowlHistoryLogDisabled;
-      tempMenuItem = (NSMenuItem *)[m addItemWithTitle:tempString 
-                                                action:@selector(openGrowlLog:)
-                                         keyEquivalent:@""];
-      [tempMenuItem setTarget:self];
-      [tempMenuItem setEnabled:NO];
-      [tempMenuItem setTag:kHistoryItemTag];
    }
-    
+   
 
 	return [m autorelease];
 }
