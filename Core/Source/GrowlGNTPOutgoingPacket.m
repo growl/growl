@@ -65,7 +65,7 @@
 	result = [NSString stringWithFormat:@"GNTP/1.0 %@ %@", [self action], [self encryption]];
 	if([[self key] caseInsensitiveCompare:GrowlGNTPNone] != NSOrderedSame)
 		result = [result stringByAppendingFormat:@" %@", [self key]];
-	result = [result stringByAppendingFormat:@"" CRLF];
+	result = [result stringByAppendingString:@"\r\n"];
 	return result;
 }
 - (NSData *)GNTPRepresentation
