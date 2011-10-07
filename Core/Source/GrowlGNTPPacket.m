@@ -487,7 +487,6 @@
          }
       }
    } else {
-		NSLog(@"Header item: %@", [NSString stringWithUTF8String:[inData bytes]]);
 		GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:inData error:&anError];
 		if (headerItem) {
 			directive = [self receivedHeaderItem:headerItem];
