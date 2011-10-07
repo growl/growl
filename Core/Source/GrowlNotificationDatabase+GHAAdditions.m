@@ -80,7 +80,7 @@
          return;
       }else{
          if(![preferences retainAllNotesWhileAway]){
-            //NSLog(@"We are away, but not logging or retaining, return");
+            //NSLog(@"We are away, but not logging or retaining, or rollup is disabled, return");
             return;
          }else{
             //NSLog(@"We are away, shouldnt log this message, and we are rolling up, mark for deletion upon return");
@@ -115,6 +115,9 @@
 
 -(void)showRollup
 {
+   if(![[GrowlPreferencesController sharedController] isRollupEnabled])
+      return;
+   
     if(!historyWindow)
     {
         GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];

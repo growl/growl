@@ -257,6 +257,9 @@
    }else{
       [tempMenuItem setToolTip:kShowRollupTooltip];
    }
+   
+   if(![[GrowlPreferencesController sharedController] isRollupEnabled])
+      [tempMenuItem setEnabled:NO];
 
 	[m addItem:[NSMenuItem separatorItem]];
 
@@ -326,6 +329,9 @@
 				[item setTitle:kShowRollup];
 				[item setToolTip:kShowRollupTooltip];
 			}
+         
+         if(![preferences isRollupEnabled])
+            return NO;
 
          break;
       case kHistoryItemTag:

@@ -423,6 +423,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    return [self boolForKey:GrowlRollupShown];
 }
 - (void) setRollupShown:(BOOL)shown {
+   if(shown && ![self isRollupShown] && ![self isRollupEnabled])
+      shown = NO;
    [self setBool:shown forKey:GrowlRollupShown];
    if (shown) {
       [[GrowlNotificationDatabase sharedInstance] showRollup];
