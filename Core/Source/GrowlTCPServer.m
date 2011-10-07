@@ -101,6 +101,10 @@
       }
       
       netService = [[NSNetService alloc] initWithDomain:publishingDomain type:type name:publishingName port:port];
+
+      NSDictionary * txtRecordDataDictionary = [NSDictionary dictionaryWithObject:@"mac" forKey:@"platform"];
+      [netService setTXTRecordData:[NSNetService dataFromTXTRecordDictionary:txtRecordDataDictionary]];
+
       [netService publish];
    }
 }
