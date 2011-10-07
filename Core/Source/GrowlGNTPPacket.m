@@ -326,7 +326,7 @@
                   NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
                   if([keyHashStrings count] == 2) {
                      //[key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
-                     [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length] - 2)])];
+                     [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length])])];
                      [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
                      NSData *IV = [key IV];
                      [key generateKey];
