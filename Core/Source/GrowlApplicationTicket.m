@@ -367,18 +367,9 @@
 	changed = NO;
 }
 
+//All this needs to do now is save the ticket to disk, everything references the one true ticket for the application
 - (void) doSynchronize {
 	[self saveTicket];
-
-	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
-	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		appName, @"TicketName",
-		pid,     @"pid",
-		nil];
-	[pid release];
-	//this should no longer be necessary
-    //[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:@"GrowlTicketChanged" userInfo:userInfo];
-	[userInfo release];	
 }
 
 - (void) synchronize {

@@ -94,8 +94,8 @@
 #pragma mark -
 #pragma mark Public methods
 
-- (NSDictionary *) allSavedTickets {
-	return [[ticketsByApplicationName copy] autorelease];
+- (NSArray *) allSavedTickets {
+	return [ticketsByApplicationName allValues];
 }
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName hostName:(NSString*)hostName {
@@ -111,8 +111,10 @@
 	if (!appName)
 		NSLog(@"GrowlTicketController: cannot add ticket because it has no application name (description follows)\n%@", newTicket);
 	else {
+      [self willChangeValueForKey:@"allSavedTickets"];
 		[ticketsByApplicationName setObject:newTicket
 									 forKey:appName];
+      [self didChangeValueForKey:@"allSavedTickets"];
 		//XXX this here is pretty barftastic. what about tickets that already have a path? should we clobber the existing path? create a copy? leave it alone, as now? --boredzo
 		//if (![newTicket path])
 		//	[newTicket setPath:[GrowlPathUtilities defaultSavePathForTicketWithApplicationName:appName];
@@ -122,7 +124,9 @@
 }
 
 - (void) removeTicketForApplicationName:(NSString *)appName {
+   [self willChangeValueForKey:@"allSavedTickets"];
 	[ticketsByApplicationName removeObjectForKey:appName];
+   [self didChangeValueForKey:@"allSavedTickets"];
 }
 
 @end

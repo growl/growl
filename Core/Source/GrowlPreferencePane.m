@@ -64,10 +64,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[services        release];
 	[pluginPrefPane  release];
 	[loadedPrefPanes release];
-	[tickets         release];
 	[plugins         release];
 	[currentPlugin   release];
-	[images          release];
     [demoSound       release];
 	[super dealloc];
 }
@@ -158,11 +156,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
-	    
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(appRegistered:)
-                                                name:GROWL_APP_REGISTRATION_CONF
-                                              object:nil];
    
     [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
     [historyTable setAutosaveTableColumns:YES];
@@ -248,58 +241,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
-- (void) cacheImages {
-	if (images)
-		[images removeAllObjects];
-	else
-		images = [[NSMutableArray alloc] init];
-
-	for(GrowlApplicationTicket *ticket in [ticketsArrayController content]) {
-		NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
-		[icon setScalesWhenResized:YES];
-		[icon setSize:NSMakeSize(32.0, 32.0)];
-		[images addObject:icon];
-	}
-}
-
-- (NSMutableArray *) tickets {
-	return tickets;
-}
-
-//using setTickets: will tip off the controller (KVO).
-//use this to set the tickets secretly.
-- (void) setTicketsWithoutTellingAnybody:(NSArray *)theTickets {
-	if (theTickets != tickets) {
-		if (tickets)
-			[tickets setArray:theTickets];
-		else
-			tickets = [theTickets mutableCopy];
-	}
-}
-
-//we don't need to do any special extra magic here - just being setTickets: is enough to tip off the controller.
-- (void) setTickets:(NSArray *)theTickets {
-	[self setTicketsWithoutTellingAnybody:theTickets];
-}
-
-- (void) removeFromTicketsAtIndex:(int)indexToRemove {
-	NSIndexSet *indices = [NSIndexSet indexSetWithIndex:indexToRemove];
-	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
-
-	[tickets removeObjectAtIndex:indexToRemove];
-
-	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
-}
-
-- (void) insertInTickets:(GrowlApplicationTicket *)newTicket {
-	NSIndexSet *indices = [NSIndexSet indexSetWithIndex:[tickets count]];
-	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
-
-	[tickets addObject:newTicket];
-
-	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
-}
-
 - (void) reloadDisplayPluginView {
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
 	NSUInteger numPlugins = [plugins count];
@@ -349,12 +290,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
  * @brief Reloads the preferences and updates the GUI accordingly.
  */
 - (void) reloadPreferences:(NSString *)object {
-	if (!object || [object isEqualToString:@"GrowlTicketChanged"]) {
-		GrowlTicketController *ticketController = [GrowlTicketController sharedController];
-		[ticketController loadAllSavedTickets];
-		[self setTickets:[[ticketController allSavedTickets] allValues]];
-		[self cacheImages];
-	}
    if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
       if([preferencesController isGrowlHistoryLogEnabled])
          [historyOnOffSwitch setSelectedSegment:0];
@@ -407,6 +342,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 #pragma mark -
 #pragma mark Bindings accessors (not for programmatic use)
 
+- (GrowlTicketController *) ticketController {
+   if(!ticketController)
+      ticketController = [GrowlTicketController sharedController];
+   return ticketController;
+}
 - (GrowlPluginController *) pluginController {
 	if (!pluginController)
 		pluginController = [GrowlPluginController sharedController];
@@ -568,35 +508,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		NSString *path = [ticket path];
 
 		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
-			CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
-			CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
-			CFTypeRef   values[2] = { [ticket appNameHostName], pidValue };
-			CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-			CFRelease(pidValue);
-			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-												 (CFStringRef)GrowlPreferencesChanged,
-												 CFSTR("GrowlTicketDeleted"),
-												 userInfo, false);
-			CFRelease(userInfo);
-			NSUInteger idx = [tickets indexOfObject:ticket];
-			[images removeObjectAtIndex:idx];
-
-			NSUInteger oldSelectionIndex = [ticketsArrayController selectionIndex];
-
-			///	Hmm... This doesn't work for some reason....
-			//	Even though the same method definitely (?) probably works in the appRegistered: method...
-
-			//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
-
-			NSMutableArray *newTickets = [tickets mutableCopy];
-			[newTickets removeObject:ticket];
-			[self setTickets:newTickets];
-			[newTickets release];
-
-			if (oldSelectionIndex >= [tickets count])
-				oldSelectionIndex = [tickets count] - 1;
-			[self cacheImages];
-			[ticketsArrayController setSelectionIndex:oldSelectionIndex];
+         [[GrowlTicketController sharedController] removeTicketForApplicationName:[ticket appNameHostName]];
+         [growlApplications noteNumberOfRowsChanged];
 		}
 	}
 }
@@ -946,9 +859,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	// we check to make sure we have the image + text column and then set its image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
-		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-		NSUInteger idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
-		[[aTableColumn dataCellForRow:rowIndex] setImage:[images objectAtIndex:idx]];
+		GrowlApplicationTicket *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
+      NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
+      [icon setScalesWhenResized:YES];
+      [icon setSize:CGSizeMake(32.0, 32.0)];
+		[[aTableColumn dataCellForRow:rowIndex] setImage:icon];
 	} else if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
 	} else if (aTableColumn == serviceNameColumn) {
@@ -1160,42 +1075,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
          [[GrowlNotificationDatabase sharedInstance] deleteAllHistory];
          break;
    }
-}
-
-#pragma mark -
-
-/*!
- * @brief Refresh preferences when a new application registers with Growl
- */
-- (void) appRegistered: (NSNotification *) note {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSString *app = [note object];
-	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
-
-	/*
-	 *	Because the tickets array is under KVObservation by the TicketsArrayController
-	 *	We need to remove the ticket using the correct KVC method:
-	 */
-
-	int removalIndex = -1;
-	int	i = 0;
-	for (GrowlApplicationTicket *ticket in tickets) {
-		if ([[ticket appNameHostName] isEqualToString:app]) {
-			removalIndex = i;
-			break;
-		}
-		++i;
-	}
-
-	if (removalIndex != -1)
-		[self removeFromTicketsAtIndex:removalIndex];
-	[self insertInTickets:newTicket];
-	[newTicket release];
-
-	[self cacheImages];
-	
-	[pool release];
 }
 
 @end

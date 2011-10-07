@@ -614,10 +614,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       if([[GrowlPreferencesController sharedController] isForwardingEnabled])
          [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
       
-      [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF 
-                                                          object:[newApp appNameHostName]
-                                                        userInfo:nil];
-
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 
@@ -845,24 +841,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[destinations release];
 		destinations = [mutableDestinations retain];
    }
-	if (!note || !object)
-		[ticketController loadAllSavedTickets];
 	if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
 		// force reload
 		[defaultDisplayPlugin release];
 		defaultDisplayPlugin = nil;
 	if (object) {
-		if ([object isEqual:@"GrowlTicketDeleted"]) {
-			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
-			[ticketController removeTicketForApplicationName:ticketName];
-		} else if ([object isEqual:@"GrowlTicketChanged"]) {
-			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
-			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:ticketName];
-			if (newTicket) {
-				[ticketController addTicket:newTicket];
-				[newTicket release];
-			}
-		} else if ((!quitAfterOpen) && [object isEqual:GrowlUDPPortKey]) {
+      if ((!quitAfterOpen) && [object isEqual:GrowlUDPPortKey]) {
 			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 			if (pathwayControllerClass) {
 				id pathwayController = [pathwayControllerClass sharedController];
@@ -1093,6 +1077,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
         [firstLaunchWindow showWindow:self];
     }
+   
+   [[GrowlTicketController sharedController] loadAllSavedTickets];
 
    NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
    switch (menuState) {

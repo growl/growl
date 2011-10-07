@@ -10,13 +10,11 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
+@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlTicketController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
 
 @interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate, NSWindowDelegate> {
 	int                             pid;
 
-	NSMutableArray                  *images;
-	NSMutableArray					*tickets;
 	NSArray							*plugins;
 
 	NSPreferencePane				*pluginPrefPane;
@@ -34,6 +32,7 @@
 	 *though that method also caches its return value, we're dealing with
 	 *	Bindings here, so we want to pick up all the speed boosts that we can.
 	 */
+   GrowlTicketController         *ticketController;
 	GrowlPluginController			*pluginController;
 	GrowlPreferencesController		*preferencesController;
     GrowlNotificationDatabase     *historyController;
@@ -100,6 +99,7 @@
 
 #pragma mark Bindings accessors (not for programmatic use)
 
+- (GrowlTicketController *) ticketController;
 - (GrowlPluginController *) pluginController;
 - (GrowlPreferencesController *) preferencesController;
 - (GrowlNotificationDatabase *) historyController;
@@ -139,7 +139,6 @@
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
-- (void) appRegistered: (NSNotification *) note;
 - (IBAction) openGrowlWebSiteToStyles:(id)sender;
 
 #pragma mark HistoryTab

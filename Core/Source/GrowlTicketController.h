@@ -17,7 +17,7 @@
 
 + (id) sharedController;
 
-- (NSDictionary *) allSavedTickets;
+- (NSArray *) allSavedTickets;
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *) appName hostName:(NSString*)hostName;
 - (void) addTicket:(GrowlApplicationTicket *) newTicket;
