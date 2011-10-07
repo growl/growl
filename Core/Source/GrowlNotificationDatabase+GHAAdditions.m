@@ -56,6 +56,8 @@
    BOOL appLogging = [ticket loggingEnabled];
    BOOL noteLogging = [notificationTicket logNotification];
    
+   BOOL dontLog = (!logging || !appLogging || !noteLogging);
+   
    BOOL isAway = GrowlIdleStatusController_isIdle();
    if(notificationsWhileAway || [(GrowlNotificationHistoryWindow*)historyWindow currentlyShown])
       isAway = YES;
@@ -72,25 +74,21 @@
    /* Ignore the notification if we arent logging and arent idle
     * Note that this breaks growl menu most recent notifications
     */
-   if((!logging || !appLogging || !noteLogging) && !isAway)
-   {
-      //NSLog(@"We arent logging, and we arent away, return");
-      return;
+   if(dontLog){
+      if(!isAway){
+         //NSLog(@"We arent logging, and we arent away, return");
+         return;
+      }else{
+         if(![preferences retainAllNotesWhileAway]){
+            //NSLog(@"We are away, but not logging or retaining, return");
+            return;
+         }else{
+            //NSLog(@"We are away, shouldnt log this message, and we are rolling up, mark for deletion upon return");
+            deleteUponReturn = YES;
+         }
+      }
    }
-      
-   if(!appLogging && !noteLogging && isAway && ![preferences retainAllNotesWhileAway])
-   {
-      //NSLog(@"We are away, but not logging or retaining, return");
-      return;
-   }
-      
-   //decide whether we will delete this message upon the user having returned/read it
-   if((!logging || !appLogging || !noteLogging) && isAway && [preferences retainAllNotesWhileAway])
-   {
-      //NSLog(@"We are away, shouldnt log this message, and we are rolling up, mark for deletion upon return");
-      deleteUponReturn = YES;
-   }
-
+   
     void (^logBlock)(void) = ^{
        // NSError *error = nil;
         GrowlHistoryNotification *notification = [NSEntityDescription insertNewObjectForEntityForName:@"Notification" 
