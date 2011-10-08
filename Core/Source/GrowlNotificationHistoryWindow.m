@@ -18,6 +18,7 @@
 #import "GrowlRollupGroupCellView.h"
 #import "GroupedArrayController.h"
 #import "GroupController.h"
+#import "GrowlMenu.h"
 
 #define GROWL_ROLLUP_WINDOW_HEIGHT @"GrowlRollupWindowHeight"
 #define GROWL_ROLLUP_WINDOW_WIDTH @"GrowlRollupWindowWidth"
@@ -101,14 +102,30 @@
    
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description = nil;
+   
+   NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
+   if(menuState == GrowlDockMenu || menuState == GrowlBothMenus){
+      NSDockTile *tile = [NSApp dockTile];
+      NSString *dockString = (numberOfNotifications > 0) ? [NSString stringWithFormat:@"%lu", numberOfNotifications] : nil;
+      [tile setBadgeLabel:dockString];
+   }
+   
+   if(menuState == GrowlStatusMenu || menuState == GrowlBothMenus){
+      if(numberOfNotifications > 0)
+         [[[GrowlApplicationController sharedController] statusMenu] startPulse];
+      else
+         [[[GrowlApplicationController sharedController] statusMenu] stopPulse];
+   }
+   
    if(numberOfNotifications == 0){
       //Use perform close so that userReturnedAndClosedList is called, which will set us back to having notes while away
-      [[self window] performClose:self];
-      return;
+      description = NSLocalizedString(@"There are no new notifications", nil);
+      if([[GrowlPreferencesController sharedController] isRollupAutomatic])
+         [[self window] performClose:self];
    }else if(numberOfNotifications == 1){
       description = [NSString stringWithFormat:NSLocalizedString(@"There was %lu notification while you were away", nil), numberOfNotifications];
    } else {
-      description = [NSString stringWithFormat:NSLocalizedString(@"There were %lu notifications while you were away", nil), numberOfNotifications];
+      description = [NSString stringWithFormat:NSLocalizedString(@"There were %lu notifications while you were away", nil), numberOfNotifications];   
    }
 
     [countLabel setObjectValue:description];

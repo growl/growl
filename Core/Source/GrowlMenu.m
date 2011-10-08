@@ -13,6 +13,7 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlApplicationController.h"
+#import <Quartz/Quartz.h>
 #include <unistd.h>
 
 #define kStartGrowl                  NSLocalizedString(@"Resume Growl", @"")
@@ -121,6 +122,39 @@
       [statusItem release];
       statusItem = nil;
    }
+}
+
+- (void)startPulse{
+   if(!keepPulsing){
+      keepPulsing = YES;
+      [self pulseStatusItem];
+   }
+}
+
+- (void)stopPulse{
+   keepPulsing = NO;
+}
+
+- (void)pulseStatusItem
+{
+   if(!statusItem && keepPulsing)
+      return;
+   
+/*   NSStatusItem *blockItem = statusItem;
+   __block GrowlMenu *blockMenu = self;
+   [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+      [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+      [context setDuration:.5];
+      [[[blockItem view] animator] setAlpha:0.0];
+   } completionHandler:^(void) {
+      [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+         [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+         [context setDuration:.5];
+         [[[blockItem view] animator] setAlpha:1.0];
+      } completionHandler:^(void) {
+         [blockMenu pulseStatusItem];
+      }];
+   }];*/
 }
 
 #pragma mark -

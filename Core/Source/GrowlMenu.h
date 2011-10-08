@@ -22,9 +22,16 @@ enum {
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;
    NSMenu                  *menu;
+   
+   BOOL                    keepPulsing;
 }
 
 - (void)toggleStatusMenu:(BOOL)show;
+
+- (void)startPulse;
+- (void)stopPulse;
+- (void)pulseStatusItem;
+
 - (void) openGrowlPreferences:(id)sender;
 - (void) startStopGrowl:(id)sender;
 - (NSMenu *) createMenu:(BOOL)forDock;

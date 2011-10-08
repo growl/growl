@@ -367,6 +367,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
       case GrowlDockMenu:
       case GrowlBothMenus:
          [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+         [[NSApp dockTile] setBadgeLabel:nil];
          break;
       case GrowlNoMenu:
          if(![self isBackgroundAllowed]){
