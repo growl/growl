@@ -1108,7 +1108,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
 //We return yes, so we can handle activating the right window.
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-   [self showPreferences];
+   GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
+   //If we have notes in the rollup, and the rollup isn't visible, bring that up first
+   //Else, just bring up preferences
+   if([db notificationsWhileAway] && ![[[db historyWindow] window] isVisible])
+      [[GrowlPreferencesController sharedInstance] setRollupShown:YES];
+   else
+      [self showPreferences];
     return YES;
 }
 
