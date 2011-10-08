@@ -8,14 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
-		1D0B2096143BAED2000F836E /* MainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D0B2094143BAED1000F836E /* MainMenu.strings */; };
+		1D0980821440FB6200148857 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		1D09808B1440FBE300148857 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980891440FBE300148857 /* Localizable.strings */; };
+		1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980AB1440FC4900148857 /* MainMenu.xib */; };
+		1D0981D41441073900148857 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1D0981D21441073900148857 /* Credits.rtf */; };
 		1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
 		315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
 		315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
 		315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFF20FB0213C00458E96 /* Power-ACCharging.png */; };
 		3423607209D8888A009FF634 /* PowerNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.m */; };
 		345BD6330C8B12B8005C3DA2 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */; };
-		8D11072A0486CEB800E47090 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.xib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -24,9 +26,7 @@
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
-		95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95AC163A0858A3BF008213B8 /* Localizable.strings */; };
 		DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
-		DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD1E135B07C923FD005BD5FC /* Credits.rtf */; };
 		DD54997107BA5E420010BE54 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54996F07BA5E420010BE54 /* AppController.m */; };
 		DD54999B07BA61650010BE54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD54999A07BA61650010BE54 /* IOKit.framework */; };
 		DDE55D2807BAEDE2000631AC /* FireWireNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE55D2607BAEDE2000631AC /* FireWireNotifier.m */; };
@@ -168,13 +168,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		179B928F0C14D110004FB187 /* VolumeNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeNotifier.m; sourceTree = "<group>"; };
-		1D0B2095143BAED2000F836E /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		1D097F881440CC7B00148857 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1D097F8A1440CC7B00148857 /* process_strings.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = process_strings.1; sourceTree = "<group>"; };
+		1D0980811440FB6200148857 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1D09808A1440FBE300148857 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1D0980AB1440FC4900148857 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		1D0980E41440FD0500148857 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1D0981D1144106F900148857 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1D0981D31441073900148857 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1D0981D51441074D00148857 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = el.lproj/Credits.rtf; sourceTree = "<group>"; };
 		1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwgrowler_statusbar_icn.png; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		315C882D1068F83300880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
@@ -185,36 +191,18 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerNotifier.m; sourceTree = "<group>"; };
 		345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
-		347931350C85E5D1007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		347931360C85E5D1007ADCAA /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		347931370C85E5D2007ADCAA /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		34CD98520C87C8F10040C77F /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		34CD98530C87C8F10040C77F /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
-		34CD98540C87C8F10040C77F /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = sv.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		34CD98C90C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		34CD98CA0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
-		34CD98CB0C87CA7F0040C77F /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt_BR; path = pt_BR.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		34CF44AD0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		34CF44AE0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		34CF44AF0C8D7D2300A2EFA4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E01DA813C934A600885286 /* HardwareGrowler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowler.entitlements; sourceTree = "<group>"; };
-		950445A309B57BED000EAB59 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9586EF0108C9C3A40039789E /* SyncNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncNotifier.h; sourceTree = "<group>"; };
 		9586EF0208C9C3A40039789E /* SyncNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncNotifier.m; sourceTree = "<group>"; };
 		958AB93507C69DE000F56B45 /* NetworkNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkNotifier.h; sourceTree = "<group>"; };
 		958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
-		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		95AC16450858A3ED008213B8 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		95B00A8C08468A62004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BC493884142A742E00B1DF21 /* com.growl.hardwaregrowler.GNTPClientService.xpc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.growl.hardwaregrowler.GNTPClientService.xpc; path = ../../build/Debug/com.growl.hardwaregrowler.GNTPClientService.xpc; sourceTree = "<group>"; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
-		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Credits.rtf; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		DD43C6EF0840C0100022A0D1 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		DD54996E07BA5E420010BE54 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		DD54996F07BA5E420010BE54 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		DD54999A07BA61650010BE54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -301,6 +289,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1D097F871440CC7B00148857 /* process strings */ = {
+			isa = PBXGroup;
+			children = (
+				1D097F881440CC7B00148857 /* main.c */,
+				1D097F8A1440CC7B00148857 /* process_strings.1 */,
+			);
+			path = "process strings";
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* HarwareNotifier */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +306,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				1D097F871440CC7B00148857 /* process strings */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				315C882D1068F83300880530 /* Localization.xcconfig */,
@@ -328,22 +326,21 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				95AC163A0858A3BF008213B8 /* Localizable.strings */,
 				950626460840CB8200C01CD2 /* BluetoothLogo.png */,
-				1D0B2094143BAED1000F836E /* MainMenu.strings */,
 				DDF9B81007BC20630007B5B7 /* readme.txt */,
-				DD1E135B07C923FD005BD5FC /* Credits.rtf */,
+				1D0980891440FBE300148857 /* Localizable.strings */,
 				DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */,
 				1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */,
+				1D0981D21441073900148857 /* Credits.rtf */,
 				DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */,
 				DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */,
 				DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */,
 				315CBFB70FB009AE00458E96 /* Power-AC.png */,
 				315CBFF20FB0213C00458E96 /* Power-ACCharging.png */,
 				315CBFB80FB009AE00458E96 /* Power-Battery.png */,
+				1D0980AB1440FC4900148857 /* MainMenu.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -426,6 +423,7 @@
 				sv,
 				pt_BR,
 				ru,
+				el,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* HarwareNotifier */;
 			projectDirPath = "";
@@ -548,21 +546,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072A0486CEB800E47090 /* MainMenu.xib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */,
 				DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */,
 				DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */,
 				DDF9B81107BC20630007B5B7 /* readme.txt in Resources */,
 				DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */,
-				DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */,
 				950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */,
-				95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */,
 				315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */,
 				315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */,
 				315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */,
 				1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */,
-				1D0B2096143BAED2000F836E /* MainMenu.strings in Resources */,
+				1D0980821440FB6200148857 /* InfoPlist.strings in Resources */,
+				1D09808B1440FBE300148857 /* Localizable.strings in Resources */,
+				1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */,
+				1D0981D41441073900148857 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,49 +619,28 @@
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
-				347931350C85E5D1007ADCAA /* nl */,
-				34CD98520C87C8F10040C77F /* sv */,
-				34CD98C90C87CA7F0040C77F /* pt_BR */,
-				34CF44AD0C8D7D2300A2EFA4 /* ru */,
+				1D0980811440FB6200148857 /* English */,
+				1D0980E41440FD0500148857 /* el */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		1D0B2094143BAED1000F836E /* MainMenu.strings */ = {
+		1D0980891440FBE300148857 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D0B2095143BAED2000F836E /* English */,
-			);
-			name = MainMenu.strings;
-			sourceTree = "<group>";
-		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
-				DD43C6EF0840C0100022A0D1 /* de */,
-				95B00A8C08468A62004A8623 /* zh_CN */,
-				347931370C85E5D2007ADCAA /* nl */,
-				34CD98540C87C8F10040C77F /* sv */,
-				34CD98CB0C87CA7F0040C77F /* pt_BR */,
-				34CF44AF0C8D7D2300A2EFA4 /* ru */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		95AC163A0858A3BF008213B8 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				95AC163B0858A3BF008213B8 /* English */,
-				95AC16450858A3ED008213B8 /* de */,
-				950445A309B57BED000EAB59 /* fr */,
-				347931360C85E5D1007ADCAA /* nl */,
-				34CD98530C87C8F10040C77F /* sv */,
-				34CD98CA0C87CA7F0040C77F /* pt_BR */,
-				34CF44AE0C8D7D2300A2EFA4 /* ru */,
+				1D09808A1440FBE300148857 /* English */,
+				1D0981D1144106F900148857 /* el */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		1D0981D21441073900148857 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D0981D31441073900148857 /* English */,
+				1D0981D51441074D00148857 /* el */,
+			);
+			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

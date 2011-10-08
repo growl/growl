@@ -79,6 +79,13 @@
 #define NotifierNetworkLinkIdentifier @"link"
 #define NotifierNetworkIpIdentifier @"ip"
 
+#define ShowDevicesTitle NSLocalizedString(@"Show connected devices at launch", nil)
+#define GroupNetworkTitle NSLocalizedString(@"Group Network Notifications", nil)
+#define MoveToMenuTitle NSLocalizedString(@"Move to Menu Bar", nil)
+#define MoveToDockTitle NSLocalizedString(@"Move to Dock", nil)
+#define QuitTitle NSLocalizedString(@"Quit Hardware Growler", nil)
+#define PreferencesTitle NSLocalizedString(@"Preferences...", nil)
+
 static io_connect_t			powerConnection;
 static io_object_t			powerNotifier;
 static CFRunLoopSourceRef	powerRunLoopSource;
@@ -623,7 +630,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 @implementation AppController
-//@synthesize moveIcon;
+@synthesize showDevices, groupNetworkTitle, moveToMenuTitle, moveToDockTitle, quitTitle, preferencesTitle;
 
 - (void) awakeFromNib {
 	// Register ourselves as a Growl delegate for registration purposes
@@ -653,6 +660,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	else{
 		[self initMenu];
 	}
+	[self initTitles];
 }
 
 - (void) dealloc {
@@ -764,4 +772,12 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 
 }
 
+- (void) initTitles{
+	self.showDevices = ShowDevicesTitle;
+	self.groupNetworkTitle = GroupNetworkTitle;
+	self.moveToMenuTitle = MoveToMenuTitle;
+	self.moveToDockTitle = MoveToDockTitle;
+	self.quitTitle = QuitTitle;
+	self.preferencesTitle = PreferencesTitle;
+}
 @end

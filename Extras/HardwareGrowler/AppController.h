@@ -40,13 +40,27 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 	NSStatusItem* statusItem;
 	IBOutlet NSMenuItem *mainItem;
 	IBOutlet NSMenu *submenu;
+	NSString* showDevicesTitle;
+	NSString* groupNetworkTitle;
+	NSString* moveToMenuTitle;
+	NSString* moveToDockTitle;
+	NSString* quitTitle;
+	NSString* preferencesTitle;
 }
+
+@property  (nonatomic, retain) NSString* showDevices;
+@property  (nonatomic, retain) NSString* groupNetworkTitle;
+@property  (nonatomic, retain) NSString* moveToMenuTitle;
+@property  (nonatomic, retain) NSString* moveToDockTitle;
+@property  (nonatomic, retain) NSString* quitTitle;
+@property  (nonatomic, retain) NSString* preferencesTitle;
 
 - (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
 - (BOOL) isEnabled: (CFStringRef) type;
 - (IBAction)moveToDock:(id)sender;
 - (IBAction)moveToStatusbar:(id)sender;
+- (void) initTitles;
 
 @end
 

@@ -55,7 +55,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSMenuItem" id="542565049">
 						<reference key="NSMenu" ref="513268330"/>
-						<string type="base64-UTF8" key="NSTitle">IFNob3cgY29ubmVjdGVkIGRldmljZXMKYXQgbGF1bmNoA</string>
+						<string type="base64-UTF8" key="NSTitle">U2hvdyBjb25uZWN0ZWQgZGV2aWNlcwphdCBsYXVuY2g</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<object class="NSCustomResource" key="NSOnImage" id="521517883">
@@ -98,9 +98,9 @@
 				<string key="NSTitle"/>
 				<object class="NSMutableArray" key="NSMenuItems">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="418208692">
+					<object class="NSMenuItem" id="225186729">
 						<reference key="NSMenu" ref="7966259"/>
-						<string type="base64-UTF8" key="NSTitle">IFNob3cgY29ubmVjdGVkIGRldmljZXMKYXQgbGF1bmNoA</string>
+						<string type="base64-UTF8" key="NSTitle">U2hvdyBjb25uZWN0ZWQgZGV2aWNlcwphdCBsYXVuY2g</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="521517883"/>
@@ -173,9 +173,9 @@
 									<reference key="NSOnImage" ref="521517883"/>
 									<reference key="NSMixedImage" ref="473044213"/>
 								</object>
-								<object class="NSMenuItem" id="860465941">
+								<object class="NSMenuItem" id="897190291">
 									<reference key="NSMenu" ref="276463144"/>
-									<string key="NSTitle">Quit NewApplication</string>
+									<string key="NSTitle">Quit Hardware Growler</string>
 									<string key="NSKeyEquiv">q</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -242,38 +242,6 @@
 					<int key="connectionID">228</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.ShowExisting</string>
-						<reference key="source" ref="418208692"/>
-						<reference key="destination" ref="800459434"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="418208692"/>
-							<reference key="NSDestination" ref="800459434"/>
-							<string key="NSLabel">value: values.ShowExisting</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.ShowExisting</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">279</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.GroupNetwork</string>
-						<reference key="source" ref="922381142"/>
-						<reference key="destination" ref="800459434"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="922381142"/>
-							<reference key="NSDestination" ref="800459434"/>
-							<string key="NSLabel">value: values.GroupNetwork</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.GroupNetwork</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">280</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">dockMenu</string>
 						<reference key="source" ref="912570353"/>
@@ -298,14 +266,6 @@
 					<int key="connectionID">285</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">terminate:</string>
-						<reference key="source" ref="912570353"/>
-						<reference key="destination" ref="860465941"/>
-					</object>
-					<int key="connectionID">449</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">mainItem</string>
 						<reference key="source" ref="767476226"/>
@@ -320,6 +280,190 @@
 						<reference key="destination" ref="7966259"/>
 					</object>
 					<int key="connectionID">455</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: showDevices</string>
+						<reference key="source" ref="542565049"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="542565049"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: showDevices</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">showDevices</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">462</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: showDevices</string>
+						<reference key="source" ref="225186729"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="225186729"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: showDevices</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">showDevices</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">464</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.ShowExisting</string>
+						<reference key="source" ref="225186729"/>
+						<reference key="destination" ref="800459434"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="225186729"/>
+							<reference key="NSDestination" ref="800459434"/>
+							<string key="NSLabel">value: values.ShowExisting</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.ShowExisting</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">465</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: groupNetworkTitle</string>
+						<reference key="source" ref="1006441730"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1006441730"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: groupNetworkTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">groupNetworkTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">468</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.GroupNetwork</string>
+						<reference key="source" ref="922381142"/>
+						<reference key="destination" ref="800459434"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="922381142"/>
+							<reference key="NSDestination" ref="800459434"/>
+							<string key="NSLabel">value: values.GroupNetwork</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.GroupNetwork</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">470</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: groupNetworkTitle</string>
+						<reference key="source" ref="922381142"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="922381142"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: groupNetworkTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">groupNetworkTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">471</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: moveToDockTitle</string>
+						<reference key="source" ref="757465557"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="757465557"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: moveToDockTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">moveToDockTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">479</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: moveToMenuTitle</string>
+						<reference key="source" ref="650779790"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="650779790"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: moveToMenuTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">moveToMenuTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">482</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: quitTitle</string>
+						<reference key="source" ref="1007603127"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1007603127"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: quitTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">quitTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">487</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: quitTitle</string>
+						<reference key="source" ref="897190291"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="897190291"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: quitTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">quitTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">489</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">terminate:</string>
+						<reference key="source" ref="693661334"/>
+						<reference key="destination" ref="897190291"/>
+					</object>
+					<int key="connectionID">490</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: preferencesTitle</string>
+						<reference key="source" ref="669808566"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="669808566"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">title: preferencesTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">preferencesTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">493</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -398,9 +542,9 @@
 						<reference key="object" ref="7966259"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="418208692"/>
-							<reference ref="922381142"/>
 							<reference ref="650779790"/>
+							<reference ref="225186729"/>
+							<reference ref="922381142"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -408,16 +552,6 @@
 						<int key="objectID">220</int>
 						<reference key="object" ref="542565049"/>
 						<reference key="parent" ref="513268330"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">277</int>
-						<reference key="object" ref="418208692"/>
-						<reference key="parent" ref="7966259"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">278</int>
-						<reference key="object" ref="922381142"/>
-						<reference key="parent" ref="7966259"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">281</int>
@@ -448,19 +582,14 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="325846103"/>
-							<reference ref="860465941"/>
 							<reference ref="669808566"/>
+							<reference ref="897190291"/>
 						</object>
 						<reference key="parent" ref="1054146490"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">320</int>
 						<reference key="object" ref="325846103"/>
-						<reference key="parent" ref="276463144"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">324</int>
-						<reference key="object" ref="860465941"/>
 						<reference key="parent" ref="276463144"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -486,6 +615,21 @@
 						<reference key="object" ref="159711669"/>
 						<reference key="parent" ref="807647369"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">463</int>
+						<reference key="object" ref="225186729"/>
+						<reference key="parent" ref="7966259"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">469</int>
+						<reference key="object" ref="922381142"/>
+						<reference key="parent" ref="7966259"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">488</int>
+						<reference key="object" ref="897190291"/>
+						<reference key="parent" ref="276463144"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -504,17 +648,17 @@
 					<string>222.IBPluginDependency</string>
 					<string>266.IBPluginDependency</string>
 					<string>273.IBPluginDependency</string>
-					<string>277.IBPluginDependency</string>
-					<string>278.IBPluginDependency</string>
 					<string>281.IBPluginDependency</string>
 					<string>303.IBPluginDependency</string>
 					<string>309.IBPluginDependency</string>
 					<string>316.IBPluginDependency</string>
 					<string>320.IBPluginDependency</string>
-					<string>324.IBPluginDependency</string>
 					<string>450.IBPluginDependency</string>
 					<string>451.IBPluginDependency</string>
 					<string>452.IBPluginDependency</string>
+					<string>463.IBPluginDependency</string>
+					<string>469.IBPluginDependency</string>
+					<string>488.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -555,7 +699,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">455</int>
+			<int key="maxID">493</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
