@@ -371,11 +371,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          break;
       case GrowlNoMenu:
          if(![self isBackgroundAllowed]){
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will cause Growl to run in the background", nil)
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause Growl to run in the background", nil)
                                              defaultButton:NSLocalizedString(@"Ok", nil)
                                            alternateButton:NSLocalizedString(@"Cancel", nil)
                                                otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl run in the background.\nTo access preferences with this, simply double click Growl.app in Finder or Launchpad, and the preferences will come up", nil)];
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will cause Growl to run entirely in the background. No icon in the menu. No icon in the dock.\n\nTo access preferences in this mode, simply double click Growl.app in Finder or Launchpad.", nil)];
             [alert setShowsSuppressionButton:YES];
             NSInteger allow = [alert runModal];
             BOOL suppress = [[alert suppressionButton] state] == NSOnState;
