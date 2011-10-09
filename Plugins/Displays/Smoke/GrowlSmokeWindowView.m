@@ -137,7 +137,10 @@
 				  fraction:1.0];
 
 	drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
-
+    
+    [NSGraphicsContext saveGraphicsState];
+    //we do this because we don't want 10.7 helping us.
+    CGContextSetShouldSmoothFonts([[NSGraphicsContext currentContext] graphicsPort], false);
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 		drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
@@ -145,7 +148,8 @@
 
 	if (haveText)
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-
+    
+    [NSGraphicsContext restoreGraphicsState];
 	[[self window] invalidateShadow];
 	[super drawRect:rect];
 }
@@ -170,7 +174,7 @@
 		containerSize.height = FLT_MAX;
 		titleStorage = [[NSTextStorage alloc] init];
 		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
-		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
+        [titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
 		[titleContainer release];
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
 		[titleContainer setLineFragmentPadding:0.0];
