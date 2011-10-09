@@ -36,10 +36,10 @@
 
 static void GrowliCalShadeInterpolate( void *info, const CGFloat *inData, CGFloat *outData ) {
 	CGFloat *colors = (CGFloat *) info;
-
+    
 	register CGFloat a = inData[0];
 	register CGFloat a_coeff = 1.0 - a;
-
+    
 	// SIMD could come in handy here
 	// outData[0..3] = a_coeff * colors[4..7] + a * colors[0..3]
 	outData[0] = (a_coeff * colors[4]) + (a * colors[0]);
@@ -76,7 +76,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
-
+        
 		int size = GrowliCalSizePrefDefault;
 		READ_GROWL_PREF_INT(GrowliCalSizePref, GrowliCalPrefDomain, &size);
 		if (size == GrowliCalSizeLarge) {
@@ -100,7 +100,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	[titleStorage       release];
 	[textLayoutManager  release];
 	[titleLayoutManager release];
-
+    
 	[super dealloc];
 }
 
@@ -113,42 +113,42 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 	CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5, BORDER_WIDTH_PX*0.5);
-
+    
 	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-
+    
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
 	//addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
     NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
     [bezierPath setClip];
 	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
-
+    
 	CGContextSaveGState(context);
 	CGContextClip(context);
-
+    
 	// Create a callback function to generate the
 	// fill clipped graphics context with our gradient
 	struct CGFunctionCallbacks callbacks = { 0U, GrowliCalShadeInterpolate, NULL };
 	CGFloat colors[8];
-
+    
 	[lightColor getRed:&colors[0]
 				 green:&colors[1]
 				  blue:&colors[2]
 				 alpha:&colors[3]];
-
+    
 	[bgColor getRed:&colors[4]
 			  green:&colors[5]
 			   blue:&colors[6]
 			  alpha:&colors[7]];
-
+    
 	CGFunctionRef function = CGFunctionCreate( (void *) colors,
-											   1U,
-											   /*domain*/ NULL,
-											   4U,
-											   /*range*/ NULL,
-											   &callbacks );
+                                              1U,
+                                              /*domain*/ NULL,
+                                              4U,
+                                              /*range*/ NULL,
+                                              &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
-
+    
 	CGPoint src, dst;
 	src.x = CGRectGetMaxX(bounds);
 	src.y = CGRectGetMaxY(bounds);
@@ -156,14 +156,14 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	dst.y = src.y;
 	CGShadingRef shading = CGShadingCreateAxial(cspace, dst, src,
 												function, false, false);
-
+    
 	CGContextDrawShading(context, shading);
-
+    
 	CGShadingRelease(shading);
 	CGFunctionRelease(function);
-
+    
 	CGContextRestoreGState(context);
-
+    
 	CGFloat tbcolor[4]; 
 	tbcolor[0] = [borderColor redComponent];
 	tbcolor[1] = [borderColor greenComponent];
@@ -178,33 +178,33 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	addTopRoundedRectToPath(context,titlebar,BORDER_RADIUS_PX);
 	CGContextFillPath(context);
 	CGColorSpaceRelease(cspace);
-
+    
     bezierPath = [NSBezierPath bezierPathWithRoundedRect:shape xRadius:BORDER_RADIUS_PX yRadius:BORDER_RADIUS_PX];
 	[bezierPath setLineWidth:BORDER_WIDTH_PX];
 	[borderColor set];
 	[bezierPath stroke];
-
+    
 	NSRect drawRect;
 	drawRect.origin.x = CGRectGetMaxX(shape) - iconSize - ICON_HSPACE_PX;
 	drawRect.origin.y = PANEL_VSPACE_PX;
 	drawRect.size.width = iconSize;
 	drawRect.size.height = iconSize;
-
+    
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
 				  fraction:1.0];
-
+    
 	drawRect.origin.x = PANEL_HSPACE_PX;
-
+    
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 		drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
 	}
-
+    
 	if (haveText)
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-
+    
 	[[self window] invalidateShadow];
 	[super drawRect:rect];
 }
@@ -217,14 +217,14 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	CGFloat backgroundAlpha = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
 	backgroundAlpha *= 0.01;
-
+    
 	[textColor release];
 	textColor = [[NSColor whiteColor] retain];
-
+    
 	[bgColor release];
 	[lightColor release];
 	[borderColor release];
-
+    
 	GrowliCalColorType color = GrowliCalPurple;
 	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
 	switch (color) {
@@ -233,37 +233,37 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 			lightColor = [NSColor colorWithCalibratedRed:0.6863 green:0.5294 blue:0.9765 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.3216 green:0.0588 blue:0.6902 alpha:backgroundAlpha];
 			break;
-		
+            
 		case GrowliCalPink:
 			bgColor = [NSColor colorWithCalibratedRed:0.7804 green:0.1098 blue:0.7725 alpha:backgroundAlpha];		
 			lightColor = [NSColor colorWithCalibratedRed:0.8157 green:0.2471 blue:0.8078 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.7412 green:0.0000 blue:0.7294 alpha:backgroundAlpha];
 			break;
-
+            
 		case GrowliCalGreen:
 			bgColor = [NSColor colorWithCalibratedRed:0.1490 green:0.7333 blue:0.0000 alpha:backgroundAlpha];		
 			lightColor = [NSColor colorWithCalibratedRed:0.3765 green:0.8039 blue:0.2549 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.0000 green:0.6824 blue:0.0000 alpha:backgroundAlpha];
 			break;
-
+            
 		case GrowliCalBlue:
 			bgColor = [NSColor colorWithCalibratedRed:0.1255 green:0.3765 blue:0.9529 alpha:backgroundAlpha];		
 			lightColor = [NSColor colorWithCalibratedRed:0.3529 green:0.5647 blue:1.0000 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.0588 green:0.2784 blue:0.9137 alpha:backgroundAlpha];
 			break;
-
+            
 		case GrowliCalOrange:
 			bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4510 blue:0.0000 alpha:backgroundAlpha];
 			lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.6235 blue:0.0941 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:1.0000 green:0.4314 blue:0.0000 alpha:backgroundAlpha];
 			break;
-
+            
 		case GrowliCalRed:
 			bgColor = [NSColor colorWithCalibratedRed:1.0000 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
 			lightColor = [NSColor colorWithCalibratedRed:1.0000 green:0.2941 blue:0.3137 alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.9529 green:0.0000 blue:0.0000 alpha:backgroundAlpha];
 			break;
-
+            
 		default:
 		{
 			/* When could this ever happen?!? -eds */
@@ -304,12 +304,12 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 
 - (void) setTitle:(NSString *) aTitle {
 	haveTitle = [aTitle length] != 0;
-
+    
 	if (!haveTitle) {
 		[self setNeedsDisplay:YES];
 		return;
 	}
-
+    
 	if (!titleStorage) {
 		NSSize containerSize;
 		containerSize.width = TEXT_AREA_WIDTH;
@@ -321,35 +321,35 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
 		[titleContainer setLineFragmentPadding:0.0];
 	}
-
+    
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		titleFont,      NSFontAttributeName,
-		textColor,      NSForegroundColorAttributeName,
-		paragraphStyle, NSParagraphStyleAttributeName,
-		nil];
+                                       titleFont,      NSFontAttributeName,
+                                       textColor,      NSForegroundColorAttributeName,
+                                       paragraphStyle, NSParagraphStyleAttributeName,
+                                       nil];
 	[paragraphStyle release];
-
+    
 	[[titleStorage mutableString] setString:aTitle];
 	[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
-
+    
 	[defaultAttributes release];
-
+    
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
-
+    
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *) aText {
 	haveText = [aText length] != 0;
-
+    
 	if (!haveText) {
 		[self setNeedsDisplay:YES];
 		return;
 	}
-
+    
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = YES;
@@ -366,20 +366,20 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
 		[textContainer setLineFragmentPadding:0.0];
 	}
-
+    
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		textFont,  NSFontAttributeName,
-		textColor, NSForegroundColorAttributeName,
-		nil];
-
+                                       textFont,  NSFontAttributeName,
+                                       textColor, NSForegroundColorAttributeName,
+                                       nil];
+    
 	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
-
+    
 	[defaultAttributes release];
-
+    
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
-
+    
 	[self setNeedsDisplay:YES];
 }
 
@@ -389,14 +389,14 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 		height += TITLE_VSPACE_PX;
 	if (height < MIN_TEXT_HEIGHT)
 		height = MIN_TEXT_HEIGHT;
-
+    
 	// resize the window so that it contains the tracking rect
 	NSWindow *window = [self window];
 	NSRect windowRect = [window frame];
 	windowRect.origin.y -= height - windowRect.size.height;
 	windowRect.size.height = height;
 	[window setFrame:windowRect display:NO];
-
+    
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
 	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];

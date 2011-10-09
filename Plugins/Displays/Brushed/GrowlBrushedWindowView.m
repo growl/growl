@@ -29,7 +29,7 @@
 		[textShadow setShadowBlurRadius:3.0];
 		[textShadow setShadowColor:[[[self window] backgroundColor] blendedColorWithFraction:0.5
 																					 ofColor:[NSColor blackColor]]];
-
+        
 		int size = GrowlBrushedSizePrefDefault;
 		READ_GROWL_PREF_INT(GrowlBrushedSizePref, GrowlBrushedPrefDomain, &size);
 		if (size == GrowlBrushedSizeLarge) {
@@ -38,7 +38,7 @@
 			iconSize = GrowlBrushedIconSize;
 		}
 	}
-
+    
 	return self;
 }
 
@@ -51,7 +51,7 @@
 	[textLayoutManager  release];
 	[titleStorage       release];
 	[titleLayoutManager release];
-
+    
 	[super dealloc];
 }
 
@@ -63,19 +63,19 @@
 - (void) drawRect:(NSRect)rect {
 	NSRect b = [self bounds];
 	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-
+    
 	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-
+    
 	// clear the window
 	CGContextClearRect(context, bounds);
-
+    
 	// calculate bounds based on icon-float pref on or off
 	CGRect shadedBounds;
 	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 	if (floatIcon) {
 		CGFloat sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5);
-
+        
 		shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0,
 								  bounds.origin.y + 1.0,
 								  bounds.size.width - sizeReduction - 2.0,
@@ -83,11 +83,11 @@
 	} else {
 		shadedBounds = CGRectInset(bounds, 1.0, 1.0);
 	}
-
+    
 	// set up path for rounded corners
     NSBezierPath *bezierPath = [NSBezierPath bezierPathWithRoundedRect:shadedBounds xRadius:GrowlBrushedBorderRadius yRadius:GrowlBrushedBorderRadius];
 	[bezierPath setLineWidth:2.0f];
-
+    
 	// draw background
 	NSWindow *window = [self window];
 	NSColor *bgColor = [window backgroundColor];
@@ -101,29 +101,29 @@
 		[bgColor set];
         [bezierPath fill];
 	}
-
+    
 	// draw the title and the text
 	NSRect drawRect;
 	drawRect.origin.x = GrowlBrushedPadding;
 	drawRect.origin.y = GrowlBrushedPadding;
 	drawRect.size.width = iconSize;
 	drawRect.size.height = iconSize;
-
+    
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
 				  fraction:1.0];
-
+    
 	drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
-
+    
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 		drawRect.origin.y += titleHeight + GrowlBrushedTitleTextPadding;
 	}
-
+    
 	if (haveText)
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-
+    
 	[window invalidateShadow];
 	[super drawRect:rect];
 }
@@ -136,12 +136,12 @@
 
 - (void) setTitle:(NSString *)aTitle {
 	haveTitle = [aTitle length] != 0;
-
+    
 	if (!haveTitle) {
 		[self setNeedsDisplay:YES];
 		return;
 	}
-
+    
 	if (!titleStorage) {
 		NSSize containerSize;
 		containerSize.width = GrowlBrushedTextAreaWidth;
@@ -153,38 +153,38 @@
 		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
 		[titleContainer setLineFragmentPadding:0.0];
 	}
-
+    
 	// construct attributes for the title
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		titleFont,      NSFontAttributeName,
-		textColor,      NSForegroundColorAttributeName,
-		textShadow,     NSShadowAttributeName,
-		paragraphStyle, NSParagraphStyleAttributeName,
-		nil];
+                                       titleFont,      NSFontAttributeName,
+                                       textColor,      NSForegroundColorAttributeName,
+                                       textShadow,     NSShadowAttributeName,
+                                       paragraphStyle, NSParagraphStyleAttributeName,
+                                       nil];
 	[paragraphStyle release];
-
+    
 	[[titleStorage mutableString] setString:aTitle];
 	[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
-
+    
 	[defaultAttributes release];
-
+    
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
-
+    
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *)aText {
 	haveText = [aText length] != 0;
-
+    
 	if (!haveText) {
 		[self setNeedsDisplay:YES];
 		return;
 	}
-
+    
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = GrowlBrushedLimitPrefDefault;
@@ -201,22 +201,22 @@
 		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
 		[textContainer setLineFragmentPadding:0.0];
 	}
-
+    
 	// construct attributes for the description text
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		textFont,   NSFontAttributeName,
-		textColor,  NSForegroundColorAttributeName,
-		textShadow, NSShadowAttributeName,
-		nil];
-
+                                       textFont,   NSFontAttributeName,
+                                       textColor,  NSForegroundColorAttributeName,
+                                       textShadow, NSShadowAttributeName,
+                                       nil];
+    
 	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
-
+    
 	[defaultAttributes release];
-
+    
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
-
+    
 	[self setNeedsDisplay:YES];
 }
 
@@ -241,13 +241,13 @@
 			break;
 	}
 	NSData *data = nil;
-
+    
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSData *, &data);
 	if(data)
 		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-			textColor = [NSUnarchiver unarchiveObjectWithData:data];
+        textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
@@ -262,14 +262,14 @@
 		height += GrowlBrushedTitleTextPadding;
 	if (height < GrowlBrushedMinTextHeight)
 		height = GrowlBrushedMinTextHeight;
-
+    
 	// resize the window so that it contains the tracking rect
 	NSWindow *window = [self window];
 	NSRect windowRect = [[self window] frame];
 	windowRect.origin.y -= height - windowRect.size.height;
 	windowRect.size.height = height;
 	[window setFrame:windowRect display:YES animate:YES];
-
+    
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
 	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
