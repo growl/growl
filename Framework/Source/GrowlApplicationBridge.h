@@ -44,7 +44,7 @@
  *	@discussion Determines if the Growl prefpane and its helper app are installed.
  *	@result Returns YES if Growl is installed, NO otherwise.
  */
-+ (BOOL) isGrowlInstalled;
++ (BOOL) isGrowlInstalled __attribute__((deprecated));
 
 /*!
  *	@method isGrowlRunning

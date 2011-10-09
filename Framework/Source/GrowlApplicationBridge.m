@@ -302,9 +302,16 @@ static BOOL    hasGNTP = NO;
 
 #pragma mark -
 
+
 + (BOOL) isGrowlInstalled {
-	return ([GrowlPathUtilities helperAppBundle] != nil);
+   static BOOL warned = NO;
+   if(warned){
+      warned = YES;
+      NSLog(@"+[GrowlApplicationBridge isGrowlInstalled] is deprecated, returns yes always now.  This warning will only show once");
+   }
+	return YES;
 }
+
 
 + (BOOL) isGrowlRunning {
 	return Growl_HelperAppIsRunning();
