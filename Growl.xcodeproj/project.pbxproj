@@ -3074,7 +3074,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Brushed/en.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
+			shellScript = "genstrings -macRoman -o Plugins/Displays/Brushed/en.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
 			showEnvVarsInLog = 0;
 		};
 		932659581411B7D30037AA2C /* Generate Localizable.strings */ = {
@@ -3103,7 +3103,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/iCal/en.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m";
+			shellScript = "genstrings -macRoman -o Plugins/Displays/iCal/en.lproj Plugins/Displays/iCal/*.h Plugins/Displays/iCal/*.m";
 		};
 		9326595A1411B8090037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3145,7 +3145,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Nano/en.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
+			shellScript = "genstrings -macRoman -o Plugins/Displays/Nano/en.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
 		};
 		9326595D1411B8640037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3187,7 +3187,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/SMS/en.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m";
+			shellScript = "genstrings -macRoman -o Plugins/Displays/SMS/en.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
