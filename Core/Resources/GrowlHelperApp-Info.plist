@@ -234,5 +234,7 @@
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<false/>
 </dict>
 </plist>
