@@ -40,9 +40,7 @@ typedef enum {
 	NSData						*growlIconData;
 	
 	CFRunLoopTimerRef			updateTimer;
-	
-	NSThread					*mainThread;
-    
+	    
     GrowlMenu                   *statusMenu;
     
     GrowlFirstLaunchWindowController *firstLaunchWindow;
@@ -77,8 +75,6 @@ typedef enum {
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).
 - (BOOL) quitAfterOpen;
 - (void) setQuitAfterOpen:(BOOL)flag;
-
-- (NSThread *)mainThread;
 	
 @property (retain) NSString                    *audioDeviceIdentifier;
 @property (retain) GrowlMenu                   *statusMenu;

@@ -183,7 +183,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) destroy {
 	//free your world
-	[mainThread release]; mainThread = nil;
 	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 	if (pathwayControllerClass)
 		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
@@ -728,12 +727,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	quitAfterOpen = flag;
 }
 
-#pragma mark What NSThread should implement as a class method
-
-- (NSThread *)mainThread {
-	return mainThread;
-}
-
 #pragma mark Notifications (not the Growl kind)
 
 - (void) preferencesChanged:(NSNotification *) note {
@@ -978,7 +971,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
-	mainThread = [[NSThread currentThread] retain];
 
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
 	if (printVersionAndExit) {
