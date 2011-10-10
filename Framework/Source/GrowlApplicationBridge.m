@@ -78,6 +78,8 @@ static BOOL    sandboxed = NO;
 static BOOL    networkClient = NO;
 static BOOL    hasGNTP = NO;
 
+static BOOL    shouldUseBuiltInNotifications = NO;
+
 #pragma mark -
 
 @implementation GrowlApplicationBridge
@@ -286,19 +288,41 @@ static BOOL    hasGNTP = NO;
          if(!attemptingToRegister)
             [self registerWithDictionary:nil];
       } else {
-         dispatch_async(dispatch_get_main_queue(), ^(void) {
+         if([GrowlApplicationBridge isMistEnabled])
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
             [GrowlApplicationBridge _fireMiniDispatch:userInfo];
          });
       }
    }
 }
 
-+ (void) _fireMiniDispatch:(NSDictionary*)growlDict
++ (BOOL)isMistEnabled
 {
-   if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] && 
-      ![[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] boolValue])
-      return;
-      
+    BOOL result = NO;
+    
+    //did the developer request mist and growl isn't currently running
+    if(shouldUseBuiltInNotifications && ![GrowlApplicationBridge isGrowlRunning])
+        result = YES;
+        
+    //did the user set the global default to indicate they don't want them
+    if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE])
+        result = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] boolValue];
+
+    return result;
+}
+
++ (void)setShouldUseBuiltInNotifications:(BOOL)should
+{
+    shouldUseBuiltInNotifications = should;
+}
+
++ (BOOL)shouldUseBuiltInNotifications
+{
+    return shouldUseBuiltInNotifications;
+}
+
++ (void) _fireMiniDispatch:(NSDictionary*)growlDict
+{   
    if (!miniDispatch) {
       miniDispatch = [[GrowlMiniDispatch alloc] init];
       miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];

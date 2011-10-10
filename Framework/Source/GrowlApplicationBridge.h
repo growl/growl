@@ -42,7 +42,7 @@
  *	@method isGrowlInstalled
  *	@abstract Detects whether Growl is installed.
  *	@discussion Determines if the Growl prefpane and its helper app are installed.
- *	@result Returns YES if Growl is installed, NO otherwise.
+ *	@result this method will forever return YES.
  */
 + (BOOL) isGrowlInstalled __attribute__((deprecated));
 
@@ -53,6 +53,32 @@
  *	@result Returns YES if GrowlHelperApp is running, NO otherwise.
  */
 + (BOOL) isGrowlRunning;
+
+
+/*!
+ *	@method isMistEnabled
+ *	@abstract Gives the caller a fairly good indication of whether or not built-in notifications(Mist) will be used.
+ *	@discussion since this call makes use of isGrowlRunning it is entirely possible for this value to change between call and
+ *    executing a notification dispatch
+ *	@result Returns YES if Growl isn't running and the developer has opted-in to Mist and the user hasn't set the global mist enable key to false.
+ */
++ (BOOL)isMistEnabled;
+
+/*!
+ *	@method setShouldUseBuiltInNotifications
+ *	@abstract opt-in mechanism for the mist notification style in the event growl can't be reached.
+ *	@discussion if growl is unavailable due to not being installed or as a result of being turned off then
+ *    this option will enable a built-in fire and forget display style
+ *	@param should Specifies whether or not the developer wants to opt-in to the built-in Mist style in the event Growl is unreachable.
+ */
++ (void)setShouldUseBuiltInNotifications:(BOOL)should;
+
+/*!
+ *	@method shouldUseBuiltInNotifications
+ *	@abstract returns the current opt-in state of the framework's use of the Mist display style.
+ *	@result Returns YES if the developer opt-ed in to Mist, the default value is NO.
+ */
++ (BOOL)shouldUseBuiltInNotifications;
 
 #pragma mark -
 
