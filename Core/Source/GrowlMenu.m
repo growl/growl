@@ -148,12 +148,12 @@
    __block GrowlMenu *blockMenu = self;
    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
       [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-      [context setDuration:.75];
+      [context setDuration:1.0];
       [[[blockItem view] animator] setAlphaValue:0.0];
    } completionHandler:^(void) {
       [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
          [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-         [context setDuration:.75];
+         [context setDuration:1.0];
          [[[blockItem view] animator] setAlphaValue:1.0];
       } completionHandler:^(void) {
          [blockMenu pulseStatusItem];
