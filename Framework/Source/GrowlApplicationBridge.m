@@ -27,6 +27,8 @@
 
 #import <ApplicationServices/ApplicationServices.h>
 
+#define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
+
 @interface GrowlApplicationBridge (PRIVATE)
 
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
@@ -293,6 +295,10 @@ static BOOL    hasGNTP = NO;
 
 + (void) _fireMiniDispatch:(NSDictionary*)growlDict
 {
+   if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] && 
+      ![[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] boolValue])
+      return;
+      
    if (!miniDispatch) {
       miniDispatch = [[GrowlMiniDispatch alloc] init];
       miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];
