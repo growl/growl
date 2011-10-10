@@ -33,6 +33,7 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlFirstLaunchWindowController.h"
 #import "GrowlPreferencePane.h"
+#import "GrowlNotificationHistoryWindow.h"
 #include "CFURLAdditions.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>

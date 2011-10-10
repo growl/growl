@@ -15,6 +15,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase+GHAAdditions.h"
+#import "GrowlNotificationHistoryWindow.h"
 #import <CoreData/CoreData.h>
 
 @implementation GrowlNotificationDatabase
@@ -25,7 +26,13 @@
 -(id)initSingleton
 {
    if((self = [super initSingleton]))
-   {
+   {      
+      GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
+      historyWindow = [window retain];
+      [window release];
+      [historyWindow window];
+      [historyWindow resetArray];
+      
       notificationsWhileAway = NO;
       if([[GrowlPreferencesController sharedInstance] isRollupShown])
          [self showRollup];

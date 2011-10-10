@@ -59,7 +59,7 @@
    BOOL dontLog = (!logging || !appLogging || !noteLogging);
    
    BOOL isAway = GrowlIdleStatusController_isIdle();
-   if(notificationsWhileAway || [(GrowlNotificationHistoryWindow*)historyWindow currentlyShown])
+   if(notificationsWhileAway || [[historyWindow window] isVisible])
       isAway = YES;
    //If the rollup isn't enabled, we aren't away, check last
    if(![preferences isRollupEnabled])
@@ -128,7 +128,8 @@
     
     if(![[historyWindow window] isVisible])
     {
-        [(GrowlNotificationHistoryWindow*)historyWindow resetArray];
+        [historyWindow resetArray];
+       [historyWindow showWindow:self];
     }
 }
 

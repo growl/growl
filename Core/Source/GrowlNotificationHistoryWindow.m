@@ -43,13 +43,10 @@
 @synthesize countLabel;
 @synthesize notificationColumn;
 
-@synthesize currentlyShown;
-
 -(id)init
 {
    if((self = [super initWithWindowNibName:@"AwayHistoryWindow" owner:self]))
    {
-      currentlyShown = NO;
        [self setWindowFrameAutosaveName:@"GrowlNotificationRollup"];
        [[self window] setFrameAutosaveName:@"GrowlNotificationRollup"];
 
@@ -90,16 +87,12 @@
 
 -(void)windowWillClose:(NSNotification *)notification
 {
-   currentlyShown = NO;
    //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
    [[GrowlPreferencesController sharedInstance] setBool:NO forKey:GrowlRollupShown];
 }
 
 -(void)updateCount
 {
-   if(!currentlyShown)
-      return;
-   
    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
    NSString* description = nil;
    
@@ -133,8 +126,6 @@
 
 -(void)resetArray
 {   
-   currentlyShown = YES;
-   [self showWindow:self];
     [historyTable reloadData];
 }
 

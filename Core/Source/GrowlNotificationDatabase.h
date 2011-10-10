@@ -9,13 +9,15 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlAbstractDatabase.h"
 
+@class GrowlNotificationHistoryWindow;
+
 @interface GrowlNotificationDatabase : GrowlAbstractDatabase {
    NSTimer *maintenanceTimer;
    NSDate *lastImageCheck;
    BOOL notificationsWhileAway;
-   NSWindowController *historyWindow;
+   GrowlNotificationHistoryWindow *historyWindow;
 }
-@property (readonly) NSWindowController *historyWindow;
+@property (readonly) GrowlNotificationHistoryWindow *historyWindow;
 @property (readonly) BOOL notificationsWhileAway;
 
 -(NSArray*)mostRecentNotifications:(unsigned int)amount;
