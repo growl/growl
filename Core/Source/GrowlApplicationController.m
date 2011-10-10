@@ -728,6 +728,27 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	quitAfterOpen = flag;
 }
 
+- (IBAction)quitWithWarning:(id)sender
+{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"HideQuitWarning"])
+    {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to quit?", nil)
+                                         defaultButton:NSLocalizedString(@"Yes", nil)
+                                       alternateButton:NSLocalizedString(@"No", nil)
+                                           otherButton:nil
+                             informativeTextWithFormat:NSLocalizedString(@"If you quit Growl you will no longer receive notifications.", nil)];
+        [alert setShowsSuppressionButton:YES];
+        
+        NSInteger result = [alert runModal];
+        if(result == NSOKButton)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:@"HideQuitWarning"];
+            [NSApp terminate:self];
+        }
+    }
+    else
+        [NSApp terminate:self];
+}
 #pragma mark Notifications (not the Growl kind)
 
 - (void) preferencesChanged:(NSNotification *) note {
