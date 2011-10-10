@@ -13,6 +13,7 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlApplicationController.h"
+#import "GrowlMenuImageView.h"
 #import <Quartz/Quartz.h>
 #include <unistd.h>
 
@@ -109,11 +110,14 @@
       self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
       
       
-      [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
       
-      [statusItem setMenu:menu]; // retains m
       [statusItem setToolTip:@"Growl"];
       [statusItem setHighlightMode:YES];
+      GrowlMenuImageView *buttonView = [[GrowlMenuImageView alloc] init];
+      buttonView.menuItem = self;
+      [statusItem setView:buttonView];
+      [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
+      [buttonView release];
    }else{
       if(!statusItem)
          return;
@@ -137,24 +141,25 @@
 
 - (void)pulseStatusItem
 {
-   if(!statusItem && keepPulsing)
+   if(!statusItem || !keepPulsing)
       return;
    
-/*   NSStatusItem *blockItem = statusItem;
+   NSStatusItem *blockItem = statusItem;
    __block GrowlMenu *blockMenu = self;
    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
       [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-      [context setDuration:.5];
-      [[[blockItem view] animator] setAlpha:0.0];
+      [context setDuration:.75];
+      [[[blockItem view] animator] setAlphaValue:0.0];
    } completionHandler:^(void) {
       [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
          [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-         [context setDuration:.5];
-         [[[blockItem view] animator] setAlpha:1.0];
+         [context setDuration:.75];
+         [[[blockItem view] animator] setAlphaValue:1.0];
       } completionHandler:^(void) {
          [blockMenu pulseStatusItem];
       }];
-   }];*/
+   }];
+   
 }
 
 #pragma mark -
@@ -261,8 +266,8 @@
 			pressedImage = [NSImage imageNamed:@"growlmenu-alt.png"];
 			break;
 	}
-	[statusItem setImage:normalImage];
-	[statusItem setAlternateImage:pressedImage];
+	[(GrowlMenuImageView*)[statusItem view] setMainImage:normalImage];
+	[(GrowlMenuImageView*)[statusItem view] setAlternateImage:pressedImage];
 }
 
 - (NSMenu *) createMenu:(BOOL)forDock {

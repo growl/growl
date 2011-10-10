@@ -293,6 +293,7 @@
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
+		BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */; };
 		BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
@@ -1188,6 +1189,8 @@
 		BCA9D46C142222D600C98C98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "GNTP Client/en.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupedArrayController.h; path = Core/Source/GroupedArrayController.h; sourceTree = "<group>"; };
 		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
+		BCB743FF1442CA2A009121C9 /* GrowlMenuImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenuImageView.h; path = Core/Source/GrowlMenuImageView.h; sourceTree = "<group>"; };
+		BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenuImageView.m; path = Core/Source/GrowlMenuImageView.m; sourceTree = "<group>"; };
 		BCBCDD71121B9FD900C07D0D /* GrowlNotificationDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationDatabase.h; path = Core/Source/GrowlNotificationDatabase.h; sourceTree = "<group>"; };
 		BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationDatabase.m; path = Core/Source/GrowlNotificationDatabase.m; sourceTree = "<group>"; };
 		BCBCDD74121BA00300C07D0D /* GrowlHistoryNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlHistoryNotification.h; path = Core/Source/GrowlHistoryNotification.h; sourceTree = "<group>"; };
@@ -1958,6 +1961,8 @@
 			children = (
 				BC86333C140FFB3600A26483 /* GrowlMenu.h */,
 				BC86333D140FFB3600A26483 /* GrowlMenu.m */,
+				BCB743FF1442CA2A009121C9 /* GrowlMenuImageView.h */,
+				BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */,
 				93FCE5E10812DEC800320D8E /* Resources */,
 			);
 			name = StatusItem;
@@ -3450,6 +3455,7 @@
 				93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */,
 				9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */,
 				BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */,
+				BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
