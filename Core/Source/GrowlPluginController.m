@@ -555,8 +555,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		}
 		
 		//Invalidate display plug-in cache.
-		[cache_displayPlugins release];
+		[self willChangeValueForKey:@"displayPlugins"];
+        [cache_displayPlugins release];
 		 cache_displayPlugins = nil;
+        [self didChangeValueForKey:@"displayPlugins"];
 	}
 
 	//Store the bundle identifier so we know we've loaded it.
