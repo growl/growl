@@ -551,7 +551,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		} 
 		else {
 			//It responds to -requiresPositioning, so add it as a(n enabled) display plug-in.
-			[displayPlugins addObject:pluginDict];
+			// we also test to see if this plugin is already in the plugin's list, because it might have been
+            //lazily loaded and if so, it already has an entry in the list.
+            if(![displayPlugins containsObject:pluginDict])
+                [displayPlugins addObject:pluginDict];
 		}
 		
 		//Invalidate display plug-in cache.
