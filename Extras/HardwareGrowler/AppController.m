@@ -635,7 +635,8 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 - (void) awakeFromNib {
 	// Register ourselves as a Growl delegate for registration purposes
 	[GrowlApplicationBridge setGrowlDelegate:self];
-
+    [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
+    
 	// Register for sleep and wake notifications so we can suppress various notifications during sleep
 	IONotificationPortRef ioNotificationPort;
 	powerConnection = IORegisterForSystemPower(NULL, &ioNotificationPort, powerCallback, &powerNotifier);
