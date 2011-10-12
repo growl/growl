@@ -85,9 +85,9 @@ namespace "package" do
 		FileUtils.cd("#{BUILD_ROOT}/growlnotify/#{CONFIGURATION}")
 		#package up growlnotify
       system "#{PACKAGE_MAKER} --no-relocate --doc #{SRCROOT}/Release/growlnotify/growlnotify.pmdoc --out #{BUILD_ROOT}/growlnotify/#{CONFIGURATION}/GrowlNotify.pkg --version #{GROWLVERSION} --id info.growl.growlnotify.growlnotify.pkg -v" 
-		system "zip -r GrowlNotify.zip GrowlNotify.pkg"
-      system "cp -Rp GrowlNotify.zip #{PRODUCT_ROOT}"
-		system "zip -r #{PRODUCT_ROOT}/growlnotify-dSYM.zip growlnotify.dSYM"
+		system "zip -r GrowlNotify-#{GROWLVERSION}.zip GrowlNotify.pkg"
+      system "cp -Rp GrowlNotify-#{GROWLVERSION}.zip #{PRODUCT_ROOT}"
+		system "zip -r #{PRODUCT_ROOT}/growlnotify-#{GROWLVERSION}-dSYM.zip growlnotify.dSYM"
 		FileUtils.cd(curdir)
 	end
 
@@ -112,9 +112,9 @@ namespace "package" do
 		if(!BETA)
 			system "productbuild --component HardwareGrowler.app /Applications --sign \"#{CSI}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{PRODUCT_ROOT}"
 		elsif (BETA)
-			system "zip -r #{PRODUCT_ROOT}/HardwareGrowler.zip HardwareGrowler.app/"
+			system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}.zip HardwareGrowler.app/"
 		end
-		system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-dSYM.zip HardwareGrowler.dSYM"
+		system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}-dSYM.zip HardwareGrowler.dSYM"
 		FileUtils.cd(curdir)
 	end
 	
