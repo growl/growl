@@ -78,7 +78,7 @@ static BOOL    sandboxed = NO;
 static BOOL    networkClient = NO;
 static BOOL    hasGNTP = NO;
 
-static BOOL    shouldUseBuiltInNotifications = NO;
+static BOOL    shouldUseBuiltInNotifications = YES;
 
 #pragma mark -
 
@@ -279,7 +279,7 @@ static BOOL    shouldUseBuiltInNotifications = NO;
       if(firstAttempt)
          [firstAttempt begin];
    }else{ 
-      if ([self isGrowlRunning])
+      if ([self _growlIsReachableUpdateCache:NO])
       {
          if (!queuedGrowlNotifications)
             queuedGrowlNotifications = [[NSMutableArray alloc] init];
@@ -298,15 +298,15 @@ static BOOL    shouldUseBuiltInNotifications = NO;
 
 + (BOOL)isMistEnabled
 {
-    BOOL result = NO;
+    BOOL result = shouldUseBuiltInNotifications;
     
-    //did the developer request mist and growl isn't currently running
-    if(shouldUseBuiltInNotifications && ![GrowlApplicationBridge isGrowlRunning])
-        result = YES;
-        
     //did the user set the global default to indicate they don't want them
     if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE])
-        result = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] boolValue];
+       result = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_ENABLE] boolValue];
+    
+    //If growl is reachable, mist wont be used
+    if([self _growlIsReachableUpdateCache:NO])
+       result = NO;
 
     return result;
 }
