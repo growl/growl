@@ -11,6 +11,7 @@ GROWLVERSION = ENV['VERSION'] || "1.3"
 TOOLCHAIN = ENV['TOOLCHAIN'] || '/Developer'
 CONFIGURATION = ENV['CONFIGURATION'] || 'Release'
 XCODEBUILD = "#{TOOLCHAIN}/usr/bin/xcodebuild"
+PACKAGE_MAKER = "/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/packagemaker"
 SRCROOT = File.expand_path("..")
 DESTDIR = File.expand_path("distribution")
 BUILD_ROOT = File.join(DESTDIR, "build")
@@ -25,6 +26,12 @@ puts "Done Packaging"
 end
 
 task :package_sdk => [:setup, "package:sdk"] do
+end
+
+task :package_growlnotify => [:setup, "package:growlnotify"] do
+end
+
+task :package_hardwaregrowler => [:setup, "package:hardwaregrowler"] do
 end
 
 task :setup do
@@ -74,12 +81,14 @@ end
 namespace "package" do
 	
 	task :growlnotify => ["build:growlnotify"] do
-		#curdir = FileUtils.pwd()
-		#FileUtils.cd("#{BUILD_ROOT}/growlnotify/#{CONFIGURATION}")
+		curdir = FileUtils.pwd()
+		FileUtils.cd("#{BUILD_ROOT}/growlnotify/#{CONFIGURATION}")
 		#package up growlnotify
-		#system "cp -Rp growlnotify.zip #{PRODUCT_ROOT}"
-		#system "zip -r #{PRODUCT_ROOT}/growlnotify-dSYM.zip growlnotify.dSYM"
-		#FileUtils.cd(curdir)
+      system "#{PACKAGE_MAKER} --no-relocate --doc #{SRCROOT}/Release/growlnotify/growlnotify.pmdoc --out #{BUILD_ROOT}/growlnotify/#{CONFIGURATION}/GrowlNotify.pkg --version #{GROWLVERSION} --id info.growl.growlnotify.growlnotify.pkg -v" 
+		system "zip -r GrowlNotify.zip GrowlNotify.pkg"
+      system "cp -Rp GrowlNotify.zip #{PRODUCT_ROOT}"
+		system "zip -r #{PRODUCT_ROOT}/growlnotify-dSYM.zip growlnotify.dSYM"
+		FileUtils.cd(curdir)
 	end
 
 	task :growl => ["build:growl"] do

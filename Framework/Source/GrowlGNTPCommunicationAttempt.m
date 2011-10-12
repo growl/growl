@@ -12,7 +12,6 @@
 #import "GrowlGNTPHeaderItem.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlGNTPNotificationAttempt.h"
-#import "GrowlApplicationBridge.h"
 #import "NSStringAdditions.h"
 
 #import "GCDAsyncSocket.h"
