@@ -40,6 +40,10 @@ task :setup do
 		CONFIGURATION="Release"
 		BETA=1
 	end
+
+	if(CONFIGURATION == "Localization")
+		BETA = 1
+	end
 	
 	FileUtils.rm_rf(DESTDIR)
 	FileUtils.mkdir_p(PRODUCT_ROOT)
