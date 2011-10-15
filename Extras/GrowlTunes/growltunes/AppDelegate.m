@@ -50,7 +50,7 @@
     return regDict;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification*)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification*)__attribute__((unused))aNotification
 {
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
