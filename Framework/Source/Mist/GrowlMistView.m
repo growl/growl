@@ -92,9 +92,9 @@
 		titleRect.size = titleSize;
 	}
 
-	float baseWidth = imageRect.size.width + (MIST_TEXT_PADDING * 2);
+	double baseWidth = imageRect.size.width + (MIST_TEXT_PADDING * 2);
 	
-	NSRect textRect = [notificationText boundingRectWithSize:NSMakeSize(MIST_WIDTH - baseWidth, 1e7) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
+	NSRect textRect = [notificationText boundingRectWithSize:NSMakeSize((CGFloat)(MIST_WIDTH - baseWidth), 1e7) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
 	
 	NSRect myFrame = self.frame;
 	myFrame.size.width = MIST_WIDTH;
@@ -145,9 +145,9 @@
 	
 	// Draw text.
 	if (notificationText) {
-		float baseWidth = imageRect.size.width + (MIST_TEXT_PADDING * 2);
+		double baseWidth = imageRect.size.width + (MIST_TEXT_PADDING * 2);
 		
-		NSRect textRect = [notificationText boundingRectWithSize:NSMakeSize(MIST_WIDTH - baseWidth, 1e7) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
+		NSRect textRect = [notificationText boundingRectWithSize:NSMakeSize((CGFloat)(MIST_WIDTH - baseWidth), 1e7) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
 		textRect.origin.x = imageRect.origin.x + imageRect.size.width + MIST_TEXT_PADDING;
 		textRect.origin.y = titleRect.origin.y + titleRect.size.height + (notificationTitle ? MIST_TEXT_LINESPACE * 2 : MIST_PADDING);
 		

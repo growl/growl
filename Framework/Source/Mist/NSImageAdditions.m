@@ -42,17 +42,17 @@
 - (NSImage *) imageSizedToDimensionScalingUp:(int)dimension
 {
 	NSSize imageSize = [self size];
-	float ratio = 1;
+	double ratio = 1;
 	
 	if (imageSize.width > imageSize.height) {
 		ratio = imageSize.height / imageSize.width;
 		imageSize.width = dimension;
-		imageSize.height = dimension * ratio;
+		imageSize.height = (CGFloat)(dimension * ratio);
 	}
 	else {
 		ratio = imageSize.width / imageSize.height;
 		imageSize.height = dimension;
-		imageSize.width = dimension * ratio;				
+		imageSize.width = (CGFloat)(dimension * ratio);				
 	}
 	
 	NSImage *result = [[[NSImage alloc] initWithSize:imageSize] autorelease];
@@ -74,17 +74,17 @@
 - (NSImage *) imageSizedToDimensionSquaring:(int)dimension
 {
 	NSSize imageSize = [self size];
-	float ratio = 1;
+	double ratio = 1;
 	
 	if (imageSize.width > imageSize.height) {
 		ratio = imageSize.height / imageSize.width;
 		imageSize.width = dimension;
-		imageSize.height = dimension * ratio;
+		imageSize.height = (CGFloat)(dimension * ratio);
 	}
 	else {
 		ratio = imageSize.width / imageSize.height;
 		imageSize.height = dimension;
-		imageSize.width = dimension * ratio;				
+		imageSize.width = (CGFloat)(dimension * ratio);				
 	}
 	
 	NSSize finalSize = NSMakeSize(dimension, dimension);
@@ -96,8 +96,8 @@
 	NSRect destRect = NSZeroRect;
 	destRect.size = imageSize;
 	
-	destRect.origin.y = truncf((dimension - destRect.size.height) / 2);
-	destRect.origin.x = truncf((dimension - destRect.size.width) / 2);
+	destRect.origin.y = truncf((float)(dimension - destRect.size.height) / 2);
+	destRect.origin.x = truncf((float)(dimension - destRect.size.width) / 2);
 	
 	NSRect sourceRect = NSZeroRect;
 	sourceRect.size = [self size];

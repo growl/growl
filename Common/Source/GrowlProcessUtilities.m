@@ -20,7 +20,7 @@ BOOL Growl_GetPSNForProcessWithBundlePath(NSString *bundlePath, ProcessSerialNum
 }
 
 BOOL Growl_ProcessExistsWithBundleIdentifier(NSString *bundleID) {
-	return [[NSRunningApplication runningApplicationsWithBundleIdentifier:bundleID] count];
+	return ([[NSRunningApplication runningApplicationsWithBundleIdentifier:bundleID] count] > 0);
 }
 
 BOOL Growl_HelperAppIsRunning(void) {
