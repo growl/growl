@@ -320,14 +320,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	while (GetNextProcess(&PSN) == noErr) {
 		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		CFStringRef bundleId = CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey);
-
-		if (bundleId && CFStringCompare(bundleId, CFSTR("com.Growl.GrowlHelperApp"), 0) == kCFCompareEqualTo) {
-			growlIsRunning = YES;
+		if(infoDict) {
+			CFStringRef bundleId = CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey);
+			
+			if (bundleId && CFStringCompare(bundleId, CFSTR("com.Growl.GrowlHelperApp"), 0) == kCFCompareEqualTo) {
+				growlIsRunning = YES;
+				CFRelease(infoDict);
+				break;
+			}
 			CFRelease(infoDict);
-			break;
 		}
-		CFRelease(infoDict);
 	}
 
 	return growlIsRunning;
