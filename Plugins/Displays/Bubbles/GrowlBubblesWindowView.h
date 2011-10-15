@@ -47,5 +47,9 @@
 - (CGFloat) descriptionHeight;
 - (NSInteger) descriptionRowCount;
 
+@property (nonatomic, retain) NSColor				*textColor;
+@property (nonatomic, retain) NSColor				*bgColor;
+@property (nonatomic, retain) NSColor				*lightColor;
+
 @end
 

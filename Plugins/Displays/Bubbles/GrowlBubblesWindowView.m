@@ -50,6 +50,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 #pragma mark -
 
 @implementation GrowlBubblesWindowView
+@synthesize bgColor;
+@synthesize lightColor;
+@synthesize textColor;
 
 - (id) initWithFrame:(NSRect) frame {
 	if ((self = [super initWithFrame:frame])) {
@@ -228,15 +231,14 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 	if(data)
 		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+			self.bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+			self.bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		bgColor = [NSColor colorWithCalibratedRed:0.69412
+		self.bgColor = [NSColor colorWithCalibratedRed:0.69412
 											green:0.83147
 											 blue:0.96078
 											alpha:backgroundAlpha];
 	}
-	[bgColor retain];
 	[data release];
 
 	data = nil;
@@ -244,11 +246,10 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 	if(data)
 		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
+		self.textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
-		textColor = [NSColor controlTextColor];
+		self.textColor = [NSColor controlTextColor];
 	}
-	[textColor retain];
 	[data release];
 
 	data = nil;
@@ -256,15 +257,14 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 	if(data)
 		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
-		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
+		self.lightColor = [NSUnarchiver unarchiveObjectWithData:data];
+		self.lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		lightColor = [NSColor colorWithCalibratedRed:0.93725
+		self.lightColor = [NSColor colorWithCalibratedRed:0.93725
 											   green:0.96863
 												blue:0.99216
 											   alpha:backgroundAlpha];
 	}
-	[lightColor retain];
 	[data release];
 }
 
