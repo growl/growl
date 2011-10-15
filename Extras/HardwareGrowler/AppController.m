@@ -79,11 +79,11 @@
 #define NotifierNetworkLinkIdentifier @"link"
 #define NotifierNetworkIpIdentifier @"ip"
 
-#define ShowDevicesTitle NSLocalizedString(@"Show connected devices at launch", nil)
+#define ShowDevicesTitle NSLocalizedString(@"Show Connected Devices at Launch", nil)
 #define GroupNetworkTitle NSLocalizedString(@"Group Network Notifications", nil)
-#define MoveToMenuTitle NSLocalizedString(@"Move to Menu Bar", nil)
+#define MoveToMenuTitle NSLocalizedString(@"Move to Menubar", nil)
 #define MoveToDockTitle NSLocalizedString(@"Move to Dock", nil)
-#define QuitTitle NSLocalizedString(@"Quit Hardware Growler", nil)
+#define QuitTitle NSLocalizedString(@"Quit HardwareGrowler", nil)
 #define PreferencesTitle NSLocalizedString(@"Preferences...", nil)
 
 static io_connect_t			powerConnection;
@@ -785,7 +785,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	self.quitTitle = QuitTitle;
 	self.preferencesTitle = PreferencesTitle;
 }
-#define BETA 1
 
  #ifdef BETA
  #define DAYSTOEXPIRY 14
