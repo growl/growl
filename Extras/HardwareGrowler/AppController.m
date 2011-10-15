@@ -757,6 +757,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (BOOL) isEnabled: (CFStringRef) type{
+#pragma unused(type)
 	/*Boolean keyExistsAndHasValidFormat;
 	NSString* identifier = nil;
 	if (CFPreferencesGetAppBooleanValue(CFSTR(type), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))*/
@@ -765,11 +766,13 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (IBAction)moveToDock:(id)sender{
+#pragma unused(sender)
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HideDockIcon"];
 	[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 }
 - (IBAction)moveToStatusbar:(id)sender{
+#pragma unused(sender)
 	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideDockIcon"];
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];

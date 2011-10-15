@@ -1,0 +1,11 @@
+//
+//  Common.xcconfig
+//  HardwareGrowler
+//
+//  Created by Rudy Richter on 10/14/11.
+//  Copyright 2011 The Growl Project, LLC. All rights reserved.
+//
+
+#include "../../xcconfig/Common.xcconfig"
+
+HWG_VERSION = 1.3b1

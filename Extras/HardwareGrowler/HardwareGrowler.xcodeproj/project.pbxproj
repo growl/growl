@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
-		1D0980821440FB6200148857 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		1D09808B1440FBE300148857 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980891440FBE300148857 /* Localizable.strings */; };
 		1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980AB1440FC4900148857 /* MainMenu.xib */; };
 		1D0981D41441073900148857 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1D0981D21441073900148857 /* Credits.rtf */; };
@@ -183,7 +182,6 @@
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		315C882D1068F83300880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		315CBFB70FB009AE00458E96 /* Power-AC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-AC.png"; sourceTree = "<group>"; };
 		315CBFB80FB009AE00458E96 /* Power-Battery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-Battery.png"; sourceTree = "<group>"; };
 		315CBFF20FB0213C00458E96 /* Power-ACCharging.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Power-ACCharging.png"; sourceTree = "<group>"; };
@@ -194,6 +192,10 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93BA0E381449331000BD5FCA /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
+		93BA0E3A1449335C00BD5FCA /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		93BA0E3C1449337200BD5FCA /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		93BA0E3E1449338000BD5FCA /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		93E01DA813C934A600885286 /* HardwareGrowler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowler.entitlements; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -301,7 +303,8 @@
 		29B97314FDCFA39411CA2CEA /* HarwareNotifier */ = {
 			isa = PBXGroup;
 			children = (
-				93E01DA813C934A600885286 /* HardwareGrowler.entitlements */,
+				93BA0E37144932BC00BD5FCA /* Xcconfigs */,
+				93BA0E36144932A600BD5FCA /* Entitlements */,
 				9533C287085C3ED6009F8046 /* Growl.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -309,7 +312,6 @@
 				1D097F871440CC7B00148857 /* process strings */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				315C882D1068F83300880530 /* Localization.xcconfig */,
 			);
 			name = HarwareNotifier;
 			sourceTree = "<group>";
@@ -352,6 +354,25 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93BA0E36144932A600BD5FCA /* Entitlements */ = {
+			isa = PBXGroup;
+			children = (
+				93E01DA813C934A600885286 /* HardwareGrowler.entitlements */,
+			);
+			name = Entitlements;
+			sourceTree = "<group>";
+		};
+		93BA0E37144932BC00BD5FCA /* Xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				93BA0E381449331000BD5FCA /* Release.xcconfig */,
+				93BA0E3A1449335C00BD5FCA /* Localization.xcconfig */,
+				93BA0E3C1449337200BD5FCA /* Debug.xcconfig */,
+				93BA0E3E1449338000BD5FCA /* Common.xcconfig */,
+			);
+			name = Xcconfigs;
 			sourceTree = "<group>";
 		};
 		9533C288085C3ED6009F8046 /* Products */ = {
@@ -408,6 +429,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				ORGANIZATIONNAME = "The Growl Project, LLC";
 			};
 			buildConfigurationList = 95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -557,7 +579,6 @@
 				315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */,
 				315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */,
 				1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */,
-				1D0980821440FB6200148857 /* InfoPlist.strings in Resources */,
 				1D09808B1440FBE300148857 /* Localizable.strings in Resources */,
 				1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */,
 				1D0981D41441073900148857 /* Credits.rtf in Resources */,
@@ -648,7 +669,6 @@
 /* Begin XCBuildConfiguration section */
 		315C882E1068F83900880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 315C882D1068F83300880530 /* Localization.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
@@ -671,7 +691,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
-				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -683,16 +702,15 @@
 		};
 		315C882F1068F83900880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93BA0E3A1449335C00BD5FCA /* Localization.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -711,6 +729,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = HardwareGrowler;
@@ -720,23 +739,21 @@
 					"-Wall",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Localization;
 		};
 		95E4A2B60855C0DB006B3F45 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93BA0E3C1449337200BD5FCA /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -753,6 +770,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -763,22 +781,20 @@
 					"-Wall",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
 		95E4A2B70855C0DB006B3F45 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93BA0E381449331000BD5FCA /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"../../build/${BUILD_STYLE}\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HardwareNotifier_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -797,6 +813,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = HardwareGrowler;
@@ -806,7 +823,6 @@
 					"-Wall",
 				);
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -835,7 +851,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
-				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -868,7 +883,6 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I \"$(TARGET_BUILD_DIR)/include\" ";
-				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				RUN_CLANG_STATIC_ANALYZER = YES;
