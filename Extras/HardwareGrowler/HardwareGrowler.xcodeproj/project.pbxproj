@@ -35,7 +35,6 @@
 		DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
 		DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
 		DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
-		DDF9B81107BC20630007B5B7 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B81007BC20630007B5B7 /* readme.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,7 +218,6 @@
 		DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FireWireLogo.png; sourceTree = "<group>"; };
 		DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbLogo.png; sourceTree = "<group>"; };
 		DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbLogoWhite.png; sourceTree = "<group>"; };
-		DDF9B81007BC20630007B5B7 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,7 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				950626460840CB8200C01CD2 /* BluetoothLogo.png */,
-				DDF9B81007BC20630007B5B7 /* readme.txt */,
 				1D0980891440FBE300148857 /* Localizable.strings */,
 				DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */,
 				1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */,
@@ -572,7 +569,6 @@
 				DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */,
 				DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */,
 				DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */,
-				DDF9B81107BC20630007B5B7 /* readme.txt in Resources */,
 				DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */,
 				950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */,
 				315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */,
