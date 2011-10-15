@@ -116,7 +116,7 @@ namespace "package" do
 		if(!BETA)
 			system "productbuild --component HardwareGrowler.app /Applications --sign \"#{CSI}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{PRODUCT_ROOT}"
 		elsif (BETA)
-			system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}.zip HardwareGrowler.app/"
+			system "zip -r -y #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}.zip HardwareGrowler.app/"
 		end
 		system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}-dSYM.zip HardwareGrowler.dSYM"
 		FileUtils.cd(curdir)
@@ -128,7 +128,7 @@ namespace "package" do
 		if(!BETA)
 			system "productbuild --component GrowlTunes.app /Applications --sign \"#{CSI}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{PRODUCT_ROOT}"
 		elsif (BETA)
-			system "zip -r #{PRODUCT_ROOT}/GrowlTunes.zip GrowlTunes.app/"
+			system "zip -r -y #{PRODUCT_ROOT}/GrowlTunes.zip GrowlTunes.app/"
 		end
 		system "zip -r #{PRODUCT_ROOT}/GrowlTunes-dSYM.zip GrowlTunes.dSYM"
 		FileUtils.cd(curdir)
@@ -161,7 +161,7 @@ namespace "package" do
       		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
 		
 		FileUtils.cd("..")
-		system "zip -r #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip SDK/"
+		system "zip -r -y #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip SDK/"
 		
 	end
 end
