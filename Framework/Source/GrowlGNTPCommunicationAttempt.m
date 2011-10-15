@@ -124,6 +124,7 @@ enum {
                                          hashAlgorithm:GNTPSHA512
                                    encryptionAlgorithm:GNTPNone];
       [outPacket setKey:key];
+      [key release];
    }
    [outPacket writeToSocket:sock];
 	//After we send in our request, the notifications system will send back a response consisting of at least one line.

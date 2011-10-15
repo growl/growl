@@ -124,7 +124,7 @@
 
 - (NSString*)stringByEscapingForHTML
 {
-    return [[[self mutableCopy] escapeForHTML] autorelease];
+    return [[[self mutableCopy] autorelease] escapeForHTML];
 }
 
 @end

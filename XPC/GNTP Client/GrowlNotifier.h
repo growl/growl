@@ -12,7 +12,7 @@
 
 @interface GrowlNotifier : NSObject <GrowlCommunicationAttemptDelegate>
 
-@property (nonatomic, retain) NSMutableArray *currentAttempts;
+@property (nonatomic, strong) NSMutableArray *currentAttempts;
 
 - (void) sendCommunicationAttempt:(GrowlCommunicationAttempt *)attempt;
 
