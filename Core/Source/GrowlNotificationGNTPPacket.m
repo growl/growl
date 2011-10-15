@@ -550,7 +550,9 @@
 	if (!notificationID) {
 		/* Create a Notification-ID if this dictionary doesn't have one yet */
 		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-		notificationID = [(NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef) autorelease];
+        CFStringRef uuidStrRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+		notificationID = [[(NSString*)uuidStrRef copy] autorelease];
+        CFRelease(uuidStrRef);
 		CFRelease(uuidRef);
 	}
 	[headersArray addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPNotificationID value:notificationID]];
