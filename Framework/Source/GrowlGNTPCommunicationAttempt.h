@@ -14,23 +14,26 @@
 
 @interface GrowlGNTPCommunicationAttempt : GrowlCommunicationAttempt
 {
+    @private
+    
 	GrowlGNTPOutgoingPacket *packet;
 	GCDAsyncSocket *socket;
 	NSString *responseParseErrorString, *bogusResponse;
 	NSString *callbackType;
 	NSMutableArray *callbackHeaderItems;
 	BOOL attemptSucceeded;
-   int responseReadType;
-   
-   NSString *host;
-   NSString *password;
-   
-   //For the XPC version
-   xpc_connection_t connection;
+    int responseReadType;
+    
+    NSString *host;
+    NSString *password;
+    
+    //For the XPC version
+    xpc_connection_t connection;
 }
+
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
-@property (nonatomic) xpc_connection_t connection;
+@property (nonatomic) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0);
 @property (nonatomic, retain) NSArray *callbackHeaderItems;
 
 //Lazily constructs the packet for self.dictionary.

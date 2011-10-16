@@ -10,6 +10,7 @@
 #import <xpc/xpc.h>
 
 @interface GrowlXPCCommunicationAttempt : GrowlCommunicationAttempt {
+    @private
     
     xpc_connection_t                    xpcConnection;
     
@@ -24,7 +25,7 @@
 - (BOOL) establishConnection;
 
 // Reply handler
-- (void) handleReply:(xpc_object_t)reply;
+- (void) handleReply:(xpc_object_t)reply NS_AVAILABLE(10_7, 5_0);
 
 // This generates an XPC message for the communication dictionary, but
 // will never wait for a reply.

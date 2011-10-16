@@ -12,7 +12,7 @@
 
 @interface NSObject (NSObject_XPCHelpers)
 
-+(id)xpcObjectToNSObject:(xpc_object_t)object;
--(xpc_object_t)newXPCObject;
++(id)xpcObjectToNSObject:(xpc_object_t)object NS_AVAILABLE(10_7, 5_0);
+-(xpc_object_t)newXPCObject NS_AVAILABLE(10_7, 5_0);
 
 @end
