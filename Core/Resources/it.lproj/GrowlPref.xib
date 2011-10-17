@@ -784,7 +784,7 @@
 																						<reference key="NSNextKeyView" ref="6056424"/>
 																						<reference key="NSTableView" ref="825027978"/>
 																					</object>
-																					<object class="_NSCornerView" key="NSCornerView" id="557522807">
+																					<object class="_NSCornerView" key="NSCornerView" id="244739271">
 																						<reference key="NSNextResponder" ref="122426890"/>
 																						<int key="NSvFlags">-2147483392</int>
 																						<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
@@ -1015,7 +1015,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																			<int key="NSvFlags">-2147483392</int>
 																			<string key="NSFrame">{{1, -30}, {496, 15}}</string>
 																			<reference key="NSSuperview" ref="122426890"/>
-																			<reference key="NSNextKeyView" ref="557522807"/>
+																			<reference key="NSNextKeyView" ref="244739271"/>
 																			<int key="NSsFlags">1</int>
 																			<reference key="NSTarget" ref="122426890"/>
 																			<string key="NSAction">_doScroller:</string>
@@ -1034,7 +1034,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																			<reference key="NSBGColor" ref="909300743"/>
 																			<int key="NScvFlags">4</int>
 																		</object>
-																		<reference ref="557522807"/>
+																		<reference ref="244739271"/>
 																	</array>
 																	<string key="NSFrame">{{20, 58}, {519, 371}}</string>
 																	<reference key="NSSuperview" ref="16743561"/>
@@ -1044,7 +1044,7 @@ AAAAAAAAdGV4dAAAAABDb3B5cmlnaHQgQXBwbGUgQ29tcHV0ZXIsIEluYy4sIDIwMDUAAAAAA</bytes
 																	<reference key="NSHScroller" ref="824104034"/>
 																	<reference key="NSContentView" ref="130741137"/>
 																	<reference key="NSHeaderClipView" ref="399640988"/>
-																	<reference key="NSCornerView" ref="557522807"/>
+																	<reference key="NSCornerView" ref="244739271"/>
 																	<bytes key="NSScrollAmts">AAAAAAAAAABCCAAAQggAAA</bytes>
 																</object>
 																<object class="NSSearchField" id="585564087">
@@ -6409,6 +6409,70 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">2691</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: preferencesController.rollupEnabled</string>
+						<reference key="source" ref="611602330"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="611602330"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">enabled: preferencesController.rollupEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">preferencesController.rollupEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2693</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: preferencesController.rollupEnabled</string>
+						<reference key="source" ref="265824684"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="265824684"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">enabled: preferencesController.rollupEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">preferencesController.rollupEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2695</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: preferencesController.rollupEnabled</string>
+						<reference key="source" ref="652699750"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="652699750"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">enabled: preferencesController.rollupEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">preferencesController.rollupEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2697</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: preferencesController.rollupEnabled</string>
+						<reference key="source" ref="627279759"/>
+						<reference key="destination" ref="852059746"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="627279759"/>
+							<reference key="NSDestination" ref="852059746"/>
+							<string key="NSLabel">enabled: preferencesController.rollupEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">preferencesController.rollupEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2701</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -8910,7 +8974,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2691</int>
+			<int key="maxID">2701</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
