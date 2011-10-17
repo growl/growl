@@ -24,9 +24,17 @@
     self = [super init];
     if (self) {
         // Initialization code here.
+       self.currentAttempts = [NSMutableArray array];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+   [currentAttempts release];
+   currentAttempts = nil;
+   [super dealloc];
 }
 
 - (void) sendCommunicationAttempt:(GrowlCommunicationAttempt *)attempt 
