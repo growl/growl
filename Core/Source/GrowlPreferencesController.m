@@ -375,7 +375,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
                                              defaultButton:NSLocalizedString(@"Ok", nil)
                                            alternateButton:NSLocalizedString(@"Cancel", nil)
                                                otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will cause Growl to run entirely in the background. No icon in the menu. No icon in the dock.\n\nTo access preferences in this mode, simply double click Growl.app in Finder or Launchpad.", nil)];
+                                 informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause Growl to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Growl in Launchpad, or open Growl in Finder.", nil)];
             [alert setShowsSuppressionButton:YES];
             NSInteger allow = [alert runModal];
             BOOL suppress = [[alert suppressionButton] state] == NSOnState;
@@ -401,7 +401,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    //We can't actually remove the dock menu without restarting, inform the user.
    if(![self boolForKey:GrowlRelaunchWarnSuppress]){
       NSAlert *alert = [[NSAlert alloc] init];
-      [alert setMessageText:NSLocalizedString(@"You need to restart Growl in order for this change to take effect",nil)];
+      [alert setMessageText:NSLocalizedString(@"Growl must restart for this change to take effect.",nil)];
       [alert setShowsSuppressionButton:YES];
       [alert runModal];
       if([[alert suppressionButton] state] == NSOnState){
