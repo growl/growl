@@ -12,7 +12,6 @@
 		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
 		6A9ED38F1447D04F002A0537 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A9ED3911447D04F002A0537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9ED3901447D04F002A0537 /* main.m */; };
-		6A9ED3951447D04F002A0537 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED3931447D04F002A0537 /* Credits.rtf */; };
 		6A9ED3981447D04F002A0537 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9ED3971447D04F002A0537 /* AppDelegate.m */; };
 		6AADA30D1448AF570089AB08 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30B1448AF570089AB08 /* Localizable.strings */; };
 		6AADA3111448B43E0089AB08 /* growlTunes-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30E1448B43E0089AB08 /* growlTunes-selected.png */; };
@@ -176,7 +175,6 @@
 		6A9ED38E1447D04F002A0537 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A9ED3901447D04F002A0537 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6A9ED3921447D04F002A0537 /* growltunes-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "growltunes-Prefix.pch"; sourceTree = "<group>"; };
-		6A9ED3941447D04F002A0537 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		6A9ED3961447D04F002A0537 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6A9ED3971447D04F002A0537 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6AADA30A1447F0F40089AB08 /* growltunes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = growltunes.entitlements; sourceTree = "<group>"; };
@@ -288,7 +286,6 @@
 				6A9ED38D1447D04F002A0537 /* InfoPlist.strings */,
 				6A9ED3901447D04F002A0537 /* main.m */,
 				6A9ED3921447D04F002A0537 /* growltunes-Prefix.pch */,
-				6A9ED3931447D04F002A0537 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -456,7 +453,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9ED38F1447D04F002A0537 /* InfoPlist.strings in Resources */,
-				6A9ED3951447D04F002A0537 /* Credits.rtf in Resources */,
 				6AADA30D1448AF570089AB08 /* Localizable.strings in Resources */,
 				6AADA3111448B43E0089AB08 /* growlTunes-selected.png in Resources */,
 				6AADA3121448B43E0089AB08 /* GrowlTunes.icns in Resources */,
@@ -516,14 +512,6 @@
 				6A9ED38E1447D04F002A0537 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6A9ED3931447D04F002A0537 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A9ED3941447D04F002A0537 /* en */,
-			);
-			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		6AADA30B1448AF570089AB08 /* Localizable.strings */ = {
