@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1617</string>
@@ -137,7 +137,7 @@
 			<object class="NSWindowTemplate" id="616139977">
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{109, 132}, {284, 111}}</string>
+				<string key="NSWindowRect">{{109, 132}, {414, 111}}</string>
 				<int key="NSWTFlags">1685585920</int>
 				<string key="NSWindowTitle">Window</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -151,7 +151,7 @@
 						<object class="NSButton" id="637753410">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 75}, {347, 18}}</string>
+							<string key="NSFrame">{{18, 75}, {378, 18}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="178422696"/>
@@ -186,7 +186,7 @@
 						<object class="NSButton" id="178422696">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 55}, {347, 18}}</string>
+							<string key="NSFrame">{{18, 55}, {378, 18}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="251954291"/>
@@ -212,7 +212,7 @@
 						<object class="NSPopUpButton" id="693550617">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{54, 25}, {213, 26}}</string>
+							<string key="NSFrame">{{95, 25}, {302, 26}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -249,7 +249,7 @@
 						<object class="NSTextField" id="251954291">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 32}, {35, 17}}</string>
+							<string key="NSFrame">{{17, 32}, {76, 17}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="693550617"/>
@@ -283,13 +283,13 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{284, 111}</string>
+					<string key="NSFrameSize">{414, 111}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="637753410"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -536,6 +536,22 @@
 						</object>
 					</object>
 					<int key="connectionID">589</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: iconTitle</string>
+						<reference key="source" ref="251954291"/>
+						<reference key="destination" ref="767476226"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="251954291"/>
+							<reference key="NSDestination" ref="767476226"/>
+							<string key="NSLabel">value: iconTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">iconTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">593</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -808,7 +824,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">589</int>
+			<int key="maxID">593</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -821,14 +837,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doSimpleHelp:</string>
-							<string>moveToDock:</string>
-							<string>moveToStatusbar:</string>
 							<string>showPreferences:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -838,22 +850,12 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doSimpleHelp:</string>
-							<string>moveToDock:</string>
-							<string>moveToStatusbar:</string>
 							<string>showPreferences:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">doSimpleHelp:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">moveToDock:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">moveToStatusbar:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

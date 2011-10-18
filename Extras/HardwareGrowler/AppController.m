@@ -85,6 +85,7 @@
 #define QuitTitle NSLocalizedString(@"Quit HardwareGrowler", nil)
 #define PreferencesTitle NSLocalizedString(@"Preferences...", nil)
 #define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
+#define IconTitle NSLocalizedString(@"Icon:", nil)
 
 
 static io_connect_t			powerConnection;
@@ -631,7 +632,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 @implementation AppController
-@synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle;
+@synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle, iconTitle;
 @synthesize prefsWindow;
 @synthesize iconOptions;
 
@@ -745,6 +746,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	self.quitTitle = QuitTitle;
 	self.preferencesTitle = PreferencesTitle;
 	self.openPreferencesTitle = OpenPreferencesTitle;
+	self.iconTitle = IconTitle;
 }
 
  #ifdef BETA
@@ -854,13 +856,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 		[self initMenu];
 	}
     
-	
-    //	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
-    //		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    //	}
-    //	else{
-    //		[self initMenu];
-    //	}
 	[self initTitles];
 	
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.Visibility" options:NSKeyValueObservingOptionNew context:&self];

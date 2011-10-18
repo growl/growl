@@ -46,6 +46,8 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 	NSString* moveToDockTitle;
 	NSString* quitTitle;
 	NSString* preferencesTitle;
+	NSString* openPreferencesTitle;
+	NSString* iconTitle;
     NSWindow *prefsWindow;
     NSArray *iconOptions;
 }
@@ -55,6 +57,7 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 @property  (nonatomic, retain) NSString* quitTitle;
 @property  (nonatomic, retain) NSString* preferencesTitle;
 @property  (nonatomic, retain) NSString* openPreferencesTitle;
+@property  (nonatomic, retain) NSString* iconTitle;
 @property  (nonatomic, assign) IBOutlet NSWindow *prefsWindow;
 @property (nonatomic, retain) NSArray *iconOptions;
 - (IBAction)showPreferences:(id)sender;
