@@ -22,6 +22,8 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
+		935DAB26144DBF9A0063FC79 /* HGIconValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 935DAB25144DBF9A0063FC79 /* HGIconValueTransformer.m */; };
+		935DAB37144DC71F0063FC79 /* HGCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 935DAB36144DC71F0063FC79 /* HGCommon.m */; };
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
@@ -191,6 +193,10 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		935DAB24144DBF9A0063FC79 /* HGIconValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HGIconValueTransformer.h; sourceTree = "<group>"; };
+		935DAB25144DBF9A0063FC79 /* HGIconValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HGIconValueTransformer.m; sourceTree = "<group>"; };
+		935DAB35144DC71F0063FC79 /* HGCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HGCommon.h; sourceTree = "<group>"; };
+		935DAB36144DC71F0063FC79 /* HGCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HGCommon.m; sourceTree = "<group>"; };
 		93BA0E381449331000BD5FCA /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		93BA0E3A1449335C00BD5FCA /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
 		93BA0E3C1449337200BD5FCA /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
@@ -255,6 +261,10 @@
 				9586EF0208C9C3A40039789E /* SyncNotifier.m */,
 				3423606F09D8888A009FF634 /* PowerNotifier.h */,
 				3423607009D8888A009FF634 /* PowerNotifier.m */,
+				935DAB24144DBF9A0063FC79 /* HGIconValueTransformer.h */,
+				935DAB25144DBF9A0063FC79 /* HGIconValueTransformer.m */,
+				935DAB35144DC71F0063FC79 /* HGCommon.h */,
+				935DAB36144DC71F0063FC79 /* HGCommon.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -614,6 +624,8 @@
 				3423607209D8888A009FF634 /* PowerNotifier.m in Sources */,
 				179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */,
 				345BD6330C8B12B8005C3DA2 /* NetworkNotifier.m in Sources */,
+				935DAB26144DBF9A0063FC79 /* HGIconValueTransformer.m in Sources */,
+				935DAB37144DC71F0063FC79 /* HGCommon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

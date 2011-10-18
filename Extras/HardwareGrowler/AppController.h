@@ -34,7 +34,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 void AppController_volumeDidMount(VolumeInfo *info);
 void AppController_volumeDidUnmount(VolumeInfo *info);
 
-@interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
+@interface AppController : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate> {
 	NetworkNotifier *networkNotifier;
 	IBOutlet NSMenu* statusMenu;
 	NSStatusItem* statusItem;
@@ -46,6 +46,8 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 	NSString* moveToDockTitle;
 	NSString* quitTitle;
 	NSString* preferencesTitle;
+    NSWindow *prefsWindow;
+    NSArray *iconOptions;
 }
 
 @property  (nonatomic, retain) NSString* showDevices;
@@ -53,12 +55,13 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 @property  (nonatomic, retain) NSString* quitTitle;
 @property  (nonatomic, retain) NSString* preferencesTitle;
 @property  (nonatomic, retain) NSString* openPreferencesTitle;
+@property  (nonatomic, assign) IBOutlet NSWindow *prefsWindow;
+@property (nonatomic, retain) NSArray *iconOptions;
+- (IBAction)showPreferences:(id)sender;
 
 - (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
 - (BOOL) isEnabled: (CFStringRef) type;
-- (IBAction)moveToDock:(id)sender;
-- (IBAction)moveToStatusbar:(id)sender;
 - (void) initTitles;
 - (void)expiryCheck;
 @end

@@ -9,6 +9,7 @@
 #include "NetworkNotifier.h"
 #include "SyncNotifier.h"
 #include "PowerNotifier.h"
+#import "HGCommon.h"
 
 #define NotifierUSBConnectionNotification				@"USB Device Connected"
 #define NotifierUSBDisconnectionNotification			@"USB Device Disconnected"
@@ -631,52 +632,14 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 
 @implementation AppController
 @synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle;
+@synthesize prefsWindow;
+@synthesize iconOptions;
 
 - (void) awakeFromNib {
-	// Register ourselves as a Growl delegate for registration purposes
-	[GrowlApplicationBridge setGrowlDelegate:self];
-    [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
-    
-	// Register for sleep and wake notifications so we can suppress various notifications during sleep
-	IONotificationPortRef ioNotificationPort;
-	powerConnection = IORegisterForSystemPower(NULL, &ioNotificationPort, powerCallback, &powerNotifier);
-	if (powerConnection) {
-		powerRunLoopSource = IONotificationPortGetRunLoopSource(ioNotificationPort);
-		CFRunLoopAddSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
-	}
-
-	FireWireNotifier_init();
-	USBNotifier_init();
-	VolumeNotifier_init();
-	SyncNotifier_init();
-	BluetoothNotifier_init();
-	networkNotifier = [[NetworkNotifier alloc] init];
-	PowerNotifier_init();
-
-	[mainItem setSubmenu:submenu];
-
-	NSString* visibility = [[NSUserDefaults standardUserDefaults] stringForKey:@"Visibility"];
-	if(visibility == nil || [visibility isEqualToString:@"Show icon in the dock"] || [visibility isEqualToString:@"Show icon in both"]){
-		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-	}
-	
-	if(visibility == nil || [visibility isEqualToString:@"Show icon in the menubar"] || [visibility isEqualToString:@"Show icon in both"]){
-		[self initMenu];
-	}
-
-	
-//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
-//		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-//	}
-//	else{
-//		[self initMenu];
-//	}
-	[self initTitles];
-	
-	
-	NSLog(@"Application Launched");
-	[self expiryCheck];
-
+	iconInMenu = NSLocalizedString(@"Show icon in the menubar", @"default option for where the icon should be seen");
+    iconInDock = NSLocalizedString(@"Show icon in the dock", @"display the icon only in the dock");
+    iconInBoth = NSLocalizedString(@"Show icon in both", @"display the icon in both the menubar and the dock");
+    noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");            
 }
 
 - (void) dealloc {
@@ -776,22 +739,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 
 }
 
-- (IBAction)moveToDock:(id)sender{
-#pragma unused(sender)
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HideDockIcon"];
-	[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
-}
-- (IBAction)moveToStatusbar:(id)sender{
-#pragma unused(sender)
-	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"HideDockIcon"];
-	[NSApp activateIgnoringOtherApps:YES];
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
-	[alert runModal];
-
-}
-
 - (void) initTitles{
 	self.showDevices = ShowDevicesTitle;
 	self.groupNetworkTitle = GroupNetworkTitle;
@@ -865,4 +812,99 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
  }
  #endif
 
+- (IBAction)showPreferences:(id)sender
+{
+    [NSApp activateIgnoringOtherApps:YES];
+    [self.prefsWindow makeKeyAndOrderFront:sender];
+}
+
+- (void) applicationDidFinishLaunching:(NSNotification *)notification
+{
+#pragma unused(notification)
+    self.iconOptions = [NSArray arrayWithObjects:iconInMenu, iconInDock, iconInBoth, noIcon, nil];
+    
+    // Register ourselves as a Growl delegate for registration purposes
+	[GrowlApplicationBridge setGrowlDelegate:self];
+    [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
+    
+	// Register for sleep and wake notifications so we can suppress various notifications during sleep
+	IONotificationPortRef ioNotificationPort;
+	powerConnection = IORegisterForSystemPower(NULL, &ioNotificationPort, powerCallback, &powerNotifier);
+	if (powerConnection) {
+		powerRunLoopSource = IONotificationPortGetRunLoopSource(ioNotificationPort);
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
+	}
+    
+	FireWireNotifier_init();
+	USBNotifier_init();
+	VolumeNotifier_init();
+	SyncNotifier_init();
+	BluetoothNotifier_init();
+	networkNotifier = [[NetworkNotifier alloc] init];
+	PowerNotifier_init();
+    
+	[mainItem setSubmenu:submenu];
+    
+	NSNumber *visibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"Visibility"];
+	if(visibility == nil || [visibility integerValue] == kShowIconInDock || [visibility integerValue] == kShowIconInBoth){
+		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	}
+	
+	if(visibility == nil || [visibility integerValue] == kShowIconInMenu || [visibility integerValue] == kShowIconInBoth){
+		[self initMenu];
+	}
+    
+	
+    //	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
+    //		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    //	}
+    //	else{
+    //		[self initMenu];
+    //	}
+	[self initTitles];
+	
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.Visibility" options:NSKeyValueObservingOptionNew context:&self];
+	
+	NSLog(@"Application Launched");
+	[self expiryCheck];
+}
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+#pragma unused(theApplication, flag)    
+    [self showPreferences:self];
+    return YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+#pragma unused(object, change, context)
+    if([keyPath isEqualToString:@"values.Visibility"])
+    {
+        NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"Visibility"];
+        NSInteger index = [value integerValue];
+        switch (index) {
+            case kDontShowIcon:
+                [NSApp activateIgnoringOtherApps:YES];
+                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                [alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
+                [alert runModal];    
+                break;
+            case kShowIconInBoth:
+                [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+                if(!statusItem)
+                    [self initMenu];
+                break;
+            case kShowIconInDock:
+                [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+                [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+                [statusItem release];
+                statusItem = nil;
+                break;
+            case kShowIconInMenu:
+            default:
+                if(!statusItem)
+                    [self initMenu];
+                break;
+        }
+    }
+}
 @end
