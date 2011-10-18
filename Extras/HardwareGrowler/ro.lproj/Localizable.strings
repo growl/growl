@@ -1,0 +1,78 @@
+"6to4 relay" = "releu 6to4";
+"AirPort Connected" = "AirPort conectat";
+"Airport connected" = "Airport conectat";
+"Airport disconnected" = "Airport deconectat";
+"AirPort Disconnected" = "AirPort deconectat";
+"Battery charging..." = "Se încarcă bateria...";
+"Benchmark" = "Performanță";
+"Bluetooth Connection" = "Conexiune Bluetooth";
+"Bluetooth Device Connected" = "Dispozitiv Bluetooth conectat";
+"Bluetooth Device Disconnected" = "Dispozitiv Bluetooth deconectat";
+"Bluetooth Disconnection" = "Deconectare Bluetooth";
+"Current charge: %d%%" = "Încărcat: %d%%";
+"Ethernet activated" = "Rețea activată";
+"Ethernet deactivated" = "Rețea dezactivată";
+"FireWire Connection" = "Conexiune prin cablu";
+"FireWire Device Connected" = "Dispozitiv cu cablu conectat";
+"FireWire Device Disconnected" = "Dispozitiv cu cablu deconectat ";
+"FireWire Disconnection" = "Deconectare cablu";
+"Group Network Nnotifications" = "Grup rețea de notificări";
+"Interface:\ten0" = "Interfață:\ten0";
+"Interface:\ten0\nMedia:\t%@" = "Interfață:\ten0\nMedia:\t%@";
+"IP Acquired" = "IP primit";
+"IP address acquired" = "Adresă IP primită";
+"IP address released" = "Adresă IP expediată";
+"IP Released" = "IP expediat";
+"Joined network.\nSSID:\t\t%@\nBSSID:\t%@" = "Rețea conectată.\nSSID:\t\t%1$@\nBSSID:\t%2$@";
+"Left network %@." = "Rețea părăsită %@.";
+"Link-local" = "Legătură-locală";
+"Loopback" = "Revenire la forma inițială";
+"Network Link Down" = "Legătură rețea în jos";
+"Network Link Up" = "Legătură rețea în sus";
+"New primary IP: %@ (%@)" = "Noul IP primar: %1$@ (%2$@)";
+"No IP address now" = "Nicio adresă IP acum";
+"On A/C power" = "Consumator de curent alternativ";
+"On battery power" = "Cunsumator de curent continuu";
+"On UPS power" = "Cunsum de curent prin UPS";
+"Preferences..." = "Preferințe...";
+"Private" = "Privat";
+"Public" = "Public";
+"Quit HardwareGrowler" = "Închide HardwareGrowler";
+"Reserved" = "Rezervat";
+"Show Connected Devices at Launch" = "Afișează dispozitivele conectate la pornire";
+"Switched to A/C Power" = "Comută pe curent alternetiv";
+"Switched to Battery Power" = "Comută pe curent continuu";
+"Switched to UPS Power" = "Comută pe curent prin UPS";
+"Sync finished" = "Sincronizare terminată";
+"Sync started" = "A început sincronizarea";
+"Test" = "Test";
+"This setting will take effect when Hardware Growler restarts" = "This setting will take effect when Hardware Growler restarts";
+"Time remaining: %i minutes" = "Time remaining: %i minutes";
+"Time to charge: %i minutes" = "Time to charge: %i minutes";
+"Unnamed FireWire Device" = "Unnamed FireWire Device";
+"USB 2.0 Bus" = "Magistrală USB 2.0";
+"USB Bus" = "Magistrală USB";
+"USB Connection" = "Conexiune USB";
+"USB Device Connected" = "Dispozitiv USB conectat";
+"USB Device Disconnected" = "Dispozitiv USB deconectat";
+"USB Disconnection" = "Deconectare USB";
+"Volume Mounted" = "Volum atașat";
+"Volume Unmounted" = "Volum detașat";
+
+/* No comment provided by engineer. */
+"Open HardwareGrowler Preferences..." = "Deschide preferințele dispozitivului Growler...";
+
+/* display the icon in both the menubar and the dock */
+"Show icon in both" = "Afișează pictograma în ambele";
+
+/* display the icon only in the dock */
+"Show icon in the dock" = "Afișează pictograma în Doc";
+
+/* default option for where the icon should be seen */
+"Show icon in the menubar" = "Afișează pictograma în bara de meniu";
+
+/* display no icon at all */
+"No icon visible" = "Nicio pictogramă vizibilă";
+
+/* No comment provided by engineer. */
+"Icon:" = "Icon:";
