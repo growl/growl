@@ -179,6 +179,33 @@
 		1D0981D1144106F900148857 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D0981D31441073900148857 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		1D0981D51441074D00148857 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = el.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1D3931FC144E39A2005A0843 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/nl.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D3931FD144E39A2005A0843 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/nl.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D3931FE144E39A2005A0843 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/nl.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D39320E144E39A6005A0843 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sv.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D39320F144E39A6005A0843 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sv.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D393210144E39A7005A0843 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sv.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D393227144E3A5E005A0843 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ar.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D393228144E3A5E005A0843 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ar; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ar.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D393229144E3A5E005A0843 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ar.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D39324B144E3AAA005A0843 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/it.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D39324C144E3AAA005A0843 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/it.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D39324D144E3AAA005A0843 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/it.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B247144E3DA700C5BCC0 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = lv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/lv.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D45B248144E3DA700C5BCC0 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/lv.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D45B249144E3DA700C5BCC0 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/lv.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B26C144E3DD400C5BCC0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ja; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ja.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D45B26D144E3DD400C5BCC0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ja.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D45B26E144E3DD400C5BCC0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ja.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B270144E3DF200C5BCC0 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ro.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D45B271144E3DF200C5BCC0 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ro.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D45B272144E3DF200C5BCC0 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ro.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B28C144E3E7E00C5BCC0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ko.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B28D144E3E7E00C5BCC0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ko.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D45B28E144E3E7E00C5BCC0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/ko.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D45B29B144E3E8B00C5BCC0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/cs.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D45B29C144E3E8B00C5BCC0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/cs.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D45B29D144E3E8B00C5BCC0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/cs.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
 		1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwgrowler_statusbar_icn.png; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -650,6 +677,15 @@
 			children = (
 				1D0980811440FB6200148857 /* English */,
 				1D0980E41440FD0500148857 /* el */,
+				1D3931FE144E39A2005A0843 /* nl */,
+				1D393210144E39A7005A0843 /* sv */,
+				1D393229144E3A5E005A0843 /* ar */,
+				1D39324D144E3AAA005A0843 /* it */,
+				1D45B249144E3DA700C5BCC0 /* lv */,
+				1D45B26E144E3DD400C5BCC0 /* ja */,
+				1D45B272144E3DF200C5BCC0 /* ro */,
+				1D45B28C144E3E7E00C5BCC0 /* ko */,
+				1D45B29B144E3E8B00C5BCC0 /* cs */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -659,6 +695,15 @@
 			children = (
 				1D09808A1440FBE300148857 /* English */,
 				1D0981D1144106F900148857 /* el */,
+				1D3931FC144E39A2005A0843 /* nl */,
+				1D39320E144E39A6005A0843 /* sv */,
+				1D393227144E3A5E005A0843 /* ar */,
+				1D39324B144E3AAA005A0843 /* it */,
+				1D45B248144E3DA700C5BCC0 /* lv */,
+				1D45B26D144E3DD400C5BCC0 /* ja */,
+				1D45B271144E3DF200C5BCC0 /* ro */,
+				1D45B28E144E3E7E00C5BCC0 /* ko */,
+				1D45B29D144E3E8B00C5BCC0 /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -668,6 +713,15 @@
 			children = (
 				1D0981D31441073900148857 /* English */,
 				1D0981D51441074D00148857 /* el */,
+				1D3931FD144E39A2005A0843 /* nl */,
+				1D39320F144E39A6005A0843 /* sv */,
+				1D393228144E3A5E005A0843 /* ar */,
+				1D39324C144E3AAA005A0843 /* it */,
+				1D45B247144E3DA700C5BCC0 /* lv */,
+				1D45B26C144E3DD400C5BCC0 /* ja */,
+				1D45B270144E3DF200C5BCC0 /* ro */,
+				1D45B28D144E3E7E00C5BCC0 /* ko */,
+				1D45B29C144E3E8B00C5BCC0 /* cs */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
