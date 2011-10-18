@@ -81,10 +81,10 @@
 
 #define ShowDevicesTitle NSLocalizedString(@"Show Connected Devices at Launch", nil)
 #define GroupNetworkTitle NSLocalizedString(@"Group Network Notifications", nil)
-#define MoveToMenuTitle NSLocalizedString(@"Move to Menubar", nil)
-#define MoveToDockTitle NSLocalizedString(@"Move to Dock", nil)
 #define QuitTitle NSLocalizedString(@"Quit HardwareGrowler", nil)
 #define PreferencesTitle NSLocalizedString(@"Preferences...", nil)
+#define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
+
 
 static io_connect_t			powerConnection;
 static io_object_t			powerNotifier;
@@ -630,7 +630,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 @implementation AppController
-@synthesize showDevices, groupNetworkTitle, moveToMenuTitle, moveToDockTitle, quitTitle, preferencesTitle;
+@synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle;
 
 - (void) awakeFromNib {
 	// Register ourselves as a Growl delegate for registration purposes
@@ -655,13 +655,24 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 
 	[mainItem setSubmenu:submenu];
 
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
+	NSString* visibility = [[NSUserDefaults standardUserDefaults] stringForKey:@"Visibility"];
+	if(visibility == nil || [visibility isEqualToString:@"Show icon in the dock"] || [visibility isEqualToString:@"Show icon in both"]){
 		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 	}
-	else{
+	
+	if(visibility == nil || [visibility isEqualToString:@"Show icon in the menubar"] || [visibility isEqualToString:@"Show icon in both"]){
 		[self initMenu];
 	}
+
+	
+//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"HideDockIcon"]){
+//		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+//	}
+//	else{
+//		[self initMenu];
+//	}
 	[self initTitles];
+	
 	
 	NSLog(@"Application Launched");
 	[self expiryCheck];
@@ -784,10 +795,9 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 - (void) initTitles{
 	self.showDevices = ShowDevicesTitle;
 	self.groupNetworkTitle = GroupNetworkTitle;
-	self.moveToMenuTitle = MoveToMenuTitle;
-	self.moveToDockTitle = MoveToDockTitle;
 	self.quitTitle = QuitTitle;
 	self.preferencesTitle = PreferencesTitle;
+	self.openPreferencesTitle = OpenPreferencesTitle;
 }
 
  #ifdef BETA

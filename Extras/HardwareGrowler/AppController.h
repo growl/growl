@@ -50,10 +50,9 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 
 @property  (nonatomic, retain) NSString* showDevices;
 @property  (nonatomic, retain) NSString* groupNetworkTitle;
-@property  (nonatomic, retain) NSString* moveToMenuTitle;
-@property  (nonatomic, retain) NSString* moveToDockTitle;
 @property  (nonatomic, retain) NSString* quitTitle;
 @property  (nonatomic, retain) NSString* preferencesTitle;
+@property  (nonatomic, retain) NSString* openPreferencesTitle;
 
 - (void) initMenu;
 - (IBAction) doSimpleHelp:(id)sender;
