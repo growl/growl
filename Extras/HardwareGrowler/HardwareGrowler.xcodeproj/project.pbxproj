@@ -212,6 +212,9 @@
 		1D45B2A1144E40AF00C5BCC0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		1D45B2A2144E40AF00C5BCC0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hant"; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/zh-Hant.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
 		1D45B2A3144E40AF00C5BCC0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/zh-Hant.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D600BBD144E463000C9966F /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sk.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
+		1D600BBE144E463000C9966F /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sk.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D600BBF144E463000C9966F /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sk; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/HardwareGrowler/sk.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
 		1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwgrowler_statusbar_icn.png; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -694,6 +697,7 @@
 				1D45B29B144E3E8B00C5BCC0 /* cs */,
 				1D45B29E144E3F7400C5BCC0 /* zh-Hans */,
 				1D45B2A1144E40AF00C5BCC0 /* zh-Hant */,
+				1D600BBE144E463000C9966F /* sk */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -714,6 +718,7 @@
 				1D45B29D144E3E8B00C5BCC0 /* cs */,
 				1D45B2A0144E3F7400C5BCC0 /* zh-Hans */,
 				1D45B2A3144E40AF00C5BCC0 /* zh-Hant */,
+				1D600BBD144E463000C9966F /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -734,6 +739,7 @@
 				1D45B29C144E3E8B00C5BCC0 /* cs */,
 				1D45B29F144E3F7400C5BCC0 /* zh-Hans */,
 				1D45B2A2144E40AF00C5BCC0 /* zh-Hant */,
+				1D600BBF144E463000C9966F /* sk */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
