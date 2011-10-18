@@ -16,7 +16,7 @@
 "FireWire Device Connected" = "Dispozitiv cu cablu conectat";
 "FireWire Device Disconnected" = "Dispozitiv cu cablu deconectat ";
 "FireWire Disconnection" = "Deconectare cablu";
-"Group Network Nnotifications" = "Grup rețea de notificări";
+"Group Network Notifications" = "Grup rețea de notificări";
 "Interface:\ten0" = "Interfață:\ten0";
 "Interface:\ten0\nMedia:\t%@" = "Interfață:\ten0\nMedia:\t%@";
 "IP Acquired" = "IP primit";
