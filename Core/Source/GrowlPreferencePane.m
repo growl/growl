@@ -602,7 +602,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 			pluginName = representedObject;
 		else {
             doTheApp = YES;
-			NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
+			//NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
         }
     }
     
