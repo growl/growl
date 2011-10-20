@@ -8,41 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
-		1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980AB1440FC4900148857 /* MainMenu.xib */; };
-		1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
-		315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
-		315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
-		315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFF20FB0213C00458E96 /* Power-ACCharging.png */; };
 		3423607209D8888A009FF634 /* PowerNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.m */; };
 		345BD6330C8B12B8005C3DA2 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		931FB949144FAC8200780882 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
+		931FB94A144FAC8200780882 /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
+		931FB94B144FAC8200780882 /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
+		931FB94C144FAC8200780882 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
+		931FB94D144FAC8200780882 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
+		931FB94E144FAC8200780882 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
+		931FB94F144FAC8200780882 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
+		931FB950144FAC8200780882 /* Power-ACCharging.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFF20FB0213C00458E96 /* Power-ACCharging.png */; };
+		931FB951144FAC8200780882 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
+		931FB952144FAC8200780882 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0980AB1440FC4900148857 /* MainMenu.xib */; };
+		931FB953144FAC8700780882 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93732F79144FA3BC004DED79 /* Localizable.strings */; };
+		931FB954144FAC8B00780882 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93732F77144FA3BC004DED79 /* Credits.rtf */; };
+		931FB955144FAC8E00780882 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93732F75144FA3BC004DED79 /* InfoPlist.strings */; };
 		9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		935DAB26144DBF9A0063FC79 /* HGIconValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 935DAB25144DBF9A0063FC79 /* HGIconValueTransformer.m */; };
 		935DAB37144DC71F0063FC79 /* HGCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 935DAB36144DC71F0063FC79 /* HGCommon.m */; };
-		93732F6C144FA390004DED79 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
-		93732F6D144FA390004DED79 /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
-		93732F6E144FA390004DED79 /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
-		93732F6F144FA390004DED79 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
-		93732F70144FA390004DED79 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
-		93732F71144FA390004DED79 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
-		93732F72144FA390004DED79 /* Power-AC.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB70FB009AE00458E96 /* Power-AC.png */; };
-		93732F73144FA390004DED79 /* Power-ACCharging.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFF20FB0213C00458E96 /* Power-ACCharging.png */; };
-		93732F74144FA390004DED79 /* Power-Battery.png in Resources */ = {isa = PBXBuildFile; fileRef = 315CBFB80FB009AE00458E96 /* Power-Battery.png */; };
-		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
-		DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
 		DD54997107BA5E420010BE54 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54996F07BA5E420010BE54 /* AppController.m */; };
 		DD54999B07BA61650010BE54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD54999A07BA61650010BE54 /* IOKit.framework */; };
 		DDE55D2807BAEDE2000631AC /* FireWireNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE55D2607BAEDE2000631AC /* FireWireNotifier.m */; };
 		DDF9B2B007BBD4600007B5B7 /* USBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2AE07BBD4600007B5B7 /* USBNotifier.m */; };
 		DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.m */; };
 		DDF9B33A07BBDAA40007B5B7 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */; };
-		DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
-		DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
-		DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -626,25 +620,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */,
-				DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */,
-				DDF9B70707BC1D5D0007B5B7 /* usbLogoWhite.png in Resources */,
-				DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */,
-				950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */,
-				315CBFB90FB009AE00458E96 /* Power-AC.png in Resources */,
-				315CBFBA0FB009AE00458E96 /* Power-Battery.png in Resources */,
-				315CBFF30FB0213C00458E96 /* Power-ACCharging.png in Resources */,
-				1D8D074214218705008713EE /* hwgrowler_statusbar_icn.png in Resources */,
-				1D0980AC1440FC4900148857 /* MainMenu.xib in Resources */,
-				93732F6C144FA390004DED79 /* BluetoothLogo.png in Resources */,
-				93732F6D144FA390004DED79 /* hwGrowlerIcon.icns in Resources */,
-				93732F6E144FA390004DED79 /* hwgrowler_statusbar_icn.png in Resources */,
-				93732F6F144FA390004DED79 /* usbLogoWhite.png in Resources */,
-				93732F70144FA390004DED79 /* usbLogo.png in Resources */,
-				93732F71144FA390004DED79 /* FireWireLogo.png in Resources */,
-				93732F72144FA390004DED79 /* Power-AC.png in Resources */,
-				93732F73144FA390004DED79 /* Power-ACCharging.png in Resources */,
-				93732F74144FA390004DED79 /* Power-Battery.png in Resources */,
+				931FB949144FAC8200780882 /* BluetoothLogo.png in Resources */,
+				931FB94A144FAC8200780882 /* hwGrowlerIcon.icns in Resources */,
+				931FB94B144FAC8200780882 /* hwgrowler_statusbar_icn.png in Resources */,
+				931FB94C144FAC8200780882 /* usbLogoWhite.png in Resources */,
+				931FB94D144FAC8200780882 /* usbLogo.png in Resources */,
+				931FB94E144FAC8200780882 /* FireWireLogo.png in Resources */,
+				931FB94F144FAC8200780882 /* Power-AC.png in Resources */,
+				931FB950144FAC8200780882 /* Power-ACCharging.png in Resources */,
+				931FB951144FAC8200780882 /* Power-Battery.png in Resources */,
+				931FB952144FAC8200780882 /* MainMenu.xib in Resources */,
+				931FB953144FAC8700780882 /* Localizable.strings in Resources */,
+				931FB954144FAC8B00780882 /* Credits.rtf in Resources */,
+				931FB955144FAC8E00780882 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

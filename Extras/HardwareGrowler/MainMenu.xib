@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1617</string>
@@ -13,6 +13,7 @@
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>NSUserDefaultsController</string>
+			<string>NSSegmentedControl</string>
 			<string>NSPopUpButton</string>
 			<string>NSMenuItem</string>
 			<string>NSMenu</string>
@@ -20,6 +21,7 @@
 			<string>NSButton</string>
 			<string>NSTextFieldCell</string>
 			<string>NSCustomObject</string>
+			<string>NSSegmentedCell</string>
 			<string>NSView</string>
 			<string>NSWindowTemplate</string>
 			<string>NSTextField</string>
@@ -137,7 +139,7 @@
 			<object class="NSWindowTemplate" id="616139977">
 				<int key="NSWindowStyleMask">3</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{109, 132}, {414, 111}}</string>
+				<string key="NSWindowRect">{{109, 132}, {414, 178}}</string>
 				<int key="NSWTFlags">1685585920</int>
 				<string key="NSWindowTitle">Window</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -151,7 +153,7 @@
 						<object class="NSButton" id="637753410">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 75}, {378, 18}}</string>
+							<string key="NSFrame">{{18, 101}, {378, 18}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="178422696"/>
@@ -186,7 +188,7 @@
 						<object class="NSButton" id="178422696">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 55}, {378, 18}}</string>
+							<string key="NSFrame">{{18, 81}, {378, 18}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="251954291"/>
@@ -212,7 +214,7 @@
 						<object class="NSPopUpButton" id="693550617">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{95, 25}, {302, 26}}</string>
+							<string key="NSFrame">{{95, 51}, {302, 26}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -249,7 +251,7 @@
 						<object class="NSTextField" id="251954291">
 							<reference key="NSNextResponder" ref="738157955"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 32}, {76, 17}}</string>
+							<string key="NSFrame">{{17, 58}, {76, 17}}</string>
 							<reference key="NSSuperview" ref="738157955"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="693550617"/>
@@ -262,7 +264,7 @@
 								<reference key="NSSupport" ref="1048099204"/>
 								<string key="NSCellIdentifier">_NS:3936</string>
 								<reference key="NSControlView" ref="251954291"/>
-								<object class="NSColor" key="NSBackgroundColor">
+								<object class="NSColor" key="NSBackgroundColor" id="258558518">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
 									<string key="NSColorName">controlColor</string>
@@ -271,7 +273,7 @@
 										<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 									</object>
 								</object>
-								<object class="NSColor" key="NSTextColor">
+								<object class="NSColor" key="NSTextColor" id="245667611">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
 									<string key="NSColorName">controlTextColor</string>
@@ -282,14 +284,65 @@
 								</object>
 							</object>
 						</object>
+						<object class="NSSegmentedControl" id="705281692">
+							<reference key="NSNextResponder" ref="738157955"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{228, 136}, {87, 25}}</string>
+							<reference key="NSSuperview" ref="738157955"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="637753410"/>
+							<string key="NSReuseIdentifierKey">_NS:1766</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSSegmentedCell" key="NSCell" id="18319955">
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">0</int>
+								<reference key="NSSupport" ref="1048099204"/>
+								<string key="NSCellIdentifier">_NS:1766</string>
+								<reference key="NSControlView" ref="705281692"/>
+								<object class="NSMutableArray" key="NSSegmentImages">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<object class="NSSegmentItem">
+										<string key="NSSegmentItemLabel">ON</string>
+										<bool key="NSSegmentItemSelected">YES</bool>
+										<int key="NSSegmentItemImageScaling">0</int>
+									</object>
+									<object class="NSSegmentItem">
+										<string key="NSSegmentItemLabel">OFF</string>
+										<int key="NSSegmentItemTag">1</int>
+										<int key="NSSegmentItemImageScaling">0</int>
+									</object>
+								</object>
+								<int key="NSSegmentStyle">4</int>
+							</object>
+						</object>
+						<object class="NSTextField" id="311172286">
+							<reference key="NSNextResponder" ref="738157955"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{17, 141}, {206, 17}}</string>
+							<reference key="NSSuperview" ref="738157955"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="705281692"/>
+							<string key="NSReuseIdentifierKey">_NS:3936</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="779058687">
+								<int key="NSCellFlags">68288064</int>
+								<int key="NSCellFlags2">272630784</int>
+								<string key="NSContents">Start HardwareGrowler at Login:</string>
+								<reference key="NSSupport" ref="1048099204"/>
+								<string key="NSCellIdentifier">_NS:3936</string>
+								<reference key="NSControlView" ref="311172286"/>
+								<reference key="NSBackgroundColor" ref="258558518"/>
+								<reference key="NSTextColor" ref="245667611"/>
+							</object>
+						</object>
 					</object>
-					<string key="NSFrameSize">{414, 111}</string>
+					<string key="NSFrameSize">{414, 178}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="637753410"/>
+					<reference key="NSNextKeyView" ref="311172286"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -553,6 +606,53 @@
 					</object>
 					<int key="connectionID">593</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedIndex: values.OnLogin</string>
+						<reference key="source" ref="705281692"/>
+						<reference key="destination" ref="800459434"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="705281692"/>
+							<reference key="NSDestination" ref="800459434"/>
+							<string key="NSLabel">selectedIndex: values.OnLogin</string>
+							<string key="NSBinding">selectedIndex</string>
+							<string key="NSKeyPath">values.OnLogin</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<real value="1"/>
+									<real value="1"/>
+									<boolean value="YES"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">602</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">onLoginSegmentedControl</string>
+						<reference key="source" ref="767476226"/>
+						<reference key="destination" ref="705281692"/>
+					</object>
+					<int key="connectionID">603</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">iconPopUp</string>
+						<reference key="source" ref="767476226"/>
+						<reference key="destination" ref="693550617"/>
+					</object>
+					<int key="connectionID">604</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -671,8 +771,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="637753410"/>
 							<reference ref="178422696"/>
-							<reference ref="251954291"/>
 							<reference ref="693550617"/>
+							<reference ref="251954291"/>
+							<reference ref="311172286"/>
+							<reference ref="705281692"/>
 						</object>
 						<reference key="parent" ref="616139977"/>
 					</object>
@@ -749,6 +851,35 @@
 						<reference key="object" ref="811873028"/>
 						<reference key="parent" ref="251954291"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">594</int>
+						<reference key="object" ref="705281692"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="18319955"/>
+						</object>
+						<reference key="parent" ref="738157955"/>
+						<string key="objectName">Segmented Control - On, Off</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">595</int>
+						<reference key="object" ref="18319955"/>
+						<reference key="parent" ref="705281692"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">596</int>
+						<reference key="object" ref="311172286"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="779058687"/>
+						</object>
+						<reference key="parent" ref="738157955"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">597</int>
+						<reference key="object" ref="779058687"/>
+						<reference key="parent" ref="311172286"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -781,6 +912,11 @@
 					<string>558.IBPluginDependency</string>
 					<string>564.IBPluginDependency</string>
 					<string>565.IBPluginDependency</string>
+					<string>594.IBPluginDependency</string>
+					<string>595.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey</string>
+					<string>595.IBPluginDependency</string>
+					<string>596.IBPluginDependency</string>
+					<string>597.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -810,6 +946,11 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<integer value="0"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -824,7 +965,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">593</int>
+			<int key="maxID">604</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -868,14 +1009,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>iconPopUp</string>
 							<string>mainItem</string>
+							<string>onLoginSegmentedControl</string>
 							<string>prefsWindow</string>
 							<string>statusMenu</string>
 							<string>submenu</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSPopUpButton</string>
 							<string>NSMenuItem</string>
+							<string>NSSegmentedControl</string>
 							<string>NSWindow</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
@@ -885,7 +1030,9 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>iconPopUp</string>
 							<string>mainItem</string>
+							<string>onLoginSegmentedControl</string>
 							<string>prefsWindow</string>
 							<string>statusMenu</string>
 							<string>submenu</string>
@@ -893,8 +1040,16 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
+								<string key="name">iconPopUp</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">mainItem</string>
 								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">onLoginSegmentedControl</string>
+								<string key="candidateClassName">NSSegmentedControl</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">prefsWindow</string>

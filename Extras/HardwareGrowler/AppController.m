@@ -11,6 +11,8 @@
 #include "PowerNotifier.h"
 #import "HGCommon.h"
 
+#import <ServiceManagement/ServiceManagement.h>
+
 #define NotifierUSBConnectionNotification				@"USB Device Connected"
 #define NotifierUSBDisconnectionNotification			@"USB Device Disconnected"
 #define NotifierVolumeMountedNotification				@"Volume Mounted"
@@ -635,12 +637,29 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 @synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle, iconTitle;
 @synthesize prefsWindow;
 @synthesize iconOptions;
+@synthesize onLoginSegmentedControl;
+@synthesize iconPopUp;
 
 - (void) awakeFromNib {
 	iconInMenu = NSLocalizedString(@"Show icon in the menubar", @"default option for where the icon should be seen");
     iconInDock = NSLocalizedString(@"Show icon in the dock", @"display the icon only in the dock");
     iconInBoth = NSLocalizedString(@"Show icon in both", @"display the icon in both the menubar and the dock");
     noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");            
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [NSNumber numberWithBool:NO], @"OnLogin",
+                                                             [NSNumber numberWithBool:YES], @"ShowExisting",
+                                                             [NSNumber numberWithBool:NO], @"GroupNetwork",
+                                                             [NSNumber numberWithInteger:0], @"Visibility", nil]];
+    
+	NSNumber *visibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"Visibility"];
+	if(visibility == nil || [visibility integerValue] == kShowIconInDock || [visibility integerValue] == kShowIconInBoth){
+		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	}
+	
+	if(visibility == nil || [visibility integerValue] == kShowIconInMenu || [visibility integerValue] == kShowIconInBoth){
+		[self initMenu];
+	}
 }
 
 - (void) dealloc {
@@ -847,19 +866,14 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
     
 	[mainItem setSubmenu:submenu];
     
-	NSNumber *visibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"Visibility"];
-	if(visibility == nil || [visibility integerValue] == kShowIconInDock || [visibility integerValue] == kShowIconInBoth){
-		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-	}
-	
-	if(visibility == nil || [visibility integerValue] == kShowIconInMenu || [visibility integerValue] == kShowIconInBoth){
-		[self initMenu];
-	}
     
 	[self initTitles];
 	
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.Visibility" options:NSKeyValueObservingOptionNew context:&self];
-	
+	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.OnLogin" options:NSKeyValueObservingOptionNew context:&self];
+    oldIconValue = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] integerForKey:@"Visibility"];
+    oldOnLoginValue = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] integerForKey:@"OnLogin"];
+    
 	NSLog(@"Application Launched");
 	[self expiryCheck];
 }
@@ -874,32 +888,139 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 #pragma unused(object, change, context)
     if([keyPath isEqualToString:@"values.Visibility"])
     {
-        NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"Visibility"];
-        NSInteger index = [value integerValue];
-        switch (index) {
-            case kDontShowIcon:
-                [NSApp activateIgnoringOtherApps:YES];
-                NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-                [alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
-                [alert runModal];    
-                break;
-            case kShowIconInBoth:
-                [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-                if(!statusItem)
-                    [self initMenu];
-                break;
-            case kShowIconInDock:
-                [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-                [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
-                [statusItem release];
-                statusItem = nil;
-                break;
-            case kShowIconInMenu:
-            default:
-                if(!statusItem)
-                    [self initMenu];
-                break;
+        
+            NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
+            NSInteger index = [value integerValue];
+            switch (index) {
+                case kDontShowIcon:
+                    [NSApp activateIgnoringOtherApps:YES];
+                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause Growl to run in the background", nil)
+                                                     defaultButton:NSLocalizedString(@"Ok", nil)
+                                                   alternateButton:NSLocalizedString(@"Cancel", nil)
+                                                       otherButton:nil
+                                         informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause Growl to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Growl in Launchpad, or open Growl in Finder.", nil)];
+                    NSInteger allow = [alert runModal];
+                    if(allow == NSAlertDefaultReturn)
+                    {
+                        [self warnUserAboutIcons];
+                        [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+                        [statusItem release];
+                        statusItem = nil;
+                    }
+                    else
+                    {
+                        [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setInteger:oldIconValue forKey:@"Visibility"];
+                        [[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
+                        [iconPopUp selectItemAtIndex:oldIconValue];
+                    }
+                    break;
+                case kShowIconInBoth:
+                    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+                    if(!statusItem)
+                        [self initMenu];
+                    break;
+                case kShowIconInDock:
+                    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+                    [[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+                    [statusItem release];
+                    statusItem = nil;
+                    break;
+                case kShowIconInMenu:
+                default:
+                    if(!statusItem)
+                        [self initMenu];
+                    if(oldIconValue == kShowIconInBoth || oldIconValue == kShowIconInDock)
+                        [self warnUserAboutIcons];
+                    break;
+            }
+        oldIconValue = index;
+    }
+    else if ([keyPath isEqualToString:@"values.OnLogin"])
+    {
+        NSInteger index = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] integerForKey:@"OnLogin"];
+        if((index == 0) && (oldOnLoginValue != index))
+        {
+            [NSApp activateIgnoringOtherApps:YES];
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
+                                             defaultButton:NSLocalizedString(@"Ok", nil)
+                                           alternateButton:NSLocalizedString(@"Cancel", nil)
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl launch everytime you login, so that it is available for applications which use it at all times", nil)];
+            NSInteger allow = [alert runModal];
+            if(allow == NSAlertDefaultReturn)
+            {
+                [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:YES];
+            }
+            else
+            {
+                [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
+                [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setInteger:oldOnLoginValue forKey:@"OnLogin"];
+                [[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
+                [onLoginSegmentedControl setSelectedSegment:oldOnLoginValue];
+            }
         }
+        else
+            [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
+
+        oldOnLoginValue = index;
     }
 }
+
+- (void)warnUserAboutIcons
+{
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
+    [alert runModal];    
+}
+
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
+	OSStatus status;
+	CFURLRef URLToToggle = (CFURLRef)[NSURL fileURLWithPath:path];
+	LSSharedFileListItemRef existingItem = NULL;
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
+    if(loginItems)
+    {
+	UInt32 seed = 0U;
+	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+	for (id itemObject in currentLoginItems) {
+		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
+        
+		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+		CFURLRef URL = NULL;
+		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+		if (err == noErr) {
+			Boolean foundIt = CFEqual(URL, URLToToggle);
+			CFRelease(URL);
+            
+			if (foundIt) {
+				existingItem = item;
+				break;
+			}
+		}
+	}
+    
+	if (enabled && (existingItem == NULL)) {
+		NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+		IconRef icon = NULL;
+		FSRef ref;
+		Boolean gotRef = CFURLGetFSRef(URLToToggle, &ref);
+		if (gotRef) {
+			status = GetIconRefFromFileInfo(&ref,
+											/*fileNameLength*/ 0, /*fileName*/ NULL,
+											kFSCatInfoNone, /*catalogInfo*/ NULL,
+											kIconServicesNormalUsageFlag,
+											&icon,
+											/*outLabel*/ NULL);
+			if (status != noErr)
+				icon = NULL;
+		}
+        
+		LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, (CFStringRef)displayName, icon, URLToToggle, /*propertiesToSet*/ NULL, /*propertiesToClear*/ NULL);
+	} else if (!enabled && (existingItem != NULL))
+		LSSharedFileListItemRemove(loginItems, existingItem);
+    
+    CFRelease(loginItems);
+    }
+}
+
 @end

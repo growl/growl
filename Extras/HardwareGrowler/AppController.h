@@ -50,6 +50,11 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 	NSString* iconTitle;
     NSWindow *prefsWindow;
     NSArray *iconOptions;
+    NSSegmentedControl *onLoginSegmentedControl;
+    NSPopUpButton *iconPopUp;
+    
+    NSInteger oldIconValue;
+    NSInteger oldOnLoginValue;
 }
 
 @property  (nonatomic, retain) NSString* showDevices;
@@ -59,6 +64,9 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 @property  (nonatomic, retain) NSString* openPreferencesTitle;
 @property  (nonatomic, retain) NSString* iconTitle;
 @property  (nonatomic, assign) IBOutlet NSWindow *prefsWindow;
+@property  (nonatomic, assign) IBOutlet NSSegmentedControl *onLoginSegmentedControl;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *iconPopUp;
+
 @property (nonatomic, retain) NSArray *iconOptions;
 - (IBAction)showPreferences:(id)sender;
 
@@ -67,6 +75,9 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 - (BOOL) isEnabled: (CFStringRef) type;
 - (void) initTitles;
 - (void)expiryCheck;
+- (void)warnUserAboutIcons;
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled;
+
 @end
 
 #endif
