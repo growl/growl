@@ -78,14 +78,14 @@
 "Icon:" = "Icon:";
 
 /* No comment provided by engineer. */
-"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder."
+"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.";
 
 /* No comment provided by engineer. */
-"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Warning! Enabling this option will cause HardwareGrowler to run in the background"
+"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Warning! Enabling this option will cause HardwareGrowler to run in the background";
 
 /* No comment provided by engineer. */
-"Alert! Enabling this option will add HardwareGrowler to your login items" = "Alert! Enabling this option will add HardwareGrowler to your login items"
+"Alert! Enabling this option will add HardwareGrowler to your login items" = "Alert! Enabling this option will add HardwareGrowler to your login items";
 
 /* No comment provided by engineer. */
-"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times"
+"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times";
 
