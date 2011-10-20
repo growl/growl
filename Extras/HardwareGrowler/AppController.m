@@ -894,11 +894,11 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
             switch (index) {
                 case kDontShowIcon:
                     [NSApp activateIgnoringOtherApps:YES];
-                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause Growl to run in the background", nil)
+                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause HardwareGrowler to run in the background", nil)
                                                      defaultButton:NSLocalizedString(@"Ok", nil)
                                                    alternateButton:NSLocalizedString(@"Cancel", nil)
                                                        otherButton:nil
-                                         informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause Growl to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Growl in Launchpad, or open Growl in Finder.", nil)];
+                                         informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.", nil)];
                     NSInteger allow = [alert runModal];
                     if(allow == NSAlertDefaultReturn)
                     {
@@ -941,11 +941,11 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
         if((index == 0) && (oldOnLoginValue != index))
         {
             [NSApp activateIgnoringOtherApps:YES];
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add HardwareGrowler to your login items", nil)
                                              defaultButton:NSLocalizedString(@"Ok", nil)
                                            alternateButton:NSLocalizedString(@"Cancel", nil)
                                                otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl launch everytime you login, so that it is available for applications which use it at all times", nil)];
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times", nil)];
             NSInteger allow = [alert runModal];
             if(allow == NSAlertDefaultReturn)
             {
