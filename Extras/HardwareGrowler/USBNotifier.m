@@ -107,7 +107,7 @@ static void registerForUSBNotifications(void) {
 
 	//	Register our notification
 	matchingResult = IOServiceAddMatchingNotification(ioKitNotificationPort,
-													  kIOPublishNotification,
+													  kIOFirstPublishNotification,
 													  myMatchDictionary,
 													  usbDeviceAdded,
 													  NULL,
