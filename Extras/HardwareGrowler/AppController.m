@@ -836,6 +836,11 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 - (IBAction)showPreferences:(id)sender
 {
     [NSApp activateIgnoringOtherApps:YES];
+   if(![self.prefsWindow isVisible]){
+      [self.prefsWindow center];
+      [self.prefsWindow setFrameAutosaveName:@"HWGrowlerPrefsWindowFrame"];
+      [self.prefsWindow setFrameUsingName:@"HWGrowlerPrefsWindowFrame" force:YES];
+   }
     [self.prefsWindow makeKeyAndOrderFront:sender];
 }
 
