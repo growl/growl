@@ -684,7 +684,7 @@ CFDictionaryRef Growl_CreateNotificationDictionaryByFillingInDictionary(CFDictio
  *Returns true if Growl is installed, false otherwise.
  */
 Boolean Growl_IsInstalled(void) {
-	return _copyGrowlPrefPaneBundle() != NULL;
+	return true; //_copyGrowlPrefPaneBundle() != NULL;
 }
 
 /*Growl_IsRunning

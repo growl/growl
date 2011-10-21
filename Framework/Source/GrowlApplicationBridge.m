@@ -311,7 +311,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) isGrowlInstalled {
-	return ([GrowlPathUtilities growlPrefPaneBundle] != nil);
+	return YES;//([GrowlPathUtilities growlPrefPaneBundle] != nil);
 }
 
 + (BOOL) isGrowlRunning {
