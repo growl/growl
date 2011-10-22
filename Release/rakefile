@@ -135,8 +135,8 @@ namespace "package" do
 	end
 	
 	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
-		FileUtils.mkdir_p("#{DESTDIR}/SDK")
-		FileUtils.cd("#{DESTDIR}/SDK")
+		FileUtils.mkdir_p("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
+		FileUtils.cd("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.mkdir_p("Developer Tools")
 		FileUtils.mkdir_p("Framework")
 		FileUtils.mkdir_p("Framework/Legacy")
@@ -161,7 +161,7 @@ namespace "package" do
       		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
 		
 		FileUtils.cd("..")
-		system "zip -r -y #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip SDK/"
+		system "zip -r -y #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip Growl-#{GROWLVERSION}-SDK/"
 		
 	end
 end
