@@ -166,6 +166,7 @@
 		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../Common/Resources/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		34FBA2C70CA0551E00958660 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9323A12B11DEE007008DEFD3 /* BeepHammer-WithInstaller.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BeepHammer-WithInstaller.plist"; sourceTree = "<group>"; };
+		BC1F50CD14531DF900844D0B /* BeepHammer_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeepHammer_Prefix.pch; sourceTree = "<group>"; };
 		BC1FA62F14224D0200F1C147 /* BeepHammer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BeepHammer.entitlements; sourceTree = "<group>"; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 		073B924D06855E0F0068C763 = {
 			isa = PBXGroup;
 			children = (
+				BC1F50CD14531DF900844D0B /* BeepHammer_Prefix.pch */,
 				BC1FA62F14224D0200F1C147 /* BeepHammer.entitlements */,
 				073B927606855EBF0068C763 /* BeepMain.m */,
 				073B926E06855E860068C763 /* Classes */,
@@ -515,7 +517,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
+				GCC_PREFIX_HEADER = BeepHammer_Prefix.pch;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "BeepHammer-Info.plist";
@@ -536,7 +538,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
+				GCC_PREFIX_HEADER = BeepHammer_Prefix.pch;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "BeepHammer-Info.plist";
@@ -555,6 +557,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -570,7 +573,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
 			};
 			name = Debug;
 		};
@@ -582,6 +585,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -598,7 +602,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
