@@ -46,10 +46,10 @@
 "Sync finished" = "Sincronizare terminată";
 "Sync started" = "A început sincronizarea";
 "Test" = "Test";
-"This setting will take effect when Hardware Growler restarts" = "This setting will take effect when Hardware Growler restarts";
-"Time remaining: %i minutes" = "Time remaining: %i minutes";
-"Time to charge: %i minutes" = "Time to charge: %i minutes";
-"Unnamed FireWire Device" = "Unnamed FireWire Device";
+"This setting will take effect when Hardware Growler restarts" = "Aceste configurări vor avea efect în momentul în care Hardware Growler va reporni";
+"Time remaining: %i minutes" = "Timp rămas: %i minute";
+"Time to charge: %i minutes" = "Timp pentru încărcare: %i minute";
+"Unnamed FireWire Device" = "Dispozitiv cablat fără nume";
 "USB 2.0 Bus" = "Magistrală USB 2.0";
 "USB Bus" = "Magistrală USB";
 "USB Connection" = "Conexiune USB";
@@ -75,17 +75,17 @@
 "No icon visible" = "Nicio pictogramă vizibilă";
 
 /* No comment provided by engineer. */
-"Icon:" = "Icon:";
+"Icon:" = "Pictogramă:";
 
 /* No comment provided by engineer. */
-"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.";
+"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Activarea acestei opțiuni va duce la o funcționare fără afișarea pictogramei în Doc sau în bara de meniu.\n\nPentru accesarea preferințelor, apasă pe HardwareGrowler în tabloul de lansare (Launchpad) sau deschide HardwareGrowler în Finder.";
 
 /* No comment provided by engineer. */
-"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Warning! Enabling this option will cause HardwareGrowler to run in the background";
+"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Avertisment! Activarea acestei opțiuni va duce la o funcționare continuă în fundal a HardwareGrowler";
 
 /* No comment provided by engineer. */
-"Alert! Enabling this option will add HardwareGrowler to your login items" = "Alert! Enabling this option will add HardwareGrowler to your login items";
+"Alert! Enabling this option will add HardwareGrowler to your login items" = "Atenție! Activarea acestei opțiuni va face posibilă pornirea automată a HardwareGrowler imediat după autentificare";
 
 /* No comment provided by engineer. */
-"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times";
+"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "Permiterea acestei funcți duce la pornirea automată a HardwareGrowler de fiecare dată când te vei autentifica pe acest Mac, astfel încât să fie disponibil aplicațiilor care se folosesc de acesta tot timpul";
 
