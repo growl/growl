@@ -471,7 +471,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "The Growl Project, LLC";
 			};
 			buildConfigurationList = 95E4A2BA0855C0DB006B3F45 /* Build configuration list for PBXProject "HardwareGrowler" */;
