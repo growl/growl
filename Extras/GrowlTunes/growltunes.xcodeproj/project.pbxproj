@@ -164,6 +164,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6A311947145707A800370CAF /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		6A311948145707A800370CAF /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
+		6A311949145707A800370CAF /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		6A31194A145707A800370CAF /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		6A89591B1447D221009D09FC /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		6A8959521447D909009D09FC /* xpcfix.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = xpcfix.sh; sourceTree = "<group>"; };
 		6A9ED3801447D04F002A0537 /* growltunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = growltunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +206,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A311946145707A800370CAF /* xcconfig */ = {
+			isa = PBXGroup;
+			children = (
+				6A311947145707A800370CAF /* Debug.xcconfig */,
+				6A311948145707A800370CAF /* Release.xcconfig */,
+				6A311949145707A800370CAF /* Localization.xcconfig */,
+				6A31194A145707A800370CAF /* Common.xcconfig */,
+			);
+			name = xcconfig;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		6A89591C1447D221009D09FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,8 +242,9 @@
 		6A9ED3751447D04F002A0537 = {
 			isa = PBXGroup;
 			children = (
-				6A8959521447D909009D09FC /* xpcfix.sh */,
 				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
+				6A8959521447D909009D09FC /* xpcfix.sh */,
+				6A311946145707A800370CAF /* xcconfig */,
 				6A9ED38A1447D04F002A0537 /* growltunes */,
 				6A9ED3831447D04F002A0537 /* Frameworks */,
 				6A9ED3811447D04F002A0537 /* Products */,
@@ -527,75 +544,48 @@
 /* Begin XCBuildConfiguration section */
 		6A9ED39C1447D04F002A0537 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A311947145707A800370CAF /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CLANG_ENABLE_OBJC_ARC[arch=i386]" = NO;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				GCC_STRICT_ALIASING = YES;
+				INFOPLIST_PREFIX_HEADER = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wextra",
-					"-Werror",
-				);
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
 		6A9ED39D1447D04F002A0537 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A311948145707A800370CAF /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CLANG_ENABLE_OBJC_ARC[arch=i386]" = NO;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
+				"GCC_ENABLE_OBJC_GC[arch=i386]" = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				GCC_STRICT_ALIASING = YES;
+				INFOPLIST_PREFIX_HEADER = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wextra",
-					"-Werror",
-				);
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
 		6A9ED39F1447D04F002A0537 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = growltunes/growltunes.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "growltunes/growltunes-Prefix.pch";
@@ -608,7 +598,6 @@
 		6A9ED3A01447D04F002A0537 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = growltunes/growltunes.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "growltunes/growltunes-Prefix.pch";

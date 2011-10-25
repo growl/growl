@@ -12,10 +12,7 @@
 #define NotifierStartedReadable         NSLocalizedString(@"Started", nil)
 
 
-@implementation AppDelegate {
-    NSStatusItem* statusItem;
-    iTunesApplication* iTunes;
-}
+@implementation AppDelegate
 
 @synthesize statusItemMenu;
 

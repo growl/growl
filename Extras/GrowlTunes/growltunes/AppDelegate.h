@@ -4,7 +4,11 @@
 #import <Growl/Growl.h>
 
 
-@interface AppDelegate : NSObject <GrowlApplicationBridgeDelegate>
+@interface AppDelegate : NSObject <GrowlApplicationBridgeDelegate> {
+    NSStatusItem* statusItem;
+    iTunesApplication* iTunes;
+    NSMenu* statusItemMenu;
+}
 
 @property(strong) IBOutlet NSMenu* statusItemMenu;
 
