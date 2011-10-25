@@ -156,6 +156,9 @@ static NSMutableDictionary *existingInstances;
 	else
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] forDisplayController:self]);
 
+   if(queuesNotes)
+      foundSpace = YES;
+   
 	if (foundSpace) {
 		if (shouldStartDisplay) {
 			[self cancelDisplayDelayedPerforms];
@@ -213,9 +216,10 @@ static NSMutableDictionary *existingInstances;
 
 			[self willTakeDownNotification];
 			if ([self startAllTransitions]) {
-				[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
+            /* This should happen automatically, with animationDidEnd */
+				/*[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
 						   withObject:nil
-						   afterDelay:transitionDuration];
+						   afterDelay:transitionDuration];*/
 			} else {
 				[self didFinishTransitionsAfterDisplay];
 			}
@@ -281,9 +285,13 @@ static NSMutableDictionary *existingInstances;
 
 	[self didTakeDownNotification];
 
-	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
+	if ((bridge) && ([bridge respondsToSelector:@selector(display)])){
         [[bridge display] displayWindowControllerDidTakeDownWindow:self];
-    else {
+      
+      //We no longer need the bridge, we told it we finished
+      //Leak?
+      bridge = nil;
+   }else {
 		NSLog(@"%@ bridge does not respond to display",bridge);
 	}
 }
@@ -582,7 +590,9 @@ static NSMutableDictionary *existingInstances;
         bridge = [theBridge retain];
 
 		[self setNotification:[bridge notification]];
-	}
+      
+      queuesNotes = [[bridge display] queuesNotifications];
+   }
 }
 
 #pragma mark -

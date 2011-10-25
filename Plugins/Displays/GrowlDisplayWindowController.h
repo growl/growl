@@ -53,6 +53,8 @@ typedef enum {
 	BOOL							 userRequestedClose;
 
 	unsigned			             WCReserved: 30;
+   
+   BOOL                       queuesNotes;
 }
 
 - (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
