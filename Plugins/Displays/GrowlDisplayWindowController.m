@@ -33,7 +33,6 @@ static NSMutableDictionary *existingInstances;
 
 @implementation GrowlDisplayWindowController
 
-@synthesize queuesNotifications;
 @synthesize ignoresOtherNotifications;
 @synthesize screenshotModeEnabled;
 @synthesize action;
@@ -93,7 +92,6 @@ static NSMutableDictionary *existingInstances;
 	if ((self = [super initWithWindow:window])) {
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
-        queuesNotifications = NO;
 		bridge = nil;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
@@ -176,7 +174,7 @@ static NSMutableDictionary *existingInstances;
 			[self didDisplayNotification];
 		}
 		
-	} else if(!self.queuesNotifications){
+	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
 															object:self];
 		
@@ -191,8 +189,6 @@ static NSMutableDictionary *existingInstances;
 		}
 		[self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
 	}
-    else
-        foundSpace = self.queuesNotifications;
 	
 	return foundSpace;		
 }
@@ -581,7 +577,8 @@ static NSMutableDictionary *existingInstances;
 		}
 
 		//Do not retain! The bridge owns us; retaining the bridge here is a mutual retention—i.e., a leak.
-		bridge = theBridge;
+		[bridge release];
+        bridge = [theBridge retain];
 
 		[self setNotification:[bridge notification]];
 	}

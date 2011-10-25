@@ -90,7 +90,6 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-		self.queuesNotifications = YES;
         NanoEffectType effect = Nano_EFFECT_SLIDE;
 		READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
 

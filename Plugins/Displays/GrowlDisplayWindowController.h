@@ -39,7 +39,6 @@ typedef enum {
 	id					             delegate;
 
 	BOOL				             ignoresOtherNotifications;
-    BOOL                             queuesNotifications;
     
 	CFTimeInterval                   transitionDuration;
 	NSMapTable                       *startTimes;
@@ -138,7 +137,6 @@ typedef enum {
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *)flag;
 
-@property (nonatomic, assign) BOOL queuesNotifications;
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;
