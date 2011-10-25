@@ -4801,6 +4801,7 @@
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 					GROWLHELPERAPP,
+					"BETA=1",
 				);
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";

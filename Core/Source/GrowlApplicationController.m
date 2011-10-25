@@ -1018,7 +1018,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[fs createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:nil];
 }
 
-/*#if defined(BETA) && BETA
+#if defined(BETA) && BETA
 #define DAYSTOEXPIRY 14
 - (NSCalendarDate *)dateWithString:(NSString *)str {
 	str = [str stringByReplacingOccurrencesOfString:@"  " withString:@" "];
@@ -1078,7 +1078,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         }
     }
 }
-#endif*/
+#endif
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
