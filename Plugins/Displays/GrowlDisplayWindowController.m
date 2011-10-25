@@ -121,6 +121,7 @@ static NSMutableDictionary *existingInstances;
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
+    [bridge              release];
 	[target              release];
 	[clickHandlerEnabled release];
 	[appName             release];
