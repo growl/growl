@@ -25,6 +25,9 @@ task :package_everything => [:setup, "package:growlnotify", "package:hardwaregro
 puts "Done Packaging"
 end
 
+task :package_growl => [:setup, "package:growl"] do
+end
+
 task :package_sdk => [:setup, "package:sdk"] do
 end
 
@@ -103,9 +106,9 @@ namespace "package" do
 		if(BETA==0)
 			system "productbuild --component Growl.app /Applications --sign \"#{CSI}\" Growl.pkg && cp -Rp Growl.pkg #{absolute}/"
 		elsif (BETA)
-			system "zip -r #{absolute}/Growl.zip Growl.app/"
+			system "zip -r #{absolute}/Growl-#{GROWLVERSION}.zip Growl.app/"
 		end
-		system "zip -r #{absolute}/Growl-dSYM.zip *.dSYM"
+		system "zip -r #{absolute}/Growl-#{GROWLVERSION}-dSYM.zip *.dSYM"
 		FileUtils.cd(curdir)
 		
 	end
