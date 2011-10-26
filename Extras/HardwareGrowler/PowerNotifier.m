@@ -36,7 +36,7 @@ static void powerSourceChanged(void *context)
 		CFTypeRef		powerSource;
 		CFDictionaryRef description;
 
-		HGPowerSource	hgPowerSource;
+		HGPowerSource	hgPowerSource = HGUnknownPower;
 		CFBooleanRef	charging = kCFBooleanFalse;
 		CFIndex			batteryTime = -1;
 		CFIndex			percentageCapacity = -1;
@@ -92,7 +92,15 @@ static void powerSourceChanged(void *context)
 
 		} else {
 			//UPS power
-			hgPowerSource = HGUPSPower;
+            //only UPS are given a kIOPSPowerSourceIDKey value
+            if(CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceIDKey)))
+            {
+                CFStringRef providingPowerType = IOPSGetProvidingPowerSourceType(powerBlob);
+                if(stringsAreEqual(providingPowerType, CFSTR("UPS Power")))
+                   hgPowerSource = HGUPSPower;
+                else if (stringsAreEqual(providingPowerType, CFSTR(kIOPSACPowerValue)))
+                   hgPowerSource = HGACPower;
+            }
 		}
 
 		//Avoid sending notifications on the same power source multiple times, unless the charging state or presence/absence of a time estimate has changed.
