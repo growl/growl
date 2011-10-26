@@ -55,6 +55,7 @@
 		sizeRect.size.width = 160.0;
 		sizeRect.size.height = 160.0;
 	}
+   
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
 												styleMask:NSBorderlessWindowMask
 												  backing:NSBackingStoreBuffered
@@ -81,6 +82,7 @@
 	[view release];
 
 	panelFrame = [[panel contentView] frame];
+   panelFrame.origin = [self idealOriginInRect:[[self screen] frame] forRect:sizeRect];
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
@@ -125,8 +127,7 @@
 #pragma mark -
 #pragma mark positioning methods
 
-- (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSRect viewFrame = [[[self window] contentView] frame];
+- (NSPoint) idealOriginInRect:(NSRect)rect forRect:(NSRect)viewFrame {
 
 	NSPoint result;
 	int positionPref = BEZEL_POSITION_DEFAULT;
