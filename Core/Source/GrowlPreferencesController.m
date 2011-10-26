@@ -350,6 +350,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setBool:enabled forKey:GrowlStartServerKey];
 }
 
+- (void) setMenuNumber:(NSNumber*)state{
+   [self setMenuState:[state integerValue]];
+}
 - (NSInteger) menuState {
    return [self integerForKey:GrowlMenuState];
 }
@@ -379,11 +382,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
             [alert setShowsSuppressionButton:YES];
             NSInteger allow = [alert runModal];
             BOOL suppress = [[alert suppressionButton] state] == NSOnState;
-            if(allow == NSAlertDefaultReturn)
-               [self removeDockMenu];
-            
             if(suppress)
                [self setBackgroundAllowed:YES];
+            
+            if(allow == NSAlertDefaultReturn)
+               [self removeDockMenu];
+            else{
+               //While the state will already be reset below, we call the new setMenuNumber with our current, and thats enough to trigger the menu updating
+               [self performSelector:@selector(setMenuNumber:) withObject:[NSNumber numberWithInteger:current] afterDelay:0];
+               state = current;
+            }
          }else
             [self removeDockMenu];
          
@@ -399,6 +407,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void)removeDockMenu {
    //We can't actually remove the dock menu without restarting, inform the user.
+   if([self menuState] != GrowlDockMenu && [self menuState] != GrowlBothMenus)
+      return;
+
    if(![self boolForKey:GrowlRelaunchWarnSuppress]){
       NSAlert *alert = [[NSAlert alloc] init];
       [alert setMessageText:NSLocalizedString(@"Growl must restart for this change to take effect.",nil)];
