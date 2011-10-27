@@ -107,16 +107,15 @@
       if(statusItem)
          return;
       
-      self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-      
-      
+      self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
       
       [statusItem setToolTip:@"Growl"];
       [statusItem setHighlightMode:YES];
-      GrowlMenuImageView *buttonView = [[GrowlMenuImageView alloc] init];
+      GrowlMenuImageView *buttonView = [[GrowlMenuImageView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 24.0, [[NSStatusBar systemStatusBar] thickness])];
       buttonView.menuItem = self;
       [statusItem setView:buttonView];
       [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
+      [buttonView setNeedsDisplay];
       [buttonView release];
    }else{
       if(!statusItem)

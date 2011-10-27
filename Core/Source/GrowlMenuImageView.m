@@ -15,9 +15,9 @@
 @synthesize mainImage;
 @synthesize alternateImage;
 
-- (id)init
+- (id)initWithFrame:(NSRect)frameRect
 {
-    self = [super init];
+    self = [super initWithFrame:frameRect];
     if (self) {
         // Initialization code here.
        menuItem = nil;
