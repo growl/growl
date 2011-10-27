@@ -182,7 +182,7 @@
 		6A9ED3961447D04F002A0537 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6A9ED3971447D04F002A0537 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6AADA30A1447F0F40089AB08 /* growltunes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = growltunes.entitlements; sourceTree = "<group>"; };
-		6AADA30C1448AF570089AB08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6AADA30C1448AF570089AB08 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6AADA30E1448B43E0089AB08 /* growlTunes-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "growlTunes-selected.png"; sourceTree = SOURCE_ROOT; };
 		6AADA30F1448B43E0089AB08 /* GrowlTunes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GrowlTunes.icns; sourceTree = SOURCE_ROOT; };
 		6AADA3101448B43E0089AB08 /* growlTunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = growlTunes.png; sourceTree = SOURCE_ROOT; };
@@ -314,6 +314,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A9ED39E1447D04F002A0537 /* Build configuration list for PBXNativeTarget "growltunes" */;
 			buildPhases = (
+				6ABECBB014590C7B00C9C9FC /* ShellScript */,
 				6A9ED37C1447D04F002A0537 /* Sources */,
 				6A9ED37D1447D04F002A0537 /* Frameworks */,
 				6A9ED37E1447D04F002A0537 /* Resources */,
@@ -494,6 +495,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "source \"${PROJECT_DIR}/xpcfix.sh\"\n";
+		};
+		6ABECBB014590C7B00C9C9FC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/growltunes/*.h",
+				"$(SRCROOT)/growltunes/*.m",
+			);
+			outputPaths = (
+				"$(SRCROOT)/growltunes/en.lproj/Localizable.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o growltunes/en.lproj growltunes/*.h growltunes/*.m";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
