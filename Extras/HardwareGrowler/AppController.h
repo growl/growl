@@ -61,7 +61,7 @@ void AppController_volumeDidUnmount(VolumeInfo *info);
 - (IBAction)moveToDock:(id)sender;
 - (IBAction)moveToStatusbar:(id)sender;
 - (void) initTitles;
-
+- (void)expiryCheck;
 @end
 
 #endif
