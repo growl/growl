@@ -184,6 +184,9 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerNotifier.m; sourceTree = "<group>"; };
 		345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
+		83D3C071145E321F00FAF35D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83D3C072145E323400FAF35D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
+		83D3C073145E323F00FAF35D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -707,6 +710,7 @@
 				93732F99144FA3BC004DED79 /* it */,
 				93732F9C144FA3BC004DED79 /* nl */,
 				93732F9F144FA3BC004DED79 /* el */,
+				83D3C073145E323F00FAF35D /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -728,6 +732,7 @@
 				93732F9A144FA3BC004DED79 /* it */,
 				93732F9D144FA3BC004DED79 /* nl */,
 				93732FA0144FA3BC004DED79 /* el */,
+				83D3C072145E323400FAF35D /* de */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -749,6 +754,7 @@
 				93732F9B144FA3BC004DED79 /* it */,
 				93732F9E144FA3BC004DED79 /* nl */,
 				93732FA1144FA3BC004DED79 /* el */,
+				83D3C071145E321F00FAF35D /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
