@@ -116,7 +116,7 @@ namespace "package" do
 	task :hardwaregrowler => ["build:hardwaregrowler"] do
 		curdir = FileUtils.pwd()
 		FileUtils.cd("#{BUILD_ROOT}/hardwaregrowler/#{CONFIGURATION}")
-		if(!BETA)
+		if(BETA==0)
 			system "productbuild --component HardwareGrowler.app /Applications --sign \"#{CSI}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{PRODUCT_ROOT}"
 		elsif (BETA)
 			system "zip -r -y #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}.zip HardwareGrowler.app/"
