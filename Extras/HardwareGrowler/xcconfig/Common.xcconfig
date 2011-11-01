@@ -8,4 +8,4 @@
 
 #include "../../xcconfig/Common.xcconfig"
 
-HWG_VERSION = 1.3b3
+HWG_VERSION = 1.3
