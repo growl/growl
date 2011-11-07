@@ -647,7 +647,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
     noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");            
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [NSNumber numberWithBool:NO], @"OnLogin",
+                                                             [NSNumber numberWithInteger:1], @"OnLogin",
                                                              [NSNumber numberWithBool:YES], @"ShowExisting",
                                                              [NSNumber numberWithBool:NO], @"GroupNetwork",
                                                              [NSNumber numberWithInteger:0], @"Visibility", nil]];
