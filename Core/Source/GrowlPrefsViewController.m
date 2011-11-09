@@ -7,10 +7,13 @@
 //
 
 #import "GrowlPrefsViewController.h"
+#import "GrowlPreferencePane.h"
+#import "GrowlPreferencesController.h"
 
 @implementation GrowlPrefsViewController
 
 @synthesize prefPane;
+@synthesize preferencesController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil 
                bundle:(NSBundle *)nibBundleOrNil
@@ -18,6 +21,7 @@
 {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
        self.prefPane = aPrefPane;
+       self.preferencesController = [GrowlPreferencesController sharedController];
     }
     
     return self;

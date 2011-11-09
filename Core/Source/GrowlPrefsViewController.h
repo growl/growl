@@ -13,6 +13,7 @@
 @interface GrowlPrefsViewController : NSViewController
 
 @property (nonatomic, retain) GrowlPreferencePane *prefPane;
+@property (nonatomic, assign) GrowlPreferencesController *preferencesController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil 
                bundle:(NSBundle *)nibBundleOrNil

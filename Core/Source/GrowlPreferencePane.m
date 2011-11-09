@@ -22,7 +22,10 @@
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import "ACImageAndTextCell.h"
+
 #import "GrowlPrefsViewController.h"
+#import "GrowlGeneralViewController.h"
+
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "GrowlPositionPicker.h"
@@ -114,11 +117,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	}
 	[self setServices:theServices];
     
-    if([preferencesController shouldStartGrowlAtLogin])
-        [startAtLoginSwitch setSelectedSegment:0];
-    else
-        [startAtLoginSwitch setSelectedSegment:1];   
-   
    self.networkAddressString = nil;
    
    SCDynamicStoreContext context = {0, self, NULL, NULL, NULL};
@@ -156,10 +154,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
-	
-	// bind the global position picker programmatically since its a custom view, register for notification so we can handle updating manually
-	[globalPositionPicker bind:@"selectedPosition" toObject:preferencesController withKeyPath:@"selectedPosition" options:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:globalPositionPicker];
 
 	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
 	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
@@ -283,10 +277,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 - (void) updatePosition:(NSNotification *)notification {
-	if([notification object] == globalPositionPicker) {
-		[preferencesController setInteger:[globalPositionPicker selectedPosition] forKey:GROWL_POSITION_PREFERENCE_KEY];
-	}
-	else if([notification object] == appPositionPicker) {
+	if([notification object] == appPositionPicker) {
 		// a cheap hack around selection not providing a workable object
 		NSArray *selection = [ticketsArrayController selectedObjects];
 		if ([selection count] > 0)
@@ -433,9 +424,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
    
    NSString *newTab = nil;
+   Class newClass = [GrowlPrefsViewController class];
    switch (tab) {
       case 0:
          newTab = GeneralPrefs;
+         newClass = [GrowlGeneralViewController class];
          break;
       case 1:
          newTab = ApplicationPrefs;
@@ -463,9 +456,9 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    
    GrowlPrefsViewController *nextController = [prefViewControllers valueForKey:newTab];
    if(!nextController){
-      nextController = [[GrowlPrefsViewController alloc] initWithNibName:newTab
-                                                                  bundle:nil 
-                                                             forPrefPane:self];
+      nextController = [[newClass alloc] initWithNibName:newTab
+                                                  bundle:nil 
+                                             forPrefPane:self];
       [prefViewControllers setValue:nextController forKey:newTab];
       [nextController release];
    }
@@ -499,46 +492,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 {
     return [toolbar visibleItems];
 }
-
-#pragma mark "General" tab pane
-
--(IBAction)startGrowlAtLogin:(id)sender{
-    if([(NSSegmentedControl*)sender selectedSegment] == 0){
-        if(![preferencesController allowStartAtLogin]){
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
-                                             defaultButton:NSLocalizedString(@"Ok", nil)
-                                           alternateButton:NSLocalizedString(@"Cancel", nil)
-                                               otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl launch everytime you login, so that it is available for applications which use it at all times", nil)];
-            [alert beginSheetModalForWindow:[sender window]
-                              modalDelegate:self
-                             didEndSelector:@selector(startGrowlAtLoginAlert:didReturn:contextInfo:)
-                                contextInfo:nil];
-        }else{
-            [preferencesController setShouldStartGrowlAtLogin:YES];
-        }
-    }else{
-        [preferencesController setShouldStartGrowlAtLogin:NO];
-    }
-}
-
--(IBAction)launchAdditionalDownloads:(id)sender{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
-}
-
-- (IBAction)startGrowlAtLoginAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
-{
-    switch (returnCode) {
-        case NSAlertDefaultReturn:
-            [preferencesController setAllowStartAtLogin:YES];
-            [preferencesController setShouldStartGrowlAtLogin:YES];
-            break;
-        default:
-            [startAtLoginSwitch setSelectedSegment:1];
-            break;
-    }
-}
-
 
 #pragma mark "Applications" tab pane
 
