@@ -9,10 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import "GNTPKey.h"
 
-@interface GrowlGNTPKeyController : GrowlAbstractSingletonObject
+@interface GrowlGNTPKeyController : NSObject
 {
 	NSMutableDictionary *_storage;
 }
+
++ (GrowlGNTPKeyController *)sharedInstance;
 
 - (void)removeKeyForUUID:(NSString*)uuid;
 - (void)setKey:(GNTPKey*)key forUUID:(NSString*)uuid;

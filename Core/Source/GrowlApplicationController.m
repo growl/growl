@@ -108,11 +108,16 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 @synthesize audioDeviceIdentifier;
 
 + (GrowlApplicationController *) sharedController {
-	return [self sharedInstance];
+    static GrowlApplicationController *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 
 		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
@@ -182,7 +187,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	return self;
 }
 
-- (void) destroy {
+- (void) dealloc {
 	//free your world
 	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 	if (pathwayControllerClass)
@@ -190,7 +195,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
 	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
-   [preferencesWindow release]; preferencesWindow = nil;
+    [preferencesWindow release]; preferencesWindow = nil;
 
 	GrowlIdleStatusController_dealloc();
 
@@ -204,7 +209,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
 	
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark Guts
@@ -1126,7 +1131,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    //If we have notes in the rollup, and the rollup isn't visible, bring that up first
    //Else, just bring up preferences
    if([db notificationsWhileAway] && ![[[db historyWindow] window] isVisible])
-      [[GrowlPreferencesController sharedInstance] setRollupShown:YES];
+      [[GrowlPreferencesController sharedController] setRollupShown:YES];
    else
       [self showPreferences];
     return YES;
@@ -1137,7 +1142,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
-	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
+	//[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 
 #pragma mark Auto-discovery

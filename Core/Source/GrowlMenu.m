@@ -47,8 +47,8 @@
 #pragma mark -
 
 - (id) init {
-    
-    if ((self = [super init])) {
+    self = [super init];
+    if (self) {
         preferences = [GrowlPreferencesController sharedController];
         
         self.menu = [self createMenu:NO];
@@ -221,7 +221,7 @@
 #pragma mark -
 
 - (IBAction) openGrowlPreferences:(id)sender {
-   [[GrowlApplicationController sharedInstance] showPreferences];
+   [[GrowlApplicationController sharedController] showPreferences];
 }
 
 - (IBAction) startStopGrowl:(id)sender {

@@ -12,8 +12,17 @@
 
 @implementation GrowlWebKitPluginHandler
 
-- (id) initSingleton {
-	if ((self = [super initSingleton]))
++ (GrowlWebKitPluginHandler *)sharedInstance {
+    static GrowlWebKitPluginHandler *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+- (id) init {
+	if ((self = [super init]))
 		[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
 
 	return self;

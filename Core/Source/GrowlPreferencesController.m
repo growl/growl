@@ -54,11 +54,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 @implementation GrowlPreferencesController
 
 + (GrowlPreferencesController *) sharedController {
-	return [self sharedInstance];
+	static GrowlPreferencesController *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
 			selector:@selector(growlPreferencesChanged:)
 			name:GrowlPreferencesChanged
@@ -68,11 +73,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	return self;
 }
 
-- (void) destroy {
+- (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	CFRelease(loginItems);
 
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -401,7 +406,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          return;
    }
    
-   [[GrowlApplicationController sharedInstance] updateMenu:state];
+   [[GrowlApplicationController sharedController] updateMenu:state];
    [self setInteger:state forKey:GrowlMenuState];
 }
 

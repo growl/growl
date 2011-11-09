@@ -88,7 +88,7 @@
 -(void)windowWillClose:(NSNotification *)notification
 {
    //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
-   [[GrowlPreferencesController sharedInstance] setBool:NO forKey:GrowlRollupShown];
+   [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlRollupShown];
 }
 
 -(void)updateCount
@@ -145,7 +145,7 @@
    {      
       id obj = [[groupController arrangedObjects] objectAtIndex:row];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
-          [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
+          [[GrowlApplicationController sharedController] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
                                                 didCloseViaNotificationClick:YES 
                                                               onLocalMachine:YES];
       else if([obj isKindOfClass:[GroupController class]]){

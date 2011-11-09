@@ -13,7 +13,7 @@
 int main(int argc, const char *argv[]) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[GrowlApplication sharedApplication];
-	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
+	[NSApp setDelegate:[GrowlApplicationController sharedController]];
 
 	int status = NSApplicationMain(argc, argv);
 

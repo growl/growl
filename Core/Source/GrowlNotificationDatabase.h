@@ -17,6 +17,9 @@
    BOOL notificationsWhileAway;
    GrowlNotificationHistoryWindow *historyWindow;
 }
+
++(GrowlNotificationDatabase *)sharedInstance;
+
 @property (readonly) GrowlNotificationHistoryWindow *historyWindow;
 @property (readonly) BOOL notificationsWhileAway;
 

@@ -17,7 +17,7 @@ static GrowlApplicationController *applicationController = nil;
 - (id) init {
 	if ((self = [super init])) {
 		if (!applicationController)
-			applicationController = [GrowlApplicationController sharedInstance];
+			applicationController = [GrowlApplicationController sharedController];
 	}
 	return self;
 }

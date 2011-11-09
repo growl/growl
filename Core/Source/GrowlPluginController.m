@@ -20,11 +20,24 @@
 #import "GrowlApplicationController.h"
 #import "GrowlMenu.h"
 
+
+#ifndef __has_feature      // Optional.
+#define __has_feature(x) 0 // Compatibility with non-clang compilers.
+#endif
+
+#ifndef NS_CONSUMED
+#if __has_feature(attribute_ns_consumed)
+#define NS_CONSUMED __attribute__((ns_consumed))
+#else
+#define NS_CONSUMED
+#endif
+#endif
+
 @interface GrowlPluginController (PRIVATE)
 - (void) registerDefaultPluginHandlers;
 - (void) findPluginsInDirectory:(NSString *)dir;
-- (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
+- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
 - (BOOL) hasNativeArchitecture:(NSString *)filename;
 @end
 
@@ -91,11 +104,16 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 @implementation GrowlPluginController
 
 + (GrowlPluginController *) sharedController {
-	return [self sharedInstance];
+	static GrowlPluginController *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		bundlesToLazilyInstantiateAnInstanceFrom = [[NSMutableSet alloc] init];
 
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
@@ -174,7 +192,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	return self;
 }
 
-- (void) destroy {
+- (void) dealloc {
 	[pluginsByIdentifier         release];
 	[pluginsByBundleIdentifier   release];
 	[pluginIdentifiersByPath     release];
@@ -209,7 +227,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	FSEventStreamInvalidate(pluginsDirectoryEventStream);
 	CFRelease(pluginsDirectoryEventStream);
 
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -833,7 +851,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
    }
 }
 
-- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo {
 	NSString *filename = (NSString *)contextInfo;
 
 	if (returnCode == NSAlertAlternateReturn) {
@@ -869,8 +887,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 									   [pluginFile stringByDeletingPathExtension] );
 		}
 	}
-
-	[filename release];
 }
 
 - (void) installPluginFromPath:(NSString *)filename {
@@ -879,7 +895,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		stringByAppendingPathComponent:@"Library/Application Support/Growl/Plugins"]
 		stringByAppendingPathComponent:pluginFile];
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
-	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
+	NSString *filenameCopy = [filename copy];
 
 	//Check to see if we've got valid architectures in this plugin for our use, if not, bail.
 	if(![self hasNativeArchitecture:filenameCopy]) {
@@ -887,7 +903,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 						  NSLocalizedString( @"No", @"" ),
 						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
 						  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-						  filenameCopy,
+						  (id NS_CONSUMED) filenameCopy,
 						  NSLocalizedString( @"Plugin '%@' will not work on this Mac running this version of Mac OS X. Install it anyway?", @"" ),
 						  [pluginFile stringByDeletingPathExtension] );		
 	}
@@ -899,7 +915,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 							  NSLocalizedString( @"No", @"" ),
 							  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
 							  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-							  filenameCopy,
+                              (id NS_CONSUMED) filenameCopy,
 							  NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
 							  [pluginFile stringByDeletingPathExtension] );
 		} else {

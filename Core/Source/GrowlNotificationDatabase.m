@@ -23,9 +23,19 @@
 @synthesize historyWindow;
 @synthesize notificationsWhileAway;
 
--(id)initSingleton
++(GrowlNotificationDatabase *)sharedInstance {
+    static GrowlNotificationDatabase *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+
+-(id)init
 {
-   if((self = [super initSingleton]))
+   if((self = [super init]))
    {      
       GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
       historyWindow = [window retain];
@@ -34,19 +44,19 @@
       [historyWindow resetArray];
       
       notificationsWhileAway = NO;
-      if([[GrowlPreferencesController sharedInstance] isRollupShown])
+      if([[GrowlPreferencesController sharedController] isRollupShown])
          [self showRollup];
    }
    return self;
 }
 
--(void)destroy
+-(void)dealloc
 {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [maintenanceTimer invalidate];
    [maintenanceTimer release]; maintenanceTimer = nil;
    [lastImageCheck release]; lastImageCheck = nil;
-   [super destroy]; 
+   [super dealloc]; 
 }
 
 -(NSString*)storePath

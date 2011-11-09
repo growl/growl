@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
-#import "GrowlAbstractSingletonObject.h"
 
 @class GrowlPlugin, GrowlDisplayPlugin;
 
@@ -127,7 +126,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 
 @end
 
-@interface GrowlPluginController : GrowlAbstractSingletonObject <GrowlPluginHandler> {
+@interface GrowlPluginController : NSObject <GrowlPluginHandler> {
 	//Keys: plug-in IDs; values: plug-in description dictionaries.
 	NSMutableDictionary       *pluginsByIdentifier;
 	//Keys: bundle IDs; values: plug-in description dictionaries.

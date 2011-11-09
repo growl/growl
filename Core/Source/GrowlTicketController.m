@@ -13,18 +13,24 @@
 @implementation GrowlTicketController
 
 + (id) sharedController {
-	return [self sharedInstance];
+    static GrowlTicketController *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+	return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
-- (void) destroy {
+
+- (void) dealloc{
 	[ticketsByApplicationName release];
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark -

@@ -16,9 +16,19 @@
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
--(id)initSingleton
++(GrowlAbstractDatabase *)sharedInstance {
+    static GrowlAbstractDatabase *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+
+-(id)init
 {
-   if((self = [super initSingleton]))
+   if((self = [super init]))
    {
       [self managedObjectContext];
       [[NSNotificationCenter defaultCenter] addObserver:self
@@ -143,13 +153,13 @@
    return persistentStoreCoordinator;
 }
 
--(void)destroy
+-(void)dealloc
 {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [managedObjectContext release]; managedObjectContext = nil;
    [managedObjectModel release]; managedObjectModel = nil;
    [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
-   [super destroy];
+   [super dealloc];
 }
 
 @end

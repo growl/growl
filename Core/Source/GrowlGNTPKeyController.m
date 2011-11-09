@@ -11,8 +11,17 @@
 
 @implementation GrowlGNTPKeyController
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) 
++ (GrowlGNTPKeyController *)sharedInstance {
+    static GrowlGNTPKeyController *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+- (id) init {
+	if ((self = [super init])) 
 	{
 		_storage = [[NSMutableDictionary alloc] init];
 	}
