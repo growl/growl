@@ -79,10 +79,6 @@
 	IBOutlet NSTableView			*networkTableView;
    NSString                   *networkAddressString;
 	
-	//About box tab pane
-	IBOutlet NSTextField			*aboutVersionString;
-	IBOutlet NSTextView				*aboutBoxTextView;
-   
    //History tab pane
    IBOutlet NSSegmentedControl *historyOnOffSwitch;
    IBOutlet NSArrayController *historyArrayController;
@@ -135,18 +131,12 @@
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
-- (IBAction) openGrowlWebSiteToStyles:(id)sender;
-
 #pragma mark HistoryTab
 - (IBAction) toggleHistory:(id)sender;
 -(IBAction)validateHistoryTrimSetting:(id)sender;
 - (IBAction) deleteSelectedHistoryItems:(id)sender;
 - (IBAction) clearAllHistory:(id)sender;
 
-#pragma mark About Tab methods
-- (void) setupAboutTab;
-- (IBAction) openGrowlWebSite:(id)sender;
-- (IBAction) openGrowlBugSubmissionPage:(id)sender;
 
 #pragma mark Properties
 @property (retain) NSSound *demoSound;

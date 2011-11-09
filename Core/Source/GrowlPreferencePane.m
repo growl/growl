@@ -17,7 +17,6 @@
 #import "GrowlPluginController.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlProcessUtilities.h"
-#import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
@@ -25,6 +24,7 @@
 
 #import "GrowlPrefsViewController.h"
 #import "GrowlGeneralViewController.h"
+#import "GrowlAboutViewController.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
@@ -148,9 +148,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
    CFRelease(rlSrc);
-
-	
-	[self setupAboutTab];
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
@@ -444,6 +441,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
          break;
       case 5:
          newTab = AboutPane;
+         newClass = [GrowlAboutViewController class];
          break;
       default:
          newTab = GeneralPrefs;
@@ -693,39 +691,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 #pragma mark About Tab
 
-- (void) setupAboutTab {
-	NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	if (versionString) {
-		NSString *versionStringWithHgVersion = nil;
-		struct Version version;
-		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
-			const char *hgRevisionUTF8 = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
-			if (hgRevisionUTF8) {
-				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
-
-				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
-			}
-		}
-		if (versionStringWithHgVersion)
-			versionString = versionStringWithHgVersion;
-	}
-
-	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
-										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"], 
-										versionString]];
-	[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
-}
-
-- (IBAction) openGrowlWebSiteToStyles:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/styles.php"]];
-}
-- (IBAction) openGrowlWebSite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info"]];
-}
-
-- (IBAction) openGrowlBugSubmissionPage:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
-}
 
 #pragma mark Network Tab Methods
 

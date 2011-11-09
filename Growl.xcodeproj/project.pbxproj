@@ -313,6 +313,7 @@
 		BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
 		BCEE30E71418262500DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
 		BCEFBC00146AD0B00040F657 /* GrowlGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEFBBFF146AD0B00040F657 /* GrowlGeneralViewController.m */; };
+		BCEFBC06146B1B290040F657 /* GrowlAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEFBC05146B1B290040F657 /* GrowlAboutViewController.m */; };
 		BCFCD0A31424E47D007583F5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933814B91050A73D0014C550 /* Cocoa.framework */; };
 		BCFCD0A41424E48D007583F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */; };
@@ -1227,6 +1228,8 @@
 		BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlErrorGNTPPacket.m; path = Core/Source/GrowlErrorGNTPPacket.m; sourceTree = "<group>"; };
 		BCEFBBFE146AD0B00040F657 /* GrowlGeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGeneralViewController.h; path = Core/Source/GrowlGeneralViewController.h; sourceTree = "<group>"; };
 		BCEFBBFF146AD0B00040F657 /* GrowlGeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGeneralViewController.m; path = Core/Source/GrowlGeneralViewController.m; sourceTree = "<group>"; };
+		BCEFBC04146B1B290040F657 /* GrowlAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAboutViewController.h; path = Core/Source/GrowlAboutViewController.h; sourceTree = "<group>"; };
+		BCEFBC05146B1B290040F657 /* GrowlAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAboutViewController.m; path = Core/Source/GrowlAboutViewController.m; sourceTree = "<group>"; };
 		C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Pseudo-Coda.growlStyle"; path = "Core/Resources/Pseudo-Coda.growlStyle"; sourceTree = "<group>"; };
 		C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
@@ -2206,6 +2209,8 @@
 				BC066881146AC0F80095811D /* GrowlPrefsViewController.m */,
 				BCEFBBFE146AD0B00040F657 /* GrowlGeneralViewController.h */,
 				BCEFBBFF146AD0B00040F657 /* GrowlGeneralViewController.m */,
+				BCEFBC04146B1B290040F657 /* GrowlAboutViewController.h */,
+				BCEFBC05146B1B290040F657 /* GrowlAboutViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -3500,6 +3505,7 @@
 				BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */,
 				BC066883146AC0F80095811D /* GrowlPrefsViewController.m in Sources */,
 				BCEFBC00146AD0B00040F657 /* GrowlGeneralViewController.m in Sources */,
+				BCEFBC06146B1B290040F657 /* GrowlAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
