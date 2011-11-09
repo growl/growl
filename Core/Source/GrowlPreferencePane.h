@@ -37,8 +37,10 @@
 	GrowlPreferencesController		*preferencesController;
     GrowlNotificationDatabase     *historyController;
 
+   //Prefs list support
     IBOutlet NSToolbar              *toolbar;
-    
+   NSMutableDictionary              *prefViewControllers;
+   
 	//"General" tab pane
 	IBOutlet NSArrayController		*notificationsArrayController;
 	IBOutlet GrowlPositionPicker	*globalPositionPicker;

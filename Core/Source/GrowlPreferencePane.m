@@ -22,6 +22,7 @@
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import "ACImageAndTextCell.h"
+#import "GrowlPrefsViewController.h"
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "GrowlPositionPicker.h"
@@ -32,6 +33,13 @@
 #include <Security/SecKeychainItem.h>
 
 #include <Carbon/Carbon.h>
+
+#define GeneralPrefs       @"GeneralPrefs"
+#define ApplicationPrefs   @"ApplicationPrefs"
+#define DisplayPrefs       @"DisplayPrefs"
+#define NetworkPrefs       @"NetworkPrefs"
+#define HistoryPrefs       @"HistoryPrefs"
+#define AboutPane          @"About"
 
 /** A reference to the SystemConfiguration dynamic store. */
 static SCDynamicStoreRef dynStore;
@@ -417,11 +425,64 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 -(void)setSelectedTab:(NSUInteger)tab
 {
     [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
+   
     if(tab == 3){
        [self startBrowsing];
     }else{
        [self stopBrowsing];
     }
+   
+   NSString *newTab = nil;
+   switch (tab) {
+      case 0:
+         newTab = GeneralPrefs;
+         break;
+      case 1:
+         newTab = ApplicationPrefs;
+         break;
+      case 2:
+         newTab = DisplayPrefs;
+         break;
+      case 3:
+         newTab = NetworkPrefs;
+         break;
+      case 4:
+         newTab = HistoryPrefs;
+         break;
+      case 5:
+         newTab = AboutPane;
+         break;
+      default:
+         newTab = GeneralPrefs;
+         NSLog(@"Attempt to view unknown tab");
+         break;
+   }
+   
+   if(!prefViewControllers)
+      prefViewControllers = [[NSMutableDictionary alloc] init];
+   
+   GrowlPrefsViewController *nextController = [prefViewControllers valueForKey:newTab];
+   if(!nextController){
+      nextController = [[GrowlPrefsViewController alloc] initWithNibName:newTab
+                                                                  bundle:nil 
+                                                             forPrefPane:self];
+      [prefViewControllers setValue:nextController forKey:newTab];
+      [nextController release];
+   }
+   
+   NSWindow *aWindow = [self window];
+   NSRect newFrameRect = [aWindow frameRectForContentRect:[[nextController view] frame]];
+   NSRect oldFrameRect = [aWindow frame];
+   
+   NSSize newSize = newFrameRect.size;
+   NSSize oldSize = oldFrameRect.size;
+   
+   NSRect frame = [aWindow frame];
+   frame.size = newSize;
+   frame.origin.y -= (newSize.height - oldSize.height);
+   
+   [aWindow setContentView:[nextController view]];
+   [aWindow setFrame:frame display:YES animate:YES];
 }
 
 -(IBAction)selectedTabChanged:(id)sender

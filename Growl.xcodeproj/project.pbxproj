@@ -277,6 +277,7 @@
 		BC00437013F6D16A00EED11C /* GrowlRollupGroupCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC00436F13F6D16A00EED11C /* GrowlRollupGroupCellView.m */; };
 		BC00439A13F6DF6500EED11C /* GroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC00439913F6DF6500EED11C /* GroupController.m */; };
 		BC038449140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC038448140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m */; };
+		BC066883146AC0F80095811D /* GrowlPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC066881146AC0F80095811D /* GrowlPrefsViewController.m */; };
 		BC1FA5EF142223E900F1C147 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D46B142222D600C98C98 /* InfoPlist.strings */; };
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
@@ -302,6 +303,12 @@
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
+		BCDCFCCE146ABCD70074E001 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCCD146ABCD70074E001 /* GeneralPrefs.xib */; };
+		BCDCFCD0146ABD910074E001 /* ApplicationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCCF146ABD910074E001 /* ApplicationPrefs.xib */; };
+		BCDCFCD2146ABE210074E001 /* DisplayPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD1146ABE210074E001 /* DisplayPrefs.xib */; };
+		BCDCFCD4146ABEDE0074E001 /* NetworkPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD3146ABEDE0074E001 /* NetworkPrefs.xib */; };
+		BCDCFCD6146ABFA30074E001 /* HistoryPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */; };
+		BCDCFCD8146ABFE20074E001 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD7146ABFE20074E001 /* About.xib */; };
 		BCE2FE2513F428CC00804133 /* GrowlRollupTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */; };
 		BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
 		BCEE30E71418262500DB5395 /* GrowlErrorGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEE30E51418180E00DB5395 /* GrowlErrorGNTPPacket.m */; };
@@ -1162,6 +1169,8 @@
 		BC00439913F6DF6500EED11C /* GroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupController.m; path = Core/Source/GroupController.m; sourceTree = "<group>"; };
 		BC038445140A96C20091BCD1 /* GrowlFirstLaunchStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GrowlFirstLaunchStrings.h; path = Core/Source/GrowlFirstLaunchStrings.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BC038448140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlFirstLaunchWindowController.m; path = Core/Source/GrowlFirstLaunchWindowController.m; sourceTree = "<group>"; };
+		BC066880146AC0F80095811D /* GrowlPrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPrefsViewController.h; path = Core/Source/GrowlPrefsViewController.h; sourceTree = "<group>"; };
+		BC066881146AC0F80095811D /* GrowlPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPrefsViewController.m; path = Core/Source/GrowlPrefsViewController.m; sourceTree = "<group>"; };
 		BC1FA5FF1422380900F1C147 /* NSObject+XPCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+XPCHelpers.h"; path = "Common/Source/NSObject+XPCHelpers.h"; sourceTree = SOURCE_ROOT; };
 		BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+XPCHelpers.m"; path = "Common/Source/NSObject+XPCHelpers.m"; sourceTree = SOURCE_ROOT; };
 		BC1FA6031422401D00F1C147 /* GrowlNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotifier.h; path = "GNTP Client/GrowlNotifier.h"; sourceTree = "<group>"; };
@@ -1205,6 +1214,12 @@
 		BCDB220113F70E9300040108 /* GroupCountBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupCountBubble.h; path = Core/Source/GroupCountBubble.h; sourceTree = "<group>"; };
 		BCDB220213F70E9300040108 /* GroupCountBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupCountBubble.m; path = Core/Source/GroupCountBubble.m; sourceTree = "<group>"; };
 		BCDB88F213FC3FB200244F59 /* GrowlFirstLaunchWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFirstLaunchWindowController.h; path = Core/Source/GrowlFirstLaunchWindowController.h; sourceTree = "<group>"; };
+		BCDCFCCD146ABCD70074E001 /* GeneralPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GeneralPrefs.xib; path = Core/Resources/GeneralPrefs.xib; sourceTree = "<group>"; };
+		BCDCFCCF146ABD910074E001 /* ApplicationPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ApplicationPrefs.xib; path = Core/Resources/ApplicationPrefs.xib; sourceTree = "<group>"; };
+		BCDCFCD1146ABE210074E001 /* DisplayPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DisplayPrefs.xib; path = Core/Resources/DisplayPrefs.xib; sourceTree = "<group>"; };
+		BCDCFCD3146ABEDE0074E001 /* NetworkPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkPrefs.xib; path = Core/Resources/NetworkPrefs.xib; sourceTree = "<group>"; };
+		BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HistoryPrefs.xib; path = Core/Resources/HistoryPrefs.xib; sourceTree = "<group>"; };
+		BCDCFCD7146ABFE20074E001 /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = About.xib; path = Core/Resources/About.xib; sourceTree = "<group>"; };
 		BCE2FE2313F428CC00804133 /* GrowlRollupTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRollupTableView.h; path = Core/Source/GrowlRollupTableView.h; sourceTree = "<group>"; };
 		BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRollupTableView.m; path = Core/Source/GrowlRollupTableView.m; sourceTree = "<group>"; };
 		BCEE30E41418180E00DB5395 /* GrowlErrorGNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlErrorGNTPPacket.h; path = Core/Source/GrowlErrorGNTPPacket.h; sourceTree = "<group>"; };
@@ -1581,6 +1596,12 @@
 				93E4EEA7141EFCA0005A26CF /* AwayHistoryWindow.xib */,
 				93E4EEA9141EFCA1005A26CF /* FirstLaunchWindow.xib */,
 				93E4EEAB141EFCA1005A26CF /* GrowlPref.xib */,
+				BCDCFCCD146ABCD70074E001 /* GeneralPrefs.xib */,
+				BCDCFCCF146ABD910074E001 /* ApplicationPrefs.xib */,
+				BCDCFCD1146ABE210074E001 /* DisplayPrefs.xib */,
+				BCDCFCD3146ABEDE0074E001 /* NetworkPrefs.xib */,
+				BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */,
+				BCDCFCD7146ABFE20074E001 /* About.xib */,
 				93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */,
 				93E4EEAF141EFCA1005A26CF /* Localizable.strings */,
 				93E4EEB1141EFCA1005A26CF /* MainMenu.xib */,
@@ -1618,6 +1639,8 @@
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
 				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
 				342157BE0C2AE377004003BB /* PriorityTransformer.m */,
+				BC066880146AC0F80095811D /* GrowlPrefsViewController.h */,
+				BC066881146AC0F80095811D /* GrowlPrefsViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2960,6 +2983,12 @@
 				835A0AE7142C73DE00B89123 /* Growl-VIEW.icns in Resources */,
 				835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */,
 				835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */,
+				BCDCFCCE146ABCD70074E001 /* GeneralPrefs.xib in Resources */,
+				BCDCFCD0146ABD910074E001 /* ApplicationPrefs.xib in Resources */,
+				BCDCFCD2146ABE210074E001 /* DisplayPrefs.xib in Resources */,
+				BCDCFCD4146ABEDE0074E001 /* NetworkPrefs.xib in Resources */,
+				BCDCFCD6146ABFA30074E001 /* HistoryPrefs.xib in Resources */,
+				BCDCFCD8146ABFE20074E001 /* About.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3456,6 +3485,7 @@
 				9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */,
 				BCEE30E61418180F00DB5395 /* GrowlErrorGNTPPacket.m in Sources */,
 				BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */,
+				BC066883146AC0F80095811D /* GrowlPrefsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
