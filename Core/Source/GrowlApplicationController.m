@@ -556,27 +556,28 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         }
         
         [display displayNotification:appNotification];
-    }
-    
-    NSString *soundName = [notification sound];
-    if (soundName) {
-        NSSound *sound = [NSSound soundNamed:soundName];
-        
-        if (!sound) {
+
+        NSString *soundName = [notification sound];
+        if (soundName) {
+            NSSound *sound = [NSSound soundNamed:soundName];
+            
+            if (!sound) {
                 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
-                            nil];
+                                          [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
+                                          nil];
                 
                 NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
                 [NSApp presentError:error];
+            }
+            
+            if(!audioDeviceIdentifier)
+                self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
+            [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
+            [sound play];
+            
         }
-        
-        if(!audioDeviceIdentifier)
-            self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
-        [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
-        [sound play];
-
-	}
+    }
+    
    
    [appNotification release];
    
