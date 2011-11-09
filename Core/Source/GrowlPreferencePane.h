@@ -24,8 +24,6 @@
 	NSDictionary					*currentPlugin;
 	GrowlPlugin						*currentPluginController;
 
-	BOOL                            canRemoveTicket;
-
 	//cached controllers
 	/*these are cached to avoid redundant calls to
 	 *	[GrowlXController sharedController].
@@ -41,23 +39,6 @@
     IBOutlet NSToolbar              *toolbar;
    NSMutableDictionary              *prefViewControllers;
    
-	//"General" tab pane
-	IBOutlet NSArrayController		*notificationsArrayController;
-
-	//"Applications" tab pane
-	IBOutlet NSTableView			*growlApplications;
-	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
-	IBOutlet NSTabView				*applicationsTab;
-	IBOutlet NSTabView				*configurationTab;
-	NSTableView						*activeTableView;
-	IBOutlet NSMenu					*notificationPriorityMenu;
-	IBOutlet TicketsArrayController	*ticketsArrayController;
-	IBOutlet GrowlPositionPicker	*appPositionPicker;
-	IBOutlet NSPopUpButton			*soundMenuButton;
-	IBOutlet NSPopUpButton			*displayMenuButton;
-	IBOutlet NSPopUpButton			*notificationDisplayMenuButton;
-	NSIndexSet						*selectedNotificationIndexes;
-
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
 	IBOutlet NSView					*displayPrefView;
@@ -85,8 +66,6 @@
    IBOutlet NSTableView       *historyTable;
    IBOutlet NSButton          *trimByCountCheck;
    IBOutlet NSButton          *trimByDateCheck;
-    
-    NSSound                    *demoSound;
 }
 
 - (NSString *) bundleVersion;
@@ -104,16 +83,8 @@
 -(void)setSelectedTab:(NSUInteger)tab;
 -(IBAction)selectedTabChanged:(id)sender;
 
-#pragma mark "Applications" tab pane
-- (BOOL) canRemoveTicket;
-- (void) setCanRemoveTicket:(BOOL)flag;
-- (IBAction) deleteTicket:(id)sender;
-- (IBAction)playSound:(id)sender;
-- (IBAction) showApplicationConfigurationTab:(id)sender;
-- (IBAction) changeNameOfDisplayForApplication:(id)sender;
-- (IBAction) changeNameOfDisplayForNotification:(id)sender;
-- (NSIndexSet *) selectedNotificationIndexes;
-- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
+-(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
+-(IBAction) showPreview:(id)sender;
 
 #pragma mark "Network" tab pane
 -(void)updateAddresses;

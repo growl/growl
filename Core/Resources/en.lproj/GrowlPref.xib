@@ -15,13 +15,11 @@
 			<string>NSToolbar</string>
 			<string>NSScroller</string>
 			<string>NSArrayController</string>
-			<string>NSMenuItem</string>
-			<string>NSMenu</string>
-			<string>NSScrollView</string>
 			<string>NSButton</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>NSScrollView</string>
 			<string>NSTextFieldCell</string>
 			<string>NSButtonCell</string>
-			<string>NSToolbarFlexibleSpaceItem</string>
 			<string>NSCustomView</string>
 			<string>NSTextView</string>
 			<string>NSView</string>
@@ -220,11 +218,11 @@
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
-								<object class="NSCustomResource" key="NSOnImage" id="707656504">
+								<object class="NSCustomResource" key="NSOnImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">NSMenuCheckmark</string>
 								</object>
-								<object class="NSCustomResource" key="NSMixedImage" id="338497199">
+								<object class="NSCustomResource" key="NSMixedImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">NSMenuMixedState</string>
 								</object>
@@ -310,83 +308,6 @@
 				</object>
 				<string key="NSExtension">NSResponder</string>
 			</object>
-			<object class="NSMenu" id="917454973">
-				<string key="NSTitle">Menu</string>
-				<array class="NSMutableArray" key="NSMenuItems">
-					<object class="NSMenuItem" id="418572615">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">Default</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">-1000</int>
-					</object>
-					<object class="NSMenuItem" id="1004328384">
-						<reference key="NSMenu" ref="917454973"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string type="base64-UTF8" key="NSTitle">IA</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">-2000</int>
-					</object>
-					<object class="NSMenuItem" id="991858389">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">Very Low</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">-2</int>
-					</object>
-					<object class="NSMenuItem" id="456346782">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">Moderate</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">-1</int>
-					</object>
-					<object class="NSMenuItem" id="234208687">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">Normal</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-					</object>
-					<object class="NSMenuItem" id="676030541">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">High</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">1</int>
-					</object>
-					<object class="NSMenuItem" id="344032017">
-						<reference key="NSMenu" ref="917454973"/>
-						<string key="NSTitle">Emergency</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707656504"/>
-						<reference key="NSMixedImage" ref="338497199"/>
-						<int key="NSTag">2</int>
-					</object>
-				</array>
-				<string key="NSName"/>
-			</object>
 			<object class="NSArrayController" id="988045653">
 				<array class="NSMutableArray" key="NSDeclaredKeys">
 					<string>CFBundleName</string>
@@ -412,50 +333,6 @@
 					<string>password</string>
 				</array>
 				<string key="NSObjectClassName">GrowlBrowserEntry</string>
-				<bool key="NSEditable">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-			</object>
-			<object class="NSArrayController" id="616805124">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>displayPluginName</string>
-					<string>name</string>
-					<string>priority</string>
-					<string>sticky</string>
-					<string>enabled</string>
-					<string>humanReadableName</string>
-					<string>notificationDescription</string>
-					<string>sound</string>
-					<string>se</string>
-				</array>
-				<string key="NSObjectClassName">GrowlNotificationTicket</string>
-				<bool key="NSEditable">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-			</object>
-			<object class="NSArrayController" id="484478171">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>notifications</string>
-					<string>applicationName</string>
-					<string>displayPluginName</string>
-					<string>enabled</string>
-					<string>ticketEnabled</string>
-					<string>clickHandlersEnabled</string>
-					<string>icon</string>
-					<string>sticky</string>
-					<string>positionType</string>
-					<string>displayPlugin.pluginBundle.CFBundleIdentifier</string>
-					<string>logNotification</string>
-					<string>Title</string>
-					<string>appNameHostName</string>
-				</array>
-				<string key="NSObjectClassName">GrowlApplicationTicket</string>
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
@@ -727,9 +604,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSView" id="320902961">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -744,35 +623,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">notificationsArrayController</string>
-						<reference key="source" ref="852059746"/>
-						<reference key="destination" ref="616805124"/>
-					</object>
-					<int key="connectionID">451</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">displayPluginsArrayController</string>
 						<reference key="source" ref="852059746"/>
 						<reference key="destination" ref="988045653"/>
 					</object>
 					<int key="connectionID">459</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">ticketsArrayController</string>
-						<reference key="source" ref="852059746"/>
-						<reference key="destination" ref="484478171"/>
-					</object>
-					<int key="connectionID">461</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">notificationPriorityMenu</string>
-						<reference key="source" ref="852059746"/>
-						<reference key="destination" ref="917454973"/>
-					</object>
-					<int key="connectionID">505</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -912,54 +767,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: selection.notifications</string>
-						<reference key="source" ref="616805124"/>
-						<reference key="destination" ref="484478171"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="616805124"/>
-							<reference key="NSDestination" ref="484478171"/>
-							<string key="NSLabel">contentArray: selection.notifications</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">selection.notifications</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">413</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectionIndexes: selectedNotificationIndexes</string>
-						<reference key="source" ref="616805124"/>
-						<reference key="destination" ref="852059746"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="616805124"/>
-							<reference key="NSDestination" ref="852059746"/>
-							<string key="NSLabel">selectionIndexes: selectedNotificationIndexes</string>
-							<string key="NSBinding">selectionIndexes</string>
-							<string key="NSKeyPath">selectedNotificationIndexes</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1945</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: ticketController.allSavedTickets</string>
-						<reference key="source" ref="484478171"/>
-						<reference key="destination" ref="852059746"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="484478171"/>
-							<reference key="NSDestination" ref="852059746"/>
-							<string key="NSLabel">contentArray: ticketController.allSavedTickets</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">ticketController.allSavedTickets</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">2695</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">managedObjectContext: historyController.managedObjectContext</string>
 						<reference key="source" ref="369553333"/>
 						<reference key="destination" ref="852059746"/>
@@ -1043,56 +850,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="588414189"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">333</int>
-						<reference key="object" ref="917454973"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="418572615"/>
-							<reference ref="991858389"/>
-							<reference ref="1004328384"/>
-							<reference ref="234208687"/>
-							<reference ref="456346782"/>
-							<reference ref="344032017"/>
-							<reference ref="676030541"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">PriorityMenu</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">334</int>
-						<reference key="object" ref="418572615"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">335</int>
-						<reference key="object" ref="991858389"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">336</int>
-						<reference key="object" ref="1004328384"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">337</int>
-						<reference key="object" ref="234208687"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">338</int>
-						<reference key="object" ref="456346782"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">339</int>
-						<reference key="object" ref="344032017"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">340</int>
-						<reference key="object" ref="676030541"/>
-						<reference key="parent" ref="917454973"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">374</int>
 						<reference key="object" ref="988045653"/>
 						<reference key="parent" ref="0"/>
@@ -1103,18 +860,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="808870017"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Services</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">410</int>
-						<reference key="object" ref="616805124"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Notifications</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">411</int>
-						<reference key="object" ref="484478171"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Tickets</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1407</int>
@@ -1297,20 +1042,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="2449.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2449.designableToolbarItemIdentifier">5</string>
 				<boolean value="YES" key="2449.toolbarItem.selectable"/>
-				<string key="333.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="334.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="335.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="336.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="337.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="338.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="339.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="340.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="374.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="409.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="410.CustomClassName">NotificationsArrayController</string>
-				<string key="410.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="411.CustomClassName">TicketsArrayController</string>
-				<string key="411.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -1322,47 +1055,21 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">GrowlPositionPicker</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GrowlPositionPicker.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">GrowlPreferencePane</string>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="changeNameOfDisplayForApplication:">id</string>
-						<string key="changeNameOfDisplayForNotification:">id</string>
 						<string key="clearAllHistory:">id</string>
 						<string key="deleteSelectedHistoryItems:">id</string>
-						<string key="deleteTicket:">id</string>
 						<string key="endDisabledDisplays:">id</string>
-						<string key="launchAdditionalDownloads:">id</string>
 						<string key="newManualForwader:">id</string>
-						<string key="openGrowlBugSubmissionPage:">id</string>
-						<string key="openGrowlWebSite:">id</string>
-						<string key="openGrowlWebSiteToStyles:">id</string>
-						<string key="playSound:">id</string>
 						<string key="removeSelectedForwardDestination:">id</string>
 						<string key="selectedTabChanged:">id</string>
-						<string key="showApplicationConfigurationTab:">id</string>
 						<string key="showDisabledDisplays:">id</string>
 						<string key="showPreview:">id</string>
-						<string key="startGrowlAtLogin:">id</string>
 						<string key="toggleHistory:">id</string>
 						<string key="validateHistoryTrimSetting:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="changeNameOfDisplayForApplication:">
-							<string key="name">changeNameOfDisplayForApplication:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeNameOfDisplayForNotification:">
-							<string key="name">changeNameOfDisplayForNotification:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="clearAllHistory:">
 							<string key="name">clearAllHistory:</string>
 							<string key="candidateClassName">id</string>
@@ -1371,36 +1078,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">deleteSelectedHistoryItems:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="deleteTicket:">
-							<string key="name">deleteTicket:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="endDisabledDisplays:">
 							<string key="name">endDisabledDisplays:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="launchAdditionalDownloads:">
-							<string key="name">launchAdditionalDownloads:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="newManualForwader:">
 							<string key="name">newManualForwader:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openGrowlBugSubmissionPage:">
-							<string key="name">openGrowlBugSubmissionPage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openGrowlWebSite:">
-							<string key="name">openGrowlWebSite:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openGrowlWebSiteToStyles:">
-							<string key="name">openGrowlWebSiteToStyles:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="playSound:">
-							<string key="name">playSound:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="removeSelectedForwardDestination:">
@@ -1411,20 +1094,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">selectedTabChanged:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showApplicationConfigurationTab:">
-							<string key="name">showApplicationConfigurationTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="showDisabledDisplays:">
 							<string key="name">showDisabledDisplays:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showPreview:">
 							<string key="name">showPreview:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startGrowlAtLogin:">
-							<string key="name">startGrowlAtLogin:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleHistory:">
@@ -1437,65 +1112,26 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="aboutBoxTextView">NSTextView</string>
-						<string key="aboutVersionString">NSTextField</string>
-						<string key="appPositionPicker">GrowlPositionPicker</string>
-						<string key="applicationNameAndIconColumn">NSTableColumn</string>
-						<string key="applicationsTab">NSTabView</string>
-						<string key="configurationTab">NSTabView</string>
 						<string key="disabledDisplaysList">NSTextView</string>
 						<string key="disabledDisplaysSheet">NSWindow</string>
 						<string key="displayAuthor">NSTextField</string>
 						<string key="displayDefaultPrefView">NSView</string>
-						<string key="displayMenuButton">NSPopUpButton</string>
 						<string key="displayPluginsArrayController">NSArrayController</string>
 						<string key="displayPluginsTable">NSTableView</string>
 						<string key="displayPrefView">NSView</string>
 						<string key="displayVersion">NSTextField</string>
-						<string key="globalPositionPicker">GrowlPositionPicker</string>
-						<string key="growlApplications">NSTableView</string>
 						<string key="historyArrayController">NSArrayController</string>
 						<string key="historyOnOffSwitch">NSSegmentedControl</string>
 						<string key="historyTable">NSTableView</string>
 						<string key="networkTableView">NSTableView</string>
-						<string key="notificationDisplayMenuButton">NSPopUpButton</string>
-						<string key="notificationPriorityMenu">NSMenu</string>
-						<string key="notificationsArrayController">NSArrayController</string>
 						<string key="previewButton">NSButton</string>
 						<string key="serviceNameColumn">NSTableColumn</string>
 						<string key="servicePasswordColumn">NSTableColumn</string>
-						<string key="soundMenuButton">NSPopUpButton</string>
-						<string key="startAtLoginSwitch">NSSegmentedControl</string>
-						<string key="ticketsArrayController">TicketsArrayController</string>
 						<string key="toolbar">NSToolbar</string>
 						<string key="trimByCountCheck">NSButton</string>
 						<string key="trimByDateCheck">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="aboutBoxTextView">
-							<string key="name">aboutBoxTextView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="aboutVersionString">
-							<string key="name">aboutVersionString</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="appPositionPicker">
-							<string key="name">appPositionPicker</string>
-							<string key="candidateClassName">GrowlPositionPicker</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="applicationNameAndIconColumn">
-							<string key="name">applicationNameAndIconColumn</string>
-							<string key="candidateClassName">NSTableColumn</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="applicationsTab">
-							<string key="name">applicationsTab</string>
-							<string key="candidateClassName">NSTabView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="configurationTab">
-							<string key="name">configurationTab</string>
-							<string key="candidateClassName">NSTabView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="disabledDisplaysList">
 							<string key="name">disabledDisplaysList</string>
 							<string key="candidateClassName">NSTextView</string>
@@ -1511,10 +1147,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="IBToOneOutletInfo" key="displayDefaultPrefView">
 							<string key="name">displayDefaultPrefView</string>
 							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="displayMenuButton">
-							<string key="name">displayMenuButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="displayPluginsArrayController">
 							<string key="name">displayPluginsArrayController</string>
@@ -1532,14 +1164,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">displayVersion</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="globalPositionPicker">
-							<string key="name">globalPositionPicker</string>
-							<string key="candidateClassName">GrowlPositionPicker</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="growlApplications">
-							<string key="name">growlApplications</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="historyArrayController">
 							<string key="name">historyArrayController</string>
 							<string key="candidateClassName">NSArrayController</string>
@@ -1556,18 +1180,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">networkTableView</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="notificationDisplayMenuButton">
-							<string key="name">notificationDisplayMenuButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="notificationPriorityMenu">
-							<string key="name">notificationPriorityMenu</string>
-							<string key="candidateClassName">NSMenu</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="notificationsArrayController">
-							<string key="name">notificationsArrayController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="previewButton">
 							<string key="name">previewButton</string>
 							<string key="candidateClassName">NSButton</string>
@@ -1579,18 +1191,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="IBToOneOutletInfo" key="servicePasswordColumn">
 							<string key="name">servicePasswordColumn</string>
 							<string key="candidateClassName">NSTableColumn</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="soundMenuButton">
-							<string key="name">soundMenuButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="startAtLoginSwitch">
-							<string key="name">startAtLoginSwitch</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ticketsArrayController">
-							<string key="name">ticketsArrayController</string>
-							<string key="candidateClassName">TicketsArrayController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbar">
 							<string key="name">toolbar</string>
@@ -1608,33 +1208,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlPreferencePane.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NotificationsArrayController</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NotificationsArrayController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TicketsArrayController</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">search:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">search:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">search:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/TicketsArrayController.h</string>
 					</object>
 				</object>
 			</array>
