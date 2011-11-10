@@ -17,11 +17,16 @@
 #import "GrowlPluginController.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlProcessUtilities.h"
-#import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import "ACImageAndTextCell.h"
+
+#import "GrowlPrefsViewController.h"
+#import "GrowlGeneralViewController.h"
+#import "GrowlApplicationsViewController.h"
+#import "GrowlAboutViewController.h"
+
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "GrowlPositionPicker.h"
@@ -32,6 +37,13 @@
 #include <Security/SecKeychainItem.h>
 
 #include <Carbon/Carbon.h>
+
+#define GeneralPrefs       @"GeneralPrefs"
+#define ApplicationPrefs   @"ApplicationPrefs"
+#define DisplayPrefs       @"DisplayPrefs"
+#define NetworkPrefs       @"NetworkPrefs"
+#define HistoryPrefs       @"HistoryPrefs"
+#define AboutPane          @"About"
 
 /** A reference to the SystemConfiguration dynamic store. */
 static SCDynamicStoreRef dynStore;
@@ -89,10 +101,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 
-	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-
-	[self setCanRemoveTicket:NO];
 
 
 	// create a deep mutable copy of the forward destinations
@@ -106,11 +115,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	}
 	[self setServices:theServices];
     
-    if([preferencesController shouldStartGrowlAtLogin])
-        [startAtLoginSwitch setSelectedSegment:0];
-    else
-        [startAtLoginSwitch setSelectedSegment:1];   
-   
    self.networkAddressString = nil;
    
    SCDynamicStoreContext context = {0, self, NULL, NULL, NULL};
@@ -142,25 +146,10 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
    CFRelease(rlSrc);
-
-	
-	[self setupAboutTab];
-
-	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
-	[growlApplications setTarget:self];
-	
-	// bind the global position picker programmatically since its a custom view, register for notification so we can handle updating manually
-	[globalPositionPicker bind:@"selectedPosition" toObject:preferencesController withKeyPath:@"selectedPosition" options:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:globalPositionPicker];
-
-	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
-	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
    
     [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
     [historyTable setAutosaveTableColumns:YES];
     
-	[applicationNameAndIconColumn setDataCell:imageTextCell];
     [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 	    
@@ -169,9 +158,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
                                              selector:@selector(growlDatabaseDidUpdate:) 
                                                  name:@"GrowlDatabaseUpdated" 
                                                object:db];
-    
-   [applicationsTab selectFirstTabViewItem:self];
-   
+       
     [self reloadPreferences:nil];
 
 	// Select the default style if possible. 
@@ -197,10 +184,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 					   afterDelay:0];
 		}
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(translateSeparatorsInMenu:)
-													 name:NSPopUpButtonWillPopUpNotification
-												    object:soundMenuButton];
 	}
 }
 
@@ -274,18 +257,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[pool release];
 }
 
-- (void) updatePosition:(NSNotification *)notification {
-	if([notification object] == globalPositionPicker) {
-		[preferencesController setInteger:[globalPositionPicker selectedPosition] forKey:GROWL_POSITION_PREFERENCE_KEY];
-	}
-	else if([notification object] == appPositionPicker) {
-		// a cheap hack around selection not providing a workable object
-		NSArray *selection = [ticketsArrayController selectedObjects];
-		if ([selection count] > 0)
-			[[selection objectAtIndex:0] setSelectedPosition:[appPositionPicker selectedPosition]];
-	}
-}
-
 /*!
  * @brief Reloads the preferences and updates the GUI accordingly.
  */
@@ -311,18 +282,10 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		[self loadViewForDisplay:nil];
 }
 
-- (void) reloadSounds
-{
-    [self willChangeValueForKey:@"sounds"];
-    [self didChangeValueForKey:@"sounds"];
-}
-
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
-		if (object == ticketsArrayController)
-			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
-		else if (object == displayPluginsArrayController)
+      if (object == displayPluginsArrayController)
 			[self reloadDisplayPluginView];
 	}
 }
@@ -367,61 +330,74 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    return historyController;
 }
 
-- (NSArray *) sounds {
-    NSMutableArray *soundNames = [[NSMutableArray alloc] init];
-	
-	NSArray *paths = [NSArray arrayWithObjects:@"/System/Library/Sounds",
-												@"/Library/Sounds",
-											   [NSString stringWithFormat:@"%@/Library/Sounds", NSHomeDirectory()],
-											   nil];
-
-	for (NSString *directory in paths) {
-		BOOL isDirectory = NO;
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
-			if (isDirectory) {
-				
-				NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
-                if([files count])
-                    [soundNames addObject:@"-"];
-				for (NSString *filename in files) {
-					NSString *file = [filename stringByDeletingPathExtension];
-			
-					if (![file isEqualToString:@".DS_Store"])
-						[soundNames addObject:file];
-				}
-			}
-		}
-	}
-	
-	return [soundNames autorelease];
-}
-
-- (void)translateSeparatorsInMenu:(NSNotification *)notification
-{
-	NSPopUpButton * button = [notification object];
-	
-	NSMenu *menu = [button menu];
-	
-	NSInteger itemIndex = 0;
-	
-	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != -1) {
-		[menu removeItemAtIndex:itemIndex];
-		[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
-	}
-}
-
 
 #pragma mark Toolbar support
 
 -(void)setSelectedTab:(NSUInteger)tab
 {
     [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
+   
     if(tab == 3){
        [self startBrowsing];
     }else{
        [self stopBrowsing];
     }
+   
+   NSString *newTab = nil;
+   Class newClass = [GrowlPrefsViewController class];
+   switch (tab) {
+      case 0:
+         newTab = GeneralPrefs;
+         newClass = [GrowlGeneralViewController class];
+         break;
+      case 1:
+         newTab = ApplicationPrefs;
+         newClass = [GrowlApplicationsViewController class];
+         break;
+      case 2:
+         newTab = DisplayPrefs;
+         break;
+      case 3:
+         newTab = NetworkPrefs;
+         break;
+      case 4:
+         newTab = HistoryPrefs;
+         break;
+      case 5:
+         newTab = AboutPane;
+         newClass = [GrowlAboutViewController class];
+         break;
+      default:
+         newTab = GeneralPrefs;
+         NSLog(@"Attempt to view unknown tab");
+         break;
+   }
+   
+   if(!prefViewControllers)
+      prefViewControllers = [[NSMutableDictionary alloc] init];
+   
+   GrowlPrefsViewController *nextController = [prefViewControllers valueForKey:newTab];
+   if(!nextController){
+      nextController = [[newClass alloc] initWithNibName:newTab
+                                                  bundle:nil 
+                                             forPrefPane:self];
+      [prefViewControllers setValue:nextController forKey:newTab];
+      [nextController release];
+   }
+   
+   NSWindow *aWindow = [self window];
+   NSRect newFrameRect = [aWindow frameRectForContentRect:[[nextController view] frame]];
+   NSRect oldFrameRect = [aWindow frame];
+   
+   NSSize newSize = newFrameRect.size;
+   NSSize oldSize = oldFrameRect.size;
+   
+   NSRect frame = [aWindow frame];
+   frame.size = newSize;
+   frame.origin.y -= (newSize.height - oldSize.height);
+   
+   [aWindow setContentView:[nextController view]];
+   [aWindow setFrame:frame display:YES animate:YES];
 }
 
 -(IBAction)selectedTabChanged:(id)sender
@@ -437,129 +413,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 -(NSArray*)toolbarSelectableItems:(NSToolbar*)theToolbar
 {
     return [toolbar visibleItems];
-}
-
-#pragma mark "General" tab pane
-
--(IBAction)startGrowlAtLogin:(id)sender{
-    if([(NSSegmentedControl*)sender selectedSegment] == 0){
-        if(![preferencesController allowStartAtLogin]){
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
-                                             defaultButton:NSLocalizedString(@"Ok", nil)
-                                           alternateButton:NSLocalizedString(@"Cancel", nil)
-                                               otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Growl launch everytime you login, so that it is available for applications which use it at all times", nil)];
-            [alert beginSheetModalForWindow:[sender window]
-                              modalDelegate:self
-                             didEndSelector:@selector(startGrowlAtLoginAlert:didReturn:contextInfo:)
-                                contextInfo:nil];
-        }else{
-            [preferencesController setShouldStartGrowlAtLogin:YES];
-        }
-    }else{
-        [preferencesController setShouldStartGrowlAtLogin:NO];
-    }
-}
-
--(IBAction)launchAdditionalDownloads:(id)sender{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/downloads.php"]];
-}
-
-- (IBAction)startGrowlAtLoginAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
-{
-    switch (returnCode) {
-        case NSAlertDefaultReturn:
-            [preferencesController setAllowStartAtLogin:YES];
-            [preferencesController setShouldStartGrowlAtLogin:YES];
-            break;
-        default:
-            [startAtLoginSwitch setSelectedSegment:1];
-            break;
-    }
-}
-
-
-#pragma mark "Applications" tab pane
-
-- (BOOL) canRemoveTicket {
-	return canRemoveTicket;
-}
-
-- (void) setCanRemoveTicket:(BOOL)flag {
-	canRemoveTicket = flag;
-}
-
-- (void) deleteTicket:(id)sender {
-	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] appNameHostName];
-	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [NSBundle mainBundle], nil), appName]
-									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [NSBundle mainBundle], "Button title for removing something")
-								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [NSBundle mainBundle], "Button title for canceling")
-									   otherButton:nil
-						 informativeTextWithFormat:[NSString stringWithFormat:
-													NSLocalizedStringFromTableInBundle(@"This will remove all Growl settings for %@.", nil, [NSBundle mainBundle], ""), appName]];
-	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"growl-icon"]] autorelease]];
-	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
-}
-
-// this method is used as our callback to determine whether or not to delete the ticket
--(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID {
-	if (returnCode == NSAlertDefaultReturn) {
-		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
-		NSString *path = [ticket path];
-
-		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
-         [[GrowlTicketController sharedController] removeTicketForApplicationName:[ticket appNameHostName]];
-         [growlApplications noteNumberOfRowsChanged];
-		}
-	}
-}
-
--(IBAction)playSound:(id)sender
-{
-    if(self.demoSound && [self.demoSound isPlaying])
-        [self.demoSound stop];
-
-	if([sender indexOfSelectedItem] > 0) // The 0 item is "None"
-    {
-        self.demoSound = [NSSound soundNamed:[[sender selectedItem] title]];		
-        [self.demoSound play];
-    }
-}
-
-- (IBAction) showApplicationConfigurationTab:(id)sender {
-	if ([ticketsArrayController selectionIndex] != NSNotFound) {
-		[self populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
-		[self populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
-
-		[applicationsTab selectLastTabViewItem:sender];
-		[configurationTab selectFirstTabViewItem:sender];
-	}
-}
-
-- (IBAction) changeNameOfDisplayForApplication:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[ticketsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
-	[self showPreview:sender];
-}
-- (IBAction) changeNameOfDisplayForNotification:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[notificationsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
-	[self showPreview:sender];
-}
-
-- (NSIndexSet *) selectedNotificationIndexes {
-	return selectedNotificationIndexes;
-}
-- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes {
-	if(selectedNotificationIndexes != newSelectedNotificationIndexes) {
-		[selectedNotificationIndexes release];
-		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
-
-		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
-		if (indexOfMenuItem < 0)
-			indexOfMenuItem = 0;
-		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
-	}
 }
 
 #pragma mark "Display" tab pane
@@ -609,11 +462,11 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	if (!pluginName && doTheApp) {
         //fall back to the application's plugin name
         
-        NSArray *apps = [ticketsArrayController selectedObjects];
+        /*NSArray *apps = [ticketsArrayController selectedObjects];
         if(apps && [apps count]) {
             NSDictionary *parentApp = [apps objectAtIndex:0U];
             pluginName = [parentApp valueForKey:@"displayPluginName"];
-        }
+        }*/
 	}		
     if(!pluginName)
         pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
@@ -679,39 +532,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 #pragma mark About Tab
 
-- (void) setupAboutTab {
-	NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	if (versionString) {
-		NSString *versionStringWithHgVersion = nil;
-		struct Version version;
-		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
-			const char *hgRevisionUTF8 = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
-			if (hgRevisionUTF8) {
-				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
-
-				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
-			}
-		}
-		if (versionStringWithHgVersion)
-			versionString = versionStringWithHgVersion;
-	}
-
-	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
-										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"], 
-										versionString]];
-	[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
-}
-
-- (IBAction) openGrowlWebSiteToStyles:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/styles.php"]];
-}
-- (IBAction) openGrowlWebSite:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info"]];
-}
-
-- (IBAction) openGrowlBugSubmissionPage:(id)sender {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
-}
 
 #pragma mark Network Tab Methods
 
@@ -844,10 +664,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	}
 	return 0;
 }
-- (void) tableViewDidClickInBody:(NSTableView *)tableView {
-	activeTableView = tableView;
-	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
-}
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	if(aTableColumn == servicePasswordColumn) {
@@ -858,13 +674,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	// we check to make sure we have the image + text column and then set its image manually
-	if (aTableColumn == applicationNameAndIconColumn) {
-		GrowlApplicationTicket *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
-      NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
-      [icon setScalesWhenResized:YES];
-      [icon setSize:CGSizeMake(32.0, 32.0)];
-		[[aTableColumn dataCellForRow:rowIndex] setImage:icon];
-	} else if (aTableColumn == servicePasswordColumn) {
+   if (aTableColumn == servicePasswordColumn) {
 		return [[services objectAtIndex:rowIndex] password];
 	} else if (aTableColumn == serviceNameColumn) {
         NSCell *cell = [aTableColumn dataCellForRow:rowIndex];
@@ -887,9 +697,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	return nil;
 }
 
-- (IBAction) tableViewDoubleClick:(id)sender {
-	[self showApplicationConfigurationTab:sender];
-}
 
 #pragma mark NSNetServiceBrowser Delegate Methods
 
