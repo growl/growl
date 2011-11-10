@@ -24,8 +24,6 @@
 	NSDictionary					*currentPlugin;
 	GrowlPlugin						*currentPluginController;
 
-	BOOL                            canRemoveTicket;
-
 	//cached controllers
 	/*these are cached to avoid redundant calls to
 	 *	[GrowlXController sharedController].
@@ -37,27 +35,10 @@
 	GrowlPreferencesController		*preferencesController;
     GrowlNotificationDatabase     *historyController;
 
+   //Prefs list support
     IBOutlet NSToolbar              *toolbar;
-    
-	//"General" tab pane
-	IBOutlet NSArrayController		*notificationsArrayController;
-	IBOutlet GrowlPositionPicker	*globalPositionPicker;
-    IBOutlet NSSegmentedControl     *startAtLoginSwitch;
-
-	//"Applications" tab pane
-	IBOutlet NSTableView			*growlApplications;
-	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
-	IBOutlet NSTabView				*applicationsTab;
-	IBOutlet NSTabView				*configurationTab;
-	NSTableView						*activeTableView;
-	IBOutlet NSMenu					*notificationPriorityMenu;
-	IBOutlet TicketsArrayController	*ticketsArrayController;
-	IBOutlet GrowlPositionPicker	*appPositionPicker;
-	IBOutlet NSPopUpButton			*soundMenuButton;
-	IBOutlet NSPopUpButton			*displayMenuButton;
-	IBOutlet NSPopUpButton			*notificationDisplayMenuButton;
-	NSIndexSet						*selectedNotificationIndexes;
-
+   NSMutableDictionary              *prefViewControllers;
+   
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
 	IBOutlet NSView					*displayPrefView;
@@ -79,18 +60,12 @@
 	IBOutlet NSTableView			*networkTableView;
    NSString                   *networkAddressString;
 	
-	//About box tab pane
-	IBOutlet NSTextField			*aboutVersionString;
-	IBOutlet NSTextView				*aboutBoxTextView;
-   
    //History tab pane
    IBOutlet NSSegmentedControl *historyOnOffSwitch;
    IBOutlet NSArrayController *historyArrayController;
    IBOutlet NSTableView       *historyTable;
    IBOutlet NSButton          *trimByCountCheck;
    IBOutlet NSButton          *trimByDateCheck;
-    
-    NSSound                    *demoSound;
 }
 
 - (NSString *) bundleVersion;
@@ -108,20 +83,8 @@
 -(void)setSelectedTab:(NSUInteger)tab;
 -(IBAction)selectedTabChanged:(id)sender;
 
-#pragma mark "General" tab pane
--(IBAction)startGrowlAtLogin:(id)sender;
--(IBAction)launchAdditionalDownloads:(id)sender;
-
-#pragma mark "Applications" tab pane
-- (BOOL) canRemoveTicket;
-- (void) setCanRemoveTicket:(BOOL)flag;
-- (IBAction) deleteTicket:(id)sender;
-- (IBAction)playSound:(id)sender;
-- (IBAction) showApplicationConfigurationTab:(id)sender;
-- (IBAction) changeNameOfDisplayForApplication:(id)sender;
-- (IBAction) changeNameOfDisplayForNotification:(id)sender;
-- (NSIndexSet *) selectedNotificationIndexes;
-- (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
+-(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
+-(IBAction) showPreview:(id)sender;
 
 #pragma mark "Network" tab pane
 -(void)updateAddresses;
@@ -139,18 +102,12 @@
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
-- (IBAction) openGrowlWebSiteToStyles:(id)sender;
-
 #pragma mark HistoryTab
 - (IBAction) toggleHistory:(id)sender;
 -(IBAction)validateHistoryTrimSetting:(id)sender;
 - (IBAction) deleteSelectedHistoryItems:(id)sender;
 - (IBAction) clearAllHistory:(id)sender;
 
-#pragma mark About Tab methods
-- (void) setupAboutTab;
-- (IBAction) openGrowlWebSite:(id)sender;
-- (IBAction) openGrowlBugSubmissionPage:(id)sender;
 
 #pragma mark Properties
 @property (retain) NSSound *demoSound;
