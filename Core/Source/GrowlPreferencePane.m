@@ -20,6 +20,7 @@
 #import "GrowlDisplaysViewController.h"
 #import "GrowlServerViewController.h"
 #import "GrowlAboutViewController.h"
+#import "GrowlHistoryViewController.h"
 
 #define GeneralPrefs       @"GeneralPrefs"
 #define ApplicationPrefs   @"ApplicationPrefs"
@@ -59,18 +60,8 @@
     if (defaultDefaults) {
         [preferencesController registerDefaults:defaultDefaults];
     }
-   
-    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
-    [historyTable setAutosaveTableColumns:YES];
-    	    
-    GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(growlDatabaseDidUpdate:) 
-                                                 name:@"GrowlDatabaseUpdated" 
-                                               object:db];
-       
+          
     [self reloadPreferences:nil];
-
 }
 
 - (void)showWindow:(id)sender
@@ -128,12 +119,6 @@
  * @brief Reloads the preferences and updates the GUI accordingly.
  */
 - (void) reloadPreferences:(NSString *)object {
-   if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
-      if([preferencesController isGrowlHistoryLogEnabled])
-         [historyOnOffSwitch setSelectedSegment:0];
-      else
-         [historyOnOffSwitch setSelectedSegment:1];
-   }
        
     if(!object || [object isEqualToString:GrowlSelectedPrefPane])
         [self setSelectedTab:[preferencesController selectedPreferenceTab]];
@@ -156,14 +141,6 @@
 
 	return preferencesController;
 }
-
-- (GrowlNotificationDatabase *) historyController {
-   if(!historyController)
-      historyController = [GrowlNotificationDatabase sharedInstance];
-   
-   return historyController;
-}
-
 
 #pragma mark Toolbar support
 
@@ -192,6 +169,7 @@
          break;
       case 4:
          newTab = HistoryPrefs;
+         newClass = [GrowlHistoryViewController class];
          break;
       case 5:
          newTab = AboutPane;
@@ -296,71 +274,5 @@
 	[popUp selectItem:selectedItem];
 }
 
-#pragma mark HistoryTab
-
-- (IBAction) toggleHistory:(id)sender
-{
-   if([(NSSegmentedControl*)sender selectedSegment] == 0){
-      [preferencesController setGrowlHistoryLogEnabled:YES];
-   }else{
-      [preferencesController setGrowlHistoryLogEnabled:NO];
-   }
-}
-
--(void)growlDatabaseDidUpdate:(NSNotification*)notification
-{
-    [historyArrayController fetch:self];
-}
-
--(IBAction)validateHistoryTrimSetting:(id)sender
-{
-   if([trimByDateCheck state] == NSOffState && [trimByCountCheck state] == NSOffState)
-   {
-      NSLog(@"User tried turning off both automatic trim options");
-      NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Turning off both automatic trim functions is not allowed.", nil)
-                                       defaultButton:NSLocalizedString(@"Ok", nil)
-                                     alternateButton:nil
-                                         otherButton:nil
-                           informativeTextWithFormat:NSLocalizedString(@"To prevent the history database from growing indefinitely, at least one type of automatic trim must be active", nil)];
-      [alert runModal];
-      if ([sender isEqualTo:trimByDateCheck]) {
-         [preferencesController setGrowlHistoryTrimByDate:YES];
-      }
-      
-      if([sender isEqualTo:trimByCountCheck]){
-         [preferencesController setGrowlHistoryTrimByCount:YES];
-      }
-   }
-}
-
-- (IBAction) deleteSelectedHistoryItems:(id)sender
-{
-   [[GrowlNotificationDatabase sharedInstance] deleteSelectedObjects:[historyArrayController selectedObjects]];
-}
-
-- (IBAction) clearAllHistory:(id)sender
-{
-   NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! About to delete ALL history", nil)
-                                    defaultButton:NSLocalizedString(@"Cancel", nil)
-                                  alternateButton:NSLocalizedString(@"Ok", nil)
-                                      otherButton:nil
-                        informativeTextWithFormat:NSLocalizedString(@"This action cannot be undone, please confirm that you want to delete the entire notification history", nil)];
-   [alert beginSheetModalForWindow:[sender window]
-                     modalDelegate:self
-                    didEndSelector:@selector(clearAllHistoryAlert:didReturn:contextInfo:)
-                       contextInfo:nil];
-}
-
-- (IBAction) clearAllHistoryAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
-{
-   switch (returnCode) {
-      case NSAlertDefaultReturn:
-         NSLog(@"Doing nothing");
-         break;
-      case NSAlertAlternateReturn:
-         [[GrowlNotificationDatabase sharedInstance] deleteAllHistory];
-         break;
-   }
-}
 
 @end

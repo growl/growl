@@ -14,6 +14,7 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>NSButton</string>
 			<string>NSCustomObject</string>
+			<string>NSArrayController</string>
 			<string>NSImageView</string>
 			<string>NSDateFormatter</string>
 			<string>NSImageCell</string>
@@ -45,13 +46,7 @@
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">GrowlPrefsViewController</string>
-			</object>
-			<object class="NSCustomObject" id="1003">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="1004">
-				<string key="NSClassName">NSApplication</string>
+				<string key="NSClassName">GrowlHistoryViewController</string>
 			</object>
 			<object class="NSView" id="829052891">
 				<reference key="NSNextResponder"/>
@@ -1130,6 +1125,64 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="122691875"/>
 			</object>
+			<object class="NSArrayController" id="973969291">
+				<object class="NSMutableArray" key="NSDeclaredKeys">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>Image.Image</string>
+					<string>ApplicationName</string>
+					<string>Title</string>
+					<string>Time</string>
+					<string>Description</string>
+					<string>count</string>
+					<string>count.intValue</string>
+					<string>@count</string>
+				</object>
+				<bool key="NSEditable">YES</bool>
+				<bool key="NSAutomaticallyPreparesContent">YES</bool>
+				<object class="_NSManagedProxy" key="_NSManagedProxy">
+					<string key="NSEntityName">Notification</string>
+					<object class="NSComparisonPredicate" key="NSFetchPredicate">
+						<object class="NSKeyPathExpression" key="NSLeftExpression">
+							<int key="NSExpressionType">3</int>
+							<string key="NSSelectorName">valueForKey:</string>
+							<object class="NSSelfExpression" key="NSOperand">
+								<int key="NSExpressionType">1</int>
+							</object>
+							<object class="NSMutableArray" key="NSArguments">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSKeyPathSpecifierExpression">
+									<int key="NSExpressionType">10</int>
+									<string key="NSKeyPath">deleteUponReturn</string>
+								</object>
+							</object>
+						</object>
+						<object class="NSConstantValueExpression" key="NSRightExpression">
+							<int key="NSExpressionType">0</int>
+							<integer value="0" key="NSConstantValue"/>
+						</object>
+						<object class="NSEqualityPredicateOperator" key="NSPredicateOperator">
+							<int key="NSOperatorType">4</int>
+							<int key="NSModifier">0</int>
+							<bool key="NSNegate">NO</bool>
+							<int key="NSOptions">0</int>
+						</object>
+					</object>
+				</object>
+				<bool key="_NSIsUsingManagedProxy">YES</bool>
+				<bool key="_NSUsesLazyFetching">YES</bool>
+				<bool key="NSAvoidsEmptySelection">YES</bool>
+				<bool key="NSPreservesSelection">YES</bool>
+				<bool key="NSSelectsInsertedObjects">YES</bool>
+				<bool key="NSFilterRestrictsInsertion">YES</bool>
+				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
+			</object>
+			<object class="NSCustomObject" id="1003">
+				<string key="NSClassName">FirstResponder</string>
+			</object>
+			<object class="NSCustomObject" id="1004">
+				<string key="NSClassName">NSApplication</string>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -1141,6 +1194,398 @@
 						<reference key="destination" ref="829052891"/>
 					</object>
 					<int key="connectionID">45</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">historyOnOffSwitch</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="976770607"/>
+					</object>
+					<int key="connectionID">46</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">historyArrayController</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="973969291"/>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">historyTable</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="354324428"/>
+					</object>
+					<int key="connectionID">92</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">trimByCountCheck</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1047986231"/>
+					</object>
+					<int key="connectionID">93</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">trimByDateCheck</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="93568689"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleHistory:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="976770607"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">validateHistoryTrimSetting:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1047986231"/>
+					</object>
+					<int key="connectionID">96</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">validateHistoryTrimSetting:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="93568689"/>
+					</object>
+					<int key="connectionID">97</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">deleteSelectedHistoryItems:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="964450705"/>
+					</object>
+					<int key="connectionID">98</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">clearAllHistory:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="126686291"/>
+					</object>
+					<int key="connectionID">99</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.Description</string>
+						<reference key="source" ref="84982590"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="84982590"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: selection.Description</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.Description</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">predicate: filterPredicate</string>
+						<reference key="source" ref="40829562"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="40829562"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">predicate: filterPredicate</string>
+							<string key="NSBinding">predicate</string>
+							<string key="NSKeyPath">filterPredicate</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSDisplayName</string>
+									<string>NSPredicateFormat</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>Search</string>
+									<string>((Title CONTAINS[cd] $value) OR (ApplicationName CONTAINS[cd] $value) OR (Description CONTAINS[cd] $value))</string>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue1: selection.ApplicationName</string>
+						<reference key="source" ref="784555431"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector" id="432990581">
+							<reference key="NSSource" ref="784555431"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">displayPatternValue1: selection.ApplicationName</string>
+							<string key="NSBinding">displayPatternValue1</string>
+							<string key="NSKeyPath">selection.ApplicationName</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ - %{value2)@</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">138</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue2: selection.Title</string>
+						<reference key="source" ref="784555431"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="784555431"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">displayPatternValue2: selection.Title</string>
+							<string key="NSBinding">displayPatternValue2</string>
+							<string key="NSKeyPath">selection.Title</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ - %{value2)@</string>
+							</object>
+							<reference key="NSPreviousConnector" ref="432990581"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.Image.Image</string>
+						<reference key="source" ref="494703251"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="494703251"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: selection.Image.Image</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.Image.Image</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">133</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryCountLimit</string>
+						<reference key="source" ref="482068356"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="482068356"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryCountLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryCountLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">115</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryTrimByCount</string>
+						<reference key="source" ref="1047986231"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1047986231"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryTrimByCount</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryTrimByCount</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryTrimByDate</string>
+						<reference key="source" ref="93568689"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="93568689"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryTrimByDate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryTrimByDate</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
+						<reference key="source" ref="98542767"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="98542767"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryDayLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryDayLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">105</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
+						<reference key="source" ref="480668343"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="480668343"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: preferencesController.growlHistoryDayLimit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">preferencesController.growlHistoryDayLimit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">101</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">content: arrangedObjects</string>
+						<reference key="source" ref="354324428"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector" id="452639669">
+							<reference key="NSSource" ref="354324428"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">content: arrangedObjects</string>
+							<string key="NSBinding">content</string>
+							<string key="NSKeyPath">arrangedObjects</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">116</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectionIndexes: selectionIndexes</string>
+						<reference key="source" ref="354324428"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector" id="35168007">
+							<reference key="NSSource" ref="354324428"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">selectionIndexes: selectionIndexes</string>
+							<string key="NSBinding">selectionIndexes</string>
+							<string key="NSKeyPath">selectionIndexes</string>
+							<reference key="NSPreviousConnector" ref="452639669"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">118</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">sortDescriptors: sortDescriptors</string>
+						<reference key="source" ref="354324428"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="354324428"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">sortDescriptors: sortDescriptors</string>
+							<string key="NSBinding">sortDescriptors</string>
+							<string key="NSKeyPath">sortDescriptors</string>
+							<reference key="NSPreviousConnector" ref="35168007"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">120</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.Time</string>
+						<reference key="source" ref="381878048"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="381878048"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: arrangedObjects.Time</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.Time</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">128</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.Image.Image</string>
+						<reference key="source" ref="243422096"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="243422096"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: arrangedObjects.Image.Image</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.Image.Image</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">122</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.Title</string>
+						<reference key="source" ref="1010571462"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1010571462"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: arrangedObjects.Title</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.Title</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">126</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.ApplicationName</string>
+						<reference key="source" ref="437143659"/>
+						<reference key="destination" ref="973969291"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="437143659"/>
+							<reference key="NSDestination" ref="973969291"/>
+							<string key="NSLabel">value: arrangedObjects.ApplicationName</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.ApplicationName</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">124</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">managedObjectContext: historyController.managedObjectContext</string>
+						<reference key="source" ref="973969291"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="973969291"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">managedObjectContext: historyController.managedObjectContext</string>
+							<string key="NSBinding">managedObjectContext</string>
+							<string key="NSKeyPath">historyController.managedObjectContext</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">144</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1496,6 +1941,12 @@
 						<reference key="object" ref="100053561"/>
 						<reference key="parent" ref="84982590"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">47</int>
+						<reference key="object" ref="973969291"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">History</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1549,6 +2000,8 @@
 					<string>42.IBPluginDependency</string>
 					<string>43.IBPluginDependency</string>
 					<string>44.IBPluginDependency</string>
+					<string>47.IBPluginDependency</string>
+					<string>47.ibExternalFetchPredicateFormat</string>
 					<string>5.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
@@ -1605,6 +2058,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>deleteUponReturn == 0</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1623,11 +2078,118 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">45</int>
+			<int key="maxID">144</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlHistoryViewController</string>
+					<string key="superclassName">GrowlPrefsViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>clearAllHistory:</string>
+							<string>deleteSelectedHistoryItems:</string>
+							<string>toggleHistory:</string>
+							<string>validateHistoryTrimSetting:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>clearAllHistory:</string>
+							<string>deleteSelectedHistoryItems:</string>
+							<string>toggleHistory:</string>
+							<string>validateHistoryTrimSetting:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">clearAllHistory:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">deleteSelectedHistoryItems:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleHistory:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">validateHistoryTrimSetting:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>historyArrayController</string>
+							<string>historyOnOffSwitch</string>
+							<string>historyTable</string>
+							<string>trimByCountCheck</string>
+							<string>trimByDateCheck</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSArrayController</string>
+							<string>NSSegmentedControl</string>
+							<string>NSTableView</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>historyArrayController</string>
+							<string>historyOnOffSwitch</string>
+							<string>historyTable</string>
+							<string>trimByCountCheck</string>
+							<string>trimByDateCheck</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">historyArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">historyOnOffSwitch</string>
+								<string key="candidateClassName">NSSegmentedControl</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">historyTable</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">trimByCountCheck</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">trimByDateCheck</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlHistoryViewController.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">GrowlPrefsViewController</string>
 					<string key="superclassName">NSViewController</string>

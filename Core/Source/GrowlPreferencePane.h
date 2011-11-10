@@ -10,7 +10,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPrefsViewController;
+@class GrowlPluginController, GrowlPreferencesController, GrowlPrefsViewController;
 
 @interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate, NSWindowDelegate> {
 	//cached controllers
@@ -21,19 +21,11 @@
 	 */
 	GrowlPluginController			*pluginController;
 	GrowlPreferencesController		*preferencesController;
-    GrowlNotificationDatabase     *historyController;
 
    //Prefs list support
     IBOutlet NSToolbar              *toolbar;
    NSMutableDictionary              *prefViewControllers;
    GrowlPrefsViewController         *currentViewController;
-	
-   //History tab pane
-   IBOutlet NSSegmentedControl *historyOnOffSwitch;
-   IBOutlet NSArrayController *historyArrayController;
-   IBOutlet NSTableView       *historyTable;
-   IBOutlet NSButton          *trimByCountCheck;
-   IBOutlet NSButton          *trimByDateCheck;
 }
 
 - (NSString *) bundleVersion;
@@ -44,20 +36,12 @@
 
 - (GrowlPluginController *) pluginController;
 - (GrowlPreferencesController *) preferencesController;
-- (GrowlNotificationDatabase *) historyController;
 
 #pragma mark Toolbar support
 -(void)setSelectedTab:(NSUInteger)tab;
 -(IBAction)selectedTabChanged:(id)sender;
 
 -(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
-
-#pragma mark HistoryTab
-- (IBAction) toggleHistory:(id)sender;
--(IBAction)validateHistoryTrimSetting:(id)sender;
-- (IBAction) deleteSelectedHistoryItems:(id)sender;
-- (IBAction) clearAllHistory:(id)sender;
-
 
 #pragma mark Properties
 @property (retain) NSMutableArray *services;
