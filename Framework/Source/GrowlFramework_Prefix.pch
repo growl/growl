@@ -10,3 +10,16 @@
 #import <Cocoa/Cocoa.h>
 #endif
 #include <Carbon/Carbon.h>
+
+
+//Prefixing for safety's sake
+#define ClassPrefix Growl
+#define _ClassPrefix_CONCAT_2(c,d) c ## d
+#define _ClassPrefix_CONCAT(a,b) _ClassPrefix_CONCAT_2(a,b)
+#define ClassPrefix_PREPEND(x) _ClassPrefix_CONCAT(ClassPrefix, x)
+
+#define GCDAsyncSocket ClassPrefix_PREPEND(GCDAsyncSocket)
+#define GCDAsyncReadPacket ClassPrefix_PREPEND(GCDAsyncReadPacket)
+#define GCDAsyncWritePacket ClassPrefix_PREPEND(GCDAsyncWritePacket)
+#define GCDAsyncSpecialPacket ClassPrefix_PREPEND(GCDAsyncSpecialPacket)
+#define ISO8601DateFormatter ClassPrefix_PREPEND(ISO8601DateFormatter)
