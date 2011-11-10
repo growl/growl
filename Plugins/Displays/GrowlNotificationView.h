@@ -26,6 +26,7 @@
 - (BOOL) showsCloseBox;
 - (void) setCloseBoxVisible:(BOOL)yorn;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin;
+- (void) clickedCloseBox:(id)sender;
 
 - (void) setPriority:(int)priority;
 - (void) setTitle:(NSString *) aTitle;

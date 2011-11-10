@@ -72,6 +72,10 @@
 		[target performSelector:action withObject:self];
 }
 
+- (void)rightMouseUp:(NSEvent *)theEvent {
+    [self clickedCloseBox:self];
+}
+
 static NSButton *gCloseButton;
 + (NSButton *) closeButton {
 	if (!gCloseButton) {
