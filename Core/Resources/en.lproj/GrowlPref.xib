@@ -257,20 +257,6 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
-			<object class="NSArrayController" id="808870017">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>computerName</string>
-					<string>use</string>
-					<string>password</string>
-				</array>
-				<string key="NSObjectClassName">GrowlBrowserEntry</string>
-				<bool key="NSEditable">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-			</object>
 			<object class="NSArrayController" id="369553333">
 				<array class="NSMutableArray" key="NSDeclaredKeys">
 					<string>Image.Image</string>
@@ -414,22 +400,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: services</string>
-						<reference key="source" ref="808870017"/>
-						<reference key="destination" ref="852059746"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="808870017"/>
-							<reference key="NSDestination" ref="852059746"/>
-							<string key="NSLabel">contentArray: services</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">services</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">412</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">managedObjectContext: historyController.managedObjectContext</string>
 						<reference key="source" ref="369553333"/>
 						<reference key="destination" ref="852059746"/>
@@ -494,12 +464,6 @@
 						<reference key="object" ref="757996533"/>
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="161462414"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">409</int>
-						<reference key="object" ref="808870017"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Services</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2193</int>
@@ -592,7 +556,6 @@
 				<string key="2449.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2449.designableToolbarItemIdentifier">5</string>
 				<boolean value="YES" key="2449.toolbarItem.selectable"/>
-				<string key="409.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -609,8 +572,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="clearAllHistory:">id</string>
 						<string key="deleteSelectedHistoryItems:">id</string>
-						<string key="newManualForwader:">id</string>
-						<string key="removeSelectedForwardDestination:">id</string>
 						<string key="selectedTabChanged:">id</string>
 						<string key="toggleHistory:">id</string>
 						<string key="validateHistoryTrimSetting:">id</string>
@@ -622,14 +583,6 @@
 						</object>
 						<object class="IBActionInfo" key="deleteSelectedHistoryItems:">
 							<string key="name">deleteSelectedHistoryItems:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="newManualForwader:">
-							<string key="name">newManualForwader:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="removeSelectedForwardDestination:">
-							<string key="name">removeSelectedForwardDestination:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="selectedTabChanged:">
@@ -649,9 +602,6 @@
 						<string key="historyArrayController">NSArrayController</string>
 						<string key="historyOnOffSwitch">NSSegmentedControl</string>
 						<string key="historyTable">NSTableView</string>
-						<string key="networkTableView">NSTableView</string>
-						<string key="serviceNameColumn">NSTableColumn</string>
-						<string key="servicePasswordColumn">NSTableColumn</string>
 						<string key="toolbar">NSToolbar</string>
 						<string key="trimByCountCheck">NSButton</string>
 						<string key="trimByDateCheck">NSButton</string>
@@ -668,18 +618,6 @@
 						<object class="IBToOneOutletInfo" key="historyTable">
 							<string key="name">historyTable</string>
 							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="networkTableView">
-							<string key="name">networkTableView</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="serviceNameColumn">
-							<string key="name">serviceNameColumn</string>
-							<string key="candidateClassName">NSTableColumn</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="servicePasswordColumn">
-							<string key="name">servicePasswordColumn</string>
-							<string key="candidateClassName">NSTableColumn</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbar">
 							<string key="name">toolbar</string>

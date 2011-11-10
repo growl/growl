@@ -33,4 +33,17 @@
    [super dealloc];
 }
 
+- (void)viewWillLoad{
+   
+}
+- (void)viewDidLoad{
+   
+}
+- (void)viewWillUnload{
+   
+}
+- (void)viewDidUnload{
+   
+}
+
 @end

@@ -19,4 +19,9 @@
                bundle:(NSBundle *)nibBundleOrNil
           forPrefPane:(GrowlPreferencePane*)aPrefPane;
 
+- (void)viewWillLoad;
+- (void)viewDidLoad;
+- (void)viewWillUnload;
+- (void)viewDidUnload;
+
 @end

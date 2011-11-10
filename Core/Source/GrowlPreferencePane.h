@@ -10,7 +10,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlApplicationTicket, GrowlPluginController, GrowlTicketController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin;
+@class GrowlPluginController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPrefsViewController;
 
 @interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate, NSWindowDelegate> {
 	//cached controllers
@@ -19,7 +19,6 @@
 	 *though that method also caches its return value, we're dealing with
 	 *	Bindings here, so we want to pick up all the speed boosts that we can.
 	 */
-   GrowlTicketController         *ticketController;
 	GrowlPluginController			*pluginController;
 	GrowlPreferencesController		*preferencesController;
     GrowlNotificationDatabase     *historyController;
@@ -27,15 +26,7 @@
    //Prefs list support
     IBOutlet NSToolbar              *toolbar;
    NSMutableDictionary              *prefViewControllers;
-
-	//"Network" tab pane
-	NSMutableArray					*services;
-	NSNetServiceBrowser				*browser;
-	int								currentServiceIndex;
-    IBOutlet NSTableColumn          *serviceNameColumn;
-	IBOutlet NSTableColumn			*servicePasswordColumn;
-	IBOutlet NSTableView			*networkTableView;
-   NSString                   *networkAddressString;
+   GrowlPrefsViewController         *currentViewController;
 	
    //History tab pane
    IBOutlet NSSegmentedControl *historyOnOffSwitch;
@@ -51,7 +42,6 @@
 
 #pragma mark Bindings accessors (not for programmatic use)
 
-- (GrowlTicketController *) ticketController;
 - (GrowlPluginController *) pluginController;
 - (GrowlPreferencesController *) preferencesController;
 - (GrowlNotificationDatabase *) historyController;
@@ -61,15 +51,6 @@
 -(IBAction)selectedTabChanged:(id)sender;
 
 -(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
-
-#pragma mark "Network" tab pane
--(void)updateAddresses;
--(void)startBrowsing;
--(void)stopBrowsing;
-- (IBAction) removeSelectedForwardDestination:(id)sender;
-- (IBAction)newManualForwader:(id)sender;
-- (void) writeForwardDestinations;
-
 
 #pragma mark HistoryTab
 - (IBAction) toggleHistory:(id)sender;
@@ -81,5 +62,6 @@
 #pragma mark Properties
 @property (retain) NSMutableArray *services;
 @property (retain) NSString *networkAddressString;
+@property (retain) GrowlPrefsViewController *currentViewController;
 
 @end
