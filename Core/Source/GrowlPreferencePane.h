@@ -10,20 +10,9 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlTicketController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin, GrowlPositionPicker;
+@class GrowlApplicationTicket, GrowlPluginController, GrowlTicketController, GrowlPreferencesController, GrowlNotificationDatabase, GrowlPlugin;
 
 @interface GrowlPreferencePane : NSWindowController <NSNetServiceBrowserDelegate, NSWindowDelegate> {
-	int                             pid;
-
-	NSArray							*plugins;
-
-	NSPreferencePane				*pluginPrefPane;
-	NSMutableArray					*loadedPrefPanes;
-
-	//Properties of the plugin being configured
-	NSDictionary					*currentPlugin;
-	GrowlPlugin						*currentPluginController;
-
 	//cached controllers
 	/*these are cached to avoid redundant calls to
 	 *	[GrowlXController sharedController].
@@ -38,18 +27,6 @@
    //Prefs list support
     IBOutlet NSToolbar              *toolbar;
    NSMutableDictionary              *prefViewControllers;
-   
-	//"Display Options" tab pane
-	IBOutlet NSTableView			*displayPluginsTable;
-	IBOutlet NSView					*displayPrefView;
-	IBOutlet NSView					*displayDefaultPrefView;
-	IBOutlet NSTextField			*displayAuthor;
-	IBOutlet NSTextField			*displayVersion;
-	IBOutlet NSButton				*previewButton;
-	IBOutlet NSArrayController		*displayPluginsArrayController;
-	
-	IBOutlet NSWindow				*disabledDisplaysSheet;
-	IBOutlet NSTextView				*disabledDisplaysList;
 
 	//"Network" tab pane
 	NSMutableArray					*services;
@@ -84,7 +61,6 @@
 -(IBAction)selectedTabChanged:(id)sender;
 
 -(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
--(IBAction) showPreview:(id)sender;
 
 #pragma mark "Network" tab pane
 -(void)updateAddresses;
@@ -94,13 +70,6 @@
 - (IBAction)newManualForwader:(id)sender;
 - (void) writeForwardDestinations;
 
-#pragma mark "Display Options" tab pane
-- (IBAction) showDisabledDisplays:(id)sender;
-- (IBAction) endDisabledDisplays:(id)sender;
-- (BOOL)hasDisabledDisplays;
-
-- (IBAction) showPreview:(id)sender;
-- (void) loadViewForDisplay:(NSString*)displayName;
 
 #pragma mark HistoryTab
 - (IBAction) toggleHistory:(id)sender;
@@ -110,8 +79,6 @@
 
 
 #pragma mark Properties
-@property (retain) NSSound *demoSound;
-@property (retain) NSArray *displayPlugins;
 @property (retain) NSMutableArray *services;
 @property (retain) NSString *networkAddressString;
 

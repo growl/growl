@@ -25,6 +25,7 @@
 #import "GrowlPrefsViewController.h"
 #import "GrowlGeneralViewController.h"
 #import "GrowlApplicationsViewController.h"
+#import "GrowlDisplaysViewController.h"
 #import "GrowlAboutViewController.h"
 
 #import <ApplicationServices/ApplicationServices.h>
@@ -60,10 +61,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 @end
 
 @implementation GrowlPreferencePane
-@synthesize displayPlugins = plugins;
 @synthesize services;
 @synthesize networkAddressString;
-@synthesize demoSound;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -74,11 +73,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		CFRelease(dynStore);
 	[browser         release];
 	[services        release];
-	[pluginPrefPane  release];
-	[loadedPrefPanes release];
-	[plugins         release];
-	[currentPlugin   release];
-    [demoSound       release];
 	[super dealloc];
 }
 
@@ -86,8 +80,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
     
-    pid = getpid();
-    loadedPrefPanes = [[NSMutableArray alloc] init];
     preferencesController = [GrowlPreferencesController sharedController];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -100,9 +92,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
 
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
-
-	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
@@ -161,35 +150,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
        
     [self reloadPreferences:nil];
 
-	// Select the default style if possible. 
-	{
-		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
-		NSUInteger count = [arrangedObjects count];
-		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
-		NSUInteger defaultStyleRow = NSNotFound;
-		for (NSUInteger i = 0; i < count; i++) {
-			if ([[[arrangedObjects objectAtIndex:i] valueForKey:@"CFBundleName"] isEqualToString:defaultDisplayPluginName]) {
-				defaultStyleRow = i;
-				break;
-			}
-		}
-
-		if (defaultStyleRow != NSNotFound) {
-			/* Wait until the next run loop; otherwise everything isn't finished loading and we throw an exception.
-			* This is setting the view for the Displays tab, which isn't initially visible, so the user won't see
-			* the flicker. I'm don't know why this is necessary. -evands
-			*/
-			[self performSelector:@selector(selectRow:)
-					   withObject:[NSIndexSet indexSetWithIndex:defaultStyleRow]
-					   afterDelay:0];
-		}
-		
-	}
-}
-
-- (void)selectRow:(NSIndexSet *)indexSet
-{
-	[displayPluginsTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }
 
 - (void)showWindow:(id)sender
@@ -224,24 +184,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
-- (void) reloadDisplayPluginView {
-	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
-	NSUInteger numPlugins = [plugins count];
-	[currentPlugin release];
-	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
-		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
-	else
-		currentPlugin = nil;
-
-	if(currentPlugin)
-    {
-        NSString *currentPluginName = [currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
-        currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
-        [self loadViewForDisplay:currentPluginName];
-        [displayAuthor setStringValue:[currentPlugin objectForKey:@"GrowlPluginAuthor"]];
-        [displayVersion setStringValue:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
-    }
-}
 
 /*!
  * @brief Called when a GrowlPreferencesChanged notification is received.
@@ -249,10 +191,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	/*NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
-	if (!pidValue || [pidValue intValue] != pid)*/
-		[self reloadPreferences:[notification object]];
+   
+   [self reloadPreferences:[notification object]];
 	
 	[pool release];
 }
@@ -274,20 +214,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     if(!object || [object isEqualToString:GrowlSelectedPrefPane])
         [self setSelectedTab:[preferencesController selectedPreferenceTab]];
 
-	self.displayPlugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
-
-	if ([plugins count] > 0U)
-		[self reloadDisplayPluginView];
-	else
-		[self loadViewForDisplay:nil];
-}
-
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
-						change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"selection"]) {
-      if (object == displayPluginsArrayController)
-			[self reloadDisplayPluginView];
-	}
 }
 
 - (void) writeForwardDestinations {
@@ -356,6 +282,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
          break;
       case 2:
          newTab = DisplayPrefs;
+         newClass = [GrowlDisplaysViewController class];
          break;
       case 3:
          newTab = NetworkPrefs;
@@ -414,124 +341,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 {
     return [toolbar visibleItems];
 }
-
-#pragma mark "Display" tab pane
-
-- (IBAction) showDisabledDisplays:(id)sender {
-	[disabledDisplaysList setString:[[pluginController disabledPlugins] componentsJoinedByString:@"\n"]];
-	
-	[NSApp beginSheet:disabledDisplaysSheet 
-	   modalForWindow:[self window]
-		modalDelegate:nil
-	   didEndSelector:nil
-		  contextInfo:nil];
-}
-
-- (IBAction) endDisabledDisplays:(id)sender {
-	[NSApp endSheet:disabledDisplaysSheet];
-	[disabledDisplaysSheet orderOut:disabledDisplaysSheet];
-}
-
-// Returns a boolean based on whether any disabled displays are present, used for the 'hidden' binding of the button on the tab
-- (BOOL)hasDisabledDisplays {
-	return [pluginController disabledPluginsPresent];
-}
-
-// Popup buttons that post preview notifications support suppressing the preview with the Option key
-- (IBAction) showPreview:(id)sender {
-	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
-		return;
-	
-	NSDictionary *pluginToUse = currentPlugin;
-	NSString *pluginName = nil;
-	BOOL doTheApp = NO;
-    
-	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSPopUpButton *popUp = (NSPopUpButton *)sender;
-		id representedObject = [[popUp selectedItem] representedObject];
-		if ([representedObject isKindOfClass:[NSDictionary class]])
-			pluginToUse = representedObject;
-		else if ([representedObject isKindOfClass:[NSString class]])
-			pluginName = representedObject;
-		else {
-            doTheApp = YES;
-			//NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
-        }
-    }
-    
-	if (!pluginName && doTheApp) {
-        //fall back to the application's plugin name
-        
-        /*NSArray *apps = [ticketsArrayController selectedObjects];
-        if(apps && [apps count]) {
-            NSDictionary *parentApp = [apps objectAtIndex:0U];
-            pluginName = [parentApp valueForKey:@"displayPluginName"];
-        }*/
-	}		
-    if(!pluginName)
-        pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																   object:pluginName];
-}
-
-- (void) loadViewForDisplay:(NSString *)displayName {
-	NSView *newView = nil;
-	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
-
-	if (pluginPrefPane)
-		oldPrefPane = pluginPrefPane;
-
-	if (displayName) {
-		// Old plugins won't support the new protocol. Check first
-		if ([currentPluginController respondsToSelector:@selector(preferencePane)])
-			prefPane = [currentPluginController preferencePane];
-
-		if (prefPane == pluginPrefPane) {
-			// Don't bother swapping anything
-			return;
-		} else {
-			[pluginPrefPane release];
-			pluginPrefPane = [prefPane retain];
-			[oldPrefPane willUnselect];
-		}
-		if (pluginPrefPane) {
-			if ([loadedPrefPanes containsObject:pluginPrefPane]) {
-				newView = [pluginPrefPane mainView];
-			} else {
-				newView = [pluginPrefPane loadMainView];
-				[loadedPrefPanes addObject:pluginPrefPane];
-			}
-			[pluginPrefPane willSelect];
-		}
-	} else {
-		[pluginPrefPane release];
-		pluginPrefPane = nil;
-	}
-	if (!newView)
-		newView = displayDefaultPrefView;
-	if (displayPrefView != newView) {
-		// Make sure the new view is framed correctly
-		[newView setFrame:[displayPrefView frame]];
-		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
-		displayPrefView = newView;
-
-		if (pluginPrefPane) {
-			[pluginPrefPane didSelect];
-			// Hook up key view chain
-			[displayPluginsTable setNextKeyView:[pluginPrefPane firstKeyView]];
-			[[pluginPrefPane lastKeyView] setNextKeyView:previewButton];
-			//[[displayPluginsTable window] makeFirstResponder:[pluginPrefPane initialKeyView]];
-		} else {
-			[displayPluginsTable setNextKeyView:previewButton];
-		}
-
-		if (oldPrefPane)
-			[oldPrefPane didUnselect];
-	}
-}
-
-#pragma mark About Tab
-
 
 #pragma mark Network Tab Methods
 
@@ -800,6 +609,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		[menu addItem:[NSMenuItem separatorItem]];
 	}
 
+   NSArray *plugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
 	for (nameOfDisplay in [plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]) {
 		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
 		if (!displayNameOfDisplay)
