@@ -96,7 +96,7 @@
    }else if ([self isKindOfClass:[NSNumber class]]){
       if(self == (NSNumber *)kCFBooleanTrue){
          returnVal = xpc_bool_create(true);
-      }else if(self == (NSNumber *)kCFBooleanTrue){
+      }else if(self == (NSNumber *)kCFBooleanFalse){
          returnVal = xpc_bool_create(false);
       }else{
          const char* objCType = [(NSNumber*)self objCType];
