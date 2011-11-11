@@ -140,6 +140,10 @@
 
 - (void)pulseStatusItem
 {
+   if(![preferences isRollupEnabled] || ![preferences isGrowlMenuPulseEnabled]){
+      [self stopPulse];
+   }
+   
    if(!statusItem || !keepPulsing)
       return;
    

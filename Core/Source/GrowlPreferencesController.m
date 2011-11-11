@@ -429,6 +429,13 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    [self setBool:allow forKey:GrowlBackgroundAllowed];
 }
 
+- (BOOL)isGrowlMenuPulseEnabled {
+   return [self boolForKey:GrowlMenuPulseEnabled];
+}
+- (void)setGrowlMenuPulseEnabled:(BOOL)enabled {
+   [self setBool:enabled forKey:GrowlMenuPulseEnabled];
+}
+
 #pragma mark Notification History
 
 - (BOOL) isRollupShown {
