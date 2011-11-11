@@ -18,7 +18,7 @@
 #import "GrowlOperatingSystemVersion.h"
 #import "GNTPKey.h"
 #import "GrowlDefinesInternal.h"
-#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+#import "GrowlNetworkUtilities.h"
 
 #if GROWLHELPERAPP
 
@@ -529,12 +529,7 @@
 
 + (void)addSentAndReceivedHeadersFromDict:(NSDictionary *)dict toArray:(NSMutableArray *)headersArray
 {
-    CFStringRef cfHostName = SCDynamicStoreCopyLocalHostName(NULL);
-	NSString *hostName = [[(NSString*)cfHostName copy] autorelease];
-    CFRelease(cfHostName);
-	if ([hostName hasSuffix:@".local"]) {
-		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
-	}
+	NSString *hostName = [GrowlNetworkUtilities localHostName];
 
 	/* Previous received headers */
 	for (NSString *received in [dict valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED]) {
@@ -602,12 +597,7 @@
 	NSArray *receivedHeaders = [[self growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
 	NSString *myHostString;
 
-    CFStringRef cfHostName = SCDynamicStoreCopyLocalHostName(NULL);
-	NSString *hostName = [[(NSString*)cfHostName copy] autorelease];
-    CFRelease(cfHostName);
-	if ([hostName hasSuffix:@".local"]) {
-		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
-	}
+   NSString *hostName = [GrowlNetworkUtilities localHostName];
 	
 	/* Check if this host received it previously */
 	myHostString = [NSString stringWithFormat:@"by %@", hostName];

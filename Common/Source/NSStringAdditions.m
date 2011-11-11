@@ -11,8 +11,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #import "NSMutableStringAdditions.h"
-
-#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+#import "GrowlNetworkUtilities.h"
 
 @implementation NSString (GrowlAdditions)
 
@@ -71,11 +70,7 @@
 
 - (BOOL)isLocalHost
 {
-    NSString *hostName = (NSString*)SCDynamicStoreCopyLocalHostName(NULL);
-    [hostName autorelease];
-    if ([hostName hasSuffix:@".local"]) {
-		hostName = [hostName substringToIndex:([hostName length] - [@".local" length])];
-	}
+   NSString *hostName = [GrowlNetworkUtilities localHostName];
 	if ([self isEqualToString:@"127.0.0.1"] || 
         [self isEqualToString:@"::1"] || 
         [self isEqualToString:@"0:0:0:0:0:0:0:1"] ||
