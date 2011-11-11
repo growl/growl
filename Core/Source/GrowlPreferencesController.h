@@ -57,6 +57,7 @@
 #define GrowlDockMenu               1
 #define GrowlBothMenus              2
 #define GrowlNoMenu                 3
+#define GrowlMenuPulseEnabled       XSTR("GrowlMenuPulseEnabled")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -112,6 +113,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isBackgroundAllowed;
 - (void) setBackgroundAllowed:(BOOL)allow;
+
+- (BOOL) isGrowlMenuPulseEnabled;
+- (void) setGrowlMenuPulseEnabled:(BOOL)enabled;
 
 #pragma mark Notification History
 - (BOOL) isRollupShown;

@@ -52,5 +52,7 @@
 	<false/>
 	<key>GrowlRelaunchWarnSuppress</key>
 	<false/>
+	<key>GrowlMenuPulseEnabled</key>
+	<true/>
 </dict>
 </plist>
