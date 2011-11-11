@@ -43,7 +43,9 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
    if (dynStore)
 		CFRelease(dynStore);
-	[services        release];
+	[services release];
+   [browser release];
+   [networkAddressString release];
    [super dealloc];
 }
 
@@ -272,8 +274,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    
    /* Now we can get rid of the browser, otherwise we don't get this delegate call, 
     * and possibly, something behind the scenes might not like releasing earlier*/
-   [browser release];
-   browser = nil;
+   self.browser = nil;
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {

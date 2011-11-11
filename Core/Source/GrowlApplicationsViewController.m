@@ -33,6 +33,11 @@
 
 @synthesize canRemoveTicket;
 
+-(void)dealloc {
+   [demoSound release];
+   [super dealloc];
+}
+
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
 {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){

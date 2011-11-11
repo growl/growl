@@ -21,11 +21,13 @@
 #import "GrowlServerViewController.h"
 #import "GrowlAboutViewController.h"
 #import "GrowlHistoryViewController.h"
+#import "GrowlRollupPrefsViewController.h"
 
 #define GeneralPrefs       @"GeneralPrefs"
 #define ApplicationPrefs   @"ApplicationPrefs"
 #define DisplayPrefs       @"DisplayPrefs"
 #define NetworkPrefs       @"NetworkPrefs"
+#define RollupPrefs        @"RollupPrefs"
 #define HistoryPrefs       @"HistoryPrefs"
 #define AboutPane          @"About"
 
@@ -168,10 +170,14 @@
          newClass = [GrowlServerViewController class];
          break;
       case 4:
+         newTab = RollupPrefs;
+         newClass = [GrowlRollupPrefsViewController class];
+         break;
+      case 5:
          newTab = HistoryPrefs;
          newClass = [GrowlHistoryViewController class];
          break;
-      case 5:
+      case 6:
          newTab = AboutPane;
          newClass = [GrowlAboutViewController class];
          break;
@@ -203,6 +209,10 @@
    
    NSSize newSize = newFrameRect.size;
    NSSize oldSize = oldFrameRect.size;
+   NSSize minSize = [[self window] minSize];
+
+   if(minSize.width > newSize.width)
+      newSize.width = minSize.width;
    
    NSRect frame = [aWindow frame];
    frame.size = newSize;

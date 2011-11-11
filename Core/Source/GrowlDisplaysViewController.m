@@ -34,6 +34,15 @@
 
 #pragma mark "Display" tab pane
 
+-(void)dealloc {
+   [displayPlugins release];
+   [pluginPrefPane release];
+   [loadedPrefPanes release];
+   [currentPlugin release];
+   [currentPluginController release];
+   [super dealloc];
+}
+
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.pluginController = [GrowlPluginController sharedController];
@@ -202,8 +211,7 @@
 			// Don't bother swapping anything
 			return;
 		} else {
-			[pluginPrefPane release];
-			pluginPrefPane = [prefPane retain];
+			self.pluginPrefPane = [prefPane retain];
 			[oldPrefPane willUnselect];
 		}
 		if (pluginPrefPane) {
@@ -216,8 +224,7 @@
 			[pluginPrefPane willSelect];
 		}
 	} else {
-		[pluginPrefPane release];
-		pluginPrefPane = nil;
+      self.pluginPrefPane = nil;
 	}
 	if (!newView)
 		newView = displayDefaultPrefView;
