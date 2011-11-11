@@ -95,7 +95,7 @@
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
 	NSUInteger numPlugins = [displayPlugins count];
 	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
-		self.currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
+		self.currentPlugin = [selectedPlugins objectAtIndex:0U];
 	else
 		self.currentPlugin = nil;
    
@@ -211,7 +211,7 @@
 			// Don't bother swapping anything
 			return;
 		} else {
-			self.pluginPrefPane = [prefPane retain];
+			self.pluginPrefPane = prefPane;
 			[oldPrefPane willUnselect];
 		}
 		if (pluginPrefPane) {
