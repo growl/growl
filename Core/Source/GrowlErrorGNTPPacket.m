@@ -24,6 +24,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+	[errorDescription release];
+	
+	[super dealloc];
+}
+
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
    NSString *name = [headerItem headerName];

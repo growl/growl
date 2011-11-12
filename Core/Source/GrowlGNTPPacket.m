@@ -36,6 +36,13 @@
 @implementation GrowlOkGNTPPacket
 @synthesize responseAction;
 
+- (void)dealloc
+{
+	[responseAction release];
+	
+	[super dealloc];
+}
+
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
    NSString *name = [headerItem headerName];
@@ -132,7 +139,11 @@
 	[pendingBinaryIdentifiers release];
 	[packetID release];
 	[customHeaders release];
-
+	[error release];
+	[mKey release];
+	[currentBinaryIdentifier release];
+	[connectedHost release];
+	
 	[super dealloc];
 }
 
