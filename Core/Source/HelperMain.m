@@ -11,14 +11,13 @@
 #import "GrowlApplication.h"
 
 int main(int argc, const char *argv[]) {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[GrowlApplication sharedApplication];
-	[NSApp setDelegate:[GrowlApplicationController sharedController]];
-
-	int status = NSApplicationMain(argc, argv);
-
-	[pool release];
-
+	int status;
+    @autoreleasepool {
+        [GrowlApplication sharedApplication];
+        [NSApp setDelegate:[GrowlApplicationController sharedController]];
+        
+        status = NSApplicationMain(argc, argv);
+    }
 	return status;
 }
 
