@@ -39,6 +39,7 @@ static NSMutableDictionary *existingInstances;
 @synthesize target;
 @synthesize displayDuration;
 @synthesize transitionDuration;
+@synthesize delegate=_delegate;
 
 #pragma mark -
 #pragma mark Caching

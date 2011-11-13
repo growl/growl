@@ -15,7 +15,7 @@
 #define GrowlDisplayWindowControllerWillTakeWindowDownNotification	@"GrowlDisplayWindowControllerWillTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
-
+@protocol GrowlDisplayWindowControllerDelegate;
 @class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlNotification, GrowlNotificationView;
 
 typedef enum {
@@ -36,7 +36,7 @@ typedef enum {
 	NSString			             *appName;
 	NSNumber			             *appPid;
 	NSMutableDictionary              *windowTransitions;
-	id					             delegate;
+	id<GrowlDisplayWindowControllerDelegate> delegate;
 
 	BOOL				             ignoresOtherNotifications;
     
@@ -53,8 +53,7 @@ typedef enum {
 	BOOL							 userRequestedClose;
 
 	unsigned			             WCReserved: 30;
-   
-   BOOL                       queuesNotes;
+    BOOL                             queuesNotes;
 }
 
 - (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
@@ -133,8 +132,7 @@ typedef enum {
 - (void) addNotificationObserver:(id) observer;
 - (void) removeNotificationObserver:(id) observer;
 
-- (id) delegate;
-- (void) setDelegate:(id)newDelegate;
+@property (nonatomic, assign) id<GrowlDisplayWindowControllerDelegate> delegate;
 
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *)flag;
@@ -152,7 +150,7 @@ typedef enum {
  * @category NSObject (GrowlDisplayWindowControllerDelegate)
  * Delegate methods for GrowlDisplayWindowController's delegate.
  */
-@interface NSObject (GrowlDisplayWindowControllerDelegate)
+@protocol GrowlDisplayWindowControllerDelegate<NSObject>
 
 /*!
  * @method displayWindowControllerWillDisplayWindow:
