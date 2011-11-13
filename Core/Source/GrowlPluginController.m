@@ -35,7 +35,7 @@
 
 @interface GrowlPluginController (PRIVATE)
 - (void) registerDefaultPluginHandlers;
-- (void) findPluginsInDirectory:(NSString *)dir;
+- (void) findAndLoadPluginsInDirectory:(NSString *)dir;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
 - (BOOL) hasNativeArchitecture:(NSString *)filename;
@@ -108,6 +108,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[self alloc] init];
+        [instance performSelector:@selector(loadPlugins) withObject:nil afterDelay:0.0]; //defer initalization
     });
     return instance;
 }
@@ -153,40 +154,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		                                    (const void **)builtInTypesArray,
 		                                    builtInTypesCount,
 		                                    &callbacks);
-
-		//Find plugins inside GHA itself first
-		[self findPluginsInDirectory:[[NSBundle mainBundle] builtInPlugInsPath]];
-		
-		/* Then find plug-ins in Library/Application Support/Growl/Plugins directories. This allows GHA to override externally installed plugins,
-		 * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
-		 */
-		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-		NSMutableArray *pluginsDirectoryPaths = [NSMutableArray arrayWithCapacity:[libraries count]];
-		NSFileManager *mgr = [NSFileManager defaultManager];
-		for (NSString *dir in libraries) {
-			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
-			BOOL isDir = NO;
-			if ([mgr fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
-				[self findPluginsInDirectory:dir];
-				[pluginsDirectoryPaths addObject:dir];
-			}
-		}
-
-		pluginsDirectoryEventStreamContext = (struct FSEventStreamContext){
-			.version = 0,
-			.info = (void *)self,
-			.copyDescription = (CFAllocatorCopyDescriptionCallBack)CFCopyDescription,
-		};
-		pluginsDirectoryEventStream = FSEventStreamCreate(kCFAllocatorDefault,
-			eventStreamCallback,
-			&pluginsDirectoryEventStreamContext,
-			(CFArrayRef)pluginsDirectoryPaths,
-			kFSEventStreamEventIdSinceNow,
-			/*latency*/ 1.0,
-			kFSEventStreamCreateFlagUseCFTypes);
-
-		FSEventStreamScheduleWithRunLoop(pluginsDirectoryEventStream, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
-		FSEventStreamStart(pluginsDirectoryEventStream);
 	}
 
 	return self;
@@ -231,6 +198,42 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 #pragma mark -
+
+- (void) loadPlugins {
+    //Find plugins inside GHA itself first
+    [self findAndLoadPluginsInDirectory:[[NSBundle mainBundle] builtInPlugInsPath]];
+    
+    /* Then find plug-ins in Library/Application Support/Growl/Plugins directories. This allows GHA to override externally installed plugins,
+     * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
+     */
+    NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
+    NSMutableArray *pluginsDirectoryPaths = [NSMutableArray arrayWithCapacity:[libraries count]];
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    for (NSString *dir in libraries) {
+        dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
+        BOOL isDir = NO;
+        if ([mgr fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
+            [self findAndLoadPluginsInDirectory:dir];
+            [pluginsDirectoryPaths addObject:dir];
+        }
+    }
+    
+    pluginsDirectoryEventStreamContext = (struct FSEventStreamContext){
+        .version = 0,
+        .info = (void *)self,
+        .copyDescription = (CFAllocatorCopyDescriptionCallBack)CFCopyDescription,
+    };
+    pluginsDirectoryEventStream = FSEventStreamCreate(kCFAllocatorDefault,
+                                                      eventStreamCallback,
+                                                      &pluginsDirectoryEventStreamContext,
+                                                      (CFArrayRef)pluginsDirectoryPaths,
+                                                      kFSEventStreamEventIdSinceNow,
+                                                      /*latency*/ 1.0,
+                                                      kFSEventStreamCreateFlagUseCFTypes);
+    
+    FSEventStreamScheduleWithRunLoop(pluginsDirectoryEventStream, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
+    FSEventStreamStart(pluginsDirectoryEventStream);
+}
 
 - (void) registerDefaultPluginHandlers {
 	//register ourselves for display plug-ins (non-WebKit), pathway plug-ins, and functional plug-ins.
@@ -783,7 +786,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 #pragma mark -
 #pragma mark Finding and using installed plug-ins
 
-- (void) findPluginsInDirectory:(NSString *)dir {
+- (void) findAndLoadPluginsInDirectory:(NSString *)dir {
 	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
 	NSString *file;
 	while ((file = [enumerator nextObject])) {

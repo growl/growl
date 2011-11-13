@@ -38,6 +38,16 @@
  *	should still use it, regardless of whether you find that important.
  */
 
+@optional 
+- (BOOL)loadPluginWithBundle:(NSBundle *)bundle;
+- (BOOL)loadPluginAtPath:(NSString *)path;
+- (BOOL)loadPluginAtURL:(NSURL *)URL;
+
+- (void)growlPluginControllerWillAddPluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerDidAddPluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerWillRemovePluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerDidRemovePluginHandler:(NSNotification *)note;
+
 @end
 
 /*
