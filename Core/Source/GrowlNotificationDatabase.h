@@ -34,4 +34,11 @@
 -(void)imageCacheMaintenance;
 -(void)userReturnedAndClosedList;
 
+// maintiance
+-(void)setupMaintenanceTimers;
+-(void)logNotificationWithDictionary:(NSDictionary*)noteDict;
+
+-(void)showRollup;
+-(void)hideRollup;
+
 @end
