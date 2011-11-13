@@ -13,8 +13,8 @@
 int main(int argc, const char *argv[]) {
 	int status;
     @autoreleasepool {
-        [GrowlApplication sharedApplication];
-        [NSApp setDelegate:[GrowlApplicationController sharedController]];
+        NSApplication *app = [GrowlApplication sharedApplication];
+        [app setDelegate:[GrowlApplicationController sharedController]];
         
         status = NSApplicationMain(argc, argv);
     }

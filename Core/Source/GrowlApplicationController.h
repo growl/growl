@@ -19,7 +19,7 @@ typedef enum {
 	GrowlNotificationResultDisabled
 } GrowlNotificationResult;
 
-@interface GrowlApplicationController : NSObject {
+@interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	GrowlTicketController		*ticketController;
 
 	// local GrowlNotificationCenter
