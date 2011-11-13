@@ -250,7 +250,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	[types release];
 
-	[GrowlWebKitPluginHandler sharedInstance];		// Calling this here will cause the handler to register
+	[self addPluginHandler:[GrowlWebKitPluginHandler sharedInstance] forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
 }
 
 #pragma mark -

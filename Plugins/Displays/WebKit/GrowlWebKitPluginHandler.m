@@ -21,13 +21,6 @@
     return instance;
 }
 
-- (id) init {
-	if ((self = [super init]))
-		[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
-
-	return self;
-}
-
 - (BOOL) loadPluginAtPath:(NSString *)path {
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 	if (!pluginBundle) {
