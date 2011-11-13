@@ -4120,7 +4120,6 @@
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
-				PROVISIONING_PROFILE = "";
 			};
 			name = Localization;
 		};
@@ -4892,7 +4891,6 @@
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
-				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -4913,7 +4911,6 @@
 				"OTHER_CFLAGS[arch=ppc64]" = "-fvisibility=default";
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
-				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
