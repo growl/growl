@@ -140,6 +140,10 @@
 
 - (void)pulseStatusItem
 {
+   if(![preferences isRollupEnabled] || ![preferences isGrowlMenuPulseEnabled]){
+      [self stopPulse];
+   }
+   
    if(!statusItem || !keepPulsing)
       return;
    
@@ -231,7 +235,7 @@
 
 - (IBAction)openGrowlLog:(id)sender
 {
-    [preferences setSelectedPreferenceTab:4];
+    [preferences setSelectedPreferenceTab:5];
     [self openGrowlPreferences:nil];
 }
 

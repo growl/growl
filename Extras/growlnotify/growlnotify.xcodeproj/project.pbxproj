@@ -11,6 +11,7 @@
 		0A95FC910739AAC800E585F8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A95FC900739AAC800E585F8 /* AppKit.framework */; };
 		8DD76F9A0486AA7600D96B5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.m */; settings = {ATTRIBUTES = (); }; };
 		9526BDA6081BD22600B9D0D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9526BDA5081BD22600B9D0D0 /* Security.framework */; };
+		BC256C20146D8913000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C1F146D8913000088C8 /* GrowlNetworkUtilities.m */; };
 		BC9EED4E141FE3B000BA137C /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9EED4D141FE3B000BA137C /* GrowlImageAdditions.m */; };
 		BCBC3CCF14201B240032BCA0 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3CCE14201B240032BCA0 /* GCDAsyncSocket.m */; };
 		BCBC3CD914201BBB0032BCA0 /* GrowlGNTPOutgoingPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBC3CD214201BBB0032BCA0 /* GrowlGNTPOutgoingPacket.m */; };
@@ -44,6 +45,8 @@
 		95583F9F079E4B4900C79085 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../Common/Source/GrowlDefinesInternal.h; sourceTree = SOURCE_ROOT; };
 		9595184F07E4859F004A4471 /* GrowlPathway.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathway.h; path = ../../Core/Source/GrowlPathway.h; sourceTree = SOURCE_ROOT; };
 		95C876E007D9DF4100C69DEE /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../Common/Source/GrowlDefines.h; sourceTree = SOURCE_ROOT; };
+		BC256C1E146D8913000088C8 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
+		BC256C1F146D8913000088C8 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
 		BC9EED4C141FE3B000BA137C /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = ../../Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
 		BC9EED4D141FE3B000BA137C /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = ../../Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 		BCBC3CCD14201B240032BCA0 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
@@ -193,6 +196,8 @@
 		BCBC3CDE14201C040032BCA0 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				BC256C1E146D8913000088C8 /* GrowlNetworkUtilities.h */,
+				BC256C1F146D8913000088C8 /* GrowlNetworkUtilities.m */,
 				BCBC3D121420229B0032BCA0 /* GrowlOperatingSystemVersion.h */,
 				BCBC3D131420229B0032BCA0 /* GrowlOperatingSystemVersion.m */,
 				BCBC3CEE14201CBF0032BCA0 /* ISO8601DateFormatter.h */,
@@ -306,6 +311,7 @@
 				BCBC3D1114201FA40032BCA0 /* GrowlGNTPHeaderItem.m in Sources */,
 				BCBC3D141420229C0032BCA0 /* GrowlOperatingSystemVersion.m in Sources */,
 				BCBC3D3B14202A6F0032BCA0 /* GrowlNotify.m in Sources */,
+				BC256C20146D8913000088C8 /* GrowlNetworkUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

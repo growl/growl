@@ -37,7 +37,7 @@
 {
    if((self = [super init]))
    {      
-      GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
+      GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] initWithNotificationDatabase:self];
       historyWindow = [window retain];
       [window release];
       [historyWindow window];

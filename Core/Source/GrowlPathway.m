@@ -12,19 +12,16 @@
 
 @implementation GrowlPathway
 
-static GrowlApplicationController *applicationController = nil;
-
 - (id) init {
 	if ((self = [super init])) {
-		if (!applicationController)
-			applicationController = [GrowlApplicationController sharedController];
+        
 	}
 	return self;
 }
 
 - (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[applicationController performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
+	[[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
 											withObject:dict
 										 waitUntilDone:NO];
 	[pool release];
@@ -33,7 +30,7 @@ static GrowlApplicationController *applicationController = nil;
 
 - (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[applicationController performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
+	[[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
 											withObject:dict
 										 waitUntilDone:NO];
 	[pool release];

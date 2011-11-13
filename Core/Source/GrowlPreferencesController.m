@@ -305,7 +305,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    return [self integerForKey:GrowlSelectedPrefPane];
 }
 - (void) setSelectedPreferenceTab:(NSUInteger)tab{
-   if (tab < 6 ) {
+   if (tab < 7 ) {
       [self setInteger:tab forKey:GrowlSelectedPrefPane];
    }else {
       [self setInteger:0 forKey:GrowlSelectedPrefPane];
@@ -432,6 +432,13 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 - (void) setBackgroundAllowed:(BOOL)allow {
    [self setBool:allow forKey:GrowlBackgroundAllowed];
+}
+
+- (BOOL)isGrowlMenuPulseEnabled {
+   return [self boolForKey:GrowlMenuPulseEnabled];
+}
+- (void)setGrowlMenuPulseEnabled:(BOOL)enabled {
+   [self setBool:enabled forKey:GrowlMenuPulseEnabled];
 }
 
 #pragma mark Notification History

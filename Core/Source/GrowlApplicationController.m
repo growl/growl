@@ -119,68 +119,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (id) init {
 	if ((self = [super init])) {
 
-		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
-		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
-		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-
-		[nc addObserver:self
-				  selector:@selector(preferencesChanged:)
-					  name:GrowlPreferencesChanged
-					object:nil];
-		[nc addObserver:self
-				  selector:@selector(showPreview:)
-					  name:GrowlPreview
-					object:nil];
-		[nc addObserver:self
-				  selector:@selector(replyToPing:)
-					  name:GROWL_PING
-					object:nil];
-
-		[nc addObserver:self
-			   selector:@selector(notificationClicked:)
-				   name:GROWL_NOTIFICATION_CLICKED
-				 object:nil];
-		[nc addObserver:self
-			   selector:@selector(notificationTimedOut:)
-				   name:GROWL_NOTIFICATION_TIMED_OUT
-				 object:nil];
-
-		ticketController = [GrowlTicketController sharedController];
-		
-		[self versionDictionary];
-
-		NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
-		NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-		if (defaultDefaults) {
-			[preferences registerDefaults:defaultDefaults];
-		}
-
-        //This class doesn't exist in the prefpane.
-        Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-        if (pathwayControllerClass)
-            [pathwayControllerClass sharedController];
-		
-		[self preferencesChanged:nil];
-		
-		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-															   selector:@selector(applicationLaunched:)
-																   name:NSWorkspaceDidLaunchApplicationNotification
-																 object:nil];
-
-		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
-
-		GrowlIdleStatusController_init();
-				
-		// create and register GrowlNotificationCenter
-		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
-		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
-		//[growlNotificationCenterConnection enableMultipleThreads];
-		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
-		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
-			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
-         
-      [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
       
 	}
 
@@ -561,27 +500,28 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         }
         
         [display displayNotification:appNotification];
-    }
-    
-    NSString *soundName = [notification sound];
-    if (soundName) {
-        NSSound *sound = [NSSound soundNamed:soundName];
-        
-        if (!sound) {
+
+        NSString *soundName = [notification sound];
+        if (soundName) {
+            NSSound *sound = [NSSound soundNamed:soundName];
+            
+            if (!sound) {
                 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
-                            nil];
+                                          [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
+                                          nil];
                 
                 NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
                 [NSApp presentError:error];
+            }
+            
+            if(!audioDeviceIdentifier)
+                self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
+            [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
+            [sound play];
+            
         }
-        
-        if(!audioDeviceIdentifier)
-            self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
-        [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
-        [sound play];
-
-	}
+    }
+    
    
    [appNotification release];
    
@@ -1087,9 +1027,68 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
-/*#if defined(BETA) && BETA
-    [self expiryCheck];
-#endif*/
+    // initialize GrowlPreferencesController before observing GrowlPreferencesChanged
+    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    
+    [nc addObserver:self
+           selector:@selector(preferencesChanged:)
+               name:GrowlPreferencesChanged
+             object:nil];
+    [nc addObserver:self
+           selector:@selector(showPreview:)
+               name:GrowlPreview
+             object:nil];
+    [nc addObserver:self
+           selector:@selector(replyToPing:)
+               name:GROWL_PING
+             object:nil];
+    
+    [nc addObserver:self
+           selector:@selector(notificationClicked:)
+               name:GROWL_NOTIFICATION_CLICKED
+             object:nil];
+    [nc addObserver:self
+           selector:@selector(notificationTimedOut:)
+               name:GROWL_NOTIFICATION_TIMED_OUT
+             object:nil];
+    
+    ticketController = [GrowlTicketController sharedController];
+    
+    [self versionDictionary];
+    
+    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
+    NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
+    if (defaultDefaults) {
+        [preferences registerDefaults:defaultDefaults];
+    }
+    
+    //This class doesn't exist in the prefpane.
+    Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+    if (pathwayControllerClass)
+        [pathwayControllerClass sharedController];
+    
+    [self preferencesChanged:nil];
+    
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+                                                           selector:@selector(applicationLaunched:)
+                                                               name:NSWorkspaceDidLaunchApplicationNotification
+                                                             object:nil];
+    
+    growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
+    
+    GrowlIdleStatusController_init();
+    
+    // create and register GrowlNotificationCenter
+    growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
+    growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+    //[growlNotificationCenterConnection enableMultipleThreads];
+    [growlNotificationCenterConnection setRootObject:growlNotificationCenter];
+    if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
+        NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
+    
+    [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
     
     if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
         [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];

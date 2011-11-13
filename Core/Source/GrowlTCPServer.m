@@ -1,7 +1,7 @@
 #import "GrowlTCPServer.h"
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
-#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
+#import "GrowlNetworkUtilities.h"
 #import "GrowlPreferencesController.h"
 
 /*!
@@ -93,7 +93,7 @@
       if (name) {
          publishingName = name;
       } else {
-         NSString * thisHostName = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
+         NSString * thisHostName = [GrowlNetworkUtilities localHostName];
          if ([thisHostName hasSuffix:@".local"]) {
             publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
          }else

@@ -28,6 +28,7 @@
 #import <ApplicationServices/ApplicationServices.h>
 
 #define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
+#define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
 
 @interface GrowlApplicationBridge (PRIVATE)
 
@@ -296,6 +297,15 @@ static BOOL    shouldUseBuiltInNotifications = YES;
    }
 }
 
++ (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict
+{
+   NSDictionary *regDict = [self bestRegistrationDictionary];
+   NSUInteger index = [[regDict valueForKey:GROWL_NOTIFICATIONS_ALL] indexOfObject:[growlDict valueForKey:GROWL_NOTIFICATION_NAME]];
+   if(regDict && [[regDict valueForKey:GROWL_NOTIFICATIONS_DEFAULT] containsObject:[NSNumber numberWithUnsignedInteger:index]])
+      return YES;
+   return NO;
+}
+
 + (BOOL)isMistEnabled
 {
     BOOL result = shouldUseBuiltInNotifications;
@@ -322,7 +332,14 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 }
 
 + (void) _fireMiniDispatch:(NSDictionary*)growlDict
-{   
+{
+   BOOL defaultOnly = YES;
+   if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY])
+      defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY] boolValue];
+   
+   if (![self isNotificationDefaultEnabled:growlDict] && defaultOnly)
+      return;
+   
    if (!miniDispatch) {
       miniDispatch = [[GrowlMiniDispatch alloc] init];
       miniDispatch.delegate = [GrowlApplicationBridge growlDelegate];

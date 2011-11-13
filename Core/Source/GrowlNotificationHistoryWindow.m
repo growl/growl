@@ -42,24 +42,17 @@
 @synthesize historyTable;
 @synthesize countLabel;
 @synthesize notificationColumn;
+@synthesize notificationDatabase=_notificationDatabase;
 
--(id)init
+-(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase
 {
    if((self = [super initWithWindowNibName:@"AwayHistoryWindow" owner:self]))
    {
+       self.notificationDatabase = notificationDatabase;
+       
        [self setWindowFrameAutosaveName:@"GrowlNotificationRollup"];
        [[self window] setFrameAutosaveName:@"GrowlNotificationRollup"];
-
-       groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
-                                                        basePredicateString:@"showInRollup == 1" 
-                                                                   groupKey:@"ApplicationName"
-                                                       managedObjectContext:[[self historyController] managedObjectContext]];
-       [groupController setDelegate:self];
        
-       NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
-       [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
-              
-       [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
        transitionGroup = NO;
        
        rowHeights = [[NSMutableArray alloc] init];
@@ -67,60 +60,87 @@
    return self;
 }
 
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
+}
+
 -(void)dealloc
 {
-   [groupController removeObserver:self forKeyPath:nil];
-   [historyTable release]; historyTable = nil;
-   [groupController release]; groupController = nil;
-   historyController = nil;
-   [groupController release];
-   groupController = nil;
-      
-   [super dealloc];
+    [groupController removeObserver:self forKeyPath:nil];
+    
+    [historyTable release], historyTable = nil;
+    groupController.delegate = nil;
+    [groupController release], groupController = nil;
+    _notificationDatabase = nil;
+    
+    [super dealloc];
 }
 
 -(BOOL)windowShouldClose:(NSNotification *)notfication
 {
-   [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
-   return YES;
+    [self.notificationDatabase userReturnedAndClosedList];
+    return YES;
 }
 
 -(void)windowWillClose:(NSNotification *)notification
 {
-   //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
-   [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlRollupShown];
+    //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
+    [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlRollupShown];
+}
+
+-(void)setNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase {
+    if (notificationDatabase != _notificationDatabase) {
+        _notificationDatabase = notificationDatabase;
+        
+        if (groupController)
+        {
+            [groupController setDelegate:nil];
+            [groupController release], groupController = nil;
+        }
+        
+        groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
+                                                         basePredicateString:@"showInRollup == 1" 
+                                                                    groupKey:@"ApplicationName"
+                                                        managedObjectContext:[_notificationDatabase managedObjectContext]];
+        [groupController setDelegate:self];
+        
+        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
+        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+    }
+    
+
 }
 
 -(void)updateCount
 {
-   NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
-   NSString* description = nil;
-   
-   NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
-   if(menuState == GrowlDockMenu || menuState == GrowlBothMenus){
-      NSDockTile *tile = [NSApp dockTile];
-      NSString *dockString = (numberOfNotifications > 0) ? [NSString stringWithFormat:@"%lu", numberOfNotifications] : nil;
-      [tile setBadgeLabel:dockString];
-   }
-   
-   if(menuState == GrowlStatusMenu || menuState == GrowlBothMenus){
+    NSUInteger numberOfNotifications = [[[groupController countController] arrangedObjects] count];
+    NSString* description = nil;
+
+    NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
+    if(menuState == GrowlDockMenu || menuState == GrowlBothMenus){
+        NSDockTile *tile = [NSApp dockTile];
+        NSString *dockString = (numberOfNotifications > 0) ? [NSString stringWithFormat:@"%lu", numberOfNotifications] : nil;
+        [tile setBadgeLabel:dockString];
+    }
+
+    if(menuState == GrowlStatusMenu || menuState == GrowlBothMenus){
       if(numberOfNotifications > 0)
          [[[GrowlApplicationController sharedController] statusMenu] startPulse];
       else
          [[[GrowlApplicationController sharedController] statusMenu] stopPulse];
-   }
-   
-   if(numberOfNotifications == 0){
-      //Use perform close so that userReturnedAndClosedList is called, which will set us back to having notes while away
-      description = NSLocalizedString(@"There are no new notifications", nil);
-      if([[GrowlPreferencesController sharedController] isRollupAutomatic])
-         [[self window] performClose:self];
-   }else if(numberOfNotifications == 1){
-      description = [NSString stringWithFormat:NSLocalizedString(@"There was %lu notification while you were away", nil), numberOfNotifications];
-   } else {
-      description = [NSString stringWithFormat:NSLocalizedString(@"There were %lu notifications while you were away", nil), numberOfNotifications];   
-   }
+    }
 
+    if(numberOfNotifications == 0){
+        //Use perform close so that userReturnedAndClosedList is called, which will set us back to having notes while away
+        description = NSLocalizedString(@"There are no new notifications", nil);
+        if([[GrowlPreferencesController sharedController] isRollupAutomatic])
+            [[self window] performClose:self];
+    } else if(numberOfNotifications == 1){
+        description = [NSString stringWithFormat:NSLocalizedString(@"There was %lu notification while you were away", nil), numberOfNotifications];
+    } else {
+        description = [NSString stringWithFormat:NSLocalizedString(@"There were %lu notifications while you were away", nil), numberOfNotifications];   
+    }
     [countLabel setObjectValue:description];
 }
 
@@ -146,8 +166,8 @@
       id obj = [[groupController arrangedObjects] objectAtIndex:row];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
           [[GrowlApplicationController sharedController] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
-                                                didCloseViaNotificationClick:YES 
-                                                              onLocalMachine:YES];
+                                                  didCloseViaNotificationClick:YES 
+                                                                onLocalMachine:YES];
       else if([obj isKindOfClass:[GroupController class]]){
           transitionGroup = YES;
           [groupController toggleShowGroup:[obj groupID]];
@@ -182,7 +202,7 @@
         if([obj isKindOfClass:[GrowlHistoryNotification class]])
             [obj setShowInRollup:[NSNumber numberWithBool:NO]];
     }
-    [historyController saveDatabase:NO];
+    [self.notificationDatabase saveDatabase:NO];
 }
 
 - (IBAction)deleteAppNotifications:(id)sender {
@@ -199,15 +219,7 @@
         if([obj isKindOfClass:[GrowlHistoryNotification class]])
             [obj setShowInRollup:[NSNumber numberWithBool:NO]];
     }];
-    [historyController saveDatabase:NO];
-}
-
--(GrowlNotificationDatabase*)historyController
-{
-   if(!historyController)
-      historyController = [GrowlNotificationDatabase sharedInstance];
-      
-   return historyController;
+    [self.notificationDatabase saveDatabase:NO];
 }
 
 #pragma mark Row Height methods

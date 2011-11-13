@@ -117,14 +117,6 @@
 {
    if(![[GrowlPreferencesController sharedController] isRollupEnabled])
       return;
-   
-    if(!historyWindow)
-    {
-        GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] init];
-        historyWindow = [window retain];
-        [window release];
-        [historyWindow window];
-    }
     
     if(![[historyWindow window] isVisible])
     {
