@@ -223,12 +223,14 @@ static NSMutableDictionary *existingInstances;
 			} else {
 				[self didFinishTransitionsAfterDisplay];
 			}
-		}
+        }
 	}
 }
 
 - (void) clickedClose {
 	userRequestedClose = YES;
+    displayStatus = GrowlDisplayOnScreenStatus;
+    
 	[self stopDisplay];
 }
 

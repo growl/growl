@@ -56,6 +56,9 @@
 - (void)dealloc
 {
 	[mAction release];
+	[mEncryption release];
+	[mKey release];
+	
 	[super dealloc];
 }
 - (NSString *)GNTPRepresentationAsString
@@ -211,6 +214,7 @@
 	[headerItems release];
 	[binaryChunks release];
 	[packetID release];
+	[growlDictionary release];
 
 	[super dealloc];
 }
