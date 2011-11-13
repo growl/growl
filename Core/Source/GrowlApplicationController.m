@@ -15,7 +15,6 @@
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
-#import "GrowlNotificationDatabase+GHAAdditions.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"

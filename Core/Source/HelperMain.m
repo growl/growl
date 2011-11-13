@@ -16,7 +16,7 @@ int main(int argc, const char *argv[]) {
         NSApplication *app = [GrowlApplication sharedApplication];
         [app setDelegate:[GrowlApplicationController sharedController]];
         
-        status = NSApplicationMain(argc, argv);
+        status = NSApplicationMain(argc, (const char **) argv);
     }
 	return status;
 }

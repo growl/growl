@@ -17,7 +17,6 @@
 #import "NSStringAdditions.h"
 #import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
-#import "GrowlNotificationDatabase+GHAAdditions.h"
 #import "GrowlApplicationController.h"
 #include "CFURLAdditions.h"
 #include <Security/SecKeychain.h>
