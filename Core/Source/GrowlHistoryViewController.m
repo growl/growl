@@ -45,9 +45,9 @@
     id object = [notification object];
     if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
         if([self.preferencesController isGrowlHistoryLogEnabled])
-            [historyOnOffSwitch setSelectedSegment:0];
-        else
             [historyOnOffSwitch setSelectedSegment:1];
+        else
+            [historyOnOffSwitch setSelectedSegment:0];
     }
 	
 	[pool release];
@@ -57,7 +57,7 @@
 
 - (IBAction) toggleHistory:(id)sender
 {
-    if([(NSSegmentedControl*)sender selectedSegment] == 0){
+    if([(NSSegmentedControl*)sender selectedSegment] == 1){
         [self.preferencesController setGrowlHistoryLogEnabled:YES];
     }else{
         [self.preferencesController setGrowlHistoryLogEnabled:NO];
