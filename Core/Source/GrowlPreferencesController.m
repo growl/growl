@@ -212,7 +212,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	[self setStartAtLogin:pathToGHA enabled:flag];
+    if (pathToGHA) {
+        [self setStartAtLogin:pathToGHA enabled:flag];
+    }
+    else {
+        NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
+    }
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
