@@ -16,15 +16,6 @@
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
-+(GrowlAbstractDatabase *)sharedInstance {
-    static GrowlAbstractDatabase *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
-    });
-    return instance;
-}
-
 
 -(id)init
 {
