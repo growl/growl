@@ -8,6 +8,19 @@
 
 #import "GrowlPlugin.h"
 
+@interface GrowlPlugin()
+
+//Redclare as readwrite internally.
+@property (nonatomic, readwrite, copy) NSString *name;
+@property (nonatomic, readwrite, copy) NSString *author;
+@property (nonatomic, readwrite, copy) NSString *version;
+@property (nonatomic, readwrite, copy) NSString *pluginDescription;
+@property (nonatomic, readwrite, retain) NSBundle *bundle;
+@property (nonatomic, readwrite, copy) NSString *pathname;
+@property (nonatomic, readwrite, retain) NSString *prefDomain;
+@property (nonatomic, readwrite, assign) NSPreferencePane *preferencePane;
+
+@end
 
 @implementation GrowlPlugin
 
@@ -31,6 +44,7 @@
 	}
 	return self;
 }
+
 /*use this initialiser for plug-ins in bundles. the name, author, version, and
  *	pathname will be obtained from the bundle.
  */
@@ -49,6 +63,10 @@
 
 - (id) init {
 	return [self initWithBundle:[NSBundle bundleForClass:[self class]]];
+}
+
++ (BOOL) allowsMultipleInstances {
+    return NO; //for legacy plugins that still inheirt this
 }
 
 - (void) dealloc {
