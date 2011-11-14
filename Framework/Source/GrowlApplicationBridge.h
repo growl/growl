@@ -260,6 +260,7 @@
  *	 Growl when next it is ready; <code>NO</code> if not.
  */
 + (void) setWillRegisterWhenGrowlIsReady:(BOOL)flag;
+
 /*!	@method	willRegisterWhenGrowlIsReady
  *	@abstract	Reports whether GrowlApplicationBridge will register with Growl
  *	 when Growl next launches.
@@ -361,6 +362,7 @@
  *	 copy of <code>regDict</code>.
  */
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict;
+
 /*!	@method	registrationDictionaryByFillingInDictionary:restrictToKeys:
  *	@abstract	Tries to fill in missing keys in a registration dictionary.
  *	@discussion	This method examines the passed-in dictionary for missing keys,
@@ -400,6 +402,7 @@
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)regDict;
 
 + (NSDictionary *) frameworkInfoDictionary;
+
 @end
 
 //------------------------------------------------------------------------------
@@ -408,15 +411,13 @@
 /*!
  *	@protocol GrowlApplicationBridgeDelegate
  *	@abstract Required protocol for the Growl delegate.
- *	@discussion The methods in this protocol are required and are called
+ *	@discussion The methods in this protocol are optional and are called
  *	 automatically as needed by GrowlApplicationBridge. See
  *	 <code>+[GrowlApplicationBridge setGrowlDelegate:]</code>.
  *	 See also <code>GrowlApplicationBridgeDelegate_InformalProtocol</code>.
  */
 
 @protocol GrowlApplicationBridgeDelegate <NSObject>
-
-// -registrationDictionaryForGrowl has moved to the informal protocol as of 0.7.
 
 @optional
 
