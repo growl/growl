@@ -5529,6 +5529,7 @@
 				D91CDD17146FB3CD00B264B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */ = {
 			isa = XCConfigurationList;
