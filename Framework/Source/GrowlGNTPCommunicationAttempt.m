@@ -19,7 +19,8 @@
 
 @interface GrowlGNTPCommunicationAttempt ()
 
-@property(nonatomic, retain) NSString *responseParseErrorString, *bogusResponse;
+@property(nonatomic, retain) NSString *responseParseErrorString;
+@property(nonatomic, retain) NSString *bogusResponse;
 
 @end
 
@@ -36,7 +37,8 @@ enum {
 
 @implementation GrowlGNTPCommunicationAttempt
 
-@synthesize responseParseErrorString, bogusResponse;
+@synthesize responseParseErrorString;
+@synthesize bogusResponse;
 @synthesize host;
 @synthesize password;
 @synthesize callbackHeaderItems;
