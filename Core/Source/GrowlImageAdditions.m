@@ -15,19 +15,19 @@
 	if (!NSEqualSizes([self size], targetRect.size))
 		[self adjustSizeToDrawAtSize:targetRect.size];
 	NSRect imageRect;
-	imageRect.origin.x = 0.0;
-	imageRect.origin.y = 0.0;
+	imageRect.origin.x = 0.0f;
+	imageRect.origin.y = 0.0f;
 	imageRect.size = [self size];
 	if (imageRect.size.width > targetRect.size.width || imageRect.size.height > targetRect.size.height) {
 		// make sure the icon isn't too large. If it is, scale it down
 		if (imageRect.size.width > imageRect.size.height) {
 			CGFloat oldHeight = targetRect.size.height;
 			targetRect.size.height = oldHeight / imageRect.size.width * imageRect.size.height;
-			targetRect.origin.y = GrowlCGFloatFloor(targetRect.origin.y - (targetRect.size.height - oldHeight) * 0.5);
+			targetRect.origin.y = GrowlCGFloatFloor(targetRect.origin.y - (targetRect.size.height - oldHeight) * 0.5f);
 		} else if (imageRect.size.width < imageRect.size.height) {
 			CGFloat oldWidth = targetRect.size.width;
 			targetRect.size.width = oldWidth / imageRect.size.height * imageRect.size.width;
-			targetRect.origin.x = GrowlCGFloatFloor(targetRect.origin.x - (targetRect.size.width - oldWidth) * 0.5);
+			targetRect.origin.x = GrowlCGFloatFloor(targetRect.origin.x - (targetRect.size.width - oldWidth) * 0.5f);
 		}
 
 		[self setScalesWhenResized:YES];
@@ -35,9 +35,9 @@
 	} else {
 		// center image if it is too small
 		if (imageRect.size.width < targetRect.size.width)
-			targetRect.origin.x += GrowlCGFloatCeiling((targetRect.size.width - imageRect.size.width) * 0.5);
+			targetRect.origin.x += GrowlCGFloatCeiling((targetRect.size.width - imageRect.size.width) * 0.5f);
 	 	if (imageRect.size.height < targetRect.size.height)
-			targetRect.origin.y += GrowlCGFloatCeiling((targetRect.size.height - imageRect.size.height) * 0.5);
+			targetRect.origin.y += GrowlCGFloatCeiling((targetRect.size.height - imageRect.size.height) * 0.5f);
 		targetRect.size = imageRect.size;
 	}
 
@@ -55,7 +55,7 @@
 	NSImageRep *bestRep = [self representationOfSize:theSize];
 	if (!bestRep) {
 		BOOL isFirst = YES;
-		CGFloat repDistance = 0.0;
+		CGFloat repDistance = 0.0f;
 
 		for (NSImageRep *thisRep in [self representations]) {
 			CGFloat thisDistance = theSize.width - [thisRep size].width;

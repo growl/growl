@@ -20,20 +20,20 @@
 }
 
 - (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
-											withObject:dict
-										 waitUntilDone:NO];
-	[pool release];
+	@autoreleasepool {
+        [[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(registerApplicationWithDictionary:)
+                                                                        withObject:dict
+                                                                     waitUntilDone:NO];
+    }
 	return YES;
 }
 
 - (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
-											withObject:dict
-										 waitUntilDone:NO];
-	[pool release];
+	@autoreleasepool {
+        [[GrowlApplicationController sharedController] performSelectorOnMainThread:@selector(dispatchNotificationWithDictionary:)
+                                                                        withObject:dict
+                                                                     waitUntilDone:NO];
+    }
 }
 
 - (bycopy NSString *) growlVersion {

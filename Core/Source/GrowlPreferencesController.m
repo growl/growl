@@ -212,7 +212,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	[self setStartAtLogin:pathToGHA enabled:flag];
+    if (pathToGHA) {
+        [self setStartAtLogin:pathToGHA enabled:flag];
+    }
+    else {
+        NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
+    }
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
@@ -588,32 +593,31 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSString *object = [notification object];
-//	NSLog(@"%s: %@\n", __func__, object);
-	SYNCHRONIZE_GROWL_PREFS();
-	if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
-		[self willChangeValueForKey:@"defaultDisplayPluginName"];
-		[self didChangeValueForKey:@"defaultDisplayPluginName"];
+	@autoreleasepool {
+        NSString *object = [notification object];
+    //	NSLog(@"%s: %@\n", __func__, object);
+        SYNCHRONIZE_GROWL_PREFS();
+        if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
+            [self willChangeValueForKey:@"defaultDisplayPluginName"];
+            [self didChangeValueForKey:@"defaultDisplayPluginName"];
+        }
+        if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
+            [self willChangeValueForKey:@"growlMenuEnabled"];
+            [self didChangeValueForKey:@"growlMenuEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
+            [self willChangeValueForKey:@"forwardingEnabled"];
+            [self didChangeValueForKey:@"forwardingEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
+            [self willChangeValueForKey:@"idleThreshold"];
+            [self didChangeValueForKey:@"idleThreshold"];
+        }
+        if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
+            [self willChangeValueForKey:@"selectedPreferenceTab"];
+            [self didChangeValueForKey:@"selectedPreferenceTab"];
+        }	
 	}
-	if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
-		[self willChangeValueForKey:@"growlMenuEnabled"];
-		[self didChangeValueForKey:@"growlMenuEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
-		[self willChangeValueForKey:@"forwardingEnabled"];
-		[self didChangeValueForKey:@"forwardingEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
-		[self willChangeValueForKey:@"idleThreshold"];
-		[self didChangeValueForKey:@"idleThreshold"];
-	}
-	if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
-		[self willChangeValueForKey:@"selectedPreferenceTab"];
-		[self didChangeValueForKey:@"selectedPreferenceTab"];
-	}	
-	[pool release];
 }
 
 @end

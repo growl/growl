@@ -32,39 +32,39 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 		}
 	} else {
 		assert(type == XPC_TYPE_DICTIONARY);
-      
-      /*
-       xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-       
-       xpc_object_t reply = xpc_dictionary_create_reply(event); */
-      
-      
-      // Here we unpack our dictionary.
-      NSDictionary *dict = [NSObject xpcObjectToNSObject:event];
-      NSString *purpose = [dict valueForKey:@"GrowlDictType"];
-      NSDictionary *growlDict = [dict objectForKey:@"GrowlDict"];
+        
+        /*
+         xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
+         
+         xpc_object_t reply = xpc_dictionary_create_reply(event); */
+        
+        
+        // Here we unpack our dictionary.
+        NSDictionary *dict = [NSObject xpcObjectToNSObject:event];
+        NSString *purpose = [dict valueForKey:@"GrowlDictType"];
+        NSDictionary *growlDict = [dict objectForKey:@"GrowlDict"];
+        
+        NSString *host = [dict valueForKey:@"GNTPHost"];
+        NSString *pass = [dict valueForKey:@"GNTPPassword"];
+        
+        if ([purpose caseInsensitiveCompare:@"registration"] == NSOrderedSame) {
+            GrowlGNTPRegistrationAttempt *registrationAttempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:growlDict] autorelease];
+            registrationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
+            registrationAttempt.host = host;
+            registrationAttempt.password = pass;
+            registrationAttempt.connection = peer;
             
-      NSString *host = [dict valueForKey:@"GNTPHost"];
-      NSString *pass = [dict valueForKey:@"GNTPPassword"];
+            [notifier sendCommunicationAttempt:registrationAttempt];
+        }
+        else if ([purpose caseInsensitiveCompare:@"notification"] == NSOrderedSame) {
+            GrowlGNTPNotificationAttempt *notificationAttempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:growlDict] autorelease];
+            notificationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
+            notificationAttempt.host = host;
+            notificationAttempt.password = pass;
+            notificationAttempt.connection = peer;
             
-      if ([purpose caseInsensitiveCompare:@"registration"] == NSOrderedSame) {
-         GrowlGNTPRegistrationAttempt *registrationAttempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:growlDict] autorelease];
-         registrationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
-         registrationAttempt.host = host;
-         registrationAttempt.password = pass;
-         registrationAttempt.connection = peer;
-
-         [notifier sendCommunicationAttempt:registrationAttempt];
-      }
-      else if ([purpose caseInsensitiveCompare:@"notification"] == NSOrderedSame) {
-         GrowlGNTPNotificationAttempt *notificationAttempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:growlDict] autorelease];
-         notificationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
-         notificationAttempt.host = host;
-         notificationAttempt.password = pass;
-         notificationAttempt.connection = peer;
-
-         [notifier sendCommunicationAttempt:notificationAttempt];
-      }
+            [notifier sendCommunicationAttempt:notificationAttempt];
+        }
 	}
 }
 
@@ -84,7 +84,7 @@ static void GNTP_event_handler(xpc_connection_t peer)
 
 int main(int argc, const char *argv[])
 {
-   notifier = [[GrowlNotifier alloc] init];
+    notifier = [[GrowlNotifier alloc] init];
 	xpc_main(GNTP_event_handler);
 	return 0;
 }

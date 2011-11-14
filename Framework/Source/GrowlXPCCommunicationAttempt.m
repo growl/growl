@@ -149,7 +149,7 @@
       }else{
          GrowlGNTPErrorCode reason = (GrowlGNTPErrorCode)[[dict objectForKey:@"Error-Code"] integerValue];
          NSString *description = [dict objectForKey:@"Error-Description"];
-         NSLog(@"Failed with code %d, \"%@\"", reason, description);
+         NSLog(@"Failed with code %ld, \"%@\"", reason, description);
          if([responseAction isEqualToString:@"notification"] && reason == GrowlGNTPUserDisabledErrorCode){
             [self stopAttempts];
          }else{

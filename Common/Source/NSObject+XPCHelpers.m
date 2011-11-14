@@ -31,7 +31,7 @@
    }
    else if (newType == XPC_TYPE_ARRAY) {
       nsValue = [NSMutableArray arrayWithCapacity:xpc_array_get_count(object)];
-      xpc_array_apply(object, ^_Bool(size_t index, xpc_object_t obj) {
+      xpc_array_apply(object, ^_Bool(size_t indexVal, xpc_object_t obj) {
          [nsValue addObject:[self xpcObjectToNSObject:obj]];
          return true;
       });

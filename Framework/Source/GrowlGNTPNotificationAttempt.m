@@ -22,7 +22,7 @@
 }
 
 - (BOOL) expectsCallback {
-	return (_Bool)[self.dictionary objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	return ([self.dictionary objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] != nil);
 }
 
 @end

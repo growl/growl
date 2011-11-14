@@ -113,12 +113,10 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	[windowControllerToRemove removeNotificationObserver:self];
-	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
-
-	[pool release];
+    @autoreleasepool {
+        [windowControllerToRemove removeNotificationObserver:self];
+        [windowControllers removeObjectIdenticalTo:windowControllerToRemove];
+    }
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);
