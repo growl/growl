@@ -19,8 +19,8 @@
     l_target.size = [self size];
 	
     NSAffineTransform* xform = [NSAffineTransform transform];
-    [xform translateXBy:0.0 yBy:l_target.size.height];
-    [xform scaleXBy:1.0 yBy:-1.0];
+    [xform translateXBy:0.0f yBy:l_target.size.height];
+    [xform scaleXBy:1.0f yBy:-1.0f];
     [xform concat];    
     
     [self drawInRect:l_target fromRect:l_target operation:NSCompositeCopy fraction:1.0f];
