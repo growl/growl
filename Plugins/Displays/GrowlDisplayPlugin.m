@@ -172,4 +172,8 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
     }
 }
 
+- (BOOL) requiresPositioning {
+    return NO;
+}
+
 @end

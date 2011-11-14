@@ -9,8 +9,30 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlPlugin.h"
 
-@class GrowlNotification, GrowlNotificationDisplayBridge;
+
+@class GrowlNotification; 
+@class GrowlNotificationDisplayBridge;
 @class GrowlDisplayWindowController;
+
+
+/*!
+ * @class GrowlDisplayPlugin
+ * @abstract Protocol that for all display plugins must implement.
+ */
+@protocol GrowlDisplayPlugin <GrowlPlugin>
+
+/*!	@method	displayNotification:
+ *	@abstract	Display a notification to the user.
+ *	@param	notification	The notification to display.
+ *  @discussion Unless you have a specific reason to override this method you should not do so.
+ *  All the magic should happen in the window controller's <code>setNotification:</code>
+ */
+- (void) displayNotification:(GrowlNotification *)notification;
+
+
+
+
+@end
 
 //Info.plist keys for plug-in bundles.
 extern NSString *GrowlDisplayPluginInfoKeyUsesQueue;
@@ -18,9 +40,9 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 
 /*!
  * @class GrowlDisplayPlugin
- * @abstract Base class for all display plugins.
+ * @abstract This base class implements the GrowlDisplayPlugin protocol. This class provides it's own destruction and .
  */
-@interface GrowlDisplayPlugin : GrowlPlugin {
+@interface GrowlDisplayPlugin : GrowlPlugin<GrowlDisplayPlugin> {
 	Class          windowControllerClass;
 	
 	//for all displays
@@ -34,13 +56,7 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
 }
 
-/*!	@method	displayNotification:
- *	@abstract	Display a notification to the user.
- *	@param	notification	The notification to display.
- *  @discussion Unless you have a specific reason to override this method you should not do so.
- *  All the magic should happen in the window controller's <code>setNotification:</code>
- */
-- (void) displayNotification:(GrowlNotification *)notification;
+
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in
@@ -63,5 +79,6 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc;
 
 - (BOOL) queuesNotifications;
+
 
 @end
