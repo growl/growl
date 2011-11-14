@@ -30,7 +30,7 @@
 #define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
 #define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
 
-	
+// This may not be the best solution. Rather not use __has_feature(arc). 
 #ifdef __clang_major__ 
 #if __clang_major__ > 2
 #define AUTORELEASEPOOL_START @autoreleasepool {
@@ -117,9 +117,9 @@ static struct {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 	if (inDelegate != delegate) {
-		[delegate release];
+		[delegate autorelease];
 		delegate = [inDelegate retain];
-	}
+	} 
     
     _delegateRespondsTo.growlNotificationWasClicked = [delegate respondsToSelector:@selector(growlNotificationWasClicked:)];
     _delegateRespondsTo.growlNotificationTimedOut = [delegate respondsToSelector:@selector(growlNotificationTimedOut:)];
