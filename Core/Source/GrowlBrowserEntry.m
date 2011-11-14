@@ -22,10 +22,10 @@
 + (void)load
 {
    if (self == [GNTPHostAvailableColorTransformer class]) {
-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-      [self setValueTransformer:[[[self alloc] init] autorelease]
-                        forName:@"GNTPHostAvailableColorTransformer"];
-      [pool release];
+       @autoreleasepool {
+           [self setValueTransformer:[[[self alloc] init] autorelease]
+                             forName:@"GNTPHostAvailableColorTransformer"];
+       }
    }
 }
 

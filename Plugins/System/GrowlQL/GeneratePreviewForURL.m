@@ -14,26 +14,25 @@ void CancelPreviewGeneration(void* thisInterface, QLPreviewRequestRef preview);
    ----------------------------------------------------------------------------- */
 
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	if(QLPreviewRequestIsCancelled(preview))
-		return noErr;
-	
-	NSBundle *pluginBundle = [NSBundle bundleWithPath:[(NSURL*)url path]];
-	[pluginBundle load];
-
-	id plugin = [[[[pluginBundle principalClass] alloc] init] autorelease];
-	id wc = [[[plugin performSelector:@selector(windowControllerClass)] alloc] initWithWindowNibName:[plugin windowNibName]];
-	
-	
-	NSWindow *window = [wc window];
-	NSImage *previewImage = [[NSImage alloc] initWithSize:window.frame.size];
-	[previewImage lockFocus];
-	[window display];
-	[previewImage unlockFocus];
-	
-	QLPreviewRequestSetDataRepresentation(preview, (CFDataRef)[previewImage TIFFRepresentation], kUTTypeImage, nil);
-	[pool drain];
+    @autoreleasepool {
+        if(QLPreviewRequestIsCancelled(preview))
+            return noErr;
+        
+        NSBundle *pluginBundle = [NSBundle bundleWithPath:[(NSURL*)url path]];
+        [pluginBundle load];
+        
+        id plugin = [[[[pluginBundle principalClass] alloc] init] autorelease];
+        id wc = [[[plugin performSelector:@selector(windowControllerClass)] alloc] initWithWindowNibName:[plugin windowNibName]];
+        
+        
+        NSWindow *window = [wc window];
+        NSImage *previewImage = [[NSImage alloc] initWithSize:window.frame.size];
+        [previewImage lockFocus];
+        [window display];
+        [previewImage unlockFocus];
+        
+        QLPreviewRequestSetDataRepresentation(preview, (CFDataRef)[previewImage TIFFRepresentation], kUTTypeImage, nil);
+    }
 	return noErr;
 }
 

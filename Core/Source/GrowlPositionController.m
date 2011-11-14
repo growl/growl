@@ -287,13 +287,13 @@
 	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
 
 	if ([growlLog isLoggingEnabled]) {
-		NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
-		NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
-		for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
-			[rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
-		}
-		[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
-		[rectStringsPool drain];
+		@autoreleasepool {
+            NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
+            for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
+                [rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
+            }
+            [growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
+        }
 	}
 
 	/* This will loop until the display is placed or we run off the screen entirely

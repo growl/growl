@@ -40,17 +40,15 @@
 
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    id object = [notification object];
-    if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
-        if([self.preferencesController isGrowlHistoryLogEnabled])
-            [historyOnOffSwitch setSelectedSegment:1];
-        else
-            [historyOnOffSwitch setSelectedSegment:0];
+	@autoreleasepool {
+        id object = [notification object];
+        if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
+            if([self.preferencesController isGrowlHistoryLogEnabled])
+                [historyOnOffSwitch setSelectedSegment:1];
+            else
+                [historyOnOffSwitch setSelectedSegment:0];
+        }
     }
-	
-	[pool release];
 }
 
 #pragma mark HistoryTab

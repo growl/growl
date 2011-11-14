@@ -618,16 +618,16 @@ static BOOL    shouldUseBuiltInNotifications = YES;
  *	delegate responds to growlNotificationWasClicked:.
  */
 + (void) growlNotificationWasClicked:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[delegate growlNotificationWasClicked:
-		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool drain];
+	@autoreleasepool {
+        [delegate growlNotificationWasClicked:
+         [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+    }
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[delegate growlNotificationTimedOut:
-		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool drain];
+	@autoreleasepool {
+        [delegate growlNotificationTimedOut:
+         [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+    }
 }
 
 #pragma mark -
@@ -641,37 +641,35 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 }
 
 + (void) _growlIsReady:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-   //We may have gotten a new version of growl
-   [self _growlIsReachableUpdateCache:YES];
-	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
-	growlLaunched = YES;
-
-	//Inform our delegate if it is interested
-	if ([delegate respondsToSelector:@selector(growlIsReady)])
-		[delegate growlIsReady];
-
-	//Post a notification locally
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
-														object:nil
-													  userInfo:nil];
-
-	//Stop observing for GROWL_IS_READY
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
-															   name:GROWL_IS_READY
-															 object:nil];
-
-	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
-	if (registerWhenGrowlIsReady) {
-		[self reregisterGrowlNotifications];
-		registerWhenGrowlIsReady = NO;
-	} else {
-		registeredWithGrowl = YES;
-      [self _emptyQueue];
-	}
-
-	[pool drain];
+    @autoreleasepool {
+        //We may have gotten a new version of growl
+        [self _growlIsReachableUpdateCache:YES];
+        //Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
+        growlLaunched = YES;
+        
+        //Inform our delegate if it is interested
+        if ([delegate respondsToSelector:@selector(growlIsReady)])
+            [delegate growlIsReady];
+        
+        //Post a notification locally
+        [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+                                                            object:nil
+                                                          userInfo:nil];
+        
+        //Stop observing for GROWL_IS_READY
+        [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+                                                                   name:GROWL_IS_READY
+                                                                 object:nil];
+        
+        //register (fixes #102: this is necessary if we got here by Growl having just been installed)
+        if (registerWhenGrowlIsReady) {
+            [self reregisterGrowlNotifications];
+            registerWhenGrowlIsReady = NO;
+        } else {
+            registeredWithGrowl = YES;
+            [self _emptyQueue];
+        }
+    }
 }
 
 + (BOOL) _growlIsReachableUpdateCache:(BOOL)update
