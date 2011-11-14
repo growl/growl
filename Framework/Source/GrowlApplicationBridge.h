@@ -112,7 +112,7 @@
  *
  *	@param inDelegate The delegate for the GrowlApplicationBridge. It must conform to the GrowlApplicationBridgeDelegate protocol.
  */
-+ (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate;
++ (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate;
 
 /*!
  *	@method growlDelegate
@@ -120,7 +120,7 @@
  *	@discussion See setGrowlDelegate: for details.
  *	@result The Growl delegate.
  */
-+ (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate;
++ (id<GrowlApplicationBridgeDelegate>) growlDelegate;
 
 #pragma mark -
 
@@ -414,21 +414,11 @@
  *	 See also <code>GrowlApplicationBridgeDelegate_InformalProtocol</code>.
  */
 
-@protocol GrowlApplicationBridgeDelegate
+@protocol GrowlApplicationBridgeDelegate <NSObject>
 
 // -registrationDictionaryForGrowl has moved to the informal protocol as of 0.7.
 
-@end
-
-//------------------------------------------------------------------------------
-#pragma mark -
-
-/*!
- *	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
- *	@abstract Methods which may be optionally implemented by the GrowlDelegate.
- *	@discussion The methods in this informal protocol will only be called if implemented by the delegate.
- */
-@interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
+@optional
 
 /*!
  *	@method registrationDictionaryForGrowl

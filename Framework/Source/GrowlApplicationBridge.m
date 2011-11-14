@@ -30,13 +30,6 @@
 #define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
 #define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
 
-#ifndef __has_feature         // Optional of course.
-#define __has_feature(x) 0  // Compatibility with non-clang compilers.
-#endif
-#ifndef __has_extension
-#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
-#endif
-
 	
 #ifdef __clang_major__ 
 #if __clang_major__ > 2
@@ -79,7 +72,7 @@ static NSData	*appIconData = nil;
 static GrowlMiniDispatch *miniDispatch = nil;
 #endif
 
-static id		delegate = nil;
+static id<GrowlApplicationBridgeDelegate> delegate = nil;
 static BOOL		growlLaunched = NO;
 
 static NSMutableArray	*queuedGrowlNotifications = nil;
@@ -99,6 +92,17 @@ static BOOL    hasGNTP = NO;
 
 static BOOL    shouldUseBuiltInNotifications = YES;
 
+static struct {
+    unsigned int growlNotificationWasClicked : 1;
+    unsigned int growlNotificationTimedOut : 1;
+    unsigned int registrationDictionaryForGrowl : 1;
+    unsigned int applicationNameForGrowl : 1;
+    unsigned int applicationIconForGrowl : 1;
+    unsigned int applicationIconDataForGrowl : 1;
+    unsigned int growlIsReady : 1;
+    unsigned int hasNetworkClientEntitlement : 1;
+} _delegateRespondsTo;
+
 #pragma mark -
 
 @implementation GrowlApplicationBridge
@@ -109,14 +113,23 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 	return _attempts;
 }
 
-+ (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
++ (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 	if (inDelegate != delegate) {
 		[delegate release];
 		delegate = [inDelegate retain];
 	}
-
+    
+    _delegateRespondsTo.growlNotificationWasClicked = [delegate respondsToSelector:@selector(growlNotificationWasClicked:)];
+    _delegateRespondsTo.growlNotificationTimedOut = [delegate respondsToSelector:@selector(growlNotificationTimedOut:)];
+    _delegateRespondsTo.registrationDictionaryForGrowl = [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)];
+    _delegateRespondsTo.applicationNameForGrowl = [delegate respondsToSelector:@selector(applicationNameForGrowl)];
+    _delegateRespondsTo.applicationIconForGrowl = [delegate respondsToSelector:@selector(applicationIconForGrowl)];
+    _delegateRespondsTo.applicationIconDataForGrowl = [delegate respondsToSelector:@selector(applicationIconDataForGrowl)];
+    _delegateRespondsTo.growlIsReady = [delegate respondsToSelector:@selector(growlIsReady)];
+    _delegateRespondsTo.hasNetworkClientEntitlement = [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)];
+    
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [[self bestRegistrationDictionary] retain];
 
@@ -148,7 +161,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 	int pid = [[NSProcessInfo processInfo] processIdentifier];
 	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+	if (_delegateRespondsTo.growlNotificationWasClicked)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
@@ -162,7 +175,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 	/* We also look for notifications which arne't pid-specific but which are for our application */
 	growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@",
 									appName, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+	if (_delegateRespondsTo.growlNotificationWasClicked)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
@@ -175,7 +188,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+	if (_delegateRespondsTo.growlNotificationTimedOut)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
@@ -189,7 +202,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 	/* We also look for notifications which arne't pid-specific but which are for our application */
 	growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%@",
 									 appName, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+	if (_delegateRespondsTo.growlNotificationTimedOut)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
@@ -456,7 +469,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 + (NSDictionary *) registrationDictionaryFromDelegate {
 	NSDictionary *regDict = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)])
+	if (delegate && _delegateRespondsTo.registrationDictionaryForGrowl)
 		regDict = [delegate registrationDictionaryForGrowl];
 
 	return regDict;
@@ -595,7 +608,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 + (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {
 	NSString *applicationNameForGrowl = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)])
+	if (delegate && _delegateRespondsTo.applicationNameForGrowl)
 		applicationNameForGrowl = [delegate applicationNameForGrowl];
 
 	if (!applicationNameForGrowl) {
@@ -611,9 +624,9 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 	NSData *iconData = nil;
 
 	if (delegate) {
-		if ([delegate respondsToSelector:@selector(applicationIconForGrowl)])
+		if (_delegateRespondsTo.applicationIconForGrowl)
 			iconData = (NSData *)[delegate applicationIconForGrowl];
-		else if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)])
+		else if (_delegateRespondsTo.applicationIconDataForGrowl)
 			iconData = [delegate applicationIconDataForGrowl];
 	}
 
@@ -666,7 +679,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
         growlLaunched = YES;
         
         //Inform our delegate if it is interested
-        if ([delegate respondsToSelector:@selector(growlIsReady)])
+        if (_delegateRespondsTo.growlIsReady)
             [delegate growlIsReady];
         
         //Post a notification locally
@@ -759,7 +772,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
    NSString *suffix = [NSString stringWithFormat:@"Containers/%@/Data", [[NSBundle mainBundle] bundleIdentifier]];
    if([homeDirectory hasSuffix:suffix]){
       sandboxed = YES;
-      if(delegate && [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)])
+      if(delegate && _delegateRespondsTo.hasNetworkClientEntitlement)
          networkClient = [delegate hasNetworkClientEntitlement];
       else
          networkClient = NO;
@@ -806,12 +819,12 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 
 + (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   if(delegate && [delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+   if(delegate && _delegateRespondsTo.growlNotificationWasClicked)
       [delegate growlNotificationWasClicked:context];
 }
 + (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   if(delegate && [delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+   if(delegate && _delegateRespondsTo.growlNotificationTimedOut)
       [delegate growlNotificationTimedOut:context];
 }
 
