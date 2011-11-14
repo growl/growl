@@ -30,6 +30,24 @@
 #define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
 #define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
 
+#ifndef __has_feature         // Optional of course.
+#define __has_feature(x) 0  // Compatibility with non-clang compilers.
+#endif
+#ifndef __has_extension
+#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
+#endif
+
+	
+#ifdef __clang_major__ 
+#if __clang_major__ > 2
+#define AUTORELEASEPOOL_START @autoreleasepool {
+#define AUTORELEASEPOOL_END }
+#endif
+#else
+#define AUTORELEASEPOOL_START NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#define AUTORELEASEPOOL_END [pool drain];
+#endif
+
 @interface GrowlApplicationBridge (PRIVATE)
 
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
@@ -300,8 +318,8 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 + (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict
 {
    NSDictionary *regDict = [self bestRegistrationDictionary];
-   NSUInteger index = [[regDict valueForKey:GROWL_NOTIFICATIONS_ALL] indexOfObject:[growlDict valueForKey:GROWL_NOTIFICATION_NAME]];
-   if(regDict && [[regDict valueForKey:GROWL_NOTIFICATIONS_DEFAULT] containsObject:[NSNumber numberWithUnsignedInteger:index]])
+   NSUInteger indexVal = [[regDict valueForKey:GROWL_NOTIFICATIONS_ALL] indexOfObject:[growlDict valueForKey:GROWL_NOTIFICATION_NAME]];
+   if(regDict && [[regDict valueForKey:GROWL_NOTIFICATIONS_DEFAULT] containsObject:[NSNumber numberWithUnsignedInteger:indexVal]])
       return YES;
    return NO;
 }
@@ -618,16 +636,16 @@ static BOOL    shouldUseBuiltInNotifications = YES;
  *	delegate responds to growlNotificationWasClicked:.
  */
 + (void) growlNotificationWasClicked:(NSNotification *)notification {
-	@autoreleasepool {
+    AUTORELEASEPOOL_START
         [delegate growlNotificationWasClicked:
          [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-    }
+    AUTORELEASEPOOL_END
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
-	@autoreleasepool {
+	AUTORELEASEPOOL_START
         [delegate growlNotificationTimedOut:
          [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-    }
+    AUTORELEASEPOOL_END
 }
 
 #pragma mark -
@@ -641,7 +659,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 }
 
 + (void) _growlIsReady:(NSNotification *)notification {
-    @autoreleasepool {
+    AUTORELEASEPOOL_START
         //We may have gotten a new version of growl
         [self _growlIsReachableUpdateCache:YES];
         //Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
@@ -669,7 +687,7 @@ static BOOL    shouldUseBuiltInNotifications = YES;
             registeredWithGrowl = YES;
             [self _emptyQueue];
         }
-    }
+    AUTORELEASEPOOL_END
 }
 
 + (BOOL) _growlIsReachableUpdateCache:(BOOL)update
