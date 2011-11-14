@@ -6,7 +6,7 @@ require 'rubygems'
 begin
    require 'osx/plist'
    rescue LoadError
-   error_string = "\n\nYou must install the plist ruby gem in order to use this script. \n gem sources -a http://gems.github.com \n sudo gem install kballard-osx-plist\n"
+   error_string = "\n\nYou must install the plist ruby gem in order to use this script. \n /usr/bin/gem sources -a http://gems.github.com \n sudo /usr/bin/gem install kballard-osx-plist\n"
    raise error_string
 end
 
