@@ -219,12 +219,15 @@
    frame.origin.y -= (newSize.height - oldSize.height);
    
    [oldController viewWillUnload];
-   [nextController viewWillLoad];
-   [aWindow setContentView:[nextController view]];
+   [aWindow setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
    [oldController viewDidUnload];
-   [nextController viewDidLoad];
+    
    self.currentViewController = nextController;
    [aWindow setFrame:frame display:YES animate:YES];
+   
+   [nextController viewWillLoad];
+   [aWindow setContentView:[nextController view]];
+   [nextController viewDidLoad];
 }
 
 -(IBAction)selectedTabChanged:(id)sender
