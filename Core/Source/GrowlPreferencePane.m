@@ -95,6 +95,10 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[self setCanRemoveTicket:NO];
 
 
+    //set our default sort descriptor so that we're looking at new stuff at the top by default
+    NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
+    [historyArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
 	NSMutableArray *theServices = [NSMutableArray array];
