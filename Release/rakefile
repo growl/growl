@@ -1,6 +1,6 @@
 
 #To build Growl, follow this example:
-#CONFIGURATION=Localization rake build:growl
+#VERSION=SOMETHING CONFIGURATION=Localization rake build:growl
 #
 #The configuration is specified, along with the target to build. Rake does the building.
 #Change the version number before building.
