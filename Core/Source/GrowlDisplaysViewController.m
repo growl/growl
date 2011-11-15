@@ -85,6 +85,9 @@
 	}
 }
 
++ (NSString*)nibName {
+   return @"DisplayPrefs";
+}
 
 - (void)selectRow:(NSIndexSet *)indexSet
 {

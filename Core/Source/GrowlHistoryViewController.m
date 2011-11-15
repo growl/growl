@@ -42,6 +42,10 @@
    [self reloadPrefs:nil];
 }
 
++ (NSString*)nibName {
+   return @"HistoryPrefs";
+}
+
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

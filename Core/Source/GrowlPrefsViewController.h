@@ -14,10 +14,13 @@
 
 @property (nonatomic, retain) GrowlPreferencePane *prefPane;
 @property (nonatomic, assign) GrowlPreferencesController *preferencesController;
+@property (nonatomic, retain) NSTimer *releaseTimer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil 
                bundle:(NSBundle *)nibBundleOrNil
           forPrefPane:(GrowlPreferencePane*)aPrefPane;
+
++ (NSString*)nibName;
 
 - (void)viewWillLoad;
 - (void)viewDidLoad;

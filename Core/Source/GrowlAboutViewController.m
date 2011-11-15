@@ -18,6 +18,10 @@
    [self setupAboutTab];
 }
 
++ (NSString*)nibName {
+   return @"About";
+}
+
 - (void) setupAboutTab {
 	NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	if (versionString) {

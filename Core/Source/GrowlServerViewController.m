@@ -102,15 +102,21 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	[networkTableView reloadData];
 }
 
++ (NSString*)nibName {
+   return @"NetworkPrefs";
+}
+
 - (void)viewWillLoad
 {
    [self startBrowsing];
    [self updateAddresses];
+   [super viewWillLoad];
 }
 
 - (void)viewDidUnload
 {
    [self stopBrowsing];
+   [super viewDidUnload];
 }
 
 - (void) reloadPrefs:(NSNotification *)notification {

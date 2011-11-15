@@ -43,6 +43,10 @@
                                               object:globalPositionPicker];
 }
 
++ (NSString*)nibName {
+   return @"GeneralPrefs";
+}
+
 - (void) updatePosition:(NSNotification *)notification {
 	if([notification object] == globalPositionPicker) {
 		[self.preferencesController setInteger:[globalPositionPicker selectedPosition] 

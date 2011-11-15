@@ -26,6 +26,10 @@
    self.rollupLoggedTitle = NSLocalizedString(@"Rollup only logged notes", @"Rollup only logged notifications radio button");
 }
 
++ (NSString*)nibName {
+   return @"RollupPrefs";
+}
+
 -(void)dealloc {
    [rollupEnabledTitle release];
    [rollupAutomaticTitle release];
