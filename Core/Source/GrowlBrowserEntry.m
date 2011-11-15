@@ -7,7 +7,7 @@
 //
 
 #import "GrowlBrowserEntry.h"
-#import "GrowlPreferencePane.h"
+#import "GrowlServerViewController.h"
 #import "NSStringAdditions.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
@@ -174,7 +174,7 @@
 	[owner writeForwardDestinations];
 }
 
-- (void) setOwner:(GrowlPreferencePane *)pref {
+- (void) setOwner:(GrowlServerViewController *)pref {
 	owner = pref;
 }
 
