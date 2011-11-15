@@ -27,15 +27,19 @@
 }
 
 -(void) awakeFromNib {
-    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
-    [historyTable setAutosaveTableColumns:YES];
+   [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
+   [historyTable setAutosaveTableColumns:YES];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(growlDatabaseDidUpdate:) 
-                                                 name:@"GrowlDatabaseUpdated" 
-                                               object:self.notificationDatabase];
-    
-    [self reloadPrefs:nil];
+    //set our default sort descriptor so that we're looking at new stuff at the top by default
+    NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
+    [historyArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+   
+   [[NSNotificationCenter defaultCenter] addObserver:self 
+                                            selector:@selector(growlDatabaseDidUpdate:) 
+                                                name:@"GrowlDatabaseUpdated" 
+                                              object:self.notificationDatabase];
+   
+   [self reloadPrefs:nil];
 }
 
 - (void) reloadPrefs:(NSNotification *)notification {
