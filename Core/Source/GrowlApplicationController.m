@@ -167,7 +167,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             desc,       GROWL_NOTIFICATION_DESCRIPTION,
             priority,   GROWL_NOTIFICATION_PRIORITY,
             sticky,     GROWL_NOTIFICATION_STICKY,
-            [growlIcon PNGRepresentation],  GROWL_NOTIFICATION_ICON_DATA,
+            growlIcon,  GROWL_NOTIFICATION_ICON_DATA,
             nil];
         [desc     release];
         [priority release];

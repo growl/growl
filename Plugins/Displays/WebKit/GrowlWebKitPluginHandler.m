@@ -9,6 +9,7 @@
 #import "GrowlWebKitPluginHandler.h"
 #import "GrowlWebKitDisplayPlugin.h"
 #import "GrowlPluginController.h"
+#import "GrowlWebKitImageProtocol.h"
 
 @implementation GrowlWebKitPluginHandler
 
@@ -19,6 +20,15 @@
         instance = [[self alloc] init];
     });
     return instance;
+}
+
+- (id) init {
+	if ((self = [super init])) {
+		
+		[GrowlWebKitImageProtocol registerProtocol];
+	}
+
+	return self;
 }
 
 - (BOOL) loadPluginAtPath:(NSString *)path {
