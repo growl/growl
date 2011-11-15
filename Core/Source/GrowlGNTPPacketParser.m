@@ -254,7 +254,7 @@
                break;
             default:
                //We don't handle any other case specifically, log it out.
-               NSLog(@"Error packet, Error-Code: %d, Error-Description: %@", code, description);
+               NSLog(@"Error packet, Error-Code: %ld, Error-Description: %@", code, description);
                break;
          }
          //Whatever error we had, dont send a -OK, and go ahead and disconnect

@@ -300,8 +300,8 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 + (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict
 {
    NSDictionary *regDict = [self bestRegistrationDictionary];
-   NSUInteger index = [[regDict valueForKey:GROWL_NOTIFICATIONS_ALL] indexOfObject:[growlDict valueForKey:GROWL_NOTIFICATION_NAME]];
-   if(regDict && [[regDict valueForKey:GROWL_NOTIFICATIONS_DEFAULT] containsObject:[NSNumber numberWithUnsignedInteger:index]])
+   NSUInteger indexValue = [[regDict valueForKey:GROWL_NOTIFICATIONS_ALL] indexOfObject:[growlDict valueForKey:GROWL_NOTIFICATION_NAME]];
+   if(regDict && [[regDict valueForKey:GROWL_NOTIFICATIONS_DEFAULT] containsObject:[NSNumber numberWithUnsignedInteger:indexValue]])
       return YES;
    return NO;
 }

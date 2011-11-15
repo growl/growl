@@ -9,12 +9,16 @@
 #import "GrowlWebKitPluginHandler.h"
 #import "GrowlWebKitDisplayPlugin.h"
 #import "GrowlPluginController.h"
+#import "GrowlWebKitImageProtocol.h"
 
 @implementation GrowlWebKitPluginHandler
 
 - (id) initSingleton {
-	if ((self = [super initSingleton]))
+	if ((self = [super initSingleton])) {
 		[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
+		
+		[GrowlWebKitImageProtocol registerProtocol];
+	}
 
 	return self;
 }

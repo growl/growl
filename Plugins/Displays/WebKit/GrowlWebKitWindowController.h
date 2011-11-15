@@ -17,8 +17,11 @@
 	BOOL			positioned;
 	CGFloat			paddingX;
 	CGFloat			paddingY;
+	
+	NSString		*cacheKey;
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
++ (NSMutableDictionary *)imageCache;
 
 @end
