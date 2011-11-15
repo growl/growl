@@ -75,6 +75,10 @@ namespace "build" do
 		system "#{XCODEBUILD} -project \"#{SRCROOT}/Developer Tools/BeepHammer/BeepHammer.xcodeproj\" -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/beephammer"
 	end
 
+        task :multigrowl do
+                system "#{XCODEBUILD} -project \"#{SRCROOT}/Developer Tools/MultiGrowl/MultiGrowl.xcodeproj\" -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/multigrowl"
+        end
+
 	task :framework do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target Growl.framework -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/framework"
 	end
@@ -84,6 +88,12 @@ namespace "build" do
    	end
 end
 
+namespace "copysource" do
+
+	task :multigrowl do
+		system "cp -Rp #{SRCROOT}/Developer Tools/MultiGrowl/ SYMROOT=#{BUILD_ROOT}/multigrowlsource"
+	end
+end
 
 namespace "package" do
 	
@@ -137,7 +147,7 @@ namespace "package" do
 		FileUtils.cd(curdir)
 	end
 	
-	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
+	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc", "build:multigrowl", "copysource:multigrowl"] do
 		FileUtils.mkdir_p("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.cd("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.mkdir_p("Developer Tools")
@@ -158,7 +168,9 @@ namespace "package" do
 
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
-      
+                FileUtils.cp_r("#{BUILD_ROOT}/multigrowl/#{CONFIGURATION}/MultiGrowl.app", "Developer Tools")
+                FileUtils.cp_r("#{BUILD_ROOT}/multigrowlsource/#{CONFIGURATION}/MultiGrowlSource", "Developer Tools")
+ 
       		#copy over XPC and its script
       		FileUtils.cp_r("#{BUILD_ROOT}/gntpclientxpc/#{CONFIGURATION}/com.company.application.GNTPClientService.xpc", "XPC Client")
       		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
