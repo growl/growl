@@ -10,7 +10,7 @@
 #import <xpc/xpc.h>
 
 @interface GrowlXPCCommunicationAttempt : GrowlCommunicationAttempt {
-    @private
+@private
     
     xpc_connection_t                    xpcConnection;
     

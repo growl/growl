@@ -110,11 +110,9 @@
  */
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   [self reloadPreferences:[notification object]];
-	
-	[pool release];
+	@autoreleasepool {
+        [self reloadPreferences:[notification object]];
+    }
 }
 
 /*!

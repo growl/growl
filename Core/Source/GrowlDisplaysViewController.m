@@ -122,16 +122,15 @@
 
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-	self.displayPlugins = [[pluginController displayPlugins] valueForKey:GrowlPluginInfoKeyName];
-   
-	if ([displayPlugins count] > 0U)
-		[self reloadDisplayPluginView];
-	else
-		[self loadViewForDisplay:nil];
-	
-	[pool release];
+	@autoreleasepool {
+
+        self.displayPlugins = [[pluginController displayPlugins] valueForKey:GrowlPluginInfoKeyName];
+        
+        if ([displayPlugins count] > 0U)
+            [self reloadDisplayPluginView];
+        else
+            [self loadViewForDisplay:nil];
+    }
 }
 
 - (IBAction) showDisabledDisplays:(id)sender {

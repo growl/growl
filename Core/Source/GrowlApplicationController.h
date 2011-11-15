@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GrowlApplicationBridge.h"
-#import "GrowlAbstractSingletonObject.h"
 
 @class GrowlNotificationCenter, GrowlTicketController, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
 
@@ -20,7 +19,7 @@ typedef enum {
 	GrowlNotificationResultDisabled
 } GrowlNotificationResult;
 
-@interface GrowlApplicationController : GrowlAbstractSingletonObject {
+@interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	GrowlTicketController		*ticketController;
 
 	// local GrowlNotificationCenter

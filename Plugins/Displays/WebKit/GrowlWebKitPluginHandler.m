@@ -13,9 +13,17 @@
 
 @implementation GrowlWebKitPluginHandler
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
-		[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
++ (GrowlWebKitPluginHandler *)sharedInstance {
+    static GrowlWebKitPluginHandler *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+- (id) init {
+	if ((self = [super init])) {
 		
 		[GrowlWebKitImageProtocol registerProtocol];
 	}
