@@ -88,13 +88,6 @@ namespace "build" do
    	end
 end
 
-namespace "copysource" do
-
-	task :multigrowl do
-		system "cp -Rp #{SRCROOT}/Developer Tools/MultiGrowl/ SYMROOT=#{BUILD_ROOT}/multigrowlsource"
-	end
-end
-
 namespace "package" do
 	
 	task :growlnotify => ["build:growlnotify"] do
@@ -147,7 +140,7 @@ namespace "package" do
 		FileUtils.cd(curdir)
 	end
 	
-	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc", "build:multigrowl", "copysource:multigrowl"] do
+	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
 		FileUtils.mkdir_p("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.cd("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.mkdir_p("Developer Tools")
@@ -168,9 +161,10 @@ namespace "package" do
 
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
-                FileUtils.cp_r("#{BUILD_ROOT}/multigrowl/#{CONFIGURATION}/MultiGrowl.app", "Developer Tools")
-                FileUtils.cp_r("#{BUILD_ROOT}/multigrowlsource/#{CONFIGURATION}/MultiGrowlSource", "Developer Tools")
- 
+                FileUtils.cp_r("#{SRCROOT}/Developer Tools/MultiGrowl", "Developer Tools")
+ 		FileUtils.ln_s("../../../Framework/Growl.framework", "Developer Tools/MultiGrowl/external/Growl.framework")
+		FileUtils.ln_s("../../../../Framework/legacy/Growl.framework", "Developer Tools/MultiGrowl/external/legacy/Growl.framework")
+
       		#copy over XPC and its script
       		FileUtils.cp_r("#{BUILD_ROOT}/gntpclientxpc/#{CONFIGURATION}/com.company.application.GNTPClientService.xpc", "XPC Client")
       		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")

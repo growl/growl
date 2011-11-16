@@ -54,7 +54,7 @@
 		8D1107320486CEB800E47090 /* MultiGrowl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiGrowl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B751E7146A30F8000A3EC5 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93B751E9146A30F8000A3EC5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = resources/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		93B751EC146A3273000A3EC5 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = "../../Downloads/Growl-1.3-SDK/Framework/Growl.framework"; sourceTree = SOURCE_ROOT; };
+		93B751EC146A3273000A3EC5 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		93B751FB146A3287000A3EC5 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +161,7 @@
 				93B751EC146A3273000A3EC5 /* Growl.framework */,
 			);
 			name = 1.3;
+			path = external;
 			sourceTree = "<group>";
 		};
 		93B751FA146A3287000A3EC5 /* 1.2.3 */ = {
@@ -169,7 +170,7 @@
 				93B751FB146A3287000A3EC5 /* Growl.framework */,
 			);
 			name = 1.2.3;
-			path = "../../Downloads/Growl-1.3-SDK/Framework/Legacy";
+			path = external/Legacy;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
