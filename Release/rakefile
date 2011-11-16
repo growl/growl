@@ -162,6 +162,8 @@ namespace "package" do
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
                 FileUtils.cp_r("#{SRCROOT}/Developer Tools/MultiGrowl", "Developer Tools")
+        FileUtils.mkdir_p("Developer Tools/MultiGrowl/external/")
+        FileUtils.mkdir_p("Developer Tools/MultiGrowl/external/legacy/")
  		FileUtils.ln_s("../../../Framework/Growl.framework", "Developer Tools/MultiGrowl/external/Growl.framework")
 		FileUtils.ln_s("../../../../Framework/legacy/Growl.framework", "Developer Tools/MultiGrowl/external/legacy/Growl.framework")
 
