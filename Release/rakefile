@@ -16,6 +16,7 @@ SRCROOT = File.expand_path("..")
 DESTDIR = File.expand_path("distribution")
 BUILD_ROOT = File.join(DESTDIR, "build")
 PRODUCT_ROOT = File.join(DESTDIR, "product")
+ 
 CSI = "3rd Party Mac Developer Installer: The Growl Project, LLC"
 BETA=0
 
@@ -75,15 +76,18 @@ namespace "build" do
 		system "#{XCODEBUILD} -project \"#{SRCROOT}/Developer Tools/BeepHammer/BeepHammer.xcodeproj\" -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/beephammer"
 	end
 
+	task :multigrowl do
+		system "#{XCODEBUILD} -project \"#{SRCROOT}/Developer Tools/MultiGrowl/MultiGrowl.xcodeproj\" -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/multigrowl"
+	end
+
 	task :framework do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target Growl.framework -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/framework"
 	end
    
-   	task :gntpclientxpc do
+	task :gntpclientxpc do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Growl.xcodeproj -target GNTPClientService -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/gntpclientxpc"
-   	end
+	end
 end
-
 
 namespace "package" do
 	
@@ -91,9 +95,9 @@ namespace "package" do
 		curdir = FileUtils.pwd()
 		FileUtils.cd("#{BUILD_ROOT}/growlnotify/#{CONFIGURATION}")
 		#package up growlnotify
-      system "#{PACKAGE_MAKER} --no-relocate --doc #{SRCROOT}/Release/growlnotify/growlnotify.pmdoc --out #{BUILD_ROOT}/growlnotify/#{CONFIGURATION}/GrowlNotify.pkg --version #{GROWLVERSION} --id info.growl.growlnotify.growlnotify.pkg -v" 
+	  system "#{PACKAGE_MAKER} --no-relocate --doc #{SRCROOT}/Release/growlnotify/growlnotify.pmdoc --out #{BUILD_ROOT}/growlnotify/#{CONFIGURATION}/GrowlNotify.pkg --version #{GROWLVERSION} --id info.growl.growlnotify.growlnotify.pkg -v" 
 		system "zip -r GrowlNotify-#{GROWLVERSION}.zip GrowlNotify.pkg"
-      system "cp -Rp GrowlNotify-#{GROWLVERSION}.zip #{PRODUCT_ROOT}"
+	  system "cp -Rp GrowlNotify-#{GROWLVERSION}.zip #{PRODUCT_ROOT}"
 		system "zip -r #{PRODUCT_ROOT}/growlnotify-#{GROWLVERSION}-dSYM.zip growlnotify.dSYM"
 		FileUtils.cd(curdir)
 	end
@@ -138,30 +142,38 @@ namespace "package" do
 	end
 	
 	task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
+		FileUtils.rm_rf("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.mkdir_p("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
+		
 		FileUtils.cd("#{DESTDIR}/Growl-#{GROWLVERSION}-SDK")
 		FileUtils.mkdir_p("Developer Tools")
 		FileUtils.mkdir_p("Framework")
 		FileUtils.mkdir_p("Framework/Legacy")
 		FileUtils.mkdir_p("Bindings")
-      		FileUtils.mkdir_p("XPC Client")
+		FileUtils.mkdir_p("XPC Client")
 		
 		#copy over the Applescript samples
-		FileUtils.cp("#{SRCROOT}/Bindings/applescript/Test Growl AppleScript.scpt", "Bindings")
-		FileUtils.cp("#{SRCROOT}/Bindings/applescript/Test GrowlControl AppleScript.scpt", "Bindings")
+		FileUtils.cp "#{SRCROOT}/Bindings/applescript/Test Growl AppleScript.scpt", "Bindings"
+		FileUtils.cp "#{SRCROOT}/Bindings/applescript/Test GrowlControl AppleScript.scpt", "Bindings"
 		
 		#copy over the framework
-		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework", :remove_destination => true)
+		FileUtils.cp_r "#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Framework/", :remove_destination => true, :verbose => true
 		
 		#copy over the 1.2.2 framework
 		FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Framework/Legacy")
 
 		#copy over developer tools
 		FileUtils.cp_r("#{BUILD_ROOT}/beephammer/#{CONFIGURATION}/BeepHammer.app", "Developer Tools")
-      
-      		#copy over XPC and its script
-      		FileUtils.cp_r("#{BUILD_ROOT}/gntpclientxpc/#{CONFIGURATION}/com.company.application.GNTPClientService.xpc", "XPC Client")
-      		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
+		FileUtils.cp_r("#{SRCROOT}/Developer Tools/MultiGrowl", "Developer Tools")
+		FileUtils.mkdir_p("Developer Tools/MultiGrowl/external/")
+		
+		FileUtils.cp_r("#{BUILD_ROOT}/framework/#{CONFIGURATION}/Growl.framework", "Developer Tools/MultiGrowl/external/", :remove_destination => true)
+		FileUtils.mkdir_p("Developer Tools/MultiGrowl/external/")
+		FileUtils.cp_r("#{SRCROOT}/legacy/Growl.framework", "Developer Tools/MultiGrowl/external/legacy/", :remove_destination => true)
+		
+		#copy over XPC and its script
+		FileUtils.cp_r("#{BUILD_ROOT}/gntpclientxpc/#{CONFIGURATION}/com.company.application.GNTPClientService.xpc", "XPC Client")
+		FileUtils.cp("#{SRCROOT}/scripts/xpc-rename-move.rb", "XPC Client")
 		
 		FileUtils.cd("..")
 		system "zip -r -y #{PRODUCT_ROOT}/Growl-#{GROWLVERSION}-SDK.zip Growl-#{GROWLVERSION}-SDK/"
