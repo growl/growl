@@ -1,0 +1,20 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "GrowlAction";
+NSHumanReadableCopyright = "Copyright (c) 2004-2010, Growl Team.";
+
+/*  AMApplication localized strings  */
+"Automator" = "Automator";
+
+/*  AMCategory localized strings  */
+"Utility" = "Pomůcka";
+
+/*  AMDescription localized strings  */
+AMDSummary = "Tato akce zobrazí upozornění Growl.";
+
+/*  AMKeywords localized strings  */
+"Choose" = "Vybrat";
+"Get" = "Vzít";
+
+AMName = "Zobrazit upozornění Growl
+";
