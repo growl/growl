@@ -2,13 +2,13 @@
 //  GrowlSampleWindowView.m
 //  Display Plugins
 //
-//  Copyright 2006-2009 The Growl Project. All rights reserved.
+//  Copyright 2006-2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlSampleWindowView.h"
 #import "GrowlSamplePrefs.h"
-#import "GrowlImageAdditions.h"
-#import "GrowlDefinesInternal.h"
+#import <GrowlDefinesInternal.h>
+#import <GrowlImageAdditions.h>
 
 @implementation GrowlSampleWindowView
 
@@ -96,7 +96,10 @@
 
 - (void) setIcon:(NSImage *)anIcon {
 	[icon autorelease];
-	icon = [anIcon retain];
+	if([anIcon isKindOfClass:[NSData class]])
+        icon = [[NSImage alloc] initWithData:(NSData*)anIcon];
+    else if([anIcon isKindOfClass:[NSImage class]])
+        icon = [anIcon retain];
 	[self setNeedsDisplay:(needsDisplay = YES)];
 }
 
