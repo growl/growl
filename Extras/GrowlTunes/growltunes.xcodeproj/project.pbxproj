@@ -605,6 +605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = growltunes/growltunes.entitlements;
+				FRAMEWORK_SEARCH_PATHS = "$SRCROOT/../../build/${CONFIGURATION}";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "growltunes/growltunes-Prefix.pch";
 				INFOPLIST_FILE = "growltunes/growltunes-Info.plist";
@@ -617,6 +618,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = growltunes/growltunes.entitlements;
+				FRAMEWORK_SEARCH_PATHS = "$SRCROOT/../../build/${CONFIGURATION}";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "growltunes/growltunes-Prefix.pch";
 				INFOPLIST_FILE = "growltunes/growltunes-Info.plist";
