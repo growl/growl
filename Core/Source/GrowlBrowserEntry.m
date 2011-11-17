@@ -9,10 +9,7 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlServerViewController.h"
 #import "NSStringAdditions.h"
-#include <Security/SecKeychain.h>
-#include <Security/SecKeychainItem.h>
-
-#define GrowlBrowserEntryKeychainServiceName "GrowlOutgoingNetworkConnection"
+#import "GrowlKeychainUtilities.h"
 
 @interface GNTPHostAvailableColorTransformer : NSValueTransformer
 @end
@@ -103,24 +100,7 @@
 
 - (NSString *) password {
 	if (!didPasswordLookup && [self computerName]) {
-		unsigned char *passwordChars;
-		UInt32 passwordLength;
-		OSStatus status;
-		const char *uuidChars = [[self uuid] UTF8String];
-		status = SecKeychainFindGenericPassword(NULL,
-												(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-												(UInt32)strlen(uuidChars), uuidChars,
-												&passwordLength, (void **)&passwordChars, NULL);		
-		if (status == noErr) {
-			password = [[NSString alloc] initWithBytes:passwordChars
-												length:passwordLength
-											  encoding:NSUTF8StringEncoding];
-			SecKeychainItemFreeContent(NULL, passwordChars);
-		} else {
-			if (status != errSecItemNotFound)
-				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [self computerName], (int)status);
-			password = nil;
-		}
+      password = [[GrowlKeychainUtilities passwordForServiceName:GrowlOutgoingNetworkPassword accountName:[self uuid]] retain];
 		
 		didPasswordLookup = YES;
 	}
@@ -133,43 +113,12 @@
 	if (password != inPassword) {
 		[password release];
 		password = [inPassword copy];
-	}
-
-	// Store the password to the keychain
-	// XXX TODO Use AIKeychain
-	const char *passwordChars = password ? [password UTF8String] : "";
-	OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	const char *uuidChars = [[self uuid] UTF8String];
-	status = SecKeychainFindGenericPassword(NULL,
-											(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											(UInt32)strlen(uuidChars), uuidChars,
-											NULL, NULL, &itemRef);
-	if (status == errSecItemNotFound) {
-		// add new item
-		status = SecKeychainAddGenericPassword(NULL,
-											   (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											   (UInt32)strlen(uuidChars), uuidChars,
-											   (UInt32)strlen(passwordChars), passwordChars, NULL);
-		if (status)
-			NSLog(@"Failed to add password to keychain.");
-	} else {
-		// change existing password
-		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, (UInt32)strlen(uuidChars), (char *)uuidChars },
-			{ kSecServiceItemAttr, (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
-		};
-		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
-														&attributes,	// no change to attributes
-														(UInt32)strlen(passwordChars),			// length of password
-														passwordChars		// pointer to password data
-														);
-		if (itemRef)
-			CFRelease(itemRef);
-		if (status)
-			NSLog(@"Failed to change password in keychain.");
-	}
+	}else{
+      //No need to write out forward destinations or reset password if its the same string as already;
+      return;
+   }
+   
+   [GrowlKeychainUtilities setPassword:password forService:GrowlOutgoingNetworkPassword accountName:[self uuid]];
 	
 	[owner writeForwardDestinations];
 }

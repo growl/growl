@@ -10,6 +10,7 @@
 #import "ACImageAndTextCell.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlBrowserEntry.h"
+#import "GrowlKeychainUtilities.h"
 #include "NSStringAdditions.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -142,22 +143,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    if(![toRemove password])
       return;
 
-   OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	const char *uuidChars = [[toRemove uuid] UTF8String];
-	status = SecKeychainFindGenericPassword(NULL,
-                                           (UInt32)strlen("GrowlOutgoingNetworkConnection"), "GrowlOutgoingNetworkConnection",
-                                           (UInt32)strlen(uuidChars), uuidChars,
-                                           NULL, NULL, &itemRef);
-   if (status == errSecItemNotFound) {
-      // Do nothing, we cant find it
-	} else {
-		status = SecKeychainItemDelete(itemRef);
-      if(status != errSecSuccess)
-         NSLog(@"Error deleting the password for %@: %@", [toRemove computerName], [(NSString*)SecCopyErrorMessageString(status, NULL) autorelease]);
-      if(itemRef)
-         CFRelease(itemRef);
-    }
+   if(![GrowlKeychainUtilities removePasswordForService:GrowlOutgoingNetworkPassword accountName:[toRemove uuid]])
+      NSLog(@"Error removing password from keychain for %@", [toRemove computerName]);
 }
 
 - (IBAction)newManualForwader:(id)sender {
