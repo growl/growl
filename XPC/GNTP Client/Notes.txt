@@ -1,0 +1,25 @@
+XPC / SANDBOXING NOTES:
+
+* XPC services cannot be embedded in a framework bundle
+** Growl.framework needs to be turned into a static library and XPC pairing.
+** Is there any way to have sandboxing under Lion while still working on Snow Leopard?  Probably not.
+** Growl static library should thus have distributed object / local GNTP fallbacks to work with legacy in non-sandboxed situations.
+ 
+* isGrowlInstalled / isGrowlRunning either need to have GNTP equivalents or be deprecated entirely.
+** (with Mist, probably the latter)
+
+* XPC Service can be reaped at any time
+** GNTP state must be stored in the static library
+** All click/timeout must be handled as replies to XPC messages, or else XPC service cannot talk to static library.
+
+-- TODO NOTES --
+
+I'm checking this in so Falk or Rudy or anyone can pick up where I left off. :/
+
+Current state is that there is a GrowlXPCCommunicationAttempt subclass which can take the normal communication attempts and bundle them up to pass to the XPC service, which can parse them.  I was working on taking those dictionaries and putting them into GNTP packets to pass on when I realized that, unfortunately, the static library will need to take a different approach.
+
+Right now, the XPC service is designed such that it would spit back a success or failure immediately on sending a notification packet.  However, this isn't suitable when the GNTP click callbacks need to happen (and a GNTP callback might not happen for AGES, with someone not at the keys).  As such, something will need to hold onto the xpc_connection objects after the CommunicationAttempts go away (and if the XPC service is reaped, immediately time out all pending notifications to avoid leakage).
+
+That redesign -- to hold onto xpc_connection properly -- was where I was at when I got sidelined by Trillian stuff.
+
+What still remains beyond that part is simply taking the dictionaries that have been passed onto com.growl.GNTPService (i.e., the .xpc bundle) and then turning them into GNTP packets to be sent on, and relaying the responses back.

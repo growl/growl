@@ -1,0 +1,24 @@
+syntax: glob
+build
+*.swp
+
+*.mode1
+*.mode1v3
+*.mode2
+*.mode2v3
+*.pbxuser
+*.perspective
+*.perspectivev3
+xcuserdata
+*.xcworkspace
+
+*~.nib
+
+.DS_Store
+Icon?
+
+external_dependencies/Sparkle/dsa_p{ub,riv}.pem
+
+Release/distribution
+DerivedData
+project.pbxproj.orig

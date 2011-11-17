@@ -1,0 +1,12 @@
+/*
+ *  GrowlQL.pch
+ *  GrowlQL
+ *
+ *  Created by Rudy Richter on 4/13/11.
+ *  Copyright 2011 The Growl Project. All rights reserved.
+ *
+ */
+
+#if __OBJC__
+#import <Cocoa/Cocoa.h>
+#endif

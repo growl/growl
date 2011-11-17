@@ -1,0 +1,7 @@
+[GrowlApplicationBridge notifyWithTitle:<#title#>
+                            description:<#description#>
+                       notificationName:@"%%NAME%%"
+                               iconData:<#iconData#>
+                               priority:<#priority#>
+                               isSticky:<#isSticky#>
+                           clickContext:<#clickContext#>];

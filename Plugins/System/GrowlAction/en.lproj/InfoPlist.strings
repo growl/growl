@@ -1,0 +1,23 @@
+﻿/* Localized versions of Info.plist keys */
+
+CFBundleName = "GrowlAction";
+NSHumanReadableCopyright = "Copyright (c) 2004-2011, Growl Team.";
+
+/*  AMApplication localized strings  */
+"Automator" = "Automator";
+
+/*  AMCategory localized strings  */
+"Utility" = "Utility";
+
+/*  AMDefaultParameters localized strings  */
+
+/*  AMDescription localized strings  */
+AMDSummary = "This action shows a Growl notification.";
+
+/*  AMKeywords localized strings  */
+"Choose" = "Choose";
+"Get" = "Get";
+
+AMName = "Show Growl Notification";
+
+/*  AMWarning localized strings  */

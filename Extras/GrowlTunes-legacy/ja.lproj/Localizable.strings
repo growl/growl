@@ -1,0 +1,15 @@
+﻿"GrowlTunes' control status item." = "GrowlTunes' control status item.";
+
+//menu item tooltips
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser."     = "設定されているブラウザーでGrowlのホームページからGrowlTunesのヘルプを開く";
+
+"Tells iTunes to play this track again."         = "iTunesにこのトラックを再生させる";
+
+"Quits both iTunes and GrowlTunes."       = "iTunesとGrowlTunesを同時に終了する";
+
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information."  = "GrowlTunesがiTunesの曲情報を定期的に求める機能をオンまたはオフにする";
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes."    = "GrowlTunesがiTunesの曲情報を求める機能を停止する（これによってiTunesからの情報をGrowlで表示しなくなります）";
+
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes."   = "iTunesから曲情報を求め始める（これによってGrowlでiTunesの情報を表示します）";
+
+"%@ — %@\n%@ (Composed by %@)\n%@\n%@" = "%@ — %@\n%@ (作曲者: %@)\n%@\n%@";

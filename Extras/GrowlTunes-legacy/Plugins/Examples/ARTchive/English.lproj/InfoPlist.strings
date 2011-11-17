@@ -1,0 +1,4 @@
+﻿/* Localized versions of Info.plist keys */
+
+CFBundleName = "GrowlTunes-ARTchive";
+NSHumanReadableCopyright = "Copyright © 2004 Kevin Ballard, 2004–2011 Growl Team";

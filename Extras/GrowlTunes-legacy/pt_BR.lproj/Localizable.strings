@@ -1,0 +1,25 @@
+﻿"GrowlTunes' control status item." = "Item de controle do estado do GrowlTunes.";
+
+//menu item tooltips
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser." = "Abre a página de ajuda do GrowlTunes no site do Growl em seu navegador selecionado.";
+
+"Tells iTunes to play this track again." = "Fala pro iTunes reproduzir a faixa novamente.";
+
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information." = "Liga ou desliga a funcionalidade do GrowlTunes fazer perguntas periódicas ao iTunes sobre as informações de faixas.";
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes." = "Faz o GrowlTunes parar de perguntar ao iTunes sobre as informações de faixas. Você não irá receber mais notificações do GrowlTunes.";
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes." = "Começa a fazer perguntas sobre as informações de faixas ao iTunes. Você vai começar a receber notificações do GrowlTunes.";
+
+"Quits both iTunes and GrowlTunes." = "Encerra tanto o iTunes como o GrowlTunes.";
+
+// menu item titles
+"Online Help" = "Ajuda Online";
+"Recently Played Tunes" = "Música Reproduzida Recentemente";
+"Quit iTunes" = "Encerrar iTunes";
+"Launch iTunes" = "Abrir iTunes";
+"Stop Polling" = "Para a Votação";
+"Start Polling" = "Inicia a Votação";
+"Rating" = "Classificação";
+"Quit GrowlTunes" = "Encerrar GrowlTunes";
+"Quit Both" = "Encerrar ambos";
+
+"%@ — %@\n%@ (Composed by %@)\n%@\n%@" = "%@ — %@\n%@ (Composto por %@)\n%@\n%@";

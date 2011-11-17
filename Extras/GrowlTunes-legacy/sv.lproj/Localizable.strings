@@ -1,0 +1,40 @@
+﻿/* This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre */
+"%@ — %@\n%@ (Composed by %@)\n%@\n%@" = "%1$@ — %2$@\n%3$@ (Komponerad av %4$@)\n%5$@\n%6$@";
+
+/* Tooltip for 'start polling' */
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes." = "Börjar fråga iTunes efter spårinformation, vilket gör att du kommer börja få Growl-meddelanden från GrowlTunes.";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Byter spår";
+
+/* No comment provided by engineer. */
+"GrowlTunes’ control status item." = "GrowlTunes statusikon";
+"Launch iTunes" = "Starta iTunes";
+
+/* menu item titles*/
+"Online Help" = "Onlinehjälp";
+
+/* Online help's tooltip */
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser." = "Öppnar sidan för GrowlTunes hjälp på Growls hemsida i din webläsare.";
+"Quit Both" = "Avsluta båda";
+"Quit GrowlTunes" = "Avsluta GrowlTunes";
+"Quit iTunes" = "Avsluta iTunes";
+
+/* No comment provided by engineer. */
+"Quits both iTunes and GrowlTunes" = "Avslutar både iTunes och GrowlTunes";
+"Rating" = "Betyg";
+"Recently Played Tunes" = "Senaste spelade";
+"Start Polling" = "Börja fråga";
+
+/* No comment provided by engineer. */
+"Started Playing" = "Börjar spela";
+"Stop Polling" = "Sluta fråga";
+
+/* Tooltip for 'stop polling' */
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes." = "Slutar fråga iTunes efter spårinformation, vilket gör att du kommer sluta få Growl-meddelanden från GrowlTunes.";
+
+/* Tooltip for recent tracks */
+"Tells iTunes to play this track again." = "Säger åt iTunes att spela spåret igen.";
+
+/* Toggle polling tooltip */
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information." = "Slår på eller av att GrowlTunes periodiskt frågar iTunes efter spårinformation.";
