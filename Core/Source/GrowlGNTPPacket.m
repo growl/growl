@@ -156,8 +156,11 @@
 {
 	if (!packetID) {
 		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-		packetID = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-		CFRelease(uuidRef);
+        if(uuidRef)
+		{
+            packetID = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+            CFRelease(uuidRef);
+        }
 	}		
 	return packetID;
 }
