@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GrowlPreferencePane;
+@class GrowlServerViewController;
 
 @interface GrowlBrowserEntry : NSObject {
 	
@@ -21,7 +21,7 @@
 	
 	NSString				*password;
 	BOOL					didPasswordLookup;
-	GrowlPreferencePane		*owner;
+	GrowlServerViewController		*owner;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name;
@@ -31,7 +31,7 @@
 
 - (NSMutableDictionary *) properties;
 
-- (void) setOwner:(GrowlPreferencePane *)pref;
+- (void) setOwner:(GrowlServerViewController *)pref;
 
 @property (retain) NSString *uuid;
 @property (retain) NSString *computerName;

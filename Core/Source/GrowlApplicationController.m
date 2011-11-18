@@ -34,6 +34,7 @@
 #import "GrowlFirstLaunchWindowController.h"
 #import "GrowlPreferencePane.h"
 #import "GrowlNotificationHistoryWindow.h"
+#import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>
@@ -781,10 +782,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		{
 			GNTPKey *key = nil;
 
-			OSStatus status;
-			const char *growlOutgoing = [@"GrowlOutgoingNetworkConnection" UTF8String];
-			const char *uuidChars = NULL;
-
 			NSString *uuid = [dict objectForKey:@"uuid"];
 			NSString *password = nil;
 			if (!uuid) {
@@ -801,17 +798,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 				password = [dict objectForKey:@"password"];
 				if (password) {
 					if (uuid) {
-						uuidChars = [uuid UTF8String];
-
-						status = SecKeychainAddGenericPassword(NULL,
-							(UInt32)strlen(growlOutgoing), growlOutgoing,
-							(UInt32)strlen(uuidChars), uuidChars,
-							(UInt32)[password length], [password UTF8String],
-							NULL);
-						if (status == noErr) {
+                  if([GrowlKeychainUtilities setPassword:password forService:GrowlOutgoingNetworkPassword accountName:uuid]) {
 							[amendedDict removeObjectForKey:@"password"];
 						} else {
-							NSLog(@"Failed to store password for %@ with UUID %@ in keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
+							NSLog(@"Failed to store password for %@ with UUID %@ in keychain.", [dict objectForKey:@"computer"], uuid);
 						}
 					}
 				}
@@ -820,23 +810,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			}
 			else
 			{
-				unsigned char *passwordChars;
-				UInt32 passwordLength;
-				uuidChars = [uuid UTF8String];
-				status = SecKeychainFindGenericPassword(NULL,
-					(UInt32)strlen(growlOutgoing), growlOutgoing,
-					(UInt32)strlen(uuidChars), uuidChars,
-					&passwordLength, (void **)&passwordChars, NULL);		
-				if (status == noErr) {
-					password = [[[NSString alloc] initWithBytes:passwordChars
-						length:passwordLength
-						encoding:NSUTF8StringEncoding] autorelease];
-					SecKeychainItemFreeContent(NULL, passwordChars);
-				} else {
-					if (status != errSecItemNotFound)
-						NSLog(@"Failed to retrieve password for %@ with UUID %@ from keychain. Error: %d", [dict objectForKey:@"computer"], uuid, (int)status);
-					password = nil;
-				}
+            password = [GrowlKeychainUtilities passwordForServiceName:GrowlOutgoingNetworkPassword accountName:uuid];
 			}
 
 			if (!password)

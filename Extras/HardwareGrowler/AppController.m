@@ -88,6 +88,7 @@
 #define PreferencesTitle NSLocalizedString(@"Preferences...", nil)
 #define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
 #define IconTitle NSLocalizedString(@"Icon:", nil)
+#define StartAtLoginTitle NSLocalizedString(@"Start HardwareGrowler at Login:", nil)
 
 
 static io_connect_t			powerConnection;
@@ -634,7 +635,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 @implementation AppController
-@synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle, iconTitle;
+@synthesize showDevices, groupNetworkTitle, quitTitle, preferencesTitle, openPreferencesTitle, iconTitle, startAtLoginTitle;
 @synthesize prefsWindow;
 @synthesize iconOptions;
 @synthesize onLoginSegmentedControl;
@@ -766,6 +767,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	self.preferencesTitle = PreferencesTitle;
 	self.openPreferencesTitle = OpenPreferencesTitle;
 	self.iconTitle = IconTitle;
+	self.startAtLoginTitle = StartAtLoginTitle;
 }
 
  #ifdef BETA
