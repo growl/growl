@@ -44,7 +44,7 @@
    if([[self view] superview]){
       return;
    }
-   [prefPane releaseTab:self];
+   //[prefPane releaseTab:self];
 }
 
 - (void)viewWillLoad{
