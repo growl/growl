@@ -28,7 +28,7 @@
    
 	NSString *passwordString = nil;
 	if (status == noErr && password != NULL) {
-		passwordString = [NSString stringWithUTF8String:password];
+		passwordString = [[[NSString alloc] initWithBytes:password length:passwordLength encoding:NSUTF8StringEncoding] autorelease];
 		if(passwordString) {
 			SecKeychainItemFreeContent(NULL, password);
 		}
@@ -61,7 +61,7 @@
 		status = SecKeychainAddGenericPassword(NULL,
                                              (UInt32)strlen(serviceUTF8), serviceUTF8,
                                              (UInt32)strlen(accountUTF8), accountUTF8,
-                                             (UInt32)length, password, NULL);
+                                             (UInt32)length, passwordUTF8, NULL);
 		if (status == noErr) {
          result = YES;
       }else{
