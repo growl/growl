@@ -1,4 +1,3 @@
-syntax: glob
 build
 *.swp
 
@@ -17,7 +16,7 @@ xcuserdata
 .DS_Store
 Icon?
 
-external_dependencies/Sparkle/dsa_p{ub,riv}.pem
+external_dependencies
 
 Release/distribution
 DerivedData
@@ -25,4 +24,4 @@ project.pbxproj.orig
 
 *.orig
 
-.git
+.hg*
