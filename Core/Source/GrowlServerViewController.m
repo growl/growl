@@ -12,6 +12,7 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
+#import "NSStringAdditions.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <ifaddrs.h>
