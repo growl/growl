@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="iTunes">
+	<suite name="Standard Suite" code="****" description="Common terms for most applications">
+		<enumeration name="eKnd" code="eKnd" description="printout kind">
+			<enumerator name="track listing" code="kTrk" description="a basic listing of tracks within a playlist"/>
+			<enumerator name="album listing" code="kAlb" description="a listing of a playlist grouped by album"/>
+			<enumerator name="cd insert" code="kCDi" description="a printout of the playlist for jewel case inserts"/>
+		</enumeration>
+		<enumeration name="enum" code="enum" description="printing error handling">
+			<enumerator name="standard" code="lwst" description="Standard PostScript error handling">
+				<cocoa boolean-value="NO"/>
+			</enumerator>
+			<enumerator name="detailed" code="lwdt" description="print a detailed report of PostScript errors">
+				<cocoa boolean-value="YES"/>
+			</enumerator>
+		</enumeration>
+		<class name="print settings" code="pset">
+			<property name="copies" code="lwcp" description="the number of copies of a document to be printed" type="integer" access="r">
+				<cocoa key="NSCopies"/>
+			</property>
+			<property name="collating" code="lwcl" description="Should printed copies be collated?" type="boolean" access="r">
+				<cocoa key="NSMustCollate"/>
+			</property>
+			<property name="starting page" code="lwfp" description="the first page of the document to be printed" type="integer" access="r">
+				<cocoa key="NSFirstPage"/>
+			</property>
+			<property name="ending page" code="lwlp" description="the last page of the document to be printed" type="integer" access="r">
+				<cocoa key="NSLastPage"/>
+			</property>
+			<property name="pages across" code="lwla" description="number of logical pages laid across a physical page" type="integer" access="r">
+				<cocoa key="NSPagesAcross"/>
+			</property>
+			<property name="pages down" code="lwld" description="number of logical pages laid out down a physical page" type="integer" access="r">
+				<cocoa key="NSPagesDown"/>
+			</property>
+			<property name="error handling" code="lweh" description="how errors are handled" type="enum" access="r">
+				<cocoa key="NSDetailedErrorReporting"/>
+			</property>
+			<property name="requested print time" code="lwqt" description="the time at which the desktop printer should print the document" type="date" access="r">
+				<cocoa key="NSPrintTime"/>
+			</property>
+			<property name="printer features" code="lwpf" description="printer specific options" type="list" access="r"/>
+			<property name="fax number" code="faxn" description="for fax number" type="text" access="r">
+				<cocoa key="NSFaxNumber"/>
+			</property>
+			<property name="target printer" code="trpr" description="for target printer" type="text" access="r">
+				<cocoa key="NSPrinterName"/>
+			</property>
+		</class>
+		<command name="print" code="aevtpdoc" description="Print the specified object(s)">
+			<direct-parameter description="list of objects to print" type="specifier" optional="yes"/>
+			<parameter name="print dialog" code="pdlg" description="Should the application show the print dialog" type="boolean" optional="yes"/>
+			<parameter name="with properties" code="prdt" description="the print settings" type="print settings" optional="yes"/>
+			<parameter name="kind" code="pKnd" description="the kind of printout desired" type="eKnd" optional="yes"/>
+			<parameter name="theme" code="pThm" description="name of theme to use for formatting the printout" type="text" optional="yes"/>
+		</command>
+		<command name="close" code="coreclos" description="Close an object">
+			<cocoa class="NSCloseCommand"/>
+			<direct-parameter description="the object to close" type="specifier"/>
+		</command>
+		<command name="count" code="corecnte" description="Return the number of elements of a particular class within an object">
+			<cocoa class="NSCountCommand"/>
+			<direct-parameter description="the object whose elements are to be counted" type="specifier"/>
+			<parameter hidden="yes" name="each" code="kocl" description="the class of the elements to be counted. Keyword &apos;each&apos; is optional in AppleScript" type="type"/>
+			<result description="the number of elements" type="integer"/>
+		</command>
+		<command name="delete" code="coredelo" description="Delete an element from an object">
+			<cocoa class="NSDeleteCommand"/>
+			<direct-parameter description="the element to delete" type="specifier"/>
+		</command>
+		<command name="duplicate" code="coreclon" description="Duplicate one or more object(s)">
+			<cocoa class="NSCloneCommand"/>
+			<direct-parameter description="the object(s) to duplicate" type="specifier"/>
+			<parameter name="to" code="insh" description="the new location for the object(s)" type="location specifier" optional="yes"/>
+			<result description="to the duplicated object(s)" type="specifier"/>
+		</command>
+		<command name="exists" code="coredoex" description="Verify if an object exists">
+			<cocoa class="NSExistsCommand"/>
+			<direct-parameter description="the object in question" type="specifier"/>
+			<result description="true if it exists, false if not" type="boolean"/>
+		</command>
+		<command name="make" code="corecrel" description="Make a new element">
+			<cocoa class="NSCreateCommand"/>
+			<parameter name="new" code="kocl" description="the class of the new element. Keyword &apos;new&apos; is optional in AppleScript" type="type"/>
+			<parameter name="at" code="insh" description="the location at which to insert the element" type="location specifier" optional="yes"/>
+			<parameter name="with properties" code="prdt" description="the initial values for the properties of the element" type="record" optional="yes"/>
+			<result description="to the new object(s)" type="specifier"/>
+		</command>
+		<command name="move" code="coremove" description="Move playlist(s) to a new location">
+			<cocoa class="NSMoveCommand"/>
+			<direct-parameter description="the playlist(s) to move" type="playlist"/>
+			<parameter name="to" code="insh" description="the new location for the playlist(s)" type="location specifier"/>
+		</command>
+		<command name="open" code="aevtodoc" description="open the specified object(s)">
+			<direct-parameter description="list of objects to open" type="specifier"/>
+		</command>
+		<command name="run" code="aevtoapp" description="run iTunes"/>
+		<command name="quit" code="aevtquit" description="quit iTunes">
+			<cocoa class="NSQuitCommand"/>
+		</command>
+		<command name="set" code="coresetd">
+			<direct-parameter type="specifier"/>
+			<parameter name="to" code="data" type="any"/>
+		</command>
+	</suite>
+	<suite name="iTunes Suite" code="hook" description="The event suite specific to iTunes">
+		<value-type name="any" code="****"/>
+		<value-type name="boolean" code="bool">
+			<cocoa class="NSNumber"/>
+		</value-type>
+		<value-type name="color" code="colr">
+			<cocoa class="NSColor"/>
+			<synonym code="cRGB" name="cRGB"/>
+		</value-type>
+		<value-type name="date" code="ldt ">
+			<cocoa class="NSDate"/>
+		</value-type>
+		<value-type name="double integer" code="comp">
+			<cocoa class="NSNumber"/>
+		</value-type>
+		<value-type name="file" code="file">
+			<cocoa class="NSURL"/>
+			<synonym code="alis" name="alis"/>
+			<synonym code="fss " name="fss"/>
+		</value-type>
+		<value-type name="integer" code="long">
+			<cocoa class="NSNumber"/>
+			<synonym code="shor" name="shor"/>
+			<synonym code="magn" name="magn"/>
+		</value-type>
+		<value-type name="list" code="list">
+			<cocoa class="NSArray"/>
+		</value-type>
+		<value-type name="location specifier" code="insl">
+			<synonym name="location reference"/>
+		</value-type>
+		<value-type name="missing value" code="msng">
+			<cocoa class="NSNull"/>
+		</value-type>
+		<value-type name="number" code="nmbr">
+			<cocoa class="NSNumber"/>
+		</value-type>
+		<value-type name="picture" code="PICT">
+			<cocoa class="NSImage"/>
+			<synonym code="TIFF" name="TIFF"/>
+			<synonym code="JPEG" name="JPEG"/>
+			<synonym code="GIFf" name="GIFf"/>
+		</value-type>
+		<value-type name="point" code="QDpt">
+			<cocoa class="NSValue"/>
+		</value-type>
+		<value-type name="property" code="prop">
+			<cocoa class="NSString"/>
+		</value-type>
+		<value-type name="raw data" code="tdta">
+			<cocoa class="NSData"/>
+			<synonym name="tdta"/>
+		</value-type>
+		<value-type name="real" code="doub">
+			<cocoa class="NSNumber"/>
+		</value-type>
+		<value-type name="record" code="reco">
+			<cocoa class="NSDictionary"/>
+		</value-type>
+		<value-type name="rectangle" code="qdrt">
+			<cocoa class="NSValue"/>
+		</value-type>
+		<value-type name="specifier" code="obj ">
+			<synonym name="reference"/>
+		</value-type>
+		<value-type name="text" code="ctxt">
+			<cocoa class="NSString"/>
+			<synonym code="TEXT" name="TEXT"/>
+			<synonym code="itxt" name="itxt"/>
+			<synonym code="utxt" name="utxt"/>
+		</value-type>
+		<value-type name="type" code="type">
+			<cocoa class="NSNumber"/>
+		</value-type>
+		<value-type name="version" code="vers">
+			<cocoa class="NSString"/>
+		</value-type>
+		<enumeration name="ePlS" code="ePlS" description="player state">
+			<enumerator name="stopped" code="kPSS">
+				<cocoa string-value="stopped"/>
+			</enumerator>
+			<enumerator name="playing" code="kPSP">
+				<cocoa string-value="playing"/>
+			</enumerator>
+			<enumerator name="paused" code="kPSp">
+				<cocoa string-value="paused"/>
+			</enumerator>
+			<enumerator name="fast forwarding" code="kPSF">
+				<cocoa string-value="fast forwarding"/>
+			</enumerator>
+			<enumerator name="rewinding" code="kPSR">
+				<cocoa string-value="rewinding"/>
+			</enumerator>
+			<synonym name="player state"/>
+		</enumeration>
+		<enumeration name="eRpt" code="eRpt" description="repeat mode">
+			<enumerator name="off" code="kRpO">
+				<cocoa string-value="off"/>
+			</enumerator>
+			<enumerator name="one" code="kRp1">
+				<cocoa string-value="one"/>
+			</enumerator>
+			<enumerator name="all" code="kAll">
+				<cocoa string-value="all"/>
+			</enumerator>
+			<synonym name="repeat mode"/>
+		</enumeration>
+		<enumeration name="eVSz" code="eVSz" description="visual size">
+			<enumerator name="small" code="kVSS">
+				<cocoa string-value="small"/>
+			</enumerator>
+			<enumerator name="medium" code="kVSM">
+				<cocoa string-value="medium"/>
+			</enumerator>
+			<enumerator name="large" code="kVSL">
+				<cocoa string-value="large"/>
+			</enumerator>
+			<synonym name="visual size"/>
+		</enumeration>
+		<enumeration name="eSrc" code="eSrc" description="source">
+			<enumerator name="library" code="kLib">
+				<cocoa string-value="library"/>
+			</enumerator>
+			<enumerator name="iPod" code="kPod">
+				<cocoa string-value="iPod"/>
+			</enumerator>
+			<enumerator name="audio CD" code="kACD">
+				<cocoa string-value="audio CD"/>
+			</enumerator>
+			<enumerator name="MP3 CD" code="kMCD">
+				<cocoa string-value="MP3 CD"/>
+			</enumerator>
+			<enumerator name="device" code="kDev">
+				<cocoa string-value="device"/>
+			</enumerator>
+			<enumerator name="radio tuner" code="kTun">
+				<cocoa string-value="radio tuner"/>
+			</enumerator>
+			<enumerator name="shared library" code="kShd">
+				<cocoa string-value="shared library"/>
+			</enumerator>
+			<enumerator name="unknown" code="kUnk">
+				<cocoa string-value="unknown"/>
+			</enumerator>
+			<synonym name="source"/>
+		</enumeration>
+		<enumeration name="eSrA" code="eSrA" description="search area">
+			<enumerator name="albums" code="kSrL" description="albums only">
+				<cocoa string-value="albums"/>
+			</enumerator>
+			<enumerator name="all" code="kAll" description="all text fields">
+				<cocoa string-value="all"/>
+			</enumerator>
+			<enumerator name="artists" code="kSrR" description="artists only">
+				<cocoa string-value="artists"/>
+			</enumerator>
+			<enumerator name="composers" code="kSrC" description="composers only">
+				<cocoa string-value="composers"/>
+			</enumerator>
+			<enumerator name="displayed" code="kSrV" description="visible text fields">
+				<cocoa string-value="displayed"/>
+			</enumerator>
+			<enumerator name="songs" code="kSrS" description="song names only">
+				<cocoa string-value="songs"/>
+			</enumerator>
+			<synonym name="search area"/>
+		</enumeration>
+		<enumeration name="eSpK" code="eSpK" description="special kind">
+			<enumerator name="none" code="kNon">
+				<cocoa string-value="none"/>
+			</enumerator>
+			<enumerator name="Books" code="kSpA">
+				<cocoa string-value="Books"/>
+			</enumerator>
+			<enumerator name="folder" code="kSpF">
+				<cocoa string-value="folder"/>
+			</enumerator>
+			<enumerator name="Genius" code="kSpG">
+				<cocoa string-value="Genius"/>
+			</enumerator>
+			<enumerator name="iTunes U" code="kSpU">
+				<cocoa string-value="iTunes U"/>
+			</enumerator>
+			<enumerator name="Library" code="kSpL">
+				<cocoa string-value="Library"/>
+			</enumerator>
+			<enumerator name="Movies" code="kSpI">
+				<cocoa string-value="Movies"/>
+			</enumerator>
+			<enumerator name="Music" code="kSpZ">
+				<cocoa string-value="Music"/>
+			</enumerator>
+			<enumerator name="Party Shuffle" code="kSpS">
+				<cocoa string-value="Party Shuffle"/>
+			</enumerator>
+			<enumerator name="Podcasts" code="kSpP">
+				<cocoa string-value="Podcasts"/>
+			</enumerator>
+			<enumerator name="Purchased Music" code="kSpM">
+				<cocoa string-value="Purchased Music"/>
+			</enumerator>
+			<enumerator name="TV Shows" code="kSpT">
+				<cocoa string-value="TV Shows"/>
+			</enumerator>
+			<synonym name="special kind"/>
+		</enumeration>
+		<enumeration name="eVdK" code="eVdK" description="video kind">
+			<enumerator name="none" code="kNon" description="not a video or unknown video kind">
+				<cocoa string-value="none"/>
+			</enumerator>
+			<enumerator name="movie" code="kVdM" description="movie track">
+				<cocoa string-value="movie"/>
+			</enumerator>
+			<enumerator name="music video" code="kVdV" description="music video track">
+				<cocoa string-value="music video"/>
+			</enumerator>
+			<enumerator name="TV show" code="kVdT" description="TV show track">
+				<cocoa string-value="TV show"/>
+			</enumerator>
+			<synonym name="video kind"/>
+		</enumeration>
+		<enumeration name="eRtK" code="eRtK" description="rating kind">
+			<enumerator name="user" code="kRtU" description="user-specified rating">
+				<cocoa string-value="user"/>
+			</enumerator>
+			<enumerator name="computed" code="kRtC" description="iTunes-computed rating">
+				<cocoa string-value="computed"/>
+			</enumerator>
+			<synonym name="rating kind"/>
+		</enumeration>
+		<class name="application" code="capp" description="The application program">
+			<element type="browser window"/>
+			<element type="encoder"/>
+			<element type="EQ preset"/>
+			<element type="EQ window"/>
+			<element type="playlist window"/>
+			<element type="source"/>
+			<element type="visual"/>
+			<element type="window"/>
+			<property name="current encoder" code="pEnc" description="the currently selected encoder (MP3, AIFF, WAV, etc.)" type="encoder"/>
+			<property name="current EQ preset" code="pEQP" description="the currently selected equalizer preset" type="EQ preset"/>
+			<property name="current playlist" code="pPla" description="the playlist containing the currently targeted track" type="playlist" access="r"/>
+			<property name="current stream title" code="pStT" description="the name of the current song in the playing stream (provided by streaming server)" type="text" access="r"/>
+			<property name="current stream URL" code="pStU" description="the URL of the playing stream or streaming web site (provided by streaming server)" type="text" access="r"/>
+			<property name="current track" code="pTrk" description="the current targeted track" type="track" access="r"/>
+			<property name="current visual" code="pVis" description=" the currently selected visual plug-in" type="visual"/>
+			<property name="EQ enabled" code="pEQ " description="is the equalizer enabled?" type="boolean"/>
+			<property name="fixed indexing" code="pFix" description="true if all AppleScript track indices should be independent of the play order of the owning playlist." type="boolean"/>
+			<property name="frontmost" code="pisf" description="is iTunes the frontmost application?" type="boolean"/>
+			<property name="full screen" code="pFSc" description="are visuals displayed using the entire screen?" type="boolean"/>
+			<property name="name" code="pnam" description="the name of the application" type="text" access="r"/>
+			<property name="mute" code="pMut" description="has the sound output been muted?" type="boolean"/>
+			<property name="player position" code="pPos" description="the player’s position within the currently playing track in seconds." type="integer"/>
+			<property name="player state" code="pPlS" description="is iTunes stopped, paused, or playing?" type="ePlS" access="r"/>
+			<property name="selection" code="sele" description="the selection visible to the user" type="specifier" access="r"/>
+			<property name="sound volume" code="pVol" description="the sound output volume (0 = minimum, 100 = maximum)" type="integer"/>
+			<property name="version" code="vers" description="the version of iTunes" type="version" access="r"/>
+			<property name="visuals enabled" code="pVsE" description="are visuals currently being displayed?" type="boolean"/>
+			<property name="visual size" code="pVSz" description="the size of the displayed visual" type="eVSz"/>
+			<responds-to command="print">
+				<cocoa method="print:withProperties:kind:theme:"/>
+			</responds-to>
+			<responds-to command="run">
+				<cocoa method="run"/>
+			</responds-to>
+			<responds-to command="quit">
+				<cocoa method="quit"/>
+			</responds-to>
+			<responds-to command="add">
+				<cocoa method="add:to:"/>
+			</responds-to>
+			<responds-to command="back track">
+				<cocoa method=""/>
+			</responds-to>
+			<responds-to command="convert">
+				<cocoa method="convert:"/>
+			</responds-to>
+			<responds-to command="fast forward">
+				<cocoa method="fastForward"/>
+			</responds-to>
+			<responds-to command="next track">
+				<cocoa method="nextTrack"/>
+			</responds-to>
+			<responds-to command="pause">
+				<cocoa method="pause"/>
+			</responds-to>
+			<responds-to command="play">
+				<cocoa method="playOnce:"/>
+			</responds-to>
+			<responds-to command="playpause">
+				<cocoa method="playpause"/>
+			</responds-to>
+			<responds-to command="previous track">
+				<cocoa method="previousTrack"/>
+			</responds-to>
+			<responds-to command="resume">
+				<cocoa method="resume"/>
+			</responds-to>
+			<responds-to command="rewind">
+				<cocoa method="rewind"/>
+			</responds-to>
+			<responds-to command="stop">
+				<cocoa method="stop"/>
+			</responds-to>
+			<responds-to command="update">
+				<cocoa method="update"/>
+			</responds-to>
+			<responds-to command="eject">
+				<cocoa method="eject"/>
+			</responds-to>
+			<responds-to command="subscribe">
+				<cocoa method="subscribe:"/>
+			</responds-to>
+			<responds-to command="updateAllPodcasts">
+				<cocoa method="updateAllPodcasts"/>
+			</responds-to>
+			<responds-to command="updatePodcast">
+				<cocoa method="updatePodcast"/>
+			</responds-to>
+			<responds-to command="open location">
+				<cocoa method="openLocation:"/>
+			</responds-to>
+			<responds-to command="exists">
+				<cocoa method="exists"/>
+			</responds-to>
+		</class>
+		<class name="artwork" code="cArt" description="a piece of art within a track" plural="artworks" inherits="item">
+			<property name="data" code="pPCT" description="data for this artwork, in the form of a picture" type="picture"/>
+			<property name="description" code="pDes" description="description of artwork as a string" type="text"/>
+			<property name="downloaded" code="pDlA" description="was this artwork downloaded by iTunes?" type="boolean" access="r"/>
+			<property name="format" code="pFmt" description="the data format for this piece of artwork" type="type" access="r"/>
+			<property name="kind" code="pKnd" description="kind or purpose of this piece of artwork" type="integer"/>
+			<property name="raw data" code="pRaw" description="data for this artwork, in original format" type="raw data"/>
+		</class>
+		<class name="audio CD playlist" code="cCDP" description="a playlist representing an audio CD" plural="audio CD playlists" inherits="playlist">
+			<element type="audio CD track"/>
+			<property name="artist" code="pArt" description="the artist of the CD" type="text"/>
+			<property name="compilation" code="pAnt" description="is this CD a compilation album?" type="boolean"/>
+			<property name="composer" code="pCmp" description="the composer of the CD" type="text"/>
+			<property name="disc count" code="pDsC" description="the total number of discs in this CD’s album" type="integer"/>
+			<property name="disc number" code="pDsN" description="the index of this CD disc in the source album" type="integer"/>
+			<property name="genre" code="pGen" description="the genre of the CD" type="text"/>
+			<property name="year" code="pYr " description="the year the album was recorded/released" type="integer"/>
+		</class>
+		<class name="audio CD track" code="cCDT" description="a track on an audio CD" plural="audio CD tracks" inherits="track">
+			<property name="location" code="pLoc" description="the location of the file represented by this track" type="file" access="r"/>
+		</class>
+		<class name="browser window" code="cBrW" description="the main iTunes window" plural="browser windows" inherits="window">
+			<property name="minimized" code="pMin" description="is the small player visible?" type="boolean"/>
+			<property name="selection" code="sele" description="the selected songs" type="specifier" access="r"/>
+			<property name="view" code="pPly" description="the playlist currently displayed in the window" type="playlist"/>
+		</class>
+		<class name="device playlist" code="cDvP" description="a playlist representing the contents of a portable device" plural="device playlists" inherits="playlist">
+			<element type="device track"/>
+		</class>
+		<class name="device track" code="cDvT" description="a track residing on a portable music player" plural="device tracks" inherits="track"/>
+		<class name="encoder" code="cEnc" description="converts a track to a specific file format" plural="encoders" inherits="item">
+			<property name="format" code="pFmt" description="the data format created by the encoder" type="text" access="r"/>
+		</class>
+		<class name="EQ preset" code="cEQP" description="equalizer preset configuration" plural="EQ presets" inherits="item">
+			<property name="band 1" code="pEQ1" description="the equalizer 32 Hz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 2" code="pEQ2" description="the equalizer 64 Hz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 3" code="pEQ3" description="the equalizer 125 Hz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 4" code="pEQ4" description="the equalizer 250 Hz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 5" code="pEQ5" description="the equalizer 500 Hz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 6" code="pEQ6" description="the equalizer 1 kHz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 7" code="pEQ7" description="the equalizer 2 kHz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 8" code="pEQ8" description="the equalizer 4 kHz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 9" code="pEQ9" description="the equalizer 8 kHz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="band 10" code="pEQ0" description="the equalizer 16 kHz band level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="modifiable" code="pMod" description="can this preset be modified?" type="boolean" access="r"/>
+			<property name="preamp" code="pEQA" description="the equalizer preamp level (-12.0 dB to +12.0 dB)" type="real"/>
+			<property name="update tracks" code="pUTC" description="should tracks which refer to this preset be updated when the preset is renamed or deleted?" type="boolean"/>
+		</class>
+		<class name="EQ window" code="cEQW" description="the iTunes equalizer window" plural="EQ windows" inherits="window">
+			<property name="minimized" code="pMin" description="is the small EQ window visible?" type="boolean"/>
+		</class>
+		<class name="file track" code="cFlT" description="a track representing an audio file (MP3, AIFF, etc.)" plural="file tracks" inherits="track">
+			<property name="location" code="pLoc" description="the location of the file represented by this track" type="file"/>
+			<responds-to command="refresh">
+				<cocoa method="refresh"/>
+			</responds-to>
+		</class>
+		<class name="folder playlist" code="cFoP" description="a folder that contains other playlists" plural="folder playlists" inherits="user playlist"/>
+		<class name="item" code="cobj" description="an item" plural="items">
+			<property name="container" code="ctnr" description="the container of the item" type="specifier" access="r"/>
+			<property name="id" code="ID  " description="the id of the item" type="integer" access="r"/>
+			<property name="index" code="pidx" description="The index of the item in internal application order." type="integer" access="r"/>
+			<property name="name" code="pnam" description="the name of the item" type="text"/>
+			<property name="persistent ID" code="pPIS" description="the id of the item as a hexidecimal string. This id does not change over time." type="text" access="r"/>
+			<responds-to command="exists">
+				<cocoa method="exists"/>
+			</responds-to>
+			<responds-to command="duplicate">
+				<cocoa method="duplicateTo:"/>
+			</responds-to>
+			<responds-to command="open">
+				<cocoa method="open"/>
+			</responds-to>
+			<responds-to command="delete">
+				<cocoa method="delete"/>
+			</responds-to>
+			<responds-to command="close">
+				<cocoa method="close"/>
+			</responds-to>
+		</class>
+		<class name="library playlist" code="cLiP" description="the master music library playlist" plural="library playlists" inherits="playlist">
+			<element type="file track"/>
+			<element type="URL track"/>
+			<element type="shared track"/>
+		</class>
+		<class name="playlist" code="cPly" description="a list of songs/streams" plural="playlists" inherits="item">
+			<element type="track"/>
+			<property name="duration" code="pDur" description="the total length of all songs (in seconds)" type="integer" access="r"/>
+			<property name="name" code="pnam" description="the name of the playlist" type="text"/>
+			<property name="parent" code="pPlP" description="folder which contains this playlist (if any)" type="playlist" access="r"/>
+			<property name="shuffle" code="pShf" description="play the songs in this playlist in random order?" type="boolean"/>
+			<property name="size" code="pSiz" description="the total size of all songs (in bytes)" type="double integer" access="r"/>
+			<property name="song repeat" code="pRpt" description="playback repeat mode" type="eRpt"/>
+			<property name="special kind" code="pSpK" description="special playlist kind" type="eSpK" access="r"/>
+			<property name="time" code="pTim" description="the length of all songs in MM:SS format" type="text" access="r"/>
+			<property name="visible" code="pvis" description="is this playlist visible in the Source list?" type="boolean" access="r"/>
+			<responds-to command="play">
+				<cocoa method="playOnce:"/>
+			</responds-to>
+			<responds-to command="reveal">
+				<cocoa method="reveal"/>
+			</responds-to>
+			<responds-to command="move">
+				<cocoa method="moveTo:"/>
+			</responds-to>
+			<responds-to command="search">
+				<cocoa method="searchFor:only:"/>
+			</responds-to>
+		</class>
+		<class name="playlist window" code="cPlW" description="a sub-window showing a single playlist" plural="playlist windows" inherits="window">
+			<property name="selection" code="sele" description="the selected songs" type="specifier" access="r"/>
+			<property name="view" code="pPly" description="the playlist displayed in the window" type="playlist" access="r"/>
+		</class>
+		<class name="radio tuner playlist" code="cRTP" description="the radio tuner playlist" plural="radio tuner playlists" inherits="playlist">
+			<element type="URL track"/>
+		</class>
+		<class name="shared track" code="cShT" description="a track residing in a shared library" plural="shared tracks" inherits="track"/>
+		<class name="source" code="cSrc" description="a music source (music library, CD, device, etc.)" plural="sources" inherits="item">
+			<element type="audio CD playlist"/>
+			<element type="device playlist"/>
+			<element type="library playlist"/>
+			<element type="playlist"/>
+			<element type="radio tuner playlist"/>
+			<element type="user playlist"/>
+			<property name="capacity" code="capa" description="the total size of the source if it has a fixed size" type="double integer" access="r"/>
+			<property name="free space" code="frsp" description="the free space on the source if it has a fixed size" type="double integer" access="r"/>
+			<property name="kind" code="pKnd" type="eSrc" access="r"/>
+			<responds-to command="update">
+				<cocoa method="update"/>
+			</responds-to>
+			<responds-to command="eject">
+				<cocoa method="eject"/>
+			</responds-to>
+		</class>
+		<class name="track" code="cTrk" description="playable audio source" plural="tracks" inherits="item">
+			<element type="artwork"/>
+			<property name="album" code="pAlb" description="the album name of the track" type="text"/>
+			<property name="album artist" code="pAlA" description="the album artist of the track" type="text"/>
+			<property name="album rating" code="pAlR" description="the rating of the album for this track (0 to 100)" type="integer"/>
+			<property name="album rating kind" code="pARk" description="the rating kind of the album rating for this track" type="eRtK" access="r"/>
+			<property name="artist" code="pArt" description="the artist/source of the track" type="text"/>
+			<property name="bit rate" code="pBRt" description="the bit rate of the track (in kbps)" type="integer" access="r"/>
+			<property name="bookmark" code="pBkt" description="the bookmark time of the track in seconds" type="real"/>
+			<property name="bookmarkable" code="pBkm" description="is the playback position for this track remembered?" type="boolean"/>
+			<property name="bpm" code="pBPM" description="the tempo of this track in beats per minute" type="integer"/>
+			<property name="category" code="pCat" description="the category of the track" type="text"/>
+			<property name="comment" code="pCmt" description="freeform notes about the track" type="text"/>
+			<property name="compilation" code="pAnt" description="is this track from a compilation album?" type="boolean"/>
+			<property name="composer" code="pCmp" description="the composer of the track" type="text"/>
+			<property name="database ID" code="pDID" description="the common, unique ID for this track. If two tracks in different playlists have the same database ID, they are sharing the same data." type="integer" access="r"/>
+			<property name="date added" code="pAdd" description="the date the track was added to the playlist" type="date" access="r"/>
+			<property name="description" code="pDes" description="the description of the track" type="text"/>
+			<property name="disc count" code="pDsC" description="the total number of discs in the source album" type="integer"/>
+			<property name="disc number" code="pDsN" description="the index of the disc containing this track on the source album" type="integer"/>
+			<property name="duration" code="pDur" description="the length of the track in seconds" type="real" access="r"/>
+			<property name="enabled" code="enbl" description="is this track checked for playback?" type="boolean"/>
+			<property name="episode ID" code="pEpD" description="the episode ID of the track" type="text"/>
+			<property name="episode number" code="pEpN" description="the episode number of the track" type="integer"/>
+			<property name="EQ" code="pEQp" description="the name of the EQ preset of the track" type="text"/>
+			<property name="finish" code="pStp" description="the stop time of the track in seconds" type="real"/>
+			<property name="gapless" code="pGpl" description="is this track from a gapless album?" type="boolean"/>
+			<property name="genre" code="pGen" description="the music/audio genre (category) of the track" type="text"/>
+			<property name="grouping" code="pGrp" description="the grouping (piece) of the track. Generally used to denote movements within a classical work." type="text"/>
+			<property name="kind" code="pKnd" description="a text description of the track" type="text" access="r"/>
+			<property name="long description" code="pLds" type="text"/>
+			<property name="lyrics" code="pLyr" description="the lyrics of the track" type="text"/>
+			<property name="modification date" code="asmo" description="the modification date of the content of this track" type="date" access="r"/>
+			<property name="played count" code="pPlC" description="number of times this track has been played" type="integer"/>
+			<property name="played date" code="pPlD" description="the date and time this track was last played" type="date"/>
+			<property name="podcast" code="pTPc" description="is this track a podcast episode?" type="boolean" access="r"/>
+			<property name="rating" code="pRte" description="the rating of this track (0 to 100)" type="integer"/>
+			<property name="rating kind" code="pRtk" description="the rating kind of this track" type="eRtK" access="r"/>
+			<property name="release date" code="pRlD" description="the release date of this track" type="date" access="r"/>
+			<property name="sample rate" code="pSRt" description="the sample rate of the track (in Hz)" type="integer" access="r"/>
+			<property name="season number" code="pSeN" description="the season number of the track" type="integer"/>
+			<property name="shufflable" code="pSfa" description="is this track included when shuffling?" type="boolean"/>
+			<property name="skipped count" code="pSkC" description="number of times this track has been skipped" type="integer"/>
+			<property name="skipped date" code="pSkD" description="the date and time this track was last skipped" type="date"/>
+			<property name="show" code="pShw" description="the show name of the track" type="text"/>
+			<property name="sort album" code="pSAl" description="override string to use for the track when sorting by album" type="text"/>
+			<property name="sort artist" code="pSAr" description="override string to use for the track when sorting by artist" type="text"/>
+			<property name="sort album artist" code="pSAA" description="override string to use for the track when sorting by album artist" type="text"/>
+			<property name="sort name" code="pSNm" description="override string to use for the track when sorting by name" type="text"/>
+			<property name="sort composer" code="pSCm" description="override string to use for the track when sorting by composer" type="text"/>
+			<property name="sort show" code="pSSN" description="override string to use for the track when sorting by show name" type="text"/>
+			<property name="size" code="pSiz" description="the size of the track (in bytes)" type="integer" access="r"/>
+			<property name="start" code="pStr" description="the start time of the track in seconds" type="real"/>
+			<property name="time" code="pTim" description="the length of the track in MM:SS format" type="text" access="r"/>
+			<property name="track count" code="pTrC" description="the total number of tracks on the source album" type="integer"/>
+			<property name="track number" code="pTrN" description="the index of the track on the source album" type="integer"/>
+			<property name="unplayed" code="pUnp" description="is this track unplayed?" type="boolean"/>
+			<property name="video kind" code="pVdK" description="kind of video track" type="eVdK"/>
+			<property name="volume adjustment" code="pAdj" description="relative volume adjustment of the track (-100% to 100%)" type="integer"/>
+			<property name="year" code="pYr " description="the year the track was recorded/released" type="integer"/>
+			<responds-to command="play">
+				<cocoa method="playOnce:"/>
+			</responds-to>
+			<responds-to command="reveal">
+				<cocoa method="reveal"/>
+			</responds-to>
+		</class>
+		<class name="URL track" code="cURT" description="a track representing a network stream" plural="URL tracks" inherits="track">
+			<property name="address" code="pURL" description="the URL for this track" type="text"/>
+			<responds-to command="download">
+				<cocoa method="download"/>
+			</responds-to>
+		</class>
+		<class name="user playlist" code="cUsP" description="custom playlists created by the user" plural="user playlists" inherits="playlist">
+			<element type="file track"/>
+			<element type="URL track"/>
+			<element type="shared track"/>
+			<property name="shared" code="pShr" description="is this playlist shared?" type="boolean"/>
+			<property name="smart" code="pSmt" description="is this a Smart Playlist?" type="boolean" access="r"/>
+		</class>
+		<class name="visual" code="cVis" description="a visual plug-in" plural="visuals" inherits="item"/>
+		<class name="window" code="cwin" description="any window" plural="windows" inherits="item">
+			<property name="bounds" code="pbnd" description="the boundary rectangle for the window" type="rectangle"/>
+			<property name="closeable" code="hclb" description="does the window have a close box?" type="boolean" access="r"/>
+			<property name="collapseable" code="pWSh" description="does the window have a collapse (windowshade) box?" type="boolean" access="r"/>
+			<property name="collapsed" code="wshd" description="is the window collapsed?" type="boolean"/>
+			<property name="position" code="ppos" description="the upper left position of the window" type="point"/>
+			<property name="resizable" code="prsz" description="is the window resizable?" type="boolean" access="r"/>
+			<property name="visible" code="pvis" description="is the window visible?" type="boolean"/>
+			<property name="zoomable" code="iszm" description="is the window zoomable?" type="boolean" access="r"/>
+			<property name="zoomed" code="pzum" description="is the window zoomed?" type="boolean"/>
+		</class>
+		<command name="add" code="hookAdd " description="add one or more files to a playlist">
+			<direct-parameter description="the file(s) to add">
+				<type type="file" list="yes"/>
+			</direct-parameter>
+			<parameter name="to" code="insh" description="the location of the added file(s)" type="location specifier" optional="yes"/>
+			<result description="reference to added track(s)" type="track"/>
+		</command>
+		<command name="back track" code="hookBack" description="reposition to beginning of current track or go to previous track if already at start of current track"/>
+		<command name="convert" code="hookConv" description="convert one or more files or tracks">
+			<direct-parameter description="the file(s)/tracks(s) to convert">
+				<type type="specifier" list="yes"/>
+			</direct-parameter>
+			<result description="reference to converted track(s)" type="track"/>
+		</command>
+		<command name="fast forward" code="hookFast" description="skip forward in a playing track"/>
+		<command name="next track" code="hookNext" description="advance to the next track in the current playlist"/>
+		<command name="pause" code="hookPaus" description="pause playback"/>
+		<command name="play" code="hookPlay" description="play the current track or the specified track or file.">
+			<direct-parameter description="item to play" type="specifier" optional="yes"/>
+			<parameter name="once" code="POne" description="If true, play this track once and then stop." type="boolean" optional="yes"/>
+		</command>
+		<command name="playpause" code="hookPlPs" description="toggle the playing/paused state of the current track"/>
+		<command name="previous track" code="hookPrev" description="return to the previous track in the current playlist"/>
+		<command name="refresh" code="hookRfrs" description="update file track information from the current information in the track’s file">
+			<direct-parameter description="the file track to update" type="file track"/>
+		</command>
+		<command name="resume" code="hookResu" description="disable fast forward/rewind and resume playback, if playing."/>
+		<command name="reveal" code="hookRevl" description="reveal and select a track or playlist">
+			<direct-parameter description="the item to reveal" type="item"/>
+		</command>
+		<command name="rewind" code="hookRwnd" description="skip backwards in a playing track"/>
+		<command name="search" code="hookSrch" description="search a playlist for tracks matching the search string. Identical to entering search text in the Search field in iTunes.">
+			<direct-parameter description="the playlist to search" type="playlist"/>
+			<parameter name="for" code="pTrm" description="the search text" type="text"/>
+			<parameter name="only" code="pAre" description="area to search (default is all)" type="eSrA" optional="yes"/>
+			<result description="reference to found track(s)" type="track"/>
+		</command>
+		<command name="stop" code="hookStop" description="stop playback"/>
+		<command name="update" code="hookUpdt" description="update the specified iPod">
+			<direct-parameter description="the iPod to update" type="source" optional="yes"/>
+		</command>
+		<command name="eject" code="hookEjct" description="eject the specified iPod">
+			<direct-parameter description="the iPod to eject" type="source" optional="yes"/>
+		</command>
+		<command name="subscribe" code="hookpSub" description="subscribe to a podcast feed">
+			<direct-parameter description="the URL of the feed to subscribe to" type="text"/>
+		</command>
+		<command name="updateAllPodcasts" code="hookUpdp" description="update all subscribed podcast feeds"/>
+		<command name="updatePodcast" code="hookUpd1" description="update podcast feed"/>
+		<command name="download" code="hookDwnl" description="download podcast episode">
+			<direct-parameter type="URL track"/>
+		</command>
+	</suite>
+	<suite name="Internet suite" code="gurl" description="Standard terms for Internet scripting">
+		<command name="open location" code="GURLGURL" description="Opens a Music Store or audio stream URL">
+			<direct-parameter description="the URL to open" type="text" optional="yes"/>
+		</command>
+	</suite>
+</dictionary>
