@@ -11,7 +11,7 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
-#include "NSStringAdditions.h"
+#import "GNTPForwarder.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <ifaddrs.h>
@@ -28,8 +28,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 @implementation GrowlServerViewController
 
-@synthesize services;
-@synthesize browser;
+@synthesize forwarder;
 @synthesize serviceNameColumn;
 @synthesize servicePasswordColumn;
 @synthesize networkTableView;
@@ -44,29 +43,16 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
    if (dynStore)
 		CFRelease(dynStore);
-	[services release];
-   [browser release];
    [networkAddressString release];
    [super dealloc];
 }
 
 - (void) awakeFromNib {
-   ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
+   self.forwarder = [GNTPForwarder sharedController];
 
    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
-   
-	// create a deep mutable copy of the forward destinations
-	NSArray *destinations = [self.preferencesController objectForKey:GrowlForwardDestinationsKey];
-	NSMutableArray *theServices = [NSMutableArray array];
-	for(NSDictionary *destination in destinations) {
-		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
-		[entry setOwner:self];
-		[theServices addObject:entry];
-		[entry release];
-	}
-	[self setServices:theServices];
-    
+       
    self.networkAddressString = nil;
    
    SCDynamicStoreContext context = {0, self, NULL, NULL, NULL};
@@ -99,6 +85,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
    CFRelease(rlSrc);
 
+   ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
    [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
 }
@@ -133,45 +120,23 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
-   GrowlBrowserEntry *toRemove = [services objectAtIndex:[networkTableView selectedRow]];
    [networkTableView noteNumberOfRowsChanged];
-   [self willChangeValueForKey:@"services"];
-   [services removeObjectAtIndex:[networkTableView selectedRow]];
-   [self didChangeValueForKey:@"services"];
-   [self writeForwardDestinations];
-   
-   if(![toRemove password])
-      return;
-
-   if(![GrowlKeychainUtilities removePasswordForService:GrowlOutgoingNetworkPassword accountName:[toRemove uuid]])
-      NSLog(@"Error removing password from keychain for %@", [toRemove computerName]);
+   [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
 }
 
 - (IBAction)newManualForwader:(id)sender {
-    GrowlBrowserEntry *newEntry = [[[GrowlBrowserEntry alloc] initWithComputerName:@""] autorelease];
-    [newEntry setManualEntry:YES];
-    [newEntry setOwner:self];
-    [networkTableView noteNumberOfRowsChanged];
-    [self willChangeValueForKey:@"services"];
-    [services addObject:newEntry];
-    [self didChangeValueForKey:@"services"];
+   [networkTableView noteNumberOfRowsChanged];
+   [forwarder newManualEntry];
 }
 
 -(void)startBrowsing
 {
-   if(!browser){
-      browser = [[NSNetServiceBrowser alloc] init];
-      [browser setDelegate:self];
-      [browser searchForServicesOfType:@"_gntp._tcp." inDomain:@""];
-   }
+   [forwarder startBrowsing];
 }
 
 -(void)stopBrowsing
 {
-   if(browser){
-      [browser stop];
-      //Will release in stoppedBrowsing delegate
-   }
+   [forwarder stopBrowsing];
 }
 
 -(void)updateAddresses
@@ -238,114 +203,25 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	}
 }
 
-- (void) writeForwardDestinations {
-   NSArray *currentNames = [[self.preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
-	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
-   
-   [services enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj use] || [obj password] || [obj manualEntry] || [currentNames containsObject:[obj computerName]])
-         [destinations addObject:[obj properties]];
-   }];
-	[self.preferencesController setObject:destinations forKey:GrowlForwardDestinationsKey];
-	[destinations release];
-}
-
-#pragma mark NSNetServiceBrowser Delegate Methods
-
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
-{
-   //We switched away from the network pane, remove any unused services which are not already in the file
-   NSArray *destinationNames = [[self.preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
-   NSMutableArray *toRemove = [NSMutableArray array];
-   [services enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if(![obj use] && ![obj password] && ![obj manualEntry] && ![destinationNames containsObject:[obj computerName]])
-         [toRemove addObject:obj];
-   }];
-   [self willChangeValueForKey:@"services"];
-   [services removeObjectsInArray:toRemove];
-   [self didChangeValueForKey:@"services"];
-   
-   /* Now we can get rid of the browser, otherwise we don't get this delegate call, 
-    * and possibly, something behind the scenes might not like releasing earlier*/
-   self.browser = nil;
-}
-
-- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
-	// check if a computer with this name has already been added
-	NSString *name = [aNetService name];
-	GrowlBrowserEntry *entry = nil;
-	for (entry in services) {
-		if ([[entry computerName] caseInsensitiveCompare:name] == NSOrderedSame) {
-			[entry setActive:YES];
-			return;
-		}
-	}
-   
-	// don't add the local machine    
-   if([name isLocalHost])
-      return;
-   
-	// add a new entry at the end
-	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name];
-   [entry setDomain:[aNetService domain]];
-   [entry setOwner:self];
-   
-	[self willChangeValueForKey:@"services"];
-	[services addObject:entry];
-	[self didChangeValueForKey:@"services"];
-	[entry release];
-   
-	if (!moreComing)
-		[self writeForwardDestinations];
-}
-
-- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing 
-{
-   NSArray *destinationNames = [[self.preferencesController objectForKey:GrowlForwardDestinationsKey] valueForKey:@"computer"];
-	GrowlBrowserEntry *toRemove = nil;
-	NSString *name = [aNetService name];
-	for (GrowlBrowserEntry *currentEntry in services) {
-		if ([[currentEntry computerName] isEqualToString:name]) {
-			[currentEntry setActive:NO];
-         [networkTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:[services indexOfObject:currentEntry]] 
-                                     columnIndexes:[NSIndexSet indexSetWithIndex:1]];
-         
-         /* If we dont need this one anymore, get rid of it */
-         if(!currentEntry.use && !currentEntry.password && ![destinationNames containsObject:currentEntry.computerName])
-            toRemove = currentEntry;
-			break;
-		}
-	}
-   
-   if(toRemove){
-      [self willChangeValueForKey:@"services"];
-      [services removeObject:toRemove];
-      [self didChangeValueForKey:@"services"];
-   }
-   
-	if (!moreComing)
-		[self writeForwardDestinations];
-}
-
 #pragma mark TableView data source methods
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView {
 	if(tableView == networkTableView) {
-		return [[self services] count];
+		return [[forwarder destinations] count];
 	}
 	return 0;
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	if(aTableColumn == servicePasswordColumn) {
-		[[services objectAtIndex:rowIndex] setPassword:anObject];
+		[[[forwarder destinations] objectAtIndex:rowIndex] setPassword:anObject];
 	}
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	// we check to make sure we have the image + text column and then set its image manually
    if (aTableColumn == servicePasswordColumn) {
-		return [[services objectAtIndex:rowIndex] password];
+		return [[[forwarder destinations] objectAtIndex:rowIndex] password];
 	} else if (aTableColumn == serviceNameColumn) {
         NSCell *cell = [aTableColumn dataCellForRow:rowIndex];
         static NSImage *manualImage = nil;
@@ -357,7 +233,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             [manualImage setSize:imageSize];
             [bonjourImage setSize:imageSize];
         }
-        GrowlBrowserEntry *entry = [services objectAtIndex:rowIndex];
+        GrowlBrowserEntry *entry = [[forwarder destinations] objectAtIndex:rowIndex];
         if([entry manualEntry])
             [cell setImage:manualImage];
         else

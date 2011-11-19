@@ -8,10 +8,11 @@
 
 #import "GrowlPrefsViewController.h"
 
-@interface GrowlServerViewController : GrowlPrefsViewController <NSNetServiceBrowserDelegate>
+@class GNTPForwarder;
 
-@property (nonatomic, retain) NSMutableArray *services;
-@property (nonatomic, retain) NSNetServiceBrowser *browser;
+@interface GrowlServerViewController : GrowlPrefsViewController
+
+@property (nonatomic, assign) GNTPForwarder *forwarder;
 @property (nonatomic, assign) IBOutlet NSTableColumn *serviceNameColumn;
 @property (nonatomic, assign) IBOutlet NSTableColumn *servicePasswordColumn;
 @property (nonatomic, assign) IBOutlet NSTableView *networkTableView;
@@ -23,8 +24,7 @@
 - (void)updateAddresses;
 - (void)startBrowsing;
 - (void)stopBrowsing;
-- (IBAction) removeSelectedForwardDestination:(id)sender;
+- (IBAction)removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;
-- (void) writeForwardDestinations;
 
 @end

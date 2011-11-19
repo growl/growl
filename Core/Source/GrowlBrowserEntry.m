@@ -7,9 +7,10 @@
 //
 
 #import "GrowlBrowserEntry.h"
-#import "GrowlServerViewController.h"
+#import "GNTPForwarder.h"
 #import "NSStringAdditions.h"
 #import "GrowlKeychainUtilities.h"
+#import "GNTPKey.h"
 
 @interface GNTPHostAvailableColorTransformer : NSValueTransformer
 @end
@@ -48,6 +49,7 @@
 @synthesize active = _active;
 @synthesize manualEntry = _manualEntry;
 @synthesize domain = _domain;
+@synthesize key = _key;
 
 - (id) init {
 	
@@ -55,7 +57,9 @@
 		[self addObserver:self forKeyPath:@"use" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"active" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
-	}
+      [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
+      didPasswordLookup = NO;
+   }
 	return self;
 }
 
@@ -68,10 +72,10 @@
 		[self setComputerName:[dict valueForKey:@"computer"]];
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
-        [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
-        [self setDomain:[dict valueForKey:@"domain"]];
-
-	}
+      [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
+      [self setDomain:[dict valueForKey:@"domain"]];
+      [self updateKey];
+   }
 
 	return self;
 }
@@ -82,8 +86,9 @@
 		[self setComputerName:name];
 		[self setUse:FALSE];
 		[self setActive:TRUE];
-        [self setManualEntry:NO];
-        [self setDomain:@"local."];
+      [self setManualEntry:NO];
+      [self setDomain:@"local."];
+      [self updateKey];
 	}
 
 	return self;
@@ -98,14 +103,19 @@
 	}
 }
 
+- (void)updateKey {
+   if(![self password] || [[self password] isEqualToString:@""])
+      self.key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
+   else
+      self.key = [[[GNTPKey alloc] initWithPassword:[self password] hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
+}
+
 - (NSString *) password {
-	if (!didPasswordLookup && [self computerName]) {
+	if (!didPasswordLookup && [self uuid]) {
       password = [[GrowlKeychainUtilities passwordForServiceName:GrowlOutgoingNetworkPassword accountName:[self uuid]] retain];
 		
 		didPasswordLookup = YES;
 	}
-
-	
 	return password;
 }
 
@@ -118,12 +128,13 @@
       return;
    }
    
+   [self updateKey];
    [GrowlKeychainUtilities setPassword:password forService:GrowlOutgoingNetworkPassword accountName:[self uuid]];
 	
 	[owner writeForwardDestinations];
 }
 
-- (void) setOwner:(GrowlServerViewController *)pref {
+- (void) setOwner:(GNTPForwarder *)pref {
 	owner = pref;
 }
 
@@ -164,7 +175,6 @@
 }
 
 - (void) dealloc {
-	
 	[self removeObserver:self forKeyPath:@"use"];
 	[self removeObserver:self forKeyPath:@"active"];
 	[self removeObserver:self forKeyPath:@"computerName"];
@@ -172,6 +182,8 @@
 	[password release];
 	[_name release];
 	[_uuid release];
+   [_key release];
+   [_domain release];
 	
 	[super dealloc];
 }

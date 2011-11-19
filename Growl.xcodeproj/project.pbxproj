@@ -169,7 +169,6 @@
 		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
 		938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */; };
 		938CB10C1081250600259421 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
-		938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB16D1081324100259421 /* GrowlGNTPKeyController.m */; };
 		939FEC1C0942A0D3009EB9E6 /* GrowlBubblesDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */; };
 		93A042BA1382159800C46F0A /* Show Growl Notification.action in Copy Automator Plugin */ = {isa = PBXBuildFile; fileRef = 93A042A2138214F800C46F0A /* Show Growl Notification.action */; };
 		93A60E0213C40A1E00514EF8 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
@@ -301,6 +300,7 @@
 		BC9AF57C125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AF57B125B81A400759016 /* GrowlNotificationDatabase+GHAAdditions.m */; };
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
+		BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
 		BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */; };
 		BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
@@ -806,8 +806,6 @@
 		938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSubscribeGNTPPacket.m; path = Core/Source/GrowlSubscribeGNTPPacket.m; sourceTree = "<group>"; };
 		938CB10A1081250600259421 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = Core/Source/GNTPKey.h; sourceTree = "<group>"; };
 		938CB10B1081250600259421 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = Core/Source/GNTPKey.m; sourceTree = "<group>"; };
-		938CB16C1081324100259421 /* GrowlGNTPKeyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPKeyController.h; path = Core/Source/GrowlGNTPKeyController.h; sourceTree = "<group>"; };
-		938CB16D1081324100259421 /* GrowlGNTPKeyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPKeyController.m; path = Core/Source/GrowlGNTPKeyController.m; sourceTree = "<group>"; };
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlQL.xcodeproj; path = Plugins/System/GrowlQL/GrowlQL.xcodeproj; sourceTree = "<group>"; };
@@ -1221,6 +1219,8 @@
 		BCA9D465142222A500C98C98 /* GNTPClientService-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GNTPClientService-Prefix.pch"; path = "GNTP Client/GNTPClientService-Prefix.pch"; sourceTree = "<group>"; };
 		BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = GNTPClientService.entitlements; path = "GNTP Client/GNTPClientService.entitlements"; sourceTree = "<group>"; };
 		BCA9D46C142222D600C98C98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "GNTP Client/en.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		BCAB1EC214780674005E2BB0 /* GNTPForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPForwarder.h; path = Core/Source/GNTPForwarder.h; sourceTree = "<group>"; };
+		BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPForwarder.m; path = Core/Source/GNTPForwarder.m; sourceTree = "<group>"; };
 		BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupedArrayController.h; path = Core/Source/GroupedArrayController.h; sourceTree = "<group>"; };
 		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
 		BCB743FF1442CA2A009121C9 /* GrowlMenuImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenuImageView.h; path = Core/Source/GrowlMenuImageView.h; sourceTree = "<group>"; };
@@ -1666,8 +1666,6 @@
 				BC979861146ACF9100511A9B /* ViewControllers */,
 				C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */,
 				C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */,
-				9596C5F8081102BE00F43859 /* GrowlBrowserEntry.h */,
-				9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */,
 				95E243E2087E9053008151E6 /* GrowlPreferencePane.h */,
 				95E243E3087E9053008151E6 /* GrowlPreferencePane.m */,
 				34F427A3095E69D30044B280 /* NotificationsArrayController.h */,
@@ -1695,6 +1693,7 @@
 				07803B8F08E7E75600299E08 /* GrowlDisplayWindowController.m */,
 				07803B9008E7E75600299E08 /* GrowlNotificationDisplayBridge.h */,
 				07803B9108E7E75600299E08 /* GrowlNotificationDisplayBridge.m */,
+				BCAB1EB014780213005E2BB0 /* GNTP Forwarder */,
 				95FC305007E03B0700BD8674 /* Brushed */,
 				0A7F5EDA0767C30800E1C1E4 /* Bubbles */,
 				E14411090A9408190063C4DC /* iCal */,
@@ -1966,8 +1965,6 @@
 				34A441150EBA679900809538 /* GrowlGNTPOutgoingPacket.m */,
 				938CB10A1081250600259421 /* GNTPKey.h */,
 				938CB10B1081250600259421 /* GNTPKey.m */,
-				938CB16C1081324100259421 /* GrowlGNTPKeyController.h */,
-				938CB16D1081324100259421 /* GrowlGNTPKeyController.m */,
 			);
 			name = GNTP;
 			sourceTree = "<group>";
@@ -2272,6 +2269,17 @@
 				FF93C8E714218EB3007EAC43 /* Supporting Files */,
 			);
 			name = "XPC Client";
+			sourceTree = "<group>";
+		};
+		BCAB1EB014780213005E2BB0 /* GNTP Forwarder */ = {
+			isa = PBXGroup;
+			children = (
+				BCAB1EC214780674005E2BB0 /* GNTPForwarder.h */,
+				BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */,
+				9596C5F8081102BE00F43859 /* GrowlBrowserEntry.h */,
+				9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */,
+			);
+			name = "GNTP Forwarder";
 			sourceTree = "<group>";
 		};
 		BCD6012713C769320013EEDE /* Rollup */ = {
@@ -3517,7 +3525,6 @@
 				938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */,
 				938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */,
 				938CB10C1081250600259421 /* GNTPKey.m in Sources */,
-				938CB16E1081324100259421 /* GrowlGNTPKeyController.m in Sources */,
 				93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */,
 				31199CAC11E2F4390024377D /* GrowlProcessUtilities.m in Sources */,
 				31DF201A11E949460028E4B9 /* GrowlDefinesInternal.m in Sources */,
@@ -3565,6 +3572,7 @@
 				BCF24CB4146DB33500B91675 /* GrowlRollupPrefsViewController.m in Sources */,
 				93D87E3914721CC200A320EA /* GrowlWebKitImageProtocol.m in Sources */,
 				BCCFBF111475768500348DA9 /* GrowlKeychainUtilities.m in Sources */,
+				BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

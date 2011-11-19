@@ -35,26 +35,14 @@
 #import "GrowlPreferencePane.h"
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlKeychainUtilities.h"
+#import "GNTPForwarder.h"
 #include "CFURLAdditions.h"
-#include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/errno.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/fcntl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 
 #include <CoreAudio/AudioHardware.h>
-
-//XXX Networking; move me
-#import "GrowlGNTPOutgoingPacket.h"
-#import "GrowlNotificationGNTPPacket.h"
-#import "GrowlRegisterGNTPPacket.h"
-#import "GrowlGNTPPacketParser.h"
-#import "GrowlGNTPPacket.h"
-
-#import "GNTPKey.h"
-#import "GrowlGNTPKeyController.h"
 
 //Notifications posted by GrowlApplicationController
 #define USER_WENT_IDLE_NOTIFICATION       @"User went idle"
@@ -188,7 +176,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 	if (pathwayControllerClass)
 		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
-	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
 	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
    [preferencesWindow release]; preferencesWindow = nil;
@@ -234,161 +221,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[info release];
 	[displayPlugin displayNotification:notification];
 	[notification release];
-	[pool release];
-}
-
-
-/* XXX This network stuff shouldn't be in GrowlApplicationController! */
-
-/*!
- * @brief Get address data for a Growl server
- *
- * @param name The name of the server
- * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
- */
-- (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name withDomain:(NSString*)domain
-{
-	if ([name hasSuffix:@".local"])
-		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
-
-	if ([name Growl_isLikelyDomainName]) {
-		CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)name);
-		CFStreamError error;
-		if (CFHostStartInfoResolution(host, kCFHostAddresses, &error)) {
-			NSArray *addresses = (NSArray *)CFHostGetAddressing(host, NULL);
-			
-			if ([addresses count]) {
-				/* DNS lookup success! */
-                CFRelease(host);
-				return [addresses objectAtIndex:0];
-			}
-		}
-		if (host) CFRelease(host);
-		
-	} else if ([name Growl_isLikelyIPAddress]) {
-      struct in_addr addr4;
-      struct in6_addr addr6;
-      
-      if(inet_pton(AF_INET, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr4) == 1){
-         struct sockaddr_in serverAddr;
-         
-         memset(&serverAddr, 0, sizeof(serverAddr));
-         serverAddr.sin_len = sizeof(struct sockaddr_in);
-         serverAddr.sin_family = AF_INET;
-         serverAddr.sin_addr.s_addr = addr4.s_addr;
-         serverAddr.sin_port = htons(GROWL_TCP_PORT);
-         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
-      }
-      else if(inet_pton(AF_INET6, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr6) == 1){
-         struct sockaddr_in6 serverAddr;
-         
-         memset(&serverAddr, 0, sizeof(serverAddr));
-         serverAddr.sin6_len        = sizeof(struct sockaddr_in6);
-         serverAddr.sin6_family     = AF_INET6;
-         serverAddr.sin6_addr       = addr6;
-         serverAddr.sin6_port       = htons(GROWL_TCP_PORT);
-         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
-      }else{
-         NSLog(@"No address (shouldnt happen)");
-         return nil;
-      }
-   } 
-	
-    NSString *machineDomain = domain;
-    if(!machineDomain)
-        machineDomain = @"local.";
-	/* If we make it here, treat it as a computer name on the local network */ 
-	NSNetService *service = [[[NSNetService alloc] initWithDomain:machineDomain type:type name:name] autorelease];
-	if (!service) {
-		/* No such service exists. The computer is probably offline. */
-		return nil;
-	}
-	
-	/* Work for 8 seconds to resolve the net service to an IP and port. We should be running
-	 * on a thread, so blocking is fine.
-	 */
-	[service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:@"PrivateGrowlMode"];
-	[service resolveWithTimeout:8.0];
-	CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + 8.0;
-	CFTimeInterval remaining;
-	while ((remaining = (deadline - CFAbsoluteTimeGetCurrent())) > 0 && [[service addresses] count] == 0) {
-		CFRunLoopRunInMode((CFStringRef)@"PrivateGrowlMode", remaining, true);
-	}
-	[service stop];
-	
-	NSArray *addresses = [service addresses];
-	if (![addresses count]) {
-		/* Lookup failed */
-		return nil;
-	}
-	
-	return [addresses objectAtIndex:0];
-}	
-
-- (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
-{
-	
-	[[GrowlGNTPPacketParser sharedParser] sendPacket:[sendingDetails objectForKey:@"Packet"]
-										   toAddress:[sendingDetails objectForKey:@"Destination"]];
-}
-
-// Need run loop to run
-// Need to retain AsyncSocket until its work is complete
-- (void)sendViaTCP:(GrowlGNTPOutgoingPacket *)packet
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
-//	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
-
-	for(NSDictionary *entry in destinations) {
-		if ([[entry objectForKey:@"use"] boolValue]) {
-			//NSLog(@"Looking up address for %@", [entry objectForKey:@"computer"]);
-			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry objectForKey:@"computer"] withDomain:[entry objectForKey:@"domain"]];
-			if (!destAddress) {
-				/* No destination address. Nothing to see here; move along. */
-				NSLog(@"Could not obtain destination address for %@", [entry objectForKey:@"computer"]);
-				continue;
-			}
-			GNTPKey *key = [[GrowlGNTPKeyController sharedInstance] keyForUUID:[entry objectForKey:@"uuid"]];
-			[packet setKey:key];
-			//NSMutableData *result = [NSMutableData data];
-			//for(id item in [packet outgoingItems])
-			//	[result appendData:[item GNTPRepresentation]];
-			//NSLog(@"Sending %@", HexUnencode(HexEncode(result)));
-			[self performSelectorOnMainThread:@selector(mainThread_sendViaTCP:)
-								   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-											   destAddress, @"Destination",
-											   packet, @"Packet",
-											   nil]
-								waitUntilDone:NO];
-		} else {
-			//NSLog(@"6  destination %@", entry);
-		}
-	}
-
-	[pool release];	
-}
-
-- (void) forwardNotification:(NSDictionary *)dict
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType
-																					forDict:dict];
-	[self sendViaTCP:outgoingPacket];
-   
-	[pool release];
-}
-	
-- (void) forwardRegistration:(NSDictionary *)dict
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType
-																					forDict:dict];
-	[self sendViaTCP:outgoingPacket];
-
 	[pool release];
 }
 	
@@ -522,7 +354,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
    
    if([preferences isForwardingEnabled])
-      [self performSelectorInBackground:@selector(forwardNotification:) withObject:[[dict copy] autorelease]];
+      [[GNTPForwarder sharedController] forwardNotification:[[dict copy] autorelease]];
    
     if(![preferences squelchMode])
     {
@@ -614,7 +446,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[ticketController addTicket:newApp];
       
       if([[GrowlPreferencesController sharedController] isForwardingEnabled])
-         [self performSelectorInBackground:@selector(forwardRegistration:) withObject:[[userInfo copy] autorelease]];
+         [[GNTPForwarder sharedController] forwardRegistration:[[userInfo copy] autorelease]];
       
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
@@ -770,67 +602,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqual:GrowlEnabledKey]))
 		growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
-	if (!note || (object && [object isEqual:GrowlEnableForwardKey]))
-		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
-	if (!note || (object && [object isEqual:GrowlForwardDestinationsKey])) {
-		NSMutableArray *oldList = [[destinations mutableCopyWithZone:nil] autorelease];
-		NSArray *newList = [[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey];
-		NSMutableArray *mutableDestinations = [[newList mutableCopy] autorelease];         
-
-		NSUInteger idx = 0UL;
-		for(NSDictionary *dict in newList)
-		{
-			GNTPKey *key = nil;
-
-			NSString *uuid = [dict objectForKey:@"uuid"];
-			NSString *password = nil;
-			if (!uuid) {
-				//Stored destination that does not have a UUID: Migrate it to UUID-based storage.
-				CFUUIDRef cfUUID = CFUUIDCreate(kCFAllocatorDefault);
-				if (cfUUID) {
-					uuid = [NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, cfUUID)) autorelease];
-					CFRelease(cfUUID);
-				}
-
-				NSMutableDictionary *amendedDict = [[dict mutableCopy] autorelease];
-				[amendedDict setObject:uuid forKey:@"uuid"];
-
-				password = [dict objectForKey:@"password"];
-				if (password) {
-					if (uuid) {
-                  if([GrowlKeychainUtilities setPassword:password forService:GrowlOutgoingNetworkPassword accountName:uuid]) {
-							[amendedDict removeObjectForKey:@"password"];
-						} else {
-							NSLog(@"Failed to store password for %@ with UUID %@ in keychain.", [dict objectForKey:@"computer"], uuid);
-						}
-					}
-				}
-
-				[mutableDestinations replaceObjectAtIndex:idx withObject:amendedDict];
-			}
-			else
-			{
-            password = [GrowlKeychainUtilities passwordForServiceName:GrowlOutgoingNetworkPassword accountName:uuid];
-			}
-
-			if (!password)
-				key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
-			else
-				key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
-			[[GrowlGNTPKeyController sharedInstance] setKey:key forUUID:uuid];
-
-			[oldList removeObject:dict];
-			++idx;
-		}
-
-		if([oldList count] > 0) {
-			for(NSDictionary *dict in oldList)
-				[[GrowlGNTPKeyController sharedInstance] removeKeyForUUID:[dict objectForKey:@"uuid"]];
-		}
-
-		[destinations release];
-		destinations = [mutableDestinations retain];
-   }
 	if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
 		// force reload
 		[defaultDisplayPlugin release];
