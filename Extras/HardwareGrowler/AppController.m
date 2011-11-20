@@ -741,11 +741,15 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
 	[statusItem setMenu:statusMenu];
 
-	NSString* icon_path = [[NSBundle mainBundle] pathForResource:@"hwgrowler_statusbar_icn" ofType:@"png"];
+	NSString* icon_path = [[NSBundle mainBundle] pathForResource:@"menubarIcon_Normal" ofType:@"png"];
+	NSString* icon_path_selected = [[NSBundle mainBundle] pathForResource:@"menubarIcon_Selected" ofType:@"png"];    
 	NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
+	NSImage *icon_selected = [[NSImage alloc] initWithContentsOfFile:icon_path_selected];
 	
 	[statusItem setImage:icon];
-	[icon release];
+    [statusItem setAlternateImage:icon_selected];
+    [icon release];
+    [icon_selected release];
 	
 	[statusItem setHighlightMode:YES];
 
