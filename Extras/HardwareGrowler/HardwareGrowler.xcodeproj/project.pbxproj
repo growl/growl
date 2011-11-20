@@ -10,11 +10,12 @@
 		179B92900C14D110004FB187 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 179B928F0C14D110004FB187 /* VolumeNotifier.m */; };
 		3423607209D8888A009FF634 /* PowerNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.m */; };
 		345BD6330C8B12B8005C3DA2 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */; };
+		83EFC86F1478DB79004D13CF /* menubarIcon_Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 83EFC86D1478DB79004D13CF /* menubarIcon_Normal.png */; };
+		83EFC8701478DB79004D13CF /* menubarIcon_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 83EFC86E1478DB79004D13CF /* menubarIcon_Selected.png */; };
+		83EFC8721478E0FF004D13CF /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = 83EFC8711478E0FF004D13CF /* HWGrowler.icns */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		931FB949144FAC8200780882 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
-		931FB94A144FAC8200780882 /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
-		931FB94B144FAC8200780882 /* hwgrowler_statusbar_icn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */; };
 		931FB94C144FAC8200780882 /* usbLogoWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */; };
 		931FB94D144FAC8200780882 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
 		931FB94E144FAC8200780882 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
@@ -173,7 +174,6 @@
 		1D097F881440CC7B00148857 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		1D097F8A1440CC7B00148857 /* process_strings.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = process_strings.1; sourceTree = "<group>"; };
 		1D0980AB1440FC4900148857 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hwgrowler_statusbar_icn.png; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -187,6 +187,9 @@
 		83D3C071145E321F00FAF35D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83D3C072145E323400FAF35D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
 		83D3C073145E323F00FAF35D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83EFC86D1478DB79004D13CF /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubarIcon_Normal.png; sourceTree = "<group>"; };
+		83EFC86E1478DB79004D13CF /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubarIcon_Selected.png; sourceTree = "<group>"; };
+		83EFC8711478E0FF004D13CF /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HWGrowler.icns; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,7 +251,6 @@
 		958AB93507C69DE000F56B45 /* NetworkNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkNotifier.h; sourceTree = "<group>"; };
 		958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		BC493884142A742E00B1DF21 /* com.growl.hardwaregrowler.GNTPClientService.xpc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.growl.hardwaregrowler.GNTPClientService.xpc; path = ../../build/Debug/com.growl.hardwaregrowler.GNTPClientService.xpc; sourceTree = "<group>"; };
-		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
 		DD54996E07BA5E420010BE54 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		DD54996F07BA5E420010BE54 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		DD54999A07BA61650010BE54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -378,9 +380,10 @@
 				93732F75144FA3BC004DED79 /* InfoPlist.strings */,
 				93732F77144FA3BC004DED79 /* Credits.rtf */,
 				93732F79144FA3BC004DED79 /* Localizable.strings */,
+				83EFC8711478E0FF004D13CF /* HWGrowler.icns */,
 				950626460840CB8200C01CD2 /* BluetoothLogo.png */,
-				DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */,
-				1D8D074114218705008713EE /* hwgrowler_statusbar_icn.png */,
+				83EFC86D1478DB79004D13CF /* menubarIcon_Normal.png */,
+				83EFC86E1478DB79004D13CF /* menubarIcon_Selected.png */,
 				DDF9B70607BC1D5D0007B5B7 /* usbLogoWhite.png */,
 				DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */,
 				DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */,
@@ -624,8 +627,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				931FB949144FAC8200780882 /* BluetoothLogo.png in Resources */,
-				931FB94A144FAC8200780882 /* hwGrowlerIcon.icns in Resources */,
-				931FB94B144FAC8200780882 /* hwgrowler_statusbar_icn.png in Resources */,
 				931FB94C144FAC8200780882 /* usbLogoWhite.png in Resources */,
 				931FB94D144FAC8200780882 /* usbLogo.png in Resources */,
 				931FB94E144FAC8200780882 /* FireWireLogo.png in Resources */,
@@ -636,6 +637,9 @@
 				931FB953144FAC8700780882 /* Localizable.strings in Resources */,
 				931FB954144FAC8B00780882 /* Credits.rtf in Resources */,
 				931FB955144FAC8E00780882 /* InfoPlist.strings in Resources */,
+				83EFC86F1478DB79004D13CF /* menubarIcon_Normal.png in Resources */,
+				83EFC8701478DB79004D13CF /* menubarIcon_Selected.png in Resources */,
+				83EFC8721478E0FF004D13CF /* HWGrowler.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
