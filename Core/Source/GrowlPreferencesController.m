@@ -18,12 +18,8 @@
 #import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlApplicationController.h"
+#import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
-#include <Security/SecKeychain.h>
-#include <Security/SecKeychainItem.h>
-
-#define keychainServiceName "Growl"
-#define keychainAccountName "Growl"
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 	return [[GrowlPreferencesController sharedController] objectForKey:(id)key];
@@ -518,65 +514,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark Remote Growling
 
 - (NSString *) remotePassword {
-	unsigned char *password;
-	UInt32 passwordLength;
-	OSStatus status;
-	status = SecKeychainFindGenericPassword(NULL,
-											(UInt32)strlen(keychainServiceName), keychainServiceName,
-											(UInt32)strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
-
-	NSString *passwordString;
-	if (status == noErr) {
-		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		if(passwordString) {
-			CFMakeCollectable(passwordString);
-			[passwordString autorelease];
-			SecKeychainItemFreeContent(NULL, password);
-		}
-	} else {
-		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve password from keychain. Error: %d", (int)status);
-		passwordString = @"";
-	}
-
-	return passwordString;
+	return [GrowlKeychainUtilities passwordForServiceName:GrowlIncomingNetworkPassword accountName:GrowlIncomingNetworkPassword];
 }
 
 - (void) setRemotePassword:(NSString *)value {
-	const char *password = value ? [value UTF8String] : "";
-	size_t length = strlen(password);
-	OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	status = SecKeychainFindGenericPassword(NULL,
-											(UInt32)strlen(keychainServiceName), keychainServiceName,
-											(UInt32)strlen(keychainAccountName), keychainAccountName,
-											NULL, NULL, &itemRef);
-	if (status == errSecItemNotFound) {
-		// add new item
-		status = SecKeychainAddGenericPassword(NULL,
-											   (UInt32)strlen(keychainServiceName), keychainServiceName,
-											   (UInt32)strlen(keychainAccountName), keychainAccountName,
-											   (UInt32)length, password, NULL);
-		if (status)
-			NSLog(@"Failed to add password to keychain.");
-	} else {
-		// change existing password
-		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, (UInt32)strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, (UInt32)strlen(keychainServiceName), (char *)keychainServiceName }
-		};
-		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
-														&attributes,	// no change to attributes
-														(UInt32)length,			// length of password
-														password		// pointer to password data
-														);
-		if (itemRef)
-			CFRelease(itemRef);
-		if (status)
-			NSLog(@"Failed to change password in keychain.");
-	}
+   [GrowlKeychainUtilities setPassword:value forService:GrowlIncomingNetworkPassword accountName:GrowlIncomingNetworkPassword];
 }
 
 - (BOOL) isForwardingEnabled {

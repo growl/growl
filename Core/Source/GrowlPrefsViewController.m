@@ -14,6 +14,7 @@
 
 @synthesize prefPane;
 @synthesize preferencesController;
+@synthesize releaseTimer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil 
                bundle:(NSBundle *)nibBundleOrNil
@@ -33,8 +34,24 @@
    [super dealloc];
 }
 
++ (NSString*)nibName {
+   return nil;
+}
+
+- (void)releaseTimerFire:(NSTimer*)theTimer {
+   [self.releaseTimer invalidate];
+   self.releaseTimer = nil;
+   if([[self view] superview]){
+      return;
+   }
+   //[prefPane releaseTab:self];
+}
+
 - (void)viewWillLoad{
-   
+   if(self.releaseTimer){
+      [releaseTimer invalidate];
+      self.releaseTimer = nil;
+   }
 }
 - (void)viewDidLoad{
    
@@ -43,7 +60,14 @@
    
 }
 - (void)viewDidUnload{
-   
+   if(!releaseTimer){
+      self.releaseTimer = [NSTimer timerWithTimeInterval:30.0
+                                                  target:self 
+                                                selector:@selector(releaseTimerFire:) 
+                                                userInfo:nil 
+                                                 repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:self.releaseTimer forMode:NSRunLoopCommonModes];
+   }
 }
 
 @end

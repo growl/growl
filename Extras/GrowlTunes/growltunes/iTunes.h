@@ -8,6 +8,7 @@
 
 @class iTunesPrintSettings, iTunesApplication, iTunesItem, iTunesArtwork, iTunesEncoder, iTunesEQPreset, iTunesPlaylist, iTunesAudioCDPlaylist, iTunesDevicePlaylist, iTunesLibraryPlaylist, iTunesRadioTunerPlaylist, iTunesSource, iTunesTrack, iTunesAudioCDTrack, iTunesDeviceTrack, iTunesFileTrack, iTunesSharedTrack, iTunesURLTrack, iTunesUserPlaylist, iTunesFolderPlaylist, iTunesVisual, iTunesWindow, iTunesBrowserWindow, iTunesEQWindow, iTunesPlaylistWindow;
 
+// printout kind
 enum iTunesEKnd {
 	iTunesEKndTrackListing = 'kTrk' /* a basic listing of tracks within a playlist */,
 	iTunesEKndAlbumListing = 'kAlb' /* a listing of a playlist grouped by album */,
@@ -15,12 +16,14 @@ enum iTunesEKnd {
 };
 typedef enum iTunesEKnd iTunesEKnd;
 
+// printing error handling
 enum iTunesEnum {
 	iTunesEnumStandard = 'lwst' /* Standard PostScript error handling */,
 	iTunesEnumDetailed = 'lwdt' /* print a detailed report of PostScript errors */
 };
 typedef enum iTunesEnum iTunesEnum;
 
+// player state
 enum iTunesEPlS {
 	iTunesEPlSStopped = 'kPSS',
 	iTunesEPlSPlaying = 'kPSP',
@@ -30,6 +33,7 @@ enum iTunesEPlS {
 };
 typedef enum iTunesEPlS iTunesEPlS;
 
+// repeat mode
 enum iTunesERpt {
 	iTunesERptOff = 'kRpO',
 	iTunesERptOne = 'kRp1',
@@ -37,6 +41,7 @@ enum iTunesERpt {
 };
 typedef enum iTunesERpt iTunesERpt;
 
+// visual size
 enum iTunesEVSz {
 	iTunesEVSzSmall = 'kVSS',
 	iTunesEVSzMedium = 'kVSM',
@@ -44,6 +49,7 @@ enum iTunesEVSz {
 };
 typedef enum iTunesEVSz iTunesEVSz;
 
+// source
 enum iTunesESrc {
 	iTunesESrcLibrary = 'kLib',
 	iTunesESrcIPod = 'kPod',
@@ -56,6 +62,7 @@ enum iTunesESrc {
 };
 typedef enum iTunesESrc iTunesESrc;
 
+// search area
 enum iTunesESrA {
 	iTunesESrAAlbums = 'kSrL' /* albums only */,
 	iTunesESrAAll = 'kAll' /* all text fields */,
@@ -66,6 +73,7 @@ enum iTunesESrA {
 };
 typedef enum iTunesESrA iTunesESrA;
 
+// special kind
 enum iTunesESpK {
 	iTunesESpKNone = 'kNon',
 	iTunesESpKBooks = 'kSpA',
@@ -82,6 +90,7 @@ enum iTunesESpK {
 };
 typedef enum iTunesESpK iTunesESpK;
 
+// video kind
 enum iTunesEVdK {
 	iTunesEVdKNone = 'kNon' /* not a video or unknown video kind */,
 	iTunesEVdKMovie = 'kVdM' /* movie track */,
@@ -90,6 +99,7 @@ enum iTunesEVdK {
 };
 typedef enum iTunesEVdK iTunesEVdK;
 
+// rating kind
 enum iTunesERtK {
 	iTunesERtKUser = 'kRtU' /* user-specified rating */,
 	iTunesERtKComputed = 'kRtC' /* iTunes-computed rating */

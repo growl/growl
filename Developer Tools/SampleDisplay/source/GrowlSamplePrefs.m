@@ -2,7 +2,7 @@
 //  GrowlSamplePrefs.m
 //  Display Plugins
 //
-//  Copyright 2006-2009 The Growl Project. All rights reserved.
+//  Copyright 2006-2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlSamplePrefs.h"

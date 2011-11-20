@@ -69,6 +69,10 @@
                                               object:soundMenuButton];
 }
 
++ (NSString*)nibName {
+   return @"ApplicationPrefs";
+}
+
 - (void) updatePosition:(NSNotification *)notification {
 	if([notification object] == appPositionPicker) {
 		// a cheap hack around selection not providing a workable object

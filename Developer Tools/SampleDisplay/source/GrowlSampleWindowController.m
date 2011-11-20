@@ -2,13 +2,12 @@
 //  GrowlSampleWindowController.m
 //  Display Plugins
 //
-//  Copyright 2006-2009 The Growl Project. All rights reserved.
+//  Copyright 2006-2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlSampleWindowController.h"
 #import "GrowlSampleWindowView.h"
 #import "GrowlSamplePrefs.h"
-#import "NSWindow+Transforms.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlNotification.h"
@@ -53,7 +52,7 @@
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
-	[panel setSticky:YES];
+	[panel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
@@ -108,7 +107,7 @@
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
-	NSImage *icon   = [noteDict valueForKey:GROWL_NOTIFICATION_ICON];
+	NSImage *icon   = [noteDict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
 	int prio        = [[noteDict valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 	
 	NSPanel *panel = (NSPanel *)[self window];

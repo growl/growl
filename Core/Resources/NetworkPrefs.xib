@@ -173,13 +173,10 @@
 											<reference key="NSNextKeyView" ref="52865202"/>
 											<reference key="NSTableView" ref="175615472"/>
 										</object>
-										<object class="_NSCornerView" key="NSCornerView" id="591680017">
-											<reference key="NSNextResponder" ref="138583957"/>
+										<object class="_NSCornerView" key="NSCornerView">
+											<nil key="NSNextResponder"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
-											<reference key="NSSuperview" ref="138583957"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="27453827"/>
 										</object>
 										<object class="NSMutableArray" key="NSTableColumns">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -370,18 +367,16 @@
 								<reference key="NSBGColor" ref="11990471"/>
 								<int key="NScvFlags">4</int>
 							</object>
-							<reference ref="591680017"/>
 						</object>
 						<string key="NSFrame">{{20, 116}, {519, 220}}</string>
 						<reference key="NSSuperview" ref="490188636"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="591680017"/>
+						<reference key="NSNextKeyView" ref="27453827"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="52865202"/>
 						<reference key="NSHScroller" ref="683638826"/>
 						<reference key="NSContentView" ref="65451681"/>
 						<reference key="NSHeaderClipView" ref="27453827"/>
-						<reference key="NSCornerView" ref="591680017"/>
 						<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 					</object>
 					<object class="NSButton" id="891815922">
@@ -845,6 +840,26 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">textColor: arrangedObjects.active</string>
+						<reference key="source" ref="164887798"/>
+						<reference key="destination" ref="681390173"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="164887798"/>
+							<reference key="NSDestination" ref="681390173"/>
+							<string key="NSLabel">textColor: arrangedObjects.active</string>
+							<string key="NSBinding">textColor</string>
+							<string key="NSKeyPath">arrangedObjects.active</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">GNTPHostAvailableColorTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.use</string>
 						<reference key="source" ref="962719289"/>
 						<reference key="destination" ref="681390173"/>
@@ -861,19 +876,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: services</string>
+						<string key="label">contentArray: forwarder.destinations</string>
 						<reference key="source" ref="681390173"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="681390173"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentArray: services</string>
+							<string key="NSLabel">contentArray: forwarder.destinations</string>
 							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">services</string>
+							<string key="NSKeyPath">forwarder.destinations</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">68</int>
+					<int key="connectionID">91</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1333,7 +1348,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">91</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

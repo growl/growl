@@ -7,12 +7,10 @@
 //
 
 #import "GrowlBrowserEntry.h"
-#import "GrowlServerViewController.h"
+#import "GNTPForwarder.h"
 #import "NSStringAdditions.h"
-#include <Security/SecKeychain.h>
-#include <Security/SecKeychainItem.h>
-
-#define GrowlBrowserEntryKeychainServiceName "GrowlOutgoingNetworkConnection"
+#import "GrowlKeychainUtilities.h"
+#import "GNTPKey.h"
 
 @interface GNTPHostAvailableColorTransformer : NSValueTransformer
 @end
@@ -51,6 +49,7 @@
 @synthesize active = _active;
 @synthesize manualEntry = _manualEntry;
 @synthesize domain = _domain;
+@synthesize key = _key;
 
 - (id) init {
 	
@@ -58,7 +57,9 @@
 		[self addObserver:self forKeyPath:@"use" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"active" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
-	}
+      [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
+      didPasswordLookup = NO;
+   }
 	return self;
 }
 
@@ -71,10 +72,10 @@
 		[self setComputerName:[dict valueForKey:@"computer"]];
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
-        [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
-        [self setDomain:[dict valueForKey:@"domain"]];
-
-	}
+      [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
+      [self setDomain:[dict valueForKey:@"domain"]];
+      [self updateKey];
+   }
 
 	return self;
 }
@@ -85,8 +86,9 @@
 		[self setComputerName:name];
 		[self setUse:FALSE];
 		[self setActive:TRUE];
-        [self setManualEntry:NO];
-        [self setDomain:@"local."];
+      [self setManualEntry:NO];
+      [self setDomain:@"local."];
+      [self updateKey];
 	}
 
 	return self;
@@ -101,31 +103,19 @@
 	}
 }
 
+- (void)updateKey {
+   if(![self password] || [[self password] isEqualToString:@""])
+      self.key = [[[GNTPKey alloc] initWithPassword:@"" hashAlgorithm:GNTPNoHash encryptionAlgorithm:GNTPNone] autorelease];
+   else
+      self.key = [[[GNTPKey alloc] initWithPassword:[self password] hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
+}
+
 - (NSString *) password {
-	if (!didPasswordLookup && [self computerName]) {
-		unsigned char *passwordChars;
-		UInt32 passwordLength;
-		OSStatus status;
-		const char *uuidChars = [[self uuid] UTF8String];
-		status = SecKeychainFindGenericPassword(NULL,
-												(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-												(UInt32)strlen(uuidChars), uuidChars,
-												&passwordLength, (void **)&passwordChars, NULL);		
-		if (status == noErr) {
-			password = [[NSString alloc] initWithBytes:passwordChars
-												length:passwordLength
-											  encoding:NSUTF8StringEncoding];
-			SecKeychainItemFreeContent(NULL, passwordChars);
-		} else {
-			if (status != errSecItemNotFound)
-				NSLog(@"Failed to retrieve password for %@ from keychain. Error: %d", [self computerName], (int)status);
-			password = nil;
-		}
+	if (!didPasswordLookup && [self uuid]) {
+      password = [[GrowlKeychainUtilities passwordForServiceName:GrowlOutgoingNetworkPassword accountName:[self uuid]] retain];
 		
 		didPasswordLookup = YES;
 	}
-
-	
 	return password;
 }
 
@@ -133,48 +123,18 @@
 	if (password != inPassword) {
 		[password release];
 		password = [inPassword copy];
-	}
-
-	// Store the password to the keychain
-	// XXX TODO Use AIKeychain
-	const char *passwordChars = password ? [password UTF8String] : "";
-	OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	const char *uuidChars = [[self uuid] UTF8String];
-	status = SecKeychainFindGenericPassword(NULL,
-											(UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											(UInt32)strlen(uuidChars), uuidChars,
-											NULL, NULL, &itemRef);
-	if (status == errSecItemNotFound) {
-		// add new item
-		status = SecKeychainAddGenericPassword(NULL,
-											   (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), GrowlBrowserEntryKeychainServiceName,
-											   (UInt32)strlen(uuidChars), uuidChars,
-											   (UInt32)strlen(passwordChars), passwordChars, NULL);
-		if (status)
-			NSLog(@"Failed to add password to keychain.");
-	} else {
-		// change existing password
-		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, (UInt32)strlen(uuidChars), (char *)uuidChars },
-			{ kSecServiceItemAttr, (UInt32)strlen(GrowlBrowserEntryKeychainServiceName), (char *)GrowlBrowserEntryKeychainServiceName }
-		};
-		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
-														&attributes,	// no change to attributes
-														(UInt32)strlen(passwordChars),			// length of password
-														passwordChars		// pointer to password data
-														);
-		if (itemRef)
-			CFRelease(itemRef);
-		if (status)
-			NSLog(@"Failed to change password in keychain.");
-	}
+	}else{
+      //No need to write out forward destinations or reset password if its the same string as already;
+      return;
+   }
+   
+   [self updateKey];
+   [GrowlKeychainUtilities setPassword:password forService:GrowlOutgoingNetworkPassword accountName:[self uuid]];
 	
 	[owner writeForwardDestinations];
 }
 
-- (void) setOwner:(GrowlServerViewController *)pref {
+- (void) setOwner:(GNTPForwarder *)pref {
 	owner = pref;
 }
 
@@ -215,7 +175,6 @@
 }
 
 - (void) dealloc {
-	
 	[self removeObserver:self forKeyPath:@"use"];
 	[self removeObserver:self forKeyPath:@"active"];
 	[self removeObserver:self forKeyPath:@"computerName"];
@@ -223,6 +182,8 @@
 	[password release];
 	[_name release];
 	[_uuid release];
+   [_key release];
+   [_domain release];
 	
 	[super dealloc];
 }

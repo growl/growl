@@ -23,14 +23,6 @@
 #import "GrowlHistoryViewController.h"
 #import "GrowlRollupPrefsViewController.h"
 
-#define GeneralPrefs       @"GeneralPrefs"
-#define ApplicationPrefs   @"ApplicationPrefs"
-#define DisplayPrefs       @"DisplayPrefs"
-#define NetworkPrefs       @"NetworkPrefs"
-#define RollupPrefs        @"RollupPrefs"
-#define HistoryPrefs       @"HistoryPrefs"
-#define AboutPane          @"About"
-
 @interface GrowlPreferencePane (PRIVATE)
 
 - (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
@@ -146,58 +138,52 @@
 
 -(void)setSelectedTab:(NSUInteger)tab
 {
-    [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
+   [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
       
-   NSString *newTab = nil;
    Class newClass = [GrowlPrefsViewController class];
    switch (tab) {
       case 0:
-         newTab = GeneralPrefs;
          newClass = [GrowlGeneralViewController class];
          break;
       case 1:
-         newTab = ApplicationPrefs;
          newClass = [GrowlApplicationsViewController class];
          break;
       case 2:
-         newTab = DisplayPrefs;
          newClass = [GrowlDisplaysViewController class];
          break;
       case 3:
-         newTab = NetworkPrefs;
          newClass = [GrowlServerViewController class];
          break;
       case 4:
-         newTab = RollupPrefs;
          newClass = [GrowlRollupPrefsViewController class];
          break;
       case 5:
-         newTab = HistoryPrefs;
          newClass = [GrowlHistoryViewController class];
          break;
       case 6:
-         newTab = AboutPane;
          newClass = [GrowlAboutViewController class];
          break;
       default:
-         newTab = GeneralPrefs;
-         NSLog(@"Attempt to view unknown tab");
+         newClass = [GrowlGeneralViewController class];
+         NSLog(@"Attempt to view unknown tab, loading general");
          break;
    }
+   
+   NSString *nibName = [newClass nibName];
    
    if(!prefViewControllers)
       prefViewControllers = [[NSMutableDictionary alloc] init];
    
    GrowlPrefsViewController *oldController = currentViewController;
-   GrowlPrefsViewController *nextController = [prefViewControllers valueForKey:newTab];
+   GrowlPrefsViewController *nextController = [prefViewControllers valueForKey:nibName];
    if(nextController && nextController == oldController)
       return;
    
    if(!nextController){
-      nextController = [[newClass alloc] initWithNibName:newTab
+      nextController = [[newClass alloc] initWithNibName:nibName
                                                   bundle:nil 
                                              forPrefPane:self];
-      [prefViewControllers setValue:nextController forKey:newTab];
+      [prefViewControllers setValue:nextController forKey:nibName];
       [nextController release];
    }
    
@@ -241,6 +227,15 @@
 -(NSArray*)toolbarSelectableItems:(NSToolbar*)theToolbar
 {
     return [toolbar visibleItems];
+}
+
+-(void)releaseTab:(GrowlPrefsViewController *)tab
+{
+   if(tab == currentViewController) {
+      NSLog(@"Should not let current view controller go for performance on prefs reload");
+      return;
+   }
+   [prefViewControllers removeObjectForKey:[[tab class] nibName]];
 }
 
 #pragma mark Display pop-up menus

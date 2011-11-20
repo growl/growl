@@ -31,8 +31,6 @@ typedef enum {
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;
 	BOOL						quitAfterOpen;
-	BOOL						enableForward;
-	NSArray						*destinations;
 
 	NSDictionary				*versionInfo;
 	NSImage						*growlIcon;

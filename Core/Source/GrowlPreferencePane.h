@@ -40,6 +40,7 @@
 #pragma mark Toolbar support
 -(void)setSelectedTab:(NSUInteger)tab;
 -(IBAction)selectedTabChanged:(id)sender;
+-(void)releaseTab:(GrowlPrefsViewController*)tab;
 
 -(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
 
