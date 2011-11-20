@@ -46,8 +46,20 @@
          [entry release];
       }
       [self setDestinations:theServices];
+      
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(appRegistered:)
+                                                   name:@"ApplicationRegistered"
+                                                 object:nil];
    }
    return self;
+}
+
+- (void)dealloc {
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+   [destinations release];
+   [browser release];
+   [super dealloc];
 }
 
 #pragma mark UI Support
@@ -234,6 +246,12 @@
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       [blockForwarder sendViaTCP:outgoingPacket];
    });
+}
+
+- (void)appRegistered:(NSNotification*)dict 
+{
+   if([preferences isForwardingEnabled])
+      [self forwardRegistration:[dict userInfo]];
 }
 
 - (void)forwardRegistration:(NSDictionary *)dict

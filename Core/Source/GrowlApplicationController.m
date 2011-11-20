@@ -166,6 +166,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          
       [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
       
+      [GNTPForwarder sharedController];
 	}
 
 	return self;
@@ -445,9 +446,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 			[newApp saveTicket];
 		[ticketController addTicket:newApp];
       
-      if([[GrowlPreferencesController sharedController] isForwardingEnabled])
-         [[GNTPForwarder sharedController] forwardRegistration:[[userInfo copy] autorelease]];
-      
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ApplicationRegistered"
+                                                          object:nil 
+                                                        userInfo:[[userInfo copy] autorelease]];
 	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 
