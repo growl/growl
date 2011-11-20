@@ -25,9 +25,18 @@
 
 @implementation GrowlPositionController
 
++ (GrowlPositionController *)sharedController {
+    static GrowlPositionController *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
 //Initialize
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		reservedRects = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 		reservedRectsByController = [[NSMutableDictionary alloc] init];
 	}
@@ -36,8 +45,9 @@
 }
 
 //Deallocate
-- (void) destroy {
+- (void) dealloc {
 	CFRelease(reservedRects);
+    [super dealloc];
 }
 
 //Read in the stored selection from picker and translate to a properly returned GrowlPosition.
@@ -277,13 +287,13 @@
 	NSRectArray usedRects = [self copyRectsInSet:[self reservedRectsForScreen:preferredScreen] count:&numberOfRects padding:padding excludingDisplayController:displayController];
 
 	if ([growlLog isLoggingEnabled]) {
-		NSAutoreleasePool *rectStringsPool = [[NSAutoreleasePool alloc] init];
-		NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
-		for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
-			[rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
-		}
-		[growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
-		[rectStringsPool drain];
+		@autoreleasepool {
+            NSMutableArray *rectStrings = [NSMutableArray arrayWithCapacity:numberOfRects];
+            for (NSUInteger i = 0UL; i < numberOfRects; ++i) {
+                [rectStrings addObject:GrowlLog_StringFromRect(usedRects[i])];
+            }
+            [growlLog writeToLog:@"Used rects (%lu): %@", [rectStrings count], [rectStrings componentsJoinedByString:@", "]];
+        }
 	}
 
 	/* This will loop until the display is placed or we run off the screen entirely

@@ -87,7 +87,8 @@
 						 displayPluginName:(NSString *)display
 									 sound:(NSString *)inSound
 {
-	if ((self = [self init])) {
+    self = [super init];
+	if (self) {
 		self.name                       = inName;
 		self.humanReadableName          = inHumanReadableName;
 		self.notificationDescription    = inNotificationDescription;
@@ -98,7 +99,7 @@
 		self.displayPluginName          = display;
 		self.sound                      = inSound;
         
-        [self addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:&self];
+        /*[self addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:&self];
         [self addObserver:self forKeyPath:@"humanReadableName" options:NSKeyValueObservingOptionNew context:&self];
         [self addObserver:self forKeyPath:@"notificationDescription" options:NSKeyValueObservingOptionNew context:&self];
         [self addObserver:self forKeyPath:@"priority" options:NSKeyValueObservingOptionNew context:&self];
@@ -106,7 +107,7 @@
         [self addObserver:self forKeyPath:@"logNotification" options:NSKeyValueObservingOptionNew context:&self];
         [self addObserver:self forKeyPath:@"sticky" options:NSKeyValueObservingOptionNew context:&self];
         [self addObserver:self forKeyPath:@"displayPluginName" options:NSKeyValueObservingOptionNew context:&self];
-        [self addObserver:self forKeyPath:@"sound" options:NSKeyValueObservingOptionNew context:&self];
+        [self addObserver:self forKeyPath:@"sound" options:NSKeyValueObservingOptionNew context:&self];*/
         
 	}
 	return self;

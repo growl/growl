@@ -19,20 +19,15 @@
 
 
 @interface GrowlMistWindowController : NSWindowController <NSAnimationDelegate> {
-
 	GrowlMistView				*mistView;
-	
 	NSViewAnimation 			*fadeAnimation;
 	NSTimer						*lifetime;
 	BOOL						 closed;
 	BOOL						 sticky;
 	BOOL						 visible;
 	BOOL						 selected;
-	
 	id							 delegate;
-	
 	id							 userInfo;
-	
 }
 
 @property (nonatomic,readonly) BOOL sticky;
