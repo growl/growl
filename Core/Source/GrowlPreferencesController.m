@@ -17,7 +17,6 @@
 #import "NSStringAdditions.h"
 #import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
-#import "GrowlNotificationDatabase+GHAAdditions.h"
 #import "GrowlApplicationController.h"
 #import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
@@ -50,11 +49,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 @implementation GrowlPreferencesController
 
 + (GrowlPreferencesController *) sharedController {
-	return [self sharedInstance];
+	static GrowlPreferencesController *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
 			selector:@selector(growlPreferencesChanged:)
 			name:GrowlPreferencesChanged
@@ -64,11 +68,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	return self;
 }
 
-- (void) destroy {
+- (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	CFRelease(loginItems);
 
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -204,7 +208,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	[self setStartAtLogin:pathToGHA enabled:flag];
+    if (pathToGHA) {
+        [self setStartAtLogin:pathToGHA enabled:flag];
+    }
+    else {
+        NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
+    }
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
@@ -397,7 +406,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          return;
    }
    
-   [[GrowlApplicationController sharedInstance] updateMenu:state];
+   [[GrowlApplicationController sharedController] updateMenu:state];
    [self setInteger:state forKey:GrowlMenuState];
 }
 
@@ -526,32 +535,31 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSString *object = [notification object];
-//	NSLog(@"%s: %@\n", __func__, object);
-	SYNCHRONIZE_GROWL_PREFS();
-	if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
-		[self willChangeValueForKey:@"defaultDisplayPluginName"];
-		[self didChangeValueForKey:@"defaultDisplayPluginName"];
+	@autoreleasepool {
+        NSString *object = [notification object];
+    //	NSLog(@"%s: %@\n", __func__, object);
+        SYNCHRONIZE_GROWL_PREFS();
+        if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
+            [self willChangeValueForKey:@"defaultDisplayPluginName"];
+            [self didChangeValueForKey:@"defaultDisplayPluginName"];
+        }
+        if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
+            [self willChangeValueForKey:@"growlMenuEnabled"];
+            [self didChangeValueForKey:@"growlMenuEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
+            [self willChangeValueForKey:@"forwardingEnabled"];
+            [self didChangeValueForKey:@"forwardingEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
+            [self willChangeValueForKey:@"idleThreshold"];
+            [self didChangeValueForKey:@"idleThreshold"];
+        }
+        if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
+            [self willChangeValueForKey:@"selectedPreferenceTab"];
+            [self didChangeValueForKey:@"selectedPreferenceTab"];
+        }	
 	}
-	if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
-		[self willChangeValueForKey:@"growlMenuEnabled"];
-		[self didChangeValueForKey:@"growlMenuEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
-		[self willChangeValueForKey:@"forwardingEnabled"];
-		[self didChangeValueForKey:@"forwardingEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
-		[self willChangeValueForKey:@"idleThreshold"];
-		[self didChangeValueForKey:@"idleThreshold"];
-	}
-	if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
-		[self willChangeValueForKey:@"selectedPreferenceTab"];
-		[self didChangeValueForKey:@"selectedPreferenceTab"];
-	}	
-	[pool release];
 }
 
 @end
