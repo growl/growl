@@ -417,7 +417,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "The Growl Project";
 			};
-			buildConfigurationList = 6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunes" */;
+			buildConfigurationList = 6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunesCaseFix" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -767,7 +767,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunes" */ = {
+		6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunesCaseFix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A9ED39C1447D04F002A0537 /* Debug */,
