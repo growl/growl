@@ -1,4 +1,4 @@
-"6to4 relay" = "releu 6to4";
+"6to4 relay" = "releu 6>4";
 "AirPort Connected" = "AirPort conectat";
 "Airport connected" = "Airport conectat";
 "Airport disconnected" = "Airport deconectat";
@@ -37,7 +37,7 @@
 "Preferences..." = "Preferințe...";
 "Private" = "Privat";
 "Public" = "Public";
-"Quit HardwareGrowler" = "Închide HardwareGrowler";
+"Quit HardwareGrowler" = "Închide";
 "Reserved" = "Rezervat";
 "Show Connected Devices at Launch" = "Afișează dispozitivele conectate la pornire";
 "Switched to A/C Power" = "Comută pe curent alternetiv";
@@ -46,7 +46,7 @@
 "Sync finished" = "Sincronizare terminată";
 "Sync started" = "A început sincronizarea";
 "Test" = "Test";
-"This setting will take effect when Hardware Growler restarts" = "Aceste configurări vor avea efect în momentul în care Hardware Growler va reporni";
+"This setting will take effect when Hardware Growler restarts" = "Configurărea va avea efect la următoarea repornire a HardwareGrowler";
 "Time remaining: %i minutes" = "Timp rămas: %i minute";
 "Time to charge: %i minutes" = "Timp pentru încărcare: %i minute";
 "Unnamed FireWire Device" = "Dispozitiv cablat fără nume";
@@ -60,32 +60,36 @@
 "Volume Unmounted" = "Volum detașat";
 
 /* No comment provided by engineer. */
-"Open HardwareGrowler Preferences..." = "Deschide preferințele dispozitivului Growler...";
+"Open HardwareGrowler Preferences..." = "Preferințe...";
 
 /* display the icon in both the menubar and the dock */
-"Show icon in both" = "Afișează pictograma în ambele";
+"Show icon in both" = "afișată în Doc și bara de meniu";
 
 /* display the icon only in the dock */
-"Show icon in the dock" = "Afișează pictograma în Doc";
+"Show icon in the dock" = "afișată în Doc";
 
 /* default option for where the icon should be seen */
-"Show icon in the menubar" = "Afișează pictograma în bara de meniu";
+"Show icon in the menubar" = "afișată în bara de meniu";
 
 /* display no icon at all */
-"No icon visible" = "Nicio pictogramă vizibilă";
+"No icon visible" = "neafișată";
 
 /* No comment provided by engineer. */
 "Icon:" = "Pictogramă:";
 
 /* No comment provided by engineer. */
-"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Activarea acestei opțiuni va duce la o funcționare fără afișarea pictogramei în Doc sau în bara de meniu.\n\nPentru accesarea preferințelor, apasă pe HardwareGrowler în tabloul de lansare (Launchpad) sau deschide HardwareGrowler în Finder.";
+"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Pictograma nu va fi afișată în Doc și nici în bara de meniu.\n\nPentru accesarea preferințelor, accesează HardwareGrowler din tabloul de lansare (Launchpad) sau deschide HardwareGrowler în Finder.";
 
 /* No comment provided by engineer. */
-"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Avertisment! Activarea acestei opțiuni va duce la o funcționare continuă în fundal a HardwareGrowler";
+"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Avertisment! HardwareGrowler va funcționa în continuu din spatele cortinei.";
 
 /* No comment provided by engineer. */
-"Alert! Enabling this option will add HardwareGrowler to your login items" = "Atenție! Activarea acestei opțiuni va face posibilă pornirea automată a HardwareGrowler imediat după autentificare";
+"Alert! Enabling this option will add HardwareGrowler to your login items" = "Atenție! HardwareGrowler va porni în mod automat imediat după autentificare";
 
 /* No comment provided by engineer. */
-"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "Permiterea acestei funcți duce la pornirea automată a HardwareGrowler de fiecare dată când te vei autentifica pe acest Mac, astfel încât să fie disponibil aplicațiilor care se folosesc de acesta tot timpul";
+"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "HardwareGrowler va porni de fiecare dată în mod automat imediat după autentificare, astfel încât să fie disponibil aplicațiilor care se folosesc de el tot timpul";
+
+/* No comment provided by engineer. */
+"Start HardwareGrowler at Login:" = "Pornește HardwareGrowler imediat la autentificare:";
+
 
