@@ -54,5 +54,9 @@
 	<false/>
 	<key>GrowlMenuPulseEnabled</key>
 	<true/>
+	<key>RequireSecureGNTPResponses</key>
+	<false/>
+	<key>RequireGNTPSecurityWhenPasswordEmpty</key>
+	<false/>
 </dict>
 </plist>
