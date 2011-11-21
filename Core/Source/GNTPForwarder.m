@@ -12,9 +12,7 @@
 #import "GrowlKeychainUtilities.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlGNTPOutgoingPacket.h"
-
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#import "GrowlNetworkUtilities.h"
 
 @implementation GNTPForwarder
 
@@ -85,15 +83,19 @@
    GrowlBrowserEntry *newEntry = [[[GrowlBrowserEntry alloc] initWithComputerName:@""] autorelease];
    [newEntry setManualEntry:YES];
    [newEntry setOwner:self];
+   [self willChangeValueForKey:@"destinations"];
    [destinations addObject:newEntry];
+   [self didChangeValueForKey:@"destinations"];
 }
 
 - (void)removeEntryAtIndex:(NSUInteger)index {
    if(index >= [destinations count])
       return;
    
-   GrowlBrowserEntry *toRemove = [destinations objectAtIndex:index];;
+   GrowlBrowserEntry *toRemove = [destinations objectAtIndex:index];
+   [self willChangeValueForKey:@"destinations"];
    [destinations removeObjectAtIndex:index];
+   [self didChangeValueForKey:@"destinations"];
    [self writeForwardDestinations];
    
    if(![toRemove password])
@@ -123,85 +125,6 @@
  * @param name The name of the server
  * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
  */
-- (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name withDomain:(NSString*)domain
-{
-	if ([name hasSuffix:@".local"])
-		name = [name substringWithRange:NSMakeRange(0, [name length] - [@".local" length])];
-   
-	if ([name Growl_isLikelyDomainName]) {
-		CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, (CFStringRef)name);
-		CFStreamError error;
-		if (CFHostStartInfoResolution(host, kCFHostAddresses, &error)) {
-			NSArray *addresses = (NSArray *)CFHostGetAddressing(host, NULL);
-			
-			if ([addresses count]) {
-				/* DNS lookup success! */
-            CFRelease(host);
-				return [addresses objectAtIndex:0];
-			}
-		}
-		if (host) CFRelease(host);
-		
-	} else if ([name Growl_isLikelyIPAddress]) {
-      struct in_addr addr4;
-      struct in6_addr addr6;
-      
-      if(inet_pton(AF_INET, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr4) == 1){
-         struct sockaddr_in serverAddr;
-         
-         memset(&serverAddr, 0, sizeof(serverAddr));
-         serverAddr.sin_len = sizeof(struct sockaddr_in);
-         serverAddr.sin_family = AF_INET;
-         serverAddr.sin_addr.s_addr = addr4.s_addr;
-         serverAddr.sin_port = htons(GROWL_TCP_PORT);
-         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
-      }
-      else if(inet_pton(AF_INET6, [name cStringUsingEncoding:NSUTF8StringEncoding], &addr6) == 1){
-         struct sockaddr_in6 serverAddr;
-         
-         memset(&serverAddr, 0, sizeof(serverAddr));
-         serverAddr.sin6_len        = sizeof(struct sockaddr_in6);
-         serverAddr.sin6_family     = AF_INET6;
-         serverAddr.sin6_addr       = addr6;
-         serverAddr.sin6_port       = htons(GROWL_TCP_PORT);
-         return [NSData dataWithBytes:&serverAddr length:sizeof(serverAddr)];
-      }else{
-         NSLog(@"No address (shouldnt happen)");
-         return nil;
-      }
-   } 
-	
-   NSString *machineDomain = domain;
-   if(!machineDomain)
-      machineDomain = @"local.";
-	/* If we make it here, treat it as a computer name on the local network */ 
-	NSNetService *service = [[[NSNetService alloc] initWithDomain:machineDomain type:type name:name] autorelease];
-	if (!service) {
-		/* No such service exists. The computer is probably offline. */
-		return nil;
-	}
-	
-	/* Work for 8 seconds to resolve the net service to an IP and port. We should be running
-	 * on a background concurrent queue, so blocking is fine.
-	 */
-	[service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:@"PrivateGrowlMode"];
-	[service resolveWithTimeout:8.0];
-	CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + 8.0;
-	CFTimeInterval remaining;
-	while ((remaining = (deadline - CFAbsoluteTimeGetCurrent())) > 0 && [[service addresses] count] == 0) {
-		CFRunLoopRunInMode((CFStringRef)@"PrivateGrowlMode", remaining, true);
-      NSLog(@"testing");
-	}
-	[service stop];
-	
-	NSArray *addresses = [service addresses];
-	if (![addresses count]) {
-		/* Lookup failed */
-		return nil;
-	}
-	
-	return [addresses objectAtIndex:0];
-}
 
 - (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
 {
@@ -216,7 +139,7 @@
 	for(GrowlBrowserEntry *entry in destinations) {
 		if ([entry use]) {
 			//NSLog(@"Looking up address for %@", [entry computerName]);
-			NSData *destAddress = [self addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry computerName] withDomain:[entry domain]];
+			NSData *destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[entry computerName] withDomain:[entry domain]];
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [entry computerName]);
@@ -275,7 +198,9 @@
       if(![obj use] && ![obj password] && ![obj manualEntry] && ![destinationNames containsObject:[obj computerName]])
          [toRemove addObject:obj];
    }];
+   [self willChangeValueForKey:@"destinations"];
    [destinations removeObjectsInArray:toRemove];
+   [self didChangeValueForKey:@"destinations"];
    
    /* Now we can get rid of the browser, otherwise we don't get this delegate call, 
     * and possibly, something behind the scenes might not like releasing earlier*/
@@ -302,7 +227,9 @@
    [entry setDomain:[aNetService domain]];
    [entry setOwner:self];
    
+   [self willChangeValueForKey:@"destinations"];
 	[destinations addObject:entry];
+   [self didChangeValueForKey:@"destinations"];
 	[entry release];
    
 	if (!moreComing)
@@ -326,7 +253,9 @@
 	}
    
    if(toRemove){
+      [self willChangeValueForKey:@"destinations"];
       [destinations removeObject:toRemove];
+      [self didChangeValueForKey:@"destinations"];
    }
    
 	if (!moreComing)

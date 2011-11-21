@@ -121,12 +121,12 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
-   [networkTableView noteNumberOfRowsChanged];
+   //[networkTableView noteNumberOfRowsChanged];
    [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
 }
 
 - (IBAction)newManualForwader:(id)sender {
-   [networkTableView noteNumberOfRowsChanged];
+   //[networkTableView noteNumberOfRowsChanged];
    [forwarder newManualEntry];
 }
 
