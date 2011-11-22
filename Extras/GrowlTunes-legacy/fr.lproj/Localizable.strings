@@ -1,0 +1,8 @@
+﻿"Opens the webpage for GrowlTunes help on the Growl website in your selected browser." = "Ouvrir la page web d'aide de GrowlTunes sur le site de Growl.";
+"Quits both iTunes and GrowlTunes." = "Quitter GrowlTunes ET iTunes.";
+"Tells iTunes to play this track again." = "Rejouer ce titre dans iTunes.";
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes." = "Demander des informations sur ce titre. Cela s'affichera en notifications de GrowlTunes.";
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes." = "Stopper la demande d'informations sur ce titre. Cela ne s'affichera plus en notifications de GrowlTunes.";
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information." = "Activer/Désactiver les informations automatiques sur les titres d'iTunes.";
+
+"GrowlTunes' control status item." = "Menu des états de GrowlTunes.";

@@ -1,0 +1,40 @@
+﻿/* This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre */
+"%@ — %@\n%@ (Composed by %@)\n%@\n%@" = "%1$@ — %2$@\n%3$@ (Композитор %4$@)\n%5$@\n%6$@";
+
+/* Tooltip for 'start polling' */
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes." = "Включает опрос iTunes. Вы начнёте получать оповещения Growl от GrowlTunes.";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Сменил композицию";
+
+/* No comment provided by engineer. */
+"GrowlTunes’ control status item." = "GrowlTunes’ control status item.";
+"Launch iTunes" = "Запустить iTunes";
+
+/* menu item titles*/
+"Online Help" = "Справка в сети";
+
+/* Online help's tooltip */
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser." = "Открывает веб-страницу GrowlTunes на сайте Growl.";
+"Quit Both" = "Завершить обе";
+"Quit GrowlTunes" = "Завершить GrowlTunes";
+"Quit iTunes" = "Завершить iTunes";
+
+/* No comment provided by engineer. */
+"Quits both iTunes and GrowlTunes" = "Завершить iTunes и GrowlTunes";
+"Rating" = "Рейтинг";
+"Recently Played Tunes" = "Недавние композиции";
+"Start Polling" = "Начать опрос";
+
+/* No comment provided by engineer. */
+"Started Playing" = "Начал воспроизведение";
+"Stop Polling" = "Остановить опрос";
+
+/* Tooltip for 'stop polling' */
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes." = "Выключает опрос iTunes. Вы прекратите получать оповещения Growl от GrowlTunes.";
+
+/* Tooltip for recent tracks */
+"Tells iTunes to play this track again." = "Проиграть ещё раз данную композицию в iTunes.";
+
+/* Toggle polling tooltip */
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information." = "Включить/выключить получение информации о композиции из iTunes.";
