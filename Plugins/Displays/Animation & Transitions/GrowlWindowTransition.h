@@ -8,10 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
+enum _GrowlTransitionDirection{
 	GrowlForwardTransition = 0,
 	GrowlReverseTransition
-} GrowlTransitionDirection;
+};
+
+typedef NSUInteger GrowlTransitionDirection;
 
 /*!
  * @class GrowlWindowTransition
