@@ -191,7 +191,7 @@
 		83EFC86E1478DB79004D13CF /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubarIcon_Selected.png; sourceTree = "<group>"; };
 		83EFC8711478E0FF004D13CF /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HWGrowler.icns; sourceTree = "<group>"; };
 		83EFC8DB147CE220004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		83EFC8DC147CE227004D13CF /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83EFC8DC147CE227004D13CF /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83EFC8DD147CE23C004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-PT"; path = "pt-PT.lproj/Credits.rtf"; sourceTree = "<group>"; };
 		83EFC8DE147CE23C004D13CF /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = nb.lproj/Credits.rtf; sourceTree = "<group>"; };
 		83EFC8DF147CE244004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
