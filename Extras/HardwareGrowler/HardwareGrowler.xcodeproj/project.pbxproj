@@ -190,6 +190,12 @@
 		83EFC86D1478DB79004D13CF /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubarIcon_Normal.png; sourceTree = "<group>"; };
 		83EFC86E1478DB79004D13CF /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubarIcon_Selected.png; sourceTree = "<group>"; };
 		83EFC8711478E0FF004D13CF /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HWGrowler.icns; sourceTree = "<group>"; };
+		83EFC8DB147CE220004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		83EFC8DC147CE227004D13CF /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83EFC8DD147CE23C004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-PT"; path = "pt-PT.lproj/Credits.rtf"; sourceTree = "<group>"; };
+		83EFC8DE147CE23C004D13CF /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = nb.lproj/Credits.rtf; sourceTree = "<group>"; };
+		83EFC8DF147CE244004D13CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		83EFC8E0147CE244004D13CF /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -504,6 +510,8 @@
 				cs,
 				lv,
 				it,
+				"pt-PT",
+				nb,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* HarwareNotifier */;
 			projectDirPath = "";
@@ -715,6 +723,8 @@
 				93732F9C144FA3BC004DED79 /* nl */,
 				93732F9F144FA3BC004DED79 /* el */,
 				83D3C073145E323F00FAF35D /* de */,
+				83EFC8DF147CE244004D13CF /* pt-PT */,
+				83EFC8E0147CE244004D13CF /* nb */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -737,6 +747,8 @@
 				93732F9D144FA3BC004DED79 /* nl */,
 				93732FA0144FA3BC004DED79 /* el */,
 				83D3C072145E323400FAF35D /* de */,
+				83EFC8DD147CE23C004D13CF /* pt-PT */,
+				83EFC8DE147CE23C004D13CF /* nb */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -759,6 +771,8 @@
 				93732F9E144FA3BC004DED79 /* nl */,
 				93732FA1144FA3BC004DED79 /* el */,
 				83D3C071145E321F00FAF35D /* de */,
+				83EFC8DB147CE220004D13CF /* pt-PT */,
+				83EFC8DC147CE227004D13CF /* nb */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
