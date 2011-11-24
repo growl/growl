@@ -345,7 +345,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSTextField" id="295877859">
 							<reference key="NSNextResponder" ref="342545294"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 158}, {99, 17}}</string>
+							<string key="NSFrame">{{17, 158}, {285, 17}}</string>
 							<reference key="NSSuperview" ref="342545294"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="28495295"/>
@@ -368,7 +368,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSButton" id="214410979">
 							<reference key="NSNextResponder" ref="342545294"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{235, 12}, {75, 32}}</string>
+							<string key="NSFrame">{{218, 12}, {92, 32}}</string>
 							<reference key="NSSuperview" ref="342545294"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
