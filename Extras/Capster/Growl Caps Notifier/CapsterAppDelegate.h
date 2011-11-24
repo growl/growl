@@ -36,10 +36,6 @@
 	IBOutlet NSMatrix *statusbarMatrix;
 	//the menu shown when the menu icon is pressed
     IBOutlet NSMenu *statusMenu;
-	IBOutlet NSMatrix *shortcutMatrix;
-	//this points to an integer, which contains a value representing the
-	//shortcut for the preference panel
-	NSUInteger *shortcut;
 	NSUInteger *statusbar;
 	
 	NSUInteger* currentState;
@@ -55,11 +51,11 @@
 - (void)setButtonTitleFor:(id)button toString:(NSString*)title withColor:(NSColor*)color ;
 - (void) listenForCapsInNewThread;
 - (void) listen;
-- (void) toggleUI;
-- (IBAction)setKeyBinding:(id)sender;
 
 //set the status menu to the value of the checkbox sender
--(IBAction) setStatusMenuTo:(id) sender;
+- (IBAction) setStatusMenuTo:(id) sender;
+//show the preference panel
+- (IBAction) showPreferences:(id) sender;
 
 - (void) fetchedCapsState;
 - (void) capsLockChanged: (NSUInteger) newState;

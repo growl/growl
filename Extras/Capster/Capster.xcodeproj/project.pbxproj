@@ -360,6 +360,7 @@
 		1DCC5609131F013B006F18CF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = Tzikis;
 			};
 			buildConfigurationList = 1DCC560C131F013B006F18CF /* Build configuration list for PBXProject "Capster" */;
