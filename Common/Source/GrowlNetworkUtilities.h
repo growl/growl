@@ -12,4 +12,7 @@
 
 +(NSString*)localHostName;
 
+//Should be called from a background queue or thread, blocking.
++(NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name withDomain:(NSString*)domain;
+
 @end

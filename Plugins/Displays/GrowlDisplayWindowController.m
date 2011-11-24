@@ -25,6 +25,8 @@ static NSMutableDictionary *existingInstances;
 @interface GrowlDisplayWindowController (PRIVATE)
 - (void)cancelDisplayDelayedPerforms;
 - (BOOL)supportsStickyNotifications;
+- (void)setAllTransitionsToDirection:(GrowlTransitionDirection)direction;
+- (void)reverseAllTransitions; //icky. be explict.
 @end
 
 @interface NSWindow (LeopardMethods)
@@ -207,14 +209,15 @@ static NSMutableDictionary *existingInstances;
 		[contentView mouseOver] &&
 		!userRequestedClose) {
 		//The mouse is currently within the view; close when it exits
+        displayStatus = GrowlDisplayOnScreenStatus; //it has to be display right now. lets just make sure.
 		[contentView setCloseOnMouseExit:YES];
 
 	} else {
 		//If we're already transitioning out, just keep doing our thing
 		if (displayStatus != GrowlDisplayTransitioningOutStatus) {
 			[self cancelDisplayDelayedPerforms];
-
 			[self willTakeDownNotification];
+            [self setAllTransitionsToDirection:GrowlReverseTransition];
 			if ([self startAllTransitions]) {
             /* This should happen automatically, with animationDidEnd */
 				/*[self performSelector:@selector(didFinishTransitionsAfterDisplay) 
@@ -444,9 +447,9 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) stopAllTransitions {
-	GrowlWindowTransition *transition;
-	for (transition in [windowTransitions allValues])
+	for (GrowlWindowTransition *transition in [windowTransitions allValues]) {
 		[self stopTransition:transition];
+    }
 }
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
@@ -479,6 +482,14 @@ static NSMutableDictionary *existingInstances;
 	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(reverse)];
 }
 
+- (void) setAllTransitionsToDirection:(GrowlTransitionDirection)direction
+{
+	for (GrowlWindowTransition *transition in [windowTransitions allValues]){
+        [transition setDirection:direction];
+    }
+
+}
+
 #pragma mark -
 - (void) mouseEnteredNotificationView:(GrowlNotificationView *)notificationView
 {
@@ -486,7 +497,7 @@ static NSMutableDictionary *existingInstances;
 		(displayStatus == GrowlDisplayTransitioningOutStatus)) {
 		// We're transitioning out; we need to go back to transitioning in...
 		[self willDisplayNotification];
-		[self reverseAllTransitions];
+		[self setAllTransitionsToDirection:GrowlForwardTransition];
 		[self didFinishTransitionsBeforeDisplay];
 
 		// ...but when the mouse leaves, transition out again

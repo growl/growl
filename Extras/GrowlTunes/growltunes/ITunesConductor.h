@@ -45,6 +45,7 @@
 }
 
 @property(readonly, nonatomic, assign, getter = isRunning) BOOL running;
+@property(readonly, nonatomic, assign) iTunesEPlS playerState;
 @property(readonly, nonatomic, copy) NSDictionary* itemData;
 
 + (void)setLogLevel:(int)level;

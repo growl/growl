@@ -47,14 +47,8 @@
     preferencesController = [GrowlPreferencesController sharedController];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
-    
-    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
-    NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-    if (defaultDefaults) {
-        [preferencesController registerDefaults:defaultDefaults];
-    }
-          
+    [nc addObserver:self selector:@selector(reloadPreferences:) name:GrowlPreferencesChanged object:nil];
+
     [self reloadPreferences:nil];
 }
 
@@ -100,23 +94,13 @@
 /*!
  * @brief Called when a GrowlPreferencesChanged notification is received.
  */
-- (void) reloadPrefs:(NSNotification *)notification {
-	// ignore notifications which are sent by ourselves
-	@autoreleasepool {
-        [self reloadPreferences:[notification object]];
-    }
+- (void) reloadPreferences:(NSNotification *)notification {
+	@autoreleasepool{
+        id object = [notification object];
+        if(!object || [object isEqualToString:GrowlSelectedPrefPane])
+            [self setSelectedTab:[preferencesController selectedPreferenceTab]];
+	}
 }
-
-/*!
- * @brief Reloads the preferences and updates the GUI accordingly.
- */
-- (void) reloadPreferences:(NSString *)object {
-       
-    if(!object || [object isEqualToString:GrowlSelectedPrefPane])
-        [self setSelectedTab:[preferencesController selectedPreferenceTab]];
-
-}
-
 
 #pragma mark -
 #pragma mark Bindings accessors (not for programmatic use)
