@@ -30,7 +30,7 @@
 
 - (NSString *) bundleVersion;
 
-- (void) reloadPreferences:(NSString *)object;
+- (void) reloadPreferences:(NSNotification *)note;
 
 #pragma mark Bindings accessors (not for programmatic use)
 

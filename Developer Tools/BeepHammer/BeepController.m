@@ -204,8 +204,18 @@
 				__block NSDictionary *note = [[notifications objectAtIndex:selectedRow] retain];
 				
                 [sendQueue addOperationWithBlock:^{
-                    [GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-                                                description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+                    [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                    NSString *description = [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+                    description = [description stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    
+                    
+                    NSString *title = [note objectForKey:GROWL_NOTIFICATION_TITLE];
+                    title = [title stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    
+                    NSString *identifer = ([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ? [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] : nil);
+                    identifer = [identifer stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    [GrowlApplicationBridge notifyWithTitle:title
+                                                description:description
                                            notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
                                                    iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
                                                    priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
@@ -213,9 +223,8 @@
                                                clickContext:(([note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && [[note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] length])
                                                              ? [note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]
                                                              : nil)
-                                                 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
-                                                             [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
-                                                             nil)];	
+                                                 identifier:identifer];	
+                    [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
                     [note release];
 				}];
                 
@@ -233,16 +242,25 @@
 					__block NSDictionary *note = [[notifications objectAtIndex:currentRow] retain];
 					
                     [sendQueue addOperationWithBlock:^{
-                        [GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-                                                    description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+                        [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                        NSString *description = [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+                        description = [description stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                        
+                        NSString *title = [note objectForKey:GROWL_NOTIFICATION_TITLE];
+                        title = [title stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                        
+                        NSString *identifer = ([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ? [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] : nil);
+                        identifer = [identifer stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+
+                        [GrowlApplicationBridge notifyWithTitle:title
+                                                    description:description
                                                notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
                                                        iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
                                                        priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
                                                        isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
                                                    clickContext:nil
-                                                     identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
-                                                                 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
-                                                                 nil)];
+                                                     identifier:identifer];
+                        [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
                         [note release];
                     }];
                     

@@ -7,6 +7,11 @@
 //
 
 #import "GrowlController.h"
+#define CapsterTitle	NSLocalizedString(@"Capster", nil)
+#define StartingDescription 	NSLocalizedString(@"Starting", nil)
+#define CapsOnDescription 	NSLocalizedString(@"Caps Lock on", nil)
+#define CapsOffDescription 	NSLocalizedString(@"Caps Lock off", nil)
+
 
 
 @implementation GrowlController
@@ -36,8 +41,8 @@
 	
 	
 	[GrowlApplicationBridge setGrowlDelegate:self];
-	[GrowlApplicationBridge notifyWithTitle: @"Capster"
-								description: @"Starting"
+	[GrowlApplicationBridge notifyWithTitle: CapsterTitle
+								description: StartingDescription
 						   notificationName: @"starting"
 								   iconData: ter
 								   priority: 0
@@ -54,7 +59,7 @@
 	NSData* off = [NSData dataWithContentsOfFile:path_off];
 	
 	//prepare the stuff for the growl notification		
-	NSString* descriptions[] = {@"Caps Lock off", @"Caps Lock on"};
+	NSString* descriptions[] = {CapsOffDescription, CapsOnDescription};
 	NSString* names[] = {@"caps off", @"caps on"};
 	NSData* data[] = {off, on};
 	
