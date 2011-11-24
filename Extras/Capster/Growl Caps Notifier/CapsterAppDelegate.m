@@ -9,6 +9,21 @@
 
 #import "CapsterAppDelegate.h"
 
+
+#define PrefsTitle NSLocalizedString(@"Preferences...", nil)
+#define HideTitle NSLocalizedString(@"Hide Status Menu", nil)
+#define QuitTitle NSLocalizedString(@"Quit Capster", nil)
+
+#define NoneTitle NSLocalizedString(@"None", nil)
+#define BlackIcons NSLocalizedString(@"Black App Icons", nil)
+#define ColorIcons NSLocalizedString(@"Colored App Icons", nil)
+#define ColorOrbs NSLocalizedString(@"Colored Orbs", nil)
+#define PreferenceTitle NSLocalizedString(@"Preferences", nil)
+#define LabelTitle NSLocalizedString(@"Menu bar icon:", nil)
+#define CloseTitle NSLocalizedString(@"Close", nil)
+
+
+
 //This is the callback function that gets called when the
 //caps lock is pressed. All we need to care about is the
 //refcon pointer, which is the buffer we use to send
@@ -67,6 +82,10 @@ CGEventRef myCallback (
 
 @synthesize preferencePanel;
 
+@synthesize prefsTitle, hideTitle, quitTitle;
+@synthesize noneTitle, blackIcons, colorIcons, colorOrbs, preferenceTitle, labelTitle, closeTitle;
+
+
 //this function is called on startup
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -97,7 +116,9 @@ CGEventRef myCallback (
 																	 state:currentState
 																statusMenu:statusMenu];
 
-	//make everything in the preferences white. necessary for the text to be viewable
+	//Initialize localized strings
+	[self initTitles];
+	 //make everything in the preferences white. necessary for the text to be viewable
 	[self makeEverythingWhite];
 	
 	//if the user want the menu to be shown, then do so
@@ -211,6 +232,22 @@ CGEventRef myCallback (
 	//register the defaults
 	[preferences registerDefaults:dict];
 }
+
+-(void) initTitles
+{
+	self.prefsTitle = PrefsTitle;
+	self.hideTitle = HideTitle;
+	self.quitTitle = QuitTitle;
+	self.noneTitle = NoneTitle; 
+	self.blackIcons = BlackIcons;
+	self.colorIcons = ColorIcons;
+	self.colorOrbs = ColorOrbs;
+	self.preferenceTitle = PreferenceTitle;
+	self.labelTitle = LabelTitle;
+	self.closeTitle = CloseTitle;
+	
+}
+
 
 //makes everything in the preference panel white
 -(void) makeEverythingWhite
