@@ -155,6 +155,7 @@ typedef enum {
 
 @interface GrowlGNTPPacket (GNTPInternal)
 #if GROWLHELPERAPP
+- (BOOL)isAuthorizedPacket;
 - (NSArray *)headersForResult;
 + (GrowlGNTPCallbackBehavior)callbackResultSendBehaviorForHeaders:(NSArray *)headers;
 - (GrowlGNTPCallbackBehavior)callbackResultSendBehavior;
