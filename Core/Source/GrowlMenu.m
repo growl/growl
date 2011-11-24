@@ -235,7 +235,7 @@
 
 - (IBAction)openGrowlLog:(id)sender
 {
-    [preferences setSelectedPreferenceTab:4];
+    [preferences setSelectedPreferenceTab:5];
     [self openGrowlPreferences:nil];
 }
 
