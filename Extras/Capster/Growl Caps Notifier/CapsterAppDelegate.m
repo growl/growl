@@ -57,30 +57,7 @@ CGEventRef myCallback (
 	
 	//if the caps lock state has changed, do some work
 	if(oldState != *currentState)
-	{
-		//if the shortcut var is 0, the preference panel shortcut is cmd-caps
-		//if it's 1, then it's shift-caps
-		CGEventFlags shortcuts[] = {kCGEventFlagMaskCommand , kCGEventFlagMaskShift};
-
-		//copy the pointer to the shortcut variable too
-		tempInt = (NSUInteger**) (buffer+offset);
-		NSUInteger shortcut = **tempInt;
-
-//		printf("caps %d\n",(int) *currentState);
 		[tmpID capsLockChanged: (NSUInteger) *currentState];
-		
-		//check if the user has pressed the key combination we're looking for.
-		//if so, toggle the preference panel, on the main thread
-		if ((flags & shortcuts[shortcut]) != 0)
-		{
-//			printf("enter setup\n");
-//			NSApplication* app = [NSApplication sharedApplication];
-			[tmpID performSelectorOnMainThread:@selector(toggleUI) 
-								  withObject:nil 
-							   waitUntilDone:FALSE];
-//			[[NSThread mainThread] performSelector:@selector(toggleUI)];
-		}
-	}
 	
 //		printf("flag changed\n");
 	return event;
@@ -96,22 +73,15 @@ CGEventRef myCallback (
 	//register the user's preferences
 	[self registerDefaults];
 		
-	//set the shortcut pointer, so that we now what shortcut to consider
-	//valid for showing the preference panel
-	shortcut = malloc(sizeof(NSUInteger*));	
-	*shortcut = [preferences integerForKey:@"shortcut"];
 
 	//this makes a new thread, and makes it block listening for a
 	//change of state in the caps lock flag
 	[self listenForCapsInNewThread];
 
-	//select the apropriate radio button, based on which shortcut is active
-	[shortcutMatrix selectCellAtRow:*shortcut column:0];
-
 	statusbar = malloc(sizeof(NSInteger*));	
 	*statusbar = [preferences integerForKey:@"statusMenu"];
 	
-	//select the apropriate radio button, based on which shortcut is active
+	//select the apropriate radio button, based on which icon status is active
 	[statusbarMatrix selectCellAtRow:*statusbar column:0];
 	
 	//needed, because statusbar is supposed to always store the current value
@@ -194,11 +164,7 @@ CGEventRef myCallback (
 	id* tmpID2 = (id*) (byteData+offset);
 	*tmpID2 = (id) self;
 	offset+=(NSUInteger) sizeof(id*);
-	
-	//we also send the pointer to the shortcut key's enum
-	tempInt = (NSUInteger**) (byteData+offset);
-	*tempInt = shortcut;
-	
+		
 //	NSLog(@"len_on: %i len_off %i", *tempInt1, *tempInt2);
 //	NSLog(@"size of my object: %lu", sizeof(self));
 	
@@ -250,20 +216,7 @@ CGEventRef myCallback (
 -(void) makeEverythingWhite
 {
 	//get all the cells in the matrix
-	NSArray * cells = [shortcutMatrix cells];
-	
-	//for each cell
-	for(int i = 0 ; i < [cells count] ; i ++)
-	{
-		//create a reference to the cell 
-		NSButtonCell* cell = [cells objectAtIndex:i];
-		[self setButtonTitleFor:cell
-					   toString:[cell title]
-					  withColor:[NSColor whiteColor]];
-	}
-
-	//get all the cells in the matrix
-	cells = [statusbarMatrix cells];
+	NSArray * cells = [statusbarMatrix cells];
 	
 	//for each cell
 	for(int i = 0 ; i < [cells count] ; i ++)
@@ -293,35 +246,6 @@ CGEventRef myCallback (
 	[attrString release];		
 }
 
-//toggle the preference panel between visible and invisible
--(void) toggleUI
-{
-//	NSLog(@"UI Toggled");
-	static BOOL isVisible = YES;
-	[preferencePanel setIsVisible:isVisible];
-	[preferencePanel center];
-	isVisible = !isVisible;
-}
-
-//set the key binding that shows/hides the preference panel
-- (IBAction)setKeyBinding:(id)sender
-{
-	sender =(NSMatrix*) sender;
-	if([sender selectedRow] == 0)
-	{
-		//		NSLog(@"first");
-	}
-	else
-	{
-		//		NSLog(@"second");		
-	}
-	//update the preferences, and the value of our pointer which shows
-	//the selected key binding
-	*shortcut= [sender selectedRow];
-	[preferences setInteger:[sender selectedRow] forKey:@"shortcut"];
-	[preferences synchronize];
-}
-
 - (void) fetchedCapsState
 {
 //	if( *currentState == 0)
@@ -347,4 +271,19 @@ CGEventRef myCallback (
 {
 	[myStatusbarController setStatusMenuTo:sender];
 }
+
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+	#pragma unused(theApplication, flag)
+    [self showPreferences:nil];
+    return YES;
+}
+
+-(IBAction) showPreferences:(id) sender
+{
+	#pragma unused(sender)
+	[preferencePanel setIsVisible:YES];
+	[preferencePanel center];
+	[preferencePanel makeKeyAndOrderFront:nil];
+}
+
 @end
