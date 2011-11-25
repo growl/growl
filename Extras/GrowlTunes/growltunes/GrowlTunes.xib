@@ -38,29 +38,39 @@
 			<object class="NSMenu" id="154069724">
 				<string key="NSTitle">StatusMenu</string>
 				<array class="NSMutableArray" key="NSMenuItems">
-					<object class="NSMenuItem" id="251643716">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">Quit GrowlTunes</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSOnImage" id="728216351">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">NSMenuCheckmark</string>
-						</object>
-						<object class="NSCustomResource" key="NSMixedImage" id="268587911">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">NSMenuMixedState</string>
-						</object>
-						<int key="NSTag">2</int>
-					</object>
 					<object class="NSMenuItem" id="57486674">
 						<reference key="NSMenu" ref="154069724"/>
 						<bool key="NSIsDisabled">YES</bool>
 						<string key="NSTitle">CurrentItem</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="728216351"/>
-						<reference key="NSMixedImage" ref="268587911"/>
+						<object class="NSCustomResource" key="NSOnImage" id="707824991">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuCheckmark</string>
+						</object>
+						<object class="NSCustomResource" key="NSMixedImage" id="977774974">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuMixedState</string>
+						</object>
+					</object>
+					<object class="NSMenuItem" id="251643716">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Quit GrowlTunes</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="707824991"/>
+						<reference key="NSMixedImage" ref="977774974"/>
+						<int key="NSTag">2</int>
+					</object>
+					<object class="NSMenuItem" id="958702569">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle">Configure Formatting</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="707824991"/>
+						<reference key="NSMixedImage" ref="977774974"/>
 					</object>
 				</array>
 			</object>
@@ -90,6 +100,14 @@
 						<reference key="destination" ref="154069724"/>
 					</object>
 					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">configureFormatting:</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="958702569"/>
+					</object>
+					<int key="connectionID">62</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -178,6 +196,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="251643716"/>
 							<reference ref="57486674"/>
+							<reference ref="958702569"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">GrowlTunes Menu</string>
@@ -192,6 +211,13 @@
 						<int key="objectID">42</int>
 						<reference key="object" ref="57486674"/>
 						<reference key="parent" ref="154069724"/>
+						<string key="objectName">Current Item</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">61</int>
+						<reference key="object" ref="958702569"/>
+						<reference key="parent" ref="154069724"/>
+						<string key="objectName">Configure Formatting</string>
 					</object>
 				</array>
 			</object>
@@ -218,30 +244,35 @@
 					</object>
 				</object>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<dictionary class="NSMutableDictionary" key="42.IBAttributePlaceholdersKey"/>
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">60</int>
+			<int key="maxID">62</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">GrowlTunesController</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">quitGrowlTunes:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">quitGrowlTunes:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="configureFormatting:">id</string>
+						<string key="quitGrowlTunes:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="configureFormatting:">
+							<string key="name">configureFormatting:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitGrowlTunes:">
 							<string key="name">quitGrowlTunes:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">statusItemMenu</string>
 						<string key="NS.object.0">NSMenu</string>

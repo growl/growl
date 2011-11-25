@@ -16,11 +16,13 @@
     __strong ITunesConductor* _iTunesConductor;
     __strong NSMenu* _statusItemMenu;
     NSStatusItem* _statusItem;
+    NSWindowController* _formatwc;
 }
 
 @property(readonly, strong, nonatomic) ITunesConductor* conductor;
 @property(readwrite, strong, nonatomic) IBOutlet NSMenu* statusItemMenu;
 
+- (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;
 - (void)createStatusItem;
 

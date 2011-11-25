@@ -44,6 +44,14 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return _LogLevel;
 }
 
++ (void)initialize
+{
+    NSDictionary * defaults = 
+        [NSDictionary dictionaryWithContentsOfFile: 
+            [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
+	[[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+}
+
 - (NSString*)applicationNameForGrowl
 {
 	return @"GrowlTunes";
@@ -174,6 +182,17 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
         _statusItem = nil;
     }
+}
+
+- (IBAction)configureFormatting:(id)sender
+{
+#pragma unused(sender)
+    if (!_formatwc) {
+        _formatwc = [[NSWindowController alloc] initWithWindowNibName:@"FormattingPreferences"];
+    }
+    [NSApp activateIgnoringOtherApps:YES];
+    [_formatwc showWindow:self];
+    [[_formatwc window] makeKeyWindow];
 }
 
 - (IBAction)quitGrowlTunes:(id)sender

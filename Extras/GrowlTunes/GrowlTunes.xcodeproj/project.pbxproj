@@ -25,6 +25,9 @@
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
 		6A8EB4FE147A773C0075A826 /* growltunes-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38C1447D04F002A0537 /* growltunes-Info.plist */; };
+		6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */; };
+		6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CA147F02B80075A826 /* defaults.plist */; };
+		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesProxy.m */; };
 		6A9ED38F1447D04F002A0537 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A9ED3911447D04F002A0537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9ED3901447D04F002A0537 /* main.m */; };
 		6AADA30D1448AF570089AB08 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30B1448AF570089AB08 /* Localizable.strings */; };
@@ -201,6 +204,10 @@
 		6A695F011476E76D002B0278 /* iTunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunes.m; sourceTree = "<group>"; };
 		6A89591B1447D221009D09FC /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		6A8959521447D909009D09FC /* xpcfix.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = xpcfix.sh; path = ../xpcfix.sh; sourceTree = "<group>"; };
+		6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattingPreferences.xib; sourceTree = "<group>"; };
+		6A8EB5CA147F02B80075A826 /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		6A8EB5CC147F1B0E0075A826 /* FormattingPreferencesProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattingPreferencesProxy.h; sourceTree = "<group>"; };
+		6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattingPreferencesProxy.m; sourceTree = "<group>"; };
 		6A9ED3801447D04F002A0537 /* growltunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = growltunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A9ED3841447D04F002A0537 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6A9ED3871447D04F002A0537 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -361,6 +368,8 @@
 				6AB4BB671464837A00DB18E6 /* NSObject+DRYDescription.h */,
 				6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */,
 				6A9ED38B1447D04F002A0537 /* Supporting Files */,
+				6A8EB5CC147F1B0E0075A826 /* FormattingPreferencesProxy.h */,
+				6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesProxy.m */,
 			);
 			path = growltunes;
 			sourceTree = "<group>";
@@ -379,6 +388,8 @@
 				6AADA30B1448AF570089AB08 /* Localizable.strings */,
 				6A9ED3901447D04F002A0537 /* main.m */,
 				6A8959521447D909009D09FC /* xpcfix.sh */,
+				6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */,
+				6A8EB5CA147F02B80075A826 /* defaults.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -554,6 +565,8 @@
 				6AADA3131448B43E0089AB08 /* growlTunes.png in Resources */,
 				6AADA3361448C1F50089AB08 /* GrowlTunes.xib in Resources */,
 				6A8EB4FE147A773C0075A826 /* growltunes-Info.plist in Resources */,
+				6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */,
+				6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +619,7 @@
 				6A1E354D146A0C9C00877A2F /* SPLowVerbosity.m in Sources */,
 				6A1E3560146ABC0800877A2F /* GrowlTunesController.m in Sources */,
 				6A695F021476E76D002B0278 /* iTunes.m in Sources */,
+				6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
