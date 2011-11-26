@@ -53,6 +53,24 @@
 							<string key="NSResourceName">NSMenuMixedState</string>
 						</object>
 					</object>
+					<object class="NSMenuItem" id="577532816">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="707824991"/>
+						<reference key="NSMixedImage" ref="977774974"/>
+					</object>
+					<object class="NSMenuItem" id="958702569">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Configure Formatting</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="707824991"/>
+						<reference key="NSMixedImage" ref="977774974"/>
+					</object>
 					<object class="NSMenuItem" id="251643716">
 						<reference key="NSMenu" ref="154069724"/>
 						<string key="NSTitle">Quit GrowlTunes</string>
@@ -61,16 +79,6 @@
 						<reference key="NSOnImage" ref="707824991"/>
 						<reference key="NSMixedImage" ref="977774974"/>
 						<int key="NSTag">2</int>
-					</object>
-					<object class="NSMenuItem" id="958702569">
-						<reference key="NSMenu" ref="154069724"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsHidden">YES</bool>
-						<string key="NSTitle">Configure Formatting</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="707824991"/>
-						<reference key="NSMixedImage" ref="977774974"/>
 					</object>
 				</array>
 			</object>
@@ -149,13 +157,35 @@
 							<string key="NSBinding">hidden</string>
 							<string key="NSKeyPath">self.conductor.itemData.isPlaying</string>
 							<dictionary key="NSOptions">
+								<integer value="1" key="NSNullPlaceholder"/>
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSIsNil</string>
 							</dictionary>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">60</int>
+					<int key="connectionID">69</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.conductor.itemData.isPlaying</string>
+						<reference key="source" ref="577532816"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="577532816"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">hidden: self.conductor.itemData.isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.conductor.itemData.isPlaying</string>
+							<dictionary key="NSOptions">
+								<integer value="1" key="NSNullPlaceholder"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSIsNil</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">68</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -197,6 +227,7 @@
 							<reference ref="251643716"/>
 							<reference ref="57486674"/>
 							<reference ref="958702569"/>
+							<reference ref="577532816"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">GrowlTunes Menu</string>
@@ -218,6 +249,11 @@
 						<reference key="object" ref="958702569"/>
 						<reference key="parent" ref="154069724"/>
 						<string key="objectName">Configure Formatting</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="577532816"/>
+						<reference key="parent" ref="154069724"/>
 					</object>
 				</array>
 			</object>
@@ -247,12 +283,13 @@
 				<dictionary class="NSMutableDictionary" key="42.IBAttributePlaceholdersKey"/>
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">62</int>
+			<int key="maxID">69</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
