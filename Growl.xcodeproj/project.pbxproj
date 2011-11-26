@@ -159,6 +159,8 @@
 		835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */; };
 		835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE9142C74A100B89123 /* Growl-WKMV.icns */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
+		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
+		83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC9801480958B004D13CF /* Whiteboard.growlStyle */; };
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
 		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
 		9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93265928140DD2180037AA2C /* Starwl.growlStyle */; };
@@ -522,6 +524,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */,
+				83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */,
 				93E0537C1415AE4300FC4F76 /* Garageband.growlStyle in Copy Growl Styles */,
 				C4169BF10C2CE4A900D07B91 /* Pseudo-Coda.growlStyle in Copy Growl Styles */,
 				8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */,
@@ -750,6 +754,8 @@
 		835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-DISPLAY.icns"; path = "images/DocumentIcons/Growl-DISPLAY.icns"; sourceTree = "<group>"; };
 		835A0AE9142C74A100B89123 /* Growl-WKMV.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-WKMV.icns"; path = "images/DocumentIcons/Growl-WKMV.icns"; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
+		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
+		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
 		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		93265928140DD2180037AA2C /* Starwl.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Starwl.growlStyle; path = Core/Resources/Starwl.growlStyle; sourceTree = "<group>"; };
@@ -2006,6 +2012,8 @@
 		93A60E0513C4101600514EF8 /* styles */ = {
 			isa = PBXGroup;
 			children = (
+				83EFC97F1480958B004D13CF /* Darkroom.growlStyle */,
+				83EFC9801480958B004D13CF /* Whiteboard.growlStyle */,
 				835A0ACD142A85E100B89123 /* Raaarr.growlStyle */,
 				93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */,
 				93265928140DD2180037AA2C /* Starwl.growlStyle */,
