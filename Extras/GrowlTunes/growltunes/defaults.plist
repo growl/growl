@@ -4,71 +4,110 @@
 <dict>
 	<key>format</key>
 	<dict>
-		<key>music</key>
+		<key>movie</key>
 		<dict>
-			<key>title</key>
-			<array/>
-			<key>line1</key>
-			<array/>
-			<key>line2</key>
-			<array/>
 			<key>line3</key>
 			<array/>
+			<key>title</key>
+			<array>
+				<string>[name]</string>
+				<string>[time]</string>
+			</array>
+			<key>line2</key>
+			<array/>
+			<key>line1</key>
+			<array>
+				<string>[bestDescription]</string>
+			</array>
 		</dict>
 		<key>musicVideo</key>
 		<dict>
-			<key>title</key>
-			<array/>
-			<key>line1</key>
-			<array/>
-			<key>line2</key>
-			<array/>
 			<key>line3</key>
 			<array/>
-		</dict>
-		<key>movie</key>
-		<dict>
 			<key>title</key>
-			<array/>
-			<key>line1</key>
-			<array/>
+			<array>
+				<string>[name]</string>
+				<string>[time]</string>
+			</array>
 			<key>line2</key>
-			<array/>
-			<key>line3</key>
-			<array/>
-		</dict>
-		<key>show</key>
-		<dict>
-			<key>title</key>
-			<array/>
+			<array>
+				<string>[album]</string>
+			</array>
 			<key>line1</key>
-			<array/>
-			<key>line2</key>
-			<array/>
-			<key>line3</key>
-			<array/>
-		</dict>
-		<key>stream</key>
-		<dict>
-			<key>title</key>
-			<array/>
-			<key>line1</key>
-			<array/>
-			<key>line2</key>
-			<array/>
-			<key>line3</key>
-			<array/>
+			<array>
+				<string>[bestArtist]</string>
+			</array>
 		</dict>
 		<key>podcast</key>
 		<dict>
-			<key>title</key>
-			<array/>
-			<key>line1</key>
-			<array/>
-			<key>line2</key>
-			<array/>
 			<key>line3</key>
 			<array/>
+			<key>title</key>
+			<array>
+				<string>[name]</string>
+				<string>[time]</string>
+			</array>
+			<key>line2</key>
+			<array>
+				<string>[bestDescription]</string>
+			</array>
+			<key>line1</key>
+			<array>
+				<string>[album]</string>
+			</array>
+		</dict>
+		<key>show</key>
+		<dict>
+			<key>line3</key>
+			<array/>
+			<key>title</key>
+			<array>
+				<string>[name]</string>
+				<string>[time]</string>
+			</array>
+			<key>line2</key>
+			<array>
+				<string>[bestDescription]</string>
+			</array>
+			<key>line1</key>
+			<array>
+				<string>[show]</string>
+			</array>
+		</dict>
+		<key>stream</key>
+		<dict>
+			<key>line3</key>
+			<array/>
+			<key>title</key>
+			<array>
+				<string>[streamTitle]</string>
+			</array>
+			<key>line2</key>
+			<array>
+				<string>[comment]</string>
+			</array>
+			<key>line1</key>
+			<array>
+				<string>[name]</string>
+			</array>
+		</dict>
+		<key>music</key>
+		<dict>
+			<key>line3</key>
+			<array/>
+			<key>title</key>
+			<array>
+				<string>[name]</string>
+				<string>[time]</string>
+			</array>
+			<key>line2</key>
+			<array>
+				<string>[album]</string>
+			</array>
+			<key>line1</key>
+			<array>
+				<string>[bestArtist]</string>
+			</array>
 		</dict>
 	</dict>
 </dict>
