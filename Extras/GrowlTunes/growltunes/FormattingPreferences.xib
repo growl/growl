@@ -58,13 +58,12 @@
 							<string key="NSFrame">{{0, 10}, {544, 224}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="985575949"/>
 							<string key="NSReuseIdentifierKey">_NS:608</string>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="735070304">
 									<string key="NSIdentifier">1</string>
 									<object class="NSView" key="NSView" id="827475632">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="535397272"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSCustomView" id="220374735">
@@ -79,7 +78,8 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
-														<reference key="NSNextKeyView"/>
+														<reference key="NSWindow"/>
+														<reference key="NSNextKeyView" ref="535397272"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="209742260">
@@ -113,7 +113,7 @@
 															</object>
 															<reference key="NSDelegate" ref="881614582"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -122,6 +122,7 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 23}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="881614582"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -152,6 +153,7 @@
 														</set>
 														<string key="NSFrame">{{97, 50}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="1049511261"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -167,7 +169,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="670582086"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -176,6 +178,7 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 53}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="670582086"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -198,6 +201,7 @@
 														</set>
 														<string key="NSFrame">{{97, 80}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="1023548339"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -213,7 +217,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="909146276"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -222,6 +226,7 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 83}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="909146276"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -244,6 +249,7 @@
 														</set>
 														<string key="NSFrame">{{97, 110}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="995955601"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -263,7 +269,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="983249268"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -272,6 +278,7 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 113}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="220374735"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="983249268"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -289,12 +296,15 @@
 												</array>
 												<string key="NSFrame">{{22, 20}, {480, 152}}</string>
 												<reference key="NSSuperview" ref="827475632"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="622865283"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<string key="NSClassName">NSView</string>
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {524, 178}}</string>
+										<reference key="NSSuperview" ref="535397272"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="220374735"/>
 										<string key="NSReuseIdentifierKey">_NS:610</string>
 									</object>
@@ -320,7 +330,6 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="933524468"/>
-														<reference key="NSNextKeyView"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="631203951">
@@ -334,7 +343,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="319233766"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -380,7 +389,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="43441806"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -426,7 +435,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="335525212"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -472,7 +481,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="780379166"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -529,7 +538,6 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="636768943"/>
-														<reference key="NSNextKeyView"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="132514729">
@@ -543,7 +551,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="99617457"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -589,7 +597,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="98422392"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -635,7 +643,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="932643225"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -681,7 +689,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="952382482"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -737,7 +745,6 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="549222743"/>
-														<reference key="NSNextKeyView"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="863283722">
@@ -751,7 +758,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="202210123"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -796,7 +803,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="518072573"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -842,7 +849,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="679249093"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -888,7 +895,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="660476860"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -944,7 +951,6 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="580418273"/>
-														<reference key="NSNextKeyView"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="153995647">
@@ -958,7 +964,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="89010592"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1004,7 +1010,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="623859080"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1050,7 +1056,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="880795866"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1096,7 +1102,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="613630010"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1137,7 +1143,7 @@
 								<object class="NSTabViewItem" id="251198438">
 									<string key="NSIdentifier">6</string>
 									<object class="NSView" key="NSView" id="985575949">
-										<reference key="NSNextResponder" ref="535397272"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<array class="NSMutableArray" key="NSSubviews">
 											<object class="NSCustomView" id="413828720">
@@ -1152,8 +1158,6 @@
 														</set>
 														<string key="NSFrame">{{97, 20}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTokenFieldCell" key="NSCell" id="942019653">
@@ -1167,7 +1171,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="150458328"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1176,7 +1180,6 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 23}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="150458328"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1199,7 +1202,6 @@
 														</set>
 														<string key="NSFrame">{{97, 50}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="11449583"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1215,7 +1217,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="1041502063"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1224,7 +1226,6 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 53}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="1041502063"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1247,7 +1248,6 @@
 														</set>
 														<string key="NSFrame">{{97, 80}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="248879721"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1263,7 +1263,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="331437778"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1272,7 +1272,6 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 83}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="331437778"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1295,7 +1294,6 @@
 														</set>
 														<string key="NSFrame">{{97, 110}, {363, 22}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="900403463"/>
 														<string key="NSReuseIdentifierKey">_NS:2368</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1311,7 +1309,7 @@
 															<reference key="NSTextColor" ref="900938649"/>
 															<reference key="NSDelegate" ref="155171872"/>
 															<double key="NSCompletionDelay">0.0</double>
-															<int key="NSTokenStyle">1</int>
+															<int key="NSTokenStyle">0</int>
 														</object>
 														<int key="NSTokenFieldVersion">2</int>
 													</object>
@@ -1320,7 +1318,6 @@
 														<int key="NSvFlags">268</int>
 														<string key="NSFrame">{{17, 113}, {75, 17}}</string>
 														<reference key="NSSuperview" ref="413828720"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="155171872"/>
 														<string key="NSReuseIdentifierKey">_NS:3944</string>
 														<bool key="NSEnabled">YES</bool>
@@ -1338,15 +1335,12 @@
 												</array>
 												<string key="NSFrame">{{22, 20}, {480, 152}}</string>
 												<reference key="NSSuperview" ref="985575949"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="210076438"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<string key="NSClassName">NSView</string>
 											</object>
 										</array>
 										<string key="NSFrame">{{10, 33}, {524, 178}}</string>
-										<reference key="NSSuperview" ref="535397272"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="413828720"/>
 									</object>
 									<string key="NSLabel">Music</string>
@@ -1354,13 +1348,13 @@
 									<reference key="NSTabView" ref="535397272"/>
 								</object>
 							</array>
-							<reference key="NSSelectedTabViewItem" ref="251198438"/>
+							<reference key="NSSelectedTabViewItem" ref="735070304"/>
 							<reference key="NSFont" ref="632394287"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<array class="NSMutableArray" key="NSSubviews">
-								<reference ref="985575949"/>
+								<reference ref="827475632"/>
 							</array>
 						</object>
 					</array>
@@ -1374,7 +1368,7 @@
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSCustomObject" id="759298181">
-				<string key="NSClassName">FormattingPreferencesProxy</string>
+				<string key="NSClassName">FormattingPreferencesHelper</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1391,9 +1385,9 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="759298181"/>
 					</object>
-					<int key="connectionID">269</int>
+					<int key="connectionID">440</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1417,6 +1411,14 @@
 					<int key="connectionID">437</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="319233766"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">448</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: stream.line2</string>
 						<reference key="source" ref="43441806"/>
@@ -1436,6 +1438,14 @@
 						</object>
 					</object>
 					<int key="connectionID">432</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="43441806"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">447</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1459,6 +1469,14 @@
 					<int key="connectionID">427</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="335525212"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">446</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: stream.title</string>
 						<reference key="source" ref="780379166"/>
@@ -1478,6 +1496,14 @@
 						</object>
 					</object>
 					<int key="connectionID">422</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="780379166"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">445</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1501,6 +1527,14 @@
 					<int key="connectionID">417</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="99617457"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">452</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: show.line2</string>
 						<reference key="source" ref="98422392"/>
@@ -1520,6 +1554,14 @@
 						</object>
 					</object>
 					<int key="connectionID">412</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="98422392"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">451</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1543,6 +1585,14 @@
 					<int key="connectionID">407</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="932643225"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">450</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: show.title</string>
 						<reference key="source" ref="952382482"/>
@@ -1562,6 +1612,14 @@
 						</object>
 					</object>
 					<int key="connectionID">402</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="952382482"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">449</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1585,6 +1643,14 @@
 					<int key="connectionID">397</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="202210123"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">456</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: movie.line2</string>
 						<reference key="source" ref="518072573"/>
@@ -1604,6 +1670,14 @@
 						</object>
 					</object>
 					<int key="connectionID">390</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="518072573"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">455</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1627,6 +1701,14 @@
 					<int key="connectionID">391</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="679249093"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">454</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: movie.title</string>
 						<reference key="source" ref="660476860"/>
@@ -1646,6 +1728,14 @@
 						</object>
 					</object>
 					<int key="connectionID">392</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="660476860"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">453</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1669,6 +1759,14 @@
 					<int key="connectionID">375</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="89010592"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">460</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: musicVideo.line2</string>
 						<reference key="source" ref="623859080"/>
@@ -1688,6 +1786,14 @@
 						</object>
 					</object>
 					<int key="connectionID">370</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="623859080"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">459</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1711,6 +1817,14 @@
 					<int key="connectionID">365</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="880795866"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">458</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: musicVideo.title</string>
 						<reference key="source" ref="613630010"/>
@@ -1730,6 +1844,14 @@
 						</object>
 					</object>
 					<int key="connectionID">360</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="613630010"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">457</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1753,6 +1875,14 @@
 					<int key="connectionID">354</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="150458328"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">464</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: music.line2</string>
 						<reference key="source" ref="1041502063"/>
@@ -1772,6 +1902,14 @@
 						</object>
 					</object>
 					<int key="connectionID">348</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1041502063"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">463</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1795,6 +1933,14 @@
 					<int key="connectionID">439</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="331437778"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">462</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: music.title</string>
 						<reference key="source" ref="155171872"/>
@@ -1814,6 +1960,14 @@
 						</object>
 					</object>
 					<int key="connectionID">337</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="155171872"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">461</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1837,6 +1991,14 @@
 					<int key="connectionID">331</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="881614582"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">444</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: podcast.line2</string>
 						<reference key="source" ref="670582086"/>
@@ -1856,6 +2018,14 @@
 						</object>
 					</object>
 					<int key="connectionID">328</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="670582086"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">443</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1879,6 +2049,14 @@
 					<int key="connectionID">325</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="909146276"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">442</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: podcast.title</string>
 						<reference key="source" ref="983249268"/>
@@ -1898,6 +2076,14 @@
 						</object>
 					</object>
 					<int key="connectionID">322</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="983249268"/>
+						<reference key="destination" ref="759298181"/>
+					</object>
+					<int key="connectionID">441</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2769,7 +2955,7 @@
 						<int key="objectID">318</int>
 						<reference key="object" ref="759298181"/>
 						<reference key="parent" ref="0"/>
-						<string key="objectName">Formatting Preferences Proxy</string>
+						<string key="objectName">Formatting Preferences Helper</string>
 					</object>
 				</array>
 			</object>
@@ -2832,6 +3018,7 @@
 				<string key="274.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="275.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="276.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<dictionary class="NSMutableDictionary" key="277.IBAttributePlaceholdersKey"/>
 				<string key="277.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="278.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="279.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2902,16 +3089,16 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">439</int>
+			<int key="maxID">464</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">FormattingPreferencesProxy</string>
+					<string key="className">FormattingPreferencesHelper</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/FormattingPreferencesProxy.h</string>
+						<string key="minorKey">./Classes/FormattingPreferencesHelper.h</string>
 					</object>
 				</object>
 			</array>
