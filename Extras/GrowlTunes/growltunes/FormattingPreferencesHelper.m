@@ -8,6 +8,7 @@
 
 #import "FormattingPreferencesHelper.h"
 #import "macros.h"
+#import "FormattingToken.h"
 
 #define formattingTypes @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
 #define formattingAttributes @"title", @"line1", @"line2", @"line3"
@@ -103,6 +104,35 @@
                  
                  [_defaults setValue:newFormat forKey:@"format"];
              });
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
+{
+    if ([representedObject respondsToSelector:@selector(displayString)]) {
+        return [representedObject valueForKey:@"displayString"];
+    }
+    return representedObject;
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject
+{
+    if ([representedObject respondsToSelector:@selector(editingString)]) {
+        return [representedObject valueForKey:@"editingString"];
+    }
+    return representedObject;
+}
+
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString
+{
+    return [[FormattingToken alloc] initWithEditingString:editingString];
+}
+
+- (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject
+{
+    if ([representedObject respondsToSelector:@selector(tokenStyle)]) {
+        return (NSTokenStyle)[representedObject performSelector:@selector(tokenStyle)];
+    }
+    return NSPlainTextTokenStyle;
 }
 
 @end

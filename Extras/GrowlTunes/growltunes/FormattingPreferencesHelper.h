@@ -27,4 +27,9 @@
 @property(readonly, retain, atomic) NSMutableDictionary* musicVideo;
 @property(readonly, retain, atomic) NSMutableDictionary* music;
 
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject;
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject;
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString;
+- (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject;
+
 @end
