@@ -9,6 +9,7 @@
 #import "TrackMetadata.h"
 #import "iTunes+iTunesAdditions.h"
 #import "macros.h"
+#import <objc/runtime.h>
 
 
 @interface TrackMetadata ()
@@ -37,10 +38,17 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 @synthesize cache = _cache;
 @synthesize isEvaluated = _isEvaluated;
 
+static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
+
 +(void)initialize
 {
     if (self == [TrackMetadata class]) {
         setLogLevel("TrackMetadata");
+        
+        NSArray* props = [self propertiesForTrackClass:@"all"];
+        for (NSString* prop in props) {
+            class_addMethod(self, NSSelectorFromString(prop), (IMP)_propertyGetterFunc, "@@:");
+        }
     }
 }
 
@@ -145,7 +153,8 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                   @"ITunesDeviceTrack", deviceSet,
                   @"ITunesFileTrack", fileSet,
                   @"ITunesSharedTrack", sharedSet,
-                  @"ITunesURLTrack", urlSet);
+                  @"ITunesURLTrack", urlSet,
+                  @"all", [trackSet setByAddingObjectsFromSet:$set(@"location", @"address")]);
     }
     
     NSSet* props = [propertiesByClassName objectForKey:className];
@@ -192,12 +201,15 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         
     self.cache = [NSMutableDictionary dictionary];
     self.trackObject = track;
+    _isEvaluated = NO;
     
     NSString* specifier = [track performSelector:@selector(specifierDescription)];
-    _isEvaluated = !([specifier rangeOfString:@"currentTrack"].location != NSNotFound);
+    BOOL evaluated = !([specifier rangeOfString:@"currentTrack"].location != NSNotFound);
     
-    LogVerboseTag(@"init", @"track: %@ isEvaluated: %@", track, (_isEvaluated ? @"YES" : @"NO"));
+    LogVerboseTag(@"init", @"track: %@ isEvaluated: %@", track, (evaluated ? @"YES" : @"NO"));
     
+    if (evaluated) [self evaluate];
+        
     return self;
 }
 
@@ -255,13 +267,14 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 #pragma mark KVC
 
 // TODO: determine whether or not we care about caching 'exists' on evaluated tracks
--(id)valueForUndefinedKey:(NSString *)key
-{
-    LogVerboseTag(@"KVC", @"valueForUndefinedKey: %@", key);
-    
+
+static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {    
     id value;
+    NSString* key = NSStringFromSelector(_cmd);
     
-    if (_isEvaluated) {
+    LogVerboseTag(@"KVC", @"_propertyGetterFunc _cmd:%@", key);
+    
+    if (self.isEvaluated) {
         value = [self.cache objectForKey:key];
         if (!value) {
             value = [self.trackObject valueForKey:key];
@@ -272,6 +285,12 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     }
     
     return value;
+}
+
+-(id)valueForUndefinedKey:(NSString *)key
+{
+    LogVerboseTag(@"KVC", @"valueForUndefinedKey: %@", key);
+    return _propertyGetterFunc(self, NSSelectorFromString(key));
 }
 
 -(NSArray*)attributeKeys
