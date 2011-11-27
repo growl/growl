@@ -1,8 +1,8 @@
-#define StateStopped iTunesEPlSStopped
-#define StatePlaying iTunesEPlSPlaying
-#define StatePaused iTunesEPlSPaused
-#define StateFastForward iTunesEPlSFastForwarding
-#define StateRewind iTunesEPlSRewinding
+#define StateStopped ITunesEPlSStopped
+#define StatePlaying ITunesEPlSPlaying
+#define StatePaused ITunesEPlSPaused
+#define StateFastForward ITunesEPlSFastForwarding
+#define StateRewind ITunesEPlSRewinding
 
 #define RENOTIFY_STREAM_KEY @"ReNotifyOnStreamingTrackChange"
 

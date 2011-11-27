@@ -7,16 +7,17 @@
 //
 
 #import "ITunesConductor.h"
+#import "iTunes+iTunesAdditions.h"
 #import "macros.h"
 #import "NSObject+DRYDescription.h"
 
 
 @interface ITunesConductor ()
 
-@property(readwrite, nonatomic, strong) iTunesApplication* iTunes;
+@property(readwrite, nonatomic, strong) ITunesApplication* iTunes;
 @property(readwrite, nonatomic, assign, getter = isRunning) BOOL running;
 @property(readwrite, nonatomic, assign) NSInteger trackID;
-@property(readwrite, nonatomic, assign) iTunesEPlS playerState;
+@property(readwrite, nonatomic, assign) ITunesEPlS playerState;
 @property(readwrite, nonatomic, copy) NSMutableDictionary* itemData;
 
 - (void)didLaunchOrTerminateNotification:(NSNotification*)note;
@@ -118,7 +119,7 @@ static NSArray* tkeys;
     self.trackID = -1;
     self.playerState = StateStopped;
     
-    iTunesApplication* ita = [SBApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
+    ITunesApplication* ita = [ITunesApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
     [ita setDelegate:self];
     self.iTunes = ita;
         
@@ -174,11 +175,11 @@ static NSArray* tkeys;
     }
 }
 
-- (iTunesTrack*)getTrackByPersistentID:(NSString*)persistentID
+- (ITunesTrack*)getTrackByPersistentID:(NSString*)persistentID
 {
     SBElementArray* sources = [$notNull(self.iTunes) sources];
-    iTunesSource* library = [sources objectWithName:@"Library"];
-    iTunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
+    ITunesSource* library = [sources objectWithName:@"Library"];
+    ITunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
     SBElementArray* entireLibrary = [libraryPlaylist tracks];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"persistentID == %@", persistentID];
     NSArray* matched = [entireLibrary filteredArrayUsingPredicate:predicate];
@@ -190,13 +191,13 @@ static NSArray* tkeys;
 {
     LogInfoTag(@"playerInfo", @"note: %@", note);
         
-    iTunesApplication* ita = $notNull(self.iTunes);
+    ITunesApplication* ita = $notNull(self.iTunes);
     
-    iTunesTrack* currentTrack = ita.currentTrack.get;
+    ITunesTrack* currentTrack = ita.currentTrack.get;
     
     if (currentTrack.exists) {
-        iTunesEPlS previousState = _playerState;
-        iTunesEPlS currentState = ita.playerState;
+        ITunesEPlS previousState = _playerState;
+        ITunesEPlS currentState = ita.playerState;
         _playerState = currentState;
         
         NSInteger previousTrackID = _trackID;
@@ -218,7 +219,7 @@ static NSArray* tkeys;
             }
         }
         
-        NSMutableDictionary* currentTrackData = [[currentTrack dictionaryForKVCKeys:tkeys] mutableCopy];
+        NSMutableDictionary* currentTrackData = [[currentTrack dictionaryWithValuesForKeys:tkeys] mutableCopy];
         [currentTrackData setValue:trackType forKey:@"class"];
         [currentTrackData setValue:ita.currentEncoder.format forKey:@"format"];
         [currentTrackData setValue:[ita.encoders valueForKey:@"format"] forKey:@"usableFormats"];
@@ -255,17 +256,17 @@ static NSArray* tkeys;
         }
         
         if ([trackType isEqualToString:@"ITunesURLTrack"]) {
-            iTunesURLTrack* utrack = (iTunesURLTrack*)currentTrack;
+            ITunesURLTrack* utrack = (ITunesURLTrack*)currentTrack;
             [currentTrackData setValue:utrack.address forKey:@"address"];
             [currentTrackData setValue:ita.currentStreamTitle forKey:@"streamTitle"];
             [currentTrackData setValue:ita.currentStreamURL forKey:@"streamURL"];
             [currentTrackData setValue:$bool(YES) forKey:@"isStreaming"];
         } else if ([trackType isEqualToString:@"ITunesFileTrack"]) {
-            iTunesFileTrack* ftrack = (iTunesFileTrack*)currentTrack;
+            ITunesFileTrack* ftrack = (ITunesFileTrack*)currentTrack;
             [currentTrackData setValue:ftrack.location forKey:@"location"];
             [currentTrackData setValue:$bool(YES) forKey:@"isFile"];
         } else if ([trackType isEqualToString:@"ITunesAudioCDTrack"]) {
-            iTunesAudioCDTrack* atrack = (iTunesAudioCDTrack*)currentTrack;
+            ITunesAudioCDTrack* atrack = (ITunesAudioCDTrack*)currentTrack;
             [currentTrackData setValue:atrack.location forKey:@"location"];
             [currentTrackData setValue:$bool(YES) forKey:@"isCD"];
         } else if ([trackType isEqualToString:@"ITunesDeviceTrack"]) {
@@ -277,7 +278,7 @@ static NSArray* tkeys;
             [currentTrackData setValue:$bool(YES) forKey:@"isShared"];
         }
                 
-        iTunesArtwork* artwork = [currentTrack.artworks lastObject];
+        ITunesArtwork* artwork = [currentTrack.artworks lastObject];
         
         if ([artwork exists]) {
             artwork = [artwork get];

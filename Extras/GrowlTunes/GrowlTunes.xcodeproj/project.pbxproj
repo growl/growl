@@ -25,7 +25,6 @@
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
-		6A8EB4FE147A773C0075A826 /* growltunes-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38C1447D04F002A0537 /* growltunes-Info.plist */; };
 		6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */; };
 		6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CA147F02B80075A826 /* defaults.plist */; };
 		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */; };
@@ -37,6 +36,7 @@
 		6AADA3131448B43E0089AB08 /* growlTunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA3101448B43E0089AB08 /* growlTunes.png */; };
 		6AADA3361448C1F50089AB08 /* GrowlTunes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA3351448C1F50089AB08 /* GrowlTunes.xib */; };
 		6AB4BB691464837A00DB18E6 /* NSObject+DRYDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */; };
+		6AD776F914817C2800A1592B /* iTunes+iTunesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,6 +230,8 @@
 		6AADA33C144902FF0089AB08 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
 		6AB4BB671464837A00DB18E6 /* NSObject+DRYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DRYDescription.h"; path = "growltunes/NSObject+DRYDescription.h"; sourceTree = "<group>"; };
 		6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DRYDescription.m"; path = "growltunes/NSObject+DRYDescription.m"; sourceTree = "<group>"; };
+		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
+		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,6 +372,8 @@
 				6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */,
 				6A1E355E146ABC0700877A2F /* GrowlTunesController.h */,
 				6A1E355F146ABC0700877A2F /* GrowlTunesController.m */,
+				6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */,
+				6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */,
 				6AADA33C144902FF0089AB08 /* iTunes.h */,
 				6A695F011476E76D002B0278 /* iTunes.m */,
 				6A1E35411469A77000877A2F /* ITunesConductor.h */,
@@ -571,7 +575,6 @@
 				6AADA3121448B43E0089AB08 /* GrowlTunes.icns in Resources */,
 				6AADA3131448B43E0089AB08 /* growlTunes.png in Resources */,
 				6AADA3361448C1F50089AB08 /* GrowlTunes.xib in Resources */,
-				6A8EB4FE147A773C0075A826 /* growltunes-Info.plist in Resources */,
 				6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */,
 				6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */,
 			);
@@ -628,6 +631,7 @@
 				6A695F021476E76D002B0278 /* iTunes.m in Sources */,
 				6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */,
 				6A107EDE14805F92009C4B9D /* TrackMetadata.m in Sources */,
+				6AD776F914817C2800A1592B /* iTunes+iTunesAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

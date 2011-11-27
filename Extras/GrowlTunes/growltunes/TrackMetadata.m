@@ -7,19 +7,23 @@
 //
 
 #import "TrackMetadata.h"
+#import "iTunes+iTunesAdditions.h"
 #import "macros.h"
 
 
 @interface TrackMetadata ()
 
-@property(readwrite, retain, nonatomic) iTunesTrack* trackObject;
+@property(readwrite, retain, nonatomic) ITunesTrack* trackObject;
 @property(readwrite, retain, nonatomic) NSMutableDictionary* cache;
 @property(readwrite, assign, nonatomic) BOOL isEvaluated;
 
-+(iTunesApplication*)iTunes;
++(ITunesApplication*)iTunes;
++(NSArray*)propertiesForTrackClass:(NSString*)className;
++(NSArray*)propertiesForTrackClass:(NSString*)className includingHelpers:(BOOL)withHelpers;
 
--(void)updateStreamMetadata;
--(void)updateApplicationMetadata;
+-(void)_updateStreamMetadata;
+-(void)_updateApplicationMetadata;
+-(void)_cacheAllProperties;
 
 @end
 
@@ -50,11 +54,112 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return _LogLevel;
 }
 
-+(iTunesApplication*)iTunes
++(BOOL)accessInstanceVariablesDirectly
 {
-    static __strong iTunesApplication* iTunes;
-    if (!iTunes) iTunes = [SBApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
+    return NO;
+}
+
++(ITunesApplication*)iTunes
+{
+    static __strong ITunesApplication* iTunes;
+    if (!iTunes) iTunes = [ITunesApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
     return iTunes;
+}
+
++(NSArray*)propertiesForTrackClass:(NSString*)className
+{
+    return [self propertiesForTrackClass:className includingHelpers:NO];
+}
+
++(NSArray*)propertiesForTrackClass:(NSString*)className includingHelpers:(BOOL)withHelpers
+{
+    static __strong NSDictionary* propertiesByClassName;
+    
+    if (!propertiesByClassName) {
+        NSSet* itemSet              = $set(@"container", @"exists", @"index", @"name", @"persistentID");
+        NSSet* trackSet             = [itemSet setByAddingObjectsFromSet:
+                                       $set(@"EQ",
+                                            @"album",
+                                            @"albumArtist",
+                                            @"albumRating",
+                                            @"albumRatingKind",
+                                            @"artist",
+                                            @"bitRate",
+                                            @"bookmarkable",
+                                            @"bpm",
+                                            @"category",
+                                            @"comment",
+                                            @"compilation",
+                                            @"composer",
+                                            @"databaseID",
+                                            @"dateAdded",
+                                            @"discCount",
+                                            @"discNumber",
+                                            @"duration",
+                                            @"enabled",
+                                            @"episodeID",
+                                            @"episodeNumber",
+                                            @"finish",
+                                            @"gapless",
+                                            @"genre",
+                                            @"grouping",
+                                            @"lyrics",
+                                            @"modificationDate",
+                                            @"objectDescription",
+                                            @"playedCount",
+                                            @"playedDate",
+                                            @"podcast",
+                                            @"rating",
+                                            @"ratingKind",
+                                            @"releaseDate",
+                                            @"sampleRate",
+                                            @"seasonNumber",
+                                            @"show",
+                                            @"shufflable",
+                                            @"size",
+                                            @"skippedCount",
+                                            @"skippedDate",
+                                            @"start",
+                                            @"time",
+                                            @"trackCount",
+                                            @"trackNumber",
+                                            @"unplayed",
+                                            @"videoKind",
+                                            @"volumeAdjustment",
+                                            @"year"
+                                        )];
+        
+        NSSet* trackAdditionsSet    = $set(@"albumRatingKindName", @"ratingKindName", @"videoKindName");
+        trackSet                    = [trackSet setByAddingObjectsFromSet:trackAdditionsSet];
+        
+        NSSet* cdSet                = [trackSet setByAddingObjectsFromSet:$set(@"location")];
+        NSSet* deviceSet            = [trackSet copy];
+        NSSet* fileSet              = [trackSet setByAddingObjectsFromSet:$set(@"location")];
+        NSSet* sharedSet            = [trackSet copy];
+        NSSet* urlSet               = [trackSet setByAddingObjectsFromSet:$set(@"address")];
+        
+        propertiesByClassName = 
+            $dict(@"ITunesItem", itemSet,
+                  @"ITunesTrack", trackSet,
+                  @"ITunesAudioCDTrack", cdSet,
+                  @"ITunesDeviceTrack", deviceSet,
+                  @"ITunesFileTrack", fileSet,
+                  @"ITunesSharedTrack", sharedSet,
+                  @"ITunesURLTrack", urlSet);
+    }
+    
+    NSSet* props = [propertiesByClassName objectForKey:className];
+    
+    if (props) {
+        if (withHelpers) {
+            props = [props setByAddingObjectsFromSet:$set(@"typeDescription", @"trackClass", 
+                                                          @"bestArtist", @"bestDescription", 
+                                                          @"artworkImage")];
+        }
+        return [[props allObjects] sortedArrayUsingSelector:@selector(compare:)];
+    } else {
+        return [NSArray array];
+    }
 }
 
 #pragma mark initializers
@@ -62,18 +167,18 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 -(id)init
 {
     LogInfoTag(@"init", @"Initializing with lazy currentTrack object");
-    iTunesApplication* ita = [[self class] iTunes];
-    iTunesTrack* currentTrack = ita.currentTrack;
+    ITunesApplication* ita = [[self class] iTunes];
+    ITunesTrack* currentTrack = ita.currentTrack;
     return [self initWithTrackObject:currentTrack];
 }
 
 -(id)initWithPersistentID:(NSString*)persistentID
 {
     LogInfoTag(@"init", @"Initializing with persistent ID: %@", persistentID);
-    iTunesApplication* ita = [[self class] iTunes];
+    ITunesApplication* ita = [[self class] iTunes];
     SBElementArray* sources = [ita sources];
-    iTunesSource* library = [sources objectWithName:@"Library"];
-    iTunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
+    ITunesSource* library = [sources objectWithName:@"Library"];
+    ITunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
     SBElementArray* entireLibrary = [libraryPlaylist tracks];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"persistentID == %@", persistentID];
     NSArray* matched = [entireLibrary filteredArrayUsingPredicate:predicate];
@@ -81,7 +186,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return nil;
 }
 
--(id)initWithTrackObject:(iTunesTrack*)track
+-(id)initWithTrackObject:(ITunesTrack*)track
 {
     self = [super init];
         
@@ -99,33 +204,22 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 #pragma mark evaluation
 
 // TODO: determine whether it's worth it to do a persistentID check against the currentTrack and refresh when evaluated
--(void)updateStreamMetadata
+-(void)_updateStreamMetadata
 {
     if (_isEvaluated) { return; }
     
     LogVerbose(@"updating stream metadata");
     
-    iTunesApplication* ita = [[self class] iTunes];
-    NSString* streamTitle = ita.currentStreamTitle;
-    NSString* streamURL = ita.currentStreamURL;
-    
-    if (streamTitle && streamURL) {
-        LogVerbose(@"updating stream metadata for stream");
-        [self.cache setObject:ita.currentStreamTitle forKey:@"streamTitle"];
-        [self.cache setObject:ita.currentStreamURL forKey:@"streamURL"];
-    } else {
-        LogVerbose(@"updating stream metadata for non-stream");
-        // too lazy to use NSNull
-        [self.cache setObject:@"" forKey:@"streamTitle"];
-        [self.cache setObject:@"" forKey:@"streamURL"];
-    }
+    ITunesApplication* ita = [[self class] iTunes];
+    [self.cache setValue:ita.currentStreamTitle forKey:@"streamTitle"];
+    [self.cache setValue:ita.currentStreamURL forKey:@"streamURL"];
 }
 
--(void)updateApplicationMetadata
+-(void)_updateApplicationMetadata
 {
     LogVerbose(@"updating application metadata");
     
-    iTunesApplication* ita = [[self class] iTunes];
+    ITunesApplication* ita = [[self class] iTunes];
     [self.cache setObject:$bool(ita.frontmost) forKey:@"isActive"];
     [self.cache setObject:$bool(ita.fullScreen) forKey:@"isFullScreen"];
     [self.cache setObject:$bool(ita.mute) forKey:@"isMuted"];
@@ -134,35 +228,55 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     [self.cache setObject:$integer(ita.playerPosition) forKey:@"playerPosition"];
 }
 
+-(void)_cacheAllProperties
+{
+    if (_isEvaluated) { return; }
+    
+    NSArray* keys = [[self class] propertiesForTrackClass:[self trackClass] 
+                                         includingHelpers:NO];
+    LogVerbose(@"caching properties: %@", keys);
+    
+    NSDictionary* cacheDictionary = [self.trackObject dictionaryWithValuesForKeys:keys];
+    [self.cache addEntriesFromDictionary:cacheDictionary];
+}
+
 -(void)evaluate
 {
     if (!_isEvaluated) {
         LogInfo(@"evaluating lazy track object");
         self.trackObject = [self.trackObject get];
         LogInfo(@"new track object: %@", self.trackObject);
-        [self updateStreamMetadata];
+        [self _updateStreamMetadata];
+        [self _cacheAllProperties];
         self.isEvaluated = YES;
     }
 }
 
-#pragma mark KVC proxying
+#pragma mark KVC
 
 // TODO: determine whether or not we care about caching 'exists' on evaluated tracks
 -(id)valueForUndefinedKey:(NSString *)key
 {
-    LogVerboseTag(@"KVC proxying", @"valueForUndefinedKey: %@", key);
+    LogVerboseTag(@"KVC", @"valueForUndefinedKey: %@", key);
     
     id value;
     
     if (_isEvaluated) {
         value = [self.cache objectForKey:key];
-        if (!value) { value = [self.trackObject valueForKey:key]; }
-        if (value) { [self.cache setObject:value forKey:key]; }
+        if (!value) {
+            value = [self.trackObject valueForKey:key];
+            if (value) { [self.cache setObject:value forKey:key]; }
+        }
     } else {
         value = [self.trackObject valueForKey:key];
     }
     
     return value;
+}
+
+-(NSArray*)attributeKeys
+{
+    return [[self class] propertiesForTrackClass:[self trackClass] includingHelpers:YES];
 }
 
 #pragma mark helper accessors
@@ -188,27 +302,27 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     // this is a radio stream is to check whether iTunesApplication.currentStreamTitle is an empty string. because this
     // information only exists while streaming, and only for the duration of that track, we need to ask for it right
     // away then cache those values.
-    [self updateStreamMetadata];
+    [self _updateStreamMetadata];
     NSString* streamTitle = [self.cache valueForKey:@"streamTitle"];
     if (streamTitle && [streamTitle length] > 0) {
         return @"stream";
     }
     
     // go go team pre-classification
-    iTunesEVdK videoKind = [[self valueForKey:@"videoKind"] intValue];
+    ITunesEVdK videoKind = [[self valueForKey:@"videoKind"] intValue];
     switch (videoKind) {
-        case iTunesEVdKNone:
+        case ITunesEVdKNone:
             break;
             
-        case iTunesEVdKTVShow:
+        case ITunesEVdKTVShow:
             return @"show";
             break;
             
-        case iTunesEVdKMovie:
+        case ITunesEVdKMovie:
             return @"movie";
             break;
             
-        case iTunesEVdKMusicVideo:
+        case ITunesEVdKMusicVideo:
             return @"musicVideo";
             break;
     }
@@ -220,7 +334,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 -(NSString*)trackClass
 {
     // if this isn't an evaluated metadata object, get the non-loosely-typed track object first
-    iTunesTrack* track = (_isEvaluated) ? self.trackObject : [self.trackObject get];
+    ITunesTrack* track = (_isEvaluated) ? self.trackObject : [self.trackObject get];
     return NSStringFromClass([track class]);
 }
 
@@ -271,7 +385,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     SBElementArray* artworks = self.trackObject.artworks;
     if ([artworks count] == 0) return nil;
     
-    iTunesArtwork* artwork = [artworks lastObject];
+    ITunesArtwork* artwork = [artworks lastObject];
     if (![artwork exists]) return nil;
     
     artwork = [artwork get];

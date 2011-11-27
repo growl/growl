@@ -10,7 +10,7 @@
 #import "iTunes.h"
 
 @interface TrackMetadata : NSObject {
-    iTunesTrack* _trackObject;
+    ITunesTrack* _trackObject;
     NSMutableDictionary* _cache;
     BOOL _isEvaluated;
 }
@@ -18,12 +18,16 @@
 @property(readonly, assign, nonatomic) BOOL isEvaluated;
 
 -(id)init;
--(id)initWithTrackObject:(iTunesTrack*)track;
+-(id)initWithPersistentID:(NSString*)persistentID;
+-(id)initWithTrackObject:(ITunesTrack*)track;
 -(void)evaluate;
+
+-(NSArray*)attributeKeys;
 
 -(NSString*)typeDescription;
 -(NSString*)trackClass;
 -(NSString*)bestArtist;
 -(NSString*)bestDescription;
+-(NSImage*)artworkImage;
 
 @end

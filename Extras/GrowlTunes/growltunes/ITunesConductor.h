@@ -13,15 +13,15 @@
 @interface ITunesConductor : NSObject <SBApplicationDelegate> {
     @private
     
-    iTunesApplication* _iTunes;
+    ITunesApplication* _iTunes;
     BOOL _running;
     NSInteger _trackID;
-    iTunesEPlS _playerState;
+    ITunesEPlS _playerState;
     NSMutableDictionary* _itemData;
 }
 
 @property(readonly, nonatomic, assign, getter = isRunning) BOOL running;
-@property(readonly, nonatomic, assign) iTunesEPlS playerState;
+@property(readonly, nonatomic, assign) ITunesEPlS playerState;
 @property(readonly, nonatomic, copy) NSDictionary* itemData;
 
 + (void)setLogLevel:(int)level;
