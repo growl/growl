@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
-<dictionary title="iTunes">
+<dictionary title="ITunes">
 	<suite name="Standard Suite" code="****" description="Common terms for most applications">
 		<enumeration name="eKnd" code="eKnd" description="printout kind">
 			<enumerator name="track listing" code="kTrk" description="a basic listing of tracks within a playlist"/>

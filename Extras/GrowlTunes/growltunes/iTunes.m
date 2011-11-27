@@ -11,7 +11,7 @@
  * Standard Suite
  */
 
-@implementation iTunesPrintSettings
+@implementation ITunesPrintSettings
 
 
 - (NSInteger) copies
@@ -50,7 +50,7 @@
 	return [v integerValue];
 }
 
-- (iTunesEnum) errorHandling
+- (ITunesEnum) errorHandling
 {
 	id v = [[self propertyWithCode:'lweh'] get];
 	return [v enumCodeValue];
@@ -77,7 +77,7 @@
 }
 
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(iTunesPrintSettings *)withProperties kind:(iTunesEKnd)kind theme:(NSString *)theme
+- (void) printPrintDialog:(BOOL)printDialog withProperties:(ITunesPrintSettings *)withProperties kind:(ITunesEKnd)kind theme:(NSString *)theme
 {
 	[self sendEvent:'aevt' id:'pdoc' parameters:'pdlg', [NSNumber numberWithBool:printDialog], 'prdt', withProperties, 'pKnd', [NSAppleEventDescriptor descriptorWithEnumCode:kind], 'pThm', theme, 0];
 }
@@ -124,35 +124,35 @@
  * iTunes Suite
  */
 
-@implementation iTunesApplication
+@implementation ITunesApplication
 
 typedef struct { __unsafe_unretained NSString *name; FourCharCode code; } classForCode_t;
 static const classForCode_t classForCodeData__[] = {
-	{ @"iTunesApplication", 'capp' },
-	{ @"iTunesArtwork", 'cArt' },
-	{ @"iTunesAudioCDPlaylist", 'cCDP' },
-	{ @"iTunesAudioCDTrack", 'cCDT' },
-	{ @"iTunesBrowserWindow", 'cBrW' },
-	{ @"iTunesDevicePlaylist", 'cDvP' },
-	{ @"iTunesDeviceTrack", 'cDvT' },
-	{ @"iTunesEQPreset", 'cEQP' },
-	{ @"iTunesEQWindow", 'cEQW' },
-	{ @"iTunesEncoder", 'cEnc' },
-	{ @"iTunesFileTrack", 'cFlT' },
-	{ @"iTunesFolderPlaylist", 'cFoP' },
-	{ @"iTunesItem", 'cobj' },
-	{ @"iTunesLibraryPlaylist", 'cLiP' },
-	{ @"iTunesPlaylist", 'cPly' },
-	{ @"iTunesPlaylistWindow", 'cPlW' },
-	{ @"iTunesPrintSettings", 'pset' },
-	{ @"iTunesRadioTunerPlaylist", 'cRTP' },
-	{ @"iTunesSharedTrack", 'cShT' },
-	{ @"iTunesSource", 'cSrc' },
-	{ @"iTunesTrack", 'cTrk' },
-	{ @"iTunesURLTrack", 'cURT' },
-	{ @"iTunesUserPlaylist", 'cUsP' },
-	{ @"iTunesVisual", 'cVis' },
-	{ @"iTunesWindow", 'cwin' },
+	{ @"ITunesApplication", 'capp' },
+	{ @"ITunesArtwork", 'cArt' },
+	{ @"ITunesAudioCDPlaylist", 'cCDP' },
+	{ @"ITunesAudioCDTrack", 'cCDT' },
+	{ @"ITunesBrowserWindow", 'cBrW' },
+	{ @"ITunesDevicePlaylist", 'cDvP' },
+	{ @"ITunesDeviceTrack", 'cDvT' },
+	{ @"ITunesEQPreset", 'cEQP' },
+	{ @"ITunesEQWindow", 'cEQW' },
+	{ @"ITunesEncoder", 'cEnc' },
+	{ @"ITunesFileTrack", 'cFlT' },
+	{ @"ITunesFolderPlaylist", 'cFoP' },
+	{ @"ITunesItem", 'cobj' },
+	{ @"ITunesLibraryPlaylist", 'cLiP' },
+	{ @"ITunesPlaylist", 'cPly' },
+	{ @"ITunesPlaylistWindow", 'cPlW' },
+	{ @"ITunesPrintSettings", 'pset' },
+	{ @"ITunesRadioTunerPlaylist", 'cRTP' },
+	{ @"ITunesSharedTrack", 'cShT' },
+	{ @"ITunesSource", 'cSrc' },
+	{ @"ITunesTrack", 'cTrk' },
+	{ @"ITunesURLTrack", 'cURT' },
+	{ @"ITunesUserPlaylist", 'cUsP' },
+	{ @"ITunesVisual", 'cVis' },
+	{ @"ITunesWindow", 'cwin' },
 	{ nil, 0 } 
 };
 
@@ -370,29 +370,29 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 
 
 
-- (iTunesEncoder *) currentEncoder
+- (ITunesEncoder *) currentEncoder
 {
-	return (iTunesEncoder *) [self propertyWithClass:[iTunesEncoder class] code:'pEnc'];
+	return (ITunesEncoder *) [self propertyWithClass:[ITunesEncoder class] code:'pEnc'];
 }
 
-- (void) setCurrentEncoder: (iTunesEncoder *) currentEncoder
+- (void) setCurrentEncoder: (ITunesEncoder *) currentEncoder
 {
-	[[self propertyWithClass:[iTunesEncoder class] code:'pEnc'] setTo:currentEncoder];
+	[[self propertyWithClass:[ITunesEncoder class] code:'pEnc'] setTo:currentEncoder];
 }
 
-- (iTunesEQPreset *) currentEQPreset
+- (ITunesEQPreset *) currentEQPreset
 {
-	return (iTunesEQPreset *) [self propertyWithClass:[iTunesEQPreset class] code:'pEQP'];
+	return (ITunesEQPreset *) [self propertyWithClass:[ITunesEQPreset class] code:'pEQP'];
 }
 
-- (void) setCurrentEQPreset: (iTunesEQPreset *) currentEQPreset
+- (void) setCurrentEQPreset: (ITunesEQPreset *) currentEQPreset
 {
-	[[self propertyWithClass:[iTunesEQPreset class] code:'pEQP'] setTo:currentEQPreset];
+	[[self propertyWithClass:[ITunesEQPreset class] code:'pEQP'] setTo:currentEQPreset];
 }
 
-- (iTunesPlaylist *) currentPlaylist
+- (ITunesPlaylist *) currentPlaylist
 {
-	return (iTunesPlaylist *) [self propertyWithClass:[iTunesPlaylist class] code:'pPla'];
+	return (ITunesPlaylist *) [self propertyWithClass:[ITunesPlaylist class] code:'pPla'];
 }
 
 - (NSString *) currentStreamTitle
@@ -405,19 +405,19 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [[self propertyWithCode:'pStU'] get];
 }
 
-- (iTunesTrack *) currentTrack
+- (ITunesTrack *) currentTrack
 {
-	return (iTunesTrack *) [self propertyWithClass:[iTunesTrack class] code:'pTrk'];
+	return (ITunesTrack *) [self propertyWithClass:[ITunesTrack class] code:'pTrk'];
 }
 
-- (iTunesVisual *) currentVisual
+- (ITunesVisual *) currentVisual
 {
-	return (iTunesVisual *) [self propertyWithClass:[iTunesVisual class] code:'pVis'];
+	return (ITunesVisual *) [self propertyWithClass:[ITunesVisual class] code:'pVis'];
 }
 
-- (void) setCurrentVisual: (iTunesVisual *) currentVisual
+- (void) setCurrentVisual: (ITunesVisual *) currentVisual
 {
-	[[self propertyWithClass:[iTunesVisual class] code:'pVis'] setTo:currentVisual];
+	[[self propertyWithClass:[ITunesVisual class] code:'pVis'] setTo:currentVisual];
 }
 
 - (BOOL) EQEnabled
@@ -497,7 +497,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pPos'] setTo:v];
 }
 
-- (iTunesEPlS) playerState
+- (ITunesEPlS) playerState
 {
 	id v = [[self propertyWithCode:'pPlS'] get];
 	return [v enumCodeValue];
@@ -537,20 +537,20 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pVsE'] setTo:v];
 }
 
-- (iTunesEVSz) visualSize
+- (ITunesEVSz) visualSize
 {
 	id v = [[self propertyWithCode:'pVSz'] get];
 	return [v enumCodeValue];
 }
 
-- (void) setVisualSize: (iTunesEVSz) visualSize
+- (void) setVisualSize: (ITunesEVSz) visualSize
 {
 	id v = [NSAppleEventDescriptor descriptorWithEnumCode:visualSize];
 	[[self propertyWithCode:'pVSz'] setTo:v];
 }
 
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(iTunesPrintSettings *)withProperties kind:(iTunesEKnd)kind theme:(NSString *)theme
+- (void) printPrintDialog:(BOOL)printDialog withProperties:(ITunesPrintSettings *)withProperties kind:(ITunesEKnd)kind theme:(NSString *)theme
 {
 	[self sendEvent:'aevt' id:'pdoc' parameters:'pdlg', [NSNumber numberWithBool:printDialog], 'prdt', withProperties, 'pKnd', [NSAppleEventDescriptor descriptorWithEnumCode:kind], 'pThm', theme, 0];
 }
@@ -565,7 +565,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'aevt' id:'quit' parameters:0];
 }
 
-- (iTunesTrack *) add:(NSArray *)x to:(SBObject *)to
+- (ITunesTrack *) add:(NSArray *)x to:(SBObject *)to
 {
 	id result__ = [self sendEvent:'hook' id:'Add ' parameters:'----', x, 'insh', to, 0];
 	return result__;
@@ -576,7 +576,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'hook' id:'Back' parameters:0];
 }
 
-- (iTunesTrack *) convert:(NSArray *)x
+- (ITunesTrack *) convert:(NSArray *)x
 {
 	id result__ = [self sendEvent:'hook' id:'Conv' parameters:'----', x, 0];
 	return result__;
@@ -661,7 +661,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesItem
+@implementation ITunesItem
 
 
 - (SBObject *) container
@@ -697,7 +697,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 }
 
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(iTunesPrintSettings *)withProperties kind:(iTunesEKnd)kind theme:(NSString *)theme
+- (void) printPrintDialog:(BOOL)printDialog withProperties:(ITunesPrintSettings *)withProperties kind:(ITunesEKnd)kind theme:(NSString *)theme
 {
 	[self sendEvent:'aevt' id:'pdoc' parameters:'pdlg', [NSNumber numberWithBool:printDialog], 'prdt', withProperties, 'pKnd', [NSAppleEventDescriptor descriptorWithEnumCode:kind], 'pThm', theme, 0];
 }
@@ -743,7 +743,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesArtwork
+@implementation ITunesArtwork
 
 
 - (NSImage *) data
@@ -806,7 +806,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesEncoder
+@implementation ITunesEncoder
 
 
 - (NSString *) format
@@ -819,7 +819,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesEQPreset
+@implementation ITunesEQPreset
 
 
 - (double) band1
@@ -977,7 +977,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesPlaylist
+@implementation ITunesPlaylist
 
 
 - (SBElementArray *) tracks
@@ -1003,9 +1003,9 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pnam'] setTo:name];
 }
 
-- (iTunesPlaylist *) parent
+- (ITunesPlaylist *) parent
 {
-	return (iTunesPlaylist *) [self propertyWithClass:[iTunesPlaylist class] code:'pPlP'];
+	return (ITunesPlaylist *) [self propertyWithClass:[ITunesPlaylist class] code:'pPlP'];
 }
 
 - (BOOL) shuffle
@@ -1026,19 +1026,19 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [v longLongValue];
 }
 
-- (iTunesERpt) songRepeat
+- (ITunesERpt) songRepeat
 {
 	id v = [[self propertyWithCode:'pRpt'] get];
 	return [v enumCodeValue];
 }
 
-- (void) setSongRepeat: (iTunesERpt) songRepeat
+- (void) setSongRepeat: (ITunesERpt) songRepeat
 {
 	id v = [NSAppleEventDescriptor descriptorWithEnumCode:songRepeat];
 	[[self propertyWithCode:'pRpt'] setTo:v];
 }
 
-- (iTunesESpK) specialKind
+- (ITunesESpK) specialKind
 {
 	id v = [[self propertyWithCode:'pSpK'] get];
 	return [v enumCodeValue];
@@ -1061,7 +1061,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'core' id:'move' parameters:'insh', to, 0];
 }
 
-- (iTunesTrack *) searchFor:(NSString *)for_ only:(iTunesESrA)only
+- (ITunesTrack *) searchFor:(NSString *)for_ only:(ITunesESrA)only
 {
 	id result__ = [self sendEvent:'hook' id:'Srch' parameters:'pTrm', for_, 'pAre', [NSAppleEventDescriptor descriptorWithEnumCode:only], 0];
 	return result__;
@@ -1071,7 +1071,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesAudioCDPlaylist
+@implementation ITunesAudioCDPlaylist
 
 
 - (SBElementArray *) audioCDTracks
@@ -1164,7 +1164,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesDevicePlaylist
+@implementation ITunesDevicePlaylist
 
 
 - (SBElementArray *) deviceTracks
@@ -1178,7 +1178,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesLibraryPlaylist
+@implementation ITunesLibraryPlaylist
 
 
 - (SBElementArray *) fileTracks
@@ -1204,7 +1204,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesRadioTunerPlaylist
+@implementation ITunesRadioTunerPlaylist
 
 
 - (SBElementArray *) URLTracks
@@ -1218,7 +1218,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesSource
+@implementation ITunesSource
 
 
 - (SBElementArray *) audioCDPlaylists
@@ -1270,7 +1270,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [v longLongValue];
 }
 
-- (iTunesESrc) kind
+- (ITunesESrc) kind
 {
 	id v = [[self propertyWithCode:'pKnd'] get];
 	return [v enumCodeValue];
@@ -1291,7 +1291,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesTrack
+@implementation ITunesTrack
 
 
 - (SBElementArray *) artworks
@@ -1333,7 +1333,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pAlR'] setTo:v];
 }
 
-- (iTunesERtK) albumRatingKind
+- (ITunesERtK) albumRatingKind
 {
 	id v = [[self propertyWithCode:'pARk'] get];
 	return [v enumCodeValue];
@@ -1642,7 +1642,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pRte'] setTo:v];
 }
 
-- (iTunesERtK) ratingKind
+- (ITunesERtK) ratingKind
 {
 	id v = [[self propertyWithCode:'pRtk'] get];
 	return [v enumCodeValue];
@@ -1834,13 +1834,13 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pUnp'] setTo:v];
 }
 
-- (iTunesEVdK) videoKind
+- (ITunesEVdK) videoKind
 {
 	id v = [[self propertyWithCode:'pVdK'] get];
 	return [v enumCodeValue];
 }
 
-- (void) setVideoKind: (iTunesEVdK) videoKind
+- (void) setVideoKind: (ITunesEVdK) videoKind
 {
 	id v = [NSAppleEventDescriptor descriptorWithEnumCode:videoKind];
 	[[self propertyWithCode:'pVdK'] setTo:v];
@@ -1875,7 +1875,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesAudioCDTrack
+@implementation ITunesAudioCDTrack
 
 
 - (NSURL *) location
@@ -1888,14 +1888,14 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesDeviceTrack
+@implementation ITunesDeviceTrack
 
 
 
 @end
 
 
-@implementation iTunesFileTrack
+@implementation ITunesFileTrack
 
 
 - (NSURL *) location
@@ -1918,14 +1918,14 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesSharedTrack
+@implementation ITunesSharedTrack
 
 
 
 @end
 
 
-@implementation iTunesURLTrack
+@implementation ITunesURLTrack
 
 
 - (NSString *) address
@@ -1948,7 +1948,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesUserPlaylist
+@implementation ITunesUserPlaylist
 
 
 - (SBElementArray *) fileTracks
@@ -1993,21 +1993,21 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesFolderPlaylist
+@implementation ITunesFolderPlaylist
 
 
 
 @end
 
 
-@implementation iTunesVisual
+@implementation ITunesVisual
 
 
 
 @end
 
 
-@implementation iTunesWindow
+@implementation ITunesWindow
 
 
 - (NSRect) bounds
@@ -2099,7 +2099,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesBrowserWindow
+@implementation ITunesBrowserWindow
 
 
 - (BOOL) minimized
@@ -2119,14 +2119,14 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return (SBObject *) [self propertyWithClass:[SBObject class] code:'sele'];
 }
 
-- (iTunesPlaylist *) view
+- (ITunesPlaylist *) view
 {
-	return (iTunesPlaylist *) [self propertyWithClass:[iTunesPlaylist class] code:'pPly'];
+	return (ITunesPlaylist *) [self propertyWithClass:[ITunesPlaylist class] code:'pPly'];
 }
 
-- (void) setView: (iTunesPlaylist *) view
+- (void) setView: (ITunesPlaylist *) view
 {
-	[[self propertyWithClass:[iTunesPlaylist class] code:'pPly'] setTo:view];
+	[[self propertyWithClass:[ITunesPlaylist class] code:'pPly'] setTo:view];
 }
 
 
@@ -2134,7 +2134,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesEQWindow
+@implementation ITunesEQWindow
 
 
 - (BOOL) minimized
@@ -2154,7 +2154,7 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 @end
 
 
-@implementation iTunesPlaylistWindow
+@implementation ITunesPlaylistWindow
 
 
 - (SBObject *) selection
@@ -2162,9 +2162,9 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return (SBObject *) [self propertyWithClass:[SBObject class] code:'sele'];
 }
 
-- (iTunesPlaylist *) view
+- (ITunesPlaylist *) view
 {
-	return (iTunesPlaylist *) [self propertyWithClass:[iTunesPlaylist class] code:'pPly'];
+	return (ITunesPlaylist *) [self propertyWithClass:[ITunesPlaylist class] code:'pPly'];
 }
 
 
