@@ -68,13 +68,17 @@
         }
         
         for (NSString* attribute in attributes) {
-            NSMutableArray* mutableAttribute;
-            NSArray* immutableAttribute = [mutableValue objectForKey:attribute];
+            NSMutableData* mutableAttribute;
+            NSData* immutableAttribute = [mutableValue objectForKey:attribute];
             
             if (immutableAttribute) {
                 mutableAttribute = [immutableAttribute mutableCopy];
             } else {
-                mutableAttribute = [NSMutableArray array];
+                mutableAttribute = [NSMutableData data];
+                NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:mutableAttribute];
+                NSMutableArray* emptyArray = [NSMutableArray array];
+                [archiver encodeRootObject:emptyArray];
+                [archiver finishEncoding];
             }
             
             [mutableValue setValue:mutableAttribute forKey:attribute];
