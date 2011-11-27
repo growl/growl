@@ -58,43 +58,18 @@
     #pragma clang diagnostic pop
 }
 
-- (NSMutableDictionary*)dictionaryForKVCKeys:(NSArray*)keys
-{
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    
-    for (NSString* key in keys) {
-        id object;
-        
-        @try {
-            object = [self valueForKeyPath:key];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"KVC key failure: %@", key);
-        }
-        @finally {
-            if (object) {
-                [dict setObject:object forKey:key];
-            } else {
-                [dict setObject:@"" forKey:key];
-            }
-        }
-    }
-    
-    return dict;
-}
-
 - (NSString*)dryDescriptionForProperties
 {
     return [NSString stringWithFormat:@"<%@ %p: %@>", 
             [self class], self, 
-            [self dictionaryForKVCKeys:[self sortedPropertyNames]]];
+            [self dictionaryWithValuesForKeys:[self sortedPropertyNames]]];
 }
 
 - (NSString*)dryDescriptionForIVars
 {
     return [NSString stringWithFormat:@"<%@ %p: %@>", 
             [self class], self, 
-            [self dictionaryForKVCKeys:[self sortedInstanceVariableNames]]];
+            [self dictionaryWithValuesForKeys:[self sortedInstanceVariableNames]]];
 }
 
 @end

@@ -11,7 +11,6 @@
 
 - (NSArray*)sortedPropertyNames;
 - (NSArray*)sortedInstanceVariableNames;
-- (NSMutableDictionary*)dictionaryForKVCKeys:(NSArray*)keys;
 - (NSString*)dryDescriptionForProperties;
 - (NSString*)dryDescriptionForIVars;
 
