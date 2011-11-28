@@ -23,10 +23,6 @@
 	NSImage* mini_green;
 	NSImage* mini_red;
 	
-	NSImage* led_green;
-	NSImage* led_red;
-	
-
 	NSUInteger* currentState;
 
 	//the user's preferences, loaded at startup

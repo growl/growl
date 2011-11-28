@@ -83,7 +83,7 @@ CGEventRef myCallback (
 @synthesize preferencePanel;
 
 @synthesize prefsTitle, hideTitle, quitTitle;
-@synthesize noneTitle, blackIcons, colorIcons, colorOrbs, preferenceTitle, labelTitle, closeTitle;
+@synthesize noneTitle, blackIcons, colorIcons, preferenceTitle, labelTitle, closeTitle;
 
 
 //this function is called on startup
@@ -118,8 +118,6 @@ CGEventRef myCallback (
 
 	//Initialize localized strings
 	[self initTitles];
-	 //make everything in the preferences white. necessary for the text to be viewable
-	[self makeEverythingWhite];
 	
 	//if the user want the menu to be shown, then do so
 	[myStatusbarController setStatusMenuTo:statusbarMatrix];
@@ -241,30 +239,10 @@ CGEventRef myCallback (
 	self.noneTitle = NoneTitle; 
 	self.blackIcons = BlackIcons;
 	self.colorIcons = ColorIcons;
-	self.colorOrbs = ColorOrbs;
 	self.preferenceTitle = PreferenceTitle;
 	self.labelTitle = LabelTitle;
 	self.closeTitle = CloseTitle;
 	
-}
-
-
-//makes everything in the preference panel white
--(void) makeEverythingWhite
-{
-	//get all the cells in the matrix
-	NSArray * cells = [statusbarMatrix cells];
-	
-	//for each cell
-	for(int i = 0 ; i < [cells count] ; i ++)
-	{
-		//create a reference to the cell 
-		NSButtonCell* cell = [cells objectAtIndex:i];
-		[self setButtonTitleFor:cell
-					   toString:[cell title]
-					  withColor:[NSColor whiteColor]];
-	}
-
 }
 
 //Set the button's title using nsattributedtitle, which lets us change the color of a button or cell's text
@@ -317,10 +295,14 @@ CGEventRef myCallback (
 
 -(IBAction) showPreferences:(id) sender
 {
-	#pragma unused(sender)
-	[preferencePanel setIsVisible:YES];
-	[preferencePanel center];
-	[preferencePanel makeKeyAndOrderFront:nil];
+	[NSApp activateIgnoringOtherApps:YES];
+	if(![preferencePanel isVisible]){
+		[preferencePanel center];
+//		[self.prefsWindow setFrameAutosaveName:@"HWGrowlerPrefsWindowFrame"];
+//		[self.prefsWindow setFrameUsingName:@"HWGrowlerPrefsWindowFrame" force:YES];
+	}
+	[preferencePanel makeKeyAndOrderFront:sender];
+
 }
 
 @end

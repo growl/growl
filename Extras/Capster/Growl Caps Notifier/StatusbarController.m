@@ -41,13 +41,6 @@
 		
 		NSString* path_mini_red = [[NSBundle mainBundle] pathForResource:@"capster_mini_red" ofType:@"png"];
 		mini_red = [[NSImage alloc] initWithContentsOfFile:path_mini_red];
-		
-		NSString* path_led_green = [[NSBundle mainBundle] pathForResource:@"capster_led_green" ofType:@"png"];
-		led_green = [[NSImage alloc] initWithContentsOfFile:path_led_green];
-		
-		NSString* path_led_red = [[NSBundle mainBundle] pathForResource:@"capster_led_red" ofType:@"png"];
-		led_red = [[NSImage alloc] initWithContentsOfFile:path_led_red];
-
     }
     return self;
 }
@@ -69,11 +62,6 @@
 	{
 		if(state) [statusItem setImage:mini_green];
 		else [statusItem setImage:mini_red];
-	}
-	else if(*statusbar == 3)
-	{
-		if(state) [statusItem setImage:led_green];
-		else [statusItem setImage:led_red];		
 	}
 }
 

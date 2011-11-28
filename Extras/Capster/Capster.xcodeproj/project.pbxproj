@@ -12,8 +12,6 @@
 		1D5D9D8D1327173700BAAA31 /* capster_mini_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D8B1327173700BAAA31 /* capster_mini_red.png */; };
 		1D5D9D91132729D300BAAA31 /* GrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5D9D90132729D200BAAA31 /* GrowlController.m */; };
 		1D5D9D9413272C1300BAAA31 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5D9D9313272C1300BAAA31 /* StatusbarController.m */; };
-		1D5D9D971327409200BAAA31 /* capster_led_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D951327409200BAAA31 /* capster_led_green.png */; };
-		1D5D9D981327409200BAAA31 /* capster_led_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D5D9D961327409200BAAA31 /* capster_led_red.png */; };
 		1D634FFF131F45AA00762055 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 1D634FFE131F45AA00762055 /* Growl Registration Ticket.growlRegDict */; };
 		1D79B21913203252001A1197 /* caps_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B21713203251001A1197 /* caps_off.png */; };
 		1D79B21A13203252001A1197 /* caps_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B21813203251001A1197 /* caps_on.png */; };
@@ -174,8 +172,6 @@
 		1D5D9D90132729D200BAAA31 /* GrowlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlController.m; sourceTree = "<group>"; };
 		1D5D9D9213272C1300BAAA31 /* StatusbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusbarController.h; sourceTree = "<group>"; };
 		1D5D9D9313272C1300BAAA31 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
-		1D5D9D951327409200BAAA31 /* capster_led_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_led_green.png; sourceTree = "<group>"; };
-		1D5D9D961327409200BAAA31 /* capster_led_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_led_red.png; sourceTree = "<group>"; };
 		1D634FFE131F45AA00762055 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		1D79B21713203251001A1197 /* caps_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caps_off.png; sourceTree = "<group>"; };
 		1D79B21813203251001A1197 /* caps_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caps_on.png; sourceTree = "<group>"; };
@@ -291,8 +287,6 @@
 				1D79B23113206025001A1197 /* capster_mini.png */,
 				1D5D9D8A1327173700BAAA31 /* capster_mini_green.png */,
 				1D5D9D8B1327173700BAAA31 /* capster_mini_red.png */,
-				1D5D9D951327409200BAAA31 /* capster_led_green.png */,
-				1D5D9D961327409200BAAA31 /* capster_led_red.png */,
 				1D85922F13229B710019B4BD /* defaults.plist */,
 				1D79B21F13204D7D001A1197 /* caps_ter.png */,
 				1D79B21713203251001A1197 /* caps_off.png */,
@@ -511,8 +505,6 @@
 				1D85923013229B710019B4BD /* defaults.plist in Resources */,
 				1D5D9D8C1327173700BAAA31 /* capster_mini_green.png in Resources */,
 				1D5D9D8D1327173700BAAA31 /* capster_mini_red.png in Resources */,
-				1D5D9D971327409200BAAA31 /* capster_led_green.png in Resources */,
-				1D5D9D981327409200BAAA31 /* capster_led_red.png in Resources */,
 				1D1D90BC133FDBFF00D733C9 /* capster_mini_off.png in Resources */,
 				1D8FE613147E04F200F01B4F /* Localizable.strings in Resources */,
 			);

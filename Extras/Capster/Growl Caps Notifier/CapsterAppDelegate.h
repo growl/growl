@@ -44,7 +44,7 @@
 	StatusbarController *myStatusbarController;
 	
 	NSString *prefsTitle, *hideTitle, *quitTitle;
-	NSString *noneTitle, *blackIcons, *colorIcons, *colorOrbs, *preferenceTitle, *labelTitle, *closeTitle;
+	NSString *noneTitle, *blackIcons, *colorIcons, *preferenceTitle, *labelTitle, *closeTitle;
 }
 
 @property (nonatomic, retain)  NSString *prefsTitle;
@@ -54,7 +54,6 @@
 @property (nonatomic, retain)  NSString *noneTitle;
 @property (nonatomic, retain)  NSString *blackIcons;
 @property (nonatomic, retain)  NSString *colorIcons;
-@property (nonatomic, retain)  NSString *colorOrbs;
 @property (nonatomic, retain)  NSString *preferenceTitle;
 @property (nonatomic, retain)  NSString *labelTitle;
 @property (nonatomic, retain)  NSString *closeTitle;
@@ -63,7 +62,6 @@
 
 - (void) registerDefaults;
 - (void) initTitles;
-- (void) makeEverythingWhite;
 - (void)setButtonTitleFor:(id)button toString:(NSString*)title withColor:(NSColor*)color ;
 - (void) listenForCapsInNewThread;
 - (void) listen;
