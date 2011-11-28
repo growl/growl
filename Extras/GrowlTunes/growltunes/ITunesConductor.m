@@ -14,11 +14,7 @@
 
 @interface ITunesConductor ()
 
-@property(readwrite, nonatomic, strong) ITunesApplication* iTunes;
-@property(readwrite, nonatomic, assign, getter = isRunning) BOOL running;
-@property(readwrite, nonatomic, assign) NSInteger trackID;
-@property(readwrite, nonatomic, assign) ITunesEPlS playerState;
-@property(readwrite, nonatomic, copy) NSMutableDictionary* itemData;
+@property(readwrite, nonatomic, assign) BOOL running;
 
 - (void)didLaunchOrTerminateNotification:(NSNotification*)note;
 - (void)playerInfo:(NSNotification*)note;
@@ -28,77 +24,15 @@
 
 
 static int _LogLevel = LOG_LEVEL_ERROR;
-static NSArray* tkeys;
-
 
 @implementation ITunesConductor
 
-@synthesize iTunes = _iTunes;
-@synthesize trackID = _trackID;
-@synthesize playerState = _playerState;
-@synthesize itemData = _itemData;
+@synthesize currentTrack = _currentTrack;
 
 + (void)initialize
 {
     if (self == [ITunesConductor class]) {
         setLogLevel("ITunesConductor");
-        
-        if (tkeys == nil) {
-            tkeys = $array(@"EQ",
-                           @"album",
-                           @"albumArtist",
-                           @"albumRating",
-                           @"albumRatingKind",
-                           @"artist",
-                           @"bitRate",
-                           @"bpm",
-                           @"category",
-                           @"comment",
-                           @"compilation",
-                           @"composer",
-                           @"databaseID",
-                           @"dateAdded",
-                           @"discCount",
-                           @"discNumber",
-                           @"duration",
-                           @"enabled",
-                           @"episodeID",
-                           @"episodeNumber",
-                           @"finish",
-                           @"gapless",
-                           @"genre",
-                           @"grouping",
-                           @"id",
-                           @"index",
-                           @"kind",
-                           @"longDescription",
-                           @"lyrics",
-                           @"modificationDate",
-                           @"name",
-                           @"objectDescription",
-                           @"persistentID",
-                           @"playedCount",
-                           @"playedDate",
-                           @"podcast",
-                           @"rating",
-                           @"ratingKind",
-                           @"releaseDate",
-                           @"sampleRate",
-                           @"seasonNumber",
-                           @"show",
-                           @"shufflable",
-                           @"size",
-                           @"skippedCount",
-                           @"skippedDate",
-                           @"start",
-                           @"time",
-                           @"trackCount",
-                           @"trackNumber",
-                           @"unplayed",
-                           @"videoKind",
-                           @"volumeAdjustment",
-                           @"year");
-        }
     }
 }
 
@@ -116,16 +50,15 @@ static NSArray* tkeys;
 {
     self = [super init];
     
-    self.trackID = -1;
-    self.playerState = StateStopped;
-    
-    ITunesApplication* ita = [ITunesApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
+    ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
-    self.iTunes = ita;
-        
-    self.running = self.iTunes.isRunning;
     
-    if (self.running && self.iTunes.playerState == StatePlaying) {
+    _currentTrack = [[TrackMetadata alloc] init];
+    _currentTrack.neverEvaluate = YES;
+        
+    self.running = ita.isRunning;
+    
+    if (self.running && ita.playerState == StatePlaying) {
         LogVerbose(@"iTunes already running and playing; sending fake 'playerInfo' notification");
         [self playerInfo:[NSNotification notificationWithName:PLAYER_INFO_ID 
                                                        object:$dict(@"source", @"init")]];
@@ -175,137 +108,11 @@ static NSArray* tkeys;
     }
 }
 
-- (ITunesTrack*)getTrackByPersistentID:(NSString*)persistentID
-{
-    SBElementArray* sources = [$notNull(self.iTunes) sources];
-    ITunesSource* library = [sources objectWithName:@"Library"];
-    ITunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
-    SBElementArray* entireLibrary = [libraryPlaylist tracks];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"persistentID == %@", persistentID];
-    NSArray* matched = [entireLibrary filteredArrayUsingPredicate:predicate];
-    if ([matched count] > 0) { return [matched lastObject]; }
-    return nil;
-}
-
 - (void)playerInfo:(NSNotification*)note
 {
     LogInfoTag(@"playerInfo", @"note: %@", note);
-        
-    ITunesApplication* ita = $notNull(self.iTunes);
-    
-    ITunesTrack* currentTrack = ita.currentTrack.get;
-    
-    if (currentTrack.exists) {
-        ITunesEPlS previousState = _playerState;
-        ITunesEPlS currentState = ita.playerState;
-        _playerState = currentState;
-        
-        NSInteger previousTrackID = _trackID;
-        NSInteger currentTrackID = currentTrack.databaseID;
-        _trackID = currentTrackID;
-        
-        NSString* trackType = NSStringFromClass([currentTrack class]);
-        
-        LogVerbose(@"previousState: %qi currentState: %qi previousTrackID: %qi currentTrackID: %qi trackType: %@",
-                   previousState, currentState, previousTrackID, currentTrackID, trackType);
-        
-        if (previousTrackID == currentTrackID) {
-            if (previousState == currentState) {return;}
-            
-            if ((currentState == StatePlaying) && ([trackType isEqualToString:@"iTunesURLTrack"])) {
-                BOOL renotify = [[NSUserDefaults standardUserDefaults] boolForKey:RENOTIFY_STREAM_KEY];
-                LogInfoTag(RENOTIFY_STREAM_KEY, @"renotify: %@", renotify?@"YES":@"NO");
-                if (!renotify) {return;}
-            }
-        }
-        
-        NSMutableDictionary* currentTrackData = [[currentTrack dictionaryWithValuesForKeys:tkeys] mutableCopy];
-        [currentTrackData setValue:trackType forKey:@"class"];
-        [currentTrackData setValue:ita.currentEncoder.format forKey:@"format"];
-        [currentTrackData setValue:[ita.encoders valueForKey:@"format"] forKey:@"usableFormats"];
-        [currentTrackData setValue:ita.currentEQPreset.name forKey:@"EQPreset"];
-        [currentTrackData setValue:ita.currentPlaylist.name forKey:@"playlist"];
-        [currentTrackData setValue:ita.version forKey:@"iTunesVersion"];
-        [currentTrackData setValue:[currentTrack performSelector:@selector(specifierDescription)] forKey:@"reference"];
-        
-        switch (currentState) {
-            case StatePlaying:
-                [currentTrackData setValue:@"playing" forKey:@"stateName"];
-                [currentTrackData setValue:$bool(YES) forKey:@"isPlaying"];
-                break;
-                
-            case StatePaused:
-                [currentTrackData setValue:@"paused" forKey:@"stateName"];
-                [currentTrackData setValue:$bool(YES) forKey:@"isPaused"];
-                break;
-                
-            case StateStopped:
-                [currentTrackData setValue:@"stopped" forKey:@"stateName"];
-                [currentTrackData setValue:$bool(YES) forKey:@"isStopped"];
-                break;
-                
-            case StateFastForward:
-                [currentTrackData setValue:@"fast forwarding" forKey:@"stateName"];
-                [currentTrackData setValue:$bool(YES) forKey:@"isFastForwarding"];
-                break;
-                
-            case StateRewind:
-                [currentTrackData setValue:@"rewinding" forKey:@"stateName"];
-                [currentTrackData setValue:$bool(YES) forKey:@"isRewinding"];
-                break;
-        }
-        
-        if ([trackType isEqualToString:@"ITunesURLTrack"]) {
-            ITunesURLTrack* utrack = (ITunesURLTrack*)currentTrack;
-            [currentTrackData setValue:utrack.address forKey:@"address"];
-            [currentTrackData setValue:ita.currentStreamTitle forKey:@"streamTitle"];
-            [currentTrackData setValue:ita.currentStreamURL forKey:@"streamURL"];
-            [currentTrackData setValue:$bool(YES) forKey:@"isStreaming"];
-        } else if ([trackType isEqualToString:@"ITunesFileTrack"]) {
-            ITunesFileTrack* ftrack = (ITunesFileTrack*)currentTrack;
-            [currentTrackData setValue:ftrack.location forKey:@"location"];
-            [currentTrackData setValue:$bool(YES) forKey:@"isFile"];
-        } else if ([trackType isEqualToString:@"ITunesAudioCDTrack"]) {
-            ITunesAudioCDTrack* atrack = (ITunesAudioCDTrack*)currentTrack;
-            [currentTrackData setValue:atrack.location forKey:@"location"];
-            [currentTrackData setValue:$bool(YES) forKey:@"isCD"];
-        } else if ([trackType isEqualToString:@"ITunesDeviceTrack"]) {
-            [currentTrackData setValue:$bool(YES) forKey:@"isDevice"];
-            // perhaps more intuitive? iPhone/iPad might as well be an iPod for
-            // all we care about the device...
-            [currentTrackData setValue:$bool(YES) forKey:@"isIPod"];
-        } else if ([trackType isEqualToString:@"ITunesSharedTrack"]) {
-            [currentTrackData setValue:$bool(YES) forKey:@"isShared"];
-        }
-                
-        ITunesArtwork* artwork = [currentTrack.artworks lastObject];
-        
-        if ([artwork exists]) {
-            artwork = [artwork get];
-            
-            NSData* rawData = [artwork rawData];
-            NSImage* img = [[NSImage alloc] initWithData:rawData];
-            
-            LogImage(@"track art", img);
-            
-            NSMutableDictionary* artMeta = [NSMutableDictionary dictionary];
-            [artMeta setValue:img forKey:@"image"];
-            [artMeta setValue:[artwork valueForKey:@"format"] forKey:@"format"];
-            [artMeta setValue:$bool(artwork.downloaded) forKey:@"downloaded"];
-            [artMeta setValue:[artwork valueForKey:@"kind"] forKey:@"kind"];
-            [artMeta setValue:[artwork performSelector:@selector(specifierDescription)] forKey:@"reference"];
-                        
-            [currentTrackData setValue:artMeta forKey:@"artwork"];
-            [currentTrackData setValue:$bool(YES) forKey:@"hasArtwork"];
-        }
-        
-        LogVerboseTag(@"itemData", @"itemData: %@", currentTrackData);
-        
-        if (![currentTrackData isEqualToDictionary:self.itemData]) {
-            self.itemData = currentTrackData;
-        }
-        
-    }
+    [self willChangeValueForKey:@"currentTrack"];
+    [self didChangeValueForKey:@"currentTrack"];
 }
 
 // TODO: determine how to filter out notifications caused by a play count increase

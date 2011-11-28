@@ -11,6 +11,7 @@
 
 @interface ITunesApplication (iTunesAdditions)
 @property(readonly, copy, nonatomic) NSString* playerStateName;
++(ITunesApplication*)sharedInstance;
 @end
 
 @interface ITunesTrack (iTunesAdditions)

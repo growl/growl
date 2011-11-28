@@ -10,6 +10,16 @@
 
 @implementation ITunesApplication (iTunesAdditions)
 
++(ITunesApplication*)sharedInstance
+{
+    static dispatch_once_t once;
+    static __strong ITunesApplication* iTunes;
+    dispatch_once(&once, ^ {
+        iTunes = [ITunesApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+    });
+    return iTunes;
+}
+
 -(NSString*)playerStateName
 {
     ITunesEPlS playerState = [self playerState];

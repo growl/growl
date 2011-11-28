@@ -9,6 +9,8 @@
 #import "TrackMetadata.h"
 #import "iTunes+iTunesAdditions.h"
 #import "macros.h"
+#import "FormattingToken.h"
+#import "FormattingPreferencesHelper.h"
 #import <objc/runtime.h>
 
 
@@ -18,12 +20,10 @@
 @property(readwrite, retain, nonatomic) NSMutableDictionary* cache;
 @property(readwrite, assign, nonatomic) BOOL isEvaluated;
 
-+(ITunesApplication*)iTunes;
 +(NSArray*)propertiesForTrackClass:(NSString*)className;
 +(NSArray*)propertiesForTrackClass:(NSString*)className includingHelpers:(BOOL)withHelpers;
 
 -(void)_updateStreamMetadata;
--(void)_updateApplicationMetadata;
 -(void)_cacheAllProperties;
 
 @end
@@ -37,6 +37,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 @synthesize trackObject = _trackObject;
 @synthesize cache = _cache;
 @synthesize isEvaluated = _isEvaluated;
+@synthesize neverEvaluate = _neverEvaluate;
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
@@ -65,13 +66,6 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 +(BOOL)accessInstanceVariablesDirectly
 {
     return NO;
-}
-
-+(ITunesApplication*)iTunes
-{
-    static __strong ITunesApplication* iTunes;
-    if (!iTunes) iTunes = [ITunesApplication applicationWithBundleIdentifier:ITUNES_BUNDLE_ID];
-    return iTunes;
 }
 
 +(NSArray*)propertiesForTrackClass:(NSString*)className
@@ -176,7 +170,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 -(id)init
 {
     LogInfoTag(@"init", @"Initializing with lazy currentTrack object");
-    ITunesApplication* ita = [[self class] iTunes];
+    ITunesApplication* ita = [ITunesApplication sharedInstance];
     ITunesTrack* currentTrack = ita.currentTrack;
     return [self initWithTrackObject:currentTrack];
 }
@@ -184,7 +178,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 -(id)initWithPersistentID:(NSString*)persistentID
 {
     LogInfoTag(@"init", @"Initializing with persistent ID: %@", persistentID);
-    ITunesApplication* ita = [[self class] iTunes];
+    ITunesApplication* ita = [ITunesApplication sharedInstance];
     SBElementArray* sources = [ita sources];
     ITunesSource* library = [sources objectWithName:@"Library"];
     ITunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
@@ -202,6 +196,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     self.cache = [NSMutableDictionary dictionary];
     self.trackObject = track;
     _isEvaluated = NO;
+    _neverEvaluate = NO;
     
     NSString* specifier = [track performSelector:@selector(specifierDescription)];
     BOOL evaluated = !([specifier rangeOfString:@"currentTrack"].location != NSNotFound);
@@ -222,22 +217,9 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     
     LogVerbose(@"updating stream metadata");
     
-    ITunesApplication* ita = [[self class] iTunes];
+    ITunesApplication* ita = [ITunesApplication sharedInstance];
     [self.cache setValue:ita.currentStreamTitle forKey:@"streamTitle"];
     [self.cache setValue:ita.currentStreamURL forKey:@"streamURL"];
-}
-
--(void)_updateApplicationMetadata
-{
-    LogVerbose(@"updating application metadata");
-    
-    ITunesApplication* ita = [[self class] iTunes];
-    [self.cache setObject:$bool(ita.frontmost) forKey:@"isActive"];
-    [self.cache setObject:$bool(ita.fullScreen) forKey:@"isFullScreen"];
-    [self.cache setObject:$bool(ita.mute) forKey:@"isMuted"];
-    [self.cache setObject:ita.currentEQPreset.name forKey:@"EQPreset"];
-    [self.cache setObject:$integer(ita.playerState) forKey:@"playerState"];
-    [self.cache setObject:$integer(ita.playerPosition) forKey:@"playerPosition"];
 }
 
 -(void)_cacheAllProperties
@@ -254,6 +236,8 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
 -(void)evaluate
 {
+    if (_neverEvaluate) return;
+    
     if (!_isEvaluated) {
         LogInfo(@"evaluating lazy track object");
         self.trackObject = [self.trackObject get];
@@ -261,6 +245,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
         [self _updateStreamMetadata];
         [self _cacheAllProperties];
         self.isEvaluated = YES;
+        self.neverEvaluate = YES;
     }
 }
 
@@ -286,6 +271,8 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     
     return value;
 }
+
+@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName;
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
@@ -414,6 +401,68 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     LogImage(@"track art", image);
     
     return image;
+}
+
+#pragma mark token driven formatting magic
+
+-(NSDictionary*)formattedDescriptionDictionary
+{
+    if (_isEvaluated) {
+        NSDictionary* cachedValue = [self.cache valueForKey:@"formattedDescriptionDictionary"];
+        if (cachedValue) {
+            return cachedValue;
+        }
+    }
+    
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    [dict setValue:[self artworkImage] forKey:@"icon"];
+    
+    NSString* type = [self typeDescription];
+    
+    if ([type isEqualToString:@"error"]) {
+        LogError(@"track returned type description of error: %@", self);
+        return nil;
+    }
+    
+    NSArray* attributes = $array(formattingAttributes);
+    FormattingPreferencesHelper* helper = [[FormattingPreferencesHelper alloc] init];
+    
+    NSMutableArray* descriptionArray = [NSMutableArray arrayWithCapacity:3];
+    
+    for (NSString* attribute in attributes) {
+        NSArray* tokens = [helper tokensForType:type andAttribute:attribute];
+        NSMutableArray* resolved = [NSMutableArray arrayWithCapacity:[tokens count]];
+        
+        for (id token in tokens) {
+            if ([token isKindOfClass:[NSString class]]) {
+                [resolved addObject:token];
+            } else if ([token isKindOfClass:[FormattingToken class]]) {
+                FormattingToken* ftoken = (FormattingToken*)token;
+                if ([ftoken isDynamic]) {
+                    id value = [self valueForKey:[ftoken lookupKey]];
+                    [resolved addObject:[NSString stringWithFormat:@"%@", value]];
+                } else {
+                    [resolved addObject:[token displayString]];
+                }
+            }
+        }
+        
+        NSString* resolvedString = [resolved componentsJoinedByString:@" "];
+        [dict setValue:resolvedString forKey:attribute];
+        
+        if (![attribute isEqualToString:@"title"]) {
+            [descriptionArray addObject:resolvedString];
+        }
+    }
+    
+    NSString* descriptionString = [descriptionArray componentsJoinedByString:@"\n"];
+    [dict setValue:descriptionString forKey:@"description"];
+    
+    if (_isEvaluated) {
+        [self.cache setValue:[dict copy] forKey:@"formattingDescriptionDictionary"];
+    }
+    
+    return [dict copy];
 }
 
 @end

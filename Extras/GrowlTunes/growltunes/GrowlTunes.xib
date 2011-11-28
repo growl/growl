@@ -127,15 +127,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.conductor.itemData.name</string>
+						<string key="label">title: self.conductor.currentTrack.name</string>
 						<reference key="source" ref="57486674"/>
 						<reference key="destination" ref="456576518"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="57486674"/>
 							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.conductor.itemData.name</string>
+							<string key="NSLabel">title: self.conductor.currentTrack.name</string>
 							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.conductor.itemData.name</string>
+							<string key="NSKeyPath">self.conductor.currentTrack.name</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
 								<boolean value="NO" key="NS.object.0"/>
@@ -147,45 +147,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: self.conductor.itemData.isPlaying</string>
+						<string key="label">value: self.conductor.currentTrack.name</string>
 						<reference key="source" ref="57486674"/>
 						<reference key="destination" ref="456576518"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="57486674"/>
 							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">hidden: self.conductor.itemData.isPlaying</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">self.conductor.itemData.isPlaying</string>
-							<dictionary key="NSOptions">
-								<integer value="1" key="NSNullPlaceholder"/>
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSIsNil</string>
-							</dictionary>
+							<string key="NSLabel">value: self.conductor.currentTrack.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.conductor.currentTrack.name</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: self.conductor.itemData.isPlaying</string>
-						<reference key="source" ref="577532816"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="577532816"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">hidden: self.conductor.itemData.isPlaying</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">self.conductor.itemData.isPlaying</string>
-							<dictionary key="NSOptions">
-								<integer value="1" key="NSNullPlaceholder"/>
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSIsNil</string>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">68</int>
+					<int key="connectionID">73</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -289,7 +263,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">69</int>
+			<int key="maxID">74</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

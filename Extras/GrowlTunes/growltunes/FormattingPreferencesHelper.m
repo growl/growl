@@ -10,9 +10,6 @@
 #import "macros.h"
 #import "FormattingToken.h"
 
-#define formattingTypes @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
-#define formattingAttributes @"title", @"line1", @"line2", @"line3"
-
 
 @interface FormattingPreferencesHelper ()
 
@@ -86,6 +83,18 @@
         
         [self setValue:mutableValue forKey:type];
     }
+}
+
+-(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute
+{
+    NSMutableDictionary* td = [self valueForKey:type];
+    if (!td) return nil;
+    
+    NSMutableData* ad = [td valueForKey:attribute];
+    if (!ad) return nil;
+    
+    NSValueTransformer* vt = [NSValueTransformer valueTransformerForName:NSKeyedUnarchiveFromDataTransformerName];
+    return [vt transformedValue:ad];
 }
 
 -(void)setupSaveOnUpdate
