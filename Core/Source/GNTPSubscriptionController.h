@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class GrowlPreferencesController, GrowlSubscribeGNTPPacket, GrowlOkGNTPPacket;
+@class GrowlPreferencesController, GrowlSubscribeGNTPPacket, GrowlGNTPPacket;
 
 @interface GNTPSubscriptionController : NSObject
 
