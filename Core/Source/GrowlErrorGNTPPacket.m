@@ -42,7 +42,9 @@
    }else if([name caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame){
       self.errorDescription = value;
    }else{
+#if GROWLHELPERAPP
       [self addCustomHeader:headerItem];
+#endif
    }
    
    if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){

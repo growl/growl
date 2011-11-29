@@ -54,7 +54,9 @@
    if([name caseInsensitiveCompare:@"Response-Action"] == NSOrderedSame){
       self.responseAction = value;
    }else{
+#if GROWLHELPERAPP
       [self addCustomHeader:headerItem];
+#endif
    }
    
    if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
