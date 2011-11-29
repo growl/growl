@@ -22,6 +22,8 @@
 
 #if GROWLHELPERAPP
 
+#import "GrowlGNTPOutgoingPacket.h"
+#import "GNTPSubscriptionController.h"
 #import "GrowlKeychainUtilities.h"
 #define CRLF "\x0D\x0A"
 
@@ -51,9 +53,11 @@
    
    if([name caseInsensitiveCompare:@"Response-Action"] == NSOrderedSame){
       self.responseAction = value;
+   }else{
+      [self addCustomHeader:headerItem];
    }
    
-   if(responseAction || headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
+   if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
       return GrowlReadDirective_PacketComplete;
    }
    return GrowlReadDirective_Continue;
@@ -438,23 +442,25 @@
    if([[self key] hashAlgorithm] == GNTPNoHash && passwordRequired)
       return NO;
    
+   //We dont need a password, we dont have a hash algorithm, and we dont have encryption
    if(!passwordRequired && [[self key] hashAlgorithm] == GNTPNoHash)
       return YES;
    
-   if([self isValidPassword:remotePassword])
-      return YES;
-   
-   //We need to handle subscription passwords here, rough draft concept till rest of subscription storage implemented
-   /*
-   NSString *subscriptionPassword = nil;
-   if(!isResponseType) {
-      subscriptionPassword = [subscribers passwordForHost:conHost];
-   } else {
-      subscriptionPassword = [subscribedTo passwordForHost:conHost];
+   //At this point, we know we need a password, for decryption, or just authorization
+   if(isResponseType){
+      //check hash against the origin packet, regardless of subscription or not, this should be valid
+      if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([[self key] keyHash])] == NSOrderedSame)
+         return YES;
+   }else{
+      //Try our remote password
+      if([self isValidPassword:remotePassword])
+         return YES;
+      
+      //If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
+      NSString *subscriptionPassword = [[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost];
+      if(subscriptionPassword && [self isValidPassword:subscriptionPassword])
+         return YES;
    }
-   if([self isValidPassword:subscriptionPassword])
-      return YES;
-    */
    
    return NO;
 }

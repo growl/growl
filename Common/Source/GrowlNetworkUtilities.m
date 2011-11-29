@@ -8,6 +8,7 @@
 
 #import "GrowlNetworkUtilities.h"
 #import "NSStringAdditions.h"
+#import "GrowlDefinesInternal.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <netinet/in.h>

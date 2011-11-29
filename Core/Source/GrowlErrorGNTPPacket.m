@@ -41,9 +41,11 @@
       self.errorCode = code;
    }else if([name caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame){
       self.errorDescription = value;
+   }else{
+      [self addCustomHeader:headerItem];
    }
    
-   if((errorCode != 0 && errorDescription) || headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
+   if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
       return GrowlReadDirective_PacketComplete;
    }
    return GrowlReadDirective_Continue;

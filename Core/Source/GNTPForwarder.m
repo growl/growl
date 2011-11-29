@@ -32,7 +32,6 @@
 - (id)init {
    if((self = [super init])) {
       self.preferences = [GrowlPreferencesController sharedController];
-      self.destinations = [NSMutableArray array];
       
       // create a deep mutable copy of the forward destinations
       NSArray *dests = [self.preferences objectForKey:GrowlForwardDestinationsKey];
