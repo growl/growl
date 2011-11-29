@@ -22,6 +22,9 @@
 
 #if GROWLHELPERAPP
 
+#import "GrowlGNTPOutgoingPacket.h"
+#import "GNTPSubscriptionController.h"
+#import "GrowlKeychainUtilities.h"
 #define CRLF "\x0D\x0A"
 
 @interface GrowlGNTPPacket ()
@@ -50,9 +53,11 @@
    
    if([name caseInsensitiveCompare:@"Response-Action"] == NSOrderedSame){
       self.responseAction = value;
+   }else{
+      [self addCustomHeader:headerItem];
    }
    
-   if(responseAction || headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
+   if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
       return GrowlReadDirective_PacketComplete;
    }
    return GrowlReadDirective_Continue;
@@ -307,14 +312,10 @@
 		
 		NSArray *encryptionSubstrings = [[items objectAtIndex:2] componentsSeparatedByString:@":"];
 		NSString *packetEncryptionAlgorithm = [[encryptionSubstrings objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      
-      if(![packetEncryptionAlgorithm isEqualToString:GrowlGNTPNone] && [[[self socket] connectedHost] isLocalHost]){
-         NSLog(@"LocalHost with encryption %@, for now ignoring", packetEncryptionAlgorithm);
-      }
-      
+            
+      [key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
       if([GNTPKey isSupportedEncryptionAlgorithm:packetEncryptionAlgorithm])
       {
-         [key setEncryptionAlgorithm:[GNTPKey encryptionAlgorithmFromString:packetEncryptionAlgorithm]]; //this should be None if there is only one item
          if([encryptionSubstrings count] == 2)
             [key setIV:HexUnencode([encryptionSubstrings objectAtIndex:1])];
          else {
@@ -323,6 +324,9 @@
                errorDescription = NSLocalizedString(@"Missing initialization vector for encryption", /*comment*/ @"GNTP packet parsing error");
             }
          }
+      }else{
+         errorCode = GrowlGNTPUnauthorizedErrorCode;
+         errorDescription = [NSString stringWithFormat:NSLocalizedString(@"Unsupported encryption type, %@", @"GNTP packet with an unsupported encryption algorithm"), packetEncryptionAlgorithm];
       }
       
       BOOL hashStringError = NO;
@@ -339,16 +343,9 @@
                if([keySubstrings count] == 2) {
                   NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
                   if([keyHashStrings count] == 2) {
-                     //[key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
+                     [key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
                      [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length])])];
-                     [key setPassword:[[GrowlPreferencesController sharedController] remotePassword]];
-                     NSData *IV = [key IV];
-                     [key generateKey];
-                     if(IV)
-                        [key setIV:IV];
-                     
-                     if ([[keyHashStrings objectAtIndex:0] caseInsensitiveCompare:HexEncode([key keyHash])] != NSOrderedSame)
-                        hashStringError = YES;
+                     //we will do actual check of all this in isAuthorizedPacket
                   }
                   else 
                      hashStringError = YES;
@@ -361,31 +358,15 @@
          }
       }
       
-      NSString *conHost = nil;
-      if([[self socket] connectedHost])
-         conHost = [[self socket] connectedHost];
-      else if(connectedHost)
-         conHost = connectedHost;
-      else{
-         NSLog(@"We dont know what host sent this (will show as missing hash string error)");
+      [self setKey:key];
+      
+      if(hashStringError || ![self isAuthorizedPacket]){
+         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
+         errorCode = GrowlGNTPUnauthorizedErrorCode;
+         errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", @"GNTP packet parsing error");
       }
       
-      if (([items count] < 4 && ([key encryptionAlgorithm] != GNTPNone || ![conHost isLocalHost])) ||
-          hashStringError) 
-      {
-         if([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] != NSOrderedSame && 
-            [[self action] caseInsensitiveCompare:GrowlGNTPOKResponseType] != NSOrderedSame &&
-            [[self action] caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] != NSOrderedSame)
-         {
-            NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
-            errorCode = GrowlGNTPUnauthorizedErrorCode;
-            errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", /*comment*/ @"GNTP packet parsing error");
-         }
-      }
-      
-      if(!errorDescription && errorCode == 0)
-      {
-         [self setKey:key];
+      if(!errorDescription && errorCode == 0) {
          return YES;
       }
 	}else {
@@ -403,6 +384,85 @@
                                       code:errorCode
                                   userInfo:[NSDictionary dictionaryWithObject:errorDescription forKey:NSLocalizedFailureReasonErrorKey]]];
 	return NO;
+}
+
+- (BOOL)isValidPassword:(NSString*)password {
+   GNTPKey *remoteKey = [[GNTPKey alloc] initWithPassword:password
+                                            hashAlgorithm:[[self key] hashAlgorithm]
+                                      encryptionAlgorithm:[[self key] encryptionAlgorithm]];
+   [remoteKey setSalt:[[self key] salt]];
+   NSData *IV = [[self key] IV];
+   [remoteKey generateKey];
+   if(IV)
+      [remoteKey setIV:IV];
+   
+   if ([HexEncode([[self key] keyHash]) caseInsensitiveCompare:HexEncode([remoteKey keyHash])] == NSOrderedSame)
+      return YES;
+   return NO;
+}
+
+- (BOOL)isAuthorizedPacket {
+   NSString *conHost = nil;
+   if([[self socket] connectedHost])
+      conHost = [[self socket] connectedHost];
+   else if(connectedHost)
+      conHost = connectedHost;
+   else{
+      NSLog(@"We dont know what host sent this (will show as missing hash string error)");
+      return NO;
+   }
+   
+   //There are a number of cases in which a password isn't required, some are optional
+   BOOL passwordRequired = YES;
+   BOOL isResponseType = ([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
+                          [[self action] caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
+                          [[self action] caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
+
+   
+   if([conHost isLocalHost] && [[self key] hashAlgorithm] == GNTPNoHash && [[self key] encryptionAlgorithm] == GNTPNone)
+      return YES;
+   
+   //This is mainly for future reference, responses are supposed to have security by spec, but it isn't implemented in GfW or Growl.app
+   if(![[GrowlPreferencesController sharedController] boolForKey:@"RequireSecureGNTPResponses"] && isResponseType){
+      passwordRequired = NO;
+   }
+   
+   //New setting to allow no encryption when password is empty
+   NSString *remotePassword = [[GrowlPreferencesController sharedController] remotePassword];
+   if(![[GrowlPreferencesController sharedController] boolForKey:@"RequireGNTPSecurityWhenPasswordEmpty"]) {
+      if(!remotePassword || [remotePassword isEqualToString:@""])
+         passwordRequired = NO;
+   }
+   
+   //Despite all the above, if we have an encryption algorithm, we require a password setup to decrypt
+   if([[self key] encryptionAlgorithm] != GNTPNone)
+      passwordRequired = YES;
+   
+   //If we dont have a hash algorithm, and we require password, we dont have what we need
+   if([[self key] hashAlgorithm] == GNTPNoHash && passwordRequired)
+      return NO;
+   
+   //We dont need a password, we dont have a hash algorithm, and we dont have encryption
+   if(!passwordRequired && [[self key] hashAlgorithm] == GNTPNoHash)
+      return YES;
+   
+   //At this point, we know we need a password, for decryption, or just authorization
+   if(isResponseType){
+      //check hash against the origin packet, regardless of subscription or not, this should be valid
+      if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([[self key] keyHash])] == NSOrderedSame)
+         return YES;
+   }else{
+      //Try our remote password
+      if([self isValidPassword:remotePassword])
+         return YES;
+      
+      //If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
+      NSString *subscriptionPassword = [[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost];
+      if(subscriptionPassword && [self isValidPassword:subscriptionPassword])
+         return YES;
+   }
+   
+   return NO;
 }
 
 - (void)configureToParsePacket

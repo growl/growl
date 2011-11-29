@@ -83,6 +83,7 @@
 	NSMutableArray *headersForResult = [[[super headersForResult] mutableCopy] autorelease];
 	if (!headersForResult) 
 		headersForResult = [NSMutableArray array];
+   [headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPSubscriberID value:[self subscriberID]]];
 	[headersForResult addObject:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPResponseSubscriptionTTL value:[NSString stringWithFormat:@"%ld",[self ttl]]]];
 	
 	return headersForResult;
