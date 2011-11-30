@@ -36,15 +36,15 @@
    if((self = [super init])) {
       self.preferences = [GrowlPreferencesController sharedController];
       
-      self.subscriberID = [preferences valueForKey:@"GNTPSubscriptionID"];
+      self.subscriberID = [preferences objectForKey:@"GNTPSubscriptionID"];
       if(!subscriberID || [subscriberID isEqualToString:@""]) {
          self.subscriberID = [[NSProcessInfo processInfo] globallyUniqueString];
-         [preferences setValue:subscriberID forKey:@"GNTPSubscriptionID"];
+         [preferences setObject:subscriberID forKey:@"GNTPSubscriptionID"];
       }
       
       self.remoteSubscriptions = [NSMutableDictionary dictionary];
       __block NSMutableDictionary *blockRemote = self.remoteSubscriptions;
-      NSArray *remoteItems = [preferences valueForKey:@"GrowlRemoteSubscriptions"];
+      NSArray *remoteItems = [preferences objectForKey:@"GrowlRemoteSubscriptions"];
       [remoteItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          //init a subscriber item, check if its still valid, and add it
          GNTPSubscriberEntry *entry = [[GNTPSubscriberEntry alloc] initWithDictionary:obj];
@@ -59,8 +59,8 @@
       if([remoteSubscriptions count] < [remoteItems count])
          [self saveSubscriptions:YES];
       
-      NSArray *localItems = [preferences valueForKey:@"GrowlLocalSubscriptions"];
-      self.localSubscriptions = [NSMutableDictionary dictionaryWithCapacity:[localItems count]];
+      NSArray *localItems = [preferences objectForKey:@"GrowlLocalSubscriptions"];
+      self.localSubscriptions = [NSMutableArray arrayWithCapacity:[localItems count]];
       __block NSMutableArray *blockLocal = self.localSubscriptions;
       [localItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          GNTPSubscriberEntry *entry = [[GNTPSubscriberEntry alloc] initWithDictionary:obj];
@@ -89,6 +89,8 @@
 
 -(void)dealloc {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
+   [self saveSubscriptions:YES];
+   [self saveSubscriptions:NO];
    [localSubscriptions release];
    [remoteSubscriptions release];
    [subscriberID release];
@@ -123,6 +125,7 @@
       entry = [[GNTPSubscriberEntry alloc] initWithPacket:packet];
       [remoteSubscriptions setValue:entry forKey:[entry uuid]];
    }
+   [self saveSubscriptions:YES];
    return YES;
 }
 
@@ -149,6 +152,7 @@
    }
    
    [entry updateLocalWithPacket:packet];
+   [self saveSubscriptions:NO];
 }
 
 #pragma mark UI Related
@@ -171,6 +175,7 @@
 
 -(BOOL)removeRemoteSubscriptionForUUID:(NSString*)uuid {
    [remoteSubscriptions removeObjectForKey:uuid];
+   [self saveSubscriptions:YES];
    return YES;
 }
 
@@ -179,6 +184,7 @@
       return NO;
    
    [localSubscriptions removeObjectAtIndex:index];
+   [self saveSubscriptions:NO];
    return YES;
 }
 

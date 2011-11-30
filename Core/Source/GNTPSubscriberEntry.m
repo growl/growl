@@ -53,7 +53,8 @@
          self.domain = aDomain;
       self.addressString = addrString;
       self.lastKnownAddress = addrData;
-      if(!uuid || [uuid isEqualToString:@""])
+      
+      if(!aUUID || [aUUID isEqualToString:@""])
          self.uuid = [[NSProcessInfo processInfo] globallyUniqueString];
       else
          self.uuid = aUUID;
@@ -83,7 +84,7 @@
       NSString *type = remote ? @"GrowlRemoteSubscriber" : @"GrowlLocalSubscriber";
       self.password = [GrowlKeychainUtilities passwordForServiceName:type accountName:uuid];
       if(!remote) {
-         self.key = [[[GNTPKey alloc] initWithPassword:type hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
+         self.key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
       } else {
          GNTPKey *aKey = [[GNTPKey alloc] initWithPassword:nil
                                             hashAlgorithm:GNTPSHA512 
@@ -211,6 +212,7 @@
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       NSDictionary *dict = [NSDictionary dictionaryWithObject:[blockSelf uuid] forKey:GrowlGNTPSubscriberID];
       GrowlGNTPOutgoingPacket *packet = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_SubscribeType forDict:dict];
+      [packet setKey:[blockSelf key]];
       
       NSData *destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
       
