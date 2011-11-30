@@ -29,6 +29,7 @@
 
 @synthesize initialTime;
 @synthesize timeToLive;
+@synthesize subscriberPort;
 @synthesize remote;
 @synthesize manual;
 @synthesize use;
@@ -44,6 +45,7 @@
               use:(BOOL)shouldUse
       initialTime:(NSDate*)date
        timeToLive:(NSInteger)ttl
+             port:(NSInteger)port
 {
    if((self = [super init])){
       self.computerName = name;
@@ -65,6 +67,11 @@
       
       self.initialTime = date;
       self.timeToLive = ttl;
+      
+      if (port > 0)
+         self.subscriberPort = port;
+      else
+         self.subscriberPort = GROWL_TCP_PORT;
    }
    return self;
 }
@@ -79,7 +86,8 @@
                           manual:[[dict valueForKey:@"manual"] boolValue]
                              use:[[dict valueForKey:@"use"] boolValue]
                      initialTime:[dict valueForKey:@"initialTime"]
-                      timeToLive:[[dict valueForKey:@"timeToLive"] integerValue]]))
+                      timeToLive:[[dict valueForKey:@"timeToLive"] integerValue]
+                            port:[[dict valueForKey:@"subscriberPort"] integerValue]]))
    {
       NSString *type = remote ? @"GrowlRemoteSubscriber" : @"GrowlLocalSubscriber";
       self.password = [GrowlKeychainUtilities passwordForServiceName:type accountName:uuid];
@@ -106,7 +114,8 @@
                           manual:NO
                              use:YES
                      initialTime:[NSDate date] 
-                      timeToLive:[packet ttl]]))
+                      timeToLive:[packet ttl]
+                            port:[packet subscriberPort]]))
    {
       self.key = [packet key];
       self.password = [packet subscriberKeyHash];
@@ -141,6 +150,7 @@
    self.initialTime = [NSDate date];
    self.timeToLive = [packet ttl];
    self.lastKnownAddress = [[packet socket] connectedAddress];
+   self.subscriberPort = [packet subscriberPort];
 }
 
 -(void)updateLocalWithPacket:(GrowlGNTPPacket*)packet {
@@ -245,7 +255,8 @@
                                                                    [NSNumber numberWithBool:remote], @"remote",
                                                                    [NSNumber numberWithBool:manual], @"manual",
                                                                    initialTime, @"initialTime",
-                                                                   [NSNumber numberWithInteger:timeToLive], @"timeToLive", nil];
+                                                                   [NSNumber numberWithInteger:timeToLive], @"timeToLive",
+                                                                   [NSNumber numberWithInteger:subscriberPort], @"subscriberPort", nil];
    return dict;
 }
 

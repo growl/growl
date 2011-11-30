@@ -22,6 +22,7 @@
 	if ((self = [super init])) {
 		subscriptionDict = [[NSMutableDictionary alloc] init];
 		mTTL = 300;
+      self.subscriberPort = GROWL_TCP_PORT;
 	}
 	
 	return self;

@@ -31,6 +31,37 @@
    return hostname;
 }
 
++(NSData*)addressData:(NSData*)original coercedToPort:(NSInteger)port {
+   NSData *result = nil;
+	if ([original length] >= sizeof(struct sockaddr))
+	{
+		struct sockaddr *addrX = (struct sockaddr *)[original bytes];
+		
+		if (addrX->sa_family == AF_INET)
+		{
+			if ([original length] >= sizeof(struct sockaddr_in))
+			{
+				struct sockaddr_in *addr4 = (struct sockaddr_in *)addrX;
+				
+				addr4->sin_port = htons(GROWL_TCP_PORT);
+            result = [NSData dataWithBytes:&addr4 length:sizeof(addr4)];
+         }
+		}
+		else if (addrX->sa_family == AF_INET6)
+		{
+			if ([original length] >= sizeof(struct sockaddr_in6))
+			{
+				struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)addrX;
+				
+            addr6->sin6_port = port;
+            result = [NSData dataWithBytes:&addr6 length:sizeof(addr6)];
+			}
+		}
+	}
+   
+   return result;
+}
+
 + (NSData *)addressDataForGrowlServerOfType:(NSString *)type withName:(NSString *)name withDomain:(NSString*)domain
 {
 	if ([name hasSuffix:@".local"])

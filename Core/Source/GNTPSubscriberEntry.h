@@ -23,6 +23,7 @@
 
 @property (nonatomic, retain) NSDate *initialTime;
 @property (nonatomic) NSInteger timeToLive;
+@property (nonatomic) NSInteger subscriberPort;
 @property (nonatomic) BOOL remote;
 @property (nonatomic) BOOL manual;
 @property (nonatomic) BOOL use;
@@ -38,7 +39,8 @@
            manual:(BOOL)isManual
               use:(BOOL)shouldUse
       initialTime:(NSDate*)date
-       timeToLive:(NSInteger)ttl;
+       timeToLive:(NSInteger)ttl
+             port:(NSInteger)port;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 -(id)initWithPacket:(GrowlSubscribeGNTPPacket*)packet;

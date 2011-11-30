@@ -14,6 +14,10 @@
 
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlGNTPDefines.h"
+#import "GrowlNetworkUtilities.h"
+
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 @implementation GNTPSubscriptionController
 
@@ -170,7 +174,8 @@
                                                                       manual:YES
                                                                          use:NO
                                                                  initialTime:[NSDate distantPast]
-                                                                  timeToLive:0];
+                                                                  timeToLive:0
+                                                                        port:GROWL_TCP_PORT];
    
    [localSubscriptions addObject:newEntry];
 }
@@ -213,9 +218,10 @@
       GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
                                                                                       forDict:dict];
       [outgoingPacket setKey:(GNTPKey*)[obj key]];
+      NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
       dispatch_async(dispatch_get_main_queue(), ^{
          [[GrowlGNTPPacketParser sharedParser] sendPacket:outgoingPacket
-                                                toAddress:[obj lastKnownAddress]];
+                                                toAddress:coercedAddress];
       });
    }];
 }
@@ -224,7 +230,7 @@
    [self forwardGrowlDict:noteDict ofType:GrowlGNTPOutgoingPacket_NotifyType];
 }
 
-/* Handle forwarding registrations */
+/* Hande forwarding registrations */
 -(void)appRegistered:(NSNotification*)note {
    [self forwardGrowlDict:[note userInfo] ofType:GrowlGNTPOutgoingPacket_RegisterType];
 }
