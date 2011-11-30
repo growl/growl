@@ -14,11 +14,16 @@
 
 @interface ITunesConductor ()
 
-@property(readwrite, nonatomic, assign) BOOL running;
+@property(readwrite, nonatomic, assign) BOOL isRunning;
+@property(readwrite, nonatomic, assign) ITunesEPlS currentPlayerState;
+@property(readwrite, nonatomic, retain) NSString* currentPersistentID;
+@property(readwrite, nonatomic, retain) TrackMetadata* currentTrack;
 
 - (void)didLaunchOrTerminateNotification:(NSNotification*)note;
 - (void)playerInfo:(NSNotification*)note;
 - (void)sourceSaved:(NSNotification*)note;
+
+- (void)updatePlayerState;
 
 @end
 
@@ -28,6 +33,8 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 @implementation ITunesConductor
 
 @synthesize currentTrack = _currentTrack;
+@synthesize currentPlayerState = _currentPlayerState;
+@synthesize currentPersistentID = _currentPersistentID;
 
 + (void)initialize
 {
@@ -46,19 +53,21 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return _LogLevel;
 }
 
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    return NO;
+}
+
 - (id)init
 {
     self = [super init];
     
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
-    
-    _currentTrack = [[TrackMetadata alloc] init];
-    _currentTrack.neverEvaluate = YES;
         
-    self.running = ita.isRunning;
+    self.isRunning = ita.isRunning;
     
-    if (self.running && ita.playerState == StatePlaying) {
+    if (self.isRunning && self.currentPlayerState == StatePlaying) {
         LogVerbose(@"iTunes already running and playing; sending fake 'playerInfo' notification");
         [self playerInfo:[NSNotification notificationWithName:PLAYER_INFO_ID 
                                                        object:$dict(@"source", @"init")]];
@@ -97,33 +106,102 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 {
     NSString* appID = [[note userInfo] valueForKey:@"NSApplicationBundleIdentifier"];
     if ([appID isEqualToString:ITUNES_BUNDLE_ID]) {
-        LogVerboseTag(@"Launch/Terminate", @"note: %@", note);
+        LogInfoTag(@"Launch/Terminate", @"note: %@", note);
 
         NSString* noteType = [note name];
         if ([noteType isEqualToString:NSWorkspaceDidLaunchApplicationNotification]) {
-            self.running = YES;
+            self.isRunning = YES;
         } else {
-            self.running = NO;
+            self.isRunning = NO;
         }
+    }
+}
+
+- (void)updatePlayerState
+{
+    BOOL updateState = NO;
+    BOOL updateID = NO;
+    BOOL updateTrack = NO;
+    
+    ITunesEPlS newState;
+    NSString* newID;
+    NSString* typeDescription;
+    
+    if (_running) {
+        newState = [[ITunesApplication sharedInstance] playerState];
+        newID = [self.currentTrack persistentID];
+        typeDescription = [self.currentTrack typeDescription];
+    } else {
+        newState = -1;
+        newID = nil;
+        typeDescription = nil;
+    }
+    
+    if (newState != _currentPlayerState) { updateState = YES; }
+    if (![newID isEqualToString:_currentPersistentID]) { updateID = YES; }
+    if ((newState || newID || [typeDescription isEqualToString:@"stream"]) && 
+        ![typeDescription isEqualToString:@"error"]) { updateTrack = YES; }
+    
+    if (updateState) {
+        [self willChangeValueForKey:@"currentPlayerState"];
+        [self willChangeValueForKey:@"isPlaying"];
+        [self willChangeValueForKey:@"isPaused"];
+        [self willChangeValueForKey:@"isStopped"];
+        [self willChangeValueForKey:@"isFastForwarding"];
+        [self willChangeValueForKey:@"isRewinding"];
+    }
+    
+    if (updateID) {
+        [self willChangeValueForKey:@"currentPersistentID"];
+    }
+    
+    if (updateTrack) {
+        [self willChangeValueForKey:@"currentTrack"];
+    }
+    
+    _currentPlayerState = newState;
+    _currentPersistentID = newID;
+    
+    if (_running && !_currentTrack) {
+        _currentTrack = [[TrackMetadata alloc] init];
+        _currentTrack.neverEvaluate = YES;
+    }
+    
+    if (updateTrack) {
+        [self didChangeValueForKey:@"currentTrack"];
+    }
+    
+    if (updateID) {
+        [self didChangeValueForKey:@"currentPersistentID"];
+    }
+    
+    if (updateState) {
+        [self didChangeValueForKey:@"isRewinding"];
+        [self didChangeValueForKey:@"isFastForwarding"];
+        [self didChangeValueForKey:@"isStopped"];
+        [self didChangeValueForKey:@"isPaused"];
+        [self didChangeValueForKey:@"isPlaying"];
+        [self didChangeValueForKey:@"currentPlayerState"];
     }
 }
 
 - (void)playerInfo:(NSNotification*)note
 {
     LogInfoTag(@"playerInfo", @"note: %@", note);
-    [self willChangeValueForKey:@"currentTrack"];
-    [self didChangeValueForKey:@"currentTrack"];
+    [self updatePlayerState];
 }
 
 // TODO: determine how to filter out notifications caused by a play count increase
 // TODO: something useful
 - (void)sourceSaved:(NSNotification*)note
 {
-    LogInfoTag(@"sourceSaved", @"note: %@", note);
+    LogVerboseTag(@"sourceSaved", @"note: %@", note);
 }
 
-- (void)setRunning:(BOOL)running
-{
+- (void)setIsRunning:(BOOL)running
+{    
+    [self willChangeValueForKey:@"isRunning"];
+    
     NSString* watchType;
     NSString* unWatchType;
     
@@ -151,6 +229,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                object:nil];
     
     _running = running;
+    [self updatePlayerState];
 }
 
 - (BOOL)isRunning
@@ -161,6 +240,31 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 - (BOOL)running
 {
     return _running;
+}
+
+-(BOOL)isPlaying
+{
+    return (_running && _currentPlayerState == ITunesEPlSPlaying);
+}
+
+-(BOOL)isPaused
+{
+    return (_running && _currentPlayerState == ITunesEPlSPaused);
+}
+
+-(BOOL)isStopped
+{
+    return (_running && _currentPlayerState == ITunesEPlSStopped);
+}
+
+-(BOOL)isFastForwarding
+{
+    return (_running && _currentPlayerState == ITunesEPlSFastForwarding);
+}
+
+-(BOOL)isRewinding
+{
+    return (_running && _currentPlayerState == ITunesEPlSRewinding);
 }
 
 - (NSString*)description

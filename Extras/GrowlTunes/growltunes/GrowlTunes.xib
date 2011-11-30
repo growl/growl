@@ -11,6 +11,7 @@
 			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSUserDefaultsController</string>
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
 			<string>NSCustomObject</string>
@@ -41,6 +42,7 @@
 					<object class="NSMenuItem" id="57486674">
 						<reference key="NSMenu" ref="154069724"/>
 						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
 						<string key="NSTitle">CurrentItem</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -57,6 +59,7 @@
 						<reference key="NSMenu" ref="154069724"/>
 						<bool key="NSIsDisabled">YES</bool>
 						<bool key="NSIsSeparator">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
 						<string key="NSTitle"/>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -81,6 +84,9 @@
 						<int key="NSTag">2</int>
 					</object>
 				</array>
+			</object>
+			<object class="NSUserDefaultsController" id="412292238">
+				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -147,19 +153,87 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: self.conductor.currentTrack.name</string>
+						<string key="label">enabled: self.noMeansNo</string>
+						<reference key="source" ref="57486674"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector" id="666686537">
+							<reference key="NSSource" ref="57486674"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">enabled: self.noMeansNo</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.noMeansNo</string>
+							<dictionary key="NSOptions">
+								<integer value="0" key="NSMultipleValuesPlaceholder"/>
+								<integer value="0" key="NSNoSelectionPlaceholder"/>
+								<integer value="0" key="NSNotApplicablePlaceholder"/>
+								<integer value="0" key="NSNullPlaceholder"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="57486674"/>
 						<reference key="destination" ref="456576518"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="57486674"/>
 							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">value: self.conductor.currentTrack.name</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">self.conductor.currentTrack.name</string>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="666686537"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">73</int>
+					<int key="connectionID">108</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.enableFormattingConfiguration</string>
+						<reference key="source" ref="958702569"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="958702569"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">hidden: values.enableFormattingConfiguration</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.enableFormattingConfiguration</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.conductor.isPlaying</string>
+						<reference key="source" ref="577532816"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="577532816"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">87</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -229,6 +303,11 @@
 						<reference key="object" ref="577532816"/>
 						<reference key="parent" ref="154069724"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">82</int>
+						<reference key="object" ref="412292238"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -258,12 +337,13 @@
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">74</int>
+			<int key="maxID">108</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

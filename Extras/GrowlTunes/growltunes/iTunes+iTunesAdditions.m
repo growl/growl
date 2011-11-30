@@ -22,6 +22,8 @@
 
 -(NSString*)playerStateName
 {
+    if (![self isRunning]) return @"error";
+    
     ITunesEPlS playerState = [self playerState];
     switch (playerState) {
         case ITunesEPlSPlaying:
@@ -99,6 +101,21 @@
             return @"TV show";
             break;
     }
+}
+
+-(NSImage*)artworkImage
+{
+    SBElementArray* artworks = [self artworks];
+    if ([artworks count] == 0) return nil;
+    
+    ITunesArtwork* artwork = [artworks lastObject];
+    if (![artwork exists]) return nil;
+    
+    artwork = [artwork get];
+    NSData* data = [artwork rawData];
+    NSImage* image = [[NSImage alloc] initWithData:data];
+    
+    return image;
 }
 
 @end

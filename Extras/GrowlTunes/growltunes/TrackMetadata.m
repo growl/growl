@@ -249,6 +249,16 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     }
 }
 
+-(TrackMetadata*)evaluated
+{
+    if (_isEvaluated) { return self; }
+    
+    TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:[self.trackObject copy]];
+    etrack.neverEvaluate = NO;
+    [etrack evaluate];
+    return etrack;
+}
+
 #pragma mark KVC
 
 // TODO: determine whether or not we care about caching 'exists' on evaluated tracks
@@ -272,7 +282,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     return value;
 }
 
-@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName;
+@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID;
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
@@ -388,18 +398,8 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 
 -(NSImage*)artworkImage
 {
-    SBElementArray* artworks = self.trackObject.artworks;
-    if ([artworks count] == 0) return nil;
-    
-    ITunesArtwork* artwork = [artworks lastObject];
-    if (![artwork exists]) return nil;
-    
-    artwork = [artwork get];
-    NSData* data = artwork.rawData;
-    NSImage* image = [[NSImage alloc] initWithData:data];
-    
+    NSImage* image = self.trackObject.artworkImage;
     LogImage(@"track art", image);
-    
     return image;
 }
 

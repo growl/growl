@@ -17,9 +17,18 @@
     
     BOOL _running;
     TrackMetadata* _currentTrack;
+    NSString* _currentPersistentID;
+    ITunesEPlS _currentPlayerState;
 }
 
-@property(readonly, nonatomic, assign) BOOL running;
+@property(readonly, nonatomic, assign) BOOL isRunning;
+@property(readonly, nonatomic, assign) BOOL isPlaying;
+@property(readonly, nonatomic, assign) BOOL isPaused;
+@property(readonly, nonatomic, assign) BOOL isStopped;
+@property(readonly, nonatomic, assign) BOOL isFastForwarding;
+@property(readonly, nonatomic, assign) BOOL isRewinding;
+@property(readonly, nonatomic, assign) ITunesEPlS currentPlayerState;
+@property(readonly, nonatomic, retain) NSString* currentPersistentID;
 @property(readonly, nonatomic, retain) TrackMetadata* currentTrack;
 
 + (void)setLogLevel:(int)level;

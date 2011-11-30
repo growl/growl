@@ -26,6 +26,9 @@ static int _LogLevel = LOG_LEVEL_ERROR;
             description:(NSString*)description
                    name:(NSString*)name
                    icon:(NSData*)icon;
+
+- (BOOL)noMeansNo;
+
 @end
 
 
@@ -50,6 +53,12 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         [NSDictionary dictionaryWithContentsOfFile: 
             [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
 	[[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+}
+
+// NSMenuItem just doesn't seem to understand. bind title and suddenly no means yes. not cool, NSMenuItem.
+- (BOOL)noMeansNo
+{
+    return NO;
 }
 
 - (NSString*)applicationNameForGrowl
