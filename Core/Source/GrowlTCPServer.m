@@ -116,10 +116,13 @@
 }
 
 - (BOOL)start:(NSError **)error {
+   if(running)
+      return YES;
+   
 	BOOL success;
 
 	asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-	success = [asyncSocket acceptOnPort:port error:(error ? error : NULL)];
+	success = [asyncSocket acceptOnInterface:@"localhost" port:port error:(error ? error : NULL)];
 	NSLog(@"%@ now accepting (%@)", asyncSocket, (error ? *error : NULL));
     if (port == 0) {
         /* Now that the binding was successful, we get the port number if we let
@@ -129,16 +132,17 @@
 	}
    
    running = YES;
-   [self publish];
    
    return success;
 }
 
 - (BOOL)stop {
-   [self unpublish];
-	NSLog(@"Stop %@", self);
+   if(!running)
+      return YES;
+   
+	NSLog(@"Stop %@", asyncSocket);
 	
-	[asyncSocket disconnectAfterWriting];
+	[asyncSocket disconnect];
 	[asyncSocket release]; asyncSocket = nil;
    running = NO;
     
@@ -147,13 +151,52 @@
 
 #pragma mark -
 
+-(BOOL)startRemoteServer:(NSError**)error {
+   BOOL success = YES;
+   if(remoteRunning)
+      return success;
+   
+   remoteSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+   success = [remoteSocket acceptOnPort:port error:(error ? error : NULL)];
+   NSLog(@"%@ now accepting (%@)", remoteSocket, (error ? *error : NULL));
+   if (port == 0) {
+      /* Now that the binding was successful, we get the port number if we let
+       * the kernel determine it.
+       */
+      port = [remoteSocket localPort];
+   }
+   if(success){
+      [self publish];
+      remoteRunning = YES;
+   }
+   return success;
+}
+
+-(BOOL)stopRemoteServer {
+   if(!remoteRunning)
+      return YES;
+   
+   [self unpublish];
+   NSLog(@"Stop %@", remoteSocket);
+	
+	[remoteSocket disconnect];
+	[remoteSocket release]; remoteSocket = nil;
+   remoteRunning = NO;
+   
+	return YES;
+}
+
 -(void)preferencesChanged:(NSNotification*)note
 {
    if(![note object] || [[note object] isEqualToString:GrowlStartServerKey]){
-      if([[GrowlPreferencesController sharedController] isGrowlServerEnabled])
-         [self publish];
-      else
-         [self unpublish];
+      if([[GrowlPreferencesController sharedController] isGrowlServerEnabled]){
+         NSError *error = nil;
+         if(![self startRemoteServer:&error]){
+            NSLog(@"Error starting remote server");
+         }
+      }else{
+         [self stopRemoteServer];
+      }
    }
 }
 
@@ -171,6 +214,7 @@
 	} else {
 		[newSocket disconnect];
 	}
+}
 
 }
 
