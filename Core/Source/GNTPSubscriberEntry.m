@@ -14,6 +14,7 @@
 #import "GNTPKey.h"
 #import "GCDAsyncSocket.h"
 #import "GrowlKeychainUtilities.h"
+#import "GrowlNetworkUtilities.h"
 
 @implementation GNTPSubscriberEntry
 
@@ -205,7 +206,19 @@
    /*
     * Send out a subscription packet
     */
-   //GrowlGNTPOutgoingPacket *packet = [GrowlGNTPOutgoingPacket outgoingPacketForSubscriber:self];
+   
+   __block GNTPSubscriberEntry *blockSelf = self;
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      NSDictionary *dict = [NSDictionary dictionaryWithObject:[blockSelf uuid] forKey:GrowlGNTPSubscriberID];
+      GrowlGNTPOutgoingPacket *packet = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_SubscribeType forDict:dict];
+      
+      NSData *destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+         [[GrowlGNTPPacketParser sharedParser] sendPacket:packet
+                                                toAddress:destAddress];
+      });
+   });
 }
 
 -(void)invalidate {

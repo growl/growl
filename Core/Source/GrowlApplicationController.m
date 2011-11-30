@@ -36,6 +36,7 @@
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
+#import "GNTPSubscriptionController.h"
 #include "CFURLAdditions.h"
 #include <sys/errno.h>
 #include <string.h>
@@ -167,6 +168,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
       
       [GNTPForwarder sharedController];
+      [GNTPSubscriptionController sharedController];
 	}
 
 	return self;
@@ -356,6 +358,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    
    if([preferences isForwardingEnabled])
       [[GNTPForwarder sharedController] forwardNotification:[[dict copy] autorelease]];
+   
+   [[GNTPSubscriptionController sharedController] forwardNotification:[[dict copy] autorelease]];
    
     if(![preferences squelchMode])
     {
