@@ -56,7 +56,7 @@
       }];
       
       //We had some subscriptions that have lapsed, remove them
-      if([remoteSubscriptions count] < [remoteItems count])
+      if([[remoteSubscriptions allValues] count] < [remoteItems count])
          [self saveSubscriptions:YES];
       
       NSArray *localItems = [preferences objectForKey:@"GrowlLocalSubscriptions"];
@@ -116,6 +116,9 @@
 }
 
 -(BOOL)addRemoteSubscriptionFromPacket:(GrowlSubscribeGNTPPacket*)packet {
+   if(![packet isKindOfClass:[GrowlSubscribeGNTPPacket class]])
+      return NO;
+   
    GNTPSubscriberEntry *entry = [remoteSubscriptions valueForKey:[packet subscriberID]];
    if(entry){
       //We need to update the entry
