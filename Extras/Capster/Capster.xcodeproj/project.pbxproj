@@ -179,8 +179,8 @@
 		1D79B23113206025001A1197 /* capster_mini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capster_mini.png; sourceTree = "<group>"; };
 		1D79B233132062B9001A1197 /* capster.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = capster.icns; sourceTree = "<group>"; };
 		1D85922F13229B710019B4BD /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
-		1D8FE5F7147E022900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/Capster/Growl Caps Notifier/el.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
-		1D8FE5F9147E022900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = "/Users/iluvatar/Dropbox/Documents/Projects/growl-dev/Extras/Capster/Growl Caps Notifier/el.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		1D8FE5F7147E022900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = "Growl Caps Notifier/el.lproj/Credits.rtf"; sourceTree = "<absolute>"; };
+		1D8FE5F9147E022900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = "Growl Caps Notifier/el.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		1D8FE612147E04F200F01B4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D8FE614147E04F900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1DCC5612131F013D006F18CF /* Capster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capster.app; sourceTree = BUILT_PRODUCTS_DIR; };
