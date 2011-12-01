@@ -37,6 +37,9 @@ end
 task :package_hardwaregrowler => [:setup, "package:hardwaregrowler"] do
 end
 
+task :package_capster => [:setup, "package:capster"] do
+end
+
 task :setup do
 	system("sed -e \"s/INSERT_VERSION_HERE/#{GROWLVERSION}/\" < \"#{SRCROOT}/GrowlVersion.h.tmpl\" > \"#{SRCROOT}/GrowlVersion.h\"")
 	if(CONFIGURATION == "Beta")
@@ -66,6 +69,10 @@ namespace "build" do
 	task :hardwaregrowler do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/HardwareGrowler/HardwareGrowler.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/hardwaregrowler"
 	end
+	
+	task :capster do
+		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/Capster/Capster.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/capster"
+	end	
 	
 	task :growltunes do
 		system "#{XCODEBUILD} -project #{SRCROOT}/Extras/GrowlTunes/GrowlTunes.xcodeproj -configuration #{CONFIGURATION} SYMROOT=#{BUILD_ROOT}/growltunes"
@@ -127,6 +134,19 @@ namespace "package" do
 		system "zip -r #{PRODUCT_ROOT}/HardwareGrowler-#{GROWLVERSION}-dSYM.zip HardwareGrowler.dSYM"
 		FileUtils.cd(curdir)
 	end
+	
+	
+	task :capster => ["build:capster"] do
+		curdir = FileUtils.pwd()
+		FileUtils.cd("#{BUILD_ROOT}/capster/#{CONFIGURATION}")
+		if(BETA==0)
+			system "productbuild --component Capster.app /Applications --sign \"#{CSI}\" Capster.pkg && cp -Rp Capster.pkg #{PRODUCT_ROOT}"
+		elsif (BETA)
+			system "zip -r -y #{PRODUCT_ROOT}/Capster-#{GROWLVERSION}.zip Capster.app/"
+		end
+		system "zip -r #{PRODUCT_ROOT}/Capster-#{GROWLVERSION}-dSYM.zip Capster.dSYM"
+		FileUtils.cd(curdir)
+	end	
 	
 	task :growltunes => ["build:growltunes"] do
 		curdir = FileUtils.pwd()
