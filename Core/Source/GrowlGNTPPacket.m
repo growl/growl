@@ -460,7 +460,7 @@
       
       //If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
       NSString *subscriptionPassword = [[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost];
-      if(subscriptionPassword && [self isValidPassword:subscriptionPassword])
+      if(subscriptionPassword && ![subscriptionPassword isEqualToString:@""] && [self isValidPassword:subscriptionPassword])
          return YES;
    }
    

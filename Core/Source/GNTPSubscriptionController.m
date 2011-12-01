@@ -203,11 +203,13 @@
    [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([[obj addressString] caseInsensitiveCompare:host] == NSOrderedSame){
          password = [obj password];
-         password = [password stringByAppendingString:[obj uuid]];
+         //We do this so that the password will stick around long enough to be used by the caller
+         password = [[password stringByAppendingString:[obj uuid]] retain];
          *stop = YES;
       }
    }];
-   return password;
+   //However, it should still be autoreleased, just in the right area
+   return [password autorelease];
 }
 
 -(void)forwardGrowlDict:(NSDictionary*)dict ofType:(GrowlGNTPOutgoingPacketType)type {
@@ -217,7 +219,10 @@
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
                                                                                       forDict:dict];
-      [outgoingPacket setKey:(GNTPKey*)[obj key]];
+      GNTPKey *cryptoKey = [[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj uuid]]
+                                               hashAlgorithm:GNTPSHA512
+                                         encryptionAlgorithm:GNTPNone];
+      [outgoingPacket setKey:cryptoKey];
       NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
       dispatch_async(dispatch_get_main_queue(), ^{
          [[GrowlGNTPPacketParser sharedParser] sendPacket:outgoingPacket

@@ -89,17 +89,8 @@
                       timeToLive:[[dict valueForKey:@"timeToLive"] integerValue]
                             port:[[dict valueForKey:@"subscriberPort"] integerValue]]))
    {
-      NSString *type = remote ? @"GrowlRemoteSubscriber" : @"GrowlLocalSubscriber";
-      self.password = [GrowlKeychainUtilities passwordForServiceName:type accountName:uuid];
-      if(!remote) {
-         self.key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
-      } else {
-         GNTPKey *aKey = [[GNTPKey alloc] initWithPassword:nil
-                                            hashAlgorithm:GNTPSHA512 
-                                      encryptionAlgorithm:GNTPNone];
-         [aKey setKeyHash:HexUnencode(self.password)];
-         self.key = aKey;
-      }
+      if(!remote)
+         self.password = [GrowlKeychainUtilities passwordForServiceName:@"GrowlLocalSubscriber" accountName:uuid];
    }
    return self;
 }
@@ -117,10 +108,7 @@
                       timeToLive:[packet ttl]
                             port:[packet subscriberPort]]))
    {
-      self.key = [packet key];
-      self.password = [packet subscriberKeyHash];
       //and store the password
-      [GrowlKeychainUtilities setPassword:password forService:@"GrowlRemoteSubscriber" accountName:uuid];
       /*
        * Setup time out time out timer
        */
@@ -205,6 +193,7 @@
    password = [pass copy];
    NSString *type = remote ? @"GrowlRemoteSubscriber" : @"GrowlLocalSubscriber";
    [GrowlKeychainUtilities setPassword:password forService:type accountName:uuid];
+   self.key = [[[GNTPKey alloc] initWithPassword:password hashAlgorithm:GNTPSHA512 encryptionAlgorithm:GNTPNone] autorelease];
 }
 
 -(void)subscribe {
@@ -234,11 +223,7 @@
 }
 
 -(void)invalidate {
-   if(remote){
-      [GrowlKeychainUtilities removePasswordForService:@"GrowlRemoteSubscriber" accountName:uuid];
-      self.password = nil;
-      self.key = nil;
-   } else {
+   if(!remote){
       if(resubscribeTimer){
          [resubscribeTimer invalidate];
          self.resubscribeTimer = nil;
