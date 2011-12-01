@@ -21,7 +21,7 @@
 @property(readwrite, retain, atomic) NSMutableDictionary* music;
 
 -(void)loadDefaults;
--(void)setupSaveOnUpdate;
+-(void)saveDefaults;
 
 @end
 
@@ -41,7 +41,6 @@
     
     _defaults = [NSUserDefaults standardUserDefaults];
     [self loadDefaults];
-    [self setupSaveOnUpdate];
     
     return self;
 }
@@ -85,6 +84,30 @@
     }
 }
 
+-(void)saveDefaults
+{
+    NSMutableDictionary* newFormat = [NSMutableDictionary dictionary];
+    NSArray* types = $array(formattingTypes);
+    for (NSString* type in types) {
+        NSMutableDictionary* value = [self valueForKey:type];
+        [newFormat setValue:value forKey:type];
+    }
+    
+    [_defaults setValue:newFormat forKey:@"format"];
+}
+
+-(void)setValue:(id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:key];
+    [self saveDefaults];
+}
+
+-(void)setValue:(id)value forKeyPath:(NSString *)keyPath
+{
+    [super setValue:value forKeyPath:keyPath];
+    [self saveDefaults];
+}
+
 -(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute
 {
     NSMutableDictionary* td = [self valueForKey:type];
@@ -95,28 +118,6 @@
     
     NSValueTransformer* vt = [NSValueTransformer valueTransformerForName:NSKeyedUnarchiveFromDataTransformerName];
     return [vt transformedValue:ad];
-}
-
--(void)setupSaveOnUpdate
-{
-    $depends(@"formattingPreferencesProxy", 
-             self, formattingTypes,
-             _podcast, formattingAttributes,
-             _stream, formattingAttributes,
-             _show, formattingAttributes,
-             _movie, formattingAttributes,
-             _musicVideo, formattingAttributes,
-             _music, formattingAttributes,
-             ^{
-                 NSMutableDictionary* newFormat = [NSMutableDictionary dictionary];
-                 NSArray* types = $array(formattingTypes);
-                 for (NSString* type in types) {
-                     NSMutableDictionary* value = [selff valueForKey:type];
-                     [newFormat setValue:value forKey:type];
-                 }
-                 
-                 [_defaults setValue:newFormat forKey:@"format"];
-             });
 }
 
 - (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject

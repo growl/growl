@@ -261,28 +261,26 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
 #pragma mark KVC
 
-// TODO: determine whether or not we care about caching 'exists' on evaluated tracks
-
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {    
-    id value;
+    id value = nil;
     NSString* key = NSStringFromSelector(_cmd);
     
     LogVerboseTag(@"KVC", @"_propertyGetterFunc _cmd:%@", key);
     
-    if (self.isEvaluated) {
+    if (self.isEvaluated && ![key isEqualToString:@"exists"]) {
         value = [self.cache objectForKey:key];
-        if (!value) {
+        if (!value && [[ITunesApplication sharedInstance] isRunning] && [self.trackObject exists]) {
             value = [self.trackObject valueForKey:key];
             if (value) { [self.cache setObject:value forKey:key]; }
         }
-    } else {
+    } else if ([[ITunesApplication sharedInstance] isRunning] && [self.trackObject exists]) {
         value = [self.trackObject valueForKey:key];
     }
     
     return value;
 }
 
-@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID;
+@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID, rating;
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
@@ -295,11 +293,24 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     return [[self class] propertiesForTrackClass:[self trackClass] includingHelpers:YES];
 }
 
+-(void)setRating:(NSNumber *)rating
+{
+    if (![[ITunesApplication sharedInstance] isRunning] || ![self.trackObject exists]) return;
+    
+    [self.trackObject setValue:rating forKey:@"rating"];
+    if (self.isEvaluated) {
+        rating = [self.trackObject valueForKey:@"rating"];
+        [self.cache setValue:rating forKey:@"rating"];
+    }
+}
+
 #pragma mark helper accessors
 
 // TODO: classify itunes university tracks if their genre is consistently "iTunes\U00a0U"
 -(NSString*)typeDescription
 {
+    if (![[ITunesApplication sharedInstance] isRunning]) return @"error";
+    
     // first check to see if the track exists. if the last track change notification was the result of playing a
     // ringtone or itunes store preview, then it doesn't appear you can introspect its' metadata via SB/AS. in this
     // case 'exists' will throw an applescript error, return nil, and evaluate to NO.

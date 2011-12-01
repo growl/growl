@@ -58,13 +58,11 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return NO;
 }
 
-- (id)init
+- (void)bootstrap
 {
-    self = [super init];
-    
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
-        
+    
     self.isRunning = ita.isRunning;
     
     if (self.isRunning && self.currentPlayerState == StatePlaying) {
@@ -82,8 +80,6 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                                                         selector:@selector(sourceSaved:)
                                                             name:SOURCE_SAVED_ID
                                                           object:nil];
-    
-    return self;
 }
 
 - (void)dealloc
@@ -137,10 +133,18 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         typeDescription = nil;
     }
     
+    LogVerbose(@"previous state: %x new state: %x \nprevious ID: %@ new ID: %@ \ntype: %@",
+               _currentPlayerState, newState, _currentPersistentID, newID, typeDescription);
+    
     if (newState != _currentPlayerState) { updateState = YES; }
     if (![newID isEqualToString:_currentPersistentID]) { updateID = YES; }
-    if ((newState || newID || [typeDescription isEqualToString:@"stream"]) && 
+    if ((updateState || updateID || [typeDescription isEqualToString:@"stream"]) && 
         ![typeDescription isEqualToString:@"error"]) { updateTrack = YES; }
+    
+    LogVerbose(@"update state: %@ \nupdate ID: %@ \nupdate track: %@",
+               updateState?@"YES":@"NO",
+               updateID?@"YES":@"NO",
+               updateTrack?@"YES":@"NO");
     
     if (updateState) {
         [self willChangeValueForKey:@"currentPlayerState"];
@@ -163,6 +167,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     _currentPersistentID = newID;
     
     if (_running && !_currentTrack) {
+        LogVerbose(@"initializing new currentTrack");
         _currentTrack = [[TrackMetadata alloc] init];
         _currentTrack.neverEvaluate = YES;
     }
@@ -270,6 +275,31 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 - (NSString*)description
 {
     return [self dryDescriptionForProperties];
+}
+
+- (IBAction)playPause:(id)sender
+{
+    if (_running) [[ITunesApplication sharedInstance] playpause];
+}
+
+- (IBAction)nextTrack:(id)sender
+{
+    if (_running) [[ITunesApplication sharedInstance] nextTrack];
+}
+
+- (IBAction)previousTrack:(id)sender
+{
+    if (_running) [[ITunesApplication sharedInstance] previousTrack];
+}
+
+- (IBAction)run:(id)sender
+{
+    [[ITunesApplication sharedInstance] run];
+}
+
+- (IBAction)quit:(id)sender
+{
+    if (_running) [[ITunesApplication sharedInstance] quit];
 }
 
 

@@ -1,6 +1,5 @@
 #import "LoggerClient.h"
 #import "SPLowVerbosity.h"
-#import "SPDepends.h"
 #import "defines.h"
 
 #define $bool(val) [NSNumber numberWithBool:val]

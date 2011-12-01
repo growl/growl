@@ -38,6 +38,8 @@
 
 @property(readonly, nonatomic, retain) NSString* persistentID;
 
+@property(readwrite, nonatomic, retain) NSNumber* rating;
+
 
 -(id)init;
 -(id)initWithPersistentID:(NSString*)persistentID;

@@ -12,6 +12,7 @@
 #import <ScriptingBridge/ScriptingBridge.h>
 #import "macros.h"
 #import "NSObject+DRYDescription.h"
+#import "TrackRatingLevelIndicatorValueTransformer.h"
 #import <dlfcn.h>
 
 
@@ -49,10 +50,18 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 + (void)initialize
 {
-    NSDictionary * defaults = 
-        [NSDictionary dictionaryWithContentsOfFile: 
-            [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
-	[[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+    if (self == [GrowlTunesController class]) {
+        setLogLevel("GrowlTunesController");
+        
+        NSValueTransformer* trackRatingTransformer = [[TrackRatingLevelIndicatorValueTransformer alloc] init];
+        [NSValueTransformer setValueTransformer:trackRatingTransformer 
+                                        forName:@"TrackRatingLevelIndicatorValueTransformer"];
+        
+        NSDictionary * defaults = 
+        [NSDictionary dictionaryWithContentsOfFile:
+         [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
+        [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+    }
 }
 
 // NSMenuItem just doesn't seem to understand. bind title and suddenly no means yes. not cool, NSMenuItem.
@@ -94,40 +103,41 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return regDict;
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"currentTrack"]) {
+        if (![self.conductor isPlaying]) return;
+        
+        NSDictionary* formatted = [[[self conductor] currentTrack] formattedDescriptionDictionary];
+        NSString* title = [formatted valueForKey:@"title"];
+        NSString* description = [formatted valueForKey:@"description"];
+        NSImage* icon = [formatted valueForKey:@"icon"];
+        NSData* iconData = [icon TIFFRepresentation];
+        
+        [self notifyWithTitle:title description:description name:NotifierChangedTracks icon:iconData];
+    }
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
     
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
-    
-    self.conductor = [[ITunesConductor alloc] init];
-    
-    [self createStatusItem];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
     
-    $depends(@"GrowlNotificationTrigger",
-             self, @"conductor",
-             _iTunesConductor, @"currentTrack",
-             ^{
-                 if ([[ITunesApplication sharedInstance] playerState] != StatePlaying) {
-                     return;
-                 }
-                 
-                 NSDictionary* formatted = [[[selff conductor] currentTrack] formattedDescriptionDictionary];
-                 NSString* title = [formatted valueForKey:@"title"];
-                 NSString* description = [formatted valueForKey:@"description"];
-                 NSImage* icon = [formatted valueForKey:@"icon"];
-                 NSData* iconData = [icon TIFFRepresentation];
-                 
-                 [selff notifyWithTitle:title description:description name:NotifierChangedTracks icon:iconData];
-             });
+    [self createStatusItem];
     
-#ifdef DEBUG
+    if (!_iTunesConductor) { self.conductor = [[ITunesConductor alloc] init]; }
+    [self.conductor bootstrap];
+    
+    [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
+    
+#ifdef FSCRIPT
     // load FScript if available for easy runtime introspection and debugging
     void* dl_handle = dlopen("/Library/Frameworks/FScript.framework/FScript", RTLD_GLOBAL | RTLD_NOW);
     if (dl_handle) {

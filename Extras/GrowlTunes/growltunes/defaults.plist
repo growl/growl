@@ -72,6 +72,6 @@
 		</dict>
 	</dict>
 	<key>enableFormattingConfiguration</key>
-	<true/>
+	<false/>
 </dict>
 </plist>

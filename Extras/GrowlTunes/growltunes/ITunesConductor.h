@@ -34,4 +34,14 @@
 + (void)setLogLevel:(int)level;
 + (int)logLevel;
 
+- (void)bootstrap;
+
+- (IBAction)playPause:(id)sender;
+- (IBAction)nextTrack:(id)sender;
+- (IBAction)previousTrack:(id)sender;
+
+- (IBAction)run:(id)sender;
+- (IBAction)quit:(id)sender;
+
+
 @end
