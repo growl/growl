@@ -65,7 +65,7 @@ $package_maker = env_default(:PACKAGE_MAKER, "#{$toolchain}/usr/bin/packagemaker
 $destdir       = env_default(:DESTDIR, File.join($release_dir, 'distribution'))
 $build_root    = File.join($destdir, "build")
 $product_root  = File.join($destdir, "product")
-$csi           = "3rd Party Mac Developer Installer: The Growl Project, LLC"
+$csi           = env_default(:CODE_SIGN_IDENTITY, "3rd Party Mac Developer Installer: The Growl Project, LLC")
 $beta          = false
 
 task :default => "package_everything"
