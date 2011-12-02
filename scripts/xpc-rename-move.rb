@@ -1,14 +1,5 @@
-#!/usr/bin/ruby
-
-require 'FileUtils'
-require 'rubygems'
-
-begin
-   require 'osx/plist'
-   rescue LoadError
-   error_string = "\n\nYou must install the plist ruby gem in order to use this script. \n gem sources -a http://gems.github.com \n sudo gem install kballard-osx-plist\n"
-   raise error_string
-end
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
 
 $xpcExtension = ".xpc"
 $serviceName = "GNTPClientService"
@@ -117,6 +108,52 @@ def main
    FileUtils.cp_r(xpcOrigin, xpcDest)
 end
 
+# Depending on a gem that's only available via a long dead and soon to go away
+# gem server can be a bit inconvenient. This little bundle of automagic will
+# use rubygems to install bundler, create a Gemfile, and use that to bootstrap
+# the gem from github. This is, perversely, much less effort than you'd expect.
+def autoinstall_script_dependencies
+  require 'rubygems' unless defined?(Gem)
+  
+  begin
+    require 'bundler'
+  rescue LoadError => _
+    require 'rubygems/dependency_installer'
+    STDERR.puts "installing bundler..."
+    installer = Gem::DependencyInstaller.new({:domain => :both})
+    installer.install "bundler", ">= 1.0.21"
+    require 'bundler'
+  end
+
+  gemfile_path = File.expand_path("#{ENV['PROJECT_TEMP_DIR']}/Gemfile")
+  if not File.exist?(gemfile_path)
+    FileUtils.mkdir_p(ENV['PROJECT_TEMP_DIR'])
+    File.open(gemfile_path, 'w+') do |io|
+      content = <<-EOGF
+source :rubygems
+gem "bundler", ">= 1.0.21"
+gem "osx-plist", ">= 1.0.3", :require => 'osx/plist',
+  :git => 'git://github.com/kballard/osx-plist.git'
+      EOGF
+      io << content
+    end
+  end
+  ENV['BUNDLE_GEMFILE'] = gemfile_path
+
+  begin
+    require 'bundler/setup'
+  rescue Exception => _
+    STDERR.puts "performing bundle install..."
+    Bundler::Installer.install(Bundler.root, Bundler.definition,
+                               {"system" => true})
+    require 'bundler/setup'
+  end
+
+  require 'osx/plist'
+  require 'FileUtils'
+end
+
 if __FILE__ == $0
-   main()
+  autoinstall_script_dependencies
+  main
 end
