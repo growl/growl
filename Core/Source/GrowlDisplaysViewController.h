@@ -32,6 +32,7 @@
 @property (nonatomic, retain) NSDictionary *currentPlugin;
 @property (nonatomic, retain) GrowlPlugin *currentPluginController;
 
+- (void)selectPlugin:(NSString*)pluginName;
 - (void) reloadPrefs:(NSNotification *)notification;
 
 - (IBAction) showDisabledDisplays:(id)sender;

@@ -34,6 +34,7 @@
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
+- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName;
 - (IBAction) showApplicationConfigurationTab:(id)sender;
 - (IBAction) changeNameOfDisplayForApplication:(id)sender;
 - (IBAction) changeNameOfDisplayForNotification:(id)sender;

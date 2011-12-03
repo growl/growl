@@ -30,9 +30,9 @@
 @end
 
 @implementation GrowlPreferencePane
-@synthesize services;
 @synthesize networkAddressString;
 @synthesize currentViewController;
+@synthesize prefViewControllers;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];

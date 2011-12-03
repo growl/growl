@@ -211,6 +211,30 @@
     }
 }
 
+- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName
+{
+   if(!appName)
+      return;
+
+   __block NSUInteger index = NSNotFound;
+   [[ticketsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([[obj applicationName] caseInsensitiveCompare:appName] == NSOrderedSame){
+         if(!hostName && [obj isLocalHost]){
+            index = idx;
+            *stop = YES;
+         }else if(hostName && [obj hostName] && [[obj hostName] caseInsensitiveCompare:hostName]){
+            index = idx;
+            *stop = YES;
+         }
+      }
+   }];
+   
+   if(index != NSNotFound){
+      [ticketsArrayController setSelectionIndex:index];
+      [self showApplicationConfigurationTab:nil];
+   }
+}
+
 - (IBAction) showApplicationConfigurationTab:(id)sender {
 	if ([ticketsArrayController selectionIndex] != NSNotFound) {
 		[[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];

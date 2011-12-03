@@ -33,6 +33,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlFirstLaunchWindowController.h"
 #import "GrowlPreferencePane.h"
+#import "GrowlApplicationsViewController.h"
+#import "GrowlDisplaysViewController.h"
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
@@ -169,6 +171,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       
       [GNTPForwarder sharedController];
       [GNTPSubscriptionController sharedController];
+      
+      NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
+      [appleEventManager setEventHandler:self 
+                             andSelector:@selector(handleGetURLEvent:withReplyEvent:) 
+                           forEventClass:kInternetEventClass 
+                              andEventID:kAEGetURL];
 	}
 
 	return self;
@@ -677,6 +685,47 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          break;
       default:
          break;
+   }
+}
+
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+{
+   NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+   if(!url || [url isEqualToString:@""])
+      return;
+   if(![url hasPrefix:@"growl://"])
+      return;
+   
+   NSString *shortened = [url stringByReplacingOccurrencesOfString:@"growl://" withString:@""];
+   NSArray *components = [shortened componentsSeparatedByString:@"/"];
+   if([components count] == 0)
+      return;
+   
+   if([[components objectAtIndex:0] caseInsensitiveCompare:@"preferences"] == NSOrderedSame){
+      [self showPreferences];
+      if([components count] > 1){
+         NSString *tab = [components objectAtIndex:1];
+         if([tab caseInsensitiveCompare:@"general"] == NSOrderedSame) {
+            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:0];
+         }else if([tab caseInsensitiveCompare:@"applications"] == NSOrderedSame){
+            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:1];
+            if([components count] > 2){
+               NSString *app = [components objectAtIndex:2];
+               NSString *host = nil;
+               if([components count] > 3)
+                  host = [components objectAtIndex:3];
+               GrowlApplicationsViewController *appsView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlApplicationsViewController nibName]];
+               [appsView selectApplication:app hostName:host]; 
+            }
+         }else if([tab caseInsensitiveCompare:@"displays"] == NSOrderedSame){
+            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:2];
+            if([components count] > 2){
+               NSString *display = [components objectAtIndex:2];
+               GrowlDisplaysViewController *displaysView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlDisplaysViewController nibName]];
+               [displaysView selectPlugin:display];
+            }
+         }
+      }
    }
 }
 

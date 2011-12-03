@@ -61,27 +61,11 @@
 
    // Select the default style if possible. 
    {
-		id arrangedObjects = [displayPluginsArrayController arrangedObjects];
-		NSUInteger count = [arrangedObjects count];
 		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
-		NSUInteger defaultStyleRow = NSNotFound;
-		for (NSUInteger i = 0; i < count; i++) {
-			if ([[[arrangedObjects objectAtIndex:i] valueForKey:@"CFBundleName"] isEqualToString:defaultDisplayPluginName]) {
-				defaultStyleRow = i;
-				break;
-			}
-		}
-      
-		if (defaultStyleRow != NSNotFound) {
-			/* Wait until the next run loop; otherwise everything isn't finished loading and we throw an exception.
-          * This is setting the view for the Displays tab, which isn't initially visible, so the user won't see
-          * the flicker. I'm don't know why this is necessary. -evands
-          */
-			[self performSelector:@selector(selectRow:)
-                    withObject:[NSIndexSet indexSetWithIndex:defaultStyleRow]
-                    afterDelay:0];
-		}
-		
+      __block GrowlDisplaysViewController *blockSafe = self;
+      dispatch_async(dispatch_get_main_queue(), ^{
+         [blockSafe selectPlugin:defaultDisplayPluginName];
+      });		
 	}
 }
 
@@ -89,9 +73,18 @@
    return @"DisplayPrefs";
 }
 
-- (void)selectRow:(NSIndexSet *)indexSet
+- (void)selectPlugin:(NSString*)pluginName 
 {
-	[displayPluginsTable selectRowIndexes:indexSet byExtendingSelection:NO];
+   __block NSUInteger index = NSNotFound;
+   [[displayPluginsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if ([[obj valueForKey:@"CFBundleName"] caseInsensitiveCompare:pluginName] == NSOrderedSame) {
+         index = idx;
+         *stop = YES;
+      }
+   }];
+   
+   if(index != NSNotFound)
+      [displayPluginsArrayController setSelectionIndex:index];
 }
 
 - (void) reloadDisplayPluginView {
