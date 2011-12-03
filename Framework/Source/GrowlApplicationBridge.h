@@ -400,6 +400,19 @@
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)regDict;
 
 + (NSDictionary *) frameworkInfoDictionary;
+
+#pragma mark -
+
+/*!
+ * @method launchPreferences:
+ * @abstract Open Growl preferences, optionally to this app's settings
+ * @param showApp Whether to show the application's settings, otherwise just opens to the last position
+ * @return Return's whether opening the URL was succesfull or not.  
+ * @discussion Will launch if Growl is installed, but not running, and open the preferences window
+ * @since Growl.framework 1.4
+ */
++ (BOOL) openGrowlPreferences:(BOOL)showApp;
+
 @end
 
 //------------------------------------------------------------------------------
