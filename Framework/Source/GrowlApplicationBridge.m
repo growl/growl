@@ -85,16 +85,6 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 
 @implementation GrowlApplicationBridge
 
-+ (BOOL) openGrowlPreferences:(BOOL)showApp {
-   if(showApp && !appName){
-      NSLog(@"Attempt to show application setting without having set the Delegate first");
-      return NO;
-   }
-   NSString *appString = showApp ? [NSString stringWithFormat:@"/applications/%@", appName] : @"";
-   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"growl://preferences%@", appString]];
-   return [[NSWorkspace sharedWorkspace] openURL:url];
-}
-
 + (NSMutableArray *) attempts {
 	if (!_attempts)
 		_attempts = [[NSMutableArray alloc] init];
@@ -609,6 +599,27 @@ static BOOL    shouldUseBuiltInNotifications = YES;
 
 + (NSDictionary *) frameworkInfoDictionary {
 	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlframework")));
+}
+
+#pragma mark -
+#pragma mark Growl URL scheme
+
++ (BOOL) isGrowlURLSchemeAvailable {
+   NSURL *growlURLScheme = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:@"growl://"]];
+
+   if(growlURLScheme)
+      return YES;
+   return NO;
+}
+
++ (BOOL) openGrowlPreferences:(BOOL)showApp {
+   if(showApp && !appName){
+      NSLog(@"Attempt to show application setting without having set the Delegate first");
+      return NO;
+   }
+   NSString *appString = showApp ? [NSString stringWithFormat:@"/applications/%@", appName] : @"";
+   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"growl://preferences%@", appString]];
+   return [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 #pragma mark -
