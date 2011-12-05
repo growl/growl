@@ -21,7 +21,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 @interface GrowlTunesController ()
 
-@property(readwrite, strong, nonatomic) ITunesConductor* conductor;
+@property(readwrite, strong, nonatomic) IBOutlet ITunesConductor* conductor;
 
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
@@ -212,5 +212,11 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     [NSApp terminate:self];
 }
 
+- (IBAction)quitGrowlTunesAndITunes:(id)sender
+{
+#pragma unused(sender)
+    [self.conductor quit:sender];
+    [NSApp terminate:self];
+}
 
 @end

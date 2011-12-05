@@ -256,7 +256,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 {
     if (_isEvaluated) { return self; }
     
-    TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:[self.trackObject copy]];
+    TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:self.trackObject];
     etrack.neverEvaluate = NO;
     [etrack evaluate];
     return etrack;

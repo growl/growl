@@ -58,6 +58,18 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return NO;
 }
 
+- (id)init
+{
+    self = [super init];
+    
+    _metaTrack = [[TrackMetadata alloc] init];
+    _metaTrack.neverEvaluate = YES;
+    
+    _currentTrack = [[TrackMetadata alloc] init];
+    
+    return self;
+}
+
 - (void)bootstrap
 {
     ITunesApplication* ita = [ITunesApplication sharedInstance];
@@ -125,8 +137,8 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     if (_running) {
         newState = [[ITunesApplication sharedInstance] playerState];
-        newID = [self.currentTrack persistentID];
-        typeDescription = [self.currentTrack typeDescription];
+        newID = [_metaTrack persistentID];
+        typeDescription = [_metaTrack typeDescription];
     } else {
         newState = -1U;
         newID = nil;
@@ -153,26 +165,23 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         [self willChangeValueForKey:@"isStopped"];
         [self willChangeValueForKey:@"isFastForwarding"];
         [self willChangeValueForKey:@"isRewinding"];
+        _currentPlayerState = newState;
     }
     
     if (updateID) {
         [self willChangeValueForKey:@"currentPersistentID"];
+        _currentPersistentID = newID;
     }
     
     if (updateTrack) {
         [self willChangeValueForKey:@"currentTrack"];
-    }
-    
-    _currentPlayerState = newState;
-    _currentPersistentID = newID;
-    
-    if (_running && !_currentTrack) {
-        LogVerbose(@"initializing new currentTrack");
-        _currentTrack = [[TrackMetadata alloc] init];
-        _currentTrack.neverEvaluate = YES;
-    }
-    
-    if (updateTrack) {
+        
+        if (_running) {
+            _currentTrack = [_metaTrack evaluated];
+        } else {
+            _currentTrack = [[TrackMetadata alloc] init];
+        }
+        
         [self didChangeValueForKey:@"currentTrack"];
     }
     
@@ -235,6 +244,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     _running = running;
     [self updatePlayerState];
+    [self didChangeValueForKey:@"isRunning"];
 }
 
 - (BOOL)isRunning
