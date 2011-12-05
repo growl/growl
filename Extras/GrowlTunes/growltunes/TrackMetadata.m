@@ -336,7 +336,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     // go go team pre-classification
-    ITunesEVdK videoKind = [[self valueForKey:@"videoKind"] intValue];
+    ITunesEVdK videoKind = [[self valueForKey:@"videoKind"] unsignedIntValue];
     switch (videoKind) {
         case ITunesEVdKNone:
             break;

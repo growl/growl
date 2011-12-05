@@ -128,7 +128,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         newID = [self.currentTrack persistentID];
         typeDescription = [self.currentTrack typeDescription];
     } else {
-        newState = -1;
+        newState = -1U;
         newID = nil;
         typeDescription = nil;
     }
