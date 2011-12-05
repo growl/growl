@@ -5,6 +5,7 @@
 #import <AppKit/AppKit.h>
 #import <ScriptingBridge/ScriptingBridge.h>
 
+#pragma GCC diagnostic ignored "-Wfour-char-constants"
 
 @class ITunesPrintSettings, ITunesApplication, ITunesItem, ITunesArtwork, ITunesEncoder, ITunesEQPreset, ITunesPlaylist, ITunesAudioCDPlaylist, ITunesDevicePlaylist, ITunesLibraryPlaylist, ITunesRadioTunerPlaylist, ITunesSource, ITunesTrack, ITunesAudioCDTrack, ITunesDeviceTrack, ITunesFileTrack, ITunesSharedTrack, ITunesURLTrack, ITunesUserPlaylist, ITunesFolderPlaylist, ITunesVisual, ITunesWindow, ITunesBrowserWindow, ITunesEQWindow, ITunesPlaylistWindow;
 
