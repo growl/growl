@@ -83,7 +83,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                                    NotifierStopped, NotifierStoppedReadable,
                                    NotifierStarted, NotifierStartedReadable,
                                    nil];
-    NSLog(@"%@", notifications);
+    LogInfo(@"%@", notifications);
     
     NSArray* allNotifications = [notifications allKeys];
     
