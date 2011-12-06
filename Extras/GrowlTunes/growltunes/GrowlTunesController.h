@@ -19,11 +19,12 @@
     NSWindowController* _formatwc;
 }
 
-@property(readonly, strong, nonatomic) ITunesConductor* conductor;
+@property(readonly, strong, nonatomic) IBOutlet ITunesConductor* conductor;
 @property(readwrite, strong, nonatomic) IBOutlet NSMenu* statusItemMenu;
 
 - (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;
+- (IBAction)quitGrowlTunesAndITunes:(id)sender;
 - (void)createStatusItem;
 
 @end

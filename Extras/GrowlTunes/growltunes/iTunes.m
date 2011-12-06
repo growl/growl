@@ -6,13 +6,14 @@
 
 
 
-
 /*
  * Standard Suite
  */
 
 @implementation ITunesPrintSettings
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSInteger) copies
 {
@@ -76,7 +77,6 @@
 	return [[self propertyWithCode:'trpr'] get];
 }
 
-
 - (void) printPrintDialog:(BOOL)printDialog withProperties:(ITunesPrintSettings *)withProperties kind:(ITunesEKnd)kind theme:(NSString *)theme
 {
 	[self sendEvent:'aevt' id:'pdoc' parameters:'pdlg', [NSNumber numberWithBool:printDialog], 'prdt', withProperties, 'pKnd', [NSAppleEventDescriptor descriptorWithEnumCode:kind], 'pThm', theme, 0];
@@ -114,9 +114,9 @@
 	[self sendEvent:'hook' id:'Play' parameters:'POne', [NSNumber numberWithBool:once], 0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
-
 
 
 
@@ -126,33 +126,36 @@
 
 @implementation ITunesApplication
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
+
 typedef struct { __unsafe_unretained NSString *name; FourCharCode code; } classForCode_t;
 static const classForCode_t classForCodeData__[] = {
-	{ @"ITunesApplication", 'capp' },
-	{ @"ITunesArtwork", 'cArt' },
-	{ @"ITunesAudioCDPlaylist", 'cCDP' },
-	{ @"ITunesAudioCDTrack", 'cCDT' },
-	{ @"ITunesBrowserWindow", 'cBrW' },
-	{ @"ITunesDevicePlaylist", 'cDvP' },
-	{ @"ITunesDeviceTrack", 'cDvT' },
-	{ @"ITunesEQPreset", 'cEQP' },
-	{ @"ITunesEQWindow", 'cEQW' },
-	{ @"ITunesEncoder", 'cEnc' },
-	{ @"ITunesFileTrack", 'cFlT' },
-	{ @"ITunesFolderPlaylist", 'cFoP' },
-	{ @"ITunesItem", 'cobj' },
-	{ @"ITunesLibraryPlaylist", 'cLiP' },
-	{ @"ITunesPlaylist", 'cPly' },
-	{ @"ITunesPlaylistWindow", 'cPlW' },
-	{ @"ITunesPrintSettings", 'pset' },
-	{ @"ITunesRadioTunerPlaylist", 'cRTP' },
-	{ @"ITunesSharedTrack", 'cShT' },
-	{ @"ITunesSource", 'cSrc' },
-	{ @"ITunesTrack", 'cTrk' },
-	{ @"ITunesURLTrack", 'cURT' },
-	{ @"ITunesUserPlaylist", 'cUsP' },
-	{ @"ITunesVisual", 'cVis' },
-	{ @"ITunesWindow", 'cwin' },
+	{ @"ITunesApplication",             'capp' },
+	{ @"ITunesArtwork",                 'cArt' },
+	{ @"ITunesAudioCDPlaylist",         'cCDP' },
+	{ @"ITunesAudioCDTrack",            'cCDT' },
+	{ @"ITunesBrowserWindow",           'cBrW' },
+	{ @"ITunesDevicePlaylist",          'cDvP' },
+	{ @"ITunesDeviceTrack",             'cDvT' },
+	{ @"ITunesEQPreset",                'cEQP' },
+	{ @"ITunesEQWindow",                'cEQW' },
+	{ @"ITunesEncoder",                 'cEnc' },
+	{ @"ITunesFileTrack",               'cFlT' },
+	{ @"ITunesFolderPlaylist",          'cFoP' },
+	{ @"ITunesItem",                    'cobj' },
+	{ @"ITunesLibraryPlaylist",         'cLiP' },
+	{ @"ITunesPlaylist",                'cPly' },
+	{ @"ITunesPlaylistWindow",          'cPlW' },
+	{ @"ITunesPrintSettings",           'pset' },
+	{ @"ITunesRadioTunerPlaylist",      'cRTP' },
+	{ @"ITunesSharedTrack",             'cShT' },
+	{ @"ITunesSource",                  'cSrc' },
+	{ @"ITunesTrack",                   'cTrk' },
+	{ @"ITunesURLTrack",                'cURT' },
+	{ @"ITunesUserPlaylist",            'cUsP' },
+	{ @"ITunesVisual",                  'cVis' },
+	{ @"ITunesWindow",                  'cwin' },
 	{ nil, 0 } 
 };
 
@@ -165,7 +168,7 @@ static const classForCode_t classForCodeData__[] = {
 		dict__ = [[NSMutableDictionary alloc] init];
 		const classForCode_t *p;
 		for (p = classForCodeData__; p->name != nil; ++p)
-			[dict__ setObject:p->name forKey:[NSNumber numberWithInt:p->code]];
+			[dict__ setObject:p->name forKey:[NSNumber numberWithUnsignedLong:p->code]];
 	} }
 	return dict__;
 }
@@ -315,60 +318,50 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 		dict__ = [[NSMutableDictionary alloc] init];
 		const codeForPropertyName_t *p;
 		for (p = codeForPropertyNameData__; p->name != nil; ++p)
-			[dict__ setObject:[NSNumber numberWithInt:p->code] forKey:p->name];
+			[dict__ setObject:[NSNumber numberWithUnsignedLong:p->code] forKey:p->name];
 	} }
 	return dict__;
 }
-
 
 - (SBElementArray *) browserWindows
 {
 	return [self elementArrayWithCode:'cBrW'];
 }
 
-
 - (SBElementArray *) encoders
 {
 	return [self elementArrayWithCode:'cEnc'];
 }
-
 
 - (SBElementArray *) EQPresets
 {
 	return [self elementArrayWithCode:'cEQP'];
 }
 
-
 - (SBElementArray *) EQWindows
 {
 	return [self elementArrayWithCode:'cEQW'];
 }
-
 
 - (SBElementArray *) playlistWindows
 {
 	return [self elementArrayWithCode:'cPlW'];
 }
 
-
 - (SBElementArray *) sources
 {
 	return [self elementArrayWithCode:'cSrc'];
 }
-
 
 - (SBElementArray *) visuals
 {
 	return [self elementArrayWithCode:'cVis'];
 }
 
-
 - (SBElementArray *) windows
 {
 	return [self elementArrayWithCode:'cwin'];
 }
-
-
 
 - (ITunesEncoder *) currentEncoder
 {
@@ -657,12 +650,15 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'GURL' id:'GURL' parameters:'----', x, 0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesItem
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBObject *) container
 {
@@ -695,7 +691,6 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 {
 	return [[self propertyWithCode:'pPIS'] get];
 }
-
 
 - (void) printPrintDialog:(BOOL)printDialog withProperties:(ITunesPrintSettings *)withProperties kind:(ITunesEKnd)kind theme:(NSString *)theme
 {
@@ -739,12 +734,15 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'hook' id:'Revl' parameters:0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesArtwork
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSImage *) data
 {
@@ -801,26 +799,30 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pRaw'] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesEncoder
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSString *) format
 {
 	return [[self propertyWithCode:'pFmt'] get];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesEQPreset
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (double) band1
 {
@@ -972,20 +974,20 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pUTC'] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesPlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) tracks
 {
 	return [self elementArrayWithCode:'cTrk'];
 }
-
-
 
 - (NSInteger) duration
 {
@@ -1055,7 +1057,6 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [v boolValue];
 }
 
-
 - (void) moveTo:(SBObject *)to
 {
 	[self sendEvent:'core' id:'move' parameters:'insh', to, 0];
@@ -1067,19 +1068,20 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return result__;
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesAudioCDPlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) audioCDTracks
 {
 	return [self elementArrayWithCode:'cCDT'];
 }
-
-
 
 - (NSString *) artist
 {
@@ -1159,104 +1161,100 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pYr '] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesDevicePlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) deviceTracks
 {
 	return [self elementArrayWithCode:'cDvT'];
 }
 
-
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesLibraryPlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) fileTracks
 {
 	return [self elementArrayWithCode:'cFlT'];
 }
 
-
 - (SBElementArray *) URLTracks
 {
 	return [self elementArrayWithCode:'cURT'];
 }
-
 
 - (SBElementArray *) sharedTracks
 {
 	return [self elementArrayWithCode:'cShT'];
 }
 
-
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesRadioTunerPlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) URLTracks
 {
 	return [self elementArrayWithCode:'cURT'];
 }
 
-
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesSource
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) audioCDPlaylists
 {
 	return [self elementArrayWithCode:'cCDP'];
 }
 
-
 - (SBElementArray *) devicePlaylists
 {
 	return [self elementArrayWithCode:'cDvP'];
 }
-
 
 - (SBElementArray *) libraryPlaylists
 {
 	return [self elementArrayWithCode:'cLiP'];
 }
 
-
 - (SBElementArray *) playlists
 {
 	return [self elementArrayWithCode:'cPly'];
 }
-
 
 - (SBElementArray *) radioTunerPlaylists
 {
 	return [self elementArrayWithCode:'cRTP'];
 }
 
-
 - (SBElementArray *) userPlaylists
 {
 	return [self elementArrayWithCode:'cUsP'];
 }
-
-
 
 - (long long) capacity
 {
@@ -1276,7 +1274,6 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [v enumCodeValue];
 }
 
-
 - (void) update
 {
 	[self sendEvent:'hook' id:'Updt' parameters:0];
@@ -1287,19 +1284,20 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[self sendEvent:'hook' id:'Ejct' parameters:0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesTrack
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) artworks
 {
 	return [self elementArrayWithCode:'cArt'];
 }
-
-
 
 - (NSString *) album
 {
@@ -1870,33 +1868,34 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pYr '] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesAudioCDTrack
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSURL *) location
 {
 	return [[self propertyWithCode:'pLoc'] get];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesDeviceTrack
-
-
-
 @end
 
 
 @implementation ITunesFileTrack
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSURL *) location
 {
@@ -1908,25 +1907,24 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pLoc'] setTo:location];
 }
 
-
 - (void) refresh
 {
 	[self sendEvent:'hook' id:'Rfrs' parameters:0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesSharedTrack
-
-
-
 @end
 
 
 @implementation ITunesURLTrack
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSString *) address
 {
@@ -1938,37 +1936,35 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pURL'] setTo:address];
 }
 
-
 - (void) download
 {
 	[self sendEvent:'hook' id:'Dwnl' parameters:0];
 }
 
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesUserPlaylist
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBElementArray *) fileTracks
 {
 	return [self elementArrayWithCode:'cFlT'];
 }
 
-
 - (SBElementArray *) URLTracks
 {
 	return [self elementArrayWithCode:'cURT'];
 }
 
-
 - (SBElementArray *) sharedTracks
 {
 	return [self elementArrayWithCode:'cShT'];
 }
-
-
 
 - (BOOL) shared
 {
@@ -1988,27 +1984,23 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return [v boolValue];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesFolderPlaylist
-
-
-
 @end
 
 
 @implementation ITunesVisual
-
-
-
 @end
 
 
 @implementation ITunesWindow
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (NSRect) bounds
 {
@@ -2094,13 +2086,15 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pzum'] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesBrowserWindow
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (BOOL) minimized
 {
@@ -2129,13 +2123,15 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithClass:[ITunesPlaylist class] code:'pPly'] setTo:view];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesEQWindow
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (BOOL) minimized
 {
@@ -2149,13 +2145,15 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	[[self propertyWithCode:'pMin'] setTo:v];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
 
 
 @implementation ITunesPlaylistWindow
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfour-char-constants"
 
 - (SBObject *) selection
 {
@@ -2167,8 +2165,9 @@ static const codeForPropertyName_t codeForPropertyNameData__[] = {
 	return (ITunesPlaylist *) [self propertyWithClass:[ITunesPlaylist class] code:'pPly'];
 }
 
-
+#pragma clang diagnostic pop // ignored "-Wfour-char-constants"
 
 @end
+
 
 

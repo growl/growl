@@ -16,6 +16,7 @@
     @private
     
     BOOL _running;
+    TrackMetadata* _metaTrack;
     TrackMetadata* _currentTrack;
     NSString* _currentPersistentID;
     ITunesEPlS _currentPlayerState;

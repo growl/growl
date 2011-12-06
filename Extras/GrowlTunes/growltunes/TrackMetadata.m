@@ -48,7 +48,10 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
         
         NSArray* props = [self propertiesForTrackClass:@"all"];
         for (NSString* prop in props) {
-            class_addMethod(self, NSSelectorFromString(prop), (IMP)_propertyGetterFunc, "@@:");
+            BOOL success = class_addMethod(self, NSSelectorFromString(prop), (IMP)_propertyGetterFunc, "@@:");
+            if (!success) {
+                LogErrorTag(@"KVC", @"Unable to add property accessor for: %@", prop);
+            }
         }
     }
 }
@@ -253,7 +256,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 {
     if (_isEvaluated) { return self; }
     
-    TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:[self.trackObject copy]];
+    TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:self.trackObject];
     etrack.neverEvaluate = NO;
     [etrack evaluate];
     return etrack;
@@ -336,7 +339,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     // go go team pre-classification
-    ITunesEVdK videoKind = [[self valueForKey:@"videoKind"] intValue];
+    ITunesEVdK videoKind = [[self valueForKey:@"videoKind"] unsignedIntValue];
     switch (videoKind) {
         case ITunesEVdKNone:
             break;
@@ -397,7 +400,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     if (!bestDescription || [bestDescription length] == 0) {
-        bestDescription = [self valueForKey:@"description"];
+        bestDescription = [self valueForKey:@"objectDescription"];
     }
     
     if (!bestDescription) {

@@ -73,17 +73,20 @@ do {                                                            \
 #define NSLog(...) LogInfoTag(@"NSLog", ##__VA_ARGS__)
 #endif
 
-
 #ifdef DEBUG
-    #define setLogLevel(localName) do {_LogLevel = LOG_LEVEL_VERBOSE;} while(0)
+#define GLOBAL_LOG_LEVEL LOG_LEVEL_VERBOSE;
 #else
-    #define setLogLevel(localName) do {                                         \
-        NSUserDefaults* udef = [NSUserDefaults standardUserDefaults];           \
-        NSString* globalKey = @"LogLevel";                                      \
-        NSString* localKey = @localName globalKey;                              \
-        int localLogLevel = (int)[udef integerForKey:localKey];                 \
-        int globalLogLevel = (int)[udef integerForKey:globalKey];               \
-        _LogLevel = (localLogLevel == 0) ? globalLogLevel : localLogLevel;      \
-    } while(0)
+#define GLOBAL_LOG_LEVEL ((int)[[NSUserDefaults standardUserDefaults]       \
+                                 integerForKey:@"LogLevel"]);
 #endif
+
+#define setLogLevel(localName) do {                                         \
+    NSString* localKey = @localName "LogLevel";                             \
+    NSUserDefaults* udef = [NSUserDefaults standardUserDefaults];           \
+    int localLogLevel = (int)[udef integerForKey:localKey];                 \
+    int globalLogLevel = GLOBAL_LOG_LEVEL;                                  \
+    _LogLevel = (localLogLevel == 0) ? globalLogLevel : localLogLevel;      \
+} while(0)
+
+
 
