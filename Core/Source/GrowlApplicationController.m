@@ -701,14 +701,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    if([components count] == 0)
       return;
    
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if([[components objectAtIndex:0] caseInsensitiveCompare:@"preferences"] == NSOrderedSame){
       [self showPreferences];
       if([components count] > 1){
          NSString *tab = [components objectAtIndex:1];
          if([tab caseInsensitiveCompare:@"general"] == NSOrderedSame) {
-            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:0];
+            [preferences setSelectedPreferenceTab:0];
          }else if([tab caseInsensitiveCompare:@"applications"] == NSOrderedSame){
-            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:1];
+            [preferences setSelectedPreferenceTab:1];
             if([components count] > 2){
                NSString *app = [components objectAtIndex:2];
                NSString *host = nil;
@@ -718,12 +719,29 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
                [appsView selectApplication:app hostName:host]; 
             }
          }else if([tab caseInsensitiveCompare:@"displays"] == NSOrderedSame){
-            [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:2];
+            [preferences setSelectedPreferenceTab:2];
             if([components count] > 2){
                NSString *display = [components objectAtIndex:2];
                GrowlDisplaysViewController *displaysView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlDisplaysViewController nibName]];
                [displaysView selectPlugin:display];
             }
+         }else if([tab caseInsensitiveCompare:@"network"] == NSOrderedSame){
+            [preferences setSelectedPreferenceTab:3];
+            if([components count] > 2){
+               NSString *forwardSubscribe = [components objectAtIndex:2];
+               if([forwardSubscribe caseInsensitiveCompare:@"forwarding"] == NSOrderedSame){
+                  //Select the tab with info about forwarders
+               }else if([forwardSubscribe caseInsensitiveCompare:@"subscription"] == NSOrderedSame || 
+                        [forwardSubscribe caseInsensitiveCompare:@"subscribers"] == NSOrderedSame){
+                  //Select the tab with info about subscribers/subscriptions
+               }
+            }
+         }else if([tab caseInsensitiveCompare:@"rollup"] == NSOrderedSame){
+            [preferences setSelectedPreferenceTab:4];
+         }else if([tab caseInsensitiveCompare:@"history"] == NSOrderedSame){
+            [preferences setSelectedPreferenceTab:5];
+         }else if([tab caseInsensitiveCompare:@"about"] == NSOrderedSame){
+            [preferences setSelectedPreferenceTab:6];
          }
       }
    }
