@@ -174,6 +174,12 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 {
     LogInfoTag(@"init", @"Initializing with lazy currentTrack object");
     ITunesApplication* ita = [ITunesApplication sharedInstance];
+    
+    if (![ita isRunning]) {
+        LogError(@"iTunes isn't running; there is no 'current track'");
+        return nil;
+    }
+    
     ITunesTrack* currentTrack = ita.currentTrack;
     return [self initWithTrackObject:currentTrack];
 }
@@ -182,6 +188,12 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 {
     LogInfoTag(@"init", @"Initializing with persistent ID: %@", persistentID);
     ITunesApplication* ita = [ITunesApplication sharedInstance];
+    
+    if (![ita isRunning]) {
+        LogError(@"iTunes isn't running; unable to lookup track %@", persistentID);
+        return nil;
+    }
+    
     SBElementArray* sources = [ita sources];
     ITunesSource* library = [sources objectWithName:@"Library"];
     ITunesLibraryPlaylist* libraryPlaylist = [[library libraryPlaylists] lastObject];
@@ -243,6 +255,12 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     
     if (!_isEvaluated) {
         LogInfo(@"evaluating lazy track object");
+        
+        if (![[ITunesApplication sharedInstance] isRunning]) {
+            LogError(@"iTunes isn't running");
+            return;
+        }
+        
         self.trackObject = [self.trackObject get];
         LogInfo(@"new track object: %@", self.trackObject);
         [self _updateStreamMetadata];
@@ -257,30 +275,65 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     if (_isEvaluated) { return self; }
     
     TrackMetadata* etrack = [[TrackMetadata alloc] initWithTrackObject:self.trackObject];
-    etrack.neverEvaluate = NO;
-    [etrack evaluate];
+    if (etrack) {
+        etrack.neverEvaluate = NO;
+        [etrack evaluate];
+    }
     return etrack;
 }
 
 #pragma mark KVC
 
-static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {    
+static inline id _safeTrackPropertyGetter(TrackMetadata* self, NSString* key) {
     id value = nil;
-    NSString* key = NSStringFromSelector(_cmd);
     
-    LogVerboseTag(@"KVC", @"_propertyGetterFunc _cmd:%@", key);
+    LogVerboseTag(@"KVC", @"_safeTrackPropertyGetter for key: %@", key);
     
-    if (self.isEvaluated && ![key isEqualToString:@"exists"]) {
-        value = [self.cache objectForKey:key];
-        if (!value && [[ITunesApplication sharedInstance] isRunning] && [self.trackObject exists]) {
-            value = [self.trackObject valueForKey:key];
-            if (value) { [self.cache setObject:value forKey:key]; }
+    if (![[ITunesApplication sharedInstance] isRunning]) {
+        LogWarnTag(@"KVC", @"iTunes isn't running, unable to retrieve value: %@", key);
+        return value;
+    }
+    
+    if (![self.trackObject exists]) {
+        LogWarnTag(@"KVC", @"track object doesn't exist, unable to retrieve value: %@", key);
+        return value;
+    }
+    
+    value = [self.trackObject valueForKey:key];
+    LogVerboseTag(@"KVC", @"retrieved value: %@", key);
+    
+    return value;
+}
+
+static inline id _cachingTrackPropertyGetter(TrackMetadata* self, NSString* key) {
+    id value = nil;
+    
+    LogVerboseTag(@"KVC", @"_cachingTrackPropertyGetter for key: %@", key);
+    
+    value = [self.cache valueForKey:key];
+    LogVerboseTag(@"KVC", @"cached value: %@", value);
+    
+    if (!value) {
+        value = _safeTrackPropertyGetter(self, key);
+        if (value) {
+            LogVerboseTag(@"KVC", @"caching retrieved value");
+            [self.cache setValue:value forKey:key];
         }
-    } else if ([[ITunesApplication sharedInstance] isRunning] && [self.trackObject exists]) {
-        value = [self.trackObject valueForKey:key];
     }
     
     return value;
+}
+
+static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {    
+    NSString* key = NSStringFromSelector(_cmd);    
+    LogVerboseTag(@"KVC", @"_propertyGetterFunc _cmd:%@", key);
+    
+    if (self.isEvaluated && ![key isEqualToString:@"exists"]) {
+        LogVerboseTag(@"KVC", @"is evaluated");
+        return _cachingTrackPropertyGetter(self, key);
+    }
+    
+    return _safeTrackPropertyGetter(self, key);
 }
 
 @dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID, rating;
@@ -312,13 +365,17 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 // TODO: classify itunes university tracks if their genre is consistently "iTunes\U00a0U"
 -(NSString*)typeDescription
 {
-    if (![[ITunesApplication sharedInstance] isRunning]) return @"error";
+    if (![[ITunesApplication sharedInstance] isRunning]) {
+        LogWarn(@"iTunes isn't running; this TrackMetadata object is invalid");
+        return @"error";
+    }
     
     // first check to see if the track exists. if the last track change notification was the result of playing a
     // ringtone or itunes store preview, then it doesn't appear you can introspect its' metadata via SB/AS. in this
     // case 'exists' will throw an applescript error, return nil, and evaluate to NO.
     BOOL exists = [[self valueForKey:@"exists"] boolValue];
     if (!exists) {
+        LogWarn(@"this track doesn't exist");
         return @"error";
     }
     

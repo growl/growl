@@ -44,5 +44,6 @@
 - (IBAction)run:(id)sender;
 - (IBAction)quit:(id)sender;
 
+- (IBAction)activate:(id)sender;
 
 @end

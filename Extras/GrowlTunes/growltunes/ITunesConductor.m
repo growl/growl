@@ -74,6 +74,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 {
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
+    [ita setLaunchFlags:(kLSLaunchDontAddToRecents)];
     
     self.isRunning = ita.isRunning;
     
@@ -179,7 +180,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         if (_running) {
             _currentTrack = [_metaTrack evaluated];
         } else {
-            _currentTrack = [[TrackMetadata alloc] init];
+            _currentTrack = nil;
         }
         
         [self didChangeValueForKey:@"currentTrack"];
@@ -309,8 +310,15 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 - (IBAction)quit:(id)sender
 {
-    if (_running) [[ITunesApplication sharedInstance] quit];
+    if (_running) {
+        self.isRunning = NO;
+        [[ITunesApplication sharedInstance] quit];
+    }
 }
 
+- (IBAction)activate:(id)sender
+{
+    [[ITunesApplication sharedInstance] activate];
+}
 
 @end
