@@ -321,4 +321,21 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     [[ITunesApplication sharedInstance] activate];
 }
 
+-(NSNumber*)volume
+{
+    if (_running) {
+        return [[ITunesApplication sharedInstance] valueForKey:@"soundVolume"];
+    }
+    return [NSNumber numberWithInt:100];
+}
+
+-(void)setVolume:(NSNumber *)volume
+{
+    if (_running) {
+        [self willChangeValueForKey:@"volume"];
+        [[ITunesApplication sharedInstance] setValue:volume forKey:@"soundVolume"];
+        [self didChangeValueForKey:@"volume"];
+    }
+}
+
 @end

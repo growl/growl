@@ -32,6 +32,8 @@
 @property(readonly, nonatomic, retain) NSString* currentPersistentID;
 @property(readonly, nonatomic, retain) TrackMetadata* currentTrack;
 
+@property(readwrite, nonatomic, retain) NSNumber* volume;
+
 + (void)setLogLevel:(int)level;
 + (int)logLevel;
 
