@@ -13,7 +13,6 @@
 @synthesize statusItem;
 
 - (id) initWithStatusbar: (NSUInteger*) bar
-		 statusbarMatrix:(NSMatrix*) matrix
 			 preferences: (NSUserDefaults*) prefs
 				   state:(NSUInteger *)curState
 			  statusMenu: (NSMenu*) menu
@@ -23,7 +22,6 @@
 	{
         // Initialization code here.
 		statusbar = bar;
-		statusbarMatrix = matrix;
 		preferences = prefs;
 		currentState = curState;
 		statusMenu = menu;
@@ -66,27 +64,19 @@
 }
 
 //set the status menu to the value of the checkbox sender
--(IBAction) setStatusMenuTo:(id) sender
+-(IBAction) setStatusMenu
 {
 	//merely a casting
-	sender = (NSMatrix*) sender;
 	NSUInteger status = 0;
 	//	static NSUInteger oldStatus = 0;
 	
-	//got message from the nsmatrix radio buttons
-	if([sender respondsToSelector:@selector(selectedRow)])
-	{
-		status = [sender selectedRow];		
-	}
-	//we got the message from the 'hide menu' menuitem. need to update our nsmatrix
-	else
-		[statusbarMatrix selectCellAtRow:0 column:0];
-	
 //	NSLog(@"selected row %i, old status %i", status, *statusbar);
 	//update our status bar if needed
-	[preferences setInteger:status forKey:@"statusMenu"];
-	[preferences synchronize];
-		
+//	[preferences setInteger:status forKey:@"statusMenu"];
+//	[preferences synchronize];
+	
+	status = [preferences integerForKey:@"statusMenu"];
+
 	if ((*statusbar == 0 &&  status !=0) || (*statusbar != 0 && status ==0))
 	{
 		//NULL
@@ -112,6 +102,27 @@
 	else return;
 
 }
+//- (IBAction) statusMenuChanged
+//{
+////	NSLog(@"Row %d",[statusbarMatrix selectedRow]);
+////	NSLog(@"Column %d",[statusbarMatrix selectedColumn]);
+//
+//	NSUInteger status = [statusbarMatrix selectedRow];	
+//	if(status == 0)
+//	{
+//		[NSApp activateIgnoringOtherApps:YES];
+//		NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause Capster to run in the background", nil)
+//										 defaultButton:NSLocalizedString(@"Ok", nil)
+//									   alternateButton:NSLocalizedString(@"Cancel", nil)
+//										   otherButton:nil
+//							 informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause Capster to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Capster in Launchpad, or open Capster in Finder.", nil)];
+//		
+//		NSInteger allow = [alert runModal];
+//		if(allow == NSAlertDefaultReturn)
+//			return;
+//	}
+//
+//}
 
 -(IBAction) enableStatusMenu:(id)sender
 {

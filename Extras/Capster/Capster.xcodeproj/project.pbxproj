@@ -20,6 +20,7 @@
 		1D79B234132062BA001A1197 /* capster.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1D79B233132062B9001A1197 /* capster.icns */; };
 		1D85923013229B710019B4BD /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D85922F13229B710019B4BD /* defaults.plist */; };
 		1D8FE613147E04F200F01B4F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D8FE611147E04F200F01B4F /* Localizable.strings */; };
+		1DBE5FC3148D8573007C80FF /* CapsterIconValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBE5FC2148D8573007C80FF /* CapsterIconValueTransformer.m */; };
 		1DCC5617131F013D006F18CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCC5616131F013D006F18CF /* Cocoa.framework */; };
 		1DCC5621131F013F006F18CF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1DCC561F131F013F006F18CF /* InfoPlist.strings */; };
 		1DCC5624131F013F006F18CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC5623131F013F006F18CF /* main.m */; };
@@ -183,6 +184,9 @@
 		1D8FE5F9147E022900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = "Growl Caps Notifier/el.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		1D8FE612147E04F200F01B4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D8FE614147E04F900F01B4F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1DBE5FC1148D8573007C80FF /* CapsterIconValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapsterIconValueTransformer.h; sourceTree = "<group>"; };
+		1DBE5FC2148D8573007C80FF /* CapsterIconValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapsterIconValueTransformer.m; sourceTree = "<group>"; };
+		1DBE5FC4148D8698007C80FF /* CommonTitles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTitles.h; sourceTree = "<group>"; };
 		1DCC5612131F013D006F18CF /* Capster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DCC5616131F013D006F18CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1DCC5619131F013D006F18CF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -271,6 +275,9 @@
 				1D5D9D90132729D200BAAA31 /* GrowlController.m */,
 				1D5D9D9213272C1300BAAA31 /* StatusbarController.h */,
 				1D5D9D9313272C1300BAAA31 /* StatusbarController.m */,
+				1DBE5FC1148D8573007C80FF /* CapsterIconValueTransformer.h */,
+				1DBE5FC2148D8573007C80FF /* CapsterIconValueTransformer.m */,
+				1DBE5FC4148D8698007C80FF /* CommonTitles.h */,
 				1DCC562B131F0140006F18CF /* MainMenu.xib */,
 				1DCC561D131F013F006F18CF /* Supporting Files */,
 			);
@@ -521,6 +528,7 @@
 				1DCC562A131F013F006F18CF /* CapsterAppDelegate.m in Sources */,
 				1D5D9D91132729D300BAAA31 /* GrowlController.m in Sources */,
 				1D5D9D9413272C1300BAAA31 /* StatusbarController.m in Sources */,
+				1DBE5FC3148D8573007C80FF /* CapsterIconValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

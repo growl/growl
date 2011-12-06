@@ -8,20 +8,7 @@
 // This source code is release under the BSD License.
 
 #import "CapsterAppDelegate.h"
-
-
-#define PrefsTitle NSLocalizedString(@"Preferences...", nil)
-#define HideTitle NSLocalizedString(@"Hide Status Menu", nil)
-#define QuitTitle NSLocalizedString(@"Quit Capster", nil)
-
-#define NoneTitle NSLocalizedString(@"None", nil)
-#define BlackIcons NSLocalizedString(@"Black App Icons", nil)
-#define ColorIcons NSLocalizedString(@"Colored App Icons", nil)
-#define ColorOrbs NSLocalizedString(@"Colored Orbs", nil)
-#define PreferenceTitle NSLocalizedString(@"Preferences", nil)
-#define LabelTitle NSLocalizedString(@"Menu bar icon:", nil)
-#define CloseTitle NSLocalizedString(@"Close", nil)
-
+#import "CommonTitles.h"
 
 
 //This is the callback function that gets called when the
@@ -80,9 +67,13 @@ CGEventRef myCallback (
 
 @implementation Growl_Caps_NotifierAppDelegate
 
+@synthesize onLoginSegmentedControl;
 @synthesize preferencePanel;
 
-@synthesize prefsTitle, hideTitle, quitTitle;
+@synthesize iconOptions;
+@synthesize iconPopUp;
+
+@synthesize prefsTitle, onLoginTitle, quitTitle;
 @synthesize noneTitle, blackIcons, colorIcons, preferenceTitle, labelTitle, closeTitle;
 
 
@@ -99,9 +90,11 @@ CGEventRef myCallback (
 
 	statusbar = malloc(sizeof(NSInteger*));	
 	*statusbar = [preferences integerForKey:@"statusMenu"];
+	oldIconValue = *statusbar;
 	
 	//select the apropriate radio button, based on which icon status is active
-	[statusbarMatrix selectCellAtRow:*statusbar column:0];
+//	[statusbarMatrix selectCellAtRow:*statusbar column:0];
+	
 	
 	//needed, because statusbar is supposed to always store the current value
 	//and we check wether it's changed when updating the status bar.
@@ -111,16 +104,22 @@ CGEventRef myCallback (
 
 	myGrowlController = [[GrowlController alloc] init];
 	myStatusbarController = [[StatusbarController alloc] initWithStatusbar:statusbar 
-														   statusbarMatrix:statusbarMatrix 
 															   preferences:preferences
 																	 state:currentState
 																statusMenu:statusMenu];
 
 	//Initialize localized strings
 	[self initTitles];
+	self.iconOptions = [NSArray arrayWithObjects:noneTitle, blackIcons, colorIcons, nil];
+
 	
+	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.OnLogin" options:NSKeyValueObservingOptionNew context:&self];
+	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"values.statusMenu" options:NSKeyValueObservingOptionNew context:&self];
+	
+    oldOnLoginValue = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] integerForKey:@"OnLogin"];
+
 	//if the user want the menu to be shown, then do so
-	[myStatusbarController setStatusMenuTo:statusbarMatrix];
+	[myStatusbarController setStatusMenu];
 	
 	//send a notification to the user to let him know we're on
 	[myGrowlController sendStartupGrowlNotification];
@@ -234,7 +233,7 @@ CGEventRef myCallback (
 -(void) initTitles
 {
 	self.prefsTitle = PrefsTitle;
-	self.hideTitle = HideTitle;
+	self.onLoginTitle = OnLoginTitle;
 	self.quitTitle = QuitTitle;
 	self.noneTitle = NoneTitle; 
 	self.blackIcons = BlackIcons;
@@ -282,10 +281,10 @@ CGEventRef myCallback (
 }
 
 //set the status menu to the value of the checkbox sender
--(IBAction) setStatusMenuTo:(id) sender
-{
-	[myStatusbarController setStatusMenuTo:sender];
-}
+//-(IBAction) statusMenuChanged: (id) sender
+//{
+//	[myStatusbarController statusMenuChanged];
+//}
 
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
 	#pragma unused(theApplication, flag)
@@ -302,7 +301,114 @@ CGEventRef myCallback (
 //		[self.prefsWindow setFrameUsingName:@"HWGrowlerPrefsWindowFrame" force:YES];
 	}
 	[preferencePanel makeKeyAndOrderFront:sender];
+}
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+#pragma unused(object, change, context)
+    if ([keyPath isEqualToString:@"values.OnLogin"])
+    {
+        NSInteger index = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] integerForKey:@"OnLogin"];
+        if((index == 0) && (oldOnLoginValue != index))
+        {
+            [NSApp activateIgnoringOtherApps:YES];
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Capster to your login items", nil)
+                                             defaultButton:NSLocalizedString(@"Ok", nil)
+                                           alternateButton:NSLocalizedString(@"Cancel", nil)
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Capster launch everytime you login, so that it is available for applications which use it at all times", nil)];
+            NSInteger allow = [alert runModal];
+            if(allow == NSAlertDefaultReturn)
+            {
+                [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:YES];
+            }
+            else
+            {
+                [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
+                [[[NSUserDefaultsController sharedUserDefaultsController] defaults] setInteger:oldOnLoginValue forKey:@"OnLogin"];
+                [[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
+                [onLoginSegmentedControl setSelectedSegment:oldOnLoginValue];
+            }
+        }
+        else
+            [self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
+		
+        oldOnLoginValue = index;
+    }
+	else if([keyPath isEqualToString:@"values.statusMenu"])
+	{
+		NSInteger newIconValue = [preferences integerForKey:@"statusMenu"];
+		if(newIconValue == 0)
+		{
+			[NSApp activateIgnoringOtherApps:YES];
+			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause Capster to run in the background", nil)
+											 defaultButton:NSLocalizedString(@"Ok", nil)
+										   alternateButton:NSLocalizedString(@"Cancel", nil)
+											   otherButton:nil
+								 informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause Capster to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Capster in Launchpad, or open Capster in Finder.", nil)];
+			
+			NSInteger allow = [alert runModal];
+			if(allow == !NSAlertDefaultReturn)
+			{
+				[preferences setInteger:oldIconValue forKey:@"statusMenu"];
+				[preferences synchronize];
+				[iconPopUp selectItemAtIndex:oldIconValue];
+				newIconValue = oldIconValue;
+			}
+		}
+		oldIconValue = newIconValue;
+		[myStatusbarController setStatusMenu];			
+	}
+}
+
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
+	OSStatus status;
+	CFURLRef URLToToggle = (CFURLRef)[NSURL fileURLWithPath:path];
+	LSSharedFileListItemRef existingItem = NULL;
+    LSSharedFileListRef loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
+    if(loginItems)
+    {
+		UInt32 seed = 0U;
+		NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
+		for (id itemObject in currentLoginItems) {
+			LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
+			
+			UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+			CFURLRef URL = NULL;
+			OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
+			if (err == noErr) {
+				Boolean foundIt = CFEqual(URL, URLToToggle);
+				CFRelease(URL);
+				
+				if (foundIt) {
+					existingItem = item;
+					break;
+				}
+			}
+		}
+		
+		if (enabled && (existingItem == NULL)) {
+			NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
+			IconRef icon = NULL;
+			FSRef ref;
+			Boolean gotRef = CFURLGetFSRef(URLToToggle, &ref);
+			if (gotRef) {
+				status = GetIconRefFromFileInfo(&ref,
+												/*fileNameLength*/ 0, /*fileName*/ NULL,
+												kFSCatInfoNone, /*catalogInfo*/ NULL,
+												kIconServicesNormalUsageFlag,
+												&icon,
+												/*outLabel*/ NULL);
+				if (status != noErr)
+					icon = NULL;
+			}
+			
+			LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, (CFStringRef)displayName, icon, URLToToggle, /*propertiesToSet*/ NULL, /*propertiesToClear*/ NULL);
+		} else if (!enabled && (existingItem != NULL))
+			LSSharedFileListItemRemove(loginItems, existingItem);
+		
+		CFRelease(loginItems);
+    }
 }
 
 @end

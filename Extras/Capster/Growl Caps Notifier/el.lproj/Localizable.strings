@@ -20,19 +20,16 @@
 "Colored Orbs" = "Χρωματισμένες Σφαίρες";
 
 /* No comment provided by engineer. */
-"Hide Status Menu" = "Απόκρυψη Εικονιδίου Μενού";
-
-/* No comment provided by engineer. */
 "Menu bar icon:" = "Εικονίδιο μπαρας μενού:";
 
 /* No comment provided by engineer. */
-"None" = "Κανένα";
+"No Icon" = "Κανένα Εικονίδιο";
 
 /* No comment provided by engineer. */
 "Preferences" = "Επιλογές";
 
 /* No comment provided by engineer. */
-"Preferences..." = "Επιλογές...";
+"Open Capster Preferences..." = "Άνοιγμα Επιλογών Capster...";
 
 /* No comment provided by engineer. */
 "Quit Capster" = "Έξοδος από το Capster";
@@ -40,3 +37,23 @@
 /* No comment provided by engineer. */
 "Starting" = "Έναρξη";
 
+/* No comment provided by engineer. */
+"Start Capster at Login:" = "Έναρξη του Capster κατά την Είσοδο:";
+
+/* No comment provided by engineer. */
+"Enabling this option will cause Capster to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Capster in Launchpad, or open Capster in Finder." = "Ενεργοποιόντας αυτή την επιλογή, θα θέσετε το Capster να τρέχει χωρίς να δείχνει ένα εικονίδιο στο dock, ή στη γραμμή μενού.\n\nΓια να ανοίξετε τις επιλογές, κάντε κλίκ στο Capster στο Launchpad, ή ανοίξτε το Capster στον Finder.";
+
+/* No comment provided by engineer. */
+"Warning! Enabling this option will cause Capster to run in the background" = "Προσοχή! Ενεργοποιόντας αυτή την επιλογή θα ρυθμίσετε το Capster να τρέχει στο παρασκήνιο.";
+
+/* No comment provided by engineer. */
+"Alert! Enabling this option will add Capster to your login items" = "Προσοχή! Ενεργοποιόντας αυτή την επιλογή θα προσθέσετε το Capster στα login items σας";
+
+/* No comment provided by engineer. */
+"Allowing this will let Capster launch everytime you login, so that it is available for applications which use it at all times" = "Με αυτή την επιλογή, αφήνετε το Capster να εκκινεί κάθε φορά που κάνετε login, ώστε να σας εμφανίζει όλες τις αλλαγές στο σύστημα";
+
+/* No comment provided by engineer. */
+"Warning! Enabling this option will cause Capster to run in the background" = "Προσοχή! Ενεργοποιόντας αυτή την επιλογή θα ρυθμίσετε το Capster να τρέχει στο παρασκήνιο.";
+
+/* No comment provided by engineer. */
+"Enabling this option will cause Capster to run without showing a dock icon or a menu item.\n\nTo access preferences, tap Capster in Launchpad, or open Capster in Finder." = "Ενεργοποιόντας αυτή την επιλογή, θα θέσετε το Capster να τρέχει χωρίς να δείχνει ένα εικονίδιο στο dock, ή στη γραμμή μενού.\n\nΓια να ανοίξετε τις επιλογές, κάντε κλίκ στο Capster στο Launchpad, ή ανοίξτε το Capster στον Finder.";
