@@ -152,6 +152,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
 
+#pragma mark Subscriptions
+
+- (BOOL) isSubscriptionAllowed;
+- (void) setSubscriptionAllowed:(BOOL)allowed;
+
+- (NSString*) GNTPSubscriberID;
+- (void) setGNTPSubscriberID:(NSString*)newID;
+
 @end
 
 #endif

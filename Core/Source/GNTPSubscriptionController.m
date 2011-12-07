@@ -40,10 +40,10 @@
    if((self = [super init])) {
       self.preferences = [GrowlPreferencesController sharedController];
       
-      self.subscriberID = [preferences objectForKey:@"GNTPSubscriptionID"];
+      self.subscriberID = [preferences GNTPSubscriberID];
       if(!subscriberID || [subscriberID isEqualToString:@""]) {
          self.subscriberID = [[NSProcessInfo processInfo] globallyUniqueString];
-         [preferences setObject:subscriberID forKey:@"GNTPSubscriptionID"];
+         [preferences setGNTPSubscriberID:subscriberID];
       }
       
       self.remoteSubscriptions = [NSMutableDictionary dictionary];
@@ -213,7 +213,7 @@
 }
 
 -(void)forwardGrowlDict:(NSDictionary*)dict ofType:(GrowlGNTPOutgoingPacketType)type {
-   if(![preferences boolForKey:@"SubscriptionAllowed"])
+   if(![preferences isSubscriptionAllowed])
       return;
 
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
