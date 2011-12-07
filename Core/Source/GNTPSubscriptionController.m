@@ -126,11 +126,15 @@
    GNTPSubscriberEntry *entry = [remoteSubscriptions valueForKey:[packet subscriberID]];
    if(entry){
       //We need to update the entry
+      [self willChangeValueForKey:@"remoteSubscriptionsArray"];
       [entry updateRemoteWithPacket:packet];
+      [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    }else{
       //We need to try creating the entry
       entry = [[GNTPSubscriberEntry alloc] initWithPacket:packet];
+      [self willChangeValueForKey:@"remoteSubscriptionsArray"];
       [remoteSubscriptions setValue:entry forKey:[entry uuid]];
+      [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    }
    [self saveSubscriptions:YES];
    return YES;
@@ -176,13 +180,16 @@
                                                                  initialTime:[NSDate distantPast]
                                                                   timeToLive:0
                                                                         port:GROWL_TCP_PORT];
-   
+   [self willChangeValueForKey:@"localSubscriptions"];
    [localSubscriptions addObject:newEntry];
+   [self didChangeValueForKey:@"localSubscriptions"];
 }
 
 
 -(BOOL)removeRemoteSubscriptionForUUID:(NSString*)uuid {
+   [self willChangeValueForKey:@"remoteSubscriptionsArray"];
    [remoteSubscriptions removeObjectForKey:uuid];
+   [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    [self saveSubscriptions:YES];
    return YES;
 }
@@ -190,8 +197,9 @@
 -(BOOL)removeLocalSubscriptionAtIndex:(NSUInteger)index {
    if(index < [localSubscriptions count])
       return NO;
-   
+   [self willChangeValueForKey:@"localSubscriptions"];
    [localSubscriptions removeObjectAtIndex:index];
+   [self didChangeValueForKey:@"localSubscriptions"];
    [self saveSubscriptions:NO];
    return YES;
 }
@@ -238,6 +246,13 @@
 /* Hande forwarding registrations */
 -(void)appRegistered:(NSNotification*)note {
    [self forwardGrowlDict:[note userInfo] ofType:GrowlGNTPOutgoingPacket_RegisterType];
+}
+
+#pragma mark Table bindings accessor
+
+-(NSArray*)remoteSubscriptionsArray
+{
+    return [remoteSubscriptions allValues];
 }
 
 @end

@@ -631,7 +631,6 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{88, 16}, {355, 14}}</string>
 											<reference key="NSSuperview" ref="571501632"/>
-											<reference key="NSNextKeyView" ref="308262733"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="258493446">
 												<int key="NSCellFlags">68288064</int>
@@ -1620,15 +1619,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">displayPatternValue1: arrangedObjects</string>
+						<string key="label">displayPatternValue1: arrangedObjects.computerName</string>
 						<reference key="source" ref="666270301"/>
 						<reference key="destination" ref="402625613"/>
-						<object class="NSNibBindingConnector" key="connector" id="78197895">
+						<object class="NSNibBindingConnector" key="connector" id="425694853">
 							<reference key="NSSource" ref="666270301"/>
 							<reference key="NSDestination" ref="402625613"/>
-							<string key="NSLabel">displayPatternValue1: arrangedObjects</string>
+							<string key="NSLabel">displayPatternValue1: arrangedObjects.computerName</string>
 							<string key="NSBinding">displayPatternValue1</string>
-							<string key="NSKeyPath">arrangedObjects</string>
+							<string key="NSKeyPath">arrangedObjects.computerName</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSDisplayPattern</string>
 								<string key="NS.object.0">%{value1}@ (%{value2}@)</string>
@@ -1636,28 +1635,28 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">186</int>
+					<int key="connectionID">190</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">displayPatternValue2: arrangedObjects</string>
+						<string key="label">displayPatternValue2: arrangedObjects.addressString</string>
 						<reference key="source" ref="666270301"/>
 						<reference key="destination" ref="402625613"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="666270301"/>
 							<reference key="NSDestination" ref="402625613"/>
-							<string key="NSLabel">displayPatternValue2: arrangedObjects</string>
+							<string key="NSLabel">displayPatternValue2: arrangedObjects.addressString</string>
 							<string key="NSBinding">displayPatternValue2</string>
-							<string key="NSKeyPath">arrangedObjects</string>
+							<string key="NSKeyPath">arrangedObjects.addressString</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSDisplayPattern</string>
 								<string key="NS.object.0">%{value1}@ (%{value2}@)</string>
 							</object>
-							<reference key="NSPreviousConnector" ref="78197895"/>
+							<reference key="NSPreviousConnector" ref="425694853"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">187</int>
+					<int key="connectionID">192</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1741,19 +1740,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: subscriptionController.remoteSubscriptions.allValues</string>
+						<string key="label">contentArray: subscriptionController.remoteSubscriptionsArray</string>
 						<reference key="source" ref="402625613"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="402625613"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentArray: subscriptionController.remoteSubscriptions.allValues</string>
+							<string key="NSLabel">contentArray: subscriptionController.remoteSubscriptionsArray</string>
 							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">subscriptionController.remoteSubscriptions.allValues</string>
+							<string key="NSKeyPath">subscriptionController.remoteSubscriptionsArray</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">164</int>
+					<int key="connectionID">189</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2693,7 +2692,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">188</int>
+			<int key="maxID">192</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

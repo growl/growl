@@ -7,6 +7,7 @@
 //
 
 #import "GNTPSubscriberEntry.h"
+#import "GNTPSubscriptionController.h"
 #import "GrowlGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
 #import "GrowlGNTPOutgoingPacket.h"
@@ -72,6 +73,9 @@
          self.subscriberPort = port;
       else
          self.subscriberPort = GROWL_TCP_PORT;
+       
+      [self addObserver:self forKeyPath:@"use" options:NSKeyValueObservingOptionNew context:self];
+      [self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
    }
    return self;
 }
@@ -116,6 +120,18 @@
    return self;
 }
 
+-(void)save
+{
+    [[GNTPSubscriptionController sharedController] saveSubscriptions:remote];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"use"] ||
+       [keyPath isEqualToString:@"computerName"])
+        [self save];
+}
+
 -(void)resubscribeTimerStart {
    [self invalidate];
    self.resubscribeTimer = [NSTimer timerWithTimeInterval:(timeToLive/2.0)
@@ -139,6 +155,7 @@
    self.timeToLive = [packet ttl];
    self.lastKnownAddress = [[packet socket] connectedAddress];
    self.subscriberPort = [packet subscriberPort];
+   [self save];
 }
 
 -(void)updateLocalWithPacket:(GrowlGNTPPacket*)packet {
@@ -166,6 +183,7 @@
       self.subscriptionError = YES;
       [self invalidate];
    }
+   [self save];
 }
 
 -(void)dealloc 

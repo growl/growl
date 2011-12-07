@@ -38,4 +38,7 @@
 #pragma mark Forwarding
 -(void)forwardNotification:(NSDictionary*)noteDict;
 
+#pragma mark Bindings accessor
+-(NSArray*)remoteSubscriptionsArray;
+
 @end
