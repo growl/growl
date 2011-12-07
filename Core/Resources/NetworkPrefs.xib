@@ -155,7 +155,6 @@
 						<string key="NSFrame">{{36, 10}, {229, 14}}</string>
 						<reference key="NSSuperview" ref="490188636"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="948103936">
 							<int key="NSCellFlags">67239488</int>
@@ -673,7 +672,7 @@
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{472, 222}</string>
 															<reference key="NSSuperview" ref="566386840"/>
-															<reference key="NSNextKeyView" ref="304501591"/>
+															<reference key="NSNextKeyView" ref="503643866"/>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="844621815">
@@ -854,7 +853,7 @@
 											</object>
 											<string key="NSFrame">{{17, 61}, {474, 240}}</string>
 											<reference key="NSSuperview" ref="1042013718"/>
-											<reference key="NSNextKeyView" ref="566386840"/>
+											<reference key="NSNextKeyView" ref="304501591"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133682</int>
 											<reference key="NSVScroller" ref="503643866"/>
@@ -989,6 +988,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{88, 17}, {355, 14}}</string>
 											<reference key="NSSuperview" ref="1042013718"/>
+											<reference key="NSNextKeyView" ref="997855976"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="732041251">
 												<int key="NSCellFlags">68288064</int>
@@ -1248,7 +1248,7 @@
 											<string key="NSFrame">{{17, 16}, {22, 23}}</string>
 											<reference key="NSSuperview" ref="695054413"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="308262733"/>
+											<reference key="NSNextKeyView" ref="997855976"/>
 											<string key="NSReuseIdentifierKey">_NS:2466</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="920631696">
@@ -1382,28 +1382,60 @@
 					<int key="connectionID">48</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">removeSelectedForwardDestination:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="937394872"/>
-					</object>
-					<int key="connectionID">141</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">newManualForwader:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="879686100"/>
-					</object>
-					<int key="connectionID">142</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">networkConnectionTabView</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="997855976"/>
 					</object>
 					<int key="connectionID">188</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">subscriberTableView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="7176552"/>
+					</object>
+					<int key="connectionID">193</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">subscriptionsTableView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="5512227"/>
+					</object>
+					<int key="connectionID">194</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">subscriberArrayController</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="402625613"/>
+					</object>
+					<int key="connectionID">195</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">newManualSubscription:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="879686100"/>
+					</object>
+					<int key="connectionID">196</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeSelectedSubscription:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="937394872"/>
+					</object>
+					<int key="connectionID">197</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeSelectedSubscriber:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="573562393"/>
+					</object>
+					<int key="connectionID">198</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2692,7 +2724,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">192</int>
+			<int key="maxID">198</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2713,10 +2745,16 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>newManualForwader:</string>
+							<string>newManualSubscription:</string>
 							<string>removeSelectedForwardDestination:</string>
+							<string>removeSelectedSubscriber:</string>
+							<string>removeSelectedSubscription:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -2726,7 +2764,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>newManualForwader:</string>
+							<string>newManualSubscription:</string>
 							<string>removeSelectedForwardDestination:</string>
+							<string>removeSelectedSubscriber:</string>
+							<string>removeSelectedSubscription:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2735,7 +2776,19 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">newManualSubscription:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">removeSelectedForwardDestination:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">removeSelectedSubscriber:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">removeSelectedSubscription:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -2748,6 +2801,9 @@
 							<string>networkTableView</string>
 							<string>serviceNameColumn</string>
 							<string>servicePasswordColumn</string>
+							<string>subscriberArrayController</string>
+							<string>subscriberTableView</string>
+							<string>subscriptionsTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2755,6 +2811,9 @@
 							<string>NSTableView</string>
 							<string>NSTableColumn</string>
 							<string>NSTableColumn</string>
+							<string>NSArrayController</string>
+							<string>NSTableView</string>
+							<string>NSTableView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2765,6 +2824,9 @@
 							<string>networkTableView</string>
 							<string>serviceNameColumn</string>
 							<string>servicePasswordColumn</string>
+							<string>subscriberArrayController</string>
+							<string>subscriberTableView</string>
+							<string>subscriptionsTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2783,6 +2845,18 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">servicePasswordColumn</string>
 								<string key="candidateClassName">NSTableColumn</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">subscriberArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">subscriberTableView</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">subscriptionsTableView</string>
+								<string key="candidateClassName">NSTableView</string>
 							</object>
 						</object>
 					</object>

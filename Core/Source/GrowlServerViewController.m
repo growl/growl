@@ -12,6 +12,7 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
+#import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
 #import "NSStringAdditions.h"
 
@@ -35,6 +36,9 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 @synthesize serviceNameColumn;
 @synthesize servicePasswordColumn;
 @synthesize networkTableView;
+@synthesize subscriptionsTableView;
+@synthesize subscriberTableView;
+@synthesize subscriberArrayController;
 @synthesize networkConnectionTabView;
 
 @synthesize currentServiceIndex;
@@ -125,13 +129,27 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
-   //[networkTableView noteNumberOfRowsChanged];
    [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
 }
 
 - (IBAction)newManualForwader:(id)sender {
-   //[networkTableView noteNumberOfRowsChanged];
    [forwarder newManualEntry];
+}
+
+- (IBAction)newManualSubscription:(id)sender
+{
+   [subscriptionController newManualSubscription];
+}
+
+- (IBAction)removeSelectedSubscription:(id)sender
+{
+   [subscriptionController removeLocalSubscriptionAtIndex:[subscriptionsTableView selectedRow]];
+}
+
+- (IBAction)removeSelectedSubscriber:(id)sender
+{
+   GNTPSubscriberEntry *entry = [[subscriberArrayController arrangedObjects] objectAtIndex:[subscriberTableView selectedRow]];
+   [subscriptionController removeRemoteSubscriptionForSubscriberID:[entry subscriberID]];
 }
 
 -(void)startBrowsing

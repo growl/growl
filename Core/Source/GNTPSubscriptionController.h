@@ -32,7 +32,7 @@
 
 #pragma mark UI related
 -(void)newManualSubscription;
--(BOOL)removeRemoteSubscriptionForUUID:(NSString*)uuid;
+-(BOOL)removeRemoteSubscriptionForSubscriberID:(NSString*)subID;
 -(BOOL)removeLocalSubscriptionAtIndex:(NSUInteger)index;
 
 #pragma mark Forwarding

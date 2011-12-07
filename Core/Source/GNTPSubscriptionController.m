@@ -181,9 +181,9 @@
 }
 
 
--(BOOL)removeRemoteSubscriptionForUUID:(NSString*)uuid {
+-(BOOL)removeRemoteSubscriptionForSubscriberID:(NSString *)subID {
    [self willChangeValueForKey:@"remoteSubscriptionsArray"];
-   [remoteSubscriptions removeObjectForKey:uuid];
+   [remoteSubscriptions removeObjectForKey:subID];
    [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    [self saveSubscriptions:YES];
    return YES;
