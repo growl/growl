@@ -53,7 +53,7 @@
          //init a subscriber item, check if its still valid, and add it
          GNTPSubscriberEntry *entry = [[GNTPSubscriberEntry alloc] initWithDictionary:obj];
          if([[NSDate date] compare:[NSDate dateWithTimeInterval:[entry timeToLive] sinceDate:[entry initialTime]]] != NSOrderedDescending)
-            [blockRemote setValue:entry forKey:[entry uuid]];
+            [blockRemote setValue:entry forKey:[entry subscriberID]];
          else
             [entry invalidate];
          [entry release];
@@ -70,8 +70,8 @@
          GNTPSubscriberEntry *entry = [[GNTPSubscriberEntry alloc] initWithDictionary:obj];
          
          //If someone deleted the GNTPSubscriptionID key in the plist, this will make sure they got updated
-         if(![[entry uuid] isEqualToString:subscriberID])
-            [entry setUuid:subscriberID];
+         if(![[entry subscriberID] isEqualToString:subscriberID])
+            [entry setSubscriberID:subscriberID];
             
          [blockLocal addObject:entry];
          if([entry use]){
@@ -133,7 +133,7 @@
       //We need to try creating the entry
       entry = [[GNTPSubscriberEntry alloc] initWithPacket:packet];
       [self willChangeValueForKey:@"remoteSubscriptionsArray"];
-      [remoteSubscriptions setValue:entry forKey:[entry uuid]];
+      [remoteSubscriptions setValue:entry forKey:[entry subscriberID]];
       [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    }
    [self saveSubscriptions:YES];
@@ -143,22 +143,16 @@
 -(void)updateLocalSubscriptionWithPacket:(GrowlGNTPPacket*)packet {
    /*
     * Update the appropriate local subscription item with its new TTL, and have it set its timer to fire appropriately
-    */
-   __block NSString *uuid = nil;
-   [[packet customHeaders] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj headerName] caseInsensitiveCompare:GrowlGNTPSubscriberID] == NSOrderedSame){
-         uuid = [obj headerValue];
-         *stop = YES;
+    */   
+   __block GNTPSubscriberEntry *entry = nil;
+   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([[obj addressString] caseInsensitiveCompare:[packet connectedHost]] == NSOrderedSame){
+         entry = obj;
       }
    }];
-   if(uuid == nil){
-      NSLog(@"Error: Cant find %@ entry for packet %@", GrowlGNTPSubscriberID, packet);
-      return;
-   }
-      
-   GNTPSubscriberEntry *entry = [localSubscriptions valueForKey:uuid];
+   
    if(!entry) {
-      NSLog(@"Error: Cant find Local subscription entry for uuid: %@", uuid);
+      NSLog(@"Error: Cant find Local subscription entry for host: %@", [packet connectedHost]);
       return;
    }
    
@@ -173,7 +167,8 @@
                                                                addressString:nil
                                                                       domain:@"local."
                                                                      address:nil
-                                                                        uuid:subscriberID
+                                                                        uuid:[[NSProcessInfo processInfo] globallyUniqueString]
+                                                                subscriberID:subscriberID
                                                                       remote:NO
                                                                       manual:YES
                                                                          use:NO
@@ -212,7 +207,7 @@
       if([[obj addressString] caseInsensitiveCompare:host] == NSOrderedSame){
          password = [obj password];
          //We do this so that the password will stick around long enough to be used by the caller
-         password = [[password stringByAppendingString:[obj uuid]] retain];
+         password = [[password stringByAppendingString:[obj subscriberID]] retain];
          *stop = YES;
       }
    }];
@@ -227,7 +222,7 @@
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
                                                                                       forDict:dict];
-      GNTPKey *cryptoKey = [[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj uuid]]
+      GNTPKey *cryptoKey = [[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]]
                                                hashAlgorithm:GNTPSHA512
                                          encryptionAlgorithm:GNTPNone];
       [outgoingPacket setKey:cryptoKey];

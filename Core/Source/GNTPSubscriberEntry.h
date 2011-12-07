@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString *domain;
 @property (nonatomic, retain) NSData *lastKnownAddress;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NSString *subscriberID;
 @property (nonatomic, retain) NSString *uuid;
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSTimer *resubscribeTimer;
@@ -35,6 +36,7 @@
            domain:(NSString*)aDomain
           address:(NSData*)addrData
              uuid:(NSString*)aUUID
+     subscriberID:(NSString*)subID
            remote:(BOOL)isRemote
            manual:(BOOL)isManual
               use:(BOOL)shouldUse

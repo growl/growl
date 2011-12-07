@@ -16,6 +16,7 @@
 #import "GCDAsyncSocket.h"
 #import "GrowlKeychainUtilities.h"
 #import "GrowlNetworkUtilities.h"
+#import "GrowlPreferencesController.h"
 
 @implementation GNTPSubscriberEntry
 
@@ -24,6 +25,7 @@
 @synthesize domain;
 @synthesize lastKnownAddress;
 @synthesize password;
+@synthesize subscriberID;
 @synthesize uuid;
 @synthesize key;
 @synthesize resubscribeTimer;
@@ -41,6 +43,7 @@
            domain:(NSString*)aDomain
           address:(NSData*)addrData
              uuid:(NSString*)aUUID
+     subscriberID:(NSString*)subID
            remote:(BOOL)isRemote
            manual:(BOOL)isManual
               use:(BOOL)shouldUse
@@ -61,6 +64,14 @@
          self.uuid = [[NSProcessInfo processInfo] globallyUniqueString];
       else
          self.uuid = aUUID;
+      
+      if(!subID){
+         if(isRemote)
+            self.subscriberID = uuid;
+         else
+            self.subscriberID = [[GrowlPreferencesController sharedController] GNTPSubscriberID];
+      }else
+         self.subscriberID = subID;
       
       self.remote = isRemote;
       self.manual = isManual;
@@ -86,6 +97,7 @@
                           domain:[dict valueForKey:@"domain"]
                          address:[dict valueForKey:@"address"]
                             uuid:[dict valueForKey:@"uuid"]
+                    subscriberID:[dict valueForKey:@"subscriberID"]
                           remote:[[dict valueForKey:@"remote"] boolValue]
                           manual:[[dict valueForKey:@"manual"] boolValue]
                              use:[[dict valueForKey:@"use"] boolValue]
@@ -104,7 +116,8 @@
                    addressString:[packet connectedHost]
                           domain:@"local."
                          address:[[packet socket] connectedAddress]
-                            uuid:[packet subscriberID]
+                            uuid:[[NSProcessInfo processInfo] globallyUniqueString]
+                    subscriberID:[packet subscriberID]
                           remote:YES
                           manual:NO
                              use:YES
@@ -112,7 +125,6 @@
                       timeToLive:[packet ttl]
                             port:[packet subscriberPort]]))
    {
-      //and store the password
       /*
        * Setup time out time out timer
        */
@@ -172,12 +184,15 @@
             *stop = YES;
          }
       }];
+      if(time == 0)
+         time = 100;
       self.timeToLive = time;
       self.subscriptionError = NO;
       
       [self resubscribeTimerStart];
    }else if([packet isKindOfClass:[GrowlErrorGNTPPacket class]]){
       /*Note the error to the user somehow*/
+      self.addressString = nil;
       self.initialTime = [NSDate distantPast];
       self.timeToLive = 0;
       self.subscriptionError = YES;
@@ -193,6 +208,7 @@
    [domain release];
    [lastKnownAddress release];
    [password release];
+   [subscriberID release];
    [uuid release];
    [key release];
    [resubscribeTimer invalidate];
@@ -227,12 +243,12 @@
    
    __block GNTPSubscriberEntry *blockSelf = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSDictionary *dict = [NSDictionary dictionaryWithObject:[blockSelf uuid] forKey:GrowlGNTPSubscriberID];
+      NSDictionary *dict = [NSDictionary dictionaryWithObject:[blockSelf subscriberID] forKey:GrowlGNTPSubscriberID];
       GrowlGNTPOutgoingPacket *packet = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_SubscribeType forDict:dict];
       [packet setKey:[blockSelf key]];
       
       NSData *destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
-      
+      [blockSelf setAddressString:[GCDAsyncSocket hostFromAddress:destAddress]];
       dispatch_async(dispatch_get_main_queue(), ^{
          [[GrowlGNTPPacketParser sharedParser] sendPacket:packet
                                                 toAddress:destAddress];
@@ -255,6 +271,7 @@
                                                                    domain, @"domain",
                                                                    lastKnownAddress, @"address",
                                                                    uuid, @"uuid",
+                                                                   subscriberID, @"subscriberID",
                                                                    [NSNumber numberWithBool:remote], @"remote",
                                                                    [NSNumber numberWithBool:manual], @"manual",
                                                                    initialTime, @"initialTime",
