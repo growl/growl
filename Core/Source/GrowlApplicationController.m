@@ -35,6 +35,7 @@
 #import "GrowlPreferencePane.h"
 #import "GrowlApplicationsViewController.h"
 #import "GrowlDisplaysViewController.h"
+#import "GrowlServerViewController.h"
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
@@ -713,7 +714,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             if([components count] > 2){
                NSString *app = [components objectAtIndex:2];
                NSString *host = nil;
-               if([components count] > 3)
+               if([components count] > 3 && ![[components objectAtIndex:3] isEqualToString:@""])
                   host = [components objectAtIndex:3];
                GrowlApplicationsViewController *appsView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlApplicationsViewController nibName]];
                [appsView selectApplication:app hostName:host]; 
@@ -729,12 +730,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             [preferences setSelectedPreferenceTab:3];
             if([components count] > 2){
                NSString *forwardSubscribe = [components objectAtIndex:2];
+               NSUInteger tabToSelect = NSNotFound;
                if([forwardSubscribe caseInsensitiveCompare:@"forwarding"] == NSOrderedSame){
-                  //Select the tab with info about forwarders
-               }else if([forwardSubscribe caseInsensitiveCompare:@"subscription"] == NSOrderedSame || 
-                        [forwardSubscribe caseInsensitiveCompare:@"subscribers"] == NSOrderedSame){
-                  //Select the tab with info about subscribers/subscriptions
+                  tabToSelect = 0;
+               }else if([forwardSubscribe caseInsensitiveCompare:@"subscriptions"] == NSOrderedSame){
+                  tabToSelect = 1;
+               }else if([forwardSubscribe caseInsensitiveCompare:@"subscribers"] == NSOrderedSame){
+                  tabToSelect = 2;
                }
+               GrowlServerViewController *networkView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlServerViewController nibName]];
+               dispatch_async(dispatch_get_main_queue(), ^{
+                  [networkView showNetworkConnectionTab:tabToSelect];
+               });
             }
          }else if([tab caseInsensitiveCompare:@"rollup"] == NSOrderedSame){
             [preferences setSelectedPreferenceTab:4];

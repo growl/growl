@@ -264,7 +264,7 @@
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{472, 201}</string>
 															<reference key="NSSuperview" ref="65451681"/>
-															<reference key="NSNextKeyView" ref="683638826"/>
+															<reference key="NSNextKeyView" ref="474325927"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="120257644">
 																<reference key="NSNextResponder" ref="474325927"/>
@@ -463,7 +463,7 @@
 											</object>
 											<string key="NSFrame">{{17, 60}, {474, 219}}</string>
 											<reference key="NSSuperview" ref="571501632"/>
-											<reference key="NSNextKeyView" ref="474325927"/>
+											<reference key="NSNextKeyView" ref="65451681"/>
 											<int key="NSsFlags">133682</int>
 											<reference key="NSVScroller" ref="52865202"/>
 											<reference key="NSHScroller" ref="683638826"/>
@@ -674,7 +674,7 @@
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{472, 222}</string>
 															<reference key="NSSuperview" ref="566386840"/>
-															<reference key="NSNextKeyView" ref="503643866"/>
+															<reference key="NSNextKeyView" ref="304501591"/>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="844621815">
@@ -855,7 +855,7 @@
 											</object>
 											<string key="NSFrame">{{17, 61}, {474, 240}}</string>
 											<reference key="NSSuperview" ref="1042013718"/>
-											<reference key="NSNextKeyView" ref="304501591"/>
+											<reference key="NSNextKeyView" ref="566386840"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133682</int>
 											<reference key="NSVScroller" ref="503643866"/>
@@ -990,7 +990,6 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{88, 17}, {355, 14}}</string>
 											<reference key="NSSuperview" ref="1042013718"/>
-											<reference key="NSNextKeyView" ref="308262733"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="732041251">
 												<int key="NSCellFlags">68288064</int>
@@ -1398,6 +1397,14 @@
 						<reference key="destination" ref="879686100"/>
 					</object>
 					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">networkConnectionTabView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="997855976"/>
+					</object>
+					<int key="connectionID">188</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2686,7 +2693,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">187</int>
+			<int key="maxID">188</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2738,12 +2745,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>networkConnectionTabView</string>
 							<string>networkTableView</string>
 							<string>serviceNameColumn</string>
 							<string>servicePasswordColumn</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTabView</string>
 							<string>NSTableView</string>
 							<string>NSTableColumn</string>
 							<string>NSTableColumn</string>
@@ -2753,12 +2762,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>networkConnectionTabView</string>
 							<string>networkTableView</string>
 							<string>serviceNameColumn</string>
 							<string>servicePasswordColumn</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">networkConnectionTabView</string>
+								<string key="candidateClassName">NSTabView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">networkTableView</string>
 								<string key="candidateClassName">NSTableView</string>

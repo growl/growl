@@ -35,6 +35,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 @synthesize serviceNameColumn;
 @synthesize servicePasswordColumn;
 @synthesize networkTableView;
+@synthesize networkConnectionTabView;
 
 @synthesize currentServiceIndex;
 
@@ -141,6 +142,12 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 -(void)stopBrowsing
 {
    [forwarder stopBrowsing];
+}
+
+- (void)showNetworkConnectionTab:(NSUInteger)tab
+{
+   if(tab < 3)
+      [networkConnectionTabView selectTabViewItemAtIndex:tab];
 }
 
 -(void)updateAddresses

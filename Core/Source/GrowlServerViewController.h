@@ -17,6 +17,7 @@
 @property (nonatomic, assign) IBOutlet NSTableColumn *serviceNameColumn;
 @property (nonatomic, assign) IBOutlet NSTableColumn *servicePasswordColumn;
 @property (nonatomic, assign) IBOutlet NSTableView *networkTableView;
+@property (nonatomic, assign) IBOutlet NSTabView *networkConnectionTabView;
 
 @property (nonatomic) int currentServiceIndex;
 
@@ -25,6 +26,7 @@
 - (void)updateAddresses;
 - (void)startBrowsing;
 - (void)stopBrowsing;
+- (void)showNetworkConnectionTab:(NSUInteger)tab;
 - (IBAction)removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;
 
