@@ -8,11 +8,12 @@
 
 #import "GrowlPrefsViewController.h"
 
-@class GNTPForwarder;
+@class GNTPForwarder, GNTPSubscriptionController;
 
 @interface GrowlServerViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) GNTPForwarder *forwarder;
+@property (nonatomic, assign) GNTPSubscriptionController *subscriptionController;
 @property (nonatomic, assign) IBOutlet NSTableColumn *serviceNameColumn;
 @property (nonatomic, assign) IBOutlet NSTableColumn *servicePasswordColumn;
 @property (nonatomic, assign) IBOutlet NSTableView *networkTableView;

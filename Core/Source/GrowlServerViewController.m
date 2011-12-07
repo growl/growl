@@ -12,6 +12,7 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
+#import "GNTPSubscriptionController.h"
 #import "NSStringAdditions.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -30,6 +31,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 @implementation GrowlServerViewController
 
 @synthesize forwarder;
+@synthesize subscriptionController;
 @synthesize serviceNameColumn;
 @synthesize servicePasswordColumn;
 @synthesize networkTableView;
@@ -50,6 +52,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (void) awakeFromNib {
    self.forwarder = [GNTPForwarder sharedController];
+   self.subscriptionController = [GNTPSubscriptionController sharedController];
 
    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
