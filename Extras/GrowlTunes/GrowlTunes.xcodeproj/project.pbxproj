@@ -405,9 +405,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A9ED37F1447D04F002A0537 /* growltunes */ = {
+		6A9ED37F1447D04F002A0537 /* GrowlTunes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A9ED39E1447D04F002A0537 /* Build configuration list for PBXNativeTarget "growltunes" */;
+			buildConfigurationList = 6A9ED39E1447D04F002A0537 /* Build configuration list for PBXNativeTarget "GrowlTunes" */;
 			buildPhases = (
 				6ABECBB014590C7B00C9C9FC /* genstrings */,
 				6A9ED37C1447D04F002A0537 /* Sources */,
@@ -423,7 +423,7 @@
 				6A89594A1447D242009D09FC /* PBXTargetDependency */,
 				6A89594C1447D249009D09FC /* PBXTargetDependency */,
 			);
-			name = growltunes;
+			name = GrowlTunes;
 			productName = growltunes;
 			productReference = 6A9ED3801447D04F002A0537 /* growltunes.app */;
 			productType = "com.apple.product-type.application";
@@ -455,7 +455,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				6A9ED37F1447D04F002A0537 /* growltunes */,
+				6A9ED37F1447D04F002A0537 /* GrowlTunes */,
 			);
 		};
 /* End PBXProject section */
@@ -785,7 +785,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A9ED39E1447D04F002A0537 /* Build configuration list for PBXNativeTarget "growltunes" */ = {
+		6A9ED39E1447D04F002A0537 /* Build configuration list for PBXNativeTarget "GrowlTunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6A9ED39F1447D04F002A0537 /* Debug */,
