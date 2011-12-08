@@ -143,7 +143,6 @@
 							<string key="NSFrame">{{254, 12}, {92, 32}}</string>
 							<reference key="NSSuperview" ref="342545294"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:687</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="790387626">
@@ -334,6 +333,14 @@
 						<reference key="destination" ref="494512526"/>
 					</object>
 					<int key="connectionID">655</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">iconPopUp</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="345905105"/>
+					</object>
+					<int key="connectionID">677</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -751,7 +758,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">676</int>
+			<int key="maxID">677</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
