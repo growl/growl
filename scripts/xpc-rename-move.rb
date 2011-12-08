@@ -150,7 +150,7 @@ gem "osx-plist", ">= 1.0.3", :require => 'osx/plist',
   end
 
   require 'osx/plist'
-  require 'FileUtils'
+  require 'fileutils'
 end
 
 if __FILE__ == $0

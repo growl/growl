@@ -4,7 +4,7 @@
 #define GROWL_VERSION 1.3.2
 #define GROWL_VERSION_STRING "1.3.2"
 
-#include "hgRevision.h"
+#include "HgRevision.h"
 
 #undef COMMENT_1
 #undef COMMENT_2
