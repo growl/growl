@@ -18,6 +18,7 @@
 #import "GrowlGNTPDefines.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlTicketController.h"
+#import "GNTPSubscriptionController.h"
 
 @implementation GrowlGNTPPacketParser
 
@@ -205,11 +206,20 @@
 			break;
 		}
 		case GrowlSubscribePacketType:
-			//TODO: store the subscription request information and update our subscriber datastore			
-         shouldSendOKResponse = NO;
-         [self sendErrorString:@"Subscriptions are unsupported in Growl 1.3" 
-                      withCode:GrowlGNTPInvalidRequestErrorCode
-                     forPacket:packet];
+			//TODO: store the subscription request information and update our subscriber datastore
+			if([[GrowlPreferencesController sharedController] boolForKey:@"SubscriptionAllowed"]) {
+            if(![[GNTPSubscriptionController sharedController] addRemoteSubscriptionFromPacket:(GrowlSubscribeGNTPPacket*)packet]) {
+               shouldSendOKResponse = NO;
+               [self sendErrorString:@"There was an error adding the subscription"
+                            withCode:GrowlGNTPInternalServerErrorErrorCode 
+                           forPacket:packet];
+            }
+         } else {
+            shouldSendOKResponse = NO;
+            [self sendErrorString:@"Subscriptions are disabled on this host" 
+                         withCode:GrowlGNTPUnauthorizedErrorCode
+                        forPacket:packet];
+         }
 			break;
 		case GrowlRegisterPacketType:
 			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
@@ -253,8 +263,12 @@
                //Do nothing, remote host has disabled display of this notification
                break;
             default:
-               //We don't handle any other case specifically, log it out.
-               NSLog(@"Error packet, Error-Code: %ld, Error-Description: %@", code, description);
+               //We need to pass an error in subscribing back to the controller
+               if([[[packet originPacket] action] caseInsensitiveCompare:GrowlGNTPSubscribeMessageType]){
+                  [[GNTPSubscriptionController sharedController] updateLocalSubscriptionWithPacket:packet];
+               }else
+                  NSLog(@"Error packet, Error-Code: %ld, Error-Description: %@", code, description);
+               
                break;
          }
          //Whatever error we had, dont send a -OK, and go ahead and disconnect
@@ -269,8 +283,12 @@
          if([[(GrowlOkGNTPPacket*)packet responseAction] caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame &&
             [GrowlNotificationGNTPPacket callbackResultSendBehaviorForHeaders:[[packet originPacket] headerItems]] == GrowlGNTP_TCPCallback){
                shouldListenForCallback = YES;
-         }else
-			[[packet socket] disconnect];
+         }else if([[(GrowlOkGNTPPacket*)packet responseAction] caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
+            [[GNTPSubscriptionController sharedController] updateLocalSubscriptionWithPacket:(GrowlOkGNTPPacket*)packet];
+         }
+         
+         if(!shouldListenForCallback)
+            [[packet socket] disconnect];
   			break;
       }
 	}

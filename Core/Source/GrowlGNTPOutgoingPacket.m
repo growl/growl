@@ -11,6 +11,7 @@
 #import "GrowlRegisterGNTPPacket.h"
 #import "GrowlGNTPBinaryChunk.h"
 #import "GrowlGNTPEncryptedHeaders.h"
+#import "GrowlNetworkUtilities.h"
 
 /* XXX For GNTPOutgoingItem which should probably move */
 #import "GrowlTCPPathway.h"
@@ -177,6 +178,8 @@
 		case GrowlGNTPOutgoingPacket_SubscribeType:
 		{
 			[outgoingPacket setAction:GrowlGNTPSubscribeMessageType];
+         [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPSubscriberID value:[dict valueForKey:GrowlGNTPSubscriberID]]];
+         [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:GrowlGNTPSubscriberName value:[GrowlNetworkUtilities localHostName]]];
 			 break;
 		}
 	}
