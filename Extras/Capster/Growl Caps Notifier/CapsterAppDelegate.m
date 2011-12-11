@@ -316,7 +316,7 @@ CGEventRef myCallback (
                                              defaultButton:NSLocalizedString(@"Ok", nil)
                                            alternateButton:NSLocalizedString(@"Cancel", nil)
                                                otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Capster launch everytime you login, so that it is available for applications which use it at all times", nil)];
+                                 informativeTextWithFormat:NSLocalizedString(@"Allowing this will let Capster launch everytime you login, so that it is available at all times", nil)];
             NSInteger allow = [alert runModal];
             if(allow == NSAlertDefaultReturn)
             {
