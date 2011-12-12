@@ -50,7 +50,7 @@
 "Alert! Enabling this option will add Capster to your login items" = "Alert! Enabling this option will add Capster to your login items";
 
 /* No comment provided by engineer. */
-"Allowing this will let Capster launch everytime you login, so that it is available for applications which use it at all times" = "Allowing this will let Capster launch everytime you login, so that it is available for applications which use it at all times";
+"Allowing this will let Capster launch everytime you login, so that it is available at all times" = "Allowing this will let Capster launch everytime you login, so that it is available at all times";
 
 /* No comment provided by engineer. */
 "Warning! Enabling this option will cause Capster to run in the background" = "Warning! Enabling this option will cause Capster to run in the background";

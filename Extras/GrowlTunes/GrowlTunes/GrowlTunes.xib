@@ -220,12 +220,9 @@
 				</array>
 			</object>
 			<object class="NSLevelIndicator" id="927031288">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">300</int>
 				<string key="NSFrameSize">{65, 13}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:2200</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
@@ -241,12 +238,9 @@
 				</object>
 			</object>
 			<object class="NSSlider" id="883374320">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">270</int>
 				<string key="NSFrameSize">{104, 21}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
@@ -315,6 +309,14 @@
 						<reference key="destination" ref="195040871"/>
 					</object>
 					<int key="connectionID">274</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">currentTrackMenuItem</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="412116810"/>
+					</object>
+					<int key="connectionID">368</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1137,10 +1139,57 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">344</int>
+			<int key="maxID">373</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">FormattedItemViewController</string>
+					<string key="superclassName">NSViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="artworkView">NSImageView</string>
+						<string key="details">NSString</string>
+						<string key="detailsField">NSTextField</string>
+						<string key="formattedDescription">NSDictionary</string>
+						<string key="icon">NSImage</string>
+						<string key="title">NSString</string>
+						<string key="titleField">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="artworkView">
+							<string key="name">artworkView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="details">
+							<string key="name">details</string>
+							<string key="candidateClassName">NSString</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailsField">
+							<string key="name">detailsField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="formattedDescription">
+							<string key="name">formattedDescription</string>
+							<string key="candidateClassName">NSDictionary</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="icon">
+							<string key="name">icon</string>
+							<string key="candidateClassName">NSImage</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="title">
+							<string key="name">title</string>
+							<string key="candidateClassName">NSString</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleField">
+							<string key="name">titleField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FormattedItemViewController.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">GTLevelIndicator</string>
 					<string key="superclassName">NSLevelIndicator</string>
@@ -1181,12 +1230,22 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="conductor">ITunesConductor</string>
+						<string key="currentTrackController">FormattedItemViewController</string>
+						<string key="currentTrackMenuItem">NSMenuItem</string>
 						<string key="statusItemMenu">NSMenu</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="conductor">
 							<string key="name">conductor</string>
 							<string key="candidateClassName">ITunesConductor</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="currentTrackController">
+							<string key="name">currentTrackController</string>
+							<string key="candidateClassName">FormattedItemViewController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="currentTrackMenuItem">
+							<string key="name">currentTrackMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="statusItemMenu">
 							<string key="name">statusItemMenu</string>

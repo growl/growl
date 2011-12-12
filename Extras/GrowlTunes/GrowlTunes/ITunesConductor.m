@@ -15,9 +15,9 @@
 @interface ITunesConductor ()
 
 @property(readwrite, nonatomic, assign) BOOL isRunning;
-@property(readwrite, nonatomic, assign) ITunesEPlS currentPlayerState;
-@property(readwrite, nonatomic, retain) NSString* currentPersistentID;
-@property(readwrite, nonatomic, retain) TrackMetadata* currentTrack;
+@property(readwrite, atomic, assign) ITunesEPlS currentPlayerState;
+@property(readwrite, atomic, retain) NSString* currentPersistentID;
+@property(readwrite, atomic, retain) TrackMetadata* currentTrack;
 
 - (void)didLaunchOrTerminateNotification:(NSNotification*)note;
 - (void)playerInfo:(NSNotification*)note;
@@ -61,17 +61,28 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 - (id)init
 {
     self = [super init];
-    
-    _metaTrack = [[TrackMetadata alloc] init];
-    _metaTrack.neverEvaluate = YES;
-    
-    _currentTrack = [[TrackMetadata alloc] init];
-    
+    [self bootstrap];
     return self;
+}
+
+-(void)awakeFromNib
+{
+    [self bootstrap];
+}
+
+-(void)cleanupRegistrations
+{
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)bootstrap
 {
+    if (!_metaTrack) _metaTrack = [[TrackMetadata alloc] init];
+    _metaTrack.neverEvaluate = YES;
+    
+    if (!_currentTrack) self.currentTrack = [[TrackMetadata alloc] init];
+    
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
     [ita setLaunchFlags:(kLSLaunchDontAddToRecents)];
@@ -84,6 +95,8 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                                                        object:$dict(@"source", @"init")]];
     }
     
+    [self cleanupRegistrations];
+    
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self
                                                         selector:@selector(playerInfo:)
                                                             name:PLAYER_INFO_ID
@@ -95,10 +108,14 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                                                           object:nil];
 }
 
-- (void)dealloc
+-(void)dealloc
 {
-    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+    [self cleanupRegistrations];
+}
+
+-(void)finalize
+{
+    [self cleanupRegistrations];
 }
 
 - (id)eventDidFail:(const AppleEvent *)event withError:(NSError *)error
@@ -245,6 +262,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     _running = running;
     [self updatePlayerState];
+    
     [self didChangeValueForKey:@"isRunning"];
 }
 
