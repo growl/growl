@@ -14,6 +14,7 @@
 #import "GNTPForwarder.h"
 #import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
+#import "GrowlBonjourBrowser.h"
 #import "NSStringAdditions.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -105,14 +106,14 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (void)viewWillLoad
 {
-   [self startBrowsing];
+   [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
    [self updateAddresses];
    [super viewWillLoad];
 }
 
 - (void)viewDidUnload
 {
-   [self stopBrowsing];
+   [[GrowlBonjourBrowser sharedBrowser] stopBrowsing];
    [super viewDidUnload];
 }
 
@@ -150,16 +151,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 {
    GNTPSubscriberEntry *entry = [[subscriberArrayController arrangedObjects] objectAtIndex:[subscriberTableView selectedRow]];
    [subscriptionController removeRemoteSubscriptionForSubscriberID:[entry subscriberID]];
-}
-
--(void)startBrowsing
-{
-   [forwarder startBrowsing];
-}
-
--(void)stopBrowsing
-{
-   [forwarder stopBrowsing];
 }
 
 - (void)showNetworkConnectionTab:(NSUInteger)tab

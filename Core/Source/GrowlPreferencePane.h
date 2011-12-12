@@ -26,6 +26,8 @@
     IBOutlet NSToolbar              *toolbar;
    NSMutableDictionary              *prefViewControllers;
    GrowlPrefsViewController         *currentViewController;
+   
+   BOOL firstOpen;
 }
 
 - (NSString *) bundleVersion;

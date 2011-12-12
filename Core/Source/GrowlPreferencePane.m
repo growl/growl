@@ -41,7 +41,7 @@
 }
 
 - (void) awakeFromNib {
-    
+    firstOpen = YES;
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
     
     preferencesController = [GrowlPreferencesController sharedController];
@@ -53,7 +53,7 @@
 }
 
 - (void)showWindow:(id)sender
-{
+{   
     //if we're visible but not on the active space then go ahead and close the window
     if ([self.window isVisible] && ![self.window isOnActiveSpace])
         [self.window orderOut:self];
@@ -65,10 +65,13 @@
     [super showWindow:sender];
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
    
-   if([currentViewController respondsToSelector:@selector(viewWillLoad)])
-      [currentViewController viewWillLoad];
-   if([currentViewController respondsToSelector:@selector(viewDidLoad)])
-      [currentViewController viewDidLoad];
+   if(!firstOpen){
+      if([currentViewController respondsToSelector:@selector(viewWillLoad)])
+         [currentViewController viewWillLoad];
+      if([currentViewController respondsToSelector:@selector(viewDidLoad)])
+         [currentViewController viewDidLoad];
+   }
+   firstOpen = NO;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
