@@ -19,26 +19,34 @@
 @property(readonly, nonatomic, assign) BOOL isEvaluated;
 @property(readwrite, nonatomic, assign) BOOL neverEvaluate;
 
-@property(readonly, nonatomic, retain) id album;
-@property(readonly, nonatomic, retain) id albumArtist;
-@property(readonly, nonatomic, retain) id artist;
-@property(readonly, nonatomic, retain) id comment;
-@property(readonly, nonatomic, retain) id description;
-@property(readonly, nonatomic, retain) id episodeID;
-@property(readonly, nonatomic, retain) id episodeNumber;
-@property(readonly, nonatomic, retain) id longDescription;
-@property(readonly, nonatomic, retain) id name;
-@property(readonly, nonatomic, retain) id seasonNumber;
-@property(readonly, nonatomic, retain) id show;
-@property(readonly, nonatomic, retain) id streamTitle;
-@property(readonly, nonatomic, retain) id trackCount;
-@property(readonly, nonatomic, retain) id trackNumber;
-@property(readonly, nonatomic, retain) id time;
-@property(readonly, nonatomic, retain) id videoKindName;
+@property(readonly, nonatomic, retain) NSString* album;
+@property(readonly, nonatomic, retain) NSString* albumArtist;
+@property(readonly, nonatomic, retain) NSString* artist;
+@property(readonly, nonatomic, retain) NSString* comment;
+@property(readonly, nonatomic, retain) NSString* description;
+@property(readonly, nonatomic, retain) NSString* episodeID;
+@property(readonly, nonatomic, retain) NSNumber* episodeNumber;
+@property(readonly, nonatomic, retain) NSString* longDescription;
+@property(readonly, nonatomic, retain) NSString* name;
+@property(readonly, nonatomic, retain) NSNumber* seasonNumber;
+@property(readonly, nonatomic, retain) NSString* show;
+@property(readonly, nonatomic, retain) NSString* streamTitle;
+@property(readonly, nonatomic, retain) NSNumber* trackCount;
+@property(readonly, nonatomic, retain) NSNumber* trackNumber;
+@property(readonly, nonatomic, retain) NSString* time;
+@property(readonly, nonatomic, retain) NSString* videoKindName;
 
 @property(readonly, nonatomic, retain) NSString* persistentID;
 
 @property(readwrite, nonatomic, retain) NSNumber* rating;
+
+@property(readonly, nonatomic, retain) NSImage* artworkImage;
+@property(readonly, nonatomic, retain) NSString* bestArtist;
+@property(readonly, nonatomic, retain) NSString* bestDescription;
+@property(readonly, nonatomic, retain) NSString* trackClass;
+@property(readonly, nonatomic, retain) NSString* typeDescription;
+@property(readonly, nonatomic, retain) NSString* formattedTitle;
+@property(readonly, nonatomic, retain) NSString* formattedDescription;
 
 
 -(id)init;
@@ -48,13 +56,6 @@
 -(TrackMetadata*)evaluated;
 
 -(NSArray*)attributeKeys;
-
--(NSString*)typeDescription;
--(NSString*)trackClass;
--(NSString*)bestArtist;
--(NSString*)bestDescription;
--(NSImage*)artworkImage;
-
 -(NSDictionary*)formattedDescriptionDictionary;
 
 @end

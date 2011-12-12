@@ -536,4 +536,14 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     return [dict copy];
 }
 
+-(NSString*)formattedTitle
+{
+    return [[self formattedDescriptionDictionary] objectForKey:@"title"];
+}
+
+-(NSString*)formattedDescription
+{
+    return [[self formattedDescriptionDictionary] objectForKey:@"description"];
+}
+
 @end

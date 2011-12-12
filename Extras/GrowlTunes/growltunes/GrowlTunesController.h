@@ -10,17 +10,21 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
 
-@class ITunesConductor;
+@class ITunesConductor, FormattedItemViewController;
 
-@interface GrowlTunesController : NSObject <GrowlApplicationBridgeDelegate> {
-    __strong ITunesConductor* _iTunesConductor;
-    __strong NSMenu* _statusItemMenu;
+@interface GrowlTunesController : NSObject <GrowlApplicationBridgeDelegate, NSApplicationDelegate> {
+    ITunesConductor* _iTunesConductor;
+    NSMenu* _statusItemMenu;
+    NSMenuItem* _currentTrackMenuItem;
+    FormattedItemViewController* _currentTrackController;
     NSStatusItem* _statusItem;
     NSWindowController* _formatwc;
 }
 
-@property(readonly, strong, nonatomic) IBOutlet ITunesConductor* conductor;
-@property(readwrite, strong, nonatomic) IBOutlet NSMenu* statusItemMenu;
+@property(readonly, retain, nonatomic) IBOutlet ITunesConductor* conductor;
+@property(readwrite, retain, nonatomic) IBOutlet NSMenu* statusItemMenu;
+@property(readwrite, retain, nonatomic) IBOutlet NSMenuItem* currentTrackMenuItem;
+@property(readwrite, retain, nonatomic) IBOutlet FormattedItemViewController* currentTrackController;
 
 - (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;

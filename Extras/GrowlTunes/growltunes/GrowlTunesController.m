@@ -13,7 +13,7 @@
 #import "macros.h"
 #import "NSObject+DRYDescription.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
-#import <dlfcn.h>
+#import "FormattedItemViewController.h"
 
 
 static int _LogLevel = LOG_LEVEL_ERROR;
@@ -21,7 +21,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 @interface GrowlTunesController ()
 
-@property(readwrite, strong, nonatomic) IBOutlet ITunesConductor* conductor;
+@property(readwrite, retain, nonatomic) IBOutlet ITunesConductor* conductor;
 
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
@@ -37,6 +37,8 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 @synthesize conductor = _iTunesConductor;
 @synthesize statusItemMenu = _statusItemMenu;
+@synthesize currentTrackMenuItem = _currentTrackMenuItem;
+@synthesize currentTrackController = _currentTrackController;
 
 + (void)setLogLevel:(int)level
 {
@@ -106,9 +108,16 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"currentTrack"]) {
+        [_currentTrackMenuItem setView:nil];
+        
         if (![self.conductor isPlaying]) return;
         
         NSDictionary* formatted = [[[self conductor] currentTrack] formattedDescriptionDictionary];
+        
+        if (!_currentTrackController) { self.currentTrackController = [[FormattedItemViewController alloc] init]; }
+        [_currentTrackController setFormattedDescription:formatted];
+        [_currentTrackMenuItem setView:[_currentTrackController view]];
+        
         NSString* title = [formatted valueForKey:@"title"];
         NSString* description = [formatted valueForKey:@"description"];
         NSImage* icon = [formatted valueForKey:@"icon"];
@@ -124,23 +133,21 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
+    
+    [self createStatusItem];
+    
+    if (!_iTunesConductor) { self.conductor = [[ITunesConductor alloc] init]; }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
     
-    [self createStatusItem];
-    
-    if (!_iTunesConductor) { self.conductor = [[ITunesConductor alloc] init]; }
-    [self.conductor bootstrap];
-    
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
     
-#ifdef FSCRIPT
-    // load FScript if available for easy runtime introspection and debugging
-    void* dl_handle = dlopen("/Library/Frameworks/FScript.framework/FScript", RTLD_GLOBAL | RTLD_NOW);
-    if (dl_handle) {
+#if defined(DEBUG) || defined(FSCRIPT)
+    BOOL loaded = [[NSBundle bundleWithPath:@"/Library/Frameworks/FScript.framework"] load];
+    if (loaded) {
         Class FScriptMenuItem = NSClassFromString(@"FScriptMenuItem");
         id fscMenuItem = [[FScriptMenuItem alloc] init];
         id fiv = [fscMenuItem performSelector:@selector(interpreterView)];
