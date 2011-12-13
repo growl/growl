@@ -65,6 +65,51 @@
 							<string key="NSResourceName">NSMenuMixedState</string>
 						</object>
 					</object>
+					<object class="NSMenuItem" id="1041304298">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="978221467">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">▶ Play/Pause</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="11909680">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">→ Next Track</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="135633956">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">← Previous Track</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="510808420">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
 					<object class="NSMenuItem" id="811089115">
 						<reference key="NSMenu" ref="154069724"/>
 						<bool key="NSIsHidden">YES</bool>
@@ -132,35 +177,9 @@
 						<reference key="NSOnImage" ref="1046102276"/>
 						<reference key="NSMixedImage" ref="241691520"/>
 					</object>
-					<object class="NSMenuItem" id="978221467">
+					<object class="NSMenuItem" id="195040871">
 						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">▶ Play/Pause</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
-					<object class="NSMenuItem" id="11909680">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">→ Next Track</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
-					<object class="NSMenuItem" id="135633956">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">← Previous Track</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
-					<object class="NSMenuItem" id="510808420">
-						<reference key="NSMenu" ref="154069724"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string key="NSTitle"/>
+						<string key="NSTitle">Quit Both</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1046102276"/>
@@ -190,14 +209,6 @@
 						<reference key="NSOnImage" ref="1046102276"/>
 						<reference key="NSMixedImage" ref="241691520"/>
 						<int key="NSTag">2</int>
-					</object>
-					<object class="NSMenuItem" id="195040871">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">Quit Both</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
 					</object>
 					<object class="NSMenuItem" id="960405232">
 						<reference key="NSMenu" ref="154069724"/>
@@ -238,9 +249,10 @@
 				</object>
 			</object>
 			<object class="NSSlider" id="883374320">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">270</int>
 				<string key="NSFrameSize">{104, 21}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
@@ -876,6 +888,26 @@
 					</object>
 					<int key="connectionID">344</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.isPlaying</string>
+						<reference key="source" ref="1041304298"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1041304298"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: self.isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">387</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -917,17 +949,18 @@
 							<reference ref="577532816"/>
 							<reference ref="811089115"/>
 							<reference ref="412116810"/>
-							<reference ref="978221467"/>
-							<reference ref="510808420"/>
-							<reference ref="11909680"/>
-							<reference ref="135633956"/>
-							<reference ref="195040871"/>
 							<reference ref="886883638"/>
 							<reference ref="958702569"/>
+							<reference ref="978221467"/>
+							<reference ref="11909680"/>
+							<reference ref="135633956"/>
+							<reference ref="510808420"/>
 							<reference ref="960405232"/>
 							<reference ref="233668226"/>
 							<reference ref="64021113"/>
 							<reference ref="635452151"/>
+							<reference ref="195040871"/>
+							<reference ref="1041304298"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">GrowlTunes Menu</string>
@@ -1083,6 +1116,11 @@
 						<reference key="object" ref="979485101"/>
 						<reference key="parent" ref="883374320"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">383</int>
+						<reference key="object" ref="1041304298"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1122,6 +1160,7 @@
 				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="383.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<object class="NSMutableDictionary" key="4.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -1139,7 +1178,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">373</int>
+			<int key="maxID">387</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

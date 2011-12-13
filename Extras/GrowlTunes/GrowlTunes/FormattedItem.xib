@@ -48,7 +48,7 @@
 									<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</set>
-								<string key="NSFrame">{{16, 12}, {64, 64}}</string>
+								<string key="NSFrame">{{2, 3}, {64, 64}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="302631847"/>
@@ -73,7 +73,7 @@
 							<object class="NSTextField" id="302631847">
 								<reference key="NSNextResponder" ref="653489187"/>
 								<int key="NSvFlags">270</int>
-								<string key="NSFrame">{{85, 57}, {140, 19}}</string>
+								<string key="NSFrame">{{71, 46}, {175, 19}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="176621673"/>
@@ -86,7 +86,7 @@
 									<string key="NSContents">title</string>
 									<object class="NSFont" key="NSSupport">
 										<string key="NSName">LucidaGrande-Bold</string>
-										<double key="NSSize">11</double>
+										<double key="NSSize">12</double>
 										<int key="NSfFlags">16</int>
 									</object>
 									<string key="NSPlaceholderString"/>
@@ -115,9 +115,10 @@
 							<object class="NSTextField" id="176621673">
 								<reference key="NSNextResponder" ref="653489187"/>
 								<int key="NSvFlags">286</int>
-								<string key="NSFrame">{{85, 12}, {140, 44}}</string>
+								<string key="NSFrame">{{71, 3}, {175, 39}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:360</string>
 								<string key="NSAntiCompressionPriority">{250, 750}</string>
 								<int key="NSTag">3</int>
@@ -138,14 +139,14 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{3, 3}, {238, 86}}</string>
+						<string key="NSFrameSize">{245, 68}</string>
 						<reference key="NSSuperview" ref="268832119"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="32547172"/>
 						<string key="NSReuseIdentifierKey">_NS:21</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{244, 92}</string>
+				<string key="NSFrameSize">{245, 68}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="653489187"/>
@@ -175,7 +176,7 @@
 					</object>
 				</object>
 				<reference key="NSContentView" ref="653489187"/>
-				<int key="NSBorderType">2</int>
+				<int key="NSBorderType">0</int>
 				<int key="NSBoxType">0</int>
 				<int key="NSTitlePosition">0</int>
 				<bool key="NSTransparent">NO</bool>
@@ -253,8 +254,8 @@
 						<reference key="object" ref="268832119"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="32547172"/>
-							<reference ref="176621673"/>
 							<reference ref="302631847"/>
+							<reference ref="176621673"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Formatted Item</string>
