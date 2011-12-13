@@ -80,10 +80,10 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 - (NSDictionary*)registrationDictionaryForGrowl
 {    
     NSDictionary* notifications = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   NotifierChangedTracks, NotifierChangedTracksReadable,
-                                   NotifierPaused, NotifierPausedReadable,
-                                   NotifierStopped, NotifierStoppedReadable,
-                                   NotifierStarted, NotifierStartedReadable,
+                                   NotifierChangedTracksReadable, NotifierChangedTracks,
+                                   NotifierPausedReadable, NotifierPaused,
+                                   NotifierStoppedReadable, NotifierStopped,
+                                   NotifierStartedReadable, NotifierStarted,
                                    nil];
     LogInfo(@"%@", notifications);
     
@@ -117,7 +117,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         if (!_currentTrackController) { self.currentTrackController = [[FormattedItemViewController alloc] init]; }
         [_currentTrackController setFormattedDescription:formatted];
         [_currentTrackMenuItem setView:[_currentTrackController view]];
-        
+                
         NSString* title = [formatted valueForKey:@"title"];
         NSString* description = [formatted valueForKey:@"description"];
         NSImage* icon = [formatted valueForKey:@"icon"];
