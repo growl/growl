@@ -526,7 +526,9 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
         }
     }
     
-    NSString* descriptionString = [descriptionArray componentsJoinedByString:@"\n"];
+    NSCharacterSet* toTrim = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString* descriptionString = [[descriptionArray componentsJoinedByString:@"\n"]
+                                   stringByTrimmingCharactersInSet:toTrim];
     [dict setValue:descriptionString forKey:@"description"];
     
     if (_isEvaluated) {
