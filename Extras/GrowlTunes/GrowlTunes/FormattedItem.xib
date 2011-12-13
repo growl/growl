@@ -48,7 +48,7 @@
 									<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</set>
-								<string key="NSFrame">{{2, 3}, {64, 64}}</string>
+								<string key="NSFrame">{{4, 15}, {64, 64}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="302631847"/>
@@ -73,7 +73,7 @@
 							<object class="NSTextField" id="302631847">
 								<reference key="NSNextResponder" ref="653489187"/>
 								<int key="NSvFlags">270</int>
-								<string key="NSFrame">{{71, 46}, {175, 19}}</string>
+								<string key="NSFrame">{{73, 63}, {231, 14}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="176621673"/>
@@ -82,11 +82,11 @@
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSTextFieldCell" key="NSCell" id="747781109">
 									<int key="NSCellFlags">67239488</int>
-									<int key="NSCellFlags2">272664640</int>
+									<int key="NSCellFlags2">1346410560</int>
 									<string key="NSContents">title</string>
 									<object class="NSFont" key="NSSupport">
 										<string key="NSName">LucidaGrande-Bold</string>
-										<double key="NSSize">12</double>
+										<double key="NSSize">11</double>
 										<int key="NSfFlags">16</int>
 									</object>
 									<string key="NSPlaceholderString"/>
@@ -115,7 +115,7 @@
 							<object class="NSTextField" id="176621673">
 								<reference key="NSNextResponder" ref="653489187"/>
 								<int key="NSvFlags">286</int>
-								<string key="NSFrame">{{71, 3}, {175, 39}}</string>
+								<string key="NSFrame">{{73, 3}, {231, 58}}</string>
 								<reference key="NSSuperview" ref="653489187"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -125,11 +125,11 @@
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSTextFieldCell" key="NSCell" id="912635852">
 									<int key="NSCellFlags">67239424</int>
-									<int key="NSCellFlags2">4227328</int>
+									<int key="NSCellFlags2">1077973248</int>
 									<string key="NSContents">details</string>
 									<object class="NSFont" key="NSSupport">
 										<string key="NSName">LucidaGrande</string>
-										<double key="NSSize">10</double>
+										<double key="NSSize">11</double>
 										<int key="NSfFlags">16</int>
 									</object>
 									<string key="NSCellIdentifier">_NS:360</string>
@@ -139,14 +139,14 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrameSize">{245, 68}</string>
+						<string key="NSFrameSize">{300, 80}</string>
 						<reference key="NSSuperview" ref="268832119"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="32547172"/>
 						<string key="NSReuseIdentifierKey">_NS:21</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{245, 68}</string>
+				<string key="NSFrameSize">{300, 80}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="653489187"/>
@@ -155,7 +155,7 @@
 				<object class="NSTextFieldCell" key="NSTitleCell">
 					<int key="NSCellFlags">67239424</int>
 					<int key="NSCellFlags2">0</int>
-					<string key="NSContents">Box</string>
+					<string key="NSContents">Formatted Item</string>
 					<object class="NSFont" key="NSSupport">
 						<string key="NSName">LucidaGrande</string>
 						<double key="NSSize">11</double>

@@ -11,6 +11,7 @@
 
 @interface FormattedItemViewController ()
 -(void)observeSelf;
+-(void)calculateSize;
 @property(readwrite, nonatomic, retain) IBOutlet NSImageView* artworkView;
 @property(readwrite, nonatomic, retain) IBOutlet NSTextField* titleField;
 @property(readwrite, nonatomic, retain) IBOutlet NSTextField* detailsField;
@@ -31,7 +32,6 @@
 - (id)init
 {
     self = [super initWithNibName:@"FormattedItem" bundle:[NSBundle mainBundle]];
-    if (self) [self observeSelf];
     return self;
 }
 
@@ -44,7 +44,7 @@
 {
     [self addObserver:self
            forKeyPath:@"formattedDescription"
-              options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionInitial) 
+              options:(NSKeyValueObservingOptionInitial) 
               context:NULL];
 }
 
@@ -59,6 +59,8 @@
                        change:(NSDictionary *)change
                       context:(void *)context
 {
+    if (!_titleField || !_detailsField) return;
+    
     if (_formattedDescription) {
         self.icon = [_formattedDescription valueForKey:@"icon"];
         self.title = [_formattedDescription valueForKey:@"title"];
@@ -68,43 +70,84 @@
         self.title = nil;
         self.details = nil;
     }
+    
+//    [self calculateSize];
 }
 
 -(NSImage*)icon
 {
-    return self.artworkView.image;
+    return _artworkView.image;
 }
 
 -(void)setIcon:(NSImage*)icon
 {
     if (!icon) icon = [NSImage imageNamed:@"GrowlTunes"];
-    [icon setSize:NSMakeSize(64,64)];
-    self.artworkView.image = icon;
-    [self.artworkView setNeedsDisplay:YES];
+    [icon setSize:NSMakeSize(64, 64)];
+    _artworkView.image = icon;
+    [_artworkView setNeedsDisplay:YES];
 }
 
 -(NSString*)title
 {
-    return self.titleField.stringValue;
+    return _titleField.stringValue;
 }
 
 -(void)setTitle:(NSString*)title
 {
     if (!title) title = @"Title";
-    self.titleField.stringValue = title;
-    [self.titleField setNeedsDisplay:YES];
+    _titleField.stringValue = title;
+    [_titleField setNeedsDisplay:YES];
 }
 
 -(NSString*)details
 {
-    return self.detailsField.stringValue;
+    return _detailsField.stringValue;
 }
 
 -(void)setDetails:(NSString*)text
 {
     if (!text) text = @"Description";
-    self.detailsField.stringValue = text;
-    [self.detailsField setNeedsDisplay:YES];
+    _detailsField.stringValue = text;
+    [_detailsField setNeedsDisplay:YES];
+}
+
+// doesn't quite work as it should
+-(void)calculateSize
+{
+    if (!_titleField || !_detailsField) return;
+    
+    NSAttributedString* title = _titleField.attributedStringValue;
+    NSAttributedString* details = _detailsField.attributedStringValue;
+    
+    if (!title || !details) return;
+    
+    CGFloat oneLineHeight = 14.0;
+    CGFloat minWidth = 120.0;
+    CGFloat maxWidth = 300.0;
+    
+    NSStringDrawingOptions titleOptions =
+        NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution;
+    NSStringDrawingOptions detailsOptions =
+        NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution;
+    
+    NSRect rsTitle = [title boundingRectWithSize:NSMakeSize(0, oneLineHeight) options:titleOptions];
+    
+    NSSize ctSize = rsTitle.size;
+    if (ctSize.width < minWidth) ctSize.width = minWidth;
+    if (ctSize.width > maxWidth) ctSize.width = maxWidth;
+    if (ctSize.height < oneLineHeight) ctSize.height = oneLineHeight;
+    
+    NSRect rsDetails = [details boundingRectWithSize:NSMakeSize(maxWidth, 0) options:detailsOptions];
+    
+    NSSize cdSize = rsDetails.size;
+    if (cdSize.width < minWidth) cdSize.width = minWidth;
+    if (cdSize.width > maxWidth) cdSize.width = maxWidth;
+    if (cdSize.height < oneLineHeight) cdSize.height = oneLineHeight;
+        
+    [_titleField setFrameSize:ctSize];
+    [_detailsField setFrameSize:cdSize];
+    
+    [self.view setNeedsLayout:YES];
 }
 
 @end
