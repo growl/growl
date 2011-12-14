@@ -26,7 +26,7 @@
 
 @property (nonatomic, retain) NSString *networkAddressString;
 
-- (void)updateAddresses;
+- (void)updateAddresses:(NSNotification*)note;
 - (void)showNetworkConnectionTab:(NSUInteger)tab;
 - (IBAction)removeSelectedForwardDestination:(id)sender;
 - (IBAction)newManualForwader:(id)sender;

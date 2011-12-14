@@ -292,6 +292,7 @@
 		BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */; };
 		BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */; };
 		BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */; };
+		BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC38547E1497B717001F026B /* GrowlNetworkObserver.m */; };
 		BC3C0794146C1FA700E7BBB0 /* GrowlDisplaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */; };
 		BC3C0797146C685D00E7BBB0 /* GrowlServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0796146C685D00E7BBB0 /* GrowlServerViewController.m */; };
 		BC3C079A146C878A00E7BBB0 /* GrowlHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0799146C878A00E7BBB0 /* GrowlHistoryViewController.m */; };
@@ -1210,6 +1211,8 @@
 		BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlDisableInNetworkScriptCommand.m; path = Bindings/applescript/GrowlControlDisableInNetworkScriptCommand.m; sourceTree = "<group>"; };
 		BC3390CB140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlEnableInNetworkScriptCommand.h; path = Bindings/applescript/GrowlControlEnableInNetworkScriptCommand.h; sourceTree = "<group>"; };
 		BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlEnableInNetworkScriptCommand.m; path = Bindings/applescript/GrowlControlEnableInNetworkScriptCommand.m; sourceTree = "<group>"; };
+		BC38547D1497B717001F026B /* GrowlNetworkObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkObserver.h; path = Core/Source/GrowlNetworkObserver.h; sourceTree = "<group>"; };
+		BC38547E1497B717001F026B /* GrowlNetworkObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkObserver.m; path = Core/Source/GrowlNetworkObserver.m; sourceTree = "<group>"; };
 		BC3C0792146C1FA700E7BBB0 /* GrowlDisplaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplaysViewController.h; path = Core/Source/GrowlDisplaysViewController.h; sourceTree = "<group>"; };
 		BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplaysViewController.m; path = Core/Source/GrowlDisplaysViewController.m; sourceTree = "<group>"; };
 		BC3C0795146C685C00E7BBB0 /* GrowlServerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlServerViewController.h; path = Core/Source/GrowlServerViewController.h; sourceTree = "<group>"; };
@@ -2236,6 +2239,8 @@
 				BC17CF90147BFDE4005408AC /* GNTPSubscriberEntry.m */,
 				BC780D16149655F000B190F7 /* GrowlBonjourBrowser.h */,
 				BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */,
+				BC38547D1497B717001F026B /* GrowlNetworkObserver.h */,
+				BC38547E1497B717001F026B /* GrowlNetworkObserver.m */,
 			);
 			name = Subscription;
 			sourceTree = "<group>";
@@ -3607,6 +3612,7 @@
 				BC17CF8E147AB6EC005408AC /* GNTPSubscriptionController.m in Sources */,
 				BC17CF91147BFDE4005408AC /* GNTPSubscriberEntry.m in Sources */,
 				BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */,
+				BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

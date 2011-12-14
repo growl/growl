@@ -40,6 +40,7 @@
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
 #import "GNTPSubscriptionController.h"
+#import "GrowlNetworkObserver.h"
 #include "CFURLAdditions.h"
 #include <sys/errno.h>
 #include <string.h>
@@ -170,6 +171,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
          
       [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
       
+      [GrowlNetworkObserver sharedObserver];
       [GNTPForwarder sharedController];
       [GNTPSubscriptionController sharedController];
       
