@@ -15,9 +15,8 @@
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlGNTPDefines.h"
 #import "GrowlNetworkUtilities.h"
-
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#import "NSStringAdditions.h"
+#import "GrowlBonjourBrowser.h"
 
 @implementation GNTPSubscriptionController
 
@@ -83,10 +82,24 @@
          [entry release];
       }];
       
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(appRegistered:)
-                                                   name:@"ApplicationRegistered"
-                                                 object:nil];
+      NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+      [center addObserver:self
+                 selector:@selector(appRegistered:)
+                     name:@"ApplicationRegistered"
+                   object:nil];
+      
+      [center addObserver:self 
+                 selector:@selector(serviceFound:) 
+                     name:GNTPServiceFoundNotification 
+                   object:[GrowlBonjourBrowser sharedBrowser]];
+      [center addObserver:self 
+                 selector:@selector(serviceRemoved:) 
+                     name:GNTPServiceRemovedNotification 
+                   object:[GrowlBonjourBrowser sharedBrowser]];
+      [center addObserver:self 
+                 selector:@selector(browserStopped:) 
+                     name:GNTPBrowserStopNotification 
+                   object:[GrowlBonjourBrowser sharedBrowser]];
    }
    return self;
 }
@@ -249,5 +262,100 @@
 {
     return [remoteSubscriptions allValues];
 }
+
+#pragma mark Bonjour Browser notification methods
+
+-(void)browserStopped:(NSNotification*)note
+{
+   /* Clean up any entries which we wont be saving, as well as turning the active flag off on all entries */
+   NSArray *currentNames = [[self.preferences objectForKey:@"GrowlLocalSubscriptions"] valueForKey:@"computerName"];
+   __block NSMutableArray *toRemove = [NSMutableArray array];
+   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![obj isKindOfClass:[GNTPSubscriberEntry class]])
+         return;
+      
+      [obj setActive:NO];
+      
+      if(![obj use] && ![obj password] && ![currentNames containsObject:[obj computerName]])
+         [toRemove addObject:obj];
+   }];
+   if([toRemove count] > 0){
+      [self willChangeValueForKey:@"localSubscriptions"];
+      [localSubscriptions removeObjectsInArray:toRemove];
+      [self didChangeValueForKey:@"localSubscriptions"];
+      [self saveSubscriptions:NO];
+   }
+}
+
+-(void)serviceFound:(NSNotification*)note
+{
+	// check if a computer with this name has already been added
+   NSNetService *aNetService = [[note userInfo] valueForKey:GNTPServiceKey];
+	NSString *name = [aNetService name];
+	__block GNTPSubscriberEntry *entry = nil;
+   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![obj isKindOfClass:[GNTPSubscriberEntry class]])
+         return;
+		if ([[obj computerName] caseInsensitiveCompare:name] == NSOrderedSame) {
+			[obj setActive:YES];
+         entry = obj;
+			return;
+		}
+   }];
+   
+   if(entry)
+      return;
+   
+	// don't add the local machine    
+   if([name isLocalHost])
+      return;
+   
+	// add a new entry at the end
+	entry = [[GNTPSubscriberEntry alloc] initWithName:name
+                                       addressString:nil
+                                              domain:[aNetService domain]
+                                             address:nil
+                                                uuid:[[NSProcessInfo processInfo] globallyUniqueString]
+                                        subscriberID:subscriberID
+                                              remote:NO
+                                              manual:NO
+                                                 use:NO
+                                         initialTime:[NSDate distantPast]
+                                          timeToLive:0
+                                                port:GROWL_TCP_PORT];   
+   [self willChangeValueForKey:@"localSubscriptions"];
+	[localSubscriptions addObject:entry];
+   [self didChangeValueForKey:@"localSubscriptions"];
+	[entry release];
+}
+
+-(void)serviceRemoved:(NSNotification*)note
+{
+   NSNetService *aNetService = [[note userInfo] valueForKey:GNTPServiceKey];
+   NSArray *destinationNames = [[self.preferences objectForKey:@"GrowlLocalSubscriptions"] valueForKey:@"computerName"];
+	__block GNTPSubscriberEntry *toRemove = nil;
+	NSString *name = [aNetService name];
+   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![obj isKindOfClass:[GNTPSubscriberEntry class]])
+         return;
+      
+		if ([[obj computerName] isEqualToString:name]) {
+			[obj setActive:NO];
+         
+         /* If we dont need this one anymore, get rid of it */
+         if(![obj use] && ![obj password] && ![destinationNames containsObject:[obj computerName]])
+            toRemove = obj;
+			*stop = YES;
+         return;
+		}
+   }];
+   
+   if(toRemove){
+      [self willChangeValueForKey:@"localSubscriptions"];
+      [localSubscriptions removeObject:toRemove];
+      [self didChangeValueForKey:@"localSubscriptions"];
+   }
+}
+
 
 @end

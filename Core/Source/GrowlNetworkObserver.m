@@ -195,9 +195,12 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
          NSLog(@"Primary IP changed");
       }
    }else {
-      self.primaryIP = nil;
-      [[NSNotificationCenter defaultCenter] postNotificationName:PrimaryIPChangeNotification object:self];
-      NSLog(@"No primary IP, not connected");
+      //If primary IP is already nil, no need to inform the observers
+      if(primaryIP){
+         self.primaryIP = nil;
+         [[NSNotificationCenter defaultCenter] postNotificationName:PrimaryIPChangeNotification object:self];
+         NSLog(@"No primary IP, not connected");
+      }
    }
 }
 

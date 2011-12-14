@@ -14,6 +14,7 @@
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlNetworkUtilities.h"
 #import "GrowlBonjourBrowser.h"
+#import "GrowlNetworkObserver.h"
 
 @implementation GNTPForwarder
 
@@ -66,6 +67,10 @@
                  selector:@selector(browserStopped:) 
                      name:GNTPBrowserStopNotification 
                    object:[GrowlBonjourBrowser sharedBrowser]];
+      [center addObserver:self
+                 selector:@selector(addressChanged:)
+                     name:PrimaryIPChangeNotification
+                   object:[GrowlNetworkObserver sharedObserver]];
       
       [center addObserver:self
                  selector:@selector(preferencesChanged:) 
@@ -90,6 +95,18 @@
       else
          [[GrowlBonjourBrowser sharedBrowser] stopBrowsing];
    }
+   if(!object || [object isEqualToString:@"AddressCachingEnabled"]){
+      if(![preferences boolForKey:@"AddressCachingEnabled"]){
+         [self clearCachedAddresses];
+      }
+   }
+}
+
+- (void)clearCachedAddresses
+{
+   [destinations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      [obj setLastKnownAddress:nil];
+   }];
 }
 
 #pragma mark UI Support
@@ -161,7 +178,11 @@
       //If we are using it, and either its a manual, and if we are browsing, we should know if its active
 		if ([obj use] && ([obj manualEntry] || (![[GrowlBonjourBrowser sharedBrowser] browser] || [obj active]))) {
 			//NSLog(@"Looking up address for %@", [entry computerName]);
-			NSData *destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[obj computerName] withDomain:[obj domain]];
+			NSData *destAddress = [preferences boolForKey:@"AddressCachingEnabled"] ? [obj lastKnownAddress] : nil;
+         if(!destAddress){
+            destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[obj computerName] withDomain:[obj domain]];
+            [obj setLastKnownAddress:destAddress];
+         }
 			if (!destAddress) {
 				/* No destination address. Nothing to see here; move along. */
 				NSLog(@"Could not obtain destination address for %@", [obj computerName]);
@@ -204,6 +225,11 @@
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       [blockForwarder sendViaTCP:outgoingPacket];
    });
+}
+
+-(void)addressChanged:(NSNotification*)note
+{
+   [self clearCachedAddresses];
 }
 
 #pragma mark GrowlBonjourBrowser notification methods

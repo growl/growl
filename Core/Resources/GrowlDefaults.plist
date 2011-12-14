@@ -60,5 +60,7 @@
 	<false/>
 	<key>SubscriptionAllowed</key>
 	<true/>
+	<key>AddressCachingEnabled</key>
+	<true/>
 </dict>
 </plist>

@@ -50,6 +50,7 @@
 @synthesize manualEntry = _manualEntry;
 @synthesize domain = _domain;
 @synthesize key = _key;
+@synthesize lastKnownAddress = _lastKnownAddress;
 
 - (id) init {
 	
@@ -59,6 +60,8 @@
 		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
       [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
       didPasswordLookup = NO;
+      
+      self.lastKnownAddress = nil;
    }
 	return self;
 }
@@ -136,6 +139,31 @@
 
 - (void) setOwner:(GNTPForwarder *)pref {
 	owner = pref;
+}
+
+- (void) setLastKnownAddress:(NSData *)address {
+   //If someone is trying to set the address data and we aren't allowed to do caching at the moment, nil it
+   if(![[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] && address)
+      address = nil;
+   if(_lastKnownAddress)
+      [_lastKnownAddress release];
+   _lastKnownAddress = [address retain];
+}
+
+- (void)setActive:(BOOL)active {
+   _active = active;
+   //If we are a bonjour entry, nil out address data on inactivate/reactivate to ensure we check again
+   //Same if we are a domain name based manual entry
+   if(!_manualEntry || [_name Growl_isLikelyDomainName])
+      self.lastKnownAddress = nil;
+}
+
+- (void)setUse:(BOOL)use {
+   _use = use;
+   //If we are a bonjour entry, nil out address data on set of use to ensure we check again
+   //Same if we are a domain name based manual entry
+   if(!_manualEntry || ![_name Growl_isLikelyIPAddress])
+      self.lastKnownAddress = nil;
 }
 
 - (NSMutableDictionary *) properties {

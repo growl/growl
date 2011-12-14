@@ -28,8 +28,11 @@
 @property (nonatomic) BOOL remote;
 @property (nonatomic) BOOL manual;
 @property (nonatomic) BOOL use;
+@property (nonatomic) BOOL active;
 
+@property (nonatomic) BOOL attemptingToSubscribe;
 @property (nonatomic) BOOL subscriptionError;
+@property (nonatomic, retain) NSString* subscriptionErrorDescription;
 
 -(id)initWithName:(NSString*)name
     addressString:(NSString*)addrString

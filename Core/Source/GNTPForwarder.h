@@ -18,6 +18,7 @@
 + (GNTPForwarder*)sharedController;
 
 - (void)preferencesChanged:(NSNotification*)note;
+- (void)clearCachedAddresses;
 
 - (void)newManualEntry;
 - (void)removeEntryAtIndex:(NSUInteger)index;
