@@ -246,6 +246,8 @@
 
 -(void)dealloc 
 {
+   [self removeObserver:self forKeyPath:@"use"];
+   [self removeObserver:self forKeyPath:@"computerName"];
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [computerName release];
    [addressString release];
