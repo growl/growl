@@ -106,6 +106,8 @@
 
 - (BOOL) isNotificationAllowed:(NSString *) name;
 
+- (NSDictionary*)registrationFormatDictionary;
+
 #pragma mark Notification accessors
 - (NSArray *) notifications;
 - (GrowlNotificationTicket *) notificationTicketForName:(NSString *)name;

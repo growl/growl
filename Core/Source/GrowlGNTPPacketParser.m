@@ -242,16 +242,20 @@
                NSLog(@"The application or notification is not registered on the host");
                if([packet originPacket]){
                   NSString *appName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_APP_NAME];
-                  GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil];
+                  NSString *hostName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+                  GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
                   if(ticket){
                      /* We would reregister here if we had a valid registration dict stored somewhere
                         We will reinvestigate this in the future.
                       */
-                     /*GrowlGNTPOutgoingPacket *registerPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType
-                                                                                                     forDict:[ticket growlDictionary]];
+                     GrowlGNTPOutgoingPacket *registerPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType
+                                                                                                     forDict:[ticket registrationFormatDictionary]];
                      [registerPacket setKey:[[packet originPacket] key]];
                      [self sendPacket:registerPacket toAddress:[[packet socket] connectedAddress]];
-                     [self sendPacket:[packet originPacket] toAddress:[[packet socket] connectedAddress]];*/
+                     /* This should actually happen properly after we get back that we succeded sending the registration, 
+                      *  otherwise we will get back we need to register again, and try registering again, and sending again 
+                      *  till it gets it right */
+                     [self sendPacket:[packet originPacket] toAddress:[[packet socket] connectedAddress]];
                   }else{
                      NSLog(@"Could not find ticket locally for %@ to send for reregistration", appName);
                   }

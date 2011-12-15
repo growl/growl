@@ -769,6 +769,29 @@
 	return [appNameHostName caseInsensitiveCompare:[aTicket appNameHostName]];
 }
 
+- (NSDictionary*)registrationFormatDictionary
+{
+   
+   NSMutableDictionary *regDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:appName, GROWL_APP_NAME,
+                                                                                    allNotificationNames, GROWL_NOTIFICATIONS_ALL,
+                                                                                    defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+                                                                                    iconData, GROWL_APP_ICON_DATA, nil];
+   
+   if (hostName && ![hostName isLocalHost])
+      [regDict setObject:hostName forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+   
+   if (humanReadableNames)
+		[regDict setObject:humanReadableNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+   
+	if (notificationDescriptions)
+		[regDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+   
+	if (appId)
+		[regDict setObject:appId forKey:GROWL_APP_ID];
+   
+   return regDict;
+}
+
 #pragma mark Notification Accessors
 - (NSArray *) notifications {
 	return [allNotifications allValues];

@@ -33,11 +33,15 @@
 
 - (GrowlReadDirective)receivedHeaderItem:(GrowlGNTPHeaderItem *)headerItem
 {
+   if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
+      return GrowlReadDirective_PacketComplete;
+   }
+   
    NSString *name = [headerItem headerName];
    NSString *value = [headerItem headerValue];
       
    if([name caseInsensitiveCompare:@"Error-Code"] == NSOrderedSame){
-      GrowlGNTPErrorCode code = [value intValue];
+      GrowlGNTPErrorCode code = [value integerValue];
       self.errorCode = code;
    }else if([name caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame){
       self.errorDescription = value;
@@ -47,9 +51,6 @@
 #endif
    }
    
-   if(headerItem == [GrowlGNTPHeaderItem separatorHeaderItem]){
-      return GrowlReadDirective_PacketComplete;
-   }
    return GrowlReadDirective_Continue;
 }
 
