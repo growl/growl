@@ -301,7 +301,7 @@
       [outgoingPacket writeToSocket:[packet socket]];
 		
       if(!shouldSendCallback){
-         [[packet socket] disconnectAfterWriting];
+         //[[packet socket] disconnectAfterWriting];
       }
    }
 	
