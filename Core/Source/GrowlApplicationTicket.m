@@ -278,7 +278,7 @@
 - (NSString *) path {
 	NSString *destDir = [GrowlPathUtilities growlSupportDirectory];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
-	destDir = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
+	destDir = [destDir stringByAppendingPathComponent:[appNameHostName stringByAppendingPathExtension:@"growlTicket"]];
 	return destDir;
 }
 
