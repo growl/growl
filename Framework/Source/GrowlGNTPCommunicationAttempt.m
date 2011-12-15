@@ -109,11 +109,11 @@ enum {
       [data appendData:[GCDAsyncSocket CRLFData]];
       triple = [data copy];
    }
-   [sock readDataToData:triple withTimeout:10.0 tag:GrowlGNTPCommAttemptReadExtraPacketData];
+   [sock readDataToData:triple withTimeout:-1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
 }
 
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
-	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:10.0 tag:tag];
+	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:tag];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {

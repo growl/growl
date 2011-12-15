@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSComboBoxCell</string>
@@ -27,7 +27,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="28559535">
 			<object class="NSCustomObject" id="18940131">
 				<string key="NSClassName">GrowlWebKitPrefsController</string>
@@ -56,7 +59,7 @@
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="384128028">
 							<reference key="NSNextResponder" ref="646420164"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{18, 211}, {187, 18}}</string>
 							<reference key="NSSuperview" ref="646420164"/>
 							<reference key="NSWindow"/>
@@ -403,13 +406,13 @@
 								<object class="NSComboTableView" key="NSTableView" id="148165484">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrameSize">{15, 0}</string>
+									<string key="NSFrameSize">{13, 0}</string>
 									<reference key="NSSuperview"/>
 									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<array class="NSMutableArray" key="NSTableColumns">
 										<object class="NSTableColumn">
-											<double key="NSWidth">12</double>
+											<double key="NSWidth">10</double>
 											<double key="NSMinWidth">10</double>
 											<double key="NSMaxWidth">1000</double>
 											<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -463,7 +466,7 @@
 									</object>
 									<double key="NSRowHeight">19</double>
 									<string key="NSAction">tableViewAction:</string>
-									<int key="NSTvFlags">-767524864</int>
+									<int key="NSTvFlags">-765427712</int>
 									<reference key="NSDelegate" ref="766878427"/>
 									<reference key="NSTarget" ref="766878427"/>
 									<int key="NSColumnAutoresizingStyle">1</int>
@@ -524,83 +527,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="310855438"/>
-						<reference key="destination" ref="18940131"/>
+						<string key="label">_firstKeyView</string>
+						<reference key="source" ref="18940131"/>
+						<reference key="destination" ref="424150210"/>
 					</object>
-					<int key="connectionID">100</int>
+					<int key="connectionID">144</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: duration</string>
-						<reference key="source" ref="119235583"/>
-						<reference key="destination" ref="18940131"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="119235583"/>
-							<reference key="NSDestination" ref="18940131"/>
-							<string key="NSLabel">value: duration</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">duration</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_initialKeyView</string>
+						<reference key="source" ref="18940131"/>
+						<reference key="destination" ref="424150210"/>
 					</object>
-					<int key="connectionID">103</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: duration</string>
-						<reference key="source" ref="842804587"/>
-						<reference key="destination" ref="18940131"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="842804587"/>
-							<reference key="NSDestination" ref="18940131"/>
-							<string key="NSLabel">value: duration</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">duration</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">105</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: opacity</string>
-						<reference key="source" ref="648329437"/>
-						<reference key="destination" ref="18940131"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="648329437"/>
-							<reference key="NSDestination" ref="18940131"/>
-							<string key="NSLabel">value: opacity</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">opacity</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: opacity</string>
-						<reference key="source" ref="424150210"/>
-						<reference key="destination" ref="18940131"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="424150210"/>
-							<reference key="NSDestination" ref="18940131"/>
-							<string key="NSLabel">value: opacity</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">opacity</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">109</int>
+					<int key="connectionID">145</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -625,10 +564,106 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
+						<reference key="source" ref="384128028"/>
+						<reference key="destination" ref="310855438"/>
+					</object>
+					<int key="connectionID">169</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: opacity</string>
+						<reference key="source" ref="424150210"/>
+						<reference key="destination" ref="18940131"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="424150210"/>
+							<reference key="NSDestination" ref="18940131"/>
+							<string key="NSLabel">value: opacity</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">opacity</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEnabled</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
 						<reference key="source" ref="424150210"/>
 						<reference key="destination" ref="842804587"/>
 					</object>
 					<int key="connectionID">129</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: opacity</string>
+						<reference key="source" ref="648329437"/>
+						<reference key="destination" ref="18940131"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="648329437"/>
+							<reference key="NSDestination" ref="18940131"/>
+							<string key="NSLabel">value: opacity</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">opacity</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: duration</string>
+						<reference key="source" ref="842804587"/>
+						<reference key="destination" ref="18940131"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="842804587"/>
+							<reference key="NSDestination" ref="18940131"/>
+							<string key="NSLabel">value: duration</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">duration</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEnabled</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">105</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="842804587"/>
+						<reference key="destination" ref="384128028"/>
+					</object>
+					<int key="connectionID">158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: duration</string>
+						<reference key="source" ref="119235583"/>
+						<reference key="destination" ref="18940131"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="119235583"/>
+							<reference key="NSDestination" ref="18940131"/>
+							<string key="NSLabel">value: duration</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">duration</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="310855438"/>
+						<reference key="destination" ref="18940131"/>
+					</object>
+					<int key="connectionID">100</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -652,43 +687,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_firstKeyView</string>
-						<reference key="source" ref="18940131"/>
-						<reference key="destination" ref="424150210"/>
-					</object>
-					<int key="connectionID">144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_initialKeyView</string>
-						<reference key="source" ref="18940131"/>
-						<reference key="destination" ref="424150210"/>
-					</object>
-					<int key="connectionID">145</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="842804587"/>
-						<reference key="destination" ref="384128028"/>
-					</object>
-					<int key="connectionID">158</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="310855438"/>
 						<reference key="destination" ref="424150210"/>
 					</object>
 					<int key="connectionID">161</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="384128028"/>
-						<reference key="destination" ref="310855438"/>
-					</object>
-					<int key="connectionID">169</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">

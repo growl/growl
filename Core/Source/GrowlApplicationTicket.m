@@ -27,6 +27,7 @@
 #pragma mark -
 
 @implementation GrowlApplicationTicket
+@synthesize hostName;
 @synthesize appNameHostName;
 @synthesize isLocalHost;
 
