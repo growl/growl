@@ -124,9 +124,11 @@
       toSave = [[localSubscriptions copy] autorelease];
       saveKey = @"GrowlLocalSubscriptions";
    }
-   NSMutableArray *saveItems = [NSMutableArray arrayWithCapacity:[toSave count]];
+   __block NSMutableArray *saveItems = [NSMutableArray arrayWithCapacity:[toSave count]];
    [toSave enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [saveItems addObject:[obj dictionaryRepresentation]];
+      NSDictionary *dict = [obj dictionaryRepresentation];
+      if(dict)
+         [saveItems addObject:dict];
    }];
    
    [preferences setObject:saveItems forKey:saveKey];

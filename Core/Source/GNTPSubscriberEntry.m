@@ -355,18 +355,22 @@
 }
 
 -(NSDictionary*)dictionaryRepresentation {
-   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:computerName, @"computerName", 
-                                                                   addressString, @"addressString",
-                                                                   domain, @"domain",
-                                                                   lastKnownAddress, @"address",
-                                                                   uuid, @"uuid",
-                                                                   subscriberID, @"subscriberID",
-                                                                   [NSNumber numberWithBool:remote], @"remote",
-                                                                   [NSNumber numberWithBool:manual], @"manual",
-                                                                   initialTime, @"initialTime",
-                                                                   [NSNumber numberWithInteger:timeToLive], @"timeToLive",
-                                                                   [NSNumber numberWithInteger:subscriberPort], @"subscriberPort", nil];
-   return dict;
+   if(!subscriberID || !uuid)
+      return nil;
+   
+   NSMutableDictionary *buildDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subscriberID, @"subscriberID", 
+                                                                                      uuid, @"uuid", nil];
+   if(computerName)     [buildDict setValue:computerName forKey:@"computerName"];
+   if(addressString)    [buildDict setValue:addressString forKey:@"addressString"];
+   if(domain)           [buildDict setValue:domain forKey:@"domain"];
+   if(lastKnownAddress) [buildDict setValue:lastKnownAddress forKey:@"address"];
+   if(computerName)     [buildDict setValue:computerName forKey:@"computerName"];
+   if(initialTime)      [buildDict setValue:initialTime forKey:@"initialTime"];
+   [buildDict setValue:[NSNumber numberWithBool:remote] forKey:@"remote"];
+   [buildDict setValue:[NSNumber numberWithBool:manual] forKey:@"manual"];   
+   [buildDict setValue:[NSNumber numberWithInteger:timeToLive] forKey:@"timeToLive"];
+   [buildDict setValue:[NSNumber numberWithInteger:subscriberPort] forKey:@"subscriberPort"];   
+   return [[buildDict copy] autorelease];
 }
 
 -(BOOL)validateValue:(id *)ioValue forKey:(NSString *)inKey error:(NSError **)outError
