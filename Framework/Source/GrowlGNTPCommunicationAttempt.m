@@ -146,13 +146,13 @@ enum {
          [socket disconnect];
          return;
       }
-      if (![[components objectAtIndex:0] isEqualToString:@"GNTP/1.0"]){
+      if (![[components objectAtIndex:0] caseInsensitiveCompare:@"GNTP/1.0"] == NSOrderedSame){
          NSLog(@"Response from Growl or other notification system was patent nonsense");
          [self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
          [socket disconnect];
          return;
       }
-      if(![[[components objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:GrowlGNTPNone]){
+      if(![[[components objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] caseInsensitiveCompare:GrowlGNTPNone] == NSOrderedSame){
          NSLog(@"We shouldn't have encryption on a response from localhost");
          [self couldNotParseResponseWithReason:@"We shouldn't have encryption on a response from localhost" responseString:readString];
          [socket disconnect];
@@ -163,7 +163,7 @@ enum {
       
       BOOL closeConnection = NO;
       
-      if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
+      if ([responseType caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame) {
          attemptSucceeded = YES;
          [self succeeded];
          
@@ -172,12 +172,12 @@ enum {
          if(!closeConnection)
             [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 
-      } else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {            
+      } else if ([responseType caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {            
          /* We need to know what we are getting for an error, which is in a seperate header */
          [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
          responseReadType = GrowlGNTPCommAttemptReadError;
          
-      } else if ([responseType isEqualToString:GrowlGNTPCallbackTypeHeader]) {         
+      } else if ([responseType caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame) {         
          [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
          
          responseReadType = GrowlGNTPCommAttemptReadFeedback;
@@ -224,11 +224,11 @@ enum {
    __block GrowlGNTPHeaderItem *code = nil;
    __block GrowlGNTPHeaderItem *description = nil;
    [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]])
+      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
       {
-         if([[obj headerName] isEqualToString:@"Error-Code"])
+         if([[obj headerName] caseInsensitiveCompare:@"Error-Code"] == NSOrderedSame)
             code = obj;
-         if([[obj headerName] isEqualToString:@"Error-Description"])
+         if([[obj headerName] caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame)
             description = obj;
             
          if(code != nil && description != nil)
@@ -258,13 +258,13 @@ enum {
    __block GrowlGNTPHeaderItem *context = nil;
    __block GrowlGNTPHeaderItem *contextType = nil;
    [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]])
+      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
       {
-         if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackResult])
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame)
             result = obj;
-         if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackContext])
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame)
             context = obj;
-         if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackContextType])
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame)
             contextType = obj;
 
          if(result != nil && context != nil && contextType != nil)
@@ -274,9 +274,11 @@ enum {
    
    NSString *resultString = [result headerValue];
    int resultValue = 0;
-   if([resultString isEqualToString:GrowlGNTPCallbackClicked] || [resultString isEqualToString:GrowlGNTPCallbackClick])
+   if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClicked] == NSOrderedSame || 
+      [resultString caseInsensitiveCompare:GrowlGNTPCallbackClick] == NSOrderedSame)
       resultValue = 1;
-   else if([resultString isEqualToString:GrowlGNTPCallbackClosed] || [resultString isEqualToString:GrowlGNTPCallbackClose])
+   else if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClosed] == NSOrderedSame || 
+           [resultString caseInsensitiveCompare:GrowlGNTPCallbackClose] == NSOrderedSame)
       resultValue = 2;
    
    id clickContext = nil;
