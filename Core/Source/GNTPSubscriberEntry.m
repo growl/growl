@@ -33,6 +33,7 @@
 @synthesize resubscribeTimer;
 
 @synthesize initialTime;
+@synthesize validTime;
 @synthesize timeToLive;
 @synthesize subscriberPort;
 @synthesize remote;
@@ -91,7 +92,7 @@
          self.subscriberPort = GROWL_TCP_PORT;
       
       self.attemptingToSubscribe = NO;
-      self.active = NO;
+      active = manual;
       self.subscriptionError = NO;
       self.subscriptionErrorDescription = nil;
       self.lastKnownAddress = nil;
@@ -202,6 +203,7 @@
    
    self.initialTime = [NSDate date];
    self.timeToLive = [packet ttl];
+   self.validTime = [initialTime dateByAddingTimeInterval:timeToLive];
    self.lastKnownAddress = [[packet socket] connectedAddress];
    self.subscriberPort = [packet subscriberPort];
    active = YES;
@@ -226,6 +228,7 @@
       if(time == 0)
          time = 100;
       self.timeToLive = time;
+      self.validTime = [initialTime dateByAddingTimeInterval:timeToLive];
       self.subscriptionError = NO;
       self.subscriptionErrorDescription = nil;
       [self resubscribeTimerStart];
@@ -239,6 +242,7 @@
                                                                                        @"Error description format for subscription error returned display"),
                                                                                        [(GrowlErrorGNTPPacket*)packet errorCode], 
                                                                                        [(GrowlErrorGNTPPacket*)packet errorDescription]];
+      self.validTime = nil;
       [self invalidate];
    }
    [self save];
@@ -265,15 +269,25 @@
 }
 
 -(void)setActive:(BOOL)flag {
-   active = flag;
-   if(active && use && !remote)
-      [self subscribe];
+   if(!manual){
+      active = flag;
+      if(active && use && !remote)
+         [self subscribe];
+   }
 }
 
 -(void)setUse:(BOOL)flag {
    use = flag;
    if(use && !remote)
       [self subscribe];
+   if(!use && !remote){
+      self.attemptingToSubscribe = NO;
+      self.subscriptionError = NO;
+      self.subscriptionErrorDescription = nil;
+      self.initialTime = [NSDate distantPast];
+      self.timeToLive = 0;
+      self.validTime = nil;
+   }
 }
 
 -(void)setComputerName:(NSString *)name

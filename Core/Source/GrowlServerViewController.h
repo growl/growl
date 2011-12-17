@@ -19,6 +19,7 @@
 @property (nonatomic, assign) IBOutlet NSTableView *networkTableView;
 @property (nonatomic, assign) IBOutlet NSTableView *subscriptionsTableView;
 @property (nonatomic, assign) IBOutlet NSTableView *subscriberTableView;
+@property (nonatomic, assign) IBOutlet NSArrayController *subscriptionArrayController;
 @property (nonatomic, assign) IBOutlet NSArrayController *subscriberArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *networkConnectionTabView;
 

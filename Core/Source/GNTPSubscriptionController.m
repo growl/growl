@@ -17,6 +17,7 @@
 #import "GrowlNetworkUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlBonjourBrowser.h"
+#import "GrowlKeychainUtilities.h"
 
 @implementation GNTPSubscriptionController
 
@@ -149,6 +150,7 @@
       entry = [[GNTPSubscriberEntry alloc] initWithPacket:packet];
       [self willChangeValueForKey:@"remoteSubscriptionsArray"];
       [remoteSubscriptions setValue:entry forKey:[entry subscriberID]];
+      [entry updateRemoteWithPacket:packet];
       [self didChangeValueForKey:@"remoteSubscriptionsArray"];
    }
    [self saveSubscriptions:YES];
@@ -205,9 +207,10 @@
 }
 
 -(BOOL)removeLocalSubscriptionAtIndex:(NSUInteger)index {
-   if(index < [localSubscriptions count])
+   if(index >= [localSubscriptions count])
       return NO;
    [self willChangeValueForKey:@"localSubscriptions"];
+   [GrowlKeychainUtilities removePasswordForService:@"GrowlLocalSubscriber" accountName:[[localSubscriptions objectAtIndex:index] uuid]];
    [localSubscriptions removeObjectAtIndex:index];
    [self didChangeValueForKey:@"localSubscriptions"];
    [self saveSubscriptions:NO];
@@ -275,8 +278,8 @@
    [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if(![obj isKindOfClass:[GNTPSubscriberEntry class]])
          return;
-      
-      [obj setActive:NO];
+      if(![obj manual])
+         [obj setActive:NO];
       
       if(![obj use] && ![obj password] && ![currentNames containsObject:[obj computerName]])
          [toRemove addObject:obj];

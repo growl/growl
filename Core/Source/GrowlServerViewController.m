@@ -18,6 +18,66 @@
 #import "GrowlNetworkObserver.h"
 #import "NSStringAdditions.h"
 
+@interface GNTPHostAvailableColorTransformer : NSValueTransformer
+@end
+
+@implementation GNTPHostAvailableColorTransformer
+
++ (void)load
+{
+   if (self == [GNTPHostAvailableColorTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GNTPHostAvailableColorTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSColor class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   return [value boolValue] ? [NSColor blackColor] : [NSColor redColor];
+}
+
+@end
+
+@interface GNTPManualEntryImageTransformer : NSValueTransformer
+@end
+
+@implementation GNTPManualEntryImageTransformer
+
++ (void)load
+{
+   if (self == [GNTPHostAvailableColorTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GNTPManualEntryImageTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSImage class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   return [value boolValue] ? [NSImage imageNamed:NSImageNameNetwork] : [NSImage imageNamed:NSImageNameBonjour];
+}
+
+@end
+
 @implementation GrowlServerViewController
 
 @synthesize forwarder;
@@ -27,6 +87,7 @@
 @synthesize networkTableView;
 @synthesize subscriptionsTableView;
 @synthesize subscriberTableView;
+@synthesize subscriptionArrayController;
 @synthesize subscriberArrayController;
 @synthesize networkConnectionTabView;
 
@@ -164,7 +225,9 @@
             [cell setImage:manualImage];
         else
             [cell setImage:bonjourImage];
-    }
+   } else if(aTableView == subscriptionsTableView && rowIndex < (NSInteger)[[subscriptionArrayController arrangedObjects] count]){
+      return [[subscriptionArrayController arrangedObjects] objectAtIndex:rowIndex];
+   }
 
 	return nil;
 }
