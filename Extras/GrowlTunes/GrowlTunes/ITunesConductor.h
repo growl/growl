@@ -28,6 +28,7 @@
 @property(readonly, nonatomic, assign) BOOL isStopped;
 @property(readonly, nonatomic, assign) BOOL isFastForwarding;
 @property(readonly, nonatomic, assign) BOOL isRewinding;
+@property(readonly, nonatomic, assign) BOOL isFrontmost;
 @property(readonly, nonatomic, assign) ITunesEPlS currentPlayerState;
 @property(readonly, nonatomic, retain) NSString* currentPersistentID;
 @property(readonly, nonatomic, retain) TrackMetadata* currentTrack;
