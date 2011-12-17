@@ -210,6 +210,25 @@
 						<reference key="NSMixedImage" ref="241691520"/>
 						<int key="NSTag">2</int>
 					</object>
+					<object class="NSMenuItem" id="846954912">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="711512972">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Growl when iTunes is active</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<int key="NSState">1</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
 					<object class="NSMenuItem" id="960405232">
 						<reference key="NSMenu" ref="154069724"/>
 						<bool key="NSIsDisabled">YES</bool>
@@ -249,10 +268,9 @@
 				</object>
 			</object>
 			<object class="NSSlider" id="883374320">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">270</int>
 				<string key="NSFrameSize">{104, 21}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
@@ -908,6 +926,27 @@
 					</object>
 					<int key="connectionID">387</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.notifyWhenITunesIsFrontmost</string>
+						<reference key="source" ref="711512972"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="711512972"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">value: values.notifyWhenITunesIsFrontmost</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.notifyWhenITunesIsFrontmost</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
+								<boolean value="NO" key="NSConditionallySetsEnabled"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">396</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -961,6 +1000,8 @@
 							<reference ref="635452151"/>
 							<reference ref="195040871"/>
 							<reference ref="1041304298"/>
+							<reference ref="711512972"/>
+							<reference ref="846954912"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">GrowlTunes Menu</string>
@@ -1121,6 +1162,16 @@
 						<reference key="object" ref="1041304298"/>
 						<reference key="parent" ref="154069724"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">388</int>
+						<reference key="object" ref="711512972"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">389</int>
+						<reference key="object" ref="846954912"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1161,6 +1212,8 @@
 				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="383.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="388.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="389.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<object class="NSMutableDictionary" key="4.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -1178,7 +1231,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">387</int>
+			<int key="maxID">396</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

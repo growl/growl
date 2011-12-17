@@ -6,9 +6,9 @@
 	<integer>1</integer>
 	<key>AllNotifications</key>
 	<array>
-		<string>starting</string>
-		<string>caps on</string>
-		<string>caps off</string>
+		<string>Starting</string>
+		<string>Caps On</string>
+		<string>Caps Off</string>
 	</array>
 </dict>
 </plist>

@@ -121,8 +121,8 @@ CGEventRef myCallback (
 	//if the user want the menu to be shown, then do so
 	[myStatusbarController setStatusMenu];
 	
-	//send a notification to the user to let him know we're on
-	[myGrowlController sendStartupGrowlNotification];
+	//send a notification to the user to let him know we're on (disabled)
+	//	[myGrowlController sendStartupGrowlNotification];
 }
 
 //This function takes care of listening creating the new thread and setting the listener

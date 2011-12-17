@@ -11,7 +11,7 @@
 
 #define PrefsTitle NSLocalizedString(@"Open Capster Preferences...", nil)
 #define OnLoginTitle NSLocalizedString(@"Start Capster at Login:", nil)
-#define QuitTitle NSLocalizedString(@"Quit Capster", nil)
+#define QuitTitle NSLocalizedString(@"Quit", nil)
 
 #define NoneTitle NSLocalizedString(@"No Icon", nil)
 #define BlackIcons NSLocalizedString(@"Black App Icons", nil)

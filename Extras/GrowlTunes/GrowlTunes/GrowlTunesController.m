@@ -171,6 +171,13 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                    name:(NSString*)name
                    icon:(NSData*)icon
 {
+    BOOL notifyWhenFrontmost = [[NSUserDefaults standardUserDefaults] boolForKey:NOTIFY_ITUNES_FRONTMOST];
+    
+    if (!notifyWhenFrontmost && [self.conductor isFrontmost]) {
+        LogInfo(@"Not growling: iTunes is frontmost");
+        return;
+    }
+    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:name

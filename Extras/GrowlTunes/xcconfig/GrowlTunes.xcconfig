@@ -1,0 +1,16 @@
+// code signing
+CODE_SIGN_ENTITLEMENTS = GrowlTunes/GrowlTunes.entitlements
+
+
+// linking
+MACH_O_TYPE = mh_execute
+
+
+// packaging
+INFOPLIST_FILE = GrowlTunes/GrowlTunes-Info.plist
+PRODUCT_NAME = $(TARGET_NAME)
+WRAPPER_EXTENSION = app
+
+
+// language
+GCC_PREFIX_HEADER = GrowlTunes/GrowlTunes-Prefix.pch

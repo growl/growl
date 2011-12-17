@@ -43,7 +43,7 @@
 	[GrowlApplicationBridge setGrowlDelegate:self];
 	[GrowlApplicationBridge notifyWithTitle: CapsterTitle
 								description: StartingDescription
-						   notificationName: @"starting"
+						   notificationName: @"Starting"
 								   iconData: ter
 								   priority: 0
 								   isSticky: NO
@@ -60,7 +60,7 @@
 	
 	//prepare the stuff for the growl notification		
 	NSString* descriptions[] = {CapsOffDescription, CapsOnDescription};
-	NSString* names[] = {@"caps off", @"caps on"};
+	NSString* names[] = {@"Caps Off", @"Caps On"};
 	NSData* data[] = {off, on};
 	
 	//send the apropriate growl notification
