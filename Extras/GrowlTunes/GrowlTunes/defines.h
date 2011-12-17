@@ -4,7 +4,8 @@
 #define StateFastForward ITunesEPlSFastForwarding
 #define StateRewind ITunesEPlSRewinding
 
-#define RENOTIFY_STREAM_KEY @"ReNotifyOnStreamingTrackChange"
+//#define RENOTIFY_STREAM_KEY @"reNotifyOnStreamingTrackChange"
+#define NOTIFY_ITUNES_FRONTMOST @"notifyWhenITunesIsFrontmost"
 
 #define ITUNES_BUNDLE_ID @"com.apple.iTunes"
 #define PLAYER_INFO_ID ITUNES_BUNDLE_ID ".playerInfo"

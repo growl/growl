@@ -335,6 +335,11 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     return (_running && _currentPlayerState == StateRewind);
 }
 
+-(BOOL)isFrontmost
+{
+    return (_running && [[ITunesApplication sharedInstance] frontmost]);
+}
+
 - (NSString*)description
 {
     return [self dryDescriptionForProperties];
