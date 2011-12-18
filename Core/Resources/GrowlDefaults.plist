@@ -59,7 +59,7 @@
 	<key>RequireGNTPSecurityWhenPasswordEmpty</key>
 	<false/>
 	<key>SubscriptionAllowed</key>
-	<true/>
+	<false/>
 	<key>AddressCachingEnabled</key>
 	<true/>
 </dict>
