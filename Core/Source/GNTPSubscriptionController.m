@@ -152,6 +152,7 @@
       [remoteSubscriptions setValue:entry forKey:[entry subscriberID]];
       [entry updateRemoteWithPacket:packet];
       [self didChangeValueForKey:@"remoteSubscriptionsArray"];
+      [entry release];
    }
    [self saveSubscriptions:YES];
    return YES;
@@ -195,6 +196,7 @@
    [self willChangeValueForKey:@"localSubscriptions"];
    [localSubscriptions addObject:newEntry];
    [self didChangeValueForKey:@"localSubscriptions"];
+   [newEntry release];
 }
 
 
@@ -240,9 +242,9 @@
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
                                                                                       forDict:dict];
-      GNTPKey *cryptoKey = [[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]]
+      GNTPKey *cryptoKey = [[[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]]
                                                hashAlgorithm:GNTPSHA512
-                                         encryptionAlgorithm:GNTPNone];
+                                         encryptionAlgorithm:GNTPNone] autorelease];
       [outgoingPacket setKey:cryptoKey];
       NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
       dispatch_async(dispatch_get_main_queue(), ^{
