@@ -522,10 +522,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark Subscriptions
 
 - (BOOL) isSubscriptionAllowed{
-   return [self boolForKey:@"SubscriptionAllowed"];
+   return [self boolForKey:GrowlSubscriptionEnabledKey];
 }
 - (void) setSubscriptionAllowed:(BOOL)allowed{
-   [self setBool:allowed forKey:@"SubscriptionAllowed"];
+   [self setBool:allowed forKey:GrowlSubscriptionEnabledKey];
 }
 
 - (NSString*) GNTPSubscriberID{

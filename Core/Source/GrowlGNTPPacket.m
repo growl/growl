@@ -331,41 +331,48 @@
          errorDescription = [NSString stringWithFormat:NSLocalizedString(@"Unsupported encryption type, %@", @"GNTP packet with an unsupported encryption algorithm"), packetEncryptionAlgorithm];
       }
       
-      BOOL hashStringError = NO;
-      if([items count] == 4)
+      if(!errorDescription && errorCode == 0)
       {
-         NSString *item4 = [[items objectAtIndex:3] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-         if([item4 caseInsensitiveCompare:@""] == NSOrderedSame){
-            NSLog(@"Empty item 4, possibly a flaw in the GNTP sender, ignoring");
-         } else {
-            NSArray *keySubstrings = [item4 componentsSeparatedByString:@":"];
-            NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
-            if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm]) {
-               [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
-               if([keySubstrings count] == 2) {
-                  NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
-                  if([keyHashStrings count] == 2) {
-                     [key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
-                     [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length])])];
-                     //we will do actual check of all this in isAuthorizedPacket
+         BOOL hashStringError = NO;
+         if([items count] == 4)
+         {
+            NSString *item4 = [[items objectAtIndex:3] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if([item4 caseInsensitiveCompare:@""] == NSOrderedSame){
+               NSLog(@"Empty item 4, possibly a flaw in the GNTP sender, ignoring");
+            } else {
+               NSArray *keySubstrings = [item4 componentsSeparatedByString:@":"];
+               NSString *keyHashAlgorithm = [keySubstrings objectAtIndex:0];
+               if([GNTPKey isSupportedHashAlgorithm:keyHashAlgorithm]) {
+                  [key setHashAlgorithm:[GNTPKey hashingAlgorithmFromString:keyHashAlgorithm]];
+                  if([keySubstrings count] == 2) {
+                     NSArray *keyHashStrings = [[keySubstrings objectAtIndex:1] componentsSeparatedByString:@"."];
+                     if([keyHashStrings count] == 2) {
+                        [key setKeyHash:HexUnencode([keyHashStrings objectAtIndex:0])];
+                        [key setSalt:HexUnencode([[keyHashStrings objectAtIndex:1] substringWithRange:NSMakeRange(0, [[keyHashStrings objectAtIndex:1] length])])];
+                        //we will do actual check of all this in isAuthorizedPacket
+                     }
+                     else 
+                        hashStringError = YES;
                   }
-                  else 
+                  else
                      hashStringError = YES;
                }
                else
                   hashStringError = YES;
             }
-            else
-               hashStringError = YES;
          }
-      }
-      
-      [self setKey:key];
-      
-      if(hashStringError || ![self isAuthorizedPacket]){
-         NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
-         errorCode = GrowlGNTPUnauthorizedErrorCode;
-         errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", @"GNTP packet parsing error");
+         
+         [self setKey:key];
+         
+         if(hashStringError || ![self isAuthorizedPacket:&errorCode description:&errorDescription])
+         {
+            if(!errorDescription && errorCode == 0)
+            {
+               NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
+               errorCode = GrowlGNTPUnauthorizedErrorCode;
+               errorDescription = NSLocalizedString(@"Missing, malformed, or invalid key hash string", @"GNTP packet parsing error");
+            }
+         }
       }
       
       if(!errorDescription && errorCode == 0) {
@@ -403,7 +410,9 @@
    return NO;
 }
 
-- (BOOL)isAuthorizedPacket {
+/* errCode and errDescription will only be set in certain cases, otherwise it will be due to an invalid key hash */
+- (BOOL)isAuthorizedPacket:(GrowlGNTPErrorCode*)errCode description:(NSString**)errDescription 
+{
    NSString *conHost = nil;
    if([[self socket] connectedHost])
       conHost = [[self socket] connectedHost];
@@ -411,15 +420,36 @@
       conHost = connectedHost;
    else{
       NSLog(@"We dont know what host sent this (will show as missing hash string error)");
+      *errCode = GrowlGNTPInternalServerErrorErrorCode;
+      *errDescription = NSLocalizedString(@"We encountered an error parsing the packet, we don't know where it came from", @"GNTP error");
       return NO;
+   }
+   
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   
+   if(![conHost isLocalHost])
+   {
+      /* These two cases are for if the socket has to be open for subscription, but not remote notes/registration, or vice versa */
+      if(![preferences isGrowlServerEnabled] && ([mAction caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame ||
+                                                 [mAction caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame))
+      {
+         *errCode = GrowlGNTPUnauthorizedErrorCode;
+         *errDescription = NSLocalizedString(@"Incoming remote notifications and registrations have been disabled by the user", @"GNTP unauthorized packet error message");
+         return NO;
+      }
+      
+      if(![preferences isSubscriptionAllowed] && [mAction caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame) {
+         *errCode = GrowlGNTPUnauthorizedErrorCode;
+         *errDescription = NSLocalizedString(@"Incoming subscription requests have been disabled by the user", @"GNTP unathorized packet error message");
+         return NO;
+      }
    }
    
    //There are a number of cases in which a password isn't required, some are optional
    BOOL passwordRequired = YES;
-   BOOL isResponseType = ([[self action] caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
-                          [[self action] caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
-                          [[self action] caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
-
+   BOOL isResponseType = ([mAction caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
+                          [mAction caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
+                          [mAction caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
    
    if([conHost isLocalHost] && [[self key] hashAlgorithm] == GNTPNoHash && [[self key] encryptionAlgorithm] == GNTPNone)
       return YES;
@@ -430,8 +460,8 @@
    }
    
    //New setting to allow no encryption when password is empty
-   NSString *remotePassword = [[GrowlPreferencesController sharedController] remotePassword];
-   if(![[GrowlPreferencesController sharedController] boolForKey:@"RequireGNTPSecurityWhenPasswordEmpty"]) {
+   NSString *remotePassword = [preferences remotePassword];
+   if(![preferences boolForKey:@"RequireGNTPSecurityWhenPasswordEmpty"]) {
       if(!remotePassword || [remotePassword isEqualToString:@""])
          passwordRequired = NO;
    }

@@ -176,6 +176,10 @@
    if(!remoteRunning)
       return YES;
    
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   if([preferences isGrowlServerEnabled] || [preferences isSubscriptionAllowed])
+      return NO;
+   
    [self unpublish];
    NSLog(@"Stop %@", remoteSocket);
 	
@@ -188,8 +192,12 @@
 
 -(void)preferencesChanged:(NSNotification*)note
 {
-   if(![note object] || [[note object] isEqualToString:GrowlStartServerKey]){
-      if([[GrowlPreferencesController sharedController] isGrowlServerEnabled]){
+   if(![note object] || [[note object] isEqualToString:GrowlStartServerKey] ||
+      [[note object] isEqualToString:GrowlSubscriptionEnabledKey])
+   {
+      if([[GrowlPreferencesController sharedController] isGrowlServerEnabled] ||
+         [[GrowlPreferencesController sharedController] isSubscriptionAllowed])
+      {
          NSError *error = nil;
          if(![self startRemoteServer:&error]){
             NSLog(@"Error starting remote server");
@@ -208,9 +216,11 @@
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
    if ([[newSocket connectedHost] isLocalHost] ||
-        [[GrowlPreferencesController sharedController] isGrowlServerEnabled]) {
-        //NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
-        [[self delegate] didAcceptNewSocket:newSocket];
+       [[GrowlPreferencesController sharedController] isGrowlServerEnabled] ||
+       [[GrowlPreferencesController sharedController] isSubscriptionAllowed]) 
+   {
+      //NSLog (@"Socket %@ accepting connection %@.", sock, newSocket);
+      [[self delegate] didAcceptNewSocket:newSocket];
 	} else {
 		[newSocket disconnect];
 	}
