@@ -7,6 +7,7 @@
 //
 
 #import "GrowlCalAppDelegate.h"
+#import "GrowlCalCalendar.h"
 
 #import <CalendarStore/CalendarStore.h>
 
@@ -35,8 +36,31 @@
          break;
    }
    [self updateMenuState];
+   NSArray *cached = [[NSUserDefaults standardUserDefaults] valueForKey:@"calendarCache"];
+   __block NSMutableArray *blockCals = [NSMutableArray array];
+   [cached enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      GrowlCalCalendar *cal = [[GrowlCalCalendar alloc] initWithDictionary:obj];
+      if([cal calendar])
+         [blockCals addObject:cal];
+   }];
    
-   self.calendars = [[CalCalendarStore defaultCalendarStore] calendars];
+   BOOL removed = NO;
+   if([blockCals count] < [cached count])
+      removed = YES;
+      
+   NSArray *live = [[CalCalendarStore defaultCalendarStore] calendars];
+   __block BOOL added = NO;
+   [live enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![[blockCals valueForKey:@"uid"] containsObject:[obj uid]]){
+         GrowlCalCalendar *newCal = [[GrowlCalCalendar alloc] initWithUID:[obj uid]];
+         [blockCals addObject:newCal];
+         added = YES;
+      }
+   }];
+   self.calendars = blockCals;
+   if(removed || added)
+      [self saveCalendars];
+   
 }
 
 - (NSMenu*)applicationDockMenu:(NSApplication*)app
@@ -48,6 +72,16 @@
    //Open the prefs window here
    [self openPreferences:nil];
    return YES;
+}
+
+#pragma mark Calendar methods
+
+- (void)saveCalendars {
+   __block NSMutableArray *toSave = [NSMutableArray arrayWithCapacity:[_calendars count]];
+   [_calendars enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      [toSave addObject:[obj dictionaryRepresentation]];
+   }];
+   [[NSUserDefaults standardUserDefaults] setValue:toSave forKey:@"calendarCache"];
 }
 
 #pragma mark Menu methods

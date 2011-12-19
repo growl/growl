@@ -23,10 +23,11 @@ typedef NSUInteger IconPosition;
 @property (assign) IBOutlet NSMenu *menu;
 @property (assign) IBOutlet NSArrayController *calendarController;
 @property (strong) NSStatusItem *statusItem; 
-@property (strong) NSArray *calendars;
+@property (strong) NSMutableArray *calendars;
 
 @property (nonatomic) IconPosition position;
 
+- (void)saveCalendars;
 - (void)updateMenuState;
 - (IBAction)openPreferences:(id)sender;
 
