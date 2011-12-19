@@ -273,7 +273,7 @@
 				BC6746EA149F0C6300898C13 /* Frameworks */,
 				BC6746EB149F0C6300898C13 /* Resources */,
 				BC674751149F0D1D00898C13 /* CopyFiles */,
-				BC67475C149F0E5B00898C13 /* ShellScript */,
+				BC67475C149F0E5B00898C13 /* Growl XPC */,
 			);
 			buildRules = (
 			);
@@ -432,13 +432,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BC67475C149F0E5B00898C13 /* ShellScript */ = {
+		BC67475C149F0E5B00898C13 /* Growl XPC */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Growl XPC";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -551,11 +552,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -564,11 +566,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

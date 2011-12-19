@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Growl/GrowlApplicationBridge.h>
 
-@interface GrowlCalAppDelegate : NSObject <NSApplicationDelegate>
+@interface GrowlCalAppDelegate : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 
