@@ -9,8 +9,23 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl/GrowlApplicationBridge.h>
 
+enum _IconPosition {
+   IconInMenu = 0,
+   IconInDock = 1,
+   IconInBoth = 2,
+   IconInNone = 3,
+}; 
+typedef NSUInteger IconPosition;
+
 @interface GrowlCalAppDelegate : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSWindow *preferencesWindow;
+@property (assign) IBOutlet NSMenu *menu;
+@property (strong) NSStatusItem *statusItem; 
+
+@property (nonatomic) IconPosition position;
+
+- (void)createMenu;
+- (void)updateMenuState;
 
 @end

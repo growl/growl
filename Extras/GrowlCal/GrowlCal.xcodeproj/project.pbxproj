@@ -12,10 +12,10 @@
 		BC6746FE149F0C6300898C13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6746FD149F0C6300898C13 /* main.m */; };
 		BC674702149F0C6300898C13 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC674700149F0C6300898C13 /* Credits.rtf */; };
 		BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */; };
-		BC674708149F0C6300898C13 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC674706149F0C6300898C13 /* MainMenu.xib */; };
 		BC674750149F0CD700898C13 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
 		BC674752149F0D3000898C13 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
 		BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC67475D149F0EAF00898C13 /* CalendarStore.framework */; };
+		BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,10 +159,10 @@
 		BC674701149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlCalAppDelegate.h; sourceTree = "<group>"; };
 		BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlCalAppDelegate.m; sourceTree = "<group>"; };
-		BC674707149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BC674712149F0CB400898C13 /* GrowlCal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCal.entitlements; sourceTree = "<group>"; };
 		BC674714149F0CBD00898C13 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		BC67475D149F0EAF00898C13 /* CalendarStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CalendarStore.framework; path = System/Library/Frameworks/CalendarStore.framework; sourceTree = SDKROOT; };
+		BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,7 +223,7 @@
 				BC674712149F0CB400898C13 /* GrowlCal.entitlements */,
 				BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */,
 				BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */,
-				BC674706149F0C6300898C13 /* MainMenu.xib */,
+				BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */,
 				BC6746F8149F0C6300898C13 /* Supporting Files */,
 			);
 			path = GrowlCal;
@@ -425,7 +425,7 @@
 			files = (
 				BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */,
 				BC674702149F0C6300898C13 /* Credits.rtf in Resources */,
-				BC674708149F0C6300898C13 /* MainMenu.xib in Resources */,
+				BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,14 +488,6 @@
 				BC674701149F0C6300898C13 /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		BC674706149F0C6300898C13 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC674707149F0C6300898C13 /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
