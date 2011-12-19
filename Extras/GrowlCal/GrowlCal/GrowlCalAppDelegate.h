@@ -21,11 +21,12 @@ typedef NSUInteger IconPosition;
 
 @property (assign) IBOutlet NSWindow *preferencesWindow;
 @property (assign) IBOutlet NSMenu *menu;
+@property (assign) IBOutlet NSArrayController *calendarController;
 @property (strong) NSStatusItem *statusItem; 
+@property (strong) NSArray *calendars;
 
 @property (nonatomic) IconPosition position;
 
-- (void)createMenu;
 - (void)updateMenuState;
 
 @end

@@ -8,11 +8,15 @@
 
 #import "GrowlCalAppDelegate.h"
 
+#import <CalendarStore/CalendarStore.h>
+
 @implementation GrowlCalAppDelegate
 
 @synthesize preferencesWindow = _preferencesWindow;
-@synthesize statusItem = _statusItem;
+@synthesize calendarController = _calendarController;
 @synthesize menu = _menu;
+@synthesize statusItem = _statusItem;
+@synthesize calendars = _calendars;
 @synthesize position = _position;
 
 #pragma mark Application Delegate methods
@@ -31,6 +35,8 @@
          break;
    }
    [self updateMenuState];
+   
+   self.calendars = [[CalCalendarStore defaultCalendarStore] calendars];
 }
 
 - (NSMenu*)applicationDockMenu:(NSApplication*)app
@@ -154,6 +160,16 @@
       [_preferencesWindow setFrameUsingName:@"GrowlCalPrefsWindowFrame" force:YES];
    }
    [_preferencesWindow makeKeyAndOrderFront:sender];
+}
+
+#pragma mark TableView Delegate/DataSource Methods
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+   if(rowIndex >= [[_calendarController arrangedObjects] count])
+      return nil;
+   
+   return [[_calendarController arrangedObjects] objectAtIndex:rowIndex];
 }
 
 #pragma mark GrowlApplicationBridgeDelegate Methods
