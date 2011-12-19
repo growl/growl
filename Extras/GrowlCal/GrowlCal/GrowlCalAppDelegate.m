@@ -181,13 +181,25 @@
 
 - (NSDictionary *) registrationDictionaryForGrowl
 {
-   NSArray *allNotifications = [NSArray arrayWithObjects:@"EventAlert", 
+   NSArray *allNotifications = [NSArray arrayWithObjects:@"UpcomingEventAlert",
+                                                         @"EventAlert",
+                                                         @"UpcomingEventEndAlert",
+                                                         @"EventEndAlert",
+                                                         @"UpcomingToDoAlert",
                                                          @"ToDoAlert", nil];
-   NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Event Alert", nil), @"EventAlert",
+   NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Upcoming Event Alert", nil), @"UpcomingEventAlert", 
+                                                                                 NSLocalizedString(@"Event Alert", nil), @"EventAlert",
+                                                                                 NSLocalizedString(@"Upcoming Event End Alert", nil), @"UpcomingEventEndAlert",
+                                                                                 NSLocalizedString(@"Event End Alert", nil), @"EventEndAlert",
+                                                                                 NSLocalizedString(@"Upcoming To Do Alert", nil), @"UpcomingToDoAlert",
                                                                                  NSLocalizedString(@"To Do Alert", nil), @"ToDoAlert", nil];
-   NSArray *localized = [NSArray arrayWithObjects:NSLocalizedString(@"Shows an alert for upcoming iCal events", @"Event Alert description"),
-                                                  NSLocalizedString(@"Shows an alert for upcoming ToDo deadlines", @"ToDo Alert description"), nil];
-   
+   NSDictionary *localized = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Shows an alert for upcoming events", nil), @"UpcomingEventAlert", 
+                                                                        NSLocalizedString(@"Shows an alert when an event begins", nil), @"EventAlert",
+                                                                        NSLocalizedString(@"Shows an alert for the upcoming end of an event", nil), @"UpcomingEventEndAlert",
+                                                                        NSLocalizedString(@"Shows an alert when an event begins", nil), @"EventEndAlert",
+                                                                        NSLocalizedString(@"Shows an alert for upcoming ToDo deadlines", nil), @"UpcomingToDoAlert",
+                                                                        NSLocalizedString(@"Shows an alert at ToDo deadlines", nil), @"ToDoAlert", nil];
+
    NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:@"GrowlCal", GROWL_APP_NAME,
                                                                       allNotifications, GROWL_NOTIFICATIONS_ALL,
                                                                       humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
