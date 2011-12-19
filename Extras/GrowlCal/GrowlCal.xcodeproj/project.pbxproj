@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6746F1149F0C6300898C13 /* Cocoa.framework */; };
+		BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC6746FA149F0C6300898C13 /* InfoPlist.strings */; };
+		BC6746FE149F0C6300898C13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6746FD149F0C6300898C13 /* main.m */; };
+		BC674702149F0C6300898C13 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC674700149F0C6300898C13 /* Credits.rtf */; };
+		BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */; };
+		BC674708149F0C6300898C13 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC674706149F0C6300898C13 /* MainMenu.xib */; };
+		BC674750149F0CD700898C13 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
+		BC674752149F0D3000898C13 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
+		BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC67475D149F0EAF00898C13 /* CalendarStore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC674732149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BC674734149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BC674736149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BC674738149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BC67473A149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BC67473C149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BC67473E149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BC674740149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BC674742149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BC674744149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
+			remoteInfo = MailMe;
+		};
+		BC674746149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BC674748149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BC67474A149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BC67474C149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BC674753149F0D7700898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BC674755149F0D7E00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BC674751149F0D1D00898C13 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BC674752149F0D3000898C13 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BC6746ED149F0C6300898C13 /* GrowlCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlCal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC6746F1149F0C6300898C13 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BC6746F4149F0C6300898C13 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BC6746F5149F0C6300898C13 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BC6746F6149F0C6300898C13 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BC6746F9149F0C6300898C13 /* GrowlCal-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GrowlCal-Info.plist"; sourceTree = "<group>"; };
+		BC6746FB149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC6746FD149F0C6300898C13 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC6746FF149F0C6300898C13 /* GrowlCal-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GrowlCal-Prefix.pch"; sourceTree = "<group>"; };
+		BC674701149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlCalAppDelegate.h; sourceTree = "<group>"; };
+		BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlCalAppDelegate.m; sourceTree = "<group>"; };
+		BC674707149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BC674712149F0CB400898C13 /* GrowlCal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCal.entitlements; sourceTree = "<group>"; };
+		BC674714149F0CBD00898C13 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BC67475D149F0EAF00898C13 /* CalendarStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CalendarStore.framework; path = System/Library/Frameworks/CalendarStore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC6746EA149F0C6300898C13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */,
+				BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */,
+				BC674750149F0CD700898C13 /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC6746E2149F0C6300898C13 = {
+			isa = PBXGroup;
+			children = (
+				BC6746F7149F0C6300898C13 /* GrowlCal */,
+				BC674714149F0CBD00898C13 /* Growl.xcodeproj */,
+				BC6746F0149F0C6300898C13 /* Frameworks */,
+				BC6746EE149F0C6300898C13 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC6746EE149F0C6300898C13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746ED149F0C6300898C13 /* GrowlCal.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC6746F0149F0C6300898C13 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746F1149F0C6300898C13 /* Cocoa.framework */,
+				BC6746F3149F0C6300898C13 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC6746F3149F0C6300898C13 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746F4149F0C6300898C13 /* AppKit.framework */,
+				BC6746F5149F0C6300898C13 /* CoreData.framework */,
+				BC6746F6149F0C6300898C13 /* Foundation.framework */,
+				BC67475D149F0EAF00898C13 /* CalendarStore.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BC6746F7149F0C6300898C13 /* GrowlCal */ = {
+			isa = PBXGroup;
+			children = (
+				BC674712149F0CB400898C13 /* GrowlCal.entitlements */,
+				BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */,
+				BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */,
+				BC674706149F0C6300898C13 /* MainMenu.xib */,
+				BC6746F8149F0C6300898C13 /* Supporting Files */,
+			);
+			path = GrowlCal;
+			sourceTree = "<group>";
+		};
+		BC6746F8149F0C6300898C13 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746F9149F0C6300898C13 /* GrowlCal-Info.plist */,
+				BC6746FA149F0C6300898C13 /* InfoPlist.strings */,
+				BC6746FD149F0C6300898C13 /* main.m */,
+				BC6746FF149F0C6300898C13 /* GrowlCal-Prefix.pch */,
+				BC674700149F0C6300898C13 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC674715149F0CBD00898C13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC674733149F0CBE00898C13 /* Growl.app */,
+				BC674735149F0CBE00898C13 /* Growl.framework */,
+				BC674737149F0CBE00898C13 /* Speech.growlView */,
+				BC674739149F0CBE00898C13 /* Brushed.growlView */,
+				BC67473B149F0CBE00898C13 /* Bubbles.growlView */,
+				BC67473D149F0CBE00898C13 /* iCal.growlView */,
+				BC67473F149F0CBE00898C13 /* Bezel.growlView */,
+				BC674741149F0CBE00898C13 /* Smoke.growlView */,
+				BC674743149F0CBE00898C13 /* Nano.growlView */,
+				BC674745149F0CBE00898C13 /* MailMe.growlView */,
+				BC674747149F0CBE00898C13 /* MusicVideo.growlView */,
+				BC674749149F0CBE00898C13 /* SMS.growlView */,
+				BC67474B149F0CBE00898C13 /* Unit tests.octest */,
+				BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC6746EC149F0C6300898C13 /* GrowlCal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC67470B149F0C6300898C13 /* Build configuration list for PBXNativeTarget "GrowlCal" */;
+			buildPhases = (
+				BC6746E9149F0C6300898C13 /* Sources */,
+				BC6746EA149F0C6300898C13 /* Frameworks */,
+				BC6746EB149F0C6300898C13 /* Resources */,
+				BC674751149F0D1D00898C13 /* CopyFiles */,
+				BC67475C149F0E5B00898C13 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC674756149F0D7E00898C13 /* PBXTargetDependency */,
+				BC674754149F0D7700898C13 /* PBXTargetDependency */,
+			);
+			name = GrowlCal;
+			productName = GrowlCal;
+			productReference = BC6746ED149F0C6300898C13 /* GrowlCal.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC6746E4149F0C6300898C13 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = BC6746E7149F0C6300898C13 /* Build configuration list for PBXProject "GrowlCal" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC6746E2149F0C6300898C13;
+			productRefGroup = BC6746EE149F0C6300898C13 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BC674715149F0CBD00898C13 /* Products */;
+					ProjectRef = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				BC6746EC149F0C6300898C13 /* GrowlCal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BC674733149F0CBE00898C13 /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BC674732149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674735149F0CBE00898C13 /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BC674734149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674737149F0CBE00898C13 /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BC674736149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674739149F0CBE00898C13 /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BC674738149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473B149F0CBE00898C13 /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BC67473A149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473D149F0CBE00898C13 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BC67473C149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473F149F0CBE00898C13 /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BC67473E149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674741149F0CBE00898C13 /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BC674740149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674743149F0CBE00898C13 /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BC674742149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674745149F0CBE00898C13 /* MailMe.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MailMe.growlView;
+			remoteRef = BC674744149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674747149F0CBE00898C13 /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BC674746149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674749149F0CBE00898C13 /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BC674748149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67474B149F0CBE00898C13 /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BC67474A149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BC67474C149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC6746EB149F0C6300898C13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */,
+				BC674702149F0C6300898C13 /* Credits.rtf in Resources */,
+				BC674708149F0C6300898C13 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC67475C149F0E5B00898C13 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC6746E9149F0C6300898C13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6746FE149F0C6300898C13 /* main.m in Sources */,
+				BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC674754149F0D7700898C13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Growl.framework;
+			targetProxy = BC674753149F0D7700898C13 /* PBXContainerItemProxy */;
+		};
+		BC674756149F0D7E00898C13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GNTPClientService;
+			targetProxy = BC674755149F0D7E00898C13 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BC6746FA149F0C6300898C13 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC6746FB149F0C6300898C13 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC674700149F0C6300898C13 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC674701149F0C6300898C13 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BC674706149F0C6300898C13 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC674707149F0C6300898C13 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BC674709149F0C6300898C13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BC67470A149F0C6300898C13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BC67470C149F0C6300898C13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC67470D149F0C6300898C13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC6746E7149F0C6300898C13 /* Build configuration list for PBXProject "GrowlCal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC674709149F0C6300898C13 /* Debug */,
+				BC67470A149F0C6300898C13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC67470B149F0C6300898C13 /* Build configuration list for PBXNativeTarget "GrowlCal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC67470C149F0C6300898C13 /* Debug */,
+				BC67470D149F0C6300898C13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC6746E4149F0C6300898C13 /* Project object */;
+}
