@@ -46,6 +46,7 @@
 
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
    //Open the prefs window here
+   [self openPreferences:nil];
    return YES;
 }
 

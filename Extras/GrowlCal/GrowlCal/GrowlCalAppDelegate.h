@@ -28,5 +28,6 @@ typedef NSUInteger IconPosition;
 @property (nonatomic) IconPosition position;
 
 - (void)updateMenuState;
+- (IBAction)openPreferences:(id)sender;
 
 @end
