@@ -228,6 +228,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    
     if([preferencesController selectedPreferenceTab] == 3)
       [self startBrowsing];
+   
+   [toolbar setVisible:YES];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
