@@ -10,21 +10,40 @@
 #import "GrowlCalCalendar.h"
 
 #import <CalendarStore/CalendarStore.h>
+#import <ServiceManagement/ServiceManagement.h>
 
 @implementation GrowlCalAppDelegate
-
 @synthesize preferencesWindow = _preferencesWindow;
 @synthesize calendarController = _calendarController;
+@synthesize startAtLoginControl = _startAtLoginControl;
 @synthesize menu = _menu;
 @synthesize statusItem = _statusItem;
 @synthesize calendars = _calendars;
 @synthesize position = _position;
+@synthesize growlURLAvailable = _growlURLAvailable;
 
 #pragma mark Application Delegate methods
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+   NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"StartAtLogin", 
+                                                                       [NSNumber numberWithBool:NO], @"AllowStartAtLogin", nil];
+   [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   
+   BOOL startAtLogin = [[NSUserDefaults standardUserDefaults] boolForKey:@"StartAtLogin"];
+   
+   [self setStartAtLogin:startAtLogin];
+   
+   
+   NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
+   [appleEventManager setEventHandler:self 
+                          andSelector:@selector(handleGetURLEvent:withReplyEvent:) 
+                        forEventClass:kInternetEventClass 
+                           andEventID:kAEGetURL];
+   
    [GrowlApplicationBridge setGrowlDelegate:self];
+   self.growlURLAvailable = [GrowlApplicationBridge isGrowlURLSchemeAvailable];
    
    _position = [[NSUserDefaults standardUserDefaults] integerForKey:@"IconPosition"];
    switch (_position) {
@@ -72,6 +91,21 @@
    //Open the prefs window here
    [self openPreferences:nil];
    return YES;
+}
+
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+   
+}
+
+- (void)setStartAtLogin:(BOOL)startAtLogin {
+   [[NSUserDefaults standardUserDefaults] setBool:startAtLogin forKey:@"StartAtLogin"];
+   [_startAtLoginControl setSelectedSegment:startAtLogin ? 0 : 1];
+   NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlCalLauncher.app"];
+   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES))
+      NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
+   
+   if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlCalLauncher"), startAtLogin))
+      NSLog(@"Failure Setting GrowlCalLauncher to %@start at login", startAtLogin ? @"" : @"not ");
 }
 
 #pragma mark Calendar methods
@@ -197,6 +231,45 @@
    [_preferencesWindow makeKeyAndOrderFront:sender];
 }
 
+- (IBAction)openGrowlPreferences:(id)sender {
+   [GrowlApplicationBridge openGrowlPreferences:YES];
+}
+
+- (IBAction)setStartAtLoginAction:(id)sender {
+   if([(NSSegmentedControl*)sender selectedSegment] == 0){
+      if(![[NSUserDefaults standardUserDefaults] boolForKey:@"AllowStartAtLogin"]){
+         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will cause GrowlCal to launch when you login", nil)
+                                          defaultButton:NSLocalizedString(@"Ok", nil)
+                                        alternateButton:NSLocalizedString(@"Cancel", nil)
+                                            otherButton:nil
+                              informativeTextWithFormat:NSLocalizedString(@"Allowing this will let GrowlCal launch everytime you login, so that it can send notifications for events at all times", nil)];
+         [alert setShowsSuppressionButton:YES];
+         [alert beginSheetModalForWindow:[sender window]
+                           modalDelegate:self
+                          didEndSelector:@selector(startGrowlAtLoginAlert:didReturn:contextInfo:)
+                             contextInfo:nil];
+      }else{
+         [self setStartAtLogin:YES];
+      }
+   }else{
+      [self setStartAtLogin:NO];
+   }
+}
+
+- (IBAction)startGrowlAtLoginAlert:(NSAlert*)alert didReturn:(NSInteger)returnCode contextInfo:(void*)contextInfo
+{
+   switch (returnCode) {
+      case NSAlertDefaultReturn:
+         if([[alert suppressionButton] state] == NSOnState)
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AllowStartAtLogin"];
+         [self setStartAtLogin:YES];
+         break;
+      default:
+         [_startAtLoginControl setSelectedSegment:1];
+         break;
+   }
+}
+
 #pragma mark TableView Delegate/DataSource Methods
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -208,6 +281,10 @@
 }
 
 #pragma mark GrowlApplicationBridgeDelegate Methods
+
+- (void) growlIsReady {
+   self.growlURLAvailable = [GrowlApplicationBridge isGrowlURLSchemeAvailable];
+}
 
 - (NSString *) applicationNameForGrowl {
 	return @"GrowlCal";

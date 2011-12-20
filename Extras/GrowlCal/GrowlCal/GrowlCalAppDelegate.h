@@ -22,13 +22,18 @@ typedef NSUInteger IconPosition;
 @property (assign) IBOutlet NSWindow *preferencesWindow;
 @property (assign) IBOutlet NSMenu *menu;
 @property (assign) IBOutlet NSArrayController *calendarController;
+@property (assign) IBOutlet NSSegmentedControl *startAtLoginControl;
 @property (strong) NSStatusItem *statusItem; 
 @property (strong) NSMutableArray *calendars;
 
 @property (nonatomic) IconPosition position;
+@property (nonatomic) BOOL growlURLAvailable;
 
+- (void)setStartAtLogin:(BOOL)startAtLogin;
 - (void)saveCalendars;
 - (void)updateMenuState;
 - (IBAction)openPreferences:(id)sender;
+- (IBAction)openGrowlPreferences:(id)sender;
+- (IBAction)setStartAtLoginAction:(id)sender;
 
 @end
