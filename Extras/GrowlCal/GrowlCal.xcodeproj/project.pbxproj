@@ -705,7 +705,6 @@
 		BC67470C149F0C6300898C13 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
@@ -719,7 +718,6 @@
 		BC67470D149F0C6300898C13 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = GrowlCal/GrowlCal.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
