@@ -93,6 +93,9 @@
    }
    if([toRemoveBlock count] > 0)
       [blockCals removeObjectsInArray:toRemoveBlock];
+   
+   [self willChangeValueForKey:@"calendars"];
+   [self didChangeValueForKey:@"calendars"];
 }
 
 @end
