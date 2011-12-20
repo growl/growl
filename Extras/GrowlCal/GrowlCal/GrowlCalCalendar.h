@@ -18,5 +18,6 @@
 
 -(id)initWithUID:(NSString*)uid;
 -(id)initWithDictionary:(NSDictionary*)dict;
+-(void)updateCalendar;
 
 @end

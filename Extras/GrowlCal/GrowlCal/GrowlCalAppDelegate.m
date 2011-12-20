@@ -7,18 +7,18 @@
 //
 
 #import "GrowlCalAppDelegate.h"
-#import "GrowlCalCalendar.h"
+#import "GrowlCalCalendarController.h"
 
 #import <CalendarStore/CalendarStore.h>
 #import <ServiceManagement/ServiceManagement.h>
 
 @implementation GrowlCalAppDelegate
 @synthesize preferencesWindow = _preferencesWindow;
-@synthesize calendarController = _calendarController;
+@synthesize calendarArrayController = _calendarArrayController;
 @synthesize startAtLoginControl = _startAtLoginControl;
 @synthesize menu = _menu;
 @synthesize statusItem = _statusItem;
-@synthesize calendars = _calendars;
+@synthesize calendarController = _calendarController;
 @synthesize position = _position;
 @synthesize growlURLAvailable = _growlURLAvailable;
 
@@ -34,7 +34,6 @@
    BOOL startAtLogin = [[NSUserDefaults standardUserDefaults] boolForKey:@"StartAtLogin"];
    
    [self setStartAtLogin:startAtLogin];
-   
    
    NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
    [appleEventManager setEventHandler:self 
@@ -55,31 +54,8 @@
          break;
    }
    [self updateMenuState];
-   NSArray *cached = [[NSUserDefaults standardUserDefaults] valueForKey:@"calendarCache"];
-   __block NSMutableArray *blockCals = [NSMutableArray array];
-   [cached enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      GrowlCalCalendar *cal = [[GrowlCalCalendar alloc] initWithDictionary:obj];
-      if([cal calendar])
-         [blockCals addObject:cal];
-   }];
    
-   BOOL removed = NO;
-   if([blockCals count] < [cached count])
-      removed = YES;
-      
-   NSArray *live = [[CalCalendarStore defaultCalendarStore] calendars];
-   __block BOOL added = NO;
-   [live enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if(![[blockCals valueForKey:@"uid"] containsObject:[obj uid]]){
-         GrowlCalCalendar *newCal = [[GrowlCalCalendar alloc] initWithUID:[obj uid]];
-         [blockCals addObject:newCal];
-         added = YES;
-      }
-   }];
-   self.calendars = blockCals;
-   if(removed || added)
-      [self saveCalendars];
-   
+   self.calendarController = [[GrowlCalCalendarController alloc] init]; 
 }
 
 - (NSMenu*)applicationDockMenu:(NSApplication*)app
@@ -106,16 +82,6 @@
    
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlCalLauncher"), startAtLogin))
       NSLog(@"Failure Setting GrowlCalLauncher to %@start at login", startAtLogin ? @"" : @"not ");
-}
-
-#pragma mark Calendar methods
-
-- (void)saveCalendars {
-   __block NSMutableArray *toSave = [NSMutableArray arrayWithCapacity:[_calendars count]];
-   [_calendars enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [toSave addObject:[obj dictionaryRepresentation]];
-   }];
-   [[NSUserDefaults standardUserDefaults] setValue:toSave forKey:@"calendarCache"];
 }
 
 #pragma mark Menu methods
@@ -274,10 +240,10 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-   if(rowIndex >= [[_calendarController arrangedObjects] count])
+   if(rowIndex >= [[_calendarArrayController arrangedObjects] count])
       return nil;
    
-   return [[_calendarController arrangedObjects] objectAtIndex:rowIndex];
+   return [[_calendarArrayController arrangedObjects] objectAtIndex:rowIndex];
 }
 
 #pragma mark GrowlApplicationBridgeDelegate Methods

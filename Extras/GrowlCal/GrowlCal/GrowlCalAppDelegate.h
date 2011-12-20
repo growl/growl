@@ -17,20 +17,21 @@ enum _IconPosition {
 }; 
 typedef NSUInteger IconPosition;
 
+@class GrowlCalCalendarController;
+
 @interface GrowlCalAppDelegate : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate>
 
 @property (assign) IBOutlet NSWindow *preferencesWindow;
 @property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet NSArrayController *calendarController;
+@property (assign) IBOutlet NSArrayController *calendarArrayController;
 @property (assign) IBOutlet NSSegmentedControl *startAtLoginControl;
 @property (strong) NSStatusItem *statusItem; 
-@property (strong) NSMutableArray *calendars;
+@property (strong) GrowlCalCalendarController *calendarController;
 
 @property (nonatomic) IconPosition position;
 @property (nonatomic) BOOL growlURLAvailable;
 
 - (void)setStartAtLogin:(BOOL)startAtLogin;
-- (void)saveCalendars;
 - (void)updateMenuState;
 - (IBAction)openPreferences:(id)sender;
 - (IBAction)openGrowlPreferences:(id)sender;

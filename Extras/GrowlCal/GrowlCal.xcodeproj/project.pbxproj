@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC13954F14A02E0400E9ED19 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = BC13954E14A02E0400E9ED19 /* Growl.icns */; };
+		BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */; };
 		BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6746F1149F0C6300898C13 /* Cocoa.framework */; };
 		BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC6746FA149F0C6300898C13 /* InfoPlist.strings */; };
 		BC6746FE149F0C6300898C13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6746FD149F0C6300898C13 /* main.m */; };
@@ -177,6 +178,8 @@
 
 /* Begin PBXFileReference section */
 		BC13954E14A02E0400E9ED19 /* Growl.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Growl.icns; sourceTree = "<group>"; };
+		BC49F89D14A0654A0063675D /* GrowlCalCalendarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalCalendarController.h; sourceTree = "<group>"; };
+		BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalCalendarController.m; sourceTree = "<group>"; };
 		BC6746ED149F0C6300898C13 /* GrowlCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlCal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6746F1149F0C6300898C13 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BC6746F4149F0C6300898C13 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -278,6 +281,8 @@
 				BC674712149F0CB400898C13 /* GrowlCal.entitlements */,
 				BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */,
 				BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */,
+				BC49F89D14A0654A0063675D /* GrowlCalCalendarController.h */,
+				BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */,
 				BC8F351A149FC643001C8D73 /* GrowlCalCalendar.h */,
 				BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */,
 				BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */,
@@ -569,6 +574,7 @@
 				BC6746FE149F0C6300898C13 /* main.m in Sources */,
 				BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */,
 				BC8F351C149FC643001C8D73 /* GrowlCalCalendar.m in Sources */,
+				BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

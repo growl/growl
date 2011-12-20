@@ -39,4 +39,8 @@
    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:_use], @"use", _uid, @"uid", nil];
 }
 
+-(void)updateCalendar {
+   self.calendar = [[CalCalendarStore defaultCalendarStore] calendarWithUID:_uid];
+}
+
 @end
