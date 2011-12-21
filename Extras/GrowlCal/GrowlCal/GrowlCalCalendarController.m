@@ -351,7 +351,19 @@
 
 - (void)eventsChanged:(NSNotification*)notification
 {
+   //Adding and reloading events is handled by simply calling our cache events function
    [self loadEvents];
+   NSArray *removed = [[notification userInfo] objectForKey:CalDeletedRecordsKey];
+   [removed enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([_upcomingEvents objectForKey:obj])
+         [_upcomingEvents removeObjectForKey:obj];
+      if([_upcomingEventsFired objectForKey:obj])
+         [_upcomingEventsFired removeObjectForKey:obj];
+      if([_currentEvents objectForKey:obj])
+         [_currentEvents removeObjectForKey:obj];
+      if([_currentEventsFired objectForKey:obj])
+         [_currentEventsFired removeObjectForKey:obj];
+   }];
 }
 
 - (void)tasksChanged:(NSNotification*)notification
