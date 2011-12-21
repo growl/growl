@@ -11,7 +11,19 @@
 @interface GrowlCalCalendarController : NSObject
 
 @property (strong) NSMutableArray *calendars;
+@property (strong) NSMutableDictionary *upcomingEvents;
+@property (strong) NSMutableDictionary *upcomingEventsFired;
+@property (strong) NSMutableDictionary *currentEvents;
+@property (strong) NSMutableDictionary *currentEventsFired;
+@property (strong) NSMutableDictionary *upcomingTasks;
+@property (strong) NSMutableDictionary *upcomingTasksFired;
 
+@property (strong) NSTimer *notifyTimer;
+
+- (void)timerFire:(NSTimer*)timer;
+- (void)loadCalendars;
 - (void)saveCalendars;
+- (void)loadEvents;
+- (void)loadTasks;
 
 @end
