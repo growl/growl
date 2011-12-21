@@ -16,9 +16,6 @@
 #import "FormattedItemViewController.h"
 
 
-static int _LogLevel = LOG_LEVEL_ERROR;
-
-
 @interface GrowlTunesController ()
 
 @property(readwrite, retain, nonatomic) IBOutlet ITunesConductor* conductor;
@@ -40,20 +37,36 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 @synthesize currentTrackMenuItem = _currentTrackMenuItem;
 @synthesize currentTrackController = _currentTrackController;
 
-+ (void)setLogLevel:(int)level
++(void)load
 {
-    _LogLevel = level;
+    @autoreleasepool {
+        [DDLog addLogger:[DDASLLogger sharedInstance]];
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#ifdef DEBUG
+        [DDLog addLogger:[DDNSLogger sharedInstance]];
+#endif
+    }
 }
 
-+ (int)logLevel
+static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
+
++ (int)ddLogLevel
 {
-    return _LogLevel;
+    return ddLogLevel;
+}
+
++ (void)ddSetLogLevel:(int)logLevel
+{
+    ddLogLevel = logLevel;
 }
 
 + (void)initialize
 {
     if (self == [GrowlTunesController class]) {
-        setLogLevel("GrowlTunesController");
+        NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
+                              [NSString stringWithFormat:@"%@LogLevel", [self class]]];
+        if (logLevel)
+            ddLogLevel = [logLevel intValue];
         
         NSValueTransformer* trackRatingTransformer = [[TrackRatingLevelIndicatorValueTransformer alloc] init];
         [NSValueTransformer setValueTransformer:trackRatingTransformer 
@@ -91,7 +104,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
     NSImage* icon = [[NSImage alloc] initWithContentsOfURL:iconURL];
-    LogImage(@"app icon", icon);
+    LogImage(icon);
     
     NSDictionary* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"GrowlTunes", GROWL_APP_NAME,
@@ -145,7 +158,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
     
-#if defined(DEBUG) || defined(FSCRIPT)
+#if defined(FSCRIPT)
     BOOL loaded = [[NSBundle bundleWithPath:@"/Library/Frameworks/FScript.framework"] load];
     if (loaded) {
         Class FScriptMenuItem = NSClassFromString(@"FScriptMenuItem");

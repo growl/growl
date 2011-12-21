@@ -7,12 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A0492CF1463BB7400F1FF9B /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0492CD1463BB7400F1FF9B /* LoggerClient.m */; };
 		6A107EDE14805F92009C4B9D /* TrackMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A107EDD14805F92009C4B9D /* TrackMetadata.m */; };
 		6A1E35431469A77000877A2F /* ITunesConductor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E35421469A77000877A2F /* ITunesConductor.m */; };
-		6A1E354D146A0C9C00877A2F /* SPLowVerbosity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E354A146A0C9C00877A2F /* SPLowVerbosity.m */; };
 		6A1E3560146ABC0800877A2F /* GrowlTunesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E355F146ABC0700877A2F /* GrowlTunesController.m */; };
 		6A318B6F1496821000779055 /* FormattedItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A318B6D1496820F00779055 /* FormattedItemViewController.m */; };
+		6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60314A00B33001CFA45 /* DDASLLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61314A00B33001CFA45 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60414A00B33001CFA45 /* DDASLLogger.m */; };
+		6A34E61414A00B33001CFA45 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60514A00B33001CFA45 /* DDFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61514A00B33001CFA45 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60614A00B33001CFA45 /* DDFileLogger.m */; };
+		6A34E61614A00B33001CFA45 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60714A00B33001CFA45 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61714A00B33001CFA45 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60814A00B33001CFA45 /* DDLog.m */; };
+		6A34E61814A00B33001CFA45 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60914A00B33001CFA45 /* DDTTYLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61914A00B33001CFA45 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */; };
+		6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60C14A00B33001CFA45 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60D14A00B33001CFA45 /* LoggerClient.m */; };
+		6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60E14A00B33001CFA45 /* LoggerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61D14A00B33001CFA45 /* SPLowVerbosity.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E61E14A00B33001CFA45 /* SPLowVerbosity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */; };
+		6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */; };
+		6A34E62314A032AA001CFA45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */; };
+		6A34E62414A032CB001CFA45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */; };
+		6A34E62514A03306001CFA45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3891447D04F002A0537 /* Foundation.framework */; };
+		6A34E62614A03340001CFA45 /* additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD07C36149FF6C400BFFF52 /* additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E62714A03408001CFA45 /* libadditions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AD07C30149FF6C400BFFF52 /* libadditions.a */; };
+		6A34E62A14A039C5001CFA45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */; };
+		6A34E62D14A04472001CFA45 /* DDNSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E62B14A04472001CFA45 /* DDNSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62C14A04472001CFA45 /* DDNSLogger.m */; };
+		6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AADA337144902060089AB08 /* ScriptingBridge.framework */; };
 		6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A5405C21486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5405C11486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m */; };
@@ -31,7 +53,6 @@
 		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */; };
 		6A90E79114872495009AF3CF /* GTLevelIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A90E79014872495009AF3CF /* GTLevelIndicator.m */; };
 		6A90E79314875D6A009AF3CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3841447D04F002A0537 /* Cocoa.framework */; };
-		6A90E79414875DA8009AF3CF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */; };
 		6A9ED38F1447D04F002A0537 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A9ED3911447D04F002A0537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9ED3901447D04F002A0537 /* main.m */; };
 		6AADA30D1448AF570089AB08 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30B1448AF570089AB08 /* Localizable.strings */; };
@@ -39,12 +60,19 @@
 		6AADA3121448B43E0089AB08 /* GrowlTunes.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30F1448B43E0089AB08 /* GrowlTunes.icns */; };
 		6AADA3131448B43E0089AB08 /* growlTunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA3101448B43E0089AB08 /* growlTunes.png */; };
 		6AADA3361448C1F50089AB08 /* GrowlTunes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA3351448C1F50089AB08 /* GrowlTunes.xib */; };
-		6AB4BB691464837A00DB18E6 /* NSObject+DRYDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */; };
 		6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */; };
+		6AD07C2B149FF0E500BFFF52 /* ARC64-GC32.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */; };
 		6AD776F914817C2800A1592B /* iTunes+iTunesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6A34E62814A03572001CFA45 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A9ED3771447D04F002A0537 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AD07C2F149FF6C400BFFF52;
+			remoteInfo = additions;
+		};
 		6A89592D1447D221009D09FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
@@ -185,9 +213,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6A0492CC1463BB7400F1FF9B /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = GrowlTunes/LoggerClient.h; sourceTree = "<group>"; };
-		6A0492CD1463BB7400F1FF9B /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = GrowlTunes/LoggerClient.m; sourceTree = "<group>"; };
-		6A0492CE1463BB7400F1FF9B /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = GrowlTunes/LoggerCommon.h; sourceTree = "<group>"; };
 		6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		6A107EDC14805F92009C4B9D /* TrackMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackMetadata.h; sourceTree = "<group>"; };
@@ -195,12 +220,28 @@
 		6A107EDF14806629009C4B9D /* defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 		6A1E35411469A77000877A2F /* ITunesConductor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesConductor.h; sourceTree = "<group>"; };
 		6A1E35421469A77000877A2F /* ITunesConductor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesConductor.m; sourceTree = "<group>"; };
-		6A1E3549146A0C9C00877A2F /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPLowVerbosity.h; path = GrowlTunes/SPLowVerbosity.h; sourceTree = "<group>"; };
-		6A1E354A146A0C9C00877A2F /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPLowVerbosity.m; path = GrowlTunes/SPLowVerbosity.m; sourceTree = "<group>"; };
 		6A1E355E146ABC0700877A2F /* GrowlTunesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesController.h; sourceTree = "<group>"; };
 		6A1E355F146ABC0700877A2F /* GrowlTunesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesController.m; sourceTree = "<group>"; };
 		6A318B6C1496820F00779055 /* FormattedItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattedItemViewController.h; sourceTree = "<group>"; };
 		6A318B6D1496820F00779055 /* FormattedItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattedItemViewController.m; sourceTree = "<group>"; };
+		6A34E60314A00B33001CFA45 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		6A34E60414A00B33001CFA45 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		6A34E60514A00B33001CFA45 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		6A34E60614A00B33001CFA45 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		6A34E60714A00B33001CFA45 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		6A34E60814A00B33001CFA45 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		6A34E60914A00B33001CFA45 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		6A34E60C14A00B33001CFA45 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
+		6A34E60D14A00B33001CFA45 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
+		6A34E60E14A00B33001CFA45 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
+		6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLowVerbosity.h; sourceTree = "<group>"; };
+		6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
+		6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DRYDescription.h"; sourceTree = "<group>"; };
+		6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DRYDescription.m"; sourceTree = "<group>"; };
+		6A34E62B14A04472001CFA45 /* DDNSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogger.h; sourceTree = "<group>"; };
+		6A34E62C14A04472001CFA45 /* DDNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNSLogger.m; sourceTree = "<group>"; };
+		6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogging.h; sourceTree = "<group>"; };
 		6A4BE4051464F1F300A48B46 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		6A4BE4071464F82900A48B46 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		6A4BE42C1465F6F700A48B46 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -239,8 +280,10 @@
 		6AADA3351448C1F50089AB08 /* GrowlTunes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlTunes.xib; sourceTree = "<group>"; };
 		6AADA337144902060089AB08 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		6AADA33C144902FF0089AB08 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
-		6AB4BB671464837A00DB18E6 /* NSObject+DRYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DRYDescription.h"; path = "GrowlTunes/NSObject+DRYDescription.h"; sourceTree = "<group>"; };
-		6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DRYDescription.m"; path = "GrowlTunes/NSObject+DRYDescription.m"; sourceTree = "<group>"; };
+		6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ARC64-GC32.xcconfig"; sourceTree = "<group>"; };
+		6AD07C30149FF6C400BFFF52 /* libadditions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libadditions.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AD07C32149FF6C400BFFF52 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6AD07C36149FF6C400BFFF52 /* additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = additions.h; sourceTree = "<group>"; };
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
@@ -253,47 +296,63 @@
 			files = (
 				6A90E79314875D6A009AF3CF /* Cocoa.framework in Frameworks */,
 				6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */,
-				6A90E79414875DA8009AF3CF /* SystemConfiguration.framework in Frameworks */,
 				6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */,
+				6A34E62A14A039C5001CFA45 /* SystemConfiguration.framework in Frameworks */,
+				6A34E62714A03408001CFA45 /* libadditions.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AD07C2D149FF6C400BFFF52 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A34E62314A032AA001CFA45 /* CoreFoundation.framework in Frameworks */,
+				6A34E62514A03306001CFA45 /* Foundation.framework in Frameworks */,
+				6A34E62414A032CB001CFA45 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A0492CB1463BB5B00F1FF9B /* NSLogger */ = {
+		6A34E60214A00B33001CFA45 /* Lumberjack */ = {
 			isa = PBXGroup;
 			children = (
-				6A0492CC1463BB7400F1FF9B /* LoggerClient.h */,
-				6A0492CD1463BB7400F1FF9B /* LoggerClient.m */,
-				6A0492CE1463BB7400F1FF9B /* LoggerCommon.h */,
+				6A34E60314A00B33001CFA45 /* DDASLLogger.h */,
+				6A34E60414A00B33001CFA45 /* DDASLLogger.m */,
+				6A34E60514A00B33001CFA45 /* DDFileLogger.h */,
+				6A34E60614A00B33001CFA45 /* DDFileLogger.m */,
+				6A34E60714A00B33001CFA45 /* DDLog.h */,
+				6A34E60814A00B33001CFA45 /* DDLog.m */,
+				6A34E60914A00B33001CFA45 /* DDTTYLogger.h */,
+				6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */,
 			);
-			name = NSLogger;
+			path = Lumberjack;
 			sourceTree = "<group>";
 		};
-		6A1E3544146A0C7E00877A2F /* SPSuccinct */ = {
+		6A34E60B14A00B33001CFA45 /* NSLogger */ = {
 			isa = PBXGroup;
 			children = (
-				6A1E3549146A0C9C00877A2F /* SPLowVerbosity.h */,
-				6A1E354A146A0C9C00877A2F /* SPLowVerbosity.m */,
+				6A34E60C14A00B33001CFA45 /* LoggerClient.h */,
+				6A34E60D14A00B33001CFA45 /* LoggerClient.m */,
+				6A34E60E14A00B33001CFA45 /* LoggerCommon.h */,
 			);
-			name = SPSuccinct;
+			path = NSLogger;
 			sourceTree = "<group>";
 		};
-		6A4BE40C1465C5D200A48B46 /* Additions */ = {
+		6A34E60F14A00B33001CFA45 /* SPSuccinct */ = {
 			isa = PBXGroup;
 			children = (
-				6A0492CB1463BB5B00F1FF9B /* NSLogger */,
-				6A1E3544146A0C7E00877A2F /* SPSuccinct */,
-				6AB4BB671464837A00DB18E6 /* NSObject+DRYDescription.h */,
-				6AB4BB681464837A00DB18E6 /* NSObject+DRYDescription.m */,
+				6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */,
+				6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */,
 			);
-			name = Additions;
+			path = SPSuccinct;
 			sourceTree = "<group>";
 		};
 		6A63627F149C43E500C1ED44 /* xcconfig */ = {
 			isa = PBXGroup;
 			children = (
+				6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */,
 				6A636280149C43E500C1ED44 /* Global-Common.xcconfig */,
 				6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */,
 				6A636282149C43E500C1ED44 /* Global-Release.xcconfig */,
@@ -328,8 +387,8 @@
 		6A9ED3751447D04F002A0537 = {
 			isa = PBXGroup;
 			children = (
+				6AD07C33149FF6C400BFFF52 /* additions */,
 				6A63627F149C43E500C1ED44 /* xcconfig */,
-				6A4BE40C1465C5D200A48B46 /* Additions */,
 				6A9ED38A1447D04F002A0537 /* GrowlTunes */,
 				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
 				6A9ED3831447D04F002A0537 /* Frameworks */,
@@ -342,6 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				6A9ED3801447D04F002A0537 /* GrowlTunes.app */,
+				6AD07C30149FF6C400BFFF52 /* libadditions.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -365,6 +425,7 @@
 				6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */,
 				6A4BE4051464F1F300A48B46 /* CoreServices.framework */,
 				6A9ED3891447D04F002A0537 /* Foundation.framework */,
+				6AD07C32149FF6C400BFFF52 /* CoreData.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -420,7 +481,44 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6AD07C33149FF6C400BFFF52 /* additions */ = {
+			isa = PBXGroup;
+			children = (
+				6A34E60214A00B33001CFA45 /* Lumberjack */,
+				6A34E60B14A00B33001CFA45 /* NSLogger */,
+				6A34E60F14A00B33001CFA45 /* SPSuccinct */,
+				6AD07C36149FF6C400BFFF52 /* additions.h */,
+				6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */,
+				6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */,
+				6A34E62B14A04472001CFA45 /* DDNSLogger.h */,
+				6A34E62C14A04472001CFA45 /* DDNSLogger.m */,
+				6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */,
+			);
+			path = additions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6AD07C2E149FF6C400BFFF52 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A34E62614A03340001CFA45 /* additions.h in Headers */,
+				6A34E61414A00B33001CFA45 /* DDFileLogger.h in Headers */,
+				6A34E61814A00B33001CFA45 /* DDTTYLogger.h in Headers */,
+				6A34E61614A00B33001CFA45 /* DDLog.h in Headers */,
+				6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */,
+				6A34E61D14A00B33001CFA45 /* SPLowVerbosity.h in Headers */,
+				6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */,
+				6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */,
+				6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */,
+				6A34E62D14A04472001CFA45 /* DDNSLogger.h in Headers */,
+				6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		6A9ED37F1447D04F002A0537 /* GrowlTunes */ = {
@@ -438,6 +536,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6A34E62914A03572001CFA45 /* PBXTargetDependency */,
 				6A89594A1447D242009D09FC /* PBXTargetDependency */,
 				6A89594C1447D249009D09FC /* PBXTargetDependency */,
 			);
@@ -445,6 +544,23 @@
 			productName = GrowlTunes;
 			productReference = 6A9ED3801447D04F002A0537 /* GrowlTunes.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6AD07C2F149FF6C400BFFF52 /* additions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AD07C39149FF6C400BFFF52 /* Build configuration list for PBXNativeTarget "additions" */;
+			buildPhases = (
+				6AD07C2C149FF6C400BFFF52 /* Sources */,
+				6AD07C2D149FF6C400BFFF52 /* Frameworks */,
+				6AD07C2E149FF6C400BFFF52 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = additions;
+			productName = additions;
+			productReference = 6AD07C30149FF6C400BFFF52 /* libadditions.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -474,6 +590,7 @@
 			projectRoot = "";
 			targets = (
 				6A9ED37F1447D04F002A0537 /* GrowlTunes */,
+				6AD07C2F149FF6C400BFFF52 /* additions */,
 			);
 		};
 /* End PBXProject section */
@@ -599,6 +716,7 @@
 				6A636289149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig in Resources */,
 				6A63628A149C43E600C1ED44 /* GrowlTunes-Release.xcconfig in Resources */,
 				6A63628B149C43E600C1ED44 /* GrowlTunes.xcconfig in Resources */,
+				6AD07C2B149FF0E500BFFF52 /* ARC64-GC32.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,10 +762,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9ED3911447D04F002A0537 /* main.m in Sources */,
-				6A0492CF1463BB7400F1FF9B /* LoggerClient.m in Sources */,
-				6AB4BB691464837A00DB18E6 /* NSObject+DRYDescription.m in Sources */,
 				6A1E35431469A77000877A2F /* ITunesConductor.m in Sources */,
-				6A1E354D146A0C9C00877A2F /* SPLowVerbosity.m in Sources */,
 				6A1E3560146ABC0800877A2F /* GrowlTunesController.m in Sources */,
 				6A695F021476E76D002B0278 /* iTunes.m in Sources */,
 				6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */,
@@ -660,9 +775,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6AD07C2C149FF6C400BFFF52 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A34E61314A00B33001CFA45 /* DDASLLogger.m in Sources */,
+				6A34E61514A00B33001CFA45 /* DDFileLogger.m in Sources */,
+				6A34E61714A00B33001CFA45 /* DDLog.m in Sources */,
+				6A34E61914A00B33001CFA45 /* DDTTYLogger.m in Sources */,
+				6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */,
+				6A34E61E14A00B33001CFA45 /* SPLowVerbosity.m in Sources */,
+				6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */,
+				6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6A34E62914A03572001CFA45 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AD07C2F149FF6C400BFFF52 /* additions */;
+			targetProxy = 6A34E62814A03572001CFA45 /* PBXContainerItemProxy */;
+		};
 		6A89594A1447D242009D09FC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
@@ -697,27 +832,82 @@
 /* Begin XCBuildConfiguration section */
 		6A9ED39C1447D04F002A0537 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
+			baseConfigurationReference = 6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 			};
 			name = Debug;
 		};
 		6A9ED39D1447D04F002A0537 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
+			baseConfigurationReference = 6A636282149C43E500C1ED44 /* Global-Release.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 			};
 			name = Release;
 		};
 		6A9ED39F1447D04F002A0537 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 			};
 			name = Debug;
 		};
 		6A9ED3A01447D04F002A0537 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+			};
+			name = Release;
+		};
+		6AD07C3A149FF6C400BFFF52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_FAST_MATH = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_UNROLL_LOOPS = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				KEEP_PRIVATE_EXTERNS = NO;
+				LD_NO_PIE = NO;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		6AD07C3B149FF6C400BFFF52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_FAST_MATH = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_UNROLL_LOOPS = YES;
+				GENERATE_MASTER_OBJECT_FILE = YES;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				KEEP_PRIVATE_EXTERNS = NO;
+				LD_NO_PIE = NO;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
 			};
 			name = Release;
 		};
@@ -738,6 +928,15 @@
 			buildConfigurations = (
 				6A9ED39F1447D04F002A0537 /* Debug */,
 				6A9ED3A01447D04F002A0537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AD07C39149FF6C400BFFF52 /* Build configuration list for PBXNativeTarget "additions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AD07C3A149FF6C400BFFF52 /* Debug */,
+				6AD07C3B149FF6C400BFFF52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,7 +1,7 @@
 /*
  * LoggerClient.m
  *
- * version 1.0 2011-10-30
+ * version 1.0.1 2011-12-03
  *
  * Main implementation of the NSLogger client side code
  * Part of NSLogger (client side)
@@ -170,7 +170,7 @@ static void LoggerFlushQueueToBufferStream(Logger *logger, BOOL firstEntryIsClie
 // Encoding functions
 static void	LoggerPushClientInfoToFrontOfQueue(Logger *logger);
 static void LoggerMessageAddTimestampAndThreadID(CFMutableDataRef encoder);
-static void LogDataInternal(Logger *logger, NSString *domain, int level, NSData *data, int binaryOrImageType) __attribute__((used));
+static void __attribute__((used)) LogDataInternal(Logger *logger, NSString *domain, int level, NSData *data, int binaryOrImageType);
 
 static CFMutableDataRef LoggerMessageCreate();
 static void LoggerMessageUpdateDataHeader(CFMutableDataRef data);
@@ -672,6 +672,10 @@ static void LoggerLogToConsole(CFDataRef data)
 			{
 				// ignore image data, we can't log it to console
 			}
+			else if (partType == PART_TYPE_INT16)
+			{
+				value32 = ((uint32_t)p[0]) << 8 | (uint32_t)p[1];
+			}
 			else if (partType == PART_TYPE_INT32)
 			{
 				memcpy(&value32, p, 4);
@@ -746,7 +750,7 @@ static void LoggerLogToConsole(CFDataRef data)
 	if (contentsType == PART_TYPE_IMAGE)
 		message = CFStringCreateWithFormat(NULL, NULL, CFSTR("<image width=%d height=%d>"), imgWidth, imgHeight);
 
-	char threadNamePadding[16];
+	char threadNamePadding[20];
 	threadNamePadding[0] = 0;
 	if (thread != NULL && CFStringGetLength(thread) < 16)
 	{
@@ -820,10 +824,10 @@ static void LoggerWriteMoreData(Logger *logger)
 				{
 					CFDataRef d = (CFDataRef)CFArrayGetValueAtIndex(logger->logQueue, 0);
 					CFIndex dsize = CFDataGetLength(d);
-					if ((logger->sendBufferUsed + (NSUInteger)dsize) > logger->sendBufferSize)
+					if ((logger->sendBufferUsed + (unsigned long)dsize) > logger->sendBufferSize)
 						break;
 					memcpy(logger->sendBuffer + logger->sendBufferUsed, CFDataGetBytePtr(d), dsize);
-					logger->sendBufferUsed += (NSUInteger)dsize;
+					logger->sendBufferUsed += (unsigned long)dsize;
 					CFArrayRemoveValueAtIndex(logger->logQueue, 0);
 					logger->incompleteSendOfFirstItem = NO;
 				}
@@ -1022,7 +1026,7 @@ static void LoggerFlushQueueToBufferStream(Logger *logger, BOOL firstEntryIsClie
 	// Write outstanding messages to the buffer file (streams don't detect disconnection
 	// until the next write, where we could lose one or more messages)
 	if (!firstEntryIsClientInfo && logger->sendBufferUsed)
-		CFWriteStreamWrite(logger->bufferWriteStream, logger->sendBuffer + logger->sendBufferOffset, (CFIndex)(logger->sendBufferUsed - logger->sendBufferOffset));
+		CFWriteStreamWrite(logger->bufferWriteStream, logger->sendBuffer + logger->sendBufferOffset, (CFIndex)logger->sendBufferUsed - (CFIndex)logger->sendBufferOffset);
 	
 	int n = 0;
 	while (CFArrayGetCount(logger->logQueue))
@@ -1041,7 +1045,7 @@ static void LoggerFlushQueueToBufferStream(Logger *logger, BOOL firstEntryIsClie
 		if (n == 0 && firstEntryIsClientInfo && logger->sendBufferUsed)
 		{
 			// try hard: write any outstanding messages to the buffer file, after the client info
-			CFWriteStreamWrite(logger->bufferWriteStream, logger->sendBuffer + logger->sendBufferOffset, (CFIndex)(logger->sendBufferUsed - logger->sendBufferOffset));
+			CFWriteStreamWrite(logger->bufferWriteStream, logger->sendBuffer + logger->sendBufferOffset, (CFIndex)logger->sendBufferUsed - (CFIndex)logger->sendBufferOffset);
 		}
 		n++;
 	}
@@ -1361,9 +1365,11 @@ static BOOL LoggerConfigureAndOpenStream(Logger *logger)
 			// see http://developer.apple.com/library/ios/#technotes/tn2287/_index.html#//apple_ref/doc/uid/DTS40011309
 			// if we are running iOS 5 or later, use a special mode that allows the stack to downgrade gracefully
 	#if ALLOW_COCOA_USE
+            AUTORELEASE_POOL_BEGIN
 			NSString *versionString = [[UIDevice currentDevice] systemVersion];
 			if ([versionString compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending)
 				SSLValues[0] = CFSTR("kCFStreamSocketSecurityLevelTLSv1_0SSLv3");
+            AUTORELEASE_POOL_END
 	#else
 			// we can't find out, assume we _may_ be on iOS 5 but can't be certain
 			// go for SSLv3 which works without the TLS 1.2 / 1.1 / 1.0 downgrade issue
@@ -1672,12 +1678,12 @@ static void LoggerMessageAddCString(CFMutableDataRef data, const char *aString, 
 		return;
 	
 	// convert to UTF-8
-	size_t len = strlen(aString);
-	uint8_t *buf = malloc(len * 2);
+	int len = (int)strlen(aString);
+	uint8_t *buf = malloc(2 * (size_t)len);
 	if (buf != NULL)
 	{
 		int i, n = 0;
-		for (i = 0; i < (int)len; i++)
+		for (i = 0; i < len; i++)
 		{
 			uint8_t c = (uint8_t)(*aString++);
 			if (c < 0x80)
@@ -1942,7 +1948,7 @@ static void LogMessageTo_internal(Logger *logger,
 			RELEASE(msgString);
 		}
 #else
-		CFStringRef msgString = CFStringCreateWithFormatAndArguments(NULL, NULL, (__bridge CFStringRef)format, args);
+		CFStringRef msgString = CFStringCreateWithFormatAndArguments(NULL, NULL, (CFStringRef)format, args);
 		if (msgString != NULL)
 		{
 			LoggerMessageAddString(encoder, msgString, PART_KEY_MESSAGE);

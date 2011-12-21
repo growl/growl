@@ -1,2 +1,9 @@
-#include "Global-Debug.xcconfig"
 #include "GrowlTunes.xcconfig"
+
+// deployment
+COPY_PHASE_STRIP = NO
+STRIP_INSTALLED_PRODUCT = NO
+
+
+// linking
+DEAD_CODE_STRIPPING = NO

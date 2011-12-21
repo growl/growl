@@ -1,0 +1,11 @@
+// enable ARC in 64bit where it's supported, falling back to GC for 32bit
+
+// language
+CLANG_ENABLE_OBJC_ARC = YES
+CLANG_ENABLE_OBJC_ARC[arch=i386] = NO
+GCC_ENABLE_OBJC_GC = unsupported
+GCC_ENABLE_OBJC_GC[arch=i386] = required
+
+
+// warnings
+CLANG_WARN_OBJCPP_ARC_ABI = YES

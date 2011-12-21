@@ -53,9 +53,7 @@
 // we need to put Cocoa in multithreading mode. Also, ALLOW_COCOA_USE allows the client code
 // to use NSLog()-style message formatting (less verbose than CFShow()-style) through the
 // use of -[NSString stringWithFormat:arguments:]
-#ifndef ALLOW_COCOA_USE
 #define	ALLOW_COCOA_USE			1
-#endif
 
 /* -----------------------------------------------------------------
  * Logger option flags & default options

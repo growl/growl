@@ -23,13 +23,13 @@
 
 NSString *$urlencode(NSString *unencoded) {
 	// Thanks, http://www.tikirobot.net/wp/2007/01/27/url-encode-in-cocoa/
-	return (__bridge id)CFURLCreateStringByAddingPercentEscapes(
+	return [(__bridge id)CFURLCreateStringByAddingPercentEscapes(
 														kCFAllocatorDefault, 
-														(__bridge CFStringRef)unencoded, 
+														(CFStringRef)unencoded, 
 														NULL, 
 														(CFStringRef)@";/?:@&=+$,", 
 														kCFStringEncodingUTF8
-														);
+														) autorelease];
 }
 
 id SPDictionaryWithPairs(NSArray *pairs, BOOL mutablep)
@@ -58,7 +58,7 @@ NSError *$makeErr(NSString *domain, NSInteger code, NSString *localizedDesc)
     NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:[self count]];
     for(NSString *key in self.allKeys)
         [d setObject:mapper(key, [self objectForKey:key]) forKey:key];
-    return [d copy];
+    return [[d copy] autorelease];
 }
 @end
 #endif

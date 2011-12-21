@@ -29,9 +29,6 @@
 @end
 
 
-static int _LogLevel = LOG_LEVEL_ERROR;
-
-
 @implementation TrackMetadata
 
 @synthesize trackObject = _trackObject;
@@ -41,29 +38,34 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
+static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
+
++ (int)ddLogLevel
+{
+    return ddLogLevel;
+}
+
++ (void)ddSetLogLevel:(int)logLevel
+{
+    ddLogLevel = logLevel;
+}
+
 +(void)initialize
 {
     if (self == [TrackMetadata class]) {
-        setLogLevel("TrackMetadata");
+        NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
+                              [NSString stringWithFormat:@"%@LogLevel", [self class]]];
+        if (logLevel)
+            ddLogLevel = [logLevel intValue];
         
         NSArray* props = [self propertiesForTrackClass:@"all"];
         for (NSString* prop in props) {
             BOOL success = class_addMethod(self, NSSelectorFromString(prop), (IMP)_propertyGetterFunc, "@@:");
             if (!success) {
-                LogErrorTag(@"KVC", @"Unable to add property accessor for: %@", prop);
+                LogErrorTag(LogTagKVC, @"Unable to add property accessor for: %@", prop);
             }
         }
     }
-}
-
-+ (void)setLogLevel:(int)level
-{
-    _LogLevel = level;
-}
-
-+ (int)logLevel
-{
-    return _LogLevel;
 }
 
 +(BOOL)accessInstanceVariablesDirectly
@@ -172,7 +174,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
 -(id)init
 {
-    LogInfoTag(@"init", @"Initializing with lazy currentTrack object");
+    LogInfoTag(LogTagInit, @"Initializing with lazy currentTrack object");
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     
     if (![ita isRunning]) {
@@ -186,7 +188,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
 -(id)initWithPersistentID:(NSString*)persistentID
 {
-    LogInfoTag(@"init", @"Initializing with persistent ID: %@", persistentID);
+    LogInfoTag(LogTagInit, @"Initializing with persistent ID: %@", persistentID);
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     
     if (![ita isRunning]) {
@@ -216,7 +218,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
     NSString* specifier = [track performSelector:@selector(specifierDescription)];
     BOOL evaluated = !([specifier rangeOfString:@"currentTrack"].location != NSNotFound);
     
-    LogVerboseTag(@"init", @"track: %@ isEvaluated: %@", track, (evaluated ? @"YES" : @"NO"));
+    LogVerboseTag(LogTagInit, @"track: %@ isEvaluated: %@", track, (evaluated ? @"YES" : @"NO"));
     
     if (evaluated) [self evaluate];
         
@@ -287,20 +289,20 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 static inline id _safeTrackPropertyGetter(TrackMetadata* self, NSString* key) {
     id value = nil;
     
-    LogVerboseTag(@"KVC", @"_safeTrackPropertyGetter for key: %@", key);
+    LogVerboseTag(LogTagKVC, @"_safeTrackPropertyGetter for key: %@", key);
     
     if (![[ITunesApplication sharedInstance] isRunning]) {
-        LogWarnTag(@"KVC", @"iTunes isn't running, unable to retrieve value: %@", key);
+        LogWarnTag(LogTagKVC, @"iTunes isn't running, unable to retrieve value: %@", key);
         return value;
     }
     
     if (![self.trackObject exists]) {
-        LogWarnTag(@"KVC", @"track object doesn't exist, unable to retrieve value: %@", key);
+        LogWarnTag(LogTagKVC, @"track object doesn't exist, unable to retrieve value: %@", key);
         return value;
     }
     
     value = [self.trackObject valueForKey:key];
-    LogVerboseTag(@"KVC", @"retrieved value: %@", key);
+    LogVerboseTag(LogTagKVC, @"retrieved value: %@", key);
     
     return value;
 }
@@ -308,15 +310,15 @@ static inline id _safeTrackPropertyGetter(TrackMetadata* self, NSString* key) {
 static inline id _cachingTrackPropertyGetter(TrackMetadata* self, NSString* key) {
     id value = nil;
     
-    LogVerboseTag(@"KVC", @"_cachingTrackPropertyGetter for key: %@", key);
+    LogVerboseTag(LogTagKVC, @"_cachingTrackPropertyGetter for key: %@", key);
     
     value = [self.cache valueForKey:key];
-    LogVerboseTag(@"KVC", @"cached value: %@", value);
+    LogVerboseTag(LogTagKVC, @"cached value: %@", value);
     
     if (!value) {
         value = _safeTrackPropertyGetter(self, key);
         if (value) {
-            LogVerboseTag(@"KVC", @"caching retrieved value");
+            LogVerboseTag(LogTagKVC, @"caching retrieved value");
             [self.cache setValue:value forKey:key];
         }
     }
@@ -326,10 +328,10 @@ static inline id _cachingTrackPropertyGetter(TrackMetadata* self, NSString* key)
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {    
     NSString* key = NSStringFromSelector(_cmd);    
-    LogVerboseTag(@"KVC", @"_propertyGetterFunc _cmd:%@", key);
+    LogVerboseTag(LogTagKVC, @"_propertyGetterFunc _cmd:%@", key);
     
     if (self.isEvaluated && ![key isEqualToString:@"exists"]) {
-        LogVerboseTag(@"KVC", @"is evaluated");
+        LogVerboseTag(LogTagKVC, @"is evaluated");
         return _cachingTrackPropertyGetter(self, key);
     }
     
@@ -340,7 +342,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
-    LogVerboseTag(@"KVC", @"valueForUndefinedKey: %@", key);
+    LogVerboseTag(LogTagKVC, @"valueForUndefinedKey: %@", key);
     return _propertyGetterFunc(self, NSSelectorFromString(key));
 }
 
@@ -470,7 +472,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 -(NSImage*)artworkImage
 {
     NSImage* image = self.trackObject.artworkImage;
-    LogImage(@"track art", image);
+    LogImage(image);
     return image;
 }
 

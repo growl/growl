@@ -35,9 +35,6 @@
 
 @property(readwrite, nonatomic, retain) NSNumber* volume;
 
-+ (void)setLogLevel:(int)level;
-+ (int)logLevel;
-
 - (void)bootstrap;
 
 - (IBAction)playPause:(id)sender;

@@ -30,8 +30,6 @@
 @end
 
 
-static int _LogLevel = LOG_LEVEL_ERROR;
-
 @implementation ITunesConductor
 
 @synthesize metaTrack = _metaTrack;
@@ -39,21 +37,26 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 @synthesize currentPlayerState = _currentPlayerState;
 @synthesize currentPersistentID = _currentPersistentID;
 
+static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
+
++ (int)ddLogLevel
+{
+    return ddLogLevel;
+}
+
++ (void)ddSetLogLevel:(int)logLevel
+{
+    ddLogLevel = logLevel;
+}
+
 + (void)initialize
 {
     if (self == [ITunesConductor class]) {
-        setLogLevel("ITunesConductor");
+        NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
+                              [NSString stringWithFormat:@"%@LogLevel", [self class]]];
+        if (logLevel)
+            ddLogLevel = [logLevel intValue];
     }
-}
-
-+ (void)setLogLevel:(int)level
-{
-    _LogLevel = level;
-}
-
-+ (int)logLevel
-{
-    return _LogLevel;
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
@@ -127,7 +130,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 {    
     Handle xx;
     AEPrintDescToHandle(event, &xx);
-    LogErrorTag(@"eventDidFail:", @"event: \n%s\nerror: %@", *xx, error);
+    LogError(@"event: \n%s\nerror: %@", *xx, error);
     DisposeHandle(xx);
     
     return nil;
@@ -137,7 +140,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 {
     NSString* appID = [[note userInfo] valueForKey:@"NSApplicationBundleIdentifier"];
     if ([appID isEqualToString:ITUNES_BUNDLE_ID]) {
-        LogInfoTag(@"Launch/Terminate", @"note: %@", note);
+        LogInfo(@"note: %@", note);
 
         NSString* noteType = [note name];
         if ([noteType isEqualToString:NSWorkspaceDidLaunchApplicationNotification]) {
@@ -155,7 +158,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 - (void)updatePlayerState:(NSDictionary*)note
 {    
-    LogVerboseTag(@"state", @"updatePlayerState called");
+    LogVerboseTag(LogTagState, @"updatePlayerState called");
     
     BOOL updateState = NO;
     BOOL updateID = NO;
@@ -173,20 +176,20 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     }
     
     if (!_running || newState == StateStopped) {
-        LogVerboseTag(@"state", @"iTunes is either not running or stopped (which may indicate shutdown is imminent)."
+        LogVerboseTag(LogTagState, @"iTunes is either not running or stopped (which may indicate shutdown is imminent)."
                       " Empty id and description data will be used.");
         if (!newState) newState = StateStopped;
         newID = nil;
         typeDescription = @"none";
     } else {
-        LogVerboseTag(@"state", @"iTunes is running and not stopped."
+        LogVerboseTag(LogTagState, @"iTunes is running and not stopped."
                       " Current state, id, and description data will be used.");
         newState = [[ITunesApplication sharedInstance] playerState];
         newID = [self.metaTrack persistentID];
         typeDescription = [self.metaTrack typeDescription];
     }
     
-    LogVerboseTag(@"state", @"previous state: %x new state: %x \nprevious ID: %@ new ID: %@ \ntype: %@",
+    LogVerboseTag(LogTagState, @"previous state: %x new state: %x \nprevious ID: %@ new ID: %@ \ntype: %@",
                   _currentPlayerState, newState, _currentPersistentID, newID, typeDescription);
     
     if (newState != _currentPlayerState) { updateState = YES; }
@@ -194,7 +197,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
     if ((updateState || updateID || [typeDescription isEqualToString:@"stream"]) && 
         ![typeDescription isEqualToString:@"error"]) { updateTrack = YES; }
     
-    LogVerboseTag(@"state", @"update state: %@ \nupdate ID: %@ \nupdate track: %@",
+    LogVerboseTag(LogTagState, @"update state: %@ \nupdate ID: %@ \nupdate track: %@",
                updateState?@"YES":@"NO",
                updateID?@"YES":@"NO",
                updateTrack?@"YES":@"NO");
@@ -218,11 +221,11 @@ static int _LogLevel = LOG_LEVEL_ERROR;
         [self willChangeValueForKey:@"currentTrack"];
         
         if (!_running || newState == StateStopped) {
-            LogVerboseTag(@"state", @"setting current track to nil. _running: %@ stopped: %@",
+            LogVerboseTag(LogTagState, @"setting current track to nil. _running: %@ stopped: %@",
                           _running?@"YES":@"NO", (newState == ITunesEPlSStopped)?@"YES":@"NO");
             _currentTrack = nil;
         } else {
-            LogVerboseTag(@"state", @"setting current track to evaluated track");
+            LogVerboseTag(LogTagState, @"setting current track to evaluated track");
             _currentTrack = [self.metaTrack evaluated];
         }
         
@@ -245,7 +248,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 
 - (void)playerInfo:(NSNotification*)note
 {
-    LogInfoTag(@"playerInfo", @"note: %@", note);
+    LogInfo(@"note: %@", note);
     [self updatePlayerState:note.userInfo];
 }
 
@@ -253,7 +256,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
 // TODO: something useful
 - (void)sourceSaved:(NSNotification*)note
 {
-    LogVerboseTag(@"sourceSaved", @"note: %@", note);
+    LogVerbose(@"note: %@", note);
 }
 
 - (void)setIsRunning:(BOOL)running
@@ -277,9 +280,7 @@ static int _LogLevel = LOG_LEVEL_ERROR;
                     name:unWatchType 
                   object:nil];
 
-    LogInfoTag(@"Launch/Terminate", 
-               @"iTunes %@ currently running, registering for %@",
-               running?@"is":@"is not", watchType);
+    LogInfo(@"iTunes %@ currently running, registering for %@", running?@"is":@"is not", watchType);
     
     [wsnc addObserver:self 
              selector:@selector(didLaunchOrTerminateNotification:) 

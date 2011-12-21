@@ -4,6 +4,11 @@
 #define StateFastForward ITunesEPlSFastForwarding
 #define StateRewind ITunesEPlSRewinding
 
+#define LogTagInit (1 << 0)
+#define LogTagKVC (1 << 1)
+#define LogTagState (1 << 2)
+
+
 //#define RENOTIFY_STREAM_KEY @"reNotifyOnStreamingTrackChange"
 #define NOTIFY_ITUNES_FRONTMOST @"notifyWhenITunesIsFrontmost"
 

@@ -35,6 +35,28 @@
 @synthesize musicVideo = _musicVideo;
 @synthesize music = _music;
 
+static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
+
++ (int)ddLogLevel
+{
+    return ddLogLevel;
+}
+
++ (void)ddSetLogLevel:(int)logLevel
+{
+    ddLogLevel = logLevel;
+}
+
++ (void)initialize
+{
+    if (self == [FormattingPreferencesHelper class]) {
+        NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
+                              [NSString stringWithFormat:@"%@LogLevel", [self class]]];
+        if (logLevel)
+            ddLogLevel = [logLevel intValue];
+    }
+}
+
 -(id)init
 {
     self = [super init];

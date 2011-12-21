@@ -1,4 +1,8 @@
+#include "ARC64-GC32.xcconfig"
+
+
 // code signing
+CODE_SIGN_IDENTITY = 3rd Party Mac Developer Application: The Growl Project, LLC
 CODE_SIGN_ENTITLEMENTS = GrowlTunes/GrowlTunes.entitlements
 
 
