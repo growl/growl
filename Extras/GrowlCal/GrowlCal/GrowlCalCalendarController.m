@@ -22,6 +22,7 @@
 @synthesize upcomingTasks = _upcomingTasks;
 @synthesize upcomingTasksFired = _upcomingTasksFired;
 
+@synthesize cacheTimer = _cacheTimer;
 @synthesize notifyTimer = _notifyTimer;
 
 -(id)init
@@ -47,16 +48,22 @@
       self.upcomingTasks = [NSMutableDictionary dictionary];
       self.upcomingTasksFired = [NSMutableDictionary dictionary];
       
-      self.notifyTimer = [NSTimer timerWithTimeInterval:60
+      self.notifyTimer = [NSTimer timerWithTimeInterval:10
                                                  target:self
                                                selector:@selector(timerFire:)
                                                userInfo:nil
                                                 repeats:YES];
-      
+      self.cacheTimer = [NSTimer timerWithTimeInterval:60*60
+                                                target:self
+                                              selector:@selector(cacheTimerFire:)
+                                              userInfo:nil
+                                               repeats:YES];
+
       [self loadCalendars];
       [self loadEvents];
       [self loadTasks];
       [[NSRunLoop mainRunLoop] addTimer:_notifyTimer forMode:NSRunLoopCommonModes];
+      [[NSRunLoop mainRunLoop] addTimer:_cacheTimer forMode:NSRunLoopCommonModes];
       
       [self timerFire:nil];
    }
@@ -84,26 +91,38 @@
       NSDate *current = [NSDate date];
       NSDate *start = [event startDate];
       NSDate *end = [event endDate];
-      if([start compare:current] == NSOrderedAscending){
-         if([end compare:current] == NSOrderedAscending){
-            noteName = @"EventEndAlert";
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:end]];
-            noteDescription = NSLocalizedString(@"%@ ended at %@", @"Title format string for event ended");
-         }else if([end compare:[NSDate dateWithTimeIntervalSinceNow:60*15]] == NSOrderedAscending){
-            noteName = @"UpcomingEventEndAlert";
-            NSInteger minutes = [end timeIntervalSinceDate:current] / 60;
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
-            noteDescription = NSLocalizedString(@"%@ will end in %@", @"");
+      if(![event isAllDay]){
+         if([start compare:current] == NSOrderedAscending){
+            if([end compare:current] == NSOrderedAscending){
+               noteName = @"EventEndAlert";
+               timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:end]];
+               noteDescription = NSLocalizedString(@"%@ ended at %@", @"Title format string for event ended");
+            }else if([end compare:[NSDate dateWithTimeIntervalSinceNow:60*15]] == NSOrderedAscending){
+               noteName = @"UpcomingEventEndAlert";
+               NSInteger minutes = [end timeIntervalSinceDate:current] / 60;
+               timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+               noteDescription = NSLocalizedString(@"%@ will end in %@", @"");
+            }else{
+               noteName = @"EventAlert";
+               timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:start]];
+               noteDescription = NSLocalizedString(@"%@ started at %@", @"Title format string for event started");
+            }
          }else{
-            noteName = @"EventAlert";
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:start]];
-            noteDescription = NSLocalizedString(@"%@ started at %@", @"Title format string for event started");
+            noteName = @"UpcomingEventAlert";
+            NSInteger minutes = [start timeIntervalSinceDate:current] / 60;
+            timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+            noteDescription = NSLocalizedString(@"%@ will start in %@", @"");
          }
       }else{
-         noteName = @"UpcomingEventAlert";
-         NSInteger minutes = [start timeIntervalSinceDate:current] / 60;
-         timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
-         noteDescription = NSLocalizedString(@"%@ will start in %@", @"");
+         if([start compare:current] == NSOrderedAscending){
+            noteName = @"EventAlert";
+            timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:start]];
+            noteDescription = NSLocalizedString(@"%@ started at %@ (all-day)", @"Title format string for event started");
+         }else{
+            noteName = @"UpcomingEventAlert";
+            timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [formater stringFromDate:start]];
+            noteDescription = NSLocalizedString(@"%@ will start at %@ (all-day)", @"");
+         }
       }
    }else if([item isKindOfClass:[CalTask class]]){
       CalTask *task = (CalTask*)item;
@@ -146,12 +165,26 @@
    __block NSMutableArray *firedKeys = [NSMutableArray array];
    NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
    [[_upcomingEvents allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
-         [firedKeys addObject:[obj uid]];
-      }else if([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEvent]] == NSOrderedAscending){
-         [firedKeys addObject:[obj uid]];
-         if([blockSelf shouldSendNotificationForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
+      if(![obj isAllDay]){
+         if([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEvent]] == NSOrderedAscending){
+            [firedKeys addObject:[obj uid]];
+            if([blockSelf shouldSendNotificationForItem:obj])
+               [blockSelf sendNotificationForItem:obj];
+         }
+      }else{
+         NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj startDate]];
+         NSCalendarDate *dayBefore = [now dateByAddingYears:0
+                                                     months:0
+                                                       days:0
+                                                      hours:-(24 - 8)
+                                                    minutes:(60 - 30)
+                                                    seconds:0];
+
+         if([dayBefore compare:[NSDate date]] == NSOrderedAscending){
+            [firedKeys addObject:[obj uid]];
+            if([[obj startDate] compare:[NSDate date]] != NSOrderedAscending && [blockSelf shouldSendNotificationForItem:obj])
+               [blockSelf sendNotificationForItem:obj];
+         }
       }
    }];
    
@@ -162,13 +195,28 @@
    
    __block NSMutableArray *newCurrent = [NSMutableArray array];
    [[_upcomingEventsFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
-         [newCurrent addObject:[obj uid]];
-         if([blockSelf shouldSendNotificationForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
+      if(![obj isAllDay]){
+         if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
+            [newCurrent addObject:[obj uid]];
+            if([blockSelf shouldSendNotificationForItem:obj])
+               [blockSelf sendNotificationForItem:obj];
+         }
+      }else{
+         NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj startDate]];
+         NSCalendarDate *dayOf = [now dateByAddingYears:0
+                                                 months:0
+                                                   days:0
+                                                  hours:8
+                                                minutes:30
+                                                seconds:0];
+         
+         if([dayOf compare:[NSDate date]] == NSOrderedAscending){
+            [newCurrent addObject:[obj uid]];
+            if([blockSelf shouldSendNotificationForItem:obj])
+               [blockSelf sendNotificationForItem:obj];
+         }
       }
    }];
-   
    [newCurrent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       [_currentEvents setObject:[_upcomingEventsFired objectForKey:obj] forKey:obj];
       [_upcomingEventsFired removeObjectForKey:obj];
@@ -182,7 +230,7 @@
          if([blockSelf shouldSendNotificationForItem:obj])
             [blockSelf sendNotificationForItem:obj];
       }
-   }];
+    }];
    
    [firedCurrent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       [_currentEventsFired setObject:[_currentEvents objectForKey:obj] forKey:obj];
@@ -259,32 +307,40 @@
       NSDate *start = [event startDate];
       NSDate *end = [event endDate];
       NSDate *now = [NSDate date];
-      NSLog(@"start: %@, end: %@, now: %@", start, end, now);
+      //NSLog(@"start: %@, end: %@, now: %@", start, end, now);
       if([start compare:now] == NSOrderedDescending)
          dictToSet = _upcomingEvents;
       else{ 
-         if([end compare:now] == NSOrderedAscending)
+         if([end compare:now] == NSOrderedDescending)
             dictToSet = _upcomingEventsFired;
          else 
             dictToSet = _currentEventsFired;
       }
    }
+   
    if(dictToSet)
       [dictToSet setObject:event forKey:uid];
 }
 
+- (void)cacheTimerFire:(NSTimer*)timer
+{
+   [self loadEvents];
+   [self loadTasks];
+}
+
 - (void)loadEvents
 {
-   NSPredicate *eventPredicate = [CalCalendarStore eventPredicateWithStartDate:[NSDate date]
-                                                                       endDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24]
+   NSPredicate *eventPredicate = [CalCalendarStore eventPredicateWithStartDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24]
+                                                                       endDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24*7]
                                                                      calendars:[[CalCalendarStore defaultCalendarStore] calendars]];
    NSArray *events = [[CalCalendarStore defaultCalendarStore] eventsWithPredicate:eventPredicate];
    __block GrowlCalCalendarController *blockSelf = self;
    [events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [blockSelf setEvent:obj];
+      if([obj isAllDay] || !([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60*60*24]] == NSOrderedDescending ||
+                             [[obj endDate] compare:[NSDate date]] == NSOrderedAscending))
+         [blockSelf setEvent:obj];
    }];
 }
-
 
 - (void)loadTasks
 {
@@ -312,7 +368,7 @@
    __block NSMutableDictionary *blockCals = _calendars;
    __block GrowlCalCalendarController *blockSelf = self;
    if([added count] > 0){
-      NSLog(@"%ld calendars added", [added count]);
+      //NSLog(@"%ld calendars added", [added count]);
       [added enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          GrowlCalCalendar *newCal = [[GrowlCalCalendar alloc] initWithUID:obj];
          [newCal setController:blockSelf];
@@ -321,7 +377,7 @@
    }
    
    if([changed count] > 0) {
-      NSLog(@"%ld calendars changed", [changed count]);
+      //NSLog(@"%ld calendars changed", [changed count]);
       [[blockCals allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          if([changed containsObject:[obj uid]])
             [obj updateCalendar];
@@ -330,7 +386,7 @@
    
    __block NSMutableArray *toRemoveBlock = [NSMutableArray array];
    if([removed count] > 0) {
-      NSLog(@"%ld calendars removed", [removed count]);
+      //NSLog(@"%ld calendars removed", [removed count]);
       [[blockCals allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          if([removed containsObject:[obj uid]])
             [toRemoveBlock addObject:[obj uid]];

@@ -18,6 +18,7 @@
 @property (strong) NSMutableDictionary *upcomingTasks;
 @property (strong) NSMutableDictionary *upcomingTasksFired;
 
+@property (strong) NSTimer *cacheTimer;
 @property (strong) NSTimer *notifyTimer;
 
 - (void)timerFire:(NSTimer*)timer;
