@@ -17,6 +17,7 @@
 @property (strong) NSMutableDictionary *currentEventsFired;
 @property (strong) NSMutableDictionary *upcomingTasks;
 @property (strong) NSMutableDictionary *upcomingTasksFired;
+@property (strong) NSMutableDictionary *uncompletedDueTasks;
 
 @property (strong) NSTimer *cacheTimer;
 @property (strong) NSTimer *notifyTimer;
