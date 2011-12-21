@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class CalCalendar;
+@class CalCalendar, GrowlCalCalendarController;
 
 @interface GrowlCalCalendar : NSObject
 
+@property (assign) GrowlCalCalendarController *controller;
 @property (strong) CalCalendar *calendar;
 @property (strong) NSString *uid;
 @property (nonatomic) BOOL use;

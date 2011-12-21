@@ -27,7 +27,11 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"StartAtLogin", 
-                                                                       [NSNumber numberWithBool:NO], @"AllowStartAtLogin", nil];
+                                                                       [NSNumber numberWithBool:NO], @"AllowStartAtLogin",
+                                                                       [NSNumber numberWithBool:YES], @"NotifyAllCalendars",
+                                                                       [NSNumber numberWithBool:NO], @"NotifySelectedCalendars",
+                                                                       [NSNumber numberWithBool:NO], @"NotifyGrowlCalNote",
+                                                                       [NSNumber numberWithInteger:15], @"MinutesBeforeEvent", nil];
    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
    [[NSUserDefaults standardUserDefaults] synchronize];
    
@@ -103,7 +107,7 @@
 }
 
 - (void)updateMenuState{
-   BOOL show;
+   BOOL show = NO; 
    switch (_position) {
       case IconInMenu:
       case IconInBoth:

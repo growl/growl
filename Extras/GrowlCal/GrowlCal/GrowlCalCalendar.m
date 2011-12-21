@@ -7,11 +7,13 @@
 //
 
 #import "GrowlCalCalendar.h"
+#import "GrowlCalCalendarController.h"
 
 #import <CalendarStore/CalendarStore.h>
 
 @implementation GrowlCalCalendar
 
+@synthesize controller = _controller;
 @synthesize calendar = _calendar;
 @synthesize uid = _uid;
 @synthesize use = _use;
@@ -21,6 +23,10 @@
       self.use = NO;
       self.uid = uid;
       self.calendar = [[CalCalendarStore defaultCalendarStore] calendarWithUID:_uid];
+      [self addObserver:self
+             forKeyPath:@"use"
+                options:NSKeyValueObservingOptionNew
+                context:nil];
    }
    return self;
 }
@@ -30,6 +36,17 @@
       self.use = [[dict valueForKey:@"use"] boolValue];
    }
    return self;
+}
+
+-(void)dealloc
+{
+   [self removeObserver:self forKeyPath:@"use"];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+   if([keyPath isEqualToString:@"use"])
+      [_controller saveCalendars];
 }
 
 -(NSDictionary*)dictionaryRepresentation {

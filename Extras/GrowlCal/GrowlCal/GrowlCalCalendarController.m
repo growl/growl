@@ -64,6 +64,11 @@
    return self;
 }
 
+- (void)dealloc
+{
+   [self saveCalendars];
+}
+
 - (void)sendNotificationForItem:(CalCalendarItem*)item
 {
    NSString *noteName = nil;
@@ -120,14 +125,33 @@
                                 identifier:[item uid]];
 }
 
+- (BOOL)shouldSendNotificationForItem:(CalCalendarItem*)item
+{
+   BOOL shouldSend = NO;
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   
+   if([defaults boolForKey:@"NotifyAllCalendars"]) 
+      shouldSend = YES;
+   if([defaults boolForKey:@"NotifySelectedCalendars"] && [[_calendars objectForKey:[[item calendar] uid]] use])
+      shouldSend = YES;
+   if([defaults boolForKey:@"NotifyGrowlCalNote"] && [[item notes] rangeOfString:@"GrowlCal"].location == NSNotFound)
+      shouldSend = YES;
+   
+   return shouldSend;
+}
+
 - (void)timerFire:(NSTimer*)timer
 {
    __block GrowlCalCalendarController *blockSelf = self;
    __block NSMutableArray *firedKeys = [NSMutableArray array];
+   NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
    [[_upcomingEvents allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60*15]] == NSOrderedAscending){
-         [blockSelf sendNotificationForItem:obj];
+      if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
          [firedKeys addObject:[obj uid]];
+      }else if([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEvent]] == NSOrderedAscending){
+         [firedKeys addObject:[obj uid]];
+         if([blockSelf shouldSendNotificationForItem:obj])
+            [blockSelf sendNotificationForItem:obj];
       }
    }];
    
@@ -139,8 +163,9 @@
    __block NSMutableArray *newCurrent = [NSMutableArray array];
    [[_upcomingEventsFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
-         [blockSelf sendNotificationForItem:obj];
          [newCurrent addObject:[obj uid]];
+         if([blockSelf shouldSendNotificationForItem:obj])
+            [blockSelf sendNotificationForItem:obj];
       }
    }];
    
@@ -150,10 +175,12 @@
    }];
 
    __block NSMutableArray *firedCurrent = [NSMutableArray array];
+   NSInteger minutesBeforeEventEnd = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
    [[_currentEvents allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj endDate] compare:[NSDate dateWithTimeIntervalSinceNow:60*15]] == NSOrderedAscending){
-         [blockSelf sendNotificationForItem:obj];
+      if([[obj endDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEventEnd]] == NSOrderedAscending){
          [firedCurrent addObject:[obj uid]];
+         if([blockSelf shouldSendNotificationForItem:obj])
+            [blockSelf sendNotificationForItem:obj];
       }
    }];
    
@@ -165,8 +192,9 @@
    __block NSMutableArray *finishedWith = [NSMutableArray array];
    [[_currentEventsFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([[obj endDate] compare:[NSDate date]] == NSOrderedAscending){
-         [blockSelf sendNotificationForItem:obj];
          [finishedWith addObject:[obj uid]];
+         if([blockSelf shouldSendNotificationForItem:obj])
+            [blockSelf sendNotificationForItem:obj];
       }
    }];
    
@@ -178,11 +206,13 @@
 - (void)loadCalendars 
 {
    NSArray *cached = [[NSUserDefaults standardUserDefaults] valueForKey:@"calendarCache"];
-   __block NSMutableArray *blockCals = [NSMutableArray array];
+   __block NSMutableDictionary *blockCals = [NSMutableDictionary dictionary];
+   __block GrowlCalCalendarController *blockSelf = self;
    [cached enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       GrowlCalCalendar *cal = [[GrowlCalCalendar alloc] initWithDictionary:obj];
+      [cal setController:blockSelf];
       if([cal calendar])
-         [blockCals addObject:cal];
+         [blockCals setObject:cal forKey:[cal uid]];
    }];
    
    BOOL removed = NO;
@@ -194,7 +224,8 @@
    [live enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if(![[blockCals valueForKey:@"uid"] containsObject:[obj uid]]){
          GrowlCalCalendar *newCal = [[GrowlCalCalendar alloc] initWithUID:[obj uid]];
-         [blockCals addObject:newCal];
+         [newCal setController:blockSelf];
+         [blockCals setObject:newCal forKey:[newCal uid]];
          added = YES;
       }
    }];
@@ -206,7 +237,7 @@
 - (void)saveCalendars 
 {
    __block NSMutableArray *toSave = [NSMutableArray arrayWithCapacity:[_calendars count]];
-   [_calendars enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+   [[_calendars allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       [toSave addObject:[obj dictionaryRepresentation]];
    }];
    [[NSUserDefaults standardUserDefaults] setValue:toSave forKey:@"calendarCache"];
@@ -278,18 +309,20 @@
    NSArray *changed = [[notification userInfo] valueForKey:CalUpdatedRecordsKey];
    NSArray *removed = [[notification userInfo] valueForKey:CalDeletedRecordsKey];
    
-   __block NSMutableArray *blockCals = _calendars;
+   __block NSMutableDictionary *blockCals = _calendars;
+   __block GrowlCalCalendarController *blockSelf = self;
    if([added count] > 0){
       NSLog(@"%ld calendars added", [added count]);
       [added enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          GrowlCalCalendar *newCal = [[GrowlCalCalendar alloc] initWithUID:obj];
-         [blockCals addObject:newCal];
+         [newCal setController:blockSelf];
+         [blockCals setObject:newCal forKey:obj];
       }];
    }
    
    if([changed count] > 0) {
       NSLog(@"%ld calendars changed", [changed count]);
-      [blockCals enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      [[blockCals allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          if([changed containsObject:[obj uid]])
             [obj updateCalendar];
       }];
@@ -298,16 +331,24 @@
    __block NSMutableArray *toRemoveBlock = [NSMutableArray array];
    if([removed count] > 0) {
       NSLog(@"%ld calendars removed", [removed count]);
-      [blockCals enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      [[blockCals allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
          if([removed containsObject:[obj uid]])
-            [toRemoveBlock addObject:obj];
+            [toRemoveBlock addObject:[obj uid]];
       }];
    }
-   if([toRemoveBlock count] > 0)
-      [blockCals removeObjectsInArray:toRemoveBlock];
+   if([toRemoveBlock count] > 0){
+      [toRemoveBlock enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         [blockCals removeObjectForKey:obj];
+      }];
+   }
    
-   [self willChangeValueForKey:@"calendars"];
-   [self didChangeValueForKey:@"calendars"];
+   [self willChangeValueForKey:@"calendarsArray"];
+   [self didChangeValueForKey:@"calendarsArray"];
+}
+
+- (NSArray*)calendarsArray
+{
+   return [_calendars allValues];
 }
 
 @end
