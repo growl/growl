@@ -17,6 +17,8 @@
 		BC674750149F0CD700898C13 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
 		BC674752149F0D3000898C13 /* Growl.framework in Copy Growl.framework */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
 		BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC67475D149F0EAF00898C13 /* CalendarStore.framework */; };
+		BC8C66B314A3829C002DACA5 /* GrowlCalEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */; };
+		BC8C66D614A3B752002DACA5 /* GrowlCalRecurringEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */; };
 		BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */; };
 		BC8F351C149FC643001C8D73 /* GrowlCalCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */; };
 		BC8F354514A00B80001C8D73 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8F354414A00B80001C8D73 /* ServiceManagement.framework */; };
@@ -195,6 +197,10 @@
 		BC674712149F0CB400898C13 /* GrowlCal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCal.entitlements; sourceTree = "<group>"; };
 		BC674714149F0CBD00898C13 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		BC67475D149F0EAF00898C13 /* CalendarStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CalendarStore.framework; path = System/Library/Frameworks/CalendarStore.framework; sourceTree = SDKROOT; };
+		BC8C66B114A3829C002DACA5 /* GrowlCalEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalEvent.h; sourceTree = "<group>"; };
+		BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalEvent.m; sourceTree = "<group>"; };
+		BC8C66D414A3B752002DACA5 /* GrowlCalRecurringEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalRecurringEvent.h; sourceTree = "<group>"; };
+		BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalRecurringEvent.m; sourceTree = "<group>"; };
 		BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		BC8F351A149FC643001C8D73 /* GrowlCalCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalCalendar.h; sourceTree = "<group>"; };
 		BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalCalendar.m; sourceTree = "<group>"; };
@@ -285,6 +291,10 @@
 				BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */,
 				BC8F351A149FC643001C8D73 /* GrowlCalCalendar.h */,
 				BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */,
+				BC8C66B114A3829C002DACA5 /* GrowlCalEvent.h */,
+				BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */,
+				BC8C66D414A3B752002DACA5 /* GrowlCalRecurringEvent.h */,
+				BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */,
 				BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */,
 				BC6746F8149F0C6300898C13 /* Supporting Files */,
 			);
@@ -575,6 +585,8 @@
 				BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */,
 				BC8F351C149FC643001C8D73 /* GrowlCalCalendar.m in Sources */,
 				BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */,
+				BC8C66B314A3829C002DACA5 /* GrowlCalEvent.m in Sources */,
+				BC8C66D614A3B752002DACA5 /* GrowlCalRecurringEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

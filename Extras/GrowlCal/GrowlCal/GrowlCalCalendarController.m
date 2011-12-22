@@ -8,6 +8,8 @@
 
 #import "GrowlCalCalendarController.h"
 #import "GrowlCalCalendar.h"
+#import "GrowlCalEvent.h"
+#import "GrowlCalRecurringEvent.h"
 
 #import <Growl/GrowlApplicationBridge.h>
 #import <CalendarStore/CalendarStore.h>
@@ -15,16 +17,23 @@
 @implementation GrowlCalCalendarController
 
 @synthesize calendars = _calendars;
-@synthesize upcomingEvents = _upcomingEvents;
-@synthesize upcomingEventsFired = _upcomingEventsFired;
-@synthesize currentEvents = _currentEvents;
-@synthesize currentEventsFired = _currentEventsFired;
+@synthesize events = _events;
 @synthesize upcomingTasks = _upcomingTasks;
 @synthesize upcomingTasksFired = _upcomingTasksFired;
 @synthesize uncompletedDueTasks = _uncompletedDueTasks;
 
 @synthesize cacheTimer = _cacheTimer;
 @synthesize notifyTimer = _notifyTimer;
+
++ (GrowlCalCalendarController*)sharedController
+{
+   static GrowlCalCalendarController *instance;
+   static dispatch_once_t onceToken;
+   dispatch_once(&onceToken, ^{
+      instance = [[self alloc] init];
+   });
+   return instance;
+}
 
 -(id)init
 {
@@ -42,15 +51,12 @@
                                                    name:CalTasksChangedExternallyNotification
                                                  object:[CalCalendarStore defaultCalendarStore]];
       
-      self.upcomingEvents = [NSMutableDictionary dictionary];
-      self.upcomingEventsFired = [NSMutableDictionary dictionary];
-      self.currentEvents = [NSMutableDictionary dictionary];
-      self.currentEventsFired = [NSMutableDictionary dictionary];
+      self.events = [NSMutableDictionary dictionary];
       self.upcomingTasks = [NSMutableDictionary dictionary];
       self.upcomingTasksFired = [NSMutableDictionary dictionary];
       self.uncompletedDueTasks = [NSMutableDictionary dictionary];
       
-      self.notifyTimer = [NSTimer timerWithTimeInterval:10
+      self.notifyTimer = [NSTimer timerWithTimeInterval:60
                                                  target:self
                                                selector:@selector(timerFire:)
                                                userInfo:nil
@@ -93,43 +99,7 @@
    [dateFormatter setDoesRelativeDateFormatting:YES];
    
    if([item isKindOfClass:[CalEvent class]]){
-      CalEvent *event = (CalEvent*)item;
-      NSDate *current = [NSDate date];
-      NSDate *start = [event startDate];
-      NSDate *end = [event endDate];
-      if(![event isAllDay]){
-         if([start compare:current] == NSOrderedAscending){
-            if([end compare:current] == NSOrderedAscending){
-               noteName = @"EventEndAlert";
-               timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [dateTimeFormatter stringFromDate:end]];
-               noteDescription = NSLocalizedString(@"%@ ended at %@", @"Title format string for event ended");
-            }else if([end compare:[NSDate dateWithTimeIntervalSinceNow:60*15]] == NSOrderedAscending){
-               noteName = @"UpcomingEventEndAlert";
-               NSInteger minutes = [end timeIntervalSinceDate:current] / 60;
-               timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
-               noteDescription = NSLocalizedString(@"%@ will end in %@", @"");
-            }else{
-               noteName = @"EventAlert";
-               timeString = [NSString stringWithFormat:NSLocalizedString(@"%@", @""), [dateTimeFormatter stringFromDate:start]];
-               noteDescription = NSLocalizedString(@"%@ started at %@", @"Title format string for event started");
-            }
-         }else{
-            noteName = @"UpcomingEventAlert";
-            NSInteger minutes = [start timeIntervalSinceDate:current] / 60;
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
-            noteDescription = NSLocalizedString(@"%@ will start in %@", @"");
-         }
-      }else{
-         if([start compare:current] == NSOrderedAscending){
-            noteName = @"AllDayEventAlert";
-            timeString = [dateFormatter stringFromDate:start];
-            noteDescription = NSLocalizedString(@"%@ started on %@ (all-day)", @"Title format string for event started");
-         }else{
-            noteName = @"UpcomingAllDayEventAlert";
-            timeString = [dateFormatter stringFromDate:start];
-            noteDescription = NSLocalizedString(@"%@ will start on %@ (all-day)", @"");
-         }
-      }
+      return;
    }else if([item isKindOfClass:[CalTask class]]){
       CalTask *task = (CalTask*)item;
       NSDate *due = [task dueDate];
@@ -157,7 +127,7 @@
                                 identifier:[item uid]];
 }
 
-- (BOOL)shouldSendNotificationForItem:(CalCalendarItem*)item
+- (BOOL)isNotificationEnabledForItem:(CalCalendarItem*)item
 {
    BOOL shouldSend = NO;
    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -174,95 +144,7 @@
 
 - (void)timerFire:(NSTimer*)timer
 {
-   __block GrowlCalCalendarController *blockSelf = self;
-   __block NSMutableArray *firedKeys = [NSMutableArray array];
-   NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
-   [[_upcomingEvents allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if(![obj isAllDay]){
-         if([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEvent]] == NSOrderedAscending){
-            [firedKeys addObject:[obj uid]];
-            if([blockSelf shouldSendNotificationForItem:obj])
-               [blockSelf sendNotificationForItem:obj];
-         }
-      }else{
-         NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj startDate]];
-         NSCalendarDate *dayBefore = [now dateByAddingYears:0
-                                                     months:0
-                                                       days:0
-                                                      hours:-(24 - 8)
-                                                    minutes:(60 - 30)
-                                                    seconds:0];
-
-         if([dayBefore compare:[NSDate date]] == NSOrderedAscending){
-            [firedKeys addObject:[obj uid]];
-            if([[obj startDate] compare:[NSDate date]] != NSOrderedAscending && [blockSelf shouldSendNotificationForItem:obj])
-               [blockSelf sendNotificationForItem:obj];
-         }
-      }
-   }];
-   
-   [firedKeys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [_upcomingEventsFired setObject:[_upcomingEvents objectForKey:obj] forKey:obj];
-      [_upcomingEvents removeObjectForKey:obj];
-   }];
-   
-   __block NSMutableArray *newCurrent = [NSMutableArray array];
-   [[_upcomingEventsFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if(![obj isAllDay]){
-         if([[obj startDate] compare:[NSDate date]] == NSOrderedAscending){
-            [newCurrent addObject:[obj uid]];
-            if([blockSelf shouldSendNotificationForItem:obj])
-               [blockSelf sendNotificationForItem:obj];
-         }
-      }else{
-         NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj startDate]];
-         NSCalendarDate *dayOf = [now dateByAddingYears:0
-                                                 months:0
-                                                   days:0
-                                                  hours:8
-                                                minutes:30
-                                                seconds:0];
-         
-         if([dayOf compare:[NSDate date]] == NSOrderedAscending){
-            [newCurrent addObject:[obj uid]];
-            if([blockSelf shouldSendNotificationForItem:obj])
-               [blockSelf sendNotificationForItem:obj];
-         }
-      }
-   }];
-   [newCurrent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [_currentEvents setObject:[_upcomingEventsFired objectForKey:obj] forKey:obj];
-      [_upcomingEventsFired removeObjectForKey:obj];
-   }];
-
-   __block NSMutableArray *firedCurrent = [NSMutableArray array];
-   NSInteger minutesBeforeEventEnd = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
-   [[_currentEvents allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj endDate] compare:[NSDate dateWithTimeIntervalSinceNow:60 * minutesBeforeEventEnd]] == NSOrderedAscending){
-         [firedCurrent addObject:[obj uid]];
-         if([blockSelf shouldSendNotificationForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
-      }
-    }];
-   
-   [firedCurrent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [_currentEventsFired setObject:[_currentEvents objectForKey:obj] forKey:obj];
-      [_currentEvents removeObjectForKey:obj];
-   }];
-
-   __block NSMutableArray *finishedWith = [NSMutableArray array];
-   [[_currentEventsFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj endDate] compare:[NSDate date]] == NSOrderedAscending){
-         [finishedWith addObject:[obj uid]];
-         if([blockSelf shouldSendNotificationForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
-      }
-   }];
-   
-   [finishedWith enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      [_currentEventsFired removeObjectForKey:obj];
-   }];
-   
+   __block GrowlCalCalendarController *blockSelf = self;   
    __block NSMutableArray *taskFired = [NSMutableArray array];
    [[_upcomingTasks allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj dueDate]];
@@ -275,7 +157,7 @@
 
       if([dayBefore compare:[NSDate date]] == NSOrderedAscending){
          [taskFired addObject:[obj uid]];
-         if([[obj dueDate] compare:[NSDate date]] != NSOrderedAscending && [blockSelf shouldSendNotificationForItem:obj])
+         if([[obj dueDate] compare:[NSDate date]] != NSOrderedAscending && [blockSelf isNotificationEnabledForItem:obj])
             [blockSelf sendNotificationForItem:obj];
       }
    }];
@@ -298,7 +180,7 @@
 
       if([dayOf compare:[NSDate date]] == NSOrderedAscending){
          [dueTasks addObject:[obj uid]];
-         if([blockSelf shouldSendNotificationForItem:obj])
+         if([blockSelf isNotificationEnabledForItem:obj])
             [blockSelf sendNotificationForItem:obj];
       }
    }];
@@ -349,40 +231,6 @@
    [[NSUserDefaults standardUserDefaults] setValue:toSave forKey:@"calendarCache"];
 }
 
-- (void)setEvent:(CalEvent*)event
-{
-   if(!event)
-      return;
-   
-   NSMutableDictionary *dictToSet = nil;
-   NSString *uid = [event uid];
-   if([_upcomingEvents objectForKey:uid])
-      dictToSet = _upcomingEvents;
-   else if([_upcomingEventsFired objectForKey:uid])
-      dictToSet = _upcomingEventsFired;
-   else if([_currentEvents objectForKey:uid])
-      dictToSet = _currentEvents;
-   else if([_currentEventsFired objectForKey:uid])
-      dictToSet = _currentEventsFired;
-   else{
-      NSDate *start = [event startDate];
-      NSDate *end = [event endDate];
-      NSDate *now = [NSDate date];
-      //NSLog(@"start: %@, end: %@, now: %@", start, end, now);
-      if([start compare:now] == NSOrderedDescending)
-         dictToSet = _upcomingEvents;
-      else{ 
-         if([end compare:now] == NSOrderedDescending)
-            dictToSet = _upcomingEventsFired;
-         else 
-            dictToSet = _currentEventsFired;
-      }
-   }
-   
-   if(dictToSet)
-      [dictToSet setObject:event forKey:uid];
-}
-
 - (void)cacheTimerFire:(NSTimer*)timer
 {
    [self loadEvents];
@@ -397,9 +245,37 @@
    NSArray *events = [[CalCalendarStore defaultCalendarStore] eventsWithPredicate:eventPredicate];
    __block GrowlCalCalendarController *blockSelf = self;
    [events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isAllDay] || !([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60*60*24]] == NSOrderedDescending ||
-                             [[obj endDate] compare:[NSDate date]] == NSOrderedAscending))
-         [blockSelf setEvent:obj];
+      if(([obj isAllDay] && [[obj endDate] compare:[NSDate date]] == NSOrderedDescending) || 
+         !([[obj startDate] compare:[NSDate dateWithTimeIntervalSinceNow:60*60*24]] == NSOrderedDescending ||
+           [[obj endDate] compare:[NSDate date]] == NSOrderedAscending))
+      {
+         NSString *uid = [obj uid];
+         if ([_events objectForKey:uid]) {
+            id event = [_events objectForKey:uid];
+            if(([event isKindOfClass:[GrowlCalEvent class]] && ![obj recurrenceRule]) || 
+               ([event isKindOfClass:[GrowlCalRecurringEvent class]] && [obj recurrenceRule]))
+            {
+               [event updateEvent:obj];
+            }else if([event isKindOfClass:[GrowlCalEvent class]] && [obj recurrenceRule]){
+               GrowlCalRecurringEvent *newEvent = [[GrowlCalRecurringEvent alloc] initWithGrowlEvent:event delegate:(id<GrowlCalEventDelegateProtocal>)self];
+               //[newEvent updateEvent:obj];
+               [_events setObject:newEvent forKey:uid];
+            }else if([event isKindOfClass:[GrowlCalRecurringEvent class]] && ![obj recurrenceRule]){
+               if([[event occurences] count] > 1)
+                  NSLog(@"Dumping existing event occurrences for event: %@, it is apparently no longer recurring", uid);
+               GrowlCalEvent *newEvent = [event growlCalEventForDate:[obj startDate]];
+               [_events setObject:newEvent forKey:uid];
+            }
+         }else{
+            if([obj recurrenceRule]){
+               GrowlCalRecurringEvent *recurring = [[GrowlCalRecurringEvent alloc] initWithEvent:obj delegate:(id<GrowlCalEventDelegateProtocal>)self];
+               [_events setObject:recurring forKey:uid];
+            }else{
+               GrowlCalEvent *event = [[GrowlCalEvent alloc] initWithEvent:obj delegate:(id<GrowlCalEventDelegateProtocal>)blockSelf];
+               [_events setObject:event forKey:uid];
+            }
+         }
+      }
    }];
 }
 
@@ -435,14 +311,11 @@
    [self loadEvents];
    NSArray *removed = [[notification userInfo] objectForKey:CalDeletedRecordsKey];
    [removed enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_upcomingEvents objectForKey:obj])
-         [_upcomingEvents removeObjectForKey:obj];
-      if([_upcomingEventsFired objectForKey:obj])
-         [_upcomingEventsFired removeObjectForKey:obj];
-      if([_currentEvents objectForKey:obj])
-         [_currentEvents removeObjectForKey:obj];
-      if([_currentEventsFired objectForKey:obj])
-         [_currentEventsFired removeObjectForKey:obj];
+      if([[_events objectForKey:obj] isKindOfClass:[GrowlCalRecurringEvent class]]){
+         [[_events objectForKey:obj] removeDeadEvents];
+      }else{
+         [_events removeObjectForKey:obj];
+      }
    }];
 }
 
@@ -461,14 +334,12 @@
    }];
    
    [removed enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_upcomingEvents objectForKey:obj])
-         [_upcomingEvents removeObjectForKey:obj];
-      if([_upcomingEventsFired objectForKey:obj])
-         [_upcomingEventsFired removeObjectForKey:obj];
-      if([_currentEvents objectForKey:obj])
-         [_currentEvents removeObjectForKey:obj];
-      if([_currentEventsFired objectForKey:obj])
-         [_currentEventsFired removeObjectForKey:obj];
+      if([_upcomingTasks objectForKey:obj])
+         [_upcomingTasks removeObjectForKey:obj];
+      if([_upcomingTasksFired objectForKey:obj])
+         [_upcomingTasksFired removeObjectForKey:obj];
+      if([_uncompletedDueTasks objectForKey:obj])
+         [_uncompletedDueTasks removeObjectForKey:obj];
    }];
 }
 
@@ -518,6 +389,13 @@
 - (NSArray*)calendarsArray
 {
    return [_calendars allValues];
+}
+
+#pragma mark GrowlCalEventDelegateProtocal
+
+-(void)removeFromEventList:(NSString*)uid date:(NSDate *)date
+{
+   [_events removeObjectForKey:uid];
 }
 
 @end

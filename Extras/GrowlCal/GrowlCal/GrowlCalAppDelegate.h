@@ -26,7 +26,7 @@ typedef NSUInteger IconPosition;
 @property (assign) IBOutlet NSArrayController *calendarArrayController;
 @property (assign) IBOutlet NSSegmentedControl *startAtLoginControl;
 @property (strong) NSStatusItem *statusItem; 
-@property (strong) GrowlCalCalendarController *calendarController;
+@property (weak) GrowlCalCalendarController *calendarController;
 
 @property (nonatomic) IconPosition position;
 @property (nonatomic) BOOL growlURLAvailable;

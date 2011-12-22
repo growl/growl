@@ -59,7 +59,7 @@
    }
    [self updateMenuState];
    
-   self.calendarController = [[GrowlCalCalendarController alloc] init]; 
+   self.calendarController = [GrowlCalCalendarController sharedController]; 
 }
 
 - (NSMenu*)applicationDockMenu:(NSApplication*)app
