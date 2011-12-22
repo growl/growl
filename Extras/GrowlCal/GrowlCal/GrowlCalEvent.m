@@ -23,6 +23,7 @@
    if((self = [super init])) {
       self.event = event;
       self.delegate = delegate;
+      _stage = GrowlCalEventUnknown;
       [self determineStage];
    }
    return self;
@@ -117,6 +118,8 @@
    NSDate *start = [_event startDate];
    NSDate *end = [_event endDate];
    
+   GrowlCalEventStage newStage = _stage;
+   
    if([_event isAllDay]){
       NSCalendarDate *dayOf = [[NSCalendarDate dateWithTimeInterval:0 sinceDate:start] dateByAddingYears:0
                                                                                                   months:0
@@ -125,36 +128,39 @@
                                                                                                  minutes:30
                                                                                                  seconds:0];
       if([start compare:now] == NSOrderedDescending)
-         _stage = GrowlCalEventUpcoming;
+         newStage = GrowlCalEventUpcoming;
       else if([start compare:now] == NSOrderedAscending && [dayOf compare:now] != NSOrderedAscending)
-         _stage = GrowlCalEventUpcomingFired;
+         newStage = GrowlCalEventUpcomingFired;
       else if([start compare:now] == NSOrderedAscending && [end compare:now] != NSOrderedAscending)
-         _stage = GrowlCalEventCurrent;
+         newStage = GrowlCalEventCurrent;
       else if([end compare:now] == NSOrderedAscending)
-         _stage = GrowlCalEventFinished;
+         newStage = GrowlCalEventFinished;
       else
-         _stage = GrowlCalEventFinished;
+         newStage = GrowlCalEventFinished;
    }else{   
       NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
       if([(NSDate*)[NSDate dateWithTimeInterval:-60 * minutesBeforeEvent sinceDate:start] compare:now] == NSOrderedAscending)
-         _stage = GrowlCalEventUpcoming;
+         newStage = GrowlCalEventUpcoming;
       else if([start compare:now] == NSOrderedAscending)
-         _stage = GrowlCalEventUpcomingFired;
+         newStage = GrowlCalEventUpcomingFired;
       else if([start compare:now] == NSOrderedDescending && [end compare:now] != NSOrderedDescending)
-         _stage = GrowlCalEventCurrent;
+         newStage = GrowlCalEventCurrent;
       else if([end compare:now] == NSOrderedDescending)
-         _stage = GrowlCalEventFinished;
+         newStage = GrowlCalEventFinished;
       else
-         _stage = GrowlCalEventFinished;
+         newStage = GrowlCalEventFinished;
    }
-      
-   [self updateTimer];
+   if(newStage != _stage && newStage != GrowlCalEventUnknown){
+      _stage = newStage;
+      [self updateTimer];
+   }
 }
 
 -(void)updateEvent:(CalEvent*)event
 {
    self.event = _event;
-   [self determineStage];
+   if([[event startDate] compare:[_event startDate]] != NSOrderedSame || [[event endDate] compare:[_event endDate]] != NSOrderedSame)
+      [self determineStage];
 }
 
 -(void)fireNotification

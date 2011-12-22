@@ -14,7 +14,8 @@ enum _GrowlCalEventStage {
    GrowlCalEventUpcomingFired,
    GrowlCalEventCurrent,
    GrowlCalEventCurrentFired,
-   GrowlCalEventFinished
+   GrowlCalEventFinished,
+   GrowlCalEventUnknown
 };
 
 typedef NSInteger GrowlCalEventStage;
