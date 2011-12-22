@@ -121,11 +121,11 @@
          }
       }else{
          if([start compare:current] == NSOrderedAscending){
-            noteName = @"EventAlert";
+            noteName = @"AllDayEventAlert";
             timeString = [dateFormatter stringFromDate:start];
             noteDescription = NSLocalizedString(@"%@ started on %@ (all-day)", @"Title format string for event started");
          }else{
-            noteName = @"UpcomingEventAlert";
+            noteName = @"UpcomingAllDayEventAlert";
             timeString = [dateFormatter stringFromDate:start];
             noteDescription = NSLocalizedString(@"%@ will start on %@ (all-day)", @"");
          }

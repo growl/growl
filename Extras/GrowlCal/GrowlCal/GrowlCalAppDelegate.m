@@ -266,18 +266,24 @@
                                                          @"EventAlert",
                                                          @"UpcomingEventEndAlert",
                                                          @"EventEndAlert",
+                                                         @"UpcomingAllDayEventAlert",
+                                                         @"AllDayEventAlert",
                                                          @"UpcomingToDoAlert",
                                                          @"ToDoAlert", nil];
    NSDictionary *humanReadableNames = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Upcoming Event Alert", nil), @"UpcomingEventAlert", 
                                                                                  NSLocalizedString(@"Event Alert", nil), @"EventAlert",
                                                                                  NSLocalizedString(@"Upcoming Event End Alert", nil), @"UpcomingEventEndAlert",
                                                                                  NSLocalizedString(@"Event End Alert", nil), @"EventEndAlert",
+                                                                                 NSLocalizedString(@"Upcoming All Day Event Alert", nil), @"UpcomingAllDayEventAlert",
+                                                                                 NSLocalizedString(@"All Day Event Alert", nil), @"AllDayEventAlert",
                                                                                  NSLocalizedString(@"Upcoming To Do Alert", nil), @"UpcomingToDoAlert",
                                                                                  NSLocalizedString(@"To Do Alert", nil), @"ToDoAlert", nil];
    NSDictionary *localized = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Shows an alert for upcoming events", nil), @"UpcomingEventAlert", 
                                                                         NSLocalizedString(@"Shows an alert when an event begins", nil), @"EventAlert",
                                                                         NSLocalizedString(@"Shows an alert for the upcoming end of an event", nil), @"UpcomingEventEndAlert",
                                                                         NSLocalizedString(@"Shows an alert when an event begins", nil), @"EventEndAlert",
+                                                                        NSLocalizedString(@"Shows an alert for upcoming all day events", nil), @"AllDayEventAlert",
+                                                                        NSLocalizedString(@"Shows an alert for all day events", nil), @"UpcomingToDoAlert",
                                                                         NSLocalizedString(@"Shows an alert for upcoming ToDo deadlines", nil), @"UpcomingToDoAlert",
                                                                         NSLocalizedString(@"Shows an alert at ToDo deadlines", nil), @"ToDoAlert", nil];
 
