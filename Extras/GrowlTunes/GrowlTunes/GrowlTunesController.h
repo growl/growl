@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import <Growl/Growl.h>
+#import "macros.h"
 
 @class ITunesConductor, FormattedItemViewController;
 

@@ -8,15 +8,17 @@
 
 #import "iTunes+iTunesAdditions.h"
 
+
 @implementation ITunesApplication (iTunesAdditions)
 
 +(ITunesApplication*)sharedInstance
 {
     static dispatch_once_t once;
-    static __strong ITunesApplication* iTunes;
+    static __STRONG ITunesApplication* iTunes;
     dispatch_once(&once, ^ {
         iTunes = [ITunesApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
     });
+    RETAIN(iTunes);
     return iTunes;
 }
 
@@ -114,6 +116,7 @@
     artwork = [artwork get];
     NSData* data = [artwork rawData];
     NSImage* image = [[NSImage alloc] initWithData:data];
+    AUTORELEASE(image);
     
     return image;
 }

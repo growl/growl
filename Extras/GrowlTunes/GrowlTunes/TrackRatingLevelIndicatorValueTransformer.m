@@ -7,7 +7,6 @@
 //
 
 #import "TrackRatingLevelIndicatorValueTransformer.h"
-#import "macros.h"
 
 @implementation TrackRatingLevelIndicatorValueTransformer
 

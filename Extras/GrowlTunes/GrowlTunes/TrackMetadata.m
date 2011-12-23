@@ -6,12 +6,11 @@
 //  Copyright (c) 2011 The Growl Project. All rights reserved.
 //
 
+#import <objc/runtime.h>
 #import "TrackMetadata.h"
 #import "iTunes+iTunesAdditions.h"
-#import "macros.h"
 #import "FormattingToken.h"
 #import "FormattingPreferencesHelper.h"
-#import <objc/runtime.h>
 
 
 @interface TrackMetadata ()
@@ -80,7 +79,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 +(NSArray*)propertiesForTrackClass:(NSString*)className includingHelpers:(BOOL)withHelpers
 {
-    static __strong NSDictionary* propertiesByClassName;
+    static __STRONG NSDictionary* propertiesByClassName;
     
     if (!propertiesByClassName) {
         NSSet* itemSet              = $set(@"container", @"exists", @"index", @"name", @"persistentID");
@@ -140,9 +139,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         trackSet                    = [trackSet setByAddingObjectsFromSet:trackAdditionsSet];
         
         NSSet* cdSet                = [trackSet setByAddingObjectsFromSet:$set(@"location")];
-        NSSet* deviceSet            = [trackSet copy];
+        NSSet* deviceSet            = AUTORELEASE([trackSet copy]);
         NSSet* fileSet              = [trackSet setByAddingObjectsFromSet:$set(@"location")];
-        NSSet* sharedSet            = [trackSet copy];
+        NSSet* sharedSet            = AUTORELEASE([trackSet copy]);
         NSSet* urlSet               = [trackSet setByAddingObjectsFromSet:$set(@"address")];
         
         propertiesByClassName = 
@@ -154,6 +153,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
                   @"ITunesSharedTrack", sharedSet,
                   @"ITunesURLTrack", urlSet,
                   @"all", [trackSet setByAddingObjectsFromSet:$set(@"location", @"address")]);
+        RETAIN(propertiesByClassName);
     }
     
     NSSet* props = [propertiesByClassName objectForKey:className];
@@ -225,6 +225,13 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     return self;
 }
 
+-(void)dealloc
+{
+    RELEASE(_cache);
+    RELEASE(_trackObject);
+    SUPER_DEALLOC;
+}
+
 #pragma mark evaluation
 
 // TODO: determine whether it's worth it to do a persistentID check against the currentTrack and refresh when evaluated
@@ -281,7 +288,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         etrack.neverEvaluate = NO;
         [etrack evaluate];
     }
-    return etrack;
+    return AUTORELEASE(etrack);
 }
 
 #pragma mark KVC
@@ -498,7 +505,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     NSArray* attributes = $array(formattingAttributes);
-    FormattingPreferencesHelper* helper = [[FormattingPreferencesHelper alloc] init];
+    FormattingPreferencesHelper* helper = AUTORELEASE([[FormattingPreferencesHelper alloc] init]);
     
     NSMutableArray* descriptionArray = [NSMutableArray arrayWithCapacity:3];
     
@@ -533,11 +540,13 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
                                    stringByTrimmingCharactersInSet:toTrim];
     [dict setValue:descriptionString forKey:@"description"];
     
+    NSDictionary* immutableDict = AUTORELEASE([dict copy]);
+    
     if (_isEvaluated) {
-        [self.cache setValue:[dict copy] forKey:@"formattingDescriptionDictionary"];
+        [self.cache setValue:immutableDict forKey:@"formattingDescriptionDictionary"];
     }
     
-    return [dict copy];
+    return immutableDict;
 }
 
 -(NSString*)formattedTitle

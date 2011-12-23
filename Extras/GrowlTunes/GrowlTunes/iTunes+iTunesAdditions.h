@@ -7,6 +7,7 @@
 //
 
 #import "iTunes.h"
+#import "macros.h"
 
 
 @interface ITunesApplication (iTunesAdditions)

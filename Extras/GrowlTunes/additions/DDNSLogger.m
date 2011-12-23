@@ -270,12 +270,8 @@ __strong static DDNSLogger* sharedInstance;
                                 [NSString stringWithCString:DDNSLoggerDefaultBufferFilename 
                                                    encoding:NSUTF8StringEncoding]];
         LoggerSetBufferFile(nslogger, (__bridge CFStringRef)bufferPath);
-        CFStringRef host = CFSTR(DDNSLoggerDefaultHost);
-        LoggerSetViewerHost(nslogger, host, 50000);
-        CFRelease(host);
-        CFStringRef serviceName = CFSTR(DDNSLoggerDefaultService);
-        LoggerSetupBonjour(nslogger, NULL, serviceName);
-        CFRelease(serviceName);
+        LoggerSetViewerHost(nslogger, CFSTR(DDNSLoggerDefaultHost), 50000);
+        LoggerSetupBonjour(nslogger, NULL, CFSTR(DDNSLoggerDefaultService));
         LoggerStart(nslogger);
     }
     return self;

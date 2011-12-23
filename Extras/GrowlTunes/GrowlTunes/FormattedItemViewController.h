@@ -6,7 +6,9 @@
 //  Copyright (c) 2011 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#import "macros.h"
 
 @interface FormattedItemViewController : NSViewController {
     @private

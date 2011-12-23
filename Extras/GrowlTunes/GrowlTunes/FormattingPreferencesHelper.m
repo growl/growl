@@ -7,7 +7,6 @@
 //
 
 #import "FormattingPreferencesHelper.h"
-#import "macros.h"
 #import "FormattingToken.h"
 
 
@@ -62,9 +61,22 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     self = [super init];
     
     _defaults = [NSUserDefaults standardUserDefaults];
+    RETAIN(_defaults);
     [self loadDefaults];
     
     return self;
+}
+
+-(void)dealloc
+{
+    RELEASE(_podcast);
+    RELEASE(_stream);
+    RELEASE(_show);
+    RELEASE(_movie);
+    RELEASE(_musicVideo);
+    RELEASE(_music);
+    RELEASE(_defaults);
+    SUPER_DEALLOC;
 }
 
 -(void)loadDefaults
@@ -80,9 +92,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         NSDictionary* immutableValue = [format objectForKey:type];
         
         if (immutableValue) {
-            mutableValue = [immutableValue mutableCopy];
+            mutableValue = AUTORELEASE([immutableValue mutableCopy]);
         } else {
-            mutableValue = [NSMutableDictionary dictionary];
+            mutableValue = AUTORELEASE([[NSMutableDictionary alloc] init]);
         }
         
         for (NSString* attribute in attributes) {
@@ -90,13 +102,14 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
             NSData* immutableAttribute = [mutableValue objectForKey:attribute];
             
             if (immutableAttribute) {
-                mutableAttribute = [immutableAttribute mutableCopy];
+                mutableAttribute = AUTORELEASE([immutableAttribute mutableCopy]);
             } else {
-                mutableAttribute = [NSMutableData data];
+                mutableAttribute = AUTORELEASE([[NSMutableData alloc] init]);
                 NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:mutableAttribute];
                 NSMutableArray* emptyArray = [NSMutableArray array];
                 [archiver encodeRootObject:emptyArray];
                 [archiver finishEncoding];
+                RELEASE(archiver);
             }
             
             [mutableValue setValue:mutableAttribute forKey:attribute];
@@ -160,7 +173,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 - (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString
 {
-    return [[FormattingToken alloc] initWithEditingString:editingString];
+    return AUTORELEASE([[FormattingToken alloc] initWithEditingString:editingString]);
 }
 
 - (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject

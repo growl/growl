@@ -8,8 +8,6 @@
 
 #import "ITunesConductor.h"
 #import "iTunes+iTunesAdditions.h"
-#import "macros.h"
-#import "NSObject+DRYDescription.h"
 
 
 @interface ITunesConductor ()
@@ -90,9 +88,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         
     ITunesApplication* ita = [ITunesApplication sharedInstance];
     [ita setDelegate:self];
-#ifdef DEBUG
-    [ita setLaunchFlags:(kLSLaunchDontAddToRecents)];
-#endif
     
     self.isRunning = ita.isRunning;
     
@@ -118,6 +113,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 -(void)dealloc
 {
     [self cleanupRegistrations];
+    RELEASE(_currentPersistentID);
+    RELEASE(_currentTrack);
+    RELEASE(_metaTrack);
+    SUPER_DEALLOC;
 }
 
 -(void)finalize
@@ -198,9 +197,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         ![typeDescription isEqualToString:@"error"]) { updateTrack = YES; }
     
     LogVerboseTag(LogTagState, @"update state: %@ \nupdate ID: %@ \nupdate track: %@",
-               updateState?@"YES":@"NO",
-               updateID?@"YES":@"NO",
-               updateTrack?@"YES":@"NO");
+                  updateState?@"YES":@"NO",
+                  updateID?@"YES":@"NO",
+                  updateTrack?@"YES":@"NO");
     
     if (updateState) {
         [self willChangeValueForKey:@"currentPlayerState"];
@@ -214,7 +213,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     
     if (updateID) {
         [self willChangeValueForKey:@"currentPersistentID"];
-        _currentPersistentID = newID;
+        if (_currentPersistentID != newID) {
+            RELEASE(_currentPersistentID);
+            RETAIN(newID);
+            _currentPersistentID = newID;
+        }
     }
     
     if (updateTrack) {
@@ -223,10 +226,15 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         if (!_running || newState == StateStopped) {
             LogVerboseTag(LogTagState, @"setting current track to nil. _running: %@ stopped: %@",
                           _running?@"YES":@"NO", (newState == ITunesEPlSStopped)?@"YES":@"NO");
-            _currentTrack = nil;
+            RELEASE(_currentTrack);
         } else {
             LogVerboseTag(LogTagState, @"setting current track to evaluated track");
-            _currentTrack = [self.metaTrack evaluated];
+            TrackMetadata* newTrack = [self.metaTrack evaluated];
+            if (_currentTrack != newTrack) {
+                RELEASE(_currentTrack);
+                RETAIN(newTrack);
+                _currentTrack = newTrack;
+            }
         }
         
         [self didChangeValueForKey:@"currentTrack"];

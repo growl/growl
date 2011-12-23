@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ScriptingBridge/ScriptingBridge.h>
+#import "macros.h"
 #import "iTunes.h"
 #import "iTunes+iTunesAdditions.h"
 #import "TrackMetadata.h"

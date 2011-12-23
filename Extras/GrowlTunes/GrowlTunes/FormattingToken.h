@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import "defines.h"
+#import "macros.h"
 
 @interface FormattingToken : NSObject <NSCoding> {
     @private

@@ -7,7 +7,6 @@
 //
 
 #import "GTLevelIndicator.h"
-#import "macros.h"
 
 
 @implementation GTLevelIndicator

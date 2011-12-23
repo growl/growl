@@ -74,6 +74,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
     self.formattedDescription = nil;
     [self removeObserver:self forKeyPath:@"formattedDescription"];
+    RELEASE(_artworkView);
+    RELEASE(_titleField);
+    RELEASE(_detailsField);
+    RELEASE(_formattedDescription);
+    SUPER_DEALLOC;
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath

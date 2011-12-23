@@ -5,9 +5,14 @@
 //  Copyright (c) 2011 Travis Tilley. All rights reserved.
 //
 
+#import <CoreFoundation/CoreFoundation.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
 #import "LoggerClient.h"
 #import "DDLog.h"
 #import "DDNSLogger.h"
+
 
 #if defined(DEBUG) && !defined(NDEBUG)
 #   undef assert
@@ -201,6 +206,6 @@ do {                                                                            
 #define LogData(data)                   DDNSLogData(data)
 #define LogImage(image)                 DDNSLogImage(image)
 
-#ifdef NSLOGGER_GANK_NSLOG
-#define NSLog(...) LogInfoTag(@"NSLog", ##__VA_ARGS__)
+#ifdef GANK_NSLOG
+#define NSLog(...) LogInfoTag(0, ##__VA_ARGS__)
 #endif
