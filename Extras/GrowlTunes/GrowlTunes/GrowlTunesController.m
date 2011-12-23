@@ -131,6 +131,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         NSString* title = [formatted valueForKey:@"title"];
         NSString* description = [formatted valueForKey:@"description"];
         NSImage* icon = [formatted valueForKey:@"icon"];
+        [icon setCacheMode:NSImageCacheNever];
         NSData* iconData = [icon TIFFRepresentation];
         
         [self notifyWithTitle:title description:description name:NotifierChangedTracks icon:iconData];
