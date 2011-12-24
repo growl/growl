@@ -24,17 +24,24 @@
 
 #pragma mark Application Delegate methods
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (id)init
 {
-   NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"StartAtLogin", 
-                                                                       [NSNumber numberWithBool:NO], @"AllowStartAtLogin",
-                                                                       [NSNumber numberWithBool:YES], @"NotifyAllCalendars",
-                                                                       [NSNumber numberWithBool:NO], @"NotifySelectedCalendars",
-                                                                       [NSNumber numberWithBool:NO], @"NotifyGrowlCalNote",
-                                                                       [NSNumber numberWithInteger:15], @"MinutesBeforeEvent", nil];
-   [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-   [[NSUserDefaults standardUserDefaults] synchronize];
-   
+   if((self = [super init])){
+      NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"StartAtLogin", 
+                                [NSNumber numberWithBool:NO], @"AllowStartAtLogin",
+                                [NSNumber numberWithBool:YES], @"NotifyAllCalendars",
+                                [NSNumber numberWithBool:NO], @"NotifySelectedCalendars",
+                                [NSNumber numberWithBool:NO], @"NotifyGrowlCalNote",
+                                [NSNumber numberWithInteger:15], @"MinutesBeforeEvent", nil];
+      [[NSUserDefaults standardUserDefaults] addSuiteNamed:[[NSBundle mainBundle] bundleIdentifier]];
+      [[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:[[NSBundle mainBundle] bundleIdentifier]];
+      [[NSUserDefaults standardUserDefaults] synchronize];
+   }
+   return self;
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{   
    BOOL startAtLogin = [[NSUserDefaults standardUserDefaults] boolForKey:@"StartAtLogin"];
    
    [self setStartAtLogin:startAtLogin];
