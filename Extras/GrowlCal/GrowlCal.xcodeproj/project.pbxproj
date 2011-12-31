@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8334812714AEF5A400B7759A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8334812614AEF5A400B7759A /* Growl.framework */; };
+		83CB9AF814AEFC280065A90E /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */; };
 		BC13954F14A02E0400E9ED19 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = BC13954E14A02E0400E9ED19 /* Growl.icns */; };
 		BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */; };
 		BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6746F1149F0C6300898C13 /* Cocoa.framework */; };
@@ -154,6 +156,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		83CB9AF714AEFBF80065A90E /* Copy XPCServices */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/XPCServices;
+			dstSubfolderSpec = 1;
+			files = (
+				83CB9AF814AEFC280065A90E /* com.company.application.GNTPClientService.xpc in Copy XPCServices */,
+			);
+			name = "Copy XPCServices";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC674751149F0D1D00898C13 /* Copy Growl.framework */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -179,6 +192,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8334812614AEF5A400B7759A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Debug/Growl.framework; sourceTree = "<group>"; };
 		BC13954E14A02E0400E9ED19 /* Growl.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Growl.icns; sourceTree = "<group>"; };
 		BC49F89D14A0654A0063675D /* GrowlCalCalendarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalCalendarController.h; sourceTree = "<group>"; };
 		BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalCalendarController.m; sourceTree = "<group>"; };
@@ -226,6 +240,7 @@
 				BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */,
 				BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */,
 				BC674750149F0CD700898C13 /* Growl.framework in Frameworks */,
+				8334812714AEF5A400B7759A /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +255,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		833480C014AEF3A100B7759A /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8334812614AEF5A400B7759A /* Growl.framework */,
+				BC6746F1149F0C6300898C13 /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
 		BC6746E2149F0C6300898C13 = {
 			isa = PBXGroup;
 			children = (
@@ -263,7 +287,7 @@
 		BC6746F0149F0C6300898C13 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BC6746F1149F0C6300898C13 /* Cocoa.framework */,
+				833480C014AEF3A100B7759A /* Linked Frameworks */,
 				BC6746F3149F0C6300898C13 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -371,14 +395,15 @@
 				BC6746EB149F0C6300898C13 /* Resources */,
 				BC674751149F0D1D00898C13 /* Copy Growl.framework */,
 				BC8F358314A00EBC001C8D73 /* Copy Login Launcher */,
+				83CB9AF714AEFBF80065A90E /* Copy XPCServices */,
 				BC67475C149F0E5B00898C13 /* Growl XPC */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BC674754149F0D7700898C13 /* PBXTargetDependency */,
 				BC8F35A714A0161E001C8D73 /* PBXTargetDependency */,
 				BC674756149F0D7E00898C13 /* PBXTargetDependency */,
-				BC674754149F0D7700898C13 /* PBXTargetDependency */,
 			);
 			name = GrowlCal;
 			productName = GrowlCal;
@@ -572,7 +597,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+			shellScript = "source \"${PROJECT_DIR}/xpcfix.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -718,6 +743,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../build/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
@@ -731,6 +760,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../build/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";

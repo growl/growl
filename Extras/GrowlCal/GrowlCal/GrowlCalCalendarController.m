@@ -11,7 +11,7 @@
 #import "GrowlCalEvent.h"
 #import "GrowlCalRecurringEvent.h"
 
-#import <Growl/GrowlApplicationBridge.h>
+#import <Growl/Growl.h>
 #import <CalendarStore/CalendarStore.h>
 
 @implementation GrowlCalCalendarController

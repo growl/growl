@@ -8,7 +8,7 @@
 
 #import "GrowlCalEvent.h"
 
-#import <Growl/GrowlApplicationBridge.h>
+#import <Growl/Growl.h>
 #import <CalendarStore/CalendarStore.h>
 
 @implementation GrowlCalEvent
