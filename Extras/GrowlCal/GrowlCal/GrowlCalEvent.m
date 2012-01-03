@@ -52,6 +52,16 @@
    [[NSRunLoop mainRunLoop] addTimer:_nextTimer forMode:NSRunLoopCommonModes];
 }
 
+-(NSCalendarDate*)afterTimeDayBefore {
+   return [NSCalendarDate dateWithTimeInterval:0
+                                     sinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"AllDayItemDayBeforeTime"]];
+}
+
+-(NSCalendarDate*)afterTimeDayOf {
+   return [NSCalendarDate dateWithTimeInterval:0
+                                     sinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"AllDayItemDayOfTime"]];
+}
+
 -(void)updateTimer
 {
    NSDate *start = [_event startDate];
@@ -60,15 +70,17 @@
    NSDate *timerDate = nil;
 
    NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
-
+   NSCalendarDate *afterTimeDayBefore = [self afterTimeDayBefore];
+   NSCalendarDate *afterTimeDayOf = [self afterTimeDayOf];
+   
    switch (_stage) {
       case GrowlCalEventUpcoming:
          if([_event isAllDay]){
             timerDate = [[NSCalendarDate dateWithTimeInterval:0 sinceDate:start] dateByAddingYears:0
                                                                                             months:0
                                                                                               days:0
-                                                                                             hours:-(24 - 8)
-                                                                                           minutes:(60 - 30)
+                                                                                             hours:-(24 - [afterTimeDayBefore hourOfDay])
+                                                                                           minutes:(60 - [afterTimeDayBefore minuteOfHour])
                                                                                            seconds:0];
             if([timerDate compare:now] == NSOrderedAscending)
                timerDate = now;
@@ -80,8 +92,8 @@
             timerDate = [[NSCalendarDate dateWithTimeInterval:0 sinceDate:start] dateByAddingYears:0
                                                                                             months:0
                                                                                               days:0
-                                                                                             hours:8
-                                                                                           minutes:30
+                                                                                             hours:[afterTimeDayOf hourOfDay]
+                                                                                           minutes:[afterTimeDayOf minuteOfHour]
                                                                                            seconds:0];
             if([timerDate compare:now] == NSOrderedAscending)
                timerDate = now;
@@ -121,11 +133,12 @@
    GrowlCalEventStage newStage = _stage;
    
    if([_event isAllDay]){
+      NSCalendarDate *afterTimeDayOf = [self afterTimeDayOf];
       NSCalendarDate *dayOf = [[NSCalendarDate dateWithTimeInterval:0 sinceDate:start] dateByAddingYears:0
                                                                                                   months:0
                                                                                                     days:0
-                                                                                                   hours:8
-                                                                                                 minutes:30
+                                                                                                   hours:[afterTimeDayOf hourOfDay]
+                                                                                                 minutes:[afterTimeDayOf minuteOfHour]
                                                                                                  seconds:0];
       if([start compare:now] == NSOrderedDescending)
          newStage = GrowlCalEventUpcoming;

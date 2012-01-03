@@ -27,12 +27,30 @@
 - (id)init
 {
    if((self = [super init])){
+      NSCalendarDate *dayBeforeDefault = [NSCalendarDate dateWithYear:2000
+                                                                month:1
+                                                                  day:1 
+                                                                 hour:17
+                                                               minute:30 
+                                                               second:0
+                                                             timeZone:[NSTimeZone defaultTimeZone]];
+      NSCalendarDate *dayOfDefault = [NSCalendarDate dateWithYear:2000
+                                                            month:1
+                                                              day:1 
+                                                             hour:8
+                                                           minute:30
+                                                           second:0
+                                                         timeZone:[NSTimeZone defaultTimeZone]];
+      
       NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"StartAtLogin", 
                                 [NSNumber numberWithBool:NO], @"AllowStartAtLogin",
                                 [NSNumber numberWithBool:YES], @"NotifyAllCalendars",
                                 [NSNumber numberWithBool:NO], @"NotifySelectedCalendars",
                                 [NSNumber numberWithBool:NO], @"NotifyGrowlCalNote",
-                                [NSNumber numberWithInteger:15], @"MinutesBeforeEvent", nil];
+                                dayBeforeDefault, @"AllDayItemDayBeforeTime",
+                                dayOfDefault, @"AllDayItemDayOfTime",
+                                [NSNumber numberWithInteger:15], @"MinutesBeforeEvent",
+                                [NSNumber numberWithInteger:15], @"MinutesBeforeReminder", nil];
       [[NSUserDefaults standardUserDefaults] addSuiteNamed:[[NSBundle mainBundle] bundleIdentifier]];
       [[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:[[NSBundle mainBundle] bundleIdentifier]];
       [[NSUserDefaults standardUserDefaults] synchronize];
