@@ -14,16 +14,12 @@
 
 @property (strong) NSMutableDictionary *calendars;
 @property (strong) NSMutableDictionary *events;
-@property (strong) NSMutableDictionary *upcomingTasks;
-@property (strong) NSMutableDictionary *upcomingTasksFired;
-@property (strong) NSMutableDictionary *uncompletedDueTasks;
+@property (strong) NSMutableDictionary *tasks;
 
 @property (strong) NSTimer *cacheTimer;
-@property (strong) NSTimer *notifyTimer;
 
 + (GrowlCalCalendarController*)sharedController;
 
-- (void)timerFire:(NSTimer*)timer;
 - (void)loadCalendars;
 - (void)saveCalendars;
 - (void)loadEvents;

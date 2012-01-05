@@ -10,6 +10,7 @@
 #import "GrowlCalCalendar.h"
 #import "GrowlCalEvent.h"
 #import "GrowlCalRecurringEvent.h"
+#import "GrowlCalTask.h"
 
 #import <Growl/Growl.h>
 #import <CalendarStore/CalendarStore.h>
@@ -18,12 +19,9 @@
 
 @synthesize calendars = _calendars;
 @synthesize events = _events;
-@synthesize upcomingTasks = _upcomingTasks;
-@synthesize upcomingTasksFired = _upcomingTasksFired;
-@synthesize uncompletedDueTasks = _uncompletedDueTasks;
+@synthesize tasks = _tasks;
 
 @synthesize cacheTimer = _cacheTimer;
-@synthesize notifyTimer = _notifyTimer;
 
 + (GrowlCalCalendarController*)sharedController
 {
@@ -52,16 +50,9 @@
                                                  object:[CalCalendarStore defaultCalendarStore]];
       
       self.events = [NSMutableDictionary dictionary];
-      self.upcomingTasks = [NSMutableDictionary dictionary];
-      self.upcomingTasksFired = [NSMutableDictionary dictionary];
-      self.uncompletedDueTasks = [NSMutableDictionary dictionary];
+      self.tasks = [NSMutableDictionary dictionary];
       
-      self.notifyTimer = [NSTimer timerWithTimeInterval:60
-                                                 target:self
-                                               selector:@selector(timerFire:)
-                                               userInfo:nil
-                                                repeats:YES];
-      self.cacheTimer = [NSTimer timerWithTimeInterval:60*60
+      self.cacheTimer = [NSTimer timerWithTimeInterval:60*60*24
                                                 target:self
                                               selector:@selector(cacheTimerFire:)
                                               userInfo:nil
@@ -70,10 +61,7 @@
       [self loadCalendars];
       [self loadEvents];
       [self loadTasks];
-      [[NSRunLoop mainRunLoop] addTimer:_notifyTimer forMode:NSRunLoopCommonModes];
       [[NSRunLoop mainRunLoop] addTimer:_cacheTimer forMode:NSRunLoopCommonModes];
-      
-      [self timerFire:nil];
    }
       
    return self;
@@ -82,49 +70,6 @@
 - (void)dealloc
 {
    [self saveCalendars];
-}
-
-- (void)sendNotificationForItem:(CalCalendarItem*)item
-{
-   NSString *noteName = nil;
-   NSString *noteDescription = nil;
-   NSString *timeString = nil;
-   NSDateFormatter *dateTimeFormatter = [[NSDateFormatter alloc] init];
-   [dateTimeFormatter setDateStyle:NSDateFormatterShortStyle];
-   [dateTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
-   [dateTimeFormatter setDoesRelativeDateFormatting:YES];
-   
-   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-   [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-   [dateFormatter setDoesRelativeDateFormatting:YES];
-   
-   if([item isKindOfClass:[CalEvent class]]){
-      return;
-   }else if([item isKindOfClass:[CalTask class]]){
-      CalTask *task = (CalTask*)item;
-      NSDate *due = [task dueDate];
-      if([[task dueDate] compare:[NSDate date]] == NSOrderedDescending){
-         noteName = @"UpcomingToDoAlert";
-         timeString = [dateFormatter stringFromDate:due];
-         noteDescription = NSLocalizedString(@"%@ is due on %@", @"Title format string for event started");
-      }else{
-         noteName = @"ToDoAlert";
-         timeString = [dateFormatter stringFromDate:due];
-         noteDescription = NSLocalizedString(@"%@ is due on %@", @"Title format string for event started");
-
-      }
-   }else{
-      return;
-   }
-
-   [GrowlApplicationBridge notifyWithTitle:[item title]
-                               description:[NSString stringWithFormat:noteDescription, [item title], timeString]
-                          notificationName:noteName
-                                  iconData:nil
-                                  priority:0
-                                  isSticky:NO
-                              clickContext:nil
-                                identifier:[item uid]];
 }
 
 - (BOOL)isNotificationEnabledForItem:(CalCalendarItem*)item
@@ -140,55 +85,6 @@
       shouldSend = YES;
    
    return shouldSend;
-}
-
-- (void)timerFire:(NSTimer*)timer
-{
-   __block GrowlCalCalendarController *blockSelf = self;   
-   __block NSMutableArray *taskFired = [NSMutableArray array];
-   [[_upcomingTasks allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj dueDate]];
-      NSCalendarDate *dayBefore = [now dateByAddingYears:0
-                                                  months:0
-                                                    days:0
-                                                   hours:-(24 - 8)
-                                                 minutes:(60 - 30)
-                                                 seconds:0];
-
-      if([dayBefore compare:[NSDate date]] == NSOrderedAscending){
-         [taskFired addObject:[obj uid]];
-         if([[obj dueDate] compare:[NSDate date]] != NSOrderedAscending && [blockSelf isNotificationEnabledForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
-      }
-   }];
-   
-   [taskFired enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_upcomingTasks objectForKey:obj])
-         [_upcomingTasksFired setObject:[_upcomingTasks objectForKey:obj] forKey:obj];
-      [_upcomingTasks removeObjectForKey:obj];
-   }];
-   
-   __block NSMutableArray *dueTasks = [NSMutableArray array];
-   [[_upcomingTasksFired allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      NSCalendarDate *now = [[NSCalendarDate alloc] initWithTimeInterval:0 sinceDate:[obj dueDate]];
-      NSCalendarDate *dayOf = [now dateByAddingYears:0
-                                              months:0
-                                                days:0
-                                               hours:8
-                                             minutes:30
-                                             seconds:0];
-
-      if([dayOf compare:[NSDate date]] == NSOrderedAscending){
-         [dueTasks addObject:[obj uid]];
-         if([blockSelf isNotificationEnabledForItem:obj])
-            [blockSelf sendNotificationForItem:obj];
-      }
-   }];
-   [dueTasks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_upcomingTasksFired objectForKey:obj])
-         [_uncompletedDueTasks setObject:[_upcomingTasksFired objectForKey:obj] forKey:obj];
-      [_upcomingTasksFired removeObjectForKey:obj];
-   }];
 }
 
 - (void)loadCalendars 
@@ -279,29 +175,20 @@
    }];
 }
 
-- (void)setTask:(CalTask*)task
-{
-   if(!task)
-      return;
-
-   NSMutableDictionary *dictToSet = _upcomingTasks;
-   if([_upcomingTasksFired objectForKey:[task uid]])
-      dictToSet = _upcomingTasksFired;
-   else if([_uncompletedDueTasks objectForKey:[task uid]])
-      dictToSet = _uncompletedDueTasks;
-      
-   [dictToSet setObject:task forKey:[task uid]];
-}
-
 - (void)loadTasks
 {
    NSPredicate *taskPredicate = [CalCalendarStore taskPredicateWithUncompletedTasksDueBefore:[NSDate dateWithTimeIntervalSinceNow:60*60*24*7]
                                                                                    calendars:[[CalCalendarStore defaultCalendarStore] calendars]];
    NSArray *tasks = [[CalCalendarStore defaultCalendarStore] tasksWithPredicate:taskPredicate];
-   __block GrowlCalCalendarController *blockSelf = self;
    [tasks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj dueDate])
-         [blockSelf setTask:obj];
+      if([obj isKindOfClass:[CalTask class]] && [obj dueDate]){
+         if([_tasks objectForKey:[obj uid]])
+            [[_tasks objectForKey:[obj uid]] updateWithTask:obj];
+         else{
+            GrowlCalTask *newTask = [[GrowlCalTask alloc] initWithTask:obj];
+            [_tasks setObject:newTask forKey:[obj uid]];
+         }
+      }
    }];
 }
 
@@ -322,24 +209,11 @@
 - (void)tasksChanged:(NSNotification*)notification
 {
    [self loadTasks];
-   NSArray *changed = [[notification userInfo] objectForKey:CalUpdatedRecordsKey];
    NSArray *removed = [[notification userInfo] objectForKey:CalDeletedRecordsKey];
-
-   [changed enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_uncompletedDueTasks objectForKey:obj]){
-         CalTask *changeTask = [[CalCalendarStore defaultCalendarStore] taskWithUID:obj];
-         if([changeTask isCompleted])
-            [_uncompletedDueTasks removeObjectForKey:obj];
-      }
-   }];
    
    [removed enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([_upcomingTasks objectForKey:obj])
-         [_upcomingTasks removeObjectForKey:obj];
-      if([_upcomingTasksFired objectForKey:obj])
-         [_upcomingTasksFired removeObjectForKey:obj];
-      if([_uncompletedDueTasks objectForKey:obj])
-         [_uncompletedDueTasks removeObjectForKey:obj];
+      if([_tasks objectForKey:obj])
+         [_tasks removeObjectForKey:obj];
    }];
 }
 

@@ -44,6 +44,8 @@
 {
    [self invalidateTimer];
    NSTimeInterval interval = [date timeIntervalSinceDate:[NSDate date]];
+   if(interval < 0)
+      interval = 0;
    self.nextTimer = [NSTimer timerWithTimeInterval:interval
                                             target:self 
                                           selector:@selector(nextTimerFire:) 

@@ -7,6 +7,7 @@
 //
 
 #import "GrowlCalRecurringEvent.h"
+#import "NSDate+GrowlCalAdditions.h"
 
 #import <CalendarStore/CalendarStore.h>
 
@@ -34,19 +35,6 @@
       [_occurences addObject:event];
    }
    return self;
-}
-
--(NSDate*)dayOfDate:(NSDate*)date
-{
-   NSCalendarDate *calendarDate = [NSCalendarDate dateWithTimeInterval:0 sinceDate:date];
-   NSCalendarDate *dayOfDate = [NSCalendarDate dateWithYear:[calendarDate yearOfCommonEra]
-                                                      month:[calendarDate monthOfYear]
-                                                        day:[calendarDate dayOfMonth]
-                                                       hour:0
-                                                     minute:0
-                                                     second:0
-                                                   timeZone:[calendarDate timeZone]];
-   return dayOfDate;
 }
 
 -(void)updateEvent:(CalEvent*)event
@@ -87,8 +75,8 @@
          event = obj;
          *stop = YES;
       }
-      NSDate *dayOfObj = [self dayOfDate:[[obj event] startDate]];
-      NSDate *dayofEvent = [self dayOfDate:date];
+      NSDate *dayOfObj = [[[obj event] startDate] dayOfDate];
+      NSDate *dayofEvent = [date dayOfDate];
       if([dayOfObj compare:dayofEvent] == NSOrderedSame){
          event = obj;
          *stop = YES;
