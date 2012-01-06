@@ -51,9 +51,18 @@
                                 dayOfDefault, @"AllDayItemDayOfTime",
                                 [NSNumber numberWithInteger:15], @"MinutesBeforeEvent",
                                 [NSNumber numberWithInteger:15], @"MinutesBeforeReminder", nil];
-      [[NSUserDefaults standardUserDefaults] addSuiteNamed:[[NSBundle mainBundle] bundleIdentifier]];
-      [[NSUserDefaults standardUserDefaults] setPersistentDomain:defaults forName:[[NSBundle mainBundle] bundleIdentifier]];
-      [[NSUserDefaults standardUserDefaults] synchronize];
+      
+      NSUserDefaults *calDefaults = [[NSUserDefaults alloc] init];
+      [calDefaults addSuiteNamed:[[NSBundle mainBundle] bundleIdentifier]];
+      NSDictionary *existing = [calDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+      if (existing) {
+         NSMutableDictionary *domain = [defaults mutableCopy];
+         [domain addEntriesFromDictionary:existing];
+         [calDefaults setPersistentDomain:domain forName:[[NSBundle mainBundle] bundleIdentifier]];
+      } else {
+         [calDefaults setPersistentDomain:defaults forName:[[NSBundle mainBundle] bundleIdentifier]];
+      }
+      [calDefaults synchronize];
    }
    return self;
 }
@@ -106,11 +115,12 @@
    [[NSUserDefaults standardUserDefaults] setBool:startAtLogin forKey:@"StartAtLogin"];
    [_startAtLoginControl setSelectedSegment:startAtLogin ? 0 : 1];
    NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlCalLauncher.app"];
-   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES))
-      NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
-   
-   if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlCalLauncher"), startAtLogin))
-      NSLog(@"Failure Setting GrowlCalLauncher to %@start at login", startAtLogin ? @"" : @"not ");
+   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
+   //   NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
+   }
+   if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlCalLauncher"), startAtLogin)){
+   //   NSLog(@"Failure Setting GrowlCalLauncher to %@start at login", startAtLogin ? @"" : @"not ");
+   }
 }
 
 #pragma mark Menu methods
