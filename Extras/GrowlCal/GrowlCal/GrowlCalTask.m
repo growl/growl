@@ -24,9 +24,7 @@
    if((self = [super init])){
       self.task = aTask;
       _stage = GrowlCalTaskUnknown;
-      [self checkAllDay];
       [self determineStage];
-      [self updateTimer];
    }
    return self;
 }
@@ -89,28 +87,27 @@
 {
    NSString *noteName = nil;
    NSString *noteDescription = nil;
+   NSString *dateString = nil;
    NSString *timeString = nil;
    
-   NSDateFormatter *dateTimeFormatter = [[NSDateFormatter alloc] init];
-   [dateTimeFormatter setDateStyle:NSDateFormatterShortStyle];
-   [dateTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
-   [dateTimeFormatter setDoesRelativeDateFormatting:YES];
+   NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+   [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
    
    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
    [dateFormatter setDoesRelativeDateFormatting:YES];
 
-   NSDate *dueDate= [_task dueDate];
+   NSDate *dueDate = _allDay ? [_task dueDate] : [_task nextAlarmDate];
    if(_allDay){
       switch (_stage) {
          case GrowlCalTaskUpcomingFired:
             noteName = @"UpcomingToDoAlert";
-            timeString = [dateFormatter stringFromDate:dueDate];
+            dateString = [dateFormatter stringFromDate:dueDate];
             noteDescription = NSLocalizedString(@"%@ will be due %@", @"");
             break;
          case GrowlCalTaskCurrentFired:
             noteName = @"UpcomingToDoAlert";
-            timeString = [dateFormatter stringFromDate:dueDate];
+            dateString = [dateFormatter stringFromDate:dueDate];
             noteDescription = NSLocalizedString(@"%@ is due %@", @"");
             break;
          default:
@@ -120,28 +117,39 @@
       switch (_stage) {
          case GrowlCalTaskUpcomingFired:
             noteName = @"UpcomingToDoAlert";
-            timeString = [dateFormatter stringFromDate:dueDate];
-            noteDescription = NSLocalizedString(@"%@ will be due at %@", @"");
+            timeString = [timeFormatter stringFromDate:dueDate];
+            dateString = [[dateFormatter stringFromDate:dueDate] lowercaseString];
+            noteDescription = NSLocalizedString(@"%@ will be due %@ at %@", @"");
             break;
          case GrowlCalTaskCurrentFired:
             noteName = @"ToDoAlert";
-            timeString = [dateFormatter stringFromDate:dueDate];
-            noteDescription = NSLocalizedString(@"%@ is due at %@", @"");
+            timeString = [timeFormatter stringFromDate:dueDate];
+            dateString = [[dateFormatter stringFromDate:dueDate] lowercaseString];
+            noteDescription = NSLocalizedString(@"%@ is due", @"");
             break;
          default:
             break;
       }
    }
    
-   if(noteName && noteDescription)
+   if(noteName && noteDescription){
+      NSString *fullDescription = nil;
+      if(timeString && dateString)
+         fullDescription = [NSString stringWithFormat:noteDescription, [_task title], dateString, timeString];
+      else if(dateString)
+         fullDescription = [NSString stringWithFormat:noteDescription, [_task title], dateString];
+      else
+         fullDescription = [NSString stringWithFormat:noteDescription, [_task title]];
+   
       [GrowlApplicationBridge notifyWithTitle:[_task title]
-                                  description:[NSString stringWithFormat:noteDescription, [_task title], timeString]
+                                  description:fullDescription
                              notificationName:noteName
                                      iconData:nil
                                      priority:0
                                      isSticky:NO
                                  clickContext:nil
                                    identifier:[_task uid]];
+   }
 }
 
 -(void)timerFire:(NSTimer*)nextTimer
@@ -165,8 +173,6 @@
 
 -(void)checkAllDay
 {
-   //Possibly foolish check, will do testing to validate
-   NSLog(@"Due date: %@", [_task dueDate]);
    if([[[_task dueDate] dayOfDate] compare:[_task dueDate]] == NSOrderedSame)
       _allDay = YES;
    else
@@ -176,7 +182,7 @@
 -(void)updateTimer
 {
    [self invalidateTimer];
-   NSDate *dueDate = [_task dueDate];
+   NSDate *dueDate = _allDay ? [_task dueDate] : [_task nextAlarmDate];
    NSDate *beforeTime = nil;
    NSDate *dueTime = nil;
    if(_allDay){
@@ -216,7 +222,6 @@
    
    if(!timerFireDate)
       return;
-   
    NSTimeInterval interval = [timerFireDate timeIntervalSinceDate:[NSDate date]];
    if(interval < 0)
       interval = 0;
