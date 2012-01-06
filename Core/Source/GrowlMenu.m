@@ -25,6 +25,8 @@
 #define kShowRollupTooltip           NSLocalizedString(@"Show the History Rollup", @"")
 #define kHideRollup                  NSLocalizedString(@"Hide Rollup", @"")
 #define kHideRollupTooltip           NSLocalizedString(@"Hide the History Rollup", @"")
+#define kClearRollup                 NSLocalizedString(@"Clear Rollup", @"")
+#define kClearRollupTooltip          NSLocalizedString(@"Clear all notifications in the History Rollup", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
@@ -241,7 +243,10 @@
 
 - (IBAction)toggleRollup:(id)sender
 {
-   [preferences setRollupShown:![preferences isRollupShown]];
+   if(![[sender title] isEqualToString:kClearRollup])
+      [preferences setRollupShown:![preferences isRollupShown]];
+   else
+      [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
 }
 
 #pragma mark -
@@ -273,7 +278,7 @@
 	[(GrowlMenuImageView*)[statusItem view] setAlternateImage:pressedImage];
 }
 
-- (NSMenu *) createMenu:(BOOL)forDock {
+- (NSMenu *) createMenu:(BOOL)forDock {   
 	NSZone *menuZone = [NSMenu menuZone];
 	NSMenu *m = [[NSMenu allocWithZone:menuZone] init];
 
@@ -364,17 +369,21 @@
 			}
 			break;
       case kShowHideRollupTag:
-         if ([preferences isRollupShown]) {
-				[item setTitle:kHideRollup];
-				[item setToolTip:kHideRollupTooltip];
-			} else {
-				[item setTitle:kShowRollup];
-				[item setToolTip:kShowRollupTooltip];
-			}
-         
+         if(!([NSEvent modifierFlags] & NSAlternateKeyMask)){
+            if ([preferences isRollupShown]) {
+               [item setTitle:kHideRollup];
+               [item setToolTip:kHideRollupTooltip];
+            } else {
+               [item setTitle:kShowRollup];
+               [item setToolTip:kShowRollupTooltip];
+            }
+         }else{
+            [item setTitle:kClearRollup];
+            [item setToolTip:kClearRollupTooltip];
+         }
          if(![preferences isRollupEnabled])
             return NO;
-
+         
          break;
       case kHistoryItemTag:
          return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];
