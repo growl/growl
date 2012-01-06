@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSTimer *resubscribeTimer;
 
 @property (nonatomic, retain) NSDate *initialTime;
-@property (nonatomic, retain) NSData *validTime;
+@property (nonatomic, retain) NSDate *validTime;
 @property (nonatomic) NSInteger timeToLive;
 @property (nonatomic) NSInteger subscriberPort;
 @property (nonatomic) BOOL remote;

@@ -240,6 +240,9 @@
       return;
 
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+      if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
+         return;
+      
       GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
                                                                                       forDict:dict];
       GNTPKey *cryptoKey = [[[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]]
