@@ -79,10 +79,7 @@
 }
 
 - (void) dealloc {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[window release];
-	[pool release];
-
 	[super dealloc];
 }
 

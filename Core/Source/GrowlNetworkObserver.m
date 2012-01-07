@@ -44,8 +44,6 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
       self.primaryIP = nil;
       self.routableArray = nil;
       self.routableCombined = nil;
-      [self startObserving];
-      [self updateAddresses];
    }
    return self;
 }

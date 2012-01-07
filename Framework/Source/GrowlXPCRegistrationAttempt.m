@@ -17,7 +17,7 @@
 
 -(NSString*)purpose
 {
-   return @"registration";
+    return @"registration";
 }
 
 @end

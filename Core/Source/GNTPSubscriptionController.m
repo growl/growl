@@ -83,36 +83,43 @@
          [entry release];
       }];
       
-      NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-      [center addObserver:self
-                 selector:@selector(appRegistered:)
-                     name:@"ApplicationRegistered"
-                   object:nil];
-      
-      [center addObserver:self 
-                 selector:@selector(serviceFound:) 
-                     name:GNTPServiceFoundNotification 
-                   object:[GrowlBonjourBrowser sharedBrowser]];
-      [center addObserver:self 
-                 selector:@selector(serviceRemoved:) 
-                     name:GNTPServiceRemovedNotification 
-                   object:[GrowlBonjourBrowser sharedBrowser]];
-      [center addObserver:self 
-                 selector:@selector(browserStopped:) 
-                     name:GNTPBrowserStopNotification 
-                   object:[GrowlBonjourBrowser sharedBrowser]];
    }
    return self;
 }
 
 -(void)dealloc {
-   [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObservers];
    [self saveSubscriptions:YES];
    [self saveSubscriptions:NO];
    [localSubscriptions release];
    [remoteSubscriptions release];
    [subscriberID release];
    [super dealloc];
+}
+
+-(void)addObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(appRegistered:)
+                   name:@"ApplicationRegistered"
+                 object:nil];
+    
+    [center addObserver:self 
+               selector:@selector(serviceFound:) 
+                   name:GNTPServiceFoundNotification 
+                 object:[GrowlBonjourBrowser sharedBrowser]];
+    [center addObserver:self 
+               selector:@selector(serviceRemoved:) 
+                   name:GNTPServiceRemovedNotification 
+                 object:[GrowlBonjourBrowser sharedBrowser]];
+    [center addObserver:self 
+               selector:@selector(browserStopped:) 
+                   name:GNTPBrowserStopNotification 
+                 object:[GrowlBonjourBrowser sharedBrowser]];
+}
+
+-(void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)saveSubscriptions:(BOOL)remote {

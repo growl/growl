@@ -17,6 +17,9 @@
 
 + (GNTPForwarder*)sharedController;
 
+- (void)addObservers;
+- (void)removeObservers;
+
 - (void)preferencesChanged:(NSNotification*)note;
 - (void)clearCachedAddresses;
 

@@ -41,6 +41,7 @@ static NSMutableDictionary *existingInstances;
 @synthesize target;
 @synthesize displayDuration;
 @synthesize transitionDuration;
+@synthesize delegate=_delegate;
 
 #pragma mark -
 #pragma mark Caching
@@ -152,7 +153,7 @@ static NSMutableDictionary *existingInstances;
 
 	//Make sure we don't cover any other notification (or not)
 	BOOL foundSpace = NO;
-	GrowlPositionController *pc = [GrowlPositionController sharedInstance];
+	GrowlPositionController *pc = [GrowlPositionController sharedController];
 	if ([self respondsToSelector:@selector(idealOriginInRect:)])
 		foundSpace = [pc positionDisplay:self];
 	else
@@ -190,7 +191,7 @@ static NSMutableDictionary *existingInstances;
 			//XXX This should be more fluid
 			[window orderOut:nil];
 
-			[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+			[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
 			
 		}
 		[self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
@@ -286,7 +287,7 @@ static NSMutableDictionary *existingInstances;
 	[self stopAllTransitions];
 	[windowTransitions release]; windowTransitions = nil;
 
-	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+	[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
 
 	[self didTakeDownNotification];
 

@@ -22,6 +22,9 @@
 
 +(GNTPSubscriptionController*)sharedController;
 
+-(void)addObservers;
+-(void)removeObservers;
+
 -(void)saveSubscriptions:(BOOL)remote;
 
 #pragma mark Updates from the packet system

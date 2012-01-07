@@ -104,7 +104,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Growl</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.Growl.GrowlHelperApp</string>
+	<string>info.growl.GrowlHelperApp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -144,6 +144,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlApplication</string>
+	<key>NSServices</key>
+	<array/>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<false/>
 	<key>OSAScriptingDefinition</key>
@@ -245,5 +247,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array/>
 </dict>
 </plist>
