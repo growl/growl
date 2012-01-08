@@ -8,10 +8,15 @@
 
 #import "GrowlPathway.h"
 
-@interface GrowlApplicationBridgePathway : GrowlPathway {
+@interface GrowlApplicationBridgePathway : NSObject<GrowlPathway> {
 	NSConnection *connection;
 }
 
 + (GrowlApplicationBridgePathway *) standardPathway;
+
+- (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict;
+- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
+- (bycopy NSString *) growlVersion;
+
 
 @end

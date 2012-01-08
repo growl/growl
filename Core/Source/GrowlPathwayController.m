@@ -14,7 +14,6 @@
 #import "GrowlPlugin.h"
 
 #import "GrowlTCPPathway.h"
-#import "GrowlPropertyListFilePathway.h"
 #import "GrowlApplicationBridgePathway.h"
 
 static GrowlPathwayController *sharedController = nil;
@@ -45,7 +44,6 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 - (id) init {
 	if ((self = [super init])) {
 		pathways = [[NSMutableSet alloc] initWithCapacity:4U];
-		remotePathways = [[NSMutableSet alloc] initWithCapacity:2U];
 
 		BOOL loadOldPathways = YES;
 		NSNumber *num = [[NSUserDefaults standardUserDefaults] objectForKey:@"GrowlPreGNTPCompatibility"];
@@ -53,16 +51,12 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 			loadOldPathways = NO;
 
 		if (loadOldPathways) {
-			GrowlPathway *pw = [GrowlPropertyListFilePathway standardPathway];
-			if (pw)
-				[self installPathway:pw];
-
-			pw = [GrowlApplicationBridgePathway standardPathway];
+			id<GrowlPathway> pw = [GrowlApplicationBridgePathway standardPathway];
 			if (pw)
 				[self installPathway:pw];
 		}
 
-		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
+		GrowlTCPPathway *rpw = [[GrowlTCPPathway alloc] init];
 		[self installPathway:rpw];
 		[rpw release];
 
@@ -80,9 +74,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	 */
 	[pathways release];
 	 pathways = nil;
-	[remotePathways release];
-	 remotePathways = nil;
-
+    
 	[self setServerEnabled:NO];
 
 	[super dealloc];
@@ -91,7 +83,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 #pragma mark -
 #pragma mark Adding and removing pathways
 
-- (void) installPathway:(GrowlPathway *)newPathway {
+- (void) installPathway:(id<GrowlPathway>)newPathway {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		self, GrowlPathwayControllerNotificationKey,
@@ -102,14 +94,13 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	                  object:self
 	                userInfo:userInfo];
 	[pathways addObject:newPathway];
-	if ([newPathway isKindOfClass:[GrowlRemotePathway class]])
-		[remotePathways addObject:newPathway];
+    [newPathway openPathway];
 	[nc postNotificationName:GrowlPathwayControllerDidInstallPathwayNotification
 	                  object:self
 	                userInfo:userInfo];
 }
 
-- (void) removePathway:(GrowlPathway *)newPathway {
+- (void) removePathway:(id<GrowlPathway>)newPathway {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		self, GrowlPathwayControllerNotificationKey,
@@ -119,9 +110,8 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	[nc postNotificationName:GrowlPathwayControllerWillRemovePathwayNotification
 	                  object:self
 	                userInfo:userInfo];
+    [newPathway closePathway];
 	[pathways removeObject:newPathway];
-	if ([newPathway isKindOfClass:[GrowlRemotePathway class]])
-		[remotePathways removeObject:newPathway];
 	[nc postNotificationName:GrowlPathwayControllerDidRemovePathwayNotification
 	                  object:self
 	                userInfo:userInfo];
@@ -135,40 +125,23 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 }
 - (void) setServerEnabled:(BOOL)flag {
 	if ((BOOL)serverEnabled != flag) {
-		for (GrowlRemotePathway *remotePathway in remotePathways) {
-			remotePathway.enabled = flag;
-		}
-
 		serverEnabled = flag;
 	}
 }
 
-- (void) pathwayCouldNotEnable:(GrowlPathway *)pathway {
+- (void) pathwayCouldNotEnable:(id<GrowlPathway>)pathway {
 	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to YES on pathway %@", pathway];
 
 	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotEnable userInfo:nil];
 	[NSApp presentError:error];
 }
-- (void) pathwayCouldNotDisable:(GrowlPathway *)pathway {
+- (void) pathwayCouldNotDisable:(id<GrowlPathway>)pathway {
 	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to NO on pathway %@", pathway];
 
 	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotDisable userInfo:nil];
 	[NSApp presentError:error];
 }
 
-#pragma mark -
-#pragma mark Eating plug-ins
-
-- (BOOL) loadPathwaysFromPlugin:(GrowlPlugin <GrowlPathwayPlugin> *)plugin {
-	NSArray *pathwaysFromPlugin = [plugin pathways];
-	if (pathwaysFromPlugin) {
-		for (GrowlPathway *pw in pathwaysFromPlugin)
-			[self installPathway:pw];
-
-		return YES;
-	} else
-		return NO;
-}
 
 @end
 

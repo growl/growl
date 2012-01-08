@@ -9,15 +9,9 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GrowlNotificationProtocol
-- (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict;
-- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
-- (bycopy NSString *) growlVersion;
-@end
+@protocol GrowlPathway<NSObject>
 
-@class GrowlApplicationController;
-
-@interface GrowlPathway : NSObject <GrowlNotificationProtocol> {
-}
+-(void)openPathway;
+-(void)closePathway;
 
 @end

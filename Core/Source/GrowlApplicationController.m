@@ -17,7 +17,6 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
-#import "GrowlPropertyListFilePathway.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
@@ -814,9 +813,24 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		if (registerItOurselves) {
 			//We are the real GHA.
 			//Have the property-list-file pathway process this registration dictionary file.
-			GrowlPropertyListFilePathway *pathway = [GrowlPropertyListFilePathway standardPathway];
-			[pathway application:theApplication openFile:filename];
-            retVal = YES;
+            NSURL *fileURL = [NSURL fileURLWithPath:filename];
+            NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfURL:fileURL];
+            
+            /*GrowlApplicationBridge 0.6 communicates registration to Growl by
+             *	writing a dictionary file to the temporary items folder, then
+             *	opening the file with GrowlHelperApp.
+             *we need to delete these, lest we fill up the user's disk or (on Tiger)
+             *	surprise him with a 'Recovered items' folder in his Trash.
+             */
+            if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
+                [[NSFileManager defaultManager] removeItemAtPath:filename error:nil];
+            
+            if (regDict) {
+                //Register this app using the indicated dictionary
+                [self registerApplicationWithDictionary:regDict];
+                
+                retVal = YES;
+            }
 		} else {
 			//We're definitely not the real GHA, so pass it to the real GHA to be registered.
 			[[NSWorkspace sharedWorkspace] openFile:filename

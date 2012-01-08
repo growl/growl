@@ -33,14 +33,6 @@
 #endif
 #endif
 
-@interface GrowlPluginController (PRIVATE)
-- (void) registerDefaultPluginHandlers;
-- (void) findAndLoadPluginsInDirectory:(NSString *)dir;
-- (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
-- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
-- (BOOL) hasNativeArchitecture:(NSString *)filename;
-@end
-
 @interface WebCoreCache
 + (void) empty;
 @end
@@ -94,10 +86,19 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 @interface GrowlPluginController ()
 
+- (void) registerDefaultPluginHandlers;
+- (void) findAndLoadPluginsInDirectory:(NSString *)dir;
+- (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
+- (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *) contextInfo;
+- (BOOL) hasNativeArchitecture:(NSString *)filename;
+
 - (void) handleFileSystemEventFromStream:(ConstFSEventStreamRef)eventStream
 							  eventPaths:(NSArray *)paths
 							  eventFlags:(const FSEventStreamEventFlags [])eventFlags
 								eventIDs:(const FSEventStreamEventId [])eventIDs;
+
+- (void) loadPlugins;
+
 
 @end
 
@@ -108,7 +109,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[self alloc] init];
-        [instance performSelector:@selector(loadPlugins) withObject:nil afterDelay:0.0]; //defer initalization
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [instance loadPlugins];
+        });
     });
     return instance;
 }

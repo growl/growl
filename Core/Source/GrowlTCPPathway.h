@@ -6,7 +6,7 @@
 //  Copyright 2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlRemotePathway.h"
+#import "GrowlPathway.h"
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlTCPServer.h"
 
@@ -24,7 +24,7 @@
 - (NSString *) GNTPRepresentationAsString;
 @end
 
-@interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate, NSNetServiceDelegate> {
+@interface GrowlTCPPathway : NSObject <GrowlPathway,GrowlTCPServerDelegate,NSNetServiceDelegate> {
 	GrowlTCPServer			*tcpServer;
 	
 	GrowlGNTPPacketParser	*networkPacketParser;

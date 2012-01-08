@@ -57,17 +57,3 @@ typedef enum {
 -(void)preferencesChanged:(NSNotification*)note;
 
 @end
-
-@interface NSObject (GrowlTCPServerDelegate)
-/**
- * Called when a socket connects and is ready for reading and writing.
- * The host parameter will be an IP address, not a DNS name.
- **/
-- (void)didConnectToHost:(NSString *)host port:(UInt16)port;
-
-/**
- * Called when a socket has completed reading the requested data into memory.
- * Not called if there is an error.
- **/
-- (void)didReadData:(NSData *)data withTag:(long)tag;
-@end

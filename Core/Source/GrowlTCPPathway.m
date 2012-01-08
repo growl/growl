@@ -25,18 +25,11 @@
 		 * We'll ultimately ignore connections from outside localhost if networking is not enabled.
 		 */
 		self.tcpServer = [[[GrowlTCPServer alloc] init] autorelease];
-
+        
 		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
 		[self.tcpServer setType:@"_gntp._tcp."];
 		[self.tcpServer setPort:GROWL_TCP_PORT];
 		[self.tcpServer setDelegate:self];
-		
-		NSError *error = nil;
-		if (![self.tcpServer start:&error])
-			NSLog(@"Error starting Growl TCP server: %@", error);
-		[[self.tcpServer netService] setDelegate:self];
-      
-      [self.tcpServer preferencesChanged:nil];
 	}
 		
 	return self;
@@ -44,25 +37,29 @@
 
 - (void)dealloc
 {		
-	[tcpServer stop];
+	[self closePathway];
 	[tcpServer release];
-	
 	[networkPacketParser release];
-	
 	[super dealloc];
+}
+
+- (void)openPathway {
+    NSError *error = nil;
+    if (![self.tcpServer start:&error])
+        NSLog(@"Error starting Growl TCP server: %@", error);
+    [[self.tcpServer netService] setDelegate:self];
+    
+    [self.tcpServer preferencesChanged:nil];
+}
+
+- (void)closePathway {
+    [tcpServer stop];
 }
 
 #pragma mark -
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
 	NSLog(@"WARNING: could not publish Growl service. Error: %@", errorDict);
-}
-
-#pragma mark -
-
-- (BOOL) connection:(NSConnection *)ancestor shouldMakeNewConnection:(NSConnection *)conn {
-	[conn setDelegate:[ancestor delegate]];
-	return YES;
 }
  
 #pragma mark -
