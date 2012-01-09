@@ -29,7 +29,6 @@
 @property (nonatomic, retain) NSSound *demoSound;
 
 @property (nonatomic) BOOL canRemoveTicket;
-@property (nonatomic) BOOL showSearch;
 
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;

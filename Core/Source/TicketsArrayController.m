@@ -47,21 +47,6 @@
       }];
       return expandedArray;
    }
-
-/*	NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-
-	if (!searchString || [searchString isEqualToString:@""]) {
-		return [super arrangeObjects:sorted];
-	} else {		NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[sorted count]];
-
-		for (GrowlApplicationTicket *ticket in sorted) {			// Filter application's name
-
-			if ([[ticket appNameHostName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
-				[matchedObjects addObject:ticket];
-			}
-		}
-		return [super arrangeObjects:matchedObjects];
-	}*/
 }
 
 - (void) search:(id)sender {

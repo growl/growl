@@ -34,7 +34,6 @@ static BOOL awoken = NO;
 @synthesize demoSound;
 
 @synthesize canRemoveTicket;
-@synthesize showSearch;
 
 -(void)dealloc {
    [demoSound release];
@@ -283,19 +282,25 @@ static BOOL awoken = NO;
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-   if(tableView == growlApplications)
+   if(tableView == growlApplications){
       return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[NSString class]];
-   else
+   }else
       return NO;
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
-   return ![self tableView:aTableView isGroupRow:rowIndex];
+   if(aTableView == growlApplications){
+      return ![self tableView:aTableView isGroupRow:rowIndex];
+   }
+   return YES;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-   return [[ticketsArrayController arrangedObjects] count];
+   if(tableView == growlApplications){
+      return [[ticketsArrayController arrangedObjects] count];
+   }
+   return 0;
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -307,7 +312,7 @@ static BOOL awoken = NO;
 
 -(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-   if(tableColumn == applicationsNameAndIconColumn){
+if(tableColumn == applicationsNameAndIconColumn){
       NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"ApplicationCellView" owner:self];
       return cellView;
    }else if([self tableView:tableView isGroupRow:row]){
@@ -319,8 +324,6 @@ static BOOL awoken = NO;
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-   if(showSearch && row == 0)
-      return 24.0;
    if([self tableView:tableView isGroupRow:row])
       return 20.0;
    return 32.0;
