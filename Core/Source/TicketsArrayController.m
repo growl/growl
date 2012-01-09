@@ -13,6 +13,8 @@
 
 @implementation TicketsArrayController
 @synthesize searchString;
+@synthesize previousSet;
+@synthesize expandedArray;
 
 - (void) dealloc {
 	[searchString release];
@@ -22,20 +24,44 @@
 #pragma mark -
 
 - (NSArray *) arrangeObjects:(NSArray *)objects {
-	NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+   NSSet *newSet = [NSSet setWithArray:objects];
+   if ([newSet isEqualToSet:previousSet]) {
+      return expandedArray;
+   }else{
+      NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+      self.previousSet = newSet;
+      self.expandedArray = [NSMutableArray arrayWithObject:@"Local"];
+      
+      BOOL search = (searchString && ![searchString isEqualToString:@""]);
+      __block NSString *blockString = searchString;
+      __block NSString *previousHost = nil;
+      [sorted enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         if(!search || [[obj appNameHostName] rangeOfString:blockString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound){
+            NSString *newHost = [obj hostName];
+            if(newHost && ![previousHost isEqualToString:newHost]){
+               [expandedArray addObject:newHost];
+               previousHost = newHost;
+            }
+            [expandedArray addObject:obj];
+         }
+      }];
+      return expandedArray;
+   }
+
+/*	NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
 	if (!searchString || [searchString isEqualToString:@""]) {
 		return [super arrangeObjects:sorted];
-	} else {
-		NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[sorted count]];
-		for (GrowlApplicationTicket *ticket in sorted) {
-			// Filter application's name
+	} else {		NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[sorted count]];
+
+		for (GrowlApplicationTicket *ticket in sorted) {			// Filter application's name
+
 			if ([[ticket appNameHostName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[matchedObjects addObject:ticket];
 			}
 		}
 		return [super arrangeObjects:matchedObjects];
-	}
+	}*/
 }
 
 - (void) search:(id)sender {

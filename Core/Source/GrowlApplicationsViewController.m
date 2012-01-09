@@ -13,12 +13,12 @@
 #import "GrowlPreferencePane.h"
 #import "ACImageAndTextCell.h"
 
+static BOOL awoken = NO;
+
 @implementation GrowlApplicationsViewController
 
 @synthesize growlApplications;
 @synthesize applicationsNameAndIconColumn;
-@synthesize applicationsTab;
-@synthesize configurationTab;
 @synthesize notificationPriorityMenu;
 @synthesize ticketController;
 @synthesize ticketsArrayController;
@@ -29,9 +29,12 @@
 @synthesize notificationDisplayMenuButton;
 @synthesize selectedNotificationIndexes;
 
+@synthesize applicationScrollView;
+
 @synthesize demoSound;
 
 @synthesize canRemoveTicket;
+@synthesize showSearch;
 
 -(void)dealloc {
    [demoSound release];
@@ -47,6 +50,10 @@
 }
 
 -(void)awakeFromNib {
+   if(awoken)
+      return;
+   
+   awoken = YES;
    [ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
    
    self.canRemoveTicket = NO;
@@ -55,18 +62,18 @@
 	[growlApplications setTarget:self];
    
 	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
-	[appPositionPicker bind:@"selectedPosition" toObject:ticketsArrayController withKeyPath:@"selection.selectedPosition" options:nil];
+	[appPositionPicker bind:@"selectedPosition" 
+                  toObject:ticketsArrayController 
+               withKeyPath:@"selection.selectedPosition" 
+                   options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:NSRaisesForNotApplicableKeysBindingOption]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
-
-	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
-	[applicationsNameAndIconColumn setDataCell:imageTextCell];
-   
-   [applicationsTab selectFirstTabViewItem:self];
-   
+      
    [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(translateSeparatorsInMenu:)
                                                 name:NSPopUpButtonWillPopUpNotification
                                               object:soundMenuButton];
+   if([[ticketsArrayController arrangedObjects] count] > 1)
+      [ticketsArrayController setSelectionIndex:1];
 }
 
 + (NSString*)nibName {
@@ -84,7 +91,12 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
    if([keyPath isEqualToString:@"selection"] && object == ticketsArrayController) {
+      if([self tableView:growlApplications isGroupRow:[ticketsArrayController selectionIndex]])
+         return;
+      
       [self setCanRemoveTicket:[ticketsArrayController canRemove]];
+      [[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+		[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
    }
 }
 
@@ -237,22 +249,18 @@
 
 - (IBAction) showApplicationConfigurationTab:(id)sender {
 	if ([ticketsArrayController selectionIndex] != NSNotFound) {
-		[[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
-		[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
 
-		[applicationsTab selectLastTabViewItem:sender];
-		[configurationTab selectFirstTabViewItem:sender];
 	}
 }
 
 - (IBAction) changeNameOfDisplayForApplication:(id)sender {
 	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[ticketsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[[ticketsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
 	[self showPreview:sender];
 }
 - (IBAction) changeNameOfDisplayForNotification:(id)sender {
 	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[notificationsArrayController selectedObjects] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	[[notificationsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
 	[self showPreview:sender];
 }
 
@@ -273,19 +281,53 @@
 
 #pragma mark TableView data source methods
 
-- (void) tableViewDidClickInBody:(NSTableView*)tableView{
-   [self setCanRemoveTicket:[ticketsArrayController canRemove]];
+- (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
+{
+   if(tableView == growlApplications)
+      return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[NSString class]];
+   else
+      return NO;
 }
 
-- (id)tableView:(NSTableView*)aTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-   if(tableColumn == applicationsNameAndIconColumn){
-      GrowlApplicationTicket *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:row];
-      NSImage *icon = [[[NSImage alloc] initWithData:[ticket iconData]] autorelease];
-      [icon setScalesWhenResized:YES];
-      [icon setSize:CGSizeMake(32.0, 32.0)];
-      [[tableColumn dataCellForRow:row] setImage:icon];
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
+   return ![self tableView:aTableView isGroupRow:rowIndex];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+   return [[ticketsArrayController arrangedObjects] count];
+}
+
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+   if(aTableColumn == applicationsNameAndIconColumn || [self tableView:aTableView isGroupRow:rowIndex]){
+      return [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
    }
    return nil;
+}
+
+-(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+   if(tableColumn == applicationsNameAndIconColumn){
+      NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"ApplicationCellView" owner:self];
+      return cellView;
+   }else if([self tableView:tableView isGroupRow:row]){
+      NSTableCellView *groupView = [tableView makeViewWithIdentifier:@"HostCellView" owner:self];
+      return groupView;
+   }
+   return nil;
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+   if(showSearch && row == 0)
+      return 24.0;
+   if([self tableView:tableView isGroupRow:row])
+      return 20.0;
+   return 32.0;
+}
+
+- (void) tableViewDidClickInBody:(NSTableView*)tableView{
+   [self setCanRemoveTicket:[ticketsArrayController canRemove]];
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {

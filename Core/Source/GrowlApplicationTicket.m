@@ -766,6 +766,18 @@
 }
 
 - (NSComparisonResult) caseInsensitiveCompare:(GrowlApplicationTicket *)aTicket {
+   if(!hostName && ![aTicket hostName]){
+      return [[self applicationName] caseInsensitiveCompare:[aTicket applicationName]];
+   }else if(hostName && ![aTicket hostName]){
+      return NSOrderedDescending;
+   }else if(!hostName && [aTicket hostName]){
+      return NSOrderedAscending;
+   }else if(hostName && [aTicket hostName]){
+      if([hostName caseInsensitiveCompare:[aTicket hostName]] == NSOrderedSame)
+         return [[self applicationName] caseInsensitiveCompare:[aTicket applicationName]];
+      else
+         return [hostName caseInsensitiveCompare:[aTicket hostName]];
+   }
 	return [appNameHostName caseInsensitiveCompare:[aTicket appNameHostName]];
 }
 

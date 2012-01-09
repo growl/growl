@@ -8,6 +8,7 @@
 
 #import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
+#import "GrowlBonjourBrowser.h"
 #import "GrowlGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
 #import "GrowlGNTPOutgoingPacket.h"
@@ -82,7 +83,7 @@
       self.remote = isRemote;
       self.manual = isManual;
       self.use = shouldUse;
-      
+            
       self.initialTime = date;
       self.timeToLive = ttl;
       
@@ -278,8 +279,9 @@
 
 -(void)setUse:(BOOL)flag {
    use = flag;
-   if(use && !remote)
+   if(use && !remote){
       [self subscribe];
+   }
    if(!use && !remote){
       self.attemptingToSubscribe = NO;
       self.subscriptionError = NO;

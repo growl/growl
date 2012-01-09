@@ -10,12 +10,10 @@
 
 @class TicketsArrayController, NotificationsArrayController, GrowlPositionPicker, GrowlTicketController;
 
-@interface GrowlApplicationsViewController : GrowlPrefsViewController
+@interface GrowlApplicationsViewController : GrowlPrefsViewController <NSTableViewDataSource>
 
 @property (nonatomic, assign) IBOutlet NSTableView *growlApplications;
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
-@property (nonatomic, assign) IBOutlet NSTabView *applicationsTab;
-@property (nonatomic, assign) IBOutlet NSTabView *configurationTab;
 @property (nonatomic, assign) IBOutlet NSMenu *notificationPriorityMenu;
 @property (nonatomic, assign) GrowlTicketController *ticketController;
 @property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;
@@ -26,9 +24,12 @@
 @property (nonatomic, assign) IBOutlet NSPopUpButton *notificationDisplayMenuButton;
 @property (nonatomic, assign) NSIndexSet *selectedNotificationIndexes;
 
+@property (nonatomic, assign) IBOutlet NSScrollView *applicationScrollView;
+
 @property (nonatomic, retain) NSSound *demoSound;
 
 @property (nonatomic) BOOL canRemoveTicket;
+@property (nonatomic) BOOL showSearch;
 
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;
@@ -40,5 +41,7 @@
 - (IBAction) changeNameOfDisplayForNotification:(id)sender;
 - (NSIndexSet *) selectedNotificationIndexes;
 - (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
+
+- (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row;
 
 @end
