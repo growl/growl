@@ -41,6 +41,7 @@
 @synthesize manual;
 @synthesize use;
 @synthesize active;
+@synthesize alreadyBrowsing;
 @synthesize attemptingToSubscribe;
 @synthesize subscriptionError;
 @synthesize subscriptionErrorDescription;
@@ -59,6 +60,7 @@
              port:(NSInteger)port
 {
    if((self = [super init])){
+      self.alreadyBrowsing = NO;
       computerName = [name retain];
       if(!domain || [domain isEqualToString:@""])
          self.domain = @"local.";
@@ -281,6 +283,10 @@
    use = flag;
    if(use && !remote){
       [self subscribe];
+      if(!alreadyBrowsing){
+         [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
+         self.alreadyBrowsing = YES;
+      }
    }
    if(!use && !remote){
       self.attemptingToSubscribe = NO;
@@ -289,6 +295,11 @@
       self.initialTime = [NSDate distantPast];
       self.timeToLive = 0;
       self.validTime = nil;
+      
+      if(alreadyBrowsing){
+         [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
+         self.alreadyBrowsing = NO;
+      }
    }
 }
 
@@ -384,6 +395,7 @@
    if(lastKnownAddress) [buildDict setValue:lastKnownAddress forKey:@"address"];
    if(computerName)     [buildDict setValue:computerName forKey:@"computerName"];
    if(initialTime)      [buildDict setValue:initialTime forKey:@"initialTime"];
+   [buildDict setValue:[NSNumber numberWithBool:use] forKey:@"use"];
    [buildDict setValue:[NSNumber numberWithBool:remote] forKey:@"remote"];
    [buildDict setValue:[NSNumber numberWithBool:manual] forKey:@"manual"];   
    [buildDict setValue:[NSNumber numberWithInteger:timeToLive] forKey:@"timeToLive"];

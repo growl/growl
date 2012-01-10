@@ -31,6 +31,7 @@
 @property (nonatomic) BOOL use;
 @property (nonatomic) BOOL active;
 
+@property (nonatomic) BOOL alreadyBrowsing;
 @property (nonatomic) BOOL attemptingToSubscribe;
 @property (nonatomic) BOOL subscriptionError;
 @property (nonatomic, retain) NSString* subscriptionErrorDescription;
