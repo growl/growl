@@ -116,6 +116,7 @@
     artwork = [artwork get];
     NSData* data = [artwork rawData];
     NSImage* image = [[NSImage alloc] initWithData:data];
+    [image setCacheMode:NSImageCacheNever];
     AUTORELEASE(image);
     
     return image;
