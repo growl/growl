@@ -192,6 +192,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
 																object:self];			
 		lastPosition = selectedPosition;
+      [self setNeedsDisplay:YES];
 	}
 }
 
