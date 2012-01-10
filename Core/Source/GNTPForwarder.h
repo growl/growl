@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) GrowlPreferencesController *preferences;
 @property (nonatomic, retain) NSMutableArray *destinations;
+@property (nonatomic) BOOL alreadyBrowsing;
 
 + (GNTPForwarder*)sharedController;
 

@@ -20,6 +20,7 @@
 
 @synthesize preferences;
 @synthesize destinations;
+@synthesize alreadyBrowsing;
 
 + (GNTPForwarder*)sharedController {
    static GNTPForwarder *instance;
@@ -32,6 +33,7 @@
 
 - (id)init {
    if((self = [super init])) {
+      self.alreadyBrowsing = NO;
       self.preferences = [GrowlPreferencesController sharedController];
       
       // create a deep mutable copy of the forward destinations
@@ -90,10 +92,13 @@
 - (void)preferencesChanged:(NSNotification*)note {
    id object = [note object];
    if(!object || [object isEqualToString:GrowlEnableForwardKey]){
-      if([preferences isForwardingEnabled])
+      if([preferences isForwardingEnabled] && !alreadyBrowsing){
          [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
-      else
+         self.alreadyBrowsing = YES;
+      }else if(![preferences isForwardingEnabled] && alreadyBrowsing){
          [[GrowlBonjourBrowser sharedBrowser] stopBrowsing];
+         self.alreadyBrowsing = NO;
+      }
    }
    if(!object || [object isEqualToString:@"AddressCachingEnabled"]){
       if(![preferences boolForKey:@"AddressCachingEnabled"]){
