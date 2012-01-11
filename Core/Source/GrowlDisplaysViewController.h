@@ -32,6 +32,12 @@
 @property (nonatomic, retain) NSDictionary *currentPlugin;
 @property (nonatomic, retain) GrowlPlugin *currentPluginController;
 
+@property (nonatomic, retain) NSString *defaultStyleLabel;
+@property (nonatomic, retain) NSString *showDisabledButtonTitle;
+@property (nonatomic, retain) NSString *getMoreStylesButtonTitle;
+@property (nonatomic, retain) NSString *previewButtonTitle;
+@property (nonatomic, retain) NSString *displayStylesColumnTitle;
+
 - (void)selectPlugin:(NSString*)pluginName;
 - (void) reloadPrefs:(NSNotification *)notification;
 

@@ -32,6 +32,12 @@
 @synthesize currentPlugin;
 @synthesize currentPluginController;
 
+@synthesize defaultStyleLabel;
+@synthesize showDisabledButtonTitle;
+@synthesize getMoreStylesButtonTitle;
+@synthesize previewButtonTitle;
+@synthesize displayStylesColumnTitle;
+
 #pragma mark "Display" tab pane
 
 -(void)dealloc {
@@ -40,12 +46,23 @@
    [loadedPrefPanes release];
    [currentPlugin release];
    [currentPluginController release];
+   [defaultStyleLabel release];
+   [showDisabledButtonTitle release];
+   [getMoreStylesButtonTitle release];
+   [previewButtonTitle release];
+   [displayStylesColumnTitle release];
    [super dealloc];
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.pluginController = [GrowlPluginController sharedController];
+   
+      self.defaultStyleLabel = NSLocalizedString(@"Default Style", @"Default style picker label");
+      self.showDisabledButtonTitle = NSLocalizedString(@"Show Disabled", @"Button title which shows a list of disabled plugins");
+      self.getMoreStylesButtonTitle = NSLocalizedString(@"Get more styles", @"Button title which opens growl.info to the styles page");
+      self.previewButtonTitle = NSLocalizedString(@"Preview", @"Button title which shows a preview of the current selected style");
+      self.displayStylesColumnTitle = NSLocalizedString(@"Display Styles", @"Column title for Display Styles");
    }
    return self;
 }
