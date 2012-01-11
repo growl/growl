@@ -91,13 +91,71 @@
 @synthesize subscriberArrayController;
 @synthesize networkConnectionTabView;
 
+@synthesize listenForIncomingNoteLabel;
+@synthesize serverPasswordLabel;
+@synthesize ipAddressesLabel;
+@synthesize forwardingTabTitle;
+@synthesize subscriptionsTabTitle;
+@synthesize subscribersTabTitle;
+@synthesize bonjourDiscoveredLabel;
+@synthesize manualEntryLabel;
+@synthesize firewallLabel;
+
+@synthesize forwardEnableCheckboxLabel;
+@synthesize subscriberEnableCheckboxLabel;
+@synthesize useColumnTitle;
+@synthesize computerColumnTitle;
+@synthesize passwordColumnTitle;
+@synthesize validColumnTitle;
+
 @synthesize currentServiceIndex;
 
 @synthesize networkAddressString;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
+{
+   if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
+      self.listenForIncomingNoteLabel = NSLocalizedString(@"Listen for incoming notifications", @"Label for checkbox enabling incoming network notifications");
+      self.serverPasswordLabel = NSLocalizedString(@"Server Password:", @"Label for server password field");
+      self.ipAddressesLabel = NSLocalizedString(@"You can connect manually at one of the following addresses:", @"Label for the IP address list");
+      self.forwardingTabTitle = NSLocalizedString(@"Forwarding", @"Tab title for forwarding");
+      self.subscriptionsTabTitle = NSLocalizedString(@"Subscriptions", @"Tab title for subscriptions tab");
+      self.subscribersTabTitle = NSLocalizedString(@"Subscribers", @"Tab title for subscribers tab");
+      self.bonjourDiscoveredLabel = NSLocalizedString(@"Indicates a discovered computer using Growl 1.3 or later", @"Info label describing the bonjour icon's use");
+      self.manualEntryLabel = NSLocalizedString(@"Indicates a manually entered computer to forward to or subscribe to", @"Info label describing the network icon's use");
+      self.firewallLabel = NSLocalizedString(@"Firewall Settings: Network notifications use TCP port 23053", @"Info label for firewall settings");
+      
+      self.forwardEnableCheckboxLabel = NSLocalizedString(@"Forward notifications to other computers", @"Enable checkbox for forwarding to other computers");
+      self.subscriberEnableCheckboxLabel = NSLocalizedString(@"Allow other computers to subscribe to all notifications", @"Enable checkbox for allowing subscribers");
+      self.useColumnTitle = NSLocalizedString(@"Use", @"Column title for whether to use the item on the row");
+      self.computerColumnTitle = NSLocalizedString(@"Computer Name", @"Column title for a computer entry");
+      self.passwordColumnTitle = NSLocalizedString(@"Password", @"Column title for a password");
+      self.validColumnTitle = NSLocalizedString(@"Valid until:", @"Column title for how long a subscriber is valid for");
+   }
+   return self;
+}
+
 - (void)dealloc {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [networkAddressString release];
+   
+   [listenForIncomingNoteLabel release];
+   [serverPasswordLabel release];
+   [ipAddressesLabel release];
+   [forwardingTabTitle release];
+   [subscriptionsTabTitle release];
+   [subscribersTabTitle release];
+   [bonjourDiscoveredLabel release];
+   [manualEntryLabel release];
+   [firewallLabel release];
+   
+   [forwardEnableCheckboxLabel release];
+   [subscriberEnableCheckboxLabel release];
+   [useColumnTitle release];
+   [computerColumnTitle release];
+   [passwordColumnTitle release];
+   [validColumnTitle release];
+   
    [super dealloc];
 }
 
