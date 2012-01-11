@@ -8,6 +8,7 @@
 
 #import "GrowlHistoryViewController.h"
 #import "GrowlNotificationDatabase.h"
+#import "GrowlOnSwitch.h"
 
 @implementation GrowlHistoryViewController
 
@@ -29,6 +30,11 @@
 -(void) awakeFromNib {
    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
    [historyTable setAutosaveTableColumns:YES];
+   
+   [historyOnOffSwitch addObserver:self 
+                        forKeyPath:@"state" 
+                           options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
+                           context:nil];
     
     //set our default sort descriptor so that we're looking at new stuff at the top by default
     NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
@@ -46,31 +52,31 @@
    return @"HistoryPrefs";
 }
 
+- (void)dealloc
+{
+   [historyOnOffSwitch removeObserver:self forKeyPath:@"state"];
+   [super dealloc];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+   if(object == historyOnOffSwitch && [keyPath isEqualToString:@"state"])
+      [self.preferencesController setGrowlHistoryLogEnabled:[historyOnOffSwitch state]];
+}
+
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
    
    id object = [notification object];
    if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
-      if([self.preferencesController isGrowlHistoryLogEnabled])
-         [historyOnOffSwitch setSelectedSegment:0];
-      else
-         [historyOnOffSwitch setSelectedSegment:1];
+      [historyOnOffSwitch setState:[self.preferencesController isGrowlHistoryLogEnabled]];
    }
 	
 	[pool release];
 }
 
 #pragma mark HistoryTab
-
-- (IBAction) toggleHistory:(id)sender
-{
-   if([(NSSegmentedControl*)sender selectedSegment] == 0){
-      [self.preferencesController setGrowlHistoryLogEnabled:YES];
-   }else{
-      [self.preferencesController setGrowlHistoryLogEnabled:NO];
-   }
-}
 
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {

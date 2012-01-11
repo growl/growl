@@ -8,12 +8,12 @@
 
 #import "GrowlPrefsViewController.h"
 
-@class GrowlNotificationDatabase;
+@class GrowlNotificationDatabase, GrowlOnSwitch;
 
 @interface GrowlHistoryViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) GrowlNotificationDatabase *historyController;
-@property (nonatomic, assign) IBOutlet NSSegmentedControl *historyOnOffSwitch;
+@property (nonatomic, assign) IBOutlet GrowlOnSwitch *historyOnOffSwitch;
 @property (nonatomic, assign) IBOutlet NSArrayController *historyArrayController;
 @property (nonatomic, assign) IBOutlet NSTableView *historyTable;
 @property (nonatomic, assign) IBOutlet NSButton *trimByCountCheck;
@@ -21,7 +21,6 @@
 
 - (void) reloadPrefs:(NSNotification*)notification;
 
-- (IBAction) toggleHistory:(id)sender;
 - (IBAction) validateHistoryTrimSetting:(id)sender;
 - (IBAction) deleteSelectedHistoryItems:(id)sender;
 - (IBAction) clearAllHistory:(id)sender;
