@@ -19,9 +19,20 @@
 @synthesize globalPositionPicker;
 @synthesize startAtLoginSwitch;
 
+@synthesize additionalDownloadsButtonTitle;
+@synthesize startGrowlAtLoginLabel;
+@synthesize defaultStartingPositionLabel;
+@synthesize iconMenuOptionsList;
+
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
-      
+      self.additionalDownloadsButtonTitle = NSLocalizedString(@"Additional Downloads", @"Button title for opening growl.info to downloads page");
+      self.startGrowlAtLoginLabel = NSLocalizedString(@"Start Growl at Login", @"Start Growl at Login switch label");
+      self.defaultStartingPositionLabel = NSLocalizedString(@"Default starting position for notifications", @"Label for the global default starting position picker");
+      self.iconMenuOptionsList = [NSArray arrayWithObjects:NSLocalizedString(@"Show icon in the menubar", @"Growl will have a menu bar icon only"),
+                                                           NSLocalizedString(@"Show icon in the dock", @"Growl will have an icon only in the dock"),
+                                                           NSLocalizedString(@"Show icon in both", @"Growl will have an icon in the menu and the dock"),
+                                                           NSLocalizedString(@"No icon visible", @"Growl will run compeletely in the background"), nil];
    }
    return self;
 }
@@ -51,6 +62,10 @@
 
 - (void)dealloc {
    [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
+   [additionalDownloadsButtonTitle release];
+   [startGrowlAtLoginLabel release];
+   [defaultStartingPositionLabel release];
+   [iconMenuOptionsList release];
    [super dealloc];
 }
 
