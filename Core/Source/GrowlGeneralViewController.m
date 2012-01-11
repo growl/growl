@@ -10,6 +10,7 @@
 #import "GrowlPreferencePane.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlPositionPicker.h"
+#import "GrowlOnSwitch.h"
 
 #import "GrowlDefines.h"
 
@@ -27,10 +28,11 @@
 
 -(void)awakeFromNib
 {
-   if([self.preferencesController shouldStartGrowlAtLogin])
-      [startAtLoginSwitch setSelectedSegment:0];
-   else
-      [startAtLoginSwitch setSelectedSegment:1];   
+   [startAtLoginSwitch setState:[self.preferencesController shouldStartGrowlAtLogin]];
+   [startAtLoginSwitch addObserver:self 
+                        forKeyPath:@"state" 
+                           options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+                           context:nil];
 
 	// bind the global position picker programmatically since its a custom view, register for notification so we can handle updating manually
 	[globalPositionPicker bind:@"selectedPosition" 
@@ -47,6 +49,16 @@
    return @"GeneralPrefs";
 }
 
+- (void)dealloc {
+   [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
+   [super dealloc];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+   if(object == startAtLoginSwitch && [keyPath isEqualToString:@"state"])
+      [self startGrowlAtLogin:nil];
+}
+
 - (void) updatePosition:(NSNotification *)notification {
 	if([notification object] == globalPositionPicker) {
 		[self.preferencesController setInteger:[globalPositionPicker selectedPosition] 
@@ -55,7 +67,7 @@
 }
 
 -(IBAction)startGrowlAtLogin:(id)sender{
-   if([(NSSegmentedControl*)sender selectedSegment] == 0){
+   if([startAtLoginSwitch state]){
       if(![self.preferencesController allowStartAtLogin]){
          NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add Growl.app to your login items", nil)
                                           defaultButton:NSLocalizedString(@"Ok", nil)
@@ -86,7 +98,7 @@
          [self.preferencesController setShouldStartGrowlAtLogin:YES];
          break;
       default:
-         [startAtLoginSwitch setSelectedSegment:1];
+         [startAtLoginSwitch setState:NO];
          break;
    }
 }

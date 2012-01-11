@@ -8,11 +8,13 @@
 
 #import "GrowlPrefsViewController.h"
 
-@class GrowlPositionPicker;
+@class GrowlPositionPicker, GrowlOnSwitch;
 
 @interface GrowlGeneralViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *globalPositionPicker;
-@property (nonatomic, assign) IBOutlet NSSegmentedControl *startAtLoginSwitch;
+@property (nonatomic, assign) IBOutlet GrowlOnSwitch *startAtLoginSwitch;
+
+-(IBAction)startGrowlAtLogin:(id)sender;
 
 @end
