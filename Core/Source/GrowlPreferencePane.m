@@ -34,13 +34,39 @@
 @synthesize currentViewController;
 @synthesize prefViewControllers;
 
+@synthesize settingsWindowTitle;
+@synthesize generalItem;
+@synthesize applicationsItem;
+@synthesize displaysItem;
+@synthesize networkItem;
+@synthesize rollupItem;
+@synthesize historyItem;
+@synthesize aboutItem;
+
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+   
+   [settingsWindowTitle release];
 	[super dealloc];
 }
 
+- (id)initWithWindowNibName:(NSString *)windowNibName {
+   if((self = [super initWithWindowNibName:windowNibName])){
+      self.settingsWindowTitle = NSLocalizedString(@"Settings", @"Preferences window title");
+   }
+   return self;
+}
+
 - (void) awakeFromNib {
+   [generalItem setLabel:NSLocalizedString(@"General", @"General prefs tab title")];
+   [applicationsItem setLabel:NSLocalizedString(@"Applications", @"Application prefs tab title")];
+   [displaysItem setLabel:NSLocalizedString(@"Displays", @"Display prefs tab title")];
+   [networkItem setLabel:NSLocalizedString(@"Network", @"Network prefs tab title")];
+   [rollupItem setLabel:NSLocalizedString(@"Rollup", @"Rollup prefs tab title")];
+   [historyItem setLabel:NSLocalizedString(@"History", @"History prefs tab title")];
+   [aboutItem setLabel:NSLocalizedString(@"About", @"About prefs tab title")];
+
     firstOpen = YES;
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
     
