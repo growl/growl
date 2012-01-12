@@ -18,11 +18,30 @@
 @synthesize historyTable;
 @synthesize trimByCountCheck;
 @synthesize trimByDateCheck;
+@synthesize historySearchField;
+
+@synthesize enableHistoryLabel;
+@synthesize keepAmountLabel;
+@synthesize keepDaysLabel;
+@synthesize applicationColumnLabel;
+@synthesize titleColumnLabel;
+@synthesize timeColumnLabel;
+@synthesize clearAllHistoryButtonTitle;
+
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
 {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.historyController = [GrowlNotificationDatabase sharedInstance];
+   
+      self.enableHistoryLabel = NSLocalizedString(@"Enable History:", @"Label for the on/off switfh for enabling history");
+      self.keepAmountLabel = NSLocalizedString(@"Keep Amount", @"Label for checkbox for keeping up to an amount of notifications");
+      self.keepDaysLabel = NSLocalizedString(@"Keep Days", @"Label for checkbox for keeping up to a certain number of days worth of notifications");
+      self.applicationColumnLabel = NSLocalizedString(@"Application", @"Column title for the applications column in the history table");
+      self.titleColumnLabel = NSLocalizedString(@"Title", @"Column title for the title column in the history table");
+      self.timeColumnLabel = NSLocalizedString(@"Time", @"Column title for the time column in the history table");
+      self.clearAllHistoryButtonTitle = NSLocalizedString(@"Clear All History", @"Clear all history button title");
+      [[historySearchField cell] setPlaceholderString:NSLocalizedString(@"Search", @"Placeholder text in search field")];
    }
    return self;
 }
@@ -55,6 +74,14 @@
 - (void)dealloc
 {
    [historyOnOffSwitch removeObserver:self forKeyPath:@"state"];
+   
+   [enableHistoryLabel release];
+   [keepAmountLabel release];
+   [keepDaysLabel release];
+   [applicationColumnLabel release];
+   [titleColumnLabel release];
+   [timeColumnLabel release];
+   [clearAllHistoryButtonTitle release];
    [super dealloc];
 }
 

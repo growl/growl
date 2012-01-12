@@ -30,13 +30,47 @@ static BOOL awoken = NO;
 @synthesize selectedNotificationIndexes;
 
 @synthesize applicationScrollView;
-
 @synthesize demoSound;
-
 @synthesize canRemoveTicket;
+
+@synthesize enableLoggingLabel;
+@synthesize applicationDefaultStyleLabel;
+@synthesize notificationSettingsBoxLabel;
+@synthesize defaultStartPositionLabel;
+@synthesize customStartPositionLabel;
+@synthesize noteDisplayStyleLabel;
+@synthesize stayOnScreenLabel;
+@synthesize priorityLabel;
+@synthesize playSoundLabel;
+@synthesize stayOnScreenNever;
+@synthesize stayOnScreenAlways;
+@synthesize stayOnScreenAppDecides;
+@synthesize priorityLow;
+@synthesize priorityModerate;
+@synthesize priorityNormal;
+@synthesize priorityHigh;
+@synthesize priorityEmergency;
 
 -(void)dealloc {
    [demoSound release];
+   
+   [enableLoggingLabel release];
+   [applicationDefaultStyleLabel release];
+   [notificationSettingsBoxLabel release];
+   [defaultStartPositionLabel release];
+   [customStartPositionLabel release];
+   [noteDisplayStyleLabel release];
+   [stayOnScreenLabel release];
+   [priorityLabel release];
+   [playSoundLabel release];
+   [stayOnScreenNever release];
+   [stayOnScreenAlways release];
+   [stayOnScreenAppDecides release];
+   [priorityLow release];
+   [priorityModerate release];
+   [priorityNormal release];
+   [priorityHigh release];
+   [priorityEmergency release];
    [super dealloc];
 }
 
@@ -44,6 +78,24 @@ static BOOL awoken = NO;
 {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.ticketController = [GrowlTicketController sharedController];
+      
+      self.enableLoggingLabel = NSLocalizedString(@"Enable Logging", @"Label for checkbox which enables logging for a note or application");
+      self.applicationDefaultStyleLabel = NSLocalizedString(@"Application's Display Style", @"Label for application level display style choice");
+      self.notificationSettingsBoxLabel = NSLocalizedString(@"Notification Settings:", @"Label for box which contains notification settings");
+      self.defaultStartPositionLabel = NSLocalizedString(@"Use default starting position", @"label for using the global default starting position");
+      self.customStartPositionLabel = NSLocalizedString(@"Use custom starting position", @"label for using a custom application wide starting position");
+      self.noteDisplayStyleLabel = NSLocalizedString(@"Display Style:", @"Label for the display style of the selected notification");
+      self.stayOnScreenLabel = NSLocalizedString(@"Stay On Screen:", @"Label for choosing whether the selected note stays on screen");
+      self.priorityLabel = NSLocalizedString(@"Priority:", @"Label for choosing priority of the selected notification");
+      self.playSoundLabel = NSLocalizedString(@"Play Sound:", @"Label for choosing which sound plays for the selected notification");
+      self.stayOnScreenNever = NSLocalizedString(@"Never", @"Notification will never stay on screen");
+      self.stayOnScreenAlways = NSLocalizedString(@"Always", @"Notification always stay on screen");
+      self.stayOnScreenAppDecides = NSLocalizedString(@"Application Decides", @"Application decides whether a note should stay on screen");
+      self.priorityLow = NSLocalizedString(@"Very Low", @"Very low notification priority");
+      self.priorityModerate = NSLocalizedString(@"Moderate", @"Moderate notification priority");
+      self.priorityNormal = NSLocalizedString(@"Normal", @"Normal notification priority");
+      self.priorityHigh = NSLocalizedString(@"High", @"High notification priority");
+      self.priorityEmergency = NSLocalizedString(@"Emergency", @"Emergency notification priority");
    }
    return self;
 }

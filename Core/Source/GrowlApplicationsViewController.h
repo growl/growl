@@ -25,10 +25,26 @@
 @property (nonatomic, assign) NSIndexSet *selectedNotificationIndexes;
 
 @property (nonatomic, assign) IBOutlet NSScrollView *applicationScrollView;
-
 @property (nonatomic, retain) NSSound *demoSound;
-
 @property (nonatomic) BOOL canRemoveTicket;
+
+@property (nonatomic, retain) NSString *enableLoggingLabel;
+@property (nonatomic, retain) NSString *applicationDefaultStyleLabel;
+@property (nonatomic, retain) NSString *notificationSettingsBoxLabel;
+@property (nonatomic, retain) NSString *defaultStartPositionLabel;
+@property (nonatomic, retain) NSString *customStartPositionLabel;
+@property (nonatomic, retain) NSString *noteDisplayStyleLabel;
+@property (nonatomic, retain) NSString *stayOnScreenLabel;
+@property (nonatomic, retain) NSString *priorityLabel;
+@property (nonatomic, retain) NSString *playSoundLabel;
+@property (nonatomic, retain) NSString *stayOnScreenNever;
+@property (nonatomic, retain) NSString *stayOnScreenAlways;
+@property (nonatomic, retain) NSString *stayOnScreenAppDecides;
+@property (nonatomic, retain) NSString *priorityLow;
+@property (nonatomic, retain) NSString *priorityModerate;
+@property (nonatomic, retain) NSString *priorityNormal;
+@property (nonatomic, retain) NSString *priorityHigh;
+@property (nonatomic, retain) NSString *priorityEmergency;
 
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;
