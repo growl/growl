@@ -161,4 +161,25 @@
    }
 }
 
+- (void)openSettings:(BOOL)notification {
+   id obj = [[historyArrayController arrangedObjects] objectAtIndex:[historyTable clickedRow]];
+   NSString *appName =  [obj valueForKey:@"ApplicationName"];
+   NSString *hostName = [obj valueForKeyPath:[NSString stringWithFormat:@"GrowlDictionary.%@", GROWL_NOTIFICATION_GNTP_SENT_BY]];
+   NSString *noteName = notification ? [obj valueForKey:@"Name"] : nil;
+   //NSLog(@"Selected (<application> - <host> : <note>) %@ - %@ : %@", appName, hostName, noteName);
+   NSString *urlString = [NSString stringWithFormat:@"growl://preferences/applications/%@/%@/%@", appName, (hostName ? hostName : @""), (noteName ? noteName : @"")];
+   urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   //NSLog(@"url: %@", urlString);
+   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
+
+}
+
+- (IBAction)openAppSettings:(id)sender {
+   [self openSettings:NO];
+}
+
+- (IBAction)openNoteSettings:(id)sender {
+   [self openSettings:YES];
+}
+
 @end

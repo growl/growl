@@ -12,12 +12,14 @@
 #import "GrowlTicketController.h"
 #import "GrowlPreferencePane.h"
 #import "ACImageAndTextCell.h"
+#import "NSStringAdditions.h"
 
 static BOOL awoken = NO;
 
 @implementation GrowlApplicationsViewController
 
 @synthesize growlApplications;
+@synthesize notificationsTable;
 @synthesize applicationsNameAndIconColumn;
 @synthesize ticketController;
 @synthesize ticketsArrayController;
@@ -290,12 +292,13 @@ static BOOL awoken = NO;
       return;
 
    __block NSUInteger index = NSNotFound;
+   BOOL needLocal = (!hostName || [hostName isLocalHost]);
    [[ticketsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([obj isKindOfClass:[GrowlApplicationTicket class]] && [[obj applicationName] caseInsensitiveCompare:appName] == NSOrderedSame){
-         if(!hostName && [obj isLocalHost]){
+         if(needLocal && [obj isLocalHost]){
             index = idx;
             *stop = YES;
-         }else if(hostName && [obj hostName] && [[obj hostName] caseInsensitiveCompare:hostName]){
+         }else if(!needLocal && [obj hostName] && [[obj hostName] caseInsensitiveCompare:hostName] == NSOrderedSame){
             index = idx;
             *stop = YES;
          }
@@ -304,10 +307,11 @@ static BOOL awoken = NO;
    
    if(index != NSNotFound){
       [ticketsArrayController setSelectionIndex:index];
+      [growlApplications scrollRowToVisible:index];
       if(noteNameOrNil){
          __block NSUInteger noteIndex = NSNotFound;
          [[notificationsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if([[obj name] caseInsensitiveCompare:noteNameOrNil]){
+            if([[obj name] caseInsensitiveCompare:noteNameOrNil] == NSOrderedSame){
                noteIndex = idx;
                *stop = YES;
             }
@@ -316,8 +320,15 @@ static BOOL awoken = NO;
          if(noteIndex != NSNotFound){
             [appSettingsTabView selectTabViewItemAtIndex:1];
             [notificationsArrayController setSelectionIndex:noteIndex];
+            [notificationsTable scrollRowToVisible:noteIndex];
+         }else{
+            NSLog(@"Count not find notification %@ for application named %@ on host %@", noteNameOrNil, appName, hostName);
          }
+      }else{
+         [appSettingsTabView selectTabViewItemAtIndex:0];
       }
+   }else{
+      NSLog(@"Could not find application named %@ on host %@", appName, hostName);
    }
 }
 

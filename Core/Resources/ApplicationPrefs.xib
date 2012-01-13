@@ -103,7 +103,7 @@
 										<string key="NSFrameSize">{208, 387}</string>
 										<reference key="NSSuperview" ref="492497104"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="495670562"/>
+										<reference key="NSNextKeyView" ref="403443924"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -240,7 +240,7 @@
 						<string key="NSFrame">{{-1, 0}, {210, 389}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="403443924"/>
+						<reference key="NSNextKeyView" ref="492497104"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="403443924"/>
 						<reference key="NSHScroller" ref="895465799"/>
@@ -253,7 +253,6 @@
 						<string key="NSFrame">{{210, 10}, {509, 373}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="117729626"/>
 						<string key="NSReuseIdentifierKey">_NS:608</string>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -469,7 +468,6 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{17, 91}, {150, 100}}</string>
 											<reference key="NSSuperview" ref="627777441"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSClassName">GrowlPositionPicker</string>
 											<string key="NSExtension">NSView</string>
 										</object>
@@ -505,7 +503,7 @@
 															<string key="NSFrameSize">{265, 329}</string>
 															<reference key="NSSuperview" ref="408422449"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="327832183"/>
+															<reference key="NSNextKeyView" ref="171378551"/>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -602,7 +600,7 @@
 											<string key="NSFrame">{{-3, -3}, {267, 331}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="171378551"/>
+											<reference key="NSNextKeyView" ref="408422449"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133650</int>
 											<reference key="NSVScroller" ref="184413744"/>
@@ -1032,7 +1030,6 @@
 											<string key="NSFrame">{{269, 17}, {206, 76}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:360</string>
 											<string key="NSAntiCompressionPriority">{250, 750}</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1215,6 +1212,14 @@
 						<reference key="destination" ref="688419596"/>
 					</object>
 					<int key="connectionID">7660</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">notificationsTable</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="482467695"/>
+					</object>
+					<int key="connectionID">7668</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4878,7 +4883,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">7667</int>
+			<int key="maxID">7668</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4944,6 +4949,7 @@
 							<string>growlApplications</string>
 							<string>notificationDisplayMenuButton</string>
 							<string>notificationsArrayController</string>
+							<string>notificationsTable</string>
 							<string>soundMenuButton</string>
 							<string>ticketsArrayController</string>
 						</object>
@@ -4957,6 +4963,7 @@
 							<string>NSTableView</string>
 							<string>NSPopUpButton</string>
 							<string>NotificationsArrayController</string>
+							<string>NSTableView</string>
 							<string>NSPopUpButton</string>
 							<string>TicketsArrayController</string>
 						</object>
@@ -4973,6 +4980,7 @@
 							<string>growlApplications</string>
 							<string>notificationDisplayMenuButton</string>
 							<string>notificationsArrayController</string>
+							<string>notificationsTable</string>
 							<string>soundMenuButton</string>
 							<string>ticketsArrayController</string>
 						</object>
@@ -5009,6 +5017,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">notificationsArrayController</string>
 								<string key="candidateClassName">NotificationsArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notificationsTable</string>
+								<string key="candidateClassName">NSTableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">soundMenuButton</string>

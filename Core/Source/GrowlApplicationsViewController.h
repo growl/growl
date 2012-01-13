@@ -13,6 +13,7 @@
 @interface GrowlApplicationsViewController : GrowlPrefsViewController <NSTableViewDataSource>
 
 @property (nonatomic, assign) IBOutlet NSTableView *growlApplications;
+@property (nonatomic, assign) IBOutlet NSTableView *notificationsTable;
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
 @property (nonatomic, assign) GrowlTicketController *ticketController;
 @property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;

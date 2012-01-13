@@ -694,12 +694,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
    NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
-   if(!url || [url isEqualToString:@""])
+   NSString *escaped = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   if(!escaped || [escaped isEqualToString:@""])
       return;
-   if(![url hasPrefix:@"growl://"])
+   if(![escaped hasPrefix:@"growl://"])
       return;
    
-   NSString *shortened = [url stringByReplacingOccurrencesOfString:@"growl://" withString:@""];
+   NSString *shortened = [escaped stringByReplacingOccurrencesOfString:@"growl://" withString:@""];
    NSArray *components = [shortened componentsSeparatedByString:@"/"];
    if([components count] == 0)
       return;

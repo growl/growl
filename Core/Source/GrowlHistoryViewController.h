@@ -33,5 +33,7 @@
 - (IBAction) validateHistoryTrimSetting:(id)sender;
 - (IBAction) deleteSelectedHistoryItems:(id)sender;
 - (IBAction) clearAllHistory:(id)sender;
+- (IBAction) openAppSettings:(id)sender;
+- (IBAction) openNoteSettings:(id)sender;
 
 @end
