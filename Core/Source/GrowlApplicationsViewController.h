@@ -14,10 +14,10 @@
 
 @property (nonatomic, assign) IBOutlet NSTableView *growlApplications;
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
-@property (nonatomic, assign) IBOutlet NSMenu *notificationPriorityMenu;
 @property (nonatomic, assign) GrowlTicketController *ticketController;
 @property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;
 @property (nonatomic, assign) IBOutlet NotificationsArrayController *notificationsArrayController;
+@property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *appPositionPicker;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *soundMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *displayMenuButton;
@@ -30,7 +30,8 @@
 
 @property (nonatomic, retain) NSString *enableLoggingLabel;
 @property (nonatomic, retain) NSString *applicationDefaultStyleLabel;
-@property (nonatomic, retain) NSString *notificationSettingsBoxLabel;
+@property (nonatomic, retain) NSString *applicationSettingsTabLabel;
+@property (nonatomic, retain) NSString *notificationSettingsTabLabel;
 @property (nonatomic, retain) NSString *defaultStartPositionLabel;
 @property (nonatomic, retain) NSString *customStartPositionLabel;
 @property (nonatomic, retain) NSString *noteDisplayStyleLabel;
@@ -50,8 +51,7 @@
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
-- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName;
-- (IBAction) showApplicationConfigurationTab:(id)sender;
+- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil;
 - (IBAction) changeNameOfDisplayForApplication:(id)sender;
 - (IBAction) changeNameOfDisplayForNotification:(id)sender;
 - (NSIndexSet *) selectedNotificationIndexes;

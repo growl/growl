@@ -30,7 +30,7 @@
    }else{
       NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
       self.previousSet = newSet;
-      self.expandedArray = [NSMutableArray arrayWithObject:@"Local"];
+      self.expandedArray = [NSMutableArray arrayWithObject:NSLocalizedString(@"Local", @"Title for section containing apps from the local machine")];
       
       BOOL search = (searchString && ![searchString isEqualToString:@""]);
       __block NSString *blockString = searchString;
@@ -52,6 +52,25 @@
 - (void) search:(id)sender {
 	[self setSearchString:[sender stringValue]];
 	[self rearrangeObjects];
+}
+
+- (void) selectFirstApplication {
+   __block NSUInteger index = NSNotFound;
+   [[self arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([obj isKindOfClass:[GrowlApplicationTicket class]]){
+         index = idx;
+         *stop = YES;
+      }
+   }];
+   
+   [self setSelectionIndex:index];
+}
+
+- (BOOL) canRemove {
+   if([self selectionIndex] != NSNotFound)
+      return [[[self arrangedObjects] objectAtIndex:[self selectionIndex]] isKindOfClass:[GrowlApplicationTicket class]];
+   else
+      return NO;
 }
 
 @end

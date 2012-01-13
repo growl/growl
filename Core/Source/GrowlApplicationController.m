@@ -716,10 +716,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             if([components count] > 2){
                NSString *app = [components objectAtIndex:2];
                NSString *host = nil;
+               NSString *note = nil;
                if([components count] > 3 && ![[components objectAtIndex:3] isEqualToString:@""])
                   host = [components objectAtIndex:3];
+               if([components count] > 4 && ![[components objectAtIndex:4] isEqualToString:@""])
+                  note = [components objectAtIndex:4];
                GrowlApplicationsViewController *appsView = [[preferencesWindow prefViewControllers] valueForKey:[GrowlApplicationsViewController nibName]];
-               [appsView selectApplication:app hostName:host]; 
+               [appsView selectApplication:app hostName:host notificationName:note]; 
             }
          }else if([tab caseInsensitiveCompare:@"displays"] == NSOrderedSame){
             [preferences setSelectedPreferenceTab:2];

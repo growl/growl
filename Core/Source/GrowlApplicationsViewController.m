@@ -19,10 +19,10 @@ static BOOL awoken = NO;
 
 @synthesize growlApplications;
 @synthesize applicationsNameAndIconColumn;
-@synthesize notificationPriorityMenu;
 @synthesize ticketController;
 @synthesize ticketsArrayController;
 @synthesize notificationsArrayController;
+@synthesize appSettingsTabView;
 @synthesize appPositionPicker;
 @synthesize soundMenuButton;
 @synthesize displayMenuButton;
@@ -35,7 +35,8 @@ static BOOL awoken = NO;
 
 @synthesize enableLoggingLabel;
 @synthesize applicationDefaultStyleLabel;
-@synthesize notificationSettingsBoxLabel;
+@synthesize applicationSettingsTabLabel;
+@synthesize notificationSettingsTabLabel;
 @synthesize defaultStartPositionLabel;
 @synthesize customStartPositionLabel;
 @synthesize noteDisplayStyleLabel;
@@ -56,7 +57,8 @@ static BOOL awoken = NO;
    
    [enableLoggingLabel release];
    [applicationDefaultStyleLabel release];
-   [notificationSettingsBoxLabel release];
+   [applicationSettingsTabLabel release];
+   [notificationSettingsTabLabel release];
    [defaultStartPositionLabel release];
    [customStartPositionLabel release];
    [noteDisplayStyleLabel release];
@@ -81,7 +83,8 @@ static BOOL awoken = NO;
       
       self.enableLoggingLabel = NSLocalizedString(@"Enable Logging", @"Label for checkbox which enables logging for a note or application");
       self.applicationDefaultStyleLabel = NSLocalizedString(@"Application's Display Style", @"Label for application level display style choice");
-      self.notificationSettingsBoxLabel = NSLocalizedString(@"Notification Settings:", @"Label for box which contains notification settings");
+      self.applicationSettingsTabLabel = NSLocalizedString(@"Application", @"Label for the tab which contains application settings");
+      self.notificationSettingsTabLabel = NSLocalizedString(@"Notifications", @"Label for the tab which contains notification settings");
       self.defaultStartPositionLabel = NSLocalizedString(@"Use default starting position", @"label for using the global default starting position");
       self.customStartPositionLabel = NSLocalizedString(@"Use custom starting position", @"label for using a custom application wide starting position");
       self.noteDisplayStyleLabel = NSLocalizedString(@"Display Style:", @"Label for the display style of the selected notification");
@@ -109,7 +112,6 @@ static BOOL awoken = NO;
    
    self.canRemoveTicket = NO;
    
-   [growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
    
 	// bind the app level position picker programmatically since its a custom view, register for notification so we can handle updating manually
@@ -123,8 +125,7 @@ static BOOL awoken = NO;
                                             selector:@selector(translateSeparatorsInMenu:)
                                                 name:NSPopUpButtonWillPopUpNotification
                                               object:soundMenuButton];
-   if([[ticketsArrayController arrangedObjects] count] > 1)
-      [ticketsArrayController setSelectionIndex:1];
+   [ticketsArrayController selectFirstApplication];
 }
 
 + (NSString*)nibName {
@@ -135,19 +136,24 @@ static BOOL awoken = NO;
 	if([notification object] == appPositionPicker) {
 		// a cheap hack around selection not providing a workable object
 		NSArray *selection = [ticketsArrayController selectedObjects];
-		if ([selection count] > 0)
+		if ([selection count] > 0 && [[selection objectAtIndex:0] respondsToSelector:@selector(setSelectedPosition:)])
 			[[selection objectAtIndex:0] setSelectedPosition:[appPositionPicker selectedPosition]];
 	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
    if([keyPath isEqualToString:@"selection"] && object == ticketsArrayController) {
-      if([self tableView:growlApplications isGroupRow:[ticketsArrayController selectionIndex]])
-         return;
-      
-      [self setCanRemoveTicket:[ticketsArrayController canRemove]];
-      [[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
-		[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+      NSUInteger index = [ticketsArrayController selectionIndex];
+      if(index != NSNotFound && [[[ticketsArrayController arrangedObjects] objectAtIndex:index] isKindOfClass:[GrowlApplicationTicket class]]){      
+         [self setCanRemoveTicket:[ticketsArrayController canRemove]];
+         [displayMenuButton setEnabled:YES];
+         [notificationDisplayMenuButton setEnabled:YES];
+         [[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+         [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+      }else{
+         [displayMenuButton setEnabled:NO];
+         [notificationDisplayMenuButton setEnabled:NO];
+      }
    }
 }
 
@@ -202,6 +208,9 @@ static BOOL awoken = NO;
 }
 
 - (void) deleteTicket:(id)sender {
+   if(![[[ticketsArrayController selectedObjects] objectAtIndex:0U] isKindOfClass:[GrowlApplicationTicket class]])
+      return;
+   
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] appNameHostName];
 	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [NSBundle mainBundle], nil), appName]
 									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [NSBundle mainBundle], "Button title for removing something")
@@ -222,6 +231,7 @@ static BOOL awoken = NO;
 		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
          [[GrowlTicketController sharedController] removeTicketForApplicationName:[ticket appNameHostName]];
          [growlApplications noteNumberOfRowsChanged];
+         [ticketsArrayController selectFirstApplication];
 		}
 	}
 }
@@ -274,14 +284,14 @@ static BOOL awoken = NO;
     }
 }
 
-- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName
+- (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil
 {
    if(!appName)
       return;
 
    __block NSUInteger index = NSNotFound;
    [[ticketsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj applicationName] caseInsensitiveCompare:appName] == NSOrderedSame){
+      if([obj isKindOfClass:[GrowlApplicationTicket class]] && [[obj applicationName] caseInsensitiveCompare:appName] == NSOrderedSame){
          if(!hostName && [obj isLocalHost]){
             index = idx;
             *stop = YES;
@@ -294,14 +304,21 @@ static BOOL awoken = NO;
    
    if(index != NSNotFound){
       [ticketsArrayController setSelectionIndex:index];
-      [self showApplicationConfigurationTab:nil];
+      if(noteNameOrNil){
+         __block NSUInteger noteIndex = NSNotFound;
+         [[notificationsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if([[obj name] caseInsensitiveCompare:noteNameOrNil]){
+               noteIndex = idx;
+               *stop = YES;
+            }
+         }];
+         
+         if(noteIndex != NSNotFound){
+            [appSettingsTabView selectTabViewItemAtIndex:1];
+            [notificationsArrayController setSelectionIndex:noteIndex];
+         }
+      }
    }
-}
-
-- (IBAction) showApplicationConfigurationTab:(id)sender {
-	if ([ticketsArrayController selectionIndex] != NSNotFound) {
-
-	}
 }
 
 - (IBAction) changeNameOfDisplayForApplication:(id)sender {
@@ -364,7 +381,7 @@ static BOOL awoken = NO;
 
 -(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-if(tableColumn == applicationsNameAndIconColumn){
+   if(tableColumn == applicationsNameAndIconColumn){
       NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"ApplicationCellView" owner:self];
       return cellView;
    }else if([self tableView:tableView isGroupRow:row]){
@@ -383,10 +400,6 @@ if(tableColumn == applicationsNameAndIconColumn){
 
 - (void) tableViewDidClickInBody:(NSTableView*)tableView{
    [self setCanRemoveTicket:[ticketsArrayController canRemove]];
-}
-
-- (IBAction) tableViewDoubleClick:(id)sender {
-	[self showApplicationConfigurationTab:sender];
 }
 
 @end
