@@ -618,7 +618,8 @@ static BOOL    shouldUseBuiltInNotifications = YES;
       return NO;
    }
    NSString *appString = showApp ? [NSString stringWithFormat:@"/applications/%@", appName] : @"";
-   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"growl://preferences%@", appString]];
+   NSString *urlString = [[NSString stringWithFormat:@"growl://preferences%@", appString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   NSURL *url = [NSURL URLWithString:urlString];
    return [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
