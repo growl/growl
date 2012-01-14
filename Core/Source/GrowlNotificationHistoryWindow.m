@@ -42,6 +42,7 @@
 @synthesize historyTable;
 @synthesize countLabel;
 @synthesize notificationColumn;
+@synthesize windowTitle;
 
 -(id)init
 {
@@ -63,6 +64,7 @@
        transitionGroup = NO;
        
        rowHeights = [[NSMutableArray alloc] init];
+      self.windowTitle = NSLocalizedString(@"Growl Notification Rollup", @"Window title for the Notification Rollup window");
    }
    return self;
 }
@@ -75,7 +77,7 @@
    historyController = nil;
    [groupController release];
    groupController = nil;
-      
+   [windowTitle release];
    [super dealloc];
 }
 
