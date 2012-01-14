@@ -10,61 +10,6 @@
 #import "CapsterAppDelegate.h"
 #import "CommonTitles.h"
 
-
-//This is the callback function that gets called when the
-//caps lock is pressed. All we need to care about is the
-//refcon pointer, which is the buffer we use to send
-//data to the callback function
-CGEventRef myCallback (
-					   CGEventTapProxy proxy,
-					   CGEventType type,
-					   CGEventRef event,
-					   void *refcon
-					   )
-{
-	//change the buffer to a char buffer
-	char *buffer = (char*) refcon;
-	//get the state, and save it for comparison
-	NSUInteger** tempInt;
-	tempInt = (NSUInteger**) buffer;
- 	NSUInteger *currentState = *tempInt;
-	NSUInteger oldState = (NSUInteger) *currentState;	
-
-	//get the flags
-	CGEventFlags flags = CGEventGetFlags (event);
-	//is caps lock on or off?
-	if ((flags & kCGEventFlagMaskAlphaShift) != 0)
-		*currentState = 1;
-	else
-		*currentState = 0;
-	
-	//increase the offset, since we've read the first NSUInteger
-	NSUInteger offset = sizeof(NSUInteger);
-	
-	//copy the object we'll be using
-	id* tmpID2 = (id*) (buffer+offset);
-	id tmpID = *tmpID2;
-	offset += (NSUInteger) sizeof(id*);
-	
-
-	//if it's our first event, then do nothing.
-	//it's the fake event we're sending to ourselves
-	if(oldState == 4)
-	{
-		[tmpID performSelectorOnMainThread:@selector(fetchedCapsState) 
-								withObject:nil 
-							 waitUntilDone:YES];
-		return event;
-	}
-	
-	//if the caps lock state has changed, do some work
-	if(oldState != *currentState)
-		[tmpID capsLockChanged: (NSUInteger) *currentState];
-	
-//		printf("flag changed\n");
-	return event;
-}
-
 @implementation Growl_Caps_NotifierAppDelegate
 
 @synthesize onLoginSegmentedControl;
@@ -75,6 +20,9 @@ CGEventRef myCallback (
 
 @synthesize prefsTitle, onLoginTitle, quitTitle;
 @synthesize noneTitle, blackIcons, colorIcons, preferenceTitle, labelTitle, closeTitle;
+@synthesize capsTitle, numlockTitle, fnTitle, soundTitle;
+
+@synthesize capsFlag, shiftFlag, numlockFlag, fnFlag;
 
 
 //this function is called on startup
@@ -83,19 +31,15 @@ CGEventRef myCallback (
 	//register the user's preferences
 	[self registerDefaults];
 		
-
-	//this makes a new thread, and makes it block listening for a
-	//change of state in the caps lock flag
-	[self listenForCapsInNewThread];
+	//initializing modifier key flags
+	[self initFlags];
+	//adding an event handler for flag key changes
+	[self listen];
 
 	statusbar = malloc(sizeof(NSInteger*));	
 	*statusbar = [preferences integerForKey:@"statusMenu"];
 	oldIconValue = *statusbar;
-	
-	//select the apropriate radio button, based on which icon status is active
-//	[statusbarMatrix selectCellAtRow:*statusbar column:0];
-	
-	
+		
 	//needed, because statusbar is supposed to always store the current value
 	//and we check wether it's changed when updating the status bar.
 	//since, at the beginning, we have 0, we save it. in the next line, we will
@@ -125,95 +69,39 @@ CGEventRef myCallback (
 	//	[myGrowlController sendStartupGrowlNotification];
 }
 
-//This function takes care of listening creating the new thread and setting the listener
--(void) listenForCapsInNewThread
-{
-	//run the listener to the new thread
-	[NSThread detachNewThreadSelector:@selector(listen)
-							 toTarget:self
-						   withObject:nil];
-	
-	//because of the way our code behaves, the first event will not be shown.
-	//therefore, we wait for 2 seconds to make sure we have started listening,
-	//and then we send a fake event, which will be captured and not shown
-	sleep(2);
-	CGEventRef event1 = CGEventCreateKeyboardEvent (NULL,(CGKeyCode)56,true);
-	CGEventRef event2 = CGEventCreateKeyboardEvent (NULL,(CGKeyCode)56,false);
-	CGEventPost(kCGAnnotatedSessionEventTap, event1);
-	CGEventPost(kCGAnnotatedSessionEventTap, event2);
-
-}
-
 //starts the listener and blocks the current thread, waiting for events
 -(void) listen
 {
-	//the new thread needs to have its own autorelease pool
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		
-	//We hold the length of each image because we need to send it to the callback, in order
-	//to know its size, and reconstruct the NSData from the buffer
-//	NSUInteger len_on = [on length];
-//	NSUInteger len_off = [off length];
-//	NSLog(@"len_on: %i len_off %i", len_on, len_off);
+	NSEvent* (^myHandler)(NSEvent*) = ^(NSEvent* event)
+	{
+//		NSLog(@"flags changed");
+#define CHECK_FLAG(NAME)	if(self.NAME ## Flag != NAME)\
+								[self flagChanged: @"" #NAME toValue: NAME];\
+							self.NAME ## Flag = NAME;
+		
+		NSUInteger flags = [event modifierFlags];
+		int caps = flags & NSAlphaShiftKeyMask ? 1 : 0;
+		int shift = flags & NSShiftKeyMask ? 1 : 0;
+		int fn = flags & NSFunctionKeyMask ? 1 : 0;
+		int numlock = flags & NSNumericPadKeyMask ? 1 : 0;
+		
+		CHECK_FLAG(caps);
+		CHECK_FLAG(shift);
+		CHECK_FLAG(fn);
+		CHECK_FLAG(numlock);
+		
+		return event;
+	};
 	
-	//calculate the size of the buffer
-	int size = (int) sizeof(NSUInteger*) + (int) sizeof(id) + (int) sizeof(NSUInteger*);
-	//allocate the buffer
-	char *byteData = (char*)malloc(sizeof(char) * size);
-	
-	//offset is the offset, tmpChar is a temporary variable
-	NSUInteger offset = 0;
-	NSUInteger** tempInt;
-	
-	//The state is 0 if Caps Lock is not pressed, and 1 when pressed. However,
-	//we initialize it as 4 because we don't know the state on startup. After
-	//the first event, we'll know. Then we copy the state to the buffer
-	currentState = malloc(sizeof(NSUInteger*));
-	*currentState = 4;
-	tempInt = (NSUInteger**) byteData;
-	*tempInt = currentState;
+	[NSEvent addLocalMonitorForEventsMatchingMask:NSFlagsChangedMask 
+										  handler:myHandler];
+	[NSEvent addGlobalMonitorForEventsMatchingMask:NSFlagsChangedMask 
+										   handler: ^(NSEvent* event)
+	{
+		myHandler(event);
+	}];
 
-//	byteData[offset] = currentState;
-	offset+=(NSUInteger) sizeof(NSUInteger*);
-//	printf("offset: %d\n", offset);
-		
-	//then, we save a pointer to ourselves, since we'll need to call
-	//one of our methods to show or hide the preference panel
-	id* tmpID2 = (id*) (byteData+offset);
-	*tmpID2 = (id) self;
-	offset+=(NSUInteger) sizeof(id*);
-		
-//	NSLog(@"len_on: %i len_off %i", *tempInt1, *tempInt2);
-//	NSLog(@"size of my object: %lu", sizeof(self));
-	
-	//this produces invalid warnings for the analyzer, so we silence them
-#ifndef __clang_analyzer__
-	//We create the Event Tap
-	CFMachPortRef bla = CGEventTapCreate (
-										  kCGAnnotatedSessionEventTap,
-										  kCGHeadInsertEventTap,
-										  kCGEventTapOptionListenOnly,
-										  CGEventMaskBit(kCGEventFlagsChanged),
-										  myCallback,
-										  (void*) byteData
-										  );
-	//make sure the event variable isn't NULL
-	assert(bla != NULL);
-	
-	//Create the loop source
-	CFRunLoopSourceRef bla2 = CFMachPortCreateRunLoopSource(NULL, bla, 0);
-	//again, make sure it's not NULL
-	assert(bla2 != NULL);
-	//add the loop source to the current loop
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), bla2, kCFRunLoopDefaultMode);
-	// Run the loop.
-//	printf("Listening using Core Foundation:\n");
-	CFRunLoopRun();
-#endif
-	//if we reach this, something has gone wrong
-	[pool release];
-	fprintf(stderr, "CFRunLoopRun returned\n");
-//    return EXIT_FAILURE;
 }
 
 //initializes the user preferences, and loads the defaults from the defaults file
@@ -241,7 +129,19 @@ CGEventRef myCallback (
 	self.preferenceTitle = PreferenceTitle;
 	self.labelTitle = LabelTitle;
 	self.closeTitle = CloseTitle;
-	
+	self.capsTitle = CapsTitle;
+	self.numlockTitle = NumlockTitle;
+	self.fnTitle = FnTitle;
+	self.soundTitle = SoundTitle;
+}
+
+-(void) initFlags
+{
+	NSUInteger flags = [NSEvent modifierFlags];
+	numlockFlag = flags & NSNumericPadKeyMask ? 1 : 0;
+	capsFlag = flags & NSAlphaShiftKeyMask ? 1 : 0;
+	shiftFlag = flags & NSShiftKeyMask ? 1 : 0;
+	fnFlag = flags & NSFunctionKeyMask ? 1 : 0;
 }
 
 //Set the button's title using nsattributedtitle, which lets us change the color of a button or cell's text
@@ -274,10 +174,23 @@ CGEventRef myCallback (
 	[myStatusbarController setIconState:(BOOL) *currentState];
 }
 
-- (void) capsLockChanged: (NSUInteger) newState
+- (void) flagChanged: (NSString*) flag toValue: (NSUInteger) value
 {
-	[myGrowlController sendCapsLockNotification:newState];
-	[myStatusbarController setIconState:newState];
+#define NOTIFY(NAME)\
+	if([flag isEqualToString:@"" #NAME] && [preferences boolForKey:@"" #NAME "Notifications"])\
+	{\
+		[myGrowlController sendNotification:value forFlag:flag];\
+		if([preferences boolForKey:@"playSound"])\
+			[[NSSound soundNamed:@"Glass"] play];\
+	}
+	NOTIFY(caps);
+	NOTIFY(numlock);
+	NOTIFY(fn);
+	
+
+	if([flag isEqualToString:@"caps"])
+		[myStatusbarController setIconState:value];
+	
 }
 
 //set the status menu to the value of the checkbox sender

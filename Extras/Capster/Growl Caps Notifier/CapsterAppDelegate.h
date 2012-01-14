@@ -51,7 +51,12 @@
 	
 	NSString *prefsTitle, *onLoginTitle, *quitTitle;
 	NSString *noneTitle, *blackIcons, *colorIcons, *preferenceTitle, *labelTitle, *closeTitle;
+	NSString *capsTitle, *numlockTitle, *fnTitle, *soundTitle;
+	
+	NSUInteger capsFlag, shiftFlag, numlockFlag, fnFlag;
 }
+
+@property NSUInteger capsFlag, shiftFlag, numlockFlag, fnFlag;
 
 @property  (nonatomic, assign) IBOutlet NSSegmentedControl *onLoginSegmentedControl;
 
@@ -59,12 +64,9 @@
 @property (nonatomic, retain)  NSString *onLoginTitle;
 @property (nonatomic, retain)  NSString *quitTitle;
 
-@property (nonatomic, retain)  NSString *noneTitle;
-@property (nonatomic, retain)  NSString *blackIcons;
-@property (nonatomic, retain)  NSString *colorIcons;
-@property (nonatomic, retain)  NSString *preferenceTitle;
-@property (nonatomic, retain)  NSString *labelTitle;
-@property (nonatomic, retain)  NSString *closeTitle;
+@property (nonatomic, retain)  NSString *noneTitle, *blackIcons, *colorIcons,\
+								*preferenceTitle, *labelTitle, *closeTitle;
+@property (nonatomic, retain) NSString *capsTitle, *numlockTitle, *fnTitle, *soundTitle;
 
 @property (nonatomic, retain) NSArray *iconOptions;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *iconPopUp;
@@ -74,8 +76,8 @@
 
 - (void) registerDefaults;
 - (void) initTitles;
+- (void) initFlags;
 - (void)setButtonTitleFor:(id)button toString:(NSString*)title withColor:(NSColor*)color ;
-- (void) listenForCapsInNewThread;
 - (void) listen;
 
 //set the status menu to the value of the checkbox sender
@@ -84,6 +86,6 @@
 - (IBAction) showPreferences:(id) sender;
 
 - (void) fetchedCapsState;
-- (void) capsLockChanged: (NSUInteger) newState;
+- (void) flagChanged: (NSString*) flag toValue: (NSUInteger) value;
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled;
 @end

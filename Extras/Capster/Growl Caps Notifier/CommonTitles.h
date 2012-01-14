@@ -21,4 +21,9 @@
 #define LabelTitle NSLocalizedString(@"Menu bar icon:", nil)
 #define CloseTitle NSLocalizedString(@"Close", nil)
 
+#define CapsTitle NSLocalizedString(@"Send Caps Lock Notifications", nil)
+#define NumlockTitle NSLocalizedString(@"Send Num Lock Notifications", nil)
+#define FnTitle NSLocalizedString(@"Send Function Key Notifications", nil)
+#define SoundTitle NSLocalizedString(@"Play sound with notifications", nil)
+
 #endif
