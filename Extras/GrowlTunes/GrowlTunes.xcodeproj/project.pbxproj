@@ -250,6 +250,7 @@
 		6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "GrowlTunes-Release.xcconfig"; sourceTree = "<group>"; };
 		6A636285149C43E600C1ED44 /* GrowlTunes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GrowlTunes.xcconfig; sourceTree = "<group>"; };
 		6A695F011476E76D002B0278 /* iTunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunes.m; sourceTree = "<group>"; };
+		6A7FA16214C29DD200A912B4 /* GrowlTunes-Info.plist-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GrowlTunes-Info.plist-Prefix.pch"; sourceTree = "<group>"; };
 		6A89591B1447D221009D09FC /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		6A8959521447D909009D09FC /* xpcfix.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = xpcfix.sh; path = ../xpcfix.sh; sourceTree = "<group>"; };
 		6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattingPreferences.xib; sourceTree = "<group>"; };
@@ -474,6 +475,7 @@
 				6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */,
 				6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */,
 				6A9ED38C1447D04F002A0537 /* GrowlTunes-Info.plist */,
+				6A7FA16214C29DD200A912B4 /* GrowlTunes-Info.plist-Prefix.pch */,
 				6A9ED3921447D04F002A0537 /* GrowlTunes-Prefix.pch */,
 				6AADA30E1448B43E0089AB08 /* growlTunes-selected.png */,
 				6AADA30A1447F0F40089AB08 /* GrowlTunes.entitlements */,

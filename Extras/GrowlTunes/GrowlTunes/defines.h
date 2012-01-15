@@ -14,7 +14,12 @@
 #endif
 
 
-//#define RENOTIFY_STREAM_KEY @"reNotifyOnStreamingTrackChange"
+#define COMPILED_ON __DATE__
+#define COMPILED_AT __TIME__
+#define COMPILER_VERSION __VERSION__
+
+
+/* #define RENOTIFY_STREAM_KEY @"reNotifyOnStreamingTrackChange" */
 #define NOTIFY_ITUNES_FRONTMOST @"notifyWhenITunesIsFrontmost"
 
 #define ITUNES_BUNDLE_ID @"com.apple.iTunes"

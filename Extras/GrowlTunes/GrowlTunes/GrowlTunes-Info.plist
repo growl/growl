@@ -38,5 +38,13 @@
 	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CompiledByUser</key>
+	<string>COMPILED_BY_USER</string>
+	<key>CompilerVersion</key>
+	<string>COMPILER_VERSION</string>
+	<key>CompiledOn</key>
+	<string>COMPILED_ON</string>
+	<key>CompiledAt</key>
+	<string>COMPILED_AT</string>
 </dict>
 </plist>
