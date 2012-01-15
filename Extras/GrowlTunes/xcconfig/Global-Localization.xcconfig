@@ -1,0 +1,4 @@
+#include "Global-Release.xcconfig"
+
+// preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = $(COMMON_GCC_PREPROCESSOR_DEFINITIONS) NDEBUG BETA

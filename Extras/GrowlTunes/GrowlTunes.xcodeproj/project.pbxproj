@@ -274,6 +274,12 @@
 		6AADA3351448C1F50089AB08 /* GrowlTunes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlTunes.xib; sourceTree = "<group>"; };
 		6AADA337144902060089AB08 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		6AADA33C144902FF0089AB08 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
+		6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Localization.xcconfig"; sourceTree = "<group>"; };
+		6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "GrowlTunes-Localization.xcconfig"; sourceTree = "<group>"; };
+		6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "additions-Debug.xcconfig"; sourceTree = "<group>"; };
+		6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "additions-Localization.xcconfig"; sourceTree = "<group>"; };
+		6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "additions-Release.xcconfig"; sourceTree = "<group>"; };
+		6ACCBED814C28C08000F3151 /* additions.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = additions.xcconfig; sourceTree = "<group>"; };
 		6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ARC64-GC32.xcconfig"; sourceTree = "<group>"; };
 		6AD07C30149FF6C400BFFF52 /* libadditions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libadditions.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AD07C32149FF6C400BFFF52 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -347,11 +353,17 @@
 		6A63627F149C43E500C1ED44 /* xcconfig */ = {
 			isa = PBXGroup;
 			children = (
+				6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */,
+				6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */,
+				6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */,
+				6ACCBED814C28C08000F3151 /* additions.xcconfig */,
 				6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */,
 				6A636280149C43E500C1ED44 /* Global-Common.xcconfig */,
 				6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */,
+				6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */,
 				6A636282149C43E500C1ED44 /* Global-Release.xcconfig */,
 				6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */,
+				6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */,
 				6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */,
 				6A636285149C43E600C1ED44 /* GrowlTunes.xcconfig */,
 			);
@@ -848,25 +860,38 @@
 			};
 			name = Release;
 		};
+		6ACCBECE14C289A0000F3151 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */;
+			buildSettings = {
+			};
+			name = Localization;
+		};
+		6ACCBECF14C289A0000F3151 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
+			buildSettings = {
+			};
+			name = Localization;
+		};
+		6ACCBED014C289A0000F3151 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */;
+			buildSettings = {
+			};
+			name = Localization;
+		};
 		6AD07C3A149FF6C400BFFF52 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */;
 			buildSettings = {
-				GCC_FAST_MATH = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_UNROLL_LOOPS = YES;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		6AD07C3B149FF6C400BFFF52 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */;
 			buildSettings = {
-				GCC_FAST_MATH = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_UNROLL_LOOPS = YES;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -878,6 +903,7 @@
 			buildConfigurations = (
 				6A9ED39C1447D04F002A0537 /* Debug */,
 				6A9ED39D1447D04F002A0537 /* Release */,
+				6ACCBECE14C289A0000F3151 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -887,6 +913,7 @@
 			buildConfigurations = (
 				6A9ED39F1447D04F002A0537 /* Debug */,
 				6A9ED3A01447D04F002A0537 /* Release */,
+				6ACCBECF14C289A0000F3151 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -896,6 +923,7 @@
 			buildConfigurations = (
 				6AD07C3A149FF6C400BFFF52 /* Debug */,
 				6AD07C3B149FF6C400BFFF52 /* Release */,
+				6ACCBED014C289A0000F3151 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

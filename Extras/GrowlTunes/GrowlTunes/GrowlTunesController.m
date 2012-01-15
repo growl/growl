@@ -25,6 +25,13 @@
 
 - (BOOL)noMeansNo;
 
+#if defined(BETA) && BETA
+- (NSCalendarDate *)dateWithString:(NSString *)str;
+- (BOOL)expired;
+- (void)expiryCheck;
+#endif
+
+
 @end
 
 
@@ -151,6 +158,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [[DDNSLogger sharedInstance] addTag:@"state" forContext:LogTagState];
 #endif
     
+#if defined(BETA) && BETA
+    [self expiryCheck];
+#endif
+    
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
     
@@ -260,5 +271,70 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [self.conductor quit:sender];
     [NSApp terminate:self];
 }
+
+
+#if defined(BETA) && BETA
+#define DAYSTOEXPIRY 14
+- (NSCalendarDate *)dateWithString:(NSString *)str {
+	str = [str stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+	NSArray *dateParts = [str componentsSeparatedByString:@" "];
+	int month = 1;
+	NSString *monthString = [dateParts objectAtIndex:0];
+	if ([monthString isEqualToString:@"Feb"]) {
+		month = 2;
+	} else if ([monthString isEqualToString:@"Mar"]) {
+		month = 3;
+	} else if ([monthString isEqualToString:@"Apr"]) {
+		month = 4;
+	} else if ([monthString isEqualToString:@"May"]) {
+		month = 5;
+	} else if ([monthString isEqualToString:@"Jun"]) {
+		month = 6;
+	} else if ([monthString isEqualToString:@"Jul"]) {
+		month = 7;
+	} else if ([monthString isEqualToString:@"Aug"]) {
+		month = 8;
+	} else if ([monthString isEqualToString:@"Sep"]) {
+		month = 9;
+	} else if ([monthString isEqualToString:@"Oct"]) {
+		month = 10;
+	} else if ([monthString isEqualToString:@"Nov"]) {
+		month = 11;
+	} else if ([monthString isEqualToString:@"Dec"]) {
+		month = 12;
+	}
+	
+	NSString *dateString = [NSString stringWithFormat:@"%@-%d-%@ 00:00:00 +0000", [dateParts objectAtIndex:2], month, [dateParts objectAtIndex:1]];
+	return [NSCalendarDate dateWithString:dateString];
+}
+
+- (BOOL)expired
+{
+    BOOL result = YES;
+    
+    NSCalendarDate* nowDate = [self dateWithString:[NSString stringWithUTF8String:__DATE__]];
+    NSCalendarDate* expiryDate = [nowDate dateByAddingTimeInterval:(60*60*24* DAYSTOEXPIRY)];
+    
+    if ([expiryDate earlierDate:[NSDate date]] != expiryDate)
+        result = NO;
+    
+    return result;
+}
+
+- (void)expiryCheck
+{
+    if([self expired])
+    {
+        [NSApp activateIgnoringOtherApps:YES];
+        NSInteger alert = NSRunAlertPanel(@"This Beta Has Expired", [NSString stringWithFormat:@"Please download a new version to keep using %@.", [[NSProcessInfo processInfo] processName]], @"Quit", nil, nil);
+        if (alert == NSOKButton) 
+        {
+            [NSApp terminate:self];
+        }
+    }
+}
+#endif
+
+
 
 @end

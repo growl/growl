@@ -9,6 +9,11 @@
 #define LogTagState (1 << 2)
 
 
+#if defined(BETA) && BETA
+#define DAYSTOEXPIRY 14
+#endif
+
+
 //#define RENOTIFY_STREAM_KEY @"reNotifyOnStreamingTrackChange"
 #define NOTIFY_ITUNES_FRONTMOST @"notifyWhenITunesIsFrontmost"
 

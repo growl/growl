@@ -1,0 +1,18 @@
+// linking
+MACH_O_TYPE = staticlib
+
+
+// packaging
+PRODUCT_NAME = $(TARGET_NAME)
+
+
+// code generation
+GCC_FAST_MATH = YES
+GCC_SYMBOLS_PRIVATE_EXTERN = NO
+GCC_UNROLL_LOOPS = YES
+
+
+// language
+CLANG_ENABLE_OBJC_ARC = NO
+GCC_ENABLE_OBJC_GC = supported
+GCC_ENABLE_OBJC_GC[arch=i386] = required

@@ -1,1 +1,4 @@
 #include "GrowlTunes.xcconfig"
+
+// code signing
+CODE_SIGN_IDENTITY = Mac Developer
