@@ -836,6 +836,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -843,6 +844,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};

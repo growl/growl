@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BuildMachineOSBuild</key>
+	<string>${MAC_OS_X_PRODUCT_BUILD_VERSION}</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -17,18 +19,18 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3</string>
+	<string>2.0b1</string>
 	<key>CFBundleSignature</key>
 	<string>RAWR</string>
 	<key>CFBundleVersion</key>
-	<string>1.3</string>
+	<string>2.0b1</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.music</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
-	<key>LSUIElement</key>
-	<true/>
 	<key>LSMultipleInstancesProhibited</key>
+	<true/>
+	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 The Growl Project. All rights reserved.</string>
@@ -36,7 +38,5 @@
 	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>BuildMachineOSBuild</key>
-	<string>${MAC_OS_X_PRODUCT_BUILD_VERSION}</string>
 </dict>
 </plist>
