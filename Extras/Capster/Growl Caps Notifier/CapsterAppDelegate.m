@@ -35,16 +35,9 @@
 	[self initFlags];
 	//adding an event handler for flag key changes
 	[self listen];
-
+		
 	statusbar = malloc(sizeof(NSInteger*));	
 	*statusbar = [preferences integerForKey:@"statusMenu"];
-	oldIconValue = *statusbar;
-		
-	//needed, because statusbar is supposed to always store the current value
-	//and we check wether it's changed when updating the status bar.
-	//since, at the beginning, we have 0, we save it. in the next line, we will
-	//get the correct value from the statusbarMatrix, which we've just saved
-	*statusbar = 0;
 
 	myGrowlController = [[GrowlController alloc] init];
 	myStatusbarController = [[StatusbarController alloc] initWithStatusbar:statusbar 
