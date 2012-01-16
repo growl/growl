@@ -138,11 +138,12 @@
 	if (iconID) {
 		data = [binaryDataByIdentifier objectForKey:iconID];
 	} else if (iconURL) {
-		/* XXX Blocking */
-      NSLog(@"Attempting to download icon for notification %@ of app %@", [self notificationName], [self applicationName]);
-		data = [NSData dataWithContentsOfURL:iconURL];
-      NSLog(@"Finished downloading icon for notification %@ of app %@", [self notificationName], [self applicationName]);
-
+      /* FIX ME: Implement a full, asynchronous download system */
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         NSLog(@"URL based notification icon's are not presently supported.  Support will return in a future release of Growl.app");
+      });
+      NSLog(@"Not downloading icon for notification %@ of application %@", [self notificationName], [self applicationName]);
 	}
 	
 	return data;
