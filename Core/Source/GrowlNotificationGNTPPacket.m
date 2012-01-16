@@ -139,7 +139,10 @@
 		data = [binaryDataByIdentifier objectForKey:iconID];
 	} else if (iconURL) {
 		/* XXX Blocking */
+      NSLog(@"Attempting to download icon for notification %@ of app %@", [self notificationName], [self applicationName]);
 		data = [NSData dataWithContentsOfURL:iconURL];
+      NSLog(@"Finished downloading icon for notification %@ of app %@", [self notificationName], [self applicationName]);
+
 	}
 	
 	return data;

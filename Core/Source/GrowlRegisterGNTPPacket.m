@@ -102,7 +102,9 @@
 		data = [binaryDataByIdentifier objectForKey:applicationIconID];
 	} else if (mApplicationIconURL) {
 		/* XXX Blocking */
+      NSLog(@"Attempting to download icon for application %@", [self applicationName]);
 		data = [NSData dataWithContentsOfURL:mApplicationIconURL];
+      NSLog(@"Finished downloading icon of application %@", [self applicationName]);
 	} else {
       data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
    }
