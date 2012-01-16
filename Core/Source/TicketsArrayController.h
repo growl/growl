@@ -15,6 +15,9 @@
 }
 
 - (IBAction) search:(id)sender;
+- (void) selectFirstApplication;
 
 @property (nonatomic, retain) NSString *searchString;
+@property (nonatomic, retain) NSSet *previousSet;
+@property (nonatomic, retain) NSMutableArray *expandedArray;
 @end

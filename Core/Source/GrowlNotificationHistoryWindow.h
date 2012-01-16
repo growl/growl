@@ -28,6 +28,7 @@
 @property (assign) IBOutlet NSTableView *historyTable;
 @property (assign) IBOutlet NSTextField *countLabel;
 @property (assign) IBOutlet NSTableColumn *notificationColumn;
+@property (nonatomic, retain) NSString *windowTitle;
 
 -(GrowlNotificationDatabase*)historyController;
 -(void)updateCount;

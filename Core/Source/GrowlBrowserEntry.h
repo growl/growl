@@ -8,35 +8,41 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GrowlPreferencePane;
+@class GNTPForwarder, GNTPKey;
 
 @interface GrowlBrowserEntry : NSObject {
 	
 	NSString				*_name;
-	NSString                *_domain;
-    NSString				*_uuid;
+	NSString          *_domain;
+   NSString				*_uuid;
 	BOOL					_use;
 	BOOL					_active;
-    BOOL                    _manualEntry;
+   BOOL              _manualEntry;
 	
 	NSString				*password;
+   GNTPKey           *_key;
 	BOOL					didPasswordLookup;
-	GrowlPreferencePane		*owner;
+	GNTPForwarder		*owner;
+   
+   NSData            *_lastKnownAddress;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name;
 
+- (void)updateKey;
 - (NSString *) password;
 - (void) setPassword:(NSString *)password;
 
 - (NSMutableDictionary *) properties;
 
-- (void) setOwner:(GrowlPreferencePane *)pref;
+- (void) setOwner:(GNTPForwarder *)pref;
 
 @property (retain) NSString *uuid;
 @property (retain) NSString *computerName;
-@property (assign) BOOL use;
-@property (assign) BOOL active;
+@property (nonatomic, assign) BOOL use;
+@property (nonatomic, assign) BOOL active;
 @property (assign) BOOL manualEntry;
 @property (retain) NSString *domain;
+@property (retain) GNTPKey *key;
+@property (nonatomic, retain) NSData *lastKnownAddress;
 @end

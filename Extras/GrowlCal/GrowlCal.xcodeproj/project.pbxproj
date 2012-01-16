@@ -1,0 +1,845 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8334812714AEF5A400B7759A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8334812614AEF5A400B7759A /* Growl.framework */; };
+		83CB9AF814AEFC280065A90E /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */; };
+		BC13954F14A02E0400E9ED19 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = BC13954E14A02E0400E9ED19 /* Growl.icns */; };
+		BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */; };
+		BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6746F1149F0C6300898C13 /* Cocoa.framework */; };
+		BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC6746FA149F0C6300898C13 /* InfoPlist.strings */; };
+		BC6746FE149F0C6300898C13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6746FD149F0C6300898C13 /* main.m */; };
+		BC674702149F0C6300898C13 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC674700149F0C6300898C13 /* Credits.rtf */; };
+		BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */; };
+		BC674750149F0CD700898C13 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
+		BC674752149F0D3000898C13 /* Growl.framework in Copy Growl.framework */ = {isa = PBXBuildFile; fileRef = BC674735149F0CBE00898C13 /* Growl.framework */; };
+		BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC67475D149F0EAF00898C13 /* CalendarStore.framework */; };
+		BC8C66B314A3829C002DACA5 /* GrowlCalEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */; };
+		BC8C66D614A3B752002DACA5 /* GrowlCalRecurringEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */; };
+		BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */; };
+		BC8F351C149FC643001C8D73 /* GrowlCalCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */; };
+		BC8F354514A00B80001C8D73 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8F354414A00B80001C8D73 /* ServiceManagement.framework */; };
+		BC8F358E14A015EB001C8D73 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6746F1149F0C6300898C13 /* Cocoa.framework */; };
+		BC8F359414A015EB001C8D73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8F359214A015EB001C8D73 /* InfoPlist.strings */; };
+		BC8F359614A015EB001C8D73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F359514A015EB001C8D73 /* main.m */; };
+		BC8F359A14A015EB001C8D73 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC8F359814A015EB001C8D73 /* Credits.rtf */; };
+		BC8F359D14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F359C14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m */; };
+		BC8F35A014A015EC001C8D73 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8F359E14A015EC001C8D73 /* MainMenu.xib */; };
+		BC8F35A514A0160E001C8D73 /* GrowlCalLauncher.app in Copy Login Launcher */ = {isa = PBXBuildFile; fileRef = BC8F358C14A015EB001C8D73 /* GrowlCalLauncher.app */; };
+		BCC622A714B389CB00965298 /* GrowlCalTask.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC622A614B389CB00965298 /* GrowlCalTask.m */; };
+		BCC622AA14B38C6E00965298 /* NSDate+GrowlCalAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC622A914B38C6E00965298 /* NSDate+GrowlCalAdditions.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC674732149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BC674734149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BC674736149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BC674738149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BC67473A149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BC67473C149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BC67473E149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BC674740149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BC674742149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BC674744149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
+			remoteInfo = MailMe;
+		};
+		BC674746149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BC674748149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BC67474A149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BC67474C149F0CBE00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BC674753149F0D7700898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BC674755149F0D7E00898C13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BC8F35A614A0161E001C8D73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC6746E4149F0C6300898C13 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC8F358B14A015EB001C8D73;
+			remoteInfo = GrowlCalLauncher;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		83CB9AF714AEFBF80065A90E /* Copy XPCServices */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/XPCServices;
+			dstSubfolderSpec = 1;
+			files = (
+				83CB9AF814AEFC280065A90E /* com.company.application.GNTPClientService.xpc in Copy XPCServices */,
+			);
+			name = "Copy XPCServices";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC674751149F0D1D00898C13 /* Copy Growl.framework */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BC674752149F0D3000898C13 /* Growl.framework in Copy Growl.framework */,
+			);
+			name = "Copy Growl.framework";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC8F358314A00EBC001C8D73 /* Copy Login Launcher */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				BC8F35A514A0160E001C8D73 /* GrowlCalLauncher.app in Copy Login Launcher */,
+			);
+			name = "Copy Login Launcher";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8334812614AEF5A400B7759A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Debug/Growl.framework; sourceTree = "<group>"; };
+		BC13954E14A02E0400E9ED19 /* Growl.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Growl.icns; sourceTree = "<group>"; };
+		BC49F89D14A0654A0063675D /* GrowlCalCalendarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalCalendarController.h; sourceTree = "<group>"; };
+		BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalCalendarController.m; sourceTree = "<group>"; };
+		BC6746ED149F0C6300898C13 /* GrowlCal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlCal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC6746F1149F0C6300898C13 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BC6746F4149F0C6300898C13 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BC6746F5149F0C6300898C13 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BC6746F6149F0C6300898C13 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BC6746F9149F0C6300898C13 /* GrowlCal-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GrowlCal-Info.plist"; sourceTree = "<group>"; };
+		BC6746FB149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC6746FD149F0C6300898C13 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC6746FF149F0C6300898C13 /* GrowlCal-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GrowlCal-Prefix.pch"; sourceTree = "<group>"; };
+		BC674701149F0C6300898C13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlCalAppDelegate.h; sourceTree = "<group>"; };
+		BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlCalAppDelegate.m; sourceTree = "<group>"; };
+		BC674712149F0CB400898C13 /* GrowlCal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCal.entitlements; sourceTree = "<group>"; };
+		BC674714149F0CBD00898C13 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BC67475D149F0EAF00898C13 /* CalendarStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CalendarStore.framework; path = System/Library/Frameworks/CalendarStore.framework; sourceTree = SDKROOT; };
+		BC8C66B114A3829C002DACA5 /* GrowlCalEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalEvent.h; sourceTree = "<group>"; };
+		BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalEvent.m; sourceTree = "<group>"; };
+		BC8C66D414A3B752002DACA5 /* GrowlCalRecurringEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalRecurringEvent.h; sourceTree = "<group>"; };
+		BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalRecurringEvent.m; sourceTree = "<group>"; };
+		BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		BC8F351A149FC643001C8D73 /* GrowlCalCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalCalendar.h; sourceTree = "<group>"; };
+		BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalCalendar.m; sourceTree = "<group>"; };
+		BC8F354414A00B80001C8D73 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		BC8F358C14A015EB001C8D73 /* GrowlCalLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlCalLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC8F359114A015EB001C8D73 /* GrowlCalLauncher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GrowlCalLauncher-Info.plist"; sourceTree = "<group>"; };
+		BC8F359314A015EB001C8D73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC8F359514A015EB001C8D73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC8F359714A015EB001C8D73 /* GrowlCalLauncher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GrowlCalLauncher-Prefix.pch"; sourceTree = "<group>"; };
+		BC8F359914A015EB001C8D73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BC8F359B14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlCalLauncherAppDelegate.h; sourceTree = "<group>"; };
+		BC8F359C14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlCalLauncherAppDelegate.m; sourceTree = "<group>"; };
+		BC8F359F14A015EC001C8D73 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BC8F35A414A015F1001C8D73 /* GrowlCalLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCalLauncher.entitlements; sourceTree = "<group>"; };
+		BCC622A514B389CB00965298 /* GrowlCalTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalTask.h; sourceTree = "<group>"; };
+		BCC622A614B389CB00965298 /* GrowlCalTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalTask.m; sourceTree = "<group>"; };
+		BCC622A814B38C6E00965298 /* NSDate+GrowlCalAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GrowlCalAdditions.h"; sourceTree = "<group>"; };
+		BCC622A914B38C6E00965298 /* NSDate+GrowlCalAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+GrowlCalAdditions.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC6746EA149F0C6300898C13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC8F354514A00B80001C8D73 /* ServiceManagement.framework in Frameworks */,
+				BC6746F2149F0C6300898C13 /* Cocoa.framework in Frameworks */,
+				BC67475E149F0EAF00898C13 /* CalendarStore.framework in Frameworks */,
+				BC674750149F0CD700898C13 /* Growl.framework in Frameworks */,
+				8334812714AEF5A400B7759A /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC8F358914A015EB001C8D73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC8F358E14A015EB001C8D73 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		833480C014AEF3A100B7759A /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8334812614AEF5A400B7759A /* Growl.framework */,
+				BC6746F1149F0C6300898C13 /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		BC6746E2149F0C6300898C13 = {
+			isa = PBXGroup;
+			children = (
+				BC6746F7149F0C6300898C13 /* GrowlCal */,
+				BC8F358F14A015EB001C8D73 /* GrowlCalLauncher */,
+				BC674714149F0CBD00898C13 /* Growl.xcodeproj */,
+				BC6746F0149F0C6300898C13 /* Frameworks */,
+				BC6746EE149F0C6300898C13 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC6746EE149F0C6300898C13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746ED149F0C6300898C13 /* GrowlCal.app */,
+				BC8F358C14A015EB001C8D73 /* GrowlCalLauncher.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC6746F0149F0C6300898C13 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				833480C014AEF3A100B7759A /* Linked Frameworks */,
+				BC6746F3149F0C6300898C13 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC6746F3149F0C6300898C13 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC6746F4149F0C6300898C13 /* AppKit.framework */,
+				BC6746F5149F0C6300898C13 /* CoreData.framework */,
+				BC6746F6149F0C6300898C13 /* Foundation.framework */,
+				BC67475D149F0EAF00898C13 /* CalendarStore.framework */,
+				BC8F354414A00B80001C8D73 /* ServiceManagement.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BC6746F7149F0C6300898C13 /* GrowlCal */ = {
+			isa = PBXGroup;
+			children = (
+				BC674712149F0CB400898C13 /* GrowlCal.entitlements */,
+				BC674703149F0C6300898C13 /* GrowlCalAppDelegate.h */,
+				BC674704149F0C6300898C13 /* GrowlCalAppDelegate.m */,
+				BC49F89D14A0654A0063675D /* GrowlCalCalendarController.h */,
+				BC49F89E14A0654A0063675D /* GrowlCalCalendarController.m */,
+				BC8F351A149FC643001C8D73 /* GrowlCalCalendar.h */,
+				BC8F351B149FC643001C8D73 /* GrowlCalCalendar.m */,
+				BC8C66B114A3829C002DACA5 /* GrowlCalEvent.h */,
+				BC8C66B214A3829C002DACA5 /* GrowlCalEvent.m */,
+				BC8C66D414A3B752002DACA5 /* GrowlCalRecurringEvent.h */,
+				BC8C66D514A3B752002DACA5 /* GrowlCalRecurringEvent.m */,
+				BCC622A514B389CB00965298 /* GrowlCalTask.h */,
+				BCC622A614B389CB00965298 /* GrowlCalTask.m */,
+				BCC622A814B38C6E00965298 /* NSDate+GrowlCalAdditions.h */,
+				BCC622A914B38C6E00965298 /* NSDate+GrowlCalAdditions.m */,
+				BC8F34C2149F8EDE001C8D73 /* MainMenu.xib */,
+				BC6746F8149F0C6300898C13 /* Supporting Files */,
+			);
+			path = GrowlCal;
+			sourceTree = "<group>";
+		};
+		BC6746F8149F0C6300898C13 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC13954E14A02E0400E9ED19 /* Growl.icns */,
+				BC6746F9149F0C6300898C13 /* GrowlCal-Info.plist */,
+				BC6746FA149F0C6300898C13 /* InfoPlist.strings */,
+				BC6746FD149F0C6300898C13 /* main.m */,
+				BC6746FF149F0C6300898C13 /* GrowlCal-Prefix.pch */,
+				BC674700149F0C6300898C13 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC674715149F0CBD00898C13 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC674733149F0CBE00898C13 /* Growl.app */,
+				BC674735149F0CBE00898C13 /* Growl.framework */,
+				BC674737149F0CBE00898C13 /* Speech.growlView */,
+				BC674739149F0CBE00898C13 /* Brushed.growlView */,
+				BC67473B149F0CBE00898C13 /* Bubbles.growlView */,
+				BC67473D149F0CBE00898C13 /* iCal.growlView */,
+				BC67473F149F0CBE00898C13 /* Bezel.growlView */,
+				BC674741149F0CBE00898C13 /* Smoke.growlView */,
+				BC674743149F0CBE00898C13 /* Nano.growlView */,
+				BC674745149F0CBE00898C13 /* MailMe.growlView */,
+				BC674747149F0CBE00898C13 /* MusicVideo.growlView */,
+				BC674749149F0CBE00898C13 /* SMS.growlView */,
+				BC67474B149F0CBE00898C13 /* Unit tests.octest */,
+				BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC8F358F14A015EB001C8D73 /* GrowlCalLauncher */ = {
+			isa = PBXGroup;
+			children = (
+				BC8F35A414A015F1001C8D73 /* GrowlCalLauncher.entitlements */,
+				BC8F359B14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.h */,
+				BC8F359C14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m */,
+				BC8F359E14A015EC001C8D73 /* MainMenu.xib */,
+				BC8F359014A015EB001C8D73 /* Supporting Files */,
+			);
+			path = GrowlCalLauncher;
+			sourceTree = "<group>";
+		};
+		BC8F359014A015EB001C8D73 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC8F359114A015EB001C8D73 /* GrowlCalLauncher-Info.plist */,
+				BC8F359214A015EB001C8D73 /* InfoPlist.strings */,
+				BC8F359514A015EB001C8D73 /* main.m */,
+				BC8F359714A015EB001C8D73 /* GrowlCalLauncher-Prefix.pch */,
+				BC8F359814A015EB001C8D73 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC6746EC149F0C6300898C13 /* GrowlCal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC67470B149F0C6300898C13 /* Build configuration list for PBXNativeTarget "GrowlCal" */;
+			buildPhases = (
+				BC6746E9149F0C6300898C13 /* Sources */,
+				BC6746EA149F0C6300898C13 /* Frameworks */,
+				BC6746EB149F0C6300898C13 /* Resources */,
+				BC674751149F0D1D00898C13 /* Copy Growl.framework */,
+				BC8F358314A00EBC001C8D73 /* Copy Login Launcher */,
+				83CB9AF714AEFBF80065A90E /* Copy XPCServices */,
+				BC67475C149F0E5B00898C13 /* Growl XPC */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC674754149F0D7700898C13 /* PBXTargetDependency */,
+				BC8F35A714A0161E001C8D73 /* PBXTargetDependency */,
+				BC674756149F0D7E00898C13 /* PBXTargetDependency */,
+			);
+			name = GrowlCal;
+			productName = GrowlCal;
+			productReference = BC6746ED149F0C6300898C13 /* GrowlCal.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BC8F358B14A015EB001C8D73 /* GrowlCalLauncher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC8F35A114A015EC001C8D73 /* Build configuration list for PBXNativeTarget "GrowlCalLauncher" */;
+			buildPhases = (
+				BC8F358814A015EB001C8D73 /* Sources */,
+				BC8F358914A015EB001C8D73 /* Frameworks */,
+				BC8F358A14A015EB001C8D73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GrowlCalLauncher;
+			productName = GrowlCalLauncher;
+			productReference = BC8F358C14A015EB001C8D73 /* GrowlCalLauncher.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC6746E4149F0C6300898C13 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = BC6746E7149F0C6300898C13 /* Build configuration list for PBXProject "GrowlCal" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC6746E2149F0C6300898C13;
+			productRefGroup = BC6746EE149F0C6300898C13 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BC674715149F0CBD00898C13 /* Products */;
+					ProjectRef = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				BC6746EC149F0C6300898C13 /* GrowlCal */,
+				BC8F358B14A015EB001C8D73 /* GrowlCalLauncher */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BC674733149F0CBE00898C13 /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BC674732149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674735149F0CBE00898C13 /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BC674734149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674737149F0CBE00898C13 /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BC674736149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674739149F0CBE00898C13 /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BC674738149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473B149F0CBE00898C13 /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BC67473A149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473D149F0CBE00898C13 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BC67473C149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67473F149F0CBE00898C13 /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BC67473E149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674741149F0CBE00898C13 /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BC674740149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674743149F0CBE00898C13 /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BC674742149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674745149F0CBE00898C13 /* MailMe.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MailMe.growlView;
+			remoteRef = BC674744149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674747149F0CBE00898C13 /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BC674746149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC674749149F0CBE00898C13 /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BC674748149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67474B149F0CBE00898C13 /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BC67474A149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC67474D149F0CBE00898C13 /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BC67474C149F0CBE00898C13 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC6746EB149F0C6300898C13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6746FC149F0C6300898C13 /* InfoPlist.strings in Resources */,
+				BC674702149F0C6300898C13 /* Credits.rtf in Resources */,
+				BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */,
+				BC13954F14A02E0400E9ED19 /* Growl.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC8F358A14A015EB001C8D73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC8F359414A015EB001C8D73 /* InfoPlist.strings in Resources */,
+				BC8F359A14A015EB001C8D73 /* Credits.rtf in Resources */,
+				BC8F35A014A015EC001C8D73 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC67475C149F0E5B00898C13 /* Growl XPC */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Growl XPC";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/xpcfix.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC6746E9149F0C6300898C13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6746FE149F0C6300898C13 /* main.m in Sources */,
+				BC674705149F0C6300898C13 /* GrowlCalAppDelegate.m in Sources */,
+				BC8F351C149FC643001C8D73 /* GrowlCalCalendar.m in Sources */,
+				BC49F89F14A0654A0063675D /* GrowlCalCalendarController.m in Sources */,
+				BC8C66B314A3829C002DACA5 /* GrowlCalEvent.m in Sources */,
+				BC8C66D614A3B752002DACA5 /* GrowlCalRecurringEvent.m in Sources */,
+				BCC622A714B389CB00965298 /* GrowlCalTask.m in Sources */,
+				BCC622AA14B38C6E00965298 /* NSDate+GrowlCalAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC8F358814A015EB001C8D73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC8F359614A015EB001C8D73 /* main.m in Sources */,
+				BC8F359D14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC674754149F0D7700898C13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Growl.framework;
+			targetProxy = BC674753149F0D7700898C13 /* PBXContainerItemProxy */;
+		};
+		BC674756149F0D7E00898C13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GNTPClientService;
+			targetProxy = BC674755149F0D7E00898C13 /* PBXContainerItemProxy */;
+		};
+		BC8F35A714A0161E001C8D73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC8F358B14A015EB001C8D73 /* GrowlCalLauncher */;
+			targetProxy = BC8F35A614A0161E001C8D73 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BC6746FA149F0C6300898C13 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC6746FB149F0C6300898C13 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC674700149F0C6300898C13 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC674701149F0C6300898C13 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BC8F359214A015EB001C8D73 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC8F359314A015EB001C8D73 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC8F359814A015EB001C8D73 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC8F359914A015EB001C8D73 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BC8F359E14A015EC001C8D73 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC8F359F14A015EC001C8D73 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BC674709149F0C6300898C13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BC67470A149F0C6300898C13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BC67470C149F0C6300898C13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../build/Debug\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC67470D149F0C6300898C13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../build/Debug\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCal/GrowlCal-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCal/GrowlCal-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BC8F35A214A015EC001C8D73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlCalLauncher/GrowlCalLauncher.entitlements;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCalLauncher/GrowlCalLauncher-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCalLauncher/GrowlCalLauncher-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC8F35A314A015EC001C8D73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GrowlCalLauncher/GrowlCalLauncher.entitlements;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GrowlCalLauncher/GrowlCalLauncher-Prefix.pch";
+				INFOPLIST_FILE = "GrowlCalLauncher/GrowlCalLauncher-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC6746E7149F0C6300898C13 /* Build configuration list for PBXProject "GrowlCal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC674709149F0C6300898C13 /* Debug */,
+				BC67470A149F0C6300898C13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC67470B149F0C6300898C13 /* Build configuration list for PBXNativeTarget "GrowlCal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC67470C149F0C6300898C13 /* Debug */,
+				BC67470D149F0C6300898C13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC8F35A114A015EC001C8D73 /* Build configuration list for PBXNativeTarget "GrowlCalLauncher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC8F35A214A015EC001C8D73 /* Debug */,
+				BC8F35A314A015EC001C8D73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC6746E4149F0C6300898C13 /* Project object */;
+}
