@@ -222,7 +222,8 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
                                    iconData:icon
                                    priority:0
                                    isSticky:FALSE
-                               clickContext:nil];
+                               clickContext:nil
+                                 identifier:name];
 }
 
 - (void)createStatusItem
