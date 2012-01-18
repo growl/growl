@@ -1,4 +1,4 @@
 #include "GrowlTunes.xcconfig"
 
 // code signing
-CODE_SIGN_IDENTITY = Mac Developer
+CODE_SIGN_IDENTITY = 3rd Party Mac Developer Application: The Growl Project, LLC
