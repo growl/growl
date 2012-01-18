@@ -11,7 +11,7 @@
 #import "TicketsArrayController.h"
 #import "GrowlTicketController.h"
 #import "GrowlPreferencePane.h"
-#import "ACImageAndTextCell.h"
+#import "GrowlNotificationSettingsCellView.h"
 #import "NSStringAdditions.h"
 
 static BOOL awoken = NO;
@@ -111,7 +111,7 @@ static BOOL awoken = NO;
    
    awoken = YES;
    [ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-   
+
    self.canRemoveTicket = NO;
    
 	[growlApplications setTarget:self];
@@ -128,6 +128,10 @@ static BOOL awoken = NO;
                                                 name:NSPopUpButtonWillPopUpNotification
                                               object:soundMenuButton];
    [ticketsArrayController selectFirstApplication];
+   
+   [notificationsTable setTarget:self];
+   [notificationsTable setAction:@selector(userSingleClickedNote:)];
+   [notificationsTable setDoubleAction:@selector(userDoubleClickedNote:)];
 }
 
 + (NSString*)nibName {
@@ -236,6 +240,24 @@ static BOOL awoken = NO;
          [ticketsArrayController selectFirstApplication];
 		}
 	}
+}
+
+
+- (IBAction)userSingleClickedNote:(id)sender {
+   /*if([notificationsTable clickedRow] == [notificationsTable selectedRow]){
+      NSLog(@"Match!");
+      NSButton *checkbox = [(GrowlNotificationSettingsCellView*)[notificationsTable viewAtColumn:0 row:[notificationsTable clickedRow] makeIfNecessary:YES] enableCheckBox];
+      [checkbox setState:([checkbox state] == NSOnState) ? NSOffState : NSOnState];
+      [[[checkbox superview] superview] setNeedsDisplay:YES];
+   }*/
+}
+- (IBAction)userDoubleClickedNote:(id)sender {
+   NSUInteger clicked = [notificationsTable clickedRow];
+   [notificationsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:clicked] byExtendingSelection:NO];
+   [[notificationsArrayController arrangedObjects] objectAtIndex:clicked];
+   NSButton *checkbox = [(GrowlNotificationSettingsCellView*)[notificationsTable viewAtColumn:0 row:clicked makeIfNecessary:YES] enableCheckBox];
+   [checkbox setState:([checkbox state] == NSOnState) ? NSOffState : NSOnState];
+   [[[checkbox superview] superview] setNeedsDisplay:YES];
 }
 
 - (IBAction) showPreview:(id)sender {
