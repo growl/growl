@@ -10,4 +10,6 @@
 
 @interface GrowlNotificationSettingsRowView : NSTableRowView
 
+@property (nonatomic, retain) CALayer *selectionLayer;
+
 @end

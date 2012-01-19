@@ -320,6 +320,7 @@
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
 		BCC1D47914C741B4007F8C8D /* GrowlNotificationSettingsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC1D47814C741B4007F8C8D /* GrowlNotificationSettingsCellView.m */; };
 		BCC79AB313FD5364003CFCB9 /* GrowlAppleScriptSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */; };
+		BCCA96CE14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */; };
 		BCCFBF111475768500348DA9 /* GrowlKeychainUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */; };
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
@@ -1242,6 +1243,8 @@
 		BCC1D47814C741B4007F8C8D /* GrowlNotificationSettingsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsCellView.m; path = Core/Source/GrowlNotificationSettingsCellView.m; sourceTree = "<group>"; };
 		BCC79AB113FD5363003CFCB9 /* GrowlAppleScriptSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppleScriptSupport.h; path = Core/Source/GrowlAppleScriptSupport.h; sourceTree = "<group>"; };
 		BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppleScriptSupport.m; path = Core/Source/GrowlAppleScriptSupport.m; sourceTree = "<group>"; };
+		BCCA96CC14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsScrollView.h; path = Core/Source/GrowlNotificationSettingsScrollView.h; sourceTree = "<group>"; };
+		BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsScrollView.m; path = Core/Source/GrowlNotificationSettingsScrollView.m; sourceTree = "<group>"; };
 		BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlKeychainUtilities.h; path = Common/Source/GrowlKeychainUtilities.h; sourceTree = "<group>"; };
 		BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlKeychainUtilities.m; path = Common/Source/GrowlKeychainUtilities.m; sourceTree = "<group>"; };
 		BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCellView.h; path = Core/Source/GrowlNotificationCellView.h; sourceTree = "<group>"; };
@@ -2296,6 +2299,8 @@
 				BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */,
 				BC62781014C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.h */,
 				BC62781114C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.m */,
+				BCCA96CC14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.h */,
+				BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -3623,6 +3628,7 @@
 				BC6277F314C699F500BB67B9 /* GrowlNotificationSettingsRowView.m in Sources */,
 				BC62781214C6B1B300BB67B9 /* GrowlNotificationSettingsTableView.m in Sources */,
 				BCC1D47914C741B4007F8C8D /* GrowlNotificationSettingsCellView.m in Sources */,
+				BCCA96CE14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,6 +22,11 @@
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect {
    [[NSColor whiteColor] drawSwatchInRect:CGRectMake(clipRect.origin.x + 5.0f, clipRect.origin.y, clipRect.size.width - 28.0f, clipRect.size.height)];
+
+/*   NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor colorWithDeviceWhite:.2 alpha:1.0]];
+   CGRect rect = [[self superview] bounds];
+   [gradient drawInRect:CGRectMake(rect.origin.x + 8.0f, rect.origin.y, rect.size.width - 31.0f, 10.0f) angle:-90.0f];
+   [gradient drawInRect:CGRectMake(rect.origin.x + 8.0f, rect.origin.y + rect.size.height - 10.0f, rect.size.width - 31.0f, 10.0f) angle:90.0f];*/
 }
 
 - (void)drawGridInClipRect:(NSRect)clipRect {
@@ -36,7 +41,7 @@
    separatorRect.size.height = self.rowHeight;
    while (yStart < NSMaxY(boundsToDraw)) {
       separatorRect.origin.y = yStart;
-      [[NSColor grayColor] drawSwatchInRect:CGRectMake(separatorRect.origin.x + 5.0f, NSMaxY(separatorRect) - 1.0f, separatorRect.size.width - 28.0f, 1.0f)];
+      [[NSColor grayColor] drawSwatchInRect:CGRectMake(separatorRect.origin.x + 5.0f, separatorRect.origin.y + [self rowHeight] - 1.0f, separatorRect.size.width - 28.0f, 1.0f)];
       [[NSColor grayColor] drawSwatchInRect:CGRectMake(separatorRect.origin.x + 5.0f, separatorRect.origin.y, 1.0f, separatorRect.size.height)];
       [[NSColor grayColor] drawSwatchInRect:CGRectMake(separatorRect.size.width - 21.0f, separatorRect.origin.y, 1.0f, separatorRect.size.height)];
       yStart += self.rowHeight;

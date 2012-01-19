@@ -103,7 +103,7 @@
 										<string key="NSFrameSize">{208, 387}</string>
 										<reference key="NSSuperview" ref="492497104"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="403443924"/>
+										<reference key="NSNextKeyView" ref="495670562"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -240,7 +240,7 @@
 						<string key="NSFrame">{{-1, 0}, {210, 389}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="492497104"/>
+						<reference key="NSNextKeyView" ref="403443924"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="403443924"/>
 						<reference key="NSHScroller" ref="895465799"/>
@@ -253,6 +253,7 @@
 						<string key="NSFrame">{{210, 10}, {509, 373}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="117729626"/>
 						<string key="NSReuseIdentifierKey">_NS:608</string>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -503,7 +504,8 @@
 															<string key="NSFrameSize">{267, 324}</string>
 															<reference key="NSSuperview" ref="408422449"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="171378551"/>
+															<reference key="NSNextKeyView" ref="327832183"/>
+															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -571,7 +573,6 @@
 													<string key="NSReuseIdentifierKey">_NS:1826</string>
 													<reference key="NSDocView" ref="482467695"/>
 													<reference key="NSBGColor" ref="81375413"/>
-													<int key="NScvFlags">2</int>
 												</object>
 												<object class="NSScroller" id="184413744">
 													<reference key="NSNextResponder" ref="178183968"/>
@@ -602,7 +603,7 @@
 											<string key="NSFrame">{{-3, 0}, {267, 324}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="408422449"/>
+											<reference key="NSNextKeyView" ref="171378551"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="184413744"/>
@@ -1032,6 +1033,7 @@
 											<string key="NSFrame">{{269, 17}, {206, 76}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:360</string>
 											<string key="NSAntiCompressionPriority">{250, 750}</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1976,8 +1978,8 @@
 					<int key="connectionID">4801</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">toolTip: arrangedObjects.description</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">enableCheckBox</string>
 						<object class="NSTableCellView" key="source" id="327832183">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">274</int>
@@ -1989,6 +1991,7 @@
 									<string key="NSFrame">{{13, 8}, {18, 18}}</string>
 									<reference key="NSSuperview" ref="327832183"/>
 									<reference key="NSNextKeyView" ref="1002213291"/>
+									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSReuseIdentifierKey">_NS:771</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="344752587">
@@ -2014,6 +2017,7 @@
 									<string key="NSFrame">{{34, 10}, {38, 17}}</string>
 									<reference key="NSSuperview" ref="327832183"/>
 									<reference key="NSNextKeyView" ref="799233303"/>
+									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSReuseIdentifierKey">_NS:3944</string>
 									<string key="NSAntiCompressionPriority">{500, 750}</string>
 									<bool key="NSEnabled">YES</bool>
@@ -2031,23 +2035,8 @@
 							</object>
 							<string key="NSFrame">{{1, 1}, {264, 34}}</string>
 							<reference key="NSNextKeyView" ref="373997445"/>
+							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						</object>
-						<reference key="destination" ref="231750306"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="327832183"/>
-							<reference key="NSDestination" ref="231750306"/>
-							<string key="NSLabel">toolTip: arrangedObjects.description</string>
-							<string key="NSBinding">toolTip</string>
-							<string key="NSKeyPath">arrangedObjects.description</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">4817</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">enableCheckBox</string>
-						<reference key="source" ref="327832183"/>
 						<reference key="destination" ref="373997445"/>
 					</object>
 					<int key="connectionID">7864</int>
@@ -2059,6 +2048,22 @@
 						<reference key="destination" ref="373997445"/>
 					</object>
 					<int key="connectionID">7865</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">toolTip: arrangedObjects.humanReadableName</string>
+						<reference key="source" ref="327832183"/>
+						<reference key="destination" ref="231750306"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="327832183"/>
+							<reference key="NSDestination" ref="231750306"/>
+							<string key="NSLabel">toolTip: arrangedObjects.humanReadableName</string>
+							<string key="NSBinding">toolTip</string>
+							<string key="NSKeyPath">arrangedObjects.humanReadableName</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">7879</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2223,7 +2228,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">7877</int>
+					<int key="connectionID">7881</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3633,6 +3638,7 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{1, 37}, {264, 34}}</string>
 								<reference key="NSNextKeyView" ref="184413744"/>
+								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 								<string key="NSReuseIdentifierKey">_NS:1192</string>
 								<string key="NSClassName">GrowlNotificationSettingsRowView</string>
 							</object>
@@ -4527,6 +4533,7 @@
 					<string>41.IBPluginDependency</string>
 					<string>42.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>42.IBPluginDependency</string>
+					<string>4752.CustomClassName</string>
 					<string>4752.IBNSViewMetadataConstraints</string>
 					<string>4752.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>4752.IBPluginDependency</string>
@@ -4795,6 +4802,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>GrowlNotificationSettingsScrollView</string>
 					<object class="NSMutableArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="886675216"/>
@@ -5052,7 +5060,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">7877</int>
+			<int key="maxID">7881</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5245,6 +5253,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">GrowlNotificationSettingsScrollView</string>
+					<string key="superclassName">NSScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlNotificationSettingsScrollView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">GrowlNotificationSettingsTableView</string>
 					<string key="superclassName">NSTableView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -5266,22 +5282,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlPrefsViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSLayoutConstraint</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableRowView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

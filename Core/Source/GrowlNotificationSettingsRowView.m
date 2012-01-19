@@ -10,6 +10,14 @@
 
 @implementation GrowlNotificationSettingsRowView
 
+@synthesize selectionLayer;
+
+-(id)initWithFrame:(NSRect)frameRect {
+   if((self = [super initWithFrame:frameRect])){
+   }
+   return self;
+}
+
 -(NSBackgroundStyle)interiorBackgroundStyle{
    if(self.selected)
       return NSBackgroundStyleDark;
@@ -25,10 +33,6 @@
    return [[[NSGradient alloc] initWithColors:[NSArray arrayWithObjects:[NSColor grayColor], 
                                                                         [NSColor darkGrayColor], nil]] autorelease];
 }
-
-/*-(void)drawBackgroundInRect:(NSRect)dirtyRect
-{
-}*/
 
 -(void)drawSelectionInRect:(NSRect)dirtyRect
 {
@@ -57,7 +61,7 @@
       [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
       [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.size.width - 21.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
    }
-   [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, NSMaxY(dirtyRect) - 1.0f, dirtyRect.size.width - 28.0f, 1.0f)];
+   [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y + [self frame].size.height - 1.0f, dirtyRect.size.width - 28.0f, 1.0f)];
 }
 
 @end
