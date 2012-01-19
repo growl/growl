@@ -247,8 +247,8 @@
    [destinations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if(![obj isKindOfClass:[GrowlBrowserEntry class]])
          return;
-      
-      [obj setActive:NO];
+      if(![obj manualEntry])
+         [obj setActive:NO];
       
       if(![obj use] && ![obj password] && ![currentNames containsObject:[obj computerName]])
          [toRemove addObject:obj];

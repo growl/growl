@@ -900,7 +900,6 @@
 		   [[self error] domain], (int)[[self error] code], [[self error] localizedDescription]);
         [[self delegate] packet:self failedReadingWithError:[self error]];
     }
-	[socket disconnectAfterWriting];
 }
 
 #pragma mark Dictionary Representation

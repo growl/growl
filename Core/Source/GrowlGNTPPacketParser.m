@@ -268,7 +268,7 @@
                break;
             default:
                //We need to pass an error in subscribing back to the controller
-               if([[[packet originPacket] action] caseInsensitiveCompare:GrowlGNTPSubscribeMessageType]){
+               if([[[packet originPacket] action] caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
                   [[GNTPSubscriptionController sharedController] updateLocalSubscriptionWithPacket:packet];
                }else
                   NSLog(@"Error packet, Error-Code: %ld, Error-Description: %@", code, description);
@@ -352,7 +352,7 @@
 - (void)packet:(GrowlGNTPPacket *)packet failedReadingWithError:(NSError *)inError
 {
 	NSLog(@"Failed reading with error: %@", inError);
-   [self sendErrorString:[[inError userInfo] objectForKey:NSLocalizedDescriptionKey]
+   [self sendErrorString:[inError localizedDescription]
                 withCode:(GrowlGNTPErrorCode)[inError code]
                forPacket:packet];
 }

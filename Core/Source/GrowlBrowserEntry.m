@@ -46,6 +46,8 @@
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
       [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
+      if(_manualEntry)
+         self.active = YES;
       [self setDomain:[dict valueForKey:@"domain"]];
       [self updateKey];
    }
@@ -57,8 +59,8 @@
 	if ((self = [self init])) {		
         [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[self setComputerName:name];
-		[self setUse:FALSE];
-		[self setActive:TRUE];
+		[self setUse:NO];
+		[self setActive:YES];
       [self setManualEntry:NO];
       [self setDomain:@"local."];
       [self updateKey];

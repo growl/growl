@@ -236,7 +236,6 @@
       self.subscriptionErrorDescription = nil;
       [self resubscribeTimerStart];
    }else if([packet isKindOfClass:[GrowlErrorGNTPPacket class]]){
-      /*Note the error to the user somehow*/
       self.addressString = nil;
       self.initialTime = [NSDate distantPast];
       self.timeToLive = 0;
@@ -283,7 +282,7 @@
    use = flag;
    if(use && !remote){
       [self subscribe];
-      if(!alreadyBrowsing){
+      if(!alreadyBrowsing && !manual){
          [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
          self.alreadyBrowsing = YES;
       }
@@ -296,7 +295,7 @@
       self.timeToLive = 0;
       self.validTime = nil;
       
-      if(alreadyBrowsing){
+      if(alreadyBrowsing && !manual){
          [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
          self.alreadyBrowsing = NO;
       }
@@ -350,6 +349,9 @@
       }
       return;
    }
+   
+   if(attemptingToSubscribe)
+      return;
    
    self.attemptingToSubscribe = YES;
    /*
