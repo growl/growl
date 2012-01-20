@@ -36,9 +36,11 @@
                                                                           [NSColor colorWithSRGBRed:.15 green:.15 blue:.15 alpha:1.0], NSForegroundColorAttributeName,
                                                                           shadow, NSShadowAttributeName, nil];
       
-      NSAttributedString *attrOffTitle = [[NSAttributedString alloc] initWithString:@"OFF"
+      NSString *offString = NSLocalizedString(@"OFF", @"If the string is too long, use O");
+      NSAttributedString *attrOffTitle = [[NSAttributedString alloc] initWithString:offString
                                                                          attributes:attrDict];
-      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(58.0f, vertical, 50.0f, 25.0f)];
+      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(55.0f, vertical, 50.0f, 25.0f)];
+      [offView setAlignment:NSCenterTextAlignment];
       [offView setEditable:NO];
       [offView setDrawsBackground:NO];
       [offView setBackgroundColor:[NSColor clearColor]];
@@ -47,11 +49,14 @@
       [[offView cell] setAttributedStringValue:attrOffTitle];
       self.offLabel = offView;
       [self addSubview:offView positioned:NSWindowBelow relativeTo:knob];
+      [offView setToolTip:@"Are you happy now Gemmel?"];
       [offView release];
       
-      NSAttributedString *attrOnTitle = [[NSAttributedString alloc] initWithString:@"ON"
+      NSString *onString = NSLocalizedString(@"ON", @"If the string is too long, use I");
+      NSAttributedString *attrOnTitle = [[NSAttributedString alloc] initWithString:onString
                                                                         attributes:attrDict];
       NSTextField *onView = [[NSTextField alloc] initWithFrame:CGRectMake(5.0f, vertical, 50.0f, 25.0f)];
+      [onView setAlignment:NSCenterTextAlignment];
       [onView setEditable:NO];
       [onView setDrawsBackground:NO];
       [onView setBackgroundColor:[NSColor clearColor]];
@@ -60,7 +65,6 @@
       self.onLabel = onView;
       [self addSubview:onView positioned:NSWindowBelow relativeTo:knob];
       [onView release];
-      
       [self addObserver:self 
              forKeyPath:@"state" 
                 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld

@@ -300,9 +300,9 @@
 		BC6277F314C699F500BB67B9 /* GrowlNotificationSettingsRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */; };
 		BC62781214C6B1B300BB67B9 /* GrowlNotificationSettingsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62781114C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.m */; };
 		BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
+		BC6BD66414CA166A000D0B0D /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66114CA1669000D0B0D /* GrowlOnSwitch.m */; };
+		BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */; };
 		BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */; };
-		BC84DFC214BD254900F4F365 /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC84DFBF14BD254900F4F365 /* GrowlOnSwitch.m */; };
-		BC84DFC314BD254900F4F365 /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BC84DFC114BD254900F4F365 /* GrowlOnSwitchKnob.m */; };
 		BC86333E140FFB3600A26483 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86333D140FFB3600A26483 /* GrowlMenu.m */; };
 		BC8B2323146DB0F7004E8971 /* Rollup.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8B2322146DB0F7004E8971 /* Rollup.png */; };
 		BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
@@ -1208,12 +1208,12 @@
 		BC62781114C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsTableView.m; path = Core/Source/GrowlNotificationSettingsTableView.m; sourceTree = "<group>"; };
 		BC62F8301236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationHistoryWindow.h; path = Core/Source/GrowlNotificationHistoryWindow.h; sourceTree = "<group>"; };
 		BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationHistoryWindow.m; path = Core/Source/GrowlNotificationHistoryWindow.m; sourceTree = "<group>"; };
+		BC6BD66014CA1669000D0B0D /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
+		BC6BD66114CA1669000D0B0D /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
+		BC6BD66214CA166A000D0B0D /* GrowlOnSwitchKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchKnob.h; path = Core/Source/GrowlOnSwitchKnob.h; sourceTree = "<group>"; };
+		BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BC780D16149655F000B190F7 /* GrowlBonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlBonjourBrowser.h; path = Core/Source/GrowlBonjourBrowser.h; sourceTree = "<group>"; };
 		BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBonjourBrowser.m; path = Core/Source/GrowlBonjourBrowser.m; sourceTree = "<group>"; };
-		BC84DFBE14BD254900F4F365 /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = Common/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
-		BC84DFBF14BD254900F4F365 /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = Common/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
-		BC84DFC014BD254900F4F365 /* GrowlOnSwitchKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchKnob.h; path = Common/Source/GrowlOnSwitchKnob.h; sourceTree = "<group>"; };
-		BC84DFC114BD254900F4F365 /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = Common/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BC86333C140FFB3600A26483 /* GrowlMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenu.h; path = Core/Source/GrowlMenu.h; sourceTree = "<group>"; };
 		BC86333D140FFB3600A26483 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = Core/Source/GrowlMenu.m; sourceTree = "<group>"; };
 		BC8B2322146DB0F7004E8971 /* Rollup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rollup.png; path = Core/Resources/Rollup.png; sourceTree = "<group>"; };
@@ -1693,10 +1693,10 @@
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
 				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
 				342157BE0C2AE377004003BB /* PriorityTransformer.m */,
-				BC84DFBE14BD254900F4F365 /* GrowlOnSwitch.h */,
-				BC84DFBF14BD254900F4F365 /* GrowlOnSwitch.m */,
-				BC84DFC014BD254900F4F365 /* GrowlOnSwitchKnob.h */,
-				BC84DFC114BD254900F4F365 /* GrowlOnSwitchKnob.m */,
+				BC6BD66014CA1669000D0B0D /* GrowlOnSwitch.h */,
+				BC6BD66114CA1669000D0B0D /* GrowlOnSwitch.m */,
+				BC6BD66214CA166A000D0B0D /* GrowlOnSwitchKnob.h */,
+				BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3622,13 +3622,13 @@
 				BC17CF91147BFDE4005408AC /* GNTPSubscriberEntry.m in Sources */,
 				BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */,
 				BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */,
-				BC84DFC214BD254900F4F365 /* GrowlOnSwitch.m in Sources */,
-				BC84DFC314BD254900F4F365 /* GrowlOnSwitchKnob.m in Sources */,
 				BC0B6F6214BF4F43004F2339 /* GrowlSubscriptionCellView.m in Sources */,
 				BC6277F314C699F500BB67B9 /* GrowlNotificationSettingsRowView.m in Sources */,
 				BC62781214C6B1B300BB67B9 /* GrowlNotificationSettingsTableView.m in Sources */,
 				BCC1D47914C741B4007F8C8D /* GrowlNotificationSettingsCellView.m in Sources */,
 				BCCA96CE14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m in Sources */,
+				BC6BD66414CA166A000D0B0D /* GrowlOnSwitch.m in Sources */,
+				BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
