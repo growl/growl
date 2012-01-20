@@ -34,6 +34,21 @@
                                                                         [NSColor darkGrayColor], nil]] autorelease];
 }
 
+-(void)drawBackgroundInRect:(NSRect)dirtyRect
+{
+   if(![[self superview] isKindOfClass:[NSTableView class]])
+      return;
+   
+   [[NSColor colorWithDeviceWhite:.895f alpha:1.0] setFill];
+   [[NSBezierPath bezierPathWithRect:[self bounds]] fill];
+   NSArray *colors = [NSColor controlAlternatingRowBackgroundColors];
+   [[colors objectAtIndex:[(NSTableView*)[self superview] rowForView:self] % [colors count]] setFill];
+   [[NSColor gridColor] setStroke];
+   CGRect box = [self bounds];
+   NSBezierPath *path = [NSBezierPath bezierPathWithRect:CGRectMake(box.origin.x + 8.0f, box.origin.y, box.size.width - 31.0f, box.size.height)];
+   [path fill];
+}
+
 -(void)drawSelectionInRect:(NSRect)dirtyRect
 {
    CGFloat triangleEdge = self.bounds.size.width - 22.0f;
@@ -49,19 +64,21 @@
    
    NSGradient *gradient = self.emphasized ? [self darkGradient] : [self lightGradient];
    [gradient drawInBezierPath:path angle:90.0f];
+   if(self.emphasized)
+      [[NSColor darkGrayColor] setStroke];
+   else
+      [[NSColor grayColor] setStroke];
+   [path stroke];
    [path release];
 }
 
 -(void)drawSeparatorInRect:(NSRect)dirtyRect
 {
-   if (dirtyRect.origin.x > 10.0f) {
-      return;
-   }
    if(!self.selected){
-      [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
-      [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.size.width - 21.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
+//      [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
+//      [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.size.width - 21.0f, dirtyRect.origin.y, 1.0f, dirtyRect.size.height)];
    }
-   [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y + [self frame].size.height - 1.0f, dirtyRect.size.width - 28.0f, 1.0f)];
+//   [[NSColor grayColor] drawSwatchInRect:CGRectMake(dirtyRect.origin.x + 5.0f, dirtyRect.origin.y + [self frame].size.height - 1.0f, dirtyRect.size.width - 28.0f, 1.0f)];
 }
 
 @end

@@ -21,12 +21,11 @@
 }
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect {
-   [[NSColor whiteColor] drawSwatchInRect:CGRectMake(clipRect.origin.x + 5.0f, clipRect.origin.y, clipRect.size.width - 28.0f, clipRect.size.height)];
+   [[NSColor gridColor] setFill];
+   [[NSBezierPath bezierPathWithRect:CGRectMake(self.bounds.origin.x + 8.0f, self.bounds.origin.y, 1.0f, self.bounds.size.height)] fill];
+   [[NSColor controlBackgroundColor] setFill];
+   [[NSBezierPath bezierPathWithRect:CGRectMake(self.bounds.origin.x + 8.0f, self.bounds.origin.y, self.bounds.size.width - 31.0f, self.bounds.size.height)] fill];
 
-/*   NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor colorWithDeviceWhite:.2 alpha:1.0]];
-   CGRect rect = [[self superview] bounds];
-   [gradient drawInRect:CGRectMake(rect.origin.x + 8.0f, rect.origin.y, rect.size.width - 31.0f, 10.0f) angle:-90.0f];
-   [gradient drawInRect:CGRectMake(rect.origin.x + 8.0f, rect.origin.y + rect.size.height - 10.0f, rect.size.width - 31.0f, 10.0f) angle:90.0f];*/
 }
 
 - (void)drawGridInClipRect:(NSRect)clipRect {

@@ -103,7 +103,7 @@
 										<string key="NSFrameSize">{208, 387}</string>
 										<reference key="NSSuperview" ref="492497104"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="495670562"/>
+										<reference key="NSNextKeyView" ref="403443924"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -240,7 +240,7 @@
 						<string key="NSFrame">{{-1, 0}, {210, 389}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="403443924"/>
+						<reference key="NSNextKeyView" ref="492497104"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="403443924"/>
 						<reference key="NSHScroller" ref="895465799"/>
@@ -469,6 +469,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{17, 91}, {150, 100}}</string>
 											<reference key="NSSuperview" ref="627777441"/>
+											<reference key="NSNextKeyView" ref="688419596"/>
 											<string key="NSClassName">GrowlPositionPicker</string>
 											<string key="NSExtension">NSView</string>
 										</object>
@@ -554,10 +555,9 @@
 															</object>
 															<reference key="NSGridColor" ref="693039213"/>
 															<double key="NSRowHeight">34</double>
-															<int key="NSTvFlags">-163577856</int>
+															<int key="NSTvFlags">-692060160</int>
 															<reference key="NSDelegate"/>
 															<reference key="NSDataSource"/>
-															<int key="NSGridStyleMask">2</int>
 															<int key="NSColumnAutoresizingStyle">4</int>
 															<int key="NSDraggingSourceMaskForLocal">15</int>
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
@@ -570,9 +570,11 @@
 													<reference key="NSSuperview" ref="178183968"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="482467695"/>
+													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<string key="NSReuseIdentifierKey">_NS:1826</string>
 													<reference key="NSDocView" ref="482467695"/>
 													<reference key="NSBGColor" ref="81375413"/>
+													<int key="NScvFlags">2</int>
 												</object>
 												<object class="NSScroller" id="184413744">
 													<reference key="NSNextResponder" ref="178183968"/>
@@ -604,6 +606,7 @@
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="171378551"/>
+											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="184413744"/>
@@ -1033,7 +1036,7 @@
 											<string key="NSFrame">{{269, 17}, {206, 76}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
+											<reference key="NSNextKeyView" ref="688419596"/>
 											<string key="NSReuseIdentifierKey">_NS:360</string>
 											<string key="NSAntiCompressionPriority">{250, 750}</string>
 											<bool key="NSEnabled">YES</bool>
@@ -5282,6 +5285,22 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlPrefsViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSLayoutConstraint</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTableRowView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

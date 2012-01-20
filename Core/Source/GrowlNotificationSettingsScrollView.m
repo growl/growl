@@ -59,8 +59,8 @@
    
    [top removeFromSuperviewWithoutNeedingDisplay];
    [bottom removeFromSuperviewWithoutNeedingDisplay];
-   [self addSubview:top positioned:NSWindowAbove relativeTo:[self contentView]];
-   [self addSubview:bottom positioned:NSWindowAbove relativeTo:[self contentView]];
+   //[self addSubview:top positioned:NSWindowAbove relativeTo:[self contentView]];
+   //[self addSubview:bottom positioned:NSWindowAbove relativeTo:[self contentView]];
    
    [[self verticalScroller] setScrollerStyle:NSScrollerStyleOverlay];
    CGPoint origin = [[self verticalScroller] frame].origin;
