@@ -53,7 +53,7 @@
 
 - (id)initWithWindowNibName:(NSString *)windowNibName {
    if((self = [super initWithWindowNibName:windowNibName])){
-      self.settingsWindowTitle = NSLocalizedString(@"Settings", @"Preferences window title");
+      self.settingsWindowTitle = NSLocalizedString(@"Preferences", @"Preferences window title");
    }
    return self;
 }
