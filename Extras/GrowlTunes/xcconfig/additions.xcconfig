@@ -1,3 +1,8 @@
+// code signing
+CODE_SIGN_ENTITLEMENTS = 
+CODE_SIGN_IDENTITY = 
+
+
 // linking
 MACH_O_TYPE = staticlib
 

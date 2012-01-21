@@ -12,18 +12,32 @@
 #import "FormattedItemViewController.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
 #import "iTunes+iTunesAdditions.h"
+#import "defines.h"
 
 
 @interface GrowlTunesController ()
 
 @property(readwrite, retain, nonatomic) IBOutlet ITunesConductor* conductor;
 
+@property(readonly, nonatomic) BOOL noMeansNo;
+
+@property(readonly, retain, nonatomic) NSString* stringPlayPause;
+@property(readonly, retain, nonatomic) NSString* stringNextTrack;
+@property(readonly, retain, nonatomic) NSString* stringPreviousTrack;
+@property(readonly, retain, nonatomic) NSString* stringRating;
+@property(readonly, retain, nonatomic) NSString* stringVolume;
+@property(readonly, retain, nonatomic) NSString* stringBringITunesToFront;
+@property(readonly, retain, nonatomic) NSString* stringQuitBoth;
+@property(readonly, retain, nonatomic) NSString* stringQuitITunes;
+@property(readonly, retain, nonatomic) NSString* stringQuitGrowlTunes;
+@property(readonly, retain, nonatomic) NSString* stringStartITunes;
+@property(readonly, retain, nonatomic) NSString* stringNotifyWithITunesActive;
+@property(readonly, retain, nonatomic) NSString* stringConfigureFormatting;
+
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
                    name:(NSString*)name
                    icon:(NSData*)icon;
-
-- (BOOL)noMeansNo;
 
 #if defined(BETA) && BETA
 - (NSCalendarDate *)dateWithString:(NSString *)str;
@@ -77,14 +91,46 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 // NSMenuItem just doesn't seem to understand. bind title and suddenly no means yes. not cool, NSMenuItem.
 - (BOOL)noMeansNo
-{
-    return NO;
-}
+{ return NO; }
+
+- (NSString*)stringPlayPause
+{ return MenuPlayPause; }
+
+- (NSString*)stringNextTrack
+{ return MenuNextTrack; }
+
+- (NSString*)stringPreviousTrack
+{ return MenuPreviousTrack; }
+
+- (NSString*)stringRating
+{ return MenuRating; }
+
+- (NSString*)stringVolume
+{ return MenuVolume; }
+
+- (NSString*)stringBringITunesToFront
+{ return MenuBringITunesToFront; }
+
+- (NSString*)stringQuitBoth
+{ return MenuQuitBoth; }
+
+- (NSString*)stringQuitITunes
+{ return MenuQuitITunes; }
+
+- (NSString*)stringQuitGrowlTunes
+{ return MenuQuitGrowlTunes; }
+
+- (NSString*)stringStartITunes
+{ return MenuStartITunes; }
+
+- (NSString*)stringNotifyWithITunesActive
+{ return MenuNotifyWithITunesActive; }
+
+- (NSString*)stringConfigureFormatting
+{ return MenuConfigureFormatting; }
 
 - (NSString*)applicationNameForGrowl
-{
-	return @"GrowlTunes";
-}
+{ return @"GrowlTunes"; }
 
 - (NSDictionary*)registrationDictionaryForGrowl
 {    
@@ -230,13 +276,12 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {    
     if (!_statusItem) {
         NSStatusBar* statusBar = [NSStatusBar systemStatusBar];
-        _statusItem = [statusBar statusItemWithLength:NSSquareStatusItemLength];
+        _statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
         RETAIN(_statusItem);
         if (_statusItem) {
             [_statusItem setMenu:self.statusItemMenu];
             [_statusItem setHighlightMode:YES];
-            [_statusItem setImage:[NSImage imageNamed:@"growlTunes.png"]];
-            [_statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.png"]];
+            [_statusItem setImage:[NSImage imageNamed:@"GrowlTunes-Template.pdf"]];
         }
     }
 }
