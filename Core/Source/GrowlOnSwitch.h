@@ -18,5 +18,6 @@
 @property (nonatomic) CGPoint mouseLoc;
 
 -(void)updatePosition;
+-(void)silentSetState:(BOOL)newState;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "GrowlPrefsViewController.h"
 
-@class TicketsArrayController, NotificationsArrayController, GrowlPositionPicker, GrowlTicketController;
+@class TicketsArrayController, NotificationsArrayController, GrowlPositionPicker, GrowlTicketController, GrowlOnSwitch;
 
 @interface GrowlApplicationsViewController : GrowlPrefsViewController <NSTableViewDataSource>
 
@@ -19,6 +19,7 @@
 @property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;
 @property (nonatomic, assign) IBOutlet NotificationsArrayController *notificationsArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
+@property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *appPositionPicker;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *soundMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *displayMenuButton;
@@ -29,6 +30,8 @@
 @property (nonatomic, retain) NSSound *demoSound;
 @property (nonatomic) BOOL canRemoveTicket;
 
+@property (nonatomic, retain) NSString *getApplicationsTitle;
+@property (nonatomic, retain) NSString *enableApplicationLabel;
 @property (nonatomic, retain) NSString *enableLoggingLabel;
 @property (nonatomic, retain) NSString *applicationDefaultStyleLabel;
 @property (nonatomic, retain) NSString *applicationSettingsTabLabel;
@@ -50,6 +53,7 @@
 
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;
+- (IBAction)getApplications:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
 - (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil;

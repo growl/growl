@@ -12,6 +12,7 @@
 #import "GrowlTicketController.h"
 #import "GrowlPreferencePane.h"
 #import "GrowlNotificationSettingsCellView.h"
+#import "GrowlOnSwitch.h"
 #import "NSStringAdditions.h"
 
 static BOOL awoken = NO;
@@ -25,6 +26,7 @@ static BOOL awoken = NO;
 @synthesize ticketsArrayController;
 @synthesize notificationsArrayController;
 @synthesize appSettingsTabView;
+@synthesize appOnSwitch;
 @synthesize appPositionPicker;
 @synthesize soundMenuButton;
 @synthesize displayMenuButton;
@@ -35,6 +37,8 @@ static BOOL awoken = NO;
 @synthesize demoSound;
 @synthesize canRemoveTicket;
 
+@synthesize getApplicationsTitle;
+@synthesize enableApplicationLabel;
 @synthesize enableLoggingLabel;
 @synthesize applicationDefaultStyleLabel;
 @synthesize applicationSettingsTabLabel;
@@ -55,8 +59,11 @@ static BOOL awoken = NO;
 @synthesize priorityEmergency;
 
 -(void)dealloc {
+   [ticketsArrayController removeObserver:self forKeyPath:@"selection"];
+   [appOnSwitch removeObserver:self forKeyPath:@"state"];
    [demoSound release];
    
+   [enableApplicationLabel release];
    [enableLoggingLabel release];
    [applicationDefaultStyleLabel release];
    [applicationSettingsTabLabel release];
@@ -83,6 +90,8 @@ static BOOL awoken = NO;
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.ticketController = [GrowlTicketController sharedController];
       
+      self.getApplicationsTitle = NSLocalizedString(@"Get Applications", @"Label for button which will open to growl.info with information on applications and how to configure them");
+      self.enableApplicationLabel = NSLocalizedString(@"Enable application", @"Label for application on/off switch");
       self.enableLoggingLabel = NSLocalizedString(@"Enable Logging", @"Label for checkbox which enables logging for a note or application");
       self.applicationDefaultStyleLabel = NSLocalizedString(@"Application's Display Style", @"Label for application level display style choice");
       self.applicationSettingsTabLabel = NSLocalizedString(@"Application", @"Label for the tab which contains application settings");
@@ -111,6 +120,8 @@ static BOOL awoken = NO;
    
    awoken = YES;
    [ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+   [appOnSwitch addObserver:self forKeyPath:@"state" options:0 context:nil];
+   [appSettingsTabView selectTabViewItemAtIndex:0];
 
    self.canRemoveTicket = NO;
    
@@ -121,7 +132,16 @@ static BOOL awoken = NO;
                   toObject:ticketsArrayController 
                withKeyPath:@"selection.selectedPosition" 
                    options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:NSRaisesForNotApplicableKeysBindingOption]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePosition:) name:GrowlPositionPickerChangedSelectionNotification object:appPositionPicker];
+	
+   [appOnSwitch bind:@"state"
+            toObject:ticketsArrayController 
+         withKeyPath:@"selection.ticketEnabled"
+             options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:NSRaisesForNotApplicableKeysBindingOption]];
+   
+   [[NSNotificationCenter defaultCenter] addObserver:self 
+                                            selector:@selector(updatePosition:) 
+                                                name:GrowlPositionPickerChangedSelectionNotification 
+                                              object:appPositionPicker];
       
    [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(translateSeparatorsInMenu:)
@@ -150,15 +170,35 @@ static BOOL awoken = NO;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
    if([keyPath isEqualToString:@"selection"] && object == ticketsArrayController) {
       NSUInteger index = [ticketsArrayController selectionIndex];
-      if(index != NSNotFound && [[[ticketsArrayController arrangedObjects] objectAtIndex:index] isKindOfClass:[GrowlApplicationTicket class]]){      
-         [self setCanRemoveTicket:[ticketsArrayController canRemove]];
-         [displayMenuButton setEnabled:YES];
-         [notificationDisplayMenuButton setEnabled:YES];
-         [[self prefPane] populateDisplaysPopUpButton:displayMenuButton nameOfSelectedDisplay:[[ticketsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
-         [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton nameOfSelectedDisplay:[[notificationsArrayController selection] valueForKey:@"displayPluginName"] includeDefaultMenuItem:YES];
+      if(index != NSNotFound){
+         id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
+         if([ticket isKindOfClass:[GrowlApplicationTicket class]])
+         {
+            self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket applicationName]];
+            [self setCanRemoveTicket:[ticketsArrayController canRemove]];
+            [displayMenuButton setEnabled:YES];
+            [notificationDisplayMenuButton setEnabled:YES];
+            [[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
+                                   nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
+                                  includeDefaultMenuItem:YES];
+            [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
+                                   nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
+                                  includeDefaultMenuItem:YES];
+         }
       }else{
+         [appOnSwitch setState:NO];
          [displayMenuButton setEnabled:NO];
          [notificationDisplayMenuButton setEnabled:NO];
+      }
+   }
+   if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
+      NSUInteger index = [ticketsArrayController selectionIndex];
+      if(index != NSNotFound){
+         id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
+         if([ticket isKindOfClass:[GrowlApplicationTicket class]])
+         {
+            [ticket setTicketEnabled:[appOnSwitch state]];
+         }
       }
    }
 }
@@ -211,6 +251,10 @@ static BOOL awoken = NO;
 		[menu removeItemAtIndex:itemIndex];
 		[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
 	}
+}
+
+- (IBAction)getApplications:(id)sender {
+   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.growl.info/applications.php"]];
 }
 
 - (void) deleteTicket:(id)sender {

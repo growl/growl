@@ -18,6 +18,14 @@
 @synthesize state;
 @synthesize mouseLoc;
 
++(void)initialize
+{
+   if (self != [GrowlOnSwitch class])
+		return;
+
+   [NSObject exposeBinding:@"state"];
+}
+
 -(id)initWithFrame:(NSRect)frameRect
 {
    if((self = [super initWithFrame:frameRect])){      
@@ -84,14 +92,28 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-   if(object == self && [keyPath isEqualToString:@"state"]){
+   if([keyPath isEqualToString:@"state"]){
       [self updatePosition];
    }
+}
+
+- (void)setNilValueForKey:(NSString *)key
+{
+	if ([key isEqualToString:@"state"])
+		[self setState:NO];
+	else
+		return [super setNilValueForKey:key];
 }
 
 -(void)setState:(BOOL)newState
 {
    state = newState;
+}
+
+-(void)silentSetState:(BOOL)newState
+{
+   state = newState;
+   [self updatePosition];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
