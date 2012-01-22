@@ -31,6 +31,7 @@
 		BC8F359D14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8F359C14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m */; };
 		BC8F35A014A015EC001C8D73 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8F359E14A015EC001C8D73 /* MainMenu.xib */; };
 		BC8F35A514A0160E001C8D73 /* GrowlCalLauncher.app in Copy Login Launcher */ = {isa = PBXBuildFile; fileRef = BC8F358C14A015EB001C8D73 /* GrowlCalLauncher.app */; };
+		BC9E67D214CC849C00F6711E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC9E67D014CC849C00F6711E /* Localizable.strings */; };
 		BCC622A714B389CB00965298 /* GrowlCalTask.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC622A614B389CB00965298 /* GrowlCalTask.m */; };
 		BCC622AA14B38C6E00965298 /* NSDate+GrowlCalAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC622A914B38C6E00965298 /* NSDate+GrowlCalAdditions.m */; };
 /* End PBXBuildFile section */
@@ -231,6 +232,7 @@
 		BC8F359C14A015EB001C8D73 /* GrowlCalLauncherAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlCalLauncherAppDelegate.m; sourceTree = "<group>"; };
 		BC8F359F14A015EC001C8D73 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BC8F35A414A015F1001C8D73 /* GrowlCalLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GrowlCalLauncher.entitlements; sourceTree = "<group>"; };
+		BC9E67D114CC849C00F6711E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCC622A514B389CB00965298 /* GrowlCalTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlCalTask.h; sourceTree = "<group>"; };
 		BCC622A614B389CB00965298 /* GrowlCalTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalTask.m; sourceTree = "<group>"; };
 		BCC622A814B38C6E00965298 /* NSDate+GrowlCalAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GrowlCalAdditions.h"; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				BC6746FA149F0C6300898C13 /* InfoPlist.strings */,
 				BC6746FD149F0C6300898C13 /* main.m */,
 				BC6746FF149F0C6300898C13 /* GrowlCal-Prefix.pch */,
+				BC9E67D014CC849C00F6711E /* Localizable.strings */,
 				BC674700149F0C6300898C13 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
@@ -402,6 +405,7 @@
 			buildPhases = (
 				BC6746E9149F0C6300898C13 /* Sources */,
 				BC6746EA149F0C6300898C13 /* Frameworks */,
+				BC9E67CF14CC83B600F6711E /* Run genstrings */,
 				BC6746EB149F0C6300898C13 /* Resources */,
 				BC674751149F0D1D00898C13 /* Copy Growl.framework */,
 				BC8F358314A00EBC001C8D73 /* Copy Login Launcher */,
@@ -579,6 +583,7 @@
 				BC674702149F0C6300898C13 /* Credits.rtf in Resources */,
 				BC8F34C3149F8EDE001C8D73 /* MainMenu.xib in Resources */,
 				BC13954F14A02E0400E9ED19 /* Growl.icns in Resources */,
+				BC9E67D214CC849C00F6711E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +613,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/xpcfix.sh\"";
+		};
+		BC9E67CF14CC83B600F6711E /* Run genstrings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/GrowlCal/*.h",
+				"$(SRCROOT)/GrowlCal/*.m",
+			);
+			name = "Run genstrings";
+			outputPaths = (
+				"$(SRCROOT)/GrowlCal/en.lproj",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o GrowlCal/en.lproj GrowlCal/*.h GrowlCal/*.m";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -695,6 +717,14 @@
 				BC8F359F14A015EC001C8D73 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BC9E67D014CC849C00F6711E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC9E67D114CC849C00F6711E /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
