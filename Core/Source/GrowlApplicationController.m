@@ -1062,7 +1062,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		return;
 	
 	id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (clickContext) {
+   id callbackTarget = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+   if(callbackTarget && viaClick) {
+      NSURL *callbackURL = nil;
+      if([callbackTarget isKindOfClass:[NSURL class]]){
+         callbackURL = callbackTarget;
+      }else if([callbackTarget isKindOfClass:[NSString class]]){
+         callbackURL = [NSURL URLWithString:callbackTarget];
+      }
+      
+      if(callbackURL)
+         [[NSWorkspace sharedWorkspace] openURL:callbackURL];
+   } else if (clickContext) {
 		NSString *suffix, *growlNotificationClickedName;
 		NSDictionary *clickInfo;
 		
