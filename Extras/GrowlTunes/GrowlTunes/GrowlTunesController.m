@@ -314,8 +314,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 }
 
 
-#if defined(BETA) && BETA
-#define DAYSTOEXPIRY 14
+#if defined(BETA)
 - (NSCalendarDate *)dateWithString:(NSString *)str {
 	str = [str stringByReplacingOccurrencesOfString:@"  " withString:@" "];
 	NSArray *dateParts = [str componentsSeparatedByString:@" "];
