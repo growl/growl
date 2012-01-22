@@ -225,7 +225,8 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 
 - (void)generateKey
 {
-	NSMutableData *keyBasis = [NSMutableData dataWithData:[[self password] dataUsingEncoding:NSUTF8StringEncoding]];
+	//NSMutableData *keyBasis = [NSMutableData dataWithData:[[self password] dataUsingEncoding:NSUTF8StringEncoding]];
+   NSMutableData *keyBasis = [[[[self password] dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
 	[keyBasis appendData:[self salt]];
 	NSData *keyBytes = ComputeHash(keyBasis, [self hashAlgorithm]);
 	[self setEncryptionKey:keyBytes];

@@ -35,6 +35,8 @@
 		if (![self.tcpServer start:&error])
 			NSLog(@"Error starting Growl TCP server: %@", error);
 		[[self.tcpServer netService] setDelegate:self];
+      
+      [self.tcpServer preferencesChanged:nil];
 	}
 		
 	return self;

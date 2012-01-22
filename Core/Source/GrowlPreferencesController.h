@@ -23,6 +23,7 @@
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
+#define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
 #define GrowlUDPPortKey				XSTR("GrowlUDPPort")
@@ -151,6 +152,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
+
+#pragma mark Subscriptions
+
+- (BOOL) isSubscriptionAllowed;
+- (void) setSubscriptionAllowed:(BOOL)allowed;
+
+- (NSString*) GNTPSubscriberID;
+- (void) setGNTPSubscriberID:(NSString*)newID;
 
 @end
 
