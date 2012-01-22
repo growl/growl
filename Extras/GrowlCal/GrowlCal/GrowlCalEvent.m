@@ -156,25 +156,29 @@
       NSInteger minutesBeforeEvent = [[NSUserDefaults standardUserDefaults] integerForKey:@"MinutesBeforeEvent"];
       if([(NSDate*)[NSDate dateWithTimeInterval:-60 * minutesBeforeEvent sinceDate:start] compare:now] == NSOrderedAscending)
          newStage = GrowlCalEventUpcoming;
-      else if([start compare:now] == NSOrderedAscending)
+      else if([start compare:now] == NSOrderedDescending)
          newStage = GrowlCalEventUpcomingFired;
-      else if([start compare:now] == NSOrderedDescending && [end compare:now] != NSOrderedDescending)
+      else if([start compare:now] == NSOrderedAscending && [end compare:now] == NSOrderedDescending)
          newStage = GrowlCalEventCurrent;
-      else if([end compare:now] == NSOrderedDescending)
+      else if([end compare:now] == NSOrderedAscending)
          newStage = GrowlCalEventFinished;
       else
          newStage = GrowlCalEventFinished;
    }
    if(newStage != _stage && newStage != GrowlCalEventUnknown){
       _stage = newStage;
-      [self updateTimer];
+      if(newStage == GrowlCalEventFinished)
+         [_delegate removeFromEventList:[_event uid] date:[_event startDate]];
+      else
+         [self updateTimer];
    }
 }
 
--(void)updateEvent:(CalEvent*)event
+-(void)updateEvent:(CalEvent*)newEvent
 {
-   self.event = _event;
-   if([[event startDate] compare:[_event startDate]] != NSOrderedSame || [[event endDate] compare:[_event endDate]] != NSOrderedSame)
+   CalEvent *oldEvent = _event;
+   self.event = newEvent;
+   if([[oldEvent startDate] compare:[oldEvent startDate]] != NSOrderedSame || [[newEvent endDate] compare:[oldEvent endDate]] != NSOrderedSame)
       [self determineStage];
 }
 
@@ -204,7 +208,10 @@
          {
             noteName = @"UpcomingEventAlert";
             NSInteger minutes = [start timeIntervalSinceDate:current] / 60;
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+            if(minutes > 0)
+               timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+            else
+               timeString = NSLocalizedString(@"less than one minute", @"");
             noteDescription = NSLocalizedString(@"%@ will start in %@", @"");
             break;
          }
@@ -217,7 +224,10 @@
          {
             noteName = @"UpcomingEventEndAlert";
             NSInteger minutes = [end timeIntervalSinceDate:current] / 60;
-            timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+            if(minutes > 0)
+               timeString = [NSString stringWithFormat:NSLocalizedString(@"%ld minutes", nil), minutes];
+            else
+               timeString = NSLocalizedString(@"less than one minute", nil);
             noteDescription = NSLocalizedString(@"%@ will end in %@", @"");
             break;
          }
