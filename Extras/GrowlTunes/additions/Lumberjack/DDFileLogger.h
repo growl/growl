@@ -61,7 +61,7 @@
 
 // Public properties
 
-@property (atomic, readwrite, assign) NSUInteger maximumNumberOfLogFiles;
+@property (readwrite, assign) NSUInteger maximumNumberOfLogFiles;
 
 // Public methods
 
@@ -141,12 +141,12 @@
 
 @interface DDFileLogger : DDAbstractLogger <DDLogger>
 {
-	id <DDLogFileManager> logFileManager;
+	__strong id <DDLogFileManager> logFileManager;
 	
 	DDLogFileInfo *currentLogFileInfo;
 	NSFileHandle *currentLogFileHandle;
 	
-	NSTimer *rollingTimer;
+	dispatch_source_t rollingTimer;
 	
 	unsigned long long maximumFileSize;
 	NSTimeInterval rollingFrequency;
@@ -180,11 +180,11 @@
 //   Allows you to retrieve the list of log files,
 //   and configure the maximum number of archived log files to keep.
 
-@property (atomic, readwrite, assign) unsigned long long maximumFileSize;
+@property (readwrite, assign) unsigned long long maximumFileSize;
 
-@property (atomic, readwrite, assign) NSTimeInterval rollingFrequency;
+@property (readwrite, assign) NSTimeInterval rollingFrequency;
 
-@property (nonatomic, readonly) id <DDLogFileManager> logFileManager;
+@property (strong, nonatomic, readonly) id <DDLogFileManager> logFileManager;
 
 
 // You can optionally force the current log file to be rolled with this method.
@@ -217,24 +217,24 @@
 
 @interface DDLogFileInfo : NSObject
 {
-	NSString *filePath;
-	NSString *fileName;
+	__strong NSString *filePath;
+	__strong NSString *fileName;
 	
-	NSDictionary *fileAttributes;
+	__strong NSDictionary *fileAttributes;
 	
-	NSDate *creationDate;
-	NSDate *modificationDate;
+	__strong NSDate *creationDate;
+	__strong NSDate *modificationDate;
 	
 	unsigned long long fileSize;
 }
 
-@property (nonatomic, readonly) NSString *filePath;
-@property (nonatomic, readonly) NSString *fileName;
+@property (strong, nonatomic, readonly) NSString *filePath;
+@property (strong, nonatomic, readonly) NSString *fileName;
 
-@property (nonatomic, readonly) NSDictionary *fileAttributes;
+@property (strong, nonatomic, readonly) NSDictionary *fileAttributes;
 
-@property (nonatomic, readonly) NSDate *creationDate;
-@property (nonatomic, readonly) NSDate *modificationDate;
+@property (strong, nonatomic, readonly) NSDate *creationDate;
+@property (strong, nonatomic, readonly) NSDate *modificationDate;
 
 @property (nonatomic, readonly) unsigned long long fileSize;
 

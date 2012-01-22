@@ -545,7 +545,7 @@
 						<string key="label">hidden: isPlaying</string>
 						<reference key="source" ref="811089115"/>
 						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="466765849">
 							<reference key="NSSource" ref="811089115"/>
 							<reference key="NSDestination" ref="461929346"/>
 							<string key="NSLabel">hidden: isPlaying</string>
@@ -575,6 +575,30 @@
 						</object>
 					</object>
 					<int key="connectionID">421</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: self.currentTrack.isStream</string>
+						<reference key="source" ref="811089115"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="811089115"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden2: self.currentTrack.isStream</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">self.currentTrack.isStream</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="466765849"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">428</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1423,7 +1447,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">423</int>
+			<int key="maxID">428</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

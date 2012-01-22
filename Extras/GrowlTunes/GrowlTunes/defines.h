@@ -1,32 +1,32 @@
 #pragma mark iTunes.h shortcuts
-#define StateStopped ITunesEPlSStopped
-#define StatePlaying ITunesEPlSPlaying
-#define StatePaused ITunesEPlSPaused
-#define StateFastForward ITunesEPlSFastForwarding
-#define StateRewind ITunesEPlSRewinding
+#define StateStopped                    ITunesEPlSStopped
+#define StatePlaying                    ITunesEPlSPlaying
+#define StatePaused                     ITunesEPlSPaused
+#define StateFastForward                ITunesEPlSFastForwarding
+#define StateRewind                     ITunesEPlSRewinding
 
 #pragma mark logger tags
-#define LogTagInit (1 << 0)
-#define LogTagKVC (1 << 1)
-#define LogTagState (1 << 2)
+#define LogTagInit                      @"init"
+#define LogTagKVC                       @"KVC"
+#define LogTagState                     @"state"
 
 #pragma mark beta expiry
 #if defined(BETA) && BETA
-#define DAYSTOEXPIRY 14
+#   define DAYSTOEXPIRY                 14
 #endif
 
 #pragma mark compilation metadata
-#define COMPILED_ON __DATE__
-#define COMPILED_AT __TIME__
-#define COMPILER_VERSION __VERSION__
+#define COMPILED_ON                     __DATE__
+#define COMPILED_AT                     __TIME__
+#define COMPILER_VERSION                __VERSION__
 
 #pragma mark defaults setting names
-#define NOTIFY_ITUNES_FRONTMOST @"notifyWhenITunesIsFrontmost"
+#define NOTIFY_ITUNES_FRONTMOST         @"notifyWhenITunesIsFrontmost"
 
 #pragma mark bundle/notification IDs
-#define ITUNES_BUNDLE_ID @"com.apple.iTunes"
-#define PLAYER_INFO_ID ITUNES_BUNDLE_ID ".playerInfo"
-#define SOURCE_SAVED_ID ITUNES_BUNDLE_ID ".sourceSaved"
+#define ITUNES_BUNDLE_ID                @"com.apple.iTunes"
+#define PLAYER_INFO_ID                  ITUNES_BUNDLE_ID ".playerInfo"
+#define SOURCE_SAVED_ID                 ITUNES_BUNDLE_ID ".sourceSaved"
 
 #pragma mark growl notification names
 #define NotifierChangedTracks           @"Changed Tracks"

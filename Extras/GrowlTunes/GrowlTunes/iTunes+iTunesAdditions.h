@@ -12,12 +12,13 @@
 
 @interface ITunesApplication (iTunesAdditions)
 +(ITunesApplication*)sharedInstance;
-@property(readonly, nonatomic, copy) NSString* playerStateName;
+@property(readonly, nonatomic, retain) NSString* playerStateName;
 @end
 
 @interface ITunesTrack (iTunesAdditions)
-@property(readonly, nonatomic, copy) NSString* albumRatingKindName;
-@property(readonly, nonatomic, copy) NSString* ratingKindName;
-@property(readonly, nonatomic, copy) NSString* videoKindName;
-@property(readonly, nonatomic, copy) NSImage* artworkImage;
+@property(readonly, nonatomic, retain) NSString* albumRatingKindName;
+@property(readonly, nonatomic, retain) NSString* ratingKindName;
+@property(readonly, nonatomic, retain) NSString* videoKindName;
+@property(readonly, nonatomic, retain) NSData* artworkData;
+@property(readonly, nonatomic, retain) NSImage* artworkImage;
 @end

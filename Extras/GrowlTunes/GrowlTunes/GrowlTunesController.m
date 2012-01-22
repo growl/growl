@@ -145,7 +145,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     NSArray* allNotifications = [notifications allKeys];
     
     NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
-    NSImage* icon = [[NSImage alloc] initWithContentsOfURL:iconURL];
+    NSImage* icon = [[NSImage alloc] initByReferencingURL:iconURL];
     NSData* iconData = nil;
     if (icon) {
         LogImage(icon);
@@ -183,9 +183,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
                 
         NSString* title = [formatted valueForKey:@"title"];
         NSString* description = [formatted valueForKey:@"description"];
-        NSImage* icon = [formatted valueForKey:@"icon"];
-        [icon setCacheMode:NSImageCacheNever];
-        NSData* iconData = [icon TIFFRepresentation];
+        NSData* iconData = [formatted valueForKey:@"icon"];
         
         [self notifyWithTitle:title description:description name:NotifierChangedTracks icon:iconData];
     }
@@ -199,12 +197,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 #if defined(NSLOGGER)
     [DDLog addLogger:[DDNSLogger sharedInstance]];
-    [[DDNSLogger sharedInstance] addTag:@"init" forContext:LogTagInit];
-    [[DDNSLogger sharedInstance] addTag:@"KVC" forContext:LogTagKVC];
-    [[DDNSLogger sharedInstance] addTag:@"state" forContext:LogTagState];
 #endif
     
-#if defined(BETA) && BETA
+#if defined(BETA)
     [self expiryCheck];
 #endif
     

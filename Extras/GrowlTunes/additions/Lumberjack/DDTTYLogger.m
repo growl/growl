@@ -3,6 +3,16 @@
 #import <unistd.h>
 #import <sys/uio.h>
 
+/**
+ * Welcome to Cocoa Lumberjack!
+ *
+ * The project page has a wealth of documentation if you have any questions.
+ * https://github.com/robbiehanson/CocoaLumberjack
+ *
+ * If you're new to the project you may wish to read the "Getting Started" wiki.
+ * https://github.com/robbiehanson/CocoaLumberjack/wiki/GettingStarted
+**/
+
 
 @implementation DDTTYLogger
 
@@ -42,7 +52,7 @@ static DDTTYLogger *sharedInstance;
 	
 	if ((self = [super init]))
 	{
-		isaTTY = (BOOL)isatty(STDERR_FILENO);
+		isaTTY = isatty(STDERR_FILENO);
 		
 		if (isaTTY)
 		{
@@ -148,12 +158,9 @@ static DDTTYLogger *sharedInstance;
 			v[5].iov_base = ":";
 			v[5].iov_len = 1;
 			
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-compare"
 			v[6].iov_base = tidCStr;
 			v[6].iov_len = MIN((size_t)8, tidLen); // snprintf doesn't return what you might think
-#pragma clang diagnostic pop
-            
+			
 			v[7].iov_base = "] ";
 			v[7].iov_len = 2;
 			

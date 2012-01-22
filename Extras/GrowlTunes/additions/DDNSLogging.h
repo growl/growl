@@ -14,7 +14,7 @@
 #import "DDNSLogger.h"
 
 
-#if defined(DEBUG) && !defined(NDEBUG)
+#if defined(NSLOGGER) && !defined(NDEBUG)
 #   undef assert
 #   if __DARWIN_UNIX03
 #       define assert(e)                                                                                    \
@@ -91,7 +91,7 @@
 #define DDNS_LOG_ASYNC_DEBUG        (YES && DDNS_LOG_ASYNC_ENABLED)
 
 
-#define DDNS_LOG_MACRO(isAsynchronous, lvl, flg, ctx, frmt, ...)                                            \
+#define DDNS_LOG_MACRO(isAsynchronous, lvl, flg, ctx, tagstr, frmt, ...)                                    \
     [DDLog log:isAsynchronous                                                                               \
          level:lvl                                                                                          \
           flag:flg                                                                                          \
@@ -99,9 +99,10 @@
           file:__FILE__                                                                                     \
       function:__PRETTY_FUNCTION__                                                                          \
           line:__LINE__                                                                                     \
+           tag:tagstr                                                                                       \
         format:(frmt), ##__VA_ARGS__]
 
-#define DDNS_LOG_DATA_MACRO(isAsynchronous, lvl, flg, ctx, dta)                                             \
+#define DDNS_LOG_DATA_MACRO(isAsynchronous, lvl, flg, ctx, tagstr, dta)                                     \
     [DDLog log:isAsynchronous                                                                               \
          level:lvl                                                                                          \
           flag:flg                                                                                          \
@@ -109,9 +110,10 @@
           file:__FILE__                                                                                     \
       function:__PRETTY_FUNCTION__                                                                          \
           line:__LINE__                                                                                     \
+           tag:tagstr                                                                                       \
           data:dta]
 
-#define DDNS_LOG_IMAGE_MACRO(isAsynchronous, lvl, flg, ctx, img)                                            \
+#define DDNS_LOG_IMAGE_MACRO(isAsynchronous, lvl, flg, ctx, tagstr, img)                                    \
     [DDLog log:isAsynchronous                                                                               \
          level:lvl                                                                                          \
           flag:flg                                                                                          \
@@ -119,74 +121,75 @@
           file:__FILE__                                                                                     \
       function:__PRETTY_FUNCTION__                                                                          \
           line:__LINE__                                                                                     \
+           tag:tagstr                                                                                       \
          image:img]
 
-#define DDNS_LOG_MAYBE(async, lvl, flg, ctx, frmt, ...)                                                     \
+#define DDNS_LOG_MAYBE(async, lvl, flg, ctx, tag, frmt, ...)                                                \
 do {                                                                                                        \
     if (lvl & flg) {                                                                                        \
-        DDNS_LOG_MACRO(async, lvl, flg, ctx, frmt, ##__VA_ARGS__);                                          \
+        DDNS_LOG_MACRO(async, lvl, flg, ctx, tag, frmt, ##__VA_ARGS__);                                     \
     }                                                                                                       \
 } while(0)
 
-#define DDNS_LOG_DATA_MAYBE(async, lvl, flg, ctx, data)                                                     \
+#define DDNS_LOG_DATA_MAYBE(async, lvl, flg, ctx, tag, data)                                                \
 do {                                                                                                        \
     if (lvl & flg) {                                                                                        \
-        DDNS_LOG_DATA_MACRO(async, lvl, flg, ctx, data);                                                    \
+        DDNS_LOG_DATA_MACRO(async, lvl, flg, ctx, tag, data);                                               \
     }                                                                                                       \
 } while(0)
 
-#define DDNS_LOG_IMAGE_MAYBE(async, lvl, flg, ctx, image)                                                   \
+#define DDNS_LOG_IMAGE_MAYBE(async, lvl, flg, ctx, tag, image)                                              \
 do {                                                                                                        \
     if (lvl & flg) {                                                                                        \
-        DDNS_LOG_IMAGE_MACRO(async, lvl, flg, ctx, image);                                                  \
+        DDNS_LOG_IMAGE_MACRO(async, lvl, flg, ctx, tag, image);                                             \
     }                                                                                                       \
 } while(0)
 
 #define DDNSLogErrorTag(tag, frmt, ...)                                                                     \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_ERROR, ddLogLevel,                                                        \
-                   DDNS_LOG_FLAG_ERROR, tag, frmt, ##__VA_ARGS__)
+                   DDNS_LOG_FLAG_ERROR, 0, tag, frmt, ##__VA_ARGS__)
 
 #define DDNSLogWarnTag(tag, frmt, ...)                                                                      \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_WARN, ddLogLevel,                                                         \
-                   DDNS_LOG_FLAG_WARN, tag, frmt, ##__VA_ARGS__)
+                   DDNS_LOG_FLAG_WARN, 0, tag, frmt, ##__VA_ARGS__)
 
 #define DDNSLogInfoTag(tag, frmt, ...)                                                                      \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                         \
-                   DDNS_LOG_FLAG_INFO, tag, frmt, ##__VA_ARGS__)
+                   DDNS_LOG_FLAG_INFO, 0, tag, frmt, ##__VA_ARGS__)
 
 #define DDNSLogVerboseTag(tag, frmt, ...)                                                                   \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_VERBOSE, ddLogLevel,                                                      \
-                   DDNS_LOG_FLAG_VERBOSE, tag, frmt, ##__VA_ARGS__)
+                   DDNS_LOG_FLAG_VERBOSE, 0, tag, frmt, ##__VA_ARGS__)
 
 #define DDNSLogDebugTag(tag, frmt, ...)                                                                     \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_DEBUG, ddLogLevel,                                                        \
-                   DDNS_LOG_FLAG_DEBUG, tag, frmt, ##__VA_ARGS__)
+                   DDNS_LOG_FLAG_DEBUG, 0, tag, frmt, ##__VA_ARGS__)
 
-#define DDNSLogError(frmt, ...)     DDNSLogErrorTag(0, frmt, ##__VA_ARGS__)
-#define DDNSLogWarn(frmt, ...)      DDNSLogWarnTag(0, frmt, ##__VA_ARGS__)
-#define DDNSLogInfo(frmt, ...)      DDNSLogInfoTag(0, frmt, ##__VA_ARGS__)
-#define DDNSLogVerbose(frmt, ...)   DDNSLogVerboseTag(0, frmt, ##__VA_ARGS__)
-#define DDNSLogDebug(frmt, ...)     DDNSLogDebugTag(0, frmt, ##__VA_ARGS__)
+#define DDNSLogError(frmt, ...)     DDNSLogErrorTag(nil, frmt, ##__VA_ARGS__)
+#define DDNSLogWarn(frmt, ...)      DDNSLogWarnTag(nil, frmt, ##__VA_ARGS__)
+#define DDNSLogInfo(frmt, ...)      DDNSLogInfoTag(nil, frmt, ##__VA_ARGS__)
+#define DDNSLogVerbose(frmt, ...)   DDNSLogVerboseTag(nil, frmt, ##__VA_ARGS__)
+#define DDNSLogDebug(frmt, ...)     DDNSLogDebugTag(nil, frmt, ##__VA_ARGS__)
 
 #define DDNSLogStartBlock(msg)                                                                              \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                         \
-                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_START_BLOCK), 0, @"%@", msg)
+                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_START_BLOCK), 0, nil, @"%@", msg)
 
 #define DDNSLogEndBlock                                                                                     \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                         \
-                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_END_BLOCK), 0, nil, nil)
+                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_END_BLOCK), 0, nil, nil, nil)
 
 #define DDNSLogMarker(msg)                                                                                  \
     DDNS_LOG_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                         \
-                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_MARKER), 0, nil, msg)
+                   (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_MARKER), 0, nil, nil, msg)
 
 #define DDNSLogData(data)                                                                                   \
-    DDNS_LOG_DATA_MAYBE(DDNS_LOG_ASYNC_VERBOSE, ddLogLevel,                                                 \
-                        (DDNS_LOG_FLAG_VERBOSE | DDNS_LOG_FLAG_DATA), 0, data)
+    DDNS_LOG_DATA_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                    \
+                        (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_DATA), 0, nil, data)
 
 #define DDNSLogImage(image)                                                                                 \
-    DDNS_LOG_IMAGE_MAYBE(DDNS_LOG_ASYNC_VERBOSE, ddLogLevel,                                                \
-                         (DDNS_LOG_FLAG_VERBOSE | DDNS_LOG_FLAG_IMAGE), 0, image)
+    DDNS_LOG_IMAGE_MAYBE(DDNS_LOG_ASYNC_INFO, ddLogLevel,                                                   \
+                         (DDNS_LOG_FLAG_INFO | DDNS_LOG_FLAG_IMAGE), 0, nil, image)
 
 #define LogErrorTag(tag, ...)           DDNSLogErrorTag(tag, ##__VA_ARGS__)
 #define LogWarnTag(tag, ...)            DDNSLogWarnTag(tag, ##__VA_ARGS__)
@@ -194,11 +197,11 @@ do {                                                                            
 #define LogVerboseTag(tag, ...)         DDNSLogVerboseTag(tag, ##__VA_ARGS__)
 #define LogDebugTag(tag, ...)           DDNSLogDebugTag(tag, ##__VA_ARGS__)
 
-#define LogError(...)                   LogErrorTag(0, ##__VA_ARGS__)
-#define LogWarn(...)                    LogWarnTag(0, ##__VA_ARGS__)
-#define LogInfo(...)                    LogInfoTag(0, ##__VA_ARGS__)
-#define LogVerbose(...)                 LogVerboseTag(0, ##__VA_ARGS__)
-#define LogDebug(...)                   LogDebugTag(0, ##__VA_ARGS__)
+#define LogError(...)                   LogErrorTag(nil, ##__VA_ARGS__)
+#define LogWarn(...)                    LogWarnTag(nil, ##__VA_ARGS__)
+#define LogInfo(...)                    LogInfoTag(nil, ##__VA_ARGS__)
+#define LogVerbose(...)                 LogVerboseTag(nil, ##__VA_ARGS__)
+#define LogDebug(...)                   LogDebugTag(nil, ##__VA_ARGS__)
 
 #define LogStartBlock(msg)              DDNSLogStartBlock(msg)
 #define LogEndBlock                     DDNSLogEndBlock

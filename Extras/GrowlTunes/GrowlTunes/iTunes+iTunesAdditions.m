@@ -47,6 +47,10 @@
         case ITunesEPlSRewinding:
             return @"rewinding";
             break;
+        
+        default:
+            return @"error";
+            break;
     }
 }
 
@@ -66,6 +70,10 @@
         case ITunesERtKComputed:
             return @"computed";
             break;
+        
+        default:
+            return @"error";
+            break;
     }
 }
 
@@ -79,6 +87,10 @@
             
         case ITunesERtKComputed:
             return @"computed";
+            break;
+        
+        default:
+            return @"error";
             break;
     }
 }
@@ -102,10 +114,14 @@
         case ITunesEVdKTVShow:
             return @"TV show";
             break;
+        
+        default:
+            return @"error";
+            break;
     }
 }
 
--(NSImage*)artworkImage
+-(NSData*)artworkData
 {
     SBElementArray* artworks = [self artworks];
     if ([artworks count] == 0) return nil;
@@ -115,8 +131,16 @@
     
     artwork = [artwork get];
     NSData* data = [artwork rawData];
+    
+    return data;
+}
+
+-(NSImage*)artworkImage
+{
+    NSData* data = [self artworkData];
+    if (!data) return nil;
+    
     NSImage* image = [[NSImage alloc] initWithData:data];
-    [image setCacheMode:NSImageCacheNever];
     AUTORELEASE(image);
     
     return image;

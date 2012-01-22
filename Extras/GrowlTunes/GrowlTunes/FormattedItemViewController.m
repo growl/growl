@@ -89,7 +89,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     if (!_titleField || !_detailsField) return;
     
     if (_formattedDescription) {
-        self.icon = [_formattedDescription valueForKey:@"icon"];
+        self.icon = [[NSImage alloc] initWithData:[_formattedDescription valueForKey:@"icon"]];
         self.title = [_formattedDescription valueForKey:@"title"];
         self.details = [_formattedDescription valueForKey:@"description"];
     } else {

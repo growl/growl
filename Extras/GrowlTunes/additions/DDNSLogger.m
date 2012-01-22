@@ -51,7 +51,8 @@ static char imageKey;
              context:(int)ilogContext 
                 file:(const char *)srcFile 
             function:(const char *)srcFunction 
-                line:(int)srcLine
+                line:(int)srcLine 
+                 tag:(id)tagobj
 {
     self = [self initWithLogMsg:@"data message" 
                           level:ilogLevel 
@@ -59,7 +60,8 @@ static char imageKey;
                         context:ilogContext 
                            file:srcFile 
                        function:srcFunction 
-                           line:srcLine];
+                           line:srcLine 
+                            tag:(id)tagobj];
     if (self) {
         [self setLogData:logData];
     }
@@ -72,7 +74,8 @@ static char imageKey;
               context:(int)ilogContext
                  file:(const char *)srcFile
              function:(const char *)srcFunction
-                 line:(int)srcLine
+                 line:(int)srcLine 
+                  tag:(id)tagobj
 {
     self = [self initWithLogMsg:@"image message" 
                           level:ilogLevel 
@@ -80,7 +83,8 @@ static char imageKey;
                         context:ilogContext 
                            file:srcFile 
                        function:srcFunction 
-                           line:srcLine];
+                           line:srcLine 
+                            tag:(id)tagobj];
     if (self) {
         [self setLogImage:logImage];
     }
@@ -98,7 +102,8 @@ static char imageKey;
    context:(int)context
       file:(const char *)file
   function:(const char *)function
-      line:(int)line
+      line:(int)line 
+       tag:(id)tag
       data:(NSData *)data
 {
     DDLogMessage* logMessage = [[DDLogMessage alloc] initWithLogData:data 
@@ -107,7 +112,8 @@ static char imageKey;
                                                              context:context 
                                                                 file:file 
                                                             function:function 
-                                                                line:line];
+                                                                line:line 
+                                                                 tag:(id)tag];
     [self queueLogMessage:logMessage asynchronously:asynchronous];
     [logMessage release];
 }
@@ -118,7 +124,8 @@ static char imageKey;
    context:(int)context
       file:(const char *)file
   function:(const char *)function
-      line:(int)line
+      line:(int)line 
+       tag:(id)tag
      image:(NSImage *)image
 {
     DDLogMessage* logMessage = [[DDLogMessage alloc] initWithLogImage:image 
@@ -127,110 +134,10 @@ static char imageKey;
                                                               context:context 
                                                                  file:file 
                                                              function:function 
-                                                                 line:line];
+                                                                 line:line 
+                                                                  tag:(id)tag];
     [self queueLogMessage:logMessage asynchronously:asynchronous];
     [logMessage release];
-}
-
-@end
-
-
-@implementation DDNSLoggerTagMap
-
--(id)init
-{
-    self = [super init];
-    if (self) {
-        _map = [[NSMutableDictionary alloc] init];
-    }
-    return self;
-}
-
--(void)addTag:(NSString *)tag forContext:(int)loggingContext
-{
-    OSSpinLockLock(&_lock);
-    {
-        [_map setValue:[NSNumber numberWithInt:loggingContext] forKey:tag];
-    }
-    OSSpinLockUnlock(&_lock);
-}
-
--(void)addContext:(int)loggingContext forTag:(NSString *)tag
-{
-    [self addTag:tag forContext:loggingContext];
-}
-
--(NSDictionary *)currentMap
-{
-    NSDictionary* result = nil;
-    
-    OSSpinLockLock(&_lock);
-    {
-        result = [_map copy];
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    return [result autorelease];
-}
-
--(BOOL)tagIsInMap:(NSString *)tag
-{
-    BOOL result = NO;
-    
-    OSSpinLockLock(&_lock);
-    {
-        NSArray* tags = [_map allKeys];
-        result = [tags containsObject:tag];
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    return result;
-}
-
--(BOOL)contextIsInMap:(int)loggingContext
-{
-    BOOL result = NO;
-    
-    OSSpinLockLock(&_lock);
-    {
-        NSArray* contexts = [_map allValues];
-        result = [contexts containsObject:[NSNumber numberWithInt:loggingContext]];
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    return result;
-}
-
--(int)getContextForTag:(NSString *)tag
-{
-    int result = -1;
-    
-    OSSpinLockLock(&_lock);
-    {
-        result = [[_map valueForKey:tag] intValue];
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    return result;
-}
-
--(NSString *)getTagForContext:(int)loggingContext
-{
-    NSString* __block tag = nil;
-    
-    OSSpinLockLock(&_lock);
-    {
-        NSNumber* wrapped = [NSNumber numberWithInt:loggingContext];
-        [_map enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            if ([wrapped isEqualToNumber:obj]) {
-                tag = key;
-                *stop = YES;
-            }
-        }];
-    }
-    OSSpinLockUnlock(&_lock);
-    
-    return tag;
 }
 
 @end
@@ -263,7 +170,6 @@ __strong static DDNSLogger* sharedInstance;
     
     self = [super init];
     if (self) {
-        tagMap = [[DDNSLoggerTagMap alloc] init];
         nslogger = LoggerInit();
         LoggerSetOptions(nslogger, DDNSLoggerDefaultOptions);
         NSString *bufferPath = [NSHomeDirectory() stringByAppendingPathComponent:
@@ -281,7 +187,6 @@ __strong static DDNSLogger* sharedInstance;
 {
     LoggerFlush(nslogger, NO);
     LoggerStop(nslogger);
-    [tagMap release];
     [super dealloc];
 }
 
@@ -290,36 +195,10 @@ __strong static DDNSLogger* sharedInstance;
     return @"com.teaspoonofinsanity.DDNSLogger";
 }
 
--(void)addTag:(NSString*)tag forContext:(int)loggingContext
-{    
-    dispatch_block_t block = ^{
-        [tagMap addTag:tag forContext:loggingContext]; 
-    };
-    
-    if (dispatch_get_current_queue() == loggerQueue) {
-        block();
-    } else {
-        dispatch_async([DDLog loggingQueue], block);
-    }
-}
-
--(DDNSLoggerTagMap*)tagMap
-{
-    if (dispatch_get_current_queue() == loggerQueue) {
-        return [[tagMap retain] autorelease];
-    }
-    
-    __block DDNSLoggerTagMap* map;
-    
-    dispatch_async([DDLog loggingQueue], ^{
-        map = [tagMap retain];
-    });
-    
-    return [map autorelease];
-}
-
 -(void)logMessage:(DDLogMessage*)logMessage
 {
+    [logMessage retain];
+    
     BOOL isData         = (BOOL)(logMessage->logFlag & DDNS_LOG_FLAG_DATA);
     BOOL isImage        = (BOOL)(logMessage->logFlag & DDNS_LOG_FLAG_IMAGE);
     BOOL isStartBlock   = (BOOL)(logMessage->logFlag & DDNS_LOG_FLAG_START_BLOCK);
@@ -345,12 +224,10 @@ __strong static DDNSLogger* sharedInstance;
         default                     : nsloggerlevel = 4;    break;
     }
     
-    // nslogger also allows you to filter messages based on tag. we're piggybacking on the context bitfield for this
+    // nslogger also allows you to filter messages based on tag
     NSString* tag = nil;
-    if ([tagMap contextIsInMap:logMessage->logContext]) {
-        tag = [[[tagMap getTagForContext:logMessage->logContext] retain] autorelease];
-    } else if (logMessage->logContext != 0) {
-        tag = @"unknown";
+    if (logMessage->tag) {
+        tag = [NSString stringWithFormat:@"%@", logMessage->tag];
     }
     
     if (isMessage) {
@@ -378,6 +255,8 @@ __strong static DDNSLogger* sharedInstance;
     } else if (isMarker) {
         LogMarkerTo(nslogger, logMessage->logMsg);
     }
+    
+    [logMessage release];
 }
 
 @end

@@ -18,6 +18,12 @@
 }
 
 @property(readonly, nonatomic, assign) BOOL isEvaluated;
+@property(readonly, nonatomic, assign) BOOL isPodcast;
+@property(readonly, nonatomic, assign) BOOL isStream;
+@property(readonly, nonatomic, assign) BOOL isShow;
+@property(readonly, nonatomic, assign) BOOL isMovie;
+@property(readonly, nonatomic, assign) BOOL isMusicVideo;
+@property(readonly, nonatomic, assign) BOOL isMusic;
 @property(readwrite, nonatomic, assign) BOOL neverEvaluate;
 
 @property(readonly, nonatomic, retain) NSString* album;
@@ -41,6 +47,7 @@
 
 @property(readwrite, nonatomic, retain) NSNumber* rating;
 
+@property(readonly, nonatomic, retain) NSData* artworkData;
 @property(readonly, nonatomic, retain) NSImage* artworkImage;
 @property(readonly, nonatomic, retain) NSString* bestArtist;
 @property(readonly, nonatomic, retain) NSString* bestDescription;

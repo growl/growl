@@ -28,16 +28,18 @@
                 flag:(int)ilogFlag 
              context:(int)ilogContext 
                 file:(const char *)srcFile 
-            function:(const char *)srcFunction 
-                line:(int)srcLine;
+            function:(const char *)srcFunction
+                line:(int)srcLine 
+                 tag:(NSString *)tag;
 
 -(id)initWithLogImage:(NSImage *)logImage
                 level:(int)ilogLevel
                  flag:(int)ilogFlag
-              context:(int)ilogContext
+              context:(int)ilogContext 
                  file:(const char *)srcFile
              function:(const char *)srcFunction
-                 line:(int)srcLine;
+                 line:(int)srcLine 
+                  tag:(NSString *)tag;
 
 @end
 
@@ -47,55 +49,34 @@
 +(void)log:(BOOL)asynchronous
      level:(int)level
       flag:(int)flag
-   context:(int)context
+   context:(int)context 
       file:(const char *)file
   function:(const char *)function
-      line:(int)line
+      line:(int)line 
+       tag:(NSString *)tag
       data:(NSData *)data;
 
 +(void)log:(BOOL)asynchronous
      level:(int)level
       flag:(int)flag
-   context:(int)context
+   context:(int)context 
       file:(const char *)file
   function:(const char *)function
-      line:(int)line
+      line:(int)line 
+       tag:(NSString *)tag
      image:(NSImage *)image;
 
 @end
 
 
-@interface DDNSLoggerTagMap : NSObject {
-    @private
-    
-    OSSpinLock _lock;
-    NSMutableDictionary* _map;
-}
-
--(BOOL)tagIsInMap:(NSString*)tag;
--(BOOL)contextIsInMap:(int)loggingContext;
--(void)addTag:(NSString*)tag forContext:(int)loggingContext;
--(void)addContext:(int)loggingContext forTag:(NSString*)tag;
--(NSString*)getTagForContext:(int)loggingContext;
--(int)getContextForTag:(NSString*)tag;
--(NSDictionary*)currentMap;
-
-@end
-
-
 @interface DDNSLogger : DDAbstractLogger <DDLogger> {
-    @private
-    
+    @private    
     Logger* nslogger;
-    DDNSLoggerTagMap* tagMap;
 }
 
 +(DDNSLogger*)sharedInstance;
 
 -(NSString*)loggerName;
--(void)addTag:(NSString*)tag 
-   forContext:(int)loggingContext;
--(DDNSLoggerTagMap*)tagMap;
 -(void)logMessage:(DDLogMessage*)logMessage;
 
 @end

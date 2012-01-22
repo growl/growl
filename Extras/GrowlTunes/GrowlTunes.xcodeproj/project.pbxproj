@@ -41,6 +41,12 @@
 		6A5405C21486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5405C11486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m */; };
 		6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */; };
 		6A61FE261482B2FD00544675 /* FormattingToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A61FE251482B2FD00544675 /* FormattingToken.m */; };
+		6A63483314CC00B7005BB87F /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */; };
+		6A63483514CC00B7005BB87F /* ContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A63483614CC00B7005BB87F /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */; };
+		6A63483714CC00B7005BB87F /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */; };
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
@@ -243,6 +249,12 @@
 		6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "GrowlTunes-Template.pdf"; sourceTree = "<group>"; };
 		6A61FE241482B2FD00544675 /* FormattingToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattingToken.h; sourceTree = "<group>"; };
 		6A61FE251482B2FD00544675 /* FormattingToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattingToken.m; sourceTree = "<group>"; };
+		6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
+		6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
+		6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		6A636280149C43E500C1ED44 /* Global-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Common.xcconfig"; sourceTree = "<group>"; };
 		6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Debug.xcconfig"; sourceTree = "<group>"; };
 		6A636282149C43E500C1ED44 /* Global-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Release.xcconfig"; sourceTree = "<group>"; };
@@ -318,6 +330,9 @@
 		6A34E60214A00B33001CFA45 /* Lumberjack */ = {
 			isa = PBXGroup;
 			children = (
+				6A63482D14CC00B7005BB87F /* Extensions */,
+				6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */,
+				6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */,
 				6A34E60314A00B33001CFA45 /* DDASLLogger.h */,
 				6A34E60414A00B33001CFA45 /* DDASLLogger.m */,
 				6A34E60514A00B33001CFA45 /* DDFileLogger.h */,
@@ -361,6 +376,17 @@
 			);
 			name = Resources;
 			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		6A63482D14CC00B7005BB87F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */,
+				6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */,
+				6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */,
+				6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6A63627F149C43E500C1ED44 /* xcconfig */ = {
@@ -530,6 +556,9 @@
 				6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */,
 				6A34E62D14A04472001CFA45 /* DDNSLogger.h in Headers */,
 				6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */,
+				6A63483314CC00B7005BB87F /* DDAbstractDatabaseLogger.h in Headers */,
+				6A63483514CC00B7005BB87F /* ContextFilterLogFormatter.h in Headers */,
+				6A63483714CC00B7005BB87F /* DispatchQueueLogFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +823,9 @@
 				6A34E61E14A00B33001CFA45 /* SPLowVerbosity.m in Sources */,
 				6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */,
 				6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */,
+				6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */,
+				6A63483614CC00B7005BB87F /* ContextFilterLogFormatter.m in Sources */,
+				6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

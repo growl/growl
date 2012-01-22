@@ -162,7 +162,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         if (withHelpers) {
             props = [props setByAddingObjectsFromSet:$set(@"typeDescription", @"trackClass", 
                                                           @"bestArtist", @"bestDescription", 
-                                                          @"artworkImage")];
+                                                          @"artworkData")];
         }
         return [[props allObjects] sortedArrayUsingSelector:@selector(compare:)];
     } else {
@@ -421,11 +421,32 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
         case ITunesEVdKMusicVideo:
             return @"musicVideo";
             break;
+        
+        default:
+            break;
     }
     
     // anything else is just music. further classification (file/url/shared/device/etc) would be overkill.
     return @"music";
 }
+
+-(BOOL)isPodcast
+{ return [self.typeDescription isEqualToString:@"podcast"]; }
+
+-(BOOL)isStream
+{ return [self.typeDescription isEqualToString:@"stream"]; }
+
+-(BOOL)isShow
+{ return [self.typeDescription isEqualToString:@"show"]; }
+
+-(BOOL)isMovie
+{ return [self.typeDescription isEqualToString:@"movie"]; }
+
+-(BOOL)isMusicVideo
+{ return [self.typeDescription isEqualToString:@"musicVideo"]; }
+
+-(BOOL)isMusic
+{ return [self.typeDescription isEqualToString:@"music"]; }
 
 -(NSString*)trackClass
 {
@@ -476,6 +497,13 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     return bestDescription;
 }
 
+-(NSData*)artworkData
+{
+    NSData* data = self.trackObject.artworkData;
+    LogData(data);
+    return data;
+}
+
 -(NSImage*)artworkImage
 {
     NSImage* image = self.trackObject.artworkImage;
@@ -495,7 +523,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    [dict setValue:[self artworkImage] forKey:@"icon"];
+    [dict setValue:[self artworkData] forKey:@"icon"];
     
     NSString* type = [self typeDescription];
     
