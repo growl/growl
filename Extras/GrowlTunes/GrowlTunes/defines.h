@@ -42,7 +42,7 @@
 #define formattingTypes                 @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
 #define formattingAttributes            @"title", @"line1", @"line2", @"line3"
 
-#pragma mark formatting tokens
+#pragma mark formatting token names
 #define TokenAlbum                      @"album"
 #define TokenAlbumArtist                @"albumArtist"
 #define TokenArtist                     @"artist"
@@ -61,6 +61,8 @@
 #define TokenTrackNumber                @"trackNumber"
 #define TokenTime                       @"time"
 #define TokenVideoKindName              @"videoKindName"
+
+#pragma mark formatting token text
 #define TokenAlbumReadable              NSLocalizedString(@"Album", nil)
 #define TokenAlbumArtistReadable        NSLocalizedString(@"Album Artist", nil)
 #define TokenArtistReadable             NSLocalizedString(@"Artist", nil)

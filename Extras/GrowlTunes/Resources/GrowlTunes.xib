@@ -562,6 +562,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringRating</string>
+						<reference key="source" ref="811089115"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="811089115"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringRating</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringRating</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">421</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: noMeansNo</string>
 						<reference key="source" ref="412116810"/>
 						<reference key="destination" ref="456576518"/>
@@ -983,6 +999,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringVolume</string>
+						<reference key="source" ref="635452151"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="635452151"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringVolume</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringVolume</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">423</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="901100865"/>
 						<reference key="destination" ref="461929346"/>
@@ -1391,7 +1423,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">417</int>
+			<int key="maxID">423</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
