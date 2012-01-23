@@ -115,11 +115,23 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	}
 }
 
+- (NSRect)focusRingMaskBounds {
+   return [self bounds];
+}
+
+- (void)drawFocusRingMask {
+   NSRectFill([self bounds]);
+}
+
 #pragma mark -
 #pragma mark NSResponder overrides
 
 - (BOOL) acceptsFirstResponder {
 	return YES;
+}
+
+- (BOOL) canBecomeKeyView {
+   return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
@@ -181,6 +193,99 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	// do we need to redisplay...?
 	if (lastHit != selectedPosition )
 		[self setNeedsDisplay:YES];
+}
+
+- (void)swapSide {
+   NSUInteger destination = selectedPosition;
+   switch (selectedPosition) {
+      case GrowlNoOrigin:
+         destination = GrowlTopRightCorner;
+         break;
+      case GrowlTopRightCorner:
+         destination = GrowlTopLeftCorner;
+         break;
+      case GrowlBottomRightCorner:
+         destination = GrowlBottomLeftCorner;
+         break;
+      case GrowlBottomLeftCorner:
+         destination = GrowlBottomRightCorner;
+         break;
+      case GrowlTopLeftCorner:
+         destination = GrowlTopRightCorner;
+         break;
+   }
+   
+   if(destination != selectedPosition)
+      [self setSelectedPosition:destination];
+}
+
+- (void)swapVertical {
+   NSUInteger destination = selectedPosition;
+   switch (selectedPosition) {
+      case GrowlNoOrigin:
+         destination = GrowlTopRightCorner;
+         break;
+      case GrowlTopRightCorner:
+         destination = GrowlBottomRightCorner;
+         break;
+      case GrowlBottomRightCorner:
+         destination = GrowlTopRightCorner;
+         break;
+      case GrowlBottomLeftCorner:
+         destination = GrowlTopLeftCorner;
+         break;
+      case GrowlTopLeftCorner:
+         destination = GrowlBottomLeftCorner;
+         break;
+   }
+   
+   if(destination != selectedPosition)
+      [self setSelectedPosition:destination];
+}
+
+- (void)moveLeft:(id)sender {
+   [self swapSide];
+}
+
+- (void)moveRight:(id)sender {
+   [self swapSide];
+}
+
+- (void)moveUp:(id)sender {
+   [self swapVertical];
+}
+
+- (void)moveDown:(id)sender {
+   [self swapVertical];
+}
+
+- (void)cyclePosition {
+   NSUInteger destination = selectedPosition;
+   switch (selectedPosition) {
+      case GrowlNoOrigin:
+         destination = GrowlTopRightCorner;
+         break;
+      case GrowlTopRightCorner:
+         destination = GrowlBottomRightCorner;
+         break;
+      case GrowlBottomRightCorner:
+         destination = GrowlBottomLeftCorner;
+         break;
+      case GrowlBottomLeftCorner:
+         destination = GrowlTopLeftCorner;
+         break;
+      case GrowlTopLeftCorner:
+         destination = GrowlTopRightCorner;
+         break;
+   }
+   
+   if(destination != selectedPosition)
+      [self setSelectedPosition:destination];
+}
+
+- (void)performClick:(id)sender {
+   [self cyclePosition];
+   [super performClick:sender];
 }
 
 #pragma mark -
