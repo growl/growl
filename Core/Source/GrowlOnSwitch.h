@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GrowlOnSwitch : NSView
+@interface GrowlOnSwitch : NSControl
 
 @property (nonatomic, retain) NSView *knob;
 @property (nonatomic, retain) NSTextField *onLabel;

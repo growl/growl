@@ -165,6 +165,41 @@
    [gradient release];
 }
 
+-(NSRect)focusRingMaskBounds
+{
+   return [self bounds];
+}
+
+-(void)drawFocusRingMask
+{
+   CGRect inset = CGRectInset([self bounds], 2.0, 2.0);
+   NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:6.0 yRadius:6.0];
+   [path fill];
+}
+
+-(BOOL)canBecomeKeyView
+{
+   return YES;
+}
+
+-(BOOL)acceptsFirstResponder
+{
+   return YES;
+}
+
+-(void)moveLeft:(id)sender {
+   [self setState:NO];
+}
+
+-(void)moveRight:(id)sender {
+   [self setState:YES];
+}
+
+-(void)performClick:(id)sender {
+   [self setState:!state];
+   [super performClick:sender];
+}
+
 -(void)updatePosition
 {
    CGPoint desired;
