@@ -20,12 +20,14 @@
     FormattedItemViewController* _currentTrackController;
     NSStatusItem* _statusItem;
     NSWindowController* _formatwc;
+    NSMenu* _loggingMenu;
 }
 
 @property(readonly, retain, nonatomic) IBOutlet ITunesConductor* conductor;
 @property(readwrite, retain, nonatomic) IBOutlet NSMenu* statusItemMenu;
 @property(readwrite, retain, nonatomic) IBOutlet NSMenuItem* currentTrackMenuItem;
 @property(readwrite, retain, nonatomic) IBOutlet FormattedItemViewController* currentTrackController;
+@property(readwrite, retain, nonatomic) IBOutlet NSMenu* loggingMenu;
 
 - (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;
