@@ -226,6 +226,7 @@
    
    [nextController viewWillLoad];
    [aWindow setContentView:[nextController view]];
+   [aWindow makeFirstResponder:[nextController view]];
    [nextController viewDidLoad];
 }
 

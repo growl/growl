@@ -160,7 +160,6 @@
 						<string key="NSFrame">{{36, 10}, {229, 14}}</string>
 						<reference key="NSSuperview" ref="490188636"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="948103936">
 							<int key="NSCellFlags">67239488</int>
@@ -269,7 +268,7 @@
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{471, 186}</string>
 															<reference key="NSSuperview" ref="65451681"/>
-															<reference key="NSNextKeyView" ref="474325927"/>
+															<reference key="NSNextKeyView" ref="683638826"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="120257644">
 																<reference key="NSNextResponder" ref="474325927"/>
@@ -468,7 +467,7 @@
 											</object>
 											<string key="NSFrame">{{20, 37}, {473, 204}}</string>
 											<reference key="NSSuperview" ref="571501632"/>
-											<reference key="NSNextKeyView" ref="65451681"/>
+											<reference key="NSNextKeyView" ref="474325927"/>
 											<int key="NSsFlags">133682</int>
 											<reference key="NSVScroller" ref="52865202"/>
 											<reference key="NSHScroller" ref="683638826"/>
@@ -528,7 +527,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{42, 14}, {22, 24}}</string>
 											<reference key="NSSuperview" ref="571501632"/>
-											<reference key="NSNextKeyView" ref="1035030715"/>
+											<reference key="NSNextKeyView" ref="997855976"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="92814834">
 												<int key="NSCellFlags">67239424</int>
@@ -770,7 +769,7 @@
 											<string key="NSFrame">{{42, 14}, {22, 23}}</string>
 											<reference key="NSSuperview" ref="1042013718"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1035030715"/>
+											<reference key="NSNextKeyView" ref="997855976"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="12950857">
 												<int key="NSCellFlags">67239424</int>
@@ -847,7 +846,7 @@
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{471, 186}</string>
 															<reference key="NSSuperview" ref="960662731"/>
-															<reference key="NSNextKeyView" ref="437106997"/>
+															<reference key="NSNextKeyView" ref="589231477"/>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="1061144239">
@@ -1008,7 +1007,7 @@
 											</object>
 											<string key="NSFrame">{{20, 37}, {473, 204}}</string>
 											<reference key="NSSuperview" ref="695054413"/>
-											<reference key="NSNextKeyView" ref="960662731"/>
+											<reference key="NSNextKeyView" ref="437106997"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133682</int>
 											<reference key="NSVScroller" ref="589231477"/>
@@ -1022,6 +1021,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{20, 14}, {22, 24}}</string>
 											<reference key="NSSuperview" ref="695054413"/>
+											<reference key="NSNextKeyView" ref="997855976"/>
 											<string key="NSReuseIdentifierKey">_NS:2466</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="920631696">
@@ -1321,6 +1321,14 @@
 					<int key="connectionID">1224</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="490188636"/>
+						<reference key="destination" ref="378365662"/>
+					</object>
+					<int key="connectionID">1468</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.remotePassword</string>
 						<reference key="source" ref="1009882496"/>
@@ -1356,9 +1364,9 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="1009882496"/>
-						<reference key="destination" ref="891815922"/>
+						<reference key="destination" ref="997855976"/>
 					</object>
-					<int key="connectionID">42</int>
+					<int key="connectionID">1470</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1433,6 +1441,14 @@
 					<int key="connectionID">1425</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="138583957"/>
+						<reference key="destination" ref="755335716"/>
+					</object>
+					<int key="connectionID">1472</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: networkAddressString</string>
 						<reference key="source" ref="92030251"/>
@@ -1481,6 +1497,22 @@
 					<int key="connectionID">1416</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="438342806"/>
+						<reference key="destination" ref="997855976"/>
+					</object>
+					<int key="connectionID">1480</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="755335716"/>
+						<reference key="destination" ref="438342806"/>
+					</object>
+					<int key="connectionID">1473</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.growlServerEnabled</string>
 						<reference key="source" ref="378365662"/>
@@ -1511,6 +1543,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1396</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="378365662"/>
+						<reference key="destination" ref="1009882496"/>
+					</object>
+					<int key="connectionID">1469</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1693,6 +1733,14 @@
 					<int key="connectionID">1407</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="371736753"/>
+						<reference key="destination" ref="891815922"/>
+					</object>
+					<int key="connectionID">1471</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">label: self.subscriptionsTabTitle</string>
 						<reference key="source" ref="1066653468"/>
@@ -1709,6 +1757,14 @@
 					<int key="connectionID">1410</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="1066653468"/>
+						<reference key="destination" ref="88124565"/>
+					</object>
+					<int key="connectionID">1474</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">label: self.subscribersTabTitle</string>
 						<reference key="source" ref="829731153"/>
@@ -1723,6 +1779,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1413</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="829731153"/>
+						<reference key="destination" ref="389162099"/>
+					</object>
+					<int key="connectionID">1477</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1755,6 +1819,22 @@
 						</object>
 					</object>
 					<int key="connectionID">1441</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="389162099"/>
+						<reference key="destination" ref="407956690"/>
+					</object>
+					<int key="connectionID">1478</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="407956690"/>
+						<reference key="destination" ref="573562393"/>
+					</object>
+					<int key="connectionID">1479</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1862,6 +1942,22 @@
 					<int key="connectionID">1446</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="573562393"/>
+						<reference key="destination" ref="997855976"/>
+					</object>
+					<int key="connectionID">1482</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="88124565"/>
+						<reference key="destination" ref="879686100"/>
+					</object>
+					<int key="connectionID">1475</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="5512227"/>
@@ -1924,6 +2020,22 @@
 						</object>
 					</object>
 					<int key="connectionID">1436</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="879686100"/>
+						<reference key="destination" ref="937394872"/>
+					</object>
+					<int key="connectionID">1476</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="937394872"/>
+						<reference key="destination" ref="997855976"/>
+					</object>
+					<int key="connectionID">1481</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5328,6 +5440,7 @@
 					<string>10.IBNSViewMetadataConstraints</string>
 					<string>10.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>10.IBPluginDependency</string>
+					<string>104.IBAttributePlaceholdersKey</string>
 					<string>104.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>104.IBPluginDependency</string>
 					<string>105.IBPluginDependency</string>
@@ -5597,6 +5710,14 @@
 					</object>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">InitialTabViewItem</string>
+						<object class="IBInitialTabViewItemAttribute" key="NS.object.0">
+							<string key="name">InitialTabViewItem</string>
+							<reference key="object" ref="997855976"/>
+							<reference key="initialTabViewItem" ref="371736753"/>
+						</object>
+					</object>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6011,7 +6132,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1467</int>
+			<int key="maxID">1482</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

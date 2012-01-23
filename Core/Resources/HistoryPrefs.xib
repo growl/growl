@@ -320,7 +320,7 @@
 										<string key="NSFrameSize">{517, 233}</string>
 										<reference key="NSSuperview" ref="920995694"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="719761771"/>
+										<reference key="NSNextKeyView" ref="749002487"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="1068265730">
 											<reference key="NSNextResponder" ref="749002487"/>
@@ -580,7 +580,7 @@
 						<string key="NSFrame">{{20, 159}, {519, 251}}</string>
 						<reference key="NSSuperview" ref="829052891"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="749002487"/>
+						<reference key="NSNextKeyView" ref="920995694"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="719761771"/>
 						<reference key="NSHScroller" ref="495887964"/>
@@ -1071,7 +1071,6 @@
 						<string key="NSFrame">{{67, 20}, {475, 85}}</string>
 						<reference key="NSSuperview" ref="829052891"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:3596</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="100053561">
@@ -1296,6 +1295,14 @@
 					<int key="connectionID">528</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="829052891"/>
+						<reference key="destination" ref="965091884"/>
+					</object>
+					<int key="connectionID">540</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: selection.Description</string>
 						<reference key="source" ref="84982590"/>
@@ -1358,6 +1365,14 @@
 						</object>
 					</object>
 					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="40829562"/>
+						<reference key="destination" ref="1047986231"/>
+					</object>
+					<int key="connectionID">542</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1449,6 +1464,14 @@
 					<int key="connectionID">435</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="964450705"/>
+						<reference key="destination" ref="126686291"/>
+					</object>
+					<int key="connectionID">550</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.growlHistoryCountLimit</string>
 						<reference key="source" ref="482068356"/>
@@ -1463,6 +1486,14 @@
 						</object>
 					</object>
 					<int key="connectionID">115</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="482068356"/>
+						<reference key="destination" ref="93568689"/>
+					</object>
+					<int key="connectionID">545</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1497,6 +1528,14 @@
 					<int key="connectionID">423</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1047986231"/>
+						<reference key="destination" ref="482068356"/>
+					</object>
+					<int key="connectionID">543</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.growlHistoryTrimByDate</string>
 						<reference key="source" ref="93568689"/>
@@ -1529,6 +1568,14 @@
 					<int key="connectionID">424</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="93568689"/>
+						<reference key="destination" ref="98542767"/>
+					</object>
+					<int key="connectionID">546</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
 						<reference key="source" ref="98542767"/>
@@ -1545,6 +1592,14 @@
 					<int key="connectionID">105</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="98542767"/>
+						<reference key="destination" ref="480668343"/>
+					</object>
+					<int key="connectionID">547</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: preferencesController.growlHistoryDayLimit</string>
 						<reference key="source" ref="480668343"/>
@@ -1559,6 +1614,22 @@
 						</object>
 					</object>
 					<int key="connectionID">101</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="480668343"/>
+						<reference key="destination" ref="74832215"/>
+					</object>
+					<int key="connectionID">548</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="74832215"/>
+						<reference key="destination" ref="964450705"/>
+					</object>
+					<int key="connectionID">549</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1745,6 +1816,14 @@
 						</object>
 					</object>
 					<int key="connectionID">144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="965091884"/>
+						<reference key="destination" ref="40829562"/>
+					</object>
+					<int key="connectionID">541</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3441,7 +3520,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">539</int>
+			<int key="maxID">550</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3569,7 +3648,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">GrowlOnSwitch</string>
-					<string key="superclassName">NSView</string>
+					<string key="superclassName">NSControl</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlOnSwitch.h</string>
