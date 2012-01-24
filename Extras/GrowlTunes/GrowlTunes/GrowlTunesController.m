@@ -370,6 +370,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
             RETAIN(_statusItem);
 //            [_statusItem setMenu:self.statusItemMenu];
             [_statusItem setImage:[NSImage imageNamed:@"GrowlTunes-Template.pdf"]];
+            [_statusItem setHighlightMode:YES];
             [_statusItem setAction:@selector(openMenu:)];
             [_statusItem setTarget:self];
         }
