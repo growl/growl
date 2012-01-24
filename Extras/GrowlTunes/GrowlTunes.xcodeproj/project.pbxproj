@@ -298,6 +298,7 @@
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
+		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -862,6 +863,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6AADA30C1448AF570089AB08 /* en */,
+				D603AFF4246FD5744B2B837F /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -887,6 +889,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -894,6 +897,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -908,6 +912,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};

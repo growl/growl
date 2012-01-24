@@ -1,6 +1,11 @@
 #include "Global-Common.xcconfig"
 
 
+// deployment
+DEPLOYMENT_POSTPROCESSING = YES
+DSTROOT = /
+
+
 // code generation
 GCC_INLINES_ARE_PRIVATE_EXTERN = YES
 GCC_OPTIMIZATION_LEVEL = s
