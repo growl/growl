@@ -43,28 +43,29 @@
       NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica Neue Bold" size:17], NSFontAttributeName,
                                                                           [NSColor colorWithSRGBRed:.15 green:.15 blue:.15 alpha:1.0], NSForegroundColorAttributeName,
                                                                           shadow, NSShadowAttributeName, nil];
+      [shadow release];
       
       NSString *offString = NSLocalizedString(@"OFF", @"If the string is too long, use O");
-      NSAttributedString *attrOffTitle = [[NSAttributedString alloc] initWithString:offString
-                                                                         attributes:attrDict];
-      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(55.0f, vertical, 50.0f, 25.0f)];
-      [offView setAlignment:NSCenterTextAlignment];
+      NSMutableAttributedString *attrOffTitle = [[NSMutableAttributedString alloc] initWithString:offString
+                                                                                       attributes:attrDict];
+      [attrOffTitle setAlignment:NSCenterTextAlignment range:NSMakeRange(0, [attrOffTitle length])];
+      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(50.0f, vertical, 50.0f, 25.0f)];
       [offView setEditable:NO];
       [offView setDrawsBackground:NO];
       [offView setBackgroundColor:[NSColor clearColor]];
       [offView setBezeled:NO];
-      
       [[offView cell] setAttributedStringValue:attrOffTitle];
       self.offLabel = offView;
       [self addSubview:offView positioned:NSWindowBelow relativeTo:knob];
       [offView setToolTip:@"Are you happy now Gemmel?"];
       [offView release];
+      [attrOffTitle release];
       
       NSString *onString = NSLocalizedString(@"ON", @"If the string is too long, use I");
-      NSAttributedString *attrOnTitle = [[NSAttributedString alloc] initWithString:onString
-                                                                        attributes:attrDict];
-      NSTextField *onView = [[NSTextField alloc] initWithFrame:CGRectMake(5.0f, vertical, 50.0f, 25.0f)];
-      [onView setAlignment:NSCenterTextAlignment];
+      NSMutableAttributedString *attrOnTitle = [[NSMutableAttributedString alloc] initWithString:onString
+                                                                                      attributes:attrDict];
+      [attrOnTitle setAlignment:NSCenterTextAlignment range:NSMakeRange(0, [attrOnTitle length])];
+      NSTextField *onView = [[NSTextField alloc] initWithFrame:CGRectMake(0.0f, vertical, 50.0f, 25.0f)];
       [onView setEditable:NO];
       [onView setDrawsBackground:NO];
       [onView setBackgroundColor:[NSColor clearColor]];
@@ -73,6 +74,8 @@
       self.onLabel = onView;
       [self addSubview:onView positioned:NSWindowBelow relativeTo:knob];
       [onView release];
+      [attrOnTitle release];
+      
       [self addObserver:self 
              forKeyPath:@"state" 
                 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
