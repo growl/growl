@@ -23,4 +23,9 @@
 - (int) screen;
 - (void) setScreen:(int)value;
 
+@property (nonatomic, retain) NSString *opacityLabel;
+@property (nonatomic, retain) NSString *durationLabel;
+@property (nonatomic, retain) NSString *limitLinesCheckboxTitle;
+@property (nonatomic, retain) NSString *screenLabel;
+
 @end
