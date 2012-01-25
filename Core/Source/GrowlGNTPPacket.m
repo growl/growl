@@ -396,9 +396,9 @@
 }
 
 - (BOOL)isValidPassword:(NSString*)password {
-   GNTPKey *remoteKey = [[GNTPKey alloc] initWithPassword:password
+   GNTPKey *remoteKey = [[[GNTPKey alloc] initWithPassword:password
                                             hashAlgorithm:[[self key] hashAlgorithm]
-                                      encryptionAlgorithm:[[self key] encryptionAlgorithm]];
+                                      encryptionAlgorithm:[[self key] encryptionAlgorithm]] autorelease];
    [remoteKey setSalt:[[self key] salt]];
    NSData *IV = [[self key] IV];
    [remoteKey generateKey];
