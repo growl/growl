@@ -33,6 +33,10 @@
 - (void) dealloc {
 	[style      release];
 	[prefDomain release];
+   [opacityLabel release];
+   [durationLabel release];
+   [limitLinesCheckboxTitle release];
+   [screenLabel release];
 	[super dealloc];
 }
 
