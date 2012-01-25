@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -21,16 +21,13 @@
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<reference key="dict.values" ref="0"/>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1048">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1021">
-				<string key="NSClassName">NSApplication</string>
+				<string key="NSClassName">GrowlApplication</string>
 			</object>
 			<object class="NSCustomObject" id="1014">
 				<string key="NSClassName">FirstResponder</string>
@@ -503,7 +500,7 @@
 								<object class="NSMenuItem" id="550979386">
 									<reference key="NSMenu" ref="18182216"/>
 									<string key="NSTitle">Transformations</string>
-									<string key="NSKeyEquiv"/>
+									<string type="base64-UTF8" key="NSKeyEquiv">Gw</string>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="229763992"/>
 									<reference key="NSMixedImage" ref="909111550"/>
@@ -647,7 +644,7 @@
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="238773614">
 									<reference key="NSMenu" ref="374024848"/>
-									<string key="NSTitle">NewApplication Help</string>
+									<string key="NSTitle">Growl Help</string>
 									<string key="NSKeyEquiv">?</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -667,6 +664,22 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
+						<string key="label">orderFrontStandardAboutPanel:</string>
+						<reference key="source" ref="1021"/>
+						<reference key="destination" ref="238522557"/>
+					</object>
+					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openPreferences:</string>
+						<reference key="source" ref="1021"/>
+						<reference key="destination" ref="609285721"/>
+					</object>
+					<int key="connectionID">810</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
 						<string key="label">performMiniaturize:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="1011231497"/>
@@ -683,14 +696,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">orderFrontStandardAboutPanel:</string>
-						<reference key="source" ref="1021"/>
-						<reference key="destination" ref="238522557"/>
-					</object>
-					<int key="connectionID">142</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">performClose:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="776162233"/>
@@ -704,14 +709,6 @@
 						<reference key="destination" ref="575023229"/>
 					</object>
 					<int key="connectionID">240</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showHelp:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="238773614"/>
-					</object>
-					<int key="connectionID">360</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -993,13 +990,855 @@
 					</object>
 					<int key="connectionID">797</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showHelp:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="238773614"/>
+					</object>
+					<int key="connectionID">360</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.bringAllToFrontLabel</string>
+						<reference key="source" ref="625202149"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="625202149"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.bringAllToFrontLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.bringAllToFrontLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">919</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.windowMenuLabel</string>
+						<reference key="source" ref="713487014"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="713487014"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.windowMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.windowMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">912</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.minimizeLabel</string>
+						<reference key="source" ref="1011231497"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1011231497"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.minimizeLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.minimizeLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">914</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.appMenuLabel</string>
+						<reference key="source" ref="694149608"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="694149608"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.appMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.appMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">803</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.aboutAppLabel</string>
+						<reference key="source" ref="238522557"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="238522557"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.aboutAppLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.aboutAppLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">806</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.closeLabel</string>
+						<reference key="source" ref="776162233"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="776162233"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.closeLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.closeLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">917</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.helpMenuLabel</string>
+						<reference key="source" ref="391199113"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="391199113"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.helpMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.helpMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">921</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.appHelpLabel</string>
+						<reference key="source" ref="238773614"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="238773614"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.appHelpLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.appHelpLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">927</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.preferencesLabel</string>
+						<reference key="source" ref="609285721"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="609285721"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.preferencesLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.preferencesLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">811</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.servicesMenuLabel</string>
+						<reference key="source" ref="1046388886"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1046388886"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.servicesMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.servicesMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">814</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.hideAppLabel</string>
+						<reference key="source" ref="755159360"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="755159360"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.hideAppLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.hideAppLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">816</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.quitAppLabel</string>
+						<reference key="source" ref="632727374"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="632727374"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.quitAppLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.quitAppLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">825</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.hideOthersLabel</string>
+						<reference key="source" ref="342932134"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="342932134"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.hideOthersLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.hideOthersLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">819</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.showAllLabel</string>
+						<reference key="source" ref="908899353"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="908899353"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.showAllLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.showAllLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">822</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.zoomLabel</string>
+						<reference key="source" ref="575023229"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="575023229"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.zoomLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.zoomLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">916</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.editMenuLabel</string>
+						<reference key="source" ref="343661369"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="343661369"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.editMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.editMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">827</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.undoLabel</string>
+						<reference key="source" ref="155194070"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="155194070"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.undoLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.undoLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">829</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.redoLabel</string>
+						<reference key="source" ref="45032972"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="45032972"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.redoLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.redoLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">831</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.cutLabel</string>
+						<reference key="source" ref="1002243476"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1002243476"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.cutLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.cutLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">833</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.theCopyLabel</string>
+						<reference key="source" ref="619324772"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="619324772"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.theCopyLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.theCopyLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">836</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.pasteLabel</string>
+						<reference key="source" ref="582640805"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="582640805"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.pasteLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.pasteLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">838</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.pasteAndMatchLabel</string>
+						<reference key="source" ref="347036721"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="347036721"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.pasteAndMatchLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.pasteAndMatchLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">840</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.deleteLabel</string>
+						<reference key="source" ref="483607956"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="483607956"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.deleteLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.deleteLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">842</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.selectAllLabel</string>
+						<reference key="source" ref="280953604"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="280953604"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.selectAllLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.selectAllLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">844</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.findMenuLabel</string>
+						<reference key="source" ref="1064937406"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1064937406"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.findMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.findMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">848</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.spellingGrammarMenuLabel</string>
+						<reference key="source" ref="180132862"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="180132862"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.spellingGrammarMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.spellingGrammarMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">850</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.substitutionsMenuLabel</string>
+						<reference key="source" ref="736274394"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="736274394"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.substitutionsMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.substitutionsMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">854</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.transformationsMenuLabel</string>
+						<reference key="source" ref="550979386"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="550979386"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.transformationsMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.transformationsMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">856</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.speechMenuLabel</string>
+						<reference key="source" ref="1007906844"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1007906844"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.speechMenuLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.speechMenuLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">858</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.startSpeaking</string>
+						<reference key="source" ref="559785803"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="559785803"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.startSpeaking</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.startSpeaking</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">908</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stopSpeaking</string>
+						<reference key="source" ref="819381255"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="819381255"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.stopSpeaking</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stopSpeaking</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">910</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.makeUpperCaseLabel</string>
+						<reference key="source" ref="988729155"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="988729155"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.makeUpperCaseLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.makeUpperCaseLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">901</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.makeLowerCaseLabel</string>
+						<reference key="source" ref="794293351"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="794293351"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.makeLowerCaseLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.makeLowerCaseLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">904</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.capitalizeLabel</string>
+						<reference key="source" ref="92962570"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="92962570"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.capitalizeLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.capitalizeLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">906</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.showSubstitutionsLabel</string>
+						<reference key="source" ref="288466690"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="288466690"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.showSubstitutionsLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.showSubstitutionsLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">886</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.smartCopyPasteLabel</string>
+						<reference key="source" ref="841637327"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="841637327"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.smartCopyPasteLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.smartCopyPasteLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">888</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.smartQuotesLabel</string>
+						<reference key="source" ref="245014605"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="245014605"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.smartQuotesLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.smartQuotesLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">890</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.smartDashesLabel</string>
+						<reference key="source" ref="388680464"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="388680464"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.smartDashesLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.smartDashesLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">893</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.smartLinksLabel</string>
+						<reference key="source" ref="970896634"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="970896634"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.smartLinksLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.smartLinksLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">895</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.dataDetectorsLabel</string>
+						<reference key="source" ref="721277036"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="721277036"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.dataDetectorsLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.dataDetectorsLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">897</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.textReplacementLabel</string>
+						<reference key="source" ref="991809654"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="991809654"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.textReplacementLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.textReplacementLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">899</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.showSpellingGrammarLabel</string>
+						<reference key="source" ref="827774981"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="827774981"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.showSpellingGrammarLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.showSpellingGrammarLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">873</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.checkDocumentNowLabel</string>
+						<reference key="source" ref="809982298"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="809982298"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.checkDocumentNowLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.checkDocumentNowLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">875</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.checkSpellingWhileTypingLabel</string>
+						<reference key="source" ref="593040288"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="593040288"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.checkSpellingWhileTypingLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.checkSpellingWhileTypingLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">878</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.checkGrammarWithSpelling</string>
+						<reference key="source" ref="959032664"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="959032664"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.checkGrammarWithSpelling</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.checkGrammarWithSpelling</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">881</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.correctSpellingAutomatically</string>
+						<reference key="source" ref="306647906"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="306647906"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.correctSpellingAutomatically</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.correctSpellingAutomatically</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">884</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.findLabel</string>
+						<reference key="source" ref="12932659"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="12932659"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.findLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.findLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">861</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.findNextLabel</string>
+						<reference key="source" ref="257946265"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="257946265"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.findNextLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.findNextLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">865</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.findPreviousLabel</string>
+						<reference key="source" ref="942109647"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="942109647"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.findPreviousLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.findPreviousLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">867</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.useSelectionForFindLabel</string>
+						<reference key="source" ref="298629397"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="298629397"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.useSelectionForFindLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.useSelectionForFindLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">869</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.jumpToSelectionLabel</string>
+						<reference key="source" ref="710003151"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="710003151"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.jumpToSelectionLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.jumpToSelectionLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">871</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.findAndReplaceLabel</string>
+						<reference key="source" ref="522935145"/>
+						<reference key="destination" ref="1021"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="522935145"/>
+							<reference key="NSDestination" ref="1021"/>
+							<string key="NSLabel">title: self.findAndReplaceLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.findAndReplaceLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">863</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="1048"/>
 						<nil key="parent"/>
 					</object>
@@ -1068,11 +1907,6 @@
 							<reference ref="238773614"/>
 						</object>
 						<reference key="parent" ref="391199113"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">111</int>
-						<reference key="object" ref="238773614"/>
-						<reference key="parent" ref="374024848"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">57</int>
@@ -1517,6 +2351,11 @@
 						<reference key="object" ref="776162233"/>
 						<reference key="parent" ref="835318025"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">111</int>
+						<reference key="object" ref="238773614"/>
+						<reference key="parent" ref="374024848"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1692,7 +2531,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">797</int>
+			<int key="maxID">927</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1703,6 +2542,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GrowlAbstractSingletonObject.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlApplication</string>
+					<string key="superclassName">NSApplication</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlApplication.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

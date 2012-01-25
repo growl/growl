@@ -1,0 +1,152 @@
+/* No comment provided by engineer. */
+"%@ Help" = "%@ Help";
+
+/* No comment provided by engineer. */
+"About %@" = "About %@";
+
+/* No comment provided by engineer. */
+"Bring All to Front" = "모두 앞으로 가져오기";
+
+/* No comment provided by engineer. */
+"Capitalize" = "대문자로 문장 시작";
+
+/* No comment provided by engineer. */
+"Check Document Now" = "지금 문서 검사";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "영문 철자 및 문법 검사";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "입력하는 동안에 철자 검사";
+
+/* No comment provided by engineer. */
+"Close" = "닫기";
+
+/* No comment provided by engineer. */
+"Copy" = "복사하기";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "영문 철자 자동 수정";
+
+/* No comment provided by engineer. */
+"Cut" = "오려두기";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "데이터 탐지기";
+
+/* No comment provided by engineer. */
+"Delete" = "삭제";
+
+/* No comment provided by engineer. */
+"Edit" = "편집";
+
+/* No comment provided by engineer. */
+"Find" = "찾기";
+
+/* No comment provided by engineer. */
+"Find and Replace..." = "찾기 및 대치...";
+
+/* No comment provided by engineer. */
+"Find Next" = "다음 찾기";
+
+/* No comment provided by engineer. */
+"Find Previous" = "이전 찾기";
+
+/* No comment provided by engineer. */
+"Find..." = "찾기...";
+
+/* No comment provided by engineer. */
+"Help" = "도움말";
+
+/* No comment provided by engineer. */
+"Hide %@" = "Hide %@";
+
+/* No comment provided by engineer. */
+"Hide Others" = "기타 가리기";
+
+/* No comment provided by engineer. */
+"Jump to Selection" = "선택 부분으로 이동";
+
+/* No comment provided by engineer. */
+"Make Lower Case" = "소문자로 만들기";
+
+/* No comment provided by engineer. */
+"Make Upper Case" = "대문자로 만들기";
+
+/* No comment provided by engineer. */
+"Minimize" = "최소화";
+
+/* No comment provided by engineer. */
+"Paste" = "붙이기";
+
+/* No comment provided by engineer. */
+"Paste and Match Style" = "붙이고 스타일 일치시킴";
+
+/* No comment provided by engineer. */
+"Preferences..." = "환경 설정...";
+
+/* No comment provided by engineer. */
+"Quit %@" = "Quit %@";
+
+/* No comment provided by engineer. */
+"Redo" = "실행 복귀";
+
+/* No comment provided by engineer. */
+"Select All" = "전체 선택";
+
+/* No comment provided by engineer. */
+"Services" = "서비스";
+
+/* No comment provided by engineer. */
+"Show All" = "모두 보기";
+
+/* No comment provided by engineer. */
+"Show Spelling and Grammar" = "영문 철자 및 문법 보기";
+
+/* No comment provided by engineer. */
+"Show Substitutions" = "대체 항목 보기";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "스마트 복사/붙여넣기";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "스마트 줄";
+
+/* No comment provided by engineer. */
+"Smart Links" = "스마트 링크";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "스마트 인용";
+
+/* No comment provided by engineer. */
+"Speech" = "말하기";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "영문 철자 및 문법";
+
+/* No comment provided by engineer. */
+"Start Speaking" = "말하기 시작";
+
+/* No comment provided by engineer. */
+"Stop Speaking" = "말하기 중단";
+
+/* No comment provided by engineer. */
+"Substitutions" = "대체 항목";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "문자 치환";
+
+/* No comment provided by engineer. */
+"Transformations" = "변환";
+
+/* No comment provided by engineer. */
+"Undo" = "실행 취소";
+
+/* No comment provided by engineer. */
+"Use Selection for Find" = "선택 부분으로 찾기";
+
+/* No comment provided by engineer. */
+"Window" = "윈도우";
+
+/* No comment provided by engineer. */
+"Zoom" = "확대";

@@ -1,0 +1,152 @@
+/* No comment provided by engineer. */
+"%@ Help" = "%@ Help";
+
+/* No comment provided by engineer. */
+"About %@" = "About %@";
+
+/* No comment provided by engineer. */
+"Bring All to Front" = "Alle nach vorne bringen";
+
+/* No comment provided by engineer. */
+"Capitalize" = "Erstes Zeichen groß schreiben";
+
+/* No comment provided by engineer. */
+"Check Document Now" = "Dokument jetzt prüfen";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Rechtschreib- und Grammatikprüfung";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Während der Texteingabe prüfen";
+
+/* No comment provided by engineer. */
+"Close" = "Schließen";
+
+/* No comment provided by engineer. */
+"Copy" = "Kopieren";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Rechtschreibung automatisch überprüfen";
+
+/* No comment provided by engineer. */
+"Cut" = "Ausschneiden";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Data Detectors";
+
+/* No comment provided by engineer. */
+"Delete" = "Löschen";
+
+/* No comment provided by engineer. */
+"Edit" = "Bearbeiten";
+
+/* No comment provided by engineer. */
+"Find" = "Suchen";
+
+/* No comment provided by engineer. */
+"Find and Replace..." = "Suchen und ersetzen...";
+
+/* No comment provided by engineer. */
+"Find Next" = "Weitersuchen";
+
+/* No comment provided by engineer. */
+"Find Previous" = "Weitersuchen (rückwärts)";
+
+/* No comment provided by engineer. */
+"Find..." = "Suchen...";
+
+/* No comment provided by engineer. */
+"Help" = "Hilfe";
+
+/* No comment provided by engineer. */
+"Hide %@" = "Hide %@";
+
+/* No comment provided by engineer. */
+"Hide Others" = "Andere ausblenden";
+
+/* No comment provided by engineer. */
+"Jump to Selection" = "Auswahl anzeigen";
+
+/* No comment provided by engineer. */
+"Make Lower Case" = "Kleinbuchstaben";
+
+/* No comment provided by engineer. */
+"Make Upper Case" = "Großbuchstaben";
+
+/* No comment provided by engineer. */
+"Minimize" = "Im Dock ablegen";
+
+/* No comment provided by engineer. */
+"Paste" = "Einsetzen";
+
+/* No comment provided by engineer. */
+"Paste and Match Style" = "Einsetzen und Stil anpassen";
+
+/* No comment provided by engineer. */
+"Preferences..." = "Einstellungen...";
+
+/* No comment provided by engineer. */
+"Quit %@" = "Quit %@";
+
+/* No comment provided by engineer. */
+"Redo" = "Erneut";
+
+/* No comment provided by engineer. */
+"Select All" = "Alle auswählen";
+
+/* No comment provided by engineer. */
+"Services" = "Dienste";
+
+/* No comment provided by engineer. */
+"Show All" = "Alle einblenden";
+
+/* No comment provided by engineer. */
+"Show Spelling and Grammar" = "Rechtschreibung und Grammatik einblenden";
+
+/* No comment provided by engineer. */
+"Show Substitutions" = "Ersetzungen anzeigen";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Intelligentes Kopieren/Einsetzen";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Intelligente Anführungszeichen";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Intelligente Links";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Intelligente Anführungszeichen";
+
+/* No comment provided by engineer. */
+"Speech" = "Sprachausgabe";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Rechtschreibung und Grammatik";
+
+/* No comment provided by engineer. */
+"Start Speaking" = "Sprachausgabe starten";
+
+/* No comment provided by engineer. */
+"Stop Speaking" = "Sprachausgabe stoppen";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Ersetzungen";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Textersetzungen";
+
+/* No comment provided by engineer. */
+"Transformations" = "Umwandlungen";
+
+/* No comment provided by engineer. */
+"Undo" = "Widerrufen von";
+
+/* No comment provided by engineer. */
+"Use Selection for Find" = "Auswahl suchen";
+
+/* No comment provided by engineer. */
+"Window" = "Fenster";
+
+/* No comment provided by engineer. */
+"Zoom" = "Zoomen";
