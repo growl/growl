@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on Thu Apr 14 2005.
-//  Copyright 2005Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWebKitPrefsController.h"
@@ -12,17 +12,31 @@
 #import "GrowlPluginController.h"
 
 @implementation GrowlWebKitPrefsController
+
+@synthesize opacityLabel;
+@synthesize durationLabel;
+@synthesize limitLinesCheckboxTitle;
+@synthesize screenLabel;
+
 - (id) initWithStyle:(NSString *)styleName {
 	if ((self = [self initWithBundle:[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]])) {
 		style = [styleName retain];
 		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
-	}
+      self.opacityLabel = NSLocalizedString(@"Opacity:", @"Label for display opacity");
+      self.durationLabel = NSLocalizedString(@"Duration:", @"Label for display duration");
+      self.limitLinesCheckboxTitle = NSLocalizedString(@"Limit to 2-5 lines", @"Label for checkbox limiting lines");
+      self.screenLabel = NSLocalizedString(@"Screen:", @"Label for choosing which screen a display goes to");
+   }
 	return self;
 }
 
 - (void) dealloc {
 	[style      release];
 	[prefDomain release];
+   [opacityLabel release];
+   [durationLabel release];
+   [limitLinesCheckboxTitle release];
+   [screenLabel release];
 	[super dealloc];
 }
 

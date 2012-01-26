@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on Thu Apr 14 2005.
-//  Copyright 2005Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project. All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
@@ -22,5 +22,10 @@
 - (void) setLimit:(BOOL)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+
+@property (nonatomic, retain) NSString *opacityLabel;
+@property (nonatomic, retain) NSString *durationLabel;
+@property (nonatomic, retain) NSString *limitLinesCheckboxTitle;
+@property (nonatomic, retain) NSString *screenLabel;
 
 @end

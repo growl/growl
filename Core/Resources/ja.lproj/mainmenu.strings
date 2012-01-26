@@ -1,0 +1,152 @@
+/* No comment provided by engineer. */
+"%@ Help" = "%@ Help";
+
+/* No comment provided by engineer. */
+"About %@" = "About %@";
+
+/* No comment provided by engineer. */
+"Bring All to Front" = "すべてを手前に移動";
+
+/* No comment provided by engineer. */
+"Capitalize" = "語頭を大文字にする";
+
+/* No comment provided by engineer. */
+"Check Document Now" = "書類を今すぐチェック";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "スペルと一緒に文法をチェック";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "入力中にスペルチェック";
+
+/* No comment provided by engineer. */
+"Close" = "閉じる";
+
+/* No comment provided by engineer. */
+"Copy" = "コピー";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "スペルを自動的に修正";
+
+/* No comment provided by engineer. */
+"Cut" = "カット";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "データ検出";
+
+/* No comment provided by engineer. */
+"Delete" = "削除";
+
+/* No comment provided by engineer. */
+"Edit" = "編集";
+
+/* No comment provided by engineer. */
+"Find" = "検索";
+
+/* No comment provided by engineer. */
+"Find and Replace..." = "検索と置換...";
+
+/* No comment provided by engineer. */
+"Find Next" = "次の検索";
+
+/* No comment provided by engineer. */
+"Find Previous" = "前の検索";
+
+/* No comment provided by engineer. */
+"Find..." = "検索...";
+
+/* No comment provided by engineer. */
+"Help" = "ヘルプ";
+
+/* No comment provided by engineer. */
+"Hide %@" = "Hide %@";
+
+/* No comment provided by engineer. */
+"Hide Others" = "ほかを隠す";
+
+/* No comment provided by engineer. */
+"Jump to Selection" = "選択部分へジャンプ";
+
+/* No comment provided by engineer. */
+"Make Lower Case" = "小文字にする";
+
+/* No comment provided by engineer. */
+"Make Upper Case" = "大文字にする";
+
+/* No comment provided by engineer. */
+"Minimize" = "しまう";
+
+/* No comment provided by engineer. */
+"Paste" = "ペースト";
+
+/* No comment provided by engineer. */
+"Paste and Match Style" = "ペーストをスタイルに会わせる";
+
+/* No comment provided by engineer. */
+"Preferences..." = "環境設定...";
+
+/* No comment provided by engineer. */
+"Quit %@" = "Quit %@";
+
+/* No comment provided by engineer. */
+"Redo" = "やり直し";
+
+/* No comment provided by engineer. */
+"Select All" = "すべてを選択";
+
+/* No comment provided by engineer. */
+"Services" = "サービス";
+
+/* No comment provided by engineer. */
+"Show All" = "すべてを表示";
+
+/* No comment provided by engineer. */
+"Show Spelling and Grammar" = "スペルと文法を表示";
+
+/* No comment provided by engineer. */
+"Show Substitutions" = "置換を表示";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "スマートコピー／ペースト";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "スマートダッシュ記号";
+
+/* No comment provided by engineer. */
+"Smart Links" = "スマートリンク";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "スマート引用府";
+
+/* No comment provided by engineer. */
+"Speech" = "スピーチ";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "スペルと文法";
+
+/* No comment provided by engineer. */
+"Start Speaking" = "スピーチを開始";
+
+/* No comment provided by engineer. */
+"Stop Speaking" = "スピーチを停止";
+
+/* No comment provided by engineer. */
+"Substitutions" = "置換";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "テキストの置換";
+
+/* No comment provided by engineer. */
+"Transformations" = "転換";
+
+/* No comment provided by engineer. */
+"Undo" = "取り消す";
+
+/* No comment provided by engineer. */
+"Use Selection for Find" = "選択部分を検索に使用";
+
+/* No comment provided by engineer. */
+"Window" = "ウインドウ";
+
+/* No comment provided by engineer. */
+"Zoom" = "ズーム";
