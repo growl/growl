@@ -16,6 +16,7 @@
 {
    if(![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"growlcal://open"]])
       NSLog(@"Error opening GrowlCal");
+   exit(0);
 }
 
 @end
