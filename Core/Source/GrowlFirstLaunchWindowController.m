@@ -131,7 +131,7 @@
         case firstLaunchWelcome:
             newTitle = FirstLaunchWelcomeTitle;
             NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Welcome" ofType:@"rtf"]];
-            newBody = [[NSAttributedString alloc] initWithRTF:data documentAttributes:NULL];
+            newBody = [[[NSAttributedString alloc] initWithRTF:data documentAttributes:NULL] autorelease];
             break;
         case firstLaunchStartGrowl:
             newTitle = FirstLaunchStartGrowlTitle;
