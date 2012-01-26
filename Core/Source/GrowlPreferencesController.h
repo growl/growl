@@ -46,6 +46,7 @@
 
 #define GrowlFirstLaunch            XSTR("GrowlFirstLaunch")
 #define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
+#define GrowlShouldStartAtLogin     XSTR("ShouldStartGrowlAtLogin")
 
 #define GrowlRollupShown            XSTR("GrowlRollupShown")
 #define GrowlRollupEnabled          XSTR("GrowlRollupEnabled")
@@ -84,11 +85,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
 - (void) synchronize;
 
+- (void) upgradeStartAtLogin;
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
-- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
 - (void) setSquelchMode:(BOOL)squelch;
 - (BOOL) squelchMode;

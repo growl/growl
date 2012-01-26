@@ -22,6 +22,8 @@
 #import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
 
+#import <ServiceManagement/ServiceManagement.h>
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 	return [[GrowlPreferencesController sharedController] objectForKey:(id)key];
 }
@@ -158,16 +160,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark -
 #pragma mark Start-at-login control
 
-- (BOOL) allowStartAtLogin{
-    return [self boolForKey:GrowlAllowStartAtLogin];
-}
-
-- (void) setAllowStartAtLogin:(BOOL)start{
-    [self setBool:start forKey:GrowlAllowStartAtLogin];
-}
-
-- (BOOL) shouldStartGrowlAtLogin {
+- (void) upgradeStartAtLogin {
 	Boolean    foundIt = false;
+   
+   LSSharedFileListItemRef existingItem = NULL;
 
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
@@ -187,8 +183,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 				foundIt = CFEqual(URL, urlToGHA);
 				CFRelease(URL);
 				
-				if (foundIt)
+				if (foundIt){
+               existingItem = item;
 					break;
+            }
 			}
 		}
 		
@@ -198,78 +196,38 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
 	}
 	
-	return foundIt;
+	if(foundIt && existingItem != NULL) {
+      NSLog(@"Found current copy of Growl.app in this user's login items, removing it and replacing it with the new sandbox friendly method");
+      LSSharedFileListItemRemove(loginItems, existingItem);
+      [self setShouldStartGrowlAtLogin:YES];
+   }
+}
+
+- (BOOL) allowStartAtLogin{
+    return [self boolForKey:GrowlAllowStartAtLogin];
+}
+
+- (void) setAllowStartAtLogin:(BOOL)start{
+    [self setBool:start forKey:GrowlAllowStartAtLogin];
+}
+
+- (BOOL) shouldStartGrowlAtLogin {
+   return [self boolForKey:GrowlShouldStartAtLogin];
 }
 
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
-	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	[self setStartAtLogin:pathToGHA enabled:flag];
-}
-
-- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
-	OSStatus status;
-	CFURLRef URLToToggle = (CFURLRef)[NSURL fileURLWithPath:path];
-	LSSharedFileListItemRef existingItem = NULL;
-
-	UInt32 seed = 0U;
-	NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
-	for (id itemObject in currentLoginItems) {
-		LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
-
-		UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-		CFURLRef URL = NULL;
-		OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
-		if (err == noErr) {
-			Boolean foundIt = CFEqual(URL, URLToToggle);
-			CFRelease(URL);
-
-			if (foundIt) {
-				existingItem = item;
-				break;
-			}
-		}
-	}
-
-	if (enabled && (existingItem == NULL)) {
-		NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
-		IconRef icon = NULL;
-		FSRef ref;
-		Boolean gotRef = CFURLGetFSRef(URLToToggle, &ref);
-		if (gotRef) {
-			status = GetIconRefFromFileInfo(&ref,
-											/*fileNameLength*/ 0, /*fileName*/ NULL,
-											kFSCatInfoNone, /*catalogInfo*/ NULL,
-											kIconServicesNormalUsageFlag,
-											&icon,
-											/*outLabel*/ NULL);
-			if (status != noErr)
-				icon = NULL;
-		}
-
-		LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, (CFStringRef)displayName, icon, URLToToggle, /*propertiesToSet*/ NULL, /*propertiesToClear*/ NULL);
-	} else if (!enabled && (existingItem != NULL))
-		LSSharedFileListItemRemove(loginItems, existingItem);
+   NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlLauncher.app"];
+   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
+      NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
+   }
+   if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlLauncher"), flag)){
+      NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
+   }
+   [self setBool:flag forKey:GrowlShouldStartAtLogin];
 }
 
 #pragma mark -
 #pragma mark Growl running state
-
-- (void) launchGrowl:(BOOL)noMatterWhat {
-#if GROWL_PREFPANE_AND_HELPERAPP_ARE_SEPARATE
-	NSString *helperPath = [[GrowlPathUtilities helperAppBundle] bundlePath];
-	NSURL *helperURL = [NSURL fileURLWithPath:helperPath];
-
-	unsigned options = NSWorkspaceLaunchWithoutAddingToRecents | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchAsync;
-	if (noMatterWhat)
-		options |= NSWorkspaceLaunchNewInstance;
-	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:helperURL]
-	                withAppBundleIdentifier:nil
-	                                options:options
-	         additionalEventParamDescriptor:nil
-	                      launchIdentifiers:NULL];
-#endif
-}
 
 - (void) setSquelchMode:(BOOL)squelch
 {
