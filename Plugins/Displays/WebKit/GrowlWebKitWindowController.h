@@ -22,6 +22,8 @@
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
-+ (NSMutableDictionary *)imageCache;
++ (NSData *)cachedImageForKey:(NSString*)key;
++ (void)setCachedImage:(NSData*)image forKey:(NSString*)key;
++ (void)removeCachedImageForKey:(NSString*)key;
 
 @end

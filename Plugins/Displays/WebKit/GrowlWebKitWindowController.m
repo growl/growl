@@ -51,14 +51,45 @@
 /* This is used to hold on to an image, while it might be needed.
  * (Until the window closes).
  */
+
+static dispatch_queue_t __imageCacheQueue;
+
++ (void)initialize {
+   if(self != [GrowlWebKitWindowController class])
+      return;
+   
+   __imageCacheQueue = dispatch_queue_create("growlwebkitimagecachequeue", DISPATCH_QUEUE_CONCURRENT);
+}
+
 + (NSMutableDictionary *)imageCache {
 	static NSMutableDictionary *imageCache = nil;
-	
-	if (!imageCache) {
-		imageCache = [[NSMutableDictionary alloc] init];
-	}
+	static dispatch_once_t onceToken;
+   dispatch_once(&onceToken, ^{
+      imageCache = [[NSMutableDictionary alloc] init];
+   });
 	
 	return imageCache;
+}
+
++ (NSData*)cachedImageForKey:(NSString *)key {
+   __block NSData *image = nil;
+   dispatch_sync(__imageCacheQueue, ^{
+      image = [[GrowlWebKitWindowController imageCache] objectForKey:key];
+      [image retain];
+   });
+   return [image autorelease];
+}
+
++ (void)setCachedImage:(NSData*)image forKey:(NSString*)key {
+   dispatch_barrier_sync(__imageCacheQueue, ^{
+      [[GrowlWebKitWindowController imageCache] setObject:image forKey:key];
+   });
+}
+
++ (void)removeCachedImageForKey:(NSString*)key {
+   dispatch_barrier_sync(__imageCacheQueue, ^{
+      [[GrowlWebKitWindowController imageCache] removeObjectForKey:key];
+   });
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {	
@@ -163,7 +194,7 @@
 - (void)stopDisplay {
 	
 	if (cacheKey) {
-		[[GrowlWebKitWindowController imageCache] removeObjectForKey:cacheKey];
+		[GrowlWebKitWindowController removeCachedImageForKey:cacheKey];
 		
 		[cacheKey release]; cacheKey = nil;
 	}
@@ -209,13 +240,13 @@
 	NSMutableString *htmlString = [[templateHTML mutableCopy] autorelease];
 	
 	if (cacheKey) {
-		[[GrowlWebKitWindowController imageCache] removeObjectForKey:cacheKey];
+		[GrowlWebKitWindowController removeCachedImageForKey:cacheKey];
 		[cacheKey release];
 	}
 	
 	cacheKey = [[NSString alloc] initWithFormat:@"growlimage://%p", view];
 	
-	[[GrowlWebKitWindowController imageCache] setObject:iconData forKey:cacheKey];
+	[GrowlWebKitWindowController setCachedImage:iconData forKey:cacheKey];
 	
 	CGFloat opacity = 95.0;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);

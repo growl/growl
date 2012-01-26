@@ -36,21 +36,18 @@
 
 - (void)startLoading
 {
-	__block NSData *iconData = nil;
+   NSData *iconData = nil;
 	
 	/* Get the image data from the cache.
-	 * We have to use dispatch_sync, as we are most likely not on the main thread, and
-	 * NSMutableDictionary is not thread-safe.
+	 * We use the thread safe accessors in GrowlWebKitWindowController for getting the icon
 	 */
-	dispatch_sync(dispatch_get_main_queue(), ^{
-		
-		iconData = [[GrowlWebKitWindowController imageCache] objectForKey:[self.request.URL absoluteString]];
-		
-		/* In case it gets dropped from the cache before it is finished here.
-		 * (That probably means the view is gone too, but just in case).
-		 */
-		[iconData retain];
-	});
+   		
+   iconData = [GrowlWebKitWindowController cachedImageForKey:[self.request.URL absoluteString]];
+               
+   /* In case it gets dropped from the cache before it is finished here.
+    * (That probably means the view is gone too, but just in case).
+    */
+   [iconData retain];
 	
 	if (!iconData) {
 		
