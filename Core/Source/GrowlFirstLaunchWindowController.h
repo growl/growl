@@ -11,12 +11,14 @@
 
 @interface GrowlFirstLaunchWindowController : NSWindowController <NSWindowDelegate>
 
-@property (nonatomic, assign) IBOutlet NSTextField *pageTitle;
-@property (nonatomic, assign) IBOutlet NSTextField *nextPageIntro;
-@property (nonatomic, assign) IBOutlet NSTextField *pageBody;
+@property (nonatomic, retain) NSString *windowTitle;
+@property (nonatomic, retain) NSAttributedString *textBoxString;
+@property (nonatomic, retain) NSString *sectionTitle;
+@property (nonatomic, retain) NSString *actionButtonTitle;
+@property (nonatomic, retain) NSString *continueButtonTitle;
+@property (nonatomic, retain) NSString *continueButtonLabel;
 
-@property (nonatomic, assign) IBOutlet NSButton *actionButton;
-@property (nonatomic, assign) IBOutlet NSButton *continueButton;
+@property (nonatomic) BOOL actionEnabled;
 
 @property (nonatomic) GrowlFirstLaunchState state;
 @property (nonatomic) GrowlFirstLaunchState nextState;
@@ -29,8 +31,5 @@
 -(IBAction)actionButton:(id)sender;
 -(IBAction)enableGrowlAtLogin:(id)sender;
 -(IBAction)openGrowlUninstallerPage:(id)sender;
--(IBAction)openGrowlGNTPPage:(id)sender;
--(IBAction)openPreferences:(id)sender;
--(IBAction)disableHistory:(id)sender;
 
 @end

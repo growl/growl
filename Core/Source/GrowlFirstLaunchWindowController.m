@@ -15,27 +15,30 @@
 
 @implementation GrowlFirstLaunchWindowController
 
-@synthesize pageTitle;
-@synthesize nextPageIntro;
-@synthesize pageBody;
+@synthesize windowTitle;
+@synthesize textBoxString;
+@synthesize sectionTitle;
+@synthesize actionButtonTitle;
+@synthesize continueButtonTitle;
+@synthesize continueButtonLabel;
 
-@synthesize actionButton;
-@synthesize continueButton;
+@synthesize actionEnabled;
 
 @synthesize state;
 @synthesize nextState;
 
 +(BOOL)previousVersionOlder
 {
-   NSString *current = @"1.3";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   /*NSString *current = @"1.3";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    
-   return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
+   return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);*/
+   return YES;
 }
 
 +(BOOL)shouldRunFirstLaunch
 {
-   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   /*GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if(![preferences objectForKey:GrowlFirstLaunch] || [preferences boolForKey:GrowlFirstLaunch])
       return YES;
    
@@ -43,7 +46,8 @@
    if([GrowlFirstLaunchWindowController previousVersionOlder]){
       return YES;
    }
-   return NO;
+   return NO;*/
+   return YES;
 }
 
 - (id)init
@@ -51,6 +55,8 @@
     if ((self = [super initWithWindowNibName:@"FirstLaunchWindow" owner:self])) {
         // Initialization code here.
         state = firstLaunchWelcome;
+       self.windowTitle = NSLocalizedString(@"Welcome to Growl!", @"");
+       self.continueButtonTitle = NSLocalizedString(@"Continue", @"Continue button title");
     }
     
     return self;
@@ -84,22 +90,16 @@
 
 -(void)updateNextState
 {
-   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   //GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    NSString *newContinue = nil;
    switch (state) {
       case firstLaunchWelcome:
-         if(![preferences allowStartAtLogin]){
+         if(/*![preferences allowStartAtLogin]*/YES){
             newContinue = FirstLaunchStartGrowlNext;
             nextState = firstLaunchStartGrowl;
          }
       case firstLaunchStartGrowl:
-         if(!newContinue && [GrowlFirstLaunchWindowController previousVersionOlder]){
-            newContinue = FirstLaunchWhatsNewNext;
-            nextState = firstLaunchWhatsNew1;
-         }
-      /* If we fell into firstLaunchWhatsNew1 above, we wind up here after the other two panes of intro*/
-      case firstLaunchWhatsNew3:
-         if(!newContinue && [GrowlPathUtilities growlPrefPaneBundle] != nil){
+         if(!newContinue /*&& [GrowlPathUtilities growlPrefPaneBundle] != nil*/){
             newContinue = FirstLaunchOldGrowlNext;
             nextState = firstLaunchOldGrowl;
          }
@@ -108,58 +108,35 @@
             newContinue = FirstLaunchDoneNext;
             nextState = firstLaunchDone;
          }
-         break;
-
-      /* Thes two cases dont have fall throughs, if you hit them, you get to see the rest of whats new */
-      case firstLaunchWhatsNew1:
-         nextState = firstLaunchWhatsNew2;
-         break;
-      case firstLaunchWhatsNew2:
-         nextState = firstLaunchWhatsNew3;
-         break;
-      
+         break;      
       /* Done, or something went really wrong*/
       default:
          return;
    }
    if(newContinue)
-      [nextPageIntro setStringValue:newContinue];
+      self.continueButtonLabel = newContinue;
    
    if(nextState == firstLaunchDone)
-      [continueButton setTitle:NSLocalizedString(@"Done", @"Done")];
+      self.continueButtonTitle = NSLocalizedString(@"Done", @"Done");
 }
 
 - (void)updateViews
 {
     NSString *newTitle = nil;
-    NSString *newBody = nil;
+    id newBody = nil;
     NSString *newButton = nil;
 
     [self updateNextState];
     switch (state) {
         case firstLaunchWelcome:
             newTitle = FirstLaunchWelcomeTitle;
-            newBody = FirstLaunchWelcomeBody;
+            NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Welcome" ofType:@"rtf"]];
+            newBody = [[NSAttributedString alloc] initWithRTF:data documentAttributes:NULL];
             break;
         case firstLaunchStartGrowl:
             newTitle = FirstLaunchStartGrowlTitle;
             newBody = FirstLaunchStartGrowlBody;
             newButton = FirstLaunchStartGrowlButton;
-            break;
-        case firstLaunchWhatsNew1:
-            newTitle = FirstLaunchWhatsNewTitle;
-            newBody = FirstLaunchWhatsNewBody1;
-            newButton = FirstLaunchWhatsNewButton1;
-            break;
-        case firstLaunchWhatsNew2:
-            newTitle = FirstLaunchWhatsNewTitle;
-            newBody = FirstLaunchWhatsNewBody2;
-            newButton = FirstLaunchWhatsNewButton2;
-            break;
-        case firstLaunchWhatsNew3:
-            newTitle = FirstLaunchWhatsNewTitle;
-            newBody = FirstLaunchWhatsNewBody3;
-            newButton = FirstLaunchWhatsNewButton3;
             break;
         case firstLaunchOldGrowl:
             newTitle = FirstLaunchOldGrowlTitle;
@@ -172,13 +149,17 @@
             break;
     }
    
-    [pageTitle setStringValue:newTitle];
-    [pageBody setStringValue:newBody];
-    if(newButton){
-       [actionButton setHidden:NO];
-       [actionButton setTitle:newButton];
-    }else
-       [actionButton setHidden:YES];
+   self.sectionTitle = newTitle;
+   if([newBody isKindOfClass:[NSString class]])
+      self.textBoxString = [[[NSAttributedString alloc] initWithString:newBody] autorelease];
+   else if([newBody isKindOfClass:[NSAttributedString class]])
+      self.textBoxString = newBody;
+   
+   if(newButton){
+      self.actionEnabled = YES;
+      self.actionButtonTitle = newButton;
+   }else
+      self.actionEnabled = NO;
 }
 
 -(IBAction)nextPage:(id)sender
@@ -191,15 +172,6 @@
    switch (state) {
       case firstLaunchStartGrowl:
          [self enableGrowlAtLogin:sender];
-         break;
-      case firstLaunchWhatsNew1:
-         [self openPreferences:sender];
-         break;
-      case firstLaunchWhatsNew2:
-         [self disableHistory:sender];
-         break;
-      case firstLaunchWhatsNew3:
-         [self openGrowlGNTPPage:sender];
          break;
       case firstLaunchOldGrowl:
          [self openGrowlUninstallerPage:sender];
@@ -219,22 +191,6 @@
 -(IBAction)openGrowlUninstallerPage:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
-}
-
-/*TODO: MAKE POINT AT RIGHT PAGE*/
--(IBAction)openGrowlGNTPPage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation.php"]];
-}
-
--(IBAction)openPreferences:(id)sender
-{
-    [[[GrowlApplicationController sharedController] statusMenu] openGrowlPreferences:self];
-}
-
--(IBAction)disableHistory:(id)sender
-{
-   [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
 }
 
 @end
