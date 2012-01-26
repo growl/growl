@@ -37,6 +37,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BC06C69B14D18CCB00EC1E40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
 		BC674732149F0CBE00898C13 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BC674714149F0CBD00898C13 /* Growl.xcodeproj */;
@@ -237,7 +244,6 @@
 		BCC622A614B389CB00965298 /* GrowlCalTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlCalTask.m; sourceTree = "<group>"; };
 		BCC622A814B38C6E00965298 /* NSDate+GrowlCalAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GrowlCalAdditions.h"; sourceTree = "<group>"; };
 		BCC622A914B38C6E00965298 /* NSDate+GrowlCalAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+GrowlCalAdditions.m"; sourceTree = "<group>"; };
-		BCDF577614D1161200264975 /* launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = launchd.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				BC674733149F0CBE00898C13 /* Growl.app */,
+				BC06C69C14D18CCB00EC1E40 /* GrowlLauncher.app */,
 				BC674735149F0CBE00898C13 /* Growl.framework */,
 				BC674737149F0CBE00898C13 /* Speech.growlView */,
 				BC674739149F0CBE00898C13 /* Brushed.growlView */,
@@ -393,7 +400,6 @@
 				BC8F359514A015EB001C8D73 /* main.m */,
 				BC8F359714A015EB001C8D73 /* GrowlCalLauncher-Prefix.pch */,
 				BC8F359814A015EB001C8D73 /* Credits.rtf */,
-				BCDF577614D1161200264975 /* launchd.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -476,6 +482,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		BC06C69C14D18CCB00EC1E40 /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BC06C69B14D18CCB00EC1E40 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BC674733149F0CBE00898C13 /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -824,16 +837,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCalLauncher/GrowlCalLauncher-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCalLauncher/GrowlCalLauncher-Info.plist";
-				OTHER_LDFLAGS = (
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"GrowlCalLauncher/GrowlCalLauncher-Info.plist",
-					"-sectcreate",
-					__TEXT,
-					__launchd_plist,
-					GrowlCalLauncher/launchd.plist,
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -846,16 +850,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GrowlCalLauncher/GrowlCalLauncher-Prefix.pch";
 				INFOPLIST_FILE = "GrowlCalLauncher/GrowlCalLauncher-Info.plist";
-				OTHER_LDFLAGS = (
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"GrowlCalLauncher/GrowlCalLauncher-Info.plist",
-					"-sectcreate",
-					__TEXT,
-					__launchd_plist,
-					GrowlCalLauncher/launchd.plist,
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

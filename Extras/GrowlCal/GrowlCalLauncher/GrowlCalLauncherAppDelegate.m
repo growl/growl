@@ -14,9 +14,10 @@
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+   NSLog(@"Opening GrowlCal");
    if(![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"growlcal://open"]])
       NSLog(@"Error opening GrowlCal");
-   exit(0);
+   [NSApp terminate:self];
 }
 
 @end
