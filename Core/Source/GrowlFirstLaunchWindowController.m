@@ -13,23 +13,26 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlMenu.h"
 
+typedef void(^GrowlFirstLaunchAction)(void);
+
 @implementation GrowlFirstLaunchWindowController
 
 @synthesize windowTitle;
 @synthesize textBoxString;
-@synthesize sectionTitle;
 @synthesize actionButtonTitle;
 @synthesize continueButtonTitle;
-@synthesize continueButtonLabel;
 
 @synthesize actionEnabled;
 
-@synthesize state;
-@synthesize nextState;
+@synthesize current;
+
+@synthesize launchViews;
+@synthesize progressIndicator;
+@synthesize progressLabel;
 
 +(BOOL)previousVersionOlder
 {
-   /*NSString *current = @"1.3";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   /*NSString *current = @"1.4";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    
    return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);*/
@@ -54,143 +57,104 @@
 {
     if ((self = [super initWithWindowNibName:@"FirstLaunchWindow" owner:self])) {
         // Initialization code here.
-        state = firstLaunchWelcome;
        self.windowTitle = NSLocalizedString(@"Welcome to Growl!", @"");
        self.continueButtonTitle = NSLocalizedString(@"Continue", @"Continue button title");
+       
+       //GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+       self.current = 0;
+       
+       NSMutableArray *views = [NSMutableArray array];
+      
+       NSData *welcomeData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Welcome" withExtension:@"rtf"]];
+       NSAttributedString *welcomeString = [[[NSAttributedString alloc] initWithRTF:welcomeData documentAttributes:nil] autorelease];
+       NSDictionary *welcomeDict = [NSDictionary dictionaryWithObjectsAndKeys:welcomeString, @"textBody", nil];
+       [views addObject:welcomeDict];
+       
+       NSData *whatsNewData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"WhatsNew" withExtension:@"rtf"]];
+       NSAttributedString *whatsNewString = [[[NSAttributedString alloc] initWithRTF:whatsNewData documentAttributes:nil] autorelease];
+       NSDictionary *whatsNewDict = [NSDictionary dictionaryWithObjectsAndKeys:whatsNewString, @"textBody", nil];
+       [views addObject:whatsNewDict];
+       
+       if(/*![preferences allowStartAtLogin]*/YES) {
+         GrowlFirstLaunchAction loginBlock = [^{
+             GrowlPreferencesController *prefs = [GrowlPreferencesController sharedController];
+             [prefs setShouldStartGrowlAtLogin:YES];
+             [prefs setAllowStartAtLogin:YES];
+          } copy];
+          
+          NSData *loginData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"StartAtLogin" withExtension:@"rtf"]];
+          NSAttributedString *loginString = [[[NSAttributedString alloc] initWithRTF:loginData documentAttributes:nil] autorelease];
+          NSDictionary *loginDict = [NSDictionary dictionaryWithObjectsAndKeys:loginString, @"textBody", 
+                                                                               loginBlock, @"actionBlock", 
+                                                                               FirstLaunchStartGrowlButton, @"actionTitle", nil];
+          [views addObject:loginDict];
+          [loginBlock release];
+       }
+       if(/*[GrowlPathUtilities growlPrefPaneBundle] != nil*/YES) {
+          GrowlFirstLaunchAction oldBlock = [^{
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
+          } copy];
+          NSData *oldData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"OldGrowl" withExtension:@"rtf"]];
+          NSAttributedString *oldString = [[[NSAttributedString alloc] initWithRTF:oldData documentAttributes:nil] autorelease];
+          NSDictionary *oldDict = [NSDictionary dictionaryWithObjectsAndKeys:oldString, @"textBody", 
+                                                                             oldBlock, @"actionBlock",
+                                                                             FirstLaunchOldGrowlButton, @"actionTitle", nil];
+          [views addObject:oldDict];
+          Block_release(oldBlock);
+       }
+       
+       self.launchViews = [[views copy] autorelease];
     }
     
     return self;
 }
 
-- (void)awakeFromNib
+-(void)awakeFromNib
 {
-    [self updateViews];
-}
-
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
+   [progressIndicator setMaxValue:[launchViews count]];
+   [self showCurrent];
 }
 
 -(void)close
 {
-   NSString *current = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-   [[GrowlPreferencesController sharedController] setObject:current forKey:LastKnownVersionKey];
+   NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   [[GrowlPreferencesController sharedController] setObject:currentVersion forKey:LastKnownVersionKey];
    [[GrowlApplicationController sharedController] performSelector:@selector(firstLaunchClosed) withObject:nil afterDelay:1.0];
    [super close];
 }
 
-- (void)setState:(GrowlFirstLaunchState)newState
+-(void)showCurrent
 {
-    if(state != newState){
-        state = newState;
-        [self updateViews];
-    }
-}
-
--(void)updateNextState
-{
-   //GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-   NSString *newContinue = nil;
-   switch (state) {
-      case firstLaunchWelcome:
-         if(/*![preferences allowStartAtLogin]*/YES){
-            newContinue = FirstLaunchStartGrowlNext;
-            nextState = firstLaunchStartGrowl;
-         }
-      case firstLaunchStartGrowl:
-         if(!newContinue /*&& [GrowlPathUtilities growlPrefPaneBundle] != nil*/){
-            newContinue = FirstLaunchOldGrowlNext;
-            nextState = firstLaunchOldGrowl;
-         }
-      case firstLaunchOldGrowl:
-         if(!newContinue){
-            newContinue = FirstLaunchDoneNext;
-            nextState = firstLaunchDone;
-         }
-         break;      
-      /* Done, or something went really wrong*/
-      default:
-         return;
+   self.progressLabel = [NSString stringWithFormat:@"%d/%d", current + 1, [launchViews count]];
+   [progressIndicator setDoubleValue:(double)(current + 1)];
+   if(current == [launchViews count] - 1){
+      self.continueButtonTitle = NSLocalizedString(@"Done", @"Continue button title when done");
    }
-   if(newContinue)
-      self.continueButtonLabel = newContinue;
    
-   if(nextState == firstLaunchDone)
-      self.continueButtonTitle = NSLocalizedString(@"Done", @"Done");
-}
-
-- (void)updateViews
-{
-    NSString *newTitle = nil;
-    id newBody = nil;
-    NSString *newButton = nil;
-
-    [self updateNextState];
-    switch (state) {
-        case firstLaunchWelcome:
-            newTitle = FirstLaunchWelcomeTitle;
-            NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Welcome" ofType:@"rtf"]];
-            newBody = [[[NSAttributedString alloc] initWithRTF:data documentAttributes:NULL] autorelease];
-            break;
-        case firstLaunchStartGrowl:
-            newTitle = FirstLaunchStartGrowlTitle;
-            newBody = FirstLaunchStartGrowlBody;
-            newButton = FirstLaunchStartGrowlButton;
-            break;
-        case firstLaunchOldGrowl:
-            newTitle = FirstLaunchOldGrowlTitle;
-            newBody = FirstLaunchOldGrowlBody;
-            newButton = FirstLaunchOldGrowlButton;
-            break;
-        default:
-            [self close];
-            return;
-            break;
-    }
-   
-   self.sectionTitle = newTitle;
-   if([newBody isKindOfClass:[NSString class]])
-      self.textBoxString = [[[NSAttributedString alloc] initWithString:newBody] autorelease];
-   else if([newBody isKindOfClass:[NSAttributedString class]])
-      self.textBoxString = newBody;
-   
-   if(newButton){
+   if([[launchViews objectAtIndex:current] valueForKey:@"actionBlock"]){
       self.actionEnabled = YES;
-      self.actionButtonTitle = newButton;
-   }else
-      self.actionEnabled = NO;
+      self.actionButtonTitle = [[launchViews objectAtIndex:current] valueForKey:@"actionTitle"];
+   }
+   
+   self.textBoxString = [[launchViews objectAtIndex:current] valueForKey:@"textBody"];
 }
 
 -(IBAction)nextPage:(id)sender
 {
-    [self setState:nextState];
+   self.current++;
+   if(current >= [launchViews count]){
+      [self close];
+      return;
+   }
+   [self showCurrent];
 }
 
 -(IBAction)actionButton:(id)sender
 {
-   switch (state) {
-      case firstLaunchStartGrowl:
-         [self enableGrowlAtLogin:sender];
-         break;
-      case firstLaunchOldGrowl:
-         [self openGrowlUninstallerPage:sender];
-         break;
-      default:
-         break;
+   if([[launchViews objectAtIndex:current] valueForKey:@"actionBlock"]){
+      GrowlFirstLaunchAction action = [[launchViews objectAtIndex:current] valueForKey:@"actionBlock"];
+      action();
    }
-}
-
--(IBAction)enableGrowlAtLogin:(id)sender
-{
-    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-    [preferences setShouldStartGrowlAtLogin:YES];
-    [preferences setAllowStartAtLogin:YES];
-}
-
--(IBAction)openGrowlUninstallerPage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
 }
 
 @end

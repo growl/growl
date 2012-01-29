@@ -920,7 +920,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
     if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
         [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
         firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
+       [NSApp activateIgnoringOtherApps:YES];
         [firstLaunchWindow showWindow:self];
+       [[firstLaunchWindow window] makeKeyWindow];
     }
    
    [[GrowlPreferencesController sharedController] upgradeStartAtLogin];

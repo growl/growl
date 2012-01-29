@@ -278,6 +278,9 @@
 		BC0B6F6214BF4F43004F2339 /* GrowlSubscriptionCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0B6F6114BF4F43004F2339 /* GrowlSubscriptionCellView.m */; };
 		BC0B6F8E14BF68DB004F2339 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0B6F8D14BF68DB004F2339 /* GrowlPref.xib */; };
 		BC0B6F9E14BF6E71004F2339 /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */; };
+		BC0D31DD14D3045400587B7B /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
+		BC0D31E014D3073E00587B7B /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
+		BC0D31E414D3266100587B7B /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
 		BC17CF8E147AB6EC005408AC /* GNTPSubscriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17CF8D147AB6EC005408AC /* GNTPSubscriptionController.m */; };
 		BC17CF91147BFDE4005408AC /* GNTPSubscriberEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17CF90147BFDE4005408AC /* GNTPSubscriberEntry.m */; };
 		BC1FA5EF142223E900F1C147 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D46B142222D600C98C98 /* InfoPlist.strings */; };
@@ -1177,6 +1180,9 @@
 		BC0B6F6114BF4F43004F2339 /* GrowlSubscriptionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSubscriptionCellView.m; path = Core/Source/GrowlSubscriptionCellView.m; sourceTree = "<group>"; };
 		BC0B6F8D14BF68DB004F2339 /* GrowlPref.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrowlPref.xib; path = Core/Resources/GrowlPref.xib; sourceTree = "<group>"; };
 		BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AwayHistoryWindow.xib; path = Core/Resources/AwayHistoryWindow.xib; sourceTree = "<group>"; };
+		BC0D31DC14D3045400587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		BC0D31DF14D3073E00587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		BC0D31E314D3266100587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		BC17CF8C147AB6EC005408AC /* GNTPSubscriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscriptionController.h; path = Core/Source/GNTPSubscriptionController.h; sourceTree = "<group>"; };
 		BC17CF8D147AB6EC005408AC /* GNTPSubscriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPSubscriptionController.m; path = Core/Source/GNTPSubscriptionController.m; sourceTree = "<group>"; };
 		BC17CF8F147BFDE4005408AC /* GNTPSubscriberEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscriberEntry.h; path = Core/Source/GNTPSubscriberEntry.h; sourceTree = "<group>"; };
@@ -1689,7 +1695,7 @@
 			isa = PBXGroup;
 			children = (
 				93E4EEA5141EFCA0005A26CF /* About.rtf */,
-				BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */,
+				BC0D31E114D3074C00587B7B /* First Launch Text */,
 				BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */,
 				BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */,
 				BC0B6F8D14BF68DB004F2339 /* GrowlPref.xib */,
@@ -2277,6 +2283,17 @@
 			);
 			name = Brushed;
 			path = Plugins/Displays/Brushed;
+			sourceTree = "<group>";
+		};
+		BC0D31E114D3074C00587B7B /* First Launch Text */ = {
+			isa = PBXGroup;
+			children = (
+				BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */,
+				BC0D31DB14D3045400587B7B /* WhatsNew.rtf */,
+				BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */,
+				BC0D31E214D3266100587B7B /* OldGrowl.rtf */,
+			);
+			name = "First Launch Text";
 			sourceTree = "<group>";
 		};
 		BC17CF8B147AB6C8005408AC /* Subscription */ = {
@@ -3229,6 +3246,9 @@
 				BC986FB514D078D500CC5E57 /* HistoryPrefs.xib in Resources */,
 				BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */,
 				BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */,
+				BC0D31DD14D3045400587B7B /* WhatsNew.rtf in Resources */,
+				BC0D31E014D3073E00587B7B /* StartAtLogin.rtf in Resources */,
+				BC0D31E414D3266100587B7B /* OldGrowl.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4189,6 +4209,30 @@
 			);
 			name = Localizable.strings;
 			path = Core/Resources;
+			sourceTree = "<group>";
+		};
+		BC0D31DB14D3045400587B7B /* WhatsNew.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC0D31DC14D3045400587B7B /* en */,
+			);
+			name = WhatsNew.rtf;
+			sourceTree = "<group>";
+		};
+		BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC0D31DF14D3073E00587B7B /* en */,
+			);
+			name = StartAtLogin.rtf;
+			sourceTree = "<group>";
+		};
+		BC0D31E214D3266100587B7B /* OldGrowl.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC0D31E314D3266100587B7B /* en */,
+			);
+			name = OldGrowl.rtf;
 			sourceTree = "<group>";
 		};
 		BC29B28114D12D5300C72855 /* InfoPlist.strings */ = {
