@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "אלבום";
+
+/* No comment provided by engineer. */
+"Album Artist" = "אמן אלבום\n";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "אמן אלבום או אמן\n";
+
+/* No comment provided by engineer. */
+"Artist" = "אמן";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "הבא את iTunes לחזית";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "רצועות שהתחלפו\n";
+
+/* No comment provided by engineer. */
+"Comment" = "הערה";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "הגדרת סגנון\n";
+
+/* No comment provided by engineer. */
+"Description" = "תיאור";
+
+/* No comment provided by engineer. */
+"Episode ID" = "מזהה פרק";
+
+/* No comment provided by engineer. */
+"Episode Number" = "מס' פרק";
+
+/* No comment provided by engineer. */
+"Long Description" = "תיאור מורחב";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "תיאור מורחב, הערה או תיאור";
+
+/* No comment provided by engineer. */
+"Name" = "שם";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "התרע כאשר iTunes פעילה";
+
+/* No comment provided by engineer. */
+"Paused" = "מושהה\n\n";
+
+/* No comment provided by engineer. */
+"Play Time" = "זמן ניגון\n";
+
+/* No comment provided by engineer. */
+"Quit Both" = "צא משניהם\n";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "צא מ- GrowlTunes";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "צא מ- iTunes";
+
+/* No comment provided by engineer. */
+"Rating" = "דירוג";
+
+/* No comment provided by engineer. */
+"Season Number" = "מס' עונה\n";
+
+/* No comment provided by engineer. */
+"Show" = "הצג";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "הפעל iTunes\n";
+
+/* No comment provided by engineer. */
+"Started" = "פועל";
+
+/* No comment provided by engineer. */
+"Stopped" = "מופסק";
+
+/* No comment provided by engineer. */
+"Stream Title" = "כותרת סטרים";
+
+/* No comment provided by engineer. */
+"Track Count" = "ספירת רצועות\n";
+
+/* No comment provided by engineer. */
+"Track Number" = "מס' רצועה";
+
+/* No comment provided by engineer. */
+"Video Kind" = "סוג וידאו";
+
+/* No comment provided by engineer. */
+"Volume" = "עוצמת שמע";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "רצועה קודמת";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "רצועה הבאה";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "נגן/השהה";

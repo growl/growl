@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "Album";
+
+/* No comment provided by engineer. */
+"Album Artist" = "Albumartist";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "Albumartist eller artist";
+
+/* No comment provided by engineer. */
+"Artist" = "Artist";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "Visa iTunes överst";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Spårbyte";
+
+/* No comment provided by engineer. */
+"Comment" = "Kommentar";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "Ändra formatering";
+
+/* No comment provided by engineer. */
+"Description" = "Beskrivning";
+
+/* No comment provided by engineer. */
+"Episode ID" = "Avsnitts-ID";
+
+/* No comment provided by engineer. */
+"Episode Number" = "Avsnittsnummer";
+
+/* No comment provided by engineer. */
+"Long Description" = "Lång beskrivning";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "Lång beskrivning, kommentar eller beskrivning";
+
+/* No comment provided by engineer. */
+"Name" = "Namn";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "Meddela när iTunes är aktivt";
+
+/* No comment provided by engineer. */
+"Paused" = "Pausad";
+
+/* No comment provided by engineer. */
+"Play Time" = "Speltid";
+
+/* No comment provided by engineer. */
+"Quit Both" = "Avsluta båda";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "Avsluta GrowlTunes";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "Avsluta iTunes";
+
+/* No comment provided by engineer. */
+"Rating" = "Betyg";
+
+/* No comment provided by engineer. */
+"Season Number" = "Säsong";
+
+/* No comment provided by engineer. */
+"Show" = "Program";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "Öppna iTunes";
+
+/* No comment provided by engineer. */
+"Started" = "Startade";
+
+/* No comment provided by engineer. */
+"Stopped" = "Stoppade";
+
+/* No comment provided by engineer. */
+"Stream Title" = "Strömtitel";
+
+/* No comment provided by engineer. */
+"Track Count" = "Antal spår";
+
+/* No comment provided by engineer. */
+"Track Number" = "Spårnummer";
+
+/* No comment provided by engineer. */
+"Video Kind" = "Videotyp";
+
+/* No comment provided by engineer. */
+"Volume" = "Volym";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "← Föregående spår";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "→ Nästa spår";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "▶ Spela/Pausa";

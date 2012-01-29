@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "앨범";
+
+/* No comment provided by engineer. */
+"Album Artist" = "앨범 아티스트";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "앨범 아티스트 또는 아티스트";
+
+/* No comment provided by engineer. */
+"Artist" = "아티스트";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "iTunes를 앞으로 가져오기";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "변경된 트랙";
+
+/* No comment provided by engineer. */
+"Comment" = "주석";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "포맷 설정";
+
+/* No comment provided by engineer. */
+"Description" = "주석";
+
+/* No comment provided by engineer. */
+"Episode ID" = "에피소드 ID";
+
+/* No comment provided by engineer. */
+"Episode Number" = "에피소드 번호";
+
+/* No comment provided by engineer. */
+"Long Description" = "긴 주석";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "긴 주석, 설명 또는 주석";
+
+/* No comment provided by engineer. */
+"Name" = "이름";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "iTunes가 활성화되면 알리기";
+
+/* No comment provided by engineer. */
+"Paused" = "멈춤";
+
+/* No comment provided by engineer. */
+"Play Time" = "재생 회수";
+
+/* No comment provided by engineer. */
+"Quit Both" = "둘 다 종료";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "GrowlTunes 종료";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "iTunes 종료";
+
+/* No comment provided by engineer. */
+"Rating" = "선호도";
+
+/* No comment provided by engineer. */
+"Season Number" = "시즌 번호";
+
+/* No comment provided by engineer. */
+"Show" = "";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "iTunes 시작";
+
+/* No comment provided by engineer. */
+"Started" = "시작됨";
+
+/* No comment provided by engineer. */
+"Stopped" = "멈춤";
+
+/* No comment provided by engineer. */
+"Stream Title" = "";
+
+/* No comment provided by engineer. */
+"Track Count" = "트랙 개수";
+
+/* No comment provided by engineer. */
+"Track Number" = "트랙 번호";
+
+/* No comment provided by engineer. */
+"Video Kind" = "비디오 종류";
+
+/* No comment provided by engineer. */
+"Volume" = "음량";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "← 이전 트랙";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "→ 다음 트랙";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "▶ 재생/일시 정지";
