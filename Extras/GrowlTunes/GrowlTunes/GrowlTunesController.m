@@ -353,11 +353,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         NSArray* classes = [DDLog registeredClasses];
         for (Class class in classes) {
             [DDLog setLogLevel:[level intValue] forClass:class];
-            DDNSLogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
+            LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
         }
     } else {
         [DDLog setLogLevel:[level intValue] forClass:class];
-        DDNSLogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
+        LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
     }
 }
 
