@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 12/01/2004.
-//  Copyright 2004Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2004â€“2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlBrushedPrefsController.h"
@@ -12,6 +12,20 @@
 
 
 @implementation GrowlBrushedPrefsController
+
+@synthesize useAquaLabel;
+
+- (id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.useAquaLabel = NSLocalizedString(@"Use Aqua instead of brushed metal", nil);
+   }
+   return self;
+}
+
+- (void)dealloc {
+   [useAquaLabel release];
+   [super dealloc];
+}
 
 - (NSString *) mainNibName {
 	return @"BrushedPrefs";

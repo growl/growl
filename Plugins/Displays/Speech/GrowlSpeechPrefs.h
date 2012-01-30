@@ -16,6 +16,8 @@
 - (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
 
+@property (nonatomic, retain) NSString *voiceLabel;
+@property (nonatomic, retain) NSString *nameColumnLabel;
 @property (nonatomic, retain) NSArray *voices;
 
 @end

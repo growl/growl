@@ -72,6 +72,7 @@
 							<string key="NSFrame">{{18, 117}, {160, 18}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="452989961"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="210874557">
 								<int key="NSCellFlags">-2080244224</int>
@@ -104,6 +105,7 @@
 							<string key="NSFrame">{{17, 181}, {43, 17}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="19719476"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1061776663">
 								<int key="NSCellFlags">67239488</int>
@@ -137,6 +139,7 @@
 							<string key="NSFrame">{{18, 250}, {200, 21}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="797168314"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="128422352">
 								<int key="NSCellFlags">67501824</int>
@@ -166,6 +169,7 @@
 							<string key="NSFrame">{{17, 272}, {56, 17}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="256293059"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="552866894">
 								<int key="NSCellFlags">67239488</int>
@@ -183,6 +187,7 @@
 							<string key="NSFrame">{{221, 254}, {36, 13}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="521211789"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="595657603">
 								<int key="NSCellFlags">67239488</int>
@@ -282,6 +287,7 @@
 							<string key="NSFrame">{{17, 229}, {64, 17}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="949923264"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="155023964">
 								<int key="NSCellFlags">67239488</int>
@@ -299,6 +305,7 @@
 							<string key="NSFrame">{{18, 202}, {200, 21}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="383680423"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="392591481">
 								<int key="NSCellFlags">67501824</int>
@@ -324,6 +331,7 @@
 							<string key="NSFrame">{{221, 206}, {47, 13}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="46807598"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="749471210">
 								<int key="NSCellFlags">67239488</int>
@@ -402,6 +410,7 @@
 							<string key="NSFrame">{{20, 62}, {99, 26}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="881237885"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSComboBoxCell" key="NSCell" id="387165192">
 								<int key="NSCellFlags">343014976</int>
@@ -572,6 +581,7 @@
 							<string key="NSFrame">{{17, 94}, {50, 17}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="26604610"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="503822860">
 								<int key="NSCellFlags">67239488</int>
@@ -589,6 +599,7 @@
 							<string key="NSFrame">{{17, 41}, {34, 17}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="407728155"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="885301237">
 								<int key="NSCellFlags">67239488</int>
@@ -606,6 +617,7 @@
 							<string key="NSFrame">{{17, 9}, {102, 26}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="232959391">
 								<int key="NSCellFlags">-2076049856</int>
@@ -676,6 +688,7 @@
 							<string key="NSFrame">{{17, 149}, {130, 26}}</string>
 							<reference key="NSSuperview" ref="652988166"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="1050800351"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="969641740">
 								<int key="NSCellFlags">-2076049856</int>
@@ -691,7 +704,18 @@
 								</object>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<nil key="NSMenuItem"/>
+								<object class="NSMenuItem" key="NSMenuItem" id="791762622">
+									<reference key="NSMenu" ref="1000185926"/>
+									<string key="NSTitle">Purple</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<int key="NSState">1</int>
+									<reference key="NSOnImage" ref="1048566438"/>
+									<reference key="NSMixedImage" ref="543037552"/>
+									<string key="NSAction">_popUpItemAction:</string>
+									<reference key="NSTarget" ref="969641740"/>
+								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
 								<object class="NSMenu" key="NSMenu" id="1000185926">
 									<object class="NSMutableString" key="NSTitle">
@@ -699,17 +723,7 @@
 									</object>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="NSMenuItem" id="791762622">
-											<reference key="NSMenu" ref="1000185926"/>
-											<string key="NSTitle">Purple</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="1048566438"/>
-											<reference key="NSMixedImage" ref="543037552"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="969641740"/>
-										</object>
+										<reference ref="791762622"/>
 										<object class="NSMenuItem" id="193766710">
 											<reference key="NSMenu" ref="1000185926"/>
 											<string key="NSTitle">Pink</string>
@@ -772,7 +786,6 @@
 										</object>
 									</object>
 								</object>
-								<int key="NSSelectedIndex">-1</int>
 								<int key="NSPreferredEdge">3</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -783,11 +796,15 @@
 					<string key="NSFrameSize">{354, 289}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="602786070"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
+			</object>
+			<object class="NSCustomObject" id="985304726">
+				<string key="NSClassName">GrowlPluginPreferenceStrings</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -834,14 +851,6 @@
 					<int key="connectionID">146</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">colorChanged:</string>
-						<reference key="source" ref="835727506"/>
-						<reference key="destination" ref="19719476"/>
-					</object>
-					<int key="connectionID">186</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">overall_color</string>
 						<reference key="source" ref="835727506"/>
@@ -850,16 +859,24 @@
 					<int key="connectionID">187</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: limit</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
 						<reference key="source" ref="1050800351"/>
-						<reference key="destination" ref="835727506"/>
+						<reference key="destination" ref="26604610"/>
+					</object>
+					<int key="connectionID">149</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.growlDisplayLimitLines</string>
+						<reference key="source" ref="1050800351"/>
+						<reference key="destination" ref="985304726"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1050800351"/>
-							<reference key="NSDestination" ref="835727506"/>
-							<string key="NSLabel">value: limit</string>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">value: self.growlDisplayLimitLines</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">limit</string>
+							<string key="NSKeyPath">self.growlDisplayLimitLines</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSConditionallySetsEnabled</string>
 								<boolean value="NO" key="NS.object.0"/>
@@ -867,15 +884,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">111</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="1050800351"/>
-						<reference key="destination" ref="26604610"/>
-					</object>
-					<int key="connectionID">149</int>
+					<int key="connectionID">292</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -907,6 +916,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.growlDisplayOpacity</string>
+						<reference key="source" ref="602786070"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="602786070"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">value: self.growlDisplayOpacity</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.growlDisplayOpacity</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">288</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: opacity</string>
 						<reference key="source" ref="797168314"/>
 						<reference key="destination" ref="835727506"/>
@@ -920,6 +945,22 @@
 						</object>
 					</object>
 					<int key="connectionID">107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.growlDisplayDuration</string>
+						<reference key="source" ref="521211789"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="521211789"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">value: self.growlDisplayDuration</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.growlDisplayDuration</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">290</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1003,6 +1044,38 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.growlDisplayScreen</string>
+						<reference key="source" ref="452989961"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="452989961"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">value: self.growlDisplayScreen</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.growlDisplayScreen</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">293</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.growlDisplaySize</string>
+						<reference key="source" ref="881237885"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="881237885"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">value: self.growlDisplaySize</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.growlDisplaySize</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">295</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectedIndex: size</string>
 						<reference key="source" ref="407728155"/>
 						<reference key="destination" ref="835727506"/>
@@ -1030,12 +1103,60 @@
 					<int key="connectionID">151</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.growlDisplaySizeLarge</string>
+						<reference key="source" ref="351074767"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="351074767"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">title: self.growlDisplaySizeLarge</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.growlDisplaySizeLarge</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">299</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.growlDisplaySizeNormal</string>
+						<reference key="source" ref="296294985"/>
+						<reference key="destination" ref="985304726"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="296294985"/>
+							<reference key="NSDestination" ref="985304726"/>
+							<string key="NSLabel">title: self.growlDisplaySizeNormal</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.growlDisplaySizeNormal</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">297</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="19719476"/>
 						<reference key="destination" ref="1050800351"/>
 					</object>
 					<int key="connectionID">190</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentValues: self.colorNames</string>
+						<reference key="source" ref="19719476"/>
+						<reference key="destination" ref="835727506"/>
+						<object class="NSNibBindingConnector" key="connector" id="134911912">
+							<reference key="NSSource" ref="19719476"/>
+							<reference key="NSDestination" ref="835727506"/>
+							<string key="NSLabel">contentValues: self.colorNames</string>
+							<string key="NSBinding">contentValues</string>
+							<string key="NSKeyPath">self.colorNames</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">302</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1048,10 +1169,11 @@
 							<string key="NSLabel">selectedTag: color</string>
 							<string key="NSBinding">selectedTag</string>
 							<string key="NSKeyPath">color</string>
+							<reference key="NSPreviousConnector" ref="134911912"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">191</int>
+					<int key="connectionID">303</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2044,6 +2166,11 @@
 						<reference key="object" ref="574223211"/>
 						<reference key="parent" ref="652988166"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">286</int>
+						<reference key="object" ref="985304726"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2119,6 +2246,7 @@
 					<string>283.IBPluginDependency</string>
 					<string>284.IBPluginDependency</string>
 					<string>285.IBPluginDependency</string>
+					<string>286.IBPluginDependency</string>
 					<string>34.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>34.IBPluginDependency</string>
 					<string>6.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
@@ -2247,6 +2375,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
@@ -2290,11 +2419,19 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">285</int>
+			<int key="maxID">303</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlPluginPreferenceStrings</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlPluginPreferenceStrings.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">GrowliCalPrefsController</string>
 					<string key="superclassName">NSPreferencePane</string>

@@ -9,7 +9,55 @@
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
 
+#define bezelPositionDefault NSLocalizedString(@"Default", @"Default position option")
+#define bezelPositionTopRight NSLocalizedString(@"Top Right", @"Top right position option")
+#define bezelPositionBottomRight NSLocalizedString(@"Bottom Right", @"Bottom right position option")
+#define bezelPositionBottomLeft NSLocalizedString(@"Bottom Left", @"Bottom Left position option")
+#define bezelPositionTopLeft NSLocalizedString(@"Top Left", @"Top left position option")
+
 @implementation GrowlBezelPrefs
+
+@synthesize styleLabel;
+@synthesize positionLabel;
+@synthesize shrinkLabel;
+@synthesize flipLabel;
+
+@synthesize styleDefault;
+@synthesize styleCharcoal;
+
+@synthesize positionStrings;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.styleLabel = NSLocalizedString(@"Style:", @"Label for bezel style picker");
+      self.positionLabel = NSLocalizedString(@"Position:", @"Label for position picker");
+      self.shrinkLabel = NSLocalizedString(@"Shrink", @"Shrink checkbox label");
+      self.flipLabel = NSLocalizedString(@"Flip", @"Flip checkbox label");
+      
+      self.styleDefault = NSLocalizedString(@"Default", @"Default style option");
+      self.styleCharcoal = NSLocalizedString(@"Charcoal", @"Charcoal style option");
+      
+      self.positionStrings = [NSArray arrayWithObjects:bezelPositionDefault,
+                                                       bezelPositionTopRight,
+                                                       bezelPositionBottomRight,
+                                                       bezelPositionBottomLeft,
+                                                       bezelPositionTopLeft, nil];
+   }
+   return self;
+}
+
+- (void)dealloc {
+   [styleLabel release];
+   [positionLabel release];
+   [shrinkLabel release];
+   [flipLabel release];
+   
+   [styleDefault release];
+   [styleCharcoal release];
+   
+   [positionStrings release];
+   [super dealloc];
+}
 
 - (NSString *) mainNibName {
 	return @"GrowlBezelPrefs";
