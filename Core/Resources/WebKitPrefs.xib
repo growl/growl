@@ -565,39 +565,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.limitLinesCheckboxTitle</string>
-						<reference key="source" ref="384128028"/>
-						<reference key="destination" ref="18940131"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="384128028"/>
-							<reference key="NSDestination" ref="18940131"/>
-							<string key="NSLabel">title: self.limitLinesCheckboxTitle</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.limitLinesCheckboxTitle</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">343</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: self.growlDisplayLimitLines</string>
+						<string key="label">title: self.growlDisplayLimitLines</string>
 						<reference key="source" ref="384128028"/>
 						<reference key="destination" ref="990178916"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="384128028"/>
 							<reference key="NSDestination" ref="990178916"/>
-							<string key="NSLabel">value: self.growlDisplayLimitLines</string>
-							<string key="NSBinding">value</string>
+							<string key="NSLabel">title: self.growlDisplayLimitLines</string>
+							<string key="NSBinding">title</string>
 							<string key="NSKeyPath">self.growlDisplayLimitLines</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">370</int>
+					<int key="connectionID">375</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1571,7 +1551,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">372</int>
+			<int key="maxID">375</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
