@@ -5193,6 +5193,7 @@
 		};
 		BC29B29114D12D5300C72855 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -5227,6 +5228,7 @@
 		};
 		BC29B29214D12D5300C72855 /* Localization */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -5254,6 +5256,7 @@
 		};
 		BC29B29314D12D5300C72855 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
