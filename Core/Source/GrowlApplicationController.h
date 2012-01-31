@@ -44,6 +44,7 @@ typedef enum {
     GrowlFirstLaunchWindowController *firstLaunchWindow;
     
     NSString                    *audioDeviceIdentifier;
+   NSString                     *urlOnLaunch;
    
    GrowlPreferencePane *preferencesWindow;
 }

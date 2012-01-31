@@ -107,7 +107,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
-
+		growlFinishedLaunching = NO;
+		urlOnLaunch = nil;
 		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
 		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
@@ -691,16 +692,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    }
 }
 
-- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
-{
-   NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
-   NSString *escaped = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-   if(!escaped || [escaped isEqualToString:@""])
-      return;
-   if(![escaped hasPrefix:@"growl://"])
-      return;
-   
-   NSString *shortened = [escaped stringByReplacingOccurrencesOfString:@"growl://" withString:@""];
+-(void)parseURLString:(NSString*)urlString 
+{   
+   NSString *shortened = [urlString stringByReplacingOccurrencesOfString:@"growl://" withString:@""];
    NSArray *components = [shortened componentsSeparatedByString:@"/"];
    if([components count] == 0)
       return;
@@ -757,6 +751,23 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
             [preferences setSelectedPreferenceTab:6];
          }
       }
+   }
+}
+
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+{
+   NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+   NSString *escaped = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   if(!escaped || [escaped isEqualToString:@""])
+      return;
+   if(![escaped hasPrefix:@"growl://"])
+      return;
+   
+   if(!growlFinishedLaunching){
+      urlOnLaunch = [escaped retain];
+      return;
+   }else{
+      [self parseURLString:escaped];
    }
 }
 
@@ -945,6 +956,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
 	growlFinishedLaunching = YES;
+   
+   if(urlOnLaunch){
+      [self parseURLString:urlOnLaunch];
+      [urlOnLaunch release];
+      urlOnLaunch = nil;
+   }
 
 	if (quitAfterOpen) {
 		//We provide a delay of 1 second to give NSApp time to send us application:openFile: messages for any .growlRegDict files the GrowlPropertyListFilePathway needs to process.
