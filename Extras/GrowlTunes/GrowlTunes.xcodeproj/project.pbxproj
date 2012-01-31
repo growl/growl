@@ -329,6 +329,8 @@
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
+		839B9CF314D8AFC00042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		839B9CF414D8AFCC0042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -667,6 +669,7 @@
 				nb,
 				"zh-Hans",
 				"zh-Hant",
+				ru,
 			);
 			mainGroup = 6A9ED3751447D04F002A0537;
 			productRefGroup = 6A9ED3811447D04F002A0537 /* Products */;
@@ -918,6 +921,7 @@
 				6A5152E014D5179000E48670 /* nb */,
 				6A5152E214D5179000E48670 /* zh-Hans */,
 				6A5152E414D5179100E48670 /* zh-Hant */,
+				839B9CF414D8AFCC0042C2A4 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -940,6 +944,7 @@
 				6A5152E114D5179000E48670 /* nb */,
 				6A5152E314D5179000E48670 /* zh-Hans */,
 				6A5152E514D5179100E48670 /* zh-Hant */,
+				839B9CF314D8AFC00042C2A4 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
