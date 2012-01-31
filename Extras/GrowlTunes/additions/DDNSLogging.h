@@ -38,10 +38,6 @@
                                              kLoggerOption_UseSSL)
 #endif
 
-#ifndef DDNSLoggerDefaultHost
-#define DDNSLoggerDefaultHost               "127.0.0.1"
-#endif
-
 #ifndef DDNSLoggerDefaultService
 #define DDNSLoggerDefaultService            "DDNSLogger"
 #endif

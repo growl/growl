@@ -147,17 +147,12 @@ static char imageKey;
 
 __strong static DDNSLogger* sharedInstance;
 
-+(void)initialize
-{
-    static BOOL initialized = NO;
-    if (!initialized) {
-        initialized = YES;
-        sharedInstance = [[DDNSLogger alloc] init];
-    }
-}
-
 +(DDNSLogger*)sharedInstance
 {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[DDNSLogger alloc] init];
+    });
     return sharedInstance;
 }
 
@@ -176,7 +171,6 @@ __strong static DDNSLogger* sharedInstance;
                                 [NSString stringWithCString:DDNSLoggerDefaultBufferFilename 
                                                    encoding:NSUTF8StringEncoding]];
         LoggerSetBufferFile(nslogger, (__bridge CFStringRef)bufferPath);
-        LoggerSetViewerHost(nslogger, CFSTR(DDNSLoggerDefaultHost), 50000);
         LoggerSetupBonjour(nslogger, NULL, CFSTR(DDNSLoggerDefaultService));
         LoggerStart(nslogger);
     }
