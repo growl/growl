@@ -764,6 +764,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       return;
    
    if(!growlFinishedLaunching){
+      if(urlOnLaunch){
+         NSLog(@"Replacing URL to handle %@ with %@", urlOnLaunch, escaped);
+         [urlOnLaunch release];
+      }
       urlOnLaunch = [escaped retain];
       return;
    }else{
