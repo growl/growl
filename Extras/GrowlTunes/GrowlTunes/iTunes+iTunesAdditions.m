@@ -126,7 +126,7 @@
     SBElementArray* artworks = [self artworks];
     if ([artworks count] == 0) return nil;
     
-    ITunesArtwork* artwork = [artworks lastObject];
+    ITunesArtwork* artwork = [artworks objectAtIndex:0];
     if (![artwork exists]) return nil;
     
     artwork = [artwork get];
