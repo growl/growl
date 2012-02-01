@@ -52,7 +52,6 @@
 		6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */; };
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
-		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
 		6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */; };
 		6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CA147F02B80075A826 /* defaults.plist */; };
 		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */; };
@@ -199,17 +198,6 @@
 				6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */,
 			);
 			name = "Copy Framework";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6A8959501447D5FB009D09FC /* Copy XPCServices */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/XPCServices;
-			dstSubfolderSpec = 1;
-			files = (
-				6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */,
-			);
-			name = "Copy XPCServices";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -607,7 +595,6 @@
 				6A9ED37D1447D04F002A0537 /* Frameworks */,
 				6A9ED37E1447D04F002A0537 /* Resources */,
 				6A89594E1447D458009D09FC /* Copy Framework */,
-				6A8959501447D5FB009D09FC /* Copy XPCServices */,
 				6A8959541447DA5D009D09FC /* Fix GNTP XPC */,
 			);
 			buildRules = (
