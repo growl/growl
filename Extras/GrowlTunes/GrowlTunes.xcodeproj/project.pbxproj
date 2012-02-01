@@ -38,7 +38,6 @@
 		6A34E65114A26A0E001CFA45 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3871447D04F002A0537 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AADA337144902060089AB08 /* ScriptingBridge.framework */; };
 		6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
-		6A5152E614D5179100E48670 /* GrowlTunes-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38C1447D04F002A0537 /* GrowlTunes-Info.plist */; };
 		6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30A1447F0F40089AB08 /* GrowlTunes.entitlements */; };
 		6A5152E814D5179100E48670 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A5152E914D5179100E48670 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30B1448AF570089AB08 /* Localizable.strings */; };
@@ -53,7 +52,6 @@
 		6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */; };
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
-		6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */ = {isa = PBXBuildFile; fileRef = 6A8959481447D221009D09FC /* com.company.application.GNTPClientService.xpc */; };
 		6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */; };
 		6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CA147F02B80075A826 /* defaults.plist */; };
 		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */; };
@@ -202,17 +200,6 @@
 			name = "Copy Framework";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A8959501447D5FB009D09FC /* Copy XPCServices */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/XPCServices;
-			dstSubfolderSpec = 1;
-			files = (
-				6A8959511447D61A009D09FC /* com.company.application.GNTPClientService.xpc in Copy XPCServices */,
-			);
-			name = "Copy XPCServices";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -251,7 +238,7 @@
 		6A5152CB14D515F400E48670 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A5152CC14D515F400E48670 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152CD14D515F400E48670 /* es-AR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-AR"; path = "es-AR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		6A5152CE14D515F400E48670 /* es-AR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-AR"; path = "es-AR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A5152CE14D515F400E48670 /* es-AR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-AR"; path = "es-AR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A5152CF14D515F400E48670 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A5152D014D515F400E48670 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A5152D114D515F400E48670 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -329,6 +316,8 @@
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
+		839B9CF314D8AFC00042C2A4 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		839B9CF414D8AFCC0042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -606,7 +595,6 @@
 				6A9ED37D1447D04F002A0537 /* Frameworks */,
 				6A9ED37E1447D04F002A0537 /* Resources */,
 				6A89594E1447D458009D09FC /* Copy Framework */,
-				6A8959501447D5FB009D09FC /* Copy XPCServices */,
 				6A8959541447DA5D009D09FC /* Fix GNTP XPC */,
 			);
 			buildRules = (
@@ -667,6 +655,7 @@
 				nb,
 				"zh-Hans",
 				"zh-Hant",
+				ru,
 			);
 			mainGroup = 6A9ED3751447D04F002A0537;
 			productRefGroup = 6A9ED3811447D04F002A0537 /* Products */;
@@ -799,7 +788,6 @@
 				6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */,
 				6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */,
 				6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */,
-				6A5152E614D5179100E48670 /* GrowlTunes-Info.plist in Resources */,
 				6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */,
 				6A5152E814D5179100E48670 /* InfoPlist.strings in Resources */,
 				6A5152E914D5179100E48670 /* Localizable.strings in Resources */,
@@ -821,7 +809,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "export MYID=\"com.growl.GrowlTunes\"\nexport APPNAME=\"GrowlTunes\"\nexport MYENTITLEMENTS=\"${PROJECT_DIR}/${APPNAME}.entitlements\"\nsource \"${PROJECT_DIR}/xpcfix.sh\"\n";
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"\n";
 		};
 		6ABECBB014590C7B00C9C9FC /* genstrings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -918,6 +906,7 @@
 				6A5152E014D5179000E48670 /* nb */,
 				6A5152E214D5179000E48670 /* zh-Hans */,
 				6A5152E414D5179100E48670 /* zh-Hant */,
+				839B9CF414D8AFCC0042C2A4 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -940,6 +929,7 @@
 				6A5152E114D5179000E48670 /* nb */,
 				6A5152E314D5179000E48670 /* zh-Hans */,
 				6A5152E514D5179100E48670 /* zh-Hant */,
+				839B9CF314D8AFC00042C2A4 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -973,7 +963,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

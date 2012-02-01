@@ -71,10 +71,10 @@
 "Start iTunes" = "Öppna iTunes";
 
 /* No comment provided by engineer. */
-"Started" = "Startade";
+"Started" = "Startad";
 
 /* No comment provided by engineer. */
-"Stopped" = "Stoppade";
+"Stopped" = "Stoppad";
 
 /* No comment provided by engineer. */
 "Stream Title" = "Strömtitel";
@@ -99,3 +99,4 @@
 
 /* No comment provided by engineer. */
 "▶ Play/Pause" = "▶ Spela/Pausa";
+
