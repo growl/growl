@@ -68,7 +68,11 @@
 #define DDNS_LOG_LEVEL_DEBUG        (DDNS_LOG_FLAG_ERROR | DDNS_LOG_FLAG_WARN | DDNS_LOG_FLAG_INFO | \
                                      DDNS_LOG_FLAG_VERBOSE | DDNS_LOG_FLAG_DEBUG)
 
+#if defined(NDEBUG)
 #define DDNS_LOG_LEVEL_DEFAULT      DDNS_LOG_LEVEL_WARN
+#else
+#define DDNS_LOG_LEVEL_DEFAULT      DDNS_LOG_LEVEL_VERBOSE
+#endif
 
 #define DDNS_LOG_ERROR              (ddLogLevel & DDNS_LOG_ERROR)
 #define DDNS_LOG_WARN               (ddLogLevel & DDNS_LOG_WARN)

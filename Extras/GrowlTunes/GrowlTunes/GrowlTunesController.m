@@ -149,11 +149,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     
     NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
     NSImage* icon = [[NSImage alloc] initByReferencingURL:iconURL];
-    NSData* iconData = nil;
-    if (icon) {
-        LogImage(icon);
-        iconData = [icon TIFFRepresentation];
-    }
     
     NSDictionary* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"GrowlTunes",             GROWL_APP_NAME,
@@ -161,7 +156,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
                              allNotifications,          GROWL_NOTIFICATIONS_ALL,
                              allNotifications,          GROWL_NOTIFICATIONS_DEFAULT,
                              notifications,             GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
-                             iconData,                  GROWL_APP_ICON_DATA,
+                             icon,                      GROWL_APP_ICON_DATA,
                              nil];
     
     RELEASE(icon);
@@ -192,31 +187,37 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification*)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
     
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#if !defined(DEBUG)
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+#endif
 #if defined(NSLOGGER)
     [DDLog addLogger:[DDNSLogger sharedInstance]];
-#endif
-    
-#if defined(BETA)
-    [self expiryCheck];
 #endif
     
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
     
-    [self createStatusItem];
-    
-    if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
-    [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
-    
 #if defined(FSCRIPT)
-    // not entirely sandbox friendly ;(
-    BOOL loaded = [[NSBundle bundleWithPath:@"/Library/Frameworks/FScript.framework"] load];
+    // fscript isn't entirely sandbox friendly ;(
+    
+    BOOL __block loaded = NO;
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, 
+                                                         (NSUserDomainMask | NSLocalDomainMask), YES);
+    [paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString* frameworks = [(NSString*)obj stringByAppendingPathComponent:@"Frameworks"];
+        NSString* fscript = [frameworks stringByAppendingPathComponent:@"FScript.framework"];
+        loaded = [[NSBundle bundleWithPath:fscript] load];
+        if (loaded) {
+            LogVerbose(@"loaded FScript from framework at path: %@", fscript);
+            *stop = loaded;
+        }
+    }];
+    
     if (loaded) {
         Class FScriptMenuItem = NSClassFromString(@"FScriptMenuItem");
         id fscMenuItem = AUTORELEASE([[FScriptMenuItem alloc] init]);
@@ -234,6 +235,20 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         [self.statusItemMenu addItem:fscMenuItem];
     }
 #endif
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification*)aNotification
+{
+#pragma unused(aNotification)
+    
+#if defined(BETA)
+    [self expiryCheck];
+#endif
+    
+    [self createStatusItem];
+    
+    if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
+    [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
 }
 
 -(void)dealloc
@@ -368,11 +383,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         _statusItem = [statusBar statusItemWithLength:NSVariableStatusItemLength];
         if (_statusItem) {
             RETAIN(_statusItem);
-//            [_statusItem setMenu:self.statusItemMenu];
             [_statusItem setImage:[NSImage imageNamed:@"GrowlTunes-Template.pdf"]];
             [_statusItem setHighlightMode:YES];
             [_statusItem setAction:@selector(openMenu:)];
             [_statusItem setTarget:self];
+//            [_statusItem setMenu:self.statusItemMenu];
         }
     }
 }
@@ -381,10 +396,12 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
 #pragma unused(sender)
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"enableLoggingConfiguration"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableLoggingConfiguration"]) {
+        LogVerbose(@"populating logging menu");
         [self populateLoggingMenu];
     }
     
+    LogVerbose(@"popUpStatusItemMenu:");
     [_statusItem popUpStatusItemMenu:self.statusItemMenu];
 }
 
