@@ -13,12 +13,12 @@
 @interface FormattedItemViewController ()
 -(void)observeSelf;
 -(void)calculateSize;
-@property(readwrite, nonatomic, retain) IBOutlet NSImageView* artworkView;
-@property(readwrite, nonatomic, retain) IBOutlet NSTextField* titleField;
-@property(readwrite, nonatomic, retain) IBOutlet NSTextField* detailsField;
-@property(readwrite, nonatomic, retain) IBOutlet NSImage* icon;
-@property(readwrite, nonatomic, retain) IBOutlet NSString* title;
-@property(readwrite, nonatomic, retain) IBOutlet NSString* details;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSImageView* artworkView;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSTextField* titleField;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSTextField* detailsField;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSImage* icon;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSString* title;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSString* details;
 @end
 
 

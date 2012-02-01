@@ -21,7 +21,7 @@
 @property(readonly, nonatomic, assign) NSTokenStyle tokenStyle;
 @property(readonly, nonatomic, copy) NSString* editingString;
 @property(readonly, nonatomic, copy) NSString* displayString;
-@property(readonly, nonatomic, retain) NSString* lookupKey;
+@property(readonly, nonatomic, STRONG) NSString* lookupKey;
 
 -(id)initWithEditingString:(NSString*)editingString;
 

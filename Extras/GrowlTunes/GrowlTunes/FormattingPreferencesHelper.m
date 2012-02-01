@@ -12,12 +12,12 @@
 
 @interface FormattingPreferencesHelper ()
 
-@property(readwrite, retain, atomic) NSMutableDictionary* podcast;
-@property(readwrite, retain, atomic) NSMutableDictionary* stream;
-@property(readwrite, retain, atomic) NSMutableDictionary* show;
-@property(readwrite, retain, atomic) NSMutableDictionary* movie;
-@property(readwrite, retain, atomic) NSMutableDictionary* musicVideo;
-@property(readwrite, retain, atomic) NSMutableDictionary* music;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* podcast;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* stream;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* show;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* movie;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* musicVideo;
+@property(readwrite, STRONG, atomic) NSMutableDictionary* music;
 
 -(void)loadDefaults;
 -(void)saveDefaults;

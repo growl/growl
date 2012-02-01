@@ -20,10 +20,10 @@
     NSDictionary* _formattedDescription;
 }
 
-@property(readwrite, nonatomic, retain) IBOutlet NSDictionary* formattedDescription;
+@property(readwrite, nonatomic, STRONG) IBOutlet NSDictionary* formattedDescription;
 
-@property(readonly, nonatomic, retain) IBOutlet NSImage* icon;
-@property(readonly, nonatomic, retain) IBOutlet NSString* title;
-@property(readonly, nonatomic, retain) IBOutlet NSString* details;
+@property(readonly, nonatomic, STRONG) IBOutlet NSImage* icon;
+@property(readonly, nonatomic, STRONG) IBOutlet NSString* title;
+@property(readonly, nonatomic, STRONG) IBOutlet NSString* details;
 
 @end

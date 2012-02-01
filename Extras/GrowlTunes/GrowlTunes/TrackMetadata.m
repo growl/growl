@@ -15,8 +15,8 @@
 
 @interface TrackMetadata ()
 
-@property(readwrite, retain, nonatomic) ITunesTrack* trackObject;
-@property(readwrite, retain, nonatomic) NSMutableDictionary* cache;
+@property(readwrite, STRONG, nonatomic) ITunesTrack* trackObject;
+@property(readwrite, STRONG, nonatomic) NSMutableDictionary* cache;
 @property(readwrite, assign, nonatomic) BOOL isEvaluated;
 
 +(NSArray*)propertiesForTrackClass:(NSString*)className;

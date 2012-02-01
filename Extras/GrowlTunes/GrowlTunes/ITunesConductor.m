@@ -14,9 +14,9 @@
 
 @property(readwrite, nonatomic, assign) BOOL isRunning;
 @property(readwrite, nonatomic, assign) ITunesEPlS currentPlayerState;
-@property(readwrite, nonatomic, retain) NSString* currentPersistentID;
-@property(readwrite, nonatomic, retain) TrackMetadata* metaTrack;
-@property(readwrite, nonatomic, retain) TrackMetadata* currentTrack;
+@property(readwrite, nonatomic, STRONG) NSString* currentPersistentID;
+@property(readwrite, nonatomic, STRONG) TrackMetadata* metaTrack;
+@property(readwrite, nonatomic, STRONG) TrackMetadata* currentTrack;
 
 - (void)didLaunchOrTerminateNotification:(NSNotification*)note;
 - (void)playerInfo:(NSNotification*)note;

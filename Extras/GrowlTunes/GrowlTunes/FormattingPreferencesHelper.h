@@ -21,12 +21,12 @@
     NSUserDefaults* _defaults;
 }
 
-@property(readonly, retain, atomic) NSMutableDictionary* podcast;
-@property(readonly, retain, atomic) NSMutableDictionary* stream;
-@property(readonly, retain, atomic) NSMutableDictionary* show;
-@property(readonly, retain, atomic) NSMutableDictionary* movie;
-@property(readonly, retain, atomic) NSMutableDictionary* musicVideo;
-@property(readonly, retain, atomic) NSMutableDictionary* music;
+@property(readonly, STRONG, atomic) NSMutableDictionary* podcast;
+@property(readonly, STRONG, atomic) NSMutableDictionary* stream;
+@property(readonly, STRONG, atomic) NSMutableDictionary* show;
+@property(readonly, STRONG, atomic) NSMutableDictionary* movie;
+@property(readonly, STRONG, atomic) NSMutableDictionary* musicVideo;
+@property(readonly, STRONG, atomic) NSMutableDictionary* music;
 
 -(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute;
 

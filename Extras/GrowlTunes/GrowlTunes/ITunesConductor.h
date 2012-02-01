@@ -31,10 +31,10 @@
 @property(readonly, nonatomic, assign) BOOL isRewinding;
 @property(readonly, nonatomic, assign) BOOL isFrontmost;
 @property(readonly, nonatomic, assign) ITunesEPlS currentPlayerState;
-@property(readonly, nonatomic, retain) NSString* currentPersistentID;
-@property(readonly, nonatomic, retain) TrackMetadata* currentTrack;
+@property(readonly, nonatomic, STRONG) NSString* currentPersistentID;
+@property(readonly, nonatomic, STRONG) TrackMetadata* currentTrack;
 
-@property(readwrite, nonatomic, retain) NSNumber* volume;
+@property(readwrite, nonatomic, STRONG) NSNumber* volume;
 
 - (void)bootstrap;
 

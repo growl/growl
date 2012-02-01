@@ -17,22 +17,22 @@
 
 @interface GrowlTunesController ()
 
-@property(readwrite, retain, nonatomic) IBOutlet ITunesConductor* conductor;
+@property(readwrite, STRONG, nonatomic) IBOutlet ITunesConductor* conductor;
+@property(readonly, assign, nonatomic) BOOL noMeansNo;
+@property(readwrite, STRONG, nonatomic) id <DDLogFormatter> formatter;
 
-@property(readonly, nonatomic) BOOL noMeansNo;
-
-@property(readonly, retain, nonatomic) NSString* stringPlayPause;
-@property(readonly, retain, nonatomic) NSString* stringNextTrack;
-@property(readonly, retain, nonatomic) NSString* stringPreviousTrack;
-@property(readonly, retain, nonatomic) NSString* stringRating;
-@property(readonly, retain, nonatomic) NSString* stringVolume;
-@property(readonly, retain, nonatomic) NSString* stringBringITunesToFront;
-@property(readonly, retain, nonatomic) NSString* stringQuitBoth;
-@property(readonly, retain, nonatomic) NSString* stringQuitITunes;
-@property(readonly, retain, nonatomic) NSString* stringQuitGrowlTunes;
-@property(readonly, retain, nonatomic) NSString* stringStartITunes;
-@property(readonly, retain, nonatomic) NSString* stringNotifyWithITunesActive;
-@property(readonly, retain, nonatomic) NSString* stringConfigureFormatting;
+@property(readonly, STRONG, nonatomic) NSString* stringPlayPause;
+@property(readonly, STRONG, nonatomic) NSString* stringNextTrack;
+@property(readonly, STRONG, nonatomic) NSString* stringPreviousTrack;
+@property(readonly, STRONG, nonatomic) NSString* stringRating;
+@property(readonly, STRONG, nonatomic) NSString* stringVolume;
+@property(readonly, STRONG, nonatomic) NSString* stringBringITunesToFront;
+@property(readonly, STRONG, nonatomic) NSString* stringQuitBoth;
+@property(readonly, STRONG, nonatomic) NSString* stringQuitITunes;
+@property(readonly, STRONG, nonatomic) NSString* stringQuitGrowlTunes;
+@property(readonly, STRONG, nonatomic) NSString* stringStartITunes;
+@property(readonly, STRONG, nonatomic) NSString* stringNotifyWithITunesActive;
+@property(readonly, STRONG, nonatomic) NSString* stringConfigureFormatting;
 
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
@@ -58,6 +58,7 @@
 @synthesize currentTrackMenuItem = _currentTrackMenuItem;
 @synthesize currentTrackController = _currentTrackController;
 @synthesize loggingMenu = _loggingMenu;
+@synthesize formatter = _formatter;
 
 
 static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
@@ -191,12 +192,17 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
 #pragma unused(aNotification)
     
+    self.formatter = [[DispatchQueueLogFormatter alloc] init];
+    
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    [[DDTTYLogger sharedInstance] setLogFormatter:self.formatter];
 #if !defined(DEBUG)
     [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [[DDASLLogger sharedInstance] setLogFormatter:self.formatter];
 #endif
 #if defined(NSLOGGER)
     [DDLog addLogger:[DDNSLogger sharedInstance]];
+    [[DDNSLogger sharedInstance] setLogFormatter:self.formatter];
 #endif
     
     [GrowlApplicationBridge setGrowlDelegate:self];
@@ -260,6 +266,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     RELEASE(_currentTrackController);
     RELEASE(_statusItem);
     RELEASE(_formatwc);
+    RELEASE(_formatter);
     SUPER_DEALLOC;
 }
 
