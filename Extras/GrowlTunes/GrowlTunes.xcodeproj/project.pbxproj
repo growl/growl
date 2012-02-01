@@ -822,7 +822,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "export MYID=\"com.growl.GrowlTunes\"\nexport APPNAME=\"GrowlTunes\"\nexport MYENTITLEMENTS=\"${PROJECT_DIR}/${APPNAME}.entitlements\"\nsource \"${PROJECT_DIR}/xpcfix.sh\"\n";
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"\n";
 		};
 		6ABECBB014590C7B00C9C9FC /* genstrings */ = {
 			isa = PBXShellScriptBuildPhase;
