@@ -38,7 +38,6 @@
 		6A34E65114A26A0E001CFA45 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3871447D04F002A0537 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AADA337144902060089AB08 /* ScriptingBridge.framework */; };
 		6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
-		6A5152E614D5179100E48670 /* GrowlTunes-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38C1447D04F002A0537 /* GrowlTunes-Info.plist */; };
 		6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30A1447F0F40089AB08 /* GrowlTunes.entitlements */; };
 		6A5152E814D5179100E48670 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A5152E914D5179100E48670 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30B1448AF570089AB08 /* Localizable.strings */; };
@@ -802,7 +801,6 @@
 				6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */,
 				6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */,
 				6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */,
-				6A5152E614D5179100E48670 /* GrowlTunes-Info.plist in Resources */,
 				6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */,
 				6A5152E814D5179100E48670 /* InfoPlist.strings in Resources */,
 				6A5152E914D5179100E48670 /* Localizable.strings in Resources */,
