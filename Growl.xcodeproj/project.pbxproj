@@ -277,74 +277,9 @@
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
 		BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
-		BC2250BC14D744670026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250BE14D7446E0026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250C014D744740026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250C214D7447C0026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250C414D744860026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250C614D7448C0026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250C814D744950026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250CA14D7449A0026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250CC14D744A00026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250CE14D744A50026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250D014D744AA0026D5D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC2250D214D744B20026D5D7 /* PluginPrefStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A38814D72F1400B055FE /* PluginPrefStrings.strings */; };
-		BC2250D414D744BB0026D5D7 /* PluginPrefStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A38814D72F1400B055FE /* PluginPrefStrings.strings */; };
-		BC2250D614D7450D0026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250D814D745150026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250DA14D7451B0026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250DC14D745200026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250DD14D745250026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250DF14D745320026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250E114D745380026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250E314D7453F0026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250E514D745450026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250E714D7454E0026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250E914D745540026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250EB14D745590026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250ED14D7455E0026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		BC2250EF14D745660026D5D7 /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
 		BC2250F114D745830026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC2250F314D7459B0026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
 		BC2250F414D745A00026D5D7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33014D704C000B055FE /* Localizable.strings */; };
-		BC2250F614D745AF0026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC2250F814D745B40026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC2250FA14D745BC0026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC2250FC14D745C00026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC2250FE14D745C60026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510014D745CD0026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510214D745D20026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510414D745D80026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510614D745DD0026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510814D745F10026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510A14D745F60026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
-		BC22510C14D746040026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22510E14D7460A0026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511014D7460F0026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511214D746150026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511414D7461E0026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511614D746250026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511814D7462C0026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511A14D746320026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511C14D746370026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22511E14D7463C0026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22512014D746420026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22512214D746490026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
-		BC22512414D746500026D5D7 /* GrowlBezelPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34E14D7271900B055FE /* GrowlBezelPrefs.xib */; };
 		BC22512614D746640026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22512814D7466E0026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22512A14D746740026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22512C14D746790026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22512D14D7467F0026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22512F14D7469F0026D5D7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33614D7239000B055FE /* Localizable.strings */; };
-		BC22513114D746B00026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513314D746B50026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513514D746BD0026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513714D746C20026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513914D746C90026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513B14D746D80026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513D14D746DD0026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
-		BC22513F14D746E50026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
 		BC256C09146D8146000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
 		BC256C18146D88BB000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
 		BC256C19146D88BD000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
@@ -391,19 +326,6 @@
 		BC8B2323146DB0F7004E8971 /* Rollup.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8B2322146DB0F7004E8971 /* Rollup.png */; };
 		BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
-		BC986F9D14D0787100CC5E57 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC986F9F14D0787C00CC5E57 /* mainmenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E214D0666A00132B49 /* mainmenu.strings */; };
-		BC986FA114D0788700CC5E57 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC986FA314D0789600CC5E57 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC986FA514D0789D00CC5E57 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
-		BC986FA714D078A400CC5E57 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
-		BC986FA914D078AF00CC5E57 /* mainmenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E214D0666A00132B49 /* mainmenu.strings */; };
-		BC986FAB14D078B500CC5E57 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
-		BC986FAD14D078BC00CC5E57 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD7146ABFE20074E001 /* About.xib */; };
-		BC986FAF14D078C300CC5E57 /* NetworkPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD3146ABEDE0074E001 /* NetworkPrefs.xib */; };
-		BC986FB114D078C900CC5E57 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD7146ABFE20074E001 /* About.xib */; };
-		BC986FB314D078CF00CC5E57 /* HistoryPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */; };
-		BC986FB514D078D500CC5E57 /* HistoryPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
@@ -2783,7 +2705,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27500855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Bubbles" */;
 			buildPhases = (
-				932659581411B7D30037AA2C /* Generate Localizable.strings */,
 				0A7F5EC50767C2A600E1C1E4 /* Resources */,
 				0A7F5EC70767C2A600E1C1E4 /* Sources */,
 				0A7F5ECA0767C2A600E1C1E4 /* Frameworks */,
@@ -3163,24 +3084,7 @@
 			files = (
 				BC80A32F14D7049A00B055FE /* Localizable.strings in Resources */,
 				BC80A34F14D7271900B055FE /* GrowlBezelPrefs.xib in Resources */,
-				BC22510C14D746040026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22510E14D7460A0026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511014D7460F0026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511214D746150026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511414D7461E0026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511614D746250026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511814D7462C0026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511A14D746320026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511C14D746370026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22511E14D7463C0026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22512014D746420026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22512214D746490026D5D7 /* GrowlBezelPrefs.xib in Resources */,
-				BC22512414D746500026D5D7 /* GrowlBezelPrefs.xib in Resources */,
 				BC22512614D746640026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22512814D7466E0026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22512A14D746740026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22512C14D746790026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22512D14D7467F0026D5D7 /* GrowlMailMePrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3199,15 +3103,6 @@
 				31C7594B1047202B008547BF /* simple-mailer.py in Resources */,
 				BC80A33814D7239000B055FE /* Localizable.strings in Resources */,
 				BC80A35514D7283D00B055FE /* GrowlMailMePrefs.xib in Resources */,
-				BC22512F14D7469F0026D5D7 /* Localizable.strings in Resources */,
-				BC22513114D746B00026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513314D746B50026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513514D746BD0026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513714D746C20026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513914D746C90026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513B14D746D80026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513D14D746DD0026D5D7 /* GrowlMailMePrefs.xib in Resources */,
-				BC22513F14D746E50026D5D7 /* GrowlMailMePrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3240,20 +3135,6 @@
 			files = (
 				BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */,
 				BC80A34914D7261400B055FE /* BrushedPrefs.xib in Resources */,
-				BC2250D614D7450D0026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250D814D745150026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250DA14D7451B0026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250DC14D745200026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250DD14D745250026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250DF14D745320026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250E114D745380026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250E314D7453F0026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250E514D745450026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250E714D7454E0026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250E914D745540026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250EB14D745590026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250ED14D7455E0026D5D7 /* BrushedPrefs.xib in Resources */,
-				BC2250EF14D745660026D5D7 /* BrushedPrefs.xib in Resources */,
 				BC2250F114D745830026D5D7 /* iCalPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3311,38 +3192,12 @@
 				BCEC766014CF7ACF00A0B44D /* WebKitPrefs.xib in Resources */,
 				BC4DE6E414D0666A00132B49 /* mainmenu.strings in Resources */,
 				BC4DE6E614D06B7A00132B49 /* MainMenu.xib in Resources */,
-				BC986F9D14D0787100CC5E57 /* MainMenu.xib in Resources */,
-				BC986F9F14D0787C00CC5E57 /* mainmenu.strings in Resources */,
-				BC986FA114D0788700CC5E57 /* MainMenu.xib in Resources */,
-				BC986FA314D0789600CC5E57 /* MainMenu.xib in Resources */,
-				BC986FA514D0789D00CC5E57 /* MainMenu.xib in Resources */,
-				BC986FA714D078A400CC5E57 /* Localizable.strings in Resources */,
-				BC986FA914D078AF00CC5E57 /* mainmenu.strings in Resources */,
-				BC986FAB14D078B500CC5E57 /* Localizable.strings in Resources */,
-				BC986FAD14D078BC00CC5E57 /* About.xib in Resources */,
-				BC986FAF14D078C300CC5E57 /* NetworkPrefs.xib in Resources */,
-				BC986FB114D078C900CC5E57 /* About.xib in Resources */,
-				BC986FB314D078CF00CC5E57 /* HistoryPrefs.xib in Resources */,
-				BC986FB514D078D500CC5E57 /* HistoryPrefs.xib in Resources */,
 				BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */,
 				BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */,
 				BC0D31DD14D3045400587B7B /* WhatsNew.rtf in Resources */,
 				BC0D31E014D3073E00587B7B /* StartAtLogin.rtf in Resources */,
 				BC0D31E414D3266100587B7B /* OldGrowl.rtf in Resources */,
 				BC80A38A14D72F1400B055FE /* PluginPrefStrings.strings in Resources */,
-				BC2250BC14D744670026D5D7 /* MainMenu.xib in Resources */,
-				BC2250BE14D7446E0026D5D7 /* MainMenu.xib in Resources */,
-				BC2250C014D744740026D5D7 /* MainMenu.xib in Resources */,
-				BC2250C214D7447C0026D5D7 /* MainMenu.xib in Resources */,
-				BC2250C414D744860026D5D7 /* MainMenu.xib in Resources */,
-				BC2250C614D7448C0026D5D7 /* MainMenu.xib in Resources */,
-				BC2250C814D744950026D5D7 /* MainMenu.xib in Resources */,
-				BC2250CA14D7449A0026D5D7 /* MainMenu.xib in Resources */,
-				BC2250CC14D744A00026D5D7 /* MainMenu.xib in Resources */,
-				BC2250CE14D744A50026D5D7 /* MainMenu.xib in Resources */,
-				BC2250D014D744AA0026D5D7 /* MainMenu.xib in Resources */,
-				BC2250D214D744B20026D5D7 /* PluginPrefStrings.strings in Resources */,
-				BC2250D414D744BB0026D5D7 /* PluginPrefStrings.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3360,19 +3215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC80A34D14D726C500B055FE /* iCalPrefs.xib in Resources */,
-				BC2250F314D7459B0026D5D7 /* iCalPrefs.xib in Resources */,
 				BC2250F414D745A00026D5D7 /* Localizable.strings in Resources */,
-				BC2250F614D745AF0026D5D7 /* iCalPrefs.xib in Resources */,
-				BC2250F814D745B40026D5D7 /* iCalPrefs.xib in Resources */,
-				BC2250FA14D745BC0026D5D7 /* iCalPrefs.xib in Resources */,
-				BC2250FC14D745C00026D5D7 /* iCalPrefs.xib in Resources */,
-				BC2250FE14D745C60026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510014D745CD0026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510214D745D20026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510414D745D80026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510614D745DD0026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510814D745F10026D5D7 /* iCalPrefs.xib in Resources */,
-				BC22510A14D745F60026D5D7 /* iCalPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3480,20 +3323,6 @@
 			shellPath = /bin/sh;
 			shellScript = "genstrings -o Plugins/Displays/Brushed/en.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m";
 			showEnvVarsInLog = 0;
-		};
-		932659581411B7D30037AA2C /* Generate Localizable.strings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Localizable.strings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/Bubbles/en.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m";
 		};
 		932659591411B7F00037AA2C /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
