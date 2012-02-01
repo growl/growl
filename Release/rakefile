@@ -49,7 +49,7 @@ $beta          = false
 task :default => "package_everything"
 
 desc "package everything"
-task :package_everything => [:setup, "package:growlnotify", "package:hardwaregrowler", "package:growltunes", "package:growl", "package:sdk"] do
+task :package_everything => [:setup, "package:growlnotify", "package:hardwaregrowler", "package:growltunes", "package:growl", "package:sdk", "package:growltunes"] do
   puts "Done Packaging"
 end
 
@@ -71,6 +71,10 @@ end
 
 desc "package capster"
 task :package_capster => [:setup, "package:capster"] do
+end
+
+desc "package growltunes"
+task :package_growltunes => [:setup, "package:growltunes"] do
 end
 
 desc "basic setup: version header, beta, configuration, cleanup, product root"
@@ -196,13 +200,15 @@ namespace "package" do
   desc "package growltunes"
   task :growltunes => ["build:growltunes"] do
     curdir = FileUtils.pwd()
+    absolute = File.expand_path("#{$product_root}")
+    FileUtils.mkdir_p(absolute)
     FileUtils.cd("#{$build_root}/growltunes/#{$configuration}")
     if !$beta
       system "productbuild --component GrowlTunes.app /Applications --sign \"#{$csi}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{$product_root}"
     else
-      system "zip -r -y #{$product_root}/GrowlTunes.zip GrowlTunes.app/"
+      system "zip -r -y #{$product_root}/GrowlTunes-#{$growl_version}.zip GrowlTunes.app/"
     end
-    system "zip -r #{$product_root}/GrowlTunes-dSYM.zip GrowlTunes.dSYM"
+    system "zip -r #{absolute}/GrowlTunes-#{$growl_version}-dSYM.zip *.dSYM"
     FileUtils.cd(curdir)
   end
 
