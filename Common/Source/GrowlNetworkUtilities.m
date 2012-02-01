@@ -82,9 +82,10 @@
 			NSArray *addresses = (NSArray *)CFHostGetAddressing(host, NULL);
 			
 			if ([addresses count]) {
-				/* DNS lookup success! */
-            CFRelease(host);
-				return [addresses objectAtIndex:0];
+				/* DNS lookup success! Make a copy, as releasing host will deallocate it. */
+                NSData *result = [[[addresses objectAtIndex:0] copy] autorelease];
+                CFRelease(host);
+				return result;
 			}
 		}
 		if (host) CFRelease(host);
