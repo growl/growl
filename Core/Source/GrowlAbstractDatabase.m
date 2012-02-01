@@ -132,13 +132,41 @@
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
 	
-	NSError *error;
+	NSError *error = nil;
+   BOOL launchSuceeded = YES;
    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		exit(-1);  // Fail
-   }    
+      if([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+         NSBeginCriticalAlertSheet(NSLocalizedString(@"Error opening history database.", @"Alert when database has been corrupted"),
+                                   NSLocalizedString(@"Ok", @""),
+                                   nil, nil, nil, nil, nil, nil, nil, 
+                                   NSLocalizedString(@"There was error opening the History database file, it is possibly corrupted.\nGrowl will move the database aside, and create a fresh database.\nThis may have occured if Growl or the computer crashed.", @""));
+         if([[NSFileManager defaultManager] moveItemAtPath:storePath toPath:[storePath stringByAppendingPathExtension:@"bak"] error:nil]){
+            NSError *tryTwoError = nil;
+            if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&tryTwoError]){
+               launchSuceeded = NO;
+               NSLog(@"Unresolved error after moving corrupt database aside\n%@, %@", tryTwoError, [tryTwoError userInfo]);
+            }
+         }else{
+            NSLog(@"Unable to move database file aside. We will be disabling history");
+            launchSuceeded = NO;
+         }
+      }else{
+         //If the database isn't there, and Growl couldn't create it, there is something seriously weird going on the users system. 
+         NSLog(@"Error creating persistent store\n%@, %@", error, [error userInfo]);
+         launchSuceeded = NO;
+      }
+   }
+   
+   if(!launchSuceeded){
+      NSBeginCriticalAlertSheet(NSLocalizedString(@"Disabling History", @"alert when history database could not be moved aside"),
+                                NSLocalizedString(@"Ok", @""),
+                                nil, nil, nil, nil, nil, nil, nil, 
+                                NSLocalizedString(@"An uncorrectable error occured in creating or opening the History Database.\nWe are disabling history for the time being.", @""));
+      [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
+      return nil;
+   }
    
    return persistentStoreCoordinator;
 }
