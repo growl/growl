@@ -80,6 +80,7 @@
 
 - (void)showWindow:(id)sender
 {   
+   [toolbar setVisible:YES];
     //if we're visible but not on the active space then go ahead and close the window
     if ([self.window isVisible] && ![self.window isOnActiveSpace])
         [self.window orderOut:self];
@@ -240,9 +241,19 @@
     return [[toolbar visibleItems] containsObject:theItem];
 }
 
--(NSArray*)toolbarSelectableItems:(NSToolbar*)theToolbar
+-(NSArray*)toolbarSelectableItemIdentifiers:(NSToolbar*)aToolbar
 {
-    return [toolbar visibleItems];
+    return [NSArray arrayWithObjects:@"0", @"1", @"2", @"3", @"4", @"5", @"6", nil];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+   return [NSArray arrayWithObjects:NSToolbarFlexibleSpaceItemIdentifier, @"0", @"1", @"2", @"3", @"4", @"5", @"6", nil];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)aToolbar 
+{
+   return [NSArray arrayWithObjects:NSToolbarFlexibleSpaceItemIdentifier, @"0", @"1", @"2", @"3", @"4", @"5", @"6", NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
 -(void)releaseTab:(GrowlPrefsViewController *)tab
