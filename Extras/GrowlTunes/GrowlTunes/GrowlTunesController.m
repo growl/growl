@@ -351,9 +351,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     
     if (class == [NSNull null]) {
         NSArray* classes = [DDLog registeredClasses];
-        for (Class class in classes) {
-            [DDLog setLogLevel:[level intValue] forClass:class];
-            LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
+        for (Class _class in classes) {
+            [DDLog setLogLevel:[level intValue] forClass:_class];
+            LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(_class), name);
         }
     } else {
         [DDLog setLogLevel:[level intValue] forClass:class];
