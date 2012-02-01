@@ -65,7 +65,7 @@
 "Season Number" = "시즌 번호";
 
 /* No comment provided by engineer. */
-"Show" = "";
+"Show" = "프로그램";
 
 /* No comment provided by engineer. */
 "Start iTunes" = "iTunes 시작";
@@ -77,7 +77,7 @@
 "Stopped" = "멈춤";
 
 /* No comment provided by engineer. */
-"Stream Title" = "";
+"Stream Title" = "스트림 제목";
 
 /* No comment provided by engineer. */
 "Track Count" = "트랙 개수";
@@ -99,3 +99,4 @@
 
 /* No comment provided by engineer. */
 "▶ Play/Pause" = "▶ 재생/일시 정지";
+
