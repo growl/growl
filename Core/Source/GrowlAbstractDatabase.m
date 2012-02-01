@@ -140,7 +140,7 @@
       if([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
          NSBeginCriticalAlertSheet(NSLocalizedString(@"Error opening history database.", @"Alert when database has been corrupted"),
                                    NSLocalizedString(@"Ok", @""),
-                                   nil, nil, nil, nil, nil, nil, nil, 
+                                   nil, nil, nil, nil, NULL, NULL, NULL, 
                                    NSLocalizedString(@"There was error opening the History database file, it is possibly corrupted.\nGrowl will move the database aside, and create a fresh database.\nThis may have occured if Growl or the computer crashed.", @""));
          if([[NSFileManager defaultManager] moveItemAtPath:storePath toPath:[storePath stringByAppendingPathExtension:@"bak"] error:nil]){
             NSError *tryTwoError = nil;
@@ -162,13 +162,30 @@
    if(!launchSuceeded){
       NSBeginCriticalAlertSheet(NSLocalizedString(@"Disabling History", @"alert when history database could not be moved aside"),
                                 NSLocalizedString(@"Ok", @""),
-                                nil, nil, nil, nil, nil, nil, nil, 
-                                NSLocalizedString(@"An uncorrectable error occured in creating or opening the History Database.\nWe are disabling history for the time being.", @""));
+                                nil, nil, nil, nil, nil, NULL, NULL, 
+                                NSLocalizedString(@"An uncorrectable error occured in creating or opening the History Database.\nWe are disabling History for the time being, however the rollup will continue to function.\nIf history is reenabled, nothing will be saved, and Growl will potentially use a lot of memory.", @""));
       [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
+      
+      NSError *memError = nil;
+      if (![persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:&memError]) {
+         NSLog(@"Error Creating an in memory store for the purposes of the rollup\n%@, %@", error, [error userInfo]);
+         NSBeginCriticalAlertSheet(NSLocalizedString(@"Fatal Error", @"fatal alert"),
+                                   NSLocalizedString(@"Quit", @""), 
+                                   nil, nil, nil,
+                                   self,
+                                   @selector(fatalErrorAlert:returnCode:contextInfo:),
+                                   NULL, NULL, 
+                                   NSLocalizedString(@"Growl has encountered a fatal error trying to setup the History Database, and will terminate upon closing this window.  Please contact us at support@growl.info.", @""));
+      }else{
+      }
       return nil;
    }
    
    return persistentStoreCoordinator;
+}
+
+- (void) fatalErrorAlert:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+   exit(-1);
 }
 
 -(void)destroy
