@@ -147,7 +147,8 @@
 		return nil;
 	}
 	
-	return [addresses objectAtIndex:0];
+    /* Making a copy appears to be necessary, just like for CFNetServiceGetAddressing() */
+	return [[[addresses objectAtIndex:0] copy] autorelease];
 }
 
 @end
