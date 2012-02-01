@@ -134,6 +134,7 @@
 - (IBAction) deleteSelectedHistoryItems:(id)sender
 {
    [[GrowlNotificationDatabase sharedInstance] deleteSelectedObjects:[historyArrayController selectedObjects]];
+   [historyArrayController rearrangeObjects];
 }
 
 - (IBAction) clearAllHistory:(id)sender
