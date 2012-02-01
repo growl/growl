@@ -32,16 +32,14 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 +(BOOL)previousVersionOlder
 {
-   /*NSString *current = @"1.4";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   NSString *current = @"1.4b1";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
-   
-   return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);*/
-   return YES;
+   return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
 }
 
 +(BOOL)shouldRunFirstLaunch
 {
-   /*GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if(![preferences objectForKey:GrowlFirstLaunch] || [preferences boolForKey:GrowlFirstLaunch])
       return YES;
    
@@ -49,8 +47,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
    if([GrowlFirstLaunchWindowController previousVersionOlder]){
       return YES;
    }
-   return NO;*/
-   return YES;
+   return NO;
 }
 
 - (id)init
@@ -60,7 +57,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
        self.windowTitle = NSLocalizedString(@"Welcome to Growl!", @"");
        self.continueButtonTitle = NSLocalizedString(@"Continue", @"Continue button title");
        
-       //GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+       GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
        self.current = 0;
        
        NSMutableArray *views = [NSMutableArray array];
@@ -75,7 +72,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
        NSDictionary *whatsNewDict = [NSDictionary dictionaryWithObjectsAndKeys:whatsNewString, @"textBody", nil];
        [views addObject:whatsNewDict];
        
-       if(/*![preferences allowStartAtLogin]*/YES) {
+       if(![preferences allowStartAtLogin]) {
          GrowlFirstLaunchAction loginBlock = [^{
              GrowlPreferencesController *prefs = [GrowlPreferencesController sharedController];
              [prefs setShouldStartGrowlAtLogin:YES];
@@ -90,7 +87,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
           [views addObject:loginDict];
           [loginBlock release];
        }
-       if(/*[GrowlPathUtilities growlPrefPaneBundle] != nil*/YES) {
+       if([GrowlPathUtilities growlPrefPaneBundle] != nil) {
           GrowlFirstLaunchAction oldBlock = [^{
                 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
           } copy];
