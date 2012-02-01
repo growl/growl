@@ -457,7 +457,6 @@
 				6AD07C33149FF6C400BFFF52 /* additions */,
 				6A63627F149C43E500C1ED44 /* xcconfig */,
 				6A9ED38A1447D04F002A0537 /* GrowlTunes */,
-				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
 				6A9ED3831447D04F002A0537 /* Frameworks */,
 				6A9ED3811447D04F002A0537 /* Products */,
 			);
@@ -476,6 +475,7 @@
 		6A9ED3831447D04F002A0537 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
 				6A9ED3861447D04F002A0537 /* Other Frameworks */,
 				6A9ED3841447D04F002A0537 /* Cocoa.framework */,
 				6AADA337144902060089AB08 /* ScriptingBridge.framework */,
@@ -963,9 +963,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
