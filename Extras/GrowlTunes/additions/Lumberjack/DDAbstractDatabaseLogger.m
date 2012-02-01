@@ -1,4 +1,5 @@
 #import "DDAbstractDatabaseLogger.h"
+#import <math.h>
 
 /**
  * Welcome to Cocoa Lumberjack!
@@ -23,10 +24,10 @@
 {
 	if ((self = [super init]))
 	{
-        saveThreshold = 500;
-		saveInterval = 60;           // 60 seconds
-		maxAge = (60 * 60 * 24 * 7); //  7 days
-		deleteInterval = (60 * 5);   //  5 minutes
+        saveThreshold =     (NSUInteger)500;
+        saveInterval =      (NSTimeInterval)60;                 // 60 seconds
+        maxAge =            (NSTimeInterval)(60 * 60 * 24 * 7); //  7 days
+        deleteInterval =    (NSTimeInterval)(60 * 5);           //  5 minutes
 	}
 	return self;
 }
@@ -119,10 +120,10 @@
 {
 	if ((saveTimer != NULL) && (saveInterval > 0.0) && (unsavedTime > 0.0))
 	{
-		uint64_t interval = saveInterval * NSEC_PER_SEC;
-		dispatch_time_t startTime = dispatch_time(unsavedTime, interval);
+		uint64_t interval = (uint64_t)(saveInterval * NSEC_PER_SEC);
+		dispatch_time_t startTime = dispatch_time(unsavedTime, (int64_t)interval);
 		
-		dispatch_source_set_timer(saveTimer, startTime, interval, 1.0);
+		dispatch_source_set_timer(saveTimer, startTime, interval, 1);
 		
 		if (saveTimerSuspended)
 		{
@@ -162,15 +163,15 @@
 {
 	if ((deleteTimer != NULL) && (deleteInterval > 0.0) && (maxAge > 0.0))
 	{
-		uint64_t interval = deleteInterval * NSEC_PER_SEC;
+		uint64_t interval = (uint64_t)(deleteInterval * NSEC_PER_SEC);
 		dispatch_time_t startTime;
 		
 		if (lastDeleteTime > 0)
-			startTime = dispatch_time(lastDeleteTime, interval);
+			startTime = dispatch_time(lastDeleteTime, (int64_t)interval);
 		else
-			startTime = dispatch_time(DISPATCH_TIME_NOW, interval);
+			startTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)interval);
 		
-		dispatch_source_set_timer(deleteTimer, startTime, interval, 1.0);
+		dispatch_source_set_timer(deleteTimer, startTime, interval, 1);
 	}
 }
 
@@ -266,7 +267,7 @@
 {
 	dispatch_block_t block = ^{
 	
-		if (saveInterval != interval)
+        if (!islessgreater(saveInterval, interval))
 		{
 			saveInterval = interval;
 			
@@ -346,7 +347,7 @@
 {
 	dispatch_block_t block = ^{
 		
-		if (maxAge != interval)
+        if (!islessgreater(maxAge, interval))
 		{
 			NSTimeInterval oldMaxAge = maxAge;
 			NSTimeInterval newMaxAge = interval;
@@ -432,7 +433,7 @@
 {
 	dispatch_block_t block = ^{
 		
-		if (deleteInterval != interval)
+        if (!islessgreater(deleteInterval, interval))
 		{
 			deleteInterval = interval;
 			

@@ -56,8 +56,8 @@
  * The default saveThreshold is 500.
  * The default saveInterval is 60 seconds.
 **/
-@property (assign, readwrite) NSUInteger saveThreshold;
-@property (assign, readwrite) NSTimeInterval saveInterval;
+@property (nonatomic, assign, readwrite) NSUInteger saveThreshold;
+@property (nonatomic, assign, readwrite) NSTimeInterval saveInterval;
 
 /**
  * It is likely you don't want the log entries to persist forever.
@@ -85,9 +85,9 @@
  * The default deleteInterval is 5 minutes.
  * The default deleteOnEverySave is NO.
 **/
-@property (assign, readwrite) NSTimeInterval maxAge;
-@property (assign, readwrite) NSTimeInterval deleteInterval;
-@property (assign, readwrite) BOOL deleteOnEverySave;
+@property (nonatomic, assign, readwrite) NSTimeInterval maxAge;
+@property (nonatomic, assign, readwrite) NSTimeInterval deleteInterval;
+@property (nonatomic, assign, readwrite) BOOL deleteOnEverySave;
 
 /**
  * Forces a save of any pending log entries (flushes log entries to disk).
