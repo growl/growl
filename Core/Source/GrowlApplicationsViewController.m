@@ -472,7 +472,7 @@ static BOOL awoken = NO;
 {
    if([self tableView:tableView isGroupRow:row])
       return 20.0;
-   return 32.0;
+   return 36.0;
 }
 
 - (void) tableViewDidClickInBody:(NSTableView*)tableView{
