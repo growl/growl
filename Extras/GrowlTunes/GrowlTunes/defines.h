@@ -95,3 +95,4 @@
 #define MenuStartITunes                 NSLocalizedString(@"Start iTunes", nil)
 #define MenuNotifyWithITunesActive      NSLocalizedString(@"Notify when iTunes is active", nil)
 #define MenuConfigureFormatting         NSLocalizedString(@"Configure Formatting", nil)
+#define MenuStartAtLogin                NSLocalizedString(@"Start at Login", nil)

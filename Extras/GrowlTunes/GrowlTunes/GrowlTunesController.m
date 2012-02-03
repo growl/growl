@@ -8,10 +8,11 @@
 
 
 #import "GrowlTunesController.h"
+#import "iTunes+iTunesAdditions.h"
 #import "ITunesConductor.h"
 #import "FormattedItemViewController.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
-#import "iTunes+iTunesAdditions.h"
+#import "StartAtLoginController.h"
 #import "defines.h"
 
 
@@ -20,6 +21,7 @@
 @property(readwrite, STRONG, nonatomic) IBOutlet ITunesConductor* conductor;
 @property(readonly, assign, nonatomic) BOOL noMeansNo;
 @property(readwrite, STRONG, nonatomic) id <DDLogFormatter> formatter;
+@property(readwrite, STRONG, nonatomic) StartAtLoginController* loginController;
 
 @property(readonly, STRONG, nonatomic) NSString* stringPlayPause;
 @property(readonly, STRONG, nonatomic) NSString* stringNextTrack;
@@ -59,6 +61,7 @@
 @synthesize currentTrackController = _currentTrackController;
 @synthesize loggingMenu = _loggingMenu;
 @synthesize formatter = _formatter;
+@synthesize loginController = _loginController;
 
 
 static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
@@ -132,6 +135,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 - (NSString*)stringConfigureFormatting
 { return MenuConfigureFormatting; }
+
+- (NSString*)stringStartAtLogin
+{ return MenuStartAtLogin; }
 
 - (NSString*)applicationNameForGrowl
 { return @"GrowlTunes"; }
@@ -241,11 +247,18 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         [self.statusItemMenu addItem:fscMenuItem];
     }
 #endif
+    
+    NSBundle* launcherBundle = [NSBundle bundleWithPath:
+         [[[NSBundle mainBundle] bundlePath]
+          stringByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlTunesLauncher.app"]];
+    self.loginController = [[StartAtLoginController alloc] initWithBundle:launcherBundle];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
+    
+    LogVerbose(@"GrowlTunes launched");
     
 #if defined(BETA)
     [self expiryCheck];

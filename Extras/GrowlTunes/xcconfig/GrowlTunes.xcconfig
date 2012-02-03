@@ -9,7 +9,7 @@ CODE_SIGN_IDENTITY = 3rd Party Mac Developer Application: The Growl Project, LLC
 
 // linking
 MACH_O_TYPE = mh_execute
-OTHER_LDFLAGS = -ObjC -all_load
+OTHER_LDFLAGS = -ObjC
 
 
 // packaging
@@ -19,7 +19,7 @@ INFOPLIST_EXPAND_BUILD_SETTINGS = YES
 INFOPLIST_FILE = GrowlTunes/GrowlTunes-Info.plist
 INFOPLIST_OTHER_PREPROCESSOR_FLAGS = -I "$(TARGET_BUILD_DIR)/include" -I "$(SRCROOT)/$(PRODUCT_NAME)"
 INFOPLIST_OUTPUT_FORMAT = binary
-INFOPLIST_PREFIX_HEADER = GrowlTunes-Info.plist-Prefix.pch
+INFOPLIST_PREFIX_HEADER = $(TARGET_NAME)-Info.plist-Prefix.pch
 INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREPROCESSOR_DEFINITIONS = COMPILED_BY_USER="$(USER)"
 PLIST_FILE_OUTPUT_FORMAT = binary
@@ -31,7 +31,7 @@ WRAPPER_EXTENSION = app
 
 
 // language
-GCC_PREFIX_HEADER = GrowlTunes/GrowlTunes-Prefix.pch
+GCC_PREFIX_HEADER = $(TARGET_NAME)/$(TARGET_NAME)-Prefix.pch
 GCC_ENABLE_OBJC_GC = unsupported
 
 
