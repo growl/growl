@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>GrowlTunes.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.growl.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -22,23 +22,23 @@
 	<string>RAWR</string>
 	<key>CFBundleVersion</key>
 	<string>${GT_VERSION}</string>
+	<key>CompiledAt</key>
+	<string>COMPILED_AT</string>
+	<key>CompiledByUser</key>
+	<string>COMPILED_BY_USER</string>
+	<key>CompiledOn</key>
+	<string>COMPILED_ON</string>
+	<key>CompilerVersion</key>
+	<string>COMPILER_VERSION</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 The Growl Project. All rights reserved.</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
 	<key>LSMultipleInstancesProhibited</key>
 	<true/>
 	<key>LSUIElement</key>
 	<true/>
-	<key>CompiledByUser</key>
-	<string>COMPILED_BY_USER</string>
-	<key>CompilerVersion</key>
-	<string>COMPILER_VERSION</string>
-	<key>CompiledOn</key>
-	<string>COMPILED_ON</string>
-	<key>CompiledAt</key>
-	<string>COMPILED_AT</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2011 The Growl Project. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>

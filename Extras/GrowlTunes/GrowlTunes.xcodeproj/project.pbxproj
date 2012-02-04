@@ -1082,6 +1082,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1089,6 +1090,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636282149C43E500C1ED44 /* Global-Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -1141,6 +1143,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
