@@ -36,6 +36,8 @@
 		6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62C14A04472001CFA45 /* DDNSLogger.m */; };
 		6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A34E65114A26A0E001CFA45 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3871447D04F002A0537 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		6A48D1A014DD506000C8C999 /* CodeSignConveniences.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A48D19F14DD506000C8C999 /* CodeSignConveniences.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A48D1A214DD5B1400C8C999 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A48D1A114DD5B1400C8C999 /* Security.framework */; };
 		6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AADA337144902060089AB08 /* ScriptingBridge.framework */; };
 		6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6AADA30A1447F0F40089AB08 /* GrowlTunes.entitlements */; };
@@ -261,6 +263,8 @@
 		6A34E62B14A04472001CFA45 /* DDNSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogger.h; sourceTree = "<group>"; };
 		6A34E62C14A04472001CFA45 /* DDNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNSLogger.m; sourceTree = "<group>"; };
 		6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogging.h; sourceTree = "<group>"; };
+		6A48D19F14DD506000C8C999 /* CodeSignConveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeSignConveniences.h; sourceTree = "<group>"; };
+		6A48D1A114DD5B1400C8C999 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6A4BE4051464F1F300A48B46 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		6A4BE4071464F82900A48B46 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		6A4BE42C1465F6F700A48B46 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -372,6 +376,7 @@
 				6AAE990014D94941004848EC /* AppKit.framework in Frameworks */,
 				6AAE997314DAF119004848EC /* ServiceManagement.framework in Frameworks */,
 				6A34E62A14A039C5001CFA45 /* SystemConfiguration.framework in Frameworks */,
+				6A48D1A214DD5B1400C8C999 /* Security.framework in Frameworks */,
 				6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */,
 				6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */,
 				6A34E62714A03408001CFA45 /* libadditions.a in Frameworks */,
@@ -533,6 +538,7 @@
 				6AAE995214DAE740004848EC /* Cocoa.framework */,
 				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
 				6AADA337144902060089AB08 /* ScriptingBridge.framework */,
+				6A48D1A114DD5B1400C8C999 /* Security.framework */,
 				6AAE997114DAF0C6004848EC /* ServiceManagement.framework */,
 				6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */,
 			);
@@ -628,6 +634,7 @@
 				6A34E60B14A00B33001CFA45 /* NSLogger */,
 				6A34E60F14A00B33001CFA45 /* SPSuccinct */,
 				6AD07C36149FF6C400BFFF52 /* additions.h */,
+				6A48D19F14DD506000C8C999 /* CodeSignConveniences.h */,
 				6A34E62B14A04472001CFA45 /* DDNSLogger.h */,
 				6A34E62C14A04472001CFA45 /* DDNSLogger.m */,
 				6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */,
@@ -661,6 +668,7 @@
 				6A63483514CC00B7005BB87F /* ContextFilterLogFormatter.h in Headers */,
 				6A63483714CC00B7005BB87F /* DispatchQueueLogFormatter.h in Headers */,
 				6AAE994A14DADA39004848EC /* StartAtLoginController.h in Headers */,
+				6A48D1A014DD506000C8C999 /* CodeSignConveniences.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1149,9 +1157,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */;
 			buildSettings = {
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -1159,9 +1165,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */;
 			buildSettings = {
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1169,9 +1173,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */;
 			buildSettings = {
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};

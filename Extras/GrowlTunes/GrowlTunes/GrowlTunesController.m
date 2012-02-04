@@ -6,15 +6,16 @@
 //  Copyright (c) 2011 The Growl Project. All rights reserved.
 //
 
-
+#import "defines.h"
 #import "GrowlTunesController.h"
 #import "iTunes+iTunesAdditions.h"
 #import "ITunesConductor.h"
 #import "FormattedItemViewController.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
 #import "StartAtLoginController.h"
-#import "defines.h"
-
+#import "DDTTYLogger.h"
+#import "DDASLLogger.h"
+#import "DispatchQueueLogFormatter.h"
 
 @interface GrowlTunesController ()
 
