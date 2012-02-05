@@ -160,7 +160,7 @@
 {
    CGRect inset = CGRectInset([self bounds], 2.0, 2.0);
    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:6.0 yRadius:6.0];
-   NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor darkGrayColor] endingColor:[NSColor lightGrayColor]];
+   NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor grayColor] endingColor:[NSColor lightGrayColor]];
    [[NSColor colorWithDeviceWhite:.15f alpha:1.0f] setStroke];
 
    [gradient drawInBezierPath:path angle:-90.0f];
