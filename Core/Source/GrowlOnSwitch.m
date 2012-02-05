@@ -41,7 +41,7 @@
       [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.5]];
       [shadow setShadowOffset:CGSizeMake(0.0, -1.0)];
       NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica Neue Bold" size:17], NSFontAttributeName,
-                                                                          [NSColor colorWithSRGBRed:.15 green:.15 blue:.15 alpha:1.0], NSForegroundColorAttributeName,
+                                                                          [NSColor colorWithSRGBRed:.255 green:.250 blue:.250 alpha:1.0], NSForegroundColorAttributeName,
                                                                           shadow, NSShadowAttributeName, nil];
       [shadow release];
       
