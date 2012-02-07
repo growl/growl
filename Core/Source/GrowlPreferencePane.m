@@ -238,7 +238,7 @@
 
 -(BOOL)validateToolbarItem:(NSToolbarItem *)theItem
 {
-    return [[toolbar visibleItems] containsObject:theItem];
+    return YES;
 }
 
 -(NSArray*)toolbarSelectableItemIdentifiers:(NSToolbar*)aToolbar
