@@ -30,9 +30,10 @@
    }else{
       NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
       self.previousSet = newSet;
-      self.expandedArray = [NSMutableArray arrayWithObject:NSLocalizedString(@"Local", @"Title for section containing apps from the local machine")];
+      self.expandedArray = [NSMutableArray array];
       
       BOOL search = (searchString && ![searchString isEqualToString:@""]);
+       __block BOOL remoteHosts = NO;
       __block NSString *blockString = searchString;
       __block NSString *previousHost = nil;
       [sorted enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -41,10 +42,13 @@
             if(newHost && ![previousHost isEqualToString:newHost]){
                [expandedArray addObject:newHost];
                previousHost = newHost;
+                remoteHosts = YES;
             }
             [expandedArray addObject:obj];
          }
       }];
+       if(remoteHosts)
+           [expandedArray insertObject:NSLocalizedString(@"Local", @"Title for section containing apps from the local machine") atIndex:0U];
       return expandedArray;
    }
 }
