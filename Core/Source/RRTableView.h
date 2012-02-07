@@ -11,6 +11,7 @@
 
 
 @interface RRTableView : NSTableView {
+    IBOutlet NSControl* deleteControl;
 }
 
 - (BOOL) becomeFirstResponder;
