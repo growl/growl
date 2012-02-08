@@ -184,6 +184,9 @@
 		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
 		3423607009D8888A009FF634 /* PowerNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerNotifier.m; sourceTree = "<group>"; };
 		345BD6320C8B12B8005C3DA2 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
+		8323F26C14E242050050E8B5 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8323F26D14E242430050E8B5 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = pl.lproj/Credits.rtf; sourceTree = "<group>"; };
+		8323F26E14E2424B0050E8B5 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B1B20C149C63EB0019910E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B1B20D149C63EF0019910E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B1B20E149C63F60019910E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = es; path = es.lproj/Credits.rtf; sourceTree = "<group>"; };
@@ -523,6 +526,7 @@
 				nb,
 				da,
 				es,
+				pl,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* HarwareNotifier */;
 			projectDirPath = "";
@@ -739,6 +743,7 @@
 				83EFC951148043A9004D13CF /* da */,
 				83B1B20C149C63EB0019910E /* es */,
 				83B1B20D149C63EF0019910E /* fr */,
+				8323F26E14E2424B0050E8B5 /* pl */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -766,6 +771,7 @@
 				83EFC950148043A1004D13CF /* da */,
 				83B1B20E149C63F60019910E /* es */,
 				83B1B20F149C63F60019910E /* fr */,
+				8323F26D14E242430050E8B5 /* pl */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -793,6 +799,7 @@
 				83EFC94F14804396004D13CF /* da */,
 				83B1B210149C63FE0019910E /* es */,
 				83B1B211149C63FE0019910E /* fr */,
+				8323F26C14E242050050E8B5 /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
