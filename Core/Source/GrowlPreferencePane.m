@@ -217,7 +217,7 @@
    NSRect frame = [aWindow frame];
    frame.size = newSize;
    frame.origin.y -= (newSize.height - oldSize.height);
-   
+    frame.origin.x -= (newSize.width - oldSize.width)/2.0f;
    [oldController viewWillUnload];
    [aWindow setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
    [oldController viewDidUnload];
