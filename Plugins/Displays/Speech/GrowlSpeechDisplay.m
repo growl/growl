@@ -14,15 +14,22 @@
 #import "GrowlNotification.h"
 
 @implementation GrowlSpeechDisplay
+@synthesize speech_queue;
+@synthesize syn;
 
 - (id) init {
     if((self = [super init])) {
-        speech_queue = dispatch_queue_create("com.Growl.Speech", NULL);
+        self.speech_queue = [NSMutableArray array];
+        self.syn = [[[NSSpeechSynthesizer alloc] initWithVoice:nil] autorelease];
+        syn.delegate = self;
+
     }
     return self;
 }
 
 - (void) dealloc {
+    [speech_queue release];
+    [syn release];
 	[preferencePane release];
 	[super dealloc];
 }
@@ -35,7 +42,37 @@
 }
 
 - (void) displayNotification:(GrowlNotification *)notification {
-	NSString *voice = nil;
+    
+	NSString *title = [notification title];
+	NSString *desc = [notification notificationDescription];
+	
+	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
+	
+    
+    [speech_queue addObject:summary];
+    if(![syn isSpeaking])
+    {
+        [self speakNotification:summary];
+    }
+            
+    NSDictionary *noteDict = [notification dictionaryRepresentation];
+    if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
+        NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+        NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
+        [syn startSpeakingString:summary toURL:url];
+        [url release];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
+}
+
+- (BOOL)requiresPositioning {
+	return NO;
+}
+
+- (void)speakNotification:(NSString*)notificationToSpeak
+{
+    NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 	if (voice) {
 		CFMakeCollectable(voice);
@@ -45,36 +82,29 @@
 	}
     if([voice isEqualToString:GrowlSpeechSystemVoice])
         voice = nil;
+	
+    syn.voice = voice;
+    [syn startSpeakingString:notificationToSpeak];
     
-	NSString *title = [notification title];
-	NSString *desc = [notification notificationDescription];
-	
-	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
-	
-	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
-	
-    dispatch_async(speech_queue, ^(void) {
-        while([NSSpeechSynthesizer isAnyApplicationSpeaking])
-        {
-        }
-        [syn startSpeakingString:summary];
-        
-        NSDictionary *noteDict = [notification dictionaryRepresentation];
-        if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
-            NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
-            NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-            [syn startSpeakingString:summary toURL:url];
-            [url release];
-        }
-        
-        [syn autorelease];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
-    });
 }
+#pragma mark -
+#pragma mark NSSpeechSynthesizerDelegate
+#pragma mark -
 
-- (BOOL)requiresPositioning {
-	return NO;
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)finishedSpeaking
+{
+    if([sender isEqualTo:syn])
+    {
+        [speech_queue removeObjectAtIndex:0U];
+        if([speech_queue count])
+        {
+            //insert a slight delay
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1.0f]];
+            [self speakNotification:[speech_queue objectAtIndex:0U]];
+        }
+    }
+    else
+        NSLog(@"something else");
 }
 
 @end
