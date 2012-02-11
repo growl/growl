@@ -168,6 +168,7 @@
 		9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9326596A141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
+		93624FFA14E6A831001DF0D5 /* GrowlImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93624FF914E6A831001DF0D5 /* GrowlImageTransformer.m */; };
 		938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */; };
 		938CAEF11080E66900259421 /* GrowlSubscribeGNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CAEF01080E66900259421 /* GrowlSubscribeGNTPPacket.m */; };
 		938CB10C1081250600259421 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
@@ -841,6 +842,8 @@
 		933501641423999A0077C0D7 /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		933814B51050A7350014C550 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		933814B91050A73D0014C550 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		93624FF814E6A831001DF0D5 /* GrowlImageTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageTransformer.h; path = Core/Source/GrowlImageTransformer.h; sourceTree = "<group>"; };
+		93624FF914E6A831001DF0D5 /* GrowlImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageTransformer.m; path = Core/Source/GrowlImageTransformer.m; sourceTree = "<group>"; };
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		938CAEED1080E64A00259421 /* GrowlGNTPDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPDefines.m; path = Core/Source/GrowlGNTPDefines.m; sourceTree = "<group>"; };
@@ -1587,6 +1590,8 @@
 				07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */,
 				34F909330EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.h */,
 				34F909340EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m */,
+				93624FF814E6A831001DF0D5 /* GrowlImageTransformer.h */,
+				93624FF914E6A831001DF0D5 /* GrowlImageTransformer.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -3675,6 +3680,7 @@
 				BC6BD66414CA166A000D0B0D /* GrowlOnSwitch.m in Sources */,
 				BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */,
 				BC80A32814D6F10100B055FE /* GrowlPluginPreferenceStrings.m in Sources */,
+				93624FFA14E6A831001DF0D5 /* GrowlImageTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/fcntl.h>
+#import "GrowlImageTransformer.h"
 
 #include <CoreAudio/AudioHardware.h>
 
@@ -931,6 +932,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 #if defined(BETA) && BETA
     [self expiryCheck];
 #endif
+    
+    //register value transformer
+    id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
+    [NSValueTransformer setValueTransformer:transformer forName:@"GrowlImageTransformer"];
+
     
     if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
         [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
