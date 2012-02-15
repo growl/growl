@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.SystemVersion">11D50</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -63,7 +63,7 @@
 										<string key="NSFrameSize">{473, 14}</string>
 										<reference key="NSSuperview" ref="210976998"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="243453404"/>
+										<reference key="NSNextKeyView" ref="569854694"/>
 										<object class="NSTextContainer" key="NSTextContainer" id="154158617">
 											<object class="NSLayoutManager" key="NSLayoutManager">
 												<object class="NSTextStorage" key="NSTextStorage">
@@ -215,7 +215,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="NSFrame">{{20, 60}, {460, 293}}</string>
 						<reference key="NSSuperview" ref="212094141"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="210976998"/>
+						<reference key="NSNextKeyView" ref="243453404"/>
 						<int key="NSsFlags">133266</int>
 						<reference key="NSVScroller" ref="569854694"/>
 						<reference key="NSHScroller" ref="243453404"/>
@@ -254,6 +254,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="NSFrame">{{305, 12}, {181, 32}}</string>
 						<reference key="NSSuperview" ref="212094141"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="1012869112">
 							<int key="NSCellFlags">67239424</int>
@@ -367,6 +368,38 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="876489137"/>
 					</object>
 					<int key="connectionID">14</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.growlWebsiteLabel</string>
+						<reference key="source" ref="1058755834"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1058755834"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.growlWebsiteLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.growlWebsiteLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.bugSubmissionLabel</string>
+						<reference key="source" ref="876489137"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="876489137"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.bugSubmissionLabel</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.bugSubmissionLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">88</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -865,7 +898,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">84</int>
+			<int key="maxID">88</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
