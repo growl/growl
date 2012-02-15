@@ -14,8 +14,20 @@
 @synthesize aboutVersionString;
 @synthesize aboutBoxTextView;
 
+@synthesize bugSubmissionLabel;
+@synthesize growlWebsiteLabel;
+
+- (void)dealloc {
+   [bugSubmissionLabel release];
+   [growlWebsiteLabel release];
+   [super dealloc];
+}
+
 - (void) awakeFromNib {
+   self.bugSubmissionLabel = NSLocalizedString(@"Growl Bug Submission", @"Button to open http://growl.info/reportabug.php");
+   self.growlWebsiteLabel = NSLocalizedString(@"Growl Web Site", @"button to open http://growl.info");
    [self setupAboutTab];
+   
 }
 
 + (NSString*)nibName {
