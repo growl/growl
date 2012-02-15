@@ -47,6 +47,7 @@
 }
 
 -(void) awakeFromNib {
+   [[historySearchField cell] setPlaceholderString:NSLocalizedString(@"Search", @"History search field placeholder")];
    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
    [historyTable setAutosaveTableColumns:YES];
    
