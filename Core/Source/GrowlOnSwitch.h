@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#define knobInset 1.0f
+#define knobDoubleInset (2.0f * knobInset)
+#define onSwitchRadius 6.0f
+
+@class GrowlOnSwitchKnob;
+
 @interface GrowlOnSwitch : NSControl
 
-@property (nonatomic, retain) NSView *knob;
+@property (nonatomic, retain) GrowlOnSwitchKnob *knob;
 @property (nonatomic, retain) NSTextField *onLabel;
 @property (nonatomic, retain) NSTextField *offLabel;
 

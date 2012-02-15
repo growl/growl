@@ -30,8 +30,8 @@
 {
    if((self = [super initWithFrame:frameRect])){      
       CGRect box = [self bounds];
-      CGRect knobFrame = CGRectMake(2.0f, 2.0f, (box.size.width / 1.8f) - 4.0, box.size.height - 4.0f);
-      NSView *knobView = knobView = [[GrowlOnSwitchKnob alloc] initWithFrame:knobFrame];
+      CGRect knobFrame = CGRectMake(0.0f, 0.0f, (box.size.width / 1.8f) - knobDoubleInset, box.size.height);
+      GrowlOnSwitchKnob *knobView = [[GrowlOnSwitchKnob alloc] initWithFrame:knobFrame];
       self.knob = knobView;
       [self addSubview:knob];
       [knobView release];
@@ -49,7 +49,7 @@
       NSMutableAttributedString *attrOffTitle = [[NSMutableAttributedString alloc] initWithString:offString
                                                                                        attributes:attrDict];
       [attrOffTitle setAlignment:NSCenterTextAlignment range:NSMakeRange(0, [attrOffTitle length])];
-      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(50.0f, vertical, 50.0f, 25.0f)];
+      NSTextField *offView = [[NSTextField alloc] initWithFrame:CGRectMake(box.size.width - 50.0f, vertical, 50.0f, 25.0f)];
       [offView setEditable:NO];
       [offView setDrawsBackground:NO];
       [offView setBackgroundColor:[NSColor clearColor]];
@@ -123,6 +123,8 @@
 {
    CGPoint viewPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	mouseLoc = [knob convertPoint:viewPoint fromView:nil];
+   knob.pressed = YES;
+   [knob setNeedsDisplay:YES];
 }
 
 - (void)mouseUp:(NSEvent*)inEvent
@@ -142,26 +144,29 @@
    
 	[self setState:newState];
 	mouseLoc = CGPointZero;
+   knob.pressed = NO;
+   [knob setNeedsDisplay:YES];
 }
 
 - (void)mouseDragged:(NSEvent*)inEvent
 {	
 	CGPoint newMouseLoc = [self convertPoint:[inEvent locationInWindow] fromView:nil];
-	if (newMouseLoc.x >= self.frame.size.width - [knob frame].size.width - 4.0f)
-		newMouseLoc.x = self.frame.size.width - [knob frame].size.width - 4.0f;
-	if (newMouseLoc.x <= 2.0)
-		newMouseLoc.x = 2.0;
+	if (newMouseLoc.x >= self.frame.size.width - [knob frame].size.width - knobDoubleInset)
+		newMouseLoc.x = self.frame.size.width - [knob frame].size.width - knobDoubleInset;
+	if (newMouseLoc.x <= knobInset)
+		newMouseLoc.x = knobInset;
    mouseLoc = newMouseLoc;
    
-   [knob setFrameOrigin:CGPointMake(newMouseLoc.x, 2.0f)];
+   [knob setFrameOrigin:CGPointMake(newMouseLoc.x, 0.0f)];
 }
 
 -(void)drawRect:(NSRect)dirtyRect
 {
-   CGRect inset = CGRectInset([self bounds], 2.0, 2.0);
-   NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:6.0 yRadius:6.0];
+   CGRect inset = CGRectInset([self bounds], knobInset, knobInset);
+   NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:onSwitchRadius yRadius:onSwitchRadius];
    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor grayColor] endingColor:[NSColor lightGrayColor]];
-   [[NSColor colorWithDeviceWhite:.15f alpha:1.0f] setStroke];
+   [[NSColor colorWithDeviceWhite:.2f alpha:1.0f] setStroke];
+   [path setLineWidth:.75f];
 
    [gradient drawInBezierPath:path angle:-90.0f];
    [path stroke];
@@ -175,8 +180,8 @@
 
 -(void)drawFocusRingMask
 {
-   CGRect inset = CGRectInset([self bounds], 2.0, 2.0);
-   NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:6.0 yRadius:6.0];
+   CGRect inset = CGRectInset([self bounds], knobInset, knobInset);
+   NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:inset xRadius:onSwitchRadius - 1.0f yRadius:onSwitchRadius - 1.0f];
    [path fill];
 }
 
@@ -207,9 +212,9 @@
 {
    CGPoint desired;
    if([self state]){
-      desired = CGPointMake([self bounds].size.width - [knob bounds].size.width - 2.0f, 2.0f);
+      desired = CGPointMake([self bounds].size.width - [knob bounds].size.width, 0.0f);
    }else{
-      desired = CGPointMake(2.0f, 2.0f);
+      desired = CGPointZero;
    }
    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
       [[knob animator] setFrameOrigin:desired];

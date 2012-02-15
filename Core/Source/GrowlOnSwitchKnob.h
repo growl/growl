@@ -10,4 +10,6 @@
 
 @interface GrowlOnSwitchKnob : NSView
 
+@property (nonatomic) BOOL pressed;
+
 @end
