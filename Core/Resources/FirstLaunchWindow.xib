@@ -60,6 +60,7 @@
 							<string key="NSFrame">{{275, 10}, {97, 32}}</string>
 							<reference key="NSSuperview" ref="738934328"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:161</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="196586068">
@@ -119,7 +120,7 @@
 											<string key="NSFrame">{{0, 1}, {344, 14}}</string>
 											<reference key="NSSuperview" ref="908781938"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="164256238"/>
+											<reference key="NSNextKeyView" ref="987709741"/>
 											<string key="NSReuseIdentifierKey">_NS:1480</string>
 											<object class="NSTextContainer" key="NSTextContainer" id="700501719">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -253,7 +254,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrame">{{20, 69}, {346, 226}}</string>
 							<reference key="NSSuperview" ref="738934328"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="908781938"/>
+							<reference key="NSNextKeyView" ref="164256238"/>
 							<string key="NSReuseIdentifierKey">_NS:940</string>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="987709741"/>
@@ -350,19 +351,19 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">representedFilename: self.windowTitle</string>
+						<string key="label">title: self.windowTitle</string>
 						<reference key="source" ref="791349128"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="791349128"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">representedFilename: self.windowTitle</string>
-							<string key="NSBinding">representedFilename</string>
+							<string key="NSLabel">title: self.windowTitle</string>
+							<string key="NSBinding">title</string>
 							<string key="NSKeyPath">self.windowTitle</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1562</int>
+					<int key="connectionID">1774</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -945,7 +946,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1770</int>
+			<int key="maxID">1774</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
