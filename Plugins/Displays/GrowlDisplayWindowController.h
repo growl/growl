@@ -53,7 +53,7 @@ typedef enum {
 	BOOL							 userRequestedClose;
 
 	unsigned			             WCReserved: 30;
-   
+    NSInteger failureCount;
    BOOL                       queuesNotes;
 }
 
@@ -145,7 +145,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL screenshotModeEnabled;
 @property (nonatomic, assign) CFTimeInterval displayDuration;
 @property (nonatomic, assign) CFTimeInterval transitionDuration;
-
+@property (nonatomic, assign) NSInteger failureCount;
 @end
 
 /*!
