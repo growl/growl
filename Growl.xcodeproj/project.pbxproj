@@ -825,6 +825,14 @@
 		835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-DISPLAY.icns"; path = "images/DocumentIcons/Growl-DISPLAY.icns"; sourceTree = "<group>"; };
 		835A0AE9142C74A100B89123 /* Growl-WKMV.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-WKMV.icns"; path = "images/DocumentIcons/Growl-WKMV.icns"; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
+		83CFCCDC14ECB7F900C0D0C1 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83CFCCDD14ECB7F900C0D0C1 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83CFCCDF14ECB7F900C0D0C1 /* pl-PL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		83CFCCE014ECB80100C0D0C1 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83CFCCE114ECB80100C0D0C1 /* pl-PL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		83CFCCE214ECB80100C0D0C1 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83CFCCE314ECB80100C0D0C1 /* lv-LV */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lv-LV"; path = "lv-LV.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		83CFCCE514ECBA6500C0D0C1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
 		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
@@ -3021,6 +3029,10 @@
 				pt_PT,
 				da,
 				ko,
+				sk,
+				"lv-LV",
+				ro,
+				"pl-PL",
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -3887,6 +3899,10 @@
 				93E4EF11141EFCA1005A26CF /* pt_PT */,
 				93EC27701421BEFA00F94A35 /* da */,
 				9335015C142399450077C0D7 /* ko */,
+				83CFCCE014ECB80100C0D0C1 /* sk */,
+				83CFCCE114ECB80100C0D0C1 /* pl-PL */,
+				83CFCCE214ECB80100C0D0C1 /* ro */,
+				83CFCCE314ECB80100C0D0C1 /* lv-LV */,
 			);
 			name = InfoPlist.strings;
 			path = Core/Resources;
@@ -3909,6 +3925,10 @@
 				93E4EF12141EFCA1005A26CF /* pt_PT */,
 				93EC27711421BF0000F94A35 /* da */,
 				9335015D1423994B0077C0D7 /* ko */,
+				83CFCCDC14ECB7F900C0D0C1 /* sk */,
+				83CFCCDD14ECB7F900C0D0C1 /* ro */,
+				83CFCCDF14ECB7F900C0D0C1 /* pl-PL */,
+				83CFCCE514ECBA6500C0D0C1 /* ru */,
 			);
 			name = Localizable.strings;
 			path = Core/Resources;
