@@ -8,10 +8,18 @@
 #import <Foundation/Foundation.h>
 #import <Security/CodeSigning.h>
 
+#ifndef NSFoundationVersionNumber10_7
 #define NSFoundationVersionNumber10_7   833.1
-#define NSFoundationVersionNumber10_7_1 833.1 // Foundation wasn't updated in 10.7.1
+#endif
+#ifndef NSFoundationVersionNumber10_7_1
+#define NSFoundationVersionNumber10_7_1 NSFoundationVersionNumber10_7 // Foundation wasn't updated in 10.7.1
+#endif
+#ifndef NSFoundationVersionNumber10_7_2
 #define NSFoundationVersionNumber10_7_2 833.20
+#endif
+#ifndef NSFoundationVersionNumber10_7_3
 #define NSFoundationVersionNumber10_7_3 833.24
+#endif
 
 static inline BOOL isLionOrGreater(void) {
     return (BOOL)(isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7));
