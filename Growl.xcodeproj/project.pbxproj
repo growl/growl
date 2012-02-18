@@ -813,6 +813,10 @@
 		74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlFlippingWindowTransition.m; sourceTree = "<group>"; };
 		7625018B146DD60600B9F12F /* GrowlWebKitImageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitImageProtocol.h; path = Plugins/Displays/WebKit/GrowlWebKitImageProtocol.h; sourceTree = "<group>"; };
 		7625018C146DD60600B9F12F /* GrowlWebKitImageProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitImageProtocol.m; path = Plugins/Displays/WebKit/GrowlWebKitImageProtocol.m; sourceTree = "<group>"; };
+		8310A9EB14EF70DC00EDF473 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = Core/Resources/de.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		8310A9EC14EF70DC00EDF473 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = Core/Resources/de.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		8310A9ED14EF70DC00EDF473 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = Core/Resources/de.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		8310A9EE14EF70DC00EDF473 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = Core/Resources/de.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NotifyOS9.growlStyle; path = Core/Resources/NotifyOS9.growlStyle; sourceTree = "<group>"; };
 		8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = NotifyOSX.growlStyle; path = Core/Resources/NotifyOSX.growlStyle; sourceTree = "<group>"; };
 		83282741073A6BD70044A959 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -3943,6 +3947,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC0D31DC14D3045400587B7B /* en */,
+				8310A9EE14EF70DC00EDF473 /* de */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -3951,6 +3956,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC0D31DF14D3073E00587B7B /* en */,
+				8310A9EC14EF70DC00EDF473 /* de */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -3959,6 +3965,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC0D31E314D3266100587B7B /* en */,
+				8310A9EB14EF70DC00EDF473 /* de */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4145,6 +4152,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC986FD714D0FE3C00CC5E57 /* en */,
+				8310A9ED14EF70DC00EDF473 /* de */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
@@ -4192,6 +4200,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Localization;
 		};
@@ -4965,6 +4974,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -4987,6 +4997,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
