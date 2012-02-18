@@ -112,6 +112,18 @@ typedef void(^GrowlFirstLaunchAction)(void);
    [self showCurrent];
 }
 
+- (void)dealloc
+{
+    [windowTitle release];
+    [textBoxString release];
+    [actionButtonTitle release];
+    [continueButtonTitle release];
+    [launchViews release];
+    [progressLabel release];
+
+    [super dealloc];
+}
+
 -(void)close
 {
    NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
