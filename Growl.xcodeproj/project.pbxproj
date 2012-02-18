@@ -843,6 +843,14 @@
 		83CFCCE114ECB80100C0D0C1 /* pl-PL */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		83CFCCE214ECB80100C0D0C1 /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83CFCCE514ECBA6500C0D0C1 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83DD3ACD14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		83DD3ACE14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		83DD3ACF14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		83DD3AD014EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		83DD3AD514EF776300C0028D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = Core/Resources/nl.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		83DD3AD614EF776300C0028D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = Core/Resources/nl.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		83DD3AD714EF776300C0028D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = Core/Resources/nl.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		83DD3AD814EF776300C0028D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nl; path = Core/Resources/nl.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
 		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
@@ -2277,10 +2285,10 @@
 		BC0D31E114D3074C00587B7B /* First Launch Text */ = {
 			isa = PBXGroup;
 			children = (
-				BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */,
-				BC0D31DB14D3045400587B7B /* WhatsNew.rtf */,
 				BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */,
 				BC0D31E214D3266100587B7B /* OldGrowl.rtf */,
+				BC0D31DB14D3045400587B7B /* WhatsNew.rtf */,
+				BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */,
 			);
 			name = "First Launch Text";
 			sourceTree = "<group>";
@@ -3948,6 +3956,8 @@
 			children = (
 				BC0D31DC14D3045400587B7B /* en */,
 				8310A9EE14EF70DC00EDF473 /* de */,
+				83DD3AD014EF76F800C0028D /* it */,
+				83DD3AD814EF776300C0028D /* nl */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -3957,6 +3967,8 @@
 			children = (
 				BC0D31DF14D3073E00587B7B /* en */,
 				8310A9EC14EF70DC00EDF473 /* de */,
+				83DD3ACE14EF76F800C0028D /* it */,
+				83DD3AD614EF776300C0028D /* nl */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -3966,6 +3978,8 @@
 			children = (
 				BC0D31E314D3266100587B7B /* en */,
 				8310A9EB14EF70DC00EDF473 /* de */,
+				83DD3ACD14EF76F800C0028D /* it */,
+				83DD3AD514EF776300C0028D /* nl */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4153,6 +4167,8 @@
 			children = (
 				BC986FD714D0FE3C00CC5E57 /* en */,
 				8310A9ED14EF70DC00EDF473 /* de */,
+				83DD3ACF14EF76F800C0028D /* it */,
+				83DD3AD714EF776300C0028D /* nl */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
