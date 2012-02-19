@@ -3,13 +3,15 @@
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 12/01/2004.
-//  Copyright 2004Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2004â€“2011 The Growl Project. All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlBrushedPrefsController : NSPreferencePane {
 }
+
+@property (nonatomic, retain) NSString *useAquaLabel;
 
 - (CGFloat) duration;
 - (void) setDuration:(CGFloat)value;

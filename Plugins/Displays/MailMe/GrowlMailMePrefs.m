@@ -12,6 +12,25 @@
 
 @implementation GrowlMailMePrefs
 
+@synthesize recipientLabel;
+@synthesize emailField;
+
+- (id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.recipientLabel = NSLocalizedString(@"Recipient:", @"Who the email of the notification should be sent to");
+   }
+   return self;
+}
+
+- (void)dealloc {
+   [recipientLabel release];
+   [super dealloc];
+}
+
+- (void)awakeFromNib {
+   [[emailField cell] setPlaceholderString:NSLocalizedString(@"Your email here", @"Placeholder string in the recipient field")];
+}
+
 - (NSString *) mainNibName {
 	return @"GrowlMailMePrefs";
 }

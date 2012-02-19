@@ -98,6 +98,9 @@
 			<parameter name="identifier" optional="yes" code="iden" type="text" description="The identifier of the notification for coalescing.">
 				<cocoa key="identifier"/>
 			</parameter>
+         <parameter name="callback URL" optional="yes" code="curl" type="text" description="A URL to open when the notification is clicked.">
+            <cocoa key="callbackURL"/>
+         </parameter>
 		</command>
 		<command name="register" code="register" description="Register an application with Growl">
 			<cocoa class="GrowlRegisterScriptCommand"/>

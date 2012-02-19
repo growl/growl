@@ -25,8 +25,10 @@ typedef enum {
     NSNetService *netService;
    
    BOOL running;
+   BOOL remoteRunning;
 	
 	GCDAsyncSocket *asyncSocket;
+   GCDAsyncSocket *remoteSocket;
 }
 
 - (id <GrowlTCPServerDelegate>)delegate;
@@ -51,6 +53,8 @@ typedef enum {
 
 - (BOOL)start:(NSError **)error;
 - (BOOL)stop;
+
+-(void)preferencesChanged:(NSNotification*)note;
 
 @end
 

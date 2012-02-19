@@ -245,7 +245,7 @@
 		}
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
       id clickContext = nil;
-      if([self callbackContextType] && [[self callbackContextType] caseInsensitiveCompare:@"PList"]){
+      if([self callbackContextType] && [[self callbackContextType] caseInsensitiveCompare:@"PList"] == NSOrderedSame){
             clickContext = [NSPropertyListSerialization propertyListWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
                                                                      options:0
                                                                       format:NULL
@@ -273,9 +273,9 @@
 		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 		CallbackURLTargetMethod method;
-		if ([value caseInsensitiveCompare:@"GET"]) {
+		if ([value caseInsensitiveCompare:@"GET"] == NSOrderedSame) {
 			method = CallbackURLTargetGetMethod;
-		} else if ([value caseInsensitiveCompare:@"POST"]) {
+		} else if ([value caseInsensitiveCompare:@"POST"] == NSOrderedSame) {
 			method = CallbackURLTargetPostMethod;
 		} else {
 			method = CallbackURLTargetUnknownMethod;
@@ -354,9 +354,9 @@
 			hasTarget = YES;
 		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 			NSString *value = [header headerValue];
-			if ([value caseInsensitiveCompare:@"GET"]) {
+			if ([value caseInsensitiveCompare:@"GET"] == NSOrderedSame) {
 				targetMethod = CallbackURLTargetGetMethod;
-			} else if ([value caseInsensitiveCompare:@"POST"]) {
+			} else if ([value caseInsensitiveCompare:@"POST"] == NSOrderedSame) {
 				targetMethod = CallbackURLTargetPostMethod;
 			} else {
 				targetMethod = CallbackURLTargetUnknownMethod;

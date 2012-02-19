@@ -25,6 +25,8 @@
 #define kShowRollupTooltip           NSLocalizedString(@"Show the History Rollup", @"")
 #define kHideRollup                  NSLocalizedString(@"Hide Rollup", @"")
 #define kHideRollupTooltip           NSLocalizedString(@"Hide the History Rollup", @"")
+#define kClearRollup                 NSLocalizedString(@"Clear Rollup", @"")
+#define kClearRollupTooltip          NSLocalizedString(@"Clear all notifications in the History Rollup", @"")
 #define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kNoRecentNotifications       NSLocalizedString(@"No Recent Notifications", @"")
@@ -54,13 +56,7 @@
         self.menu = [self createMenu:NO];
                
         [self setGrowlMenuEnabled:YES];
-        
-        //NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        /*[nc addObserver:self
-         selector:@selector(reloadPrefs:)
-         name:GrowlPreferencesChanged
-         object:nil];*/
-        
+                
         GrowlNotificationDatabase *db = [GrowlNotificationDatabase sharedInstance];
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(growlDatabaseDidUpdate:) 
@@ -113,9 +109,13 @@
       [statusItem setHighlightMode:YES];
       GrowlMenuImageView *buttonView = [[GrowlMenuImageView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 24.0, [[NSStatusBar systemStatusBar] thickness])];
       buttonView.menuItem = self;
+       buttonView.mainImage = (id)[NSImage imageNamed:@"growlmenu.png"];
+       buttonView.alternateImage = (id)[NSImage imageNamed:@"growlmenu-alt.png"];
+       buttonView.squelchImage = (id)[NSImage imageNamed:@"squelch.png"];
+
       [statusItem setView:buttonView];
       [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
-      [buttonView setNeedsDisplay];
+      //[buttonView setNeedsDisplay];
       [buttonView release];
    }else{
       if(!statusItem)
@@ -136,33 +136,26 @@
 
 - (void)stopPulse{
    keepPulsing = NO;
+    [CATransaction begin];
+    [(GrowlMenuImageView*)[statusItem view] stopAnimation];
+    [CATransaction commit];
+
 }
 
 - (void)pulseStatusItem
 {
    if(![preferences isRollupEnabled] || ![preferences isGrowlMenuPulseEnabled]){
-      [self stopPulse];
+       [self stopPulse];
    }
    
-   if(!statusItem || !keepPulsing)
-      return;
+   if(!statusItem || !keepPulsing) {
+       [self stopPulse];
+       return;
+   }
    
-   NSStatusItem *blockItem = statusItem;
-   __block GrowlMenu *blockMenu = self;
-   [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-      [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-      [context setDuration:1.0f];
-      [[[blockItem view] animator] setAlphaValue:0.0];
-   } completionHandler:^(void) {
-      [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-         [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-         [context setDuration:1.0f];
-         [[[blockItem view] animator] setAlphaValue:1.0];
-      } completionHandler:^(void) {
-         [blockMenu pulseStatusItem];
-      }];
-   }];
-   
+    [CATransaction begin];
+    [(GrowlMenuImageView*)[statusItem view] startAnimation];
+    [CATransaction commit];   
 }
 
 #pragma mark -
@@ -235,13 +228,16 @@
 
 - (IBAction)openGrowlLog:(id)sender
 {
-    [preferences setSelectedPreferenceTab:4];
+    [preferences setSelectedPreferenceTab:5];
     [self openGrowlPreferences:nil];
 }
 
 - (IBAction)toggleRollup:(id)sender
 {
-   [preferences setRollupShown:![preferences isRollupShown]];
+   if(![[sender title] isEqualToString:kClearRollup])
+      [preferences setRollupShown:![preferences isRollupShown]];
+   else
+      [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
 }
 
 #pragma mark -
@@ -253,27 +249,21 @@
 	[self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];
 }
 
-- (void) setImage:(NSNumber*)state {
-	
-	NSImage *normalImage = nil;
-	NSImage *pressedImage = nil;
+- (void) setImage:(NSNumber*)state {	
 	switch([state unsignedIntegerValue])
 	{
 		case kGrowlNotRunningState:
-			normalImage = [NSImage imageNamed:@"squelch.png"];
-			pressedImage = [NSImage imageNamed:@"growlmenu.png"];
+            ((GrowlMenuImageView*)[statusItem view]).mode = 2;
+
 			break;
 		case kGrowlRunningState:
 		default:
-			normalImage = [NSImage imageNamed:@"growlmenu.png"];
-			pressedImage = [NSImage imageNamed:@"growlmenu-alt.png"];
+            ((GrowlMenuImageView*)[statusItem view]).mode = 0;
 			break;
 	}
-	[(GrowlMenuImageView*)[statusItem view] setMainImage:normalImage];
-	[(GrowlMenuImageView*)[statusItem view] setAlternateImage:pressedImage];
 }
 
-- (NSMenu *) createMenu:(BOOL)forDock {
+- (NSMenu *) createMenu:(BOOL)forDock {   
 	NSZone *menuZone = [NSMenu menuZone];
 	NSMenu *m = [[NSMenu allocWithZone:menuZone] init];
 
@@ -349,9 +339,6 @@
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	BOOL isGrowlRunning = ![preferences squelchMode];
-	//we do this because growl might have died or been launched, and NSWorkspace doesn't post 
-	//notifications to its notificationCenter for LSUIElement apps for NSWorkspaceDidLaunchApplicationNotification or NSWorkspaceDidTerminateApplicationNotification
-	[self setImage:[NSNumber numberWithBool:isGrowlRunning]];
 	
 	switch ([item tag]) {
 		case kStartStopMenuTag:
@@ -364,17 +351,21 @@
 			}
 			break;
       case kShowHideRollupTag:
-         if ([preferences isRollupShown]) {
-				[item setTitle:kHideRollup];
-				[item setToolTip:kHideRollupTooltip];
-			} else {
-				[item setTitle:kShowRollup];
-				[item setToolTip:kShowRollupTooltip];
-			}
-         
+         if(!([NSEvent modifierFlags] & NSAlternateKeyMask)){
+            if ([preferences isRollupShown]) {
+               [item setTitle:kHideRollup];
+               [item setToolTip:kHideRollupTooltip];
+            } else {
+               [item setTitle:kShowRollup];
+               [item setToolTip:kShowRollupTooltip];
+            }
+         }else{
+            [item setTitle:kClearRollup];
+            [item setToolTip:kClearRollupTooltip];
+         }
          if(![preferences isRollupEnabled])
             return NO;
-
+         
          break;
       case kHistoryItemTag:
          return ![[item title] isEqualToString:kNoRecentNotifications] && ![[item title] isEqualToString:kGrowlHistoryLogDisabled];

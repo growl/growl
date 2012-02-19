@@ -3,13 +3,21 @@
 //  Display Plugins
 //
 //  Created by Diggory Laycock
-//  Copyright 2005Ð2011 The Growl Project All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlSMSPrefs: NSPreferencePane {
 }
+
+@property (nonatomic, retain) NSString *smsNotifications;
+@property (nonatomic, retain) NSString *accountRequiredLabel;
+@property (nonatomic, retain) NSString *instructions;
+@property (nonatomic, retain) NSString *accountLabel;
+@property (nonatomic, retain) NSString *passwordLabel;
+@property (nonatomic, retain) NSString *apiIDLabel;
+@property (nonatomic, retain) NSString *destinationLabel;
 
 - (NSString *) getAccountName;
 - (void) setAccountName:(NSString *)value;

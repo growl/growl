@@ -35,6 +35,7 @@
 #define KEY_APP_NAME				@"appName"
 #define KEY_NOTIFICATION_NAME		@"notificationName"
 #define KEY_NOTIFICATION_IDENTIFIER	@"identifier"
+#define KEY_NOTIFICATION_CLICKBACK_TARGET @"callbackURL"
 
 #define ERROR_EXCEPTION								1
 #define ERROR_NOT_FILE_URL							2
@@ -63,6 +64,7 @@ static const NSSize iconSize = { 128.0, 128.0 };
 	NSString *appName           = [args objectForKey:KEY_APP_NAME];
 	NSString *notifName         = [args objectForKey:KEY_NOTIFICATION_NAME];
 	NSString *notifIdentifier   = [args objectForKey:KEY_NOTIFICATION_IDENTIFIER];
+   NSString *callbackTarget    = [args objectForKey:KEY_NOTIFICATION_CLICKBACK_TARGET];
 
 	if (!title || ![title isKindOfClass:[NSString class]]) title = @"";
 	if (!desc || ![desc isKindOfClass:[NSString class]]) desc = @"";
@@ -82,6 +84,9 @@ static const NSSize iconSize = { 128.0, 128.0 };
 
 	if (notifIdentifier)
 		[noteDict setObject:notifIdentifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
+   
+   if (callbackTarget)
+      [noteDict setObject:callbackTarget forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
 
 	NSAppleEventDescriptor *addrDesc = [[self appleEvent] attributeDescriptorForKeyword:keyAddressAttr];
 	NSData *psnData = [[addrDesc coerceToDescriptorType:typeProcessSerialNumber] data];

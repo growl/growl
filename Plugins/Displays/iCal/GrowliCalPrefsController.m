@@ -11,7 +11,37 @@
 #import "GrowliCalDefines.h"
 #import "GrowlDefinesInternal.h"
 
+#define GrowliCalColorPurple NSLocalizedString(@"Purple", nil)
+#define GrowliCalColorPink NSLocalizedString(@"Pink", nil)
+#define GrowliCalColorGreen NSLocalizedString(@"Green", nil)
+#define GrowliCalColorBlue NSLocalizedString(@"Blue", nil)
+#define GrowliCalColorOrange NSLocalizedString(@"Orange", nil)
+#define GrowliCalColorRed NSLocalizedString(@"Red", nil)
+
 @implementation GrowliCalPrefsController
+
+@synthesize colorLabel;
+@synthesize colorNames;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.colorLabel = NSLocalizedString(@"Color:", @"Label for pop up button to choose color");
+      self.colorNames = [NSArray arrayWithObjects:GrowliCalColorPurple, 
+                                                  GrowliCalColorPink, 
+                                                  GrowliCalColorGreen, 
+                                                  GrowliCalColorBlue, 
+                                                  GrowliCalColorOrange, 
+                                                  GrowliCalColorRed, nil];
+   }
+   return self;
+}
+
+- (void)dealloc {
+   [colorLabel release];
+   [colorNames release];
+   [super dealloc];
+}
+
 - (NSString *) mainNibName {
 	return @"iCalPrefs";
 }

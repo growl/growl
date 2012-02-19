@@ -75,7 +75,7 @@
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
       id clickContext = nil;
       NSString *type = [callbackDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
-      if(type && [type caseInsensitiveCompare:@"PList"]){
+      if(type && [type caseInsensitiveCompare:@"PList"] == NSOrderedSame){
          clickContext = [NSPropertyListSerialization propertyListWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
                                                                   options:0
                                                                    format:NULL

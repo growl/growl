@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on Thu Apr 14 2005.
-//  Copyright 2005Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWebKitPrefsController.h"
@@ -12,11 +12,12 @@
 #import "GrowlPluginController.h"
 
 @implementation GrowlWebKitPrefsController
+
 - (id) initWithStyle:(NSString *)styleName {
 	if ((self = [self initWithBundle:[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]])) {
 		style = [styleName retain];
 		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
-	}
+   }
 	return self;
 }
 

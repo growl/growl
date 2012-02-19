@@ -9,6 +9,8 @@
 #import "GrowlDefinesInternal.h"
 
 @implementation GrowlMistWindowController
+@synthesize fadeAnimation;
+@synthesize lifetime;
 @synthesize sticky;
 @synthesize userInfo;
 @synthesize visible;
@@ -50,19 +52,43 @@
 		visible = NO;
 		sticky = isSticky;
 		if (!sticky)
-			lifetime = [[NSTimer scheduledTimerWithTimeInterval:MIST_LIFETIME target:self selector:@selector(lifetimeExpired:) userInfo:nil repeats:NO] retain];
+			self.lifetime = [NSTimer scheduledTimerWithTimeInterval:MIST_LIFETIME target:self selector:@selector(lifetimeExpired:) userInfo:nil repeats:NO];
 	}
 	[tempWindow release];
 	return self;
 }
 
 - (void)dealloc {
+    delegate = nil;
 	[lifetime invalidate];
 	[lifetime release];
-	[fadeAnimation stopAnimation]; //We'll release it in our response to the callback notifying us that it's stopping.
-	[mistView release];
+    lifetime = nil;
+    fadeAnimation.delegate = nil;
+	[fadeAnimation stopAnimation];
+    [fadeAnimation release];
+	fadeAnimation = nil;
+	mistView.delegate = nil;
+    [mistView release];
+    mistView = nil;
 	[userInfo release];
 	[super dealloc];
+}
+
+- (void)setLifetime:(NSTimer *)aLifetime
+{
+    [aLifetime retain];
+    [lifetime invalidate];
+    [lifetime release];
+    lifetime = aLifetime;
+}
+
+- (void)setFadeAnimation:(NSViewAnimation *)aFadeAnimation
+{
+	[aFadeAnimation retain];
+	fadeAnimation.delegate = nil;
+    [fadeAnimation stopAnimation];
+	[fadeAnimation release];
+	fadeAnimation = aFadeAnimation;
 }
 
 - (void)fadeIn {
@@ -70,25 +96,23 @@
 	[[self window] orderFront:nil];
 	
 	NSDictionary *fadeIn = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [self window], NSViewAnimationTargetKey,
-							 NSViewAnimationFadeInEffect, NSViewAnimationEffectKey,
+                            [self window], NSViewAnimationTargetKey,
+                            NSViewAnimationFadeInEffect, NSViewAnimationEffectKey,
 							nil];	
 	
     NSArray *animations;
     animations = [NSArray arrayWithObject:fadeIn];
 	
-    fadeAnimation = [[NSViewAnimation alloc]
-				 initWithViewAnimations:animations];
-	
-    [fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
-    [fadeAnimation setDuration:0.3];
-    [fadeAnimation startAnimation];	
+    [self setFadeAnimation:[[[NSViewAnimation alloc]
+                             initWithViewAnimations:animations] autorelease]];
+    
+    [self.fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+    [self.fadeAnimation setDuration:0.3];
+    [self.fadeAnimation startAnimation];	
 	visible = YES;
 }
 
 - (void)animationDidEnd:(NSAnimation *)animation {
-	// Free up the animation
-	[animation release];
 	[[self window] orderOut:nil];
 	visible = NO;
 	
@@ -118,13 +142,13 @@
     NSArray *animations;
     animations = [NSArray arrayWithObject:fadeOut];
 	
-    fadeAnimation = [[NSViewAnimation alloc]
-				 initWithViewAnimations:animations];
+    [self setFadeAnimation:[[[NSViewAnimation alloc]
+                             initWithViewAnimations:animations] autorelease]];
 	
-    [fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
-    [fadeAnimation setDuration:0.3];
-	[fadeAnimation setDelegate:self];
-    [fadeAnimation startAnimation];	
+    [self.fadeAnimation setAnimationBlockingMode:NSAnimationNonblocking];
+    [self.fadeAnimation setDuration:0.3];
+	[self.fadeAnimation setDelegate:self];
+    [self.fadeAnimation startAnimation];	
 }
 
 - (void)mistViewDismissed:(BOOL)wasClosed
@@ -144,13 +168,12 @@
 	selected = isSelected;
 	// Stop our lifetime-timer
 	if (selected) {
-		[lifetime invalidate];
-		[lifetime release];
-		lifetime = nil;
+		self.lifetime = nil;
 	}
 	else {
-		if (!sticky)
-			lifetime = [[NSTimer scheduledTimerWithTimeInterval:MIST_LIFETIME target:self selector:@selector(lifetimeExpired:) userInfo:nil repeats:NO] retain];
+		if (!sticky) {
+			self.lifetime = [NSTimer scheduledTimerWithTimeInterval:MIST_LIFETIME target:self selector:@selector(lifetimeExpired:) userInfo:nil repeats:NO];
+        }
 	}
 }
 

@@ -16,9 +16,15 @@
 #import "GrowlGNTPNotificationAttempt.h"
 
 static GrowlNotifier *notifier = nil;
+static BOOL keepAlive = NO;
 
 static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event) 
 {
+   if(!keepAlive){
+      xpc_transaction_begin();
+      keepAlive = YES;
+   }
+      
 	xpc_type_t type = xpc_get_type(event);
 	if (type == XPC_TYPE_ERROR) {
 		if (event == XPC_ERROR_CONNECTION_INVALID) {

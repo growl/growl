@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on Thu Apr 14 2005.
-//  Copyright 2005Ð2011 The Growl Project. All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project. All rights reserved.
 //
 
 #import "GrowlDisplayWindowController.h"
@@ -22,6 +22,8 @@
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
-+ (NSMutableDictionary *)imageCache;
++ (NSData *)cachedImageForKey:(NSString*)key;
++ (void)setCachedImage:(NSData*)image forKey:(NSString*)key;
++ (void)removeCachedImageForKey:(NSString*)key;
 
 @end

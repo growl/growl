@@ -32,8 +32,6 @@ typedef enum {
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;
 	BOOL						quitAfterOpen;
-	BOOL						enableForward;
-	NSArray						*destinations;
 
 	NSDictionary				*versionInfo;
 	NSImage						*growlIcon;
@@ -46,6 +44,7 @@ typedef enum {
     GrowlFirstLaunchWindowController *firstLaunchWindow;
     
     NSString                    *audioDeviceIdentifier;
+   NSString                     *urlOnLaunch;
    
    GrowlPreferencePane *preferencesWindow;
 }

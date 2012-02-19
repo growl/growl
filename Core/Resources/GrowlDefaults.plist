@@ -54,5 +54,15 @@
 	<false/>
 	<key>GrowlMenuPulseEnabled</key>
 	<true/>
+	<key>RequireSecureGNTPResponses</key>
+	<false/>
+	<key>RequireGNTPSecurityWhenPasswordEmpty</key>
+	<false/>
+	<key>SubscriptionAllowed</key>
+	<false/>
+	<key>AddressCachingEnabled</key>
+	<true/>
+	<key>ShouldStartGrowlAtLogin</key>
+	<false/>
 </dict>
 </plist>

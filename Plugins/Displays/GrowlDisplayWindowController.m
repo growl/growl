@@ -41,6 +41,7 @@ static NSMutableDictionary *existingInstances;
 @synthesize target;
 @synthesize displayDuration;
 @synthesize transitionDuration;
+@synthesize failureCount;
 
 #pragma mark -
 #pragma mark Caching
@@ -193,13 +194,21 @@ static NSMutableDictionary *existingInstances;
 			[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
 			
 		}
-		[self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
+        //This doesn't actually solve anything, this is a temporary measure to cap retries when the screen becomes completely full of notifications
+		if(self.failureCount < 3)
+            [self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
+        else
+        {
+            //we've failed enough times, don't display for the time being
+            [self stopDisplay];
+        }
 	}
 	
 	return foundSpace;		
 }
 
 - (BOOL) startDisplay {
+    self.failureCount++;
 	return [self reposition_startingDisplay:YES];
 }
 

@@ -44,7 +44,8 @@
 static const char usage[] =
 "Usage: growlnotify [-hsvuwc] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-P password]\n"
-"                   [-n name] [-A method] [--html] [-m message] [-t] [title]\n"
+"                   [-n name] [-A method] [--html] [-m message] [-t] [--url url]\n"
+"                   [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -63,6 +64,7 @@ static const char usage[] =
 "    -H,--host       Specify a hostname or IP address to which to send a remote notification.\n"
 "    -P,--password   Password used for remote notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
+"    --url        Notification click will result in the URL being opened\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -122,6 +124,7 @@ int main(int argc, const char **argv) {
 	int          code = EXIT_SUCCESS;
 	char        *password = NULL;
 	char        *identifier = NULL;
+   char        *url = NULL;
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		NULL,	'h' },
@@ -141,6 +144,7 @@ int main(int argc, const char **argv) {
 		{ "wait",		no_argument,		NULL,   'w' },
 		{ "sticky",     no_argument,        NULL,   's' },
 		{ "html",       no_argument,        &flag,   4  },
+      { "url",       required_argument,	NULL,	'U' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
@@ -215,7 +219,10 @@ int main(int argc, const char **argv) {
 					break;
 			}
 			break;
-		}
+      case 'U':
+         url = optarg;
+         break;
+      }  
 	}
 	argc -= optind;
 	argv += optind;
@@ -299,6 +306,11 @@ int main(int argc, const char **argv) {
 	else
 		identifierString = nil;
 
+   NSString *clickURL = nil;
+   if(url)
+      clickURL = [NSString stringWithUTF8String:url];
+      
+      
 	// Register with Growl
 	NSString *name = NOTIFICATION_NAME;
 	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:name];
@@ -327,6 +339,8 @@ int main(int argc, const char **argv) {
    [notificationInfo setValue:stickyValue forKey:GROWL_NOTIFICATION_STICKY];
    [notificationInfo setValue:icon forKey:GROWL_NOTIFICATION_ICON_DATA];
    [notificationInfo setValue:(NSString*)clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if(clickURL)
+      [notificationInfo setValue:clickURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
 	if (identifierString) {
       [notificationInfo setValue:identifierString forKey:GROWL_NOTIFICATION_IDENTIFIER];
 	}

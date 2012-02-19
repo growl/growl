@@ -553,8 +553,14 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			//It responds to -requiresPositioning, so add it as a(n enabled) display plug-in.
 			// we also test to see if this plugin is already in the plugin's list, because it might have been
             //lazily loaded and if so, it already has an entry in the list.
-            if(![displayPlugins containsObject:pluginDict])
-                [displayPlugins addObject:pluginDict];
+         NSUInteger index = [displayPlugins indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [identifier caseInsensitiveCompare:[obj valueForKey:GrowlPluginInfoKeyIdentifier]] == NSOrderedSame;
+         }];
+         if(index == NSNotFound){
+            [displayPlugins addObject:pluginDict];
+         }else{
+            [displayPlugins replaceObjectAtIndex:index withObject:pluginDict];
+         }
 		}
 		
 		//Invalidate display plug-in cache.
@@ -823,14 +829,16 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 #pragma mark Installing plug-ins
 
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+   NSString *filename = (NSString*)contextInfo;
 	if (returnCode == NSAlertAlternateReturn) {
       GrowlMenu *menu = [[GrowlApplicationController sharedController] statusMenu];
 
-		if (menu){
-         [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:2];
-         [menu openGrowlPreferences:self];
+      if (menu){
+         NSString *urlString = [[NSString stringWithFormat:@"growl://preferences/displays/%@", filename] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
       }
    }
+   [filename release];
 }
 
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -851,13 +859,15 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if ([fileManager copyItemAtPath:filename toPath:destination error:nil]) {
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+			NSBundle *bundle = [NSBundle bundleWithPath:destination];
 			if([self hasNativeArchitecture:destination])
 				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
 											nil, nil, self,
 											@selector(pluginInstalledSelector:returnCode:contextInfo:),
-											NULL, NULL,
+											NULL, 
+											[[[bundle infoDictionary] valueForKey:(NSString*)kCFBundleNameKey] copy],
 											NSLocalizedString( @"Plugin '%@' has been installed successfully. Do you want to configure it now?", @"" ),
 											[pluginFile stringByDeletingPathExtension] );
 		} else {

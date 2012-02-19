@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayPlugin.h"
 
-@interface GrowlSpeechDisplay : GrowlDisplayPlugin {
-    dispatch_queue_t speech_queue;
+@interface GrowlSpeechDisplay : GrowlDisplayPlugin<NSSpeechSynthesizerDelegate> {
+    NSMutableArray *speech_queue;
+    NSSpeechSynthesizer *syn;
 }
+
+@property (retain) NSMutableArray *speech_queue;
+@property (retain) NSSpeechSynthesizer *syn;
+
+- (void)speakNotification:(NSString*)notificationToSpeak;
 
 @end

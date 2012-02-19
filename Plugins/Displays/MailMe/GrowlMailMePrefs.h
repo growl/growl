@@ -10,6 +10,9 @@
 @interface GrowlMailMePrefs: NSPreferencePane {
 }
 
+@property (nonatomic, retain) NSString *recipientLabel;
+@property (nonatomic, assign) IBOutlet NSTextField *emailField;
+
 - (NSString *) getDestAddress;
 - (void) setDestAddress:(NSString *)value;
 
