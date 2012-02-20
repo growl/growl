@@ -32,8 +32,8 @@ enum {
 - (void)stopPulse;
 - (void)pulseStatusItem;
 
-- (void) openGrowlPreferences:(id)sender;
-- (void) startStopGrowl:(id)sender;
+- (IBAction) openGrowlPreferences:(id)sender;
+- (IBAction) startStopGrowl:(id)sender;
 - (NSMenu *) createMenu:(BOOL)forDock;
 - (void) setImage:(NSNumber*)state;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
