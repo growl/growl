@@ -156,7 +156,8 @@
 {
    [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
       
-   Class newClass = [GrowlPrefsViewController class];
+   Class newClass;
+    
    switch (tab) {
       case 0:
          newClass = [GrowlGeneralViewController class];
