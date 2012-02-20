@@ -85,6 +85,13 @@
 			remoteGlobalIDString = 6AD07C2F149FF6C400BFFF52;
 			remoteInfo = additions;
 		};
+		6A87EE0C14F2044200CF7407 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
 		6A89592D1447D221009D09FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
@@ -489,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				6A89592E1447D221009D09FC /* Growl.app */,
+				6A87EE0D14F2044200CF7407 /* GrowlLauncher.app */,
 				6A8959301447D221009D09FC /* Growl.framework */,
 				6A8959321447D221009D09FC /* Speech.growlView */,
 				6A8959341447D221009D09FC /* Brushed.growlView */,
@@ -782,6 +790,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6A87EE0D14F2044200CF7407 /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = 6A87EE0C14F2044200CF7407 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6A89592E1447D221009D09FC /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -1078,7 +1093,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1086,7 +1100,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636282149C43E500C1ED44 /* Global-Release.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -1095,7 +1108,6 @@
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1104,7 +1116,6 @@
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -1113,7 +1124,6 @@
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1122,7 +1132,6 @@
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -1131,7 +1140,6 @@
 			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -1139,7 +1147,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -1148,7 +1155,6 @@
 			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -1156,7 +1162,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Localization;
 		};
@@ -1164,7 +1169,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -1172,7 +1176,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};

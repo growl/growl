@@ -4223,7 +4223,6 @@
 			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Localization;
@@ -4278,7 +4277,6 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
-				SDKROOT = macosx;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Localization;
@@ -5075,7 +5073,6 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
-				SDKROOT = macosx;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Debug;
@@ -5104,7 +5101,6 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
-				SDKROOT = macosx;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Release;
@@ -5114,7 +5110,6 @@
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -5124,7 +5119,6 @@
 			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -5159,7 +5153,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -5187,7 +5180,6 @@
 				INFOPLIST_FILE = "GrowlLauncher/GrowlLauncher-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Localization;
@@ -5215,7 +5207,6 @@
 				INFOPLIST_FILE = "GrowlLauncher/GrowlLauncher-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -5281,7 +5272,6 @@
 				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
 			name = Debug;
@@ -5312,7 +5302,6 @@
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
 			name = Localization;
@@ -5342,7 +5331,6 @@
 				INFOPLIST_FILE = "XPC/GNTP Client/GNTPClientService-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = "com.company.application.$(TARGET_NAME)";
-				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
 			name = Release;
