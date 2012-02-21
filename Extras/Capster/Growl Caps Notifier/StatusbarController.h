@@ -23,28 +23,24 @@
 	NSImage* mini_green;
 	NSImage* mini_red;
 	
-	NSImage* led_green;
-	NSImage* led_red;
-	
-
 	NSUInteger* currentState;
 
 	//the user's preferences, loaded at startup
 	NSUserDefaults *preferences;
 	//The following are outlets in the preferences panel.
 	//the outlets are needed to change their text color to white
-	IBOutlet NSMatrix *statusbarMatrix;
+//	IBOutlet NSMatrix *statusbarMatrix;
 	NSUInteger *statusbar;
 }
 
 - (void) setIconState: (BOOL) state;
 
 - (id) initWithStatusbar: (NSUInteger*) bar
-		 statusbarMatrix:(NSMatrix*) matrix
 			 preferences: (NSUserDefaults*) prefs
 				   state: (NSUInteger*) curState
 			  statusMenu: (NSMenu*) menu;
-- (IBAction) setStatusMenuTo:(id) sender;
+//- (IBAction) statusMenuChanged;
+- (IBAction) setStatusMenu;
 - (IBAction)enableStatusMenu:(id)sender;
 - (IBAction)disableStatusMenu:(id)sender;
 - (void) initStatusMenu:(NSImage*) menuIcon;

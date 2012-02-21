@@ -111,11 +111,11 @@ enum {
         [data appendData:[GCDAsyncSocket CRLFData]];
         triple = [data copy];
     }
-    [sock readDataToData:triple withTimeout:10.0 tag:GrowlGNTPCommAttemptReadExtraPacketData];
+    [sock readDataToData:triple withTimeout: -1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
 }
 
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
-	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:10.0 tag:tag];
+	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:tag];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
@@ -135,64 +135,64 @@ enum {
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
 	NSString *readString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-    //NSLog(@"read: %@", readString);
-    
-    if(tag == GrowlGNTPCommAttemptReadExtraPacketData){
-        //No op, we possibly told it to read more after this
-        //NSLog(@"Exhausting packet");
-    }else if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {      
-        NSArray *components = [readString componentsSeparatedByString:@" "];
-        if([components count] != 3){
-            NSLog(@"Not enough, or too many components in initial header");
-            [self couldNotParseResponseWithReason:@"Not enough, or too many components in initial header" responseString:readString];
-            [socket disconnect];
-            return;
-        }
-        if (![[components objectAtIndex:0] isEqualToString:@"GNTP/1.0"]){
-            NSLog(@"Response from Growl or other notification system was patent nonsense");
-            [self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
-            [socket disconnect];
-            return;
-        }
-        if(![[[components objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:GrowlGNTPNone]){
-            NSLog(@"We shouldn't have encryption on a response from localhost");
-            [self couldNotParseResponseWithReason:@"We shouldn't have encryption on a response from localhost" responseString:readString];
-            [socket disconnect];
-            return;
-        }
-        
-        NSString *responseType = [components objectAtIndex:1];
-        
-        BOOL closeConnection = NO;
-        
-        if ([responseType isEqualToString:GrowlGNTPOKResponseType]) {
-            attemptSucceeded = YES;
-            [self succeeded];
-            
-            [self readRestOfPacket:socket];
-            closeConnection = ![self expectsCallback];
-            if(!closeConnection)
-                [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
-            
-        } else if ([responseType isEqualToString:GrowlGNTPErrorResponseType]) {            
-            /* We need to know what we are getting for an error, which is in a seperate header */
-            [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
-            responseReadType = GrowlGNTPCommAttemptReadError;
-            
-        } else if ([responseType isEqualToString:GrowlGNTPCallbackTypeHeader]) {         
-            [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
-            
-            responseReadType = GrowlGNTPCommAttemptReadFeedback;
-        } else {
-            [self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Unrecognized response type: %@", responseType] responseString:readString];
-            closeConnection = YES;
-        }
-        
-        if (closeConnection){
-            [socket disconnect];
-            [self finished];
-        }
-        
+   //NSLog(@"read: %@", readString);
+   
+   if(tag == GrowlGNTPCommAttemptReadExtraPacketData){
+      //No op, we possibly told it to read more after this
+      //NSLog(@"Exhausting packet");
+   }else if (tag == GrowlGNTPCommAttemptReadPhaseFirstResponseLine) {      
+      NSArray *components = [readString componentsSeparatedByString:@" "];
+      if([components count] != 3){
+         NSLog(@"Not enough, or too many components in initial header");
+         [self couldNotParseResponseWithReason:@"Not enough, or too many components in initial header" responseString:readString];
+         [socket disconnect];
+         return;
+      }
+      if (![[components objectAtIndex:0] caseInsensitiveCompare:@"GNTP/1.0"] == NSOrderedSame){
+         NSLog(@"Response from Growl or other notification system was patent nonsense");
+         [self couldNotParseResponseWithReason:@"Response from Growl or other notification system was patent nonsense" responseString:readString];
+         [socket disconnect];
+         return;
+      }
+      if(![[[components objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] caseInsensitiveCompare:GrowlGNTPNone] == NSOrderedSame){
+         NSLog(@"We shouldn't have encryption on a response from localhost");
+         [self couldNotParseResponseWithReason:@"We shouldn't have encryption on a response from localhost" responseString:readString];
+         [socket disconnect];
+         return;
+      }
+      
+      NSString *responseType = [components objectAtIndex:1];
+      
+      BOOL closeConnection = NO;
+      
+      if ([responseType caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame) {
+         attemptSucceeded = YES;
+         [self succeeded];
+         
+         [self readRestOfPacket:socket];
+         closeConnection = ![self expectsCallback];
+         if(!closeConnection)
+            [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+
+      } else if ([responseType caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {            
+         /* We need to know what we are getting for an error, which is in a seperate header */
+         [self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
+         responseReadType = GrowlGNTPCommAttemptReadError;
+         
+      } else if ([responseType caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame) {         
+         [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
+         
+         responseReadType = GrowlGNTPCommAttemptReadFeedback;
+      } else {
+         [self couldNotParseResponseWithReason:[NSString stringWithFormat:@"Unrecognized response type: %@", responseType] responseString:readString];
+         closeConnection = YES;
+      }
+      
+      if (closeConnection){
+         [socket disconnect];
+         [self finished];
+      }
+      
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
         NSError *headerItemError = nil;
         GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
@@ -222,16 +222,16 @@ enum {
 
 - (void)parseError
 {
-    //We need error code, and error description
-    __block GrowlGNTPHeaderItem *code = nil;
-    __block GrowlGNTPHeaderItem *description = nil;
-    [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([obj isKindOfClass:[GrowlGNTPHeaderItem class]])
-        {
-            if([[obj headerName] isEqualToString:@"Error-Code"])
-                code = obj;
-            if([[obj headerName] isEqualToString:@"Error-Description"])
-                description = obj;
+   //We need error code, and error description
+   __block GrowlGNTPHeaderItem *code = nil;
+   __block GrowlGNTPHeaderItem *description = nil;
+   [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
+      {
+         if([[obj headerName] caseInsensitiveCompare:@"Error-Code"] == NSOrderedSame)
+            code = obj;
+         if([[obj headerName] caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame)
+            description = obj;
             
             if(code != nil && description != nil)
                 *stop = YES;
@@ -256,55 +256,57 @@ enum {
 
 - (void)parseFeedback
 {
-    __block GrowlGNTPHeaderItem *result = nil;
-    __block GrowlGNTPHeaderItem *context = nil;
-    __block GrowlGNTPHeaderItem *contextType = nil;
-    [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([obj isKindOfClass:[GrowlGNTPHeaderItem class]])
-        {
-            if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackResult])
-                result = obj;
-            if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackContext])
-                context = obj;
-            if([[obj headerName] isEqualToString:GrowlGNTPNotificationCallbackContextType])
-                contextType = obj;
-            
-            if(result != nil && context != nil && contextType != nil)
-                *stop = YES;
-        }
-    }];
-    
-    NSString *resultString = [result headerValue];
-    int resultValue = 0;
-    if([resultString isEqualToString:GrowlGNTPCallbackClicked] || [resultString isEqualToString:GrowlGNTPCallbackClick])
-        resultValue = 1;
-    else if([resultString isEqualToString:GrowlGNTPCallbackClosed] || [resultString isEqualToString:GrowlGNTPCallbackClose])
-        resultValue = 2;
-    
-    id clickContext = nil;
-    
-    if([[contextType headerValue] caseInsensitiveCompare:@"PList"] == NSOrderedSame)
-        clickContext = [NSPropertyListSerialization propertyListWithData:[[context headerValue] dataUsingEncoding:NSUTF8StringEncoding] 
-                                                                 options:0
-                                                                  format:NULL
-                                                                   error:NULL];
-    else
-        clickContext = [context headerValue];
-    
-    switch (resultValue) {
-        case 1:
-            //it was clicked
-            if ([delegate respondsToSelector:@selector(notificationClicked:context:)])
-                [delegate notificationClicked:self context:clickContext];
-            break;
-        case 2:
-            //it closed, same as timed out
-        default:
-            if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
-                [delegate notificationTimedOut:self context:clickContext];
-            //it timed out
-            break;
-    }
+   __block GrowlGNTPHeaderItem *result = nil;
+   __block GrowlGNTPHeaderItem *context = nil;
+   __block GrowlGNTPHeaderItem *contextType = nil;
+   [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
+      {
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame)
+            result = obj;
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame)
+            context = obj;
+         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame)
+            contextType = obj;
+
+         if(result != nil && context != nil && contextType != nil)
+            *stop = YES;
+      }
+   }];
+   
+   NSString *resultString = [result headerValue];
+   int resultValue = 0;
+   if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClicked] == NSOrderedSame || 
+      [resultString caseInsensitiveCompare:GrowlGNTPCallbackClick] == NSOrderedSame)
+      resultValue = 1;
+   else if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClosed] == NSOrderedSame || 
+           [resultString caseInsensitiveCompare:GrowlGNTPCallbackClose] == NSOrderedSame)
+      resultValue = 2;
+   
+   id clickContext = nil;
+   
+   if([[contextType headerValue] caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+      clickContext = [NSPropertyListSerialization propertyListWithData:[[context headerValue] dataUsingEncoding:NSUTF8StringEncoding] 
+                                                               options:0
+                                                                format:NULL
+                                                                 error:NULL];
+   else
+      clickContext = [context headerValue];
+         
+   switch (resultValue) {
+      case 1:
+         //it was clicked
+         if ([delegate respondsToSelector:@selector(notificationClicked:context:)])
+            [delegate notificationClicked:self context:clickContext];
+         break;
+      case 2:
+         //it closed, same as timed out
+      default:
+         if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
+            [delegate notificationTimedOut:self context:clickContext];
+         //it timed out
+         break;
+   }
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {

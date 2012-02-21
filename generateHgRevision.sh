@@ -8,7 +8,7 @@ PATH="$PATH:/usr/local/share/python:/opt/local/bin:/usr/local/bin:/sw/bin"
 export PYTHONPATH="$PYTHONPATH:/usr/local/lib/python2.6/site-packages:/Library/Python/2.6/site-packages"
 
 #this is done because Xcode won't actually run the script if the output file already exists, which is bad
-HEADERPATH="$BUILT_PRODUCTS_DIR/include/hgRevision.h"
+HEADERPATH="$BUILT_PRODUCTS_DIR/include/HgRevision.h"
 
 #hg parent will present two revisions if the user has a pending merge.
 #The user probably shouldn't be building in such a circumstance, but,
@@ -17,8 +17,8 @@ HEADERPATH="$BUILT_PRODUCTS_DIR/include/hgRevision.h"
 REVISION=`hg parent --template="{rev}\n" | head -n1`
 if [[ "x$REVISION" = "x" ]]; then
 	#This is not an hg repository. It's probably an archive. Try to determine the archived revision.
-	REVISION=`/usr/bin/sed -E -n '/^node:/{ s/node: //; s/^([0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]).*/\1/; p; q; }' < "${SRCROOT}/.hg_archival.txt"`
-	if [[ "x$REVISION" = "x" ]]; then
+REVISION=`/usr/bin/sed -E -n '/^node:/{ s/node: //; s/^([0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]).*/0x\1/; p; q; }' < "${SRCROOT}/.hg_archival.txt"`
+if [[ "x$REVISION" = "x" ]]; then
 		#Not an archive, either. Weird.
 		REVISION=0
 	fi

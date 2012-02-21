@@ -23,6 +23,7 @@
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
+#define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
 #define GrowlUDPPortKey				XSTR("GrowlUDPPort")
@@ -45,6 +46,7 @@
 
 #define GrowlFirstLaunch            XSTR("GrowlFirstLaunch")
 #define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
+#define GrowlShouldStartAtLogin     XSTR("ShouldStartGrowlAtLogin")
 
 #define GrowlRollupShown            XSTR("GrowlRollupShown")
 #define GrowlRollupEnabled          XSTR("GrowlRollupEnabled")
@@ -82,11 +84,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
 - (void) synchronize;
 
+- (void) upgradeStartAtLogin;
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
-- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
 - (void) setSquelchMode:(BOOL)squelch;
 - (BOOL) squelchMode;
@@ -150,6 +152,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
+
+#pragma mark Subscriptions
+
+- (BOOL) isSubscriptionAllowed;
+- (void) setSubscriptionAllowed:(BOOL)allowed;
+
+- (NSString*) GNTPSubscriberID;
+- (void) setGNTPSubscriberID:(NSString*)newID;
 
 @end
 

@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "Albums";
+
+/* No comment provided by engineer. */
+"Album Artist" = "Albuma izpildītājs";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "Izpildītājs vai albuma izpildītājs";
+
+/* No comment provided by engineer. */
+"Artist" = "Izpildītājs";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "Parādīt iTunes";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Celiņi pārslēgti";
+
+/* No comment provided by engineer. */
+"Comment" = "Komentārs";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "Iestatīt formatējumu";
+
+/* No comment provided by engineer. */
+"Description" = "Apraksts";
+
+/* No comment provided by engineer. */
+"Episode ID" = "Epizodes ID";
+
+/* No comment provided by engineer. */
+"Episode Number" = "Epizodes numurs";
+
+/* No comment provided by engineer. */
+"Long Description" = "Paplašināts apraksts";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "Paplašināts apraksts, komentārs vai apraksts";
+
+/* No comment provided by engineer. */
+"Name" = "Nosaukums";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "Ziņot, ja darbojas iTunes";
+
+/* No comment provided by engineer. */
+"Paused" = "Pauzēts";
+
+/* No comment provided by engineer. */
+"Play Time" = "Atskaņošanas ilgums";
+
+/* No comment provided by engineer. */
+"Quit Both" = "Aizvērt abas programmas";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "Aizvērt GrowlTunes";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "Aizvērt iTunes";
+
+/* No comment provided by engineer. */
+"Rating" = "Vērtējums";
+
+/* No comment provided by engineer. */
+"Season Number" = "Sezonas numurs";
+
+/* No comment provided by engineer. */
+"Show" = "Rādīt";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "Palaist iTunes";
+
+/* No comment provided by engineer. */
+"Started" = "Palaists";
+
+/* No comment provided by engineer. */
+"Stopped" = "Apturēts";
+
+/* No comment provided by engineer. */
+"Stream Title" = "Straumēšanas virsraksts";
+
+/* No comment provided by engineer. */
+"Track Count" = "Celiņa skaits";
+
+/* No comment provided by engineer. */
+"Track Number" = "Celiņa numurs";
+
+/* No comment provided by engineer. */
+"Video Kind" = "Video tips";
+
+/* No comment provided by engineer. */
+"Volume" = "Skaļums";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "← Iepriekšējais celiņš";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "→ Nākamais celiņš";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "▶ Atskaņot/Pauzēt";

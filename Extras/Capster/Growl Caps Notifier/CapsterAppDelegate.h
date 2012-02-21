@@ -33,46 +33,59 @@
 	NSUserDefaults *preferences;
 	//The following are outlets in the preferences panel.
 	//the outlets are needed to change their text color to white
-	IBOutlet NSMatrix *statusbarMatrix;
+	NSInteger oldIconValue;
+    NSArray *iconOptions;
+    NSPopUpButton *iconPopUp;
+//	IBOutlet NSMatrix *statusbarMatrix;
 	//the menu shown when the menu icon is pressed
     IBOutlet NSMenu *statusMenu;
 	NSUInteger *statusbar;
 	
 	NSUInteger* currentState;
+
+    NSInteger oldOnLoginValue;
+    NSSegmentedControl *onLoginSegmentedControl;
 	
 	GrowlController* myGrowlController;
 	StatusbarController *myStatusbarController;
 	
-	NSString *prefsTitle, *hideTitle, *quitTitle;
-	NSString *noneTitle, *blackIcons, *colorIcons, *colorOrbs, *preferenceTitle, *labelTitle, *closeTitle;
+	NSString *prefsTitle, *onLoginTitle, *quitTitle;
+	NSString *noneTitle, *blackIcons, *colorIcons, *preferenceTitle, *labelTitle, *closeTitle;
+	NSString *capsTitle, *numlockTitle, *fnTitle, *soundTitle;
+	
+	NSUInteger capsFlag, shiftFlag, numlockFlag, fnFlag;
 }
 
+@property NSUInteger capsFlag, shiftFlag, numlockFlag, fnFlag;
+
+@property  (nonatomic, assign) IBOutlet NSSegmentedControl *onLoginSegmentedControl;
+
 @property (nonatomic, retain)  NSString *prefsTitle;
-@property (nonatomic, retain)  NSString *hideTitle;
+@property (nonatomic, retain)  NSString *onLoginTitle;
 @property (nonatomic, retain)  NSString *quitTitle;
 
-@property (nonatomic, retain)  NSString *noneTitle;
-@property (nonatomic, retain)  NSString *blackIcons;
-@property (nonatomic, retain)  NSString *colorIcons;
-@property (nonatomic, retain)  NSString *colorOrbs;
-@property (nonatomic, retain)  NSString *preferenceTitle;
-@property (nonatomic, retain)  NSString *labelTitle;
-@property (nonatomic, retain)  NSString *closeTitle;
+@property (nonatomic, retain)  NSString *noneTitle, *blackIcons, *colorIcons,\
+								*preferenceTitle, *labelTitle, *closeTitle;
+@property (nonatomic, retain) NSString *capsTitle, *numlockTitle, *fnTitle, *soundTitle;
+
+@property (nonatomic, retain) NSArray *iconOptions;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *iconPopUp;
+
 
 @property (assign) IBOutlet NSPanel *preferencePanel;
 
 - (void) registerDefaults;
 - (void) initTitles;
-- (void) makeEverythingWhite;
+- (void) initFlags;
 - (void)setButtonTitleFor:(id)button toString:(NSString*)title withColor:(NSColor*)color ;
-- (void) listenForCapsInNewThread;
 - (void) listen;
 
 //set the status menu to the value of the checkbox sender
-- (IBAction) setStatusMenuTo:(id) sender;
+//- (IBAction) statusMenuChanged: (id) sender;
 //show the preference panel
 - (IBAction) showPreferences:(id) sender;
 
 - (void) fetchedCapsState;
-- (void) capsLockChanged: (NSUInteger) newState;
+- (void) flagChanged: (NSString*) flag toValue: (NSUInteger) value;
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled;
 @end

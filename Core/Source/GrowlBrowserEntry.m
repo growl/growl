@@ -12,36 +12,6 @@
 #import "GrowlKeychainUtilities.h"
 #import "GNTPKey.h"
 
-@interface GNTPHostAvailableColorTransformer : NSValueTransformer
-@end
-
-@implementation GNTPHostAvailableColorTransformer
-
-+ (void)load
-{
-   if (self == [GNTPHostAvailableColorTransformer class]) {
-       @autoreleasepool {
-           [self setValueTransformer:[[[self alloc] init] autorelease]
-                             forName:@"GNTPHostAvailableColorTransformer"];
-       }
-   }
-}
-
-+ (Class)transformedValueClass 
-{ 
-   return [NSColor class];
-}
-+ (BOOL)allowsReverseTransformation
-{
-   return NO;
-}
-- (id)transformedValue:(id)value
-{
-   return [value boolValue] ? [NSColor blackColor] : [NSColor redColor];
-}
-
-@end
-
 @implementation GrowlBrowserEntry
 @synthesize computerName = _name;
 @synthesize uuid = _uuid;
@@ -50,6 +20,7 @@
 @synthesize manualEntry = _manualEntry;
 @synthesize domain = _domain;
 @synthesize key = _key;
+@synthesize lastKnownAddress = _lastKnownAddress;
 
 - (id) init {
 	
@@ -59,6 +30,8 @@
 		[self addObserver:self forKeyPath:@"computerName" options:NSKeyValueObservingOptionNew context:self];
       [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
       didPasswordLookup = NO;
+      
+      self.lastKnownAddress = nil;
    }
 	return self;
 }
@@ -73,6 +46,8 @@
 		[self setUse:[[dict valueForKey:@"use"] boolValue]];
 		[self setActive:[[dict valueForKey:@"active"] boolValue]];
       [self setManualEntry:[[dict valueForKey:@"manualEntry"] boolValue]];
+      if(_manualEntry)
+         self.active = YES;
       [self setDomain:[dict valueForKey:@"domain"]];
       [self updateKey];
    }
@@ -84,8 +59,8 @@
 	if ((self = [self init])) {		
         [self setUuid:[[NSProcessInfo processInfo] globallyUniqueString]];
 		[self setComputerName:name];
-		[self setUse:FALSE];
-		[self setActive:TRUE];
+		[self setUse:NO];
+		[self setActive:YES];
       [self setManualEntry:NO];
       [self setDomain:@"local."];
       [self updateKey];
@@ -136,6 +111,31 @@
 
 - (void) setOwner:(GNTPForwarder *)pref {
 	owner = pref;
+}
+
+- (void) setLastKnownAddress:(NSData *)address {
+   //If someone is trying to set the address data and we aren't allowed to do caching at the moment, nil it
+   if(![[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] && address)
+      address = nil;
+   if(_lastKnownAddress)
+      [_lastKnownAddress release];
+   _lastKnownAddress = [address retain];
+}
+
+- (void)setActive:(BOOL)active {
+   _active = active;
+   //If we are a bonjour entry, nil out address data on inactivate/reactivate to ensure we check again
+   //Same if we are a domain name based manual entry
+   if(!_manualEntry || [_name Growl_isLikelyDomainName])
+      self.lastKnownAddress = nil;
+}
+
+- (void)setUse:(BOOL)use {
+   _use = use;
+   //If we are a bonjour entry, nil out address data on set of use to ensure we check again
+   //Same if we are a domain name based manual entry
+   if(!_manualEntry || ![_name Growl_isLikelyIPAddress])
+      self.lastKnownAddress = nil;
 }
 
 - (NSMutableDictionary *) properties {

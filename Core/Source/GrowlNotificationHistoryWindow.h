@@ -23,8 +23,6 @@
    NSMutableArray *rowHeights;
    
    BOOL transitionGroup;
-
-
 }
 -(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase;
 
@@ -32,6 +30,7 @@
 @property (nonatomic, assign) IBOutlet NSTextField *countLabel;
 @property (nonatomic, assign) IBOutlet NSTableColumn *notificationColumn;
 @property (nonatomic, assign, readwrite)  GrowlNotificationDatabase* notificationDatabase;
+@property (nonatomic, retain) NSString *windowTitle;
 
 -(void)updateCount;
 -(void)resetArray;

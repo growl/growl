@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Diggory Laycock
-//  Copyright 2005Ð2011 The Growl Project All rights reserved.
+//  Copyright 2005â€“2011 The Growl Project All rights reserved.
 //
 
 #import "GrowlSMSPrefs.h"
@@ -22,6 +22,38 @@
 
 
 @implementation GrowlSMSPrefs
+
+@synthesize smsNotifications;
+@synthesize accountRequiredLabel;
+@synthesize instructions;
+@synthesize accountLabel;
+@synthesize passwordLabel;
+@synthesize apiIDLabel;
+@synthesize destinationLabel;
+
+- (id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.smsNotifications = NSLocalizedString(@"SMS Notifications", @"Title for SMS plugin");
+      self.accountRequiredLabel = NSLocalizedString(@"(Clickatell.com account required.)", @"Warning that a clickatell.com account is required");
+      self.instructions = NSLocalizedString(@"To register:\nhttp://www.clickatell.com/brochure/products/api_xml.php\n\nFor rates see:\nhttp://www.clickatell.com/brochure/pricing.php", @"Instructions for clickatell");
+      self.accountLabel = NSLocalizedString(@"Account:", @"Label for account field");
+      self.passwordLabel = NSLocalizedString(@"Password:", @"Label for password field");
+      self.apiIDLabel = NSLocalizedString(@"API ID:", @"label for API ID field");
+      self.destinationLabel = NSLocalizedString(@"Destination Number:", @"label for destination number field");
+   }
+   return self;
+}
+
+- (void)dealloc {
+   [smsNotifications release];
+   [accountRequiredLabel release];
+   [instructions release];
+   [accountLabel release];
+   [passwordLabel release];
+   [apiIDLabel release];
+   [destinationLabel release];
+   [super dealloc];
+}
 
 - (NSString *) mainNibName {
 	return @"GrowlSMSPrefs";

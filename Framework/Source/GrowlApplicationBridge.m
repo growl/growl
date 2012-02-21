@@ -633,6 +633,28 @@ static struct {
 }
 
 #pragma mark -
+#pragma mark Growl URL scheme
+
++ (BOOL) isGrowlURLSchemeAvailable {
+   NSURL *growlURLScheme = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:@"growl://"]];
+
+   if(growlURLScheme)
+      return YES;
+   return NO;
+}
+
++ (BOOL) openGrowlPreferences:(BOOL)showApp {
+   if(showApp && !appName){
+      NSLog(@"Attempt to show application setting without having set the Delegate first");
+      return NO;
+   }
+   NSString *appString = showApp ? [NSString stringWithFormat:@"/applications/%@", appName] : @"";
+   NSString *urlString = [[NSString stringWithFormat:@"growl://preferences%@", appString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   NSURL *url = [NSURL URLWithString:urlString];
+   return [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+#pragma mark -
 #pragma mark Private methods
 
 + (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {

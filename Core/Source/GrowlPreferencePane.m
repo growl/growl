@@ -30,18 +30,44 @@
 @end
 
 @implementation GrowlPreferencePane
-@synthesize services;
 @synthesize networkAddressString;
 @synthesize currentViewController;
+@synthesize prefViewControllers;
+
+@synthesize settingsWindowTitle;
+@synthesize generalItem;
+@synthesize applicationsItem;
+@synthesize displaysItem;
+@synthesize networkItem;
+@synthesize rollupItem;
+@synthesize historyItem;
+@synthesize aboutItem;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+   
+   [settingsWindowTitle release];
 	[super dealloc];
 }
 
+- (id)initWithWindowNibName:(NSString *)windowNibName {
+   if((self = [super initWithWindowNibName:windowNibName])){
+      self.settingsWindowTitle = NSLocalizedString(@"Preferences", @"Preferences window title");
+   }
+   return self;
+}
+
 - (void) awakeFromNib {
-    
+   [generalItem setLabel:NSLocalizedString(@"General", @"General prefs tab title")];
+   [applicationsItem setLabel:NSLocalizedString(@"Applications", @"Application prefs tab title")];
+   [displaysItem setLabel:NSLocalizedString(@"Displays", @"Display prefs tab title")];
+   [networkItem setLabel:NSLocalizedString(@"Network", @"Network prefs tab title")];
+   [rollupItem setLabel:NSLocalizedString(@"Rollup", @"Rollup prefs tab title")];
+   [historyItem setLabel:NSLocalizedString(@"History", @"History prefs tab title")];
+   [aboutItem setLabel:NSLocalizedString(@"About", @"About prefs tab title")];
+
+    firstOpen = YES;
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
     
     preferencesController = [GrowlPreferencesController sharedController];
@@ -53,7 +79,8 @@
 }
 
 - (void)showWindow:(id)sender
-{
+{   
+   [toolbar setVisible:YES];
     //if we're visible but not on the active space then go ahead and close the window
     if ([self.window isVisible] && ![self.window isOnActiveSpace])
         [self.window orderOut:self];
@@ -65,10 +92,13 @@
     [super showWindow:sender];
     [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
    
-   if([currentViewController respondsToSelector:@selector(viewWillLoad)])
-      [currentViewController viewWillLoad];
-   if([currentViewController respondsToSelector:@selector(viewDidLoad)])
-      [currentViewController viewDidLoad];
+   if(!firstOpen){
+      if([currentViewController respondsToSelector:@selector(viewWillLoad)])
+         [currentViewController viewWillLoad];
+      if([currentViewController respondsToSelector:@selector(viewDidLoad)])
+         [currentViewController viewDidLoad];
+   }
+   firstOpen = NO;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -124,7 +154,8 @@
 {
    [toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%lu", tab]];
       
-   Class newClass = [GrowlPrefsViewController class];
+   Class newClass;
+    
    switch (tab) {
       case 0:
          newClass = [GrowlGeneralViewController class];
@@ -185,7 +216,7 @@
    NSRect frame = [aWindow frame];
    frame.size = newSize;
    frame.origin.y -= (newSize.height - oldSize.height);
-   
+    frame.origin.x -= (newSize.width - oldSize.width)/2.0f;
    [oldController viewWillUnload];
    [aWindow setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
    [oldController viewDidUnload];
@@ -195,6 +226,7 @@
    
    [nextController viewWillLoad];
    [aWindow setContentView:[nextController view]];
+   [aWindow makeFirstResponder:[nextController view]];
    [nextController viewDidLoad];
 }
 
@@ -205,12 +237,22 @@
 
 -(BOOL)validateToolbarItem:(NSToolbarItem *)theItem
 {
-    return [[toolbar visibleItems] containsObject:theItem];
+    return YES;
 }
 
--(NSArray*)toolbarSelectableItems:(NSToolbar*)theToolbar
+-(NSArray*)toolbarSelectableItemIdentifiers:(NSToolbar*)aToolbar
 {
-    return [toolbar visibleItems];
+    return [NSArray arrayWithObjects:@"0", @"1", @"2", @"3", @"4", @"5", @"6", nil];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+   return [NSArray arrayWithObjects:NSToolbarFlexibleSpaceItemIdentifier, @"0", @"1", @"2", @"3", @"4", @"5", @"6", nil];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)aToolbar 
+{
+   return [NSArray arrayWithObjects:NSToolbarFlexibleSpaceItemIdentifier, @"0", @"1", @"2", @"3", @"4", @"5", @"6", NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
 -(void)releaseTab:(GrowlPrefsViewController *)tab

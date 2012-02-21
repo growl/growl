@@ -1,8 +1,8 @@
 #!/bin/bash
 
 BASEID="com.company.application"
-MYID="${MYID:=com.growl.growltunes}"
-APPNAME="${APPNAME:=growltunes}"
+MYID="${MYID:=com.growl.GrowlTunes}"
+APPNAME="${APPNAME:=GrowlTunes}"
 GNTPENTITLEMENTS="${GNTPENTITLEMENTS:=${PROJECT_DIR}/../../XPC/GNTP Client/GNTPClientService.entitlements}"
 MYENTITLEMENTS="${MYENTITLEMENTS:=${PROJECT_DIR}/${APPNAME}/${APPNAME}.entitlements}"
 APPRESIGN="no"

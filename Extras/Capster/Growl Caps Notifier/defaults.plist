@@ -6,5 +6,7 @@
 	<integer>1</integer>
 	<key>statusMenu</key>
 	<integer>1</integer>
+	<key>capsNotifications</key>
+	<true/>
 </dict>
 </plist>

@@ -138,8 +138,12 @@
 	if (iconID) {
 		data = [binaryDataByIdentifier objectForKey:iconID];
 	} else if (iconURL) {
-		/* XXX Blocking */
-		data = [NSData dataWithContentsOfURL:iconURL];
+      /* FIX ME: Implement a full, asynchronous download system */
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         NSLog(@"URL based notification icon's are not presently supported.  Support will return in a future release of Growl.app");
+      });
+      NSLog(@"Not downloading icon for notification %@ of application %@", [self notificationName], [self applicationName]);
 	}
 	
 	return data;
@@ -241,7 +245,7 @@
 		}
 	} else if ([name caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame) {
       id clickContext = nil;
-      if([self callbackContextType] && [[self callbackContextType] caseInsensitiveCompare:@"PList"]){
+      if([self callbackContextType] && [[self callbackContextType] caseInsensitiveCompare:@"PList"] == NSOrderedSame){
             clickContext = [NSPropertyListSerialization propertyListWithData:[value dataUsingEncoding:NSUTF8StringEncoding]
                                                                      options:0
                                                                       format:NULL
@@ -269,9 +273,9 @@
 		[self setCallbackTarget:value];
 	} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 		CallbackURLTargetMethod method;
-		if ([value caseInsensitiveCompare:@"GET"]) {
+		if ([value caseInsensitiveCompare:@"GET"] == NSOrderedSame) {
 			method = CallbackURLTargetGetMethod;
-		} else if ([value caseInsensitiveCompare:@"POST"]) {
+		} else if ([value caseInsensitiveCompare:@"POST"] == NSOrderedSame) {
 			method = CallbackURLTargetPostMethod;
 		} else {
 			method = CallbackURLTargetUnknownMethod;
@@ -350,9 +354,9 @@
 			hasTarget = YES;
 		} else if ([name caseInsensitiveCompare:@"Notification-Callback-Target-Method"] == NSOrderedSame) {
 			NSString *value = [header headerValue];
-			if ([value caseInsensitiveCompare:@"GET"]) {
+			if ([value caseInsensitiveCompare:@"GET"] == NSOrderedSame) {
 				targetMethod = CallbackURLTargetGetMethod;
-			} else if ([value caseInsensitiveCompare:@"POST"]) {
+			} else if ([value caseInsensitiveCompare:@"POST"] == NSOrderedSame) {
 				targetMethod = CallbackURLTargetPostMethod;
 			} else {
 				targetMethod = CallbackURLTargetUnknownMethod;

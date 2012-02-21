@@ -901,7 +901,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
     {
         
             NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
-            NSInteger index = [value integerValue];
+            NSInteger index   = [value integerValue];
             switch (index) {
                 case kDontShowIcon:
                     [NSApp activateIgnoringOtherApps:YES];

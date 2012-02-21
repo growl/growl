@@ -10,17 +10,17 @@
 
 @class GrowlPreferencesController;
 
-@interface GNTPForwarder : NSObject <NSNetServiceBrowserDelegate>
+@interface GNTPForwarder : NSObject
 
 @property (nonatomic, assign) GrowlPreferencesController *preferences;
 @property (nonatomic, retain) NSMutableArray *destinations;
-
-@property (nonatomic, retain) NSNetServiceBrowser *browser;
+@property (nonatomic) BOOL alreadyBrowsing;
 
 + (GNTPForwarder*)sharedController;
 
-- (void)startBrowsing;
-- (void)stopBrowsing;
+- (void)preferencesChanged:(NSNotification*)note;
+- (void)clearCachedAddresses;
+
 - (void)newManualEntry;
 - (void)removeEntryAtIndex:(NSUInteger)index;
 - (void)writeForwardDestinations;

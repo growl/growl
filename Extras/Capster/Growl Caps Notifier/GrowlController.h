@@ -16,5 +16,5 @@
     
 }
 - (void) sendStartupGrowlNotification;
-- (void) sendCapsLockNotification:(NSUInteger) newState;
+- (void) sendNotification:(NSUInteger) newState forFlag: (NSString*) type;
 @end

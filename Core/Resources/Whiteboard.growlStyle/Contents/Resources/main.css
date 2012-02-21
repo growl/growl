@@ -48,7 +48,7 @@ img#icon {
 	height: 36px;
 	min-width: 36px;
 	margin: 1px;
-	margin-right: 5px;
+	margin-right: 6px;
 	border-radius: 3px;
 }
 
@@ -70,7 +70,7 @@ img#icon {
 }
 
 #description {
-	color: rgba(0,0,0,0.5);
+	color: rgba(0,0,0,0.575);
 	margin-bottom: 3px;
 	max-height: 196px;
 	overflow: hidden;
@@ -79,9 +79,9 @@ img#icon {
 }
 
 #description.high {
-	color: rgba(40,24,0,0.5);
+	color: rgba(40,24,0,0.575);
 }
 
 #description.emergency {
-	color: rgba(40,0,0,0.5);
+	color: rgba(40,0,0,0.575);
 }

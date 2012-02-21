@@ -13,6 +13,9 @@
 @property (nonatomic, assign) IBOutlet NSTextField *aboutVersionString;
 @property (nonatomic, assign) IBOutlet NSTextView *aboutBoxTextView;
 
+@property (nonatomic, retain) NSString *bugSubmissionLabel;
+@property (nonatomic, retain) NSString *growlWebsiteLabel;
+
 - (void) setupAboutTab;
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlBugSubmissionPage:(id)sender;

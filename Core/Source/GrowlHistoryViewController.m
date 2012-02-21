@@ -8,6 +8,7 @@
 
 #import "GrowlHistoryViewController.h"
 #import "GrowlNotificationDatabase.h"
+#import "GrowlOnSwitch.h"
 
 @implementation GrowlHistoryViewController
 
@@ -17,18 +18,42 @@
 @synthesize historyTable;
 @synthesize trimByCountCheck;
 @synthesize trimByDateCheck;
+@synthesize historySearchField;
+
+@synthesize enableHistoryLabel;
+@synthesize keepAmountLabel;
+@synthesize keepDaysLabel;
+@synthesize applicationColumnLabel;
+@synthesize titleColumnLabel;
+@synthesize timeColumnLabel;
+@synthesize clearAllHistoryButtonTitle;
+
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
 {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
-        self.notificationDatabase = [GrowlNotificationDatabase sharedInstance];
-    }
-    return self;
+        self.notificationDatabase = [GrowlNotificationDatabase sharedInstance];   
+      self.enableHistoryLabel = NSLocalizedString(@"Enable History:", @"Label for the on/off switfh for enabling history");
+      self.keepAmountLabel = NSLocalizedString(@"Keep Amount", @"Label for checkbox for keeping up to an amount of notifications");
+      self.keepDaysLabel = NSLocalizedString(@"Keep Days", @"Label for checkbox for keeping up to a certain number of days worth of notifications");
+      self.applicationColumnLabel = NSLocalizedString(@"Application", @"Column title for the applications column in the history table");
+      self.titleColumnLabel = NSLocalizedString(@"Title", @"Column title for the title column in the history table");
+      self.timeColumnLabel = NSLocalizedString(@"Time", @"Column title for the time column in the history table");
+      self.clearAllHistoryButtonTitle = NSLocalizedString(@"Clear All History", @"Clear all history button title");
+      [[historySearchField cell] setPlaceholderString:NSLocalizedString(@"Search", @"Placeholder text in search field")];
+   }
+   return self;
 }
 
 -(void) awakeFromNib {
+   [[historySearchField cell] setPlaceholderString:NSLocalizedString(@"Search", @"History search field placeholder")];
    [historyTable setAutosaveName:@"GrowlPrefsHistoryTable"];
    [historyTable setAutosaveTableColumns:YES];
+   
+   [historyOnOffSwitch addObserver:self 
+                        forKeyPath:@"state" 
+                           options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
+                           context:nil];
     
     //set our default sort descriptor so that we're looking at new stuff at the top by default
     NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
@@ -46,29 +71,37 @@
    return @"HistoryPrefs";
 }
 
+- (void)dealloc
+{
+   [historyOnOffSwitch removeObserver:self forKeyPath:@"state"];
+   
+   [enableHistoryLabel release];
+   [keepAmountLabel release];
+   [keepDaysLabel release];
+   [applicationColumnLabel release];
+   [titleColumnLabel release];
+   [timeColumnLabel release];
+   [clearAllHistoryButtonTitle release];
+   [super dealloc];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+   if(object == historyOnOffSwitch && [keyPath isEqualToString:@"state"])
+      [self.preferencesController setGrowlHistoryLogEnabled:[historyOnOffSwitch state]];
+}
+
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	@autoreleasepool {
         id object = [notification object];
         if(!object || [object isEqualToString:GrowlHistoryLogEnabled]){
-            if([self.preferencesController isGrowlHistoryLogEnabled])
-                [historyOnOffSwitch setSelectedSegment:1];
-            else
-                [historyOnOffSwitch setSelectedSegment:0];
+			[historyOnOffSwitch setState:[self.preferencesController isGrowlHistoryLogEnabled]];
         }
     }
 }
 
 #pragma mark HistoryTab
-
-- (IBAction) toggleHistory:(id)sender
-{
-    if([(NSSegmentedControl*)sender selectedSegment] == 1){
-        [self.preferencesController setGrowlHistoryLogEnabled:YES];
-    }else{
-        [self.preferencesController setGrowlHistoryLogEnabled:NO];
-    }
-}
 
 -(void)growlDatabaseDidUpdate:(NSNotification*)notification
 {
@@ -98,7 +131,8 @@
 
 - (IBAction) deleteSelectedHistoryItems:(id)sender
 {
-    [[GrowlNotificationDatabase sharedInstance] deleteSelectedObjects:[historyArrayController selectedObjects]];
+   [[GrowlNotificationDatabase sharedInstance] deleteSelectedObjects:[historyArrayController selectedObjects]];
+   [historyArrayController rearrangeObjects];
 }
 
 - (IBAction) clearAllHistory:(id)sender
@@ -124,6 +158,27 @@
             [[GrowlNotificationDatabase sharedInstance] deleteAllHistory];
             break;
     }
+}
+
+- (void)openSettings:(BOOL)notification {
+   id obj = [[historyArrayController arrangedObjects] objectAtIndex:[historyTable clickedRow]];
+   NSString *appName =  [obj valueForKey:@"ApplicationName"];
+   NSString *hostName = [obj valueForKeyPath:[NSString stringWithFormat:@"GrowlDictionary.%@", GROWL_NOTIFICATION_GNTP_SENT_BY]];
+   NSString *noteName = notification ? [obj valueForKey:@"Name"] : nil;
+   //NSLog(@"Selected (<application> - <host> : <note>) %@ - %@ : %@", appName, hostName, noteName);
+   NSString *urlString = [NSString stringWithFormat:@"growl://preferences/applications/%@/%@/%@", appName, (hostName ? hostName : @""), (noteName ? noteName : @"")];
+   urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+   //NSLog(@"url: %@", urlString);
+   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
+
+}
+
+- (IBAction)openAppSettings:(id)sender {
+   [self openSettings:NO];
+}
+
+- (IBAction)openNoteSettings:(id)sender {
+   [self openSettings:YES];
 }
 
 @end

@@ -12,6 +12,16 @@
 
 @implementation GrowlSpeechPrefs
 @synthesize voices;
+@synthesize voiceLabel;
+@synthesize nameColumnLabel;
+
+- (id)initWithBundle:(NSBundle *)bundle {
+   if((self = [super initWithBundle:bundle])){
+      self.voiceLabel = NSLocalizedString(@"Voice:", @"Label for table with voices");
+      self.nameColumnLabel = NSLocalizedString(@"Name", @"Column title for the name of voice");
+   }
+   return self;
+}
 
 - (NSString *) mainNibName {
 	return @"GrowlSpeechPrefs";
@@ -56,6 +66,8 @@
 
 - (void) dealloc {
 	[voices release];
+   [voiceLabel release];
+   [nameColumnLabel release];
 	[super dealloc];
 }
 

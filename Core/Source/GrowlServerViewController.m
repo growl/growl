@@ -12,80 +12,170 @@
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
+#import "GNTPSubscriberEntry.h"
+#import "GNTPSubscriptionController.h"
+#import "GrowlBonjourBrowser.h"
+#import "GrowlNetworkObserver.h"
 #import "NSStringAdditions.h"
 
-#import <SystemConfiguration/SystemConfiguration.h>
-#include <ifaddrs.h>
-#include <arpa/inet.h>
+@interface GNTPHostAvailableColorTransformer : NSValueTransformer
+@end
 
+@implementation GNTPHostAvailableColorTransformer
 
-/** A reference to the SystemConfiguration dynamic store. */
-static SCDynamicStoreRef dynStore;
++ (void)load
+{
+   if (self == [GNTPHostAvailableColorTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GNTPHostAvailableColorTransformer"];
+      [pool release];
+   }
+}
 
-/** Our run loop source for notification. */
-static CFRunLoopSourceRef rlSrc;
++ (Class)transformedValueClass 
+{ 
+   return [NSColor class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   return [value boolValue] ? [NSColor blackColor] : [NSColor redColor];
+}
 
-static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info);
+@end
+
+@interface GNTPManualEntryImageTransformer : NSValueTransformer
+@end
+
+@implementation GNTPManualEntryImageTransformer
+
++ (void)load
+{
+   if (self == [GNTPHostAvailableColorTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GNTPManualEntryImageTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSImage class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   return [value boolValue] ? [NSImage imageNamed:NSImageNameNetwork] : [NSImage imageNamed:NSImageNameBonjour];
+}
+
+@end
 
 @implementation GrowlServerViewController
 
 @synthesize forwarder;
+@synthesize subscriptionController;
 @synthesize serviceNameColumn;
 @synthesize servicePasswordColumn;
 @synthesize networkTableView;
+@synthesize subscriptionsTableView;
+@synthesize subscriberTableView;
+@synthesize subscriptionArrayController;
+@synthesize subscriberArrayController;
+@synthesize networkConnectionTabView;
+
+@synthesize listenForIncomingNoteLabel;
+@synthesize serverPasswordLabel;
+@synthesize ipAddressesLabel;
+@synthesize forwardingTabTitle;
+@synthesize subscriptionsTabTitle;
+@synthesize subscribersTabTitle;
+@synthesize bonjourDiscoveredLabel;
+@synthesize manualEntryLabel;
+@synthesize firewallLabel;
+
+@synthesize forwardEnableCheckboxLabel;
+@synthesize subscriberEnableCheckboxLabel;
+@synthesize useColumnTitle;
+@synthesize computerColumnTitle;
+@synthesize passwordColumnTitle;
+@synthesize validColumnTitle;
 
 @synthesize currentServiceIndex;
 
 @synthesize networkAddressString;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
+{
+   if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
+      self.listenForIncomingNoteLabel = NSLocalizedString(@"Listen for incoming notifications", @"Label for checkbox enabling incoming network notifications");
+      self.serverPasswordLabel = NSLocalizedString(@"Server Password:", @"Label for server password field");
+      self.ipAddressesLabel = NSLocalizedString(@"You can connect manually at one of the following addresses:", @"Label for the IP address list");
+      self.forwardingTabTitle = NSLocalizedString(@"Forwarding", @"Tab title for forwarding");
+      self.subscriptionsTabTitle = NSLocalizedString(@"Subscriptions", @"Tab title for subscriptions tab");
+      self.subscribersTabTitle = NSLocalizedString(@"Subscribers", @"Tab title for subscribers tab");
+      self.bonjourDiscoveredLabel = NSLocalizedString(@"Indicates a discovered computer using Growl 1.3 or later", @"Info label describing the bonjour icon's use");
+      self.manualEntryLabel = NSLocalizedString(@"Indicates a manually entered computer to forward to or subscribe to", @"Info label describing the network icon's use");
+      self.firewallLabel = NSLocalizedString(@"Firewall Settings: Network notifications use TCP port 23053", @"Info label for firewall settings");
+      
+      self.forwardEnableCheckboxLabel = NSLocalizedString(@"Forward notifications to other computers", @"Enable checkbox for forwarding to other computers");
+      self.subscriberEnableCheckboxLabel = NSLocalizedString(@"Allow other computers to subscribe to all notifications", @"Enable checkbox for allowing subscribers");
+      self.useColumnTitle = NSLocalizedString(@"Use", @"Column title for whether to use the item on the row");
+      self.computerColumnTitle = NSLocalizedString(@"Computer Name", @"Column title for a computer entry");
+      self.passwordColumnTitle = NSLocalizedString(@"Password", @"Column title for a password");
+      self.validColumnTitle = NSLocalizedString(@"Valid until:", @"Column title for how long a subscriber is valid for");
+   }
+   return self;
+}
+
 - (void)dealloc {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
-   if (rlSrc)
-		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
-   if (dynStore)
-		CFRelease(dynStore);
    [networkAddressString release];
+   
+   [listenForIncomingNoteLabel release];
+   [serverPasswordLabel release];
+   [ipAddressesLabel release];
+   [forwardingTabTitle release];
+   [subscriptionsTabTitle release];
+   [subscribersTabTitle release];
+   [bonjourDiscoveredLabel release];
+   [manualEntryLabel release];
+   [firewallLabel release];
+   
+   [forwardEnableCheckboxLabel release];
+   [subscriberEnableCheckboxLabel release];
+   [useColumnTitle release];
+   [computerColumnTitle release];
+   [passwordColumnTitle release];
+   [validColumnTitle release];
+   
    [super dealloc];
 }
 
 - (void) awakeFromNib {
    self.forwarder = [GNTPForwarder sharedController];
+   self.subscriptionController = [GNTPSubscriptionController sharedController];
 
    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-   [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
-       
-   self.networkAddressString = nil;
+   [nc addObserver:self 
+          selector:@selector(reloadPrefs:) 
+              name:GrowlPreferencesChanged 
+            object:nil];
    
-   SCDynamicStoreContext context = {0, self, NULL, NULL, NULL};
+   [GrowlNetworkObserver sharedObserver];
    
-	dynStore = SCDynamicStoreCreate(kCFAllocatorDefault,
-                                   CFBundleGetIdentifier(CFBundleGetMainBundle()),
-                                   scCallback,
-                                   &context);
-	if (!dynStore) {
-		NSLog(@"SCDynamicStoreCreate() failed: %s", SCErrorString(SCError()));
-	}
+   [nc addObserver:self
+          selector:@selector(updateAddresses:)
+              name:IPAddressesUpdateNotification 
+            object:[GrowlNetworkObserver sharedObserver]];
    
-   const CFStringRef keys[1] = {
-		CFSTR("State:/Network/Interface/*"),
-	};
-	CFArrayRef watchedKeys = CFArrayCreate(kCFAllocatorDefault,
-                                          (const void **)keys,
-                                          1,
-                                          &kCFTypeArrayCallBacks);
-	if (!SCDynamicStoreSetNotificationKeys(dynStore,
-                                          NULL,
-                                          watchedKeys)) {
-		NSLog(@"SCDynamicStoreSetNotificationKeys() failed: %s", SCErrorString(SCError()));
-		CFRelease(dynStore);
-		dynStore = NULL;
-	}
-	CFRelease(watchedKeys);
-   
-   rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
-   CFRelease(rlSrc);
-
    ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
    [serviceNameColumn setDataCell:imageTextCell];
 	[networkTableView reloadData];
@@ -97,14 +187,14 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (void)viewWillLoad
 {
-   [self startBrowsing];
-   [self updateAddresses];
+   [[GrowlBonjourBrowser sharedBrowser] startBrowsing];
+   [self updateAddresses:nil];
    [super viewWillLoad];
 }
 
 - (void)viewDidUnload
 {
-   [self stopBrowsing];
+   [[GrowlBonjourBrowser sharedBrowser] stopBrowsing];
    [super viewDidUnload];
 }
 
@@ -113,93 +203,47 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	@autoreleasepool {
         id object = [notification object];
         if(!object || [object isEqualToString:GrowlStartServerKey])
-            [self updateAddresses];
+            [self updateAddresses:nil];
 	}
 }
 
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
-   //[networkTableView noteNumberOfRowsChanged];
    [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
 }
 
 - (IBAction)newManualForwader:(id)sender {
-   //[networkTableView noteNumberOfRowsChanged];
    [forwarder newManualEntry];
 }
 
--(void)startBrowsing
+- (IBAction)newManualSubscription:(id)sender
 {
-   [forwarder startBrowsing];
+   [subscriptionController newManualSubscription];
 }
 
--(void)stopBrowsing
+- (IBAction)removeSelectedSubscription:(id)sender
 {
-   [forwarder stopBrowsing];
+   [subscriptionController removeLocalSubscriptionAtIndex:[subscriptionsTableView selectedRow]];
 }
 
--(void)updateAddresses
+- (IBAction)removeSelectedSubscriber:(id)sender
 {
-   if(![self.preferencesController isGrowlServerEnabled]){
-      self.networkAddressString = nil;
-      return;
-   }
-   NSMutableString *newString = nil;
-   struct ifaddrs *interfaces = NULL;
-   struct ifaddrs *current = NULL;
-   
-   if(getifaddrs(&interfaces) == 0)
-   {
-      current = interfaces;
-      while (current != NULL) {
-         NSString *currentString = nil;
-         
-         NSString *interface = [NSString stringWithUTF8String:current->ifa_name];
-         
-         if(![interface isEqualToString:@"lo0"] && ![interface isEqualToString:@"utun0"])
-         {
-            if (current->ifa_addr->sa_family == AF_INET) {
-               char stringBuffer[INET_ADDRSTRLEN];
-               struct sockaddr_in *ipv4 = (struct sockaddr_in *)current->ifa_addr;
-               if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, INET_ADDRSTRLEN))
-                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
-            } else if (current->ifa_addr->sa_family == AF_INET6) {
-               char stringBuffer[INET6_ADDRSTRLEN];
-               struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)current->ifa_addr;
-               if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, INET6_ADDRSTRLEN))
-                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
-            }          
-            
-            if(currentString && ![currentString isLocalHost]){
-               if(!newString)
-                  newString = [[currentString mutableCopy] autorelease];
-               else
-                  [newString appendFormat:@"\n%@", currentString];
-            }
-         }
-         
-         current = current->ifa_next;
-      }
-   }
-   if(newString){
-      self.networkAddressString = newString;
-      NSLog(@"new addresses %@", newString);
-   }
+   GNTPSubscriberEntry *entry = [[subscriberArrayController arrangedObjects] objectAtIndex:[subscriberTableView selectedRow]];
+   [subscriptionController removeRemoteSubscriptionForSubscriberID:[entry subscriberID]];
+}
+
+- (void)showNetworkConnectionTab:(NSUInteger)tab
+{
+   if(tab < 3)
+      [networkConnectionTabView selectTabViewItemAtIndex:tab];
+}
+
+-(void)updateAddresses:(NSNotification*)note
+{
+   if([[GrowlPreferencesController sharedController] isGrowlServerEnabled])
+      self.networkAddressString = [[GrowlNetworkObserver sharedObserver] routableCombined];
    else
       self.networkAddressString = nil;
-   
-   freeifaddrs(interfaces);
-}
-
-static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
-	GrowlPreferencePane *prefPane = info;
-	CFIndex count = CFArrayGetCount(changedKeys);
-	for (CFIndex i=0; i<count; ++i) {
-		CFStringRef key = CFArrayGetValueAtIndex(changedKeys, i);
-      if (CFStringCompare(key, CFSTR("State:/Network/Interface"), 0) == kCFCompareEqualTo) {
-			[prefPane updateAddresses];
-		}
-	}
 }
 
 #pragma mark TableView data source methods
@@ -237,7 +281,9 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             [cell setImage:manualImage];
         else
             [cell setImage:bonjourImage];
-    }
+   } else if(aTableView == subscriptionsTableView && rowIndex < (NSInteger)[[subscriptionArrayController arrangedObjects] count]){
+      return [[subscriptionArrayController arrangedObjects] objectAtIndex:rowIndex];
+   }
 
 	return nil;
 }

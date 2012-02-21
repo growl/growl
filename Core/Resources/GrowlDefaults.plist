@@ -58,5 +58,11 @@
 	<false/>
 	<key>RequireGNTPSecurityWhenPasswordEmpty</key>
 	<false/>
+	<key>SubscriptionAllowed</key>
+	<false/>
+	<key>AddressCachingEnabled</key>
+	<true/>
+	<key>ShouldStartGrowlAtLogin</key>
+	<false/>
 </dict>
 </plist>

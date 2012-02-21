@@ -23,6 +23,8 @@
    GNTPKey           *_key;
 	BOOL					didPasswordLookup;
 	GNTPForwarder		*owner;
+   
+   NSData            *_lastKnownAddress;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name;
@@ -37,9 +39,10 @@
 
 @property (retain) NSString *uuid;
 @property (retain) NSString *computerName;
-@property (assign) BOOL use;
-@property (assign) BOOL active;
+@property (nonatomic, assign) BOOL use;
+@property (nonatomic, assign) BOOL active;
 @property (assign) BOOL manualEntry;
 @property (retain) NSString *domain;
 @property (retain) GNTPKey *key;
+@property (nonatomic, retain) NSData *lastKnownAddress;
 @end

@@ -30,6 +30,8 @@
 	id							 userInfo;
 }
 
+@property (nonatomic,readwrite,retain) NSViewAnimation *fadeAnimation;
+@property (nonatomic,readwrite,retain) NSTimer *lifetime;
 @property (nonatomic,readonly) BOOL sticky;
 @property (nonatomic,readonly) BOOL visible;
 @property (nonatomic,readonly) BOOL selected;

@@ -10,16 +10,28 @@
 
 @class GrowlMenu;
 
-@interface GrowlMenuImageView : NSImageView {
+@interface GrowlMenuImageView : NSView {
    GrowlMenu *menuItem;
    
-   NSImage *mainImage;
-   NSImage *alternateImage;
-   
-   BOOL mouseDown;
+    NSInteger mode;
+    NSInteger previousMode;
+    CALayer *mainLayer;
+    NSImage *mainImage;
+    NSImage *alternateImage;
+    NSImage *squelchImage;
+    
+    BOOL mouseDown;
 }
+
+@property (nonatomic, assign) NSInteger mode;
 @property (nonatomic, assign) GrowlMenu* menuItem;
+@property (nonatomic, retain) CALayer *mainLayer;
+@property (nonatomic, assign) BOOL mouseDown;
 @property (nonatomic, retain) NSImage *mainImage;
 @property (nonatomic, retain) NSImage *alternateImage;
+@property (nonatomic, retain) NSImage *squelchImage;
 
+
+- (void)startAnimation;
+- (void)stopAnimation;
 @end

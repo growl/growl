@@ -1,0 +1,18 @@
+#include "Global-Common.xcconfig"
+
+
+// code generation
+GCC_INLINES_ARE_PRIVATE_EXTERN = NO
+GCC_OPTIMIZATION_LEVEL = 0
+
+
+// language
+OTHER_CFLAGS = $(COMMON_CFLAGS) -fcatch-undefined-behavior -ftrapv -fverbose-asm
+
+
+// preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = $(COMMON_GCC_PREPROCESSOR_DEFINITIONS) DEBUG DEBUG_$(USER) FSCRIPT NSLOGGER GANK_NSLOG
+
+
+// interface builder compiler
+IBC_FLATTEN_NIBS = NO
