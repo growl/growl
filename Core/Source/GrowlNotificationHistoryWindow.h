@@ -16,21 +16,22 @@
    IBOutlet NSTableView *historyTable;
    IBOutlet NSTextField *countLabel;
    IBOutlet NSTableColumn *notificationColumn;
-   GrowlNotificationDatabase *historyController;
-    
+   GrowlNotificationDatabase *_notificationDatabase;
+
    GroupedArrayController *groupController;
 
    NSMutableArray *rowHeights;
    
    BOOL transitionGroup;
 }
+-(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase;
 
-@property (assign) IBOutlet NSTableView *historyTable;
-@property (assign) IBOutlet NSTextField *countLabel;
-@property (assign) IBOutlet NSTableColumn *notificationColumn;
+@property (nonatomic, assign) IBOutlet NSTableView *historyTable;
+@property (nonatomic, assign) IBOutlet NSTextField *countLabel;
+@property (nonatomic, assign) IBOutlet NSTableColumn *notificationColumn;
+@property (nonatomic, assign, readwrite)  GrowlNotificationDatabase* notificationDatabase;
 @property (nonatomic, retain) NSString *windowTitle;
 
--(GrowlNotificationDatabase*)historyController;
 -(void)updateCount;
 -(void)resetArray;
 -(IBAction)deleteNotifications:(id)sender;

@@ -315,7 +315,7 @@ static dispatch_queue_t __imageCacheQueue;
 	[view sizeToFit];
 
 	//Update our new frame
-	[[GrowlPositionController sharedInstance] positionDisplay:self];
+	[[GrowlPositionController sharedController] positionDisplay:self];
 
 	[myWindow invalidateShadow];
 }
@@ -348,7 +348,7 @@ static dispatch_queue_t __imageCacheQueue;
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSView *contentView = [[self window] contentView];
 	NSRect viewFrame = [contentView frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	NSPoint idealOrigin;
 
 	switch(originatingPosition){
@@ -378,7 +378,7 @@ static dispatch_queue_t __imageCacheQueue;
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){
@@ -403,7 +403,7 @@ static dispatch_queue_t __imageCacheQueue;
 }
 
 - (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){

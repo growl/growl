@@ -200,13 +200,11 @@
 
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   id object = [notification object];
-   if(!object || [object isEqualToString:GrowlStartServerKey])
-      [self updateAddresses:nil];
-   
-	[pool release];
+	@autoreleasepool {
+        id object = [notification object];
+        if(!object || [object isEqualToString:GrowlStartServerKey])
+            [self updateAddresses:nil];
+	}
 }
 
 - (IBAction) removeSelectedForwardDestination:(id)sender

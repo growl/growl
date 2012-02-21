@@ -125,13 +125,11 @@
  * @brief Called when a GrowlPreferencesChanged notification is received.
  */
 - (void) reloadPreferences:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   id object = [notification object];
-   if(!object || [object isEqualToString:GrowlSelectedPrefPane])
-      [self setSelectedTab:[preferencesController selectedPreferenceTab]];
-	
-	[pool release];
+	@autoreleasepool{
+        id object = [notification object];
+        if(!object || [object isEqualToString:GrowlSelectedPrefPane])
+            [self setSelectedTab:[preferencesController selectedPreferenceTab]];
+	}
 }
 
 #pragma mark -

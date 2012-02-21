@@ -19,24 +19,26 @@
 
 @interface GrowlGNTPCommunicationAttempt ()
 
-@property(nonatomic, retain) NSString *responseParseErrorString, *bogusResponse;
+@property(nonatomic, retain) NSString *responseParseErrorString;
+@property(nonatomic, retain) NSString *bogusResponse;
 
 @end
 
 enum {
 	GrowlGNTPCommAttemptReadPhaseFirstResponseLine,
 	GrowlGNTPCommAttemptReadPhaseResponseHeaderLine,
-   GrowlGNTPCommAttemptReadExtraPacketData,
+    GrowlGNTPCommAttemptReadExtraPacketData,
 };
 
 enum {
-   GrowlGNTPCommAttemptReadFeedback = 1,
-   GrowlGNTPCommAttemptReadError,
+    GrowlGNTPCommAttemptReadFeedback = 1,
+    GrowlGNTPCommAttemptReadError,
 };
 
 @implementation GrowlGNTPCommunicationAttempt
 
-@synthesize responseParseErrorString, bogusResponse;
+@synthesize responseParseErrorString;
+@synthesize bogusResponse;
 @synthesize host;
 @synthesize password;
 @synthesize callbackHeaderItems;
@@ -45,11 +47,11 @@ enum {
 
 - (void) dealloc {
 	[callbackHeaderItems release];
-   
-   [socket synchronouslySetDelegate:nil];
-   [socket release];
-   socket = nil;
-
+    
+    [socket synchronouslySetDelegate:nil];
+    [socket release];
+    socket = nil;
+    
 	[super dealloc];
 }
 
@@ -78,20 +80,20 @@ enum {
 	NSAssert1(socket == nil, @"%@ appears to already be sending!", self);
 	//GrowlGNTPOutgoingPacket *packet = [self packet];
 	socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-   
-   responseReadType = -1;
-   
-   NSString *hostToUse = nil;
-   if(!self.host || [host isLocalHost])
-      hostToUse = @"localhost";
-   else
-      hostToUse = host;
-   
+    
+    responseReadType = -1;
+    
+    NSString *hostToUse = nil;
+    if(!self.host || [host isLocalHost])
+        hostToUse = @"localhost";
+    else
+        hostToUse = host;
+    
 	NSError *errorReturned = nil;
 	if (![socket connectToHost:hostToUse
-				   onPort:GROWL_TCP_PORT
-			  withTimeout:15.0
-					error:&errorReturned])
+                        onPort:GROWL_TCP_PORT
+                   withTimeout:15.0
+                         error:&errorReturned])
 	{
 		NSLog(@"Failed to connect: %@", errorReturned);
 		self.error = errorReturned;
@@ -102,14 +104,14 @@ enum {
 /* We read to a triple CRLF, one for the last line of the packet, 2 for finishing the packet */ 
 - (void) readRestOfPacket:(GCDAsyncSocket*)sock
 {
-   static NSData *triple = nil;
-   if(!triple){
-      NSMutableData *data = [NSMutableData dataWithData:[GCDAsyncSocket CRLFData]];
-      [data appendData:[GCDAsyncSocket CRLFData]];
-      [data appendData:[GCDAsyncSocket CRLFData]];
-      triple = [data copy];
-   }
-   [sock readDataToData:triple withTimeout:-1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
+    static NSData *triple = nil;
+    if(!triple){
+        NSMutableData *data = [NSMutableData dataWithData:[GCDAsyncSocket CRLFData]];
+        [data appendData:[GCDAsyncSocket CRLFData]];
+        [data appendData:[GCDAsyncSocket CRLFData]];
+        triple = [data copy];
+    }
+    [sock readDataToData:triple withTimeout: -1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
 }
 
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
@@ -117,16 +119,16 @@ enum {
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
-   GrowlGNTPOutgoingPacket *outPacket = [self packet];
-
-   if(password){
-      GNTPKey *key = [[GNTPKey alloc] initWithPassword:password
-                                         hashAlgorithm:GNTPSHA512
-                                   encryptionAlgorithm:GNTPNone];
-      [outPacket setKey:key];
-      [key release];
-   }
-   [outPacket writeToSocket:sock];
+    GrowlGNTPOutgoingPacket *outPacket = [self packet];
+    
+    if(password){
+        GNTPKey *key = [[GNTPKey alloc] initWithPassword:password
+                                           hashAlgorithm:GNTPSHA512
+                                     encryptionAlgorithm:GNTPNone];
+        [outPacket setKey:key];
+        [key release];
+    }
+    [outPacket writeToSocket:sock];
 	//After we send in our request, the notifications system will send back a response consisting of at least one line.
 	[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 }
@@ -192,28 +194,28 @@ enum {
       }
       
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
-      NSError *headerItemError = nil;
-      GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
-      if (headerItem != [GrowlGNTPHeaderItem separatorHeaderItem]){
-         if(!callbackHeaderItems)
-            callbackHeaderItems = [[NSMutableArray alloc] init];
-         [callbackHeaderItems addObject:headerItem];
-         [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
-      }else{
-         //Empty line: End of headers.
-         switch (responseReadType) {
-            case GrowlGNTPCommAttemptReadError:
-               [self parseError];
-               break;
-            case GrowlGNTPCommAttemptReadFeedback:
-               [self parseFeedback];
-               break;
-            default:
-               //We shouldn't be here, only packets we should be reading responses for is feedback and error
-               break;
-         }
-         [callbackHeaderItems release]; callbackHeaderItems = nil;
-         [self finished];
+        NSError *headerItemError = nil;
+        GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
+        if (headerItem != [GrowlGNTPHeaderItem separatorHeaderItem]){
+            if(!callbackHeaderItems)
+                callbackHeaderItems = [[NSMutableArray alloc] init];
+            [callbackHeaderItems addObject:headerItem];
+            [self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
+        }else{
+            //Empty line: End of headers.
+            switch (responseReadType) {
+                case GrowlGNTPCommAttemptReadError:
+                    [self parseError];
+                    break;
+                case GrowlGNTPCommAttemptReadFeedback:
+                    [self parseFeedback];
+                    break;
+                default:
+                    //We shouldn't be here, only packets we should be reading responses for is feedback and error
+                    break;
+            }
+            [callbackHeaderItems release]; callbackHeaderItems = nil;
+            [self finished];
 		}
 	}
 }
@@ -231,25 +233,25 @@ enum {
          if([[obj headerName] caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame)
             description = obj;
             
-         if(code != nil && description != nil)
-            *stop = YES;
-      }
-   }];
-
-   if(code){
-      GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[[code headerValue] integerValue];
-      if(errCode == GrowlGNTPUserDisabledErrorCode)
-         [self stopAttempts];
-      if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
-          errCode == GrowlGNTPUnknownNotificationErrorCode) &&
-         [self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
-         NSLog(@"Failed to notify due to missing registration, queue and reregister");
-         [self queueAndReregister];
-      }
-   }else{
-      NSLog(@"No error code, assuming failed");
-      [self failed];
-   }
+            if(code != nil && description != nil)
+                *stop = YES;
+        }
+    }];
+    
+    if(code){
+        GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[[code headerValue] integerValue];
+        if(errCode == GrowlGNTPUserDisabledErrorCode)
+            [self stopAttempts];
+        if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
+            errCode == GrowlGNTPUnknownNotificationErrorCode) &&
+           [self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
+            NSLog(@"Failed to notify due to missing registration, queue and reregister");
+            [self queueAndReregister];
+        }
+    }else{
+        NSLog(@"No error code, assuming failed");
+        [self failed];
+    }
 }
 
 - (void)parseFeedback
@@ -308,24 +310,24 @@ enum {
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
-   if(socketError && [socketError code] != 7)
-      NSLog(@"Got disconnected: %@", socketError);
-   
+    if(socketError && [socketError code] != 7)
+        NSLog(@"Got disconnected: %@", socketError);
+    
 	if (!attemptSucceeded) {
 		if (!socketError) {
 			NSDictionary *dict = [NSDictionary dictionaryWithObject:self.responseParseErrorString forKey:NSLocalizedDescriptionKey];
 			socketError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:dict];
 		}
-
+        
 		self.error = socketError;
 		if (socketError)
 			[self failed];
-      [self finished];
-
+        [self finished];
+        
 		return;
 	}
-
-   [self finished];
+    
+    [self finished];
 }
 
 @end

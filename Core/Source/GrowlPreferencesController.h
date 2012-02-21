@@ -68,9 +68,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 #ifdef __OBJC__
 
-#import "GrowlAbstractSingletonObject.h"
 
-@interface GrowlPreferencesController : GrowlAbstractSingletonObject {
+@interface GrowlPreferencesController : NSObject {
 	LSSharedFileListRef loginItems;
 }
 
@@ -85,7 +84,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
 - (void) synchronize;
 
-- (void) upgradeStartAtLogin;
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;

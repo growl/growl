@@ -16,9 +16,9 @@
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
--(id)initSingleton
+-(id)init
 {
-   if((self = [super initSingleton]))
+   if((self = [super init]))
    {
       [self managedObjectContext];
       [[NSNotificationCenter defaultCenter] addObserver:self
@@ -188,13 +188,13 @@
    exit(-1);
 }
 
--(void)destroy
+-(void)dealloc
 {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [managedObjectContext release]; managedObjectContext = nil;
    [managedObjectModel release]; managedObjectModel = nil;
    [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
-   [super destroy];
+   [super dealloc];
 }
 
 @end

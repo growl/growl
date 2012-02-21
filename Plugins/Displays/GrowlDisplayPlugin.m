@@ -128,49 +128,48 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	GrowlNotificationDisplayBridge *theBridge;
-
-	[wc retain];
-	//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-	GrowlNotificationDisplayBridge *bridgeFromWC = [[[wc bridge] retain] autorelease];
-
-
-	if(queue)
-	{
-		[bridge removeWindowController:wc];
-
-		if ([queue count] > 0U) {
-			theBridge = [queue objectAtIndex:0U];
-			[[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-
-			if (bridge != theBridge) {
-				[bridge release];
-				bridge = [theBridge retain];
-			}
-			[queue removeObjectAtIndex:0U];		
-		}
-		else
-		{
-			[bridge release];
-			bridge = nil;
-		}
-	} else {
-		//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-		theBridge = bridgeFromWC;
-		[theBridge removeWindowController:wc];
-		[activeBridges removeObjectIdenticalTo:theBridge];
-	}
-
-	if (coalescableBridges) {
-        NSString *identifier = [[[bridgeFromWC notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
-		if (identifier)
-			[coalescableBridges removeObjectForKey:identifier];
-	}
-
-	[wc release];
-
-	[pool release];
+	@autoreleasepool {
+        GrowlNotificationDisplayBridge *theBridge;
+        
+        [wc retain];
+        //Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
+        GrowlNotificationDisplayBridge *bridgeFromWC = [[[wc bridge] retain] autorelease];
+        
+        
+        if(queue)
+        {
+            [bridge removeWindowController:wc];
+            
+            if ([queue count] > 0U) {
+                theBridge = [queue objectAtIndex:0U];
+                [[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
+                
+                if (bridge != theBridge) {
+                    [bridge release];
+                    bridge = [theBridge retain];
+                }
+                [queue removeObjectAtIndex:0U];		
+            }
+            else
+            {
+                [bridge release];
+                bridge = nil;
+            }
+        } else {
+            //Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
+            theBridge = bridgeFromWC;
+            [theBridge removeWindowController:wc];
+            [activeBridges removeObjectIdenticalTo:theBridge];
+        }
+        
+        if (coalescableBridges) {
+            NSString *identifier = [[[bridgeFromWC notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+            if (identifier)
+                [coalescableBridges removeObjectForKey:identifier];
+        }
+        
+        [wc release];
+    }
 }
 
 @end
