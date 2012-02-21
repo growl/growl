@@ -1097,38 +1097,38 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
       if(callbackURL)
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
    } else if (clickContext) {
-		NSString *suffix, *growlNotificationClickedName;
-		NSDictionary *clickInfo;
-		
-		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-		GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
-		
-		if (viaClick && [ticket clickHandlersEnabled]) {
-			suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
-		} else {
-			/*
-			 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
-			 * guaranteed to receive feedback for every notification.
-			 */
-			suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
-		}
-		
-		//Build the application-specific notification name
-		NSNumber *pid = [growlNotificationDict objectForKey:GROWL_APP_PID];
-		if (pid)
-			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
-											appName, pid, suffix];
-		else
-			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
-											appName, suffix];
-		clickInfo = [NSDictionary dictionaryWithObject:clickContext
-												forKey:GROWL_KEY_CLICKED_CONTEXT];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
-																	   object:nil
-																	 userInfo:clickInfo
-														   deliverImmediately:YES];
-		[growlNotificationClickedName release];
+//		NSString *suffix, *growlNotificationClickedName;
+//		NSDictionary *clickInfo;
+//		
+//		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
+//      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+//		GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
+//		
+//		if (viaClick && [ticket clickHandlersEnabled]) {
+//			suffix = GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX;
+//		} else {
+//			/*
+//			 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
+//			 * guaranteed to receive feedback for every notification.
+//			 */
+//			suffix = GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX;
+//		}
+//		
+//		//Build the application-specific notification name
+//		NSNumber *pid = [growlNotificationDict objectForKey:GROWL_APP_PID];
+//		if (pid)
+//			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
+//											appName, pid, suffix];
+//		else
+//			growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
+//											appName, suffix];
+//		clickInfo = [NSDictionary dictionaryWithObject:clickContext
+//												forKey:GROWL_KEY_CLICKED_CONTEXT];
+//		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
+//																	   object:nil
+//																	 userInfo:clickInfo
+//														   deliverImmediately:YES];
+//		[growlNotificationClickedName release];
 	}
 	
 	if (!wasLocal) {

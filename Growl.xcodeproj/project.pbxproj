@@ -303,6 +303,7 @@
 		BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */ = {isa = PBXBuildFile; fileRef = BC3E905C14EB65B600EBB28C /* RollupSS.png */; };
 		BC4DE6E414D0666A00132B49 /* mainmenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E214D0666A00132B49 /* mainmenu.strings */; };
 		BC4DE6E614D06B7A00132B49 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
+		BC6058B314F3F20D00399510 /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC6058B214F3F20C00399510 /* container-migration.plist */; };
 		BC6277F314C699F500BB67B9 /* GrowlNotificationSettingsRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */; };
 		BC62781214C6B1B300BB67B9 /* GrowlNotificationSettingsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62781114C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.m */; };
 		BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
@@ -1283,6 +1284,7 @@
 		BC3E905C14EB65B600EBB28C /* RollupSS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RollupSS.png; path = Core/Resources/RollupSS.png; sourceTree = "<group>"; };
 		BC4DE6E314D0666A00132B49 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Core/Resources/en.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC4DE6E514D06B7900132B49 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Core/Resources/MainMenu.xib; sourceTree = "<group>"; };
+		BC6058B214F3F20C00399510 /* container-migration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "container-migration.plist"; path = "Core/Resources/container-migration.plist"; sourceTree = "<group>"; };
 		BC6277F114C699F400BB67B9 /* GrowlNotificationSettingsRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsRowView.h; path = Core/Source/GrowlNotificationSettingsRowView.h; sourceTree = "<group>"; };
 		BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsRowView.m; path = Core/Source/GrowlNotificationSettingsRowView.m; sourceTree = "<group>"; };
 		BC62781014C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsTableView.h; path = Core/Source/GrowlNotificationSettingsTableView.h; sourceTree = "<group>"; };
@@ -2599,6 +2601,7 @@
 				A1CC412509E37A65009EF9BD /* closebox_pressed.png */,
 				A1CC412609E37A65009EF9BD /* closebox.png */,
 				CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */,
+				BC6058B214F3F20C00399510 /* container-migration.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3337,6 +3340,7 @@
 				BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */,
 				83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */,
 				83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */,
+				BC6058B314F3F20D00399510 /* container-migration.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4362,6 +4366,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 315C88BB1068F9A200880530 /* Localization.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -5135,6 +5140,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFD136908B100AB89AE /* Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -5161,6 +5167,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93EA7FFE136908B100AB89AE /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Growl.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
