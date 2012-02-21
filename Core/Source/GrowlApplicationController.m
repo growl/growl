@@ -914,12 +914,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         [pathwayControllerClass sharedController];
     
     [self preferencesChanged:nil];
-    
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-                                                           selector:@selector(applicationLaunched:)
-                                                               name:NSWorkspaceDidLaunchApplicationNotification
-                                                             object:nil];
-    
+        
     growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
     
     GrowlIdleStatusController_init();
@@ -989,80 +984,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 	//[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
-}
-
-#pragma mark Auto-discovery
-
-//called by NSWorkspace when an application launches.
-- (void) applicationLaunched:(NSNotification *)notification {
-    @autoreleasepool {
-        NSDictionary *userInfo = [notification userInfo];
-
-        if (!userInfo)
-            return;
-
-        NSString *appPath = [userInfo objectForKey:@"NSApplicationPath"];
-
-        if (appPath) {
-            NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
-            if (ticketPath) {
-                NSURL *ticketURL = [NSURL fileURLWithPath:ticketPath];
-                NSMutableDictionary *ticket = [NSDictionary dictionaryWithContentsOfURL:ticketURL];
-
-                if (ticket) {
-                    NSString *appName = [userInfo objectForKey:@"NSApplicationName"];
-
-                    //set the app's name in the dictionary, if it's not present already.
-                    if (![ticket objectForKey:GROWL_APP_NAME])
-                        [ticket setObject:appName forKey:GROWL_APP_NAME];
-
-                    if ([GrowlApplicationTicket isValidAutoDiscoverableTicketDictionary:ticket]) {
-                        /* set the app's location in the dictionary, avoiding costly
-                         *	lookups later.
-                         */
-                        NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
-                        NSDictionary *file_data = dockDescriptionWithURL(url);
-                        id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
-                        [ticket setObject:location forKey:GROWL_APP_LOCATION];
-                        [url release];
-
-                        //write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
-                        CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-                        CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-                        CFRelease(uuid);
-                        ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:(NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-                        CFRelease(uuidString);
-                        [ticket writeToFile:ticketPath atomically:NO];
-
-                        /* open the ticket with ourselves.
-                         * we need to use LS in order to launch it with this specific
-                         *	GHA, rather than some other.
-                         */
-                        CFURLRef myURL = (CFURLRef)[[NSBundle mainBundle] bundleURL];
-                        NSArray *URLsToOpen = [NSArray arrayWithObject:[NSURL fileURLWithPath:ticketPath]];
-                        struct LSLaunchURLSpec spec = {
-                            .appURL = myURL,
-                            .itemURLs = (CFArrayRef)URLsToOpen,
-                            .passThruParams = NULL,
-                            .launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchAsync,
-                            .asyncRefCon = NULL,
-                        };
-                        OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
-                        if (err != noErr)
-                            NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
-                    } else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
-                        NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
-                    } else {
-                        NSNumber *versionNum = [ticket objectForKey:GROWL_TICKET_VERSION];
-                        if (versionNum)
-                            NSLog(@"%@ (located at %@) contains a ticket whose format version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [versionNum intValue], [self stringWithVersionDictionary:nil]);
-                        else
-                            NSLog(@"%@ (located at %@) contains a ticket with no format version number; Growl requires that a registration dictionary include a format version number, so that Growl knows whether it will understand the dictionary's format. This ticket will be ignored.", appName, appPath);
-                    }
-                }
-            }
-        }
-    }
 }
 
 #pragma mark Growl Application Bridge delegate
