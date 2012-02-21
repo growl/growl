@@ -719,7 +719,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
    BOOL retVal = NO;
-#if 0
+
 	NSString *pathExtension = [filename pathExtension];
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
@@ -770,7 +770,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 					withObject:nil
 					afterDelay:1.0];
 	}
-#endif
 	return retVal;
 }
 
