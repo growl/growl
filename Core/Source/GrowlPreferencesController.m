@@ -164,49 +164,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 #pragma mark -
 #pragma mark Start-at-login control
 
-- (void) upgradeStartAtLogin {
-	Boolean    foundIt = false;
-   
-   LSSharedFileListItemRef existingItem = NULL;
-
-	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	if(pathToGHA) {
-		//get the file url to GHA.
-		CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
-		
-		UInt32 seed = 0U;
-		NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
-		for (id itemObject in currentLoginItems) {
-			LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
-			
-			UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-			CFURLRef URL = NULL;
-			OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
-			if (err == noErr) {
-				foundIt = CFEqual(URL, urlToGHA);
-				CFRelease(URL);
-				
-				if (foundIt){
-               existingItem = item;
-					break;
-            }
-			}
-		}
-		
-		CFRelease(urlToGHA);
-	}
-	else {
-		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
-	}
-	
-	if(foundIt && existingItem != NULL) {
-      NSLog(@"Found current copy of Growl.app in this user's login items, removing it and replacing it with the new sandbox friendly method");
-      LSSharedFileListItemRemove(loginItems, existingItem);
-      [self setShouldStartGrowlAtLogin:YES];
-   }
-}
-
 - (BOOL) allowStartAtLogin{
     return [self boolForKey:GrowlAllowStartAtLogin];
 }

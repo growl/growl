@@ -942,12 +942,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         [firstLaunchWindow showWindow:self];
        [[firstLaunchWindow window] makeKeyWindow];
     }
-   
-   [[GrowlPreferencesController sharedController] upgradeStartAtLogin];
-   
+      
    dispatch_async(dispatch_get_main_queue(), ^{
       [[GrowlTicketController sharedController] loadAllSavedTickets];
-      
    });
 
    NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
