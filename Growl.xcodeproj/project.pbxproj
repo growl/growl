@@ -941,10 +941,10 @@
 		83DD3AF214F0B3FF00C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = Core/Resources/pl.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		83DD3AF314F0B3FF00C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = Core/Resources/pl.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		83DD3AF414F0B3FF00C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = Core/Resources/pl.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
-		83DD3AF514F0B41900C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		83DD3AF614F0B42900C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		83DD3AF714F0B43500C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/mainmenu.strings; sourceTree = "<group>"; };
-		83DD3AF814F0B44A00C0028D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
+		83DD3AF514F0B41900C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83DD3AF614F0B42900C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83DD3AF714F0B43500C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/mainmenu.strings; sourceTree = "<group>"; };
+		83DD3AF814F0B44A00C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
 		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
