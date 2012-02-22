@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="878" systemVersion="11D50b" minimumToolsVersion="Xcode 4.2" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="GrowlAction" syncable="YES">
+        <attribute name="configuration" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="GrowlApplicationTicket" representedClassName="GrowlTicketDatabaseApplication" parentEntity="GrowlTicket" syncable="YES">
+        <attribute name="appID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appPath" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="GrowlHostTicket" representedClassName="GrowlTicketDatabaseHost" parentEntity="GrowlTicket" syncable="YES">
+        <attribute name="localhost" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <entity name="GrowlNotificationTicket" representedClassName="GrowlTicketDatabaseNotification" parentEntity="GrowlTicket" syncable="YES">
+        <attribute name="defaultEnabled" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="humanReadableName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priority" attributeType="Integer 16" maxValueString="2" defaultValueString="-1000" syncable="YES"/>
+        <attribute name="sticky" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="GrowlTicket" representedClassName="GrowlTicketDatabaseTicket" isAbstract="YES" syncable="YES">
+        <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="iconData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" spotlightIndexingEnabled="YES" syncable="YES"/>
+        <attribute name="loggingEnabled" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="positionType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="selectedPosition" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="ticketDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GrowlAction" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GrowlTicket" inverseName="parent" inverseEntity="GrowlTicket" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlTicket" inverseName="children" inverseEntity="GrowlTicket" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="GrowlAction" positionX="-531" positionY="-54" width="128" height="75"/>
+        <element name="GrowlApplicationTicket" positionX="-281" positionY="-225" width="128" height="75"/>
+        <element name="GrowlHostTicket" positionX="-290" positionY="-333" width="128" height="60"/>
+        <element name="GrowlNotificationTicket" positionX="-288" positionY="-99" width="126" height="105"/>
+        <element name="GrowlTicket" positionX="-477" positionY="-306" width="128" height="195"/>
+    </elements>
+</model>

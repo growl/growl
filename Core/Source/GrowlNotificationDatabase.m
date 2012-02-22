@@ -36,7 +36,7 @@
 -(id)init
 {
    if((self = [super init]))
-   {      
+   {
       GrowlNotificationHistoryWindow *window = [[GrowlNotificationHistoryWindow alloc] initWithNotificationDatabase:self];
       historyWindow = [window retain];
       [window release];
@@ -66,12 +66,20 @@
 
 -(NSString*)storeType
 {
-   return @"NotificationHistoryDB";
+   return @"Notification History Database";
 }
 
 -(NSString*)modelName
 {
-   return @"GrowlNotificationHistory";
+   return @"GrowlNotificationHistory.mom";
+}
+
+-(void)launchFailed {
+   NSBeginCriticalAlertSheet(NSLocalizedString(@"Disabling History", @"alert when history database could not be moved aside"),
+                             NSLocalizedString(@"Ok", @""),
+                             nil, nil, nil, nil, nil, NULL, NULL, 
+                             NSLocalizedString(@"An uncorrectable error occured in creating or opening the History Database.\nWe are disabling History for the time being, however the rollup will continue to function.\nIf history is reenabled, nothing will be saved, and Growl will potentially use a lot of memory.", @""));
+   [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
 }
 
 -(NSArray*)mostRecentNotifications:(unsigned int)amount

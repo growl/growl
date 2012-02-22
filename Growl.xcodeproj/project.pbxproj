@@ -303,7 +303,14 @@
 		BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */ = {isa = PBXBuildFile; fileRef = BC3E905C14EB65B600EBB28C /* RollupSS.png */; };
 		BC4DE6E414D0666A00132B49 /* mainmenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E214D0666A00132B49 /* mainmenu.strings */; };
 		BC4DE6E614D06B7A00132B49 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
+		BC5EF65E14F5428F003E4578 /* GrowlTicketDatabaseTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF65D14F5428F003E4578 /* GrowlTicketDatabaseTicket.m */; };
+		BC5EF66114F542AC003E4578 /* GrowlTicketDatabaseApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF66014F542AC003E4578 /* GrowlTicketDatabaseApplication.m */; };
+		BC5EF66414F5458A003E4578 /* GrowlTicketDatabaseHost.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF66314F54589003E4578 /* GrowlTicketDatabaseHost.m */; };
+		BC5EF66714F55135003E4578 /* GrowlTicketDatabaseNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF66614F55135003E4578 /* GrowlTicketDatabaseNotification.m */; };
 		BC6058B314F3F20D00399510 /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC6058B214F3F20C00399510 /* container-migration.plist */; };
+		BC6058E514F41FC600399510 /* GrowlTicketDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6058E414F41FC600399510 /* GrowlTicketDatabase.m */; };
+		BC6058EF14F423CF00399510 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC6058EE14F423CF00399510 /* GrowlNotificationHistory.xcdatamodel */; };
+		BC6058F214F423E700399510 /* GrowlTicketDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC6058F014F423E700399510 /* GrowlTicketDatabase.xcdatamodeld */; };
 		BC6277F314C699F500BB67B9 /* GrowlNotificationSettingsRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */; };
 		BC62781214C6B1B300BB67B9 /* GrowlNotificationSettingsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62781114C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.m */; };
 		BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */; };
@@ -328,7 +335,6 @@
 		BC80A38A14D72F1400B055FE /* PluginPrefStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A38814D72F1400B055FE /* PluginPrefStrings.strings */; };
 		BC86333E140FFB3600A26483 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86333D140FFB3600A26483 /* GrowlMenu.m */; };
 		BC8B2323146DB0F7004E8971 /* Rollup.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8B2322146DB0F7004E8971 /* Rollup.png */; };
-		BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
@@ -1284,7 +1290,19 @@
 		BC3E905C14EB65B600EBB28C /* RollupSS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RollupSS.png; path = Core/Resources/RollupSS.png; sourceTree = "<group>"; };
 		BC4DE6E314D0666A00132B49 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Core/Resources/en.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC4DE6E514D06B7900132B49 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Core/Resources/MainMenu.xib; sourceTree = "<group>"; };
+		BC5EF65C14F5428F003E4578 /* GrowlTicketDatabaseTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseTicket.h; path = Core/Source/GrowlTicketDatabaseTicket.h; sourceTree = "<group>"; };
+		BC5EF65D14F5428F003E4578 /* GrowlTicketDatabaseTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseTicket.m; path = Core/Source/GrowlTicketDatabaseTicket.m; sourceTree = "<group>"; };
+		BC5EF65F14F542AB003E4578 /* GrowlTicketDatabaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseApplication.h; path = Core/Source/GrowlTicketDatabaseApplication.h; sourceTree = "<group>"; };
+		BC5EF66014F542AC003E4578 /* GrowlTicketDatabaseApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseApplication.m; path = Core/Source/GrowlTicketDatabaseApplication.m; sourceTree = "<group>"; };
+		BC5EF66214F54589003E4578 /* GrowlTicketDatabaseHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseHost.h; path = Core/Source/GrowlTicketDatabaseHost.h; sourceTree = "<group>"; };
+		BC5EF66314F54589003E4578 /* GrowlTicketDatabaseHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseHost.m; path = Core/Source/GrowlTicketDatabaseHost.m; sourceTree = "<group>"; };
+		BC5EF66514F55134003E4578 /* GrowlTicketDatabaseNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseNotification.h; path = Core/Source/GrowlTicketDatabaseNotification.h; sourceTree = "<group>"; };
+		BC5EF66614F55135003E4578 /* GrowlTicketDatabaseNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseNotification.m; path = Core/Source/GrowlTicketDatabaseNotification.m; sourceTree = "<group>"; };
 		BC6058B214F3F20C00399510 /* container-migration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "container-migration.plist"; path = "Core/Resources/container-migration.plist"; sourceTree = "<group>"; };
+		BC6058E314F41FC600399510 /* GrowlTicketDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabase.h; path = Core/Source/GrowlTicketDatabase.h; sourceTree = "<group>"; };
+		BC6058E414F41FC600399510 /* GrowlTicketDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabase.m; path = Core/Source/GrowlTicketDatabase.m; sourceTree = "<group>"; };
+		BC6058EE14F423CF00399510 /* GrowlNotificationHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; name = GrowlNotificationHistory.xcdatamodel; path = Core/Resources/GrowlNotificationHistory.xcdatamodel; sourceTree = "<group>"; };
+		BC6058F114F423E700399510 /* GrowlTicketDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GrowlTicketDatabase.xcdatamodel; sourceTree = "<group>"; };
 		BC6277F114C699F400BB67B9 /* GrowlNotificationSettingsRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsRowView.h; path = Core/Source/GrowlNotificationSettingsRowView.h; sourceTree = "<group>"; };
 		BC6277F214C699F400BB67B9 /* GrowlNotificationSettingsRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsRowView.m; path = Core/Source/GrowlNotificationSettingsRowView.m; sourceTree = "<group>"; };
 		BC62781014C6B1B200BB67B9 /* GrowlNotificationSettingsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsTableView.h; path = Core/Source/GrowlNotificationSettingsTableView.h; sourceTree = "<group>"; };
@@ -1318,7 +1336,6 @@
 		BC86333C140FFB3600A26483 /* GrowlMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenu.h; path = Core/Source/GrowlMenu.h; sourceTree = "<group>"; };
 		BC86333D140FFB3600A26483 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = Core/Source/GrowlMenu.m; sourceTree = "<group>"; };
 		BC8B2322146DB0F7004E8971 /* Rollup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rollup.png; path = Core/Resources/Rollup.png; sourceTree = "<group>"; };
-		BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; name = GrowlNotificationHistory.xcdatamodel; path = Core/Resources/GrowlNotificationHistory.xcdatamodel; sourceTree = "<group>"; };
 		BC94845513FB21690036382B /* Growl_512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Growl_512x512.png; path = Core/Resources/Growl_512x512.png; sourceTree = "<group>"; };
 		BC986F9C14D0787100CC5E57 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC986F9E14D0787C00CC5E57 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = Core/Resources/da.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -1610,15 +1627,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		070B862D0A087FC50093150E /* Tickets */ = {
+		070B862D0A087FC50093150E /* Legacy */ = {
 			isa = PBXGroup;
 			children = (
+				95B2B27908745B9000EA34BF /* GrowlTicketController.h */,
+				95B2B27A08745B9000EA34BF /* GrowlTicketController.m */,
 				CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */,
 				CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */,
 				CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */,
 				CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */,
 			);
-			name = Tickets;
+			name = Legacy;
 			sourceTree = "<group>";
 		};
 		070B86340A08814D0093150E /* Utilities */ = {
@@ -2410,9 +2429,7 @@
 		BC28BE791245132F00DB83D4 /* History */ = {
 			isa = PBXGroup;
 			children = (
-				BC9037CA122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel */,
-				BC28C121124B8B0500DB83D4 /* GrowlAbstractDatabase.h */,
-				BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */,
+				BC6058EE14F423CF00399510 /* GrowlNotificationHistory.xcdatamodel */,
 				BCBCDD71121B9FD900C07D0D /* GrowlNotificationDatabase.h */,
 				BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */,
 				BCBCDD74121BA00300C07D0D /* GrowlHistoryNotification.h */,
@@ -2446,6 +2463,36 @@
 				BC29B28714D12D5300C72855 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC6058E114F41F8C00399510 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				BC28C121124B8B0500DB83D4 /* GrowlAbstractDatabase.h */,
+				BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */,
+				BC6058E214F41F9C00399510 /* Tickets */,
+				BC28BE791245132F00DB83D4 /* History */,
+			);
+			name = Databases;
+			sourceTree = "<group>";
+		};
+		BC6058E214F41F9C00399510 /* Tickets */ = {
+			isa = PBXGroup;
+			children = (
+				BC6058F014F423E700399510 /* GrowlTicketDatabase.xcdatamodeld */,
+				BC6058E314F41FC600399510 /* GrowlTicketDatabase.h */,
+				BC6058E414F41FC600399510 /* GrowlTicketDatabase.m */,
+				BC5EF65C14F5428F003E4578 /* GrowlTicketDatabaseTicket.h */,
+				BC5EF65D14F5428F003E4578 /* GrowlTicketDatabaseTicket.m */,
+				BC5EF66214F54589003E4578 /* GrowlTicketDatabaseHost.h */,
+				BC5EF66314F54589003E4578 /* GrowlTicketDatabaseHost.m */,
+				BC5EF65F14F542AB003E4578 /* GrowlTicketDatabaseApplication.h */,
+				BC5EF66014F542AC003E4578 /* GrowlTicketDatabaseApplication.m */,
+				BC5EF66514F55134003E4578 /* GrowlTicketDatabaseNotification.h */,
+				BC5EF66614F55135003E4578 /* GrowlTicketDatabaseNotification.m */,
+				070B862D0A087FC50093150E /* Legacy */,
+			);
+			name = Tickets;
 			sourceTree = "<group>";
 		};
 		BC979861146ACF9100511A9B /* ViewControllers */ = {
@@ -2610,9 +2657,8 @@
 			isa = PBXGroup;
 			children = (
 				EED7068E08C743EB004651D0 /* Controllers */,
-				BC28BE791245132F00DB83D4 /* History */,
+				BC6058E114F41F8C00399510 /* Databases */,
 				34A266260EBE3F4100C66E44 /* GNTP */,
-				070B862D0A087FC50093150E /* Tickets */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				CB34BEC507E09557001D7D7C /* Notifications */,
 				070B86350A08816F0093150E /* Plug-ins */,
@@ -2725,8 +2771,6 @@
 				95026A8908DC856900FE1949 /* GrowlPositionController.m */,
 				95B2B27708745B9000EA34BF /* GrowlPreferencesController.h */,
 				95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */,
-				95B2B27908745B9000EA34BF /* GrowlTicketController.h */,
-				95B2B27A08745B9000EA34BF /* GrowlTicketController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -3763,7 +3807,6 @@
 				31DF220411E987AD0028E4B9 /* ISO8601DateFormatter.m in Sources */,
 				BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */,
 				BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */,
-				BC9037CB122D4B7800AFF669 /* GrowlNotificationHistory.xcdatamodel in Sources */,
 				BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */,
 				BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */,
 				BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */,
@@ -3818,6 +3861,13 @@
 				BC80A32814D6F10100B055FE /* GrowlPluginPreferenceStrings.m in Sources */,
 				93624FFA14E6A831001DF0D5 /* GrowlImageTransformer.m in Sources */,
 				BC3E905614EB60FE00EBB28C /* GrowlMatrix.m in Sources */,
+				BC6058E514F41FC600399510 /* GrowlTicketDatabase.m in Sources */,
+				BC6058EF14F423CF00399510 /* GrowlNotificationHistory.xcdatamodel in Sources */,
+				BC6058F214F423E700399510 /* GrowlTicketDatabase.xcdatamodeld in Sources */,
+				BC5EF65E14F5428F003E4578 /* GrowlTicketDatabaseTicket.m in Sources */,
+				BC5EF66114F542AC003E4578 /* GrowlTicketDatabaseApplication.m in Sources */,
+				BC5EF66414F5458A003E4578 /* GrowlTicketDatabaseHost.m in Sources */,
+				BC5EF66714F55135003E4578 /* GrowlTicketDatabaseNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5639,6 +5689,20 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BC6058F014F423E700399510 /* GrowlTicketDatabase.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC6058F114F423E700399510 /* GrowlTicketDatabase.xcdatamodel */,
+			);
+			currentVersion = BC6058F114F423E700399510 /* GrowlTicketDatabase.xcdatamodel */;
+			name = GrowlTicketDatabase.xcdatamodeld;
+			path = Core/Resources/GrowlTicketDatabase.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
 }

@@ -80,7 +80,7 @@
 //	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
 
 	// XXX: should use GrowlPathUtilities here
-	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
+	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
 	NSString *growlSupportPath;
 	[ticketsByApplicationName removeAllObjects];
 

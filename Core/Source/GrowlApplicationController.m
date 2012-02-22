@@ -15,6 +15,7 @@
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
+#import "GrowlTicketDatabase.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -928,7 +929,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
     
     [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
-    
+    [[GrowlTicketDatabase sharedInstance] upgradeFromTicketFiles];
+
     if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
         [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
         firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
@@ -937,9 +939,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
        [[firstLaunchWindow window] makeKeyWindow];
     }
       
-   dispatch_async(dispatch_get_main_queue(), ^{
-      [[GrowlTicketController sharedController] loadAllSavedTickets];
-   });
 
    NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
    switch (menuState) {

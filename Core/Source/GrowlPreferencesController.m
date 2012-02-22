@@ -179,10 +179,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
    NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlLauncher.app"];
    if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
-      NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
+      //NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
    }
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlLauncher"), flag)){
-      NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
+      //NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
    [self setBool:flag forKey:GrowlShouldStartAtLogin];
 }
