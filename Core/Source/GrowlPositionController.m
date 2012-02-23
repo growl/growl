@@ -223,8 +223,8 @@
    NSString *appName = [[displayController notification] applicationName];
    NSString *hostName = [[[displayController notification] auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	GrowlTicketDatabaseApplication *displayTicket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
-	selectedPositionType = [displayTicket positionType];
-	selectedCustomPosition = (enum GrowlPositionOrigin)[displayTicket selectedPosition];
+	selectedPositionType = displayTicket ? [displayTicket positionType] : 0;
+	selectedCustomPosition = displayTicket ? (enum GrowlPositionOrigin)[displayTicket selectedPosition] : GrowlNoOrigin;
 
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];

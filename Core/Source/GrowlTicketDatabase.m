@@ -97,6 +97,9 @@
       GrowlTicketController *controller = [[GrowlTicketController alloc] init];
       [controller loadAllSavedTickets];
       [[controller allSavedTickets] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			if([[obj applicationName] caseInsensitiveCompare:@"Growl"] == NSOrderedSame) 
+				return;
+			
          GrowlTicketDatabaseHost *host = [blockSelf hostWithName:(!obj || [obj isLocalHost]) ? @"Localhost" : [obj hostName]];
          
          GrowlTicketDatabaseApplication *app = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlApplicationTicket"
@@ -141,6 +144,12 @@
       NSLog(@"Cannot register without an application name!");
       return NO;
    }
+	
+	if([appName caseInsensitiveCompare:@"Growl"] == NSOrderedSame) {
+		NSLog(@"Growl should not register with itself!");
+		return NO;
+	}
+	
    NSString *hostName = [regDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    
    
@@ -205,6 +214,9 @@
 }
 
 -(GrowlTicketDatabaseApplication*)ticketForApplicationName:(NSString*)appName hostName:(NSString*)hostName {
+	if([appName caseInsensitiveCompare:@"Growl"] == NSOrderedSame){
+		return nil;
+	}
    __block GrowlTicketDatabaseApplication *app = nil;
    void (^appBlock)(void) = ^{
       NSError *appErr = nil;
