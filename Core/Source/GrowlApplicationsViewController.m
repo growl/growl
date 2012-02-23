@@ -396,13 +396,13 @@ static BOOL awoken = NO;
 }
 
 - (IBAction) changeNameOfDisplayForApplication:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[ticketsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	//NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	//[[ticketsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
 	[self showPreview:sender];
 }
 - (IBAction) changeNameOfDisplayForNotification:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	[[notificationsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	//NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	//[[notificationsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
 	[self showPreview:sender];
 }
 
@@ -414,10 +414,10 @@ static BOOL awoken = NO;
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 
-		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
-		if (indexOfMenuItem < 0)
-			indexOfMenuItem = 0;
-		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
+		//NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
+		//if (indexOfMenuItem < 0)
+		//	indexOfMenuItem = 0;
+		//[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
 	}
 }
 

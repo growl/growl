@@ -1144,12 +1144,14 @@
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 			</object>
 			<object class="NSArrayController" id="231750306">
-				<string key="NSObjectClassName">GrowlNotificationTicket</string>
+				<string key="NSObjectClassName">GrowlTicketDatabaseApplication</string>
 				<bool key="NSEditable">YES</bool>
+				<bool key="NSAutomaticallyPreparesContent">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy">
 					<string key="NSEntityName">GrowlNotificationTicket</string>
 				</object>
 				<bool key="_NSIsUsingManagedProxy">YES</bool>
+				<bool key="_NSUsesLazyFetching">YES</bool>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
 				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
@@ -1494,7 +1496,7 @@
 						<string key="label">content: sounds</string>
 						<reference key="source" ref="1053257639"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="816752773">
+						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1053257639"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">content: sounds</string>
@@ -1517,27 +1519,6 @@
 						</object>
 					</object>
 					<int key="connectionID">203</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedValue: selection.sound</string>
-						<reference key="source" ref="1053257639"/>
-						<reference key="destination" ref="231750306"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1053257639"/>
-							<reference key="NSDestination" ref="231750306"/>
-							<string key="NSLabel">selectedValue: selection.sound</string>
-							<string key="NSBinding">selectedValue</string>
-							<string key="NSKeyPath">selection.sound</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNullPlaceholder</string>
-								<string key="NS.object.0">None</string>
-							</object>
-							<reference key="NSPreviousConnector" ref="816752773"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">204</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1637,19 +1618,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.enableLogging</string>
+						<string key="label">value: selection.loggingEnabled</string>
 						<reference key="source" ref="92722424"/>
 						<reference key="destination" ref="231750306"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="92722424"/>
 							<reference key="NSDestination" ref="231750306"/>
-							<string key="NSLabel">value: selection.enableLogging</string>
+							<string key="NSLabel">value: selection.loggingEnabled</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.enableLogging</string>
+							<string key="NSKeyPath">selection.loggingEnabled</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">8260</int>
+					<int key="connectionID">8270</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1949,26 +1930,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: selection.notifications</string>
-						<reference key="source" ref="231750306"/>
-						<reference key="destination" ref="1050159261"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="231750306"/>
-							<reference key="NSDestination" ref="1050159261"/>
-							<string key="NSLabel">contentArray: selection.notifications</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">selection.notifications</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">6602</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">managedObjectContext: self.ticketDatabase.managedObjectContext</string>
 						<reference key="source" ref="231750306"/>
 						<reference key="destination" ref="1001"/>
@@ -1981,7 +1942,23 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">8262</int>
+					<int key="connectionID">8268</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentSet: selection.children</string>
+						<reference key="source" ref="231750306"/>
+						<reference key="destination" ref="1050159261"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="231750306"/>
+							<reference key="NSDestination" ref="1050159261"/>
+							<string key="NSLabel">contentSet: selection.children</string>
+							<string key="NSBinding">contentSet</string>
+							<string key="NSKeyPath">selection.children</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">8275</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2371,19 +2348,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.notificationDescription</string>
+						<string key="label">value: selection.ticketDescription</string>
 						<reference key="source" ref="409964640"/>
 						<reference key="destination" ref="231750306"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="409964640"/>
 							<reference key="NSDestination" ref="231750306"/>
-							<string key="NSLabel">value: selection.notificationDescription</string>
+							<string key="NSLabel">value: selection.ticketDescription</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.notificationDescription</string>
+							<string key="NSKeyPath">selection.ticketDescription</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">7403</int>
+					<int key="connectionID">8269</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5536,7 +5513,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">8263</int>
+			<int key="maxID">8275</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

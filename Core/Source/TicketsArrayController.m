@@ -40,6 +40,8 @@
          NSString *appNameHostName = [NSString stringWithFormat:@"%@ - %@", [obj name], [[obj parent] name]];
          if(!search || [appNameHostName rangeOfString:blockString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound){
             NSString *newHost = [[obj parent] name];
+            if([newHost isEqualToString:@"Localhost"])
+               newHost = nil;
             if(newHost && ![previousHost isEqualToString:newHost]){
                [expandedArray addObject:newHost];
                previousHost = newHost;
