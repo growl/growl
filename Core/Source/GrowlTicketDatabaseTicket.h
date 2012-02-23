@@ -42,4 +42,6 @@
 - (void)addChildren:(NSSet *)values;
 - (void)removeChildren:(NSSet *)values;
 
+-(BOOL)isTicketAllowed;
+
 @end

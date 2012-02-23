@@ -389,16 +389,6 @@
  */
 - (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick
 {
-	if (viaClick) {
-		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-		GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
-		
-		/* Don't advertise that the notification closed via a click if click handlers are disabled */
-		if (ticket && ![ticket clickHandlersEnabled])
-			viaClick = NO;
-	}
-
 	NSString *notificationID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	GrowlGNTPPacket *existingPacket = (notificationID ? [currentNetworkPackets objectForKey:notificationID] : nil);
 	//NSLog(@"didCloseViaNotificationClick --> %@ --> %@", notificationID, existingPacket);

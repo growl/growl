@@ -10,11 +10,11 @@
 
 #import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlApplicationTicket.h"
 #import "GrowlNotification.h"
-#import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
+#import "GrowlTicketDatabaseNotification.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -226,7 +226,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		return GrowlNotificationResultNotRegistered;
 	}
 
-	if (![ticket isNotificationAllowed:notificationName]) {
+	GrowlTicketDatabaseNotification *notification = [ticket notificationTicketForName:notificationName];
+	if (![notification isTicketAllowed]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		//NSLog(@"The user disabled this notification!");
@@ -271,8 +272,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 
 	//Retrieve and set the the priority of the notification
-	GrowlNotificationTicket *notification = [ticket notificationTicketForName:notificationName];
-	int priority = [notification priority];
+	int priority = [[notification priority] intValue];
 	NSNumber *value;
 	if (priority == GrowlPriorityUnset) {
 		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
@@ -285,13 +285,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	// Retrieve and set the sticky bit of the notification
-	int sticky = [notification sticky];
+	int sticky = [[notification sticky] intValue];
 	if (sticky >= 0)
 		[aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
    [aDict setObject:[NSNumber numberWithBool:saveScreenshot] forKey:GROWL_SCREENSHOT_MODE];
-   [aDict setObject:[NSNumber numberWithBool:[ticket clickHandlersEnabled]] forKey:GROWL_CLICK_HANDLER_ENABLED];
+   [aDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_CLICK_HANDLER_ENABLED];
 
 	/* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
 	if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
@@ -314,10 +314,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
    
     if(![preferences squelchMode])
     {
-        GrowlDisplayPlugin *display = [notification displayPlugin];
+        GrowlDisplayPlugin *display = nil;//[notification displayPlugin];
         
         if (!display)
-            display = [ticket displayPlugin];
+            display = nil;//[ticket displayPlugin];
         
         if (!display) {
             if (!defaultDisplayPlugin) {
@@ -346,7 +346,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
         
         [display displayNotification:appNotification];
 
-        NSString *soundName = [notification sound];
+        NSString *soundName = nil;//[notification sound];
         if (soundName) {
             NSSound *sound = [NSSound soundNamed:soundName];
             

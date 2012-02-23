@@ -401,6 +401,15 @@ enum GrowlPathwayErrorCode {
 	GrowlPathwayErrorCouldNotDisable,
 };
 
+enum GrowlPriority {
+	GrowlPriorityUnset     = -1000,
+	GrowlPriorityVeryLow   = -2,
+	GrowlPriorityLow       = -1,
+	GrowlPriorityNormal    =  0,
+	GrowlPriorityHigh      =  1,
+	GrowlPriorityEmergency =  2
+};
+
 #endif
 
 #define GrowlVisualDisplayWindowLevel NSStatusWindowLevel

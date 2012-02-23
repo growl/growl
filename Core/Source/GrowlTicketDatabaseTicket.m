@@ -23,4 +23,11 @@
 @dynamic children;
 @dynamic parent;
 
+-(BOOL)isTicketAllowed {
+   if(self.parent)
+      return [self.enabled boolValue] && [self.parent isTicketAllowed];
+   else
+      return [self.enabled boolValue];
+}
+
 @end

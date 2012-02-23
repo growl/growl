@@ -176,7 +176,7 @@
       NSError *appErr = nil;
       
       NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
-      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ AND parent.name == %@", appName, ((hostName != nil) ? hostName : @"Localhost")]];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ AND parent.name == %@", appName, ([hostName isLocalHost] ? @"Localhost" : hostName)]];
       NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
       if(appErr)
       {
@@ -210,7 +210,7 @@
       NSError *appErr = nil;
       
       NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
-      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, ((hostName != nil) ? hostName : @"Localhost")]];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, ([hostName isLocalHost] ? @"Localhost" : hostName)]];
       NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
       if(appErr)
       {
