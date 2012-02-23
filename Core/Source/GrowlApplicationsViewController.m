@@ -11,6 +11,7 @@
 #import "TicketsArrayController.h"
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabaseApplication.h"
+#import "GrowlTicketDatabaseAction.h"
 #import "GrowlPreferencePane.h"
 #import "GrowlNotificationSettingsCellView.h"
 #import "GrowlOnSwitch.h"
@@ -179,12 +180,12 @@ static BOOL awoken = NO;
             [self setCanRemoveTicket:[ticketsArrayController canRemove]];
             [displayMenuButton setEnabled:YES];
             [notificationDisplayMenuButton setEnabled:YES];
-            /*[[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
-                                   nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
+            [[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
+                                   nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name] 
                                   includeDefaultMenuItem:YES];
             [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
-                                   nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
-                                  includeDefaultMenuItem:YES];*/
+                                   nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
+                                  includeDefaultMenuItem:YES];
          }
       }else{
          [appOnSwitch setState:NO];
@@ -327,8 +328,8 @@ static BOOL awoken = NO;
       
       NSArray *apps = [ticketsArrayController selectedObjects];
       if(apps && [apps count]) {
-         NSDictionary *parentApp = [apps objectAtIndex:0U];
-         pluginName = [parentApp valueForKey:@"displayPluginName"];
+         GrowlTicketDatabaseApplication *parentApp = [apps objectAtIndex:0U];
+         pluginName = [[parentApp display] name];
       }
 	}		
    if(!pluginName)
@@ -396,13 +397,15 @@ static BOOL awoken = NO;
 }
 
 - (IBAction) changeNameOfDisplayForApplication:(id)sender {
-	//NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	//[[ticketsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	NSUInteger selectedApp = [ticketsArrayController selectionIndex];
+	[[[ticketsArrayController arrangedObjects] objectAtIndex:selectedApp] setNewDisplayName:newDisplayPluginName];
 	[self showPreview:sender];
 }
 - (IBAction) changeNameOfDisplayForNotification:(id)sender {
-	//NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	//[[notificationsArrayController selection] setValue:newDisplayPluginName forKey:@"displayPluginName"];
+	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
+	NSUInteger selectedNote = [ticketsArrayController selectionIndex];
+	[[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] setNewDisplayName:newDisplayPluginName];
 	[self showPreview:sender];
 }
 
@@ -413,11 +416,13 @@ static BOOL awoken = NO;
 	if(selectedNotificationIndexes != newSelectedNotificationIndexes) {
 		[selectedNotificationIndexes release];
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
-
-		//NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:[[notificationsArrayController selection] valueForKey:@"displayPluginName"]];
-		//if (indexOfMenuItem < 0)
-		//	indexOfMenuItem = 0;
-		//[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
+		
+		NSUInteger selectedNote = [notificationsArrayController selectionIndex];
+		NSString *pluginName = [[(GrowlTicketDatabaseTicket*)[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] display] name];
+		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:pluginName];
+		if (indexOfMenuItem < 0)
+			indexOfMenuItem = 0;
+		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
 	}
 }
 

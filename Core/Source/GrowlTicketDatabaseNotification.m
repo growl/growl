@@ -23,6 +23,8 @@
    self.humanReadableName = [ticket humanReadableName];
    self.priority = [NSNumber numberWithInteger:[ticket priority]];
    self.sticky = [NSNumber numberWithBool:[ticket sticky]];
+	
+	[super importDisplayOrActionForName:[ticket displayPluginName]];
 }
 
 - (NSComparisonResult) humanReadableNameCompare:(GrowlTicketDatabaseNotification*)inTicket {

@@ -97,7 +97,7 @@
       GrowlTicketController *controller = [[GrowlTicketController alloc] init];
       [controller loadAllSavedTickets];
       [[controller allSavedTickets] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         GrowlTicketDatabaseHost *host = [blockSelf hostWithName:([obj isLocalHost]) ? @"Localhost" : [obj hostName]];
+         GrowlTicketDatabaseHost *host = [blockSelf hostWithName:(!obj || [obj isLocalHost]) ? @"Localhost" : [obj hostName]];
          
          GrowlTicketDatabaseApplication *app = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlApplicationTicket"
                                                                              inManagedObjectContext:managedObjectContext];
@@ -176,7 +176,7 @@
       NSError *appErr = nil;
       
       NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
-      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ AND parent.name == %@", appName, ([hostName isLocalHost] ? @"Localhost" : hostName)]];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ AND parent.name == %@", appName, ((!hostName || [hostName isLocalHost]) ? @"Localhost" : hostName)]];
       NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
       if(appErr)
       {
@@ -210,7 +210,7 @@
       NSError *appErr = nil;
       
       NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
-      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, ([hostName isLocalHost] ? @"Localhost" : hostName)]];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, ((!hostName || [hostName isLocalHost]) ? @"Localhost" : hostName)]];
       NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
       if(appErr)
       {
@@ -230,6 +230,34 @@
    else
       [managedObjectContext performBlockAndWait:appBlock];
    return app;
+}
+
+-(GrowlTicketDatabaseAction*)actionForName:(NSString*)name {
+	__block GrowlTicketDatabaseAction *action = nil;
+   void (^actionBlock)(void) = ^{
+      NSError *actionErr = nil;
+      
+      NSFetchRequest *actionCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlAction"];
+      [actionCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@", name]];
+      NSArray *actions = [managedObjectContext executeFetchRequest:actionCheck error:&actionErr];
+      if(actionErr)
+      {
+         NSLog(@"Unresolved error %@, %@", actionErr, [actionErr userInfo]);
+         return;
+      }
+      
+      if([actions count] == 0) {
+         NSLog(@"Could not find action entry for: %@", actionErr);
+      }else{
+         action = [actions objectAtIndex:0U];
+      }
+   };
+   
+   if([NSThread isMainThread])
+      actionBlock();
+   else
+      [managedObjectContext performBlockAndWait:actionBlock];
+   return action;
 }
 
 @end

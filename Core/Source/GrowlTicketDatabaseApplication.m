@@ -26,6 +26,8 @@
    self.selectedPosition = [NSNumber numberWithInteger:[ticket selectedPosition]];
    self.appID = ticket.appID;
    self.appPath = ticket.appPath;
+	
+	[super importDisplayOrActionForName:[ticket displayPluginName]];
    
    [[ticket notifications] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       GrowlTicketDatabaseNotification *note = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlNotificationTicket"

@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="878" systemVersion="11D50b" minimumToolsVersion="Xcode 4.2" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="GrowlAction" syncable="YES">
+    <entity name="GrowlAction" representedClassName="GrowlTicketDatabaseAction" syncable="YES">
         <attribute name="configuration" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="actionTickets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GrowlTicket" inverseName="actions" inverseEntity="GrowlTicket" syncable="YES"/>
+        <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GrowlCompoundAction" inverseName="actions" inverseEntity="GrowlCompoundAction" syncable="YES"/>
     </entity>
     <entity name="GrowlApplicationTicket" representedClassName="GrowlTicketDatabaseApplication" parentEntity="GrowlTicket" syncable="YES">
         <attribute name="appID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="appPath" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="GrowlCompoundAction" representedClassName="GrowlTicketDatabaseCompoundAction" parentEntity="GrowlAction" syncable="YES">
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GrowlAction" inverseName="compounds" inverseEntity="GrowlAction" syncable="YES"/>
+    </entity>
+    <entity name="GrowlDisplay" representedClassName="GrowlTicketDatabaseDisplay" parentEntity="GrowlAction" syncable="YES">
+        <relationship name="displayTickets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GrowlTicket" inverseName="display" inverseEntity="GrowlTicket" syncable="YES"/>
     </entity>
     <entity name="GrowlHostTicket" representedClassName="GrowlTicketDatabaseHost" parentEntity="GrowlTicket" syncable="YES">
         <attribute name="localhost" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -25,15 +33,18 @@
         <attribute name="positionType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="selectedPosition" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="ticketDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GrowlAction" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GrowlAction" inverseName="actionTickets" inverseEntity="GrowlAction" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GrowlTicket" inverseName="parent" inverseEntity="GrowlTicket" syncable="YES"/>
+        <relationship name="display" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlDisplay" inverseName="displayTickets" inverseEntity="GrowlDisplay" syncable="YES"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlTicket" inverseName="children" inverseEntity="GrowlTicket" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GrowlAction" positionX="-531" positionY="-54" width="128" height="75"/>
-        <element name="GrowlApplicationTicket" positionX="-281" positionY="-225" width="128" height="75"/>
+        <element name="GrowlAction" positionX="-666" positionY="-294" width="128" height="105"/>
+        <element name="GrowlApplicationTicket" positionX="-290" positionY="-246" width="128" height="75"/>
+        <element name="GrowlCompoundAction" positionX="-855" positionY="-270" width="128" height="60"/>
+        <element name="GrowlDisplay" positionX="-666" positionY="-162" width="128" height="60"/>
         <element name="GrowlHostTicket" positionX="-290" positionY="-333" width="128" height="60"/>
-        <element name="GrowlNotificationTicket" positionX="-288" positionY="-99" width="126" height="105"/>
+        <element name="GrowlNotificationTicket" positionX="-288" positionY="-150" width="126" height="105"/>
         <element name="GrowlTicket" positionX="-477" positionY="-306" width="128" height="195"/>
     </elements>
 </model>

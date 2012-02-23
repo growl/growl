@@ -15,6 +15,7 @@
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabaseNotification.h"
+#import "GrowlTicketDatabaseAction.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -212,169 +213,171 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 
 - (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	@autoreleasepool {
-
-	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
-
-	// Make sure this notification is actually registered
-	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
-    NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-	GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
-	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
-	//NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
-	if (!ticket) {
-		//NSLog(@"Never heard of this app!");
-		return GrowlNotificationResultNotRegistered;
-	}
-
-	GrowlTicketDatabaseNotification *notification = [ticket notificationTicketForName:notificationName];
-	if (![notification isTicketAllowed]) {
-		// Either the app isn't registered or the notification is turned off
-		// We should do nothing
-		//NSLog(@"The user disabled this notification!");
-		return GrowlNotificationResultDisabled;
-	}
-
-	NSMutableDictionary *aDict = [dict mutableCopy];
-
-	// Check icon
-	Class NSImageClass = [NSImage class];
-	Class NSDataClass  = [NSData  class];
-	NSData *iconData = nil;
-	id sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
-	if (sourceIconData) {
-		if ([sourceIconData isKindOfClass:NSImageClass])
-			iconData = [(NSImage *)sourceIconData PNGRepresentation];
-		else if ([sourceIconData isKindOfClass:NSDataClass])
-			iconData = sourceIconData;
-	}
-	if (!iconData)
-		iconData = [ticket iconData];
-
-	if (iconData)
-		[aDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-
-	// If app icon present, convert to NSImage
-	iconData = nil;
-	sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
-	if (sourceIconData) {
-		if ([sourceIconData isKindOfClass:NSImageClass])
-			iconData = [(NSImage *)sourceIconData PNGRepresentation];
-		else if ([sourceIconData isKindOfClass:NSDataClass])
-			iconData = sourceIconData;
-	}
-	if (iconData)
-		[aDict setObject:iconData forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
-
-	// To avoid potential exceptions, make sure we have both text and title
-	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
-		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE])
-		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
-
-	//Retrieve and set the the priority of the notification
-	int priority = [[notification priority] intValue];
-	NSNumber *value;
-	if (priority == GrowlPriorityUnset) {
-		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
-		if (!value)
-			value = [NSNumber numberWithInt:0];
-	} else
-		value = [NSNumber numberWithInt:priority];
-	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
-
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-
-	// Retrieve and set the sticky bit of the notification
-	int sticky = [[notification sticky] intValue];
-	if (sticky >= 0)
-		[aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
-
-	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-   [aDict setObject:[NSNumber numberWithBool:saveScreenshot] forKey:GROWL_SCREENSHOT_MODE];
-   [aDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_CLICK_HANDLER_ENABLED];
-
-	/* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
-	if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
-		CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-		NSString *uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-		[aDict setValue:uuid
-				 forKey:GROWL_NOTIFICATION_INTERNAL_ID];
-		[uuid release];
-		CFRelease(uuidRef);
-	}
-   
-   GrowlNotification *appNotification = [[GrowlNotification alloc] initWithDictionary:aDict];
-
-   [[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
-   
-   if([preferences isForwardingEnabled])
-      [[GNTPForwarder sharedController] forwardNotification:[[dict copy] autorelease]];
-   
-   [[GNTPSubscriptionController sharedController] forwardNotification:[[dict copy] autorelease]];
-   
-    if(![preferences squelchMode])
-    {
-        GrowlDisplayPlugin *display = nil;//[notification displayPlugin];
-        
-        if (!display)
-            display = nil;//[ticket displayPlugin];
-        
-        if (!display) {
+		
+		[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
+		
+		// Make sure this notification is actually registered
+		NSString *appName = [dict objectForKey:GROWL_APP_NAME];
+		NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+		GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
+		NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
+		//NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
+		if (!ticket) {
+			//NSLog(@"Never heard of this app!");
+			return GrowlNotificationResultNotRegistered;
+		}
+		
+		GrowlTicketDatabaseNotification *notification = [ticket notificationTicketForName:notificationName];
+		if (![notification isTicketAllowed]) {
+			// Either the app isn't registered or the notification is turned off
+			// We should do nothing
+			//NSLog(@"The user disabled this notification!");
+			return GrowlNotificationResultDisabled;
+		}
+		
+		NSMutableDictionary *aDict = [dict mutableCopy];
+		
+		// Check icon
+		Class NSImageClass = [NSImage class];
+		Class NSDataClass  = [NSData  class];
+		NSData *iconData = nil;
+		id sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+		if (sourceIconData) {
+			if ([sourceIconData isKindOfClass:NSImageClass])
+				iconData = [(NSImage *)sourceIconData PNGRepresentation];
+			else if ([sourceIconData isKindOfClass:NSDataClass])
+				iconData = sourceIconData;
+		}
+		if (!iconData)
+			iconData = [ticket iconData];
+		
+		if (iconData)
+			[aDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+		
+		// If app icon present, convert to NSImage
+		iconData = nil;
+		sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+		if (sourceIconData) {
+			if ([sourceIconData isKindOfClass:NSImageClass])
+				iconData = [(NSImage *)sourceIconData PNGRepresentation];
+			else if ([sourceIconData isKindOfClass:NSDataClass])
+				iconData = sourceIconData;
+		}
+		if (iconData)
+			[aDict setObject:iconData forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+		
+		// To avoid potential exceptions, make sure we have both text and title
+		if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
+			[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
+		if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE])
+			[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
+		
+		//Retrieve and set the the priority of the notification
+		int priority = [[notification priority] intValue];
+		NSNumber *value;
+		if (priority == GrowlPriorityUnset) {
+			value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
+			if (!value)
+				value = [NSNumber numberWithInt:0];
+		} else
+			value = [NSNumber numberWithInt:priority];
+		[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
+		
+		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+		
+		// Retrieve and set the sticky bit of the notification
+		int sticky = [[notification sticky] intValue];
+		if (sticky >= 0)
+			[aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
+		
+		BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
+		[aDict setObject:[NSNumber numberWithBool:saveScreenshot] forKey:GROWL_SCREENSHOT_MODE];
+		[aDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_CLICK_HANDLER_ENABLED];
+		
+		/* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
+		if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
+			CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+			NSString *uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+			[aDict setValue:uuid
+						forKey:GROWL_NOTIFICATION_INTERNAL_ID];
+			[uuid release];
+			CFRelease(uuidRef);
+		}
+		
+		GrowlNotification *appNotification = [[GrowlNotification alloc] initWithDictionary:aDict];
+		
+		[[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
+		
+		if([preferences isForwardingEnabled])
+			[[GNTPForwarder sharedController] forwardNotification:[[dict copy] autorelease]];
+		
+		[[GNTPSubscriptionController sharedController] forwardNotification:[[dict copy] autorelease]];
+		
+		if(![preferences squelchMode])
+		{
+			NSString *pluginName = [[notification display] name];
+			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
+			
+			if (!display){
+            pluginName = [[ticket display] name];
+				display = (GrowlDisplayPlugin*)[[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
+			}
+			if (!display) {
             if (!defaultDisplayPlugin) {
-                NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-                defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
-                if (!defaultDisplayPlugin) {
-                    //User's selected default display has gone AWOL. Change to the default default.
-                    NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-                    NSURL *fileURL = [NSURL fileURLWithPath:file];
-                   NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-                    if (defaultDefaults) {
-                        displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
-                        if (!displayPluginName)
-                            GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
-                        else {
-                            defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
-                            
-                            //Now fix the user's preferences to forget about the missing display plug-in.
-                            [preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
-                        }
-                    }
-                }
+					NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
+					defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
+					if (!defaultDisplayPlugin) {
+						//User's selected default display has gone AWOL. Change to the default default.
+						NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+						NSURL *fileURL = [NSURL fileURLWithPath:file];
+						NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
+						if (defaultDefaults) {
+							displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
+							if (!displayPluginName)
+								GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
+							else {
+								defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+								
+								//Now fix the user's preferences to forget about the missing display plug-in.
+								[preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
+							}
+						}
+					}
             }
             display = defaultDisplayPlugin;
-        }
-        
-        [display displayNotification:appNotification];
-
-        NSString *soundName = nil;//[notification sound];
-        if (soundName) {
+			}
+			
+			[display displayNotification:appNotification];
+			
+			NSString *soundName = nil;//[notification sound];
+			if (soundName) {
             NSSound *sound = [NSSound soundNamed:soundName];
             
             if (!sound) {
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
-                                          nil];
-                
-                NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
-                [NSApp presentError:error];
+					NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+													  [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
+													  nil];
+					
+					NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
+					[NSApp presentError:error];
             }
             
             if(!audioDeviceIdentifier)
-                self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
+					self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
             [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
             [sound play];
             
-        }
-    }
-    
-   
-   [appNotification release];
-   
-	// send to DO observers
-	[growlNotificationCenter notifyObservers:aDict];
-
-	[aDict release];
-}	
+			}
+		}
+		
+		
+		[appNotification release];
+		
+		// send to DO observers
+		[growlNotificationCenter notifyObservers:aDict];
+		
+		[aDict release];
+	}	
 	//NSLog(@"Notification successful");
 	return GrowlNotificationResultPosted;
 }
