@@ -748,30 +748,38 @@ static BOOL    shouldUseBuiltInNotifications = YES;
    [self _checkSandbox];
 
    //This is a bit of a hack, we check for Growl 1.2.2 and lower by seeing if the running helper app is inside Growl.prefpane
-   NSString *runningPath = [[[[NSRunningApplication runningApplicationsWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] objectAtIndex:0] bundleURL] absoluteString];
+    NSString *runningPath = nil;
+    NSArray *runningApplications = [NSRunningApplication runningApplicationsWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+    if(runningApplications && [runningApplications count])
+        runningPath = [[[runningApplications objectAtIndex:0] bundleURL] absoluteString];
    NSString *prefPaneSubpath = @"Growl.prefpane/Contents/Resources";
    
-   if([runningPath rangeOfString:prefPaneSubpath options:NSCaseInsensitiveSearch].location != NSNotFound){
-      hasGNTP = NO;
-      _reachable = !sandboxed;
-      if(!_reachable)
-         NSLog(@"%@ could not reach Growl, You are running Growl version 1.2.2 or older, and %@ is sandboxed", appName, appName);
-   }else{
-      //If we are running 1.3+, and we are sandboxed, do we have network client, or an XPC?
-      hasGNTP = YES;
-      if(sandboxed){
-         if(networkClient || [GrowlXPCCommunicationAttempt canCreateConnection]){
-            _reachable = YES;
-         }else{
-            NSLog(@"%@ could not reach Growl, %@ is sandboxed and does not have the ability to talk to Growl, contact the developer to resolve this", appName, appName);
-            _reachable = NO;
-         }
-      }else
-         _reachable = YES;
-   }
-   
-   _cached = YES;
-   return _reachable;
+    if(runningPath) {
+        if([runningPath rangeOfString:prefPaneSubpath options:NSCaseInsensitiveSearch].location != NSNotFound){
+            hasGNTP = NO;
+            _reachable = !sandboxed;
+            if(!_reachable)
+                NSLog(@"%@ could not reach Growl, You are running Growl version 1.2.2 or older, and %@ is sandboxed", appName, appName);
+        }else{
+            //If we are running 1.3+, and we are sandboxed, do we have network client, or an XPC?
+            hasGNTP = YES;
+            if(sandboxed){
+                if(networkClient || [GrowlXPCCommunicationAttempt canCreateConnection]){
+                    _reachable = YES;
+                }else{
+                    NSLog(@"%@ could not reach Growl, %@ is sandboxed and does not have the ability to talk to Growl, contact the developer to resolve this", appName, appName);
+                    _reachable = NO;
+                }
+            }else
+                _reachable = YES;
+        }
+    }
+    else {
+        NSLog(@"%@ could not reach Growl, it is likely that if you're reading this message that Growl quit at the exact moment necessary to make this possible.", appName);
+        _reachable = NO;
+    }
+    _cached = YES;
+    return _reachable;
 }
 
 + (void) _checkSandbox
