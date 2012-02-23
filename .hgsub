@@ -1,1 +1,2 @@
 external_dependencies/iso8601parser = https://bitbucket.org/boredzo/iso-8601-parser-unparser
+external_dependencies/cocoaasyncsocket = [git]git://git@github.com:growl/CocoaAsyncSocket.git
