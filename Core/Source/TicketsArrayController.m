@@ -8,8 +8,8 @@
 //  This file is under the BSD License, refer to License.txt for details
 
 #import "TicketsArrayController.h"
-#import "GrowlApplicationTicket.h"
-#import "GrowlNotificationTicket.h"
+#import "GrowlTicketDatabaseApplication.h"
+#import "GrowlTicketDatabaseNotification.h"
 
 @implementation TicketsArrayController
 @synthesize searchString;
@@ -37,8 +37,9 @@
       __block NSString *blockString = searchString;
       __block NSString *previousHost = nil;
       [sorted enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         if(!search || [[obj appNameHostName] rangeOfString:blockString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound){
-            NSString *newHost = [obj hostName];
+         NSString *appNameHostName = [NSString stringWithFormat:@"%@ - %@", [obj name], [[obj parent] name]];
+         if(!search || [appNameHostName rangeOfString:blockString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound){
+            NSString *newHost = [[obj parent] name];
             if(newHost && ![previousHost isEqualToString:newHost]){
                [expandedArray addObject:newHost];
                previousHost = newHost;

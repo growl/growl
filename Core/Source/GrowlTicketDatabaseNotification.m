@@ -25,4 +25,8 @@
    self.sticky = [NSNumber numberWithBool:[ticket sticky]];
 }
 
+- (NSComparisonResult) humanReadableNameCompare:(GrowlTicketDatabaseNotification*)inTicket {
+	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
+}
+
 @end

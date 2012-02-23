@@ -9,7 +9,8 @@
 #import "GrowlApplicationsViewController.h"
 #import "GrowlPositionPicker.h"
 #import "TicketsArrayController.h"
-#import "GrowlTicketController.h"
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
 #import "GrowlPreferencePane.h"
 #import "GrowlNotificationSettingsCellView.h"
 #import "GrowlOnSwitch.h"
@@ -22,7 +23,7 @@ static BOOL awoken = NO;
 @synthesize growlApplications;
 @synthesize notificationsTable;
 @synthesize applicationsNameAndIconColumn;
-@synthesize ticketController;
+@synthesize ticketDatabase;
 @synthesize ticketsArrayController;
 @synthesize notificationsArrayController;
 @synthesize appSettingsTabView;
@@ -88,7 +89,7 @@ static BOOL awoken = NO;
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane
 {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
-      self.ticketController = [GrowlTicketController sharedController];
+      self.ticketDatabase = [GrowlTicketDatabase sharedInstance];
       
       self.getApplicationsTitle = NSLocalizedString(@"Get Applications", @"Label for button which will open to growl.info with information on applications and how to configure them");
       self.enableApplicationLabel = NSLocalizedString(@"Enable application", @"Label for application on/off switch");
@@ -135,7 +136,7 @@ static BOOL awoken = NO;
 	
    [appOnSwitch bind:@"state"
             toObject:ticketsArrayController 
-         withKeyPath:@"selection.ticketEnabled"
+         withKeyPath:@"selection.enabled"
              options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:NSRaisesForNotApplicableKeysBindingOption]];
    
    [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -163,7 +164,7 @@ static BOOL awoken = NO;
 		// a cheap hack around selection not providing a workable object
 		NSArray *selection = [ticketsArrayController selectedObjects];
 		if ([selection count] > 0 && [[selection objectAtIndex:0] respondsToSelector:@selector(setSelectedPosition:)])
-			[[selection objectAtIndex:0] setSelectedPosition:[appPositionPicker selectedPosition]];
+			[(GrowlTicketDatabaseApplication*)[selection objectAtIndex:0] setSelectedPosition:[NSNumber numberWithInteger:[appPositionPicker selectedPosition]]];
 	}
 }
 
@@ -172,18 +173,18 @@ static BOOL awoken = NO;
       NSUInteger index = [ticketsArrayController selectionIndex];
       if(index != NSNotFound){
          id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
-         if([ticket isKindOfClass:[GrowlApplicationTicket class]])
+         if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
          {
-            self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket applicationName]];
+            self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
             [self setCanRemoveTicket:[ticketsArrayController canRemove]];
             [displayMenuButton setEnabled:YES];
             [notificationDisplayMenuButton setEnabled:YES];
-            [[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
+            /*[[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
                                    nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
                                   includeDefaultMenuItem:YES];
             [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
                                    nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
-                                  includeDefaultMenuItem:YES];
+                                  includeDefaultMenuItem:YES];*/
          }
       }else{
          [appOnSwitch setState:NO];
@@ -258,10 +259,10 @@ static BOOL awoken = NO;
 }
 
 - (void) deleteTicket:(id)sender {
-   if(![[[ticketsArrayController selectedObjects] objectAtIndex:0U] isKindOfClass:[GrowlApplicationTicket class]])
+   if(![[[ticketsArrayController selectedObjects] objectAtIndex:0U] isKindOfClass:[GrowlTicketDatabaseApplication class]])
       return;
    
-	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] appNameHostName];
+	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] name];
 	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Are you sure you want to remove %@?", nil, [NSBundle mainBundle], nil), appName]
 									 defaultButton:NSLocalizedStringFromTableInBundle(@"Remove", nil, [NSBundle mainBundle], "Button title for removing something")
 								   alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [NSBundle mainBundle], "Button title for canceling")
@@ -275,14 +276,10 @@ static BOOL awoken = NO;
 // this method is used as our callback to determine whether or not to delete the ticket
 -(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID {
 	if (returnCode == NSAlertDefaultReturn) {
-		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
-		NSString *path = [ticket path];
-
-		if ([[NSFileManager defaultManager] removeItemAtPath:path error:nil]) {
-         [[GrowlTicketController sharedController] removeTicketForApplicationName:[ticket appNameHostName]];
-         [growlApplications noteNumberOfRowsChanged];
-         [ticketsArrayController selectFirstApplication];
-		}
+		GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
+      [ticketDatabase removeTicketForApplicationName:ticket.name hostName:ticket.parent.name];
+      [growlApplications noteNumberOfRowsChanged];
+      [ticketsArrayController selectFirstApplication];
 	}
 }
 
@@ -360,7 +357,7 @@ static BOOL awoken = NO;
    __block NSUInteger index = NSNotFound;
    BOOL needLocal = (!hostName || [hostName isLocalHost]);
    [[ticketsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlApplicationTicket class]] && [[obj applicationName] caseInsensitiveCompare:appName] == NSOrderedSame){
+      if([obj isKindOfClass:[GrowlApplicationTicket class]] && [[obj name] caseInsensitiveCompare:appName] == NSOrderedSame){
          if(needLocal && [obj isLocalHost]){
             index = idx;
             *stop = YES;

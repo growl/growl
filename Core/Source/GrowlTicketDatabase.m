@@ -9,7 +9,9 @@
 #import "GrowlTicketDatabase.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlTicketController.h"
+#import "GrowlDefines.h"
 
+#import "NSStringAdditions.h"
 #import "GrowlTicketDatabaseTicket.h"
 #import "GrowlTicketDatabaseHost.h"
 #import "GrowlTicketDatabaseApplication.h"
@@ -27,16 +29,11 @@
 
 -(id)init {
    if((self = [super init])) {
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(registerApplication:)
-                                                   name:@"ApplicationRegistered"
-                                                 object:nil];
    }
    return self;
 }
        
 -(void)dealloc {
-   [[NSNotificationCenter defaultCenter] removeObserver:self];
    [super dealloc];
 }
 
@@ -65,7 +62,7 @@
       NSError *hostErr = nil;
       
       NSFetchRequest *hostCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlHostTicket"];
-      [hostCheck setPredicate:[NSPredicate predicateWithFormat:@"name = %@", hostname]];
+      [hostCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@", hostname]];
       NSArray *hosts = [managedObjectContext executeFetchRequest:hostCheck error:&hostErr];
       if(hostErr)
       {
@@ -138,8 +135,101 @@
    
 }
 
--(void)registerApplication:(NSNotification*)note {
+-(BOOL)registerApplication:(NSDictionary*)regDict {
+	NSString *appName = [regDict objectForKey:GROWL_APP_NAME];
+   if(!appName){
+      NSLog(@"Cannot register without an application name!");
+      return NO;
+   }
+   NSString *hostName = [regDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    
+   
+   void (^appBlock)(void) = nil;
+   __block GrowlTicketDatabaseApplication *app = [self ticketForApplicationName:appName hostName:hostName];
+   if(!app){
+      __block GrowlTicketDatabase *blockSelf = self;
+      appBlock = ^{
+         GrowlTicketDatabaseHost *host = [blockSelf hostWithName:(!hostName || [hostName isLocalHost]) ? @"Localhost" : hostName];
+         
+         app = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlApplicationTicket"
+                                             inManagedObjectContext:managedObjectContext];
+         [app setParent:host];
+         [app registerWithDictionary:regDict];
+      };
+   }else{
+      appBlock = ^{
+         [app reregisterWithDictionary:regDict];
+      };
+   }
+   
+   if([NSThread isMainThread])
+      appBlock();
+   else
+      [managedObjectContext performBlockAndWait:appBlock];
+   
+   return app != nil;
+}
+
+-(BOOL)removeTicketForApplicationName:(NSString*)appName hostName:(NSString*)hostName {
+   __block GrowlTicketDatabaseApplication *app = nil;
+   void (^appBlock)(void) = ^{
+      NSError *appErr = nil;
+      
+      NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ AND parent.name == %@", appName, ((hostName != nil) ? hostName : @"Localhost")]];
+      NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
+      if(appErr)
+      {
+         NSLog(@"Unresolved error %@, %@", appErr, [appErr userInfo]);
+         return;
+      }
+      
+      if([apps count] == 0) {
+         NSLog(@"Could not find application: %@ for host: %@", appName, hostName);
+      }else{
+         app = [apps objectAtIndex:0U];
+      }
+   };
+   
+   if([NSThread isMainThread])
+      appBlock();
+   else
+      [managedObjectContext performBlockAndWait:appBlock];
+   
+   if(!app)
+      return NO;
+   
+   [managedObjectContext deleteObject:app];
+   [self saveDatabase:NO];
+   return YES;
+}
+
+-(GrowlTicketDatabaseApplication*)ticketForApplicationName:(NSString*)appName hostName:(NSString*)hostName {
+   __block GrowlTicketDatabaseApplication *app = nil;
+   void (^appBlock)(void) = ^{
+      NSError *appErr = nil;
+      
+      NSFetchRequest *appCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlApplicationTicket"];
+      [appCheck setPredicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, ((hostName != nil) ? hostName : @"Localhost")]];
+      NSArray *apps = [managedObjectContext executeFetchRequest:appCheck error:&appErr];
+      if(appErr)
+      {
+         NSLog(@"Unresolved error %@, %@", appErr, [appErr userInfo]);
+         return;
+      }
+      
+      if([apps count] == 0) {
+         NSLog(@"Could not find application: %@ for host: %@", appName, hostName);
+      }else{
+         app = [apps objectAtIndex:0U];
+      }
+   };
+   
+   if([NSThread isMainThread])
+      appBlock();
+   else
+      [managedObjectContext performBlockAndWait:appBlock];
+   return app;
 }
 
 @end

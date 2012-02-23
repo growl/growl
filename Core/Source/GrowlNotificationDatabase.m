@@ -11,9 +11,9 @@
 #import "GrowlDefines.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlPathUtilities.h"
-#import "GrowlTicketController.h"
-#import "GrowlApplicationTicket.h"
-#import "GrowlNotificationTicket.h"
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
+#import "GrowlTicketDatabaseNotification.h"
 #import "GrowlNotificationHistoryWindow.h"
 #import "GrowlIdleStatusController.h"
 #import <CoreData/CoreData.h>
@@ -356,12 +356,13 @@
     GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
     NSString *appName = [noteDict objectForKey:GROWL_APP_NAME];
     NSString *hostName = [noteDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-    GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
-    GrowlNotificationTicket *notificationTicket = [ticket notificationTicketForName:[noteDict objectForKey:GROWL_NOTIFICATION_NAME]];
+    GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName 
+                                                                                                   hostName:hostName];
+    GrowlTicketDatabaseNotification *notificationTicket = [ticket notificationTicketForName:[noteDict objectForKey:GROWL_NOTIFICATION_NAME]];
     
     BOOL logging = [preferences isGrowlHistoryLogEnabled];
-    BOOL appLogging = [ticket loggingEnabled];
-    BOOL noteLogging = [notificationTicket logNotification];
+    BOOL appLogging = [[ticket loggingEnabled] boolValue];
+    BOOL noteLogging = [[notificationTicket loggingEnabled] boolValue];
     
     BOOL dontLog = (!logging || !appLogging || !noteLogging);
     

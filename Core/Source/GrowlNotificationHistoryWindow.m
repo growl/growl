@@ -10,7 +10,7 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlApplicationController.h"
-#import "GrowlTicketController.h"
+#import "GrowlTicketDatabase.h"
 #import "GrowlApplication.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationCellView.h"
@@ -336,7 +336,7 @@
         GrowlRollupGroupCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
        
         NSString *appName = [[self tableView:tableView objectValueForTableColumn:tableColumn row:row] groupID];
-        NSData *iconData = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] iconData];
+        NSData *iconData = [[[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:nil] iconData];
         NSImage *icon = [[NSImage alloc] initWithData:iconData];
         if(icon){
             [[groupView imageView] setImage:icon];

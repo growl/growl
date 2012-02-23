@@ -13,11 +13,10 @@
 #import "GrowlCallbackGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
-#import "GrowlTicketController.h"
+#import "GrowlTicketDatabase.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPDefines.h"
 #import "GrowlApplicationTicket.h"
-#import "GrowlTicketController.h"
 #import "GNTPSubscriptionController.h"
 
 @implementation GrowlGNTPPacketParser
@@ -243,7 +242,7 @@
                if([packet originPacket]){
                   NSString *appName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_APP_NAME];
                   NSString *hostName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-                  GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
+                  GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
                   if(ticket){
                      /* We would reregister here if we had a valid registration dict stored somewhere
                         We will reinvestigate this in the future.
@@ -392,8 +391,8 @@
 {
 	if (viaClick) {
 		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-        NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-		GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
+      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+		GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
 		
 		/* Don't advertise that the notification closed via a click if click handlers are disabled */
 		if (ticket && ![ticket clickHandlersEnabled])

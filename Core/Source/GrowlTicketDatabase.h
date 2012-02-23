@@ -8,10 +8,16 @@
 
 #import "GrowlAbstractDatabase.h"
 
+@class GrowlTicketDatabaseApplication;
+
 @interface GrowlTicketDatabase : GrowlAbstractDatabase
 
 +(GrowlTicketDatabase *)sharedInstance;
 
 -(void)upgradeFromTicketFiles;
+
+-(BOOL)registerApplication:(NSDictionary*)regDict;
+-(BOOL)removeTicketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
+-(GrowlTicketDatabaseApplication*)ticketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
 
 @end

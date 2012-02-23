@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "GrowlTicketDatabaseTicket.h"
 
-@class GrowlApplicationTicket;
+@class GrowlApplicationTicket, GrowlTicketDatabaseNotification;
 
 @interface GrowlTicketDatabaseApplication : GrowlTicketDatabaseTicket
 
@@ -18,5 +18,9 @@
 @property (nonatomic, retain) NSString * appPath;
 
 -(void)setWithApplicationTicket:(GrowlApplicationTicket*)ticket;
+-(void)registerWithDictionary:(NSDictionary*)regDict;
+-(void)reregisterWithDictionary:(NSDictionary*)regDict;
+
+-(GrowlTicketDatabaseNotification*)notificationTicketForName:(NSString*)noteName;
 
 @end

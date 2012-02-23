@@ -14,8 +14,6 @@
 	NSMutableDictionary *ticketsByApplicationName;
 }
 
-+ (id) sharedController;
-
 - (NSArray *) allSavedTickets;
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *) appName hostName:(NSString*)hostName;

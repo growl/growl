@@ -12,7 +12,6 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotification.h"
-#import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlTicketDatabase.h"
@@ -219,7 +218,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
     NSString *hostName = [dict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName hostName:hostName];
+	GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
 	//NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
 	if (!ticket) {
@@ -384,58 +383,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:userInfo];
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	//NSLog(@"Registering application with name %@", appName);
-   NSString *hostName = [userInfo objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName hostName:hostName];
+   if(!appName){
+      NSLog(@"Cannot register an application without a name!");
+      return NO;
+   }
+	BOOL success = [[GrowlTicketDatabase sharedInstance] registerApplication:userInfo];
 
-	if (newApp) {
-		[newApp reregisterWithDictionary:userInfo];
-	} else {
-		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
-	}
-
-	BOOL success = YES;
-
-	if (appName && newApp) {
-		if ([newApp hasChanged])
-			[newApp saveTicket];
-		[ticketController addTicket:newApp];
-      
+	if (success) {
       [[NSNotificationCenter defaultCenter] postNotificationName:@"ApplicationRegistered"
                                                           object:nil 
                                                         userInfo:[[userInfo copy] autorelease]];
-	} else { //!(appName && newApp)
-		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-
-		//We'll be writing the file to ~/Library/Logs/Failed Growl registrations.
-		NSFileManager *mgr = [NSFileManager defaultManager];
-		NSString *userLibraryFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) lastObject];
-		NSString *logsFolder = [userLibraryFolder stringByAppendingPathComponent:@"Logs"];
-		[mgr createDirectoryAtPath:logsFolder withIntermediateDirectories:YES attributes:nil error:nil];
-		NSString *failedTicketsFolder = [logsFolder stringByAppendingPathComponent:@"Failed Growl registrations"];
-		[mgr createDirectoryAtPath:failedTicketsFolder withIntermediateDirectories:YES attributes:nil error:nil];
-		NSString *path = [failedTicketsFolder stringByAppendingPathComponent:filename];
-
-		//NSFileHandle will not create the file for us, so we must create it separately.
-		[mgr createFileAtPath:path contents:nil attributes:nil];
-
-		NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:path];
-		[fh seekToEndOfFile];
-		if ([fh offsetInFile]) //we are not at the beginning of the file
-			[fh writeData:[@"\n---\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
-		[fh writeData:[[[userInfo description] stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-		[fh closeFile];
-
-		if (!appName) appName = @"with no name";
-
-		NSLog(@"Failed application registration for application %@; wrote failed registration dictionary %p to %@", appName, userInfo, path);
-		success = NO;
 	}
-   
-
-	//NSLog(@"Registration %@", success ? @"succeeded!" : @"FAILED");
-   
-	return success;
+   return success;
 }
 
 #pragma mark Version of Growl
@@ -898,9 +857,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
            selector:@selector(notificationTimedOut:)
                name:GROWL_NOTIFICATION_TIMED_OUT
              object:nil];
-    
-    ticketController = [GrowlTicketController sharedController];
-    
+        
     [self versionDictionary];
     
     NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];

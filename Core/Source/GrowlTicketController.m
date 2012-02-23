@@ -12,15 +12,6 @@
 
 @implementation GrowlTicketController
 
-+ (id) sharedController {
-    static GrowlTicketController *instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
-    });
-	return instance;
-}
-
 - (id) init {
 	if ((self = [super init])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
