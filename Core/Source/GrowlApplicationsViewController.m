@@ -160,6 +160,12 @@ static BOOL awoken = NO;
    return @"ApplicationPrefs";
 }
 
+- (void) viewWillUnload {
+	if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
+		[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
+	[super viewWillUnload];
+}
+
 - (void) updatePosition:(NSNotification *)notification {
 	if([notification object] == appPositionPicker) {
 		// a cheap hack around selection not providing a workable object
@@ -186,6 +192,9 @@ static BOOL awoken = NO;
             [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
                                    nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
                                   includeDefaultMenuItem:YES];
+				
+				if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
+					[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
          }
       }else{
          [appOnSwitch setState:NO];
