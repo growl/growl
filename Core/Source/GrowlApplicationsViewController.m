@@ -358,11 +358,11 @@ static BOOL awoken = NO;
    __block NSUInteger index = NSNotFound;
    BOOL needLocal = (!hostName || [hostName isLocalHost]);
    [[ticketsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlApplicationTicket class]] && [[obj name] caseInsensitiveCompare:appName] == NSOrderedSame){
-         if(needLocal && [obj isLocalHost]){
+      if([obj isKindOfClass:[GrowlTicketDatabaseApplication class]] && [[obj name] caseInsensitiveCompare:appName] == NSOrderedSame){
+         if(needLocal && [[[obj parent] name] isLocalHost]){
             index = idx;
             *stop = YES;
-         }else if(!needLocal && [obj hostName] && [[obj hostName] caseInsensitiveCompare:hostName] == NSOrderedSame){
+         }else if(!needLocal && [[obj parent] name] && [[[obj parent] name] caseInsensitiveCompare:hostName] == NSOrderedSame){
             index = idx;
             *stop = YES;
          }
