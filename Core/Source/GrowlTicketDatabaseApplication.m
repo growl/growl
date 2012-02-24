@@ -103,7 +103,10 @@
          note.name = obj;
       }
       //Set the human readable name if we were supplied one
-      note.humanReadableName = [humanReadableNames objectForKey:name];
+		if([humanReadableNames objectForKey:name])
+			note.humanReadableName = [humanReadableNames objectForKey:name];
+		else
+			note.humanReadableName = note.name;
       note.ticketDescription = [notificationDescriptions objectForKey:name];
 
 		note.sticky = [NSNumber numberWithInt:NSMixedState];

@@ -16,7 +16,6 @@
 #import "GrowlTicketDatabase.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPDefines.h"
-#import "GrowlApplicationTicket.h"
 #import "GNTPSubscriptionController.h"
 
 @implementation GrowlGNTPPacketParser

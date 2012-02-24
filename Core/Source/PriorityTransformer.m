@@ -6,7 +6,7 @@
 //
 
 #import "PriorityTransformer.h"
-#import "GrowlNotificationTicket.h"
+#import "GrowlDefinesInternal.h"
 
 @implementation PriorityTransformer
 + (void)load

@@ -64,7 +64,7 @@
 - (void) selectFirstApplication {
    __block NSUInteger index = NSNotFound;
    [[self arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlApplicationTicket class]]){
+      if([obj isKindOfClass:[GrowlTicketDatabaseApplication class]]){
          index = idx;
          *stop = YES;
       }
@@ -75,7 +75,7 @@
 
 - (BOOL) canRemove {
    if([self selectionIndex] != NSNotFound)
-      return [[[self arrangedObjects] objectAtIndex:[self selectionIndex]] isKindOfClass:[GrowlApplicationTicket class]];
+      return [[[self arrangedObjects] objectAtIndex:[self selectionIndex]] isKindOfClass:[GrowlTicketDatabaseApplication class]];
    else
       return NO;
 }

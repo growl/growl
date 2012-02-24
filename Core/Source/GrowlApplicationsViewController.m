@@ -149,7 +149,10 @@ static BOOL awoken = NO;
                                             selector:@selector(translateSeparatorsInMenu:)
                                                 name:NSPopUpButtonWillPopUpNotification
                                               object:soundMenuButton];
-   [ticketsArrayController selectFirstApplication];
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[ticketsArrayController selectFirstApplication];
+	});
    
    [notificationsTable setTarget:self];
    [notificationsTable setAction:@selector(userSingleClickedNote:)];
@@ -205,10 +208,10 @@ static BOOL awoken = NO;
    if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
       NSUInteger index = [ticketsArrayController selectionIndex];
       if(index != NSNotFound){
-         id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
-         if([ticket isKindOfClass:[GrowlApplicationTicket class]])
+         GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
+         if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
          {
-            [ticket setTicketEnabled:[appOnSwitch state]];
+            ticket.enabled = [NSNumber numberWithBool:[appOnSwitch state]];
          }
       }
    }
@@ -427,6 +430,9 @@ static BOOL awoken = NO;
 		selectedNotificationIndexes = [newSelectedNotificationIndexes copy];
 		
 		NSUInteger selectedNote = [notificationsArrayController selectionIndex];
+		if(selectedNote == NSNotFound)
+			return;
+		
 		NSString *pluginName = [[(GrowlTicketDatabaseTicket*)[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] display] name];
 		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:pluginName];
 		if (indexOfMenuItem < 0)
