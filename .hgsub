@@ -1,2 +1,2 @@
-external_dependencies/iso8601parser = [git]git://github.com/growl/iso-8601-parser-unparser
+external_dependencies/iso8601parser = [git]git://github.com/growl/iso-8601-parser-unparser.git
 external_dependencies/cocoaasyncsocket = [git]git://github.com/growl/CocoaAsyncSocket.git
