@@ -21,6 +21,7 @@
 -(void)registerWithDictionary:(NSDictionary*)regDict;
 -(void)reregisterWithDictionary:(NSDictionary*)regDict;
 
+- (NSDictionary*)registrationFormatDictionary;
 -(GrowlTicketDatabaseNotification*)notificationTicketForName:(NSString*)noteName;
 
 @end

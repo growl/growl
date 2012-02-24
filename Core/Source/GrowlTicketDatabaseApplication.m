@@ -10,6 +10,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlTicketDatabaseNotification.h"
 #import "GrowlDefines.h"
+#import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
 
 @implementation GrowlTicketDatabaseApplication
@@ -136,6 +137,42 @@
 
 -(void)reregisterWithDictionary:(NSDictionary *)regDict {
    
+}
+
+- (NSDictionary*)registrationFormatDictionary
+{
+	NSUInteger noteCount = [self.children count];
+	__block NSMutableArray *allNotificationNames = [NSMutableArray arrayWithCapacity:noteCount];
+	__block NSMutableArray *defaultNotifications = [NSMutableArray arrayWithCapacity:noteCount];
+	__block NSMutableDictionary *humanReadableNames = [NSMutableDictionary dictionaryWithCapacity:noteCount];
+	__block NSMutableDictionary *notificationDescriptions = [NSMutableDictionary dictionaryWithCapacity:noteCount];
+	
+	[self.children enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		NSString *noteName = [obj name];
+		[allNotificationNames addObject:noteName];
+		[humanReadableNames setObject:[obj humanReadableName] forKey:noteName];
+		if([[obj defaultEnabled] boolValue])
+			[defaultNotifications addObject:noteName];
+		if([obj ticketDescription])
+			[notificationDescriptions setObject:[obj ticketDescription] forKey:noteName];
+	}];
+	
+   NSMutableDictionary *regDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.name, GROWL_APP_NAME,
+											  allNotificationNames, GROWL_NOTIFICATIONS_ALL,
+											  defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+											  humanReadableNames, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+											  self.iconData, GROWL_APP_ICON_DATA, nil];
+   
+   if ([self.parent name] && ![[self.parent name] isLocalHost])
+      [regDict setObject:[self.parent name] forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+      
+	if (notificationDescriptions && [notificationDescriptions count] > 0)
+		[regDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+   
+	if (self.appID)
+		[regDict setObject:self.appID forKey:GROWL_APP_ID];
+   
+   return regDict;
 }
 
 -(GrowlTicketDatabaseNotification*)notificationTicketForName:(NSString*)noteName {
