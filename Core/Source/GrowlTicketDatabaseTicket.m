@@ -32,14 +32,14 @@
 }
 
 -(void)setNewDisplayName:(NSString*)name {
-	if(!name){
+	if(!name || [name isEqualToString:@""]){
 		self.display = nil;
+		[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 		return;
 	}
 	GrowlTicketDatabaseAction *action = [[GrowlTicketDatabase sharedInstance] actionForName:name];
 	
 	if(!action){
-		NSLog(@"make new display name %@", name);
 		action = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlDisplay" inManagedObjectContext:[self managedObjectContext]];
 		action.name = name;
 	}
