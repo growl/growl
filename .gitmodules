@@ -4,3 +4,12 @@
 [submodule "external_dependencies/iso8601parser"]
 	path = external_dependencies/iso8601parser
 	url = git://github.com/growl/iso-8601-parser-unparser.git
+[submodule "external_dependencies/SGHotKeysLib"]
+	path = external_dependencies/SGHotKeysLib
+	url = git://github.com/growl/SGHotKeysLib.git
+[submodule "external_dependencies/cocoalumberjack"]
+	path = external_dependencies/cocoalumberjack
+	url = git://github.com/growl/CocoaLumberjack.git
+[submodule "external_dependencies/shortcutrecorder"]
+	path = external_dependencies/shortcutrecorder
+	url = git://github.com/growl/ShortcutRecorder.git
