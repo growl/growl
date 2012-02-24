@@ -105,6 +105,8 @@
       //Set the human readable name if we were supplied one
       note.humanReadableName = [humanReadableNames objectForKey:name];
       note.ticketDescription = [notificationDescriptions objectForKey:name];
+
+		note.sticky = [NSNumber numberWithInt:NSMixedState];
       
       if([inDefaults isKindOfClass:[NSArray class]]){
          if([inDefaults count] > 0){

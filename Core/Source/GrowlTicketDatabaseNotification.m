@@ -22,7 +22,7 @@
    self.name = [ticket name];
    self.humanReadableName = [ticket humanReadableName];
    self.priority = [NSNumber numberWithInteger:[ticket priority]];
-   self.sticky = [NSNumber numberWithBool:[ticket sticky]];
+   self.sticky = [NSNumber numberWithInt:[ticket sticky]];
 	
 	[super importDisplayOrActionForName:[ticket displayPluginName]];
 }

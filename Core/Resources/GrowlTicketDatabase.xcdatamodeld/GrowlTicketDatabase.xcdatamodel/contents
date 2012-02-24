@@ -23,7 +23,7 @@
         <attribute name="defaultEnabled" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="humanReadableName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="priority" attributeType="Integer 16" maxValueString="2" defaultValueString="-1000" syncable="YES"/>
-        <attribute name="sticky" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="sticky" optional="YES" attributeType="Integer 16" minValueString="-1" maxValueString="1" defaultValueString="-1" syncable="YES"/>
     </entity>
     <entity name="GrowlTicket" representedClassName="GrowlTicketDatabaseTicket" isAbstract="YES" syncable="YES">
         <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
