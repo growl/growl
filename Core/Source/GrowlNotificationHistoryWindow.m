@@ -44,6 +44,7 @@
 @synthesize notificationColumn;
 @synthesize notificationDatabase=_notificationDatabase;
 @synthesize windowTitle;
+@synthesize groupController;
 
 -(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase
 {
@@ -53,9 +54,7 @@
        
        [self setWindowFrameAutosaveName:@"GrowlNotificationRollup"];
        [[self window] setFrameAutosaveName:@"GrowlNotificationRollup"];
-       
-       transitionGroup = NO;
-       
+              
        rowHeights = [[NSMutableArray alloc] init];
       self.windowTitle = NSLocalizedString(@"Growl Notification Rollup", @"Window title for the Notification Rollup window");
    }
@@ -109,6 +108,7 @@
         
         NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
         [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+		 [groupController setTableView:historyTable];
     }
     
 
@@ -159,7 +159,6 @@
        row = [historyTable clickedRow];
    }else if([sender isKindOfClass:[NSButton class]]){
        //We use bindings, so the showGroup is already toggled, just tell it to update the array
-       transitionGroup = YES;
        [groupController updateArray];
        return;
    }
@@ -172,7 +171,6 @@
                                                   didCloseViaNotificationClick:YES 
                                                                 onLocalMachine:YES];
       else if([obj isKindOfClass:[GroupController class]]){
-          transitionGroup = YES;
           [groupController toggleShowGroup:[obj groupID]];
       }
    }
@@ -306,7 +304,10 @@
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-    return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
+	if([[groupController arrangedObjects] count] > (NSUInteger)row)
+		return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
+	else
+		return NO;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -411,24 +412,13 @@
 }
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController
 {
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:.25];
-    [historyTable beginUpdates];
 }
 -(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController
 {
-    [historyTable endUpdates];
-    [NSAnimationContext endGrouping];
     [self updateRowHeights];
-    transitionGroup = NO;
 }
 -(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet
-{
-    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
-    if (!transitionGroup)
-        options = options|NSTableViewAnimationSlideLeft;
-    [historyTable insertRowsAtIndexes:indexSet withAnimation:options];
-    
+{    
     __block GrowlNotificationHistoryWindow *blockSafeSelf = self;
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSNumber *height = [NSNumber numberWithFloat:[blockSafeSelf heightForRow:idx]];
@@ -436,18 +426,11 @@
     }];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet
-{
-    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
-    if (!transitionGroup)
-        options = options|NSTableViewAnimationSlideRight;
-    [historyTable removeRowsAtIndexes:indexSet withAnimation:options];
-    
+{    
     [rowHeights removeObjectsAtIndexes:indexSet];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end
 {
-    [historyTable moveRowAtIndex:start toIndex:end];
-    
     id temp = [[rowHeights objectAtIndex:start] retain];
     [rowHeights removeObjectAtIndex:start];
     [rowHeights insertObject:temp atIndex:end];

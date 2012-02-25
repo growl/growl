@@ -8,7 +8,8 @@
 
 #import "GrowlApplicationsViewController.h"
 #import "GrowlPositionPicker.h"
-#import "TicketsArrayController.h"
+#import "GroupedArrayController.h"
+#import "GroupController.h"
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabaseAction.h"
@@ -18,6 +19,40 @@
 #import "NSStringAdditions.h"
 
 static BOOL awoken = NO;
+
+@interface GrowlHostNameTransformer : NSValueTransformer
+
+@end
+
+@implementation GrowlHostNameTransformer
+
++ (void)load
+{
+   if (self == [GrowlHostNameTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GrowlHostNameTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSString class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   if([value isLocalHost])
+		return NSLocalizedString(@"Local", @"Title for section containing apps from the local machine");
+	else
+		return value;
+}
+
+@end
 
 @implementation GrowlApplicationsViewController
 
@@ -112,7 +147,7 @@ static BOOL awoken = NO;
       self.priorityNormal = NSLocalizedString(@"Normal", @"Normal notification priority");
       self.priorityHigh = NSLocalizedString(@"High", @"High notification priority");
       self.priorityEmergency = NSLocalizedString(@"Emergency", @"Emergency notification priority");
-   }
+	}
    return self;
 }
 
@@ -121,7 +156,18 @@ static BOOL awoken = NO;
       return;
    
    awoken = YES;
-   [ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+	self.ticketsArrayController = [[[GroupedArrayController alloc] initWithEntityName:@"GrowlApplicationTicket" 
+																					  basePredicateString:@"" 
+																									 groupKey:@"parent.name"
+																					 managedObjectContext:[[GrowlTicketDatabase sharedInstance] managedObjectContext]] autorelease];
+	
+	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+	[[ticketsArrayController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
+	[ticketsArrayController setDelegate:self];
+	[ticketsArrayController setDoNotShowSingleGroupHeader:YES];
+	[ticketsArrayController setTableView:growlApplications];
+	
+	
    [appOnSwitch addObserver:self forKeyPath:@"state" options:0 context:nil];
    [appSettingsTabView selectTabViewItemAtIndex:0];
 
@@ -150,10 +196,14 @@ static BOOL awoken = NO;
                                                 name:NSPopUpButtonWillPopUpNotification
                                               object:soundMenuButton];
 	
+	__block GrowlApplicationsViewController *blockSelf = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[ticketsArrayController selectFirstApplication];
+		NSUInteger index = [[blockSelf ticketsArrayController] indexOfFirstNonGroupItem];
+		if(index != NSNotFound){
+			[[blockSelf growlApplications] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO]; 
+		}
 	});
-   
+
    [notificationsTable setTarget:self];
    [notificationsTable setAction:@selector(userSingleClickedNote:)];
    [notificationsTable setDoubleAction:@selector(userDoubleClickedNote:)];
@@ -179,35 +229,9 @@ static BOOL awoken = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-   if([keyPath isEqualToString:@"selection"] && object == ticketsArrayController) {
-      NSUInteger index = [ticketsArrayController selectionIndex];
-      if(index != NSNotFound){
-         id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
-         if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
-         {
-            self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
-            [self setCanRemoveTicket:[ticketsArrayController canRemove]];
-            [displayMenuButton setEnabled:YES];
-            [notificationDisplayMenuButton setEnabled:YES];
-            [[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
-                                   nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name] 
-                                  includeDefaultMenuItem:YES];
-            [[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
-                                   nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
-                                  includeDefaultMenuItem:YES];
-				
-				if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
-					[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
-         }
-      }else{
-         [appOnSwitch setState:NO];
-         [displayMenuButton setEnabled:NO];
-         [notificationDisplayMenuButton setEnabled:NO];
-      }
-   }
    if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
-      NSUInteger index = [ticketsArrayController selectionIndex];
-      if(index != NSNotFound){
+      NSInteger index = [growlApplications selectedRow];
+      if(index >= 0){
          GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
          if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
          {
@@ -292,19 +316,12 @@ static BOOL awoken = NO;
 		GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
       [ticketDatabase removeTicketForApplicationName:ticket.name hostName:ticket.parent.name];
       [growlApplications noteNumberOfRowsChanged];
-      [ticketsArrayController selectFirstApplication];
+		NSUInteger index = [ticketsArrayController indexOfFirstNonGroupItem];
+		if(index != NSNotFound)
+			[growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO]; 
 	}
 }
 
-
-- (IBAction)userSingleClickedNote:(id)sender {
-   /*if([notificationsTable clickedRow] == [notificationsTable selectedRow]){
-      NSLog(@"Match!");
-      NSButton *checkbox = [(GrowlNotificationSettingsCellView*)[notificationsTable viewAtColumn:0 row:[notificationsTable clickedRow] makeIfNecessary:YES] enableCheckBox];
-      [checkbox setState:([checkbox state] == NSOnState) ? NSOffState : NSOnState];
-      [[[checkbox superview] superview] setNeedsDisplay:YES];
-   }*/
-}
 - (IBAction)userDoubleClickedNote:(id)sender {
    NSUInteger clicked = [notificationsTable clickedRow];
    [notificationsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:clicked] byExtendingSelection:NO];
@@ -382,7 +399,7 @@ static BOOL awoken = NO;
    }];
    
    if(index != NSNotFound){
-      [ticketsArrayController setSelectionIndex:index];
+      [growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
       [growlApplications scrollRowToVisible:index];
       if(noteNameOrNil){
          __block NSUInteger noteIndex = NSNotFound;
@@ -410,15 +427,19 @@ static BOOL awoken = NO;
 
 - (IBAction) changeNameOfDisplayForApplication:(id)sender {
 	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	NSUInteger selectedApp = [ticketsArrayController selectionIndex];
-	[[[ticketsArrayController arrangedObjects] objectAtIndex:selectedApp] setNewDisplayName:newDisplayPluginName];
-	[self showPreview:sender];
+	NSInteger selectedApp = [growlApplications selectedRow];
+	if(selectedApp >= 0){
+		[[[ticketsArrayController arrangedObjects] objectAtIndex:selectedApp] setNewDisplayName:newDisplayPluginName];
+		[self showPreview:sender];
+	}
 }
 - (IBAction) changeNameOfDisplayForNotification:(id)sender {
 	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	NSUInteger selectedNote = [ticketsArrayController selectionIndex];
-	[[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] setNewDisplayName:newDisplayPluginName];
-	[self showPreview:sender];
+	NSInteger selectedNote = [growlApplications selectedRow];
+	if(selectedNote >= 0){
+		[[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] setNewDisplayName:newDisplayPluginName];
+		[self showPreview:sender];
+	}
 }
 
 - (NSIndexSet *) selectedNotificationIndexes {
@@ -446,7 +467,7 @@ static BOOL awoken = NO;
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
    if(tableView == growlApplications){
-      return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[NSString class]];
+      return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
    }else
       return NO;
 }
@@ -467,7 +488,7 @@ static BOOL awoken = NO;
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-   if(aTableColumn == applicationsNameAndIconColumn || [self tableView:aTableView isGroupRow:rowIndex]){
+   if(aTableView == growlApplications){
       return [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
    }
    return nil;
@@ -493,7 +514,34 @@ static BOOL awoken = NO;
 }
 
 - (void) tableViewDidClickInBody:(NSTableView*)tableView{
-   [self setCanRemoveTicket:[ticketsArrayController canRemove]];
+   [self setCanRemoveTicket:[[ticketsArrayController selection] isKindOfClass:[GroupController class]]];
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification {
+	NSInteger index = [growlApplications selectedRow];
+	if(index >= 0){
+		id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
+		[self setCanRemoveTicket:[ticket isKindOfClass:[GrowlTicketDatabaseApplication class]]];
+		if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
+		{
+			self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
+			[displayMenuButton setEnabled:YES];
+			[notificationDisplayMenuButton setEnabled:YES];
+			[[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
+										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name] 
+										 includeDefaultMenuItem:YES];
+			[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
+										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
+										 includeDefaultMenuItem:YES];
+			
+			if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
+				[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
+		}
+	}else{
+		[appOnSwitch setState:NO];
+		[displayMenuButton setEnabled:NO];
+		[notificationDisplayMenuButton setEnabled:NO];
+	}
 }
 
 @end

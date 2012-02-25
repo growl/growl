@@ -12,8 +12,8 @@
 @implementation GroupedArrayController
 
 @synthesize delegate;
-@synthesize grouped;
 @synthesize context;
+@synthesize tableView;
 @synthesize entityName;
 @synthesize basePredicateString;
 @synthesize groupKey;
@@ -21,6 +21,11 @@
 @synthesize groupControllers;
 @synthesize countController;
 @synthesize arrangedObjects;
+@synthesize selection;
+@synthesize grouped;
+@synthesize doNotShowSingleGroupHeader;
+@synthesize showEmptyGroups;
+@synthesize transitionGroup;
 
 - (id)initWithEntityName:(NSString*)entity
      basePredicateString:(NSString*)predicate
@@ -38,7 +43,8 @@
         self.countController = [[[NSArrayController alloc] init] autorelease];
         [countController setManagedObjectContext:self.context];
         [countController setEntityName:entityName];
-        [countController setFetchPredicate:[NSPredicate predicateWithFormat:self.basePredicateString]];
+		 if(basePredicateString && ![basePredicateString isEqualToString:@""])
+			 [countController setFetchPredicate:[NSPredicate predicateWithFormat:self.basePredicateString]];
         [countController setAutomaticallyPreparesContent:YES];
         [countController setAutomaticallyRearrangesObjects:YES];
         [countController setUsesLazyFetching:YES];
@@ -54,6 +60,9 @@
         self.groupControllers = [NSMutableDictionary dictionary];
         self.currentGroups = [NSMutableArray array];
         self.grouped = YES;
+		 self.showEmptyGroups = NO;
+		 self.transitionGroup = NO;
+		 self.doNotShowSingleGroupHeader = NO;
     }
     
     return self;
@@ -81,10 +90,26 @@
 
 -(void)setGrouped:(BOOL)newGroup
 {
-    [self willChangeValueForKey:@"grouped"];
     grouped = newGroup;
-    [self didChangeValueForKey:@"grouped"];
     [self updateArray];
+}
+
+-(void)setDoNotShowSingleGroupHeader:(BOOL)doNotShow 
+{
+	doNotShowSingleGroupHeader = doNotShow;
+	[self updateArray];
+}
+
+-(void)setTableView:(NSTableView *)newTable
+{
+	if(tableView){
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTableViewSelectionDidChangeNotification object:tableView];
+	}
+	tableView = newTable;
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+														  selector:@selector(tableViewSelectionDidChange:) 
+																name:NSTableViewSelectionDidChangeNotification
+															 object:tableView];
 }
 
 -(void)updateArray
@@ -97,38 +122,43 @@
         //No changes, easiest to do nothing, current is released below if block, so just let it drop to the bottom
     }else if([current count] == 0){
         //Add all
-        [delegate groupedControllerBeginUpdates:self];
-        [delegate groupedController:self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
-        [delegate groupedControllerEndUpdates:self];
+        [self beginUpdates];
+        [self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
+        [self endUpdates];
     }else if([destination count] == 0){
         //Remove all
-        [delegate groupedControllerBeginUpdates:self];
-        [delegate groupedController:self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
-        [delegate groupedControllerEndUpdates:self];
+        [self beginUpdates];
+        [self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
+        [self endUpdates];
     }else{
         //Add/Remove in the right order to make NSTableView happy
         NSMutableArray *currentCopy = [current mutableCopy];
-        [delegate groupedControllerBeginUpdates:self];
+        [self beginUpdates];
         
         __block GroupedArrayController *blockSafeSelf = self;
         
+		 [destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			 //NSLog(@"Destination! %@", ([obj isKindOfClass:NSClassFromString(@"GrowlTicketDatabaseApplication")] ? [obj valueForKey:@"name"] : [obj valueForKey:@"groupID"]));
+		 }];
+		 
+		 
         [destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
             NSInteger oldIndex = [currentCopy indexOfObject:obj];
             if(oldIndex == NSNotFound){
-                [delegate groupedController:blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
+                [blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
             }else{
-                [delegate groupedController:blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
+                [blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
                 [currentCopy removeObjectAtIndex:0];
             }
         }];
         
         if([currentCopy count] > 0){
             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([destination count], [currentCopy count])];
-            [delegate groupedController:self removeIndexes:indexSet];
+            [self removeIndexes:indexSet];
         }
         
         [currentCopy release];
-        [delegate groupedControllerEndUpdates:self];
+        [self endUpdates];
     }
     [current release];
 }
@@ -140,14 +170,14 @@
 -(NSArray*)updatedArray
 {
     NSArray *array = nil;
-    if(!grouped){
+    if(!grouped || ([currentGroups count] == 1 && doNotShowSingleGroupHeader)){
         array = [countController arrangedObjects];
     }else{
         NSMutableArray *temp = [NSMutableArray array];
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             //If the app doesn't have any count (say a timing issue with its removal, or a filter predicate)
             //Dont bother to add it
-            if([[[obj groupArray] arrangedObjects] count] > 0){
+            if([[[obj groupArray] arrangedObjects] count] > 0/*|| showEmptyGroups*/){
                 [temp addObject:obj];
                 if([obj showGroup]){
                     [temp addObjectsFromArray:[[obj groupArray] arrangedObjects]];
@@ -169,7 +199,7 @@
     NSMutableSet *removed = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
         
     [[self.countController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *groupName = [obj valueForKey:self.groupKey];
+        NSString *groupName = [obj valueForKeyPath:blockSafeSelf.groupKey];
         [added addObject:groupName];
     }];
     
@@ -178,8 +208,9 @@
     
     /* There weren't any updates to groups, no need to go further
        only notify of updates if we are grouped at this point */
+	//NSLog(@"added: %lu groups\nremoved%lu groups", [added count], [removed count]);
     if([added count] == 0 && [removed count] == 0){
-        if(!grouped)
+        if(!grouped || ([currentGroups count] == 1 && doNotShowSingleGroupHeader))
             [self updateArray];
         return;
     }
@@ -193,12 +224,18 @@
         [newController setEntityName:entityName];
         [newController setAutomaticallyPreparesContent:YES];
         [newController setAutomaticallyRearrangesObjects:YES];
-        NSString *format = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
-        [newController setFetchPredicate:[NSPredicate predicateWithFormat:format]];
+		 
+		 NSString *predicateString = nil;
+		 if(basePredicateString && ![basePredicateString isEqualToString:@""])
+			 predicateString = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
+		 else
+			 predicateString = [NSString stringWithFormat:@"(%@ == \"%@\")", groupKey, groupID];
+        [newController setFetchPredicate:[NSPredicate predicateWithFormat:predicateString]];
         [newController setSortDescriptors:[countController sortDescriptors]];
 
         [newController fetch:blockSafeSelf];
         GroupController *newGroup = [[GroupController alloc] initWithGroupID:groupID arrayController:newController];
+		 [newGroup setOwner:self];
         [currentGroups addObject:newGroup];
         [groupControllers setValue:newGroup forKey:groupID];
         
@@ -233,8 +270,7 @@
     if([keyPath isEqualToString:@"arrangedObjects.count"]){
         if([object isEqualTo:countController]){
             [self updateArrayGroups];
-            if(delegate)
-                [delegate groupedControllerUpdatedTotalCount:self];
+				[self updatedTotalCount];
         }else{            
             if(ctxt != NULL && [(id)ctxt isKindOfClass:[GroupController class]]){
                 GroupController *group = (GroupController*)ctxt;
@@ -243,6 +279,83 @@
             }
         }
     }
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification*)note {
+	if(tableView){
+		NSInteger index = [tableView selectedRow];
+		if(index >= 0)
+			self.selection = [arrangedObjects objectAtIndex:index];
+	}
+}
+
+#pragma mark Selection/SelectedObjects, convenience method only usable with tableView set
+
+-(NSUInteger)indexOfFirstNonGroupItem {
+	NSUInteger index = [arrangedObjects indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+		if(![obj isKindOfClass:[GroupController class]])
+			return YES;
+		return NO;
+	}];
+	return index;
+}
+
+-(NSArray*)selectedObjects{
+	NSArray *selectedObjects = nil;
+	if(tableView)
+		selectedObjects = [arrangedObjects objectsAtIndexes:[tableView selectedRowIndexes]];
+	return selectedObjects;
+}
+
+#pragma mark Delegate forwarding, and tableview updates
+
+-(void)updatedTotalCount{
+	if([delegate respondsToSelector:@selector(groupedControllerUpdatedTotalCount:)])
+		[delegate groupedControllerUpdatedTotalCount:self];
+}
+-(void)beginUpdates{
+	if(tableView){
+		[NSAnimationContext beginGrouping];
+		[[NSAnimationContext currentContext] setDuration:.25];
+		[tableView beginUpdates];
+	}
+	if([delegate respondsToSelector:@selector(groupedControllerBeginUpdates:)])
+		[delegate groupedControllerBeginUpdates:self];
+}
+-(void)endUpdates{
+	if([delegate respondsToSelector:@selector(groupedControllerEndUpdates:)])
+		[delegate groupedControllerEndUpdates:self];
+	if(tableView){
+		[tableView endUpdates];
+		[NSAnimationContext endGrouping];
+	}
+	transitionGroup = NO;
+}
+-(void)insertIndexes:(NSIndexSet*)indexSet{
+	if(tableView){
+		NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
+		if (!transitionGroup)
+			options = options|NSTableViewAnimationSlideLeft;
+		[tableView insertRowsAtIndexes:indexSet withAnimation:options];
+	}
+	if([delegate respondsToSelector:@selector(groupedController:insertIndexes:)])
+		[delegate groupedController:self insertIndexes:indexSet];
+}
+-(void)removeIndexes:(NSIndexSet*)indexSet{
+	if(tableView){
+		NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
+		if (!transitionGroup)
+			options = options|NSTableViewAnimationSlideRight;
+		[tableView removeRowsAtIndexes:indexSet withAnimation:options];
+	}
+	if([delegate respondsToSelector:@selector(groupedController:removeIndexes:)])
+		[delegate groupedController:self removeIndexes:indexSet];
+}
+-(void)moveIndex:(NSUInteger)start toIndex:(NSUInteger)end{
+	if(tableView)
+		[tableView moveRowAtIndex:start toIndex:end];
+	if([delegate respondsToSelector:@selector(groupedController:moveIndex:toIndex:)])
+		[delegate groupedController:self moveIndex:start toIndex:end];
 }
 
 @end

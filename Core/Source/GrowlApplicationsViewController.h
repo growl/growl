@@ -7,16 +7,17 @@
 //
 
 #import "GrowlPrefsViewController.h"
+#import "GroupedArrayController.h"
 
-@class TicketsArrayController, GrowlTicketDatabase, NotificationsArrayController, GrowlPositionPicker, GrowlOnSwitch;
+@class GroupedArrayController, GrowlTicketDatabase, NotificationsArrayController, GrowlPositionPicker, GrowlOnSwitch;
 
-@interface GrowlApplicationsViewController : GrowlPrefsViewController <NSTableViewDataSource>
+@interface GrowlApplicationsViewController : GrowlPrefsViewController <NSTableViewDataSource, NSTableViewDelegate, GroupedArrayControllerDelegate>
 
 @property (nonatomic, assign) IBOutlet NSTableView *growlApplications;
 @property (nonatomic, assign) IBOutlet NSTableView *notificationsTable;
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
 @property (nonatomic, assign) IBOutlet GrowlTicketDatabase *ticketDatabase;
-@property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;
+@property (nonatomic, retain) IBOutlet GroupedArrayController *ticketsArrayController;
 @property (nonatomic, assign) IBOutlet NotificationsArrayController *notificationsArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;

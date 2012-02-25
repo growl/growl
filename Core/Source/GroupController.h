@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class GroupedArrayController;
+
 @interface GroupController : NSObject
 
+@property (nonatomic, assign) GroupedArrayController *owner;
 @property (nonatomic, retain) NSString *groupID;
 @property (nonatomic, retain) NSArrayController *groupArray;
 @property (nonatomic) BOOL showGroup;

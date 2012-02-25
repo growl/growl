@@ -21,8 +21,6 @@
    GroupedArrayController *groupController;
 
    NSMutableArray *rowHeights;
-   
-   BOOL transitionGroup;
 }
 -(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase;
 
@@ -31,6 +29,7 @@
 @property (nonatomic, assign) IBOutlet NSTableColumn *notificationColumn;
 @property (nonatomic, assign, readwrite)  GrowlNotificationDatabase* notificationDatabase;
 @property (nonatomic, retain) NSString *windowTitle;
+@property (nonatomic, retain) GroupedArrayController *groupController;
 
 -(void)updateCount;
 -(void)resetArray;
