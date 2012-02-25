@@ -27,7 +27,7 @@
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlMenu.h"
-#import "HgRevision.h"
+#import "VCSData.h"
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
@@ -96,7 +96,7 @@ static BOOL isAnyDisplayCaptured(void) {
 }
 #endif
 
-static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
+static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 @implementation GrowlApplicationController
 @synthesize statusMenu;
@@ -516,8 +516,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_svn, 0U, };
 		BOOL parseSucceeded __attribute__((unused)) = parseVersionString(versionString, &version);
 		NSAssert1(parseSucceeded, @"Could not parse version string: %@", versionString);
 		
-		if (version.releaseType == releaseType_svn)
-			version.development = (u_int32_t)HG_REVISION;
+		if (version.releaseType == releaseType_vcs)
+			version.development = (u_int32_t)VCS_REVISION;
 
 		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
 		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];

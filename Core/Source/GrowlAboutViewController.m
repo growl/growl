@@ -37,18 +37,18 @@
 - (void) setupAboutTab {
 	NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	if (versionString) {
-		NSString *versionStringWithHgVersion = nil;
+		NSString *versionStringWithVCSVersion = nil;
 		struct Version version;
 		if (parseVersionString(versionString, &version) && (version.releaseType == releaseType_development)) {
-			const char *hgRevisionUTF8 = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GrowlHgRevision"] UTF8String];
-			if (hgRevisionUTF8) {
-				version.development = (u_int32_t)strtoul(hgRevisionUTF8, /*next*/ NULL, 10);
+			const char *vcsRevisionUTF8 = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"GrowlVCSRevision"] UTF8String];
+			if (vcsRevisionUTF8) {
+				version.development = (u_int32_t)strtoul(vcsRevisionUTF8, /*next*/ NULL, 10);
             
-				versionStringWithHgVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
+				versionStringWithVCSVersion = [NSMakeCollectable(createVersionDescription(version)) autorelease];
 			}
 		}
-		if (versionStringWithHgVersion)
-			versionString = versionStringWithHgVersion;
+		if (versionStringWithVCSVersion)
+			versionString = versionStringWithVCSVersion;
 	}
    
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 

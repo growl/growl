@@ -31,9 +31,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)0);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (SVN revision) was %u, not %u",
@@ -56,9 +56,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)0);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (Hg revision) was %u, not %u",
@@ -182,9 +182,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)4);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (SVN revision) was %u, not %u",
@@ -207,9 +207,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)4);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (Hg revision) was %u, not %u",
@@ -377,9 +377,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)0);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (SVN revision) was %u, not %u",
@@ -402,9 +402,9 @@
 				   @"Incremental component was %u, not %u",
 				   version.incremental, (u_int8_t)0);
 	STAssertEquals(
-				   version.releaseType, (u_int8_t)releaseType_svn,
+				   version.releaseType, (u_int8_t)releaseType_vcs,
 				   @"Release-type component was %u, not %u",
-				   version.releaseType, (u_int8_t)releaseType_svn);
+				   version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 				   version.development, (u_int32_t)1400,
 				   @"Development component (SVN revision) was %u, not %u",
@@ -427,9 +427,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)0);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)1400,
 		@"Development component (SVN revision) was %u, not %u",
@@ -453,9 +453,9 @@
 		@"Incremental component was %u, not %u",
 		version.incremental, (u_int8_t)0);
 	STAssertEquals(
-		version.releaseType, (u_int8_t)releaseType_svn,
+		version.releaseType, (u_int8_t)releaseType_vcs,
 		@"Release-type component was %u, not %u",
-		version.releaseType, (u_int8_t)releaseType_svn);
+		version.releaseType, (u_int8_t)releaseType_vcs);
 	STAssertEquals(
 		version.development, (u_int32_t)0,
 		@"Development component (SVN revision) was %u, not %u",
