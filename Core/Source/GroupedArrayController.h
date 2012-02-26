@@ -38,6 +38,7 @@
 @property (nonatomic, retain) NSMutableDictionary *groupControllers;
 @property (nonatomic, retain) NSArrayController *countController;
 @property (nonatomic, retain) NSArray *arrangedObjects;
+@property (nonatomic, copy) NSComparator groupCompareBlock;
 @property (nonatomic, retain) id selection;
 @property (nonatomic) BOOL grouped;
 @property (nonatomic) BOOL doNotShowSingleGroupHeader;

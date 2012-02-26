@@ -21,6 +21,7 @@
 @synthesize groupControllers;
 @synthesize countController;
 @synthesize arrangedObjects;
+@synthesize groupCompareBlock;
 @synthesize selection;
 @synthesize grouped;
 @synthesize doNotShowSingleGroupHeader;
@@ -192,21 +193,21 @@
         
 -(void)updateArrayGroups
 {
-    __block GroupedArrayController *blockSafeSelf = self;
-
-    //Determine which groups have been added and removed
-    NSMutableSet *added = [NSMutableSet set];
-    NSMutableSet *current = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
-    NSMutableSet *removed = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
-        
-    [[self.countController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *groupName = [obj valueForKeyPath:blockSafeSelf.groupKey];
-        [added addObject:groupName];
-    }];
-    
-    [removed minusSet:added];
-    [added minusSet:current];
-    
+	__block GroupedArrayController *blockSafeSelf = self;
+	
+	//Determine which groups have been added and removed
+	NSMutableSet *added = [NSMutableSet set];
+	NSMutableSet *current = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
+	NSMutableSet *removed = [NSMutableSet setWithArray:[currentGroups valueForKey:@"groupID"]];
+	
+	[[self.countController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *groupName = [obj valueForKeyPath:blockSafeSelf.groupKey];
+		[added addObject:groupName];
+	}];
+	
+	[removed minusSet:added];
+	[added minusSet:current];
+	
 	/* There weren't any updates to groups, no need to go further
 	 only notify of updates if we are grouped at this point */
 	//NSLog(@"added: %lu groups\nremoved%lu groups", [added count], [removed count]);
@@ -215,55 +216,63 @@
 			[self updateArray];
 		return;
 	}
-    
-    //Add any new groups to the groupControllers, making new array controllers for them
-    [added enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSString *groupID = obj;
-                
-        NSArrayController *newController = [[NSArrayController alloc] init];
-        [newController setManagedObjectContext:context];
-        [newController setEntityName:entityName];
-        [newController setAutomaticallyPreparesContent:YES];
-        [newController setAutomaticallyRearrangesObjects:YES];
-		 
-		 NSString *predicateString = nil;
-		 if(basePredicateString && ![basePredicateString isEqualToString:@""])
-			 predicateString = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
-		 else
-			 predicateString = [NSString stringWithFormat:@"(%@ == \"%@\")", groupKey, groupID];
-        [newController setFetchPredicate:[NSPredicate predicateWithFormat:predicateString]];
-        [newController setSortDescriptors:[countController sortDescriptors]];
-
-        [newController fetch:blockSafeSelf];
-        GroupController *newGroup = [[GroupController alloc] initWithGroupID:groupID arrayController:newController];
-		 [newGroup setOwner:self];
-        [currentGroups addObject:newGroup];
-        [groupControllers setValue:newGroup forKey:groupID];
-        
-        [newController addObserver:blockSafeSelf 
-                        forKeyPath:@"arrangedObjects.count" 
-                           options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
-                           context:newGroup];
-        
-        [newGroup release];
-        newGroup = nil;
-        [newController release];
-        newController = nil;
-    }];
-    
-    //remove any old arrayControllers
-    [removed enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSString *groupID = obj;
-        GroupController *group = [[groupControllers valueForKey:groupID] retain];
-        [groupControllers removeObjectForKey:groupID];
-        [currentGroups removeObject:group];
-        [[group groupArray] removeObserver:self forKeyPath:@"arrangedObjects.count"];
-        [group release];
-    }];
-    
-    [currentGroups sortUsingSelector:@selector(compare:)];
-    
-    [self updateArray];
+	
+	//Add any new groups to the groupControllers, making new array controllers for them
+	[added enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		NSString *groupID = obj;
+		
+		NSArrayController *newController = [[NSArrayController alloc] init];
+		[newController setManagedObjectContext:context];
+		[newController setEntityName:entityName];
+		[newController setAutomaticallyPreparesContent:YES];
+		[newController setAutomaticallyRearrangesObjects:YES];
+		
+		NSString *predicateString = nil;
+		if(basePredicateString && ![basePredicateString isEqualToString:@""])
+			predicateString = [NSString stringWithFormat:@"(%@) AND (%@ == \"%@\")", basePredicateString, groupKey, groupID];
+		else
+			predicateString = [NSString stringWithFormat:@"(%@ == \"%@\")", groupKey, groupID];
+		[newController setFetchPredicate:[NSPredicate predicateWithFormat:predicateString]];
+		[newController setSortDescriptors:[countController sortDescriptors]];
+		
+		[newController fetch:blockSafeSelf];
+		GroupController *newGroup = [[GroupController alloc] initWithGroupID:groupID arrayController:newController];
+		[newGroup setOwner:blockSafeSelf];
+		[currentGroups addObject:newGroup];
+		[groupControllers setValue:newGroup forKey:groupID];
+		
+		[newController addObserver:blockSafeSelf 
+							 forKeyPath:@"arrangedObjects.count" 
+								 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
+								 context:newGroup];
+		
+		[newGroup release];
+		newGroup = nil;
+		[newController release];
+		newController = nil;
+	}];
+	
+	//remove any old arrayControllers
+	[removed enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		NSString *groupID = obj;
+		GroupController *group = [[groupControllers valueForKey:groupID] retain];
+		[groupControllers removeObjectForKey:groupID];
+		[currentGroups removeObject:group];
+		[[group groupArray] removeObserver:self forKeyPath:@"arrangedObjects.count"];
+		[group release];
+	}];
+	
+	
+	NSComparator compare = nil;
+	if(groupCompareBlock)
+		compare = groupCompareBlock;
+	else
+		compare = ^(id obj1, id obj2){
+			return [obj1 compare:obj2];
+		};
+	[currentGroups sortUsingComparator:compare];
+	
+	[self updateArray];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)ctxt

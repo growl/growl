@@ -165,6 +165,22 @@ static BOOL awoken = NO;
 	[[ticketsArrayController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
 	[ticketsArrayController setDelegate:self];
 	[ticketsArrayController setDoNotShowSingleGroupHeader:YES];
+	NSComparator compareBlock = ^(id obj1, id obj2){
+		NSString *id1 = [obj1 groupID];
+		NSString *id2 = [obj2 groupID];
+		NSComparisonResult result = NSOrderedSame;
+		if([id1 caseInsensitiveCompare:id2] == NSOrderedSame){
+			result = NSOrderedSame;
+		}else if([id1 isLocalHost]){
+			result = NSOrderedAscending;
+		}else if([id2 isLocalHost]){
+			result = NSOrderedDescending;
+		}else{
+			result = [id1 caseInsensitiveCompare:id2];
+		}
+		return result;
+	};
+	[ticketsArrayController	setGroupCompareBlock:compareBlock];
 	[ticketsArrayController setTableView:growlApplications];
 	
 	
