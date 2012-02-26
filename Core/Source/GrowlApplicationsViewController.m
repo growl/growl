@@ -315,7 +315,6 @@ static BOOL awoken = NO;
 	if (returnCode == NSAlertDefaultReturn) {
 		GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
       [ticketDatabase removeTicketForApplicationName:ticket.name hostName:ticket.parent.name];
-      [growlApplications noteNumberOfRowsChanged];
 		NSUInteger index = [ticketsArrayController indexOfFirstNonGroupItem];
 		if(index != NSNotFound)
 			[growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO]; 

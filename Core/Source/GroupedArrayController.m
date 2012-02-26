@@ -114,53 +114,54 @@
 
 -(void)updateArray
 {
-    NSArray *destination = [self updatedArray];
-    NSArray *current = [arrangedObjects retain];
-    self.arrangedObjects = destination;
-    
-    if(!delegate || [destination isEqualToArray:current]){
-        //No changes, easiest to do nothing, current is released below if block, so just let it drop to the bottom
-    }else if([current count] == 0){
-        //Add all
-        [self beginUpdates];
-        [self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
-        [self endUpdates];
-    }else if([destination count] == 0){
-        //Remove all
-        [self beginUpdates];
-        [self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
-        [self endUpdates];
-    }else{
-        //Add/Remove in the right order to make NSTableView happy
-        NSMutableArray *currentCopy = [current mutableCopy];
-        [self beginUpdates];
-        
-        __block GroupedArrayController *blockSafeSelf = self;
-        
-		 [destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			 //NSLog(@"Destination! %@", ([obj isKindOfClass:NSClassFromString(@"GrowlTicketDatabaseApplication")] ? [obj valueForKey:@"name"] : [obj valueForKey:@"groupID"]));
-		 }];
-		 
-		 
-        [destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
-            NSInteger oldIndex = [currentCopy indexOfObject:obj];
-            if(oldIndex == NSNotFound){
-                [blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
-            }else{
-                [blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
-                [currentCopy removeObjectAtIndex:0];
-            }
-        }];
-        
-        if([currentCopy count] > 0){
-            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([destination count], [currentCopy count])];
-            [self removeIndexes:indexSet];
-        }
-        
-        [currentCopy release];
-        [self endUpdates];
-    }
-    [current release];
+	NSArray *destination = [self updatedArray];
+	NSArray *current = [arrangedObjects retain];
+	self.arrangedObjects = destination;
+
+	//NSLog(@"Current: %lu", [current count]);
+	//NSLog(@"Destination: %lu", [destination count]);
+	
+	if(!delegate || [destination isEqualToArray:current]){
+		//No changes, easiest to do nothing, current is released below if block, so just let it drop to the bottom
+	}else if([current count] == 0){
+		//Add all
+		[self beginUpdates];
+		[self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
+		[self endUpdates];
+	}else if([destination count] == 0){
+		//Remove all
+		[self beginUpdates];
+		[self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
+		[self endUpdates];
+	}else{
+		//Add/Remove in the right order to make NSTableView happy
+		NSMutableArray *currentCopy = [current mutableCopy];
+		[self beginUpdates];
+		
+		__block NSUInteger added = 0;
+		__block GroupedArrayController *blockSafeSelf = self;
+		[destination enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+			NSInteger oldIndex = [currentCopy indexOfObject:obj];
+			if(oldIndex == NSNotFound){
+				added++;
+				[blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
+			}else{
+				[blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
+				[currentCopy removeObjectAtIndex:oldIndex];
+			}
+		}];
+		//NSLog(@"Added: %lu", added);
+		//NSLog(@"removed: %lu", [currentCopy count]);
+				
+		if([currentCopy count] > 0){
+			NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([destination count], [currentCopy count])];
+			[self removeIndexes:indexSet];
+		}
+		
+		[currentCopy release];
+		[self endUpdates];
+	}
+	[current release];
 }
 
 /* Our new arranged objects, based on whether we are grouped or not
@@ -170,7 +171,7 @@
 -(NSArray*)updatedArray
 {
     NSArray *array = nil;
-    if(!grouped || ([currentGroups count] == 1 && doNotShowSingleGroupHeader)){
+    if(!grouped){
         array = [countController arrangedObjects];
     }else{
         NSMutableArray *temp = [NSMutableArray array];
@@ -206,14 +207,14 @@
     [removed minusSet:added];
     [added minusSet:current];
     
-    /* There weren't any updates to groups, no need to go further
-       only notify of updates if we are grouped at this point */
+	/* There weren't any updates to groups, no need to go further
+	 only notify of updates if we are grouped at this point */
 	//NSLog(@"added: %lu groups\nremoved%lu groups", [added count], [removed count]);
-    if([added count] == 0 && [removed count] == 0){
-        if(!grouped || ([currentGroups count] == 1 && doNotShowSingleGroupHeader))
-            [self updateArray];
-        return;
-    }
+	if([added count] == 0 && [removed count] == 0){
+		if(!grouped)
+			[self updateArray];
+		return;
+	}
     
     //Add any new groups to the groupControllers, making new array controllers for them
     [added enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
