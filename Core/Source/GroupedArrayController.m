@@ -118,26 +118,26 @@
 	NSArray *destination = [self updatedArray];
 	NSArray *current = [arrangedObjects retain];
 	self.arrangedObjects = destination;
-
+	
 	//NSLog(@"Current: %lu", [current count]);
 	//NSLog(@"Destination: %lu", [destination count]);
 	
-	if(!delegate || [destination isEqualToArray:current]){
+	if([destination count] == 0 && [current count] == 0){
 		//No changes, easiest to do nothing, current is released below if block, so just let it drop to the bottom
-	}else if([current count] == 0){
+	}else if([current count] == 0 && [destination count] > 0){
 		//Add all
 		[self beginUpdates];
 		[self insertIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [destination count])]];
 		[self endUpdates];
-	}else if([destination count] == 0){
+	}else if([destination count] == 0 && [current count] > 0){
 		//Remove all
 		[self beginUpdates];
 		[self removeIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [current count])]];
 		[self endUpdates];
 	}else{
 		//Add/Remove in the right order to make NSTableView happy
-		NSMutableArray *currentCopy = [current mutableCopy];
 		[self beginUpdates];
+		__block NSMutableArray *currentCopy = [current mutableCopy];
 		
 		__block NSUInteger added = 0;
 		__block GroupedArrayController *blockSafeSelf = self;
@@ -147,7 +147,8 @@
 				added++;
 				[blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
 			}else{
-				[blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
+				if(oldIndex != 0)
+					[blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
 				[currentCopy removeObjectAtIndex:oldIndex];
 			}
 		}];
@@ -172,8 +173,8 @@
 -(NSArray*)updatedArray
 {
     NSArray *array = nil;
-    if(!grouped){
-        array = [countController arrangedObjects];
+    if(!grouped || ([currentGroups count] <= 1 && doNotShowSingleGroupHeader)){
+        array = [[[countController arrangedObjects] copy] autorelease];
     }else{
         NSMutableArray *temp = [NSMutableArray array];
         [currentGroups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -212,7 +213,7 @@
 	 only notify of updates if we are grouped at this point */
 	//NSLog(@"added: %lu groups\nremoved%lu groups", [added count], [removed count]);
 	if([added count] == 0 && [removed count] == 0){
-		if(!grouped)
+		//if(!grouped)
 			[self updateArray];
 		return;
 	}

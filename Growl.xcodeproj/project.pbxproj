@@ -186,7 +186,6 @@
 		93A60E5E13C549B100514EF8 /* NotificationsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F427A4095E69D30044B280 /* NotificationsArrayController.m */; };
 		93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
 		93A60E6013C549C000514EF8 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
-		93A60E6113C549C300514EF8 /* TicketsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */; };
 		93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
 		93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
@@ -1113,8 +1112,6 @@
 		9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBrowserEntry.m; path = Core/Source/GrowlBrowserEntry.m; sourceTree = "<group>"; };
 		959DBE4908127BA4009BB468 /* GrowlPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPathUtilities.h; path = Common/Source/GrowlPathUtilities.h; sourceTree = "<group>"; };
 		959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPathUtilities.m; path = Common/Source/GrowlPathUtilities.m; sourceTree = "<group>"; };
-		95A9E432080B2CAB006A2F29 /* TicketsArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TicketsArrayController.h; path = Core/Source/TicketsArrayController.h; sourceTree = "<group>"; };
-		95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TicketsArrayController.m; path = Core/Source/TicketsArrayController.m; sourceTree = "<group>"; };
 		95AA8653080065DE0045589D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		95B2B27508745B9000EA34BF /* GrowlApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationController.h; path = Core/Source/GrowlApplicationController.h; sourceTree = "<group>"; };
 		95B2B27608745B9000EA34BF /* GrowlApplicationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationController.m; path = Core/Source/GrowlApplicationController.m; sourceTree = "<group>"; };
@@ -1846,8 +1843,6 @@
 				7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */,
 				936FAB01074482BF00A7D430 /* RRTableView.h */,
 				936FAB02074482BF00A7D430 /* RRTableView.m */,
-				95A9E432080B2CAB006A2F29 /* TicketsArrayController.h */,
-				95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */,
 				347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */,
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
 				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
@@ -3826,7 +3821,6 @@
 				BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */,
 				BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */,
 				93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */,
-				93A60E6113C549C300514EF8 /* TicketsArrayController.m in Sources */,
 				93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
 				93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */,
 				93A60E6013C549C000514EF8 /* RRTableView.m in Sources */,
