@@ -69,6 +69,20 @@
     return self;
 }
 
+- (void)dealloc {
+	[entityName release];
+	[basePredicateString release];
+	[groupKey release];
+	[currentGroups release];
+	[groupControllers release];
+	[countController release];
+	[arrangedObjects release];
+	[groupCompareBlock release];
+	[selection release];
+	[super dealloc];
+}
+
+
 -(void)toggleGrouped
 {
     if(grouped){
