@@ -18,7 +18,7 @@
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
 @property (nonatomic, assign) IBOutlet GrowlTicketDatabase *ticketDatabase;
 @property (nonatomic, retain) IBOutlet GroupedArrayController *ticketsArrayController;
-@property (nonatomic, assign) IBOutlet NotificationsArrayController *notificationsArrayController;
+@property (nonatomic, assign) IBOutlet NSArrayController *notificationsArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *appPositionPicker;

@@ -183,6 +183,8 @@ static BOOL awoken = NO;
 	[ticketsArrayController	setGroupCompareBlock:compareBlock];
 	[ticketsArrayController setTableView:growlApplications];
 	
+	NSSortDescriptor *ascendingHumanReadable = [NSSortDescriptor sortDescriptorWithKey:@"humanReadableName" ascending:YES];
+	[notificationsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingHumanReadable]];
 	
    [appOnSwitch addObserver:self forKeyPath:@"state" options:0 context:nil];
    [appSettingsTabView selectTabViewItemAtIndex:0];
@@ -221,7 +223,6 @@ static BOOL awoken = NO;
 	});
 
    [notificationsTable setTarget:self];
-   [notificationsTable setAction:@selector(userSingleClickedNote:)];
    [notificationsTable setDoubleAction:@selector(userDoubleClickedNote:)];
 }
 
@@ -549,6 +550,11 @@ static BOOL awoken = NO;
 										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
 										 includeDefaultMenuItem:YES];
 			
+			//Give it a chance to update its contents before trying to tell it to arrange.
+			__block GrowlApplicationsViewController *blockSelf = self;
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[[blockSelf notificationsArrayController] rearrangeObjects];
+			});
 			if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
 				[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
 		}

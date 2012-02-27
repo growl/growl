@@ -1137,25 +1137,16 @@
 					<string key="NSEntityName">GrowlNotificationTicket</string>
 				</object>
 				<bool key="_NSIsUsingManagedProxy">YES</bool>
-				<bool key="_NSUsesLazyFetching">YES</bool>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
 				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">notificationsArrayController</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="231750306"/>
-					</object>
-					<int key="connectionID">139</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">deleteTicket:</string>
@@ -1286,11 +1277,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">notificationScrollView</string>
+						<string key="label">notificationsArrayController</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="178183968"/>
+						<reference key="destination" ref="231750306"/>
 					</object>
-					<int key="connectionID">7672</int>
+					<int key="connectionID">8283</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1799,22 +1790,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">managedObjectContext: self.ticketDatabase.managedObjectContext</string>
-						<reference key="source" ref="231750306"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="231750306"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">managedObjectContext: self.ticketDatabase.managedObjectContext</string>
-							<string key="NSBinding">managedObjectContext</string>
-							<string key="NSKeyPath">self.ticketDatabase.managedObjectContext</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">8268</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">contentSet: self.ticketsArrayController.selection.children</string>
 						<reference key="source" ref="231750306"/>
 						<reference key="destination" ref="1001"/>
@@ -1832,6 +1807,22 @@
 						</object>
 					</object>
 					<int key="connectionID">8280</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">managedObjectContext: self.ticketDatabase.managedObjectContext</string>
+						<reference key="source" ref="231750306"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="231750306"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">managedObjectContext: self.ticketDatabase.managedObjectContext</string>
+							<string key="NSBinding">managedObjectContext</string>
+							<string key="NSKeyPath">self.ticketDatabase.managedObjectContext</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">8268</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4764,7 +4755,6 @@
 					<string>13.CustomClassName</string>
 					<string>13.IBPluginDependency</string>
 					<string>13.ibExternalAutomaticallyCalculatesRowSizeFromViewHeight</string>
-					<string>132.CustomClassName</string>
 					<string>132.IBPluginDependency</string>
 					<string>15.IBPluginDependency</string>
 					<string>15.isInViewBasedMode</string>
@@ -5004,7 +4994,6 @@
 					<string>RRTableView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>NotificationsArrayController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -5364,7 +5353,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">8282</int>
+			<int key="maxID">8284</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5469,7 +5458,7 @@
 							<string>NSPopUpButton</string>
 							<string>NSTableView</string>
 							<string>NSPopUpButton</string>
-							<string>NotificationsArrayController</string>
+							<string>NSArrayController</string>
 							<string>NSTableView</string>
 							<string>NSPopUpButton</string>
 							<string>GrowlTicketDatabase</string>
@@ -5530,7 +5519,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">notificationsArrayController</string>
-								<string key="candidateClassName">NotificationsArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">notificationsTable</string>
@@ -5655,14 +5644,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/NSTableRowView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NotificationsArrayController</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NotificationsArrayController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
