@@ -180,7 +180,6 @@
 		93A60E0313C40A2100514EF8 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		93A60E0413C40A2300514EF8 /* squelch.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755608423BE80092A5A0 /* squelch.png */; };
 		93A60E4013C4159B00514EF8 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A60E3F13C4159B00514EF8 /* Growl.icns */; };
-		93A60E5B13C549A600514EF8 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
 		93A60E5C13C549A900514EF8 /* GrowlBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */; };
 		93A60E5D13C549AC00514EF8 /* GrowlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E243E3087E9053008151E6 /* GrowlPreferencePane.m */; };
 		93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
@@ -1410,8 +1409,6 @@
 		BCF24CB3146DB33500B91675 /* GrowlRollupPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRollupPrefsViewController.m; path = Core/Source/GrowlRollupPrefsViewController.m; sourceTree = "<group>"; };
 		BCF24CB5146DB35700B91675 /* RollupPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RollupPrefs.xib; path = Core/Resources/RollupPrefs.xib; sourceTree = "<group>"; };
 		C4169BDE0C2CE49500D07B91 /* Pseudo-Coda.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Pseudo-Coda.growlStyle"; path = "Core/Resources/Pseudo-Coda.growlStyle"; sourceTree = "<group>"; };
-		C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
-		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
 		C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
 		CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationTicket.h; path = Core/Source/GrowlApplicationTicket.h; sourceTree = "<group>"; };
 		CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationTicket.m; path = Core/Source/GrowlApplicationTicket.m; sourceTree = "<group>"; };
@@ -1830,8 +1827,6 @@
 			isa = PBXGroup;
 			children = (
 				BC979861146ACF9100511A9B /* ViewControllers */,
-				C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */,
-				C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */,
 				95E243E2087E9053008151E6 /* GrowlPreferencePane.h */,
 				95E243E3087E9053008151E6 /* GrowlPreferencePane.m */,
 				7471F9B60A066E2A000D13BF /* GrowlPositionPicker.h */,
@@ -3162,7 +3157,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "The Growl Project";
 			};
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
@@ -3742,7 +3737,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93A60E5B13C549A600514EF8 /* ACImageAndTextCell.m in Sources */,
 				93A60E5C13C549A900514EF8 /* GrowlBrowserEntry.m in Sources */,
 				93A60E5D13C549AC00514EF8 /* GrowlPreferencePane.m in Sources */,
 				071426120910D4EC00F7C755 /* GrowlDisplayWindowController.m in Sources */,

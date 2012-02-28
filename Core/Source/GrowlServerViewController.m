@@ -7,7 +7,6 @@
 //
 
 #import "GrowlServerViewController.h"
-#import "ACImageAndTextCell.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlBrowserEntry.h"
 #import "GrowlKeychainUtilities.h"
@@ -175,10 +174,6 @@
           selector:@selector(updateAddresses:)
               name:IPAddressesUpdateNotification 
             object:[GrowlNetworkObserver sharedObserver]];
-   
-   ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
-   [serviceNameColumn setDataCell:imageTextCell];
-	[networkTableView reloadData];
 }
 
 + (NSString*)nibName {
@@ -263,25 +258,9 @@
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	// we check to make sure we have the image + text column and then set its image manually
-   if (aTableColumn == servicePasswordColumn) {
-		return [[[forwarder destinations] objectAtIndex:rowIndex] password];
-	} else if (aTableColumn == serviceNameColumn) {
-        NSCell *cell = [aTableColumn dataCellForRow:rowIndex];
-        static NSImage *manualImage = nil;
-        static NSImage *bonjourImage = nil;
-        if(!manualImage){
-            manualImage = [[NSImage imageNamed:NSImageNameNetwork] retain];
-            bonjourImage = [[NSImage imageNamed:NSImageNameBonjour] retain];
-            NSSize imageSize = NSMakeSize([cell cellSize].height, [cell cellSize].height);
-            [manualImage setSize:imageSize];
-            [bonjourImage setSize:imageSize];
-        }
-        GrowlBrowserEntry *entry = [[forwarder destinations] objectAtIndex:rowIndex];
-        if([entry manualEntry])
-            [cell setImage:manualImage];
-        else
-            [cell setImage:bonjourImage];
-   } else if(aTableView == subscriptionsTableView && rowIndex < (NSInteger)[[subscriptionArrayController arrangedObjects] count]){
+   if (aTableView == networkTableView) {
+		return [[forwarder destinations] objectAtIndex:rowIndex];
+	} else if(aTableView == subscriptionsTableView && rowIndex < (NSInteger)[[subscriptionArrayController arrangedObjects] count]){
       return [[subscriptionArrayController arrangedObjects] objectAtIndex:rowIndex];
    }
 
