@@ -204,7 +204,7 @@
 	CFNumberRef _value = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid); \
 	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&_key, (const void **)&_value, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks); \
 	CFRelease(_value); \
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(), \
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(), \
 										 CFSTR("GrowlPreferencesChanged"), \
 										 CFSTR("GrowlUserDefaults"), \
 										 userInfo, false); \
