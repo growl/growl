@@ -40,6 +40,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6A0FAC1C14F906F0002F5935 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83BE206014310BFB00890102 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
 		83BE207E14310BFD00890102 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83BE206014310BFB00890102 /* Growl.xcodeproj */;
@@ -324,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				83BE207F14310BFD00890102 /* Growl.app */,
+				6A0FAC1D14F906F0002F5935 /* GrowlLauncher.app */,
 				83BE208114310BFD00890102 /* Growl.framework */,
 				83BE208314310BFD00890102 /* Speech.growlView */,
 				83BE208514310BFD00890102 /* Brushed.growlView */,
@@ -407,6 +415,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6A0FAC1D14F906F0002F5935 /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = 6A0FAC1C14F906F0002F5935 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		83BE207F14310BFD00890102 /* Growl.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -610,7 +625,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -625,7 +639,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};

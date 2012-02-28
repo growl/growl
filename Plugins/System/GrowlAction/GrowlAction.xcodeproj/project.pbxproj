@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6A0FABF014F904A1002F5935 /* VCS Data */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6A0FABF114F904A1002F5935 /* Build configuration list for PBXAggregateTarget "VCS Data" */;
+			buildPhases = (
+				6A0FABF714F90507002F5935 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "VCS Data";
+			productName = "VCS Data";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		314B18D50F98248700ACAFD6 /* main.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 314B18D40F98248700ACAFD6 /* main.scpt */; settings = {ATTRIBUTES = (); }; };
 		65942E110711D4310089E4F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -13,6 +27,16 @@
 		93969DEA146ACD3A008C5300 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93D7D79A144139CD00BFCFB6 /* InfoPlist.strings */; };
 		93969DEC146ACD3C008C5300 /* main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93D7D7AC144139F800BFCFB6 /* main.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A0FABF514F904F2002F5935 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A0FABF014F904A1002F5935;
+			remoteInfo = "VCS Data";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		314B196E0F98263B00ACAFD6 /* CopyFiles */ = {
@@ -180,6 +204,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6A0FABF614F904F2002F5935 /* PBXTargetDependency */,
 			);
 			name = GrowlAction;
 			productInstallPath = /AppleInternal/Library/Automator;
@@ -220,6 +245,7 @@
 			projectRoot = "";
 			targets = (
 				65942E070711D4310089E4F1 /* GrowlAction */,
+				6A0FABF014F904A1002F5935 /* VCS Data */,
 			);
 		};
 /* End PBXProject section */
@@ -235,6 +261,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A0FABF714F90507002F5935 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/include/VCSData.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "source $SRCROOT/../../../embedVCSData.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A0FABF614F904F2002F5935 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A0FABF014F904A1002F5935 /* VCS Data */;
+			targetProxy = 6A0FABF514F904F2002F5935 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		93D7D79A144139CD00BFCFB6 /* InfoPlist.strings */ = {
@@ -322,6 +373,27 @@
 			};
 			name = Localization;
 		};
+		6A0FABF214F904A1002F5935 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A0FABF314F904A1002F5935 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Localization;
+		};
+		6A0FABF414F904A1002F5935 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		95EE279B0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93A042EA1382169500C46F0A /* Debug.xcconfig */;
@@ -407,6 +479,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6A0FABF114F904A1002F5935 /* Build configuration list for PBXAggregateTarget "VCS Data" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0FABF214F904A1002F5935 /* Debug */,
+				6A0FABF314F904A1002F5935 /* Localization */,
+				6A0FABF414F904A1002F5935 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

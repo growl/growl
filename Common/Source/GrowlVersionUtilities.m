@@ -4,7 +4,7 @@
 #include "GrowlVersionUtilities.h"
 
 NSString *releaseTypeNames[numberOfReleaseTypes] = {
-	@"hg", @"d", @"a", @"b", NULL,
+	@"vcs", @"d", @"a", @"b", NULL,
 };
 
 #pragma mark Parsing and unparsing
@@ -118,8 +118,17 @@ BOOL parseVersionString(NSString *string, struct Version *outVersion) {
 					case 'd':
 						myReleaseType = releaseType_development;
 						break;
+					case 'v':
+						myReleaseType = releaseType_vcs;
+						if ((i < length) && (buf[i] == 'c')) {
+							++i;
+							if ((i < length) && (buf[i] == 's')) {
+								++i;
+							}
+						}
+						break;
 					case 's':
-						myReleaseType = releaseType_svn;
+						myReleaseType = releaseType_vcs;
 						if ((i < length) && (buf[i] == 'v')) {
 							++i;
 							if ((i < length) && (buf[i] == 'n')) {
@@ -128,9 +137,18 @@ BOOL parseVersionString(NSString *string, struct Version *outVersion) {
 						}
 						break;
 					case 'h':
-						myReleaseType = releaseType_svn;
+						myReleaseType = releaseType_vcs;
 						if ((i < length) && (buf[i] == 'g')) {
 							++i;
+						}
+						break;
+					case 'g':
+						myReleaseType = releaseType_vcs;
+						if ((i < length) && (buf[i] == 'i')) {
+							++i;
+							if ((i < length) && (buf[i] == 't')) {
+								++i;
+							}
 						}
 						break;
 				}
@@ -139,7 +157,7 @@ BOOL parseVersionString(NSString *string, struct Version *outVersion) {
 					++i;
 				}
 				//for example: "0.6.2 SVN r1558". we want to skip the 'r'.
-				if ((i < length) && (myReleaseType == releaseType_svn) && (tolower(buf[i]) == 'r')) {
+				if ((i < length) && (myReleaseType == releaseType_vcs) && (tolower(buf[i]) == 'r')) {
 					++i;
 				}
 
@@ -147,7 +165,7 @@ BOOL parseVersionString(NSString *string, struct Version *outVersion) {
 				//	default to 0 for releases and svn versions,
 				//	and 1 for development versions, alphas, and betas.
 				if (i == length) {
-					myDevelopment = ((myReleaseType != releaseType_release) && (myReleaseType != releaseType_svn));
+					myDevelopment = ((myReleaseType != releaseType_release) && (myReleaseType != releaseType_vcs));
 				} else {
 					//development version
 					while (i < length) {

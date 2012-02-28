@@ -17,7 +17,7 @@
 		1U,
 		3U,
 		0U,
-		releaseType_svn,
+		releaseType_vcs,
 		4000U
 	};
 	NSString *versionString = [NSMakeCollectable(createVersionDescription(version)) autorelease];
@@ -93,7 +93,7 @@
 		1U,
 		3U,
 		5U,
-		releaseType_svn,
+		releaseType_vcs,
 		4000U
 	};
 	NSString *versionString = [NSMakeCollectable(createVersionDescription(version)) autorelease];
