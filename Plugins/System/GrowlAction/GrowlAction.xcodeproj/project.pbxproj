@@ -218,7 +218,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 95EE279E0855AA6E0045DB39 /* Build configuration list for PBXProject "GrowlAction" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -487,6 +487,7 @@
 				6A0FABF414F904A1002F5935 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */ = {
 			isa = XCConfigurationList;
