@@ -900,6 +900,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 									   [pluginFile stringByDeletingPathExtension] );
 		}
 	}
+	[filename release];
 }
 
 - (void) installPluginFromPath:(NSString *)filename {
@@ -916,7 +917,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 						  NSLocalizedString( @"No", @"" ),
 						  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
 						  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-						  (id NS_CONSUMED) filenameCopy,
+						  filenameCopy,
 						  NSLocalizedString( @"Plugin '%@' will not work on this Mac running this version of Mac OS X. Install it anyway?", @"" ),
 						  [pluginFile stringByDeletingPathExtension] );		
 	}
@@ -928,7 +929,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 							  NSLocalizedString( @"No", @"" ),
 							  NSLocalizedString( @"Yes", @"" ), nil, nil, self,
 							  NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
-                              (id NS_CONSUMED) filenameCopy,
+							  filenameCopy,
 							  NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
 							  [pluginFile stringByDeletingPathExtension] );
 		} else {
