@@ -7,7 +7,7 @@
 //
 
 #import "GrowlNotificationView.h"
-
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlNotificationView
 

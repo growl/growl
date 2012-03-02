@@ -16,8 +16,6 @@
 #import "GrowlNotification.h"
 #import "GrowlNotificationView.h"
 
-#include "GrowlLog.h"
-
 #define DEFAULT_TRANSITION_DURATION	0.2
 
 static NSMutableDictionary *existingInstances;
@@ -139,9 +137,9 @@ static NSMutableDictionary *existingInstances;
 #pragma mark Screenshot mode
 
 - (void) takeScreenshot {
-	NSView *view = [[self window] contentView];
-	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
+	//NSView *view = [[self window] contentView];
+	//NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
+	//[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
 #pragma mark -

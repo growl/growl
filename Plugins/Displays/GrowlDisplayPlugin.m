@@ -8,7 +8,6 @@
 
 #import "GrowlDisplayPlugin.h"
 #import "GrowlNotificationDisplayBridge.h"
-#import "GrowlLog.h"
 #import "GrowlDisplayWindowController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
