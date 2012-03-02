@@ -94,6 +94,7 @@
    if (coordinator != nil) {
       managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
       [managedObjectContext setPersistentStoreCoordinator:coordinator];
+      [managedObjectContext setUndoManager:nil];
       [managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
    }
    return managedObjectContext;
