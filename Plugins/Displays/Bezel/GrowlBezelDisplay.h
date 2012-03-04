@@ -6,7 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @interface GrowlBezelDisplay : GrowlDisplayPlugin {
 }

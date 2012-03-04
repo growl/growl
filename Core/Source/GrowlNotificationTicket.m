@@ -9,7 +9,7 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @implementation GrowlNotificationTicket
 

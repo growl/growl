@@ -8,9 +8,9 @@
 
 #import "GrowlDisplaysViewController.h"
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
-#import "GrowlPlugin.h"
+#import <GrowlPlugins/GrowlPlugin.h>
 #import "GrowlPluginController.h"
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabasePlugin.h"

@@ -5,7 +5,7 @@
 //	Copyright 2005-2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlNotification.h"
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlDefines.h"
 
 @implementation GrowlNotification

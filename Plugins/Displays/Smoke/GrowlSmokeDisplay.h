@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @interface GrowlSmokeDisplay : GrowlDisplayPlugin {
 }

@@ -9,7 +9,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowliCalWindowView : GrowlNotificationView {
 	BOOL				haveText;

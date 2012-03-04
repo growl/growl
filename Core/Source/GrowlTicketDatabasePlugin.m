@@ -8,7 +8,7 @@
 
 #import "GrowlTicketDatabasePlugin.h"
 #import "GrowlPluginController.h"
-#import "GrowlPlugin.h"
+#import <GrowlPlugins/GrowlPlugin.h>
 
 @implementation GrowlTicketDatabasePlugin
 

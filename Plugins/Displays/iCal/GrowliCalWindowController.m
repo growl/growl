@@ -8,13 +8,13 @@
 //  Copyright (c) 2004–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowliCalWindowController.h"
 #import "GrowliCalWindowView.h"
 #import "GrowliCalPrefsController.h"
 #import "GrowliCalDefines.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowliCalWindowController
 

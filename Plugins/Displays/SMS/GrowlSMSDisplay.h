@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlActionPlugin.h"
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 #define keychainServiceName "GrowlSMS"
 #define keychainAccountName "SMSWebServicePassword"

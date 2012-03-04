@@ -11,8 +11,6 @@
 @class GrowlPluginPreferencePane;
 
 @protocol GrowlDispatchNotificationProtocol <NSObject>
-@optional
-- (NSDictionary*)defaultPreferenceDictionary;
 @required
 - (void)dispatchNotification:(NSDictionary*)notification withConfiguration:(NSDictionary*)configuration;
 @end

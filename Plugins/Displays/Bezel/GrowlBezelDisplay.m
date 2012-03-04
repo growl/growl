@@ -4,11 +4,11 @@
 //
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlBezelDisplay.h"
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowlBezelDisplay

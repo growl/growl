@@ -5,11 +5,11 @@
 //  Created by Diggory Laycock
 //  Copyright 2005–2011 The Growl Project All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlSMSDisplay.h"
 #import "GrowlSMSPrefs.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 

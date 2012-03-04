@@ -10,10 +10,10 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlTicketController.h"
 #import "GrowlPluginController.h"
-#import "GrowlPlugin.h"
 #import "GrowlWebKitDisplayPlugin.h"
-#import "GrowlActionPlugin.h"
 #import "GrowlDefines.h"
+#import <GrowlPlugins/GrowlPlugin.h>
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 #import "NSStringAdditions.h"
 #import "GrowlTicketDatabaseTicket.h"

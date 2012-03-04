@@ -5,7 +5,7 @@
 //  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @interface GrowlMailMePrefs: GrowlPluginPreferencePane {
 }

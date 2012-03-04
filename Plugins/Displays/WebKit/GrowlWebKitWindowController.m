@@ -6,6 +6,9 @@
 //  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
@@ -14,11 +17,8 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
-#import "GrowlNotification.h"
 #import "NSMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
-#import "GrowlDisplayPlugin.h"
-#import "GrowlFadingWindowTransition.h"
 #import "GrowlImageAdditions.h"
 #import "NSStringAdditions.h"
 

@@ -7,14 +7,14 @@
 //
 
 
+#import <GrowlPlugins/GrowlSlidingWindowTransition.h>
+#import <GrowlPlugins/GrowlWipeWindowTransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlNanoWindowController.h"
 #import "GrowlNanoWindowView.h"
 #import "GrowlNanoPrefs.h"
-#import "GrowlSlidingWindowTransition.h"
-#import "GrowlWipeWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
-#import "GrowlNotification.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 @implementation GrowlNanoWindowController
 

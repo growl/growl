@@ -6,15 +6,15 @@
 //  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
-#import "GrowlWindowTransition.h"
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlNotification.h"
-#import "GrowlNotificationView.h"
 
 #define DEFAULT_TRANSITION_DURATION	0.2
 

@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlActionPlugin.h"
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 @interface GrowlMailMeDisplay: GrowlActionPlugin <GrowlDispatchNotificationProtocol> {
 	NSString *pathToMailSenderProgram;

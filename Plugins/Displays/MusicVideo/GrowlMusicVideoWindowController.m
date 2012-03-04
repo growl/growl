@@ -6,13 +6,13 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
+#import <GrowlPlugins/GrowlSlidingWindowTransition.h>
+#import <GrowlPlugins/GrowlWipeWindowTransition.h>
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlMusicVideoWindowController.h"
-#import "GrowlFadingWindowTransition.h"
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
-#import "GrowlSlidingWindowTransition.h"
-#import "GrowlWipeWindowTransition.h"
-#import "GrowlNotification.h"
 
 @implementation GrowlMusicVideoWindowController
 

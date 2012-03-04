@@ -7,7 +7,7 @@
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @interface GrowlBubblesPrefsController : GrowlPluginPreferencePane {
 	IBOutlet NSColorWell	*top_veryLow;

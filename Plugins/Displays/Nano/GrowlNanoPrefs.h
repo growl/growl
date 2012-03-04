@@ -6,7 +6,7 @@
 //  Copyright 2005Ð2011, The Growl Project. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 #define GrowlNanoPrefDomain			@"com.Growl.Nano"
 

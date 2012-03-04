@@ -9,13 +9,14 @@
 //
 
 #import "GrowlPositionController.h"
-#import "GrowlDisplayWindowController.h"
-//#import "GrowlPreferencesController.h"
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import <GrowlPlugins/GrowlNotification.h>
 #import "NSMutableStringAdditions.h"
 #import "GrowlDefines.h"
+//#import "GrowlPreferencesController.h"
 //#import "GrowlTicketDatabase.h"
 //#import "GrowlTicketDatabaseApplication.h"
-#import "GrowlNotification.h"
 
 #include "GrowlLog.h"
 

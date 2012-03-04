@@ -8,7 +8,7 @@
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @interface GrowliCalPrefsController : GrowlPluginPreferencePane {
 	IBOutlet NSPopUpButton	*overall_color;

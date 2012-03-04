@@ -6,11 +6,11 @@
 //  Copyright 2005Ð2011, The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlNanoDisplay.h"
 #import "GrowlNanoWindowController.h"
 #import "GrowlNanoPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 

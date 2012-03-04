@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @interface GrowlPluginPreferencePane ()
 

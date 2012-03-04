@@ -8,7 +8,6 @@
 
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlApplicationController.h"
-#import "GrowlNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
@@ -17,6 +16,7 @@
 #import "NSStringAdditions.h"
 #import "GrowlGNTPDefines.h"
 #import "GNTPSubscriptionController.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 @implementation GrowlGNTPPacketParser
 

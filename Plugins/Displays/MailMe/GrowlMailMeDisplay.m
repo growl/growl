@@ -4,10 +4,10 @@
 //
 //  Copyright 2004 Peter Hosey. All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 
 #define destAddressKey @"MailMe - Recipient address"
 

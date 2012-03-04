@@ -10,7 +10,6 @@
 
 #import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabaseApplication.h"
@@ -21,8 +20,6 @@
 #import "GrowlPropertyListFilePathway.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
-#import "GrowlPlugin.h"
-#import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
 #import "GrowlIdleStatusController.h"
 #import "GrowlDefines.h"
@@ -42,6 +39,9 @@
 #import "GNTPForwarder.h"
 #import "GNTPSubscriptionController.h"
 #import "GrowlNetworkObserver.h"
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlPlugin.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 #include "CFURLAdditions.h"
 #include <sys/errno.h>
 #include <string.h>

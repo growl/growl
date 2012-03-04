@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
-#import "GrowlActionPlugin.h"
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 @implementation GrowlActionPlugin
 

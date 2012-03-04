@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 #define GrowlMusicVideoPrefDomain			@"com.Growl.MusicVideo"
 

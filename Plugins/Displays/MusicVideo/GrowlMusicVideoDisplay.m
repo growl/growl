@@ -4,11 +4,11 @@
 //
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlMusicVideoDisplay.h"
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 

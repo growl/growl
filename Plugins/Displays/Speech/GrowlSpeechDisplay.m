@@ -6,12 +6,12 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlSpeechDisplay.h"
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 
 @implementation GrowlSpeechDisplay
 @synthesize speech_queue;

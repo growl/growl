@@ -6,12 +6,10 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlNotification.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlDisplayWindowController.h"
-#import "GrowlDisplayPlugin.h"
-
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
 
 #include <execinfo.h>
 

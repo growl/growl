@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlActionPlugin.h"
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 @interface GrowlSpeechDisplay : GrowlActionPlugin <GrowlDispatchNotificationProtocol, NSSpeechSynthesizerDelegate> {
     NSMutableArray *speech_queue;

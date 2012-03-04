@@ -6,12 +6,12 @@
 //	Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlDisplayPlugin.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
-#import "GrowlNotification.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";

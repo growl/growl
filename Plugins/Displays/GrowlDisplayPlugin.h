@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlPlugin.h"
+#import <GrowlPlugins/GrowlPlugin.h>
 
 @class GrowlNotification, GrowlNotificationDisplayBridge;
 @class GrowlDisplayWindowController;

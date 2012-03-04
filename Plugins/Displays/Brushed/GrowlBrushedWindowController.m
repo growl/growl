@@ -7,13 +7,13 @@
 //
 //  Most of this is lifted from KABubbleWindowController in the Growl source
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlBrushedWindowController.h"
 #import "GrowlBrushedWindowView.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowlBrushedWindowController
 

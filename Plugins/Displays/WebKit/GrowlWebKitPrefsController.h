@@ -6,7 +6,7 @@
 //  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlPluginPreferencePane.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @interface GrowlWebKitPrefsController : GrowlPluginPreferencePane {
 	IBOutlet NSSlider		*slider_opacity;

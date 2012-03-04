@@ -9,7 +9,6 @@
 
 #import "GrowlPluginController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlDisplayPlugin.h"
 #import "GrowlDefinesInternal.h"
 
 #import "GrowlPathUtilities.h"
@@ -19,6 +18,7 @@
 #import "GrowlWebKitPluginHandler.h"
 #import "GrowlApplicationController.h"
 #import "GrowlMenu.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 
 #ifndef __has_feature      // Optional.

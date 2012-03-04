@@ -9,11 +9,11 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowliCalDisplay.h"
 #import "GrowliCalDefines.h"
 #import "GrowliCalWindowController.h"
 #import "GrowliCalPrefsController.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowliCalDisplay
