@@ -28,39 +28,7 @@
 }
 
 - (void) awakeFromNib {
-	NSArray *availableVoices = [NSArray arrayWithObject:GrowlSpeechSystemVoice];
-	NSMutableArray *voiceAttributes = [NSMutableArray array];
-	
-    NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
-    [defaultChoice setObject:GrowlSpeechSystemVoice forKey:NSVoiceIdentifier];
-    [defaultChoice setObject:NSLocalizedString(@"System Default", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
-    [voiceAttributes addObject:defaultChoice];
-    
-	for (NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices]) {
-		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
-	}
-    availableVoices = [availableVoices arrayByAddingObjectsFromArray:[NSSpeechSynthesizer availableVoices]];
-	[self setVoices:voiceAttributes];
-
-	NSString *voice = nil;
-	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	NSUInteger row = NSNotFound;
-	if (voice) {
-		CFMakeCollectable(voice);
-		row = [availableVoices indexOfObject:voice];
-		[voice release];
-    }
-
-	if (row == NSNotFound)
-		row = [availableVoices indexOfObject:[NSSpeechSynthesizer defaultVoice]];
-
-    if ((row == NSNotFound) && ([availableVoices count]))
-        row = 1;
-
-    if (row != NSNotFound) {
-	   [voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-	   [voiceList scrollRowToVisible:row];
-    }
+	[self updateVoiceList];
 	[voiceList setDoubleAction:@selector(previewVoice:)];
 }
 
@@ -69,6 +37,43 @@
    [voiceLabel release];
    [nameColumnLabel release];
 	[super dealloc];
+}
+
+-(void)updateVoiceList {
+	NSArray *availableVoices = [NSArray arrayWithObject:GrowlSpeechSystemVoice];
+	NSMutableArray *voiceAttributes = [NSMutableArray array];
+	
+	NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
+	[defaultChoice setObject:GrowlSpeechSystemVoice forKey:NSVoiceIdentifier];
+	[defaultChoice setObject:NSLocalizedString(@"System Default", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
+	[voiceAttributes addObject:defaultChoice];
+	
+	for (NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices]) {
+		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
+	}
+	availableVoices = [availableVoices arrayByAddingObjectsFromArray:[NSSpeechSynthesizer availableVoices]];
+	[self setVoices:voiceAttributes];
+}
+
+-(void)updateConfigurationValues {
+	[self updateVoiceList];
+	NSString *voice = [self.configuration valueForKey:GrowlSpeechVoicePref];
+	NSArray *availableVoices = [voices valueForKey:NSVoiceIdentifier];
+	NSUInteger row = NSNotFound;
+	if (voice) {
+		row = [availableVoices indexOfObject:voice];
+	}
+	
+	if (row == NSNotFound)
+		row = [availableVoices indexOfObject:[NSSpeechSynthesizer defaultVoice]];
+	
+	if ((row == NSNotFound) && ([availableVoices count]))
+		row = 1;
+	
+	if (row != NSNotFound && [voices count] > 0) {
+	   [voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	   [voiceList scrollRowToVisible:row];
+	}
 }
 
 - (IBAction) previewVoice:(id)sender {
@@ -93,8 +98,7 @@
 
 	if (row != -1) {
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
-		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, voice, GrowlSpeechPrefDomain);
-		UPDATE_GROWL_PREFS();
+		[self setConfigurationValue:voice forKey:GrowlSpeechVoicePref];
 	}
 }
 

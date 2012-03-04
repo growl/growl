@@ -374,13 +374,16 @@ static BOOL awoken = NO;
       NSArray *apps = [ticketsArrayController selectedObjects];
       if(apps && [apps count]) {
          GrowlTicketDatabaseApplication *parentApp = [apps objectAtIndex:0U];
-         pluginName = [[parentApp display] name];
+         pluginName = [[parentApp display] displayName];
       }
 	}		
    if(!pluginName)
       pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-                                                       object:pluginName];
+	
+	GrowlTicketDatabasePlugin *displayPlugin = [[GrowlTicketDatabase sharedInstance] actionForName:pluginName];
+	if(displayPlugin)
+		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+																			 object:displayPlugin];
 }
 
 -(IBAction)playSound:(id)sender
@@ -470,7 +473,7 @@ static BOOL awoken = NO;
 		if(selectedNote == NSNotFound)
 			return;
 		
-		NSString *pluginName = [[(GrowlTicketDatabaseTicket*)[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] display] name];
+		NSString *pluginName = [[(GrowlTicketDatabaseTicket*)[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] display] displayName];
 		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:pluginName];
 		if (indexOfMenuItem < 0)
 			indexOfMenuItem = 0;
@@ -482,7 +485,7 @@ static BOOL awoken = NO;
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-   if(tableView == growlApplications){
+   if(tableView == growlApplications && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
    }else
       return NO;
@@ -544,10 +547,10 @@ static BOOL awoken = NO;
 			[displayMenuButton setEnabled:YES];
 			[notificationDisplayMenuButton setEnabled:YES];
 			[[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
-										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name] 
+										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] displayName] 
 										 includeDefaultMenuItem:YES];
 			[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
-										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] name]
+										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] displayName]
 										 includeDefaultMenuItem:YES];
 			
 			//Give it a chance to update its contents before trying to tell it to arrange.

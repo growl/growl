@@ -20,7 +20,7 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
  * @class GrowlDisplayPlugin
  * @abstract Base class for all display plugins.
  */
-@interface GrowlDisplayPlugin : GrowlPlugin {
+@interface GrowlDisplayPlugin : GrowlPlugin <GrowlDispatchNotificationProtocol> {
 	Class          windowControllerClass;
 	
 	//for all displays
@@ -33,14 +33,6 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 	GrowlNotificationDisplayBridge *bridge;
 	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
 }
-
-/*!	@method	displayNotification:
- *	@abstract	Display a notification to the user.
- *	@param	notification	The notification to display.
- *  @discussion Unless you have a specific reason to override this method you should not do so.
- *  All the magic should happen in the window controller's <code>setNotification:</code>
- */
-- (void) displayNotification:(GrowlNotification *)notification;
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in

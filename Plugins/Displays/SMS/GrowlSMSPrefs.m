@@ -7,19 +7,11 @@
 //
 
 #import "GrowlSMSPrefs.h"
+#import "GrowlSMSDisplay.h"
 #import "GrowlDefinesInternal.h"
 #import "NSStringAdditions.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
-
-#define GrowlSMSPrefDomain		@"com.Growl.SMS"
-#define accountNameKey			@"SMS - Account Name"
-#define accountAPIIDKey			@"SMS - Account API ID"
-#define destinationNumberKey	@"SMS - Destination Number"
-
-#define keychainServiceName "GrowlSMS"
-#define keychainAccountName "SMSWebServicePassword"
-
 
 @implementation GrowlSMSPrefs
 
@@ -59,57 +51,50 @@
 	return @"GrowlSMSPrefs";
 }
 
-- (void) didSelect {
-	SYNCHRONIZE_GROWL_PREFS();
+- (NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [NSSet setWithObjects:@"accountName",
+				  @"accountAPIID",
+				  @"destinationNumber",
+				  @"accountPassword", nil];
+	});
+	return keys;
 }
 
 #pragma mark -
 
 - (NSString *) getAccountName {
-	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &value);
-	if(value)
-		CFMakeCollectable(value);
-	return [value autorelease];
+	return [self.configuration valueForKey:accountNameKey];
 }
 
 - (void) setAccountName:(NSString *)value {
 	if (!value)
 		value = @"";
-	WRITE_GROWL_PREF_VALUE(accountNameKey, value, GrowlSMSPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:value forKey:accountNameKey];
 }
 
 
 - (NSString *) getAccountAPIID {
-	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &value);
-	if(value)
-		CFMakeCollectable(value);
-	return [value autorelease];
+	return [self.configuration valueForKey:accountAPIIDKey];
 }
 
 - (void) setAccountAPIID:(NSString *)value {
 	if (!value)
 		value = @"";
-	WRITE_GROWL_PREF_VALUE(accountAPIIDKey, value, GrowlSMSPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:value forKey:accountAPIIDKey];
 }
 
 
 - (NSString *) getDestinationNumber {
-	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &value);
-	if(value)
-		CFMakeCollectable(value);
-	return [value autorelease];
+	return [self.configuration valueForKey:destinationNumberKey];
 }
 
 - (void) setDestinationNumber:(NSString *)value {
 	if (!value)
 		value = @"";
-	WRITE_GROWL_PREF_VALUE(destinationNumberKey, value, GrowlSMSPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:value forKey:destinationNumberKey];
 }
 
 

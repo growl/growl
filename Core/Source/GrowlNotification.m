@@ -19,16 +19,20 @@
 @synthesize sticky;
 @synthesize priority;
 @synthesize auxiliaryDictionary;
+@synthesize configurationDict;
 
-+ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict {
-	return [[[self alloc] initWithDictionary:dict] autorelease];
++ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict configurationDict:(NSDictionary*)config {
+	return [[[self alloc] initWithDictionary:dict configurationDict:config] autorelease];
 }
 
-- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict {
+- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict
+								 configurationDict:(NSDictionary *)config
+{
 	if ((self = [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
-				   applicationName:[dict objectForKey:GROWL_APP_NAME]
-							 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
-					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]])) {
+						applicationName:[dict objectForKey:GROWL_APP_NAME]
+									 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
+							 description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+					configureationDict:config])) {
 		NSMutableDictionary *mutableDict = [dict mutableCopy];
 		[mutableDict removeObjectsForKeys:[[GrowlNotification standardKeys] allObjects]];
 		if ([mutableDict count])
@@ -39,16 +43,18 @@
 }
 
 - (GrowlNotification *) initWithName:(NSString *)newName
-                                applicationName:(NSString *)newAppName
-                                          title:(NSString *)newTitle
-                                    description:(NSString *)newDesc
+							applicationName:(NSString *)newAppName
+										 title:(NSString *)newTitle
+								 description:(NSString *)newDesc
+						configureationDict:(NSDictionary *)config
 {
 	if ((self = [self init])) {
 		name            = [newName      copy];
 		applicationName = [newAppName   copy];
-
+		
 		title           = [newTitle     copy];
 		messageText     = [newDesc      copy];
+		self.configurationDict = config;
 	}
 	return self;
 }
@@ -61,6 +67,7 @@
 	[auxiliaryDictionary release];
 
 	[cachedDictionaryRepresentation release];
+	[configurationDict release];
 
 	[super dealloc];
 }

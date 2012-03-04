@@ -20,6 +20,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlSmokeWindowController");
+		self.prefDomain = GrowlSmokePrefDomain;
 	}
 	return self;
 }
@@ -29,7 +30,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Smoke"]];
 	return preferencePane;

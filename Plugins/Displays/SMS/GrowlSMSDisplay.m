@@ -13,15 +13,6 @@
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
-#define keychainServiceName "GrowlSMS"
-#define keychainAccountName "SMSWebServicePassword"
-
-#define GrowlSMSPrefDomain		@"com.Growl.SMS"
-#define accountNameKey			@"SMS - Account Name"
-#define accountAPIIDKey			@"SMS - Account API ID"
-#define destinationNumberKey	@"SMS - Destination Number"
-
-
 @implementation GrowlSMSDisplay
 
 - (id) init {
@@ -30,6 +21,7 @@
 		xmlHoldingStringValue = [[NSMutableString alloc] init];
 		waitingForResponse = NO;
 		creditBalance = 0.0;
+		self.prefDomain = GrowlSMSPrefDomain;
 	}
 	return self;
 }
@@ -41,36 +33,22 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.SMS"]];
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlNotification *)notification {
-	NSString	*accountNameValue = nil;
-	NSString	*apiIDValue = nil;
-	NSString	*destinationNumberValue = nil;
-
-	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &destinationNumberValue);
-	if(destinationNumberValue)
-		CFMakeCollectable(destinationNumberValue);
-	[destinationNumberValue autorelease];
-	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &apiIDValue);
-	if(apiIDValue)
-		CFMakeCollectable(apiIDValue);
-	[apiIDValue autorelease];
-	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &accountNameValue);
-	if(accountNameValue)
-		CFMakeCollectable(accountNameValue);
-	[accountNameValue autorelease];
+- (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
+	NSString	*accountNameValue = [configuration valueForKey:accountNameKey];
+	NSString	*apiIDValue = [configuration valueForKey:accountAPIIDKey];
+	NSString	*destinationNumberValue = [configuration valueForKey:destinationNumberKey];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
 		NSLog(@"SMS display: Cannot send SMS - not enough details in preferences.");
 		return;
 	}
 
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 
@@ -120,8 +98,6 @@
 
 	[self sendXMLCommand:checkBalanceCommand];
 	[checkBalanceCommand release];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
 }
 
 

@@ -8,9 +8,9 @@
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
-@interface GrowliCalPrefsController : NSPreferencePane {
+@interface GrowliCalPrefsController : GrowlPluginPreferencePane {
 	IBOutlet NSPopUpButton	*overall_color;
 	IBOutlet NSSlider		*slider_opacity;
 }

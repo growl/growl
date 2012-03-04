@@ -15,88 +15,89 @@
 	return @"BubblesPrefs";
 }
 
-+ (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSData *data = nil;
-	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:[NSData class]]) {
-			color = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
-		color = defaultColor;
-	}
-	[colorWell setColor:color];
-	[data release];
-	data = nil;
-}
-
 - (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:0.05];
+}
 
+-(NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [NSSet setWithObjects:@"opacity",
+				  @"duration",
+				  @"limit",
+				  @"screen",
+				  @"size", nil]; 
+	});
+	return keys;
+}
+
+-(void)updateConfigurationValues {
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412 green:0.83147 blue:0.96078 alpha:1.0];
-
-	[GrowlBubblesPrefsController loadColorWell:color_veryLow fromKey:GrowlBubblesVeryLowColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_moderate fromKey:GrowlBubblesModerateColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_normal fromKey:GrowlBubblesNormalColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_high fromKey:GrowlBubblesHighColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_emergency fromKey:GrowlBubblesEmergencyColor defaultColor:defaultColor];
-
+	[color_veryLow setColor:[self loadColor:GrowlBubblesVeryLowColor defaultColor:defaultColor]];
+	[color_moderate setColor:[self loadColor:GrowlBubblesModerateColor defaultColor:defaultColor]];
+	[color_normal setColor:[self loadColor:GrowlBubblesNormalColor defaultColor:defaultColor]];
+	[color_high setColor:[self loadColor:GrowlBubblesHighColor defaultColor:defaultColor]];
+	[color_emergency setColor:[self loadColor:GrowlBubblesEmergencyColor defaultColor:defaultColor]];
+	
 	defaultColor = [[NSColor controlTextColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-
-	[GrowlBubblesPrefsController loadColorWell:text_veryLow fromKey:GrowlBubblesVeryLowTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_moderate fromKey:GrowlBubblesModerateTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_normal fromKey:GrowlBubblesNormalTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_high fromKey:GrowlBubblesHighTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_emergency fromKey:GrowlBubblesEmergencyTextColor defaultColor:defaultColor];
-
+	[text_veryLow setColor:[self loadColor:GrowlBubblesVeryLowTextColor defaultColor:defaultColor]];
+	[text_moderate setColor:[self loadColor:GrowlBubblesModerateTextColor defaultColor:defaultColor]];
+	[text_normal setColor:[self loadColor:GrowlBubblesNormalTextColor defaultColor:defaultColor]];
+	[text_high setColor:[self loadColor:GrowlBubblesHighTextColor defaultColor:defaultColor]];
+	[text_emergency setColor:[self loadColor:GrowlBubblesEmergencyTextColor defaultColor:defaultColor]];
+	
 	defaultColor = [NSColor colorWithCalibratedRed:0.93725 green:0.96863 blue:0.99216 alpha:0.95];
-
-	[GrowlBubblesPrefsController loadColorWell:top_veryLow fromKey:GrowlBubblesVeryLowTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_moderate fromKey:GrowlBubblesModerateTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_normal fromKey:GrowlBubblesNormalTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_high fromKey:GrowlBubblesHighTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_emergency fromKey:GrowlBubblesEmergencyTopColor defaultColor:defaultColor];
+	[top_veryLow setColor:[self loadColor:GrowlBubblesVeryLowTopColor defaultColor:defaultColor]];
+	[top_moderate setColor:[self loadColor:GrowlBubblesModerateTopColor defaultColor:defaultColor]];
+	[top_normal setColor:[self loadColor:GrowlBubblesNormalTopColor defaultColor:defaultColor]];
+	[top_high setColor:[self loadColor:GrowlBubblesHighTopColor defaultColor:defaultColor]];
+	[top_emergency setColor:[self loadColor:GrowlBubblesEmergencyTopColor defaultColor:defaultColor]];
+	
+	[super updateConfigurationValues];
 }
 
 #pragma mark -
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &value);
+	if([self.configuration valueForKey:GrowlBubblesLimitPref]){
+		value = [[self.configuration valueForKey:GrowlBubblesLimitPref] boolValue];
+	}
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlBubblesLimitPref, value, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlBubblesLimitPref];
 }
 
 #pragma mark -
 
 - (CGFloat) opacity {
 	CGFloat value = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &value);
+	if([self.configuration valueForKey:GrowlBubblesLimitPref]){
+		value = [[self.configuration valueForKey:GrowlBubblesOpacity] floatValue];
+	}
 	return value;
 }
 
 - (void) setOpacity:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, value, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlBubblesOpacity];
 }
 
 #pragma mark -
 
 - (CGFloat) duration {
 	CGFloat value = 4.0;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &value);
+	if([self.configuration valueForKey:GrowlBubblesDuration]){
+		value = [[self.configuration valueForKey:GrowlBubblesDuration] floatValue];
+	}
 	return value;
 }
 
 - (void) setDuration:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, value, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlBubblesDuration];
 }
 
 #pragma mark -
@@ -125,8 +126,7 @@
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:key];
 }
 
 - (IBAction) colorChanged:(id)sender {
@@ -153,8 +153,7 @@
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:key];
 }
 
 - (IBAction) textColorChanged:(id)sender {
@@ -179,8 +178,7 @@
 	}
 
 	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:key];
 }
 
 #pragma mark -
@@ -199,23 +197,25 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &value);
+	if([self.configuration valueForKey:GrowlBubblesScreen]){
+		value = [[self.configuration valueForKey:GrowlBubblesScreen] intValue];
+	}
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesScreen, value, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowlBubblesScreen];
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &value);
+	if([self.configuration valueForKey:GrowlBubblesSizePref]){
+		value = [[self.configuration valueForKey:GrowlBubblesSizePref] intValue];
+	}
 	return value;
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesSizePref, value, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowlBubblesSizePref];
 }
 @end

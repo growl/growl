@@ -2,7 +2,7 @@
 //  GrowlTicketDatabaseCompoundAction.h
 //  Growl
 //
-//  Created by Daniel Siemer on 2/23/12.
+//  Created by Daniel Siemer on 3/2/12.
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
@@ -23,5 +23,7 @@
 - (void)removeActionsObject:(GrowlTicketDatabaseAction *)value;
 - (void)addActions:(NSSet *)values;
 - (void)removeActions:(NSSet *)values;
+
+-(NSSet*)resolvedActionConfigSet;
 
 @end

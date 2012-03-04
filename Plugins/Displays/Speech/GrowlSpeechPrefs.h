@@ -6,13 +6,14 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
-@interface GrowlSpeechPrefs : NSPreferencePane {
+@interface GrowlSpeechPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSTableView	*voiceList;
 	NSArray					*voices;
 	NSSpeechSynthesizer		*lastPreview;
 }
+- (void) updateVoiceList;
 - (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
 

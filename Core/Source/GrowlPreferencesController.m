@@ -92,7 +92,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[helperAppDefaults setPersistentDomain:inDefaults forName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 	}
 	[helperAppDefaults release];
-	SYNCHRONIZE_GROWL_PREFS();
 }
 
 - (id) objectForKey:(NSString *)key {
@@ -106,8 +105,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	CFPreferencesSetAppValue((CFStringRef)key,
 							 (CFPropertyListRef)object,
 							 (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
-
-	SYNCHRONIZE_GROWL_PREFS();
 
 	int pid = getpid();
 	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
@@ -155,10 +152,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void)setUnsignedShort:(unsigned short)theShort forKey:(NSString *)key
 {
 	[self setObject:[NSNumber numberWithUnsignedShort:theShort] forKey:key];
-}
-
-- (void) synchronize {
-	SYNCHRONIZE_GROWL_PREFS();
 }
 
 #pragma mark -
@@ -464,7 +457,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	@autoreleasepool {
         NSString *object = [notification object];
     //	NSLog(@"%s: %@\n", __func__, object);
-        SYNCHRONIZE_GROWL_PREFS();
         if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
             [self willChangeValueForKey:@"defaultDisplayPluginName"];
             [self didChangeValueForKey:@"defaultDisplayPluginName"];

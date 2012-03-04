@@ -54,7 +54,8 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 #pragma mark -
 
-- (void) displayNotification:(GrowlNotification *)notification {
+- (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
+	GrowlNotification *notification = [GrowlNotification notificationWithDictionary:noteDict configurationDict:configuration];
 	NSString *windowNibName = [self windowNibName];
 	GrowlNotificationDisplayBridge *thisBridge = nil;
 	

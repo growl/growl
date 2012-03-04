@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
 #define GrowlMusicVideoPrefDomain			@"com.Growl.MusicVideo"
 
@@ -46,7 +46,7 @@ typedef enum
 #define GrowlMusicVideoHighTextColor			@"MusicVideo-Priority-High-Text-Color"
 #define GrowlMusicVideoEmergencyTextColor		@"MusicVideo-Priority-Emergency-Text-Color"
 
-@interface GrowlMusicVideoPrefs : NSPreferencePane {
+@interface GrowlMusicVideoPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSSlider *slider_opacity;
 }
 

@@ -20,29 +20,37 @@
 #define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.0
 
-- (id) init {
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
 	int sizePref = 0;
 	screenNumber = 0U;
 	shrinkEnabled = NO;
 	flipEnabled = NO;
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlBezelDuration, GrowlBezelPrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  MIN_DISPLAY_TIME)];
-	if (prefsDuration) CFRelease(prefsDuration);
-
-	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &screenNumber);
+	NSTimeInterval duration = MIN_DISPLAY_TIME;
+	if([configDict valueForKey:GrowlBezelDuration]){
+		duration = [[configDict valueForKey:GrowlBezelDuration] floatValue];
+	}
+	self.displayDuration = duration;
+	
+	if([configDict valueForKey:BEZEL_SCREEN_PREF]){
+		screenNumber = [[configDict valueForKey:BEZEL_SCREEN_PREF] unsignedIntValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
 
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
-	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, GrowlBezelPrefDomain, &shrinkEnabled);
-	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, GrowlBezelPrefDomain, &flipEnabled);
+	if([configDict valueForKey:BEZEL_SIZE_PREF]){
+		sizePref = [[configDict valueForKey:BEZEL_SIZE_PREF] intValue];
+	}
+	if([configDict valueForKey:BEZEL_SHRINK_PREF]){
+		shrinkEnabled = [[configDict valueForKey:BEZEL_SHRINK_PREF] boolValue];
+	}
+	if([configDict valueForKey:BEZEL_FLIP_PREF]){
+		flipEnabled = [[configDict valueForKey:BEZEL_FLIP_PREF] boolValue];
+	}
 
 	NSRect sizeRect;
 	sizeRect.origin.x = 0.0;
@@ -87,6 +95,7 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
+		[self setBridge:bridge];
 		// set up the transitions...
 		/*GrowlRipplingWindowTransition *ripple = [[GrowlRipplingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:ripple];
@@ -131,7 +140,9 @@
 
 	NSPoint result;
 	int positionPref = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, GrowlBezelPrefDomain, &positionPref);
+	if([[self configurationDict] valueForKey:BEZEL_POSITION_PREF]){
+		positionPref = [[[self configurationDict] valueForKey:BEZEL_POSITION_PREF] intValue];
+	}
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:

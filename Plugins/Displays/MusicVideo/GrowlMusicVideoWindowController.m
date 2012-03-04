@@ -16,11 +16,14 @@
 
 @implementation GrowlMusicVideoWindowController
 
-- (id) init {
-	int sizePref = MUSICVIDEO_SIZE_NORMAL;
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	
 
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);
+	if([configDict valueForKey:MUSICVIDEO_SCREEN_PREF]){
+		screenNumber = [[configDict valueForKey:MUSICVIDEO_SIZE_PREF] unsignedIntValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
@@ -29,7 +32,10 @@
 	
 	NSRect sizeRect;
 	NSRect screen = [[self screen] frame];
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+	int sizePref = MUSICVIDEO_SIZE_NORMAL;
+	if([configDict valueForKey:MUSICVIDEO_SIZE_PREF]){
+		sizePref = [[configDict valueForKey:MUSICVIDEO_SIZE_PREF] intValue];
+	}
 	sizeRect.origin = screen.origin;
 	sizeRect.size.width = screen.size.width;
 	if (sizePref == MUSICVIDEO_SIZE_HUGE)
@@ -38,7 +44,6 @@
 		sizeRect.size.height = 96.0;
 	frameHeight = sizeRect.size.height;
 
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
 												styleMask:NSBorderlessWindowMask
 												  backing:NSBackingStoreBuffered
@@ -69,19 +74,21 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-
-        CFNumberRef prefsDuration = NULL;
-		READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
-		[self setDisplayDuration:(prefsDuration ?
-								  [(NSNumber *)prefsDuration doubleValue] :
-								  GrowlMusicVideoDurationPrefDefault)];
-		if (prefsDuration) CFRelease(prefsDuration);
+		[self setBridge:bridge];
+		
+		NSTimeInterval duration = GrowlMusicVideoDurationPrefDefault;
+		if([configDict valueForKey:MUSICVIDEO_DURATION_PREF]){
+			duration = [[configDict valueForKey:MUSICVIDEO_DURATION_PREF] floatValue];
+		}
+		self.displayDuration = duration;
 		
 		//The default duration for transitions is far too long for the music video effect.
 		[self setTransitionDuration:0.3];
 
 		MusicVideoEffectType effect = MUSICVIDEO_EFFECT_SLIDE;
-		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+		if([configDict valueForKey:MUSICVIDEO_EFFECT_PREF]){
+			effect = [[configDict valueForKey:MUSICVIDEO_EFFECT_PREF] intValue];
+		}
 		switch (effect)
 		{
 			case MUSICVIDEO_EFFECT_SLIDE:

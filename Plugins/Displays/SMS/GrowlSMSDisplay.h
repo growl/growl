@@ -7,9 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayPlugin.h"
+#import "GrowlActionPlugin.h"
 
-@interface GrowlSMSDisplay: GrowlDisplayPlugin<NSXMLParserDelegate> {
+#define keychainServiceName "GrowlSMS"
+#define keychainAccountName "SMSWebServicePassword"
+
+#define GrowlSMSPrefDomain		@"com.Growl.SMS"
+#define accountNameKey			@"SMS - Account Name"
+#define accountAPIIDKey			@"SMS - Account API ID"
+#define destinationNumberKey	@"SMS - Destination Number"
+
+@class GrowlNotification;
+@interface GrowlSMSDisplay: GrowlActionPlugin<GrowlDispatchNotificationProtocol, NSXMLParserDelegate> {
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;
@@ -21,8 +30,6 @@
 	BOOL				inBalanceResponseElement;
 	BOOL				inMessageSendResponseElement;
 }
-
-- (void) displayNotification:(GrowlNotification *)notification;
 
 - (NSData *)responseData;
 - (void)setResponseData:(NSData *)newResponseData;

@@ -719,4 +719,8 @@ static NSMutableDictionary *existingInstances;
 	[[NSNotificationCenter defaultCenter] removeObserver:observer];
 }
 
+- (NSDictionary*)configurationDict {
+	return [notification configurationDict];
+}
+
 @end

@@ -22,70 +22,60 @@
         self.speech_queue = [NSMutableArray array];
         self.syn = [[[NSSpeechSynthesizer alloc] initWithVoice:nil] autorelease];
         syn.delegate = self;
-
+		 self.prefDomain = GrowlSpeechPrefDomain;
     }
     return self;
 }
 
 - (void) dealloc {
-    [speech_queue release];
-    [syn release];
+	[speech_queue release];
+	[syn release];
 	[preferencePane release];
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
 
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlNotification *)notification {
-    
-	NSString *title = [notification title];
-	NSString *desc = [notification notificationDescription];
+- (void)dispatchNotification:(NSDictionary*)noteDict withConfiguration:(NSDictionary*)configuration {
+	NSString *title = [noteDict valueForKey:GROWL_NOTIFICATION_TITLE];
+	NSString *desc = [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION];
 	
 	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
+	NSString *voice = [configuration valueForKey:GrowlSpeechVoicePref];
+	NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", voice, GrowlSpeechVoicePref, nil];
 	
-    
-    [speech_queue addObject:summary];
-    if(![syn isSpeaking])
-    {
-        [self speakNotification:summary];
-    }
-            
-    NSDictionary *noteDict = [notification dictionaryRepresentation];
-    if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
-        NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
-        NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-        [syn startSpeakingString:summary toURL:url];
-        [url release];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
+	[speech_queue addObject:queueDict];
+	if(![syn isSpeaking])
+	{
+		[self speakNotification:summary withVoice:voice];
+	}
+	
+	if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
+		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
+		[syn startSpeakingString:summary toURL:url];
+		[url release];
+	}
 }
 
-- (BOOL)requiresPositioning {
-	return NO;
-}
-
-- (void)speakNotification:(NSString*)notificationToSpeak
+- (void)speakNotification:(NSString*)notificationToSpeak withVoice:(NSString*)voice
 {
-    NSString *voice = nil;
-	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 	if (voice) {
-		CFMakeCollectable(voice);
-		[voice autorelease];
+		//[voice autorelease];
 	} else {
 		//Leaving the voice set to nil means we get the default voice the speech rate selected in the Speech preferences pane.
 	}
-    if([voice isEqualToString:GrowlSpeechSystemVoice])
-        voice = nil;
+	if([voice isEqualToString:GrowlSpeechSystemVoice])
+		voice = nil;
 	
-    syn.voice = voice;
-    [syn startSpeakingString:notificationToSpeak];
-    
+	syn.voice = voice;
+	[syn startSpeakingString:notificationToSpeak];
+	
 }
 #pragma mark -
 #pragma mark NSSpeechSynthesizerDelegate
@@ -93,18 +83,19 @@
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)finishedSpeaking
 {
-    if([sender isEqualTo:syn])
-    {
-        [speech_queue removeObjectAtIndex:0U];
-        if([speech_queue count])
-        {
-            //insert a slight delay
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1.0f]];
-            [self speakNotification:[speech_queue objectAtIndex:0U]];
-        }
-    }
-    else
-        NSLog(@"something else");
+	if([sender isEqualTo:syn])
+	{
+		[speech_queue removeObjectAtIndex:0U];
+		if([speech_queue count])
+		{
+			//insert a slight delay
+			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1.0f]];
+			NSDictionary *speechDict = [speech_queue objectAtIndex:0U];
+			[self speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
+		}
+	}
+	else
+		NSLog(@"something else");
 }
 
 @end

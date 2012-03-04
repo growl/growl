@@ -6,14 +6,14 @@
 //  Copyright (c) 2011 The Growl Project. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
 #import "GrowlPrefsViewController.h"
 
-@class GrowlPlugin, GrowlPluginController;
+@class GrowlPlugin, GrowlPluginController, GrowlTicketDatabase, GrowlTicketDatabasePlugin, GrowlPluginPreferencePane;
 
 @interface GrowlDisplaysViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) GrowlPluginController *pluginController;
+@property (nonatomic, assign) GrowlTicketDatabase *ticketDatabase;
 @property (nonatomic, assign) IBOutlet NSTableView *displayPluginsTable;
 @property (nonatomic, assign) IBOutlet NSView *displayPrefView;
 @property (nonatomic, assign) IBOutlet NSView *displayDefaultPrefView;
@@ -25,11 +25,9 @@
 @property (nonatomic, assign) IBOutlet NSWindow *disabledDisplaysSheet;
 @property (nonatomic, assign) IBOutlet NSTextView *disabledDisplaysList;
 
-@property (nonatomic, retain) NSArray *displayPlugins;
-@property (nonatomic, retain) NSPreferencePane *pluginPrefPane;
+@property (nonatomic, retain) GrowlPluginPreferencePane *pluginPrefPane;
 @property (nonatomic, retain) NSMutableArray *loadedPrefPanes;
 
-@property (nonatomic, retain) NSDictionary *currentPlugin;
 @property (nonatomic, retain) GrowlPlugin *currentPluginController;
 
 @property (nonatomic, retain) NSString *defaultStyleLabel;
@@ -39,7 +37,6 @@
 @property (nonatomic, retain) NSString *displayStylesColumnTitle;
 
 - (void)selectPlugin:(NSString*)pluginName;
-- (void) reloadPrefs:(NSNotification *)notification;
 
 - (IBAction) showDisabledDisplays:(id)sender;
 - (IBAction) endDisabledDisplays:(id)sender;
@@ -47,6 +44,6 @@
 
 - (IBAction) openGrowlWebSiteToStyles:(id)sender;
 - (IBAction) showPreview:(id)sender;
-- (void) loadViewForDisplay:(NSString*)displayName;
+- (void) loadViewForDisplay:(GrowlTicketDatabasePlugin*)displayName;
 
 @end

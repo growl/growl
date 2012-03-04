@@ -10,6 +10,7 @@
 //
 
 #import "GrowliCalDisplay.h"
+#import "GrowliCalDefines.h"
 #import "GrowliCalWindowController.h"
 #import "GrowliCalPrefsController.h"
 #import "GrowlNotification.h"
@@ -22,6 +23,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowliCalWindowController");
+		self.prefDomain = GrowliCalPrefDomain;
 	}
 	return self;
 }
@@ -31,7 +33,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowliCalPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.iCal"]];
 	return preferencePane;

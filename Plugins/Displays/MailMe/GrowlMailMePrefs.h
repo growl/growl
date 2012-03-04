@@ -5,9 +5,9 @@
 //  Copyright 2004 Peter Hosey. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
-@interface GrowlMailMePrefs: NSPreferencePane {
+@interface GrowlMailMePrefs: GrowlPluginPreferencePane {
 }
 
 @property (nonatomic, retain) NSString *recipientLabel;

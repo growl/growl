@@ -8,7 +8,7 @@
 
 #import "GrowlAbstractDatabase.h"
 
-@class GrowlTicketDatabaseApplication, GrowlTicketDatabaseAction;
+@class GrowlTicketDatabaseApplication, GrowlTicketDatabasePlugin;
 
 @interface GrowlTicketDatabase : GrowlAbstractDatabase
 
@@ -20,6 +20,8 @@
 -(BOOL)removeTicketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
 -(GrowlTicketDatabaseApplication*)ticketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
 
--(GrowlTicketDatabaseAction*)actionForName:(NSString*)name;
+-(GrowlTicketDatabasePlugin*)defaultDisplayConfig;
+-(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID;
+-(GrowlTicketDatabasePlugin*)actionForName:(NSString*)name;
 
 @end

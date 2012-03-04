@@ -22,21 +22,23 @@
 
 #pragma mark -
 
-- (id) init {
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &screenNumber);
+	if([configDict valueForKey:GrowliCalScreen]){
+		screenNumber = [[configDict valueForKey:GrowliCalScreen] unsignedIntegerValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowliCalDuration, GrowliCalPrefDomain, CFNumberRef, &prefsDuration);	
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowliCalDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowliCalDurationPrefDefault;
+	if([configDict valueForKey:GrowliCalDuration]){
+		duration = [[configDict valueForKey:GrowliCalDuration] floatValue];
+	}
+	self.displayDuration = duration;
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
@@ -61,7 +63,7 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowliCalWindowView *view = [[GrowliCalWindowView alloc] initWithFrame:panelFrame];
+	GrowliCalWindowView *view = [[GrowliCalWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
@@ -70,6 +72,7 @@
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
 		// set up the transitions...
+		[self setBridge:bridge];
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
 		[self setStartPercentage:0 endPercentage:100 forTransition:fader];

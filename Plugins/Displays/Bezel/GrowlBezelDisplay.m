@@ -16,6 +16,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlBezelWindowController");
+		self.prefDomain = GrowlBezelPrefDomain;
 	}
 	return self;
 }
@@ -25,7 +26,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bezel"]];
 	return preferencePane;

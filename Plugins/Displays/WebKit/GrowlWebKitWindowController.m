@@ -94,6 +94,8 @@ static dispatch_queue_t __imageCacheQueue;
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {	
 	// init the window used to init
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 1.0)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
@@ -123,15 +125,16 @@ static dispatch_queue_t __imageCacheQueue;
 
 	// Read the prefs for the plugin...
 	unsigned theScreenNo = 0U;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, [plugin prefDomain], &theScreenNo);
+	if([configDict valueForKey:GrowlWebKitScreenPref]){
+		theScreenNo = [[configDict valueForKey:GrowlWebKitScreenPref] unsignedIntValue];
+	}
 	[self setScreenNumber:theScreenNo];
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlWebKitDurationPref, [plugin prefDomain], CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlWebKitDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowlWebKitDurationPrefDefault;
+	if([configDict valueForKey:GrowlWebKitDurationPref]){
+		duration = [[configDict valueForKey:GrowlWebKitDurationPref] floatValue];
+	}
+	self.displayDuration = duration;
 	
 	// Read the plugin specifics from the info.plist
 	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
@@ -249,7 +252,9 @@ static dispatch_queue_t __imageCacheQueue;
 	[GrowlWebKitWindowController setCachedImage:iconData forKey:cacheKey];
 	
 	CGFloat opacity = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
+	if([[self configurationDict] valueForKey:GrowlWebKitOpacityPref]){
+		opacity = [[[self configurationDict] valueForKey:GrowlWebKitOpacityPref] floatValue];
+	}
 	opacity *= 0.01;
 
 	NSString *titleHTML = [title stringByEscapingForHTML];

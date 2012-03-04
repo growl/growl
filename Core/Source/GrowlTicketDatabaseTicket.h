@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class GrowlTicketDatabaseTicket, GrowlTicketDatabaseAction;
+@class GrowlTicketDatabaseTicket, GrowlTicketDatabaseDisplay, GrowlTicketDatabasePlugin;
 
 @interface GrowlTicketDatabaseTicket : NSManagedObject
 
@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSOrderedSet *actions;
 @property (nonatomic, retain) NSSet *children;
 @property (nonatomic, retain) GrowlTicketDatabaseTicket *parent;
-@property (nonatomic, retain) GrowlTicketDatabaseAction *display;
+@property (nonatomic, retain) GrowlTicketDatabaseDisplay *display;
 @end
 
 @interface GrowlTicketDatabaseTicket (CoreDataGeneratedAccessors)
@@ -44,6 +44,8 @@
 - (void)removeChildren:(NSSet *)values;
 
 -(BOOL)isTicketAllowed;
+-(GrowlTicketDatabasePlugin*)resolvedDisplayConfig;
+-(NSSet*)resolvedActionConfigSet;
 
 -(void)setNewDisplayName:(NSString*)name;
 -(void)importDisplayOrActionForName:(NSString*)name;

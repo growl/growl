@@ -19,6 +19,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlNanoWindowController");
+		self.prefDomain = GrowlNanoPrefDomain;
 	}
 	return self;
 }
@@ -28,7 +29,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlNanoPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Nano"]];
 	return preferencePane;

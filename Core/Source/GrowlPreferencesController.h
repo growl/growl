@@ -82,7 +82,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (CFIndex) integerForKey:(NSString *)key;
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
-- (void) synchronize;
 
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;

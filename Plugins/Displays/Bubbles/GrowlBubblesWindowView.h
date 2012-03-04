@@ -36,6 +36,7 @@
 	NSTextContainer		*titleContainer;
 	NSRange				titleRange;
 }
+- (id) initWithFrame:(NSRect) frame configurationDict:(NSDictionary*)configDict;
 
 - (void) setPriority:(int)priority;
 - (void) setIcon:(NSImage *)icon;

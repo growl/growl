@@ -40,6 +40,7 @@
 										object:wksp];
 
 		tasks = [[NSMutableArray alloc] init];
+		self.prefDomain = @"com.Growl.MailMe";
 	}
 	return self;
 }
@@ -54,17 +55,14 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.MailMe"]];
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlNotification *)notification {
-	NSString *destAddress = nil;
-	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
-	[NSMakeCollectable(destAddress) autorelease];
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
+- (void)dispatchNotification:(NSDictionary*)noteDict withConfiguration:(NSDictionary*)configuration {
+	NSString *destAddress = [configuration valueForKey:destAddressKey];
 
 	if (destAddress) {
 		if([destAddress length]) {
@@ -179,12 +177,6 @@
 	} else {
 		NSLog(@"(MailMe) WARNING: No destination address set");
 	}
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
-}
-
-- (BOOL) requiresPositioning {
-	return NO;
 }
 
 - (NSDictionary *) defaultSMTPAccountFromMail {

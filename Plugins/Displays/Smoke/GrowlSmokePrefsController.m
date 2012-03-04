@@ -16,63 +16,66 @@
 	return @"SmokePrefs";
 }
 
-+ (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSData *data = nil;
-	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:[NSData class]]) {
-			color = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
-		color = defaultColor;
-	}
-	[colorWell setColor:color];
-	[data release];
-	data = nil;
-}
-
 - (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:0.05];
 
+}
+
+-(NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [NSSet setWithObjects:@"opacity",
+				  @"duration",
+				  @"floatingIcon",
+				  @"limit",
+				  @"screen",
+				  @"size", nil]; 
+	});
+	return keys;
+}
+
+-(void)updateConfigurationValues {
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
-
-	[GrowlSmokePrefsController loadColorWell:color_veryLow fromKey:GrowlSmokeVeryLowColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:color_moderate fromKey:GrowlSmokeModerateColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:color_normal fromKey:GrowlSmokeNormalColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:color_high fromKey:GrowlSmokeHighColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:color_emergency fromKey:GrowlSmokeEmergencyColor defaultColor:defaultColor];
-
+	[color_veryLow setColor:[self loadColor:GrowlSmokeVeryLowColor defaultColor:defaultColor]];
+	[color_moderate setColor:[self loadColor:GrowlSmokeModerateColor defaultColor:defaultColor]];
+	[color_normal setColor:[self loadColor:GrowlSmokeNormalColor defaultColor:defaultColor]];
+	[color_high setColor:[self loadColor:GrowlSmokeHighColor defaultColor:defaultColor]];
+	[color_emergency setColor:[self loadColor:GrowlSmokeEmergencyColor defaultColor:defaultColor]];
+	
 	defaultColor = [NSColor whiteColor];
-
-	[GrowlSmokePrefsController loadColorWell:text_veryLow fromKey:GrowlSmokeVeryLowTextColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:text_moderate fromKey:GrowlSmokeModerateTextColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:text_normal fromKey:GrowlSmokeNormalTextColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:text_high fromKey:GrowlSmokeHighTextColor defaultColor:defaultColor];
-	[GrowlSmokePrefsController loadColorWell:text_emergency fromKey:GrowlSmokeEmergencyTextColor defaultColor:defaultColor];
+	[text_veryLow setColor:[self loadColor:GrowlSmokeVeryLowTextColor defaultColor:defaultColor]];
+	[text_moderate setColor:[self loadColor:GrowlSmokeModerateTextColor defaultColor:defaultColor]];
+	[text_normal setColor:[self loadColor:GrowlSmokeNormalTextColor defaultColor:defaultColor]];
+	[text_high setColor:[self loadColor:GrowlSmokeHighTextColor defaultColor:defaultColor]];
+	[text_emergency setColor:[self loadColor:GrowlSmokeEmergencyTextColor defaultColor:defaultColor]];
+	
+	[super updateConfigurationValues];
 }
 
 - (CGFloat) opacity {
 	CGFloat value = GrowlSmokeAlphaPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeAlphaPref]){
+		value = [[self.configuration valueForKey:GrowlSmokeAlphaPref] floatValue];
+	}
 	return value;
 }
 
 - (void) setOpacity:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlSmokeAlphaPref];
 }
 
 - (CGFloat) duration {
 	CGFloat value = GrowlSmokeDurationPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeDurationPref]){
+		value = [[self.configuration valueForKey:GrowlSmokeDurationPref] floatValue];
+	}
 	return value;
 }
 
 - (void) setDuration:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlSmokeDurationPref];
 }
 
 - (IBAction) colorChanged:(id)sender {
@@ -97,8 +100,7 @@
 	}
 
 	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:key];
 }
 
 - (IBAction) textColorChanged:(id)sender {
@@ -123,30 +125,31 @@
 	}
 
 	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:key];
 }
 
 - (BOOL) isFloatingIcon {
 	BOOL value = GrowlSmokeFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeFloatIconPref]){
+		value = [[self.configuration valueForKey:GrowlSmokeFloatIconPref] boolValue];
+	}
 	return value;
 }
 
 - (void) setFloatingIcon:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlSmokeFloatIconPref];
 }
 
 - (BOOL) isLimit {
 	BOOL value = GrowlSmokeLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeLimitPref]){
+		value = [[self.configuration valueForKey:GrowlSmokeLimitPref] boolValue];
+	}
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlSmokeLimitPref];
 }
 
 - (NSInteger) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
@@ -163,24 +166,26 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeScreenPref]){
+		value = [[self.configuration valueForKey:GrowlSmokeScreenPref] intValue];
+	}
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlSmokeScreenPref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowlSmokeScreenPref];
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &value);
+	if([self.configuration valueForKey:GrowlSmokeSizePref]){
+		value = [[self.configuration valueForKey:GrowlSmokeSizePref] intValue];
+	}
 	return value;
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlSmokeSizePref, value, GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowlSmokeSizePref];
 }
 
 @end

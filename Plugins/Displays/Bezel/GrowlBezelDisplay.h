@@ -13,6 +13,5 @@
 
 - (id) init;
 - (void) dealloc;
-- (NSPreferencePane *) preferencePane;
 
 @end

@@ -2,26 +2,26 @@
 //  GrowlTicketDatabaseDisplay.h
 //  Growl
 //
-//  Created by Daniel Siemer on 2/23/12.
+//  Created by Daniel Siemer on 3/2/12.
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabasePlugin.h"
 
 @class GrowlTicketDatabaseTicket;
 
-@interface GrowlTicketDatabaseDisplay : GrowlTicketDatabaseAction
+@interface GrowlTicketDatabaseDisplay : GrowlTicketDatabasePlugin
 
-@property (nonatomic, retain) NSSet *displayTickets;
+@property (nonatomic, retain) NSSet *tickets;
 @end
 
 @interface GrowlTicketDatabaseDisplay (CoreDataGeneratedAccessors)
 
-- (void)addDisplayTicketsObject:(GrowlTicketDatabaseTicket *)value;
-- (void)removeDisplayTicketsObject:(GrowlTicketDatabaseTicket *)value;
-- (void)addDisplayTickets:(NSSet *)values;
-- (void)removeDisplayTickets:(NSSet *)values;
+- (void)addTicketsObject:(GrowlTicketDatabaseTicket *)value;
+- (void)removeTicketsObject:(GrowlTicketDatabaseTicket *)value;
+- (void)addTickets:(NSSet *)values;
+- (void)removeTickets:(NSSet *)values;
 
 @end

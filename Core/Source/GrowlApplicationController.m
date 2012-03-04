@@ -21,6 +21,7 @@
 #import "GrowlPropertyListFilePathway.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
+#import "GrowlPlugin.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
 #import "GrowlIdleStatusController.h"
@@ -156,28 +157,29 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 - (void) showPreview:(NSNotification *) note {
 	@autoreleasepool {
-        NSString *displayName = [note object];
-        GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName author:nil version:nil type:nil];
-
-        NSString *desc = [[NSString alloc] initWithFormat:NSLocalizedString(@"This is a preview of the %@ display", "Preview message shown when clicking Preview in the system preferences pane. %@ becomes the name of the display style being used."), displayName];
-        NSNumber *priority = [[NSNumber alloc] initWithInt:0];
-        NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
-        NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-            @"Growl",   GROWL_APP_NAME,
-            @"Preview", GROWL_NOTIFICATION_NAME,
-            NSLocalizedString(@"Preview", "Title of the Preview notification shown to demonstrate Growl displays"), GROWL_NOTIFICATION_TITLE,
-            desc,       GROWL_NOTIFICATION_DESCRIPTION,
-            priority,   GROWL_NOTIFICATION_PRIORITY,
-            sticky,     GROWL_NOTIFICATION_STICKY,
-            growlIcon,  GROWL_NOTIFICATION_ICON_DATA,
-            nil];
-        [desc     release];
-        [priority release];
-        [sticky   release];
-        GrowlNotification *notification = [[GrowlNotification alloc] initWithDictionary:info];
-        [info release];
-        [displayPlugin displayNotification:notification];
-        [notification release];
+		GrowlTicketDatabasePlugin *displayConfig = [note object];
+		GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin*)[displayConfig pluginInstanceForConfiguration];
+		
+		NSString *desc = [[NSString alloc] initWithFormat:NSLocalizedString(@"This is a preview of the %@ display", "Preview message shown when clicking Preview in the system preferences pane. %@ becomes the name of the display style being used."), [displayPlugin name]];
+		NSNumber *priority = [[NSNumber alloc] initWithInt:0];
+		NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
+		NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
+									 @"Growl",   GROWL_APP_NAME,
+									 @"Preview", GROWL_NOTIFICATION_NAME,
+									 NSLocalizedString(@"Preview", "Title of the Preview notification shown to demonstrate Growl displays"), GROWL_NOTIFICATION_TITLE,
+									 desc,       GROWL_NOTIFICATION_DESCRIPTION,
+									 priority,   GROWL_NOTIFICATION_PRIORITY,
+									 sticky,     GROWL_NOTIFICATION_STICKY,
+									 growlIcon,  GROWL_NOTIFICATION_ICON_DATA,
+									 nil];
+		[desc     release];
+		[priority release];
+		[sticky   release];
+		NSDictionary *configCopy = [[[displayConfig configuration] copy] autorelease];
+		if([displayPlugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+			[displayPlugin dispatchNotification:info withConfiguration:configCopy];
+		}
+		[info release];
 	}
 }
 	
@@ -303,9 +305,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			[uuid release];
 			CFRelease(uuidRef);
 		}
-		
-		GrowlNotification *appNotification = [[GrowlNotification alloc] initWithDictionary:aDict];
-		
+				
 		[[GrowlNotificationDatabase sharedInstance] logNotificationWithDictionary:aDict];
 		
 		if([preferences isForwardingEnabled])
@@ -315,39 +315,23 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		
 		if(![preferences squelchMode])
 		{
-			NSString *pluginName = [[notification display] name];
-			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
-			
-			if (!display){
-            pluginName = [[ticket display] name];
-				display = (GrowlDisplayPlugin*)[[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
+			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[[notification resolvedDisplayConfig] pluginInstanceForConfiguration];
+			NSDictionary *configCopy = [[[[notification display] configuration] copy] autorelease];
+			if([display respondsToSelector:@selector(dispatchNotification:withConfiguration:)]){
+				[display dispatchNotification:aDict withConfiguration:configCopy];
 			}
-			if (!display) {
-            if (!defaultDisplayPlugin) {
-					NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-					defaultDisplayPlugin = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
-					if (!defaultDisplayPlugin) {
-						//User's selected default display has gone AWOL. Change to the default default.
-						NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-						NSURL *fileURL = [NSURL fileURLWithPath:file];
-						NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-						if (defaultDefaults) {
-							displayPluginName = [defaultDefaults objectForKey:GrowlDisplayPluginKey];
-							if (!displayPluginName)
-								GrowlLog_log(@"No default display specified in default preferences! Perhaps your Growl installation is corrupted?");
-							else {
-								defaultDisplayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
-								
-								//Now fix the user's preferences to forget about the missing display plug-in.
-								[preferences setObject:displayPluginName forKey:GrowlDisplayPluginKey];
-							}
-						}
+			
+			NSSet *configSet = [notification resolvedActionConfigSet];
+			[configSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+				NSLog(@"action config: %@", [obj displayName]);
+				GrowlPlugin *action = [obj pluginInstanceForConfiguration];
+//				NSDictionary *copyDict = [[aDict copy] autorelease];
+				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+					if([action conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+//						[action dispatchNotification:copyDict withConfiguration:[[action display] configuration]];
 					}
-            }
-            display = defaultDisplayPlugin;
-			}
-			
-			[display displayNotification:appNotification];
+				});
+			}];
 			
 			NSString *soundName = nil;//[notification sound];
 			if (soundName) {
@@ -369,9 +353,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
             
 			}
 		}
-		
-		
-		[appNotification release];
 		
 		// send to DO observers
 		[growlNotificationCenter notifyObservers:aDict];
@@ -515,8 +496,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                     [(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
             }
         }
-        if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
-            [[GrowlPreferencesController sharedController] synchronize];
         if (!note || (object && [object isEqual:GrowlEnabledKey]))
             growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
         if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))

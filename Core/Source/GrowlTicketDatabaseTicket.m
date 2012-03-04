@@ -8,7 +8,8 @@
 
 #import "GrowlTicketDatabaseTicket.h"
 #import "GrowlTicketDatabase.h"
-#import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabasePlugin.h"
+#import "GrowlTicketDatabaseCompoundAction.h"
 
 @implementation GrowlTicketDatabaseTicket
 
@@ -31,19 +32,53 @@
       return [self.enabled boolValue];
 }
 
+-(GrowlTicketDatabasePlugin*)resolvedDisplayConfig {
+	GrowlTicketDatabasePlugin *plugin = nil;
+	if(self.display)
+		plugin = (GrowlTicketDatabasePlugin*)self.display;
+	else {
+		if(self.parent)
+			plugin = [self.parent resolvedDisplayConfig];
+		else {
+			plugin = [[GrowlTicketDatabase sharedInstance] defaultDisplayConfig];
+		}
+	}
+	return plugin;
+}
+-(NSSet*)resolvedActionConfigSet {
+	NSSet *result = nil;
+	if(self.actions && [self.actions count] > 0){
+		__block NSMutableSet *buildSet = [NSMutableSet set];
+		[self.actions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			if([[obj entityName] isEqualToString:@"GrowlCompoundAction"])
+				[buildSet unionSet:[(GrowlTicketDatabaseCompoundAction*)obj resolvedActionConfigSet]];
+			else
+				[buildSet unionSet:[NSSet setWithObject:obj]];
+		}];
+		result = [[buildSet copy] autorelease];
+	}else{
+		if(self.parent)
+			result = [self.parent resolvedActionConfigSet];
+		else {
+			//result = [[GrowlTicketDatabase sharedInstance] defaultActionConfigSet];
+		}
+	}
+	return result;
+}
+
 -(void)setNewDisplayName:(NSString*)name {
 	if(!name || [name isEqualToString:@""]){
 		self.display = nil;
 		[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 		return;
 	}
-	GrowlTicketDatabaseAction *action = [[GrowlTicketDatabase sharedInstance] actionForName:name];
+	GrowlTicketDatabasePlugin *action = [[GrowlTicketDatabase sharedInstance] actionForName:name];
 	
 	if(!action){
 		action = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlDisplay" inManagedObjectContext:[self managedObjectContext]];
-		action.name = name;
+		action.displayName = name;
 	}
-	self.display = action;
+	self.display = (GrowlTicketDatabaseDisplay*)action;
 	[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 }
 
@@ -51,7 +86,7 @@
 	if(!name)
 		return;
 	
-	GrowlTicketDatabaseAction *action = [[GrowlTicketDatabase sharedInstance] actionForName:name];
+	GrowlTicketDatabasePlugin *action = [[GrowlTicketDatabase sharedInstance] actionForName:name];
 	BOOL addAsAction = NO;
 	
 	//Special case import for action types
@@ -68,13 +103,13 @@
 			entity = @"GrowlAction";
 		
 		action = [NSEntityDescription insertNewObjectForEntityForName:entity inManagedObjectContext:[self managedObjectContext]];
-		action.name = name;
+		action.displayName = name;
 	}
 	
 	if(addAsAction){
 		[self addActionsObject:(NSManagedObject*)action];
 	}else
-		self.display = action;
+		self.display = (GrowlTicketDatabaseDisplay*)action;
 }
 
 @end

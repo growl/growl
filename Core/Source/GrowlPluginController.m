@@ -103,13 +103,15 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 @implementation GrowlPluginController
 
+@synthesize pluginsByBundleIdentifier;
+
 + (GrowlPluginController *) sharedController {
 	static GrowlPluginController *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[self alloc] init];
         [instance performSelector:@selector(loadPlugins) withObject:nil afterDelay:0.0]; //defer initalization
-    });
+	 });
     return instance;
 }
 
@@ -206,7 +208,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
     /* Then find plug-ins in Library/Application Support/Growl/Plugins directories. This allows GHA to override externally installed plugins,
      * which are fairly common as some 3rd party plugins have been rolled into the Growl distribution.
      */
-    NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
+    NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSMutableArray *pluginsDirectoryPaths = [NSMutableArray arrayWithCapacity:[libraries count]];
     NSFileManager *mgr = [NSFileManager defaultManager];
     for (NSString *dir in libraries) {
@@ -566,12 +568,12 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	//Special handling if this plug-in is a display.
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
 		//If it doesn't respond to -requiresPositioning, it's old. Add it as a disabled plug-in.
-		if(plugin && ![plugin respondsToSelector:@selector(requiresPositioning)]) {
-			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 1.1 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
+		if(plugin && ![plugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]) {
+			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
 			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyName]];
 		} 
 		else {
-			//It responds to -requiresPositioning, so add it as a(n enabled) display plug-in.
+			//It conforms to GrowlDispatchNotificationProtocol, so add it as a(n enabled) display plug-in.
 			// we also test to see if this plugin is already in the plugin's list, because it might have been
             //lazily loaded and if so, it already has an entry in the list.
          NSUInteger index = [displayPlugins indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {

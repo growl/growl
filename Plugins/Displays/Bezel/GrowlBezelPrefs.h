@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
 #define GrowlBezelPrefDomain						@"com.Growl.Bezel"
 
@@ -42,7 +42,7 @@
 #define BEZEL_SIZE_NORMAL					0
 #define BEZEL_SIZE_SMALL					1
 
-@interface GrowlBezelPrefs : NSPreferencePane {
+@interface GrowlBezelPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSSlider		*slider_opacity;
 }
 

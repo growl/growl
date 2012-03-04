@@ -6,15 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayPlugin.h"
+#import "GrowlActionPlugin.h"
 
-@interface GrowlMailMeDisplay: GrowlDisplayPlugin {
+@interface GrowlMailMeDisplay: GrowlActionPlugin <GrowlDispatchNotificationProtocol> {
 	NSString *pathToMailSenderProgram;
 	NSDictionary *defaultSMTPAccount;
 	NSString *fromAddress; //May be a "Name <Address>" string.
 	NSMutableArray *tasks;
 }
-
-- (void) displayNotification:(GrowlNotification *)notification;
 
 @end

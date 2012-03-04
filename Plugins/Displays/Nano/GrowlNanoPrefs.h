@@ -6,7 +6,7 @@
 //  Copyright 2005Ð2011, The Growl Project. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import "GrowlPluginPreferencePane.h"
 
 #define GrowlNanoPrefDomain			@"com.Growl.Nano"
 
@@ -43,7 +43,7 @@ typedef enum {
 #define GrowlNanoHighTextColor			@"Nano-Priority-High-Text-Color"
 #define GrowlNanoEmergencyTextColor		@"Nano-Priority-Emergency-Text-Color"
 
-@interface GrowlNanoPrefs : NSPreferencePane {
+@interface GrowlNanoPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSSlider *slider_opacity;
 }
 

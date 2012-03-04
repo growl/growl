@@ -35,27 +35,21 @@
 	return @"GrowlMailMePrefs";
 }
 
-- (void) didSelect {
-	SYNCHRONIZE_GROWL_PREFS();
++ (NSSet*)bindingKeys {
+	return [NSSet setWithObject:destAddressKey];
 }
 
 #pragma mark -
 
 - (NSString *) getDestAddress {
-	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &value);
-	if(value) {
-		CFMakeCollectable(value);
-	}
-	return [value autorelease];
+	return [self.configuration valueForKey:destAddressKey];
 }
 
 - (void) setDestAddress:(NSString *)value {
 	if (!value) {
 		value = @"";
 	}
-	WRITE_GROWL_PREF_VALUE(destAddressKey, value, @"com.Growl.MailMe");
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:value forKey:destAddressKey];
 }
 
 @end

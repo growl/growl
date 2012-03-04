@@ -198,6 +198,8 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	FSEventStreamRef pluginsDirectoryEventStream;
 }
 
+@property (nonatomic, retain) NSMutableDictionary *pluginsByBundleIdentifier;
+
 + (GrowlPluginController *) sharedController;
 
 #pragma mark - 

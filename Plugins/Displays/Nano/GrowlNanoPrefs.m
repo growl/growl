@@ -20,47 +20,51 @@
 	[slider_opacity setAltIncrementValue:5.0];
 }
 
-- (void) didSelect {
-	SYNCHRONIZE_GROWL_PREFS();
-}
-
-#pragma mark -
-
-+ (NSColor *) loadColor:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSData *data = nil;
-	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlNanoPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:[NSData class]]) {
-		color = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
-		color = defaultColor;
-	}
-	[data release];
-
-	return color;
+- (NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [NSSet setWithObjects:@"size",
+				  @"opacity",	
+				  @"duration",
+				  @"screen",
+				  @"effect",
+				  @"backgroundColorVeryLow",
+				  @"backgroundColorModerate",	
+				  @"backgroundColorNormal",
+				  @"backgorundColorHigh",	
+				  @"backgroundColorEmergency",
+				  @"textColorVeryLow",
+				  @"textColorModerate",	
+				  @"textColorNormal",
+				  @"textColorHigh",	
+				  @"textColorEmergency", nil];
+	});
+	return keys;
 }
 
 #pragma mark Accessors
 
 - (CGFloat) duration {
 	CGFloat value = GrowlNanoDurationPrefDefault;
-	READ_GROWL_PREF_FLOAT(Nano_DURATION_PREF, GrowlNanoPrefDomain, &value);
+	if([self.configuration valueForKey:Nano_DURATION_PREF]){
+		value = [[self.configuration valueForKey:Nano_DURATION_PREF] floatValue];
+	}
 	return value;
 }
 - (void) setDuration:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(Nano_DURATION_PREF, value, GrowlNanoPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:Nano_DURATION_PREF];
 }
 
 - (unsigned) effect {
 	int effect = 0;
-	READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
+	if([self.configuration valueForKey:Nano_EFFECT_PREF]){
+		effect = [[self.configuration valueForKey:Nano_EFFECT_PREF] unsignedIntValue];
+	}
 	switch (effect) {
 		default:
 			effect = Nano_EFFECT_SLIDE;
-
+			
 		case Nano_EFFECT_SLIDE:
 		case Nano_EFFECT_WIPE:
 			;
@@ -72,33 +76,34 @@
 		default:
 			NSLog(@"(Nano) Invalid effect number %u", newEffect);
 			break;
-
+			
 		case Nano_EFFECT_SLIDE:
 		case Nano_EFFECT_WIPE:
 		case Nano_EFFECT_FADE:
-			WRITE_GROWL_PREF_INT(Nano_EFFECT_PREF, newEffect, GrowlNanoPrefDomain);
-			UPDATE_GROWL_PREFS();
+			[self setConfigurationValue:[NSNumber numberWithUnsignedInt:newEffect] forKey:Nano_EFFECT_PREF];
 	}
 }
 
 - (CGFloat) opacity {
 	CGFloat value = Nano_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &value);
+	if([self.configuration valueForKey:Nano_OPACITY_PREF]){
+		value = [[self.configuration valueForKey:Nano_OPACITY_PREF] floatValue];
+	}
 	return value;
 }
 - (void) setOpacity:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, value, GrowlNanoPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:Nano_OPACITY_PREF];
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &value);
+	if([self.configuration valueForKey:Nano_SIZE_PREF]){
+		value = [[self.configuration valueForKey:Nano_SIZE_PREF] intValue];
+	}
 	return value;
 }
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(Nano_SIZE_PREF, value, GrowlNanoPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:Nano_SIZE_PREF];
 }
 
 #pragma mark Combo box support
@@ -117,121 +122,112 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &value);
+	if([self.configuration valueForKey:Nano_SCREEN_PREF]){
+		value = [[self.configuration valueForKey:Nano_SCREEN_PREF] intValue];
+	}
 	return value;
 }
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(Nano_SCREEN_PREF, value, GrowlNanoPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:Nano_SCREEN_PREF];
 }
 
 - (NSColor *) textColorVeryLow {
-	return [GrowlNanoPrefs loadColor:GrowlNanoVeryLowTextColor
-							  defaultColor:[NSColor whiteColor]];
+	return [self loadColor:GrowlNanoVeryLowTextColor
+				 defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoVeryLowTextColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoVeryLowTextColor];
 }
 
 - (NSColor *) textColorModerate {
-	return [GrowlNanoPrefs loadColor:GrowlNanoModerateTextColor
-							  defaultColor:[NSColor whiteColor]];
+	return [self loadColor:GrowlNanoModerateTextColor
+				 defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoModerateTextColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoModerateTextColor];
 }
 
 - (NSColor *) textColorNormal {
-	return [GrowlNanoPrefs loadColor:GrowlNanoNormalTextColor
-							  defaultColor:[NSColor whiteColor]];
+	return [self loadColor:GrowlNanoNormalTextColor
+				 defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoNormalTextColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoNormalTextColor];
 }
 
 - (NSColor *) textColorHigh {
-	return [GrowlNanoPrefs loadColor:GrowlNanoHighTextColor
-							  defaultColor:[NSColor whiteColor]];
+	return [self loadColor:GrowlNanoHighTextColor
+				 defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoHighTextColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoHighTextColor];
 }
 
 - (NSColor *) textColorEmergency {
-	return [GrowlNanoPrefs loadColor:GrowlNanoEmergencyTextColor
-							  defaultColor:[NSColor whiteColor]];
+	return [self loadColor:GrowlNanoEmergencyTextColor
+				 defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoEmergencyTextColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoEmergencyTextColor];
 }
 
 - (NSColor *) backgroundColorVeryLow {
-	return [GrowlNanoPrefs loadColor:GrowlNanoVeryLowBackgroundColor
-							  defaultColor:[NSColor blackColor]];
+	return [self loadColor:GrowlNanoVeryLowBackgroundColor
+				 defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoVeryLowBackgroundColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoVeryLowBackgroundColor];
 }
 
 - (NSColor *) backgroundColorModerate {
-	return [GrowlNanoPrefs loadColor:GrowlNanoModerateBackgroundColor
-							  defaultColor:[NSColor blackColor]];
+	return [self loadColor:GrowlNanoModerateBackgroundColor
+				 defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoModerateBackgroundColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoModerateBackgroundColor];
 }
 
 - (NSColor *) backgroundColorNormal {
-	return [GrowlNanoPrefs loadColor:GrowlNanoNormalBackgroundColor
-						 defaultColor:[NSColor blackColor]];
+	return [self loadColor:GrowlNanoNormalBackgroundColor
+				 defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoNormalBackgroundColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoNormalBackgroundColor];
 }
 
 - (NSColor *) backgroundColorHigh {
-	return [GrowlNanoPrefs loadColor:GrowlNanoHighBackgroundColor
-							  defaultColor:[NSColor blackColor]];
+	return [self loadColor:GrowlNanoHighBackgroundColor
+				 defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoHighBackgroundColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoHighBackgroundColor];
 }
 
 - (NSColor *) backgroundColorEmergency {
-	return [GrowlNanoPrefs loadColor:GrowlNanoEmergencyBackgroundColor
-							  defaultColor:[NSColor blackColor]];
+	return [self loadColor:GrowlNanoEmergencyBackgroundColor
+				 defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlNanoEmergencyBackgroundColor, theData, GrowlNanoPrefDomain);
-    UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:theData forKey:GrowlNanoEmergencyBackgroundColor];
 }
 @end

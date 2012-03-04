@@ -2,7 +2,7 @@
 //  GrowlTicketDatabaseCompoundAction.m
 //  Growl
 //
-//  Created by Daniel Siemer on 2/23/12.
+//  Created by Daniel Siemer on 3/2/12.
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
@@ -13,5 +13,9 @@
 @implementation GrowlTicketDatabaseCompoundAction
 
 @dynamic actions;
+
+-(NSSet*)resolvedActionConfigSet {
+	return [[self.actions copy] autorelease];
+}
 
 @end

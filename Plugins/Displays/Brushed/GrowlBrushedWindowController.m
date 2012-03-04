@@ -19,10 +19,13 @@
 
 //static const double gAdditionalLinesDisplayTime = 0.5;
 
-- (id) init {
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
 	// Read prefs...
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	if([configDict valueForKey:GrowlBrushedScreenPref]){
+		screenNumber = [[configDict valueForKey:GrowlBrushedScreenPref] unsignedIntegerValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
@@ -31,17 +34,18 @@
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
+	if([configDict valueForKey:GrowlBrushedAquaPref]){
+		aquaPref = [[configDict valueForKey:GrowlBrushedAquaPref] boolValue];
+	}
 	if (!aquaPref) {
 		styleMask |= NSTexturedBackgroundWindowMask;
 	}
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlBrushedDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowlBrushedDurationPrefDefault;
+	if([configDict valueForKey:GrowlBrushedDurationPref]){
+		duration = [[configDict valueForKey:GrowlBrushedDurationPref] floatValue];
+	}
+	self.displayDuration = duration;
 
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0, 0.0, GrowlBrushedNotificationWidth, 65.0);
@@ -63,7 +67,7 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
+	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
@@ -75,6 +79,7 @@
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
 		// set up the transitions...
+		[self setBridge:displayBridge]; // weak reference
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
 		[fader setAutoReverses:YES];

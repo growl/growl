@@ -18,19 +18,21 @@
 
 @implementation GrowlNanoWindowController
 
-- (id) init {
-	int sizePref = Nano_SIZE_NORMAL;
-
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	
 	//define our duration
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(Nano_DURATION_PREF, GrowlNanoPrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlNanoDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	
+	NSTimeInterval duration = GrowlNanoDurationPrefDefault;
+	if([configDict valueForKey:Nano_DURATION_PREF]){
+		duration = [[configDict valueForKey:Nano_DURATION_PREF] floatValue];
+	}
+	self.displayDuration = duration;
 
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(Nano_SCREEN_PREF, GrowlNanoPrefDomain, &screenNumber);
+	if([configDict valueForKey:Nano_SCREEN_PREF]){
+		screenNumber = [[configDict valueForKey:Nano_SCREEN_PREF] unsignedIntValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
@@ -39,7 +41,10 @@
 				 
 	NSRect sizeRect;
 	NSRect screen = [[self screen] frame];
-	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
+	int sizePref = Nano_SIZE_NORMAL;
+	if([configDict valueForKey:Nano_SIZE_PREF]){
+		sizePref = [[configDict valueForKey:Nano_SIZE_PREF] intValue];
+	}
 	sizeRect.origin = screen.origin;
 	if (sizePref == Nano_SIZE_HUGE) {
 		sizeRect.size.height = 50.0;	
@@ -50,7 +55,6 @@
 	}
 	frameHeight = sizeRect.size.height;
 
-	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
 												styleMask:NSBorderlessWindowMask
 												  backing:NSBackingStoreBuffered
@@ -90,9 +94,12 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
-        NanoEffectType effect = Nano_EFFECT_SLIDE;
-		READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
-
+		[self setBridge:displayBridge]; // weak reference
+		NanoEffectType effect = Nano_EFFECT_SLIDE;
+		if([configDict valueForKey:Nano_EFFECT_PREF]){
+			effect = [[configDict valueForKey:Nano_EFFECT_PREF] intValue];
+		}
+		
 		switch (effect) {
 			case Nano_EFFECT_SLIDE:
 			{
@@ -102,7 +109,7 @@
 				[slider setAutoReverses:YES];
 				[self addTransition:slider];
 				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-
+				
 				[slider release];
 				
 				break;
@@ -116,7 +123,7 @@
 				[wiper setAutoReverses:YES];
 				[self addTransition:wiper];
 				[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-
+				
 				[wiper release];
 				
 				NSLog(@"Wipe not implemented");
@@ -126,7 +133,7 @@
 			{
 				[panel setAlphaValue:0.0];
 				[panel setFrameOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
-
+				
 				GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 				[self addTransition:fader];
 				[self setStartPercentage:0 endPercentage:100 forTransition:fader];
@@ -138,7 +145,7 @@
 	}
 	
 	[panel release];
-
+	
 	return self;
 }
 

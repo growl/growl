@@ -35,43 +35,58 @@
 	[slider_opacity setAltIncrementValue:0.05];
 }
 
+- (NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [NSSet setWithObjects:@"limit",
+				  @"opacity",	
+				  @"duration",
+				  @"screen", nil];
+	});
+	return keys;
+}
+
 #pragma mark -
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, prefDomain, &value);
+	if([self.configuration valueForKey:GrowlWebKitLimitPref]){
+		value = [[self.configuration valueForKey:GrowlWebKitLimitPref] boolValue];
+	}
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlWebKitLimitPref, value, prefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlWebKitLimitPref];
 }
 
 #pragma mark -
 
 - (CGFloat) opacity {
 	CGFloat value = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &value);
+	if([self.configuration valueForKey:GrowlWebKitOpacityPref]){
+		value = [[self.configuration valueForKey:GrowlWebKitOpacityPref] floatValue];
+	}
 	return value;
 }
 
 - (void) setOpacity:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, value, prefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlWebKitOpacityPref];
 }
 
 #pragma mark -
 
 - (CGFloat) duration {
 	CGFloat value = 4.0;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &value);
+	if([self.configuration valueForKey:GrowlWebKitDurationPref]){
+		value = [[self.configuration valueForKey:GrowlWebKitDurationPref] floatValue];
+	}
 	return value;
 }
 
 - (void) setDuration:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, value, prefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlWebKitDurationPref];
 }
 
 #pragma mark -
@@ -90,12 +105,13 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &value);
+	if([self.configuration valueForKey:GrowlWebKitScreenPref]){
+		value = [[self.configuration valueForKey:GrowlWebKitScreenPref] intValue];
+	}
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, prefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowlWebKitScreenPref];
 }
 @end

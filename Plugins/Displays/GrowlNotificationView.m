@@ -153,4 +153,10 @@ static NSButton *gCloseButton;
 }
 - (void) sizeToFit {};
 
+-(NSDictionary*)configurationDict {
+	if([[[self window] windowController] respondsToSelector:@selector(configurationDict)])
+		return [[[self window] windowController] configurationDict];
+	return nil;
+}
+
 @end

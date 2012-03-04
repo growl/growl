@@ -24,11 +24,11 @@
 #define GrowlDisplaySizeLarge NSLocalizedStringFromTable(@"Large", @"PluginPrefStrings", @"Large size for the display")
 #define GrowlDisplaySizeSmall NSLocalizedStringFromTable(@"Small", @"PluginPrefStrings", @"Small size for the display")
 
-#define GrowlDisplayFloatingIcon NSLocalizedStringFromTable(@"Effect:", @"PluginPrefStrings", @"Label for pop up box to choose the effect used by the display")
+#define GrowlDisplayFloatingIcon NSLocalizedStringFromTable(@"Floating Icon", @"PluginPrefStrings", @"Label for checkbox that says to do a floating icon")
 
-#define GrowlDisplayEffect NSLocalizedString(@"Effect:", @"Label for the effect to use")
-#define GrowlDisplayEffectSlide NSLocalizedString(@"Slide", @"A slide effect")
-#define GrowlDisplayEffectFade NSLocalizedString(@"Fade", @"A fade effect")
+#define GrowlDisplayEffect NSLocalizedStringFromTable(@"Effect:", @"PluginPrefStrings", @"Label for the effect to use")
+#define GrowlDisplayEffectSlide NSLocalizedStringFromTable(@"Slide", @"PluginPrefStrings", @"A slide effect")
+#define GrowlDisplayEffectFade NSLocalizedStringFromTable(@"Fade", @"PluginPrefStrings", @"A fade effect")
 
 @interface GrowlPluginPreferenceStrings : NSObject
 
