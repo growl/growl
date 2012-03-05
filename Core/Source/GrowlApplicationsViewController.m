@@ -61,6 +61,7 @@ static BOOL awoken = NO;
 @synthesize applicationsNameAndIconColumn;
 @synthesize ticketDatabase;
 @synthesize ticketsArrayController;
+@synthesize displayPluginsArrayController;
 @synthesize notificationsArrayController;
 @synthesize appSettingsTabView;
 @synthesize appOnSwitch;
@@ -347,43 +348,42 @@ static BOOL awoken = NO;
    [[[checkbox superview] superview] setNeedsDisplay:YES];
 }
 
+- (void)updateDefaultDisplay:(BOOL)app {
+	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	
+	NSPopUpButton *popupButton = app ? displayMenuButton : notificationDisplayMenuButton;
+	NSInteger index = [popupButton indexOfSelectedItem];
+	GrowlTicketDatabaseDisplay *newDefault = nil;
+	if(index >= 3 && index - 3 < (NSInteger)[[displayPluginsArrayController arrangedObjects] count]){
+		id pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index - 3];
+		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabasePlugin class]])
+			newDefault = pluginToUse;
+	}else if(index == 1){
+		//Handle no display plugin
+	}
+	[ticket setDisplay:newDefault];
+}
+
 - (IBAction) showPreview:(id)sender {
+	if(sender == displayMenuButton)
+		[self updateDefaultDisplay:YES];
+	if(sender == notificationDisplayMenuButton)
+		[self updateDefaultDisplay:NO];
+	
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
-	NSDictionary *pluginToUse = nil;
-	NSString *pluginName = nil;
-	BOOL doTheApp = NO;
+	GrowlTicketDatabasePlugin *pluginToUse = nil;
    
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSPopUpButton *popUp = (NSPopUpButton *)sender;
-		id representedObject = [[popUp selectedItem] representedObject];
-		if ([representedObject isKindOfClass:[NSDictionary class]])
-			pluginToUse = representedObject;
-		else if ([representedObject isKindOfClass:[NSString class]])
-			pluginName = representedObject;
-		else {
-         doTheApp = YES;
-			//NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
-      }
+		NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+		GrowlTicketDatabaseTicket *ticket = (sender == displayMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+		pluginToUse = [ticket resolvedDisplayConfig];
    }
-   
-	if (!pluginName && doTheApp) {
-      //fall back to the application's plugin name
-      
-      NSArray *apps = [ticketsArrayController selectedObjects];
-      if(apps && [apps count]) {
-         GrowlTicketDatabaseApplication *parentApp = [apps objectAtIndex:0U];
-         pluginName = [[parentApp display] displayName];
-      }
-	}		
-   if(!pluginName)
-      pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
-	
-	GrowlTicketDatabasePlugin *displayPlugin = [[GrowlTicketDatabase sharedInstance] actionForName:pluginName];
-	if(displayPlugin)
+	if(pluginToUse)
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																			 object:displayPlugin];
+																			 object:pluginToUse];
 }
 
 -(IBAction)playSound:(id)sender
@@ -444,23 +444,6 @@ static BOOL awoken = NO;
    }
 }
 
-- (IBAction) changeNameOfDisplayForApplication:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	NSInteger selectedApp = [growlApplications selectedRow];
-	if(selectedApp >= 0){
-		[[[ticketsArrayController arrangedObjects] objectAtIndex:selectedApp] setNewDisplayName:newDisplayPluginName];
-		[self showPreview:sender];
-	}
-}
-- (IBAction) changeNameOfDisplayForNotification:(id)sender {
-	NSString *newDisplayPluginName = [[sender selectedItem] representedObject];
-	NSInteger selectedNote = [growlApplications selectedRow];
-	if(selectedNote >= 0){
-		[[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] setNewDisplayName:newDisplayPluginName];
-		[self showPreview:sender];
-	}
-}
-
 - (NSIndexSet *) selectedNotificationIndexes {
 	return selectedNotificationIndexes;
 }
@@ -473,11 +456,7 @@ static BOOL awoken = NO;
 		if(selectedNote == NSNotFound)
 			return;
 		
-		NSString *pluginName = [[(GrowlTicketDatabaseTicket*)[[notificationsArrayController arrangedObjects] objectAtIndex:selectedNote] display] displayName];
-		NSInteger indexOfMenuItem = [[notificationDisplayMenuButton menu] indexOfItemWithRepresentedObject:pluginName];
-		if (indexOfMenuItem < 0)
-			indexOfMenuItem = 0;
-		[notificationDisplayMenuButton selectItemAtIndex:indexOfMenuItem];
+		[self selectDefaultDisplay:NO];
 	}
 }
 
@@ -536,6 +515,22 @@ static BOOL awoken = NO;
    [self setCanRemoveTicket:[[ticketsArrayController selection] isKindOfClass:[GrowlTicketDatabaseApplication class]]];
 }
 
+-(void)selectDefaultDisplay:(BOOL)app {
+	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	GrowlTicketDatabaseDisplay *display = [ticket display];
+	
+	NSUInteger index = NSNotFound;
+	NSPopUpButton *popupButton = app ? displayMenuButton : notificationDisplayMenuButton;
+	index = [[displayPluginsArrayController arrangedObjects] indexOfObject:display];
+	if(index != NSNotFound){
+		[popupButton selectItemAtIndex:index + 3];
+	}else{
+		//Handle the no display case as well in here, but for now just say no default
+		[popupButton selectItemAtIndex:0];
+	}
+}
+
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSInteger index = [growlApplications selectedRow];
 	if(index >= 0){
@@ -546,17 +541,13 @@ static BOOL awoken = NO;
 			self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
 			[displayMenuButton setEnabled:YES];
 			[notificationDisplayMenuButton setEnabled:YES];
-			[[self prefPane] populateDisplaysPopUpButton:displayMenuButton 
-										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] displayName] 
-										 includeDefaultMenuItem:YES];
-			[[self prefPane] populateDisplaysPopUpButton:notificationDisplayMenuButton 
-										  nameOfSelectedDisplay:[[(GrowlTicketDatabaseApplication*)ticket display] displayName]
-										 includeDefaultMenuItem:YES];
+			[self selectDefaultDisplay:YES];
 			
 			//Give it a chance to update its contents before trying to tell it to arrange.
 			__block GrowlApplicationsViewController *blockSelf = self;
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[[blockSelf notificationsArrayController] rearrangeObjects];
+				[blockSelf selectDefaultDisplay:NO];
 			});
 			if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
 				[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];

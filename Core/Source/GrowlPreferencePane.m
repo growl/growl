@@ -23,12 +23,6 @@
 #import "GrowlHistoryViewController.h"
 #import "GrowlRollupPrefsViewController.h"
 
-@interface GrowlPreferencePane (PRIVATE)
-
-- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
-
-@end
-
 @implementation GrowlPreferencePane
 @synthesize networkAddressString;
 @synthesize currentViewController;
@@ -263,48 +257,5 @@
    }
    [prefViewControllers removeObjectForKey:[[tab class] nibName]];
 }
-
-#pragma mark Display pop-up menus
-
-//Empties the pop-up menu and fills it out with a menu item for each display, optionally including a special menu item for the default display, selecting the menu item whose name is nameOfSelectedDisplay.
-- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault {
-	NSMenu *menu = [popUp menu];
-	NSString *nameOfDisplay = nil, *displayNameOfDisplay;
-
-	NSMenuItem *selectedItem = nil;
-
-	[popUp removeAllItems];
-
-	if (includeDefault) {
-		displayNameOfDisplay = NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display");
-		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
-										   action:NULL
-									keyEquivalent:@""];
-		[item setRepresentedObject:nil];
-
-		if (!nameOfSelectedDisplay)
-			selectedItem = item;
-
-		[menu addItem:[NSMenuItem separatorItem]];
-	}
-
-   NSArray *plugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
-	for (nameOfDisplay in [plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]) {
-		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
-		if (!displayNameOfDisplay)
-			displayNameOfDisplay = nameOfDisplay;
-
-		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
-										   action:NULL
-									keyEquivalent:@""];
-		[item setRepresentedObject:nameOfDisplay];
-
-		if (nameOfSelectedDisplay && [nameOfSelectedDisplay respondsToSelector:@selector(isEqualToString:)] && [nameOfSelectedDisplay isEqualToString:nameOfDisplay])
-			selectedItem = item;
-	}
-
-	[popUp selectItem:selectedItem];
-}
-
 
 @end

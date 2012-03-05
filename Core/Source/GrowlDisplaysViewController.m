@@ -114,12 +114,15 @@
 @synthesize getMoreStylesButtonTitle;
 @synthesize previewButtonTitle;
 @synthesize displayStylesColumnTitle;
+@synthesize noDefaultDisplayPluginLabel;
 
 @synthesize awokeFromNib;
 
 #pragma mark "Display" tab pane
 
 -(void)dealloc {
+	[defaultDisplayPopUp removeObserver:self forKeyPath:@"selecteditem"];
+	
    [pluginPrefPane release];
    [loadedPrefPanes release];
    [currentPluginController release];
@@ -141,7 +144,8 @@
       self.getMoreStylesButtonTitle = NSLocalizedString(@"Get more styles", @"Button title which opens growl.info to the styles page");
       self.previewButtonTitle = NSLocalizedString(@"Preview", @"Button title which shows a preview of the current selected style");
       self.displayStylesColumnTitle = NSLocalizedString(@"Display Styles", @"Column title for Display Styles");
-	
+		self.noDefaultDisplayPluginLabel = NSLocalizedString(@"No Default Display", @"Setting for no visual display");
+		
 		self.awokeFromNib = NO;
 	}
    return self;
@@ -167,20 +171,10 @@
 	
 	NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
 	[displayPluginsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
-	NSUInteger index = [[displayPluginsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-		if([[obj configID] caseInsensitiveCompare:defaultDisplayPluginName] == NSOrderedSame){
-			return YES;
-		}
-		return NO;
-	}];
-	if(index != NSNotFound){
-		[displayPluginsArrayController setSelectionIndex:index];
-	}
-	
-   [displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-	
+		
 	__block GrowlDisplaysViewController *blockSafe = self;
 	dispatch_async(dispatch_get_main_queue(), ^(void){
+		[blockSafe selectDefaultPlugin:defaultDisplayPluginName];
 		[blockSafe selectPlugin:defaultDisplayPluginName];
 	});
 	self.awokeFromNib = YES;
@@ -193,6 +187,20 @@
 - (void)viewWillUnload {
 	[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
 	[super viewWillUnload];
+}
+
+- (void)selectDefaultPlugin:(NSString*)pluginID {
+	NSUInteger index = [[displayPluginsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+		if([[obj configID] caseInsensitiveCompare:pluginID] == NSOrderedSame){
+			return YES;
+		}
+		return NO;
+	}];
+	if(index != NSNotFound){
+		[defaultDisplayPopUp selectItemAtIndex:index + 2];
+	}else{
+		[defaultDisplayPopUp selectItemAtIndex:0];
+	}
 }
 
 - (void)selectPlugin:(NSString*)pluginName 
@@ -212,17 +220,15 @@
       [displayPluginsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 }
 
-- (void) observeValueForKeyPath:(NSString *)keyPath 
-                       ofObject:(id)object
-                         change:(NSDictionary *)change 
-                        context:(void *)context 
-{
-	if ([keyPath isEqualToString:@"selection"] && object == displayPluginsArrayController) {
-		NSUInteger index = [displayPluginsArrayController selectionIndex];
-		id pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index];
+-(void)updateDefaultDisplayPreference{
+	NSInteger index = [defaultDisplayPopUp indexOfSelectedItem];
+	NSString *newDefaultID = nil;
+	if(index >= 2 && index - 2 < (NSInteger)[[displayPluginsArrayController arrangedObjects] count]){
+		id pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index - 2];
 		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabasePlugin class]])
-			[[GrowlPreferencesController sharedController] setDefaultDisplayPluginName:[pluginToUse configID]];
+			newDefaultID = [pluginToUse configID];
 	}
+	[[GrowlPreferencesController sharedController] setDefaultDisplayPluginName:newDefaultID];
 }
 
 - (IBAction) showDisabledDisplays:(id)sender {
@@ -251,13 +257,16 @@
 
 // Popup buttons that post preview notifications support suppressing the preview with the Option key
 - (IBAction) showPreview:(id)sender {
+	if(sender == defaultDisplayPopUp)
+		[self updateDefaultDisplayPreference];
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
 	id pluginToUse = nil;
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSUInteger index = [displayPluginsArrayController selectionIndex];
-		pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index];
+		NSInteger index = [sender indexOfSelectedItem];
+		if(index >= 2 && index - 2 < (NSInteger)[[displayPluginsArrayController arrangedObjects] count])
+			pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index - 2];
    }else if ([sender isKindOfClass:[NSButton class]]){
 		pluginToUse = [pluginConfigGroupController selection];
 	}

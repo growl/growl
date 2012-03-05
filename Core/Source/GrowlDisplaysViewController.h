@@ -38,9 +38,11 @@
 @property (nonatomic, retain) NSString *getMoreStylesButtonTitle;
 @property (nonatomic, retain) NSString *previewButtonTitle;
 @property (nonatomic, retain) NSString *displayStylesColumnTitle;
+@property (nonatomic, retain) NSString *noDefaultDisplayPluginLabel;
 
 @property (nonatomic) BOOL awokeFromNib;
 
+- (void)selectDefaultPlugin:(NSString*)pluginID;
 - (void)selectPlugin:(NSString*)pluginName;
 
 - (IBAction) showDisabledDisplays:(id)sender;

@@ -18,6 +18,7 @@
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
 @property (nonatomic, assign) IBOutlet GrowlTicketDatabase *ticketDatabase;
 @property (nonatomic, retain) IBOutlet GroupedArrayController *ticketsArrayController;
+@property (nonatomic, assign) IBOutlet NSArrayController *displayPluginsArrayController;
 @property (nonatomic, assign) IBOutlet NSArrayController *notificationsArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;
@@ -58,8 +59,6 @@
 - (IBAction) deleteTicket:(id)sender;
 - (IBAction)playSound:(id)sender;
 - (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil;
-- (IBAction) changeNameOfDisplayForApplication:(id)sender;
-- (IBAction) changeNameOfDisplayForNotification:(id)sender;
 - (NSIndexSet *) selectedNotificationIndexes;
 - (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
 
