@@ -46,16 +46,16 @@
 	return @"iCalPrefs";
 }
 
-+ (NSSet*)bindingKeys {
+- (NSSet*)bindingKeys {
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [NSSet setWithObjects:@"color",
+		keys = [[NSSet setWithObjects:@"color",
 				  @"opacity",
 				  @"duration",
 				  @"limit",
 				  @"screen",
-				  @"size", nil];
+				  @"size", nil] retain];
 	});
 	return keys;
 }

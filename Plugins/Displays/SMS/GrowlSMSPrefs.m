@@ -55,10 +55,10 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [NSSet setWithObjects:@"accountName",
+		keys = [[NSSet setWithObjects:@"accountName",
 				  @"accountAPIID",
 				  @"destinationNumber",
-				  @"accountPassword", nil];
+				  @"accountPassword", nil] retain];
 	});
 	return keys;
 }

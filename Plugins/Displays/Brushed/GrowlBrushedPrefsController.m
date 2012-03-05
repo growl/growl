@@ -30,7 +30,7 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [NSSet setWithObjects:@"limit"		
+		keys = [[NSSet setWithObjects:@"limit"		
 				  @"floatingIcon",
 				  @"duration",
 				  @"screen",
@@ -40,7 +40,7 @@
 				  @"textColorModerate",
 				  @"textColorNormal",
 				  @"textColorHigh",
-				  @"textColorEmergency", nil];
+				  @"textColorEmergency", nil] retain];
 	});
 	return keys;
 }

@@ -23,11 +23,11 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [NSSet setWithObjects:@"opacity",
+		keys = [[NSSet setWithObjects:@"opacity",
 				  @"duration",
 				  @"limit",
 				  @"screen",
-				  @"size", nil]; 
+				  @"size", nil] retain]; 
 	});
 	return keys;
 }

@@ -35,8 +35,8 @@
 	return @"GrowlMailMePrefs";
 }
 
-+ (NSSet*)bindingKeys {
-	return [NSSet setWithObject:destAddressKey];
+- (NSSet*)bindingKeys {
+	return [NSSet setWithObject:@"destAddress"];
 }
 
 #pragma mark -

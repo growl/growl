@@ -482,7 +482,6 @@ static BOOL awoken = NO;
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
    if(tableView == growlApplications){
-		NSLog(@"rows in table view: %lu", [[ticketsArrayController arrangedObjects] count]);
       return [[ticketsArrayController arrangedObjects] count];
    }
    return 0;

@@ -23,7 +23,7 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [NSSet setWithObjects:@"size",
+		keys = [[NSSet setWithObjects:@"size",
 				  @"opacity",	
 				  @"duration",
 				  @"screen",
@@ -37,7 +37,7 @@
 				  @"textColorModerate",	
 				  @"textColorNormal",
 				  @"textColorHigh",	
-				  @"textColorEmergency", nil];
+				  @"textColorEmergency", nil] retain];
 	});
 	return keys;
 }

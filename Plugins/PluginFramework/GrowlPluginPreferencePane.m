@@ -38,11 +38,16 @@
 }
 
 -(void)updateConfigurationValues {
-	if([self respondsToSelector:@selector(bindingPaths)]){
-		[(NSSet*)[self performSelector:@selector(bindingPaths)] enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-			[self willChangeValueForKey:obj];
-			[self didChangeValueForKey:obj];
-		}];
+	if([self respondsToSelector:@selector(bindingKeys)]){
+		id set = [self performSelector:@selector(bindingKeys)];
+		if(set && [set isKindOfClass:[NSSet class]]){
+			[(NSSet*)set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+				[self willChangeValueForKey:obj];
+				[self didChangeValueForKey:obj];
+			}];
+		}
+	}else{
+		NSLog(@"%@ does not respond to bindingKeys", self);
 	}
 }
 
