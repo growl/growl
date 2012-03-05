@@ -8,6 +8,7 @@
 
 #import "GrowlTicketDatabase.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlPluginController.h"
 #import "GrowlTicketController.h"
 #import "GrowlPluginController.h"
 #import "GrowlWebKitDisplayPlugin.h"
@@ -119,11 +120,17 @@
 
 -(GrowlTicketDatabasePlugin*)makeDefaultConfigForPluginDict:(NSDictionary*)noteDict {
 	__block GrowlTicketDatabasePlugin *newConfig = nil;
+	NSString *pluginName = [noteDict valueForKey:GrowlPluginInfoKeyName];
+	GrowlPlugin *plugin = [[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
+	newConfig = (GrowlTicketDatabasePlugin*)[self managedObjectForEntity:@"GrowlPlugin" 
+																				  predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", [[plugin bundle] bundleIdentifier]]];
+	if(newConfig){
+		NSLog(@"At least one configuration entry already exists for bundle id %@, returning the existing config", [[plugin bundle] bundleIdentifier]);
+		return newConfig;
+	}
+	
 	__block NSManagedObjectContext *blockContext = self.managedObjectContext;
 	void (^pluginBlock)(void) = ^{
-		NSString *pluginName = [noteDict valueForKey:GrowlPluginInfoKeyName];
-		GrowlPlugin *plugin = [[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
-		
 		NSString *type = [plugin isKindOfClass:[GrowlActionPlugin class]] ? @"GrowlAction" : @"GrowlDisplay";
 		
 		newConfig = [NSEntityDescription insertNewObjectForEntityForName:type

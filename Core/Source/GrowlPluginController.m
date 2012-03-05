@@ -12,6 +12,7 @@
 #import "GrowlDefinesInternal.h"
 
 #import "GrowlPathUtilities.h"
+#import "GrowlTicketDatabase.h"
 
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
@@ -883,6 +884,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[self dispatchPluginAtPath:destination];
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 			NSBundle *bundle = [NSBundle bundleWithPath:destination];
+			NSDictionary *dict = [pluginsByBundleIdentifier valueForKey:[bundle bundleIdentifier]];
+			if(dict)
+				[[GrowlTicketDatabase sharedInstance] makeDefaultConfigForPluginDict:dict];
 			if([self hasNativeArchitecture:destination])
 				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),
