@@ -533,7 +533,7 @@ static BOOL awoken = NO;
 }
 
 - (void) tableViewDidClickInBody:(NSTableView*)tableView{
-   [self setCanRemoveTicket:[[ticketsArrayController selection] isKindOfClass:[GroupController class]]];
+   [self setCanRemoveTicket:[[ticketsArrayController selection] isKindOfClass:[GrowlTicketDatabaseApplication class]]];
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {

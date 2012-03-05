@@ -28,6 +28,7 @@
         <attribute name="configuration" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" syncable="YES"/>
         <attribute name="displayName" attributeType="String" syncable="YES"/>
         <attribute name="pluginID" attributeType="String" syncable="YES"/>
+        <attribute name="pluginType" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="GrowlTicket" representedClassName="GrowlTicketDatabaseTicket" isAbstract="YES" syncable="YES">
         <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
@@ -49,7 +50,7 @@
         <element name="GrowlDisplay" positionX="-666" positionY="-162" width="128" height="60"/>
         <element name="GrowlHostTicket" positionX="-290" positionY="-333" width="128" height="60"/>
         <element name="GrowlNotificationTicket" positionX="-288" positionY="-150" width="126" height="105"/>
-        <element name="GrowlPlugin" positionX="-855" positionY="-171" width="128" height="105"/>
+        <element name="GrowlPlugin" positionX="-855" positionY="-171" width="128" height="120"/>
         <element name="GrowlTicket" positionX="-477" positionY="-306" width="128" height="195"/>
     </elements>
 </model>

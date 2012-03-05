@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSString * pluginID;
 @property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * configID;
+@property (nonatomic, retain) NSString * pluginType;
 
 -(GrowlPlugin*)pluginInstanceForConfiguration;
 

@@ -7,10 +7,11 @@
 //
 
 #import "GrowlPrefsViewController.h"
+#import "GroupedArrayController.h"
 
 @class GrowlPlugin, GrowlPluginController, GrowlTicketDatabase, GrowlTicketDatabasePlugin, GrowlPluginPreferencePane;
 
-@interface GrowlDisplaysViewController : GrowlPrefsViewController
+@interface GrowlDisplaysViewController : GrowlPrefsViewController <GroupedArrayControllerDelegate, NSTableViewDelegate, NSTableViewDataSource>
 
 @property (nonatomic, assign) GrowlPluginController *pluginController;
 @property (nonatomic, assign) GrowlTicketDatabase *ticketDatabase;
@@ -20,6 +21,8 @@
 @property (nonatomic, assign) IBOutlet NSTextField *displayAuthor;
 @property (nonatomic, assign) IBOutlet NSTextField *displayVersion;
 @property (nonatomic, assign) IBOutlet NSButton *previewButton;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *defaultDisplayPopUp;
+@property (nonatomic, retain) IBOutlet GroupedArrayController *pluginConfigGroupController;
 @property (nonatomic, assign) IBOutlet NSArrayController *displayPluginsArrayController;
 
 @property (nonatomic, assign) IBOutlet NSWindow *disabledDisplaysSheet;
@@ -35,6 +38,8 @@
 @property (nonatomic, retain) NSString *getMoreStylesButtonTitle;
 @property (nonatomic, retain) NSString *previewButtonTitle;
 @property (nonatomic, retain) NSString *displayStylesColumnTitle;
+
+@property (nonatomic) BOOL awokeFromNib;
 
 - (void)selectPlugin:(NSString*)pluginName;
 

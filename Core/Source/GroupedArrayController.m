@@ -33,40 +33,41 @@
                 groupKey:(NSString*)key
     managedObjectContext:(NSManagedObjectContext*)aContext
 {
-    self = [super init];
-    if (self) {
-        self.entityName = entity;
-        self.basePredicateString = predicate;
-        self.groupKey = key;
-        self.context = aContext;
-        
-        // Initialization code here.
-        self.countController = [[[NSArrayController alloc] init] autorelease];
-        [countController setManagedObjectContext:self.context];
-        [countController setEntityName:entityName];
-		 if(basePredicateString && ![basePredicateString isEqualToString:@""])
-			 [countController setFetchPredicate:[NSPredicate predicateWithFormat:self.basePredicateString]];
-        [countController setAutomaticallyPreparesContent:YES];
-        [countController setAutomaticallyRearrangesObjects:YES];
-        [countController setUsesLazyFetching:YES];
-        [countController setEditable:YES];
-
-        [countController addObserver:self 
-                           forKeyPath:@"arrangedObjects.count" 
-                              options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
-                              context:nil];
-        
-        [countController fetch:nil];
-        
-        self.groupControllers = [NSMutableDictionary dictionary];
-        self.currentGroups = [NSMutableArray array];
-        self.grouped = YES;
-		 self.showEmptyGroups = NO;
-		 self.transitionGroup = NO;
-		 self.doNotShowSingleGroupHeader = NO;
-    }
-    
-    return self;
+	self = [super init];
+	if (self) {
+		self.entityName = entity;
+		self.basePredicateString = predicate;
+		self.groupKey = key;
+		self.context = aContext;
+		self.selection = nil;
+		
+		// Initialization code here.
+		self.countController = [[[NSArrayController alloc] init] autorelease];
+		[countController setManagedObjectContext:self.context];
+		[countController setEntityName:entityName];
+		if(basePredicateString && ![basePredicateString isEqualToString:@""])
+			[countController setFetchPredicate:[NSPredicate predicateWithFormat:self.basePredicateString]];
+		[countController setAutomaticallyPreparesContent:YES];
+		[countController setAutomaticallyRearrangesObjects:YES];
+		[countController setUsesLazyFetching:YES];
+		[countController setEditable:YES];
+		
+		[countController addObserver:self 
+								forKeyPath:@"arrangedObjects.count" 
+									options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+									context:nil];
+		
+		[countController fetch:nil];
+		
+		self.groupControllers = [NSMutableDictionary dictionary];
+		self.currentGroups = [NSMutableArray array];
+		self.grouped = YES;
+		self.showEmptyGroups = NO;
+		self.transitionGroup = NO;
+		self.doNotShowSingleGroupHeader = NO;
+	}
+	
+	return self;
 }
 
 - (void)dealloc {
@@ -309,8 +310,10 @@
 -(void)tableViewSelectionDidChange:(NSNotification*)note {
 	if(tableView){
 		NSInteger index = [tableView selectedRow];
-		if(index >= 0)
+		if(index >= 0 && index < (NSInteger)[arrangedObjects count])
 			self.selection = [arrangedObjects objectAtIndex:index];
+		else
+			self.selection = nil;
 	}
 }
 

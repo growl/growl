@@ -16,6 +16,7 @@
 @dynamic pluginID;
 @dynamic displayName;
 @dynamic configID;
+@dynamic pluginType;
 
 -(GrowlPlugin*)pluginInstanceForConfiguration {
 	NSDictionary *pluginDict = [[[GrowlPluginController sharedController] pluginsByBundleIdentifier] valueForKey:self.pluginID];
