@@ -20,6 +20,7 @@
 #import "GrowlTicketDatabaseHost.h"
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabasePlugin.h"
+#import "GrowlTicketDatabaseDisplay.h"
 
 @implementation GrowlTicketDatabase
 
@@ -293,11 +294,48 @@
 																				  predicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, resolvedHost]];
 }
 
--(GrowlTicketDatabasePlugin*)defaultDisplayConfig {
+-(GrowlTicketDatabaseDisplay*)defaultDisplayConfig {
 	NSString *defaultDisplayID = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-	GrowlTicketDatabasePlugin* plugin = [self pluginConfigForID:defaultDisplayID];
-	if(!plugin) {
-		//resolve to ANY display config if possible
+	//This is the case where there is intentionally no default display
+	if(!defaultDisplayID || [defaultDisplayID isEqualToString:@""]) 
+		return nil;
+	
+	__block GrowlTicketDatabaseDisplay* plugin = (GrowlTicketDatabaseDisplay*)[self pluginConfigForID:defaultDisplayID];
+	if(!plugin || ![plugin canFindInstance]) {
+		//resolve to a smoke display config if possible
+		plugin = (GrowlTicketDatabaseDisplay*)[self managedObjectForEntity:@"GrowlDisplay" 
+																				  predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", @"com.Growl.Smoke"]];
+		if(!plugin || ![plugin canFindInstance]){
+			__block NSManagedObjectContext *blockContext = self.managedObjectContext;
+			void (^pluginBlock)(void) = ^{
+				NSError *pluginErr = nil;
+				
+				NSFetchRequest *objectCheck = [NSFetchRequest fetchRequestWithEntityName:@"GrowlDisplay"];
+				NSArray *pluginArray = [blockContext executeFetchRequest:objectCheck error:&pluginErr];
+				if(pluginErr)
+				{
+					NSLog(@"Unresolved error %@, %@", pluginErr, [pluginErr userInfo]);
+					return;
+				}
+				
+				if([pluginArray count] == 0) {
+					NSLog(@"Could not find any display plugin configs!");
+				}else{
+					[pluginArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+						if([obj isKindOfClass:[GrowlTicketDatabaseDisplay class]] && [obj canFindInstance]){
+							plugin = obj;
+							*stop = YES;
+						}
+					}];
+				}
+			};
+			
+			if([NSThread isMainThread])
+				pluginBlock();
+			else
+				[managedObjectContext performBlockAndWait:pluginBlock];
+			
+		}
 	}
 	return plugin;
 }

@@ -20,6 +20,7 @@
 @dynamic positionType;
 @dynamic selectedPosition;
 @dynamic ticketDescription;
+@dynamic useDisplay;
 @dynamic actions;
 @dynamic children;
 @dynamic parent;
@@ -32,10 +33,13 @@
       return [self.enabled boolValue];
 }
 
--(GrowlTicketDatabasePlugin*)resolvedDisplayConfig {
-	GrowlTicketDatabasePlugin *plugin = nil;
-	if(self.display)
-		plugin = (GrowlTicketDatabasePlugin*)self.display;
+-(GrowlTicketDatabaseDisplay*)resolvedDisplayConfig {
+	if(![self.useDisplay boolValue])
+		return nil;
+	
+	GrowlTicketDatabaseDisplay *plugin = nil;
+	if(self.display && [self.display canFindInstance])
+		plugin = self.display;
 	else {
 		if(self.parent)
 			plugin = [self.parent resolvedDisplayConfig];
@@ -90,21 +94,21 @@
 	BOOL addAsAction = NO;
 	
 	//Special case import for action types
-	/*if([name caseInsensitiveCompare:@"SMS"] == NSOrderedSame ||
+	if([name caseInsensitiveCompare:@"SMS"] == NSOrderedSame ||
 		[name caseInsensitiveCompare:@"MailMe"] == NSOrderedSame ||
 		[name caseInsensitiveCompare:@"Prowl"] == NSOrderedSame ||
 		[name caseInsensitiveCompare:@"Boxcar"] == NSOrderedSame ||
 		[name caseInsensitiveCompare:@"Speech"] == NSOrderedSame)
-		addAsAction = YES;*/
+		addAsAction = YES;
 	
-	if(!action){
+	/*if(!action){
 		NSString *entity = @"GrowlDisplay";
 		if(addAsAction)
 			entity = @"GrowlAction";
 		
 		action = [NSEntityDescription insertNewObjectForEntityForName:entity inManagedObjectContext:[self managedObjectContext]];
 		action.displayName = name;
-	}
+	}*/
 	
 	if(addAsAction){
 		[self addActionsObject:(NSManagedObject*)action];

@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSNumber * positionType;
 @property (nonatomic, retain) NSNumber * selectedPosition;
 @property (nonatomic, retain) NSString * ticketDescription;
+@property (nonatomic, retain) NSNumber * useDisplay;
 @property (nonatomic, retain) NSOrderedSet *actions;
 @property (nonatomic, retain) NSSet *children;
 @property (nonatomic, retain) GrowlTicketDatabaseTicket *parent;
@@ -44,7 +45,7 @@
 - (void)removeChildren:(NSSet *)values;
 
 -(BOOL)isTicketAllowed;
--(GrowlTicketDatabasePlugin*)resolvedDisplayConfig;
+-(GrowlTicketDatabaseDisplay*)resolvedDisplayConfig;
 -(NSSet*)resolvedActionConfigSet;
 
 -(void)setNewDisplayName:(NSString*)name;

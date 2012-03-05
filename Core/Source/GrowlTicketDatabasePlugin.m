@@ -18,16 +18,15 @@
 @dynamic configID;
 @dynamic pluginType;
 
+-(BOOL)canFindInstance {
+	return ([self pluginInstanceForConfiguration] != nil);
+}
+
 -(GrowlPlugin*)pluginInstanceForConfiguration {
 	NSDictionary *pluginDict = [[[GrowlPluginController sharedController] pluginsByBundleIdentifier] valueForKey:self.pluginID];
 	NSString *displayName = [pluginDict valueForKey:GrowlPluginInfoKeyName];
 	GrowlPlugin *plugin = [[GrowlPluginController sharedController] pluginInstanceWithName:displayName];
 	return plugin;
-}
-
--(void)showPreview {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-																		 object:self];
 }
 
 @end

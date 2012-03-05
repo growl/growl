@@ -38,6 +38,7 @@
         <attribute name="positionType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="selectedPosition" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="ticketDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="useDisplay" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GrowlAction" inverseName="tickets" inverseEntity="GrowlAction" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GrowlTicket" inverseName="parent" inverseEntity="GrowlTicket" syncable="YES"/>
         <relationship name="display" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlDisplay" inverseName="tickets" inverseEntity="GrowlDisplay" syncable="YES"/>
@@ -51,6 +52,6 @@
         <element name="GrowlHostTicket" positionX="-290" positionY="-333" width="128" height="60"/>
         <element name="GrowlNotificationTicket" positionX="-288" positionY="-150" width="126" height="105"/>
         <element name="GrowlPlugin" positionX="-855" positionY="-171" width="128" height="120"/>
-        <element name="GrowlTicket" positionX="-477" positionY="-306" width="128" height="195"/>
+        <element name="GrowlTicket" positionX="-477" positionY="-306" width="128" height="225"/>
     </elements>
 </model>

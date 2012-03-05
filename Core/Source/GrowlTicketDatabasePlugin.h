@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * configID;
 @property (nonatomic, retain) NSString * pluginType;
 
+-(BOOL)canFindInstance;
 -(GrowlPlugin*)pluginInstanceForConfiguration;
 
 @end

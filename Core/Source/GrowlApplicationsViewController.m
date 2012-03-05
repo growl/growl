@@ -355,14 +355,16 @@ static BOOL awoken = NO;
 	NSPopUpButton *popupButton = app ? displayMenuButton : notificationDisplayMenuButton;
 	NSInteger index = [popupButton indexOfSelectedItem];
 	GrowlTicketDatabaseDisplay *newDefault = nil;
+	BOOL useDisplay = YES;
 	if(index >= 3 && index - 3 < (NSInteger)[[displayPluginsArrayController arrangedObjects] count]){
 		id pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index - 3];
 		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabasePlugin class]])
 			newDefault = pluginToUse;
 	}else if(index == 1){
-		//Handle no display plugin
+		useDisplay = NO;
 	}
 	[ticket setDisplay:newDefault];
+	[ticket setUseDisplay:[NSNumber numberWithBool:useDisplay]];
 }
 
 - (IBAction) showPreview:(id)sender {
@@ -374,7 +376,7 @@ static BOOL awoken = NO;
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
-	GrowlTicketDatabasePlugin *pluginToUse = nil;
+	GrowlTicketDatabaseDisplay *pluginToUse = nil;
    
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
 		NSUInteger noteIndex = [notificationsArrayController selectionIndex];
@@ -472,7 +474,7 @@ static BOOL awoken = NO;
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
-   if(aTableView == growlApplications){
+   if(aTableView == growlApplications && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return ![self tableView:aTableView isGroupRow:rowIndex];
    }
    return YES;
@@ -480,13 +482,14 @@ static BOOL awoken = NO;
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
    if(tableView == growlApplications){
+		NSLog(@"rows in table view: %lu", [[ticketsArrayController arrangedObjects] count]);
       return [[ticketsArrayController arrangedObjects] count];
    }
    return 0;
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-   if(aTableView == growlApplications){
+   if(aTableView == growlApplications && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
    }
    return nil;
@@ -494,7 +497,7 @@ static BOOL awoken = NO;
 
 -(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-   if(tableColumn == applicationsNameAndIconColumn){
+   if(tableColumn == applicationsNameAndIconColumn && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"ApplicationCellView" owner:self];
       return cellView;
    }else if([self tableView:tableView isGroupRow:row]){
@@ -519,21 +522,24 @@ static BOOL awoken = NO;
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
 	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
 	GrowlTicketDatabaseDisplay *display = [ticket display];
-	
+		
 	NSUInteger index = NSNotFound;
 	NSPopUpButton *popupButton = app ? displayMenuButton : notificationDisplayMenuButton;
 	index = [[displayPluginsArrayController arrangedObjects] indexOfObject:display];
 	if(index != NSNotFound){
 		[popupButton selectItemAtIndex:index + 3];
 	}else{
+		if(!ticket || [[ticket useDisplay] boolValue])
 		//Handle the no display case as well in here, but for now just say no default
-		[popupButton selectItemAtIndex:0];
+			[popupButton selectItemAtIndex:0];
+		else
+			[popupButton selectItemAtIndex:1];
 	}
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSInteger index = [growlApplications selectedRow];
-	if(index >= 0){
+	if(index >= 0 && index < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
 		id ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
 		[self setCanRemoveTicket:[ticket isKindOfClass:[GrowlTicketDatabaseApplication class]]];
 		if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
