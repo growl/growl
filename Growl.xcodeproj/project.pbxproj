@@ -332,6 +332,7 @@
 		BC6BD66414CA166A000D0B0D /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66114CA1669000D0B0D /* GrowlOnSwitch.m */; };
 		BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */; };
 		BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */; };
+		BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D515065B4800828D29 /* CoreFoundation.framework */; };
 		BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32A14D6F9D300B055FE /* Localizable.strings */; };
 		BC80A32F14D7049A00B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32D14D7049A00B055FE /* Localizable.strings */; };
 		BC80A33514D7237500B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33314D7237500B055FE /* Localizable.strings */; };
@@ -1343,6 +1344,8 @@
 		BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BC780D16149655F000B190F7 /* GrowlBonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlBonjourBrowser.h; path = Core/Source/GrowlBonjourBrowser.h; sourceTree = "<group>"; };
 		BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBonjourBrowser.m; path = Core/Source/GrowlBonjourBrowser.m; sourceTree = "<group>"; };
+		BC7E26D515065B4800828D29 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		BC7E26D815065CF100828D29 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPluginPreferenceStrings.h; path = Plugins/Displays/GrowlPluginPreferenceStrings.h; sourceTree = "<group>"; };
 		BC80A32714D6F10100B055FE /* GrowlPluginPreferenceStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPluginPreferenceStrings.m; path = Plugins/Displays/GrowlPluginPreferenceStrings.m; sourceTree = "<group>"; };
 		BC80A32B14D6F9D300B055FE /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1644,6 +1647,7 @@
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */,
 				BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */,
+				BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */,
 				745352D509313B3B0000B26A /* PreferencePanes.framework in Frameworks */,
 				95D89B55082422C50068A4BD /* WebKit.framework in Frameworks */,
 				95C36A620753299E009FAEA2 /* Security.framework in Frameworks */,
@@ -2032,9 +2036,11 @@
 			children = (
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */,
+				BC7E26D815065CF100828D29 /* Carbon.framework */,
 				FF93C914142193B8007EAC43 /* CoreServices.framework */,
 				9326590D140C06990037AA2C /* CoreAudio.framework */,
 				BCBCDD90121BA05100C07D0D /* CoreData.framework */,
+				BC7E26D515065B4800828D29 /* CoreFoundation.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				83282746073A6C110044A959 /* PreferencePanes.framework */,
 				BC29B2A514D130CE00C72855 /* ServiceManagement.framework */,

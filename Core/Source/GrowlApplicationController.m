@@ -42,6 +42,7 @@
 #import <GrowlPlugins/GrowlNotification.h>
 #import <GrowlPlugins/GrowlPlugin.h>
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlActionPlugin.h>
 #include "CFURLAdditions.h"
 #include <sys/errno.h>
 #include <string.h>
@@ -323,12 +324,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			
 			NSSet *configSet = [notification resolvedActionConfigSet];
 			[configSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-				NSLog(@"action config: %@", [obj displayName]);
-				GrowlPlugin *action = [obj pluginInstanceForConfiguration];
-//				NSDictionary *copyDict = [[aDict copy] autorelease];
+				GrowlActionPlugin *action = (GrowlActionPlugin*)[obj pluginInstanceForConfiguration];
+				NSDictionary *copyDict = [[aDict copy] autorelease];
 				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 					if([action conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
-//						[action dispatchNotification:copyDict withConfiguration:[[action display] configuration]];
+						[(id<GrowlDispatchNotificationProtocol>)action dispatchNotification:copyDict withConfiguration:[obj configuration]];
 					}
 				});
 			}];

@@ -21,6 +21,7 @@
 #import "GrowlTicketDatabaseHost.h"
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabasePlugin.h"
+#import "GrowlTicketDatabaseAction.h"
 #import "GrowlTicketDatabaseDisplay.h"
 
 @implementation GrowlTicketDatabase
@@ -345,6 +346,21 @@
 		}
 	}
 	return plugin;
+}
+
+-(NSSet*)defaultActionConfigSet {
+	NSArray *actionIDs = [[GrowlPreferencesController sharedController] defaultActionPluginIDArray];
+	__block NSMutableSet *resolvedSet = [NSMutableSet set];
+	[actionIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		GrowlTicketDatabasePlugin *plugin = [self pluginConfigForID:obj];
+		if (plugin && [plugin isKindOfClass:[GrowlTicketDatabaseAction class]]) {
+			[resolvedSet addObject:plugin];
+		}
+	}];
+	if([resolvedSet count] > 0)
+		return resolvedSet;
+	else
+		return nil;
 }
 
 -(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID {

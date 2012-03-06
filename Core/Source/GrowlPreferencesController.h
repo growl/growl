@@ -21,6 +21,7 @@
 #define GrowlSquelchMode            XSTR("GrowlSquelchMode")
 #define GrowlPreview				XSTR("GrowlPreview")
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
+#define GrowlActionPluginsKey    XSTR("GrowlActionPluginIDs")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
 #define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
@@ -70,7 +71,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 
 @interface GrowlPreferencesController : NSObject {
-	LSSharedFileListRef loginItems;
 }
 
 + (GrowlPreferencesController *) sharedController;
@@ -98,6 +98,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
+
+- (NSArray *) defaultActionPluginIDArray;
+- (void) setDefaultActionPluginIDArray:(NSArray*)actions;
 
 - (NSNumber*) idleThreshold;
 - (void) setIdleThreshold:(NSNumber*)value;

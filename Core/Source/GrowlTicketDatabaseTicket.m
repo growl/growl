@@ -64,7 +64,7 @@
 		if(self.parent)
 			result = [self.parent resolvedActionConfigSet];
 		else {
-			//result = [[GrowlTicketDatabase sharedInstance] defaultActionConfigSet];
+			result = [[GrowlTicketDatabase sharedInstance] defaultActionConfigSet];
 		}
 	}
 	return result;

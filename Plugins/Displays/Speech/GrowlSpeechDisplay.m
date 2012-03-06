@@ -23,11 +23,13 @@
         self.syn = [[[NSSpeechSynthesizer alloc] initWithVoice:nil] autorelease];
         syn.delegate = self;
 		 self.prefDomain = GrowlSpeechPrefDomain;
+		 speech_dispatch_queue = dispatch_queue_create("com.growl.Speech.speech_dispatch_queue", 0);
     }
     return self;
 }
 
 - (void) dealloc {
+	dispatch_release(speech_dispatch_queue);
 	[speech_queue release];
 	[syn release];
 	[preferencePane release];
@@ -42,25 +44,29 @@
 }
 
 - (void)dispatchNotification:(NSDictionary*)noteDict withConfiguration:(NSDictionary*)configuration {
-	NSString *title = [noteDict valueForKey:GROWL_NOTIFICATION_TITLE];
-	NSString *desc = [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION];
-	
-	NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
-	NSString *voice = [configuration valueForKey:GrowlSpeechVoicePref];
-	NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", voice, GrowlSpeechVoicePref, nil];
-	
-	[speech_queue addObject:queueDict];
-	if(![syn isSpeaking])
-	{
-		[self speakNotification:summary withVoice:voice];
-	}
-	
-	if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
-		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
-		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-		[syn startSpeakingString:summary toURL:url];
-		[url release];
-	}
+	__block GrowlSpeechDisplay *blockSelf = self;
+	//We are called on a background concurrent queue, but we want access to our queue serialized to one thread/serial queue
+	dispatch_async(speech_dispatch_queue, ^{
+		NSString *title = [noteDict valueForKey:GROWL_NOTIFICATION_TITLE];
+		NSString *desc = [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		
+		NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
+		NSString *voice = [configuration valueForKey:GrowlSpeechVoicePref];
+		NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", voice, GrowlSpeechVoicePref, nil];
+		
+		[blockSelf.speech_queue addObject:queueDict];
+		if(![blockSelf.syn isSpeaking])
+		{
+			[blockSelf speakNotification:summary withVoice:voice];
+		}
+		
+		if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
+			NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+			NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
+			[blockSelf.syn startSpeakingString:summary toURL:url];
+			[url release];
+		}
+	});
 }
 
 - (void)speakNotification:(NSString*)notificationToSpeak withVoice:(NSString*)voice
@@ -89,9 +95,13 @@
 		if([speech_queue count])
 		{
 			//insert a slight delay
-			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1.0f]];
+			__block GrowlSpeechDisplay *blockSelf = self;
 			NSDictionary *speechDict = [speech_queue objectAtIndex:0U];
-			[self speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
+			double delayInSeconds = 1.0;
+			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+			dispatch_after(popTime, speech_dispatch_queue, ^(void){
+				[blockSelf speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
+			});
 		}
 	}
 	else

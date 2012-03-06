@@ -65,14 +65,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 			selector:@selector(growlPreferencesChanged:)
 			name:GrowlPreferencesChanged
 			object:nil];
-		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	CFRelease(loginItems);
 
 	[super dealloc];
 }
@@ -225,6 +223,13 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 - (void) setDefaultDisplayPluginName:(NSString *)name {
 	[self setObject:name forKey:GrowlDisplayPluginKey];
+}
+
+- (NSArray *) defaultActionPluginIDArray {
+	return [self objectForKey:GrowlActionPluginsKey];
+}
+- (void) setDefaultActionPluginIDArray:(NSArray*)actions {
+	[self setObject:actions forKey:GrowlActionPluginsKey];
 }
 
 - (NSNumber*) idleThreshold {

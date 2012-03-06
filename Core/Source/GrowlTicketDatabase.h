@@ -23,6 +23,7 @@
 -(GrowlTicketDatabasePlugin*)makeDefaultConfigForPluginDict:(NSDictionary*)noteDict;
 
 -(GrowlTicketDatabaseDisplay*)defaultDisplayConfig;
+-(NSSet*)defaultActionConfigSet;
 -(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID;
 -(GrowlTicketDatabasePlugin*)actionForName:(NSString*)name;
 

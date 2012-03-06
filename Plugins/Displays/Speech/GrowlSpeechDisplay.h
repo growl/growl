@@ -12,6 +12,7 @@
 @interface GrowlSpeechDisplay : GrowlActionPlugin <GrowlDispatchNotificationProtocol, NSSpeechSynthesizerDelegate> {
     NSMutableArray *speech_queue;
     NSSpeechSynthesizer *syn;
+	dispatch_queue_t speech_dispatch_queue;
 }
 
 @property (retain) NSMutableArray *speech_queue;
