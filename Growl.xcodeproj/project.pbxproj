@@ -278,6 +278,7 @@
 		BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */; };
 		BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */; };
 		BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC38547E1497B717001F026B /* GrowlNetworkObserver.m */; };
+		BC39BD4315068C2C00F2B56A /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC3C0794146C1FA700E7BBB0 /* GrowlDisplaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */; };
 		BC3C0797146C685D00E7BBB0 /* GrowlServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0796146C685D00E7BBB0 /* GrowlServerViewController.m */; };
 		BC3C079A146C878A00E7BBB0 /* GrowlHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0799146C878A00E7BBB0 /* GrowlHistoryViewController.m */; };
@@ -2945,6 +2946,7 @@
 				BC4B073315012C7A006151B3 /* GrowlActionPlugin.h in Headers */,
 				BC4B073415012CEF006151B3 /* GrowlNotification.h in Headers */,
 				BCC7F9181502CB04005FFE04 /* GrowlPluginPreferencePane.h in Headers */,
+				BC39BD4315068C2C00F2B56A /* GrowlDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

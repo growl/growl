@@ -79,10 +79,10 @@
       }
 		
       if([objectArray count] == 0) {
-         NSLog(@"Could not find %@ entry for predicate %@", entity, [predicate predicateFormat]);
+         //NSLog(@"Could not find %@ entry for predicate %@", entity, [predicate predicateFormat]);
       }else{
 			if ([objectArray count] > 1) {
-				NSLog(@"Taking first %@ matching %@, %lu others", entity, [predicate predicateFormat], [objectArray count] - 1);
+				//NSLog(@"Taking first %@ matching %@, %lu others", entity, [predicate predicateFormat], [objectArray count] - 1);
 			}
 			object = [objectArray objectAtIndex:0U];
       }
@@ -144,7 +144,7 @@
 		NSString *prefsID = [plugin prefDomain];
 		if(prefsID){
 			NSDictionary *configDict = [[GrowlPreferencesController sharedController] objectForKey:prefsID];
-			NSLog(@"setting config dict for %@ with %@", pluginName, configDict);
+			//NSLog(@"setting config dict for %@ with %@", pluginName, configDict);
 			if(configDict)
 				newConfig.configuration = configDict;
 		}

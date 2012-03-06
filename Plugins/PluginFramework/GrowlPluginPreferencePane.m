@@ -10,31 +10,37 @@
 
 @interface GrowlPluginPreferencePane ()
 
-@property (nonatomic, retain) NSManagedObject *actionConfiguration;
+@property (nonatomic, retain) NSManagedObject *pluginConfiguration;
 
 @end
 
 @implementation GrowlPluginPreferencePane
 
-@synthesize actionConfiguration;
+@synthesize pluginConfiguration;
 @synthesize configuration;
+@synthesize configurationID = _configurationID;
 
--(void)setActionConfiguration:(NSManagedObject *)action {
-	if(self.actionConfiguration) {
-		[actionConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
-		[actionConfiguration release];
+-(void)setPluginConfiguration:(NSManagedObject *)plugin {
+	if(self.pluginConfiguration) {
+		[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
+		[pluginConfiguration release];
 	}
-	actionConfiguration = [action retain];
-	if([action valueForKey:@"configuration"])
-		self.configuration = [[[action valueForKey:@"configuration"] mutableCopy] autorelease];
+	pluginConfiguration = [plugin retain];
+	if([plugin valueForKey:@"configuration"])
+		self.configuration = [[[plugin valueForKey:@"configuration"] mutableCopy] autorelease];
 	else
 		self.configuration = [NSMutableDictionary dictionary];
+	
+	if(_configurationID)
+		[_configurationID release];
+	_configurationID = [[plugin valueForKey:@"configID"] copy];
+	
 	[self updateConfigurationValues];
 }
 
 -(void)setConfigurationValue:(id)value forKey:(NSString*)key {
 	[configuration setValue:value forKey:key];
-	[actionConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
+	[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
 }
 
 -(void)updateConfigurationValues {
@@ -47,7 +53,7 @@
 			}];
 		}
 	}else{
-		NSLog(@"%@ does not respond to bindingKeys", self);
+		//NSLog(@"%@ does not respond to bindingKeys", self);
 	}
 }
 

@@ -272,10 +272,10 @@
 		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseAction class]])
 			newDefaultID = [pluginToUse configID];
 	}
-	if(newDefaultID)
+	if(newDefaultID && ![newDefaultID isEqualToString:@""])
 		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray arrayWithObject:newDefaultID]];
 	else
-		[[self preferencesController] setDefaultActionPluginIDArray:nil];
+		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray array]];
 }
 
 - (IBAction) showDisabledDisplays:(id)sender {
@@ -339,7 +339,7 @@
       
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
-			[prefPane setValue:display forKey:@"actionConfiguration"];
+			[prefPane setValue:display forKey:@"pluginConfiguration"];
 			[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 			return;
 		} else {
@@ -376,7 +376,7 @@
 			[displayPluginsTable setNextKeyView:previewButton];
 		}
       
-		[pluginPrefPane setValue:display forKey:@"actionConfiguration"];
+		[pluginPrefPane setValue:display forKey:@"pluginConfiguration"];
 		[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 		if (oldPrefPane)
 			[oldPrefPane didUnselect];

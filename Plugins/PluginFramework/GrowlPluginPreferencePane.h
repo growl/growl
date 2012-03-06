@@ -11,6 +11,7 @@
 @interface GrowlPluginPreferencePane : NSPreferencePane
 
 @property (nonatomic, retain) NSMutableDictionary *configuration;
+@property (nonatomic, readonly) NSString *configurationID;
 
 -(void)setConfigurationValue:(id)value forKey:(NSString*)key;
 -(void)updateConfigurationValues;
