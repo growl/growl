@@ -205,6 +205,17 @@ NSData *ComputeHash(NSData *data, GrowlGNTPHashingAlgorithm algorithm)
 	return self;
 }
 
+- (void)dealloc
+{
+    [_encryptionKey release];
+    [_keyHash release];
+    [_password release];
+    [_salt release];
+    [_iv release];
+
+    [super dealloc];
+}
+
 + (NSData *)generateSalt:(int)length
 {
     unsigned char *buffer;
