@@ -54,7 +54,8 @@
 		// No point in continuing if we can't find the image.
 		NSLog(@"Image %@ was not found in the cache.", self.request);
 		
-		[self.client URLProtocol:self didFailWithError:nil];
+        [self.client URLProtocol:self didFailWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                           code:NSURLErrorResourceUnavailable userInfo:nil]];
 		
 		return;
 	}
