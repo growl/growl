@@ -302,10 +302,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		
 		if(![preferences squelchMode])
 		{
-			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[[notification resolvedDisplayConfig] pluginInstanceForConfiguration];
-			NSDictionary *configCopy = [[[[notification display] configuration] copy] autorelease];
-			if([display respondsToSelector:@selector(dispatchNotification:withConfiguration:)]){
+			GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
+			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
+			NSDictionary *configCopy = [[[resolvedDisplayConfig configuration] copy] autorelease];
+			if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 				[display dispatchNotification:aDict withConfiguration:configCopy];
+			}else{
+				NSLog(@"%@ for config %@ does not conform to GrowlDispatchNotificationProtocol", display, [resolvedDisplayConfig displayName]);
 			}
 			
 			NSSet *configSet = [notification resolvedActionConfigSet];
