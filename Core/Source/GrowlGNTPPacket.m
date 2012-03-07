@@ -135,12 +135,12 @@
 
 - (void)dealloc
 {
-	if ([socket delegate] == self)
-		[socket setDelegate:nil];
-
+    //remove ourselves as the delegate for this socket since we're going away
+    [socket setDelegate:nil];
 	[socket release];
+    
 	[specificPacket release];
-   [originPacket release];
+    [originPacket release];
 	[mAction release];
 	[binaryDataByIdentifier release];
 	[pendingBinaryIdentifiers release];
