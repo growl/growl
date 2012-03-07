@@ -2548,6 +2548,10 @@
 			children = (
 				BC28C121124B8B0500DB83D4 /* GrowlAbstractDatabase.h */,
 				BC28C122124B8B0500DB83D4 /* GrowlAbstractDatabase.m */,
+				BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */,
+				BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */,
+				BC00439813F6DF6500EED11C /* GroupController.h */,
+				BC00439913F6DF6500EED11C /* GroupController.m */,
 				BC6058E214F41F9C00399510 /* Tickets */,
 				BC28BE791245132F00DB83D4 /* History */,
 			);
@@ -2636,10 +2640,6 @@
 				BC62F8311236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m */,
 				BCE2FE2313F428CC00804133 /* GrowlRollupTableView.h */,
 				BCE2FE2413F428CC00804133 /* GrowlRollupTableView.m */,
-				BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */,
-				BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */,
-				BC00439813F6DF6500EED11C /* GroupController.h */,
-				BC00439913F6DF6500EED11C /* GroupController.m */,
 				BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */,
 				BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */,
 				BC00436E13F6D16A00EED11C /* GrowlRollupGroupCellView.h */,
