@@ -249,7 +249,7 @@ static BOOL awoken = NO;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
    if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
       NSInteger index = [growlApplications selectedRow];
-      if(index >= 0){
+      if(index >= 0 && index < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
          GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
          if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
          {
@@ -466,7 +466,7 @@ static BOOL awoken = NO;
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-   if(tableView == growlApplications && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
+   if(tableView == growlApplications && row >= 0 && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return [[[ticketsArrayController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
    }else
       return NO;
@@ -474,7 +474,7 @@ static BOOL awoken = NO;
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
-   if(aTableView == growlApplications && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
+   if(aTableView == growlApplications && rowIndex >= 0 && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return ![self tableView:aTableView isGroupRow:rowIndex];
    }
    return YES;
@@ -488,7 +488,7 @@ static BOOL awoken = NO;
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-   if(aTableView == growlApplications && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
+   if(aTableView == growlApplications && rowIndex >= 0 && rowIndex < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       return [[ticketsArrayController arrangedObjects] objectAtIndex:rowIndex];
    }
    return nil;
@@ -496,7 +496,7 @@ static BOOL awoken = NO;
 
 -(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-   if(tableColumn == applicationsNameAndIconColumn && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
+   if(tableColumn == applicationsNameAndIconColumn && row >= 0 && row < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
       NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"ApplicationCellView" owner:self];
       return cellView;
    }else if([self tableView:tableView isGroupRow:row]){
