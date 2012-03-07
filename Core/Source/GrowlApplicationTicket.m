@@ -8,10 +8,10 @@
 // This file is under the BSD License, refer to License.txt for details
 
 
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlDefines.h"
-#import "GrowlDisplayPlugin.h"
 #import "NSStringAdditions.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
@@ -27,6 +27,8 @@
 #pragma mark -
 
 @implementation GrowlApplicationTicket
+@synthesize appID;
+@synthesize appPath;
 @synthesize hostName;
 @synthesize appNameHostName;
 @synthesize isLocalHost;

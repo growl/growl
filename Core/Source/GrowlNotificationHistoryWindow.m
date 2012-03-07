@@ -10,7 +10,7 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlHistoryNotification.h"
 #import "GrowlApplicationController.h"
-#import "GrowlTicketController.h"
+#import "GrowlTicketDatabase.h"
 #import "GrowlApplication.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlNotificationCellView.h"
@@ -42,55 +42,76 @@
 @synthesize historyTable;
 @synthesize countLabel;
 @synthesize notificationColumn;
+@synthesize notificationDatabase=_notificationDatabase;
 @synthesize windowTitle;
+@synthesize groupController;
 
--(id)init
+-(id)initWithNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase
 {
    if((self = [super initWithWindowNibName:@"AwayHistoryWindow" owner:self]))
    {
+       self.notificationDatabase = notificationDatabase;
+       
        [self setWindowFrameAutosaveName:@"GrowlNotificationRollup"];
        [[self window] setFrameAutosaveName:@"GrowlNotificationRollup"];
-
-       groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
-                                                        basePredicateString:@"showInRollup == 1" 
-                                                                   groupKey:@"ApplicationName"
-                                                       managedObjectContext:[[self historyController] managedObjectContext]];
-       [groupController setDelegate:self];
-       
-       NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
-       [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
               
-       [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
-       transitionGroup = NO;
-       
        rowHeights = [[NSMutableArray alloc] init];
       self.windowTitle = NSLocalizedString(@"Growl Notification Rollup", @"Window title for the Notification Rollup window");
    }
    return self;
 }
 
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    [historyTable setDoubleAction:@selector(userDoubleClickedNote:)];
+}
+
 -(void)dealloc
 {
-   [groupController removeObserver:self forKeyPath:nil];
-   [historyTable release]; historyTable = nil;
-   [groupController release]; groupController = nil;
-   historyController = nil;
-   [groupController release];
-   groupController = nil;
-   [windowTitle release];
-   [super dealloc];
+    [groupController removeObserver:self forKeyPath:nil];
+    
+    [historyTable release], historyTable = nil;
+    groupController.delegate = nil;
+    [groupController release], groupController = nil;
+    _notificationDatabase = nil;
+    [windowTitle release];
+    [super dealloc];
 }
 
 -(BOOL)windowShouldClose:(NSNotification *)notfication
 {
-   [[GrowlNotificationDatabase sharedInstance] userReturnedAndClosedList];
-   return YES;
+    [self.notificationDatabase userReturnedAndClosedList];
+    return YES;
 }
 
 -(void)windowWillClose:(NSNotification *)notification
 {
-   //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
-   [[GrowlPreferencesController sharedInstance] setBool:NO forKey:GrowlRollupShown];
+    //We use the setBool rather than the direct since that causes an infinite loop trying to close the window
+    [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlRollupShown];
+}
+
+-(void)setNotificationDatabase:(GrowlNotificationDatabase *)notificationDatabase {
+    if (notificationDatabase != _notificationDatabase) {
+        _notificationDatabase = notificationDatabase;
+        
+        if (groupController)
+        {
+            [groupController setDelegate:nil];
+            [groupController release], groupController = nil;
+        }
+        
+        groupController = [[GroupedArrayController alloc] initWithEntityName:@"Notification" 
+                                                         basePredicateString:@"showInRollup == 1" 
+                                                                    groupKey:@"ApplicationName"
+                                                        managedObjectContext:[_notificationDatabase managedObjectContext]];
+        [groupController setDelegate:self];
+        
+        NSSortDescriptor *ascendingTime = [NSSortDescriptor sortDescriptorWithKey:@"Time" ascending:NO];
+        [[groupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingTime]];
+		 [groupController setTableView:historyTable];
+    }
+    
+
 }
 
 -(void)updateCount
@@ -138,7 +159,6 @@
        row = [historyTable clickedRow];
    }else if([sender isKindOfClass:[NSButton class]]){
        //We use bindings, so the showGroup is already toggled, just tell it to update the array
-       transitionGroup = YES;
        [groupController updateArray];
        return;
    }
@@ -147,11 +167,10 @@
    {      
       id obj = [[groupController arrangedObjects] objectAtIndex:row];
       if([obj isKindOfClass:[GrowlHistoryNotification class]])
-          [[GrowlApplicationController sharedInstance] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
-                                                didCloseViaNotificationClick:YES 
-                                                              onLocalMachine:YES];
+          [[GrowlApplicationController sharedController] growlNotificationDict:[obj valueForKey:@"GrowlDictionary"] 
+                                                  didCloseViaNotificationClick:YES 
+                                                                onLocalMachine:YES];
       else if([obj isKindOfClass:[GroupController class]]){
-          transitionGroup = YES;
           [groupController toggleShowGroup:[obj groupID]];
       }
    }
@@ -184,7 +203,7 @@
         if([obj isKindOfClass:[GrowlHistoryNotification class]])
             [obj setShowInRollup:[NSNumber numberWithBool:NO]];
     }
-    [historyController saveDatabase:NO];
+    [self.notificationDatabase saveDatabase:NO];
 }
 
 - (IBAction)deleteAppNotifications:(id)sender {
@@ -201,15 +220,7 @@
         if([obj isKindOfClass:[GrowlHistoryNotification class]])
             [obj setShowInRollup:[NSNumber numberWithBool:NO]];
     }];
-    [historyController saveDatabase:NO];
-}
-
--(GrowlNotificationDatabase*)historyController
-{
-   if(!historyController)
-      historyController = [GrowlNotificationDatabase sharedInstance];
-      
-   return historyController;
+    [self.notificationDatabase saveDatabase:NO];
 }
 
 #pragma mark Row Height methods
@@ -293,7 +304,10 @@
 
 - (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
 {
-    return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
+	if([[groupController arrangedObjects] count] > (NSUInteger)row)
+		return [[[groupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
+	else
+		return NO;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
@@ -323,7 +337,7 @@
         GrowlRollupGroupCellView *groupView = [tableView makeViewWithIdentifier:@"GroupCellView" owner:self];
        
         NSString *appName = [[self tableView:tableView objectValueForTableColumn:tableColumn row:row] groupID];
-        NSData *iconData = [[[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:nil] iconData];
+        NSData *iconData = [[[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:nil] iconData];
         NSImage *icon = [[NSImage alloc] initWithData:iconData];
         if(icon){
             [[groupView imageView] setImage:icon];
@@ -398,24 +412,13 @@
 }
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController
 {
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:.25];
-    [historyTable beginUpdates];
 }
 -(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController
 {
-    [historyTable endUpdates];
-    [NSAnimationContext endGrouping];
     [self updateRowHeights];
-    transitionGroup = NO;
 }
 -(void)groupedController:(GroupedArrayController*)groupedController insertIndexes:(NSIndexSet*)indexSet
-{
-    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
-    if (!transitionGroup)
-        options = options|NSTableViewAnimationSlideLeft;
-    [historyTable insertRowsAtIndexes:indexSet withAnimation:options];
-    
+{    
     __block GrowlNotificationHistoryWindow *blockSafeSelf = self;
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSNumber *height = [NSNumber numberWithFloat:[blockSafeSelf heightForRow:idx]];
@@ -423,18 +426,11 @@
     }];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController removeIndexes:(NSIndexSet*)indexSet
-{
-    NSTableViewAnimationOptions options = NSTableViewAnimationEffectFade|NSTableViewAnimationEffectGap;
-    if (!transitionGroup)
-        options = options|NSTableViewAnimationSlideRight;
-    [historyTable removeRowsAtIndexes:indexSet withAnimation:options];
-    
+{    
     [rowHeights removeObjectsAtIndexes:indexSet];
 }
 -(void)groupedController:(GroupedArrayController*)groupedController moveIndex:(NSUInteger)start toIndex:(NSUInteger)end
 {
-    [historyTable moveRowAtIndex:start toIndex:end];
-    
     id temp = [[rowHeights objectAtIndex:start] retain];
     [rowHeights removeObjectAtIndex:start];
     [rowHeights insertObject:temp atIndex:end];

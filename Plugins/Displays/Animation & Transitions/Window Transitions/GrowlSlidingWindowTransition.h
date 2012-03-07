@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 Ofri Wolfus. All rights reserved.
 //
 
-#import "GrowlWindowTransition.h"
+#import <GrowlPlugins/GrowlWindowtransition.h>
 #import "GrowlDefinesInternal.h"	// for CGFloat
 
 @interface GrowlSlidingWindowTransition : GrowlWindowTransition {

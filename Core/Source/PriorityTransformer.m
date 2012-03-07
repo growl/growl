@@ -6,16 +6,16 @@
 //
 
 #import "PriorityTransformer.h"
-#import "GrowlNotificationTicket.h"
+#import "GrowlDefinesInternal.h"
 
 @implementation PriorityTransformer
 + (void)load
 {
 	if (self == [PriorityTransformer class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		[self setValueTransformer:[[[PriorityTransformer alloc] init] autorelease]
-						  forName:@"PriorityTransformer"];
-		[pool release];
+		@autoreleasepool {
+            [self setValueTransformer:[[[PriorityTransformer alloc] init] autorelease]
+                              forName:@"PriorityTransformer"];
+        }
 	}
 }
 

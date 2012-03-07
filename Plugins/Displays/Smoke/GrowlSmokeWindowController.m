@@ -7,34 +7,37 @@
 //
 //  Most of this is lifted from KABubbleWindowController in the Growl source
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlSmokeWindowController.h"
 #import "GrowlSmokeWindowView.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowlSmokeWindowController
 
 //static const double gAdditionalLinesDisplayTime = 0.5;
 //static const double gMaxDisplayTime = 10.0;
 
-- (id) init {
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
+	if([configDict valueForKey:GrowlSmokeScreenPref]){
+		screenNumber = [[configDict valueForKey:GrowlSmokeScreenPref] unsignedIntValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlSmokeDurationPref, GrowlSmokePrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlSmokeDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowlSmokeDurationPrefDefault;
+	if([configDict valueForKey:GrowlSmokeDurationPref]){
+		duration = [[configDict valueForKey:GrowlSmokeDurationPref] floatValue];
+	}
+	self.displayDuration = duration;
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, GrowlSmokeNotificationWidth, 65.0)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -53,7 +56,7 @@
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
 
-	GrowlSmokeWindowView *view = [[GrowlSmokeWindowView alloc] initWithFrame:panelFrame];
+	GrowlSmokeWindowView *view = [[GrowlSmokeWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
@@ -61,6 +64,7 @@
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
+		[self setBridge:bridge];
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -78,7 +82,7 @@
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	NSPoint idealOrigin;
 	
 	switch(originatingPosition){
@@ -108,7 +112,7 @@
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){
@@ -133,7 +137,7 @@
 }
 
 - (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){

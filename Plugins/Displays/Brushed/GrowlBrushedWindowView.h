@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowlBrushedWindowView : GrowlNotificationView {
 	BOOL				haveTitle;
@@ -32,6 +32,8 @@
 	NSTextContainer		*titleContainer;
 	NSRange				titleRange;
 }
+
+- (id) initWithFrame:(NSRect)frameRect configurationDict:(NSDictionary*)configDict;
 
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;

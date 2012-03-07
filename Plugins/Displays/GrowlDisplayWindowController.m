@@ -6,17 +6,15 @@
 //  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
-#import "GrowlWindowTransition.h"
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlNotification.h"
-#import "GrowlNotificationView.h"
-
-#include "GrowlLog.h"
 
 #define DEFAULT_TRANSITION_DURATION	0.2
 
@@ -139,9 +137,9 @@ static NSMutableDictionary *existingInstances;
 #pragma mark Screenshot mode
 
 - (void) takeScreenshot {
-	NSView *view = [[self window] contentView];
-	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
+	//NSView *view = [[self window] contentView];
+	//NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
+	//[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
 #pragma mark -
@@ -153,7 +151,7 @@ static NSMutableDictionary *existingInstances;
 
 	//Make sure we don't cover any other notification (or not)
 	BOOL foundSpace = NO;
-	GrowlPositionController *pc = [GrowlPositionController sharedInstance];
+	GrowlPositionController *pc = [GrowlPositionController sharedController];
 	if ([self respondsToSelector:@selector(idealOriginInRect:)])
 		foundSpace = [pc positionDisplay:self];
 	else
@@ -191,7 +189,7 @@ static NSMutableDictionary *existingInstances;
 			//XXX This should be more fluid
 			[window orderOut:nil];
 
-			[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+			[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
 			
 		}
         //This doesn't actually solve anything, this is a temporary measure to cap retries when the screen becomes completely full of notifications
@@ -295,7 +293,7 @@ static NSMutableDictionary *existingInstances;
 	[self stopAllTransitions];
 	[windowTransitions release]; windowTransitions = nil;
 
-	[[GrowlPositionController sharedInstance] clearReservedRectForDisplayController:self];
+	[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
 
 	[self didTakeDownNotification];
 
@@ -719,6 +717,10 @@ static NSMutableDictionary *existingInstances;
 }
 - (void) removeNotificationObserver:(id)observer {
 	[[NSNotificationCenter defaultCenter] removeObserver:observer];
+}
+
+- (NSDictionary*)configurationDict {
+	return [notification configurationDict];
 }
 
 @end

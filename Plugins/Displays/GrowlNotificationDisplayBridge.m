@@ -6,12 +6,10 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlNotification.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlDisplayWindowController.h"
-#import "GrowlDisplayPlugin.h"
-
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
 
 #include <execinfo.h>
 
@@ -113,12 +111,10 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	[windowControllerToRemove removeNotificationObserver:self];
-	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
-
-	[pool release];
+    @autoreleasepool {
+        [windowControllerToRemove removeNotificationObserver:self];
+        [windowControllers removeObjectIdenticalTo:windowControllerToRemove];
+    }
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);

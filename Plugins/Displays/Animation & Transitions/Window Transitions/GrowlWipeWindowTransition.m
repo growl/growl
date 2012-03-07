@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlWipeWindowTransition.h"
+#import <GrowlPlugins/GrowlWipeWindowTransition.h>
 
 
 @implementation GrowlWipeWindowTransition

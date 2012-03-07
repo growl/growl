@@ -8,28 +8,107 @@
 
 #import "GrowlDisplaysViewController.h"
 
-#import "GrowlPlugin.h"
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
+
+#import <GrowlPlugins/GrowlPlugin.h>
+#import "GroupController.h"
 #import "GrowlPluginController.h"
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabasePlugin.h"
+#import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabaseDisplay.h"
+
+@interface GrowlPluginTypeLabelTransformer : NSValueTransformer
+
+@end
+
+@implementation GrowlPluginTypeLabelTransformer
+
++ (void)load
+{
+   if (self == [GrowlPluginTypeLabelTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GrowlPluginTypeLabelTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSString class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+   if([value caseInsensitiveCompare:@"GrowlAction"] == NSOrderedSame)
+		return NSLocalizedString(@"Actions", @"Title for section containing actions (SMS, MailMe, Speech, etc)");
+	else if([value caseInsensitiveCompare:@"GrowlDisplay"] == NSOrderedSame)
+		return NSLocalizedString(@"Displays", @"Title for section containing displays (Smoke, Whiteboard, Bezel, etc)");
+	else if([value caseInsensitiveCompare:@"GrowlCompoundAction"] == NSOrderedSame)
+		return NSLocalizedString(@"Compound", @"Title for section containing compound actions (composed of multiple actions)");
+	else
+		return value;
+}
+
+@end
+
+@interface GrowlPluginNameTransformer : NSValueTransformer
+
+@end
+
+@implementation GrowlPluginNameTransformer
+
++ (void)load
+{
+   if (self == [GrowlPluginNameTransformer class]) {
+      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+      [self setValueTransformer:[[[self alloc] init] autorelease]
+                        forName:@"GrowlPluginNameTransformer"];
+      [pool release];
+   }
+}
+
++ (Class)transformedValueClass 
+{ 
+   return [NSString class];
+}
++ (BOOL)allowsReverseTransformation
+{
+   return NO;
+}
+- (id)transformedValue:(id)value
+{
+	return [value displayName];
+}
+
+@end
 
 @implementation GrowlDisplaysViewController
 
 @synthesize pluginController;
+@synthesize ticketDatabase;
 @synthesize displayPluginsTable;
 @synthesize displayPrefView;
 @synthesize displayDefaultPrefView;
 @synthesize displayAuthor;
 @synthesize displayVersion;
 @synthesize previewButton;
+@synthesize defaultDisplayPopUp;
+@synthesize defaultActionPopUp;
+@synthesize pluginConfigGroupController;
 @synthesize displayPluginsArrayController;
+@synthesize actionPluginsArrayController;
 
 @synthesize disabledDisplaysSheet;
 @synthesize disabledDisplaysList;
 
-@synthesize displayPlugins;
 @synthesize pluginPrefPane;
 @synthesize loadedPrefPanes;
 
-@synthesize currentPlugin;
 @synthesize currentPluginController;
 
 @synthesize defaultStyleLabel;
@@ -37,14 +116,17 @@
 @synthesize getMoreStylesButtonTitle;
 @synthesize previewButtonTitle;
 @synthesize displayStylesColumnTitle;
+@synthesize noDefaultDisplayPluginLabel;
+
+@synthesize awokeFromNib;
 
 #pragma mark "Display" tab pane
 
 -(void)dealloc {
-   [displayPlugins release];
+	[defaultDisplayPopUp removeObserver:self forKeyPath:@"selecteditem"];
+	
    [pluginPrefPane release];
    [loadedPrefPanes release];
-   [currentPlugin release];
    [currentPluginController release];
    [defaultStyleLabel release];
    [showDisabledButtonTitle release];
@@ -57,94 +139,143 @@
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.pluginController = [GrowlPluginController sharedController];
+		self.ticketDatabase = [GrowlTicketDatabase sharedInstance];
    
       self.defaultStyleLabel = NSLocalizedString(@"Default Style", @"Default style picker label");
       self.showDisabledButtonTitle = NSLocalizedString(@"Show Disabled", @"Button title which shows a list of disabled plugins");
       self.getMoreStylesButtonTitle = NSLocalizedString(@"Get more styles", @"Button title which opens growl.info to the styles page");
       self.previewButtonTitle = NSLocalizedString(@"Preview", @"Button title which shows a preview of the current selected style");
       self.displayStylesColumnTitle = NSLocalizedString(@"Display Styles", @"Column title for Display Styles");
-   }
+		self.noDefaultDisplayPluginLabel = NSLocalizedString(@"No Default Display", @"Setting for no visual display");
+		
+		self.awokeFromNib = NO;
+	}
    return self;
 }
 
 - (void) awakeFromNib {
+	if(self.awokeFromNib)
+		return;
+	
    self.loadedPrefPanes = [NSMutableArray array];
-   
-   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-   [nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
-   [self reloadPrefs:nil];
-   
-   [displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-
-   // Select the default style if possible. 
-   {
-		NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
-      __block GrowlDisplaysViewController *blockSafe = self;
-      dispatch_async(dispatch_get_main_queue(), ^{
-         [blockSafe selectPlugin:defaultDisplayPluginName];
-      });		
-	}
+      
+	
+	self.pluginConfigGroupController = [[[GroupedArrayController alloc] initWithEntityName:@"GrowlPlugin" 
+																							 basePredicateString:@"" 
+																											groupKey:@"pluginType"
+																							managedObjectContext:[[GrowlTicketDatabase sharedInstance] managedObjectContext]] autorelease];
+	
+	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
+	[[pluginConfigGroupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
+	[pluginConfigGroupController setDelegate:self];
+	[pluginConfigGroupController setGrouped:YES];
+	[pluginConfigGroupController setTableView:displayPluginsTable];
+	
+	NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
+	NSArray *defaultActions = [[self preferencesController] defaultActionPluginIDArray];
+	[displayPluginsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
+	[actionPluginsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
+		
+	__block GrowlDisplaysViewController *blockSafe = self;
+	dispatch_async(dispatch_get_main_queue(), ^(void){
+		[blockSafe selectDefaultPlugin:defaultDisplayPluginName];
+		[blockSafe selectPlugin:defaultDisplayPluginName];
+		[blockSafe selectDefaultActions:defaultActions];
+	});
+	self.awokeFromNib = YES;
 }
 
 + (NSString*)nibName {
    return @"DisplayPrefs";
 }
 
-- (void)selectPlugin:(NSString*)pluginName 
-{
-   __block NSUInteger index = NSNotFound;
-   [[displayPluginsArrayController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if ([[obj valueForKey:@"CFBundleName"] caseInsensitiveCompare:pluginName] == NSOrderedSame) {
-         index = idx;
-         *stop = YES;
-      }
-   }];
-   
-   if(index != NSNotFound)
-      [displayPluginsArrayController setSelectionIndex:index];
+- (void)viewWillUnload {
+	[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
+	[super viewWillUnload];
 }
 
-- (void) reloadDisplayPluginView {
-	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
-	NSUInteger numPlugins = [displayPlugins count];
-	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
-		self.currentPlugin = [selectedPlugins objectAtIndex:0U];
-	else
-		self.currentPlugin = nil;
-   
-	if(self.currentPlugin)
-   {
-      NSString *currentPluginName = [self.currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
-      self.currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
-      [self loadViewForDisplay:currentPluginName];
-      [displayAuthor setStringValue:[currentPlugin objectForKey:@"GrowlPluginAuthor"]];
-      [displayVersion setStringValue:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
-   }
-}
-
-- (void) observeValueForKeyPath:(NSString *)keyPath 
-                       ofObject:(id)object
-                         change:(NSDictionary *)change 
-                        context:(void *)context 
-{
-	if ([keyPath isEqualToString:@"selection"]) {
-      if (object == displayPluginsArrayController)
-			[self reloadDisplayPluginView];
+- (void)selectDefaultActions:(NSArray*)actions {
+	__block GrowlDisplaysViewController *blockSelf = self;
+	__block NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	[actions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSUInteger index = [[blockSelf.actionPluginsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id testObj, NSUInteger testIDX, BOOL *testStop) {
+			if([[testObj configID] caseInsensitiveCompare:obj] == NSOrderedSame){
+				return YES;
+			}
+			return NO;
+		}];
+		if(index != NSNotFound){
+			[indexSet addIndex:index];
+		}
+	}];
+	if([indexSet count] > 0){
+		[defaultActionPopUp selectItemAtIndex:[indexSet firstIndex] + 2];
+	}else{
+		[defaultActionPopUp selectItemAtIndex:0];
 	}
 }
 
-- (void) reloadPrefs:(NSNotification *)notification {
-	// ignore notifications which are sent by ourselves
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void)selectDefaultPlugin:(NSString*)pluginID {
+	NSUInteger index = [[displayPluginsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+		if([[obj configID] caseInsensitiveCompare:pluginID] == NSOrderedSame){
+			return YES;
+		}
+		return NO;
+	}];
+	if(index != NSNotFound){
+		[defaultDisplayPopUp selectItemAtIndex:index + 2];
+	}else{
+		[defaultDisplayPopUp selectItemAtIndex:0];
+	}
+}
+
+- (void)selectPlugin:(NSString*)pluginName 
+{
+   __block NSUInteger index = NSNotFound;
+   [[pluginConfigGroupController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj isKindOfClass:[GroupController class]])
+			return;
+      if ([[obj valueForKey:@"configID"] caseInsensitiveCompare:pluginName] == NSOrderedSame) 
+		{
+         index = idx;
+         *stop = YES;
+      }else if([[obj valueForKey:@"displayName"] caseInsensitiveCompare:pluginName] == NSOrderedSame){
+			index = idx;
+			*stop = YES;
+		}else if([[obj valueForKey:@"pluginID"] caseInsensitiveCompare:pluginName] == NSOrderedSame){
+			NSLog(@"Opening to first plugin with plugin bundle id of %@", pluginName);
+			index = idx;
+			*stop = YES;
+		}
+   }];
    
-	self.displayPlugins = [[pluginController displayPlugins] valueForKey:GrowlPluginInfoKeyName];
-   
-	if ([displayPlugins count] > 0U)
-		[self reloadDisplayPluginView];
+   if(index != NSNotFound)
+      [displayPluginsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+}
+
+-(void)updateDefaultDisplayPreference{
+	NSInteger index = [defaultDisplayPopUp indexOfSelectedItem];
+	NSString *newDefaultID = nil;
+	if(index >= 2 && index - 2 < (NSInteger)[[displayPluginsArrayController arrangedObjects] count]){
+		id pluginToUse = [[displayPluginsArrayController arrangedObjects] objectAtIndex:index - 2];
+		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseDisplay class]])
+			newDefaultID = [pluginToUse configID];
+	}
+	[[self preferencesController] setDefaultDisplayPluginName:newDefaultID];
+}
+
+-(void)updateDefaultActionPreference{
+	NSInteger index = [defaultActionPopUp indexOfSelectedItem];
+	NSString *newDefaultID = nil;
+	if(index >= 2 && index - 2 < (NSInteger)[[actionPluginsArrayController arrangedObjects] count]){
+		id pluginToUse = [[actionPluginsArrayController arrangedObjects] objectAtIndex:index - 2];
+		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseAction class]])
+			newDefaultID = [pluginToUse configID];
+	}
+	if(newDefaultID && ![newDefaultID isEqualToString:@""])
+		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray arrayWithObject:newDefaultID]];
 	else
-		[self loadViewForDisplay:nil];
-	
-	[pool release];
+		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray array]];
 }
 
 - (IBAction) showDisabledDisplays:(id)sender {
@@ -173,55 +304,43 @@
 
 // Popup buttons that post preview notifications support suppressing the preview with the Option key
 - (IBAction) showPreview:(id)sender {
+	if(sender == defaultDisplayPopUp)
+		[self updateDefaultDisplayPreference];
+	if(sender == defaultActionPopUp)
+		[self updateDefaultActionPreference];
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
-	NSDictionary *pluginToUse = currentPlugin;
-	NSString *pluginName = nil;
-	BOOL doTheApp = NO;
-   
+	id pluginToUse = nil;
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSPopUpButton *popUp = (NSPopUpButton *)sender;
-		id representedObject = [[popUp selectedItem] representedObject];
-		if ([representedObject isKindOfClass:[NSDictionary class]])
-			pluginToUse = representedObject;
-		else if ([representedObject isKindOfClass:[NSString class]])
-			pluginName = representedObject;
-		else {
-         doTheApp = YES;
-			//NSLog(@"%s: WARNING: Pop-up button menu item had represented object of class %@: %@", __func__, [representedObject class], representedObject);
-      }
-   }
-   
-	if (!pluginName && doTheApp) {
-      //fall back to the application's plugin name
-      
-      /*NSArray *apps = [ticketsArrayController selectedObjects];
-       if(apps && [apps count]) {
-       NSDictionary *parentApp = [apps objectAtIndex:0U];
-       pluginName = [parentApp valueForKey:@"displayPluginName"];
-       }*/
-	}		
-   if(!pluginName)
-      pluginName = [pluginToUse objectForKey:GrowlPluginInfoKeyName];
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
-                                                       object:pluginName];
+		NSInteger index = [sender indexOfSelectedItem];
+		NSArray *objects = (sender == defaultDisplayPopUp) ? [displayPluginsArrayController arrangedObjects] : 
+																			  [actionPluginsArrayController arrangedObjects];
+		if(index >= 2 && index - 2 < (NSInteger)[objects count])
+			pluginToUse = [objects objectAtIndex:index - 2];
+   }else if ([sender isKindOfClass:[NSButton class]]){
+		pluginToUse = [pluginConfigGroupController selection];
+	}
+	if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabasePlugin class]])
+		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+																			 object:pluginToUse];
 }
 
-- (void) loadViewForDisplay:(NSString *)displayName {
+- (void) loadViewForDisplay:(GrowlTicketDatabasePlugin *)display {
 	NSView *newView = nil;
-	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
+	GrowlPluginPreferencePane *prefPane = nil, *oldPrefPane = nil;
    
 	if (pluginPrefPane)
 		oldPrefPane = pluginPrefPane;
    
-	if (displayName) {
+	if (display) {
 		// Old plugins won't support the new protocol. Check first
-		if ([currentPluginController respondsToSelector:@selector(preferencePane)])
-			prefPane = [currentPluginController preferencePane];
+		prefPane = [currentPluginController preferencePane];
       
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
+			[prefPane setValue:display forKey:@"pluginConfiguration"];
+			[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 			return;
 		} else {
 			self.pluginPrefPane = prefPane;
@@ -257,9 +376,81 @@
 			[displayPluginsTable setNextKeyView:previewButton];
 		}
       
+		[pluginPrefPane setValue:display forKey:@"pluginConfiguration"];
+		[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 		if (oldPrefPane)
 			[oldPrefPane didUnselect];
 	}
+}
+
+#pragma mark NSTableView data source and delegate
+
+- (BOOL)tableView:(NSTableView*)tableView isGroupRow:(NSInteger)row
+{
+   if(tableView == displayPluginsTable && row < (NSInteger)[[pluginConfigGroupController arrangedObjects] count]){
+      return [[[pluginConfigGroupController arrangedObjects] objectAtIndex:row] isKindOfClass:[GroupController class]];
+   }else
+      return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
+   if(aTableView == displayPluginsTable){
+      return ![self tableView:aTableView isGroupRow:rowIndex];
+   }
+   return YES;
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+	return [[pluginConfigGroupController arrangedObjects] count];
+}
+
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+   if(aTableView == displayPluginsTable && rowIndex >= 0 && rowIndex < (NSInteger)[[pluginConfigGroupController arrangedObjects] count]){
+      return [[pluginConfigGroupController arrangedObjects] objectAtIndex:rowIndex];
+   }
+   return nil;
+}
+
+-(NSView*)tableView:(NSTableView*)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	if([self tableView:tableView isGroupRow:row]){
+		NSTableCellView *groupView = [displayPluginsTable makeViewWithIdentifier:@"PluginGroupView" owner:self];
+		return groupView;
+	}else {
+		NSTableCellView *pluginView = [displayPluginsTable makeViewWithIdentifier:@"PluginItemView" owner:self];
+		return pluginView;
+	}
+	return nil;
+}
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+   if([self tableView:tableView isGroupRow:row])
+      return 20.0;
+   return 20;
+}
+
+-(void)updatePluginPreferenceSelection {
+	GrowlTicketDatabaseAction *pluginConfig = [pluginConfigGroupController selection];
+	if(pluginConfig && [pluginConfig isKindOfClass:[GrowlTicketDatabasePlugin class]]){
+		self.currentPluginController = [pluginConfig pluginInstanceForConfiguration];
+		[self loadViewForDisplay:pluginConfig];
+		if([currentPluginController author])
+			[displayAuthor setStringValue:[currentPluginController author]];
+		else
+			[displayAuthor setStringValue:@""];
+		if([currentPluginController version])
+			[displayVersion setStringValue:[currentPluginController version]];
+		else
+			[displayVersion setStringValue:@""];
+	}
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification {
+	__block GrowlDisplaysViewController *blockSelf = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[blockSelf updatePluginPreferenceSelection];
+	});
 }
 
 @end

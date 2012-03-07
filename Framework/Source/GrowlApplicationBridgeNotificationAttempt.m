@@ -19,7 +19,7 @@
 												  object:growlConnection];
 	[growlConnection release];
 	[growlProxy release];
-
+    
 	[super dealloc];
 }
 
@@ -68,7 +68,7 @@
 
 - (void) begin {
 	NSProxy<GrowlNotificationProtocol> *currentGrowlProxy = [self growlProxy];
-
+    
 	if (currentGrowlProxy) {
 		//Post to Growl via GrowlApplicationBridgePathway
 		@try {
