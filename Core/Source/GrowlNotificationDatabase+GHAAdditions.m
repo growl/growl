@@ -26,13 +26,17 @@
    }
    NSLog(@"Setup timer, this should only happen once");
 
-   //Setup timers, every half hour for DB maintenance, every night for Cache cleanup   
-   maintenanceTimer = [[NSTimer timerWithTimeInterval:30 * 60 
+    periodicSaveTimer = [[NSTimer timerWithTimeInterval:20.0f target:self selector:@selector(periodicSave:) userInfo:nil repeats:YES] retain];
+    [[NSRunLoop mainRunLoop] addTimer:periodicSaveTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:periodicSaveTimer forMode:NSEventTrackingRunLoopMode];
+    //Setup timers, every half hour for DB maintenance, every night for Cache cleanup   
+    maintenanceTimer = [[NSTimer timerWithTimeInterval:30 * 60 
                                                target:self
                                              selector:@selector(storeMaintenance:)
                                              userInfo:nil
                                               repeats:YES] retain];
-   [[NSRunLoop mainRunLoop] addTimer:maintenanceTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:maintenanceTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:maintenanceTimer forMode:NSEventTrackingRunLoopMode];
 
    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
    [components setDay:[components day] - 1];
@@ -103,7 +107,8 @@
         [managedObjectContext performBlockAndWait:logBlock];
     else
         logBlock();
-    [self saveDatabase:NO];
+    //we no longer save for every notification
+    //[self saveDatabase:NO];
    
    if(isAway)
    {

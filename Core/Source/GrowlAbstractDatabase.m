@@ -70,9 +70,9 @@
 {
     void (^saveBlock)(void) = ^{
         NSError *error = nil;
-        [managedObjectContext save:&error];
-        if(error)
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);       
+        if([managedObjectContext hasChanges])
+            if(![managedObjectContext save:&error])
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);       
     };
     if(doItNow)
         [managedObjectContext performBlockAndWait:saveBlock];

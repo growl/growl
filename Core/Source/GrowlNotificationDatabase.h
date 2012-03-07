@@ -13,6 +13,9 @@
 
 @interface GrowlNotificationDatabase : GrowlAbstractDatabase {
    NSTimer *maintenanceTimer;
+    
+    NSTimer *periodicSaveTimer;
+    
    NSDate *lastImageCheck;
    BOOL notificationsWhileAway;
    GrowlNotificationHistoryWindow *historyWindow;

@@ -42,11 +42,13 @@
 
 -(void)destroy
 {
-   [[NSNotificationCenter defaultCenter] removeObserver:self];
-   [maintenanceTimer invalidate];
-   [maintenanceTimer release]; maintenanceTimer = nil;
-   [lastImageCheck release]; lastImageCheck = nil;
-   [super destroy]; 
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [periodicSaveTimer invalidate];
+    [periodicSaveTimer release]; periodicSaveTimer = nil;
+    [maintenanceTimer invalidate];
+    [maintenanceTimer release]; maintenanceTimer = nil;
+    [lastImageCheck release]; lastImageCheck = nil;
+    [super destroy]; 
 }
 
 -(NSString*)storePath
@@ -92,6 +94,7 @@
 }
 
 #pragma mark -
+
 -(void)deleteSelectedObjects:(NSArray*)objects
 {
     void (^deleteBlock)(void) = ^{
@@ -117,6 +120,7 @@
         deleteBlock();
     [self saveDatabase:NO];
 }
+
 -(void)deleteAllHistory
 {
     void (^deleteBlock)(void) = ^{
@@ -176,6 +180,11 @@
       lastImageCheck = [[NSDate date] retain];
    }
    [self saveDatabase:NO];
+}
+
+- (void)periodicSave:(NSTimer*)timer
+{
+    [self saveDatabase:NO];    
 }
 
 -(void)trimByDate
