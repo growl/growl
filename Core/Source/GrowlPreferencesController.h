@@ -27,7 +27,6 @@
 #define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
-#define GrowlUDPPortKey				XSTR("GrowlUDPPort")
 #define GrowlTCPPortKey				XSTR("GrowlTCPPort")
 #define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
 #define	GrowlLogTypeKey				XSTR("GrowlLogType")

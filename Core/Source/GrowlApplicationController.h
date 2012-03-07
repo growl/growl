@@ -22,26 +22,20 @@ typedef enum {
 @interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;
-	GrowlNotificationCenter		*growlNotificationCenter;
-
-	GrowlDisplayPlugin			*defaultDisplayPlugin;
-
-	BOOL						growlIsEnabled;
-	BOOL						growlFinishedLaunching;
-	BOOL						quitAfterOpen;
-
+	GrowlNotificationCenter	*growlNotificationCenter;
+	
+	BOOL							growlFinishedLaunching;
+	
 	NSDictionary				*versionInfo;
 	
-	CFRunLoopTimerRef			updateTimer;
-	    
-    GrowlMenu                   *statusMenu;
-    
-    GrowlFirstLaunchWindowController *firstLaunchWindow;
-    
-    NSString                    *audioDeviceIdentifier;
-   NSString                     *urlOnLaunch;
+	GrowlMenu					*statusMenu;
+	
+	GrowlFirstLaunchWindowController *firstLaunchWindow;
+	
+	NSString						*audioDeviceIdentifier;
+   NSString						*urlOnLaunch;
    
-   GrowlPreferencePane *preferencesWindow;
+   GrowlPreferencePane		*preferencesWindow;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -67,8 +61,6 @@ typedef enum {
 #pragma mark Accessors
 
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).
-- (BOOL) quitAfterOpen;
-- (void) setQuitAfterOpen:(BOOL)flag;
 - (IBAction)quitWithWarning:(id)sender;
 
 @property (retain) NSString                    *audioDeviceIdentifier;

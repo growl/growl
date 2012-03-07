@@ -44,19 +44,9 @@
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlActionPlugin.h>
 #include "CFURLAdditions.h"
-#include <sys/errno.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/fcntl.h>
 #import "GrowlImageTransformer.h"
 
 #include <CoreAudio/AudioHardware.h>
-
-//Notifications posted by GrowlApplicationController
-#define USER_WENT_IDLE_NOTIFICATION       @"User went idle"
-#define USER_RETURNED_NOTIFICATION        @"User returned"
-
-extern CFRunLoopRef CFRunLoopGetMain(void);
 
 @interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
@@ -117,6 +107,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	if ((self = [super init])) {
 		growlFinishedLaunching = NO;
 		urlOnLaunch = nil;
+		[GrowlNetworkObserver sharedObserver];
       [GNTPForwarder sharedController];
       [GNTPSubscriptionController sharedController];
       
@@ -135,13 +126,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
 	if (pathwayControllerClass)
 		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
-	[defaultDisplayPlugin release]; defaultDisplayPlugin = nil;
     [preferencesWindow release]; preferencesWindow = nil;
 
 	GrowlIdleStatusController_dealloc();
-
-	CFRunLoopTimerInvalidate(updateTimer);
-	CFRelease(updateTimer);
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
@@ -453,13 +440,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 #pragma mark Accessors
 
-- (BOOL) quitAfterOpen {
-	return quitAfterOpen;
-}
-- (void) setQuitAfterOpen:(BOOL)flag {
-	quitAfterOpen = flag;
-}
-
 - (IBAction)quitWithWarning:(id)sender
 {
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"HideQuitWarning"])
@@ -485,34 +465,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 - (void) preferencesChanged:(NSNotification *) note {
 	@autoreleasepool {
-        //[note object] is the changed key. A nil key means reload our tickets.
-        id object = [note object];
-
-        if (!quitAfterOpen) {
-            if (!note || (object && [object isEqual:GrowlStartServerKey])) {
-                Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-                if (pathwayControllerClass)
-                    [(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
-            }
-        }
-        if (!note || (object && [object isEqual:GrowlEnabledKey]))
-            growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
-        if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
-            // force reload
-            [defaultDisplayPlugin release];
-        defaultDisplayPlugin = nil;
-        if (object) {
-            if ((!quitAfterOpen) && [object isEqual:GrowlUDPPortKey]) {
-                Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-                if (pathwayControllerClass) {
-                    id pathwayController = [pathwayControllerClass sharedController];
-                    [pathwayController setServerEnabled:NO];
-                    [pathwayController setServerEnabled:YES];
-                }
-            }
-        }
+		//[note object] is the changed key. A nil key means reload our tickets.
+		id object = [note object];
+		
+		if (!note || (object && [object isEqual:GrowlStartServerKey])) {
+			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+			if (pathwayControllerClass)
+				[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
+		}
 	}
-	
 }
 
 - (void) replyToPing:(NSNotification *) note {
@@ -668,13 +629,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		BOOL registerItOurselves = YES;
 		NSString *realHelperAppBundlePath = nil;
 
-		if (quitAfterOpen) {
-			//But, just to make sure we don't infinitely loop, make sure this isn't our own bundle.
-			NSString *ourBundlePath = [[NSBundle mainBundle] bundlePath];
-			realHelperAppBundlePath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
-			if (![ourBundlePath isEqualToString:realHelperAppBundlePath])
-				registerItOurselves = NO;
-		}
+		//But, just to make sure we don't infinitely loop, make sure this isn't our own bundle.
+		NSString *ourBundlePath = [[NSBundle mainBundle] bundlePath];
+		realHelperAppBundlePath = [[GrowlPathUtilities runningHelperAppBundle] bundlePath];
+		if (![ourBundlePath isEqualToString:realHelperAppBundlePath])
+			registerItOurselves = NO;
 
 		if (registerItOurselves) {
 			//We are the real GHA.
@@ -702,7 +661,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	 *	preference setting was to click "Stop Growl," setting enabled to NO),
 	 *	quit having registered; otherwise, remain running.
 	 */
-	if (!growlIsEnabled && !growlFinishedLaunching) {
+	if (!growlFinishedLaunching) {
 		//Terminate after one second to give us time to process any other openFile: messages.
 		[NSObject cancelPreviousPerformRequestsWithTarget:NSApp
 												 selector:@selector(terminate:)
@@ -805,78 +764,78 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #if defined(BETA) && BETA
-    [self expiryCheck];
+	[self expiryCheck];
 #endif
-    // initialize GrowlPreferencesController before observing GrowlPreferencesChanged
-    GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-    
-    //register value transformer
-    id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
-    [NSValueTransformer setValueTransformer:transformer forName:@"GrowlImageTransformer"];
-
-    
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
-    [nc addObserver:self
-           selector:@selector(preferencesChanged:)
-               name:GrowlPreferencesChanged
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(showPreview:)
-               name:GrowlPreview
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(replyToPing:)
-               name:GROWL_PING
-             object:nil];
-    
-    [nc addObserver:self
-           selector:@selector(notificationClicked:)
-               name:GROWL_NOTIFICATION_CLICKED
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(notificationTimedOut:)
-               name:GROWL_NOTIFICATION_TIMED_OUT
-             object:nil];
-        
-    [self versionDictionary];
-    
-    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
-    NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
-    if (defaultDefaults) {
-        [preferences registerDefaults:defaultDefaults];
-    }
-    
-    //This class doesn't exist in the prefpane.
-    Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
-    if (pathwayControllerClass)
-        [pathwayControllerClass sharedController];
-    
-    [self preferencesChanged:nil];
+	// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	
-    GrowlIdleStatusController_init();
-    
-    // create and register GrowlNotificationCenter
-    growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
-    growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
-    //[growlNotificationCenterConnection enableMultipleThreads];
-    [growlNotificationCenterConnection setRootObject:growlNotificationCenter];
-    if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
-        NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
-    
+	//register value transformer
+	id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
+	[NSValueTransformer setValueTransformer:transformer forName:@"GrowlImageTransformer"];
+	
+	
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	
+	[nc addObserver:self
+			 selector:@selector(preferencesChanged:)
+				  name:GrowlPreferencesChanged
+				object:nil];
+	[nc addObserver:self
+			 selector:@selector(showPreview:)
+				  name:GrowlPreview
+				object:nil];
+	[nc addObserver:self
+			 selector:@selector(replyToPing:)
+				  name:GROWL_PING
+				object:nil];
+	
+	[nc addObserver:self
+			 selector:@selector(notificationClicked:)
+				  name:GROWL_NOTIFICATION_CLICKED
+				object:nil];
+	[nc addObserver:self
+			 selector:@selector(notificationTimedOut:)
+				  name:GROWL_NOTIFICATION_TIMED_OUT
+				object:nil];
+	
+	[self versionDictionary];
+	
+	NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
+	NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
+	if (defaultDefaults) {
+		[preferences registerDefaults:defaultDefaults];
+	}
+	
+	//This class doesn't exist in the prefpane.
+	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+	if (pathwayControllerClass)
+		[pathwayControllerClass sharedController];
+	
+	[self preferencesChanged:nil];
+	
+	GrowlIdleStatusController_init();
+	
+	// create and register GrowlNotificationCenter
+	growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
+	growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+	//[growlNotificationCenterConnection enableMultipleThreads];
+	[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
+	if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
+		NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
+	
 	[GrowlPluginController sharedController];
-    [[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
-    [[GrowlTicketDatabase sharedInstance] upgradeFromTicketFiles];
-
-    if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
-        [[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
-        firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
-       [NSApp activateIgnoringOtherApps:YES];
-        [firstLaunchWindow showWindow:self];
-       [[firstLaunchWindow window] makeKeyWindow];
-    }
-      
-
+	[[GrowlNotificationDatabase sharedInstance] setupMaintenanceTimers];
+	[[GrowlTicketDatabase sharedInstance] upgradeFromTicketFiles];
+	
+	if([GrowlFirstLaunchWindowController shouldRunFirstLaunch]){
+		[[GrowlPreferencesController sharedController] setBool:NO forKey:GrowlFirstLaunch];
+		firstLaunchWindow = [[GrowlFirstLaunchWindowController alloc] init];
+		[NSApp activateIgnoringOtherApps:YES];
+		[firstLaunchWindow showWindow:self];
+		[[firstLaunchWindow window] makeKeyWindow];
+	}
+	
+	
    NSInteger menuState = [[GrowlPreferencesController sharedController] menuState];
    switch (menuState) {
       case GrowlDockMenu:
@@ -916,10 +875,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
 	return NO;
-}
-
-- (void) applicationWillTerminate:(NSNotification *)notification {
-	//[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 
 #pragma mark Growl Application Bridge delegate
