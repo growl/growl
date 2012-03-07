@@ -90,6 +90,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[helperAppDefaults setPersistentDomain:inDefaults forName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 	}
 	[helperAppDefaults release];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (id) objectForKey:(NSString *)key {
@@ -100,21 +101,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 - (void) setObject:(id)object forKey:(NSString *)key {
-	CFPreferencesSetAppValue((CFStringRef)key,
-							 (CFPropertyListRef)object,
-							 (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
+	[[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 
 	int pid = getpid();
-	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
-	CFStringRef pidKey = CFSTR("pid");
-	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&pidKey, (const void **)&pidValue, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFRelease(pidValue);
-	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 (CFStringRef)GrowlPreferencesChanged,
-										 /*object*/ key,
-										 /*userInfo*/ userInfo,
-										 /*deliverImmediately*/ false);
-	CFRelease(userInfo);
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pid] forKey:@"pid"];	
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key userInfo:userInfo];
 }
 
 - (BOOL) boolForKey:(NSString *)key {
