@@ -118,14 +118,6 @@
 #define GROWL_GNTP_ORIGIN_PLATFORM_NAME					@"GNTP Origin-Platform-Name"
 #define GROWL_GNTP_ORIGIN_PLATFORM_VERSION				@"GNTP Origin-Platform-Versin"
 
-/*!	@defined	GrowlEnabledKey
- *	@abstract	Preference key controlling whether Growl is enabled.
- *	@discussion	If this is false, then when GrowlHelperApp is launched to open
- *	 a Growl registration dictionary file, GrowlHelperApp will quit when it has
- *	 finished processing the file instead of listening for notifications.
- */
-#define GrowlEnabledKey					XSTR("GrowlEnabled")
-
 /*!	@defined	GROWL_SCREENSHOT_MODE
  *	@abstract	Preference and notification key controlling whether to save a screenshot of the notification.
  *	@discussion	This is for GHA's private usage. If your application puts this
