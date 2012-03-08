@@ -22,6 +22,7 @@
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabasePlugin.h"
 #import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabaseCompoundAction.h"
 #import "GrowlTicketDatabaseDisplay.h"
 
 @implementation GrowlTicketDatabase
@@ -300,6 +301,25 @@
    NSString *resolvedHost = ((!hostName || [hostName isLocalHost]) ? @"Localhost" : hostName);
 	return (GrowlTicketDatabaseApplication*)[self managedObjectForEntity:@"GrowlApplicationTicket" 
 																				  predicate:[NSPredicate predicateWithFormat:@"name == %@ && parent.name == %@", appName, resolvedHost]];
+}
+
+-(void)createNewCompoundAction {
+	__block GrowlTicketDatabase *blockSelf = self;
+	void (^compoundBlock)(void) = ^{
+		GrowlTicketDatabaseCompoundAction *newCompound = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlCompoundAction"
+																												 inManagedObjectContext:blockSelf.managedObjectContext];
+		newCompound.pluginType = @"GrowlCompoundAction";
+		newCompound.displayName = @"NewCompoundAction";
+		newCompound.pluginID = @"com.Growl.compoundAction";
+		newCompound.configID = [[NSProcessInfo processInfo] globallyUniqueString];
+	};
+	
+	if([NSThread mainThread]){
+		compoundBlock();
+	}else{
+		[managedObjectContext performBlockAndWait:compoundBlock];
+	}
+	[self saveDatabase:NO];
 }
 
 -(GrowlTicketDatabaseDisplay*)defaultDisplayConfig {

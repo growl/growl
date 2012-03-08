@@ -16,7 +16,9 @@
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabasePlugin.h"
 #import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabaseCompoundAction.h"
 #import "GrowlTicketDatabaseDisplay.h"
+#import "GrowlCompoundActionPreferencePane.h"
 
 @interface GrowlPluginTypeLabelTransformer : NSValueTransformer
 
@@ -298,6 +300,10 @@
 	return [pluginController disabledPluginsPresent];
 }
 
+- (IBAction)addConfiguration:(id)sender {
+	[[GrowlTicketDatabase sharedInstance] createNewCompoundAction];
+}
+
 - (IBAction) openGrowlWebSiteToStyles:(id)sender {
    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/styles.php"]];
 }
@@ -333,10 +339,19 @@
 	if (pluginPrefPane)
 		oldPrefPane = pluginPrefPane;
    
-	if (display) {
-		// Old plugins won't support the new protocol. Check first
-		prefPane = [currentPluginController preferencePane];
-      
+	if(display) {
+		if([display isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+			static GrowlPluginPreferencePane *compoundPane = nil;
+			static dispatch_once_t onceToken;
+			dispatch_once(&onceToken, ^{
+				compoundPane = (GrowlPluginPreferencePane*)[[GrowlCompoundActionPreferencePane alloc] initWithBundle:[NSBundle mainBundle]];
+			});
+			prefPane = compoundPane;
+			
+		}else{
+			prefPane = [currentPluginController preferencePane];
+		}
+		
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
 			[prefPane setValue:display forKey:@"pluginConfiguration"];
@@ -356,7 +371,7 @@
 			[pluginPrefPane willSelect];
 		}
 	} else {
-      self.pluginPrefPane = nil;
+		self.pluginPrefPane = nil;
 	}
 	if (!newView)
 		newView = displayDefaultPrefView;

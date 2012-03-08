@@ -25,7 +25,9 @@
 		[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
 		[pluginConfiguration release];
 	}
+	[self willChangeValueForKey:@"pluginConfiguration"];
 	pluginConfiguration = [plugin retain];
+	[self didChangeValueForKey:@"pluginConfiguration"];
 	if([plugin valueForKey:@"configuration"])
 		self.configuration = [[[plugin valueForKey:@"configuration"] mutableCopy] autorelease];
 	else

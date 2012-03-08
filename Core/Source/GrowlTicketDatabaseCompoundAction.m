@@ -14,6 +14,14 @@
 
 @dynamic actions;
 
+-(BOOL)canFindInstance {
+	return YES;
+}
+
+-(GrowlPlugin*)pluginInstanceForConfiguration {
+	return nil;
+}
+
 -(NSSet*)resolvedActionConfigSet {
 	return [[self.actions copy] autorelease];
 }

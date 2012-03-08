@@ -15,6 +15,7 @@
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabaseNotification.h"
 #import "GrowlTicketDatabaseAction.h"
+#import "GrowlTicketDatabaseCompoundAction.h"
 #import "GrowlPathway.h"
 #import "GrowlPathwayController.h"
 #import "GrowlPropertyListFilePathway.h"
@@ -163,7 +164,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		[priority release];
 		[sticky   release];
 		NSDictionary *configCopy = [[[displayConfig configuration] copy] autorelease];
-		if([displayPlugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+		if([displayConfig isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+			NSSet *actions = [(GrowlTicketDatabaseCompoundAction*)displayConfig resolvedActionConfigSet];
+			[actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:obj];
+			}];
+		}else if([displayPlugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 			[displayPlugin dispatchNotification:info withConfiguration:configCopy];
 		}
 		[info release];
