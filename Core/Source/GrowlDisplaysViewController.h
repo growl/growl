@@ -20,12 +20,14 @@
 @property (nonatomic, assign) IBOutlet NSView *displayDefaultPrefView;
 @property (nonatomic, assign) IBOutlet NSTextField *displayAuthor;
 @property (nonatomic, assign) IBOutlet NSTextField *displayVersion;
+@property (nonatomic, assign) IBOutlet NSTextField *displayName;
 @property (nonatomic, assign) IBOutlet NSButton *previewButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *defaultDisplayPopUp;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *defaultActionPopUp;
 @property (nonatomic, retain) IBOutlet GroupedArrayController *pluginConfigGroupController;
+@property (nonatomic, assign) IBOutlet NSArrayController *displayConfigsArrayController;
+@property (nonatomic, assign) IBOutlet NSArrayController *actionConfigsArrayController;
 @property (nonatomic, assign) IBOutlet NSArrayController *displayPluginsArrayController;
-@property (nonatomic, assign) IBOutlet NSArrayController *actionPluginsArrayController;
 
 @property (nonatomic, assign) IBOutlet NSWindow *disabledDisplaysSheet;
 @property (nonatomic, assign) IBOutlet NSTextView *disabledDisplaysList;

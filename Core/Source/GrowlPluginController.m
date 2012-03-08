@@ -886,7 +886,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			NSBundle *bundle = [NSBundle bundleWithPath:destination];
 			NSDictionary *dict = [pluginsByBundleIdentifier valueForKey:[bundle bundleIdentifier]];
 			if(dict)
-				[[GrowlTicketDatabase sharedInstance] makeDefaultConfigForPluginDict:dict];
+				[[GrowlTicketDatabase sharedInstance] makeDefaultConfig:NO forPluginDict:dict];
 			if([self hasNativeArchitecture:destination])
 				NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No",  @"" ),

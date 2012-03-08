@@ -120,15 +120,17 @@
    return host;
 }
 
--(GrowlTicketDatabasePlugin*)makeDefaultConfigForPluginDict:(NSDictionary*)noteDict {
+-(GrowlTicketDatabasePlugin*)makeDefaultConfig:(BOOL)force forPluginDict:(NSDictionary*)noteDict {
 	__block GrowlTicketDatabasePlugin *newConfig = nil;
 	NSString *pluginName = [noteDict valueForKey:GrowlPluginInfoKeyName];
 	GrowlPlugin *plugin = [[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
 	newConfig = (GrowlTicketDatabasePlugin*)[self managedObjectForEntity:@"GrowlPlugin" 
 																				  predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", [[plugin bundle] bundleIdentifier]]];
-	if(newConfig){
+	if(newConfig && !force){
 		NSLog(@"At least one configuration entry already exists for bundle id %@, returning the existing config", [[plugin bundle] bundleIdentifier]);
 		return newConfig;
+	}else {
+		newConfig = nil;
 	}
 	
 	__block NSManagedObjectContext *blockContext = self.managedObjectContext;
@@ -173,7 +175,7 @@
 			__block NSString *firstDisplayUUID = nil;
 			__block NSString *smokeUUID = nil;
 			[pluginArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				GrowlTicketDatabasePlugin *config = [blockSelf makeDefaultConfigForPluginDict:obj];
+				GrowlTicketDatabasePlugin *config = [blockSelf makeDefaultConfig:NO forPluginDict:obj];
 				if([[config pluginType] caseInsensitiveCompare:@"GrowlDisplay"] == NSOrderedSame &&
 					!firstDisplayUUID)
 				{

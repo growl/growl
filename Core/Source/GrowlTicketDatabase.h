@@ -20,7 +20,7 @@
 -(BOOL)removeTicketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
 -(GrowlTicketDatabaseApplication*)ticketForApplicationName:(NSString*)appName hostName:(NSString*)hostName;
 
--(GrowlTicketDatabasePlugin*)makeDefaultConfigForPluginDict:(NSDictionary*)noteDict;
+-(GrowlTicketDatabasePlugin*)makeDefaultConfig:(BOOL)force forPluginDict:(NSDictionary*)noteDict;
 
 -(void)createNewCompoundAction;
 -(GrowlTicketDatabaseDisplay*)defaultDisplayConfig;
