@@ -167,7 +167,9 @@
 																											groupKey:@"pluginType"
 																							managedObjectContext:[[GrowlTicketDatabase sharedInstance] managedObjectContext]] autorelease];
 	
-	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
+	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"displayName" 
+																						 ascending:YES 
+																						  selector:@selector(caseInsensitiveCompare:)];
 	[[pluginConfigGroupController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
 	[pluginConfigGroupController setDelegate:self];
 	[pluginConfigGroupController setGrouped:YES];

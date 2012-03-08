@@ -162,7 +162,9 @@ static BOOL awoken = NO;
 																									 groupKey:@"parent.name"
 																					 managedObjectContext:[[GrowlTicketDatabase sharedInstance] managedObjectContext]] autorelease];
 	
-	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+	NSSortDescriptor *ascendingName = [NSSortDescriptor sortDescriptorWithKey:@"name" 
+																						 ascending:YES 
+																						  selector:@selector(caseInsensitiveCompare:)];
 	[[ticketsArrayController countController] setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
 	[ticketsArrayController setDelegate:self];
 	[ticketsArrayController setDoNotShowSingleGroupHeader:YES];
