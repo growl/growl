@@ -498,4 +498,14 @@
 	});
 }
 
+-(void)groupedControllerEndUpdates:(GroupedArrayController *)groupedController {
+	NSString *defaultDisplayPluginName = [[self preferencesController] defaultDisplayPluginName];
+	NSArray *defaultActions = [[self preferencesController] defaultActionPluginIDArray];
+	__block GrowlDisplaysViewController *blockSafe = self;
+	dispatch_async(dispatch_get_main_queue(), ^(void){
+		[blockSafe selectDefaultPlugin:defaultDisplayPluginName];
+		[blockSafe selectDefaultActions:defaultActions];
+	});
+}
+
 @end
