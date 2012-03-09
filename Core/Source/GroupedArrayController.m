@@ -153,6 +153,7 @@
 		//Add/Remove in the right order to make NSTableView happy
 		[self beginUpdates];
 		__block NSMutableArray *currentCopy = [current mutableCopy];
+		__block NSMutableArray *updatingCopy = [current mutableCopy];
 		
 		__block NSUInteger added = 0;
 		__block GroupedArrayController *blockSafeSelf = self;
@@ -161,9 +162,21 @@
 			if(oldIndex == NSNotFound){
 				added++;
 				[blockSafeSelf insertIndexes:[NSIndexSet indexSetWithIndex:idx]];
+				[updatingCopy insertObject:obj atIndex:idx];
 			}else{
-				if(oldIndex != 0)
-					[blockSafeSelf moveIndex:idx + oldIndex toIndex:idx];
+				NSUInteger updateIndex = [updatingCopy indexOfObject:obj];
+				if(updateIndex != idx && updateIndex != NSNotFound){
+					if(MAX(updateIndex, idx) - MIN(updateIndex, idx) == 1){
+						[blockSafeSelf moveIndex:updateIndex toIndex:idx];
+					}else{
+						//Move in a wave since moving by leaps seems to generate issues
+						for(NSUInteger i = MAX(updateIndex, idx); i > MIN(updateIndex, idx); i--){
+							[blockSafeSelf moveIndex:i - 1 toIndex:i];
+						}
+					}
+					[updatingCopy removeObjectAtIndex:updateIndex];
+					[updatingCopy insertObject:obj atIndex:idx];
+				}
 				[currentCopy removeObjectAtIndex:oldIndex];
 			}
 		}];
@@ -173,8 +186,16 @@
 		if([currentCopy count] > 0){
 			NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([destination count], [currentCopy count])];
 			[self removeIndexes:indexSet];
+			[updatingCopy removeObjectsInArray:currentCopy];
 		}
 		
+		/*if([updatingCopy isEqualToArray:arrangedObjects]){
+			NSLog(@"huzzah");
+		}else{
+			NSLog(@"sigh");
+		}*/
+		
+		[updatingCopy release];
 		[currentCopy release];
 		[self endUpdates];
 	}
