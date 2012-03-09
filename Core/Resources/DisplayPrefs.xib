@@ -69,7 +69,7 @@
 										<string key="NSFrameSize">{125, 342}</string>
 										<reference key="NSSuperview" ref="135659977"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="917453506"/>
+										<reference key="NSNextKeyView" ref="496368806"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="161028975">
 											<reference key="NSNextResponder" ref="745293565"/>
@@ -222,7 +222,7 @@
 						<string key="NSFrame">{{20, 79}, {127, 360}}</string>
 						<reference key="NSSuperview" ref="581541610"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="496368806"/>
+						<reference key="NSNextKeyView" ref="135659977"/>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="541467293"/>
 						<reference key="NSHScroller" ref="496368806"/>
@@ -306,7 +306,6 @@
 										<string key="NSFrame">{{331, 13}, {41, 13}}</string>
 										<reference key="NSSuperview" ref="1024986121"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:3944</string>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="206504742">
@@ -694,7 +693,6 @@
 								</object>
 								<reference key="NSMenuFont" ref="38278755"/>
 							</object>
-							<int key="NSSelectedIndex">3</int>
 							<bool key="NSPullDown">YES</bool>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
@@ -989,6 +987,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
+				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -1008,13 +1008,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSArrayController" id="385918962">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>GrowlPluginHumanReadableName</string>
-				</object>
 				<bool key="NSEditable">YES</bool>
+				<bool key="NSAutomaticallyPreparesContent">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
 				<bool key="NSPreservesSelection">YES</bool>
