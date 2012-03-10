@@ -216,9 +216,11 @@
 		}
 	}];
 	if([indexSet count] > 0){
-		[defaultActionPopUp selectItemAtIndex:[indexSet firstIndex] + 2];
+		[indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+			[[defaultActionPopUp itemAtIndex:idx + 3] setState:NSOnState];
+		}];
 	}else{
-		[defaultActionPopUp selectItemAtIndex:0];
+		[[defaultActionPopUp itemAtIndex:1] setState:NSOnState];
 	}
 }
 
@@ -271,18 +273,47 @@
 	[[self preferencesController] setDefaultDisplayPluginName:newDefaultID];
 }
 
+-(NSArray*)selectedDefaultActions {
+	NSArray *menuItems = [defaultActionPopUp itemArray];
+	NSArray *selectedActions = nil;
+	__block NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	[menuItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj state] == NSOnState && 
+			idx >= 3 &&
+			idx - 3 < [[actionConfigsArrayController arrangedObjects] count])
+		{
+			id pluginToUse = [[actionConfigsArrayController arrangedObjects] objectAtIndex:idx - 3];
+			if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseAction class]])
+				[indexSet addIndex:idx - 3];
+		}
+	}];
+	if([indexSet count] > 0)
+		selectedActions = [[actionConfigsArrayController arrangedObjects] objectsAtIndexes:indexSet];
+	return selectedActions;
+}
+
 -(void)updateDefaultActionPreference{
-	NSInteger index = [defaultActionPopUp indexOfSelectedItem];
-	NSString *newDefaultID = nil;
-	if(index >= 2 && index - 2 < (NSInteger)[[actionConfigsArrayController arrangedObjects] count]){
-		id pluginToUse = [[actionConfigsArrayController arrangedObjects] objectAtIndex:index - 2];
-		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseAction class]])
-			newDefaultID = [pluginToUse configID];
+	NSUInteger selectionIndex = [defaultActionPopUp indexOfSelectedItem];
+	
+	if(selectionIndex == 1){
+		//We are changing back to no default
+		//remove the rest, the bottom if statement will take care of it
+		[[defaultActionPopUp itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			[obj setState:NSOffState];
+		}];
+	}else{
+		NSInteger newState = ([[defaultActionPopUp itemAtIndex:selectionIndex] state] == NSOnState) ? NSOffState : NSOnState;
+		[[defaultActionPopUp itemAtIndex:selectionIndex] setState:newState];
 	}
-	if(newDefaultID && ![newDefaultID isEqualToString:@""])
-		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray arrayWithObject:newDefaultID]];
-	else
+	
+	NSArray *selectedItems = [self selectedDefaultActions];
+	if(selectedItems && [selectedItems count] > 0){
+		[[self preferencesController] setDefaultActionPluginIDArray:[selectedItems valueForKey:@"configID"]];
+		[[defaultActionPopUp itemAtIndex:1] setState:NSOffState];
+	}else{
 		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray array]];
+		[[defaultActionPopUp itemAtIndex:1] setState:NSOnState];
+	}
 }
 
 - (IBAction) showDisabledDisplays:(id)sender {
@@ -337,17 +368,27 @@
 	
 	id pluginToUse = nil;
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSInteger index = [sender indexOfSelectedItem];
-		NSArray *objects = (sender == defaultDisplayPopUp) ? [displayConfigsArrayController arrangedObjects] : 
-																			  [actionConfigsArrayController arrangedObjects];
-		if(index >= 2 && index - 2 < (NSInteger)[objects count])
-			pluginToUse = [objects objectAtIndex:index - 2];
+		if(sender == defaultDisplayPopUp){
+			NSInteger index = [sender indexOfSelectedItem];
+			NSArray *objects = (sender == defaultDisplayPopUp) ? [displayConfigsArrayController arrangedObjects] : 
+			[actionConfigsArrayController arrangedObjects];
+			if(index >= 2 && index - 2 < (NSInteger)[objects count])
+				pluginToUse = [objects objectAtIndex:index - 2];
+		}else if(sender == defaultActionPopUp){
+			pluginToUse = [self selectedDefaultActions];
+		}
    }else if ([sender isKindOfClass:[NSButton class]]){
 		pluginToUse = [pluginConfigGroupController selection];
 	}
 	if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabasePlugin class]])
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																			 object:pluginToUse];
+	if(pluginToUse && [pluginToUse isKindOfClass:[NSArray class]]){
+		[pluginToUse enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+																				 object:obj];
+		}];
+	}
 }
 
 - (void) loadViewForDisplay:(GrowlTicketDatabasePlugin *)display {

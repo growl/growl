@@ -21,6 +21,7 @@
 @dynamic selectedPosition;
 @dynamic ticketDescription;
 @dynamic useDisplay;
+@dynamic useParentActions;
 @dynamic actions;
 @dynamic children;
 @dynamic parent;
@@ -50,24 +51,23 @@
 	return plugin;
 }
 -(NSSet*)resolvedActionConfigSet {
-	NSSet *result = nil;
+	__block NSMutableSet *buildSet = [NSMutableSet set];
 	if(self.actions && [self.actions count] > 0){
-		__block NSMutableSet *buildSet = [NSMutableSet set];
 		[self.actions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			if([[obj entityName] isEqualToString:@"GrowlCompoundAction"])
 				[buildSet unionSet:[(GrowlTicketDatabaseCompoundAction*)obj resolvedActionConfigSet]];
 			else
 				[buildSet unionSet:[NSSet setWithObject:obj]];
 		}];
-		result = [[buildSet copy] autorelease];
-	}else{
+	}
+	if([self.useParentActions boolValue]){
 		if(self.parent)
-			result = [self.parent resolvedActionConfigSet];
+			[buildSet unionSet:[self.parent resolvedActionConfigSet]];
 		else {
-			result = [[GrowlTicketDatabase sharedInstance] defaultActionConfigSet];
+			[buildSet unionSet:[[GrowlTicketDatabase sharedInstance] defaultActionConfigSet]];
 		}
 	}
-	return result;
+	return [[buildSet copy] autorelease];
 }
 
 -(void)setNewDisplayName:(NSString*)name {

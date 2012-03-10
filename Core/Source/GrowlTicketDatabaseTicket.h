@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * selectedPosition;
 @property (nonatomic, retain) NSString * ticketDescription;
 @property (nonatomic, retain) NSNumber * useDisplay;
+@property (nonatomic, retain) NSNumber * useParentActions;
 @property (nonatomic, retain) NSOrderedSet *actions;
 @property (nonatomic, retain) NSSet *children;
 @property (nonatomic, retain) GrowlTicketDatabaseTicket *parent;

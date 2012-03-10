@@ -375,7 +375,9 @@
 	__block NSMutableSet *resolvedSet = [NSMutableSet set];
 	[actionIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		GrowlTicketDatabasePlugin *plugin = [self pluginConfigForID:obj];
-		if (plugin && [plugin isKindOfClass:[GrowlTicketDatabaseAction class]]) {
+		if(plugin && [plugin isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+			[resolvedSet unionSet:[(GrowlTicketDatabaseCompoundAction*)plugin resolvedActionConfigSet]];
+		}else if (plugin && [plugin isKindOfClass:[GrowlTicketDatabaseAction class]]) {
 			[resolvedSet addObject:plugin];
 		}
 	}];
