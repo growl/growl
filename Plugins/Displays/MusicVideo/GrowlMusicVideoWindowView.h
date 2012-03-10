@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowlMusicVideoWindowView : GrowlNotificationView {
 	NSImage				*icon;

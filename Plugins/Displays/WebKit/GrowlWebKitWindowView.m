@@ -6,10 +6,10 @@
 //  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlWebKitWindowView.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlWebKitDefines.h"
-#import "GrowlNotificationView.h"
 
 @interface NSView (MouseOver)
 - (void) _updateMouseoverWithFakeEvent;

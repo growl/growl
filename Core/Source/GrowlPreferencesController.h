@@ -21,12 +21,12 @@
 #define GrowlSquelchMode            XSTR("GrowlSquelchMode")
 #define GrowlPreview				XSTR("GrowlPreview")
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
+#define GrowlActionPluginsKey    XSTR("GrowlActionPluginIDs")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
 #define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
-#define GrowlUDPPortKey				XSTR("GrowlUDPPort")
 #define GrowlTCPPortKey				XSTR("GrowlTCPPort")
 #define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
 #define	GrowlLogTypeKey				XSTR("GrowlLogType")
@@ -68,10 +68,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 #ifdef __OBJC__
 
-#import "GrowlAbstractSingletonObject.h"
 
-@interface GrowlPreferencesController : GrowlAbstractSingletonObject {
-	LSSharedFileListRef loginItems;
+@interface GrowlPreferencesController : NSObject {
 }
 
 + (GrowlPreferencesController *) sharedController;
@@ -83,9 +81,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (CFIndex) integerForKey:(NSString *)key;
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
-- (void) synchronize;
 
-- (void) upgradeStartAtLogin;
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
@@ -101,6 +97,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
+
+- (NSArray *) defaultActionPluginIDArray;
+- (void) setDefaultActionPluginIDArray:(NSArray*)actions;
 
 - (NSNumber*) idleThreshold;
 - (void) setIdleThreshold:(NSNumber*)value;

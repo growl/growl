@@ -46,6 +46,20 @@
 	return @"iCalPrefs";
 }
 
+- (NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [[NSSet setWithObjects:@"color",
+				  @"opacity",
+				  @"duration",
+				  @"limit",
+				  @"screen",
+				  @"size", nil] retain];
+	});
+	return keys;
+}
+
 //make sure we set up our settings prior to the PrefPane view actually loading, or we risk not having our controls display correctly
 - (void) willSelect {
 	[slider_opacity setAltIncrementValue:0.05];
@@ -55,52 +69,56 @@
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &value);
+	if([self.configuration valueForKey:GrowliCalLimitPref]){
+		value = [[self.configuration valueForKey:GrowliCalLimitPref] boolValue];
+	}
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowliCalLimitPref, value, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowliCalLimitPref];
 }
 
 #pragma mark -
 
 - (CGFloat) opacity {
 	CGFloat value = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &value);
+	if([self.configuration valueForKey:GrowliCalOpacity]){
+		value = [[self.configuration valueForKey:GrowliCalOpacity] floatValue];
+	}
 	return value;
 }
 
 - (void) setOpacity:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowliCalOpacity, value, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowliCalOpacity];
 }
 
 #pragma mark -
 
 - (CGFloat) duration {
 	CGFloat value = 4.0;
-	READ_GROWL_PREF_FLOAT(GrowliCalDuration, GrowliCalPrefDomain, &value);
+	if([self.configuration valueForKey:GrowliCalDuration]){
+		value = [[self.configuration valueForKey:GrowliCalDuration] floatValue];
+	}
 	return value;
 }
 
 - (void) setDuration:(CGFloat)value {
-	WRITE_GROWL_PREF_FLOAT(GrowliCalDuration, value, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowliCalDuration];
 }
 
 #pragma mark -
 - (GrowliCalColorType)color
 {
 	GrowliCalColorType color = GrowliCalPurple;
-	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
+	if([self.configuration valueForKey:GrowliCalColor]){
+		color = [[self.configuration valueForKey:GrowliCalColor] intValue];
+	}
 	return color;
 }
 - (void)setColor:(GrowliCalColorType)color
 {
-	WRITE_GROWL_PREF_INT(GrowliCalColor, color, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:color] forKey:GrowliCalColor];
 }
 
 #pragma mark -
@@ -119,23 +137,25 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &value);
+	if([self.configuration valueForKey:GrowliCalScreen]){
+		value = [[self.configuration valueForKey:GrowliCalScreen] intValue];
+	}
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowliCalScreen, value, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowliCalScreen];
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowliCalSizePref, GrowliCalPrefDomain, &value);
+	if([self.configuration valueForKey:GrowliCalSizePref]){
+		value = [[self.configuration valueForKey:GrowliCalSizePref] intValue];
+	}
 	return value;
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowliCalSizePref, value, GrowliCalPrefDomain);
-	UPDATE_GROWL_PREFS();
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:GrowliCalSizePref];
 }
 @end

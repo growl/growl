@@ -45,7 +45,9 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	if (needsDisplay) {
 		// rects and sizes
 		int sizePref = 0;
-		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+		if([[self configurationDict] valueForKey:MUSICVIDEO_SIZE_PREF]){
+			sizePref = [[[self configurationDict] valueForKey:MUSICVIDEO_SIZE_PREF] boolValue];
+		}
 		NSRect titleRect, textRect;
 		NSRect iconRect;
 
@@ -111,7 +113,9 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	// draw cache to screen
 	NSRect imageRect = rect;
 	int effect = MUSICVIDEO_EFFECT_SLIDE;
-	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+	if([[self configurationDict] valueForKey:MUSICVIDEO_EFFECT_PREF]){
+		effect = [[[self configurationDict] valueForKey:MUSICVIDEO_EFFECT_PREF] intValue];
+	}
 	if (effect == MUSICVIDEO_EFFECT_SLIDE) {
 		if (CGLayerCreateWithContext)
 			imageRect.origin.y = 0.0;
@@ -189,25 +193,23 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	[backgroundColor release];
 
 	CGFloat opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, GrowlMusicVideoPrefDomain, &opacityPref);
+	if([[self configurationDict] valueForKey:MUSICVIDEO_OPACITY_PREF]){
+		opacityPref = [[[self configurationDict] valueForKey:MUSICVIDEO_OPACITY_PREF] floatValue];
+	}
 	CGFloat alpha = opacityPref * 0.01;
 
 	Class NSDataClass = [NSData class];
-	NSData *data = nil;
+	NSData *data = [[self configurationDict] valueForKey:key];
 
-	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
 		backgroundColor = [NSColor blackColor];
 	backgroundColor = [[backgroundColor colorWithAlphaComponent:alpha] retain];
-	[data release];
 	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlMusicVideoPrefDomain, NSData *, &data);
+	data = [[self configurationDict] valueForKey:textKey];
 	if(data)
 		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
@@ -215,12 +217,13 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	else
 		textColor = [NSColor whiteColor];
 	[textColor retain];
-	[data release];
 
 	CGFloat titleFontSize;
 	CGFloat textFontSize;
 	int sizePref = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+	if([[self configurationDict] valueForKey:MUSICVIDEO_SIZE_PREF]){
+		sizePref = [[[self configurationDict] valueForKey:MUSICVIDEO_SIZE_PREF] intValue];
+	}
 
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		titleFontSize = 32.0;
