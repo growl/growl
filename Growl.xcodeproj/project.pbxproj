@@ -181,6 +181,14 @@
 		834DA19A150B3E34003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
 		834DA19B150B3E34003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
 		834DA19C150B3E34003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
+		834DA19E150B3ECE003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
+		834DA19F150B3ECE003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
+		834DA1A0150B3ECE003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
+		834DA1A1150B3ECE003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
+		834DA1A6150B3EE1003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
+		834DA1A7150B3EE1003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
+		834DA1A8150B3EE1003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
+		834DA1A9150B3EE1003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */; };
 		835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */; };
@@ -949,6 +957,11 @@
 		834DA196150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		834DA197150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		834DA198150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		834DA19D150B3ECE003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "zh-Hans.lproj/About.rtf"; sourceTree = "<group>"; };
+		834DA1A2150B3EE1003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/OldGrowl.rtf"; sourceTree = "<group>"; };
+		834DA1A3150B3EE1003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/StartAtLogin.rtf"; sourceTree = "<group>"; };
+		834DA1A4150B3EE1003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/Welcome.rtf"; sourceTree = "<group>"; };
+		834DA1A5150B3EE1003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/WhatsNew.rtf"; sourceTree = "<group>"; };
 		835A0ACD142A85E100B89123 /* Raaarr.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Raaarr.growlStyle; path = Core/Resources/Raaarr.growlStyle; sourceTree = "<group>"; };
 		835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-REGDICT.icns"; path = "images/DocumentIcons/Growl-REGDICT.icns"; sourceTree = "<group>"; };
 		835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-STYLE.icns"; path = "images/DocumentIcons/Growl-STYLE.icns"; sourceTree = "<group>"; };
@@ -3430,6 +3443,14 @@
 				834DA19A150B3E34003B6FA5 /* OldGrowl.rtf in Resources */,
 				834DA19B150B3E34003B6FA5 /* WhatsNew.rtf in Resources */,
 				834DA19C150B3E34003B6FA5 /* Welcome.rtf in Resources */,
+				834DA19E150B3ECE003B6FA5 /* StartAtLogin.rtf in Resources */,
+				834DA19F150B3ECE003B6FA5 /* OldGrowl.rtf in Resources */,
+				834DA1A0150B3ECE003B6FA5 /* WhatsNew.rtf in Resources */,
+				834DA1A1150B3ECE003B6FA5 /* Welcome.rtf in Resources */,
+				834DA1A6150B3EE1003B6FA5 /* StartAtLogin.rtf in Resources */,
+				834DA1A7150B3EE1003B6FA5 /* OldGrowl.rtf in Resources */,
+				834DA1A8150B3EE1003B6FA5 /* WhatsNew.rtf in Resources */,
+				834DA1A9150B3EE1003B6FA5 /* Welcome.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4142,6 +4163,7 @@
 				83DD3AEB14F0B22400C0028D /* sk */,
 				83DD3AF014F0B3DF00C0028D /* pl */,
 				834DA12F150AFF64003B6FA5 /* zh-Hant */,
+				834DA19D150B3ECE003B6FA5 /* zh-Hans */,
 			);
 			name = About.rtf;
 			path = Core/Resources;
@@ -4216,6 +4238,7 @@
 				834DA0F7150AF90B003B6FA5 /* fr */,
 				834DA137150AFF7C003B6FA5 /* zh-Hant */,
 				834DA198150B3E34003B6FA5 /* nb */,
+				834DA1A5150B3EE1003B6FA5 /* zh-Hans */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -4234,6 +4257,7 @@
 				834DA0F5150AF90B003B6FA5 /* fr */,
 				834DA135150AFF7C003B6FA5 /* zh-Hant */,
 				834DA196150B3E34003B6FA5 /* nb */,
+				834DA1A3150B3EE1003B6FA5 /* zh-Hans */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -4251,6 +4275,7 @@
 				834DA0F4150AF90B003B6FA5 /* fr */,
 				834DA134150AFF7C003B6FA5 /* zh-Hant */,
 				834DA195150B3E34003B6FA5 /* nb */,
+				834DA1A2150B3EE1003B6FA5 /* zh-Hans */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4451,6 +4476,7 @@
 				834DA0F6150AF90B003B6FA5 /* fr */,
 				834DA136150AFF7C003B6FA5 /* zh-Hant */,
 				834DA197150B3E34003B6FA5 /* nb */,
+				834DA1A4150B3EE1003B6FA5 /* zh-Hans */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
