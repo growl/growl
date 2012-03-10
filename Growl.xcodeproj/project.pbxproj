@@ -151,48 +151,6 @@
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		8321E9AC0C0B7635008C441B /* NotifyOSX.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E9A10C0B760C008C441B /* NotifyOSX.growlStyle */; };
 		8321E9AD0C0B7635008C441B /* NotifyOS9.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8321E98D0C0B75F3008C441B /* NotifyOS9.growlStyle */; };
-		834DA0F8150AF90B003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA0F9150AF90B003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA0FA150AF90B003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA0FB150AF90B003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA130150AFF64003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA131150AFF64003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA132150AFF64003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA133150AFF64003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA138150AFF7C003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA139150AFF7C003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA13A150AFF7C003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA13B150AFF7C003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA140150AFFA2003B6FA5 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA5141EFCA0005A26CF /* About.rtf */; };
-		834DA141150AFFA2003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA142150AFFA2003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA143150AFFA2003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA144150AFFA2003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA145150AFFA2003B6FA5 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
-		834DA146150AFFA2003B6FA5 /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */; };
-		834DA150150B07CD003B6FA5 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA5141EFCA0005A26CF /* About.rtf */; };
-		834DA151150B07CD003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA152150B07CD003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA153150B07CD003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA154150B07CD003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA155150B07CD003B6FA5 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
-		834DA156150B07CD003B6FA5 /* AwayHistoryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */; };
-		834DA199150B3E34003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA19A150B3E34003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA19B150B3E34003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA19C150B3E34003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA19E150B3ECE003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA19F150B3ECE003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA1A0150B3ECE003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA1A1150B3ECE003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA1A6150B3EE1003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA1A7150B3EE1003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA1A8150B3EE1003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA1A9150B3EE1003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
-		834DA1AE150B4489003B6FA5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		834DA1AF150B4489003B6FA5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		834DA1B0150B4489003B6FA5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		834DA1B1150B4489003B6FA5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		835A0ACF142A86AA00B89123 /* Raaarr.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 835A0ACD142A85E100B89123 /* Raaarr.growlStyle */; };
 		835A0AE4142C73DE00B89123 /* Growl-REGDICT.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE0142C73DE00B89123 /* Growl-REGDICT.icns */; };
 		835A0AE5142C73DE00B89123 /* Growl-STYLE.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE1142C73DE00B89123 /* Growl-STYLE.icns */; };
@@ -949,14 +907,14 @@
 		834DA135150AFF7C003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/StartAtLogin.rtf"; sourceTree = "<group>"; };
 		834DA136150AFF7C003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/Welcome.rtf"; sourceTree = "<group>"; };
 		834DA137150AFF7C003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/WhatsNew.rtf"; sourceTree = "<group>"; };
-		834DA13C150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		834DA13D150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		834DA13E150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/mainmenu.strings"; sourceTree = "<group>"; };
-		834DA13F150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
-		834DA14C150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		834DA14D150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		834DA14E150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/mainmenu.strings"; sourceTree = "<group>"; };
-		834DA14F150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
+		834DA13C150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		834DA13D150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		834DA13E150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/mainmenu.strings"; sourceTree = "<group>"; };
+		834DA13F150AFFA2003B6FA5 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Core/Resources/zh-Hant.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
+		834DA14C150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		834DA14D150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		834DA14E150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/mainmenu.strings"; sourceTree = "<group>"; };
+		834DA14F150B07CD003B6FA5 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/Resources/zh-Hans.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
 		834DA195150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		834DA196150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		834DA197150B3E34003B6FA5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = nb; path = Core/Resources/nb.lproj/Welcome.rtf; sourceTree = "<group>"; };
@@ -3192,7 +3150,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "The Growl Project";
 			};
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
@@ -3421,48 +3379,6 @@
 				BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */,
 				83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */,
 				83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */,
-				834DA0F8150AF90B003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA0F9150AF90B003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA0FA150AF90B003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA0FB150AF90B003B6FA5 /* Welcome.rtf in Resources */,
-				834DA130150AFF64003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA131150AFF64003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA132150AFF64003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA133150AFF64003B6FA5 /* Welcome.rtf in Resources */,
-				834DA138150AFF7C003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA139150AFF7C003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA13A150AFF7C003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA13B150AFF7C003B6FA5 /* Welcome.rtf in Resources */,
-				834DA140150AFFA2003B6FA5 /* About.rtf in Resources */,
-				834DA141150AFFA2003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA142150AFFA2003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA143150AFFA2003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA144150AFFA2003B6FA5 /* Welcome.rtf in Resources */,
-				834DA145150AFFA2003B6FA5 /* FirstLaunchWindow.xib in Resources */,
-				834DA146150AFFA2003B6FA5 /* AwayHistoryWindow.xib in Resources */,
-				834DA150150B07CD003B6FA5 /* About.rtf in Resources */,
-				834DA151150B07CD003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA152150B07CD003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA153150B07CD003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA154150B07CD003B6FA5 /* Welcome.rtf in Resources */,
-				834DA155150B07CD003B6FA5 /* FirstLaunchWindow.xib in Resources */,
-				834DA156150B07CD003B6FA5 /* AwayHistoryWindow.xib in Resources */,
-				834DA199150B3E34003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA19A150B3E34003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA19B150B3E34003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA19C150B3E34003B6FA5 /* Welcome.rtf in Resources */,
-				834DA19E150B3ECE003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA19F150B3ECE003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA1A0150B3ECE003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA1A1150B3ECE003B6FA5 /* Welcome.rtf in Resources */,
-				834DA1A6150B3EE1003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA1A7150B3EE1003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA1A8150B3EE1003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA1A9150B3EE1003B6FA5 /* Welcome.rtf in Resources */,
-				834DA1AE150B4489003B6FA5 /* StartAtLogin.rtf in Resources */,
-				834DA1AF150B4489003B6FA5 /* OldGrowl.rtf in Resources */,
-				834DA1B0150B4489003B6FA5 /* WhatsNew.rtf in Resources */,
-				834DA1B1150B4489003B6FA5 /* Welcome.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
