@@ -204,10 +204,16 @@ static dispatch_queue_t __imageCacheQueue;
 
 - (void) dealloc {
 	GrowlWebKitWindowView *webView = [[self window] contentView];
-	[webView      setPolicyDelegate:nil];
-	[webView      setFrameLoadDelegate:nil];
-	[webView      setTarget:nil];
-
+	//we do this because its entirely possible to make it to dealloc before a
+    //WebView has been assigned as the contentView for our window and all of these
+    //method calls expect that that has happened
+    if([webView isKindOfClass:[GrowlWebKitWindowView class]])
+    {
+        [webView      setPolicyDelegate:nil];
+        [webView      setFrameLoadDelegate:nil];
+        [webView      setTarget:nil];
+    }
+    
 	[templateHTML release];
 	[baseURL	  release];
 	
