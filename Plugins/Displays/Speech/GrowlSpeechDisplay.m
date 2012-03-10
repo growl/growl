@@ -91,17 +91,19 @@
 {
 	if([sender isEqualTo:syn])
 	{
-		[speech_queue removeObjectAtIndex:0U];
-		if([speech_queue count])
-		{
-			//insert a slight delay
-			__block GrowlSpeechDisplay *blockSelf = self;
-			NSDictionary *speechDict = [speech_queue objectAtIndex:0U];
-			double delayInSeconds = 1.0;
-			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-			dispatch_after(popTime, speech_dispatch_queue, ^(void){
-				[blockSelf speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
-			});
+		if([speech_queue count]){
+			[speech_queue removeObjectAtIndex:0U];
+			if([speech_queue count])
+			{
+				//insert a slight delay
+				__block GrowlSpeechDisplay *blockSelf = self;
+				NSDictionary *speechDict = [speech_queue objectAtIndex:0U];
+				double delayInSeconds = 1.0;
+				dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+				dispatch_after(popTime, speech_dispatch_queue, ^(void){
+					[blockSelf speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
+				});
+			}
 		}
 	}
 	else
