@@ -24,9 +24,14 @@
 #pragma mark -
 
 - (NSArray *) arrangeObjects:(NSArray *)objects {
-   NSSet *newSet = [NSSet setWithArray:objects];
+    objects = [super arrangeObjects:objects];
+    NSSet *newSet = [NSSet setWithArray:objects];
    if ([newSet isEqualToSet:previousSet]) {
-      return expandedArray;
+       if(self.selectedObjects && [self.selectedObjects count] && ![objects containsObject:[self.selectedObjects objectAtIndex:0U]])
+           [self performSelector:@selector(selectFirstApplication) withObject:nil afterDelay:0.1f];
+       if(self.selectedObjects && ![self.selectedObjects count])
+           self.selectedObjects = nil;
+     return expandedArray;
    }else{
       NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
       self.previousSet = newSet;
@@ -49,25 +54,23 @@
       }];
        if(remoteHosts)
            [expandedArray insertObject:NSLocalizedString(@"Local", @"Title for section containing apps from the local machine") atIndex:0U];
-      return expandedArray;
+       if(self.selectedObjects && [self.selectedObjects count] && ![objects containsObject:[self.selectedObjects objectAtIndex:0U]])
+           [self performSelector:@selector(selectFirstApplication) withObject:nil afterDelay:0.1f];
+       
+       return expandedArray;
    }
 }
 
-- (void) search:(id)sender {
-	[self setSearchString:[sender stringValue]];
-	[self rearrangeObjects];
-}
-
 - (void) selectFirstApplication {
-   __block NSUInteger index = NSNotFound;
+   __block NSInteger selection = NSNotFound;
    [[self arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if([obj isKindOfClass:[GrowlApplicationTicket class]]){
-         index = idx;
+         selection = idx;
          *stop = YES;
       }
    }];
    
-   [self setSelectionIndex:index];
+   [self setSelectionIndex:selection];
 }
 
 - (BOOL) canRemove {

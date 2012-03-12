@@ -22,6 +22,7 @@ static BOOL awoken = NO;
 @synthesize growlApplications;
 @synthesize notificationsTable;
 @synthesize applicationsNameAndIconColumn;
+@synthesize searchField;
 @synthesize ticketController;
 @synthesize ticketsArrayController;
 @synthesize notificationsArrayController;
@@ -185,10 +186,14 @@ static BOOL awoken = NO;
                                    nameOfSelectedDisplay:[ticket valueForKey:@"displayPluginName"] 
                                   includeDefaultMenuItem:YES];
          }
-      }else{
-         [appOnSwitch setState:NO];
-         [displayMenuButton setEnabled:NO];
-         [notificationDisplayMenuButton setEnabled:NO];
+      }
+      else
+      {
+          if([[ticketsArrayController arrangedObjects] count])
+              [ticketsArrayController selectFirstApplication];
+          [appOnSwitch setState:NO];
+          [displayMenuButton setEnabled:NO];
+          [notificationDisplayMenuButton setEnabled:NO];
       }
    }
    if([keyPath isEqualToString:@"state"] && object == appOnSwitch){

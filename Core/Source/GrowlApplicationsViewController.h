@@ -15,6 +15,7 @@
 @property (nonatomic, assign) IBOutlet NSTableView *growlApplications;
 @property (nonatomic, assign) IBOutlet NSTableView *notificationsTable;
 @property (nonatomic, assign) IBOutlet NSTableColumn *applicationsNameAndIconColumn;
+@property (nonatomic, assign) IBOutlet NSSearchField *searchField;
 @property (nonatomic, assign) GrowlTicketController *ticketController;
 @property (nonatomic, assign) IBOutlet TicketsArrayController *ticketsArrayController;
 @property (nonatomic, assign) IBOutlet NotificationsArrayController *notificationsArrayController;

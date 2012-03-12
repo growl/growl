@@ -14,7 +14,6 @@
 	NSString *searchString;
 }
 
-- (IBAction) search:(id)sender;
 - (void) selectFirstApplication;
 
 @property (nonatomic, retain) NSString *searchString;
