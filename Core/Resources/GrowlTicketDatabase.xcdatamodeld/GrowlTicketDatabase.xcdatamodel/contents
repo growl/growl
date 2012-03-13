@@ -40,7 +40,7 @@
         <attribute name="ticketDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="useDisplay" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="useParentActions" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
-        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="GrowlAction" inverseName="tickets" inverseEntity="GrowlAction" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GrowlAction" inverseName="tickets" inverseEntity="GrowlAction" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GrowlTicket" inverseName="parent" inverseEntity="GrowlTicket" syncable="YES"/>
         <relationship name="display" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlDisplay" inverseName="tickets" inverseEntity="GrowlDisplay" syncable="YES"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GrowlTicket" inverseName="children" inverseEntity="GrowlTicket" syncable="YES"/>

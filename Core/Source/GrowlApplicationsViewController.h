@@ -19,6 +19,7 @@
 @property (nonatomic, assign) IBOutlet GrowlTicketDatabase *ticketDatabase;
 @property (nonatomic, retain) IBOutlet GroupedArrayController *ticketsArrayController;
 @property (nonatomic, assign) IBOutlet NSArrayController *displayPluginsArrayController;
+@property (nonatomic, assign) IBOutlet NSArrayController *actionConfigsArrayController;
 @property (nonatomic, assign) IBOutlet NSArrayController *notificationsArrayController;
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;
@@ -26,6 +27,8 @@
 @property (nonatomic, assign) IBOutlet NSPopUpButton *soundMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *displayMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *notificationDisplayMenuButton;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *actionMenuButton;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *notificationActionMenuButton;
 @property (nonatomic, assign) NSIndexSet *selectedNotificationIndexes;
 
 @property (nonatomic, assign) IBOutlet NSScrollView *applicationScrollView;

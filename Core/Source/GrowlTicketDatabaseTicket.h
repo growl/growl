@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSString * ticketDescription;
 @property (nonatomic, retain) NSNumber * useDisplay;
 @property (nonatomic, retain) NSNumber * useParentActions;
-@property (nonatomic, retain) NSOrderedSet *actions;
+@property (nonatomic, retain) NSSet *actions;
 @property (nonatomic, retain) NSSet *children;
 @property (nonatomic, retain) GrowlTicketDatabaseTicket *parent;
 @property (nonatomic, retain) GrowlTicketDatabaseDisplay *display;
@@ -30,12 +30,6 @@
 
 @interface GrowlTicketDatabaseTicket (CoreDataGeneratedAccessors)
 
-- (void)insertObject:(NSManagedObject *)value inActionsAtIndex:(NSUInteger)idx;
-- (void)removeObjectFromActionsAtIndex:(NSUInteger)idx;
-- (void)insertActions:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
-- (void)removeActionsAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInActionsAtIndex:(NSUInteger)idx withObject:(NSManagedObject *)value;
-- (void)replaceActionsAtIndexes:(NSIndexSet *)indexes withActions:(NSArray *)values;
 - (void)addActionsObject:(NSManagedObject *)value;
 - (void)removeActionsObject:(NSManagedObject *)value;
 - (void)addActions:(NSOrderedSet *)values;

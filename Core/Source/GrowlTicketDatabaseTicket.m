@@ -53,7 +53,7 @@
 -(NSSet*)resolvedActionConfigSet {
 	__block NSMutableSet *buildSet = [NSMutableSet set];
 	if(self.actions && [self.actions count] > 0){
-		[self.actions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[self.actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
 			if([[obj entityName] isEqualToString:@"GrowlCompoundAction"])
 				[buildSet unionSet:[(GrowlTicketDatabaseCompoundAction*)obj resolvedActionConfigSet]];
 			else

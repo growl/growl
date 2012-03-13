@@ -62,6 +62,7 @@ static BOOL awoken = NO;
 @synthesize ticketDatabase;
 @synthesize ticketsArrayController;
 @synthesize displayPluginsArrayController;
+@synthesize actionConfigsArrayController;
 @synthesize notificationsArrayController;
 @synthesize appSettingsTabView;
 @synthesize appOnSwitch;
@@ -69,6 +70,8 @@ static BOOL awoken = NO;
 @synthesize soundMenuButton;
 @synthesize displayMenuButton;
 @synthesize notificationDisplayMenuButton;
+@synthesize actionMenuButton;
+@synthesize notificationActionMenuButton;
 @synthesize selectedNotificationIndexes;
 
 @synthesize applicationScrollView;
@@ -369,21 +372,80 @@ static BOOL awoken = NO;
 	[ticket setUseDisplay:[NSNumber numberWithBool:useDisplay]];
 }
 
+- (void)updateDefaultActions:(BOOL)app {
+	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	
+	NSPopUpButton *popupButton = app ? actionMenuButton : notificationActionMenuButton;
+
+	NSInteger index = [popupButton indexOfSelectedItem];
+	
+	NSInteger prevState = [[popupButton itemAtIndex:index] state];
+	NSInteger newState = prevState == NSOnState ? NSOffState : NSOnState;
+	switch (index) {
+		case 2:
+			if(newState == NSOnState){
+				//Use no actions whatsoever
+				[[popupButton itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+					[(NSMenuItem*)obj setState:NSOffState];
+				}];
+				[ticket setUseParentActions:[NSNumber numberWithBool:NO]];
+				[ticket setActions:nil];
+			}else{
+				[ticket setUseParentActions:[NSNumber numberWithBool:YES]];
+			}
+			break;
+		case -1:
+		case 0:
+		case 3:
+			break;
+		case 1:
+			[ticket setUseParentActions:[NSNumber numberWithBool:(newState == NSOnState)]];
+			break;
+		default:
+			if(index - 4 < (NSInteger)[[actionConfigsArrayController arrangedObjects] count]){
+				if(newState == NSOnState){
+					[ticket addActionsObject:[[actionConfigsArrayController arrangedObjects] objectAtIndex:index - 4]];
+				}else{
+					[ticket removeActionsObject:[[actionConfigsArrayController arrangedObjects] objectAtIndex:index - 4]];
+				}
+			}	
+			break;
+	}
+	[[popupButton itemAtIndex:index] setState:newState];
+	if([[ticket actions] count] == 0 && ![[ticket useParentActions] boolValue]){
+		[[popupButton itemAtIndex:2] setState:NSOnState];
+	}else{
+		[[popupButton itemAtIndex:2] setState:NSOffState];
+	}
+}
+
 - (IBAction) showPreview:(id)sender {
 	if(sender == displayMenuButton)
 		[self updateDefaultDisplay:YES];
 	if(sender == notificationDisplayMenuButton)
 		[self updateDefaultDisplay:NO];
 	
+	if(sender == actionMenuButton)
+		[self updateDefaultActions:YES];
+	if(sender == notificationActionMenuButton)
+		[self updateDefaultActions:NO];
+	
 	if(([sender isKindOfClass:[NSPopUpButton class]]) && ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
 		return;
 	
-	GrowlTicketDatabaseDisplay *pluginToUse = nil;
+	id pluginToUse = nil;
    
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
-		NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-		GrowlTicketDatabaseTicket *ticket = (sender == displayMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
-		pluginToUse = [ticket resolvedDisplayConfig];
+		if(sender == displayMenuButton || sender == notificationDisplayMenuButton){
+			NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+			GrowlTicketDatabaseTicket *ticket = (sender == displayMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+			pluginToUse = [ticket resolvedDisplayConfig];
+		}else{
+			NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+			GrowlTicketDatabaseTicket *ticket = (sender == actionMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+			pluginToUse = [ticket resolvedActionConfigSet];
+		}
    }
 	if(pluginToUse)
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
@@ -519,6 +581,41 @@ static BOOL awoken = NO;
    [self setCanRemoveTicket:[[ticketsArrayController selection] isKindOfClass:[GrowlTicketDatabaseApplication class]]];
 }
 
+-(void)selectDefaultActions:(BOOL)app {
+	__block NSPopUpButton *popupButton = app ? actionMenuButton : notificationActionMenuButton;
+	
+	[[popupButton itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[(NSMenuItem*)obj setState:NSOffState];
+	}];
+	
+	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
+	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	NSSet *actions = [ticket actions];
+	
+	__block GrowlApplicationsViewController *blockSelf = self;
+	__block NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	[actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		NSUInteger index = [[blockSelf.actionConfigsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id testObj, NSUInteger testIDX, BOOL *testStop) {
+			if([[testObj configID] caseInsensitiveCompare:obj] == NSOrderedSame){
+				return YES;
+			}
+			return NO;
+		}];
+		if(index != NSNotFound){
+			[indexSet addIndex:index];
+		}
+	}];
+	if([indexSet count] == 0 && ![[ticket useParentActions] boolValue]){
+		[[popupButton itemAtIndex:2] setState:NSOnState];
+	}else{
+		[indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+			[[popupButton itemAtIndex:idx + 4] setState:NSOnState];
+		}];
+		if([[ticket useParentActions] boolValue])
+			[[popupButton itemAtIndex:1] setState:NSOnState];
+	}
+}
+
 -(void)selectDefaultDisplay:(BOOL)app {
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
 	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
@@ -555,11 +652,18 @@ static BOOL awoken = NO;
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[[blockSelf notificationsArrayController] rearrangeObjects];
 				[blockSelf selectDefaultDisplay:NO];
+				[blockSelf selectDefaultActions:YES];
+				[blockSelf selectDefaultActions:NO];
 			});
 			if([[[GrowlTicketDatabase sharedInstance] managedObjectContext] hasChanges])
 				[[GrowlTicketDatabase sharedInstance] saveDatabase:YES];
 		}
 	}else{
+		if([[ticketsArrayController arrangedObjects] count]){
+			NSUInteger first = [ticketsArrayController indexOfFirstNonGroupItem];
+			if(first != NSNotFound)
+				[growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:first] byExtendingSelection:NO];
+		}
 		[appOnSwitch setState:NO];
 		[displayMenuButton setEnabled:NO];
 		[notificationDisplayMenuButton setEnabled:NO];

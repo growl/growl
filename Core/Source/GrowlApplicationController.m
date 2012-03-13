@@ -145,34 +145,52 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 - (void) showPreview:(NSNotification *) note {
 	@autoreleasepool {
-		GrowlTicketDatabasePlugin *displayConfig = [note object];
-		GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin*)[displayConfig pluginInstanceForConfiguration];
+		id displayConfig = [note object];
+		GrowlDisplayPlugin *displayPlugin = nil;
+		if([displayConfig respondsToSelector:@selector(pluginInstanceForConfiguration)])
+			displayPlugin = (GrowlDisplayPlugin*)[displayConfig pluginInstanceForConfiguration];
 		
-		NSString *desc = [[NSString alloc] initWithFormat:NSLocalizedString(@"This is a preview of the %@ display", "Preview message shown when clicking Preview in the system preferences pane. %@ becomes the name of the display style being used."), [displayPlugin name]];
-		NSNumber *priority = [[NSNumber alloc] initWithInt:0];
-		NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
-		NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-									 @"Growl",   GROWL_APP_NAME,
-									 @"Preview", GROWL_NOTIFICATION_NAME,
-									 NSLocalizedString(@"Preview", "Title of the Preview notification shown to demonstrate Growl displays"), GROWL_NOTIFICATION_TITLE,
-									 desc,       GROWL_NOTIFICATION_DESCRIPTION,
-									 priority,   GROWL_NOTIFICATION_PRIORITY,
-									 sticky,     GROWL_NOTIFICATION_STICKY,
-									 [NSImage imageNamed:NSImageNameApplicationIcon],  GROWL_NOTIFICATION_ICON_DATA,
-									 nil];
-		[desc     release];
-		[priority release];
-		[sticky   release];
-		NSDictionary *configCopy = [[[displayConfig configuration] copy] autorelease];
-		if([displayConfig isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+		
+		if([displayConfig isKindOfClass:[NSSet class]]){
+			[(NSSet*)displayConfig enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:obj];
+			}];
+		}else if([displayConfig isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
 			NSSet *actions = [(GrowlTicketDatabaseCompoundAction*)displayConfig resolvedActionConfigSet];
 			[actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
 				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:obj];
 			}];
-		}else if([displayPlugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
-			[displayPlugin dispatchNotification:info withConfiguration:configCopy];
+		}else if(displayPlugin && [displayPlugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+			NSString *desc = [[NSString alloc] initWithFormat:NSLocalizedString(@"This is a preview of the %@ display", "Preview message shown when clicking Preview in the system preferences pane. %@ becomes the name of the display style being used."), [displayPlugin name]];
+			NSNumber *priority = [[NSNumber alloc] initWithInt:0];
+			NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
+			NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
+										 @"Growl",   GROWL_APP_NAME,
+										 @"Preview", GROWL_NOTIFICATION_NAME,
+										 NSLocalizedString(@"Preview", "Title of the Preview notification shown to demonstrate Growl displays"), GROWL_NOTIFICATION_TITLE,
+										 desc,       GROWL_NOTIFICATION_DESCRIPTION,
+										 priority,   GROWL_NOTIFICATION_PRIORITY,
+										 sticky,     GROWL_NOTIFICATION_STICKY,
+										 [NSImage imageNamed:NSImageNameApplicationIcon],  GROWL_NOTIFICATION_ICON_DATA,
+										 nil];
+			[desc     release];
+			[priority release];
+			[sticky   release];
+			NSDictionary *configCopy = nil;
+			if([displayConfig respondsToSelector:@selector(configuration)])
+				configCopy = [[[displayConfig configuration] copy] autorelease];
+			
+			void (^displayBlock)(void) = ^{
+				[displayPlugin dispatchNotification:info withConfiguration:configCopy];
+			};
+			if([displayConfig isKindOfClass:[GrowlTicketDatabaseAction class]])
+				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), displayBlock);
+			else
+				dispatch_async(dispatch_get_main_queue(), displayBlock);
+			[info release];
+		}else{
+			NSLog(@"Invalid object for displaying a preview: %@", displayConfig);
 		}
-		[info release];
 	}
 }
 	
