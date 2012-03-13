@@ -14,6 +14,7 @@
 @synthesize delegate;
 @synthesize context;
 @synthesize tableView;
+@synthesize filterPredicate;
 @synthesize entityName;
 @synthesize basePredicateString;
 @synthesize groupKey;
@@ -52,6 +53,11 @@
 		[countController setUsesLazyFetching:YES];
 		[countController setEditable:YES];
 		
+		[countController bind:@"filterPredicate" 
+						 toObject:self
+					 withKeyPath:@"self.filterPredicate"
+						  options:nil];
+		
 		[countController addObserver:self 
 								forKeyPath:@"arrangedObjects.count" 
 									options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
@@ -76,6 +82,7 @@
 	[groupKey release];
 	[currentGroups release];
 	[groupControllers release];
+	[countController unbind:@"filterPredicate"];
 	[countController release];
 	[arrangedObjects release];
 	[groupCompareBlock release];
@@ -283,6 +290,11 @@
 								 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld 
 								 context:newGroup];
 		
+		[newController bind:@"filterPredicate"
+					  toObject:self
+				  withKeyPath:@"self.filterPredicate"
+						options:nil];
+		
 		[newGroup release];
 		newGroup = nil;
 		[newController release];
@@ -295,6 +307,7 @@
 		GroupController *group = [[groupControllers valueForKey:groupID] retain];
 		[groupControllers removeObjectForKey:groupID];
 		[currentGroups removeObject:group];
+		[[group groupArray] unbind:@"filterPredicate"];
 		[[group groupArray] removeObserver:self forKeyPath:@"arrangedObjects.count"];
 		[group release];
 	}];

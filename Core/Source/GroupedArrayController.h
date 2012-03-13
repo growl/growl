@@ -31,6 +31,7 @@
 @property (nonatomic, assign) id<GroupedArrayControllerDelegate> delegate;
 @property (nonatomic, assign) NSManagedObjectContext *context;
 @property (nonatomic, assign) NSTableView *tableView; 
+@property (nonatomic, retain) NSPredicate *filterPredicate; 
 @property (nonatomic, retain) NSString *entityName;
 @property (nonatomic, retain) NSString *basePredicateString;
 @property (nonatomic, retain) NSString *groupKey;
