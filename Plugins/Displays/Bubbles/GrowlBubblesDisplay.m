@@ -8,10 +8,11 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlBubblesDisplay.h"
+#import "GrowlBubblesDefines.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
-#import "GrowlNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 
 
@@ -22,6 +23,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlBubblesWindowController");
+		self.prefDomain = GrowlBubblesPrefDomain;
 	}
 	return self;
 }
@@ -35,7 +37,7 @@
 	return YES;
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bubbles"]];
 	return preferencePane;

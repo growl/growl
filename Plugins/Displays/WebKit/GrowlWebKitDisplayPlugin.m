@@ -35,7 +35,7 @@
 	return self;
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane) {
 		// load GrowlWebKitPrefsController dynamically so that GHA does not
 		// have to link against it and all of its dependencies

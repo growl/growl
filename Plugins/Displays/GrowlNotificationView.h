@@ -34,4 +34,6 @@
 - (void) setIcon:(NSImage *)anIcon;
 - (void) sizeToFit;
 
+- (NSDictionary *) configurationDict;
+
 @end

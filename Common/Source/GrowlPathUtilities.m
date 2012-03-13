@@ -230,7 +230,7 @@ static NSBundle *prefPaneBundle;
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
-		searchPath = [self searchPathForDirectory:NSLibraryDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
+		searchPath = [self searchPathForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
 		if ([searchPath count]) {
 			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support/Growl"];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
@@ -243,7 +243,7 @@ static NSBundle *prefPaneBundle;
 }
 
 + (NSString *) screenshotsDirectory {
-	NSArray *searchPath = [self searchPathForDirectory:GrowlScreenshotsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
+	NSArray *searchPath = [self searchPathForDirectory:GrowlScreenshotsDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
 	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
@@ -263,7 +263,7 @@ static NSBundle *prefPaneBundle;
 }
 
 + (NSString *) ticketsDirectory {
-	NSArray *searchPath = [self searchPathForDirectory:GrowlTicketsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
+	NSArray *searchPath = [self searchPathForDirectory:GrowlTicketsDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
 	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {

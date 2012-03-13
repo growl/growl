@@ -30,13 +30,13 @@
 }
 
 - (void) notifyObservers:(NSDictionary *)notificationDict {
-	for (id<GrowlNotificationObserver> observer in observers) {
+   [observers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		@try {
-			[observer notifyWithDictionary:notificationDict];
-		} @catch(NSException *ex) {
-			NSLog(@"Exception while notifying observer: %@", ex);
-		}
-	}
+         [obj notifyWithDictionary:notificationDict];
+      } @catch(NSException *ex) {
+         NSLog(@"Exception while notifying observer: %@", ex);
+      }
+   }];
 }
 
 @end

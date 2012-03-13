@@ -6,13 +6,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @interface GrowlBezelDisplay : GrowlDisplayPlugin {
 }
 
 - (id) init;
 - (void) dealloc;
-- (NSPreferencePane *) preferencePane;
 
 @end

@@ -11,11 +11,11 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlLog.h"
 #import "GrowlPluginController.h"
-#import "GrowlPlugin.h"
 
 #import "GrowlTCPPathway.h"
 #import "GrowlPropertyListFilePathway.h"
 #import "GrowlApplicationBridgePathway.h"
+#import <GrowlPlugins/GrowlPlugin.h>
 
 static GrowlPathwayController *sharedController = nil;
 

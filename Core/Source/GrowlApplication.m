@@ -203,37 +203,6 @@
    [super dealloc];
 }
 
-- (void)resetAutoreleasePool:(NSTimer *)timer
-{
-	[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined
-										location:NSZeroPoint
-								   modifierFlags:0
-									   timestamp: (double)(AbsoluteToDuration(UpTime())) / 1000.0
-									windowNumber:0
-										 context:NULL
-										 subtype:0
-										   data1:0 
-										   data2:0]
-			 atStart:YES];
-}
-
-- (void)run
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	autoreleasePoolRefreshTimer = [[NSTimer scheduledTimerWithTimeInterval:30
-									  target:self
-									selector:@selector(resetAutoreleasePool:)
-									userInfo:nil
-									 repeats:YES] retain];
-	[pool release];
-
-	[super run];
-
-	[autoreleasePoolRefreshTimer invalidate];
-	[autoreleasePoolRefreshTimer release];
-	autoreleasePoolRefreshTimer = nil;
-}
-
 - (BOOL)paused
 {
     return [[GrowlPreferencesController sharedController] squelchMode];
@@ -246,13 +215,13 @@
 
 - (IBAction)orderFrontStandardAboutPanel:(id)sender
 {
-   [[GrowlApplicationController sharedInstance] showPreferences];
-   [[GrowlPreferencesController sharedInstance] setSelectedPreferenceTab:6];
+   [[GrowlApplicationController sharedController] showPreferences];
+   [[GrowlPreferencesController sharedController] setSelectedPreferenceTab:6];
 }
 
 - (IBAction)openPreferences:(id)sender
 {
-   [[GrowlApplicationController sharedInstance] showPreferences];
+   [[GrowlApplicationController sharedController] showPreferences];
 }
 
 - (IBAction)showHelp:(id)sender
