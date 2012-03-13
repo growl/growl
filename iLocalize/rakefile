@@ -9,67 +9,108 @@ require 'rubygems' unless defined?(Gem)
 # Path Variables #
 ##################
 
-toplevel_dir                = File.expand_path '..'
+toplevel_dir                         = File.expand_path '..'
+                                  
+                                  
+#Transifex files                  
+ilocalize_dir                        = File.join(toplevel_dir, "iLocalize") # growl-dev/iLocalize
+translation_dir                      = File.join(ilocalize_dir, "translations") # growl-dev/iLocalize/translations
+                                  
+#Display Plugins                  
+plugins_dir                          = File.join(toplevel_dir, "Plugins") # growl-dev/Plugins
+displays_dir                         = File.join(plugins_dir, "Displays") # growl-dev/Plugins/Displays
+                                  
+#Extras                           
+extras_dir                           = File.join(toplevel_dir, "Extras") #growl-dev/Extras
+capster_dir                          = File.join(extras_dir, "Capster") #growl-dev/Extras/Capster
+capster_subdir                       = File.join(capster_dir, "Growl Caps Notifier") #growl-dev/Extras/Capster/Growl Caps Notifier
+hardwaregrowler_dir                  = File.join(extras_dir, "HardwareGrowler") #growl-dev/Extras/HardwareGrowler
+growltunes_dir                       = File.join(extras_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes
+growltunes_subdir                    = File.join(growltunes_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes/GrowlTunes
 
-ilocalize_dir               = File.join(toplevel_dir, "iLocalize") # growl-dev/iLocalize
-translation_dir             = File.join(ilocalize_dir, "translations") # growl-dev/iLocalize/translations
-plugins_dir                 = File.join(toplevel_dir, "Plugins") # growl-dev/Plugins
-displays_dir                = File.join(plugins_dir, "Displays") # growl-dev/Plugins/Displays
+#Extras
+capster_localizable_strings          = File.join(translation_dir, "TGP.capster-localizable-strings-file")
+growltunes_localizable_strings       = File.join(translation_dir, "TGP.growltunes-localizable-strings-file")
+hardwaregrowler_localizable_strings  = File.join(translation_dir, "TGP.hardwaregrowler-localizable-strings")
 
-capster_localizable_strings = File.join(translation_dir, "TGP.capster-localizable-strings-file")
-growl_bezel_display_strings = File.join(translation_dir, "TGP.growl-bezel-display-plugin-localizable-string")
+#Growl Display Plugins
+growl_bezel_display_strings          = File.join(translation_dir, "TGP.growl-bezel-display-plugin-localizable-string")
+growl_ical_display_strings           = File.join(translation_dir, "TGP.growl-ical-display-localizable-string")
+growl_sms_display_strings            = File.join(translation_dir, "TGP.growl-sms-display-localizable-strings")
+growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-strings")
+growl_speech_display_strings         = File.join(translation_dir, "TGP.growl-speech-display-localizable-string")
+growl_brushed_display_strings        = File.join(translation_dir, "TGP.growl-brushed-localizable-string")
 
-bezel_display_destination   = File.join(displays_dir, "Bezel") # growl-dev/Plugins/Displays/Bezel
+#Growl Global Localizable Files
+growl_pluginpref_strings             = File.join(translation_dir, "TGP.growl-pluginprefstrings-strings-file")
+growl_automator_strings              = File.join(translation_dir, "TGP.growl-automator-action-localizable-strings")
+growl_localizable_strings            = File.join(translation_dir, "TGP.growl-localizable-strings-file")
+growl_mainmenu_strings               = File.join(translation_dir, "TGP.growl-mainmenu-strings-file")
+
+
+
+
+#Destinations
+ical_display_destination             = File.join(displays_dir, "iCal")
+bezel_display_destination            = File.join(displays_dir, "Bezel") # growl-dev/Plugins/Displays/Bezel
+sms_display_destination              = File.join(displays_dir, "SMS")
+mailme_display_destination           = File.join(displays_dir, "MailMe")
+speech_display_destination           = File.join(displays_dir, "Speech")
+brushed_display_destination          = File.join(displays_dir, "Brushed")
+
+
+
+
 
 #######################
 # Shortcode Variables #
 #######################
-tx_slovak               = "sk"
-tx_brazilian_portuguese = "pt_BR"
-tx_norwegian_bokmal     = "nb_NO"
-tx_japanese             = "ja"
-tx_korean               = "ko"
-tx_simplified_chinese   = "zh_CN"
-tx_traditional_chinese  = "zh_TW"
-tx_czech                = "cs"
-tx_greek                = "el"
-tx_spanish              = "es_ES"
-tx_french               = "fr"
-tx_dutch                = "nl"
-tx_portuguese           = "pt_PT"
-tx_russian              = "ru_RU"
-tx_romanian             = "ro_RO"
-tx_polish               = "pl"
-tx_german               = "de"
-tx_danish               = "da"
-tx_swedish              = "sv"
-tx_estonian             = "et"
-tx_hebrew               = "he"
-tx_arabic               = "ar"
-
-
-apple_slovak                  = "sk"
-apple_brazilian_portuguese    = "pt-BR"
-apple_norwegian_bokmal        = "nb"
-apple_japanese                = "ja"
-apple_korean                  = "ko"
-apple_simplified_chinese      = "zh-Hans"
-apple_traditional_chinese     = "zh-Hant"
-apple_czech                   = "cs"
-apple_greek                   = "el"
-apple_spanish                 = "es"
-apple_french                  = "fr"
-apple_dutch                   = "nl"
-apple_portuguese              = "pt-PT"
-apple_russian                 = "ru"
-apple_romanian                = "ro"
-apple_polish                  = "pl"
-apple_german                  = "de"
-apple_danish                  = "da"
-apple_swedish                 = "sv"
-apple_estonian                = "et"
-apple_hebrew                  = "he"
-apple_arabic                  = "ar"
+tx_slovak                            = "sk"
+tx_brazilian_portuguese              = "pt_BR"
+tx_norwegian_bokmal                  = "nb_NO"
+tx_japanese                          = "ja"
+tx_korean                            = "ko"
+tx_simplified_chinese                = "zh_CN"
+tx_traditional_chinese               = "zh_TW"
+tx_czech                             = "cs"
+tx_greek                             = "el"
+tx_spanish                           = "es_ES"
+tx_french                            = "fr"
+tx_dutch                             = "nl"
+tx_portuguese                        = "pt_PT"
+tx_russian                           = "ru_RU"
+tx_romanian                          = "ro_RO"
+tx_polish                            = "pl"
+tx_german                            = "de"
+tx_danish                            = "da"
+tx_swedish                           = "sv"
+tx_estonian                          = "et"
+tx_hebrew                            = "he"
+tx_arabic                            = "ar"
+                                    
+                                    
+apple_slovak                         = "sk"
+apple_brazilian_portuguese           = "pt-BR"
+apple_norwegian_bokmal               = "nb"
+apple_japanese                       = "ja"
+apple_korean                         = "ko"
+apple_simplified_chinese             = "zh-Hans"
+apple_traditional_chinese            = "zh-Hant"
+apple_czech                          = "cs"
+apple_greek                          = "el"
+apple_spanish                        = "es"
+apple_french                         = "fr"
+apple_dutch                          = "nl"
+apple_portuguese                     = "pt-PT"
+apple_russian                        = "ru"
+apple_romanian                       = "ro"
+apple_polish                         = "pl"
+apple_german                         = "de"
+apple_danish                         = "da"
+apple_swedish                        = "sv"
+apple_estonian                       = "et"
+apple_hebrew                         = "he"
+apple_arabic                         = "ar"
 
 
 #################
@@ -106,7 +147,162 @@ task :bezel do
     FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_hebrew}.strings", "#{bezel_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_arabic}.strings", "#{bezel_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
 
+  end
 
+
+
+desc "update ical"
+task :ical do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+
+#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_}.strings", "#{ical_display_destination}/#{apple_}.lproj/Localizable.strings")
+
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_slovak}.strings", "#{ical_display_destination}/#{apple_slovak}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_brazilian_portuguese}.strings", "#{ical_display_destination}/#{apple_brazilian_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_norwegian_bokmal}.strings", "#{ical_display_destination}/#{apple_norwegian_bokmal}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_japanese}.strings", "#{ical_display_destination}/#{apple_japanese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_korean}.strings", "#{ical_display_destination}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_simplified_chinese}.strings", "#{ical_display_destination}/#{apple_simplified_chinese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_traditional_chinese}.strings", "#{ical_display_destination}/#{apple_traditional_chinese}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_czech}.strings", "#{ical_display_destination}/#{apple_czech}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_greek}.strings", "#{ical_display_destination}/#{apple_greek}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_spanish}.strings", "#{ical_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_french}.strings", "#{ical_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_dutch}.strings", "#{ical_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_portuguese}.strings", "#{ical_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_russian}.strings", "#{ical_display_destination}/#{apple_russian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_polish}.strings", "#{ical_display_destination}/#{apple_polish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_german}.strings", "#{ical_display_destination}/#{apple_german}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_danish}.strings", "#{ical_display_destination}/#{apple_danish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_swedish}.strings", "#{ical_display_destination}/#{apple_swedish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_estonian}.strings", "#{ical_display_destination}/#{apple_estonian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_hebrew}.strings", "#{ical_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_arabic}.strings", "#{ical_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
 
   end
+  
+desc "update sms"
+task :sms do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_}.strings", "#{sms_display_destination}/#{apple_}.lproj/Localizable.strings")
+
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_slovak}.strings", "#{sms_display_destination}/#{apple_slovak}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_brazilian_portuguese}.strings", "#{sms_display_destination}/#{apple_brazilian_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_norwegian_bokmal}.strings", "#{sms_display_destination}/#{apple_norwegian_bokmal}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_japanese}.strings", "#{sms_display_destination}/#{apple_japanese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_korean}.strings", "#{sms_display_destination}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_simplified_chinese}.strings", "#{sms_display_destination}/#{apple_simplified_chinese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_traditional_chinese}.strings", "#{sms_display_destination}/#{apple_traditional_chinese}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_czech}.strings", "#{sms_display_destination}/#{apple_czech}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_greek}.strings", "#{sms_display_destination}/#{apple_greek}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_spanish}.strings", "#{sms_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_french}.strings", "#{sms_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_dutch}.strings", "#{sms_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_portuguese}.strings", "#{sms_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_russian}.strings", "#{sms_display_destination}/#{apple_russian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_polish}.strings", "#{sms_display_destination}/#{apple_polish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_german}.strings", "#{sms_display_destination}/#{apple_german}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_danish}.strings", "#{sms_display_destination}/#{apple_danish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_swedish}.strings", "#{sms_display_destination}/#{apple_swedish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_estonian}.strings", "#{sms_display_destination}/#{apple_estonian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_hebrew}.strings", "#{sms_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_arabic}.strings", "#{sms_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
+
+  end
+  
+
+desc "update mailme"
+task :mailme do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_}.strings", "#{mailme_display_destination}/#{apple_}.lproj/Localizable.strings")
+
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_slovak}.strings", "#{mailme_display_destination}/#{apple_slovak}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_brazilian_portuguese}.strings", "#{mailme_display_destination}/#{apple_brazilian_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_norwegian_bokmal}.strings", "#{mailme_display_destination}/#{apple_norwegian_bokmal}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_japanese}.strings", "#{mailme_display_destination}/#{apple_japanese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_korean}.strings", "#{mailme_display_destination}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_simplified_chinese}.strings", "#{mailme_display_destination}/#{apple_simplified_chinese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_traditional_chinese}.strings", "#{mailme_display_destination}/#{apple_traditional_chinese}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_czech}.strings", "#{mailme_display_destination}/#{apple_czech}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_greek}.strings", "#{mailme_display_destination}/#{apple_greek}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_spanish}.strings", "#{mailme_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_french}.strings", "#{mailme_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_dutch}.strings", "#{mailme_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_portuguese}.strings", "#{mailme_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_russian}.strings", "#{mailme_display_destination}/#{apple_russian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_polish}.strings", "#{mailme_display_destination}/#{apple_polish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_german}.strings", "#{mailme_display_destination}/#{apple_german}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_danish}.strings", "#{mailme_display_destination}/#{apple_danish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_swedish}.strings", "#{mailme_display_destination}/#{apple_swedish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_estonian}.strings", "#{mailme_display_destination}/#{apple_estonian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_hebrew}.strings", "#{mailme_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_arabic}.strings", "#{mailme_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
+
+  end
+
+
+
+desc "update speech"
+task :speech do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_}.strings", "#{speech_display_destination}/#{apple_}.lproj/Localizable.strings")
+
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_slovak}.strings", "#{speech_display_destination}/#{apple_slovak}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_brazilian_portuguese}.strings", "#{speech_display_destination}/#{apple_brazilian_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_norwegian_bokmal}.strings", "#{speech_display_destination}/#{apple_norwegian_bokmal}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_japanese}.strings", "#{speech_display_destination}/#{apple_japanese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_korean}.strings", "#{speech_display_destination}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_simplified_chinese}.strings", "#{speech_display_destination}/#{apple_simplified_chinese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_traditional_chinese}.strings", "#{speech_display_destination}/#{apple_traditional_chinese}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_czech}.strings", "#{speech_display_destination}/#{apple_czech}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_greek}.strings", "#{speech_display_destination}/#{apple_greek}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_spanish}.strings", "#{speech_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_french}.strings", "#{speech_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_dutch}.strings", "#{speech_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_portuguese}.strings", "#{speech_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_russian}.strings", "#{speech_display_destination}/#{apple_russian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_polish}.strings", "#{speech_display_destination}/#{apple_polish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_german}.strings", "#{speech_display_destination}/#{apple_german}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_danish}.strings", "#{speech_display_destination}/#{apple_danish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_swedish}.strings", "#{speech_display_destination}/#{apple_swedish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_estonian}.strings", "#{speech_display_destination}/#{apple_estonian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_hebrew}.strings", "#{speech_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_arabic}.strings", "#{speech_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
+
+  end
+
+desc "update speech"
+task :speech do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_}.strings", "#{brushed_display_destination}/#{apple_}.lproj/Localizable.strings")
+
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_slovak}.strings", "#{brushed_display_destination}/#{apple_slovak}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_brazilian_portuguese}.strings", "#{brushed_display_destination}/#{apple_brazilian_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_norwegian_bokmal}.strings", "#{brushed_display_destination}/#{apple_norwegian_bokmal}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_japanese}.strings", "#{brushed_display_destination}/#{apple_japanese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_korean}.strings", "#{brushed_display_destination}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_simplified_chinese}.strings", "#{brushed_display_destination}/#{apple_simplified_chinese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_traditional_chinese}.strings", "#{brushed_display_destination}/#{apple_traditional_chinese}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_czech}.strings", "#{brushed_display_destination}/#{apple_czech}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_greek}.strings", "#{brushed_display_destination}/#{apple_greek}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_spanish}.strings", "#{brushed_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_french}.strings", "#{brushed_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_dutch}.strings", "#{brushed_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_portuguese}.strings", "#{brushed_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_russian}.strings", "#{brushed_display_destination}/#{apple_russian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_polish}.strings", "#{brushed_display_destination}/#{apple_polish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_german}.strings", "#{brushed_display_destination}/#{apple_german}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_danish}.strings", "#{brushed_display_destination}/#{apple_danish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_swedish}.strings", "#{brushed_display_destination}/#{apple_swedish}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_estonian}.strings", "#{brushed_display_destination}/#{apple_estonian}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_hebrew}.strings", "#{brushed_display_destination}/#{apple_hebrew}.lproj/Localizable.strings")
+#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_arabic}.strings", "#{brushed_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
+
+  end
+
 end
