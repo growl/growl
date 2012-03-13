@@ -355,7 +355,13 @@ static BOOL awoken = NO;
 
 - (void)updateDefaultDisplay:(BOOL)app {
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	GrowlTicketDatabaseTicket *ticket = nil;
+	if(app) 
+		ticket = [ticketsArrayController selection];
+	else if(!app && noteIndex != NSNotFound)
+		[[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	if(!ticket)
+		return;
 	
 	NSPopUpButton *popupButton = app ? displayMenuButton : notificationDisplayMenuButton;
 	NSInteger index = [popupButton indexOfSelectedItem];
@@ -374,7 +380,13 @@ static BOOL awoken = NO;
 
 - (void)updateDefaultActions:(BOOL)app {
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	GrowlTicketDatabaseTicket *ticket = nil;
+	if(app) 
+		ticket = [ticketsArrayController selection];
+	else if(!app && noteIndex != NSNotFound)
+		[[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	if(!ticket)
+		return;
 	
 	NSPopUpButton *popupButton = app ? actionMenuButton : notificationActionMenuButton;
 
@@ -437,13 +449,20 @@ static BOOL awoken = NO;
 	id pluginToUse = nil;
    
 	if ([sender isKindOfClass:[NSPopUpButton class]]) {
+		NSUInteger noteIndex = [notificationsArrayController selectionIndex];
 		if(sender == displayMenuButton || sender == notificationDisplayMenuButton){
-			NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-			GrowlTicketDatabaseTicket *ticket = (sender == displayMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+			GrowlTicketDatabaseTicket *ticket = nil;
+			if(sender == displayMenuButton)
+				ticket = [ticketsArrayController selection];
+			else if(sender == notificationDisplayMenuButton && noteIndex != NSNotFound)
+				ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
 			pluginToUse = [ticket resolvedDisplayConfig];
 		}else{
-			NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-			GrowlTicketDatabaseTicket *ticket = (sender == actionMenuButton) ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+			GrowlTicketDatabaseTicket *ticket = nil;
+			if(sender == actionMenuButton) 
+				ticket = [ticketsArrayController selection];
+			if(sender == notificationActionMenuButton && noteIndex != NSNotFound)
+				ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
 			pluginToUse = [ticket resolvedActionConfigSet];
 		}
    }
@@ -589,7 +608,14 @@ static BOOL awoken = NO;
 	}];
 	
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	GrowlTicketDatabaseTicket *ticket = nil;
+	if(app)
+		ticket = [ticketsArrayController selection];
+	else if(!app && noteIndex != NSNotFound)
+		ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	if(!ticket)
+		return;
+	
 	NSSet *actions = [ticket actions];
 	
 	__block GrowlApplicationsViewController *blockSelf = self;
@@ -618,7 +644,14 @@ static BOOL awoken = NO;
 
 -(void)selectDefaultDisplay:(BOOL)app {
 	NSUInteger noteIndex = [notificationsArrayController selectionIndex];
-	GrowlTicketDatabaseTicket *ticket = app ? [ticketsArrayController selection] : [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	GrowlTicketDatabaseTicket *ticket = nil;
+	if(app)
+		ticket = [ticketsArrayController selection];
+	else if(!app && noteIndex != NSNotFound)
+		ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+	if(!ticket)
+		return;
+	
 	GrowlTicketDatabaseDisplay *display = [ticket display];
 		
 	NSUInteger index = NSNotFound;
@@ -645,12 +678,12 @@ static BOOL awoken = NO;
 			self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
 			[displayMenuButton setEnabled:YES];
 			[notificationDisplayMenuButton setEnabled:YES];
-			[self selectDefaultDisplay:YES];
 			
 			//Give it a chance to update its contents before trying to tell it to arrange.
 			__block GrowlApplicationsViewController *blockSelf = self;
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[[blockSelf notificationsArrayController] rearrangeObjects];
+				[blockSelf selectDefaultDisplay:YES];
 				[blockSelf selectDefaultDisplay:NO];
 				[blockSelf selectDefaultActions:YES];
 				[blockSelf selectDefaultActions:NO];
@@ -667,6 +700,14 @@ static BOOL awoken = NO;
 		[appOnSwitch setState:NO];
 		[displayMenuButton setEnabled:NO];
 		[notificationDisplayMenuButton setEnabled:NO];
+	}
+}
+
+-(void)groupedControllerEndUpdates:(GroupedArrayController *)groupedController {
+	if([[ticketsArrayController arrangedObjects] count] && [growlApplications selectedRow] == -1){
+		NSUInteger first = [ticketsArrayController indexOfFirstNonGroupItem];
+		if(first != NSNotFound)
+			[growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:first] byExtendingSelection:NO];
 	}
 }
 
