@@ -275,8 +275,8 @@ task :speech do
 
   end
 
-desc "update speech"
-task :speech do
+desc "update brushed"
+task :brushed do
     curdir = FileUtils.pwd()
     FileUtils.cd("#{ilocalize_dir}")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_}.strings", "#{brushed_display_destination}/#{apple_}.lproj/Localizable.strings")
