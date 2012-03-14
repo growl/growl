@@ -134,6 +134,15 @@ apple_italian                        = "it"
 # End Variables #
 #################
 
+
+
+desc "update growl"
+task :update_growl => ["update:growlaction", "update:growl_pluginprefs", "update:growl_localizable", "update:growl_mainmenu", "update:bezel", "update:ical", "update:sms", "update:mailme", "update:speech", "update:brushed"] do
+  puts "Done Updating Growl"
+end
+
+
+
 namespace "update" do
 
 
