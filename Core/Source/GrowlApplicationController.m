@@ -108,9 +108,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	if ((self = [super init])) {
 		growlFinishedLaunching = NO;
 		urlOnLaunch = nil;
-		[GrowlNetworkObserver sharedObserver];
-      [GNTPForwarder sharedController];
-      [GNTPSubscriptionController sharedController];
       
       NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
       [appleEventManager setEventHandler:self 
@@ -801,6 +798,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 #endif
 	// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	[GrowlNetworkObserver sharedObserver];
+	[GNTPForwarder sharedController];
+	[GNTPSubscriptionController sharedController];
 	
 	//register value transformer
 	id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
