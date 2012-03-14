@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlKeychainUtilities.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 

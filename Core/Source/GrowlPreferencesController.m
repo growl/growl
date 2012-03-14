@@ -15,14 +15,13 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlProcessUtilities.h"
 #import "NSStringAdditions.h"
-#import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
 #import "GrowlApplicationController.h"
-#import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
 #import "SGKeyCombo.h"
 #import "SGHotKey.h"
 #import "SGHotKeyCenter.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 #import <ShortcutRecorder/ShortcutRecorder.h>
 
 #import <ServiceManagement/ServiceManagement.h>
@@ -270,7 +269,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setIdleThreshold:(NSNumber*)value {
 	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
-   GrowlIdleStatusController_setThreshold([value intValue]);
 }
 
 #pragma mark Logging

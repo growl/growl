@@ -24,7 +24,7 @@
 
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GNTPSubscriptionController.h"
-#import "GrowlKeychainUtilities.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 #define CRLF "\x0D\x0A"
 
 @interface GrowlGNTPPacket ()

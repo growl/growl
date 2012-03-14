@@ -9,13 +9,13 @@
 #import "GrowlServerViewController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlBrowserEntry.h"
-#import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
 #import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
 #import "GrowlBonjourBrowser.h"
 #import "GrowlNetworkObserver.h"
 #import "NSStringAdditions.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @interface GNTPHostAvailableColorTransformer : NSValueTransformer
 @end

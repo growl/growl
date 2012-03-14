@@ -22,7 +22,7 @@
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlPluginController.h"
-#import "GrowlIdleStatusController.h"
+#import "GrowlIdleStatusObserver.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlMenu.h"
@@ -36,7 +36,6 @@
 #import "GrowlDisplaysViewController.h"
 #import "GrowlServerViewController.h"
 #import "GrowlNotificationHistoryWindow.h"
-#import "GrowlKeychainUtilities.h"
 #import "GNTPForwarder.h"
 #import "GNTPSubscriptionController.h"
 #import "GrowlNetworkObserver.h"
@@ -44,6 +43,8 @@
 #import <GrowlPlugins/GrowlPlugin.h>
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlActionPlugin.h>
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
+
 #include "CFURLAdditions.h"
 #import "GrowlImageTransformer.h"
 
@@ -125,8 +126,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	if (pathwayControllerClass)
 		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
     [preferencesWindow release]; preferencesWindow = nil;
-
-	GrowlIdleStatusController_dealloc();
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
@@ -846,7 +845,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	
 	[self preferencesChanged:nil];
 	
-	GrowlIdleStatusController_init();
+	[GrowlIdleStatusObserver sharedObserver];
 	
 	// create and register GrowlNotificationCenter
 	growlNotificationCenter = [[GrowlNotificationCenter alloc] init];

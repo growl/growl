@@ -15,7 +15,7 @@
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabaseNotification.h"
 #import "GrowlNotificationHistoryWindow.h"
-#import "GrowlIdleStatusController.h"
+#import "GrowlIdleStatusObserver.h"
 #import <CoreData/CoreData.h>
 
 @implementation GrowlNotificationDatabase
@@ -379,7 +379,7 @@
     
     BOOL dontLog = (!logging || !appLogging || !noteLogging);
     
-    BOOL isAway = GrowlIdleStatusController_isIdle();
+    BOOL isAway = [[GrowlIdleStatusObserver sharedObserver] isIdle];
     if(notificationsWhileAway || [[historyWindow window] isVisible])
         isAway = YES;
     //If the rollup isn't enabled, we aren't away, check last
