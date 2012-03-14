@@ -20,6 +20,10 @@
 #import "GrowlApplicationController.h"
 #import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
+#import "SGKeyCombo.h"
+#import "SGHotKey.h"
+#import "SGHotKeyCenter.h"
+#import <ShortcutRecorder/ShortcutRecorder.h>
 
 #import <ServiceManagement/ServiceManagement.h>
 
@@ -49,6 +53,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 @implementation GrowlPreferencesController
+@synthesize rollupKeyCombo;
 
 + (GrowlPreferencesController *) sharedController {
 	static GrowlPreferencesController *instance;
@@ -65,14 +70,45 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 			selector:@selector(growlPreferencesChanged:)
 			name:GrowlPreferencesChanged
 			object:nil];
+        
+        [self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
+        
+        NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
+        NSNumber *modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboFlags];
+        if(code && modifiers)
+            self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+
 	}
 	return self;
 }
 
 - (void) dealloc {
+    [self removeObserver:self forKeyPath:@"rollupKeyCombo"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"rollupKeyCombo"])
+    {
+        if(self.rollupKeyCombo.keyCode)
+        {
+            
+        SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:showHideHotKey keyCombo:self.rollupKeyCombo target:[GrowlApplicationController sharedController] action:@selector(toggleRollup)] autorelease];
+        [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.rollupKeyCombo.keyCode] forKey:GrowlRollupKeyComboCode];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:self.rollupKeyCombo.modifiers] forKey:GrowlRollupKeyComboFlags];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        else
+        {
+            SGHotKey *rollupKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:showHideHotKey];
+            [[SGHotKeyCenter sharedCenter] unregisterHotKey:rollupKey];
+
+        }
+    }
 }
 
 #pragma mark -

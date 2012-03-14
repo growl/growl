@@ -189,6 +189,10 @@
 		93C0AED71084092E0037829B /* GrowlGNTPEncryptedHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */; };
 		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		93D87E3914721CC200A320EA /* GrowlWebKitImageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7625018C146DD60600B9F12F /* GrowlWebKitImageProtocol.m */; };
+		93DAA61E15103C580052E6E6 /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61715103C580052E6E6 /* SGHotKey.m */; };
+		93DAA61F15103C580052E6E6 /* SGHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61915103C580052E6E6 /* SGHotKeyCenter.m */; };
+		93DAA62015103C580052E6E6 /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61B15103C580052E6E6 /* SGKeyCodeTranslator.m */; };
+		93DAA62115103C580052E6E6 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61D15103C580052E6E6 /* SGKeyCombo.m */; };
 		93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */; };
 		93E0537C1415AE4300FC4F76 /* Garageband.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */; };
 		93E055AE141BD3A500FC4F76 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E055A7141BD3A500FC4F76 /* Localizable.strings */; };
@@ -349,7 +353,7 @@
 		BC80A35914D728BD00B055FE /* GrowlNanoPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35814D728BD00B055FE /* GrowlNanoPrefs.xib */; };
 		BC80A35B14D728FE00B055FE /* GrowlSMSPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35A14D728FE00B055FE /* GrowlSMSPrefs.xib */; };
 		BC83FC241500885F000504F9 /* GrowlPlugins-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = BC83FC221500885F000504F9 /* GrowlPlugins-Prefix.pch */; };
-		BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Plugin Framework */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
+		BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
 		BC83FC2A15008B47000504F9 /* GrowlPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 07803B5D08E7E6A700299E08 /* GrowlPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC83FC2B15008B47000504F9 /* GrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B5E08E7E6A700299E08 /* GrowlPlugin.m */; };
 		BC83FC4C1500AB28000504F9 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
@@ -359,6 +363,9 @@
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
+		BC9EFDFE15105F0F00534A7C /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
+		BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D815065CF100828D29 /* Carbon.framework */; };
+		BC9EFE0215105FA000534A7C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
 		BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */; };
@@ -675,6 +682,27 @@
 			remoteGlobalIDString = BC83FC10150087EB000504F9;
 			remoteInfo = GrowlPlugins;
 		};
+		BC9EFDF915105EDE00534A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 939837800DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
+		BC9EFDFB15105EDE00534A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93983B220DA43C4E007F53F3;
+			remoteInfo = ShortcutRecorderFramework_Tester;
+		};
+		BC9EFDFF15105F2300534A7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9398377F0DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
 		BCC7F9C61503D90A005FFE04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -770,15 +798,16 @@
 			name = "Copy Launcher";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC83FC2815008A17000504F9 /* Copy Plugin Framework */ = {
+		BC83FC2815008A17000504F9 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Plugin Framework */,
+				BC9EFDFE15105F0F00534A7C /* ShortcutRecorder.framework in Copy Frameworks */,
+				BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Frameworks */,
 			);
-			name = "Copy Plugin Framework";
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1073,6 +1102,15 @@
 		93C0AED51084092E0037829B /* GrowlGNTPEncryptedHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPEncryptedHeaders.h; path = Core/Source/GrowlGNTPEncryptedHeaders.h; sourceTree = "<group>"; };
 		93C0AED61084092E0037829B /* GrowlGNTPEncryptedHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPEncryptedHeaders.m; path = Core/Source/GrowlGNTPEncryptedHeaders.m; sourceTree = "<group>"; };
 		93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = external_dependencies/shortcutrecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
+		93DAA61615103C580052E6E6 /* SGHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGHotKey.h; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKey.h; sourceTree = "<group>"; };
+		93DAA61715103C580052E6E6 /* SGHotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGHotKey.m; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKey.m; sourceTree = "<group>"; };
+		93DAA61815103C580052E6E6 /* SGHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGHotKeyCenter.h; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKeyCenter.h; sourceTree = "<group>"; };
+		93DAA61915103C580052E6E6 /* SGHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGHotKeyCenter.m; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKeyCenter.m; sourceTree = "<group>"; };
+		93DAA61A15103C580052E6E6 /* SGKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCodeTranslator.h; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCodeTranslator.h; sourceTree = "<group>"; };
+		93DAA61B15103C580052E6E6 /* SGKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCodeTranslator.m; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCodeTranslator.m; sourceTree = "<group>"; };
+		93DAA61C15103C580052E6E6 /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.h; sourceTree = "<group>"; };
+		93DAA61D15103C580052E6E6 /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.m; sourceTree = "<group>"; };
 		93E01DF413C93C6000885286 /* Growl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Growl.entitlements; sourceTree = "<group>"; };
 		93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = PositionPickerBackground.jpg; path = Core/Resources/PositionPickerBackground.jpg; sourceTree = "<group>"; };
 		93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Garageband.growlStyle; path = Core/Resources/Garageband.growlStyle; sourceTree = "<group>"; };
@@ -1678,6 +1716,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */,
 				BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */,
@@ -1690,6 +1729,7 @@
 				95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */,
 				93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */,
 				BC83FC4C1500AB28000504F9 /* GrowlPlugins.framework in Frameworks */,
+				BC9EFE0215105FA000534A7C /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2251,6 +2291,8 @@
 		93254753104E135B00130D3B /* external_dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				93D3C242150EF88000108F4A /* SGHotKeysLib */,
+				93D3C241150EF87600108F4A /* ShortcutRecorder */,
 				93FB21A61391B50D002E1F86 /* GCDAsyncSocket */,
 			);
 			name = external_dependencies;
@@ -2328,6 +2370,38 @@
 			);
 			name = Nano;
 			path = Plugins/Displays/Nano;
+			sourceTree = "<group>";
+		};
+		93D3C241150EF87600108F4A /* ShortcutRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */,
+			);
+			name = ShortcutRecorder;
+			sourceTree = "<group>";
+		};
+		93D3C242150EF88000108F4A /* SGHotKeysLib */ = {
+			isa = PBXGroup;
+			children = (
+				93DAA61615103C580052E6E6 /* SGHotKey.h */,
+				93DAA61715103C580052E6E6 /* SGHotKey.m */,
+				93DAA61815103C580052E6E6 /* SGHotKeyCenter.h */,
+				93DAA61915103C580052E6E6 /* SGHotKeyCenter.m */,
+				93DAA61A15103C580052E6E6 /* SGKeyCodeTranslator.h */,
+				93DAA61B15103C580052E6E6 /* SGKeyCodeTranslator.m */,
+				93DAA61C15103C580052E6E6 /* SGKeyCombo.h */,
+				93DAA61D15103C580052E6E6 /* SGKeyCombo.m */,
+			);
+			name = SGHotKeysLib;
+			sourceTree = "<group>";
+		};
+		93D3C244150EF8BC00108F4A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */,
+				BC9EFDFC15105EDE00534A7C /* ShortcutRecorder.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		93E7128013FDFAAF0025D733 /* Commands */ = {
@@ -3244,7 +3318,7 @@
 				34A96E300C95F6AE00F46006 /* Copy Automator Plugin */,
 				93A042C6138215C400C46F0A /* Copy QuickLook Plugin */,
 				BC29B29D14D12E4800C72855 /* Copy Launcher */,
-				BC83FC2815008A17000504F9 /* Copy Plugin Framework */,
+				BC83FC2815008A17000504F9 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3252,6 +3326,7 @@
 				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
 				BC83FC261500893F000504F9 /* PBXTargetDependency */,
+				BC9EFE0015105F2300534A7C /* PBXTargetDependency */,
 				BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */,
 				BCC7F9C91503D90A005FFE04 /* PBXTargetDependency */,
 				955430E807E04683005534FA /* PBXTargetDependency */,
@@ -3381,6 +3456,10 @@
 					ProductGroup = 93A042A41382150A00C46F0A /* Products */;
 					ProjectRef = 93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */;
 				},
+				{
+					ProductGroup = 93D3C244150EF8BC00108F4A /* Products */;
+					ProjectRef = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -3418,6 +3497,20 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlQL.qlgenerator;
 			remoteRef = 93A042AA1382150A00C46F0A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShortcutRecorder.framework;
+			remoteRef = BC9EFDF915105EDE00534A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC9EFDFC15105EDE00534A7C /* ShortcutRecorder.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShortcutRecorder.app;
+			remoteRef = BC9EFDFB15105EDE00534A7C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4080,6 +4173,10 @@
 				BC4B073F1501489F006151B3 /* GrowlTicketDatabaseCompoundAction.m in Sources */,
 				BC4B0742150148C4006151B3 /* GrowlTicketDatabaseDisplay.m in Sources */,
 				BCECE8381508409A008DD685 /* GrowlCompoundActionPreferencePane.m in Sources */,
+				93DAA61E15103C580052E6E6 /* SGHotKey.m in Sources */,
+				93DAA61F15103C580052E6E6 /* SGHotKeyCenter.m in Sources */,
+				93DAA62015103C580052E6E6 /* SGKeyCodeTranslator.m in Sources */,
+				93DAA62115103C580052E6E6 /* SGKeyCombo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4252,6 +4349,11 @@
 			isa = PBXTargetDependency;
 			target = BC83FC10150087EB000504F9 /* GrowlPlugins */;
 			targetProxy = BC83FC251500893F000504F9 /* PBXContainerItemProxy */;
+		};
+		BC9EFE0015105F2300534A7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ShortcutRecorder.framework;
+			targetProxy = BC9EFDFF15105F2300534A7C /* PBXContainerItemProxy */;
 		};
 		BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -61,6 +61,10 @@
 #define GrowlNoMenu                 3
 #define GrowlMenuPulseEnabled       XSTR("GrowlMenuPulseEnabled")
 
+#define showHideHotKey              XSTR("GrowlRollupShowHideHotKey")
+#define GrowlRollupKeyComboCode     XSTR("GrowllRollupKeyComboCode")
+#define GrowlRollupKeyComboFlags    XSTR("GrowlRollupKeyComboFlags")
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -69,6 +73,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 #ifdef __OBJC__
 
 
+@class SGKeyCombo;
 @interface GrowlPreferencesController : NSObject {
 }
 
@@ -118,14 +123,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (BOOL) isGrowlMenuPulseEnabled;
 - (void) setGrowlMenuPulseEnabled:(BOOL)enabled;
 
-#pragma mark Notification History
+#pragma mark Rollup
 - (BOOL) isRollupShown;
 - (void) setRollupShown:(BOOL)shown;
 - (BOOL) isRollupEnabled;
 - (void) setRollupEnabled:(BOOL)enabled;
 - (BOOL) isRollupAutomatic;
 - (void) setRollupAutomatic:(BOOL)automatic;
+@property (nonatomic, retain) SGKeyCombo *rollupKeyCombo;
 
+#pragma mark Notification History
 - (BOOL) isGrowlHistoryLogEnabled;
 - (void) setGrowlHistoryLogEnabled:(BOOL)flag;
 

@@ -529,6 +529,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [preferencesWindow showWindow:self];
 }
 
+- (void) toggleRollup
+{
+    BOOL show = ![[GrowlPreferencesController sharedController] isRollupShown];
+    [[GrowlPreferencesController sharedController] setRollupShown:show];
+}
+
 - (void) toggleStatusItem:(BOOL)toggle
 {
    if(!statusMenu)
