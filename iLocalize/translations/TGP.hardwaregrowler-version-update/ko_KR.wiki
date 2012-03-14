@@ -1,0 +1,2 @@
+- Added French and Spanish localizations.
+- Resolved an issue with the Swedish localization displaying in Romanian.

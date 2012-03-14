@@ -1,0 +1,2 @@
+- La till språken franska och spanska.
+- Åtgärdade ett problem där svenska texter visade på rumänska.

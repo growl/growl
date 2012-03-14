@@ -1,0 +1,67 @@
+[main]
+host = https://www.transifex.net
+
+[TGP.capster-localizable-strings-file]
+file_filter = translations/TGP.capster-localizable-strings-file/<lang>.strings
+source_lang = en
+
+[TGP.growltunes-localizable-strings-file]
+file_filter = translations/TGP.growltunes-localizable-strings-file/<lang>.strings
+source_lang = en
+
+[TGP.hardwaregrowler-localizable-strings]
+file_filter = translations/TGP.hardwaregrowler-localizable-strings/<lang>.strings
+source_lang = en
+
+[TGP.growltunes-app-store-text]
+file_filter = translations/TGP.growltunes-app-store-text/<lang>.wiki
+source_lang = en
+
+[TGP.growl-localizable-strings-file]
+file_filter = translations/TGP.growl-localizable-strings-file/<lang>.strings
+source_lang = en
+
+[TGP.growl-mainmenu-strings-file]
+file_filter = translations/TGP.growl-mainmenu-strings-file/<lang>.strings
+source_lang = en
+
+[TGP.growl-pluginprefstrings-strings-file]
+file_filter = translations/TGP.growl-pluginprefstrings-strings-file/<lang>.strings
+source_lang = en
+
+[TGP.hardwaregrowler-app-store-text_1]
+file_filter = translations/TGP.hardwaregrowler-app-store-text_1/<lang>.wiki
+source_lang = en
+
+[TGP.hardwaregrowler-version-update]
+file_filter = translations/TGP.hardwaregrowler-version-update/<lang>.wiki
+source_lang = en
+
+[TGP.growl-brushed-localizable-string]
+file_filter = translations/TGP.growl-brushed-localizable-string/<lang>.strings
+source_lang = en
+
+[TGP.growl-ical-display-localizable-string]
+file_filter = translations/TGP.growl-ical-display-localizable-string/<lang>.strings
+source_lang = en
+
+[TGP.growl-bezel-display-plugin-localizable-string]
+file_filter = translations/TGP.growl-bezel-display-plugin-localizable-string/<lang>.strings
+source_lang = en
+
+[TGP.growl-speech-display-localizable-string]
+file_filter = translations/TGP.growl-speech-display-localizable-string/<lang>.strings
+source_lang = en
+
+[TGP.growl-mailme-display-localizable-strings]
+file_filter = translations/TGP.growl-mailme-display-localizable-strings/<lang>.strings
+source_lang = en
+
+[TGP.growl-sms-display-localizable-strings]
+file_filter = translations/TGP.growl-sms-display-localizable-strings/<lang>.strings
+source_lang = en
+
+[TGP.growl-automator-action-localizable-strings]
+file_filter = translations/TGP.growl-automator-action-localizable-strings/<lang>.strings
+source_lang = en
+
