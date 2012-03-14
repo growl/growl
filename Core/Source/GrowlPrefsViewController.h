@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class GrowlPreferencePane;
+@class GrowlPreferencesController;
 
 @interface GrowlPrefsViewController : NSViewController
 
