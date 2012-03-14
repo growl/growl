@@ -20,4 +20,5 @@
 @property (nonatomic, retain) NSString *secondsTitle;
 @property (nonatomic, retain) NSString *rollupAllTitle;
 @property (nonatomic, retain) NSString *rollupLoggedTitle;
+@property (nonatomic, retain) NSString *showHideTitle;
 @end
