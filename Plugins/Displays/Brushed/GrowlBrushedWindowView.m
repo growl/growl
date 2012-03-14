@@ -18,7 +18,7 @@
 
 @implementation GrowlBrushedWindowView
 
-- (id) initWithFrame:(NSRect) frame {
+- (id) initWithFrame:(NSRect) frame configurationDict:(NSDictionary *)configDict{
 	if ((self = [super initWithFrame:frame])) {
 		textFont = [[NSFont systemFontOfSize:GrowlBrushedTextFontSize] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
@@ -31,7 +31,9 @@
 																					 ofColor:[NSColor blackColor]]];
         
 		int size = GrowlBrushedSizePrefDefault;
-		READ_GROWL_PREF_INT(GrowlBrushedSizePref, GrowlBrushedPrefDomain, &size);
+		if([configDict valueForKey:GrowlBrushedSizePref]){
+			size = [[configDict valueForKey:GrowlBrushedSizePref] intValue];
+		}
 		if (size == GrowlBrushedSizeLarge) {
 			iconSize = GrowlBrushedIconSizeLarge;
 		} else {
@@ -72,7 +74,9 @@
 	// calculate bounds based on icon-float pref on or off
 	CGRect shadedBounds;
 	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
+	if([[self configurationDict] valueForKey:GrowlBrushedFloatIconPref]){
+		floatIcon = [[[self configurationDict] valueForKey:GrowlBrushedFloatIconPref] boolValue];
+	}
 	if (floatIcon) {
 		CGFloat sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5);
         
@@ -188,7 +192,9 @@
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = GrowlBrushedLimitPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
+		if([[self configurationDict] valueForKey:GrowlBrushedLimitPref]){
+			limitPref = [[[self configurationDict] valueForKey:GrowlBrushedLimitPref] boolValue];
+		}
 		containerSize.width = GrowlBrushedTextAreaWidth;
 		if (limitPref)
 			containerSize.height = lineHeight * GrowlBrushedMaxLines;
@@ -240,19 +246,15 @@
 			textKey = GrowlBrushedNormalTextColor;
 			break;
 	}
-	NSData *data = nil;
-    
+	NSData *data = [[self configurationDict] valueForKey:textKey];
+	
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:[NSData class]]) {
-        textColor = [NSUnarchiver unarchiveObjectWithData:data];
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
 	[textColor retain];
-	[data release];
 	data = nil;
 }
 
@@ -286,7 +288,9 @@
 - (NSInteger) descriptionRowCount {
 	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlBrushedLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
+	if([[self configurationDict] valueForKey:GrowlBrushedLimitPref]){
+		limitPref = [[[self configurationDict] valueForKey:GrowlBrushedLimitPref] boolValue];
+	}
 	if (limitPref)
 		return MIN(rowCount, GrowlBrushedMaxLines);
 	else

@@ -7,7 +7,7 @@
 //
 
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
 
 @class GrowlNanoWindowView;
 

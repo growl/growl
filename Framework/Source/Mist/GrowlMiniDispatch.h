@@ -15,9 +15,9 @@
 
 
 @interface GrowlMiniDispatch : NSObject <NSAnimationDelegate> {
-
+    
 	NSMutableArray *windows;
-   NSMutableArray *queuedWindows;
+    NSMutableArray *queuedWindows;
 	
 	id				delegate;
 	

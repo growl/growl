@@ -8,17 +8,15 @@
 
 #import "GrowlGNTPPacketParser.h"
 #import "GrowlApplicationController.h"
-#import "GrowlNotification.h"
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlCallbackGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
 #import "GrowlNotificationGNTPPacket.h"
-#import "GrowlTicketController.h"
+#import "GrowlTicketDatabase.h"
 #import "NSStringAdditions.h"
 #import "GrowlGNTPDefines.h"
-#import "GrowlApplicationTicket.h"
-#import "GrowlTicketController.h"
 #import "GNTPSubscriptionController.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 @implementation GrowlGNTPPacketParser
 
@@ -178,7 +176,7 @@
 			break;
 		case GrowlNotifyPacketType:
 		{
-			GrowlNotificationResult result = [[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:[packet growlDictionary]];
+			GrowlNotificationResult result = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:[packet growlDictionary]];
 			switch (result) {
 				case GrowlNotificationResultPosted:
                if([packet callbackResultSendBehavior] == GrowlGNTP_TCPCallback)
@@ -222,10 +220,10 @@
          }
 			break;
 		case GrowlRegisterPacketType:
-			[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:[packet growlDictionary]];
+			[[GrowlApplicationController sharedController] registerApplicationWithDictionary:[packet growlDictionary]];
 			break;
 		case GrowlCallbackPacketType:
-			[[GrowlApplicationController sharedInstance] growlNotificationDict:[packet growlDictionary]
+			[[GrowlApplicationController sharedController] growlNotificationDict:[packet growlDictionary]
 												  didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket *)packet callbackType] == GrowlGNTPCallback_Clicked)
 																onLocalMachine:NO];
          [self growlNotificationDict:[packet growlDictionary] didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket*)packet callbackType] == GrowlGNTPCallback_Clicked)];
@@ -243,7 +241,7 @@
                if([packet originPacket]){
                   NSString *appName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_APP_NAME];
                   NSString *hostName = [[[packet originPacket] growlDictionary] objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-                  GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
+                  GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
                   if(ticket){
                      /* We would reregister here if we had a valid registration dict stored somewhere
                         We will reinvestigate this in the future.
@@ -390,16 +388,6 @@
  */
 - (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick
 {
-	if (viaClick) {
-		NSString *appName = [growlNotificationDict objectForKey:GROWL_APP_NAME];
-      NSString *hostName = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-		GrowlApplicationTicket *ticket = [[GrowlTicketController sharedController] ticketForApplicationName:appName hostName:hostName];
-		
-		/* Don't advertise that the notification closed via a click if click handlers are disabled */
-		if (ticket && ![ticket clickHandlersEnabled])
-			viaClick = NO;
-	}
-
 	NSString *notificationID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	GrowlGNTPPacket *existingPacket = (notificationID ? [currentNetworkPackets objectForKey:notificationID] : nil);
 	//NSLog(@"didCloseViaNotificationClick --> %@ --> %@", notificationID, existingPacket);

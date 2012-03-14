@@ -46,7 +46,7 @@ typedef enum {
 
 	GrowlDisplayStatus				 displayStatus;
 	
-	CFTimeInterval		             displayDuration;
+	NSTimeInterval		             displayDuration;
 	NSUInteger			             screenNumber;
 	BOOL                             screenshotModeEnabled;
 
@@ -138,6 +138,8 @@ typedef enum {
 
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *)flag;
+
+- (NSDictionary*)configurationDict;
 
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;

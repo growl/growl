@@ -18,7 +18,6 @@
 
 @class GrowlDisplayWindowController;
 
-#import "GrowlAbstractSingletonObject.h"
 #import "GrowlPositioningDefines.h"
 
 extern NSString *NSStringFromGrowlPosition(enum GrowlPosition pos);
@@ -35,13 +34,18 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  * Plugins that uses GrowlDisplayWindowController don't need to worry about contacting GrowlPositionController and reserving rects.
  * GrowlDisplayWindowController takes care for it, but it does require the display plugin to relocate the notification, and display it again.
  */
-@interface GrowlPositionController : GrowlAbstractSingletonObject {
+@interface GrowlPositionController : NSObject {
 	NSInteger selectedPositionType;
 	enum GrowlPositionOrigin selectedCustomPosition;
 	CFMutableDictionaryRef	reservedRects;
 	
 	NSMutableDictionary	*reservedRectsByController;
 }
+
+/*!
+ * @brief Returns the shared instance of this class.
+ */
++ (GrowlPositionController *) sharedController;
 
 /*!
  * @method rectForPosition:inScreen:

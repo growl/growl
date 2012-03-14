@@ -69,7 +69,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 
 @implementation GrowliCalWindowView
 
-- (id) initWithFrame:(NSRect) frame {
+- (id) initWithFrame:(NSRect) frame configurationDict:(NSDictionary*)configDict {
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont systemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont systemFontOfSize:DESCR_FONT_SIZE_PTS] retain];
@@ -78,7 +78,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
         
 		int size = GrowliCalSizePrefDefault;
-		READ_GROWL_PREF_INT(GrowliCalSizePref, GrowliCalPrefDomain, &size);
+		if([configDict valueForKey:GrowliCalSizePref]){
+			size = [[configDict valueForKey:GrowliCalSizePref] intValue];
+		}
 		if (size == GrowliCalSizeLarge) {
 			iconSize = ICON_SIZE_LARGE_PX;
 		} else {
@@ -215,7 +217,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	/* What is going on here? setPriority is the preference reader and completely ignores the priority? */
 	/* This method is completely ridiculous */
 	CGFloat backgroundAlpha = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
+	if([[self configurationDict] valueForKey:GrowliCalOpacity]){
+		backgroundAlpha = [[[self configurationDict] valueForKey:GrowliCalOpacity] floatValue];
+	}
 	backgroundAlpha *= 0.01;
     
 	[textColor release];
@@ -224,9 +228,11 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	[bgColor release];
 	[lightColor release];
 	[borderColor release];
-    
+	
 	GrowliCalColorType color = GrowliCalPurple;
-	READ_GROWL_PREF_INT(GrowliCalColor, GrowliCalPrefDomain, &color);
+	if([[self configurationDict] valueForKey:GrowliCalColor]){
+		color = [[[self configurationDict] valueForKey:GrowliCalColor] intValue];
+	}
 	switch (color) {
 		case GrowliCalPurple:
 			bgColor = [NSColor colorWithCalibratedRed:0.4000 green:0.1804 blue:0.7569 alpha:backgroundAlpha];		
@@ -353,7 +359,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &limitPref);
+		if([[self configurationDict] valueForKey:GrowliCalLimitPref]){
+			limitPref = [[[self configurationDict] valueForKey:GrowliCalLimitPref] boolValue];
+		}
 		containerSize.width = TEXT_AREA_WIDTH;
 		if (limitPref)
 			containerSize.height = lineHeight * MAX_TEXT_ROWS;
@@ -414,7 +422,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 - (NSInteger) descriptionRowCount {
 	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &limitPref);
+	if([[self configurationDict] valueForKey:GrowliCalLimitPref]){
+		limitPref = [[[self configurationDict] valueForKey:GrowliCalLimitPref] boolValue];
+	}
 	if (limitPref)
 		return MIN(rowCount, MAX_TEXT_ROWS);
 	else

@@ -6,19 +6,20 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlNotificationDisplayBridge.h"
+#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlBrushedDisplay.h"
 #import "GrowlBrushedWindowController.h"
 #import "GrowlBrushedPrefsController.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
 
 @implementation GrowlBrushedDisplay
 
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlBrushedWindowController");
+		self.prefDomain = GrowlBrushedPrefDomain;
 	}
 	return self;
 }
@@ -28,7 +29,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Brushed"]];
 	return preferencePane;

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlWindowTransition.h"
+#import <GrowlPlugins/GrowlWindowtransition.h>
 
 @interface GrowlScaleWindowTransition : GrowlWindowTransition {
 	NSPoint	startingPoint;

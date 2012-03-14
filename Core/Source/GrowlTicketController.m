@@ -12,19 +12,16 @@
 
 @implementation GrowlTicketController
 
-+ (id) sharedController {
-	return [self sharedInstance];
-}
-
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
-- (void) destroy {
+
+- (void) dealloc{
 	[ticketsByApplicationName release];
-	[super destroy];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -74,7 +71,7 @@
 //	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
 
 	// XXX: should use GrowlPathUtilities here
-	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
+	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
 	NSString *growlSupportPath;
 	[ticketsByApplicationName removeAllObjects];
 
