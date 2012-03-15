@@ -165,15 +165,7 @@
 		8381E4731512A8BA00DD02B5 /* GrowlPref.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0B6F8D14BF68DB004F2339 /* GrowlPref.xib */; };
 		8381E4741512A8BA00DD02B5 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCCD146ABCD70074E001 /* GeneralPrefs.xib */; };
 		8381E4751512A8BA00DD02B5 /* ApplicationPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCDCFCCF146ABD910074E001 /* ApplicationPrefs.xib */; };
-		8381E4761512A96000DD02B5 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA5141EFCA0005A26CF /* About.rtf */; };
-		8381E4771512A96000DD02B5 /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
-		8381E4781512A96000DD02B5 /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
-		8381E4791512A96000DD02B5 /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
-		8381E47A1512A96000DD02B5 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		8381E47B1512A96000DD02B5 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
-		8381E47D1512ABAD00DD02B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
-		8381E47F1512ABCA00DD02B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
-		8381E4811512ABD800DD02B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEAF141EFCA1005A26CF /* Localizable.strings */; };
 		83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
 		83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
 		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
@@ -990,15 +982,15 @@
 		835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-DISPLAY.icns"; path = "images/DocumentIcons/Growl-DISPLAY.icns"; sourceTree = "<group>"; };
 		835A0AE9142C74A100B89123 /* Growl-WKMV.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-WKMV.icns"; path = "images/DocumentIcons/Growl-WKMV.icns"; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
-		8381E46A1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8381E46B1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/mainmenu.strings; sourceTree = "<group>"; };
-		8381E46C1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
-		8381E4701512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		8381E4711512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/mainmenu.strings"; sourceTree = "<group>"; };
-		8381E4721512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
-		8381E47C1512ABAA00DD02B5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8381E47E1512ABCA00DD02B5 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8381E4801512ABD700DD02B5 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		8381E46A1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8381E46B1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/mainmenu.strings; sourceTree = "<group>"; };
+		8381E46C1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
+		8381E4701512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8381E4711512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/mainmenu.strings"; sourceTree = "<group>"; };
+		8381E4721512A8BA00DD02B5 /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
+		8381E47C1512ABAA00DD02B5 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8381E47E1512ABCA00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8381E4801512ABD700DD02B5 /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		83A2C56014ECC07A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		83A2C56214ECC08A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		83A2C56814ECC0D000AF96FA /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = Core/Resources/ro.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -3516,15 +3508,7 @@
 				8381E4731512A8BA00DD02B5 /* GrowlPref.xib in Resources */,
 				8381E4741512A8BA00DD02B5 /* GeneralPrefs.xib in Resources */,
 				8381E4751512A8BA00DD02B5 /* ApplicationPrefs.xib in Resources */,
-				8381E4761512A96000DD02B5 /* About.rtf in Resources */,
-				8381E4771512A96000DD02B5 /* StartAtLogin.rtf in Resources */,
-				8381E4781512A96000DD02B5 /* OldGrowl.rtf in Resources */,
-				8381E4791512A96000DD02B5 /* WhatsNew.rtf in Resources */,
-				8381E47A1512A96000DD02B5 /* Welcome.rtf in Resources */,
 				8381E47B1512A96000DD02B5 /* FirstLaunchWindow.xib in Resources */,
-				8381E47D1512ABAD00DD02B5 /* Localizable.strings in Resources */,
-				8381E47F1512ABCA00DD02B5 /* Localizable.strings in Resources */,
-				8381E4811512ABD800DD02B5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
