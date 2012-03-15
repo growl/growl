@@ -92,7 +92,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 @implementation GrowlApplicationController
 @synthesize statusMenu;
-@synthesize audioDeviceIdentifier;
 
 + (GrowlApplicationController *) sharedController {
     static GrowlApplicationController *instance = nil;

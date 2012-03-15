@@ -32,7 +32,6 @@ typedef enum {
 	
 	GrowlFirstLaunchWindowController *firstLaunchWindow;
 	
-	NSString						*audioDeviceIdentifier;
    NSString						*urlOnLaunch;
    
    GrowlPreferencePane		*preferencesWindow;
@@ -63,7 +62,6 @@ typedef enum {
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).
 - (IBAction)quitWithWarning:(id)sender;
 
-@property (retain) NSString                    *audioDeviceIdentifier;
 @property (retain) GrowlMenu                   *statusMenu;
 
 @end

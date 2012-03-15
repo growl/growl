@@ -67,7 +67,6 @@ static BOOL awoken = NO;
 @synthesize appSettingsTabView;
 @synthesize appOnSwitch;
 @synthesize appPositionPicker;
-@synthesize soundMenuButton;
 @synthesize displayMenuButton;
 @synthesize notificationDisplayMenuButton;
 @synthesize actionMenuButton;
@@ -75,7 +74,6 @@ static BOOL awoken = NO;
 @synthesize selectedNotificationIndexes;
 
 @synthesize applicationScrollView;
-@synthesize demoSound;
 @synthesize canRemoveTicket;
 
 @synthesize getApplicationsTitle;
@@ -89,7 +87,6 @@ static BOOL awoken = NO;
 @synthesize noteDisplayStyleLabel;
 @synthesize stayOnScreenLabel;
 @synthesize priorityLabel;
-@synthesize playSoundLabel;
 @synthesize stayOnScreenNever;
 @synthesize stayOnScreenAlways;
 @synthesize stayOnScreenAppDecides;
@@ -102,7 +99,6 @@ static BOOL awoken = NO;
 -(void)dealloc {
    [ticketsArrayController removeObserver:self forKeyPath:@"selection"];
    [appOnSwitch removeObserver:self forKeyPath:@"state"];
-   [demoSound release];
    
    [enableApplicationLabel release];
    [enableLoggingLabel release];
@@ -114,7 +110,6 @@ static BOOL awoken = NO;
    [noteDisplayStyleLabel release];
    [stayOnScreenLabel release];
    [priorityLabel release];
-   [playSoundLabel release];
    [stayOnScreenNever release];
    [stayOnScreenAlways release];
    [stayOnScreenAppDecides release];
@@ -142,7 +137,6 @@ static BOOL awoken = NO;
       self.noteDisplayStyleLabel = NSLocalizedString(@"Display Style:", @"Label for the display style of the selected notification");
       self.stayOnScreenLabel = NSLocalizedString(@"Stay On Screen:", @"Label for choosing whether the selected note stays on screen");
       self.priorityLabel = NSLocalizedString(@"Priority:", @"Label for choosing priority of the selected notification");
-      self.playSoundLabel = NSLocalizedString(@"Play Sound:", @"Label for choosing which sound plays for the selected notification");
       self.stayOnScreenNever = NSLocalizedString(@"Never", @"Notification will never stay on screen");
       self.stayOnScreenAlways = NSLocalizedString(@"Always", @"Notification always stay on screen");
       self.stayOnScreenAppDecides = NSLocalizedString(@"Application Decides", @"Application decides whether a note should stay on screen");
@@ -214,11 +208,6 @@ static BOOL awoken = NO;
                                             selector:@selector(updatePosition:) 
                                                 name:GrowlPositionPickerChangedSelectionNotification 
                                               object:appPositionPicker];
-      
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(translateSeparatorsInMenu:)
-                                                name:NSPopUpButtonWillPopUpNotification
-                                              object:soundMenuButton];
 	
 	__block GrowlApplicationsViewController *blockSelf = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -262,56 +251,6 @@ static BOOL awoken = NO;
          }
       }
    }
-}
-
-- (void) reloadSounds
-{
-   [self willChangeValueForKey:@"sounds"];
-   [self didChangeValueForKey:@"sounds"];
-}
-
-- (NSArray *) sounds {
-   NSMutableArray *soundNames = [[NSMutableArray alloc] init];
-	
-	NSArray *paths = [NSArray arrayWithObjects:@"/System/Library/Sounds",
-                     @"/Library/Sounds",
-                     [NSString stringWithFormat:@"%@/Library/Sounds", NSHomeDirectory()],
-                     nil];
-   
-	for (NSString *directory in paths) {
-		BOOL isDirectory = NO;
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:&isDirectory]) {
-			if (isDirectory) {
-				
-				NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
-            if([files count])
-               [soundNames addObject:@"-"];
-				for (NSString *filename in files) {
-					NSString *file = [filename stringByDeletingPathExtension];
-               
-					if (![file isEqualToString:@".DS_Store"])
-						[soundNames addObject:file];
-				}
-			}
-		}
-	}
-	
-	return [soundNames autorelease];
-}
-
-- (void)translateSeparatorsInMenu:(NSNotification *)notification
-{
-	NSPopUpButton * button = [notification object];
-	
-	NSMenu *menu = [button menu];
-	
-	NSInteger itemIndex = 0;
-	
-	while ((itemIndex = [menu indexOfItemWithTitle:@"-"]) != -1) {
-		[menu removeItemAtIndex:itemIndex];
-		[menu insertItem:[NSMenuItem separatorItem] atIndex:itemIndex];
-	}
 }
 
 - (IBAction)getApplications:(id)sender {
@@ -469,18 +408,6 @@ static BOOL awoken = NO;
 	if(pluginToUse)
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
 																			 object:pluginToUse];
-}
-
--(IBAction)playSound:(id)sender
-{
-    if(self.demoSound && [self.demoSound isPlaying])
-        [self.demoSound stop];
-
-	if([sender indexOfSelectedItem] > 0) // The 0 item is "None"
-    {
-        self.demoSound = [NSSound soundNamed:[[sender selectedItem] title]];		
-        [self.demoSound play];
-    }
 }
 
 - (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil

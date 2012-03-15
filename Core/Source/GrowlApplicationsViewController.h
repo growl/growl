@@ -24,7 +24,6 @@
 @property (nonatomic, assign) IBOutlet NSTabView *appSettingsTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *appOnSwitch;
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *appPositionPicker;
-@property (nonatomic, assign) IBOutlet NSPopUpButton *soundMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *displayMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *notificationDisplayMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *actionMenuButton;
@@ -32,7 +31,6 @@
 @property (nonatomic, assign) NSIndexSet *selectedNotificationIndexes;
 
 @property (nonatomic, assign) IBOutlet NSScrollView *applicationScrollView;
-@property (nonatomic, retain) NSSound *demoSound;
 @property (nonatomic) BOOL canRemoveTicket;
 
 @property (nonatomic, retain) NSString *getApplicationsTitle;
@@ -46,7 +44,6 @@
 @property (nonatomic, retain) NSString *noteDisplayStyleLabel;
 @property (nonatomic, retain) NSString *stayOnScreenLabel;
 @property (nonatomic, retain) NSString *priorityLabel;
-@property (nonatomic, retain) NSString *playSoundLabel;
 @property (nonatomic, retain) NSString *stayOnScreenNever;
 @property (nonatomic, retain) NSString *stayOnScreenAlways;
 @property (nonatomic, retain) NSString *stayOnScreenAppDecides;
@@ -60,7 +57,6 @@
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction)getApplications:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
-- (IBAction)playSound:(id)sender;
 - (void)selectApplication:(NSString*)appName hostName:(NSString*)hostName notificationName:(NSString*)noteNameOrNil;
 - (NSIndexSet *) selectedNotificationIndexes;
 - (void) setSelectedNotificationIndexes:(NSIndexSet *)newSelectedNotificationIndexes;
