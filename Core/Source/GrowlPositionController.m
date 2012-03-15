@@ -222,11 +222,9 @@
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
 //	GrowlLog *growlLog = [GrowlLog sharedController];
 	
-   //NSString *appName = [[displayController notification] applicationName];
-   //NSString *hostName = [[[displayController notification] auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-	//GrowlTicketDatabaseApplication *displayTicket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:hostName];
-	selectedPositionType = 0;//displayTicket ? [[displayTicket positionType] intValue] : 0;
-	selectedCustomPosition = GrowlTopRightCorner;//displayTicket ? (enum GrowlPositionOrigin)[[displayTicket selectedPosition] intValue] : GrowlNoOrigin;
+	NSDictionary *configDict = [[displayController notification] configurationDict];
+	selectedPositionType = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.positiontype"] intValue] : 0;
+	selectedCustomPosition = configDict ? (enum GrowlPositionOrigin)[[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlNoOrigin;
 
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];

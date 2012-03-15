@@ -324,7 +324,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		{
 			GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
 			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
-			NSDictionary *configCopy = [[[resolvedDisplayConfig configuration] copy] autorelease];
+			NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
+			[configCopy setValue:[ticket positionType] forKey:@"com.growl.positioncontroller.positiontype"];
+			[configCopy setValue:[ticket selectedPosition] forKey:@"com.growl.positioncontroller.selectedposition"];
 			if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 				[display dispatchNotification:aDict withConfiguration:configCopy];
 			}else{
@@ -337,7 +339,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				NSDictionary *copyDict = [[aDict copy] autorelease];
 				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 					if([action conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
-						[(id<GrowlDispatchNotificationProtocol>)action dispatchNotification:copyDict withConfiguration:[obj configuration]];
+						NSDictionary *actionConfigCopy = [[[obj configuration] copy] autorelease];
+						[(id<GrowlDispatchNotificationProtocol>)action dispatchNotification:copyDict withConfiguration:actionConfigCopy];
 					}
 				});
 			}];
