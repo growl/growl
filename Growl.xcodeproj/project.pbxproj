@@ -158,7 +158,6 @@
 		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
 		83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC9801480958B004D13CF /* Whiteboard.growlStyle */; };
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
-		9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9326590D140C06990037AA2C /* CoreAudio.framework */; };
 		9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93265928140DD2180037AA2C /* Starwl.growlStyle */; };
 		93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */; };
 		9326596B141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9326596A141295BE0037AA2C /* GrowlControlHideRollupScriptCommand.m */; };
@@ -373,6 +372,7 @@
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
 		BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */; };
+		BCAD79F31512675C0052EB51 /* SoundAction.bundle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = BCAD79F01512664F0052EB51 /* SoundAction.bundle */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
 		BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */; };
 		BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
@@ -706,6 +706,20 @@
 			remoteGlobalIDString = 9398377F0DA42965007F53F3;
 			remoteInfo = ShortcutRecorder.framework;
 		};
+		BCAD79EF1512664F0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCAD795D151265C70052EB51;
+			remoteInfo = SoundAction;
+		};
+		BCAD79F1151267390052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCAD795C151265C70052EB51;
+			remoteInfo = SoundAction;
+		};
 		BCC7F9C61503D90A005FFE04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -743,6 +757,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCAD79F31512675C0052EB51 /* SoundAction.bundle in Copy Growl Styles */,
 				83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */,
 				83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */,
 				93E0537C1415AE4300FC4F76 /* Garageband.growlStyle in Copy Growl Styles */,
@@ -1063,7 +1078,6 @@
 		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
 		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
 		932177BB13E4AB9F00157729 /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
-		9326590D140C06990037AA2C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		93265928140DD2180037AA2C /* Starwl.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Starwl.growlStyle; path = Core/Resources/Starwl.growlStyle; sourceTree = "<group>"; };
 		93265966141295720037AA2C /* GrowlControlShowRollupScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlControlShowRollupScriptCommand.h; path = Bindings/applescript/GrowlControlShowRollupScriptCommand.h; sourceTree = "<group>"; };
 		93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlControlShowRollupScriptCommand.m; path = Bindings/applescript/GrowlControlShowRollupScriptCommand.m; sourceTree = "<group>"; };
@@ -1466,6 +1480,7 @@
 		BCA9D46C142222D600C98C98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "GNTP Client/en.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		BCAB1EC214780674005E2BB0 /* GNTPForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPForwarder.h; path = Core/Source/GNTPForwarder.h; sourceTree = "<group>"; };
 		BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPForwarder.m; path = Core/Source/GNTPForwarder.m; sourceTree = "<group>"; };
+		BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SoundAction.xcodeproj; path = Plugins/Actions/SoundAction/SoundAction.xcodeproj; sourceTree = "<group>"; };
 		BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupedArrayController.h; path = Core/Source/GroupedArrayController.h; sourceTree = "<group>"; };
 		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
 		BCB743FF1442CA2A009121C9 /* GrowlMenuImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenuImageView.h; path = Core/Source/GrowlMenuImageView.h; sourceTree = "<group>"; };
@@ -1722,7 +1737,6 @@
 			files = (
 				BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
-				9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */,
 				BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */,
 				BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */,
 				745352D509313B3B0000B26A /* PreferencePanes.framework in Frameworks */,
@@ -2113,7 +2127,6 @@
 				0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */,
 				BC7E26D815065CF100828D29 /* Carbon.framework */,
 				FF93C914142193B8007EAC43 /* CoreServices.framework */,
-				9326590D140C06990037AA2C /* CoreAudio.framework */,
 				BCBCDD90121BA05100C07D0D /* CoreData.framework */,
 				BC7E26D515065B4800828D29 /* CoreFoundation.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
@@ -2741,6 +2754,14 @@
 			name = "GNTP Forwarder";
 			sourceTree = "<group>";
 		};
+		BCAD79EC1512664F0052EB51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD79F01512664F0052EB51 /* SoundAction.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BCD6012713C769320013EEDE /* Rollup */ = {
 			isa = PBXGroup;
 			children = (
@@ -2788,6 +2809,7 @@
 				0A7F5FD90767C79100E1C1E4 /* MailMe */,
 				DD4939A9084B937400D1CCCB /* SMS */,
 				BCECE83515082959008DD685 /* CompoundAction */,
+				BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -3343,6 +3365,7 @@
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
+				BCAD79F2151267390052EB51 /* PBXTargetDependency */,
 				93A042B91382157700C46F0A /* PBXTargetDependency */,
 			);
 			name = Growl.app;
@@ -3466,6 +3489,10 @@
 					ProductGroup = 93D3C244150EF8BC00108F4A /* Products */;
 					ProjectRef = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
 				},
+				{
+					ProductGroup = BCAD79EC1512664F0052EB51 /* Products */;
+					ProjectRef = BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -3517,6 +3544,13 @@
 			fileType = wrapper.application;
 			path = ShortcutRecorder.app;
 			remoteRef = BC9EFDFB15105EDE00534A7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD79F01512664F0052EB51 /* SoundAction.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SoundAction.bundle;
+			remoteRef = BCAD79EF1512664F0052EB51 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4360,6 +4394,11 @@
 			isa = PBXTargetDependency;
 			name = ShortcutRecorder.framework;
 			targetProxy = BC9EFDFF15105F2300534A7C /* PBXContainerItemProxy */;
+		};
+		BCAD79F2151267390052EB51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SoundAction;
+			targetProxy = BCAD79F1151267390052EB51 /* PBXContainerItemProxy */;
 		};
 		BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

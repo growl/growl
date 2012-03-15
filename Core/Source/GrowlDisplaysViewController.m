@@ -413,7 +413,8 @@
 		
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
-			[prefPane setValue:display forKey:@"pluginConfiguration"];
+			if([prefPane respondsToSelector:@selector(setPluginConfiguration:)])
+				[prefPane setValue:display forKey:@"pluginConfiguration"];
 			[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 			return;
 		} else {
@@ -450,7 +451,8 @@
 			[displayPluginsTable setNextKeyView:previewButton];
 		}
       
-		[pluginPrefPane setValue:display forKey:@"pluginConfiguration"];
+		if([prefPane respondsToSelector:@selector(setPluginConfiguration:)])
+			[prefPane setValue:display forKey:@"pluginConfiguration"];
 		[[GrowlTicketDatabase sharedInstance] saveDatabase:NO];
 		if (oldPrefPane)
 			[oldPrefPane didUnselect];

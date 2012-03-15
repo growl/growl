@@ -48,8 +48,6 @@
 #include "CFURLAdditions.h"
 #import "GrowlImageTransformer.h"
 
-#include <CoreAudio/AudioHardware.h>
-
 @interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
@@ -189,34 +187,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		}
 	}
 }
-	
-#pragma mark Retrieving sounds
-
-+ (NSString*)getAudioDevice
-{
-    NSString *result = nil;
-    AudioObjectPropertyAddress propertyAddress = {kAudioHardwarePropertyDefaultSystemOutputDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
-    UInt32 propertySize;
-    
-    if(AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize) == noErr)
-    {
-        AudioObjectID deviceID;
-        if(AudioObjectGetPropertyData(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize, &deviceID) == noErr)
-        {
-            NSString *UID = nil;
-            propertySize = sizeof(UID);
-            propertyAddress.mSelector = kAudioDevicePropertyDeviceUID;
-            propertyAddress.mScope = kAudioObjectPropertyScopeGlobal;
-            propertyAddress.mElement = kAudioObjectPropertyElementMaster;
-            if (AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, NULL, &propertySize, &UID) == noErr)
-            {
-                result = [NSString stringWithString:UID];
-                CFRelease(UID);
-            }
-        }
-    }
-    return result;    
-}
 
 #pragma mark Dispatching notifications
 
@@ -344,26 +314,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 					}
 				});
 			}];
-			
-			NSString *soundName = nil;//[notification sound];
-			if (soundName) {
-            NSSound *sound = [NSSound soundNamed:soundName];
-            
-            if (!sound) {
-					NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-													  [NSString stringWithFormat:NSLocalizedString(@"Could not find sound file named \"%@\"", /*comment*/ nil), soundName], NSLocalizedDescriptionKey,
-													  nil];
-					
-					NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:-43 userInfo:userInfo];
-					[NSApp presentError:error];
-            }
-            
-            if(!audioDeviceIdentifier)
-					self.audioDeviceIdentifier = [GrowlApplicationController getAudioDevice];
-            [sound setPlaybackDeviceIdentifier:audioDeviceIdentifier];
-            [sound play];
-            
-			}
 		}
 		
 		// send to DO observers
@@ -686,21 +636,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 			retVal = YES;
 		}
-	}
-
-	/*If Growl is not enabled and was not already running before
-	 *	(for example, via an autolaunch even though the user's last
-	 *	preference setting was to click "Stop Growl," setting enabled to NO),
-	 *	quit having registered; otherwise, remain running.
-	 */
-	if (!growlFinishedLaunching) {
-		//Terminate after one second to give us time to process any other openFile: messages.
-		[NSObject cancelPreviousPerformRequestsWithTarget:NSApp
-												 selector:@selector(terminate:)
-												   object:nil];
-		[NSApp performSelector:@selector(terminate:)
-					withObject:nil
-					afterDelay:1.0];
 	}
 	return retVal;
 }
