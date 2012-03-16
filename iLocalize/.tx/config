@@ -65,3 +65,7 @@ source_lang = en
 file_filter = translations/TGP.growl-automator-action-localizable-strings/<lang>.strings
 source_lang = en
 
+[TGP.shortcutrecorder-localizable-strings]
+file_filter = translations/TGP.shortcutrecorder-localizable-strings/<lang>.strings
+source_lang = en
+
