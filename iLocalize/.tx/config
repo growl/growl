@@ -69,3 +69,7 @@ source_lang = en
 file_filter = translations/TGP.shortcutrecorder-localizable-strings/<lang>.strings
 source_lang = en
 
+[TGP.growl-appstore-text]
+file_filter = translations/TGP.growl-appstore-text/<lang>.wiki
+source_lang = en
+

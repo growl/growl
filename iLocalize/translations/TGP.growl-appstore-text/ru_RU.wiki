@@ -1,0 +1,23 @@
+Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+
+One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+
+Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+
+So many more AWESOME features listed here.
+
+
+• Personalize your notifications. Choose Growl's presentation, look and feels.
+• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
+• Easy to use Applications tab for controlling what you receive and what gets blocked.
+• Speech display for hearing your notifications, great for those who are visually impaired.
+• Awesome notification history, so you can see what has been going on.
+• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
+• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
+• Send Growl notifications from Cocoa, AppleScript, or over the network.
+• Networking so that two or more macs can forward notifications to each other.
+• Can work with the iPhone and iPad via Prowl.
+
+
+
+Growl is what you need. Millions of people love it, and you will too. Seriously!
