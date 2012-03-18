@@ -208,8 +208,6 @@
 		93DAA62015103C580052E6E6 /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61B15103C580052E6E6 /* SGKeyCodeTranslator.m */; };
 		93DAA62115103C580052E6E6 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61D15103C580052E6E6 /* SGKeyCombo.m */; };
 		93DAA62315103E4A0052E6E6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DAA62215103E4A0052E6E6 /* Carbon.framework */; };
-		93DAA64E1512CAF10052E6E6 /* Lumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93DAA6491512CAD30052E6E6 /* Lumberjack.framework */; };
-		93DAA64F1512CB0A0052E6E6 /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DAA6491512CAD30052E6E6 /* Lumberjack.framework */; };
 		93E01E0313C9406B00885286 /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */; };
 		93E0537C1415AE4300FC4F76 /* Garageband.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */; };
 		93E055AE141BD3A500FC4F76 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93E055A7141BD3A500FC4F76 /* Localizable.strings */; };
@@ -225,6 +223,8 @@
 		93E7128513FE04200025D733 /* GrowlControlPauseScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */; };
 		93E7128813FE05170025D733 /* GrowlControlResumeScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */; };
 		93E7129013FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */; };
+		93F6FAB6151674A800FE2D5A /* Lumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93F6FAB31516749300FE2D5A /* Lumberjack.framework */; };
+		93F6FAB7151674C500FE2D5A /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F6FAB31516749300FE2D5A /* Lumberjack.framework */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		950568E60812C2960096EC5C /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
@@ -633,26 +633,26 @@
 			remoteGlobalIDString = 9398377F0DA42965007F53F3;
 			remoteInfo = ShortcutRecorder.framework;
 		};
-		93DAA6481512CAD30052E6E6 /* PBXContainerItemProxy */ = {
+		93F6FAAE1516749300FE2D5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */;
+			containerPortal = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
+			remoteInfo = Lumberjack;
+		};
+		93F6FAB21516749300FE2D5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = DCB3185114EB418E001CFBEE;
 			remoteInfo = Lumberjack;
 		};
-		93DAA64A1512CAD30052E6E6 /* PBXContainerItemProxy */ = {
+		93F6FAB41516749300FE2D5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */;
+			containerPortal = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = DCB318CA14ED6C3B001CFBEE;
 			remoteInfo = FmwkTest;
-		};
-		93DAA64C1512CAE80052E6E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
-			remoteInfo = Lumberjack;
 		};
 		955430E707E04683005534FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -765,7 +765,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93DAA64E1512CAF10052E6E6 /* Lumberjack.framework in Copy Frameworks */,
+				93F6FAB6151674A800FE2D5A /* Lumberjack.framework in Copy Frameworks */,
 				93D3C258150EF92B00108F4A /* ShortcutRecorder.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -1104,7 +1104,6 @@
 		93DAA61C15103C580052E6E6 /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.h; sourceTree = "<group>"; };
 		93DAA61D15103C580052E6E6 /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.m; sourceTree = "<group>"; };
 		93DAA62215103E4A0052E6E6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = external_dependencies/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		93E01DF413C93C6000885286 /* Growl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Growl.entitlements; sourceTree = "<group>"; };
 		93E01E0213C9406B00885286 /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = PositionPickerBackground.jpg; path = Core/Resources/PositionPickerBackground.jpg; sourceTree = "<group>"; };
 		93E0537A1415ADBF00FC4F76 /* Garageband.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Garageband.growlStyle; path = Core/Resources/Garageband.growlStyle; sourceTree = "<group>"; };
@@ -1174,6 +1173,7 @@
 		93EC27701421BEFA00F94A35 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93EC27711421BF0000F94A35 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		93EC277B1421BF8C00F94A35 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = external_dependencies/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		93FB21A71391B524002E1F86 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
@@ -1679,7 +1679,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DAA62315103E4A0052E6E6 /* Carbon.framework in Frameworks */,
-				93DAA64F1512CB0A0052E6E6 /* Lumberjack.framework in Frameworks */,
+				93F6FAB7151674C500FE2D5A /* Lumberjack.framework in Frameworks */,
 				93D3C256150EF91000108F4A /* ShortcutRecorder.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */,
@@ -2410,18 +2410,9 @@
 		93DAA63E1512CAAB0052E6E6 /* cocoalumberjack */ = {
 			isa = PBXGroup;
 			children = (
-				93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */,
+				93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */,
 			);
 			name = cocoalumberjack;
-			sourceTree = "<group>";
-		};
-		93DAA6401512CAD30052E6E6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				93DAA6491512CAD30052E6E6 /* Lumberjack.framework */,
-				93DAA64B1512CAD30052E6E6 /* FmwkTest.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		93E7128013FDFAAF0025D733 /* Commands */ = {
@@ -2474,6 +2465,15 @@
 				93EA804613690D8800AB89AE /* Common.xcconfig */,
 			);
 			name = xcconfig;
+			sourceTree = "<group>";
+		};
+		93F6FA911516741D00FE2D5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93F6FAB31516749300FE2D5A /* Lumberjack.framework */,
+				93F6FAB51516749300FE2D5A /* FmwkTest.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		93FB21A61391B50D002E1F86 /* GCDAsyncSocket */ = {
@@ -3210,7 +3210,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				93DAA64D1512CAE80052E6E6 /* PBXTargetDependency */,
+				93F6FAAF1516749300FE2D5A /* PBXTargetDependency */,
 				93D3C255150EF90300108F4A /* PBXTargetDependency */,
 				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
@@ -3345,8 +3345,8 @@
 					ProjectRef = 93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */;
 				},
 				{
-					ProductGroup = 93DAA6401512CAD30052E6E6 /* Products */;
-					ProjectRef = 93DAA63F1512CAD30052E6E6 /* Lumberjack.xcodeproj */;
+					ProductGroup = 93F6FA911516741D00FE2D5A /* Products */;
+					ProjectRef = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
 				},
 				{
 					ProductGroup = 93D3C244150EF8BC00108F4A /* Products */;
@@ -3404,18 +3404,18 @@
 			remoteRef = 93D3C252150EF8BD00108F4A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		93DAA6491512CAD30052E6E6 /* Lumberjack.framework */ = {
+		93F6FAB31516749300FE2D5A /* Lumberjack.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Lumberjack.framework;
-			remoteRef = 93DAA6481512CAD30052E6E6 /* PBXContainerItemProxy */;
+			remoteRef = 93F6FAB21516749300FE2D5A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		93DAA64B1512CAD30052E6E6 /* FmwkTest.app */ = {
+		93F6FAB51516749300FE2D5A /* FmwkTest.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = FmwkTest.app;
-			remoteRef = 93DAA64A1512CAD30052E6E6 /* PBXContainerItemProxy */;
+			remoteRef = 93F6FAB41516749300FE2D5A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -4216,10 +4216,10 @@
 			name = ShortcutRecorder.framework;
 			targetProxy = 93D3C254150EF90300108F4A /* PBXContainerItemProxy */;
 		};
-		93DAA64D1512CAE80052E6E6 /* PBXTargetDependency */ = {
+		93F6FAAF1516749300FE2D5A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Lumberjack;
-			targetProxy = 93DAA64C1512CAE80052E6E6 /* PBXContainerItemProxy */;
+			targetProxy = 93F6FAAE1516749300FE2D5A /* PBXContainerItemProxy */;
 		};
 		955430E807E04683005534FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

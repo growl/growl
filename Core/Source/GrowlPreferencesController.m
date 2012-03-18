@@ -55,6 +55,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 @implementation GrowlPreferencesController
 @synthesize rollupKeyCombo;
+@synthesize closeAllCombo;
 
 + (GrowlPreferencesController *) sharedController {
 	return [self sharedInstance];
@@ -68,6 +69,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 			object:nil];
 		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
         
+        //configure for rollup hotkey
         [self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
         
         NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
@@ -75,12 +77,21 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
         if(code && modifiers)
             self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
 
+        //configure for close all hotkey
+        [self addObserver:self forKeyPath:@"closeAllCombo" options:NSKeyValueObservingOptionNew context:&self];
+        
+        code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboCode];
+        modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboFlags];
+        if(code && modifiers)
+            self.closeAllCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+
 	}
 	return self;
 }
 
 - (void) destroy {
     [self removeObserver:self forKeyPath:@"rollupKeyCombo"];
+    [self removeObserver:self forKeyPath:@"closeAllCombo"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	CFRelease(loginItems);
 
@@ -93,18 +104,34 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
     {
         if(self.rollupKeyCombo.keyCode)
         {
-            
-        SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:showHideHotKey keyCombo:self.rollupKeyCombo target:[GrowlApplicationController sharedController] action:@selector(toggleRollup)] autorelease];
-        [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.rollupKeyCombo.keyCode] forKey:GrowlRollupKeyComboCode];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:self.rollupKeyCombo.modifiers] forKey:GrowlRollupKeyComboFlags];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+            SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:showHideHotKey keyCombo:self.rollupKeyCombo target:[GrowlApplicationController sharedController] action:@selector(toggleRollup)] autorelease];
+            [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.rollupKeyCombo.keyCode] forKey:GrowlRollupKeyComboCode];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:self.rollupKeyCombo.modifiers] forKey:GrowlRollupKeyComboFlags];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         else
         {
             SGHotKey *rollupKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:showHideHotKey];
             [[SGHotKeyCenter sharedCenter] unregisterHotKey:rollupKey];
-
+            
+        }
+    }
+    else if([keyPath isEqualToString:@"closeAllCombo"])
+    {
+        if(self.closeAllCombo.keyCode)
+        {
+            SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:closeAllHotKey keyCombo:self.closeAllCombo target:[GrowlApplicationController sharedController] action:@selector(closeAllNotifications)] autorelease];
+            [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:self.closeAllCombo.keyCode] forKey:GrowlCloseAllKeyComboCode];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:self.closeAllCombo.modifiers] forKey:GrowlCloseAllKeyComboFlags];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        else
+        {
+            SGHotKey *rollupKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:closeAllHotKey];
+            [[SGHotKeyCenter sharedCenter] unregisterHotKey:rollupKey];
+            
         }
     }
 }

@@ -11,6 +11,9 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlPositionPicker.h"
 #import "GrowlOnSwitch.h"
+#import <ShortcutRecorder/ShortcutRecorder.h>
+#import "SGHotKey.h"
+#import "SGKeyCombo.h"
 
 #import "GrowlDefines.h"
 
@@ -18,11 +21,13 @@
 
 @synthesize globalPositionPicker;
 @synthesize startAtLoginSwitch;
+@synthesize recorderControl;
 
 @synthesize additionalDownloadsButtonTitle;
 @synthesize startGrowlAtLoginLabel;
 @synthesize defaultStartingPositionLabel;
 @synthesize iconMenuOptionsList;
+@synthesize closeAllNotificationsTitle;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
@@ -33,6 +38,7 @@
                                                            NSLocalizedString(@"Show icon in the dock", @"Growl will have an icon only in the dock"),
                                                            NSLocalizedString(@"Show icon in both", @"Growl will have an icon in the menu and the dock"),
                                                            NSLocalizedString(@"No icon visible", @"Growl will run compeletely in the background"), nil];
+       self.closeAllNotificationsTitle = NSLocalizedString(@"Close all notifications", @"close all open notifications");
    }
    return self;
 }
@@ -54,6 +60,9 @@
                                             selector:@selector(updatePosition:) 
                                                 name:GrowlPositionPickerChangedSelectionNotification 
                                               object:globalPositionPicker];
+
+    KeyCombo combo = {SRCarbonToCocoaFlags([GrowlPreferencesController sharedController].closeAllCombo.modifiers), [GrowlPreferencesController sharedController].closeAllCombo.keyCode};
+    [self.recorderControl setKeyCombo:combo];
 }
 
 + (NSString*)nibName {
@@ -61,12 +70,13 @@
 }
 
 - (void)dealloc {
-   [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
-   [additionalDownloadsButtonTitle release];
-   [startGrowlAtLoginLabel release];
-   [defaultStartingPositionLabel release];
-   [iconMenuOptionsList release];
-   [super dealloc];
+    [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
+    [additionalDownloadsButtonTitle release];
+    [startGrowlAtLoginLabel release];
+    [closeAllNotificationsTitle release];
+    [defaultStartingPositionLabel release];
+    [iconMenuOptionsList release];
+    [super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -116,6 +126,21 @@
          [startAtLoginSwitch setState:NO];
          break;
    }
+}
+
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
+{
+    return NO;
+}
+
+- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
+{
+    SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:newKeyCombo.code modifiers:SRCocoaToCarbonFlags(newKeyCombo.flags)];
+    
+    if(combo.keyCode == -1)
+        combo = nil;
+    
+    [GrowlPreferencesController sharedController].closeAllCombo = combo;
 }
 
 @end

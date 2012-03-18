@@ -9,12 +9,15 @@
 #import "GrowlPrefsViewController.h"
 
 @class GrowlPositionPicker, GrowlOnSwitch;
+@class SRRecorderControl;
 
 @interface GrowlGeneralViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *globalPositionPicker;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *startAtLoginSwitch;
+@property (assign) IBOutlet SRRecorderControl *recorderControl;
 
+@property (nonatomic, retain) NSString *closeAllNotificationsTitle;
 @property (nonatomic, retain) NSString *additionalDownloadsButtonTitle;
 @property (nonatomic, retain) NSString *startGrowlAtLoginLabel;
 @property (nonatomic, retain) NSString *defaultStartingPositionLabel;

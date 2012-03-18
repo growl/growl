@@ -65,6 +65,10 @@
 #define GrowlRollupKeyComboCode     XSTR("GrowllRollupKeyComboCode")
 #define GrowlRollupKeyComboFlags    XSTR("GrowlRollupKeyComboFlags")
 
+#define closeAllHotKey              XSTR("GrowlCloseAllHotKey")
+#define GrowlCloseAllKeyComboCode     XSTR("GrowlCloseAllKeyComboCode")
+#define GrowlCloseAllKeyComboFlags    XSTR("GrowlCloseAllKeyComboFlags")
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -132,6 +136,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (BOOL) isRollupAutomatic;
 - (void) setRollupAutomatic:(BOOL)automatic;
 @property (nonatomic, retain) SGKeyCombo *rollupKeyCombo;
+@property (nonatomic, retain) SGKeyCombo *closeAllCombo;
 
 #pragma mark Notification History
 - (BOOL) isGrowlHistoryLogEnabled;
