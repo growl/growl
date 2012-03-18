@@ -90,7 +90,7 @@ task :setup do
   end
 
   $beta = ["Beta", "Localization"].include?($configuration)
-  $configuration = "Release" if $configuration == "Beta"
+  $configuration = "Localization" if $beta
 
   FileUtils.rm_rf($destdir)
   FileUtils.mkdir_p($product_root)
