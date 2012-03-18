@@ -1,0 +1,2 @@
+- Pridaná Francúska a Španielska lokalizácia.
+- Vyriešený problém so Švédskou lokalizáciou zobrazovanou v Rumunčine.

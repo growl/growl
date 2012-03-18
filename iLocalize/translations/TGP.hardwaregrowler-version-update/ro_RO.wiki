@@ -1,0 +1,2 @@
+- Au fost adăugate localizările pentru limba franceză și spaniolă.
+- Sa rezolvat o problemă care afișa un text în limba română în localizarea limbii suedeze.

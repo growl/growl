@@ -1,0 +1,2 @@
+- Dodano tłumaczenie francuskie i hiszpańskie
+- Rozwiązano problem z tłumaczeniem szwedzkim wyświetlanym w języku rumuńskim

@@ -69,6 +69,10 @@ desc "package hardware growler"
 task :package_hardwaregrowler => [:setup, "package:hardwaregrowler"] do
 end
 
+desc "package growlcal"
+task :package_growlcal => [:setup, "package:growlcal"] do
+end
+
 desc "package capster"
 task :package_capster => [:setup, "package:capster"] do
 end
@@ -86,7 +90,7 @@ task :setup do
   end
 
   $beta = ["Beta", "Localization"].include?($configuration)
-  $configuration = "Release" if $configuration == "Beta"
+  $configuration = "Localization" if $beta
 
   FileUtils.rm_rf($destdir)
   FileUtils.mkdir_p($product_root)
@@ -108,6 +112,11 @@ namespace "build" do
   desc "build hardware growler"
   task :hardwaregrowler do
     system "#{$xcodebuild} -project #{$src_root}/Extras/HardwareGrowler/HardwareGrowler.xcodeproj -configuration #{$configuration} SYMROOT=#{$build_root}/hardwaregrowler"
+  end
+
+  desc "build growlcal"
+  task :growlcal do
+    system "#{$xcodebuild} -project #{$src_root}/Extras/GrowlCal/GrowlCal.xcodeproj -configuration #{$configuration} SYMROOT=#{$build_root}/growlcal"
   end
 
   desc "build capster"
@@ -186,6 +195,19 @@ namespace "package" do
       system "zip -r -y #{$product_root}/HardwareGrowler-#{$growl_version}.zip HardwareGrowler.app/"
     end
     system "zip -r #{$product_root}/HardwareGrowler-#{$growl_version}-dSYM.zip HardwareGrowler.dSYM"
+    FileUtils.cd(curdir)
+  end
+  
+  desc "package growlcal"
+  task :growlcal => ["build:growlcal"] do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{$build_root}/growlcal/#{$configuration}")
+    if !$beta
+      system "productbuild --component GrowlCal.app /Applications --sign \"#{$csi}\" GrowlCal.pkg && cp -Rp GrowlCal.pkg #{$product_root}"
+    else
+      system "zip -r -y #{$product_root}/GrowlCal-#{$growl_version}.zip GrowlCal.app/"
+    end
+    system "zip -r #{$product_root}/GrowlCal-#{$growl_version}-dSYM.zip GrowlCal.dSYM"
     FileUtils.cd(curdir)
   end
 

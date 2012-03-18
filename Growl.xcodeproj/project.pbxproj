@@ -405,6 +405,8 @@
 		BCC7F9DC15042751005FFE04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
 		BCC7F9DD15042790005FFE04 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		BCCA96CE14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */; };
+		BCCAB96E1516853F00E83EBB /* Lumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BCCAB96B1516853600E83EBB /* Lumberjack.framework */; };
+		BCCAB96F1516856C00E83EBB /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCAB96B1516853600E83EBB /* Lumberjack.framework */; };
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
@@ -741,6 +743,27 @@
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = "VCS Data";
 		};
+		BCCAB96A1516853600E83EBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB3185114EB418E001CFBEE;
+			remoteInfo = Lumberjack;
+		};
+		BCCAB96C1516853600E83EBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB318CA14ED6C3B001CFBEE;
+			remoteInfo = FmwkTest;
+		};
+		BCCAB9701516858700E83EBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
+			remoteInfo = Lumberjack;
+		};
 		DD493C92084BE7FB00D1CCCB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -829,6 +852,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BCCAB96E1516853F00E83EBB /* Lumberjack.framework in Copy Frameworks */,
 				BC9EFDFE15105F0F00534A7C /* ShortcutRecorder.framework in Copy Frameworks */,
 				BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Frameworks */,
 			);
@@ -1524,6 +1548,7 @@
 		BCC7F9A61503C4C5005FFE04 /* GrowlPlugins-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GrowlPlugins-Info.plist"; path = "Plugins/PluginFramework/GrowlPlugins-Info.plist"; sourceTree = "<group>"; };
 		BCCA96CC14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationSettingsScrollView.h; path = Core/Source/GrowlNotificationSettingsScrollView.h; sourceTree = "<group>"; };
 		BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationSettingsScrollView.m; path = Core/Source/GrowlNotificationSettingsScrollView.m; sourceTree = "<group>"; };
+		BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = external_dependencies/cocoalumberjack/Xcode/LumberjackFramework/Desktop/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlKeychainUtilities.h; path = Common/Source/GrowlKeychainUtilities.h; sourceTree = "<group>"; };
 		BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlKeychainUtilities.m; path = Common/Source/GrowlKeychainUtilities.m; sourceTree = "<group>"; };
 		BCD6012813C769850013EEDE /* GrowlNotificationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCellView.h; path = Core/Source/GrowlNotificationCellView.h; sourceTree = "<group>"; };
@@ -1743,6 +1768,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */,
+				BCCAB96F1516856C00E83EBB /* Lumberjack.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */,
 				BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */,
@@ -2315,6 +2341,7 @@
 		93254753104E135B00130D3B /* external_dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				BCCAB9601516852C00E83EBB /* CocoaLumberjack */,
 				93D3C242150EF88000108F4A /* SGHotKeysLib */,
 				93D3C241150EF87600108F4A /* ShortcutRecorder */,
 				93FB21A61391B50D002E1F86 /* GCDAsyncSocket */,
@@ -2765,6 +2792,23 @@
 			isa = PBXGroup;
 			children = (
 				BCAD79F01512664F0052EB51 /* SoundAction.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BCCAB9601516852C00E83EBB /* CocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */,
+			);
+			name = CocoaLumberjack;
+			sourceTree = "<group>";
+		};
+		BCCAB9621516853600E83EBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCCAB96B1516853600E83EBB /* Lumberjack.framework */,
+				BCCAB96D1516853600E83EBB /* FmwkTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3349,12 +3393,13 @@
 				932659421411B6070037AA2C /* Generate Localizable.strings */,
 				CB61E5140637763C00E0DDC7 /* Resources */,
 				CB61E5150637763C00E0DDC7 /* Sources */,
+				BC83FC2815008A17000504F9 /* Copy Frameworks */,
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
 				3433456D0790E38B00C84B15 /* Copy Growl Styles */,
 				34A96E300C95F6AE00F46006 /* Copy Automator Plugin */,
-				93A042C6138215C400C46F0A /* Copy QuickLook Plugin */,
 				BC29B29D14D12E4800C72855 /* Copy Launcher */,
-				BC83FC2815008A17000504F9 /* Copy Frameworks */,
+				93A042C6138215C400C46F0A /* Copy QuickLook Plugin */,
+				BCCAB95F151684C000E83EBB /* Resign/Validate */,
 			);
 			buildRules = (
 			);
@@ -3363,6 +3408,7 @@
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
 				BC83FC261500893F000504F9 /* PBXTargetDependency */,
 				BC9EFE0015105F2300534A7C /* PBXTargetDependency */,
+				BCCAB9711516858700E83EBB /* PBXTargetDependency */,
 				BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */,
 				BCC7F9C91503D90A005FFE04 /* PBXTargetDependency */,
 				955430E807E04683005534FA /* PBXTargetDependency */,
@@ -3494,6 +3540,10 @@
 					ProjectRef = 93A042A31382150A00C46F0A /* GrowlQL.xcodeproj */;
 				},
 				{
+					ProductGroup = BCCAB9621516853600E83EBB /* Products */;
+					ProjectRef = BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */;
+				},
+				{
 					ProductGroup = 93D3C244150EF8BC00108F4A /* Products */;
 					ProjectRef = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
 				},
@@ -3559,6 +3609,20 @@
 			fileType = wrapper.cfbundle;
 			path = SoundAction.growlView;
 			remoteRef = BCAD79EF1512664F0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCAB96B1516853600E83EBB /* Lumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lumberjack.framework;
+			remoteRef = BCCAB96A1516853600E83EBB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCAB96D1516853600E83EBB /* FmwkTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = FmwkTest.app;
+			remoteRef = BCCAB96C1516853600E83EBB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3921,6 +3985,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "genstrings -o ./Plugins/PluginFramework/en.lproj ./Plugins/Displays/GrowlPluginPreferenceStrings.h";
+		};
+		BCCAB95F151684C000E83EBB /* Resign/Validate */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Resign/Validate;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4422,6 +4500,11 @@
 			isa = PBXTargetDependency;
 			target = 95E17B8F085E216A00990AB3 /* VCS Data */;
 			targetProxy = BCC88D3E1513B28B003C2FF4 /* PBXContainerItemProxy */;
+		};
+		BCCAB9711516858700E83EBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Lumberjack;
+			targetProxy = BCCAB9701516858700E83EBB /* PBXContainerItemProxy */;
 		};
 		DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

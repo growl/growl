@@ -477,6 +477,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [preferencesWindow showWindow:self];
 }
 
+- (void)closeAllNotifications
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
+                                                    object:nil];
+}
+
 - (void) toggleRollup
 {
     BOOL show = ![[GrowlPreferencesController sharedController] isRollupShown];
