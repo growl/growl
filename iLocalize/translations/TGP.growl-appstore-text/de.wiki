@@ -1,23 +1,22 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl ist das ultimative Benachrichtigungssystem für den Mac. Es ist die einfachste Möglichkeit zu erfahren was in anderen Programm passiert, während Du fleißig am Arbeiten bist oder andere Dinge erledigt - wahlweise in Echtzeit oder während deiner Abwesenheit. 
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+Eines Tages haben wir Fotos mit iPhone bearbeitet und zeitgleich bei Adium im Chat geschrieben. Um im Chat Ausschau nach wichtigen Nachrichten zu halten, musste man immer wieder das Chatfenster aufrufen. Selbst wenn man wusste, dass man eine Nachricht erhalten hat, musste man wieder in das Fenster zurück klicken. Die Idee für Growl wurde aus dem Frust geboren, dass man gezwungen war, immer wieder zwischen den Fenster hin- und herzuschalten. Die Echtzeit-Benachrichtigungen halten Dich mit hoher Geschwindigkeit auf dem Laufenden. Mit den eleganten Benachrichtigungen und Growl's einmaliges Fenster für die Zusammenfassung aller Ereignisse weißt Du immer was passiert, selbst wenn Du gerade nicht am Mac bist. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+Noch nie zuvor gab es so eine personifizierte Benachrichtigung auf dieser effektiven Art und Weise. Man kann Benachrichtigungen wahlweise über den Bildschirm, per E-Mail oder sogar durch Vorlesen erhalten. Mit ein wenig Wissen über Webtechnologien (CSS/XHTML/Javascript) kannst man seinen ganz persönlichen Growl-Style erstellen und nutzen.
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+Hier werden so viele fantastische Funktionen aufgelistet.
 
 
+- Personalisiere deine Benachrichtigungen. Wähle Growl's Erscheinungsverhalten, Aussehen und Bedienung.
+- Bleibe am Arbeiten ohne am Mac zu sein. Komme zurück und schau Dir an, was in der Zwischenzeit passiert ist. 
+- Einfach zu bedienende Programmübersicht zur Kontrolle aller zu erhaltenden und blockierten Benachrichtigungen.
+- Sprachbildschirm um Benachrichtigungen zu hören, ideal für sehbehinderte Anwender.
+- Genialer Benachrichtigungsverlauf um zu sehen was passiert ist.
+- Eine breite Auswahl an Styles für Growl. Alles von "Nano" mit einer Kleinen bis "Music Video" für eine große Darstellung.
+- Sende Growl-Benachrichtigungen mit Cocoa, AppleScript oder über das Netzwerk.
+- Verbinde zwei oder noch mehr Macs per Netzwerk miteinander, um Benachrichtigungen weiterzuleiten.
+- Growl funktioniert mit Prowl auch für iPhone und iPad.
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+Growl ist was man braucht. Millionen von Anwender lieben es bereits und Du wirst es auch. Wirklich!
