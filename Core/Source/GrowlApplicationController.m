@@ -945,8 +945,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
         {
             NSInteger alert = NSRunAlertPanel(
                                               NSLocalizedString(@"Corrupt install detected", @"we've detected a corrupt install in this currently running binary"),
-                                              NSLocalizedString(@"We've detected that the Mac App Store left you with a corrupt install.  Please follow the instructions the 'Read Instructions' button takes you to in order to remedy the situation", @"corrupt install alert"), 
-                                              NSLocalizedString(@"Read Instructions", @"button for reading the instructions for fixing your install"), nil, nil);
+                                              NSLocalizedString(@"We've detected that the Mac App Store left you with a corrupt install.  Please follow the instructions the button takes you to in order to remedy the situation.", @"corrupt install alert"), 
+                                              NSLocalizedString(@"Read Instructions and Quit", @"button for reading the instructions for fixing your install"), nil, nil);
             if (alert == NSOKButton) 
             {
                 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/growlinstallcorrupt"]];
