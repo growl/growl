@@ -936,11 +936,32 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 #endif
 
+- (void) checkForCorruption
+{
+    //check to see if any of the path components in our path include prefPane
+    for(NSString *component in [[[NSBundle mainBundle] bundlePath] pathComponents])
+    {
+        if([component rangeOfString:@"prefPane"].location != NSNotFound)
+        {
+            NSInteger alert = NSRunAlertPanel(
+                                              NSLocalizedString(@"Corrupt install detected", @"we've detected a corrupt install in this currently running binary"),
+                                              NSLocalizedString(@"We've detected that the Mac App Store left you with a corrupt install.  Please follow the instructions the 'Read Instructions' button takes you to in order to remedy the situation", @"corrupt install alert"), 
+                                              NSLocalizedString(@"Read Instructions", @"button for reading the instructions for fixing your install"), nil, nil);
+            if (alert == NSOKButton) 
+            {
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/growlinstallcorrupt"]];
+                [NSApp terminate:self];
+}
+        }
+    }
+}
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #if defined(BETA) && BETA
     [self expiryCheck];
 #endif
+    
+    [self checkForCorruption];
     
     //register value transformer
     id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
