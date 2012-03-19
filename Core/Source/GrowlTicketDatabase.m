@@ -144,12 +144,14 @@
 		newConfig.pluginID = [[plugin bundle] bundleIdentifier];
 		newConfig.configID = [[NSProcessInfo processInfo] globallyUniqueString];
 		
-		NSString *prefsID = [plugin prefDomain];
-		if(prefsID){
-			NSDictionary *configDict = [[GrowlPreferencesController sharedController] objectForKey:prefsID];
-			//NSLog(@"setting config dict for %@ with %@", pluginName, configDict);
-			if(configDict)
-				newConfig.configuration = configDict;
+		if([plugin respondsToSelector:@selector(prefDomain)]){
+			NSString *prefsID = [plugin prefDomain];
+			if(prefsID){
+				NSDictionary *configDict = [[GrowlPreferencesController sharedController] objectForKey:prefsID];
+				//NSLog(@"setting config dict for %@ with %@", pluginName, configDict);
+				if(configDict)
+					newConfig.configuration = configDict;
+			}
 		}
 	};
 	
