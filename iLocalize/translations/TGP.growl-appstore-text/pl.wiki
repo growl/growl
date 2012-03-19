@@ -1,10 +1,10 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl jest najlepszym systemem powiadomień dla Mac'a. Dzięki niemu, możesz na bieżąco śledzić co się robią aplikacje pracujące w tle lub szybko sprawdzić co się działo podczas twojej chwilowej nieobecności.
 
 One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
 
 Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
 
-So many more AWESOME features listed here.
+Więcej wspaniałych funkcji znajdziesz tutaj.
 
 
 • Personalize your notifications. Choose Growl's presentation, look and feels.
@@ -20,4 +20,4 @@ So many more AWESOME features listed here.
 
 
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+Growl jest wszystkim czego potrzebujesz. Miliony użytkowników go uwielbiają. Dołącz do nich, a nie zwiedziesz się!
