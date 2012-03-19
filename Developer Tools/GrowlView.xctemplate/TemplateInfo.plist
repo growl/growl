@@ -39,7 +39,7 @@
 						<key>Definitions</key>
 						<dict>
 							<key>___PACKAGENAME___-Info.plist:bundleAction</key>
-							<string>&lt;key&gt;NSPrincipleClass&lt;/key&gt; &lt;string&gt;Growl___PACKAGENAME___Action&lt;/string&gt;</string>
+							<string>&lt;key&gt;NSPrincipalClass&lt;/key&gt; &lt;string&gt;Growl___PACKAGENAME___Action&lt;/string&gt;</string>
 							<key>Growl___PACKAGENAME___Action.m</key>
 							<dict>
 								<key>Path</key>
@@ -63,7 +63,7 @@
 						<key>Definitions</key>
 						<dict>
 							<key>___PACKAGENAME___-Info.plist:bundleDisplay</key>
-							<string>&lt;key&gt;NSPrincipleClass&lt;/key&gt; &lt;string&gt;Growl___PACKAGENAME___Display&lt;/string&gt;</string>
+							<string>&lt;key&gt;NSPrincipalClass&lt;/key&gt; &lt;string&gt;Growl___PACKAGENAME___Display&lt;/string&gt;</string>
 						</dict>
 					</dict>
 				</array>
