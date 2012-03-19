@@ -191,9 +191,12 @@ static BOOL awoken = NO;
       {
           if([[ticketsArrayController arrangedObjects] count])
               [ticketsArrayController selectFirstApplication];
-          [appOnSwitch setState:NO];
-          [displayMenuButton setEnabled:NO];
-          [notificationDisplayMenuButton setEnabled:NO];
+          else 
+          {
+              [appOnSwitch setState:NO];
+              [displayMenuButton setEnabled:NO];
+              [notificationDisplayMenuButton setEnabled:NO];
+          }
       }
    }
    if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
