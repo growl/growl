@@ -28,5 +28,7 @@
 	<string>Copyright © 2012 The Growl Project, LLC. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSoundAction</string>
+	<key>GrowlPluginsFrameworkVersion</key>
+	<string>1.0</string>
 </dict>
 </plist>

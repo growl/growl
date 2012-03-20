@@ -118,6 +118,7 @@
 		<string>___PACKAGENAME___-Info.plist:NSHumanReadableCopyright</string>
 		<string>___PACKAGENAME___-Info.plist:growlDescription</string>
 		<string>___PACKAGENAME___-Info.plist:growlAuthor</string>
+		<string>___PACKAGENAME___-Info.plist:growlPluginsVersion</string>
 		<string>en.lproj/___PACKAGENAME___PrefPane.xib</string>
 		<string>GrowlPlugins.framework</string>
 		<string>Growl___PACKAGENAME___PreferencePane.h</string>
@@ -150,6 +151,8 @@
 &lt;string&gt;___FULLUSERNAME___&lt;/string&gt;</string>
 		<key>___PACKAGENAME___-Info.plist:growlDescription</key>
 		<string>&lt;key&gt;GrowlPluginDescription&lt;/key&gt; &lt;string&gt;Plugin description&lt;/string&gt;</string>
+		<key>___PACKAGENAME___-Info.plist:growlPluginsVersion</key>
+		<string>&lt;key&gt;GrowlPluginsFrameworkVersion&lt;/key&gt; &lt;string&gt;1.0&lt;/string&gt;</string>
 		<key>Growl___PACKAGENAME___PreferencePane.h</key>
 		<dict>
 			<key>Path</key>

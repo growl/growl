@@ -19,7 +19,9 @@
 #import "GrowlWebKitPluginHandler.h"
 #import "GrowlApplicationController.h"
 #import "GrowlMenu.h"
+#import "GrowlWebKitDisplayPlugin.h"
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
 
 #ifndef __has_feature      // Optional.
@@ -392,11 +394,20 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromPath:(NSString *)path bundle:(NSBundle *)bundle {
 	//If we're passed a bundle, refuse to load it if we've already loaded a different bundle with the same identifier, instead returning whatever dictionary we already have.
 	NSMutableDictionary *pluginDict = nil;
-	NSString *bundleIdentifier = [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+	NSString *bundleIdentifier = [bundle bundleIdentifier];
 	if (bundleIdentifier) {
 		pluginDict = [pluginsByBundleIdentifier objectForKey:bundleIdentifier];
 		if (pluginDict && (bundle != [pluginDict pluginBundle]))
 			return pluginDict;
+	}
+	
+	NSString *frameworkVersion = [bundle objectForInfoDictionaryKey:@"GrowlPluginsFrameworkVersion"];
+	//Check our framework version is valid, for 2.0, we only need a framework version
+	//We don't count WebKit plugin bundles
+	if((!frameworkVersion || [frameworkVersion isEqualToString:@""]) && ![plugin isKindOfClass:[GrowlWebKitDisplayPlugin class]]){
+		NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey], plugin);
+		[disabledPlugins addObject:[bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
+		return pluginDict;
 	}
 	
 	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
@@ -568,7 +579,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	//Special handling if this plug-in is a display.
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
-		//If it doesn't respond to -requiresPositioning, it's old. Add it as a disabled plug-in.
+		//If it doesn't conform to GrowlDispatchNotificationProtocol, it's old. Add it as a disabled plug-in.
 		if(plugin && ![plugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]) {
 			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
 			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyName]];
@@ -738,7 +749,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 - (BOOL) pluginWithDictionaryIsDisplayPlugin:(NSDictionary *)pluginDict {
 	GrowlPlugin *instance = [pluginDict pluginInstance];
 	if (instance)
-		return [instance isKindOfClass:[GrowlDisplayPlugin class]];
+		return [instance isKindOfClass:[GrowlDisplayPlugin class]] || [instance isKindOfClass:[GrowlActionPlugin class]];
 	else {
 		NSBundle *bundle = [pluginDict pluginBundle];
 		NSAssert1(bundle, @"no instance or bundle in plug-in dictionary! description of dictionary follows\n%@", pluginDict);

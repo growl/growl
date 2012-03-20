@@ -28,5 +28,7 @@
 	<string>Peter Hosey</string>
 	<key>GrowlPluginDescription</key>
 	<string>Send notifications as emails</string>
+	<key>GrowlPluginsFrameworkVersion</key>
+	<string>1.0</string>
 </dict>
 </plist>
