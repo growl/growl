@@ -8,6 +8,7 @@
 
 #import "GrowlIdleStatusObserver.h"
 #import "GrowlPreferencesController.h"
+#import <Cocoa/Cocoa.h>
 
 //Poll every 30 seconds when the user is active
 #define MACHINE_ACTIVE_POLL_INTERVAL	5.0f
@@ -29,6 +30,8 @@ static NSTimeInterval currentIdleTime(void) {
 
 @property (nonatomic) NSTimeInterval lastSeenIdle;
 
+@property (nonatomic, retain) NSString *activeApplicationID;
+
 - (void)updateIdleByTime;
 
 @end
@@ -43,6 +46,8 @@ static NSTimeInterval currentIdleTime(void) {
 @synthesize idleByTime;
 
 @synthesize lastSeenIdle;
+
+@synthesize activeApplicationID;
 
 + (GrowlIdleStatusObserver*)sharedObserver {
    static GrowlIdleStatusObserver *instance;
@@ -107,6 +112,15 @@ static NSTimeInterval currentIdleTime(void) {
 									usingBlock:^(NSNotification *note) {
 										blockSelf.screenAsleep = NO;
 									}];
+		
+		[workspaceNC addObserverForName:NSWorkspaceDidActivateApplicationNotification 
+										 object:nil 
+										  queue:[NSOperationQueue mainQueue] 
+									usingBlock:^(NSNotification *note) {
+										NSString *newID = [[[note userInfo] valueForKey:NSWorkspaceApplicationKey] bundleIdentifier];
+										blockSelf.activeApplicationID = newID;
+									}];
+		
 		double delayInSeconds = MACHINE_ACTIVE_POLL_INTERVAL;
 		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -127,7 +141,7 @@ static NSTimeInterval currentIdleTime(void) {
 	static NSSet *keySet = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keySet = [[NSSet alloc] initWithObjects:@"screensaverActive", @"screenLocked", @"screenAsleep", @"asleep", @"idleByTime", nil];
+		keySet = [[NSSet alloc] initWithObjects:@"activeApplicationID", @"screensaverActive", @"screenLocked", @"screenAsleep", @"asleep", @"idleByTime", nil];
 	});
 	return keySet;
 }
@@ -161,15 +175,22 @@ static NSTimeInterval currentIdleTime(void) {
 
 -(BOOL)isIdle {
 	BOOL result = NO;
+	GrowlPreferencesController *pc = [GrowlPreferencesController sharedController];
 	
-	//Check each of these against appropriate preference settings
-	if(idleByTime)
+	//Check idle by time, and whether the active app is in the exception to time list
+	if(idleByTime && pc.useIdleByTime)
 		result = YES;
-	if(screenAsleep)
+	if([pc.idleTimeExceptionApps containsObject:activeApplicationID])
+		result = NO;
+	
+	//Screen settings
+	if(screensaverActive && pc.useIdleByScreensaver)
+		result = YES;
+	if(screenLocked && pc.useIdleByScreenLock)
+		result = YES;
+	if(screenAsleep && (pc.useIdleByScreensaver || pc.useIdleByScreenLock))
 		result = YES;
 	if(asleep)
-		result = YES;
-	if(screenLocked)
 		result = YES;
 	
 	return result;

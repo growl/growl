@@ -52,6 +52,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 @implementation GrowlPreferencesController
+@synthesize idleThreshold;
+@synthesize useIdleByTime;
+@synthesize useIdleByScreensaver;
+@synthesize useIdleByScreenLock;
+@synthesize idleTimeExceptionApps;
+
 @synthesize rollupKeyCombo;
 @synthesize closeAllCombo;
 
@@ -67,26 +73,26 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (id) init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-			selector:@selector(growlPreferencesChanged:)
-			name:GrowlPreferencesChanged
-			object:nil];
-        
-        //configure for rollup hotkey
-        [self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
-        
-        NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
-        NSNumber *modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboFlags];
-        if(code && modifiers)
-            self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
-
-        //configure for close all hotkey
-        [self addObserver:self forKeyPath:@"closeAllCombo" options:NSKeyValueObservingOptionNew context:&self];
-        
-        code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboCode];
-        modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboFlags];
-        if(code && modifiers)
-            self.closeAllCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
-
+															  selector:@selector(growlPreferencesChanged:)
+																	name:GrowlPreferencesChanged
+																 object:nil];
+		
+		//configure for rollup hotkey
+		[self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
+		
+		NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
+		NSNumber *modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboFlags];
+		if(code && modifiers)
+			self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+		
+		//configure for close all hotkey
+		[self addObserver:self forKeyPath:@"closeAllCombo" options:NSKeyValueObservingOptionNew context:&self];
+		
+		code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboCode];
+		modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboFlags];
+		if(code && modifiers)
+			self.closeAllCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+		
 	}
 	return self;
 }
@@ -153,6 +159,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	}
 	[helperAppDefaults release];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+	
+	self.idleThreshold = [self objectForKey:GrowlIdleThresholdKey];
+	self.useIdleByTime = [self boolForKey:GrowlIdleByTimeKey];
+	self.useIdleByScreensaver = [self boolForKey:GrowlIdleByScreensaverKey];
+	self.useIdleByScreenLock = [self boolForKey:GrowlIdleByScreenLockKey];
+	self.idleTimeExceptionApps = [self objectForKey:GrowlIdleTimeExceptionsKey];
 }
 
 - (id) objectForKey:(NSString *)key {
@@ -285,17 +297,34 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setDefaultActionPluginIDArray:(NSArray*)actions {
 	[self setObject:actions forKey:GrowlActionPluginsKey];
 }
-
-- (NSNumber*) idleThreshold {
-#ifdef __LP64__
-	return [NSNumber numberWithInteger:[self integerForKey:GrowlStickyIdleThresholdKey]];
-#else
-	return [NSNumber numberWithInt:[self integerForKey:GrowlStickyIdleThresholdKey]];
-#endif
-}
+							  
+#pragma mark Idle Detection
 
 - (void) setIdleThreshold:(NSNumber*)value {
-	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
+	if(idleThreshold)
+		[idleThreshold release];
+	idleThreshold = [value retain];
+	[self setObject:value forKey:GrowlIdleThresholdKey];
+}
+
+- (void) setUseIdleByTime:(BOOL)value	{
+	useIdleByTime = value;
+	[self setBool:value forKey:GrowlIdleByTimeKey];
+}
+- (void) setUseIdleByScreensaver:(BOOL)value {
+	useIdleByScreensaver = value;
+	[self setBool:value forKey:GrowlIdleByScreensaverKey];
+}
+- (void) setUseIdleByScreenLock:(BOOL)value	{
+	useIdleByScreenLock = value;
+	[self setBool:value forKey:GrowlIdleByScreenLockKey];
+}
+
+- (void)setIdleTimeExceptionApps:(NSArray *)array {
+	if(idleTimeExceptionApps)
+		[idleTimeExceptionApps release];
+	idleTimeExceptionApps = [array retain];
+	[self setObject:array forKey:GrowlIdleTimeExceptionsKey];
 }
 
 #pragma mark Logging
@@ -527,7 +556,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
             [self willChangeValueForKey:@"forwardingEnabled"];
             [self didChangeValueForKey:@"forwardingEnabled"];
         }
-        if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
+        if (!object || [object isEqualToString:GrowlIdleThresholdKey]) {
             [self willChangeValueForKey:@"idleThreshold"];
             [self didChangeValueForKey:@"idleThreshold"];
         }

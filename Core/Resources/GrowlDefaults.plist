@@ -62,5 +62,13 @@
 	<true/>
 	<key>ShouldStartGrowlAtLogin</key>
 	<false/>
+	<key>IdleByTime</key>
+	<true/>
+	<key>IdleByScreensaver</key>
+	<false/>
+	<key>IdleByScreenLock</key>
+	<false/>
+	<key>IdleTimeExceptions</key>
+	<array/>
 </dict>
 </plist>

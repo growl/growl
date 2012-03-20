@@ -35,7 +35,11 @@
 #define	GrowlCustomHistKey3			XSTR("Custom log history 3")
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
-#define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
+#define GrowlIdleThresholdKey			XSTR("IdleThreshold")
+#define GrowlIdleTimeExceptionsKey	XSTR("IdleTimeExceptions")
+#define GrowlIdleByTimeKey				XSTR("IdleByTime")
+#define GrowlIdleByScreensaverKey	XSTR("IdleByScreensaver")
+#define GrowlIdleByScreenLockKey		XSTR("IdleByScreenLock")
 #define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
 #define GrowlHistoryRetainAllWhileAway XSTR("GrowlHistoryRetainAllWhileAway")
 #define GrowlHistoryCountLimit      XSTR("GrowlHistoryCountLimit")
@@ -69,6 +73,8 @@
 #define GrowlCloseAllKeyComboCode     XSTR("GrowlCloseAllKeyComboCode")
 #define GrowlCloseAllKeyComboFlags    XSTR("GrowlCloseAllKeyComboFlags")
 
+#include <CoreFoundation/CoreFoundation.h>
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -76,6 +82,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 #ifdef __OBJC__
 
+#import <Foundation/Foundation.h>
 
 @class SGKeyCombo;
 @interface GrowlPreferencesController : NSObject {
@@ -110,9 +117,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSArray *) defaultActionPluginIDArray;
 - (void) setDefaultActionPluginIDArray:(NSArray*)actions;
 
-- (NSNumber*) idleThreshold;
-- (void) setIdleThreshold:(NSNumber*)value;
-
 - (NSUInteger) selectedPreferenceTab;
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
 
@@ -126,6 +130,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isGrowlMenuPulseEnabled;
 - (void) setGrowlMenuPulseEnabled:(BOOL)enabled;
+
+#pragma mark Idle Detection
+
+@property (nonatomic, retain) NSNumber *idleThreshold;
+@property (nonatomic) BOOL useIdleByTime;
+@property (nonatomic) BOOL useIdleByScreensaver;
+@property (nonatomic) BOOL useIdleByScreenLock;
+@property (nonatomic, retain) NSArray *idleTimeExceptionApps;
 
 #pragma mark Rollup
 - (BOOL) isRollupShown;
