@@ -159,6 +159,7 @@
 		835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */; };
 		835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE9142C74A100B89123 /* Growl-WKMV.icns */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
+		83716CCE151810A500DDD6CF /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
 		83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
 		83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
 		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
@@ -999,6 +1000,7 @@
 		835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-DISPLAY.icns"; path = "images/DocumentIcons/Growl-DISPLAY.icns"; sourceTree = "<group>"; };
 		835A0AE9142C74A100B89123 /* Growl-WKMV.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "Growl-WKMV.icns"; path = "images/DocumentIcons/Growl-WKMV.icns"; sourceTree = "<group>"; };
 		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
+		83716CCD151810A500DDD6CF /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8381E46A1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8381E46B1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		8381E46C1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
@@ -3559,6 +3561,7 @@
 				BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */,
 				83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */,
 				83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */,
+				83716CCE151810A500DDD6CF /* BrushedPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4494,6 +4497,7 @@
 				BC2250EA14D745590026D5D7 /* nb */,
 				BC2250EC14D7455E0026D5D7 /* nl */,
 				BC2250EE14D745660026D5D7 /* pt-PT */,
+				83716CCD151810A500DDD6CF /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
