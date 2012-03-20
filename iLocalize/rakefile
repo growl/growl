@@ -200,7 +200,7 @@ task :growl_pluginprefs do
     FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_latvian}.strings", "#{core_growl_resources_dir}/#{apple_latvian}.lproj/PluginPrefStrings.strings")
     FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_german}.strings", "#{core_growl_resources_dir}/#{apple_german}.lproj/PluginPrefStrings.strings")
 #    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_portuguese}.strings", "#{core_growl_resources_dir}/#{apple_portuguese}.lproj/PluginPrefStrings.strings")
-#    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_french}.strings", "#{core_growl_resources_dir}/#{apple_french}.lproj/PluginPrefStrings.strings")
+    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_french}.strings", "#{core_growl_resources_dir}/#{apple_french}.lproj/PluginPrefStrings.strings")
 #    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_czech}.strings", "#{core_growl_resources_dir}/#{apple_czech}.lproj/PluginPrefStrings.strings")
 #    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_greek}.strings", "#{core_growl_resources_dir}/#{apple_greek}.lproj/PluginPrefStrings.strings")
 #    FileUtils.cp_r("#{growl_pluginpref_strings}/#{tx_estonian}.strings", "#{core_growl_resources_dir}/#{apple_estonian}.lproj/PluginPrefStrings.strings")
@@ -241,7 +241,7 @@ task :growl_localizable do
     FileUtils.cp_r("#{growl_localizable_strings}/#{tx_danish}.strings", "#{core_growl_resources_dir}/#{apple_danish}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_localizable_strings}/#{tx_portuguese}.strings", "#{core_growl_resources_dir}/#{apple_portuguese}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_localizable_strings}/#{tx_russian}.strings", "#{core_growl_resources_dir}/#{apple_russian}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_localizable_strings}/#{tx_french}.strings", "#{core_growl_resources_dir}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_localizable_strings}/#{tx_french}.strings", "#{core_growl_resources_dir}/#{apple_french}.lproj/Localizable.strings")
 
 
   end
@@ -312,7 +312,7 @@ task :bezel do
 #    FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_greek}.strings", "#{bezel_display_destination}/#{apple_greek}.lproj/Localizable.strings")
     FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_danish}.strings", "#{bezel_display_destination}/#{apple_danish}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_spanish}.strings", "#{bezel_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_french}.strings", "#{bezel_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_bezel_display_strings}/#{tx_french}.strings", "#{bezel_display_destination}/#{apple_french}.lproj/Localizable.strings")
 
   end
 
@@ -345,7 +345,7 @@ task :ical do
 #    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_czech}.strings", "#{ical_display_destination}/#{apple_czech}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_greek}.strings", "#{ical_display_destination}/#{apple_greek}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_spanish}.strings", "#{ical_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_french}.strings", "#{ical_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_french}.strings", "#{ical_display_destination}/#{apple_french}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_dutch}.strings", "#{ical_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
     FileUtils.cp_r("#{growl_ical_display_strings}/#{tx_danish}.strings", "#{ical_display_destination}/#{apple_danish}.lproj/Localizable.strings")
 
@@ -374,7 +374,7 @@ task :sms do
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_czech}.strings", "#{sms_display_destination}/#{apple_czech}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_greek}.strings", "#{sms_display_destination}/#{apple_greek}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_spanish}.strings", "#{sms_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_french}.strings", "#{sms_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_french}.strings", "#{sms_display_destination}/#{apple_french}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_dutch}.strings", "#{sms_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_portuguese}.strings", "#{sms_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_sms_display_strings}/#{tx_russian}.strings", "#{sms_display_destination}/#{apple_russian}.lproj/Localizable.strings")
@@ -408,7 +408,7 @@ task :mailme do
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_czech}.strings", "#{mailme_display_destination}/#{apple_czech}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_greek}.strings", "#{mailme_display_destination}/#{apple_greek}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_spanish}.strings", "#{mailme_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_french}.strings", "#{mailme_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_french}.strings", "#{mailme_display_destination}/#{apple_french}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_dutch}.strings", "#{mailme_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_portuguese}.strings", "#{mailme_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_mailme_display_strings}/#{tx_russian}.strings", "#{mailme_display_destination}/#{apple_russian}.lproj/Localizable.strings")
@@ -442,7 +442,7 @@ task :speech do
     FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_german}.strings", "#{speech_display_destination}/#{apple_german}.lproj/Localizable.strings")
 
 #    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_spanish}.strings", "#{speech_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_french}.strings", "#{speech_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_french}.strings", "#{speech_display_destination}/#{apple_french}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_dutch}.strings", "#{speech_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_portuguese}.strings", "#{speech_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_speech_display_strings}/#{tx_russian}.strings", "#{speech_display_destination}/#{apple_russian}.lproj/Localizable.strings")
@@ -479,7 +479,7 @@ task :brushed do
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_czech}.strings", "#{brushed_display_destination}/#{apple_czech}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_greek}.strings", "#{brushed_display_destination}/#{apple_greek}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_spanish}.strings", "#{brushed_display_destination}/#{apple_spanish}.lproj/Localizable.strings")
-#    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_french}.strings", "#{brushed_display_destination}/#{apple_french}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_french}.strings", "#{brushed_display_destination}/#{apple_french}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_dutch}.strings", "#{brushed_display_destination}/#{apple_dutch}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_portuguese}.strings", "#{brushed_display_destination}/#{apple_portuguese}.lproj/Localizable.strings")
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_russian}.strings", "#{brushed_display_destination}/#{apple_russian}.lproj/Localizable.strings")
