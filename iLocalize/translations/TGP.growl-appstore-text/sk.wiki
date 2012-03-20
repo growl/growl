@@ -1,23 +1,23 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl je ten najprepracovanejší notifikačný systém pre Mac, aký existuje. Poskytuje vám ten najjednoduchší spôsob, ako byť okamžite informovaný  - v reálnom čase, alebo dokonca aj keď zrovna nesedíte u vášho Macu - o činnosti iných aplikácií, keď ste práve zaneprázdnený prácou na niečom inom.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+V jeden deň sme pracovali s obrázkami v iPhoto a popri tom sme viedli konverzáciu cez Adium. Čakajúc na dôležitú odpoveď, sme sa museli každú chvíľu prepínať medzi oknami aplikácií, keď nám prišla nejaká správa. Aj keď sme vedeli, že nám správa prišla, museli sme otvoriť okno so správou, aby sme si ju vedeli prečítať. Myšlienka na Growl vznikla práve z frustrácie musieť neustále prepínať medzi rôznymi oknami aplikácií, aby sme sa dozvedeli čo sa deje. Okamžité zobrazovanie hlásení aplikácií vám umožní mať prehľad o všetkom dôležitom, čo práve potrebujete vedieť. S nevnucujúcími sa hláseniami a jedinečným Growl Rollup oknom, budete vždy vedieť čo sa deje, aj keď budete nútený odisť od vášho Macu. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+Nikdy nebolo možné, si tak efektívne a jednoducho prispôsobiť hlásenia podľa svojich predstáv. Prijímať hlásenia môžete rôznymi spôsobmi, zobrazením na obrazovke, emailom, dokonca si ich môžete nechať aj prečítať vaším Macom. Existuje množstvo rôznych predvolených štýlov hlásení, ďalšie si môžete stiahnuť z Internetu a ak ovládate webové technológie (CSS/XHTML/Javascript) môžete si jednoducho vytvoriť úplne vlastný štýl a podeliť sa oň s ostatnými.
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+Množstvo ďalších ÚŽASNÝCH vlastností.
 
 
+• Prispôsobte si hlásenia. Zvoľte si prezentáciu, výzor a osobnosť vašich Growl hlásení.
+• Pracujte aj keď práve nepracujete. Po návrate k vášmu Macu si zistite čo sa dialo keď ste boli preč s funkciou Rollup..
+• Jednoduché používanie záložky Aplikácií pre kontrolu toho, ktoré hlásenia sa budú, alebo nebudú zobrazovať.
+• Špeciálny štýl hlásení Speech, ktorý vám vaše hlásenia dokonca prečíta. Skvelá funkcie pre ľudí s rôznymi zrakovými postihnutiami.
+• Úžasná história hlásení.
+• Rozsiahly a rozmanitý výber štýlov hlásení priamo v Growl. Čokoľvek od  štýlu "nano", ktorý je skutočne drobný a nenápadný, až po "music video", ktorý je jednoducho obrovský.
+• Vytvorte si veľmi jednoducho pomocou webových technológií vlastné štýly. Dajte vášmu Growl váš vlastný štýl.
+• Posielajte Growl hlásenia z Cocoa, AppleScriptu, alebo dokonca zo siete.
+• Prepojenie dvoch, alebo viacerých Macov cez sieť, vám umožní preposielanie hlásení medzi nimi.
+• Dokáže zobrazovať hlásenia aj na iPhone a iPad vďaka iOS aplikácii Prowl.
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+Growl je to, čo potrebujete. Milujú ho milióny ľudí a vy ho budete milovať tiež. Naozaj!

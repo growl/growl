@@ -1,23 +1,24 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl은 최고의 Mac용 알림 시스템입니다. 여러분들이 Mac에서 다른 작업을 하거나, 심지어 다른 곳에 있더라도 응용 프로그램들에서 어떤 일이 일어나는지 실시간으로 알 수 있는 가장 쉬운 방법입니다.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+하루는 iPhoto로 사진 작업을 하면서 Adium 메신저에서 대화를 하고 있었습니다. 중요한 대화를 기다리는 동안, 새 메시지가 도착할 때 마다 내용을 확인하기 위해서 iPhoto로 하던 작업을 멈추고 메신저를 클릭해야만 했습니다. 매 번 창을 클릭해서 왔다갔다 해야하는 안타까운 상황속에서 Growl에 대한 아이디어가 태어났습니다. 실시간 알림이 있으면 여러분은 필요한 것들을 더욱 빠르게 알 수 있습니다. 부드러운 알림 기능과, Growl의 모아보기 기능을 이용하면 여러분의 Mac에서 잠시 떨어져 있더라도 무슨 일이 일어나는지 바로 알 수 있습니다. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+지금까지 이렇게 편리하게 개인화가 가능한 알림 시스템은 없었습니다. 
+여러분들이 원하는 방법으로 알림을 받을 수 있습니다. 알림 내용을 화면으로 보여주거나 이메일을 보낼 수도 있고, 목소리로 읽어줄 수도 있습니다. 또한 웹 관련 기술(CSS/XHTML/자바스크립트)에 대해 알고 있다면 여러분이 원하는 모양의 알림을 손쉽게 만들 수 있습니다.
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+Growl의 놀라운 기능들을 소개합니다.
 
 
+- 알림을 사용자가 원하는 데로 정할 수 있습니다. 다양한 알림 모양에서 선택해보세요.
+- 자리를 비우더라도 놓치지 않습니다. Mac으로 다시 돌아와서 모아 보기 기능으로 도착한 알림을 한 번에 볼 수 있습니다.
+- 프로그램 탭에서 특정 알림을 받거나 차단할지를 쉽게 조절할 수 있습니다.
+- 화면을 보기 어려운 사용자들에게 아주 유용한 알림 읽어주기 기능도 있습니다.
+- 놀라운 알림 기록 기능을 이용하면 어떤 일이 있었는지 한 번에 알 수 있습니다.
+- 다양한 알림 모양을 제공합니다. 아주 작은 Nano 알림 모양에서 커다란 Music video까지 있습니다.
+-웹 기술을 이용하면 여러분이 원하는 모양의 Growl 알림 모양을 만들 수 있습니다.
+- Growl 알림은 Cocoa, AppleScript나 네트워크를 모두 지원합니다.
+- 네트워크를 통해서 다른 Mac으로 알림을 전달할 수 있습니다.
+- Prowl을 이용하면 iPhone이나 iPad에서도 사용할 수 있습니다.
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+Growl은 정말 여러분이 필요로 하는 것입니다. 수 많은 사람들에게 필요한 만큼 당신에게도 정말 필요할 것이라고 자신합니다.

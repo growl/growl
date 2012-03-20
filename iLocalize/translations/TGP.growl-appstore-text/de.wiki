@@ -1,22 +1,21 @@
-Growl ist das ultimative Benachrichtigungssystem für den Mac. Es ist die einfachste Möglichkeit zu erfahren was in anderen Programm passiert, während Du fleißig am Arbeiten bist oder andere Dinge erledigt - wahlweise in Echtzeit oder während deiner Abwesenheit. 
+Growl ist das ultimative Benachrichtigungssystem für den Mac. Es ist die einfachste Möglichkeit zu erfahren was in Anwendungen geschieht, während man mit anderen Programmen beschäftigt ist - wahlweise in Echtzeit oder während der Abwesenheit.
 
-Eines Tages haben wir Fotos mit iPhone bearbeitet und zeitgleich bei Adium im Chat geschrieben. Um im Chat Ausschau nach wichtigen Nachrichten zu halten, musste man immer wieder das Chatfenster aufrufen. Selbst wenn man wusste, dass man eine Nachricht erhalten hat, musste man wieder in das Fenster zurück klicken. Die Idee für Growl wurde aus dem Frust geboren, dass man gezwungen war, immer wieder zwischen den Fenster hin- und herzuschalten. Die Echtzeit-Benachrichtigungen halten Dich mit hoher Geschwindigkeit auf dem Laufenden. Mit den eleganten Benachrichtigungen und Growl's einmaliges Fenster für die Zusammenfassung aller Ereignisse weißt Du immer was passiert, selbst wenn Du gerade nicht am Mac bist. 
+Eines Tages haben wir Fotos mit dem iPhone bearbeitet und zeitgleich in Adium gechattet. Um im Chat Ausschau nach wichtigen Nachrichten zu halten, musste man immer wieder das Chatfenster öffnen. Selbst, wenn man wusste, dass man eine Nachricht erhalten hat, musste man wieder ins Fenster zurück. Aus dem entstandenen Frust entstand die Idee für Growl, so dass man nicht immer gezwungen war, ständig zwischen Fenstern hin- und herzuschalten. Die Echtzeit-Benachrichtigungen halten garantieren, dass man permanent auf dem Laufenden bleibt. Mit den eleganten Designs und Growls einmaligem Fenster für die Zusammenfassung aller Ereignisse weißt man immer was passiert, selbst wenn man nicht am Mac ist. 
 
-Noch nie zuvor gab es so eine personifizierte Benachrichtigung auf dieser effektiven Art und Weise. Man kann Benachrichtigungen wahlweise über den Bildschirm, per E-Mail oder sogar durch Vorlesen erhalten. Mit ein wenig Wissen über Webtechnologien (CSS/XHTML/Javascript) kannst man seinen ganz persönlichen Growl-Style erstellen und nutzen.
+Noch nie zuvor gab es eine solch personalisierte Benachrichtigung auf effektive Art und Weise. Man kann Benachrichtigungen wahlweise über den Bildschirm, per E-Mail oder sogar durch Vorlesen erhalten. Mit ein wenig Wissen über Webtechnologien (CSS/XHTML/JavaScript) kann man sein ganz persönliches Growl-Design erstellen und nutzen.
 
-Hier werden so viele fantastische Funktionen aufgelistet.
-
-
-- Personalisiere deine Benachrichtigungen. Wähle Growl's Erscheinungsverhalten, Aussehen und Bedienung.
-- Bleibe am Arbeiten ohne am Mac zu sein. Komme zurück und schau Dir an, was in der Zwischenzeit passiert ist. 
-- Einfach zu bedienende Programmübersicht zur Kontrolle aller zu erhaltenden und blockierten Benachrichtigungen.
-- Sprachbildschirm um Benachrichtigungen zu hören, ideal für sehbehinderte Anwender.
-- Genialer Benachrichtigungsverlauf um zu sehen was passiert ist.
-- Eine breite Auswahl an Styles für Growl. Alles von "Nano" mit einer Kleinen bis "Music Video" für eine große Darstellung.
-- Sende Growl-Benachrichtigungen mit Cocoa, AppleScript oder über das Netzwerk.
-- Verbinde zwei oder noch mehr Macs per Netzwerk miteinander, um Benachrichtigungen weiterzuleiten.
-- Growl funktioniert mit Prowl auch für iPhone und iPad.
+Noch mehr fantastische Funktionen.
 
 
+- Personalisierbare Benachrichtigungen: Verhalten, Design und Bedienung
+- Durch einen Benachrichtigungsverlauf wird man auf dem Laufenden gehalten, selbst wenn man nicht am Mac war
+- Einfach zu bedienende Überfläche zur Kontrolle aller zu erhaltenden und blockierten Benachrichtigungen
+- Sprachausgabe für sehbehinderte Benutzer
+- Große Auswahl an Designs für Growl. Alles von "Nano" mit einer kleinen bis "Music Video" für eine große Darstellung
+- Growl-Benachrichtigungen mit Cocoa, AppleScript oder über das Netzwerk
+- Verbindet zwei oder noch mehr Macs per Netzwerk miteinander, um Benachrichtigungen weiterzuleiten
+- Growl funktioniert ebenfalls mit Prowl für iPhone und iPad
 
-Growl ist was man braucht. Millionen von Anwender lieben es bereits und Du wirst es auch. Wirklich!
+
+
+Growl ist das, was man braucht. Millionen Anwender lieben es bereits und das werden Sie ebenfalls. Versprochen!
