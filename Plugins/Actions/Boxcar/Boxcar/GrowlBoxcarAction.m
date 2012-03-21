@@ -14,7 +14,7 @@
 #import "GrowlBoxcarPreferencePane.h"
 #import "BoxcarDefines.h"
 #import <GrowlPlugins/GrowlDefines.h>
-//#import <GrowlPlugins/GrowlIdleStatusObserver.h>
+#import <GrowlPlugins/GrowlIdleStatusObserver.h>
 
 @implementation GrowlBoxcarAction
 
@@ -34,13 +34,13 @@
 	if(!email || [email isEqualToString:@""])
 		return;
 	
-/*	if([configuration valueForKey:BoxcarPushIdle] && 
+	if([configuration valueForKey:BoxcarPushIdle] && 
 		[[configuration valueForKey:BoxcarPushIdle] boolValue] && 
 		[[GrowlIdleStatusObserver sharedObserver] isIdle])
 	{
 		//NSLog(@"Not pushing because not idle");
 		return;
-	}*/
+	}
 	
 	NSInteger priority = [[notification valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 	if([configuration valueForKey:BoxcarUsePriority] && [[configuration valueForKey:BoxcarUsePriority] boolValue]){
