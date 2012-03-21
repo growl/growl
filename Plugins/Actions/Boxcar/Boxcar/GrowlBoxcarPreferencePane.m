@@ -37,7 +37,12 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [[NSSet setWithObjects:@"emailAddress" @"pushIdle", nil] retain];
+		keys = [[NSSet setWithObjects:@"emailAddress",
+					@"prefixString",
+					@"usePrefix",
+					@"usePriority",
+					@"minPriority",
+					@"pushIdle", nil] retain];
 	});
 	return keys;
 }
