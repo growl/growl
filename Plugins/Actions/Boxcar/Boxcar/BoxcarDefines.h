@@ -8,6 +8,8 @@
 
 #define BoxcarPrefDomain @"com.Growl.Boxcar"
 
+#define BoxcarProviderKey @"re2P8IA8l0Qxlgf4kL06"
+
 #define BoxcarEmail @"BoxcarEmail"
 #define BoxcarPrefixString @"BoxcarPushPrefixStr"
 #define BoxcarUsePrefix	@"BoxcarPushPrefix"

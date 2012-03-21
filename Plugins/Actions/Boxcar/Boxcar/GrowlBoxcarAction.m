@@ -51,7 +51,7 @@
 		}
 	}
 	
-	NSURL *baseURL = [NSURL URLWithString:@"http://boxcar.io/devices/providers/yw5gVPXug6ZwKGOMhCfu/notifications"];
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://boxcar.io/devices/providers/%@/notifications", BoxcarProviderKey]];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL];
 	
 	NSString *message = [NSString stringWithFormat:@"%@ - %@", [notification objectForKey:GROWL_NOTIFICATION_TITLE], [notification objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];

@@ -47,11 +47,11 @@
  * that are unbindable.  Call the super version in order to ensure bindingKeys is also called and used.
  * Uncomment the method to use.
  */
-/*
+
 -(void)updateConfigurationValues {
 	[super updateConfigurationValues];
+	//[self checkEmailAddress:[self emailAddress]];
 }
-*/
 
 -(void)checkEmailAddress:(NSString*)newAddress {
 	if(!newAddress || [[self emailAddress] isEqualToString:newAddress] || [newAddress isEqualToString:@""]){
@@ -59,7 +59,7 @@
 	}
 	
 	[self setConfigurationValue:newAddress forKey:BoxcarEmail];
-	NSURL *baseURL = [NSURL URLWithString:@"http://boxcar.io/devices/providers/yw5gVPXug6ZwKGOMhCfu/notifications/subscribe"];
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://boxcar.io/devices/providers/%@/notifications/subscribe", BoxcarProviderKey]];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL];
 	NSString *email = [NSString stringWithFormat:@"email=%@", newAddress];
 	NSData *data = [NSData dataWithBytes:[email UTF8String] length:[email lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
@@ -111,6 +111,7 @@
 }
 -(void)setEmailAddress:(NSString*)newAddress {
 	[self checkEmailAddress:newAddress];
+	[self setConfigurationValue:newAddress forKey:BoxcarEmail];
 }
 
 -(NSString*)prefixString {
