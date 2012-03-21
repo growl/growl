@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <GrowlPlugins/GrowlActionPlugin.h>
 
-#define keychainServiceName "GrowlSMS"
-#define keychainAccountName "SMSWebServicePassword"
+#define keychainServiceName @"GrowlSMS"
+#define keychainAccountName @"SMSWebServicePassword"
 
 #define GrowlSMSPrefDomain		@"com.Growl.SMS"
 #define accountNameKey			@"SMS - Account Name"
@@ -18,7 +18,7 @@
 #define destinationNumberKey	@"SMS - Destination Number"
 
 @class GrowlNotification;
-@interface GrowlSMSDisplay: GrowlActionPlugin<GrowlDispatchNotificationProtocol, NSXMLParserDelegate> {
+@interface GrowlSMSDisplay: GrowlActionPlugin<GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol, NSXMLParserDelegate> {
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;

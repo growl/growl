@@ -10,8 +10,7 @@
 #import "GrowlSMSDisplay.h"
 #import "GrowlDefinesInternal.h"
 #import "NSStringAdditions.h"
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GrowlSMSPrefs
 
@@ -99,64 +98,11 @@
 
 
 - (NSString *) accountPassword {
-	unsigned char *password;
-	UInt32 passwordLength;
-	OSStatus status;
-	status = SecKeychainFindGenericPassword( NULL,
-											 (UInt32)strlen(keychainServiceName), keychainServiceName,
-											 (UInt32)strlen(keychainAccountName), keychainAccountName,
-											 &passwordLength, (void **)&password, NULL );
-
-	NSString *passwordString;
-	if (status == noErr) {
-		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		if(passwordString)
-			CFMakeCollectable(passwordString);		
-		[passwordString autorelease];
-		SecKeychainItemFreeContent(NULL, password);
-	} else {
-		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", (int)status);
-		passwordString = @"";
-	}
-
-	return passwordString;
+	return [GrowlKeychainUtilities passwordForServiceName:keychainServiceName accountName:self.configurationID];
 }
 
 - (void) setAccountPassword:(NSString *)value {
-	const char *password = value ? [value UTF8String] : "";
-	UInt32 length = (UInt32)strlen(password);
-	OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	status = SecKeychainFindGenericPassword( NULL,
-											 (UInt32)strlen(keychainServiceName), keychainServiceName,
-											 (UInt32)strlen(keychainAccountName), keychainAccountName,
-											 NULL, NULL, &itemRef );
-	if (status == errSecItemNotFound) {
-		// add new item
-		status = SecKeychainAddGenericPassword( NULL,
-												(UInt32)strlen(keychainServiceName), keychainServiceName,
-												(UInt32)strlen(keychainAccountName), keychainAccountName,
-												length, password, NULL );
-		if (status)
-			NSLog(@"Failed to add SMS Account password to keychain.");
-	} else {
-		// change existing password
-		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, (UInt32)strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, (UInt32)strlen(keychainServiceName), (char *)keychainServiceName }
-		};
-		const SecKeychainAttributeList attributes = { (UInt32)sizeof(attrs) / (UInt32)sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
-														 &attributes,	// no change to attributes
-														 length,		// length of password
-														 password		// pointer to password data
-														 );
-		if (itemRef)
-			CFRelease(itemRef);
-		if (status)
-			NSLog(@"Failed to change SMS password in keychain.");
-	}
+	[GrowlKeychainUtilities setPassword:value forService:keychainServiceName accountName:self.configurationID];
 }
 
 @end

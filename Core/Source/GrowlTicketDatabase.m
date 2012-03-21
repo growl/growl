@@ -149,6 +149,8 @@
 			if(prefsID){
 				NSDictionary *configDict = [[GrowlPreferencesController sharedController] objectForKey:prefsID];
 				//NSLog(@"setting config dict for %@ with %@", pluginName, configDict);
+				if([plugin conformsToProtocol:@protocol(GrowlUpgradePluginPrefsProtocol)])
+					configDict = [(id<GrowlUpgradePluginPrefsProtocol>)plugin upgradeConfigDict:configDict toConfigID:newConfig.configID];
 				if(configDict)
 					newConfig.configuration = configDict;
 			}

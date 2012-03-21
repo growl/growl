@@ -10,6 +10,11 @@
 
 @class GrowlPluginPreferencePane;
 
+@protocol GrowlUpgradePluginPrefsProtocol <NSObject>
+@required
+- (NSDictionary*)upgradeConfigDict:(NSDictionary*)original toConfigID:(NSString*)configID;
+@end
+
 @protocol GrowlDispatchNotificationProtocol <NSObject>
 @required
 - (void)dispatchNotification:(NSDictionary*)notification withConfiguration:(NSDictionary*)configuration;

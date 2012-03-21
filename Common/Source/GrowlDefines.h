@@ -338,4 +338,6 @@
 
 #define GROWL_POSITION_PREFERENCE_KEY			@"GrowlSelectedPosition"
 
+#define GROWL_PLUGIN_CONFIG_ID XSTR("GrowlPluginConfigurationID")
+
 #endif //ndef _GROWLDEFINES_H
