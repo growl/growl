@@ -10,7 +10,20 @@
 
 @interface GrowlBoxcarPreferencePane : GrowlPluginPreferencePane
 
+@property (nonatomic, retain) NSString *errorMessage;
+@property (nonatomic) BOOL validating;
+
 -(NSString*)emailAddress;
 -(void)setEmailAddress:(NSString*)newAddress;
+-(NSString*)prefixString;
+-(void)setPrefixString:(NSString *)newPrefix;
+-(BOOL)usePrefix;
+-(void)usePrefix:(BOOL)prefix;
+-(BOOL)pushIdle;
+-(void)setPushIdle:(BOOL)push;
+-(BOOL)usePriority;
+-(void)setUsePriority:(BOOL)use;
+-(int)minPriority;
+-(void)setMinPriority:(int)min;
 
 @end

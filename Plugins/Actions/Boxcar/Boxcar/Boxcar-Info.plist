@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.growl.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.Growl.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,11 +26,11 @@
 	<string>Daniel Siemer</string>
 	<key>GrowlPluginDescription</key>
 	<string>Plugin description</string>
+	<key>GrowlPluginsFrameworkVersion</key>
+	<string>1.0</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 __MyCompanyName__. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlBoxcarAction</string>
-	<key>GrowlPluginsFrameworkVersion</key>
-	<string>1.0</string>
 </dict>
 </plist>

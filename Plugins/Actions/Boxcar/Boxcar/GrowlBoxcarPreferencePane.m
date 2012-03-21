@@ -15,6 +15,16 @@
 
 @implementation GrowlBoxcarPreferencePane
 
+@synthesize errorMessage;
+@synthesize validating;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.validating = NO;
+	}
+	return self;
+}
+
 -(NSString*)mainNibName {
 	return @"BoxcarPrefPane";
 }
@@ -27,7 +37,7 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [[NSSet setWithObject:@"emailAddress"] retain];
+		keys = [[NSSet setWithObjects:@"emailAddress" @"pushIdle", nil] retain];
 	});
 	return keys;
 }
@@ -43,10 +53,7 @@
 }
 */
 
--(NSString*)emailAddress {
-	return [self.configuration valueForKey:BoxcarEmail];
-}
--(void)setEmailAddress:(NSString*)newAddress {
+-(void)checkEmailAddress:(NSString*)newAddress {
 	if(!newAddress || [[self emailAddress] isEqualToString:newAddress] || [newAddress isEqualToString:@""]){
 		return;
 	}
@@ -60,34 +67,101 @@
 	[request setHTTPBody:data];
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
 
+	__block GrowlBoxcarPreferencePane *blockSelf = self;
+	self.errorMessage = @"";
+	self.validating = YES;
 	[NSURLConnection sendAsynchronousRequest:request
 												  queue:[NSOperationQueue mainQueue]
 								  completionHandler:^(NSURLResponse *response, NSData *urlData, NSError *error) {
+									  blockSelf.validating = NO;
 									  if([response respondsToSelector:@selector(statusCode)]){
 										  NSInteger status = [(NSHTTPURLResponse*)response statusCode];
 										  switch (status) {
 											  case 200:
 												  //SUCCESS!
-												  NSLog(@"Success registering");
+												  blockSelf.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
+												  [self setConfigurationValue:newAddress forKey:BoxcarEmail];
 												  break;
 											  case 400:
 												  //Silly boxcar
+												  blockSelf.errorMessage = NSLocalizedString(@"Invalid Email", @"Failure adding email");
+												  NSLog(@"Boxcar no longer accepts hashes");
 												  break;
 											  case 401:
 												  //Already added!
-												  NSLog(@"This user already setup Growl for boxcar");
+												  blockSelf.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
 												  break;
 											  case 404:
 												  //User unknown!
+												  blockSelf.errorMessage = NSLocalizedString(@"Unknown email", @"Failed adding boxcar, unknown email address");
 												  NSLog(@"User unknown, you will be contacted via email shortly");
 												  break;
 											  default:
 												  //Unknown response
+												  blockSelf.errorMessage = [NSString stringWithFormat:@"Error %lu", status];
 												  NSLog(@"Unknown response code from boxcar: %lu", status);
 												  break;
 										  }
 									  }
 								  }];
+}
+
+-(NSString*)emailAddress {
+	return [self.configuration valueForKey:BoxcarEmail];
+}
+-(void)setEmailAddress:(NSString*)newAddress {
+	[self checkEmailAddress:newAddress];
+}
+
+-(NSString*)prefixString {
+	return [self.configuration valueForKey:BoxcarPrefixString];
+}
+-(void)setPrefixString:(NSString *)newPrefix {
+	[self setConfigurationValue:newPrefix forKey:BoxcarPrefixString];
+}
+
+-(BOOL)usePrefix {
+	BOOL value = BoxcarUsePrefixDefault;
+	if([self.configuration valueForKey:BoxcarUsePrefix]){
+		value = [[self.configuration valueForKey:BoxcarUsePrefix] boolValue];
+	}
+	return value;
+}
+-(void)usePrefix:(BOOL)prefix {
+	[self setConfigurationValue:[NSNumber numberWithBool:prefix] forKey:BoxcarUsePrefix];
+}
+
+-(BOOL)pushIdle{
+	BOOL value = BoxcarUseIdleDefault;
+	if([self.configuration valueForKey:BoxcarPushIdle]){
+		value = [[self.configuration valueForKey:BoxcarPushIdle] boolValue];
+	}
+	return value;
+}
+-(void)setPushIdle:(BOOL)push {
+	[self setConfigurationValue:[NSNumber numberWithBool:push] forKey:BoxcarPushIdle];
+}
+
+-(BOOL)usePriority{
+	BOOL value = BoxcarUsePriorityDefault;
+	if([self.configuration valueForKey:BoxcarUsePriority]){
+		value = [[self.configuration valueForKey:BoxcarUsePriority] boolValue];
+	}
+	return value;
+}
+-(void)setUsePriority:(BOOL)use {
+	[self setConfigurationValue:[NSNumber numberWithBool:use] forKey:BoxcarUsePriority];
+}
+
+-(int)minPriority {
+	int value = BoxcarMinPriorityDefault;
+	if([self.configuration valueForKey:BoxcarMinPriority]){
+		value = [[self.configuration valueForKey:BoxcarMinPriority] intValue];
+	}
+	return value;
+}
+-(void)setMinPriority:(int)min {
+	[self setConfigurationValue:[NSNumber numberWithInt:min] forKey:BoxcarMinPriority];
 }
 
 @end

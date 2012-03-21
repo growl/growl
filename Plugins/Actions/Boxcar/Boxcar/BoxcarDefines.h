@@ -6,4 +6,16 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#define BoxcarPrefDomain @"com.Growl.Boxcar"
+
 #define BoxcarEmail @"BoxcarEmail"
+#define BoxcarPrefixString @"BoxcarPushPrefixStr"
+#define BoxcarUsePrefix	@"BoxcarPushPrefix"
+#define BoxcarPushIdle @"BoxcarIdle"
+#define BoxcarUsePriority @"BoxcarPriority"
+#define BoxcarMinPriority @"BoxcarPriorityLevel"
+
+#define BoxcarUseIdleDefault NO
+#define BoxcarUsePriorityDefault NO
+#define BoxcarMinPriorityDefault 0
+#define BoxcarUsePrefixDefault NO
