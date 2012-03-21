@@ -22,6 +22,7 @@
 #import "SGHotKey.h"
 #import "SGHotKeyCenter.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
+#import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <ShortcutRecorder/ShortcutRecorder.h>
 
 #import <ServiceManagement/ServiceManagement.h>
@@ -305,19 +306,23 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[idleThreshold release];
 	idleThreshold = [value retain];
 	[self setObject:value forKey:GrowlIdleThresholdKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:value forKey:@"idleThreshold"];
 }
 
 - (void) setUseIdleByTime:(BOOL)value	{
 	useIdleByTime = value;
 	[self setBool:value forKey:GrowlIdleByTimeKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useTime"];
 }
 - (void) setUseIdleByScreensaver:(BOOL)value {
 	useIdleByScreensaver = value;
 	[self setBool:value forKey:GrowlIdleByScreensaverKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useScreensaver"];
 }
 - (void) setUseIdleByScreenLock:(BOOL)value	{
 	useIdleByScreenLock = value;
 	[self setBool:value forKey:GrowlIdleByScreenLockKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useLock"];
 }
 
 - (void)setIdleTimeExceptionApps:(NSArray *)array {
@@ -325,6 +330,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[idleTimeExceptionApps release];
 	idleTimeExceptionApps = [array retain];
 	[self setObject:array forKey:GrowlIdleTimeExceptionsKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:array forKey:@"applicationExceptions"];
 }
 
 #pragma mark Logging

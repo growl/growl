@@ -7,7 +7,6 @@
 //
 
 #import "GrowlIdleStatusObserver.h"
-#import "GrowlPreferencesController.h"
 #import <Cocoa/Cocoa.h>
 
 //Poll every 30 seconds when the user is active
@@ -21,6 +20,13 @@ static NSTimeInterval currentIdleTime(void) {
 }
 
 @interface GrowlIdleStatusObserver ()
+
+@property (nonatomic) NSTimeInterval idleThreshold;
+@property (nonatomic) BOOL useScreensaver;
+@property (nonatomic) BOOL useLock;
+@property (nonatomic) BOOL useSleep;
+@property (nonatomic) BOOL useTime;
+@property (nonatomic, retain) NSArray *applicationExceptions;
 
 @property (nonatomic) BOOL screensaverActive;
 @property (nonatomic) BOOL screenLocked;
@@ -37,6 +43,13 @@ static NSTimeInterval currentIdleTime(void) {
 @end
 
 @implementation GrowlIdleStatusObserver
+
+@synthesize idleThreshold;
+@synthesize useScreensaver;
+@synthesize useLock;
+@synthesize useSleep;
+@synthesize useTime;
+@synthesize applicationExceptions;
 
 @synthesize isIdle;
 @synthesize screensaverActive;
@@ -61,6 +74,8 @@ static NSTimeInterval currentIdleTime(void) {
 - (id)init
 {
 	if((self = [super init])){
+		self.useSleep = YES;
+		
 		__block GrowlIdleStatusObserver *blockSelf = self;
 		NSDistributedNotificationCenter *nsdnc = [NSNotificationCenter defaultCenter];
 		[nsdnc addObserverForName:@"com.apple.screensaver.didstart"
@@ -141,23 +156,33 @@ static NSTimeInterval currentIdleTime(void) {
 	static NSSet *keySet = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keySet = [[NSSet alloc] initWithObjects:@"activeApplicationID", @"screensaverActive", @"screenLocked", @"screenAsleep", @"asleep", @"idleByTime", nil];
+		keySet = [[NSSet alloc] initWithObjects:@"activeApplicationID",
+					 @"screensaverActive",
+					 @"screenLocked",
+					 @"screenAsleep",
+					 @"asleep", 
+					 @"idleByTime",
+					 @"idleThreshold",
+					 @"useScreensaver",
+					 @"useLock",
+					 @"useSleep",
+					 @"useTime",
+					 @"applicationExceptions", nil];
 	});
 	return keySet;
 }
 
 - (void)updateIdleByTime {
 	NSTimeInterval currentIdle = currentIdleTime();
-	NSTimeInterval threshold = [self idleThreshold];
 	if (idleByTime) {
 		/* If the machine is less idle than the last time we recorded, it means
 		 * that activity has occured and the user is no longer idle.
 		 */
-		if (currentIdle < lastSeenIdle && currentIdle < threshold)
+		if (currentIdle < lastSeenIdle && currentIdle < idleThreshold)
 			self.idleByTime = NO;
 	} else {
 		//If machine inactivity is over the threshold, the user has gone idle.
-		if (currentIdle > threshold)
+		if (currentIdle > idleThreshold)
 			self.idleByTime = YES;
 	}
 		
@@ -175,29 +200,24 @@ static NSTimeInterval currentIdleTime(void) {
 
 -(BOOL)isIdle {
 	BOOL result = NO;
-	GrowlPreferencesController *pc = [GrowlPreferencesController sharedController];
 	
 	//Check idle by time, and whether the active app is in the exception to time list
-	if(idleByTime && pc.useIdleByTime)
+	if(idleByTime && useTime)
 		result = YES;
-	if([pc.idleTimeExceptionApps containsObject:activeApplicationID])
+	if([applicationExceptions containsObject:activeApplicationID])
 		result = NO;
 	
 	//Screen settings
-	if(screensaverActive && pc.useIdleByScreensaver)
+	if(screensaverActive && useScreensaver)
 		result = YES;
-	if(screenLocked && pc.useIdleByScreenLock)
+	if(screenLocked && useLock	)
 		result = YES;
-	if(screenAsleep && (pc.useIdleByScreensaver || pc.useIdleByScreenLock))
+	if(screenAsleep && (useScreensaver || useLock))
 		result = YES;
-	if(asleep)
+	if(asleep && useSleep)
 		result = YES;
 	
 	return result;
-}
-
--(NSTimeInterval)idleThreshold {
-	return [[[GrowlPreferencesController sharedController] idleThreshold] doubleValue];
 }
 
 -(NSDate*)lastActive {

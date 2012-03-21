@@ -322,6 +322,7 @@
 		BC4B0742150148C4006151B3 /* GrowlTicketDatabaseDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4B0741150148C4006151B3 /* GrowlTicketDatabaseDisplay.m */; };
 		BC4DE6E414D0666A00132B49 /* mainmenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E214D0666A00132B49 /* mainmenu.strings */; };
 		BC4DE6E614D06B7A00132B49 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4DE6E514D06B7900132B49 /* MainMenu.xib */; };
+		BC5EA38A151A4F1F002E7D61 /* GrowlIdleStatusObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8696011510E9150034963A /* GrowlIdleStatusObserver.m */; };
 		BC5EF65E14F5428F003E4578 /* GrowlTicketDatabaseTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF65D14F5428F003E4578 /* GrowlTicketDatabaseTicket.m */; };
 		BC5EF66114F542AC003E4578 /* GrowlTicketDatabaseApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF66014F542AC003E4578 /* GrowlTicketDatabaseApplication.m */; };
 		BC5EF66414F5458A003E4578 /* GrowlTicketDatabaseHost.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5EF66314F54589003E4578 /* GrowlTicketDatabaseHost.m */; };
@@ -357,7 +358,6 @@
 		BC83FC2B15008B47000504F9 /* GrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B5E08E7E6A700299E08 /* GrowlPlugin.m */; };
 		BC83FC4C1500AB28000504F9 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
 		BC86333E140FFB3600A26483 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86333D140FFB3600A26483 /* GrowlMenu.m */; };
-		BC8696021510E9150034963A /* GrowlIdleStatusObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8696011510E9150034963A /* GrowlIdleStatusObserver.m */; };
 		BC8696031510E9E10034963A /* GrowlIdleStatusObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8696001510E9150034963A /* GrowlIdleStatusObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC86961B15114B050034963A /* GrowlKeychainUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */; };
 		BC86961C15114B090034963A /* GrowlKeychainUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4212,6 +4212,7 @@
 				BCC7F9191502CB04005FFE04 /* GrowlPluginPreferencePane.m in Sources */,
 				BCC7F9C51503CD47005FFE04 /* GrowlPluginPreferenceStrings.m in Sources */,
 				BC86961B15114B050034963A /* GrowlKeychainUtilities.m in Sources */,
+				BC5EA38A151A4F1F002E7D61 /* GrowlIdleStatusObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4340,7 +4341,6 @@
 				93DAA61F15103C580052E6E6 /* SGHotKeyCenter.m in Sources */,
 				93DAA62015103C580052E6E6 /* SGKeyCodeTranslator.m in Sources */,
 				93DAA62115103C580052E6E6 /* SGKeyCombo.m in Sources */,
-				BC8696021510E9150034963A /* GrowlIdleStatusObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

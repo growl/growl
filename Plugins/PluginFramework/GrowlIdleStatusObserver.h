@@ -14,7 +14,6 @@
 
 + (GrowlIdleStatusObserver*)sharedObserver;
 
--(NSTimeInterval)idleThreshold;
 -(NSDate*)lastActive;
 
 @end
