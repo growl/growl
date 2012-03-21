@@ -259,6 +259,7 @@
 		BC0D31E414D3266100587B7B /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
 		BC17CF8E147AB6EC005408AC /* GNTPSubscriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17CF8D147AB6EC005408AC /* GNTPSubscriptionController.m */; };
 		BC17CF91147BFDE4005408AC /* GNTPSubscriberEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17CF90147BFDE4005408AC /* GNTPSubscriberEntry.m */; };
+		BC19A19B15198DE700A0CA64 /* Boxcar.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = BC19A17615198D4600A0CA64 /* Boxcar.growlView */; };
 		BC1FA5EF142223E900F1C147 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D46B142222D600C98C98 /* InfoPlist.strings */; };
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
@@ -666,6 +667,20 @@
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = Revision;
 		};
+		BC19A17515198D4600A0CA64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCEA7EDE1517CD4400E98B1F;
+			remoteInfo = Boxcar;
+		};
+		BC19A19915198DCB00A0CA64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCEA7EDD1517CD4400E98B1F;
+			remoteInfo = Boxcar;
+		};
 		BC29B29B14D12E3700C72855 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -787,6 +802,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BC19A19B15198DE700A0CA64 /* Boxcar.growlView in Copy Growl Styles */,
 				BCAD79F31512675C0052EB51 /* SoundAction.growlView in Copy Growl Styles */,
 				83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */,
 				83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */,
@@ -1323,6 +1339,7 @@
 		BC17CF8D147AB6EC005408AC /* GNTPSubscriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPSubscriptionController.m; path = Core/Source/GNTPSubscriptionController.m; sourceTree = "<group>"; };
 		BC17CF8F147BFDE4005408AC /* GNTPSubscriberEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscriberEntry.h; path = Core/Source/GNTPSubscriberEntry.h; sourceTree = "<group>"; };
 		BC17CF90147BFDE4005408AC /* GNTPSubscriberEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPSubscriberEntry.m; path = Core/Source/GNTPSubscriberEntry.m; sourceTree = "<group>"; };
+		BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Boxcar.xcodeproj; path = Plugins/Actions/Boxcar/Boxcar.xcodeproj; sourceTree = "<group>"; };
 		BC1FA5FF1422380900F1C147 /* NSObject+XPCHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+XPCHelpers.h"; path = "Common/Source/NSObject+XPCHelpers.h"; sourceTree = SOURCE_ROOT; };
 		BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+XPCHelpers.m"; path = "Common/Source/NSObject+XPCHelpers.m"; sourceTree = SOURCE_ROOT; };
 		BC1FA6031422401D00F1C147 /* GrowlNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotifier.h; path = "GNTP Client/GrowlNotifier.h"; sourceTree = "<group>"; };
@@ -2602,6 +2619,14 @@
 			name = Subscription;
 			sourceTree = "<group>";
 		};
+		BC19A16E15198D4600A0CA64 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC19A17615198D4600A0CA64 /* Boxcar.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BC1FA5FE1422379600F1C147 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -2861,6 +2886,7 @@
 				DD4939A9084B937400D1CCCB /* SMS */,
 				BCECE83515082959008DD685 /* CompoundAction */,
 				BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */,
+				BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -3421,6 +3447,7 @@
 				93BC37D6095A67340002B365 /* PBXTargetDependency */,
 				BCAD79F2151267390052EB51 /* PBXTargetDependency */,
 				93A042B91382157700C46F0A /* PBXTargetDependency */,
+				BC19A19A15198DCB00A0CA64 /* PBXTargetDependency */,
 			);
 			name = Growl.app;
 			productName = GrowlHelperApp;
@@ -3532,6 +3559,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = BC19A16E15198D4600A0CA64 /* Products */;
+					ProjectRef = BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */;
+				},
+				{
 					ProductGroup = 93A0429E138214F800C46F0A /* Products */;
 					ProjectRef = 34A96DDA0C95F61800F46006 /* GrowlAction.xcodeproj */;
 				},
@@ -3588,6 +3619,13 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlQL.qlgenerator;
 			remoteRef = 93A042AA1382150A00C46F0A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC19A17615198D4600A0CA64 /* Boxcar.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Boxcar.growlView;
+			remoteRef = BC19A17515198D4600A0CA64 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */ = {
@@ -4460,6 +4498,11 @@
 			isa = PBXTargetDependency;
 			target = 95E17B8F085E216A00990AB3 /* VCS Data */;
 			targetProxy = 95E17BEE085E24B500990AB3 /* PBXContainerItemProxy */;
+		};
+		BC19A19A15198DCB00A0CA64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Boxcar;
+			targetProxy = BC19A19915198DCB00A0CA64 /* PBXContainerItemProxy */;
 		};
 		BC29B29C14D12E3700C72855 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
