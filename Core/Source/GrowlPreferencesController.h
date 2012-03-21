@@ -36,6 +36,7 @@
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
 #define GrowlIdleThresholdKey			XSTR("IdleThreshold")
+#define GrowlIdleMultiplierKey		XSTR("IdleMultiplier")
 #define GrowlIdleTimeExceptionsKey	XSTR("IdleTimeExceptions")
 #define GrowlIdleByTimeKey				XSTR("IdleByTime")
 #define GrowlIdleByScreensaverKey	XSTR("IdleByScreensaver")
@@ -134,6 +135,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 #pragma mark Idle Detection
 
 @property (nonatomic, retain) NSNumber *idleThreshold;
+@property (nonatomic) NSUInteger idleMultiplier;
 @property (nonatomic) BOOL useIdleByTime;
 @property (nonatomic) BOOL useIdleByScreensaver;
 @property (nonatomic) BOOL useIdleByScreenLock;

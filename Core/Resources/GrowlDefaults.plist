@@ -15,7 +15,7 @@
 	<key>GrowlMenuExtra</key>
 	<false/>
 	<key>IdleThreshold</key>
-	<integer>30</integer>
+	<integer>3</integer>
 	<key>GrowlSelectedPosition</key>
 	<integer>3</integer>
 	<key>GrowlHistoryLogEnabled</key>
@@ -68,6 +68,8 @@
 	<false/>
 	<key>IdleByScreenLock</key>
 	<false/>
+	<key>IdleMultiplier</key>
+	<integer>60</integer>
 	<key>IdleTimeExceptions</key>
 	<array/>
 </dict>

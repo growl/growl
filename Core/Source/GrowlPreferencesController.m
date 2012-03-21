@@ -54,6 +54,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 @implementation GrowlPreferencesController
 @synthesize idleThreshold;
+@synthesize idleMultiplier;
 @synthesize useIdleByTime;
 @synthesize useIdleByScreensaver;
 @synthesize useIdleByScreenLock;
@@ -162,6 +163,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	self.idleThreshold = [self objectForKey:GrowlIdleThresholdKey];
+	self.idleMultiplier = [self integerForKey:GrowlIdleMultiplierKey];
 	self.useIdleByTime = [self boolForKey:GrowlIdleByTimeKey];
 	self.useIdleByScreensaver = [self boolForKey:GrowlIdleByScreensaverKey];
 	self.useIdleByScreenLock = [self boolForKey:GrowlIdleByScreenLockKey];
@@ -301,12 +303,24 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 							  
 #pragma mark Idle Detection
 
+-(void)updateIdleThreshold {
+	NSTimeInterval threshold = [idleThreshold doubleValue];
+	threshold *= (NSTimeInterval)idleMultiplier;
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithDouble:threshold] forKey:@"idleThreshold"];
+}
+
 - (void) setIdleThreshold:(NSNumber*)value {
 	if(idleThreshold)
 		[idleThreshold release];
 	idleThreshold = [value retain];
 	[self setObject:value forKey:GrowlIdleThresholdKey];
-	[[GrowlIdleStatusObserver sharedObserver] setValue:value forKey:@"idleThreshold"];
+	[self updateIdleThreshold];
+}
+
+- (void) setIdleMultiplier:(NSUInteger)value {
+	idleMultiplier = value;
+	[self setInteger:value forKey:GrowlIdleMultiplierKey];
+	[self updateIdleThreshold];
 }
 
 - (void) setUseIdleByTime:(BOOL)value	{
