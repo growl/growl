@@ -15,6 +15,7 @@
 #import "BoxcarDefines.h"
 #import <GrowlPlugins/GrowlDefines.h>
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GrowlBoxcarAction
 
@@ -23,6 +24,13 @@
 		self.prefDomain = BoxcarPrefDomain;
 	}
 	return self;
+}
+
+-(NSDictionary*)upgradeConfigDict:(NSDictionary *)original toConfigID:(NSString *)configID {
+	NSString *email = [original valueForKey:BoxcarEmail];
+	if(email && ![email isEqualToString:@""])
+		[GrowlKeychainUtilities removePasswordForService:@"BoxcarGrowl" accountName:email];
+	return original;
 }
 
 /* Dispatch a notification with a configuration, called on the default priority background concurrent queue
