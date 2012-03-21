@@ -127,7 +127,7 @@
 	}
 	return value;
 }
--(void)usePrefix:(BOOL)prefix {
+-(void)setUsePrefix:(BOOL)prefix {
 	[self setConfigurationValue:[NSNumber numberWithBool:prefix] forKey:BoxcarUsePrefix];
 }
 

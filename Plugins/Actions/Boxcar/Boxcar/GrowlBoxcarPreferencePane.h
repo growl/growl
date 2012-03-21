@@ -18,7 +18,7 @@
 -(NSString*)prefixString;
 -(void)setPrefixString:(NSString *)newPrefix;
 -(BOOL)usePrefix;
--(void)usePrefix:(BOOL)prefix;
+-(void)setUsePrefix:(BOOL)prefix;
 -(BOOL)pushIdle;
 -(void)setPushIdle:(BOOL)push;
 -(BOOL)usePriority;
