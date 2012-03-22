@@ -133,7 +133,7 @@ namespace "build" do
 
   desc "build growltunes"
   task :growltunes do
-    system "#{$xcodebuild} -project #{$src_root}/Extras/GrowlTunes/GrowlTunes.xcodeproj -configuration #{$configuration} SYMROOT=#{$build_root}/growltunes"
+    system "#{$xcodebuild} -target GrowlTunes -project #{$src_root}/Extras/GrowlTunes/GrowlTunes.xcodeproj -configuration #{$configuration} SYMROOT=#{$build_root}/growltunes"
   end
 
   desc "build beephammer"
