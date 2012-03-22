@@ -1,13 +1,13 @@
 // local defines
 COMMON_CFLAGS = -pipe -fconstant-cfstrings
-COMMON_GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64 NS_BLOCK_ASSERTIONS DDNSLoggerDefaultBufferFilename="\"GrowlTunes.rawnsloggerdata"\"
+COMMON_GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64 DDNSLoggerDefaultBufferFilename="\"GrowlTunes.rawnsloggerdata"\"
 
 
 // architectures
 ARCHS = $(ARCHS_STANDARD_32_64_BIT)
 ONLY_ACTIVE_ARCH = NO
 SDKROOT = 
-VALID_ARCHS = x86_64 i386
+VALID_ARCHS = i386 x86_64
 
 
 // build locations
