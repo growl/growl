@@ -8,7 +8,7 @@
 
 #import "GrowlRollupPrefsViewController.h"
 #import <ShortcutRecorder/ShortcutRecorder.h>
-#import "SGKeyCombo.h"
+#import <GrowlPlugins/SGKeyCombo.h>
 #import "SGHotKeyCenter.h"
 #import "GrowlApplicationController.h"
 #import "SGHotKey.h"

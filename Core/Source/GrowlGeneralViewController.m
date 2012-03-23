@@ -12,8 +12,8 @@
 #import "GrowlPositionPicker.h"
 #import "GrowlOnSwitch.h"
 #import <ShortcutRecorder/ShortcutRecorder.h>
-#import "SGHotKey.h"
-#import "SGKeyCombo.h"
+#import <GrowlPlugins/SGHotKey.h>
+#import <GrowlPlugins/SGKeyCombo.h>
 
 #import "GrowlDefines.h"
 

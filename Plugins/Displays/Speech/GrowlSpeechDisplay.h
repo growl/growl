@@ -17,7 +17,8 @@
 
 @property (retain) NSMutableArray *speech_queue;
 @property (retain) NSSpeechSynthesizer *syn;
+@property (nonatomic, assign) BOOL paused;
 
-- (void)speakNotification:(NSString*)notificationToSpeak withVoice:(NSString*)voice;
+- (void)speakNotification:(NSString*)notificationToSpeak withConfiguration:(NSDictionary*)config;
 
 @end

@@ -18,9 +18,9 @@
 #import "GrowlNotificationDatabase.h"
 #import "GrowlApplicationController.h"
 #include "CFURLAdditions.h"
-#import "SGKeyCombo.h"
-#import "SGHotKey.h"
-#import "SGHotKeyCenter.h"
+#import <GrowlPlugins/SGKeyCombo.h>
+#import <GrowlPlugins/SGHotKey.h>
+#import <GrowlPlugins/SGHotKeyCenter.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <ShortcutRecorder/ShortcutRecorder.h>

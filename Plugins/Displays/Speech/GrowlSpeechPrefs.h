@@ -8,6 +8,8 @@
 
 #import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
+@class SRRecorderControl;
+
 @interface GrowlSpeechPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSTableView	*voiceList;
 	NSArray					*voices;
@@ -17,8 +19,17 @@
 - (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
 
+@property (nonatomic, assign) IBOutlet SRRecorderControl *shortcutControl;
+
 @property (nonatomic, retain) NSString *voiceLabel;
 @property (nonatomic, retain) NSString *nameColumnLabel;
 @property (nonatomic, retain) NSArray *voices;
+
+@property (nonatomic, assign) BOOL useLimit;
+@property (nonatomic, assign) NSUInteger characterLimit;
+@property (nonatomic, assign) BOOL useRate;
+@property (nonatomic, assign) float rate;
+@property (nonatomic, assign) BOOL useVolume;
+@property (nonatomic, assign) NSUInteger volume;
 
 @end

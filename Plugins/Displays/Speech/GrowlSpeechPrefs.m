@@ -9,11 +9,22 @@
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
 #import <AppKit/NSSpeechSynthesizer.h>
+#import <ShortcutRecorder/ShortcutRecorder.h>
+#import <GrowlPlugins/SGHotKey.h>
+#import <GrowlPlugins/SGKeyCombo.h>
 
 @implementation GrowlSpeechPrefs
+@synthesize shortcutControl;
 @synthesize voices;
 @synthesize voiceLabel;
 @synthesize nameColumnLabel;
+
+@synthesize useLimit;
+@synthesize characterLimit;
+@synthesize useRate;
+@synthesize rate;
+@synthesize useVolume;
+@synthesize volume;
 
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
@@ -27,9 +38,29 @@
 	return @"GrowlSpeechPrefs";
 }
 
+- (NSSet*)bindingKeys {
+	static NSSet *keys = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		keys = [[NSSet setWithObjects:@"useLimit",
+					@"characterLimit",
+					@"useRate",
+					@"rate",
+					@"useVolume",
+					@"volume", nil] retain];
+	});
+	return keys;
+}
+
 - (void) awakeFromNib {
 	[self updateVoiceList];
 	[voiceList setDoubleAction:@selector(previewVoice:)];
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSInteger code = [[defaults valueForKey:GrowlSpeechPauseKeyCodePref] integerValue];
+	NSUInteger modifiers = [[defaults valueForKey:GrowlSpeechPauseKeyModifierPref] unsignedIntegerValue];
+	KeyCombo combo = {SRCarbonToCocoaFlags(modifiers), code};
+	[self.shortcutControl setKeyCombo:combo];
 }
 
 - (void) dealloc {
@@ -74,6 +105,7 @@
 	   [voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 	   [voiceList scrollRowToVisible:row];
 	}
+	[super updateConfigurationValues];
 }
 
 - (IBAction) previewVoice:(id)sender {
@@ -100,6 +132,98 @@
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
 		[self setConfigurationValue:voice forKey:GrowlSpeechVoicePref];
 	}
+}
+
+#pragma mark -
+#pragma mark Accessors
+
+-(BOOL)useLimit {
+	BOOL value = GrowlSpeechUseLimitDefault;
+	if([self.configuration valueForKey:GrowlSpeechUseLimitPref]){
+		value = [[self.configuration valueForKey:GrowlSpeechUseLimitPref] boolValue];
+	}
+	return value;
+}
+-(void)setUseLimit:(BOOL)value {
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlSpeechUseLimitPref];
+}
+
+-(BOOL)useRate {
+	BOOL value = GrowlSpeechUseRateDefault;
+	if([self.configuration valueForKey:GrowlSpeechUseRatePref]){
+		value = [[self.configuration valueForKey:GrowlSpeechUseRatePref] boolValue];
+	}
+	return value;
+}
+-(void)setUseRate:(BOOL)value {
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlSpeechUseRatePref];
+}
+
+-(BOOL)useVolume {
+	BOOL value = GrowlSpeechUseVolumeDefault;
+	if([self.configuration valueForKey:GrowlSpeechUseVolumePref]){
+		value = [[self.configuration valueForKey:GrowlSpeechUseVolumePref] boolValue];
+	}
+	return value;
+}
+-(void)setUseVolume:(BOOL)value {
+	[self setConfigurationValue:[NSNumber numberWithBool:value] forKey:GrowlSpeechUseVolumePref];
+}
+
+-(NSUInteger)characterLimit {
+	NSUInteger value = GrowlSpeechLimitDefault;
+	if([self.configuration valueForKey:GrowlSpeechLimitPref]){
+		value = [[self.configuration valueForKey:GrowlSpeechLimitPref] unsignedIntegerValue];
+	}
+	return value;
+}
+-(void)setCharacterLimit:(NSUInteger)value {
+	[self setConfigurationValue:[NSNumber numberWithUnsignedInteger:value] forKey:GrowlSpeechLimitPref];
+}
+
+-(float)rate {
+	float value = GrowlSpeechRateDefault;
+	if([self.configuration valueForKey:GrowlSpeechRatePref]){
+		value = [[self.configuration valueForKey:GrowlSpeechRatePref] floatValue];
+	}
+	return value;
+}
+-(void)setRate:(float)value {
+	[self setConfigurationValue:[NSNumber numberWithFloat:value] forKey:GrowlSpeechRatePref];
+}
+
+-(NSUInteger)volume {
+	NSUInteger value = GrowlSpeechVolumeDefault;
+	if([self.configuration valueForKey:GrowlSpeechVolumePref]){
+		value = [[self.configuration valueForKey:GrowlSpeechVolumePref] unsignedIntegerValue];
+	}
+	return value;
+}
+-(void)setVolume:(NSUInteger)value {
+	[self setConfigurationValue:[NSNumber numberWithUnsignedInteger:value] forKey:GrowlSpeechVolumePref];
+}
+
+#pragma mark SRRecorderControl delegate
+
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
+{
+	return NO;
+}
+
+- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
+{
+	SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:newKeyCombo.code modifiers:SRCocoaToCarbonFlags(newKeyCombo.flags)];
+	
+	if(combo.keyCode == -1)
+		combo = nil;
+	
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:combo.keyCode] 
+															forKey:GrowlSpeechPauseKeyCodePref];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:combo.modifiers] 
+															forKey:GrowlSpeechPauseKeyModifierPref];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlSpeechPauseKeyChanged object:self];
 }
 
 @end

@@ -12,10 +12,15 @@
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
+#import <ShortcutRecorder/ShortcutRecorder.h>
+#import <GrowlPlugins/SGHotKey.h>
+#import <GrowlPlugins/SGKeyCombo.h>
+#import <GrowlPlugins/SGHotKeyCenter.h>
 
 @implementation GrowlSpeechDisplay
 @synthesize speech_queue;
 @synthesize syn;
+@synthesize paused;
 
 - (id) init {
     if((self = [super init])) {
@@ -24,6 +29,8 @@
         syn.delegate = self;
 		 self.prefDomain = GrowlSpeechPrefDomain;
 		 speech_dispatch_queue = dispatch_queue_create("com.growl.Speech.speech_dispatch_queue", 0);
+		 self.paused = NO;
+		 [self updateKeyCombo];
     }
     return self;
 }
@@ -36,10 +43,37 @@
 	[super dealloc];
 }
 
-- (GrowlPluginPreferencePane *) preferencePane {
-	if (!preferencePane)
-		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
+-(void)updateKeyCombo {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSNumber *code = [defaults valueForKey:GrowlSpeechPauseKeyCodePref];
+	NSNumber *modifiers = [defaults valueForKey:GrowlSpeechPauseKeyModifierPref];
 
+	if(code && modifiers){
+		SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+		if(combo.keyCode){
+			SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:@"com.growl.Speech.pauseHotKey"
+																			keyCombo:combo 
+																			  target:self 
+																			  action:@selector(toggleSpeech)] autorelease];
+			[[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+		}else{
+			SGHotKey *hotKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"com.growl.Speech.pauseHotKey"];
+			[[SGHotKeyCenter sharedCenter] unregisterHotKey:hotKey];
+		}
+	}
+}
+
+- (GrowlPluginPreferencePane *) preferencePane {
+	if (!preferencePane){
+		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
+		__block GrowlSpeechDisplay *blockSelf = self;
+		[[NSNotificationCenter defaultCenter] addObserverForName:GrowlSpeechPauseKeyChanged
+																		  object:preferencePane
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:^(NSNotification *note) {
+																		 [blockSelf updateKeyCombo];
+																	 }];
+	}
 	return preferencePane;
 }
 
@@ -51,13 +85,24 @@
 		NSString *desc = [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION];
 		
 		NSString *summary = [NSString stringWithFormat:@"%@\n\n%@", title, desc];
-		NSString *voice = [configuration valueForKey:GrowlSpeechVoicePref];
-		NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", voice, GrowlSpeechVoicePref, nil];
+		if([configuration valueForKey:GrowlSpeechUseLimitPref] && [[configuration valueForKey:GrowlSpeechUseLimitPref] boolValue]){
+			NSUInteger limit = [configuration valueForKey:GrowlSpeechLimitPref] ? [[configuration valueForKey:GrowlSpeechLimitPref] unsignedIntegerValue] : GrowlSpeechLimitDefault;
+			if([summary length] > limit){
+				NSRange nearestWhite = [summary rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+																				options:NSBackwardsSearch 
+																				  range:NSMakeRange(0, limit)];
+				if(nearestWhite.location != NSNotFound && nearestWhite.location != 0)
+					limit = nearestWhite.location;
+				summary = [summary substringToIndex:limit];
+			}
+		}
+		
+		NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", configuration, @"configuration", nil];
 		
 		[blockSelf.speech_queue addObject:queueDict];
-		if(![blockSelf.syn isSpeaking])
+		if(![blockSelf.syn isSpeaking] && !blockSelf.paused)
 		{
-			[blockSelf speakNotification:summary withVoice:voice];
+			[blockSelf speakNotification:summary withConfiguration:configuration];
 		}
 		
 		if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
@@ -69,20 +114,43 @@
 	});
 }
 
-- (void)speakNotification:(NSString*)notificationToSpeak withVoice:(NSString*)voice
+- (void)speakNotification:(NSString*)notificationToSpeak withConfiguration:(NSDictionary*)config
 {
-	if (voice) {
-		//[voice autorelease];
-	} else {
-		//Leaving the voice set to nil means we get the default voice the speech rate selected in the Speech preferences pane.
-	}
+	NSString *voice = [config valueForKey:GrowlSpeechVoicePref];
 	if([voice isEqualToString:GrowlSpeechSystemVoice])
 		voice = nil;
-	
 	syn.voice = voice;
+	
+	if([config valueForKey:GrowlSpeechUseRatePref] && [[config valueForKey:GrowlSpeechUseRatePref] boolValue]){
+		syn.rate = [config valueForKey:GrowlSpeechRatePref] ? [[config valueForKey:GrowlSpeechRatePref] floatValue] : GrowlSpeechRateDefault;
+	}else {
+		syn.rate = GrowlSpeechRateDefault;
+	}
+	
+	if([config valueForKey:GrowlSpeechUseVolumePref] && [[config valueForKey:GrowlSpeechUseVolumePref] boolValue]){
+		syn.volume = [config valueForKey:GrowlSpeechVolumePref] ? [[config valueForKey:GrowlSpeechVolumePref] floatValue] / 100.0f : 1.0f;
+	}else{
+		syn.volume = 1.0f;
+	}
+	
 	[syn startSpeakingString:notificationToSpeak];
 	
 }
+
+-(void)toggleSpeech {
+	__block GrowlSpeechDisplay *blockSelf = self;
+	dispatch_async(speech_dispatch_queue, ^{
+		if([blockSelf.syn isSpeaking] || blockSelf.paused){
+			blockSelf.paused = blockSelf.paused ? NO : YES;
+			if(blockSelf.paused){
+				[blockSelf.syn pauseSpeakingAtBoundary:NSSpeechWordBoundary];
+			}else{
+				[blockSelf.syn continueSpeaking];
+			}
+		}
+	});
+}
+
 #pragma mark -
 #pragma mark NSSpeechSynthesizerDelegate
 #pragma mark -
@@ -101,7 +169,7 @@
 				double delayInSeconds = 1.0;
 				dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 				dispatch_after(popTime, speech_dispatch_queue, ^(void){
-					[blockSelf speakNotification:[speechDict valueForKey:@"summary"] withVoice:[speechDict valueForKey:GrowlSpeechVoicePref]];
+					[blockSelf speakNotification:[speechDict valueForKey:@"summary"] withConfiguration:[speechDict valueForKey:@"configuration"]];
 				});
 			}
 		}
