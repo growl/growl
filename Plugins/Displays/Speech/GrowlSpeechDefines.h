@@ -11,9 +11,18 @@
 #define GrowlSpeechSystemVoice  @"com.Growl.Speech.system"
 #define GrowlSpeechVoicePref	@"Speech - Voice"
 
+#define GrowlSpeechHotKeyChanged @"com.growl.speech.hotKeyChangednotification"
 #define GrowlSpeechPauseKeyCodePref	@"com.growl.Speech.pauseKeyCode"
 #define GrowlSpeechPauseKeyModifierPref @"com.growl.Speech.pauseKeyModifier"
-#define GrowlSpeechPauseKeyChanged @"com.growl.speech.pauseKeyChangedNotification"
+#define GrowlSpeechPauseKeyID @"com.growl.Speech.pauseHotKey"
+
+#define GrowlSpeechSkipKeyCodePref	@"com.growl.Speech.skipKeyCode"
+#define GrowlSpeechSkipKeyModifierPref @"com.growl.Speech.skipKeyModifier"
+#define GrowlSpeechSkipKeyID @"com.growl.Speech.skipHotKey"
+
+#define GrowlSpeechClickKeyCodePref	@"com.growl.Speech.clickKeyCode"
+#define GrowlSpeechClickKeyModifierPref @"com.growl.Speech.clickKeyModifier"
+#define GrowlSpeechClickKeyID @"com.growl.Speech.clickHotKey"
 
 #define GrowlSpeechUseLimitPref	@"Speech - UseLimit"
 #define GrowlSpeechLimitPref		@"Speech - Limit"
@@ -28,3 +37,10 @@
 #define GrowlSpeechRateDefault 180
 #define GrowlSpeechUseVolumeDefault NO
 #define GrowlSpeechVolumeDefault 100
+
+typedef enum {
+	SpeechPauseHotKey,
+	SpeechSkipHotKey,
+	SpeechClickHotKey
+} SpeechHotKey;
+

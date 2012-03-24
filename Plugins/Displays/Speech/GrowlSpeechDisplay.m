@@ -30,7 +30,9 @@
 		 self.prefDomain = GrowlSpeechPrefDomain;
 		 speech_dispatch_queue = dispatch_queue_create("com.growl.Speech.speech_dispatch_queue", 0);
 		 self.paused = NO;
-		 [self updateKeyCombo];
+		 [self updateKeyCombo:SpeechPauseHotKey];
+		 [self updateKeyCombo:SpeechSkipHotKey];
+		 [self updateKeyCombo:SpeechClickHotKey];
     }
     return self;
 }
@@ -43,21 +45,47 @@
 	[super dealloc];
 }
 
--(void)updateKeyCombo {
+-(void)updateKeyCombo:(SpeechHotKey)key {
+	NSString *identifier = nil;
+	NSString *codePref = nil;
+	NSString *modifierPref = nil;
+	SEL keySelector;
+	switch (key) {
+		case SpeechSkipHotKey:
+			identifier = GrowlSpeechSkipKeyID;
+			codePref = GrowlSpeechSkipKeyCodePref;
+			modifierPref = GrowlSpeechSkipKeyModifierPref;
+			keySelector = @selector(skipNote);
+			break;
+		case SpeechClickHotKey:
+			identifier = GrowlSpeechClickKeyID;
+			codePref = GrowlSpeechClickKeyCodePref;
+			modifierPref = GrowlSpeechClickKeyModifierPref;
+			keySelector = @selector(clickNote);
+			break;
+		case SpeechPauseHotKey:
+		default:
+			identifier = GrowlSpeechPauseKeyID;
+			codePref = GrowlSpeechPauseKeyCodePref;
+			modifierPref = GrowlSpeechPauseKeyModifierPref;
+			keySelector = @selector(toggleSpeech);
+			break;
+	}
+	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSNumber *code = [defaults valueForKey:GrowlSpeechPauseKeyCodePref];
-	NSNumber *modifiers = [defaults valueForKey:GrowlSpeechPauseKeyModifierPref];
+	NSNumber *code = [defaults valueForKey:codePref];
+	NSNumber *modifiers = [defaults valueForKey:modifierPref];
 
 	if(code && modifiers){
 		SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
 		if(combo.keyCode){
-			SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:@"com.growl.Speech.pauseHotKey"
+			SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:identifier
 																			keyCombo:combo 
 																			  target:self 
-																			  action:@selector(toggleSpeech)] autorelease];
+																			  action:keySelector] autorelease];
 			[[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
 		}else{
-			SGHotKey *hotKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:@"com.growl.Speech.pauseHotKey"];
+			SGHotKey *hotKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:identifier];
 			[[SGHotKeyCenter sharedCenter] unregisterHotKey:hotKey];
 		}
 	}
@@ -67,11 +95,12 @@
 	if (!preferencePane){
 		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
 		__block GrowlSpeechDisplay *blockSelf = self;
-		[[NSNotificationCenter defaultCenter] addObserverForName:GrowlSpeechPauseKeyChanged
+		[[NSNotificationCenter defaultCenter] addObserverForName:GrowlSpeechHotKeyChanged
 																		  object:preferencePane
 																			queue:[NSOperationQueue mainQueue]
 																	 usingBlock:^(NSNotification *note) {
-																		 [blockSelf updateKeyCombo];
+																		 SpeechHotKey hotKey = [[[note userInfo] valueForKey:@"hotKeyType"] integerValue];
+																		 [blockSelf updateKeyCombo:hotKey];
 																	 }];
 	}
 	return preferencePane;
@@ -97,7 +126,7 @@
 			}
 		}
 		
-		NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", configuration, @"configuration", nil];
+		NSDictionary *queueDict = [NSDictionary dictionaryWithObjectsAndKeys:summary, @"summary", noteDict, @"note", configuration, @"configuration", nil];
 		
 		[blockSelf.speech_queue addObject:queueDict];
 		if(![blockSelf.syn isSpeaking] && !blockSelf.paused)
@@ -147,6 +176,28 @@
 			}else{
 				[blockSelf.syn continueSpeaking];
 			}
+		}
+	});
+}
+
+-(void)skipNote {
+	__block GrowlSpeechDisplay *blockSelf = self;
+	dispatch_async(speech_dispatch_queue, ^{
+		blockSelf.paused = NO;
+		[blockSelf.syn stopSpeaking];
+	});
+}
+
+-(void)clickNote {
+	__block GrowlSpeechDisplay *blockSelf = self;
+	dispatch_async(speech_dispatch_queue, ^{
+		if([blockSelf.speech_queue count]){
+			NSDictionary *noteDict = [[blockSelf.speech_queue objectAtIndex:0U] valueForKey:@"note"];
+			NSDictionary *configDict = [[blockSelf.speech_queue objectAtIndex:0U] valueForKey:@"configuration"];
+			GrowlNotification *note = [GrowlNotification notificationWithDictionary:noteDict configurationDict:configDict];
+			[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+																				 object:note
+																			  userInfo:nil];
 		}
 	});
 }

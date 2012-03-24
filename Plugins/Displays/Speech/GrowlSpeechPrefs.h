@@ -11,7 +11,7 @@
 @class SRRecorderControl;
 
 @interface GrowlSpeechPrefs : GrowlPluginPreferencePane {
-	IBOutlet NSTableView	*voiceList;
+	IBOutlet NSPopUpButton	*voiceList;
 	NSArray					*voices;
 	NSSpeechSynthesizer		*lastPreview;
 }
@@ -19,7 +19,9 @@
 - (IBAction) previewVoice:(id)sender;
 - (IBAction) voiceClicked:(id)sender;
 
-@property (nonatomic, assign) IBOutlet SRRecorderControl *shortcutControl;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *pauseShortcut;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *skipShortcut;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *clickShortcut;
 
 @property (nonatomic, retain) NSString *voiceLabel;
 @property (nonatomic, retain) NSString *nameColumnLabel;

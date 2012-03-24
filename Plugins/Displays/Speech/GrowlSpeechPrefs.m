@@ -14,7 +14,9 @@
 #import <GrowlPlugins/SGKeyCombo.h>
 
 @implementation GrowlSpeechPrefs
-@synthesize shortcutControl;
+@synthesize pauseShortcut;
+@synthesize skipShortcut;
+@synthesize clickShortcut;
 @synthesize voices;
 @synthesize voiceLabel;
 @synthesize nameColumnLabel;
@@ -54,13 +56,22 @@
 
 - (void) awakeFromNib {
 	[self updateVoiceList];
-	[voiceList setDoubleAction:@selector(previewVoice:)];
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSInteger code = [[defaults valueForKey:GrowlSpeechPauseKeyCodePref] integerValue];
-	NSUInteger modifiers = [[defaults valueForKey:GrowlSpeechPauseKeyModifierPref] unsignedIntegerValue];
-	KeyCombo combo = {SRCarbonToCocoaFlags(modifiers), code};
-	[self.shortcutControl setKeyCombo:combo];
+	NSInteger pauseCode = [[defaults valueForKey:GrowlSpeechPauseKeyCodePref] integerValue];
+	NSUInteger pauseModifiers = [[defaults valueForKey:GrowlSpeechPauseKeyModifierPref] unsignedIntegerValue];
+	KeyCombo pauseCombo = {SRCarbonToCocoaFlags(pauseModifiers), pauseCode};
+	[self.pauseShortcut setKeyCombo:pauseCombo];
+	
+	NSInteger skipCode = [[defaults valueForKey:GrowlSpeechSkipKeyCodePref] integerValue];
+	NSUInteger skipModifiers = [[defaults valueForKey:GrowlSpeechSkipKeyModifierPref] unsignedIntegerValue];
+	KeyCombo skipCombo = {SRCarbonToCocoaFlags(skipModifiers), skipCode};
+	[self.skipShortcut setKeyCombo:skipCombo];
+	
+	NSInteger clickCode = [[defaults valueForKey:GrowlSpeechClickKeyCodePref] integerValue];
+	NSUInteger clickModifiers = [[defaults valueForKey:GrowlSpeechClickKeyModifierPref] unsignedIntegerValue];
+	KeyCombo clickCombo = {SRCarbonToCocoaFlags(clickModifiers), clickCode};
+	[self.clickShortcut setKeyCombo:clickCombo];
 }
 
 - (void) dealloc {
@@ -102,15 +113,13 @@
 		row = 1;
 	
 	if (row != NSNotFound && [voices count] > 0) {
-	   [voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-	   [voiceList scrollRowToVisible:row];
+		[voiceList selectItemAtIndex:row];
 	}
 	[super updateConfigurationValues];
 }
 
 - (IBAction) previewVoice:(id)sender {
-	
-	NSInteger row = [sender selectedRow];
+	NSInteger row = [sender indexOfSelectedItem];
 	
 	if (row != -1) {
 		if(lastPreview != nil && [lastPreview isSpeaking]) {
@@ -126,11 +135,12 @@
 }
 
 - (IBAction) voiceClicked:(id)sender {
-	NSInteger row = [sender selectedRow];
+	NSInteger row = [sender indexOfSelectedItem];
 
 	if (row != -1) {
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
 		[self setConfigurationValue:voice forKey:GrowlSpeechVoicePref];
+		[self previewVoice:sender];
 	}
 }
 
@@ -217,13 +227,30 @@
 	if(combo.keyCode == -1)
 		combo = nil;
 	
+	SpeechHotKey type = SpeechPauseHotKey;
+	NSString *codePref = GrowlSpeechPauseKeyCodePref;
+	NSString *modifierPref = GrowlSpeechPauseKeyModifierPref;
+	if(aRecorder == skipShortcut){
+		type = SpeechSkipHotKey;
+		codePref = GrowlSpeechSkipKeyCodePref;
+		modifierPref = GrowlSpeechSkipKeyModifierPref;
+	}
+	if(aRecorder == clickShortcut){
+		type = SpeechClickHotKey;
+		codePref = GrowlSpeechClickKeyCodePref;
+		modifierPref = GrowlSpeechClickKeyModifierPref;
+	}
+	
 	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:combo.keyCode] 
-															forKey:GrowlSpeechPauseKeyCodePref];
+															forKey:codePref];
 	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:combo.modifiers] 
-															forKey:GrowlSpeechPauseKeyModifierPref];
+															forKey:modifierPref];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlSpeechPauseKeyChanged object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlSpeechHotKeyChanged 
+																		 object:self 
+																	  userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:type] 
+																														forKey:@"hotKeyType"]];
 }
 
 @end
