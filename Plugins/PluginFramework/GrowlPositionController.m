@@ -267,7 +267,7 @@
 			*stop = YES;
 	}];
 	[rightColumns removeObjectsInArray:deadRight];
-	[allColumns removeObjectsInArray:deadLeft];
+	[allColumns removeObjectsInArray:deadRight];
 	[deadRight enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		removedWidth += [obj width];
 	}];
