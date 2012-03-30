@@ -64,7 +64,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	
 	if (thisWindow) {
 		//Tell the bridge to update its displayed notification
-		[thisWindow setNotification:notification];
+		[thisWindow updateToNotification:notification];
 		
 	} else {
 		//No existing bridge on this identifier, or no identifier. Create one.

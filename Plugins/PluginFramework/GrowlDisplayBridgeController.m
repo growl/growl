@@ -66,7 +66,6 @@
 		if(!CGRectEqualToRect(found, CGRectZero)){
 			[controller occupyRect:found];
 			[window setOccupiedRect:found];
-			[window foundSpaceToStart];
 			return YES;
 		}
 	}
@@ -76,10 +75,19 @@
 -(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
 {
 	if(reposition){
-		NSLog(@"order out");
-		[[window window] orderOut:self];
-	}
-	if([self displayWindow:window]){
+		CGPoint startOrigin = [window occupiedRect].origin;
+		[self clearRectForDisplay:window];
+		if([self displayWindow:window]){
+			CGPoint newOrigin = [window occupiedRect].origin;
+			if(!CGPointEqualToPoint(startOrigin, newOrigin)) NSLog(@"Different origin for coalescing");
+			
+			[displayedBridges addObject:window];
+		}else{
+			NSLog(@"Couldnt find space for coalescing notification, adding to queue");
+			[[window window] orderOut:self];
+			[bridgeQueue addObject:window];
+		}
+	}else if([self displayWindow:window]){
 		[window foundSpaceToStart];
 		[displayedBridges addObject:window];
 	}else
@@ -95,6 +103,7 @@
 			[blockSelf.bridgeQueue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 				if([blockSelf displayWindow:obj]){
 					[found addObject:obj];
+					[obj foundSpaceToStart];
 				}
 			}];
 			[blockSelf.bridgeQueue removeObjectsInArray:found];

@@ -479,9 +479,7 @@ static NSMutableDictionary *existingInstances;
     return notification;
 }
 
-- (void) setNotification:(GrowlNotification *)theNotification {
-	BOOL reposition = notification != nil;
-	
+- (void) setNotification:(GrowlNotification *)theNotification {	
 	if (notification != theNotification) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 																		name:GROWL_CLOSE_NOTIFICATION
@@ -519,15 +517,15 @@ static NSMutableDictionary *existingInstances;
 														  selector:@selector(stopDisplay)
 																name:GROWL_CLOSE_NOTIFICATION
 															 object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
-	
-	if(reposition){
-		[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:YES];
-	}
 }
 
 - (void) updateToNotification:(GrowlNotification *)theNotification {
+	CGSize start = [self requiredSize];
 	[self setNotification:theNotification];
-
+	CGSize end = [self requiredSize];
+	
+	BOOL resize = !CGSizeEqualToSize(start, end);
+	
 	switch (displayStatus) {
 		case GrowlDisplayUnknownStatus:
 		case GrowlDisplayTransitioningInStatus:
@@ -549,6 +547,8 @@ static NSMutableDictionary *existingInstances;
 
 			break;
 	}
+	if(resize)
+		[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:YES];
 }
 
 #pragma mark -
@@ -669,7 +669,7 @@ static NSMutableDictionary *existingInstances;
 - (void)setOccupiedRect:(CGRect)rect {
 	rect.size.width -= [self requiredDistanceFromExistingDisplays];
 	rect.size.height -= [self requiredDistanceFromExistingDisplays];
-	[[self window] setFrame:rect display:NO];
+	[[self window] setFrame:rect display:YES];
 }
 
 - (CGRect) occupiedRect {
