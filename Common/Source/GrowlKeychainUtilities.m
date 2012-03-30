@@ -105,7 +105,10 @@
 	} else {
 		status = SecKeychainItemDelete(itemRef);
       if(status != noErr){
-         NSLog(@"Error deleting the password for service: %@ account: %@; %@", service, account, [(NSString*)SecCopyErrorMessageString(status, NULL) autorelease]);
+			CFStringRef errorString = SecCopyErrorMessageString(status, NULL);
+         NSLog(@"Error deleting the password for service: %@ account: %@; %@", service, account, (NSString*)errorString);
+			if(errorString)
+				CFRelease(errorString);
       }else{
          result = YES;
       }
