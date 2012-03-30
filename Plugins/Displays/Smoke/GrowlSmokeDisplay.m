@@ -12,8 +12,6 @@
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotificationDisplayBridge.h"
-
 
 @implementation GrowlSmokeDisplay
 
@@ -34,10 +32,6 @@
 	if (!preferencePane)
 		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Smoke"]];
 	return preferencePane;
-}
-
-- (BOOL)requiresPositioning {
-	return YES;
 }
 
 @end

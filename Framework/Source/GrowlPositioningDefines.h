@@ -25,7 +25,7 @@ expansion, and origin selection.
  * @constant GrowlMiddleColumnPosition The middle oblong (column) of the screen.
  * @constant GrowlRightColumnPosition The right oblong (column) of the screen.
  */
-enum GrowlPosition {
+typedef enum {
 	GrowlTopLeftPosition,
 	GrowlTopMiddlePosition,
 	GrowlTopRightPosition,
@@ -41,7 +41,7 @@ enum GrowlPosition {
 	GrowlLeftColumnPosition,
 	GrowlMiddleColumnPosition,
 	GrowlRightColumnPosition
-};
+} GrowlPosition;
 
 enum GrowlExpansionDirection {
 	GrowlNoExpansionDirection,
@@ -51,10 +51,10 @@ enum GrowlExpansionDirection {
 	GrowlRightExpansionDirection
 };
 
-enum GrowlPositionOrigin {
+typedef enum  {
     GrowlNoOrigin,
     GrowlTopLeftCorner,
     GrowlBottomRightCorner,
     GrowlTopRightCorner,
     GrowlBottomLeftCorner
-};
+} GrowlPositionOrigin;

@@ -16,8 +16,8 @@
 
 @implementation GrowlMusicVideoWindowController
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [note configurationDict];
 	
 
 	screenNumber = 0U;
@@ -73,8 +73,7 @@
 	[panel setFrameTopLeftPoint:screen.origin];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
-		[self setBridge:bridge];
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		
 		NSTimeInterval duration = GrowlMusicVideoDurationPrefDefault;
 		if([configDict valueForKey:MUSICVIDEO_DURATION_PREF]){

@@ -13,7 +13,6 @@
 #import "GrowlBubblesDefines.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
-#import "GrowlNotificationDisplayBridge.h"
 
 
 @implementation GrowlBubblesController
@@ -31,10 +30,6 @@
 - (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
-}
-
-- (BOOL)requiresPositioning {
-	return YES;
 }
 
 - (GrowlPluginPreferencePane *) preferencePane {

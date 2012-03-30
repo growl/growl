@@ -14,7 +14,6 @@
 #import "GrowliCalDefines.h"
 #import "GrowliCalWindowController.h"
 #import "GrowliCalPrefsController.h"
-#import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowliCalDisplay
 
@@ -37,10 +36,6 @@
 	if (!preferencePane)
 		preferencePane = [[GrowliCalPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.iCal"]];
 	return preferencePane;
-}
-
-- (BOOL)requiresPositioning {
-	return YES;
 }
 
 @end

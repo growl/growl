@@ -19,10 +19,10 @@
 
 //static const double gAdditionalLinesDisplayTime = 0.5;
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	// Read prefs...
 	screenNumber = 0U;
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	NSDictionary *configDict = [note configurationDict];
 	if([configDict valueForKey:GrowlBrushedScreenPref]){
 		screenNumber = [[configDict valueForKey:GrowlBrushedScreenPref] unsignedIntegerValue];
 	}
@@ -77,9 +77,8 @@
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
-		[self setBridge:displayBridge]; // weak reference
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
 		[fader setAutoReverses:YES];
@@ -90,7 +89,7 @@
 
 	return self;
 }
-
+/*
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
 	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
@@ -119,7 +118,7 @@
 			break;			
 	}
 	
-	return idealOrigin;	
+	return idealOrigin;
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
@@ -170,7 +169,7 @@
 	}
 	
 	return directionToExpand;
-}
+}*/
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBrushedPadding;

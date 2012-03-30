@@ -6,7 +6,6 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
-#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
 #import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlBrushedDisplay.h"
 #import "GrowlBrushedWindowController.h"
@@ -33,10 +32,6 @@
 	if (!preferencePane)
 		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Brushed"]];
 	return preferencePane;
-}
-
-- (BOOL) requiresPositioning {
-	return YES;
 }
 
 @end

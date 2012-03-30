@@ -9,7 +9,6 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowlBezelDisplay
 

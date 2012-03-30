@@ -16,7 +16,7 @@
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
-@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlNotification, GrowlNotificationView;
+@class GrowlWindowTransition, GrowlDisplayPlugin, GrowlNotification, GrowlNotificationView;
 
 typedef enum {
 	GrowlDisplayUnknownStatus = 0,
@@ -26,8 +26,8 @@ typedef enum {
 } GrowlDisplayStatus;
 
 @interface GrowlDisplayWindowController : NSWindowController <NSWindowDelegate, NSAnimationDelegate> {
+	GrowlDisplayPlugin   *plugin;
 	GrowlNotification    *notification;	/* not sure if this will be needed since binding may work without */
-	GrowlNotificationDisplayBridge  *bridge;
 
 	SEL					             action;
 	id					             target;
@@ -53,13 +53,12 @@ typedef enum {
 	BOOL							 userRequestedClose;
 
 	unsigned			             WCReserved: 30;
-    NSInteger failureCount;
-   BOOL                       queuesNotes;
+	BOOL ignoreAnimation;
 }
 
-- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
-- (id) initWithWindow:(NSWindow *)window;
+- (id) initWithWindowNibName:(NSString *)windowNibName plugin:(GrowlDisplayPlugin *)aPlugin;
+- (id) initWithNotification:(GrowlNotification*)note plugin:(GrowlDisplayPlugin *)aPlugin;
+- (id) initWithWindow:(NSWindow *)window andPlugin:(GrowlDisplayPlugin*)aPlugin;
 
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
 + (void) unregisterInstanceWithIdentifier:(NSString *)ident;
@@ -67,7 +66,8 @@ typedef enum {
 
 - (void) takeScreenshot;
 
-- (BOOL) startDisplay;
+- (void) foundSpaceToStart;
+- (void) startDisplay;
 - (void) stopDisplay;
 
 /*call these from subclasses as various phases of display occur.
@@ -116,10 +116,6 @@ typedef enum {
 /* Used to make an existing window controller update to a new or modified notification */
 - (void) updateToNotification:(GrowlNotification *)theNotification;
 
-/* Not to be called directly...for KVO compliance only */
-- (GrowlNotificationDisplayBridge *)bridge;
-- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge;
-
 /* Subclasses should call this *after* calling -[super initWithWindw:] to set the overall transition duration ... could offer a user pref as well */
 
 - (NSScreen *) screen;
@@ -141,13 +137,18 @@ typedef enum {
 
 - (NSDictionary*)configurationDict;
 
+- (CGSize) requiredSize;
+- (void) setOccupiedRect:(CGRect)rect;
+- (CGRect) occupiedRect;
+- (CGFloat) requiredDistanceFromExistingDisplays;
+
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;
 @property (nonatomic, assign) BOOL screenshotModeEnabled;
 @property (nonatomic, assign) CFTimeInterval displayDuration;
 @property (nonatomic, assign) CFTimeInterval transitionDuration;
-@property (nonatomic, assign) NSInteger failureCount;
+@property (nonatomic, assign) GrowlDisplayPlugin *plugin;
 @end
 
 /*!

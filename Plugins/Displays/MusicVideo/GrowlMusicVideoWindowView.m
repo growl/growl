@@ -210,8 +210,6 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 
 	[textColor release];
 	data = [[self configurationDict] valueForKey:textKey];
-	if(data)
-		CFMakeCollectable(data);
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else

@@ -82,7 +82,6 @@
 }
 
 -(void)updateVoiceList {
-	NSArray *availableVoices = [NSArray arrayWithObject:GrowlSpeechSystemVoice];
 	NSMutableArray *voiceAttributes = [NSMutableArray array];
 	
 	NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
@@ -93,7 +92,6 @@
 	for (NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices]) {
 		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
 	}
-	availableVoices = [availableVoices arrayByAddingObjectsFromArray:[NSSpeechSynthesizer availableVoices]];
 	[self setVoices:voiceAttributes];
 }
 

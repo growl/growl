@@ -9,8 +9,6 @@
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotificationDisplayBridge.h"
-
 
 @implementation GrowlMusicVideoDisplay
 
@@ -34,7 +32,7 @@
 }
 
 - (BOOL) requiresPositioning {
-	return YES;
+	return NO;
 }
 
 @end

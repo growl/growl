@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <GrowlPlugins/GrowlPlugin.h>
 
-@class GrowlNotification, GrowlNotificationDisplayBridge;
+@class GrowlNotification;
 @class GrowlDisplayWindowController;
 
 //Info.plist keys for plug-in bundles.
@@ -24,13 +24,10 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 	Class          windowControllerClass;
 	
 	//for all displays
-	NSMutableDictionary *coalescableBridges;
+	NSMutableDictionary *coalescableWindows;
 	
-	//for non-queueing displays
-	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
-
 	//for queueing displays
-	GrowlNotificationDisplayBridge *bridge;
+	GrowlDisplayWindowController *window;
 	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
 }
 
@@ -55,5 +52,7 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc;
 
 - (BOOL) queuesNotifications;
+
+- (BOOL) requiresPositioning;
 
 @end

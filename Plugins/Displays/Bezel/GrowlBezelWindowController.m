@@ -20,8 +20,8 @@
 #define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.0
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [note configurationDict];
 	int sizePref = 0;
 	screenNumber = 0U;
 	shrinkEnabled = NO;
@@ -94,8 +94,7 @@
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
-		[self setBridge:bridge];
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		/*GrowlRipplingWindowTransition *ripple = [[GrowlRipplingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:ripple];
@@ -169,20 +168,8 @@
 	return result;
 }
 
-- (enum GrowlExpansionDirection) primaryExpansionDirection {
-	return GrowlNoExpansionDirection;
-}
-
-- (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	return GrowlNoExpansionDirection;
-}
-
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBezelPadding;
-}
-
-- (BOOL) requiresPositioning {
-	return NO;
 }
 
 @end

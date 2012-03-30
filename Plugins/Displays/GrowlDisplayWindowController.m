@@ -6,14 +6,14 @@
 //  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
-#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlWindowtransition.h>
 #import <GrowlPlugins/GrowlDisplayWindowController.h>
 #import <GrowlPlugins/GrowlNotification.h>
 #import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
-#import "GrowlPositionController.h"
+#import "GrowlDisplayBridgeController.h"
 #import "NSViewAdditions.h"
 
 #define DEFAULT_TRANSITION_DURATION	0.2
@@ -39,7 +39,7 @@ static NSMutableDictionary *existingInstances;
 @synthesize target;
 @synthesize displayDuration;
 @synthesize transitionDuration;
-@synthesize failureCount;
+@synthesize plugin;
 
 #pragma mark -
 #pragma mark Caching
@@ -73,27 +73,27 @@ static NSMutableDictionary *existingInstances;
 
 #pragma mark -
 
-- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge {
+- (id) initWithWindowNibName:(NSString *)windowNibName plugin:(GrowlDisplayPlugin *)aPlugin {
 	// NOTE: for completeness we ought to offer the other nib related init methods with the plugin as a param
-	if ((self = [self initWithWindowNibName:windowNibName owner:displayBridge])) {
-		[self setBridge:displayBridge]; // weak reference
+	if ((self = [self initWithWindowNibName:windowNibName owner:aPlugin])) {
+		self.plugin = plugin;
 	}
 	return self;
 }
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	/* Subclasses using this method should call initWithWindowNibName: from init */
 	if ((self = [self init])) {
-		[self setBridge:displayBridge]; // weak reference
+		self.plugin = plugin;
 	}
 	return self;
 }
 
-- (id) initWithWindow:(NSWindow *)window {
+- (id) initWithWindow:(NSWindow *)window andPlugin:(GrowlDisplayPlugin*)aPlugin {
 	if ((self = [super initWithWindow:window])) {
+		self.plugin = aPlugin;
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
-		bridge = nil;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
 		transitionDuration = DEFAULT_TRANSITION_DURATION;
@@ -117,12 +117,12 @@ static NSMutableDictionary *existingInstances;
 - (void) dealloc {
 	[self setDelegate:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[self stopAllTransitions];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
-    [bridge              release];
 	[target              release];
 	[clickHandlerEnabled release];
 	[appName             release];
@@ -145,69 +145,27 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 #pragma mark Display control
 
-- (BOOL)reposition_startingDisplay:(BOOL)shouldStartDisplay
+- (void)foundSpaceToStart
 {
-	NSWindow *window = [self window];
-
-	//Make sure we don't cover any other notification (or not)
-	BOOL foundSpace = NO;
-	GrowlPositionController *pc = [GrowlPositionController sharedController];
-	if ([self respondsToSelector:@selector(idealOriginInRect:)])
-		foundSpace = [pc positionDisplay:self];
-	else
-		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] forDisplayController:self]);
-
-   if(queuesNotes)
-      foundSpace = YES;
-   
-	if (foundSpace) {
-		if (shouldStartDisplay) {
-			[self cancelDisplayDelayedPerforms];
-
-			[self willDisplayNotification];
-
-			[window orderFront:nil];
-			
-			if ([self startAllTransitions]) {
-				[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
-						   withObject:nil
-						   afterDelay:transitionDuration];
-			} else {
-				[self didFinishTransitionsBeforeDisplay];
-			}
-			
-			[self didDisplayNotification];
-		}
-		
+	[self cancelDisplayDelayedPerforms];
+	
+	[self willDisplayNotification];
+	
+	[[self window] orderFront:nil];
+	
+	if ([self startAllTransitions]) {
+		[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
+					  withObject:nil
+					  afterDelay:transitionDuration];
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
-															object:self];
-		
-		//Try again in 10 seconds
-		if (!shouldStartDisplay) {
-			//If we're restarting, get this display off-screen while we wait
-			//XXX This should be more fluid
-			[window orderOut:nil];
-
-			[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
-			
-		}
-        //This doesn't actually solve anything, this is a temporary measure to cap retries when the screen becomes completely full of notifications
-		if(self.failureCount < 3)
-            [self performSelector:@selector(startDisplay) withObject:nil afterDelay:5];
-        else
-        {
-            //we've failed enough times, don't display for the time being
-            [self stopDisplay];
-        }
+		[self didFinishTransitionsBeforeDisplay];
 	}
 	
-	return foundSpace;		
+	[self didDisplayNotification];
 }
 
-- (BOOL) startDisplay {
-    self.failureCount++;
-	return [self reposition_startingDisplay:YES];
+- (void) startDisplay {
+	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
 }
 
 - (void) stopDisplay {	
@@ -283,29 +241,24 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) didFinishTransitionsAfterDisplay {
-    [self cancelDisplayDelayedPerforms];
-
+	[self cancelDisplayDelayedPerforms];
+	
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
-
+	
 	//Release all window transitions immediately; they may have retained our window.
 	[self stopAllTransitions];
 	[windowTransitions release]; windowTransitions = nil;
-
-	[[GrowlPositionController sharedController] clearReservedRectForDisplayController:self];
-
+	
+	[[GrowlDisplayBridgeController sharedController] clearRectForDisplay:self];
+	
 	[self didTakeDownNotification];
-
-	if ((bridge) && ([bridge respondsToSelector:@selector(display)])){
-        [[bridge display] displayWindowControllerDidTakeDownWindow:self];
-      
-      //We no longer need the bridge, we told it we finished
-      //Leak?
-      bridge = nil;
-   }else {
-		NSLog(@"%@ bridge does not respond to display",bridge);
-	}
+	
+	if (plugin){
+		[plugin displayWindowControllerDidTakeDownWindow:self];
+		self.plugin = nil;
+   }
 }
 
 - (void) didDisplayNotification {
@@ -460,6 +413,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
+	[transition setDelegate:nil];
 	[transition stopAnimation];
 	[self removeTransition:transition];
 
@@ -526,20 +480,22 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) setNotification:(GrowlNotification *)theNotification {
-    if (notification != theNotification) {
+	BOOL reposition = notification != nil;
+	
+	if (notification != theNotification) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self
-														name:GROWL_CLOSE_NOTIFICATION
-													  object:[[notification dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+																		name:GROWL_CLOSE_NOTIFICATION
+																	 object:[[notification dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
 		
 		[notification release];
 		notification = [theNotification retain];
 	}
 	
 	NSDictionary *noteDict = [theNotification dictionaryRepresentation];
-
+	
 	[self setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
-
+	
 	NSView *view = [[self window] contentView];
 	if ([view isKindOfClass:[GrowlNotificationView class]]) {
 		GrowlNotificationView *notificationView = (GrowlNotificationView *)view;
@@ -550,19 +506,23 @@ static NSMutableDictionary *existingInstances;
 			icon = (NSImage *)iconData;
 		else
 			icon = (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
-	
+		
 		[notificationView setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
 		[notificationView setTitle:[notification title]];
 		[notificationView setText:[notification notificationDescription]];
 		[notificationView setIcon:icon];
 		[notificationView sizeToFit];
 	}
-
+	
 	//Respond to 'close notification' by closing if our notification matches the one posted
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(stopDisplay)
-												 name:GROWL_CLOSE_NOTIFICATION
-											   object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+														  selector:@selector(stopDisplay)
+																name:GROWL_CLOSE_NOTIFICATION
+															 object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+	
+	if(reposition){
+		[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:YES];
+	}
 }
 
 - (void) updateToNotification:(GrowlNotification *)theNotification {
@@ -589,30 +549,6 @@ static NSMutableDictionary *existingInstances;
 
 			break;
 	}
-
-	[self reposition_startingDisplay:NO];
-}
-
-#pragma mark -
-
-- (GrowlNotificationDisplayBridge *) bridge {
-    return bridge;
-}
-
-- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	if (bridge != theBridge) {
-		if (bridge) {
-			NSLog(@"*** This may be an error. %@ had its bridge reset", self);
-		}
-
-		//Do not retain! The bridge owns us; retaining the bridge here is a mutual retention—i.e., a leak.
-		[bridge release];
-        bridge = [theBridge retain];
-
-		[self setNotification:[bridge notification]];
-      
-      queuesNotes = [[bridge display] queuesNotifications];
-   }
 }
 
 #pragma mark -
@@ -721,6 +657,30 @@ static NSMutableDictionary *existingInstances;
 
 - (NSDictionary*)configurationDict {
 	return [notification configurationDict];
+}
+
+- (CGSize) requiredSize {
+	CGSize size = [[self window] frame].size;
+	size.width += [self requiredDistanceFromExistingDisplays];
+	size.height += [self requiredDistanceFromExistingDisplays];
+	return size;
+}
+
+- (void)setOccupiedRect:(CGRect)rect {
+	rect.size.width -= [self requiredDistanceFromExistingDisplays];
+	rect.size.height -= [self requiredDistanceFromExistingDisplays];
+	[[self window] setFrame:rect display:NO];
+}
+
+- (CGRect) occupiedRect {
+	CGRect frame = [[self window] frame];
+	frame.size.width += [self requiredDistanceFromExistingDisplays];
+	frame.size.height += [self requiredDistanceFromExistingDisplays];
+	return frame;
+}
+
+- (CGFloat) requiredDistanceFromExistingDisplays {
+	return 0.0;
 }
 
 @end

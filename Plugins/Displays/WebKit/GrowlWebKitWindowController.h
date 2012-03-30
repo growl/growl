@@ -8,7 +8,7 @@
 
 #import <GrowlPlugins/GrowlDisplayWindowController.h>
 
-@class WebView, GrowlNotification, GrowlNotificationDisplayBridge;
+@class WebView, GrowlNotification;
 
 @interface GrowlWebKitWindowController : GrowlDisplayWindowController {
 	NSString		*templateHTML;
@@ -21,7 +21,6 @@
 	NSString		*cacheKey;
 }
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
 + (NSData *)cachedImageForKey:(NSString*)key;
 + (void)setCachedImage:(NSData*)image forKey:(NSString*)key;
 + (void)removeCachedImageForKey:(NSString*)key;

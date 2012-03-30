@@ -9,6 +9,7 @@
 #import <GrowlPlugins/GrowlNotification.h>
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlFadingWindowTransition.h>
+#import "GrowlDisplayBridgeController.h"
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
@@ -18,7 +19,6 @@
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #import "NSMutableStringAdditions.h"
-#import "GrowlNotificationDisplayBridge.h"
 #import "GrowlImageAdditions.h"
 #import "NSStringAdditions.h"
 
@@ -92,24 +92,22 @@ static dispatch_queue_t __imageCacheQueue;
    });
 }
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {	
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	// init the window used to init
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+	NSDictionary *configDict = [note configurationDict];
 	
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 1.0)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
-	if (!(self = [super initWithWindow:panel])) {
+	if (!(self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		[panel release];
 		return nil;
 	}
 
-	GrowlDisplayPlugin *plugin = [displayBridge display];
-
 	// Read the template file....exit on error...
 	NSError *error = nil;
-	NSBundle *displayBundle = [plugin bundle];
+	NSBundle *displayBundle = [aPlugin bundle];
 	NSString *templateFile = [displayBundle pathForResource:@"template" ofType:@"html"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
 		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
@@ -137,7 +135,7 @@ static dispatch_queue_t __imageCacheQueue;
 	self.displayDuration = duration;
 	
 	// Read the plugin specifics from the info.plist
-	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
+	NSDictionary *styleInfo = [displayBundle infoDictionary];
 	BOOL hasShadow = NO;
 	hasShadow =	[(NSNumber *)[styleInfo valueForKey:@"GrowlHasShadow"] boolValue];
 	paddingX = GrowlWebKitPadding;
@@ -180,8 +178,6 @@ static dispatch_queue_t __imageCacheQueue;
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
 	[view release];
 
-	[self setBridge:displayBridge];
-
 	// set up the transitions...
 	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 	[self addTransition:fader];
@@ -192,6 +188,10 @@ static dispatch_queue_t __imageCacheQueue;
 	[panel release];
 
 	return self;
+}
+
+- (void)startDisplay {
+	//Do nothing;
 }
 
 - (void)stopDisplay {
@@ -326,7 +326,7 @@ static dispatch_queue_t __imageCacheQueue;
 	[view sizeToFit];
 
 	//Update our new frame
-	[[GrowlPositionController sharedController] positionDisplay:self];
+	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
 
 	[myWindow invalidateShadow];
 }
@@ -355,7 +355,7 @@ static dispatch_queue_t __imageCacheQueue;
 
 #pragma mark -
 #pragma mark positioning methods
-
+/*
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSView *contentView = [[self window] contentView];
 	NSRect viewFrame = [contentView frame];
@@ -437,7 +437,7 @@ static dispatch_queue_t __imageCacheQueue;
 	
 	return directionToExpand;
 }
-
+*/
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return paddingY;
 }

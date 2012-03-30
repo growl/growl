@@ -11,8 +11,6 @@
 #import "GrowlNanoWindowController.h"
 #import "GrowlNanoPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotificationDisplayBridge.h"
-
 
 @implementation GrowlNanoDisplay
 

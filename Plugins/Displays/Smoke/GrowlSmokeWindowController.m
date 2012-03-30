@@ -20,8 +20,8 @@
 //static const double gAdditionalLinesDisplayTime = 0.5;
 //static const double gMaxDisplayTime = 10.0;
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+- (id) initWithNotification:(GrowlNotification*)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [note configurationDict];
 	
 	screenNumber = 0U;
 	if([configDict valueForKey:GrowlSmokeScreenPref]){
@@ -63,8 +63,7 @@
 	[view release];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
-		[self setBridge:bridge];
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -79,87 +78,6 @@
 
 #pragma mark -
 #pragma mark positioning methods
-
-- (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
-	NSPoint idealOrigin;
-	
-	switch(originatingPosition){
-		case GrowlTopRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlSmokePadding,
-									  NSMaxY(rect) - GrowlSmokePadding - NSHeight(viewFrame));
-			break;
-		case GrowlTopLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlSmokePadding,
-									  NSMaxY(rect) - GrowlSmokePadding - NSHeight(viewFrame));
-			break;
-		case GrowlBottomLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlSmokePadding,
-									  NSMinY(rect) + GrowlSmokePadding);
-			break;
-		case GrowlBottomRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlSmokePadding,
-									  NSMinY(rect) + GrowlSmokePadding);
-			break;
-		default:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlSmokePadding,
-									  NSMaxY(rect) - GrowlSmokePadding - NSHeight(viewFrame));
-			break;			
-	}
-	
-	return idealOrigin;	
-}
-
-- (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;			
-	}
-	
-	return directionToExpand;
-}
-
-- (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-	}
-	
-	return directionToExpand;
-}
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlSmokePadding;

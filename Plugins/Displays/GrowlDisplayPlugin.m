@@ -7,7 +7,6 @@
 //
 
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
-#import <GrowlPlugins/GrowlNotificationDisplayBridge.h>
 #import <GrowlPlugins/GrowlDisplayWindowController.h>
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
@@ -37,72 +36,62 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 		if (queuesNotifications)
 			queue = [[NSMutableArray alloc] init];
-		else
-			activeBridges = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-    [activeBridges release];
-	[coalescableBridges release];
-    [bridge release];
-    [queue release];
-
+	[coalescableWindows release];
+	[window release];
+	[queue release];
+	
 	[super dealloc];
 }
 
 #pragma mark -
 
 - (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
-	GrowlNotification *notification = [GrowlNotification notificationWithDictionary:noteDict configurationDict:configuration];
+	GrowlNotification *notification = [GrowlNotification notificationWithDictionary:noteDict 
+																					  configurationDict:configuration];
 	NSString *windowNibName = [self windowNibName];
-	GrowlNotificationDisplayBridge *thisBridge = nil;
+	GrowlDisplayWindowController *thisWindow = nil;
 	
 	NSString *identifier = [[notification auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_IDENTIFIER];
-
+	
 	if (identifier) {
-		thisBridge = [coalescableBridges objectForKey:identifier];
+		thisWindow = [coalescableWindows objectForKey:identifier];
 	}
 	
-	if (thisBridge) {
+	if (thisWindow) {
 		//Tell the bridge to update its displayed notification
-		[thisBridge setNotification:notification];
-
+		[thisWindow setNotification:notification];
+		
 	} else {
 		//No existing bridge on this identifier, or no identifier. Create one.
 		if (windowNibName)
-			thisBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-															 notification:notification
-															windowNibName:windowNibName
-													windowControllerClass:windowControllerClass];
+			thisWindow = [[windowControllerClass alloc] initWithWindowNibName:windowNibName];
 		else
-			thisBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-															 notification:notification
-													windowControllerClass:windowControllerClass];
-		
-		[thisBridge makeWindowControllers];
-		[thisBridge setNotification:notification];
-
+			thisWindow = [[windowControllerClass alloc] initWithNotification:notification plugin:self];
+		[thisWindow setNotification:notification];
+				
 		if (queue) {
-			if (bridge) {
+			if (window) {
 				//a notification is already up; enqueue the new one
-				[queue addObject:thisBridge];
+				[queue addObject:thisWindow];
 			} else {
 				//nothing up at the moment; just display it
-				[[thisBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-				bridge = [thisBridge retain];
+				window = [thisWindow retain];
+				[thisWindow startDisplay];
 			}
 		} else {
 			//no queue; just display it
-			[[thisBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-			[activeBridges addObject:thisBridge];
+			[thisWindow startDisplay];
 		}
 		
 		if (identifier) {
-			if (!coalescableBridges) coalescableBridges = [[NSMutableDictionary alloc] init];
-			[coalescableBridges setObject:thisBridge
-								   forKey:identifier];
+			if (!coalescableWindows) coalescableWindows = [[NSMutableDictionary alloc] init];
+			[coalescableWindows setObject:thisWindow
+										  forKey:identifier];
 		}
 	}
 }
@@ -125,49 +114,43 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	return (queue != nil);
 }
 
+- (BOOL) requiresPositioning {
+	return YES;
+}
+
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
 	@autoreleasepool {
-        GrowlNotificationDisplayBridge *theBridge;
         
         [wc retain];
-        //Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-        GrowlNotificationDisplayBridge *bridgeFromWC = [[[wc bridge] retain] autorelease];
-        
         
         if(queue)
         {
-            [bridge removeWindowController:wc];
+			  GrowlDisplayWindowController *theWindow;
             
             if ([queue count] > 0U) {
-                theBridge = [queue objectAtIndex:0U];
-                [[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
+                theWindow = [queue objectAtIndex:0U];
+                [theWindow startDisplay];
                 
-                if (bridge != theBridge) {
-                    [bridge release];
-                    bridge = [theBridge retain];
+                if (window != theWindow) {
+                    [window release];
+                    window = [theWindow retain];
                 }
                 [queue removeObjectAtIndex:0U];		
             }
             else
             {
-                [bridge release];
-                bridge = nil;
+                [window release];
+                window = nil;
             }
-        } else {
-            //Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-            theBridge = bridgeFromWC;
-            [theBridge removeWindowController:wc];
-            [activeBridges removeObjectIdenticalTo:theBridge];
-        }
-        
-        if (coalescableBridges) {
-            NSString *identifier = [[[bridgeFromWC notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+        }        
+        if (coalescableWindows) {
+            NSString *identifier = [[[wc notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
             if (identifier)
-                [coalescableBridges removeObjectForKey:identifier];
+                [coalescableWindows removeObjectForKey:identifier];
         }
-        
+		
         [wc release];
     }
 }

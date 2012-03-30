@@ -22,8 +22,8 @@
 
 #pragma mark -
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [note configurationDict];
 	
 	screenNumber = 0U;
 	if([configDict valueForKey:GrowlBubblesScreen]){
@@ -71,8 +71,7 @@
 	[view release];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
-		[self setBridge:bridge];
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -87,7 +86,7 @@
 
 #pragma mark -
 #pragma mark positioning methods
-
+/*
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
 	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
@@ -168,7 +167,7 @@
 	
 	return directionToExpand;
 }
-
+*/
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBubblesPadding;
 }

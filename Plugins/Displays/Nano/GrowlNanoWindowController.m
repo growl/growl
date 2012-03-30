@@ -18,8 +18,8 @@
 
 @implementation GrowlNanoWindowController
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	NSDictionary *configDict = [[displayBridge notification] configurationDict];
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [notification configurationDict];
 	
 	//define our duration
 	
@@ -93,8 +93,7 @@
 	[panel setFrameOrigin:NSMakePoint(xPosition, yPosition)];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
-		[self setBridge:displayBridge]; // weak reference
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		NanoEffectType effect = Nano_EFFECT_SLIDE;
 		if([configDict valueForKey:Nano_EFFECT_PREF]){
 			effect = [[configDict valueForKey:Nano_EFFECT_PREF] intValue];
