@@ -121,6 +121,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSUInteger) selectedPreferenceTab;
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
 
+- (CFIndex)selectedPosition;
+
 - (NSInteger)menuState;
 - (void) setMenuState:(NSInteger)state;
 

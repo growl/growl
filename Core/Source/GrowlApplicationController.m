@@ -169,9 +169,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			[desc     release];
 			[priority release];
 			[sticky   release];
-			NSDictionary *configCopy = nil;
+			NSMutableDictionary *configCopy = nil;
 			if([displayConfig respondsToSelector:@selector(configuration)])
-				configCopy = [[[displayConfig configuration] copy] autorelease];
+				configCopy = [[[displayConfig configuration] mutableCopy] autorelease];
+			[configCopy setValue:[NSNumber numberWithInt:[[GrowlPreferencesController sharedController] selectedPosition]]
+							  forKey:@"com.growl.positioncontroller.selectedposition"];
 			
 			void (^displayBlock)(void) = ^{
 				[displayPlugin dispatchNotification:info withConfiguration:configCopy];
