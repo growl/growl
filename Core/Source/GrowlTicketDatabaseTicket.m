@@ -10,6 +10,7 @@
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabasePlugin.h"
 #import "GrowlTicketDatabaseCompoundAction.h"
+#import "GrowlPreferencesController.h"
 
 @implementation GrowlTicketDatabaseTicket
 
@@ -68,6 +69,17 @@
 		}
 	}
 	return [[buildSet copy] autorelease];
+}
+
+-(GrowlPositionOrigin)resolvedDisplayOrigin {
+	if([self.positionType intValue] == 1){
+		return [self.selectedPosition intValue];
+	}else{
+		if(self.parent)
+			return [self.parent resolvedDisplayOrigin];
+		else
+			return [[GrowlPreferencesController sharedController] selectedPosition];
+	}
 }
 
 -(void)setNewDisplayName:(NSString*)name {

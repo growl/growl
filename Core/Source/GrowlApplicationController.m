@@ -296,8 +296,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
 			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
 			NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
-			[configCopy setValue:[ticket positionType] forKey:@"com.growl.positioncontroller.positiontype"];
-			[configCopy setValue:[ticket selectedPosition] forKey:@"com.growl.positioncontroller.selectedposition"];
+			[configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
 			[configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
 			if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 				[display dispatchNotification:aDict withConfiguration:configCopy];

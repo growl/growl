@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "GrowlPositioningDefines.h"
 
 @class GrowlTicketDatabaseTicket, GrowlTicketDatabaseDisplay, GrowlTicketDatabasePlugin;
 
@@ -42,6 +43,7 @@
 -(BOOL)isTicketAllowed;
 -(GrowlTicketDatabaseDisplay*)resolvedDisplayConfig;
 -(NSSet*)resolvedActionConfigSet;
+-(GrowlPositionOrigin)resolvedDisplayOrigin;
 
 -(void)setNewDisplayName:(NSString*)name;
 -(void)importDisplayOrActionForName:(NSString*)name;
