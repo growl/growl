@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7960151265C70052EB51 /* Cocoa.framework */; };
+		BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7969151265C70052EB51 /* InfoPlist.strings */; };
+		BCAD79D01512661B0052EB51 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */; };
+		BCAD7A07151269AF0052EB51 /* GrowlSoundAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD7A06151269AF0052EB51 /* GrowlSoundAction.m */; };
+		BCAD7A0F15126F5B0052EB51 /* GrowlSoundActionPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD7A0E15126F5B0052EB51 /* GrowlSoundActionPreferencePane.m */; };
+		BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7A1015126F7E0052EB51 /* GrowlSoundActionPrefPane.xib */; };
+		BCAD7A15151281370052EB51 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7A13151281230052EB51 /* CoreAudio.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BCAD7986151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BCAD7988151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
+		BCAD798A151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BCAD798C151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+		BCAD798E151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BCAD7990151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BCAD7992151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BCAD7994151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BCAD7996151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BCAD7998151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BCAD799A151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BCAD799C151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
+			remoteInfo = MailMe;
+		};
+		BCAD799E151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BCAD79A0151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BCAD79A2151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BCAD79A4151265DB0052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BCAD79CE151266080052EB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC83FC10150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BCAD7963151265C70052EB51 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BCAD7964151265C70052EB51 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BCAD7965151265C70052EB51 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BCAD7968151265C70052EB51 /* SoundAction-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundAction-Info.plist"; sourceTree = "<group>"; };
+		BCAD796A151265C70052EB51 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCAD796C151265C70052EB51 /* SoundAction-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SoundAction-Prefix.pch"; sourceTree = "<group>"; };
+		BCAD7972151265DB0052EB51 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BCAD7A05151269AF0052EB51 /* GrowlSoundAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSoundAction.h; sourceTree = "<group>"; };
+		BCAD7A06151269AF0052EB51 /* GrowlSoundAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSoundAction.m; sourceTree = "<group>"; };
+		BCAD7A0D15126F5A0052EB51 /* GrowlSoundActionPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSoundActionPreferencePane.h; sourceTree = "<group>"; };
+		BCAD7A0E15126F5B0052EB51 /* GrowlSoundActionPreferencePane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSoundActionPreferencePane.m; sourceTree = "<group>"; };
+		BCAD7A1015126F7E0052EB51 /* GrowlSoundActionPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlSoundActionPrefPane.xib; sourceTree = "<group>"; };
+		BCAD7A12151272730052EB51 /* GrowlSoundActionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlSoundActionDefines.h; sourceTree = "<group>"; };
+		BCAD7A13151281230052EB51 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BCAD795A151265C70052EB51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */,
+				BCAD79D01512661B0052EB51 /* GrowlPlugins.framework in Frameworks */,
+				BCAD7A15151281370052EB51 /* CoreAudio.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BCAD7952151265C60052EB51 = {
+			isa = PBXGroup;
+			children = (
+				BCAD7966151265C70052EB51 /* SoundAction */,
+				BCAD795F151265C70052EB51 /* Frameworks */,
+				BCAD795E151265C70052EB51 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BCAD795E151265C70052EB51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD795D151265C70052EB51 /* SoundAction.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BCAD795F151265C70052EB51 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD7A13151281230052EB51 /* CoreAudio.framework */,
+				BCAD7960151265C70052EB51 /* Cocoa.framework */,
+				BCAD7962151265C70052EB51 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BCAD7962151265C70052EB51 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD7963151265C70052EB51 /* AppKit.framework */,
+				BCAD7964151265C70052EB51 /* CoreData.framework */,
+				BCAD7965151265C70052EB51 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BCAD7966151265C70052EB51 /* SoundAction */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD7967151265C70052EB51 /* Supporting Files */,
+				BCAD7A12151272730052EB51 /* GrowlSoundActionDefines.h */,
+				BCAD7A05151269AF0052EB51 /* GrowlSoundAction.h */,
+				BCAD7A06151269AF0052EB51 /* GrowlSoundAction.m */,
+				BCAD7A0D15126F5A0052EB51 /* GrowlSoundActionPreferencePane.h */,
+				BCAD7A0E15126F5B0052EB51 /* GrowlSoundActionPreferencePane.m */,
+			);
+			path = SoundAction;
+			sourceTree = "<group>";
+		};
+		BCAD7967151265C70052EB51 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD7972151265DB0052EB51 /* Growl.xcodeproj */,
+				BCAD7968151265C70052EB51 /* SoundAction-Info.plist */,
+				BCAD7969151265C70052EB51 /* InfoPlist.strings */,
+				BCAD796C151265C70052EB51 /* SoundAction-Prefix.pch */,
+				BCAD7A1015126F7E0052EB51 /* GrowlSoundActionPrefPane.xib */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BCAD7973151265DB0052EB51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCAD7987151265DB0052EB51 /* Growl.app */,
+				BCAD7989151265DB0052EB51 /* GrowlLauncher.app */,
+				BCAD798B151265DB0052EB51 /* Growl.framework */,
+				BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */,
+				BCAD798F151265DB0052EB51 /* Speech.growlView */,
+				BCAD7991151265DB0052EB51 /* Brushed.growlView */,
+				BCAD7993151265DB0052EB51 /* Bubbles.growlView */,
+				BCAD7995151265DB0052EB51 /* iCal.growlView */,
+				BCAD7997151265DB0052EB51 /* Bezel.growlView */,
+				BCAD7999151265DB0052EB51 /* Smoke.growlView */,
+				BCAD799B151265DB0052EB51 /* Nano.growlView */,
+				BCAD799D151265DB0052EB51 /* MailMe.growlView */,
+				BCAD799F151265DB0052EB51 /* MusicVideo.growlView */,
+				BCAD79A1151265DB0052EB51 /* SMS.growlView */,
+				BCAD79A3151265DB0052EB51 /* Unit tests.octest */,
+				BCAD79A5151265DB0052EB51 /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BCAD795C151265C70052EB51 /* SoundAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCAD796F151265C70052EB51 /* Build configuration list for PBXNativeTarget "SoundAction" */;
+			buildPhases = (
+				BCAD7959151265C70052EB51 /* Sources */,
+				BCAD795A151265C70052EB51 /* Frameworks */,
+				BCAD795B151265C70052EB51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BCAD79CF151266080052EB51 /* PBXTargetDependency */,
+			);
+			name = SoundAction;
+			productName = SoundAction;
+			productReference = BCAD795D151265C70052EB51 /* SoundAction.growlView */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCAD7954151265C60052EB51 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = BCAD7957151265C60052EB51 /* Build configuration list for PBXProject "SoundAction" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BCAD7952151265C60052EB51;
+			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BCAD7973151265DB0052EB51 /* Products */;
+					ProjectRef = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				BCAD795C151265C70052EB51 /* SoundAction */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BCAD7987151265DB0052EB51 /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BCAD7986151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7989151265DB0052EB51 /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BCAD7988151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD798B151265DB0052EB51 /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BCAD798A151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BCAD798C151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD798F151265DB0052EB51 /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BCAD798E151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7991151265DB0052EB51 /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BCAD7990151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7993151265DB0052EB51 /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BCAD7992151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7995151265DB0052EB51 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BCAD7994151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7997151265DB0052EB51 /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BCAD7996151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD7999151265DB0052EB51 /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BCAD7998151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD799B151265DB0052EB51 /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BCAD799A151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD799D151265DB0052EB51 /* MailMe.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MailMe.growlView;
+			remoteRef = BCAD799C151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD799F151265DB0052EB51 /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BCAD799E151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD79A1151265DB0052EB51 /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BCAD79A0151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD79A3151265DB0052EB51 /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BCAD79A2151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCAD79A5151265DB0052EB51 /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BCAD79A4151265DB0052EB51 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BCAD795B151265C70052EB51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */,
+				BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BCAD7959151265C70052EB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCAD7A07151269AF0052EB51 /* GrowlSoundAction.m in Sources */,
+				BCAD7A0F15126F5B0052EB51 /* GrowlSoundActionPreferencePane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BCAD79CF151266080052EB51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GrowlPlugins;
+			targetProxy = BCAD79CE151266080052EB51 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BCAD7969151265C70052EB51 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCAD796A151265C70052EB51 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BCAD796D151265C70052EB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BCAD796E151265C70052EB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BCAD7970151265C70052EB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoundAction/SoundAction-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../**";
+				INFOPLIST_FILE = "SoundAction/SoundAction-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Debug;
+		};
+		BCAD7971151265C70052EB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoundAction/SoundAction-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../**";
+				INFOPLIST_FILE = "SoundAction/SoundAction-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BCAD7957151265C60052EB51 /* Build configuration list for PBXProject "SoundAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCAD796D151265C70052EB51 /* Debug */,
+				BCAD796E151265C70052EB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCAD796F151265C70052EB51 /* Build configuration list for PBXNativeTarget "SoundAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCAD7970151265C70052EB51 /* Debug */,
+				BCAD7971151265C70052EB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BCAD7954151265C60052EB51 /* Project object */;
+}

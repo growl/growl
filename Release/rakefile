@@ -35,7 +35,7 @@ $last_growlversion_metadata = File.
     read("#{$src_root}/GrowlVersion.h").
     match($version_define_regex) || []
 
-$growl_version = env_default(:VERSION, '1.3.2') { $last_growlversion_metadata[1] }
+$growl_version = env_default(:VERSION, '2.0a1') { $last_growlversion_metadata[1] }
 $toolchain     = env_default(:TOOLCHAIN, '/Developer') { `xcode-select -print-path 2>/dev/null` }
 $configuration = env_default(:CONFIGURATION, 'Release')
 $xcodebuild    = env_default(:XCODEBUILD, "#{$toolchain}/usr/bin/xcodebuild") { `xcrun -find xcodebuild` }
@@ -150,7 +150,12 @@ namespace "build" do
   task :framework do
     system "#{$xcodebuild} -project #{$src_root}/Growl.xcodeproj -target Growl.framework -configuration #{$configuration} SYMROOT=#{$build_root}/framework"
   end
-
+  
+  desc "build plugin framework"
+  task :pluginFramework do
+    system "#{$xcodebuild} -project #{$src_root}/Growl.xcodeproj -target GrowlPlugins -configuration #{$configuration} SYMROOT=#{$build_root}/pluginframework"
+  end
+  
   desc "build gntp client xpc"
   task :gntpclientxpc do
     system "#{$xcodebuild} -project #{$src_root}/Growl.xcodeproj -target GNTPClientService -configuration #{$configuration} SYMROOT=#{$build_root}/gntpclientxpc"
@@ -242,7 +247,7 @@ namespace "package" do
   end
 
   desc "package sdk"
-  task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc"] do
+  task :sdk => ["build:beephammer", "build:framework", "build:gntpclientxpc", "build:pluginFramework"] do
     FileUtils.mkdir_p("#{$destdir}/Growl-#{$growl_version}-SDK")
     FileUtils.cd("#{$destdir}/Growl-#{$growl_version}-SDK")
     FileUtils.mkdir_p("Developer Tools")
@@ -250,6 +255,7 @@ namespace "package" do
     FileUtils.mkdir_p("Framework/Legacy")
     FileUtils.mkdir_p("Bindings")
     FileUtils.mkdir_p("XPC Client")
+    FileUtils.mkdir_p("Plugin Development")
 
     # copy over the Applescript samples
     FileUtils.cp("#{$src_root}/Bindings/applescript/Test Growl AppleScript.scpt", "Bindings")
@@ -273,6 +279,12 @@ namespace "package" do
     FileUtils.cp_r("#{$build_root}/gntpclientxpc/#{$configuration}/com.company.application.GNTPClientService.xpc", "XPC Client")
     FileUtils.cp("#{$src_root}/scripts/xpc-rename-move.rb", "XPC Client")
 
+    #copy over our plugin SDK, the plugin framwork and the growlView.xctemplate
+	 FileUtils.cp("#{$src_root}/Developer Tools/GrowlView XCode Template Readme.txt", "Plugin Development")
+    FileUtils.cp_r("#{$src_root}/Developer Tools/GrowlView.xctemplate", "Plugin Development", :remove_destination => true)
+    FileUtils.cp_r("#{$build_root}/pluginframework/#{$configuration}/GrowlPlugins.framework", "Plugin Development", :remove_destination => true)
+    FileUtils.ln_s("../GrowlPlugins.framework", "Plugin Development/GrowlView.xctemplate/GrowlPlugins.framework")
+    
     FileUtils.cd("..")
     system "zip -r -y #{$product_root}/Growl-#{$growl_version}-SDK.zip Growl-#{$growl_version}-SDK/"
 

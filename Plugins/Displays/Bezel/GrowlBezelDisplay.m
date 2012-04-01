@@ -4,18 +4,18 @@
 //
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlBezelDisplay.h"
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
-#import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowlBezelDisplay
 
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlBezelWindowController");
+		self.prefDomain = GrowlBezelPrefDomain;
 	}
 	return self;
 }
@@ -25,7 +25,7 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bezel"]];
 	return preferencePane;

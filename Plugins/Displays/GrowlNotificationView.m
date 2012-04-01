@@ -6,8 +6,8 @@
 //  Copyright 2005-2006  Jamie Kirkpatrick. All rights reserved.
 //
 
-#import "GrowlNotificationView.h"
-
+#import <GrowlPlugins/GrowlNotificationView.h>
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlNotificationView
 
@@ -152,5 +152,11 @@ static NSButton *gCloseButton;
 - (void) setIcon:(NSImage *)anIcon {
 }
 - (void) sizeToFit {};
+
+-(NSDictionary*)configurationDict {
+	if([[[self window] windowController] respondsToSelector:@selector(configurationDict)])
+		return [[[self window] windowController] configurationDict];
+	return nil;
+}
 
 @end

@@ -7,22 +7,25 @@
 //
 //  Most of this is lifted from KABubbleWindowController in the Growl source
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlBrushedWindowController.h"
 #import "GrowlBrushedWindowView.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowlBrushedWindowController
 
 //static const double gAdditionalLinesDisplayTime = 0.5;
 
-- (id) init {
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	// Read prefs...
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
+	NSDictionary *configDict = [note configurationDict];
+	if([configDict valueForKey:GrowlBrushedScreenPref]){
+		screenNumber = [[configDict valueForKey:GrowlBrushedScreenPref] unsignedIntegerValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
@@ -31,17 +34,18 @@
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
+	if([configDict valueForKey:GrowlBrushedAquaPref]){
+		aquaPref = [[configDict valueForKey:GrowlBrushedAquaPref] boolValue];
+	}
 	if (!aquaPref) {
 		styleMask |= NSTexturedBackgroundWindowMask;
 	}
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlBrushedDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowlBrushedDurationPrefDefault;
+	if([configDict valueForKey:GrowlBrushedDurationPref]){
+		duration = [[configDict valueForKey:GrowlBrushedDurationPref] floatValue];
+	}
+	self.displayDuration = duration;
 
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0, 0.0, GrowlBrushedNotificationWidth, 65.0);
@@ -63,7 +67,7 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
+	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
@@ -73,7 +77,7 @@
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
@@ -85,10 +89,10 @@
 
 	return self;
 }
-
+/*
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	NSPoint idealOrigin;
 	
 	switch(originatingPosition){
@@ -114,11 +118,11 @@
 			break;			
 	}
 	
-	return idealOrigin;	
+	return idealOrigin;
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){
@@ -143,7 +147,7 @@
 }
 
 - (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedController] originPosition];
 	enum GrowlExpansionDirection directionToExpand;
 	
 	switch(originatingPosition){
@@ -165,7 +169,7 @@
 	}
 	
 	return directionToExpand;
-}
+}*/
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBrushedPadding;

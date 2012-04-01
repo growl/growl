@@ -20,6 +20,9 @@
    BOOL notificationsWhileAway;
    GrowlNotificationHistoryWindow *historyWindow;
 }
+
++(GrowlNotificationDatabase *)sharedInstance;
+
 @property (readonly) GrowlNotificationHistoryWindow *historyWindow;
 @property (readonly) BOOL notificationsWhileAway;
 
@@ -33,5 +36,12 @@
 -(void)trimByCount;
 -(void)imageCacheMaintenance;
 -(void)userReturnedAndClosedList;
+
+// maintiance
+-(void)setupMaintenanceTimers;
+-(void)logNotificationWithDictionary:(NSDictionary*)noteDict;
+
+-(void)showRollup;
+-(void)hideRollup;
 
 @end

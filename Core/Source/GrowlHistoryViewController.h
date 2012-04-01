@@ -10,9 +10,11 @@
 
 @class GrowlNotificationDatabase, GrowlOnSwitch;
 
-@interface GrowlHistoryViewController : GrowlPrefsViewController
+@interface GrowlHistoryViewController : GrowlPrefsViewController {
+    GrowlNotificationDatabase *_notificationDatabase;
+}
 
-@property (nonatomic, assign) GrowlNotificationDatabase *historyController;
+@property (nonatomic, assign) GrowlNotificationDatabase *notificationDatabase;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *historyOnOffSwitch;
 @property (nonatomic, assign) IBOutlet NSArrayController *historyArrayController;
 @property (nonatomic, assign) IBOutlet NSTableView *historyTable;

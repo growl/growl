@@ -28,5 +28,7 @@
 	<string>GrowlNanoDisplay</string>
 	<key>GrowlDisplayUsesQueue</key>
 	<true/>
+	<key>GrowlPluginsFrameworkVersion</key>
+	<string>1.0</string>
 </dict>
 </plist>

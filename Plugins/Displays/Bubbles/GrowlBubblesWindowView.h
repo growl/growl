@@ -8,7 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowlBubblesWindowView : GrowlNotificationView {
 	BOOL				haveText;
@@ -36,6 +36,7 @@
 	NSTextContainer		*titleContainer;
 	NSRange				titleRange;
 }
+- (id) initWithFrame:(NSRect) frame configurationDict:(NSDictionary*)configDict;
 
 - (void) setPriority:(int)priority;
 - (void) setIcon:(NSImage *)icon;

@@ -16,9 +16,9 @@
 @synthesize managedObjectModel;
 @synthesize persistentStoreCoordinator;
 
--(id)initSingleton
+-(id)init
 {
-   if((self = [super initSingleton]))
+   if((self = [super init]))
    {
       [self managedObjectContext];
       [[NSNotificationCenter defaultCenter] addObserver:self
@@ -33,12 +33,12 @@
    return self;
 }
 
--(NSString*)storePath
+-(NSString*)storeType
 {
    return nil;
 }
 
--(NSString*)storeType
+-(NSString*)storePath
 {
    return nil;
 }
@@ -111,11 +111,14 @@
    }
    //TODO: make this work better
    NSString *modelName = [self modelName];
-   NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:modelName ofType:@"mom"] ];
+   NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:[modelName stringByDeletingPathExtension] ofType:[modelName pathExtension]]];
    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
    return managedObjectModel;
 }
 
+- (void)launchFailed {
+   
+}
 
 /**
  Returns the persistent store coordinator for the application.
@@ -127,6 +130,7 @@
       return persistentStoreCoordinator;
    }
    
+   NSString *storeType = [self storeType];
 	NSString *storePath = [self storePath];
    if(!storePath)
       return nil;
@@ -139,10 +143,10 @@
    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		// Handle error
       if([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
-         NSBeginCriticalAlertSheet(NSLocalizedString(@"Error opening history database.", @"Alert when database has been corrupted"),
+         NSBeginCriticalAlertSheet([NSString stringWithFormat:NSLocalizedString(@"Error opening %@.", @"Alert when database has been corrupted"), storeType],
                                    NSLocalizedString(@"Ok", @""),
                                    nil, nil, nil, nil, NULL, NULL, NULL, 
-                                   NSLocalizedString(@"There was error opening the History database file, it is possibly corrupted.\nGrowl will move the database aside, and create a fresh database.\nThis may have occured if Growl or the computer crashed.", @""));
+                                   [NSString stringWithFormat:NSLocalizedString(@"There was error opening the %@ file, it is possibly corrupted.\nGrowl will move the database aside, and create a fresh database.\nThis may have occured if Growl or the computer crashed.", @""), storeType]);
          if([[NSFileManager defaultManager] moveItemAtPath:storePath toPath:[storePath stringByAppendingPathExtension:@"bak"] error:nil]){
             NSError *tryTwoError = nil;
             if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&tryTwoError]){
@@ -150,7 +154,7 @@
                NSLog(@"Unresolved error after moving corrupt database aside\n%@, %@", tryTwoError, [tryTwoError userInfo]);
             }
          }else{
-            NSLog(@"Unable to move database file aside. We will be disabling history");
+            NSLog(@"Unable to move database file aside.");
             launchSuceeded = NO;
          }
       }else{
@@ -161,23 +165,20 @@
    }
    
    if(!launchSuceeded){
-      NSBeginCriticalAlertSheet(NSLocalizedString(@"Disabling History", @"alert when history database could not be moved aside"),
-                                NSLocalizedString(@"Ok", @""),
-                                nil, nil, nil, nil, nil, NULL, NULL, 
-                                NSLocalizedString(@"An uncorrectable error occured in creating or opening the History Database.\nWe are disabling History for the time being, however the rollup will continue to function.\nIf history is reenabled, nothing will be saved, and Growl will potentially use a lot of memory.", @""));
-      [[GrowlPreferencesController sharedController] setGrowlHistoryLogEnabled:NO];
+      [self launchFailed];
       
       NSError *memError = nil;
       if (![persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:&memError]) {
-         NSLog(@"Error Creating an in memory store for the purposes of the rollup\n%@, %@", error, [error userInfo]);
+         NSLog(@"Error Creating an in memory store for the purposes of this session\n%@, %@", memError, [memError userInfo]);
          NSBeginCriticalAlertSheet(NSLocalizedString(@"Fatal Error", @"fatal alert"),
                                    NSLocalizedString(@"Quit", @""), 
                                    nil, nil, nil,
                                    self,
                                    @selector(fatalErrorAlert:returnCode:contextInfo:),
                                    NULL, NULL, 
-                                   NSLocalizedString(@"Growl has encountered a fatal error trying to setup the History Database, and will terminate upon closing this window.  Please contact us at support@growl.info.", @""));
+                                   [NSString stringWithFormat:NSLocalizedString(@"Growl has encountered a fatal error trying to setup the %@, and will terminate upon closing this window.  Please contact us at support@growl.info.", @""), storeType]);
       }else{
+         return persistentStoreCoordinator;
       }
       return nil;
    }
@@ -189,13 +190,13 @@
    exit(-1);
 }
 
--(void)destroy
+-(void)dealloc
 {
    [[NSNotificationCenter defaultCenter] removeObserver:self];
    [managedObjectContext release]; managedObjectContext = nil;
    [managedObjectModel release]; managedObjectModel = nil;
    [persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
-   [super destroy];
+   [super dealloc];
 }
 
 @end

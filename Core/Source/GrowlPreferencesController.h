@@ -21,12 +21,12 @@
 #define GrowlSquelchMode            XSTR("GrowlSquelchMode")
 #define GrowlPreview				XSTR("GrowlPreview")
 #define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
+#define GrowlActionPluginsKey    XSTR("GrowlActionPluginIDs")
 #define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
 #define GrowlStartServerKey			XSTR("GrowlStartServer")
 #define GrowlSubscriptionEnabledKey XSTR("SubscriptionAllowed")
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
-#define GrowlUDPPortKey				XSTR("GrowlUDPPort")
 #define GrowlTCPPortKey				XSTR("GrowlTCPPort")
 #define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
 #define	GrowlLogTypeKey				XSTR("GrowlLogType")
@@ -35,7 +35,12 @@
 #define	GrowlCustomHistKey3			XSTR("Custom log history 3")
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
-#define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
+#define GrowlIdleThresholdKey			XSTR("IdleThreshold")
+#define GrowlIdleMultiplierKey		XSTR("IdleMultiplier")
+#define GrowlIdleTimeExceptionsKey	XSTR("IdleTimeExceptions")
+#define GrowlIdleByTimeKey				XSTR("IdleByTime")
+#define GrowlIdleByScreensaverKey	XSTR("IdleByScreensaver")
+#define GrowlIdleByScreenLockKey		XSTR("IdleByScreenLock")
 #define GrowlHistoryLogEnabled      XSTR("GrowlHistoryLogEnabled")
 #define GrowlHistoryRetainAllWhileAway XSTR("GrowlHistoryRetainAllWhileAway")
 #define GrowlHistoryCountLimit      XSTR("GrowlHistoryCountLimit")
@@ -69,6 +74,8 @@
 #define GrowlCloseAllKeyComboCode     XSTR("GrowlCloseAllKeyComboCode")
 #define GrowlCloseAllKeyComboFlags    XSTR("GrowlCloseAllKeyComboFlags")
 
+#include <CoreFoundation/CoreFoundation.h>
+
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 CFIndex   GrowlPreferencesController_integerForKey(CFTypeRef key);
 Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
@@ -76,11 +83,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 #ifdef __OBJC__
 
-#import "GrowlAbstractSingletonObject.h"
+#import <Foundation/Foundation.h>
 
 @class SGKeyCombo;
-@interface GrowlPreferencesController : GrowlAbstractSingletonObject {
-	LSSharedFileListRef loginItems;
+@interface GrowlPreferencesController : NSObject {
 }
 
 + (GrowlPreferencesController *) sharedController;
@@ -92,9 +98,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (CFIndex) integerForKey:(NSString *)key;
 - (void) setInteger:(CFIndex)value forKey:(NSString *)key;
-- (void) synchronize;
 
-- (void) upgradeStartAtLogin;
 - (BOOL) allowStartAtLogin;
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
@@ -111,11 +115,13 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
 
-- (NSNumber*) idleThreshold;
-- (void) setIdleThreshold:(NSNumber*)value;
+- (NSArray *) defaultActionPluginIDArray;
+- (void) setDefaultActionPluginIDArray:(NSArray*)actions;
 
 - (NSUInteger) selectedPreferenceTab;
 - (void) setSelectedPreferenceTab:(NSUInteger)tab;
+
+- (CFIndex)selectedPosition;
 
 - (NSInteger)menuState;
 - (void) setMenuState:(NSInteger)state;
@@ -127,6 +133,15 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (BOOL) isGrowlMenuPulseEnabled;
 - (void) setGrowlMenuPulseEnabled:(BOOL)enabled;
+
+#pragma mark Idle Detection
+
+@property (nonatomic, retain) NSNumber *idleThreshold;
+@property (nonatomic) NSUInteger idleMultiplier;
+@property (nonatomic) BOOL useIdleByTime;
+@property (nonatomic) BOOL useIdleByScreensaver;
+@property (nonatomic) BOOL useIdleByScreenLock;
+@property (nonatomic, retain) NSArray *idleTimeExceptionApps;
 
 #pragma mark Rollup
 - (BOOL) isRollupShown;

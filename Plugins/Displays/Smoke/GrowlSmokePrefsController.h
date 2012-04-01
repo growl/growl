@@ -6,9 +6,9 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
-@interface GrowlSmokePrefsController : NSPreferencePane {
+@interface GrowlSmokePrefsController : GrowlPluginPreferencePane {
 	IBOutlet NSSlider		*slider_opacity;
 
 	IBOutlet NSColorWell	*color_veryLow;
