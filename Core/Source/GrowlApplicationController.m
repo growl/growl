@@ -311,7 +311,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 					if([action conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 						NSMutableDictionary *actionConfigCopy = [[[obj configuration] mutableCopy] autorelease];
-						[configCopy setValue:[obj configID] forKey:GROWL_PLUGIN_CONFIG_ID];
+						[actionConfigCopy setValue:[obj configID] forKey:GROWL_PLUGIN_CONFIG_ID];
 						[(id<GrowlDispatchNotificationProtocol>)action dispatchNotification:copyDict withConfiguration:actionConfigCopy];
 					}
 				});
@@ -503,14 +503,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 {
    switch (state) {
       case GrowlStatusMenu:
-         [self toggleStatusItem:YES];
-         break;
-      case GrowlDockMenu:
-         [self toggleStatusItem:NO];
-         break;
       case GrowlBothMenus:
          [self toggleStatusItem:YES];
          break;
+      case GrowlDockMenu:
       case GrowlNoMenu:
          [self toggleStatusItem:NO];
          break;
@@ -649,16 +645,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
-
-	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
-	if (printVersionAndExit) {
-		printf("This is GrowlHelperApp version %s.\n"
-			   "PrintVersionAndExit was set to %hhi, so GrowlHelperApp will now exit.\n",
-			   [[self stringWithVersionDictionary:nil] UTF8String],
-			   printVersionAndExit);
-		[NSApp terminate:nil];
-	}
-
 	NSFileManager *fs = [NSFileManager defaultManager];
 
 	NSString *destDir, *subDir;
@@ -668,8 +654,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
 	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
 
-	subDir  = [destDir stringByAppendingPathComponent:@"Tickets"];
-	[fs createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:nil];
 	subDir  = [destDir stringByAppendingPathComponent:@"Plugins"];
 	[fs createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:nil];
 }
