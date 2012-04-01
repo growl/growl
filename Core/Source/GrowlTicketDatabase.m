@@ -401,4 +401,9 @@
 																			predicate:[NSPredicate predicateWithFormat:@"displayName == %@", name]];
 }
 
+-(void)deletePluginConfiguration:(GrowlTicketDatabasePlugin*)plugin {
+	[managedObjectContext deleteObject:plugin];
+   [self saveDatabase:NO];
+}
+
 @end

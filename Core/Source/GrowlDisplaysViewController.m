@@ -13,6 +13,7 @@
 #import <GrowlPlugins/GrowlPlugin.h>
 #import "GroupController.h"
 #import "GrowlPluginController.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabasePlugin.h"
 #import "GrowlTicketDatabaseAction.h"
@@ -350,6 +351,47 @@
 																									version:nil
 																										type:nil];
 		[[GrowlTicketDatabase sharedInstance] makeDefaultConfig:YES forPluginDict:pluginDict];
+	}
+}
+
+-(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)displayPlugin {
+	if(returnCode == NSAlertDefaultReturn && displayPlugin != nil && [(id)displayPlugin isKindOfClass:[GrowlTicketDatabasePlugin class]])
+		[[GrowlTicketDatabase sharedInstance] deletePluginConfiguration:(GrowlTicketDatabasePlugin*)displayPlugin];
+}
+
+- (IBAction)deleteConfiguration:(id)sender {
+	id possible = [pluginConfigGroupController selection];
+	if(possible && [possible isKindOfClass:[GrowlTicketDatabasePlugin class]]){
+		GrowlTicketDatabasePlugin *plugin = (GrowlTicketDatabasePlugin*)possible;
+		BOOL showAlert = NO;
+		if([plugin isKindOfClass:[GrowlTicketDatabaseDisplay class]]){
+			if([[(GrowlTicketDatabaseDisplay*)plugin tickets] count] > 0 || 
+				[[self.preferencesController defaultDisplayPluginName] caseInsensitiveCompare:[plugin configID]] == NSOrderedSame)
+				showAlert = YES;
+		}else if([plugin isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+			if([[(GrowlTicketDatabaseCompoundAction*)plugin tickets] count] > 0 || 
+				[[self.preferencesController defaultActionPluginIDArray] containsObject:[plugin configID]])
+				showAlert = YES;
+		}else if([plugin isKindOfClass:[GrowlTicketDatabaseAction class]]){
+			if([[(GrowlTicketDatabaseAction*)plugin tickets] count] > 0 ||
+				[[(GrowlTicketDatabaseAction*)plugin compounds] count] > 0 ||
+				[[self.preferencesController defaultActionPluginIDArray] containsObject:[plugin configID]])
+				showAlert = YES;
+		}
+		if(showAlert){
+			NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove %@?", nil), [plugin displayName]]
+														defaultButton:NSLocalizedString(@"Remove", "Button title for removing something")
+													 alternateButton:NSLocalizedStringFromTableInBundle(@"Cancel", nil, [NSBundle mainBundle], "Button title for canceling")
+														  otherButton:nil
+										informativeTextWithFormat:NSLocalizedString(@"This plugin configuration is in use, removing it will cause it to be removed from the applications and notifications where it is in use", "")];
+			[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"growl-icon"]] autorelease]];
+			[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] 
+									modalDelegate:self 
+								  didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) 
+									  contextInfo:plugin];
+		}else{
+			[self deleteCallbackDidEnd:nil returnCode:NSAlertDefaultReturn contextInfo:plugin];
+		}
 	}
 }
 

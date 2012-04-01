@@ -27,5 +27,6 @@
 -(NSSet*)defaultActionConfigSet;
 -(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID;
 -(GrowlTicketDatabasePlugin*)actionForName:(NSString*)name;
+-(void)deletePluginConfiguration:(GrowlTicketDatabasePlugin*)plugin;
 
 @end

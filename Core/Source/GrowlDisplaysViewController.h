@@ -53,6 +53,7 @@
 - (IBAction) endDisabledDisplays:(id)sender;
 - (BOOL)hasDisabledDisplays;
 - (IBAction)addConfiguration:(id)sender;
+- (IBAction)deleteConfiguration:(id)sender;
 
 - (IBAction) openGrowlWebSiteToStyles:(id)sender;
 - (IBAction) showPreview:(id)sender;
