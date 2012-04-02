@@ -1,3 +1,3 @@
-What song just started playing in iTunes? With GrowlTunes you will no longer have to ask yourself that question, you'll just know. GrowlTunes makes it easy to see what track is playing, and gives you even more control, like changing track ratings and the volume of iTunes too. If you have Growl you can even change the way track change notifications look. 
+Welke nummer is net begonnen in iTunes? Met GrowlTunes hoef je jezelf die vraag niet meer te stellen, je weet het gewoon. GrowlTunes maakt het eenvoudig om te zien welke nummer er speelt, geeft je meer controle, zoals het wijzigen van nummerbeoordelingen en ook het volume van iTunes. Als je Growl hebt kun je zelfs aanpassen hoe wijzigen van nummer eruit ziet. 
 
-GrowlTunes makes using iTunes even more fun. Whether in an office or at a party, GrowlTunes definitely comes in handy when you just need to know.
+GrowlTunes maakt iTunes nog leuker. Of je nu op een kantoor of een feestje bent: GrowlTunes komt zeker van pas als je het gewoon wilt weten.
