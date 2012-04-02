@@ -40,6 +40,7 @@ static NSMutableDictionary *existingInstances;
 @synthesize displayDuration;
 @synthesize transitionDuration;
 @synthesize plugin;
+@synthesize occupiedRect;
 
 #pragma mark -
 #pragma mark Caching
@@ -92,6 +93,7 @@ static NSMutableDictionary *existingInstances;
 - (id) initWithWindow:(NSWindow *)window andPlugin:(GrowlDisplayPlugin*)aPlugin {
 	if ((self = [super initWithWindow:window])) {
 		self.plugin = aPlugin;
+		self.occupiedRect = CGRectZero;
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
@@ -666,17 +668,20 @@ static NSMutableDictionary *existingInstances;
 	return size;
 }
 
-- (void)setOccupiedRect:(CGRect)rect {
+- (void) positionInRect:(CGRect)rect {
 	rect.size.width -= [self requiredDistanceFromExistingDisplays];
 	rect.size.height -= [self requiredDistanceFromExistingDisplays];
 	[[self window] setFrame:rect display:YES];
 }
+- (void)setOccupiedRect:(CGRect)rect {
+	occupiedRect = rect;
+	if(!CGRectEqualToRect(rect, CGRectZero)){
+		[self positionInRect:rect];
+	}
+}
 
 - (CGRect) occupiedRect {
-	CGRect frame = [[self window] frame];
-	frame.size.width += [self requiredDistanceFromExistingDisplays];
-	frame.size.height += [self requiredDistanceFromExistingDisplays];
-	return frame;
+	return occupiedRect;
 }
 
 - (CGFloat) requiredDistanceFromExistingDisplays {

@@ -75,16 +75,16 @@
 -(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
 {
 	if(reposition){
-		CGPoint startOrigin = [window occupiedRect].origin;
+		//CGPoint startOrigin = [window occupiedRect].origin;
 		[self clearRectForDisplay:window];
 		if([self displayWindow:window]){
-			CGPoint newOrigin = [window occupiedRect].origin;
-			if(!CGPointEqualToPoint(startOrigin, newOrigin)) NSLog(@"Different origin for coalescing");
+			//CGPoint newOrigin = [window occupiedRect].origin;
+			//if(!CGPointEqualToPoint(startOrigin, newOrigin)) NSLog(@"Different origin for coalescing");
 			
 			[displayedBridges addObject:window];
 		}else{
 			NSLog(@"Couldnt find space for coalescing notification, adding to queue");
-			[[window window] orderOut:self];
+			[window stopDisplay];
 			[bridgeQueue addObject:window];
 		}
 	}else if([self displayWindow:window]){

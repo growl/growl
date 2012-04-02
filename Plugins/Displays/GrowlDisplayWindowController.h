@@ -138,8 +138,7 @@ typedef enum {
 - (NSDictionary*)configurationDict;
 
 - (CGSize) requiredSize;
-- (void) setOccupiedRect:(CGRect)rect;
-- (CGRect) occupiedRect;
+- (void) positionInRect:(CGRect)rect;
 - (CGFloat) requiredDistanceFromExistingDisplays;
 
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
@@ -149,6 +148,7 @@ typedef enum {
 @property (nonatomic, assign) CFTimeInterval displayDuration;
 @property (nonatomic, assign) CFTimeInterval transitionDuration;
 @property (nonatomic, assign) GrowlDisplayPlugin *plugin;
+@property (nonatomic, assign) CGRect occupiedRect;
 @end
 
 /*!
