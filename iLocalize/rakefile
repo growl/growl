@@ -68,6 +68,16 @@ mailme_display_destination           = File.join(displays_dir, "MailMe")
 speech_display_destination           = File.join(displays_dir, "Speech")
 brushed_display_destination          = File.join(displays_dir, "Brushed")
 
+#ShortcutRecorder Paths
+
+sr_destination                       = File.join(toplevel_dir, "../shortcutrecorder/Framework/Localizations")
+sr_source                            = File.join(translation_dir, "TGP.shortcutrecorder-localizable-strings")
+
+
+
+
+
+
 #Growl Global Localizable Files Destinations
 
 
@@ -490,5 +500,32 @@ task :brushed do
 #    FileUtils.cp_r("#{growl_brushed_display_strings}/#{tx_arabic}.strings", "#{brushed_display_destination}/#{apple_arabic}.lproj/Localizable.strings")
 
   end
+
+
+
+desc "update sr"
+task :shortcutrecorder do
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+    
+     FileUtils.cp_r("#{sr_source}/#{tx_brazilian_portuguese}.strings", "#{sr_destination}/#{apple_brazilian_portuguese}.lproj/ShortcutRecorder.strings")
+     FileUtils.cp_r("#{sr_source}/#{tx_german}.strings", "#{sr_destination}/#{apple_german}.lproj/ShortcutRecorder.strings")
+     FileUtils.cp_r("#{sr_source}/#{tx_greek}.strings", "#{sr_destination}/#{apple_greek}.lproj/ShortcutRecorder.strings")
+     FileUtils.cp_r("#{sr_source}/#{tx_romanian}.strings", "#{sr_destination}/#{apple_romanian}.lproj/ShortcutRecorder.strings")
+     FileUtils.cp_r("#{sr_source}/#{tx_italian}.strings", "#{sr_destination}/#{apple_italian}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_polish}.strings", "#{sr_destination}/#{apple_polish}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_simplified_chinese}.strings", "#{sr_destination}/#{apple_simplified_chinese}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_norwegian_bokmal}.strings", "#{sr_destination}/#{apple_norwegian_bokmal}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_dutch}.strings", "#{sr_destination}/#{apple_dutch}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_slovak}.strings", "#{sr_destination}/#{apple_slovak}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_swedish}.strings", "#{sr_destination}/#{apple_swedish}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_japanese}.strings", "#{sr_destination}/#{apple_japanese}.lproj/ShortcutRecorder.strings")    
+     FileUtils.cp_r("#{sr_source}/#{tx_french}.strings", "#{sr_destination}/#{apple_french}.lproj/ShortcutRecorder.strings")    
+
+
+
+
+    end
+
 
 end
