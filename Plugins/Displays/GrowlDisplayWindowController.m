@@ -169,6 +169,10 @@ static NSMutableDictionary *existingInstances;
 															 object:nil];
 }
 
+- (void) startDisplay {
+	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
+}
+
 - (void) stopDisplay {	
 	id contentView = [[self window] contentView];
 	if ([contentView respondsToSelector:@selector(mouseOver)] &&

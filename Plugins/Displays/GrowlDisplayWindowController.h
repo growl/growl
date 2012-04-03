@@ -67,6 +67,7 @@ typedef enum {
 - (void) takeScreenshot;
 
 - (void) foundSpaceToStart;
+- (void) startDisplay;
 - (void) stopDisplay;
 
 /*call these from subclasses as various phases of display occur.

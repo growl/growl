@@ -191,7 +191,7 @@ static dispatch_queue_t __imageCacheQueue;
 }
 
 - (void)startDisplay {
-	//Do nothing;
+	[[GrowlDisplayBridgeController sharedController] addPendingWindow:self];
 }
 
 - (void)stopDisplay {
@@ -324,11 +324,9 @@ static dispatch_queue_t __imageCacheQueue;
 		[myWindow enableFlushWindow];
 
 	[view sizeToFit];
-
-	//Update our new frame
-	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
-
 	[myWindow invalidateShadow];
+	
+	[[GrowlDisplayBridgeController sharedController] windowReadyToStart:self];
 }
 
 - (void) setNotification:(GrowlNotification *)theNotification {

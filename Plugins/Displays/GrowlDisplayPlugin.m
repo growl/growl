@@ -92,11 +92,11 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			} else {
 				//nothing up at the moment; just display it
 				self.window = thisWindow;
-				[[GrowlDisplayBridgeController sharedController] displayBridge:thisWindow reposition:NO];
+				[thisWindow startDisplay];
 			}
 		} else {
 			//no queue; just display it
-			[[GrowlDisplayBridgeController sharedController] displayBridge:thisWindow reposition:NO];
+			[thisWindow startDisplay];
 		}
 		
 		if (identifier) {
@@ -144,7 +144,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			if ([queue count] > 0U) {
 				theWindow = [queue objectAtIndex:0U];
 				
-				[[GrowlDisplayBridgeController sharedController] displayBridge:theWindow reposition:NO];
+				[theWindow startDisplay];
 				
 				if(theWindow != wc)
 					self.window = theWindow;

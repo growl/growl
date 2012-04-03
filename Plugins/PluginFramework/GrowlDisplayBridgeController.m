@@ -15,6 +15,7 @@
 
 @interface GrowlDisplayBridgeController ()
 
+@property (nonatomic, retain) NSMutableSet *pending;
 @property (nonatomic, retain) NSMutableSet *allWindows;
 @property (nonatomic, retain) NSMutableArray *displayedBridges;
 @property (nonatomic, retain) NSMutableArray *bridgeQueue;
@@ -25,6 +26,7 @@
 
 @implementation GrowlDisplayBridgeController
 
+@synthesize pending;
 @synthesize allWindows;
 @synthesize displayedBridges;
 @synthesize bridgeQueue;
@@ -41,6 +43,7 @@
 
 -(id)init {
 	if((self = [super init])){
+		self.pending = [NSMutableSet set];
 		self.allWindows = [NSMutableSet set];
 		self.displayedBridges = [NSMutableArray array];
 		self.bridgeQueue = [NSMutableArray array];
@@ -73,6 +76,17 @@
 		}
 	}
 	return NO;
+}
+
+-(void)addPendingWindow:(GrowlDisplayWindowController*)window {
+	[pending addObject:window];
+}
+
+-(void)windowReadyToStart:(GrowlDisplayWindowController*)window {
+	[window retain];
+	[self displayBridge:window reposition:NO];
+	[pending removeObject:window];
+	[window release];
 }
 
 -(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
