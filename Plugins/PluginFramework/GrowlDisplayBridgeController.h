@@ -15,6 +15,6 @@
 +(GrowlDisplayBridgeController*)sharedController;
 
 -(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition;
--(void)clearRectForDisplay:(GrowlDisplayWindowController*)window;
+-(void)takeDownDisplay:(GrowlDisplayWindowController*)window;
 
 @end

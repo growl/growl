@@ -8,6 +8,7 @@
 
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import "GrowlDisplayBridgeController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
 #import <GrowlPlugins/GrowlNotification.h>
@@ -15,7 +16,17 @@
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
+@interface GrowlDisplayPlugin ()
+
+@property (nonatomic, retain) NSMutableArray *queue;
+@property (nonatomic, retain) GrowlDisplayWindowController *window;
+
+@end
+
 @implementation GrowlDisplayPlugin
+
+@synthesize queue;
+@synthesize window;
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle])) {
@@ -35,7 +46,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 		}
 
 		if (queuesNotifications)
-			queue = [[NSMutableArray alloc] init];
+			self.queue = [NSMutableArray array];
 	}
 	return self;
 }
@@ -80,12 +91,12 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 				[queue addObject:thisWindow];
 			} else {
 				//nothing up at the moment; just display it
-				window = [thisWindow retain];
-				[thisWindow startDisplay];
+				self.window = thisWindow;
+				[[GrowlDisplayBridgeController sharedController] displayBridge:thisWindow reposition:NO];
 			}
 		} else {
 			//no queue; just display it
-			[thisWindow startDisplay];
+			[[GrowlDisplayBridgeController sharedController] displayBridge:thisWindow reposition:NO];
 		}
 		
 		if (identifier) {
@@ -93,6 +104,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			[coalescableWindows setObject:thisWindow
 										  forKey:identifier];
 		}
+		[thisWindow release];
 	}
 }
 
@@ -122,37 +134,36 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
 	@autoreleasepool {
-        
-        [wc retain];
-        
-        if(queue)
-        {
-			  GrowlDisplayWindowController *theWindow;
-            
-            if ([queue count] > 0U) {
-                theWindow = [queue objectAtIndex:0U];
-                [theWindow startDisplay];
-                
-                if (window != theWindow) {
-                    [window release];
-                    window = [theWindow retain];
-                }
-                [queue removeObjectAtIndex:0U];		
-            }
-            else
-            {
-                [window release];
-                window = nil;
-            }
-        }        
-        if (coalescableWindows) {
-            NSString *identifier = [[[wc notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
-            if (identifier)
-                [coalescableWindows removeObjectForKey:identifier];
-        }
 		
-        [wc release];
-    }
+		[wc retain];
+		
+		if(queue)
+		{
+			GrowlDisplayWindowController *theWindow;
+			
+			if ([queue count] > 0U) {
+				theWindow = [queue objectAtIndex:0U];
+				
+				[[GrowlDisplayBridgeController sharedController] displayBridge:theWindow reposition:NO];
+				
+				if(theWindow != wc)
+					self.window = theWindow;
+				
+				[queue removeObjectAtIndex:0U];		
+			}
+			else
+			{
+				self.window = nil;
+			}
+		}
+		if (coalescableWindows) {
+			NSString *identifier = [[[wc notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+			if (identifier)
+				[coalescableWindows removeObjectForKey:identifier];
+		}
+		
+		[wc release];
+	}
 }
 
 @end

@@ -25,10 +25,6 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 	
 	//for all displays
 	NSMutableDictionary *coalescableWindows;
-	
-	//for queueing displays
-	GrowlDisplayWindowController *window;
-	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
 }
 
 /*!	@method	windowNibName

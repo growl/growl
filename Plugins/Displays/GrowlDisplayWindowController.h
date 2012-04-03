@@ -67,7 +67,6 @@ typedef enum {
 - (void) takeScreenshot;
 
 - (void) foundSpaceToStart;
-- (void) startDisplay;
 - (void) stopDisplay;
 
 /*call these from subclasses as various phases of display occur.
@@ -141,6 +140,7 @@ typedef enum {
 - (void) positionInRect:(CGRect)rect;
 - (CGFloat) requiredDistanceFromExistingDisplays;
 
+@property (nonatomic, assign) BOOL finished;
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;

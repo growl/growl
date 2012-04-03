@@ -33,6 +33,7 @@ static NSMutableDictionary *existingInstances;
 
 @implementation GrowlDisplayWindowController
 
+@synthesize finished;
 @synthesize ignoresOtherNotifications;
 @synthesize screenshotModeEnabled;
 @synthesize action;
@@ -92,6 +93,7 @@ static NSMutableDictionary *existingInstances;
 
 - (id) initWithWindow:(NSWindow *)window andPlugin:(GrowlDisplayPlugin*)aPlugin {
 	if ((self = [super initWithWindow:window])) {
+		self.finished = NO;
 		self.plugin = aPlugin;
 		self.occupiedRect = CGRectZero;
 		windowTransitions = [[NSMutableDictionary alloc] init];
@@ -164,10 +166,6 @@ static NSMutableDictionary *existingInstances;
 	}
 	
 	[self didDisplayNotification];
-}
-
-- (void) startDisplay {
-	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
 }
 
 - (void) stopDisplay {	
@@ -243,6 +241,12 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) didFinishTransitionsAfterDisplay {
+	if(self.finished){
+		//NSLog(@"this has already been called!");
+		return;
+	}
+	self.finished = YES;
+	
 	[self cancelDisplayDelayedPerforms];
 	
 	//Clear the rect we reserved...
@@ -253,14 +257,16 @@ static NSMutableDictionary *existingInstances;
 	[self stopAllTransitions];
 	[windowTransitions release]; windowTransitions = nil;
 	
-	[[GrowlDisplayBridgeController sharedController] clearRectForDisplay:self];
-	
 	[self didTakeDownNotification];
 	
-	if (plugin){
-		[plugin displayWindowControllerDidTakeDownWindow:self];
-		self.plugin = nil;
-   }
+	[plugin displayWindowControllerDidTakeDownWindow:self];
+	
+	/* LAST THING 
+	 * Do not call anything after this point
+	 * we will be dealloced after GrowlDisplayBridgeController 
+	 * takes us down
+	 */
+	[[GrowlDisplayBridgeController sharedController] takeDownDisplay:self];
 }
 
 - (void) didDisplayNotification {

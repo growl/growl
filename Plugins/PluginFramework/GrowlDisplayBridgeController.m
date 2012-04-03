@@ -15,6 +15,7 @@
 
 @interface GrowlDisplayBridgeController ()
 
+@property (nonatomic, retain) NSMutableSet *allWindows;
 @property (nonatomic, retain) NSMutableArray *displayedBridges;
 @property (nonatomic, retain) NSMutableArray *bridgeQueue;
 
@@ -24,6 +25,7 @@
 
 @implementation GrowlDisplayBridgeController
 
+@synthesize allWindows;
 @synthesize displayedBridges;
 @synthesize bridgeQueue;
 @synthesize positionControllers;
@@ -39,6 +41,7 @@
 
 -(id)init {
 	if((self = [super init])){
+		self.allWindows = [NSMutableSet set];
 		self.displayedBridges = [NSMutableArray array];
 		self.bridgeQueue = [NSMutableArray array];
 		self.positionControllers = [NSMutableArray array];
@@ -74,24 +77,23 @@
 
 -(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
 {
+	[allWindows addObject:window];
 	if(reposition){
-		//CGPoint startOrigin = [window occupiedRect].origin;
-		[self clearRectForDisplay:window];
-		if([self displayWindow:window]){
-			//CGPoint newOrigin = [window occupiedRect].origin;
-			//if(!CGPointEqualToPoint(startOrigin, newOrigin)) NSLog(@"Different origin for coalescing");
-			
-			[displayedBridges addObject:window];
-		}else{
+		GrowlPositionController *controller = [positionControllers objectAtIndex:0U];
+		[self clearRect:[window occupiedRect] inPositionController:controller];
+		if(![self displayWindow:window]){
 			NSLog(@"Couldnt find space for coalescing notification, adding to queue");
 			[window stopDisplay];
+			[displayedBridges removeObject:window];
 			[bridgeQueue addObject:window];
 		}
 	}else if([self displayWindow:window]){
 		[window foundSpaceToStart];
 		[displayedBridges addObject:window];
-	}else
+	}else{
+		//NSLog(@"putting in queue");
 		[bridgeQueue addObject:window];
+	}
 }
 
 -(void)checkQueuedBridges
@@ -104,6 +106,7 @@
 				if([blockSelf displayWindow:obj]){
 					[found addObject:obj];
 					[obj foundSpaceToStart];
+					[[blockSelf displayedBridges] addObject:obj];
 				}
 			}];
 			[blockSelf.bridgeQueue removeObjectsInArray:found];
@@ -111,20 +114,25 @@
 	}
 }
 
--(void)clearRectForDisplay:(GrowlDisplayWindowController*)window
+-(void)clearRect:(CGRect)rect inPositionController:(GrowlPositionController*)controller {
+	[controller vacateRect:rect];
+}
+
+-(void)takeDownDisplay:(GrowlDisplayWindowController*)window
 {
 	[displayedBridges removeObject:window];
 	if([[window plugin] requiresPositioning]){
-		//NSLog(@"clear rect");
 		CGRect clearRect = [window occupiedRect];
 		GrowlPositionController *controller = [positionControllers objectAtIndex:0U];
-		[controller vacateRect:clearRect];
+		[self clearRect:clearRect inPositionController:controller];
 		
 		[[self class] cancelPreviousPerformRequestsWithTarget:self
 																	selector:@selector(checkQueuedBridges) 
 																	  object:nil];
 		[self performSelector:@selector(checkQueuedBridges) withObject:nil afterDelay:.2];
 	}
+	[displayedBridges removeObject:window];
+	[allWindows removeObject:window];
 }
 
 @end
