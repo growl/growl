@@ -109,10 +109,6 @@ static NSMutableDictionary *existingInstances;
 		}
 
 		//Respond to 'close all notifications' by closing
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(stopDisplay)
-													 name:GROWL_CLOSE_ALL_NOTIFICATIONS
-												   object:nil];
 	}
 
 	return self;
@@ -166,6 +162,11 @@ static NSMutableDictionary *existingInstances;
 	}
 	
 	[self didDisplayNotification];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+														  selector:@selector(stopDisplay)
+																name:GROWL_CLOSE_ALL_NOTIFICATIONS
+															 object:nil];
 }
 
 - (void) stopDisplay {	
@@ -191,7 +192,7 @@ static NSMutableDictionary *existingInstances;
 			} else {
 				[self didFinishTransitionsAfterDisplay];
 			}
-        }
+		}
 	}
 }
 
