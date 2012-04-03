@@ -48,7 +48,7 @@
 
 -(BOOL)createChildren{
 	if(topLeft){
-		//NSLog(@"Error! we shouldn't be creating children when we already have children");
+		NSLog(@"Error! we shouldn't be creating children when we already have children");
 		return NO;
 	}
 	if(frame.size.width <= 1.0 && frame.size.height <= 1.0f){
@@ -219,3 +219,178 @@
 }
 
 @end
+
+BOOL create_children(QuadTreeNode *node){
+	CGRect frame = node->frame;
+	if(node->topLeft != NULL){
+		//NSLog(@"Error! we shouldn't be creating children when we already have children");
+		return NO;
+	}
+	if(frame.size.width <= 1.0 && frame.size.height <= 1.0f){
+		//NSLog(@"Error! we shouldn't be subdividing smaller than 1x1 wide/one high");
+		return NO;
+	}
+	
+	CGFloat childWidth = frame.size.width / 2.0f;
+	CGFloat childHeight = frame.size.height / 2.0f;
+	CGRect bottomLeftRect = CGRectMake(frame.origin.x, frame.origin.y, childWidth, childHeight);
+	CGRect bottomRightRect = CGRectMake(frame.origin.x + childWidth, frame.origin.y, childWidth, childHeight);
+	CGRect topLeftRect = CGRectMake(frame.origin.x, frame.origin.y + childHeight, childWidth, childHeight);
+	CGRect topRightRect = CGRectMake(frame.origin.x + childWidth, frame.origin.y + childHeight, childWidth, childHeight);
+	node->topLeft = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+	node->topRight = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+	node->bottomLeft = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+	node->bottomRight = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+	
+	if(node->topLeft != NULL && node->topRight != NULL && node->bottomLeft != NULL && node->bottomRight != NULL)
+	{
+		node->topLeft->frame = topLeftRect;
+		node->topLeft->state = node->state;
+		node->topLeft->topLeft = NULL;
+		node->topLeft->topRight = NULL;
+		node->topLeft->bottomLeft = NULL;
+		node->topLeft->bottomRight = NULL;
+
+		node->topRight->frame = topRightRect;
+		node->topRight->state = node->state;
+		node->topRight->topLeft = NULL;
+		node->topRight->topRight = NULL;
+		node->topRight->bottomLeft = NULL;
+		node->topRight->bottomRight = NULL;
+
+		node->bottomLeft->frame = bottomLeftRect;
+		node->bottomLeft->state = node->state;
+		node->bottomLeft->topLeft = NULL;
+		node->bottomLeft->topRight = NULL;
+		node->bottomLeft->bottomLeft = NULL;
+		node->bottomLeft->bottomRight = NULL;
+
+		node->bottomRight->frame = bottomRightRect;
+		node->bottomRight->state = node->state;
+		node->bottomRight->topLeft = NULL;
+		node->bottomRight->topRight = NULL;
+		node->bottomRight->bottomLeft = NULL;
+		node->bottomRight->bottomRight = NULL;
+
+		node->state = GrowlQuadTreeDividedState;
+		return YES;
+	}
+	NSLog(@"Malloc failed on at least one of the nodes");
+	if(node->topLeft != NULL)
+		free(node->topLeft);
+	if(node->topRight != NULL)
+		free(node->topRight);
+	if(node->bottomLeft != NULL)
+		free(node->bottomLeft);
+	if(node->bottomRight != NULL)
+		free(node->bottomRight);
+	return NO;
+}
+
+BOOL c_consolidate(QuadTreeNode *node) {
+	if(node == NULL || node->topLeft == NULL){
+		return YES;
+	}
+	if(c_consolidate(node->topLeft) && 
+		c_consolidate(node->topRight) &&
+		c_consolidate(node->bottomLeft) &&
+		c_consolidate(node->bottomRight))
+	{
+		
+		if(node->topLeft->state == node->topRight->state && 
+			node->topRight->state == node->bottomLeft->state && 
+			node->bottomLeft->state == node->bottomRight->state) 
+		{
+			node->state = node->topLeft->state;
+			free(node->topLeft);
+			node->topLeft = NULL;
+			free(node->topRight);
+			node->topRight = NULL;
+			free(node->bottomLeft);
+			node->bottomLeft = NULL;
+			free(node->bottomRight);
+			node->bottomRight = NULL;
+			return YES;
+		} else {
+			return NO;
+		}
+	}else{
+		return NO;
+	}
+
+}
+void occupy_frame(QuadTreeNode *node, CGRect aRect) {
+	CGRect intersection = CGRectIntersection(aRect, node->frame);
+	if(CGRectEqualToRect(intersection, node->frame)){
+		//Occupy the whole thing, if we are divided, tell them to occupy, then use the consolidate chain mechanism
+		if(node->state == GrowlQuadTreeDividedState){
+			if(CGRectIntersectsRect(aRect, node->topLeft->frame))
+				occupy_frame(node->topLeft, aRect);
+			if(CGRectIntersectsRect(aRect, node->topRight->frame))
+				occupy_frame(node->topRight, aRect);
+			if(CGRectIntersectsRect(aRect, node->bottomLeft->frame))
+				occupy_frame(node->bottomLeft, aRect);
+			if(CGRectIntersectsRect(aRect, node->bottomRight->frame))
+				occupy_frame(node->bottomRight, aRect);
+		}else{
+			node->state = GrowlQuadTreeOccupiedState;
+		}
+	}else{
+		if(node->state != GrowlQuadTreeDividedState){
+			//if we cant create children, than we have subdivided as far as we can (size cant be < 1x1)
+			//set our state as occupied
+			if(!create_children(node))
+				node->state = GrowlQuadTreeOccupiedState;
+		}
+		//If we have children, update them
+		if(node->topLeft != NULL){
+			//No need to call down in to a child unless the rects intersect
+			if(CGRectIntersectsRect(aRect, node->topLeft->frame))
+				occupy_frame(node->topLeft, aRect);
+			if(CGRectIntersectsRect(aRect, node->topRight->frame))
+				occupy_frame(node->topRight, aRect);
+			if(CGRectIntersectsRect(aRect, node->bottomLeft->frame))
+				occupy_frame(node->bottomLeft, aRect);
+			if(CGRectIntersectsRect(aRect, node->bottomRight->frame))
+				occupy_frame(node->bottomRight, aRect);
+		}
+	}
+}
+void vacate_frame(QuadTreeNode *node, CGRect aRect) {
+	if(node->state == GrowlQuadTreeDividedState){
+		if(CGRectIntersectsRect(aRect, node->topLeft->frame))
+			vacate_frame(node->topLeft, aRect);
+		if(CGRectIntersectsRect(aRect, node->topRight->frame))
+			vacate_frame(node->topRight, aRect);
+		if(CGRectIntersectsRect(aRect, node->bottomLeft->frame))
+			vacate_frame(node->bottomLeft, aRect);
+		if(CGRectIntersectsRect(aRect, node->bottomRight->frame))
+			vacate_frame(node->bottomRight, aRect);
+	}else{
+		if(CGRectIntersectsRect(aRect, node->frame))
+			node->state = GrowlQuadTreeEmptyState;
+	}
+}
+BOOL is_frame_free(QuadTreeNode *node, CGRect aRect) {
+	if(node->state == GrowlQuadTreeEmptyState){
+		return YES;
+	}
+	if(node->state == GrowlQuadTreeOccupiedState){
+		return NO;
+	}
+	BOOL result = YES;
+	if(CGRectIntersectsRect(aRect, node->topLeft->frame)){
+		result = is_frame_free(node->topLeft, aRect);
+	}
+	if(result && CGRectIntersectsRect(aRect, node->topRight->frame)){
+		result = is_frame_free(node->topRight, aRect);
+	}
+	if(result && CGRectIntersectsRect(aRect, node->bottomLeft->frame)){
+		result = is_frame_free(node->bottomLeft, aRect);
+	}
+	if(result && CGRectIntersectsRect(aRect, node->bottomRight->frame)){
+		result = is_frame_free(node->bottomRight, aRect);
+	}
+	return result;
+
+}

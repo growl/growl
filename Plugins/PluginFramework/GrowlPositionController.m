@@ -18,7 +18,9 @@
 
 #define GrowlRequiredColumnPadding 1.0f
 
-@interface GrowlPositionController ()
+@interface GrowlPositionController () {
+	QuadTreeNode *c_rootNode;
+}
 
 @property (nonatomic, retain) GrowlQuadTreeNode *rootNode;
 @property (nonatomic, retain) NSMutableArray *allColumns;
@@ -42,8 +44,23 @@
 	if((self = [super init])){
 		self.screenFrame = frame;
 		
+#ifdef GROWL_OBJC_QUADTREE
 		self.rootNode = [[[GrowlQuadTreeNode alloc] initWithState:GrowlQuadTreeEmptyState
 																		 forRect:frame] autorelease];
+#else
+		c_rootNode = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+		if(c_rootNode == nil){
+			NSLog(@"ERROR! Unable to malloc root node");
+			return nil;
+		}
+		c_rootNode->frame = frame;
+		c_rootNode->state = GrowlQuadTreeEmptyState;
+		c_rootNode->topLeft = NULL;
+		c_rootNode->topRight = NULL;
+		c_rootNode->bottomLeft = NULL;
+		c_rootNode->bottomRight = NULL;
+#endif
+		
 		self.availableWidth = screenFrame.size.width;
 		self.allColumns = [NSMutableArray array];
 		self.leftColumns = [NSMutableArray array];
@@ -53,7 +70,13 @@
 }
 
 -(void)dealloc {
+#ifdef GROWL_OBJC_QUADTREE
 	[rootNode release];
+#else
+	vacate_frame(c_rootNode, c_rootNode->frame);
+	c_consolidate(c_rootNode);
+	free(c_rootNode);
+#endif
 	[allColumns release];
 	[leftColumns release];
 	[rightColumns release];
@@ -178,7 +201,11 @@
 			origin = CGPointMake(column.xOrigin + (column.width - size.width), screenFrame.origin.y + (screenFrame.size.height - size.height));
 	}
 	CGRect rect = CGRectMake(origin.x, origin.y, size.width, size.height);
+#ifdef GROWL_OBJC_QUADTREE
 	while (![rootNode isFrameFree:rect]) {
+#else
+	while(!is_frame_free(c_rootNode, rect)) {
+#endif
 		switch (primary) {
 			case QuadDown:
 				rect.origin.y -= 1;
@@ -228,8 +255,13 @@
 	GrowlPositionColumn *column = [self columForRect:rect];
 	//NSLog(@"add to column %@ width %lf", column, rect.size.width);
 	[column addWidth:rect.size.width + GrowlRequiredColumnPadding];
+#ifdef GROWL_OBJC_QUADTREE
 	[rootNode occupyFrame:rect];
 	[rootNode consolidate];
+#else	
+	occupy_frame(c_rootNode, rect);
+	c_consolidate(c_rootNode);
+#endif
 }
 
 -(void)vacateRect:(CGRect)rect
@@ -237,8 +269,14 @@
 	GrowlPositionColumn *column = [self columForRect:rect];
 	//NSLog(@"remove from column %@ width %lf", column, rect.size.width);
 	[column removeWidth:rect.size.width + GrowlRequiredColumnPadding];
+	
+#ifdef GROWL_OBJC_QUADTREE
 	[rootNode vacateFrame:rect];
 	[rootNode consolidate];
+#else
+	vacate_frame(c_rootNode, rect);
+	c_consolidate(c_rootNode);
+#endif
 	
 	if([column minWidth] < [column width] && [column minWidth] > 0.0f) 
 		[self resizeColumn:[allColumns indexOfObject:column]
