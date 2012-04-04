@@ -406,10 +406,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	//We don't count WebKit plugin bundles
 	if((!frameworkVersion || [frameworkVersion isEqualToString:@""]) && ![plugin isKindOfClass:[GrowlWebKitDisplayPlugin class]]){
 		NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey], plugin);
-		[disabledPlugins addObject:[bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
+		[disabledPlugins addObject:[bundle bundlePath]];
 		return pluginDict;
 	}
-	
+		
 	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
 	NSString *identifier = nil;
 	if (plugin)
@@ -467,7 +467,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle]) {
 			//We haven't previously queued it: Queue it.
 			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		} else if (![disabledPlugins containsObject:name]) {
+		} else if (![disabledPlugins containsObject:path]) {
 			//We have: This is our cue to instantiate it.
 			plugin = [[[[bundle principalClass] alloc] init] autorelease];
 			//Dequeue it, because we don't want to hit this branch again for this plug-in.
@@ -478,7 +478,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			} else {
 				//Couldn't instantiate the plug-in, perhaps because of an architecture mismatch. Put it into disabled plug-ins.
 				NSLog(@"Adding %@ to disabled plug-ins because we could not instantiate its class %@ (from bundle %@)", name, [bundle principalClass], bundle);
-				[disabledPlugins addObject:name];
+				[disabledPlugins addObject:[bundle bundlePath]];
 			}
 		}
 	}
@@ -582,7 +582,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		//If it doesn't conform to GrowlDispatchNotificationProtocol, it's old. Add it as a disabled plug-in.
 		if(plugin && ![plugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]) {
 			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
-			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyName]];
+			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyPath]];
 		} 
 		else {
 			//It conforms to GrowlDispatchNotificationProtocol, so add it as a(n enabled) display plug-in.
