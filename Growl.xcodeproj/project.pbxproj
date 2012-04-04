@@ -3545,7 +3545,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				113EA427152BEEB50070C235 /* PBXTargetDependency */,
 				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
 				BC83FC261500893F000504F9 /* PBXTargetDependency */,
@@ -3564,6 +3563,7 @@
 				BCAD79F2151267390052EB51 /* PBXTargetDependency */,
 				93A042B91382157700C46F0A /* PBXTargetDependency */,
 				BC19A19A15198DCB00A0CA64 /* PBXTargetDependency */,
+				113EA427152BEEB50070C235 /* PBXTargetDependency */,
 			);
 			name = Growl.app;
 			productName = GrowlHelperApp;

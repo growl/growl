@@ -15,6 +15,7 @@
 		118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */; };
 		118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */; };
 		118F2E04152BEC6800F3C167 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DE9152BEC5600F3C167 /* GrowlPlugins.framework */; };
+		11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 11951BF2152BFF1E006D3B62 /* PRAPIKey.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,9 @@
 		118F2DC0152BEC4300F3C167 /* GrowlProwlAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlProwlAction.h; sourceTree = "<group>"; };
 		118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlAction.m; sourceTree = "<group>"; };
 		118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = "/Users/zac/Sources/growl-dev/Growl.xcodeproj"; sourceTree = "<absolute>"; };
+		11951BF1152BFF1E006D3B62 /* PRAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAPIKey.h; sourceTree = "<group>"; };
+		11951BF2152BFF1E006D3B62 /* PRAPIKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRAPIKey.m; sourceTree = "<group>"; };
+		11951BF4152C0096006D3B62 /* PRDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,9 @@
 				118F2DC0152BEC4300F3C167 /* GrowlProwlAction.h */,
 				118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */,
 				118F2DB2152BEC4300F3C167 /* Supporting Files */,
+				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
+				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
+				11951BF4152C0096006D3B62 /* PRDefines.h */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
@@ -430,6 +437,7 @@
 			files = (
 				118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */,
 				118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */,
+				11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
