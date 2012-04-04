@@ -13,6 +13,7 @@
 
 @synthesize sounds;
 @synthesize soundTableView;
+@synthesize soundVolume;
 
 -(void)dealloc {
 	[sounds release];
@@ -28,7 +29,8 @@
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		keys = [[NSSet setWithObjects:@"soundName",
-												@"sounds", nil] retain];
+									  @"sounds",
+									  @"soundVolume", nil] retain];
 	});
 	return keys;
 }
@@ -60,6 +62,17 @@
 
 -(NSString*)soundName {
 	return [self.configuration valueForKey:SelectedSoundPref];
+}
+
+-(void)setSoundVolume:(NSUInteger)volume {
+	[self setConfigurationValue:[NSNumber numberWithUnsignedInteger:volume] forKey:SoundVolumePref];
+}
+
+-(NSUInteger)soundVolume {
+	NSUInteger volume = SoundVolumeDefault;
+	if([self.configuration valueForKey:SoundVolumePref])
+		volume = [[self.configuration valueForKey:SoundVolumePref] unsignedIntegerValue];
+	return volume;
 }
 
 -(void)updateSoundsList {

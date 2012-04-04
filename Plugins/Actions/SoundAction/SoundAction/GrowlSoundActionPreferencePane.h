@@ -18,4 +18,6 @@
 -(void)setSoundName:(NSString*)soundName;
 -(NSString*)soundName;
 
+@property (nonatomic, assign) NSUInteger soundVolume;
+
 @end

@@ -7,3 +7,6 @@
 //
 
 #define SelectedSoundPref @"GrowlSoundAction - selected"
+#define SoundVolumePref @"GrowlSoundAction - volume"
+
+#define SoundVolumeDefault 100;

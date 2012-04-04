@@ -74,6 +74,12 @@
 		[soundToPlay setPlaybackDeviceIdentifier:audioDeviceId];
 		[soundToPlay setDelegate:self];
 		
+		NSUInteger volume = SoundVolumeDefault;
+		if([configuration valueForKey:SoundVolumePref])
+			volume = [[configuration valueForKey:SoundVolumePref] unsignedIntegerValue];
+		
+		[soundToPlay setVolume:((CGFloat)volume / 100.0f)];
+		
 		__block GrowlSoundAction *blockSelf = self;
 		dispatch_async(sound_queue, ^{
 			if(!blockSelf.currentSound){
