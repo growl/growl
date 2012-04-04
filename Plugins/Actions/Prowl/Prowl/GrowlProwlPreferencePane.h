@@ -1,6 +1,8 @@
 #import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
+@class PRPreferences;
 @interface GrowlProwlPreferencePane : GrowlPluginPreferencePane
+@property (nonatomic, retain) PRPreferences *preferences;
 
 @property (nonatomic, retain, readonly) NSMutableArray *apiKeys; // array of PRAPIKey
 @property (assign) IBOutlet NSTableView *tableView;

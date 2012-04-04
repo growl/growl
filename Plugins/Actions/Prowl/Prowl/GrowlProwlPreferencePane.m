@@ -1,8 +1,3 @@
-//  This class represents your plugin's preference pane.  There will be only one instance, but possibly many configurations
-//  In order to access a configuration values, use the NSMutableDictionary *configuration for getting them. 
-//  In order to change configuration values, use [self setConfigurationValue:forKey:]
-//  This ensures that the configuration gets saved into the database properly.
-
 #import "GrowlProwlPreferencePane.h"
 #import "PRDefines.h"
 #import "PRAPIKey.h"
