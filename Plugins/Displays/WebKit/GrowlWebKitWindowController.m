@@ -342,7 +342,7 @@ static dispatch_queue_t __imageCacheQueue;
 
 	NSData *iconData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
 	if ([iconData isKindOfClass:[NSImage class]])
-		iconData = [(NSImage *)iconData TIFFRepresentation];
+		iconData = [(NSImage *)iconData PNGRepresentation];
 	
 	int priority    = [[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 
