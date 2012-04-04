@@ -225,8 +225,6 @@
 		93E7128513FE04200025D733 /* GrowlControlPauseScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */; };
 		93E7128813FE05170025D733 /* GrowlControlResumeScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */; };
 		93E7129013FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */; };
-		93F6FAB6151674A800FE2D5A /* Lumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 93F6FAB31516749300FE2D5A /* Lumberjack.framework */; };
-		93F6FAB7151674C500FE2D5A /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F6FAB31516749300FE2D5A /* Lumberjack.framework */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		950568E60812C2960096EC5C /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
@@ -635,13 +633,6 @@
 			remoteGlobalIDString = 9398377F0DA42965007F53F3;
 			remoteInfo = ShortcutRecorder.framework;
 		};
-		93F6FAAE1516749300FE2D5A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
-			remoteInfo = Lumberjack;
-		};
 		93F6FAB21516749300FE2D5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 93F6FA901516741D00FE2D5A /* Lumberjack.xcodeproj */;
@@ -767,7 +758,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				93F6FAB6151674A800FE2D5A /* Lumberjack.framework in Copy Frameworks */,
 				93D3C258150EF92B00108F4A /* ShortcutRecorder.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -1722,7 +1712,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DAA62315103E4A0052E6E6 /* Carbon.framework in Frameworks */,
-				93F6FAB7151674C500FE2D5A /* Lumberjack.framework in Frameworks */,
 				93D3C256150EF91000108F4A /* ShortcutRecorder.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				9326590E140C069A0037AA2C /* CoreAudio.framework in Frameworks */,
@@ -3253,7 +3242,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				93F6FAAF1516749300FE2D5A /* PBXTargetDependency */,
 				93D3C255150EF90300108F4A /* PBXTargetDependency */,
 				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
@@ -3797,7 +3785,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME";
+			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then \necho \"Resigning\"\nruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nfi";
 			showEnvVarsInLog = 0;
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
@@ -4259,11 +4247,6 @@
 			isa = PBXTargetDependency;
 			name = ShortcutRecorder.framework;
 			targetProxy = 93D3C254150EF90300108F4A /* PBXContainerItemProxy */;
-		};
-		93F6FAAF1516749300FE2D5A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Lumberjack;
-			targetProxy = 93F6FAAE1516749300FE2D5A /* PBXContainerItemProxy */;
 		};
 		955430E807E04683005534FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
