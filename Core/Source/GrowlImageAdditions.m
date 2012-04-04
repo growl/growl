@@ -99,13 +99,16 @@
 - (NSData *) representationWithType:(NSString*)type {
 	NSMutableData *mutableData = [NSMutableData data];
 	CGImageDestinationRef cgDestRef = CGImageDestinationCreateWithData((CFMutableDataRef)mutableData, (CFStringRef)type, 1, NULL);
-	if(cgDestRef == NULL){
-		NSLog(@"Error creating CGImageDestinationRef");
-		return nil;
+	if(cgDestRef)
+	{
+		CGImageRef imageRef = [self CGImageForProposedRect:NULL context:nil hints:nil];
+		if(imageRef)
+		{
+			CGImageDestinationAddImage(cgDestRef, imageRef, NULL);
+			CGImageDestinationFinalize(cgDestRef);
+		}
+		CFRelease(cgDestRef);
 	}
-	CGImageRef imageRef = [self CGImageForProposedRect:NULL context:nil hints:nil];
-	CGImageDestinationAddImage(cgDestRef, imageRef, NULL);
-	CGImageDestinationFinalize(cgDestRef);
 	return mutableData;
 }
 
