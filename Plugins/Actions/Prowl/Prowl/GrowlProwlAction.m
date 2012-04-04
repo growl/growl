@@ -73,7 +73,9 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	
 	NSURL *postURL = [NSURL URLWithString:@"https://api.prowlapp.com/publicapi/add"];
 	
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:postURL];
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:postURL 
+														   cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+													   timeoutInterval:300.0f];
 	request.HTTPMethod = @"POST";
 	request.HTTPBody = [self bodyWithApiKeys:apiKeys
 								 application:application
@@ -83,7 +85,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	
 	[NSURLConnection sendAsynchronousRequest:request
 									   queue:[NSOperationQueue mainQueue]
-						   completionHandler:^(NSURLResponse *inResponse,
+						   completionHandler:^(NSURLResponse *response,
 											   NSData *data,
 											   NSError *error) {
 							   if(!data && error) {
@@ -91,14 +93,14 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 								   return;
 							   }
 							   
-							   if(![inResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-								   NSLog(@"Unknown response: %@", inResponse);
-								   return;
+							   NSLog(@"Got data: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+							   
+							   NSInteger statusCode = 0;
+							   if([response respondsToSelector:@selector(statusCode)]) {
+								   statusCode = [(id)response statusCode];
 							   }
 							   
-							   NSHTTPURLResponse *response = (NSHTTPURLResponse *)inResponse;
-							   
-							   if(response.statusCode == 200) {
+							   if(statusCode == 200) {
 								   NSLog(@"Posted notification!");
 							   } else {
 								   NSLog(@"Error response: %@ %@", response, [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);

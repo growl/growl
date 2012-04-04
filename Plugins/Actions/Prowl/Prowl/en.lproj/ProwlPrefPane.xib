@@ -266,7 +266,7 @@
 											<reference key="NSNextKeyView" ref="801693906"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="295709136">
-												<int key="NSCellFlags">-1804468671</int>
+												<int key="NSCellFlags">-1803944383</int>
 												<int key="NSCellFlags2">272761856</int>
 												<string key="NSContents"/>
 												<reference key="NSSupport" ref="26"/>
@@ -733,22 +733,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: self.prefix</string>
-						<reference key="source" ref="340224560"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="340224560"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: self.prefix</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">self.prefix</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">631</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: self.prefixEnabled</string>
 						<reference key="source" ref="340224560"/>
 						<reference key="destination" ref="1001"/>
@@ -762,6 +746,26 @@
 						</object>
 					</object>
 					<int key="connectionID">639</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.prefix</string>
+						<reference key="source" ref="340224560"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="340224560"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: self.prefix</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.prefix</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">771</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1989,7 +1993,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">768</int>
+			<int key="maxID">771</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
