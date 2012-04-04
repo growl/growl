@@ -182,10 +182,18 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	PRAPIKey *apiKey = [self.apiKeys objectAtIndex:row];
+	
 	if([tableColumn.identifier isEqualToString:@"enabled"]) {
-		return [NSNumber numberWithBool:[[self.apiKeys objectAtIndex:row] enabled]];
+		return [NSNumber numberWithBool:apiKey.enabled];
 	} else if([tableColumn.identifier isEqualToString:@"apikey"]) {
-		return [[self.apiKeys objectAtIndex:row] apiKey];
+		return apiKey.apiKey;
+	} else if([tableColumn.identifier isEqualToString:@"validated"]) {
+		if(apiKey.validated) {
+			return [[NSBundle bundleForClass:[self class]] imageForResource:@"checkmark"];
+		} else {
+			return [[NSBundle bundleForClass:[self class]] imageForResource:@"anticheckmark"];
+		}
 	} else {
 		return nil;
 	}

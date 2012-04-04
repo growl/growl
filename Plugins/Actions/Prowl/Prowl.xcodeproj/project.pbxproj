@@ -16,6 +16,8 @@
 		118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */; };
 		118F2E04152BEC6800F3C167 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DE9152BEC5600F3C167 /* GrowlPlugins.framework */; };
 		11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 11951BF2152BFF1E006D3B62 /* PRAPIKey.m */; };
+		11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF5152C120A006D3B62 /* anticheckmark.png */; };
+		11951BF8152C120A006D3B62 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF6152C120A006D3B62 /* checkmark.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,8 @@
 		11951BF1152BFF1E006D3B62 /* PRAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAPIKey.h; sourceTree = "<group>"; };
 		11951BF2152BFF1E006D3B62 /* PRAPIKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRAPIKey.m; sourceTree = "<group>"; };
 		11951BF4152C0096006D3B62 /* PRDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRDefines.h; sourceTree = "<group>"; };
+		11951BF5152C120A006D3B62 /* anticheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anticheckmark.png; sourceTree = "<group>"; };
+		11951BF6152C120A006D3B62 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,8 @@
 		118F2DB1152BEC4300F3C167 /* Prowl */ = {
 			isa = PBXGroup;
 			children = (
+				11951BF5152C120A006D3B62 /* anticheckmark.png */,
+				11951BF6152C120A006D3B62 /* checkmark.png */,
 				118F2DB8152BEC4300F3C167 /* ProwlPrefPane.xib */,
 				118F2DBD152BEC4300F3C167 /* GrowlProwlPreferencePane.h */,
 				118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */,
@@ -425,6 +431,8 @@
 			files = (
 				118F2DB6152BEC4300F3C167 /* InfoPlist.strings in Resources */,
 				118F2DBA152BEC4300F3C167 /* ProwlPrefPane.xib in Resources */,
+				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
+				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
