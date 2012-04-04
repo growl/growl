@@ -1,23 +1,23 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl は最高の通知システムです。いろんなアプリケーションが動作しており、そこで何かが起きれば即座に Growl 経由で通知されます。他のことであなたが忙しくても、Growl を使えばリアルタイムに、または Mac の前から離れていてもアプリケーションの状況を簡単に把握できます。
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+例えば、iPhoto で作業をしながら Adium でチャットをしていたとします。チャットでは大切な要件に関し話していて、新しいインスタンスメッセージが届くたびに、その内容を確認しなければなりません。確認するためには Adium のウィンドウに切替えて、その後、iPhoto に戻って再び作業を続けます。このようにアプリケーションを頻繁に切替えるフラストレーションから Growl のアイディアが生まれました。チャットで新しいメッセージが来たときにそれが逐一画面上に表示されれば、すばやく内容の確認ができます。Growl によるスムースな通知を使えば、常に状況の変化をすばやく知ることができます。たとえ通知が来たときに Mac の前にいなくても、ロールアップウィンドウ機能によって、離れていたときに出た通知を確認することができます。 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+個人レベルの通知システムで、このように効果的なものはありませんでした。通知を受ける方法もいくつかあり、画面に表示する、メールで受け取る、あるいは読み上げさせることもできます。またちょっとしたウェブ技術 (CSS/XHTML/Javascript) の知識があれば、 Growl の表示スタイルを自分好みに変更することができます。
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+次のようにたくさんの優れた機能があります。
 
 
+• 通知をカスタマイズできます。通知の提示方式やルック & フィールを選択できます。
+• Mac を離れていても、通知機能は働き続けます。あなたは戻ってきたときにロールアップ機能によって何が発生したか確認することができます。
+• アプリケーションからの通知のうち、どれを受け取り、どれをブロックするかを、アプリケーションタブで簡単に設定できます。
+• 通知を読み上げさせることができます。目が不自由な方にはすばらしい機能です。
+• 通知の履歴機能は優れたもので、過去の通知を確認できます。
+• 非常に沢山のスタイルが Growl と一緒にインストールされます。"nano" という非常に小さいウィンドウから "music video" という大きなウィンドウまであります。
+• ウェブ技術を使って自分なりの Growl のスタイルを簡単に作ることができます。
+• Growl への通知は Cocoa、AppleScript、ネットワーク経由で送ることができます。
+• ネットワークで複数の Mac 間で通知を転送することができます。
+• iPhone や iPad に通知を送ることも可能です。Growl のクライアントである Prowl を使います。
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+Growl はあなたがまさしく必要とするものです。数百万人の人の「お気に入り」です。あなたもきっと好きになりますよ、絶対！

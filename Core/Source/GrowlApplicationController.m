@@ -659,7 +659,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 #if defined(BETA) && BETA
-#define DAYSTOEXPIRY 14
+#define DAYSTOEXPIRY 21
 - (NSCalendarDate *)dateWithString:(NSString *)str {
 	str = [str stringByReplacingOccurrencesOfString:@"  " withString:@" "];
 	NSArray *dateParts = [str componentsSeparatedByString:@" "];

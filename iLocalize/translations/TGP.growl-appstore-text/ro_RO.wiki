@@ -1,4 +1,4 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl este un sistem de notificare de ultimă oră pentru Mac. Este cel mai simplu mod de a știi ce se întâmplă în celelalte aplicații active în timp ce atenția îți este îndreptată spre o aplicație din prim plan sau nu te afli lângă computer.
 
 One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
 

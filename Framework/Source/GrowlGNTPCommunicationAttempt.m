@@ -216,6 +216,7 @@ enum {
             }
             [callbackHeaderItems release]; callbackHeaderItems = nil;
             [self finished];
+            [socket disconnect];
 		}
 	}
 }

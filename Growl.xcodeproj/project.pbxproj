@@ -416,8 +416,6 @@
 		BCC7F9DC15042751005FFE04 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
 		BCC7F9DD15042790005FFE04 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		BCCA96CE14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCA96CD14C7DDFA0099EF29 /* GrowlNotificationSettingsScrollView.m */; };
-		BCCAB96E1516853F00E83EBB /* Lumberjack.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BCCAB96B1516853600E83EBB /* Lumberjack.framework */; };
-		BCCAB96F1516856C00E83EBB /* Lumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCAB96B1516853600E83EBB /* Lumberjack.framework */; };
 		BCD6012A13C769850013EEDE /* GrowlNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012913C769850013EEDE /* GrowlNotificationCellView.m */; };
 		BCD6012D13C769B40013EEDE /* GrowlNotificationRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD6012C13C769B40013EEDE /* GrowlNotificationRowView.m */; };
 		BCDB220313F70E9400040108 /* GroupCountBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDB220213F70E9300040108 /* GroupCountBubble.m */; };
@@ -803,13 +801,6 @@
 			remoteGlobalIDString = DCB318CA14ED6C3B001CFBEE;
 			remoteInfo = FmwkTest;
 		};
-		BCCAB9701516858700E83EBB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCCAB9611516853600E83EBB /* Lumberjack.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DCB3185014EB418E001CFBEE;
-			remoteInfo = Lumberjack;
-		};
 		DD493C92084BE7FB00D1CCCB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -900,7 +891,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BCCAB96E1516853F00E83EBB /* Lumberjack.framework in Copy Frameworks */,
 				BC9EFDFE15105F0F00534A7C /* ShortcutRecorder.framework in Copy Frameworks */,
 				BC83FC2915008A29000504F9 /* GrowlPlugins.framework in Copy Frameworks */,
 			);
@@ -1872,7 +1862,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */,
-				BCCAB96F1516856C00E83EBB /* Lumberjack.framework in Frameworks */,
 				BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */,
 				BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */,
 				BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */,
@@ -3549,7 +3538,6 @@
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
 				BC83FC261500893F000504F9 /* PBXTargetDependency */,
 				BC9EFE0015105F2300534A7C /* PBXTargetDependency */,
-				BCCAB9711516858700E83EBB /* PBXTargetDependency */,
 				BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */,
 				BCC7F9C91503D90A005FFE04 /* PBXTargetDependency */,
 				955430E807E04683005534FA /* PBXTargetDependency */,
@@ -4148,7 +4136,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o ./Plugins/PluginFramework/en.lproj ./Plugins/Displays/GrowlPluginPreferenceStrings.h";
+			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then \necho \"Resigning\"\nruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nfi";
+			showEnvVarsInLog = 0;
 		};
 		BCCAB95F151684C000E83EBB /* Resign/Validate */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4162,7 +4151,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME";
+			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then \necho \"Resigning\"\nruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4681,11 +4670,6 @@
 			isa = PBXTargetDependency;
 			target = 95E17B8F085E216A00990AB3 /* VCS Data */;
 			targetProxy = BCC88D3E1513B28B003C2FF4 /* PBXContainerItemProxy */;
-		};
-		BCCAB9711516858700E83EBB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Lumberjack;
-			targetProxy = BCCAB9701516858700E83EBB /* PBXContainerItemProxy */;
 		};
 		DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

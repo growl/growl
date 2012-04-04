@@ -1,23 +1,23 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+Growl ir pilnīga Mac paziņojumu sistēma. Tā piedāvā visvieglāk izmantojamo iespēju uzzināt, ko dara pārējās programmas tikmēr, kamēr esi aizņemts ar ko citu vai pat neesi pie datora.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+Reiz mēs strādājām ar attēliem iPhoto un tajā pašā laikā sazinājāmies, izmantojot Adium. Gaidot svarīgu ziņu, katru reizi, pienākot jaunam paziņojumam, mēs pārtraucām darbu ar iPhoto un pārslēdzāmies uz Adium. Pat zinot, ka pienākusi ziņa, mums tik un tā vajadzēja pārslēgties uz Adium, lai noskaidrotu, kas tieši tika ziņots. Beidzot mēs nolēmām, ka nepieciešams risinājums un tā piedzima Growl. Paziņojumi reālā laikā ļauj laicīgi uzzināt to, ko nepieciešams zināt. Ar efektīgu paziņojumu un Growl unikālā kopsavilkuma loga palīdzību tu vienmēr zināsi par notiekošo, pat ja nebūsi pie sava Mac datora. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+Vēl nekad iepriekš nav bijis tik efektīva risinājuma paziņojumiem. Tos var saņemt dažādos veidos - gan uz ekrāna, gan e-pastā, vai pat norunātus jums priekšā. Pie tam, ja vien zināt nedaudz par web tehnoloģijām (CSS/XHTML/Javascript), tad variet pielāgot Growl stilus pēc vēlēšanās.
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+Vēl citas satriecošas iespējas uzskaitītas te.
 
 
+- Personalizējiet paziņojumus. Izvēlieties Growl skatus un attēlojumus.
+- Growl turpina darbu pat tad, ja jūs nedariet neko. Atgriežoties, ar Kopsavilkuma palīdzību, kas noticis prombūtnes laikā.
+- Viegli lietojama Programmu cilne, lai kontrolētu, kādus paziņojumus saņemt un kādus bloķēt.
+- Runas attēlošana, lieliska cilvēkiem ar redzes problēmām.
+- Satriecoša paziņojumu vēsture, lai uzzinātu, kas noticis iepriekš.
+- Saņemiet daudz paziņojumu stilu kopā ar Growl. No pavisam nelielā nano līdz ļoti lielajam music video.
+- Viegli izveidojiet savus stilus ar web tehnoloģijām, lai apveltītu Growl ar personalizētu izskatu.
+- Sūtiet Growl paziņojumus no Cocoa, AppleScript vai pa tīklu uz citu datoru.
+- Tiklošana ļauj diviem vai vairākiem Mac datoriem sūtīt paziņojumus savā starpā.
+- Ar iProwl palīdzību strādā arī ar iPhone un iPad.
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+Growl ir tas, kas tev ir vajadzīgs. Growl patīk miljoniem cilvēku un iepatiksies arī tev. Nopietni!
