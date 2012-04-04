@@ -176,6 +176,7 @@
    BOOL shouldSendCallback = NO;
 	//NSLog(@"incoming Packet: %@", packet);
 	
+	NSDictionary *growlDict = [packet growlDictionary];
 	switch ([packet packetType]) {
 		case GrowlUnknownPacketType:
 			NSLog(@"This shouldn't happen; received %@ of an unknown type", packet);
@@ -184,7 +185,7 @@
 		{
 			__block GrowlNotificationResult result;
 			dispatch_sync(dispatch_get_main_queue(), ^{
-				result = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:[packet growlDictionary]];
+				result = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:growlDict];
 			});
 			switch (result) {
 				case GrowlNotificationResultPosted:
@@ -235,16 +236,16 @@
 		}
 		case GrowlRegisterPacketType:
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[GrowlApplicationController sharedController] registerApplicationWithDictionary:[packet growlDictionary]];
+				[[GrowlApplicationController sharedController] registerApplicationWithDictionary:growlDict];
 			});
 			break;
 		case GrowlCallbackPacketType:
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[GrowlApplicationController sharedController] growlNotificationDict:[packet growlDictionary]
+				[[GrowlApplicationController sharedController] growlNotificationDict:growlDict
 																	 didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket *)packet callbackType] == GrowlGNTPCallback_Clicked)
 																						onLocalMachine:NO];
 			});
-         [self growlNotificationDict:[packet growlDictionary] didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket*)packet callbackType] == GrowlGNTPCallback_Clicked)];
+         [self growlNotificationDict:growlDict didCloseViaNotificationClick:([(GrowlCallbackGNTPPacket*)packet callbackType] == GrowlGNTPCallback_Clicked)];
 			[[packet socket] disconnect];
 			break;
       case GrowlErrorPacketType:

@@ -47,6 +47,7 @@
 	
 	[applicationIconID release];
 	[mApplicationIconURL release];
+	[mApplicationIconData release];
 	
 	[super dealloc];
 }
@@ -98,19 +99,19 @@
 - (NSData *)applicationIconData
 {
 	NSData *data = nil;
-	if (applicationIconID) {
-		data = [binaryDataByIdentifier objectForKey:applicationIconID];
-	} else if (mApplicationIconURL) {
-      /* FIX ME: Implement a full, asynchronous download system */
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"URL based application icon's are not presently supported.  Support will return in a future release of Growl.app");
-      });
-      NSLog(@"Not downloading icon for application %@", [self applicationName]);
-	} 
-   if(!data) {
-      data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
-   }
+	if (mApplicationIconData){
+		data = mApplicationIconData;
+	}else{
+		if (applicationIconID) {
+			data = [binaryDataByIdentifier objectForKey:applicationIconID];
+		} else if (mApplicationIconURL) {
+			data = [NSData dataWithContentsOfURL:mApplicationIconURL];
+		} 
+		if(!data) {
+			data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
+		}
+		mApplicationIconData = [data retain];
+	}
 
 	return data;
 }
