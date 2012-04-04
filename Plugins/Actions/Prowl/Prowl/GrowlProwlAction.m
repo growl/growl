@@ -34,21 +34,25 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 - (void)dispatchNotification:(NSDictionary *)notification
 		  withConfiguration:(NSDictionary *)configuration
 {
-	BOOL onlyWhenIdle = [[configuration valueForKey:PRPreferenceKeyOnlyWhenIdle] boolValue];
-	
-	BOOL minimumPriorityEnabled = [[configuration valueForKey:PRPreferenceKeyMinimumPriorityEnabled] boolValue];
-	NSInteger minimumPriority = [[configuration valueForKey:PRPreferenceKeyMinimumPriority] integerValue];
-	
-	BOOL prefixEnabled = [[configuration valueForKey:PRPreferenceKeyPrefixEnabled] boolValue];
-	NSString *prefix = [configuration valueForKey:PRPreferenceKeyPrefix];
-	
+	NSString *event = [notification objectForKey:GROWL_NOTIFICATION_TITLE];
+	NSString *application = [notification valueForKey:GROWL_APP_NAME];
+	NSString *description = [notification objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 	NSInteger priority = [[notification valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
-	if(minimumPriorityEnabled && priority < minimumPriority) {
-		return;
-	}
+	BOOL isPreview = ([application isEqualToString:@"Growl"] && [event isEqualToString:@"Preview"]);
 	
-	if(onlyWhenIdle && ![[GrowlIdleStatusObserver sharedObserver] isIdle]) {
-		return;
+	if(!isPreview) {
+		BOOL onlyWhenIdle = [[configuration valueForKey:PRPreferenceKeyOnlyWhenIdle] boolValue];
+		
+		BOOL minimumPriorityEnabled = [[configuration valueForKey:PRPreferenceKeyMinimumPriorityEnabled] boolValue];
+		NSInteger minimumPriority = [[configuration valueForKey:PRPreferenceKeyMinimumPriority] integerValue];
+				
+		if(minimumPriorityEnabled && priority < minimumPriority) {
+			return;
+		}
+		
+		if(onlyWhenIdle && ![[GrowlIdleStatusObserver sharedObserver] isIdle]) {
+			return;
+		}
 	}
 	
 	NSData *apiKeysData = [configuration valueForKey:PRPreferenceKeyAPIKeys];
@@ -63,10 +67,9 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	if(!apiKeys.length) {
 		return;
 	}
-		
-	NSString *event = [notification objectForKey:GROWL_NOTIFICATION_TITLE];
-	NSString *application = [notification valueForKey:GROWL_APP_NAME];
-	NSString *description = [notification objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+			
+	BOOL prefixEnabled = [[configuration valueForKey:PRPreferenceKeyPrefixEnabled] boolValue];
+	NSString *prefix = [configuration valueForKey:PRPreferenceKeyPrefix];
 	if(prefixEnabled && prefix.length) {
 		description = [NSString stringWithFormat:@"%@: %@", prefix, description];
 	}
