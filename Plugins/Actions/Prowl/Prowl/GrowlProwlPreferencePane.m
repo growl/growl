@@ -66,6 +66,17 @@
 						 forKey:PRPreferenceKeyAPIKeys];
 }
 
+- (void)addApiKey:(PRAPIKey *)apiKey
+{
+	[self.apiKeys addObject:apiKey];
+	[self updateAPIKeys];
+	
+	[self.tableView beginUpdates];
+	[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
+						  withAnimation:NSTableViewAnimationEffectGap];
+	[self.tableView endUpdates];
+}
+
 - (IBAction)connect:(id)sender
 {
 //		self.generateButton.enabled = NO;
@@ -80,13 +91,7 @@
 
 - (IBAction)add:(id)sender
 {
-	[self.apiKeys addObject:[[[PRAPIKey alloc] init] autorelease]];
-	[self updateAPIKeys];
-	
-	[self.tableView beginUpdates];
-	[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
-						  withAnimation:NSTableViewAnimationEffectGap];
-	[self.tableView endUpdates];
+	[self addApiKey:[[[PRAPIKey alloc] init] autorelease]];
 	
 	[self.tableView editColumn:[self.tableView columnWithIdentifier:@"apikey"]
 						   row:self.apiKeys.count - 1
@@ -232,15 +237,15 @@
 	NSLog(@"Got API key: %@", apiKey);
 	
 	self.generateButton.enabled = YES;
-	[self.apiKeys addObject:apiKey];
-	[self updateAPIKeys];
-	[self.tableView reloadData];
+	[self addApiKey:apiKey];	
+	self.generator = nil;
 }
 
 - (void)generator:(GrowlProwlGenerator *)generator didFailWithError:(NSError *)error
 {
 	NSLog(@"Generator failed with error: %@", error);
 	self.generateButton.enabled = YES;
+	self.generator = nil;
 }
 
 @end
