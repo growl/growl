@@ -38,7 +38,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">11</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 240}, {835, 510}}</string>
+				<string key="NSWindowRect">{{196, 240}, {835, 540}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Prowl Login</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -48,7 +48,7 @@
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
-						<object class="WebView" id="451557776">
+						<object class="WebView" id="845286783">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">274</int>
 							<set class="NSMutableSet" key="NSDragTypes">
@@ -68,7 +68,7 @@
 								<string>public.url</string>
 								<string>public.url-name</string>
 							</set>
-							<string key="NSFrameSize">{835, 510}</string>
+							<string key="NSFrameSize">{835, 540}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -79,7 +79,7 @@
 								<string key="Identifier"/>
 								<dictionary class="NSMutableDictionary" key="Values">
 									<integer value="12" key="WebKitDefaultFixedFontSize"/>
-									<integer value="12" key="WebKitDefaultFontSize"/>
+									<integer value="16" key="WebKitDefaultFontSize"/>
 									<boolean value="NO" key="WebKitJavaEnabled"/>
 									<boolean value="NO" key="WebKitJavaScriptCanOpenWindowsAutomatically"/>
 									<boolean value="YES" key="WebKitJavaScriptEnabled"/>
@@ -90,22 +90,23 @@
 							<bool key="UseBackForwardList">YES</bool>
 							<bool key="AllowsUndo">YES</bool>
 						</object>
-						<object class="NSProgressIndicator" id="870536143">
+						<object class="NSProgressIndicator" id="586642623">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">1325</int>
 							<object class="NSPSMatrix" key="NSDrawMatrix"/>
-							<string key="NSFrame">{{401, 239}, {32, 32}}</string>
+							<string key="NSFrame">{{401, 254}, {32, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:926</string>
 							<int key="NSpiFlags">28682</int>
 							<double key="NSMaxValue">100</double>
 						</object>
 					</array>
-					<string key="NSFrameSize">{835, 510}</string>
+					<string key="NSFrameSize">{835, 540}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="451557776"/>
+					<reference key="NSNextKeyView" ref="845286783"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -126,7 +127,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">webView</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="451557776"/>
+						<reference key="destination" ref="845286783"/>
 					</object>
 					<int key="connectionID">13</int>
 				</object>
@@ -134,7 +135,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">progressIndicator</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="870536143"/>
+						<reference key="destination" ref="586642623"/>
 					</object>
 					<int key="connectionID">40</int>
 				</object>
@@ -149,7 +150,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">frameLoadDelegate</string>
-						<reference key="source" ref="451557776"/>
+						<reference key="source" ref="845286783"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">14</int>
@@ -157,7 +158,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">resourceLoadDelegate</string>
-						<reference key="source" ref="451557776"/>
+						<reference key="source" ref="845286783"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">41</int>
@@ -165,7 +166,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">downloadDelegate</string>
-						<reference key="source" ref="451557776"/>
+						<reference key="source" ref="845286783"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">42</int>
@@ -173,7 +174,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">policyDelegate</string>
-						<reference key="source" ref="451557776"/>
+						<reference key="source" ref="845286783"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">43</int>
@@ -181,7 +182,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">UIDelegate</string>
-						<reference key="source" ref="451557776"/>
+						<reference key="source" ref="845286783"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">44</int>
@@ -225,20 +226,20 @@
 						<int key="objectID">2</int>
 						<reference key="object" ref="1006"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="451557776"/>
-							<reference ref="870536143"/>
+							<reference ref="845286783"/>
+							<reference ref="586642623"/>
 						</array>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="451557776"/>
+						<reference key="object" ref="845286783"/>
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="1006"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
-						<reference key="object" ref="870536143"/>
+						<reference key="object" ref="586642623"/>
 						<reference key="parent" ref="1006"/>
 					</object>
 				</array>

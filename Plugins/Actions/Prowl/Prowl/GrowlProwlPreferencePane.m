@@ -11,6 +11,7 @@
 @implementation GrowlProwlPreferencePane
 @synthesize webViewWindowController = _webViewWindowController;
 @synthesize generateButton = _generateButton;
+@synthesize generateProgressIndicator = _generateProgressIndicator;
 @synthesize tableView = _tableView;
 @synthesize apiKeys = _apiKeys;
 @synthesize generator = _generator;
@@ -88,6 +89,7 @@
 - (IBAction)connect:(id)sender
 {
 	self.generateButton.enabled = NO;
+	[self.generateProgressIndicator startAnimation:nil];
 	self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
 															  delegate:self] autorelease];
 	[self.generator fetchToken];
@@ -233,6 +235,7 @@
 {
 	self.generateButton.enabled = YES;
 	self.generator = nil;
+	[self.generateProgressIndicator stopAnimation:nil];
 }
 
 - (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL

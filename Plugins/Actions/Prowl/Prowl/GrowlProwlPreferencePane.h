@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSString *prefix;
 
 @property (assign) IBOutlet NSButton *generateButton;
+@property (assign) IBOutlet NSProgressIndicator *generateProgressIndicator;
 - (IBAction)connect:(id)sender;
 - (IBAction)add:(id)sender;
 - (IBAction)remove:(id)sender;
