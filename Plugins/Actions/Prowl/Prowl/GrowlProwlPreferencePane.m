@@ -73,9 +73,14 @@
 	[self updateAPIKeys];
 	
 	[self.tableView beginUpdates];
-	[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count]
+	[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
 						  withAnimation:NSTableViewAnimationEffectGap];
 	[self.tableView endUpdates];
+	
+	[self.tableView editColumn:[self.tableView columnWithIdentifier:@"apikey"]
+						   row:self.apiKeys.count - 1
+					 withEvent:nil
+						select:NO];
 }
 
 - (IBAction)remove:(id)sender
