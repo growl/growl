@@ -229,6 +229,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				iconData = sourceIconData;
 		}
 		if (!iconData)
+			iconData = [notification iconData];
+		if(!iconData)
 			iconData = [ticket iconData];
 		
 		if (iconData)

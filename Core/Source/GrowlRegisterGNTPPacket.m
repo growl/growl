@@ -306,6 +306,7 @@
 	NSMutableArray *allNotifications = [NSMutableArray array];
 	NSMutableArray *defaultNotifications = [NSMutableArray array];
 	NSMutableDictionary *humanReadableNames = [NSMutableDictionary dictionary];
+	NSMutableDictionary *notificationIcons = [NSMutableDictionary dictionary];
 	
 	for (NSDictionary *notification in notifications) {
 		NSString *notificationName = [notification objectForKey:GROWL_NOTIFICATION_NAME];
@@ -318,6 +319,16 @@
 							  forKey:notificationName];
 
 		/* XXX We aren't using GROWL_NOTIFICATION_ICON_ID / GROWL_NOTIFICATION_ICON_URL at all */
+		NSString *noteIconID = [notification valueForKey:GROWL_NOTIFICATION_ICON_ID];
+		NSURL *noteIconURL = [notification valueForKey:GROWL_NOTIFICATION_ICON_URL];
+		NSData *noteIconData = nil;
+		if (noteIconID) {
+			noteIconData = [binaryDataByIdentifier objectForKey:noteIconID];
+		} else if (noteIconURL) {
+			noteIconData = [NSData dataWithContentsOfURL:noteIconURL];
+		}
+		if(noteIconData)
+			[notificationIcons setValue:noteIconData forKey:notificationName];
 	}
 	
 	[growlDictionary setValue:allNotifications
@@ -328,6 +339,10 @@
 					   forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	[growlDictionary setValue:host
 					   forKey:GROWL_UDP_REMOTE_ADDRESS];
+	
+	if([notificationIcons count] > 0)
+		[growlDictionary setValue:notificationIcons
+								 forKey:GROWL_NOTIFICATIONS_ICONS];
 	
 	return growlDictionary;
 }

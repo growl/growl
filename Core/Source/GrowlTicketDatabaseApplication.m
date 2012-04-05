@@ -119,6 +119,7 @@
 		
 		NSDictionary *humanReadableNames = [regDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 		NSDictionary *notificationDescriptions = [regDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+		NSDictionary *notificationIcons = [regDict objectForKey:GROWL_NOTIFICATIONS_ICONS];
 		
 		//Get all the notification names and the data about them
 		NSArray *allNotificationNames = [regDict objectForKey:GROWL_NOTIFICATIONS_ALL];
@@ -151,6 +152,10 @@
 																					forInDefaults:inDefaults];
 			note.defaultEnabled = [NSNumber numberWithBool:defaultEnabled];
 			note.enabled = note.defaultEnabled;
+			
+			NSData *iconData = [notificationIcons valueForKey:name];
+			if(iconData)
+				note.iconData = iconData;
 		}];
 	};
 	if([NSThread isMainThread])
@@ -168,7 +173,8 @@
 		
 		NSDictionary *humanReadableNames = [regDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 		NSDictionary *notificationDescriptions = [regDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
-		
+		NSDictionary *notificationIcons = [regDict objectForKey:GROWL_NOTIFICATIONS_ICONS];
+
 		//Get all the notification names and the data about them
 		NSArray *allNotificationNames = [regDict objectForKey:GROWL_NOTIFICATIONS_ALL];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
@@ -203,6 +209,10 @@
 																						forInDefaults:inDefaults];
 				note.defaultEnabled = [NSNumber numberWithBool:defaultEnabled];
 				note.enabled = note.defaultEnabled;
+				NSData *iconData = [notificationIcons valueForKey:name];
+				if(iconData)
+					note.iconData = iconData;
+				
 				added++;
 			}else{
 				BOOL defaultEnabled = [GrowlTicketDatabaseApplication isNoteDefault:note.name
