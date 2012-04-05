@@ -10,7 +10,6 @@
 		118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAB152BEC4300F3C167 /* Cocoa.framework */; };
 		118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAD152BEC4300F3C167 /* AppKit.framework */; };
 		118F2DB0152BEC4300F3C167 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAF152BEC4300F3C167 /* Foundation.framework */; };
-		118F2DB6152BEC4300F3C167 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 118F2DB4152BEC4300F3C167 /* InfoPlist.strings */; };
 		118F2DBA152BEC4300F3C167 /* ProwlPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118F2DB8152BEC4300F3C167 /* ProwlPrefPane.xib */; };
 		118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */; };
 		118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */; };
@@ -148,7 +147,6 @@
 		118F2DAD152BEC4300F3C167 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		118F2DAF152BEC4300F3C167 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		118F2DB3152BEC4300F3C167 /* Prowl-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Prowl-Info.plist"; sourceTree = "<group>"; };
-		118F2DB5152BEC4300F3C167 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Prowl-Prefix.pch"; sourceTree = "<group>"; };
 		118F2DB9152BEC4300F3C167 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ProwlPrefPane.xib; sourceTree = "<group>"; };
 		118F2DBD152BEC4300F3C167 /* GrowlProwlPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlProwlPreferencePane.h; sourceTree = "<group>"; };
@@ -228,7 +226,6 @@
 			children = (
 				118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */,
 				118F2DB3152BEC4300F3C167 /* Prowl-Info.plist */,
-				118F2DB4152BEC4300F3C167 /* InfoPlist.strings */,
 				118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -429,7 +426,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				118F2DB6152BEC4300F3C167 /* InfoPlist.strings in Resources */,
 				118F2DBA152BEC4300F3C167 /* ProwlPrefPane.xib in Resources */,
 				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
@@ -460,14 +456,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		118F2DB4152BEC4300F3C167 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				118F2DB5152BEC4300F3C167 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		118F2DB8152BEC4300F3C167 /* ProwlPrefPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

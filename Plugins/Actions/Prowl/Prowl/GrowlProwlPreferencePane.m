@@ -1,6 +1,4 @@
 #import "GrowlProwlPreferencePane.h"
-#import "PRDefines.h"
-#import "PRAPIKey.h"
 
 @interface GrowlProwlPreferencePane()
 @property (nonatomic, retain, readwrite) NSMutableArray *apiKeys;

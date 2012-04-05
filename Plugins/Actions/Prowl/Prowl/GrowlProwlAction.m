@@ -1,6 +1,5 @@
 #import "GrowlProwlAction.h"
 #import "GrowlProwlPreferencePane.h"
-#import "PRAPIKey.h"
 #import <GrowlPlugins/GrowlDefines.h>
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>

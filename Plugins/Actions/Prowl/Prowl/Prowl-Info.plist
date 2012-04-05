@@ -25,11 +25,11 @@
 	<key>GrowlPluginAuthor</key>
 	<string>Zachary West</string>
 	<key>GrowlPluginDescription</key>
-	<string>Plugin description</string>
+	<string>Prowl action</string>
 	<key>GrowlPluginsFrameworkVersion</key>
 	<string>1.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 __MyCompanyName__. All rights reserved.</string>
+	<string>Copyright © 2012. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlProwlAction</string>
 </dict>
