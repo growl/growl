@@ -87,14 +87,10 @@
 
 - (IBAction)connect:(id)sender
 {
-//		self.generateButton.enabled = NO;
-	if(self.generator) {
-		[self.generator fetchApiKey];
-	} else {
-		self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
-																  delegate:self] autorelease];
-		[self.generator fetchToken];
-	}	
+	self.generateButton.enabled = NO;
+	self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
+															  delegate:self] autorelease];
+	[self.generator fetchToken];
 }
 
 - (IBAction)add:(id)sender
@@ -233,6 +229,12 @@
 }
 
 #pragma mark - GrowlProwlGeneratorDelegate
+- (void)finishGenerator
+{
+	self.generateButton.enabled = YES;
+	self.generator = nil;
+}
+
 - (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
 {
 	NSLog(@"Got retrieve URL: %@", retrieveURL);
@@ -247,16 +249,14 @@
 {
 	NSLog(@"Got API key: %@", apiKey);
 	
-	self.generateButton.enabled = YES;
 	[self addApiKey:apiKey];	
-	self.generator = nil;
+	[self finishGenerator];
 }
 
 - (void)generator:(GrowlProwlGenerator *)generator didFailWithError:(NSError *)error
 {
 	[[NSAlert alertWithError:error] runModal];
-	self.generateButton.enabled = YES;
-	self.generator = nil;
+	[self finishGenerator];
 }
 
 #pragma mark - GrowlProwlWebKitWindowControllerDelegate
@@ -266,6 +266,7 @@
 	
 	[webView close];
 	self.webViewWindowController = nil;
+	[self finishGenerator];
 }
 
 - (void)webViewDidSucceed:(GrowlProwlWebViewWindowController *)webView
@@ -277,8 +278,7 @@
 - (void)webViewDidCancel:(GrowlProwlWebViewWindowController *)webView
 {
 	self.webViewWindowController = nil;
-	self.generateButton.enabled = YES;
-	self.generator = nil;
+	[self finishGenerator];
 }
 
 @end
