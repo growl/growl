@@ -193,7 +193,6 @@
 		118F2D9D152BEC4300F3C167 = {
 			isa = PBXGroup;
 			children = (
-				11978EF7152D3E0A0021C916 /* WebKit.framework */,
 				118F2DB1152BEC4300F3C167 /* Prowl */,
 				118F2DAA152BEC4300F3C167 /* Frameworks */,
 				118F2DA9152BEC4300F3C167 /* Products */,
@@ -211,6 +210,7 @@
 		118F2DAA152BEC4300F3C167 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11978EF7152D3E0A0021C916 /* WebKit.framework */,
 				118F2DAB152BEC4300F3C167 /* Cocoa.framework */,
 				118F2DAD152BEC4300F3C167 /* AppKit.framework */,
 				118F2DAF152BEC4300F3C167 /* Foundation.framework */,
@@ -225,20 +225,20 @@
 				11951BF5152C120A006D3B62 /* anticheckmark.png */,
 				11951BF6152C120A006D3B62 /* checkmark.png */,
 				118F2DB8152BEC4300F3C167 /* ProwlPrefPane.xib */,
+				11951BF4152C0096006D3B62 /* PRDefines.h */,
+				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
+				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
+				11978EEF152D35090021C916 /* PRServerError.h */,
+				11978EF0152D35090021C916 /* PRServerError.m */,
 				118F2DBD152BEC4300F3C167 /* GrowlProwlPreferencePane.h */,
 				118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */,
 				118F2DC0152BEC4300F3C167 /* GrowlProwlAction.h */,
 				118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */,
-				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
-				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
-				11951BF4152C0096006D3B62 /* PRDefines.h */,
-				11978EEC152D32000021C916 /* GrowlProwlGenerator.h */,
-				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
-				11978EEF152D35090021C916 /* PRServerError.h */,
-				11978EF0152D35090021C916 /* PRServerError.m */,
 				11978EF2152D3DA10021C916 /* GrowlProwlWebViewWindowController.h */,
 				11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */,
 				11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */,
+				11978EEC152D32000021C916 /* GrowlProwlGenerator.h */,
+				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
