@@ -529,7 +529,7 @@ task :shortcutrecorder do
      FileUtils.cp_r("#{sr_source}/#{tx_japanese}.strings", "#{sr_destination}/#{apple_japanese}.lproj/ShortcutRecorder.strings")    
      FileUtils.cp_r("#{sr_source}/#{tx_french}.strings", "#{sr_destination}/#{apple_french}.lproj/ShortcutRecorder.strings")    
      FileUtils.cp_r("#{sr_source}/#{tx_thai}.strings", "#{sr_destination}/#{apple_thai}.lproj/ShortcutRecorder.strings")   
-
+     FileUtils.cp_r("#{sr_source}/#{tx_korean}.strings", "#{sr_destination}/#{apple_korean}.lproj/ShortcutRecorder.strings")   
 
 
     end
