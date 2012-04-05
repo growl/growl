@@ -21,7 +21,26 @@ NSString *const PRServerErrorDomain = @"PRServerErrorDomain";
 
 - (NSString *)localizedDescription
 {
-	return [NSString stringWithFormat:@"%d", self.code];
+	NSString *localizedDescription = nil;
+	
+	switch((PRStatusCode)self.code) {
+		case PRStatusCodeNotAuthorized:
+		case PRStatusCodeBadRequest:
+		case PRStatusCodeNotAcceptable:
+			localizedDescription = NSLocalizedString(@"The application sent a command the server didn't understand. Please try again.", nil);
+			break;
+		case PRStatusCodeNotApproved:
+			localizedDescription = NSLocalizedString(@"You didn't log in and allow an API key to be generated.", nil);
+			break;
+		case PRStatusCodeInternalError:
+			localizedDescription = NSLocalizedString(@"An error occurred on the server. Please try again.", nil);
+			break;
+		default:
+			localizedDescription = NSLocalizedString(@"An unknown error occured. Please try again.", nil);
+			break;
+	}
+	
+	return localizedDescription;
 }
 
 - (NSString *)localizedFailureReason
