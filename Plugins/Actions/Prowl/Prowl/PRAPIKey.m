@@ -40,6 +40,16 @@
 				 forKey:@"validated"];
 }
 
+- (BOOL)isEqual:(id)object
+{
+	if([object isKindOfClass:[PRAPIKey class]]) {
+		PRAPIKey *otherApiKey = (PRAPIKey *)object;
+		return [otherApiKey.apiKey compare:self.apiKey options:NSCaseInsensitiveSearch] == NSOrderedSame;
+	}
+	
+	return NO;
+}
+
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@: %p; enabled = %d; validated = %d; apiKey = %@>",

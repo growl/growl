@@ -18,6 +18,9 @@
 		11951BF8152C120A006D3B62 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF6152C120A006D3B62 /* checkmark.png */; };
 		11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EED152D32000021C916 /* GrowlProwlGenerator.m */; };
 		11978EF1152D35090021C916 /* PRServerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF0152D35090021C916 /* PRServerError.m */; };
+		11978EF5152D3DA10021C916 /* GrowlProwlWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */; };
+		11978EF6152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */; };
+		11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11978EF7152D3E0A0021C916 /* WebKit.framework */; };
 		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +168,10 @@
 		11978EED152D32000021C916 /* GrowlProwlGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlGenerator.m; sourceTree = "<group>"; };
 		11978EEF152D35090021C916 /* PRServerError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRServerError.h; sourceTree = "<group>"; };
 		11978EF0152D35090021C916 /* PRServerError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRServerError.m; sourceTree = "<group>"; };
+		11978EF2152D3DA10021C916 /* GrowlProwlWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlWebViewWindowController.h; sourceTree = "<group>"; };
+		11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlWebViewWindowController.m; sourceTree = "<group>"; };
+		11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlProwlWebViewWindowController.xib; sourceTree = "<group>"; };
+		11978EF7152D3E0A0021C916 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */,
 				BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */,
 				118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */,
 				118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */,
@@ -185,6 +193,7 @@
 		118F2D9D152BEC4300F3C167 = {
 			isa = PBXGroup;
 			children = (
+				11978EF7152D3E0A0021C916 /* WebKit.framework */,
 				118F2DB1152BEC4300F3C167 /* Prowl */,
 				118F2DAA152BEC4300F3C167 /* Frameworks */,
 				118F2DA9152BEC4300F3C167 /* Products */,
@@ -227,6 +236,9 @@
 				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
 				11978EEF152D35090021C916 /* PRServerError.h */,
 				11978EF0152D35090021C916 /* PRServerError.m */,
+				11978EF2152D3DA10021C916 /* GrowlProwlWebViewWindowController.h */,
+				11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */,
+				11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
@@ -439,6 +451,7 @@
 				118F2DBA152BEC4300F3C167 /* ProwlPrefPane.xib in Resources */,
 				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
+				11978EF6152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +467,7 @@
 				11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */,
 				11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */,
 				11978EF1152D35090021C916 /* PRServerError.m in Sources */,
+				11978EF5152D3DA10021C916 /* GrowlProwlWebViewWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

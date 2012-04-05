@@ -1,12 +1,15 @@
 #import "GrowlProwlPreferencePane.h"
 #import "GrowlProwlGenerator.h"
+#import "GrowlProwlWebViewWindowController.h"
 
-@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate>
+@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate, GrowlProwlWebViewWindowControllerDelegate>
 @property (nonatomic, retain, readwrite) NSMutableArray *apiKeys;
 @property (nonatomic, retain) GrowlProwlGenerator *generator;
+@property (nonatomic, retain) GrowlProwlWebViewWindowController *webViewWindowController;
 @end
 
 @implementation GrowlProwlPreferencePane
+@synthesize webViewWindowController = _webViewWindowController;
 @synthesize generateButton = _generateButton;
 @synthesize tableView = _tableView;
 @synthesize apiKeys = _apiKeys;
@@ -24,6 +27,7 @@
 - (void)dealloc
 {
 	[_apiKeys release];
+	[_generator release];
     [super dealloc];
 }
 
@@ -68,13 +72,17 @@
 
 - (void)addApiKey:(PRAPIKey *)apiKey
 {
-	[self.apiKeys addObject:apiKey];
-	[self updateAPIKeys];
-	
-	[self.tableView beginUpdates];
-	[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
-						  withAnimation:NSTableViewAnimationEffectGap];
-	[self.tableView endUpdates];
+	if([self.apiKeys containsObject:apiKey]) {
+		NSLog(@"Not adding API key, contains already: %@", apiKey);
+	} else {
+		[self.apiKeys addObject:apiKey];
+		[self updateAPIKeys];
+		
+		[self.tableView beginUpdates];
+		[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
+							  withAnimation:NSTableViewAnimationEffectGap];
+		[self.tableView endUpdates];
+	}
 }
 
 - (IBAction)connect:(id)sender
@@ -228,8 +236,11 @@
 - (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
 {
 	NSLog(@"Got retrieve URL: %@", retrieveURL);
+
+	self.webViewWindowController = [[[GrowlProwlWebViewWindowController alloc] initWithURL:retrieveURL
+																				  delegate:self] autorelease];
 	
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:retrieveURL]];
+	[self.webViewWindowController showWindow:nil];
 }
 
 - (void)generator:(GrowlProwlGenerator *)generator didFetchApiKey:(PRAPIKey *)apiKey
@@ -243,7 +254,29 @@
 
 - (void)generator:(GrowlProwlGenerator *)generator didFailWithError:(NSError *)error
 {
-	NSLog(@"Generator failed with error: %@", error);
+	[[NSAlert alertWithError:error] runModal];
+	self.generateButton.enabled = YES;
+	self.generator = nil;
+}
+
+#pragma mark - GrowlProwlWebKitWindowControllerDelegate
+- (void)webView:(GrowlProwlWebViewWindowController *)webView didFailWithError:(NSError *)error
+{
+	[[NSAlert alertWithError:error] runModal];
+	
+	[webView close];
+	self.webViewWindowController = nil;
+}
+
+- (void)webViewDidSucceed:(GrowlProwlWebViewWindowController *)webView
+{
+	self.webViewWindowController = nil;
+	[self.generator fetchApiKey];
+}
+
+- (void)webViewDidCancel:(GrowlProwlWebViewWindowController *)webView
+{
+	self.webViewWindowController = nil;
 	self.generateButton.enabled = YES;
 	self.generator = nil;
 }
