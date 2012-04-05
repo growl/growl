@@ -1,12 +1,16 @@
 #import "GrowlProwlPreferencePane.h"
+#import "GrowlProwlGenerator.h"
 
-@interface GrowlProwlPreferencePane()
+@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate>
 @property (nonatomic, retain, readwrite) NSMutableArray *apiKeys;
+@property (nonatomic, retain) GrowlProwlGenerator *generator;
 @end
 
 @implementation GrowlProwlPreferencePane
+@synthesize generateButton = _generateButton;
 @synthesize tableView = _tableView;
 @synthesize apiKeys = _apiKeys;
+@synthesize generator = _generator;
 
 - (id)init
 {
@@ -64,7 +68,14 @@
 
 - (IBAction)connect:(id)sender
 {
-	
+//		self.generateButton.enabled = NO;
+	if(self.generator) {
+		[self.generator fetchApiKey];
+	} else {
+		self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
+																  delegate:self] autorelease];
+		[self.generator fetchToken];
+	}	
 }
 
 - (IBAction)add:(id)sender
@@ -206,6 +217,30 @@
 	}
 	
 	[self updateAPIKeys];
+}
+
+#pragma mark - GrowlProwlGeneratorDelegate
+- (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
+{
+	NSLog(@"Got retrieve URL: %@", retrieveURL);
+	
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:retrieveURL]];
+}
+
+- (void)generator:(GrowlProwlGenerator *)generator didFetchApiKey:(PRAPIKey *)apiKey
+{
+	NSLog(@"Got API key: %@", apiKey);
+	
+	self.generateButton.enabled = YES;
+	[self.apiKeys addObject:apiKey];
+	[self updateAPIKeys];
+	[self.tableView reloadData];
+}
+
+- (void)generator:(GrowlProwlGenerator *)generator didFailWithError:(NSError *)error
+{
+	NSLog(@"Generator failed with error: %@", error);
+	self.generateButton.enabled = YES;
 }
 
 @end

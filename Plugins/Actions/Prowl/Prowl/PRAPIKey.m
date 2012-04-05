@@ -1,7 +1,6 @@
 #import "PRAPIKey.h"
 
 @interface PRAPIKey()
-@property (nonatomic, assign, readwrite) BOOL validated;
 @end
 
 @implementation PRAPIKey

@@ -16,6 +16,8 @@
 		11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 11951BF2152BFF1E006D3B62 /* PRAPIKey.m */; };
 		11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF5152C120A006D3B62 /* anticheckmark.png */; };
 		11951BF8152C120A006D3B62 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF6152C120A006D3B62 /* checkmark.png */; };
+		11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EED152D32000021C916 /* GrowlProwlGenerator.m */; };
+		11978EF1152D35090021C916 /* PRServerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF0152D35090021C916 /* PRServerError.m */; };
 		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
 /* End PBXBuildFile section */
 
@@ -159,6 +161,10 @@
 		11951BF4152C0096006D3B62 /* PRDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRDefines.h; sourceTree = "<group>"; };
 		11951BF5152C120A006D3B62 /* anticheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anticheckmark.png; sourceTree = "<group>"; };
 		11951BF6152C120A006D3B62 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		11978EEC152D32000021C916 /* GrowlProwlGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlGenerator.h; sourceTree = "<group>"; };
+		11978EED152D32000021C916 /* GrowlProwlGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlGenerator.m; sourceTree = "<group>"; };
+		11978EEF152D35090021C916 /* PRServerError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRServerError.h; sourceTree = "<group>"; };
+		11978EF0152D35090021C916 /* PRServerError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRServerError.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +223,10 @@
 				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
 				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
 				11951BF4152C0096006D3B62 /* PRDefines.h */,
+				11978EEC152D32000021C916 /* GrowlProwlGenerator.h */,
+				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
+				11978EEF152D35090021C916 /* PRServerError.h */,
+				11978EF0152D35090021C916 /* PRServerError.m */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
@@ -442,6 +452,8 @@
 				118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */,
 				118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */,
 				11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */,
+				11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */,
+				11978EF1152D35090021C916 /* PRServerError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

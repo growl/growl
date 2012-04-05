@@ -4,6 +4,7 @@
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 
+NSString *const PRProviderKey = @"2f9563e20c02edca8c6481ca1b79c0157f8c278c";
 NSString *const PRPreferenceKeyAPIKeys = @"PRPreferenceKeyAPIKeys";
 NSString *const PRPreferenceKeyOnlyWhenIdle = @"PRPreferenceKeyOnlyWhenIdle";
 NSString *const PRPreferenceKeyMinimumPriority = @"PRPreferenceKeyMinimumPriority";
