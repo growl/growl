@@ -47,12 +47,58 @@
 		self.allWindows = [NSMutableSet set];
 		self.displayedBridges = [NSMutableArray array];
 		self.bridgeQueue = [NSMutableArray array];
-		self.positionControllers = [NSMutableArray array];
-		GrowlPositionController *mainPositionController = [[GrowlPositionController alloc] initWithScreenFrame:[[NSScreen mainScreen] visibleFrame]];
-		[positionControllers addObject:mainPositionController];
-		[mainPositionController release];
+		self.positionControllers = [NSMutableArray arrayWithCapacity:[[NSScreen screens] count]];
+		
+		__block GrowlDisplayBridgeController *blockSelf = self;
+		//Generate a position controller for each display
+		[[NSScreen screens] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			GrowlPositionController *positionController = [[GrowlPositionController alloc] initWithScreenFrame:[obj visibleFrame]];
+			NSUInteger screenID = [blockSelf deviceIDForScreen:obj];
+			NSLog(@"%lu", screenID);
+			[positionController setDeviceID:screenID];
+			[blockSelf.positionControllers addObject:positionController];
+			[positionController release];
+		}];
+		
+		void (^screenChangeBlock)(NSNotification*) = ^(NSNotification *note){
+			NSArray *screens = [NSScreen screens];
+			if([screens count] != [blockSelf.positionControllers count]){				
+				return;
+			}
+			[screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				CGRect newRect = [obj visibleFrame];
+				GrowlPositionController *controller = [blockSelf.positionControllers objectAtIndex:idx];
+				CGRect currentRect = [controller screenFrame];
+				if(!CGRectEqualToRect(newRect, currentRect))
+				{
+					if([controller isFrameFree:[controller screenFrame]])
+						[controller setScreenFrame:newRect];
+					else{
+						[controller setUpdateFrame:YES];
+						[controller setNewFrame:newRect];
+					}
+				}
+			}];
+		};
+		
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidChangeScreenParametersNotification
+																		  object:nil
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:screenChangeBlock];
 	}
 	return self;
+}
+
+-(NSUInteger)deviceIDForScreen:(NSScreen*)screen {
+	return [[[screen deviceDescription] valueForKey:@"NSScreenNumber"] unsignedIntegerValue];
+}
+
+-(GrowlPositionController*)positionControllerForWindow:(GrowlDisplayWindowController*)window
+{
+	NSUInteger screenNumber = [window screenNumber];
+	if(screenNumber < [positionControllers count])
+		return [positionControllers objectAtIndex:screenNumber];
+	return [positionControllers objectAtIndex:0U];
 }
 
 -(BOOL)displayWindow:(GrowlDisplayWindowController*)window
@@ -63,8 +109,7 @@
 		NSDictionary *configDict = [[window notification] configurationDict];
 		GrowlPositionOrigin	position = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlTopRightCorner;
 		
-		//	NSScreen *preferredScreen = [displayController screen];
-		GrowlPositionController *controller = [positionControllers objectAtIndex:0U];
+		GrowlPositionController *controller = [self positionControllerForWindow:window];
 		
 		NSSize displaySize = [window requiredSize];		
 		CGRect found = [controller canFindSpotForSize:displaySize
@@ -84,12 +129,12 @@
 
 -(void)windowReadyToStart:(GrowlDisplayWindowController*)window {
 	[window retain];
-	[self displayBridge:window reposition:NO];
+	[self displayWindow:window reposition:NO];
 	[pending removeObject:window];
 	[window release];
 }
 
--(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
+-(void)displayWindow:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
 {
 	[allWindows addObject:window];
 	if(reposition){
@@ -110,7 +155,7 @@
 	}
 }
 
--(void)checkQueuedBridges
+-(void)checkQueuedWindows
 {
 	__block GrowlDisplayBridgeController *blockSelf = self;
 	if([bridgeQueue count]){
@@ -130,6 +175,10 @@
 
 -(void)clearRect:(CGRect)rect inPositionController:(GrowlPositionController*)controller {
 	[controller vacateRect:rect];
+	if([controller updateFrame] && [controller isFrameFree:[controller screenFrame]]){
+		[controller setUpdateFrame:NO];
+		[controller setScreenFrame:[controller newFrame]];
+	}
 }
 
 -(void)takeDownDisplay:(GrowlDisplayWindowController*)window
@@ -137,13 +186,13 @@
 	[displayedBridges removeObject:window];
 	if([[window plugin] requiresPositioning]){
 		CGRect clearRect = [window occupiedRect];
-		GrowlPositionController *controller = [positionControllers objectAtIndex:0U];
+		GrowlPositionController *controller = [self positionControllerForWindow:window];
 		[self clearRect:clearRect inPositionController:controller];
 		
 		[[self class] cancelPreviousPerformRequestsWithTarget:self
-																	selector:@selector(checkQueuedBridges) 
+																	selector:@selector(checkQueuedWindows) 
 																	  object:nil];
-		[self performSelector:@selector(checkQueuedBridges) withObject:nil afterDelay:.2];
+		[self performSelector:@selector(checkQueuedWindows) withObject:nil afterDelay:.2];
 	}
 	[displayedBridges removeObject:window];
 	[allWindows removeObject:window];

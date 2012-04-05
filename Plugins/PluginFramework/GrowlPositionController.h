@@ -11,7 +11,13 @@
 
 @interface GrowlPositionController : NSObject
 
+@property (nonatomic) CGRect screenFrame;
+@property (nonatomic) BOOL updateFrame;
+@property (nonatomic) CGRect newFrame;
+@property (nonatomic) NSUInteger deviceID;
+
 -(id)initWithScreenFrame:(CGRect)frame;
+-(BOOL)isFrameFree:(CGRect)frame;
 -(CGRect)canFindSpotForSize:(CGSize)size 
 			startingInPosition:(GrowlPositionOrigin)start;
 -(void)occupyRect:(CGRect)rect;

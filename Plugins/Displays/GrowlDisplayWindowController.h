@@ -120,6 +120,7 @@ typedef enum {
 
 - (NSScreen *) screen;
 - (void) setScreen:(NSScreen *)newScreen;
+- (NSUInteger)screenNumber;
 - (void) setScreenNumber:(NSUInteger)newScreenNumber;
 
 - (id) clickContext;

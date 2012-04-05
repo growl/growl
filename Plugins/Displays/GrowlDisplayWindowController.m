@@ -170,7 +170,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) startDisplay {
-	[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:NO];
+	[[GrowlDisplayBridgeController sharedController] displayWindow:self reposition:NO];
 }
 
 - (void) stopDisplay {	
@@ -561,7 +561,7 @@ static NSMutableDictionary *existingInstances;
 			break;
 	}
 	if(resize)
-		[[GrowlDisplayBridgeController sharedController] displayBridge:self reposition:YES];
+		[[GrowlDisplayBridgeController sharedController] displayWindow:self reposition:YES];
 }
 
 #pragma mark -
@@ -579,6 +579,10 @@ static NSMutableDictionary *existingInstances;
 	if (newScreenNumber == NSNotFound)
 		[NSException raise:NSInternalInconsistencyException format:@"Tried to set %@ %p to a screen %p that isn't in the screen list", [self class], self, newScreen];
 	[self setScreenNumber:newScreenNumber];
+}
+
+- (NSUInteger) screenNumber {
+	return screenNumber;
 }
 
 - (void) setScreenNumber:(NSUInteger)newScreenNumber {

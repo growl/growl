@@ -19,7 +19,7 @@
 -(void)windowReadyToStart:(GrowlDisplayWindowController*)window;
 
 /* Used for displaying, or repositioning a display */
--(void)displayBridge:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition;
+-(void)displayWindow:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition;
 
 /* Called by didFinishTransitionsAfterDisplay in GrowlDisplayWindowController to finish out the cycle */
 -(void)takeDownDisplay:(GrowlDisplayWindowController*)window;

@@ -27,7 +27,6 @@
 @property (nonatomic, retain) NSMutableArray *leftColumns;
 @property (nonatomic, retain) NSMutableArray *rightColumns;
 @property (nonatomic) CGFloat availableWidth;
-@property (nonatomic) CGRect screenFrame;
 
 @end
 
@@ -38,28 +37,16 @@
 @synthesize leftColumns;
 @synthesize rightColumns;
 @synthesize availableWidth;
+
 @synthesize screenFrame;
+@synthesize updateFrame;
+@synthesize newFrame;
+@synthesize deviceID;
 
 -(id)initWithScreenFrame:(CGRect)frame {
 	if((self = [super init])){
 		self.screenFrame = frame;
 		
-#ifdef GROWL_OBJC_QUADTREE
-		self.rootNode = [[[GrowlQuadTreeNode alloc] initWithState:GrowlQuadTreeEmptyState
-																		 forRect:frame] autorelease];
-#else
-		c_rootNode = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
-		if(c_rootNode == nil){
-			NSLog(@"ERROR! Unable to malloc root node");
-			return nil;
-		}
-		c_rootNode->frame = frame;
-		c_rootNode->state = GrowlQuadTreeEmptyState;
-		c_rootNode->topLeft = NULL;
-		c_rootNode->topRight = NULL;
-		c_rootNode->bottomLeft = NULL;
-		c_rootNode->bottomRight = NULL;
-#endif
 		
 		self.availableWidth = screenFrame.size.width;
 		self.allColumns = [NSMutableArray array];
@@ -81,6 +68,40 @@
 	[leftColumns release];
 	[rightColumns release];
 	[super dealloc];
+}
+
+-(BOOL)isFrameFree:(CGRect)frame {
+#ifdef GROWL_OBJC_QUADTREE
+	return [rootNode isFrameFree:frame];
+#else
+	return is_frame_free(c_rootNode, frame);
+#endif
+}
+
+-(void)setScreenFrame:(CGRect)frame {
+	if((c_rootNode != NULL || rootNode) && ![self isFrameFree:screenFrame]){
+		NSLog(@"Screen is not free!");
+		return;
+	}
+	screenFrame = frame;
+#ifdef GROWL_OBJC_QUADTREE
+	self.rootNode = [[[GrowlQuadTreeNode alloc] initWithState:GrowlQuadTreeEmptyState
+																	  forRect:frame] autorelease];
+#else
+	if(c_rootNode != NULL){
+		free(c_rootNode);
+	}
+	c_rootNode = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
+	if(c_rootNode == nil){
+		NSLog(@"ERROR! Unable to malloc root node");
+	}
+	c_rootNode->frame = frame;
+	c_rootNode->state = GrowlQuadTreeEmptyState;
+	c_rootNode->topLeft = NULL;
+	c_rootNode->topRight = NULL;
+	c_rootNode->bottomLeft = NULL;
+	c_rootNode->bottomRight = NULL;
+#endif
 }
 
 -(GrowlPositionColumn*)columForRect:(CGRect)rect {
@@ -201,11 +222,7 @@
 			origin = CGPointMake(column.xOrigin + (column.width - size.width), screenFrame.origin.y + (screenFrame.size.height - size.height));
 	}
 	CGRect rect = CGRectMake(origin.x, origin.y, size.width, size.height);
-#ifdef GROWL_OBJC_QUADTREE
-	while (![rootNode isFrameFree:rect]) {
-#else
-	while(!is_frame_free(c_rootNode, rect)) {
-#endif
+	while (![self isFrameFree:rect]) {
 		switch (primary) {
 			case QuadDown:
 				rect.origin.y -= 1;
