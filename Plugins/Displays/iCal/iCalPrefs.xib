@@ -807,7 +807,7 @@
 			<object class="NSCustomObject" id="985304726">
 				<string key="NSClassName">GrowlPluginPreferenceStrings</string>
 			</object>
-			<object class="NSUserDefaultsController" id="966749518">
+			<object class="NSUserDefaultsController" id="651702031">
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
@@ -885,6 +885,22 @@
 						</object>
 					</object>
 					<int key="connectionID">335</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.limit</string>
+						<reference key="source" ref="1050800351"/>
+						<reference key="destination" ref="835727506"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1050800351"/>
+							<reference key="NSDestination" ref="835727506"/>
+							<string key="NSLabel">value: self.limit</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.limit</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">342</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2189,7 +2205,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">325</int>
-						<reference key="object" ref="966749518"/>
+						<reference key="object" ref="651702031"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</object>
@@ -2442,7 +2458,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">340</int>
+			<int key="maxID">342</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
