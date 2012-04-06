@@ -91,7 +91,9 @@
 		NSInteger idx = [self.tableView rowForView:sender];
 		if(idx != -1) {
 			PRAPIKey *apiKey = [self.apiKeys objectAtIndex:idx];
-			[self validateApiKey:apiKey];
+			if(!apiKey.validated) {
+				[self validateApiKey:apiKey];
+			}
 		}
 	} else {	
 		[self saveApiKeys];
