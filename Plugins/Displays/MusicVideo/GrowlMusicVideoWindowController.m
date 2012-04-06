@@ -10,6 +10,7 @@
 #import <GrowlPlugins/GrowlSlidingWindowTransition.h>
 #import <GrowlPlugins/GrowlWipeWindowTransition.h>
 #import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/NSScreen+GrowlScreenAdditions.h>
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
@@ -147,6 +148,10 @@
 -(void)positionInRect:(CGRect)rect {
 	[super positionInRect:rect];
 	[[self window] setFrameTopLeftPoint:[self screen].frame.origin];
+}
+
+-(NSString*)displayQueueKey {
+	return [[self screen] screenIDString];
 }
 
 @end

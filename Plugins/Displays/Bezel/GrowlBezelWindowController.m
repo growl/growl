@@ -11,6 +11,7 @@
 #import <GrowlPlugins/GrowlShrinkingWindowTransition.h>
 #import <GrowlPlugins/GrowlWindowtransition.h>
 #import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/NSScreen+GrowlScreenAdditions.h>
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelWindowView.h"
 #import "GrowlBezelPrefs.h"
@@ -171,6 +172,16 @@
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBezelPadding;
+}
+
+- (NSString*)displayQueueKey {
+	int positionPref = BEZEL_POSITION_DEFAULT;
+	if([[self configurationDict] valueForKey:BEZEL_POSITION_PREF]){
+		positionPref = [[[self configurationDict] valueForKey:BEZEL_POSITION_PREF] intValue];
+	}
+	
+	NSString *key = [NSString stringWithFormat:@"%@-%d", [[self screen] screenIDString], positionPref];
+	return key;
 }
 
 @end

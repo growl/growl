@@ -24,6 +24,10 @@
 
 @property (nonatomic, retain) NSMutableDictionary *positionControllers;
 
+@property (nonatomic, retain) NSMutableDictionary *queueKeysByDisplayID;
+@property (nonatomic, retain) NSMutableDictionary *queuingDisplayQueues;
+@property (nonatomic, retain) NSMutableDictionary *queuingDisplayCurrentWindows;
+
 @end
 
 @implementation GrowlDisplayBridgeController
@@ -34,6 +38,10 @@
 @synthesize windowQueue;
 @synthesize windowsByDisplayID;
 @synthesize positionControllers;
+
+@synthesize queueKeysByDisplayID;
+@synthesize queuingDisplayQueues;
+@synthesize queuingDisplayCurrentWindows;
 
 +(GrowlDisplayBridgeController*)sharedController {
 	static GrowlDisplayBridgeController *sharedController = nil;
@@ -52,6 +60,10 @@
 		self.windowQueue = [NSMutableArray array];
 		self.positionControllers = [NSMutableDictionary dictionaryWithCapacity:[[NSScreen screens] count]];
 		self.windowsByDisplayID = [NSMutableDictionary dictionaryWithCapacity:[[NSScreen screens] count]];
+		
+		self.queueKeysByDisplayID = [NSMutableDictionary dictionary];
+		self.queuingDisplayQueues = [NSMutableDictionary dictionary];
+		self.queuingDisplayCurrentWindows = [NSMutableDictionary dictionary];
 		
 		__block GrowlDisplayBridgeController *blockSelf = self;
 		//Generate a position controller for each display
@@ -80,6 +92,20 @@
 				[blockSelf.allWindows minusSet:displayed];
 				[blockSelf.positionControllers removeObjectForKey:key];
 				[blockSelf.windowsByDisplayID removeObjectForKey:key];
+				
+				NSMutableSet *queueKeys = [blockSelf.queueKeysByDisplayID valueForKey:key];
+				[queueKeys enumerateObjectsUsingBlock:^(id queueObj, BOOL *queueStop) {
+					[blockSelf.queuingDisplayCurrentWindows removeObjectForKey:queueObj];
+					//tell these to redisplay
+					NSMutableArray *queue = [queuingDisplayQueues valueForKey:queueObj];
+					[queue enumerateObjectsUsingBlock:^(id windowObj, NSUInteger windowIDX, BOOL *windowStop) {
+						//NSLog(@"old queue key: %@ new key: %@", queueObj, [windowObj displayQueueKey]);
+						//This isn't working quite right yet
+						[self displayWindow:windowObj reposition:NO];
+					}];
+					[queuingDisplayQueues removeObjectForKey:queueObj];
+				}];
+				[blockSelf.queueKeysByDisplayID removeObjectForKey:key];
 			}];
 			
 			[screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -182,14 +208,44 @@
 			[displayedWindows removeObject:window];
 			[windowQueue addObject:window];
 		}
-	}else if([self displayWindow:window]){
-		[window foundSpaceToStart];
-		[displayedWindows addObject:window];
-		NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
-		if(controllerSet) [controllerSet addObject:window];
 	}else{
-		//NSLog(@"putting in queue");
-		[windowQueue addObject:window];
+		BOOL display = YES;
+		if(![[window plugin] requiresPositioning]){
+			NSString *displayQueueKey = [window displayQueueKey];
+			if([queuingDisplayCurrentWindows valueForKey:displayQueueKey] || [queuingDisplayQueues valueForKey:displayQueueKey]){
+				display = NO;
+				NSMutableArray *queue = [queuingDisplayQueues valueForKey:displayQueueKey];
+				if(!queue){
+					queue = [NSMutableArray array];
+					[queuingDisplayQueues setValue:queue forKey:displayQueueKey];
+				}
+				[queue addObject:window];
+			}
+			NSString *screenID = [[window screen] screenIDString];
+			NSMutableSet *keys = [queueKeysByDisplayID valueForKey:screenID];
+			if(!keys){
+				keys = [NSMutableSet set];
+				[queueKeysByDisplayID setValue:keys forKey:screenID];
+			}
+			[keys addObject:displayQueueKey];
+		}
+		
+		if(display){
+			if([self displayWindow:window]){
+				[window foundSpaceToStart];
+				[displayedWindows addObject:window];
+				NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+				if(controllerSet) [controllerSet addObject:window];
+				
+				if(![[window plugin] requiresPositioning]){
+					NSString *displayQueueKey = [window displayQueueKey];
+					[queuingDisplayCurrentWindows setValue:window forKey:displayQueueKey];
+				}
+			}else{
+				//NSLog(@"putting in queue");
+				[windowQueue addObject:window];
+			}
+		}
 	}
 }
 
@@ -204,8 +260,7 @@
 					[found addObject:obj];
 					[obj foundSpaceToStart];
 					[[blockSelf displayedWindows] addObject:obj];
-					GrowlPositionController *controller = [self positionControllerForWindow:obj];
-					NSMutableSet *controllerSet = [blockSelf.windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+					NSMutableSet *controllerSet = [blockSelf.windowsByDisplayID valueForKey:[[obj screen] screenIDString]];
 					if(controllerSet) [controllerSet addObject:obj];
 				}
 			}];
@@ -233,8 +288,28 @@
 																	selector:@selector(checkQueuedWindows) 
 																	  object:nil];
 		[self performSelector:@selector(checkQueuedWindows) withObject:nil afterDelay:.2];
+	}else{
+		//Get our next window out for this windows display queue key if there is one
+		NSString *displayQueueKey = [window displayQueueKey];
+		if([queuingDisplayQueues valueForKey:displayQueueKey])
+		{
+			NSMutableArray *displayQueue = [queuingDisplayQueues valueForKey:displayQueueKey];
+			GrowlDisplayWindowController *nextWindow = [displayQueue objectAtIndex:0U];
+			[nextWindow setOccupiedRect:[[nextWindow screen] frame]];
+			[nextWindow foundSpaceToStart];
+			[displayedWindows addObject:nextWindow];
+
+			[queuingDisplayCurrentWindows setValue:nextWindow forKey:displayQueueKey];
+			[displayQueue removeObjectAtIndex:0U];
+			if(![displayQueue count]){
+				//We dont have a queue, remove it so we track properly whether to enqueue more notes
+				[queuingDisplayQueues removeObjectForKey:displayQueueKey];
+			}
+		}else{
+			[queuingDisplayCurrentWindows removeObjectForKey:displayQueueKey];
+		}
 	}
-	NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+	NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[[window screen] screenIDString]];
 	if(controllerSet) [controllerSet removeObject:window];
 	[displayedWindows removeObject:window];
 	[allWindows removeObject:window];

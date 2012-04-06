@@ -143,6 +143,8 @@ typedef enum {
 - (void) positionInRect:(CGRect)rect;
 - (CGFloat) requiredDistanceFromExistingDisplays;
 
+- (NSString*)displayQueueKey;
+
 @property (nonatomic, assign) BOOL finished;
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;

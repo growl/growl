@@ -10,6 +10,7 @@
 #import <GrowlPlugins/GrowlSlidingWindowTransition.h>
 #import <GrowlPlugins/GrowlWipeWindowTransition.h>
 #import <GrowlPlugins/GrowlFadingWindowTransition.h>
+#import <GrowlPlugins/NSScreen+GrowlScreenAdditions.h>
 #import "GrowlNanoWindowController.h"
 #import "GrowlNanoWindowView.h"
 #import "GrowlNanoPrefs.h"
@@ -152,6 +153,10 @@
 		yPosition -= [[NSApp mainMenu] menuBarHeight];
 	
 	return CGPointMake(xPosition, yPosition);
+}
+
+-(NSString*)displayQueueKey {
+	return [[self screen] screenIDString];
 }
 
 @end

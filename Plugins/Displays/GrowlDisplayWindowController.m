@@ -736,4 +736,8 @@ static NSMutableDictionary *existingInstances;
 	return 0.0;
 }
 
+- (NSString*)displayQueueKey {
+	return nil;
+}
+
 @end

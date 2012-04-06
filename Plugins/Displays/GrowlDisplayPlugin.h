@@ -47,8 +47,6 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 /* */
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc;
 
-- (BOOL) queuesNotifications;
-
 - (BOOL) requiresPositioning;
 
 @end

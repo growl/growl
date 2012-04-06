@@ -16,45 +16,20 @@
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 
-@interface GrowlDisplayPlugin ()
-
-@property (nonatomic, retain) NSMutableArray *queue;
-@property (nonatomic, retain) GrowlDisplayWindowController *window;
-
-@end
-
 @implementation GrowlDisplayPlugin
-
-@synthesize queue;
-@synthesize window;
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle])) {
 		/*determine whether this display should enqueue notifications when a
 		 *	notification is already being displayed.
 		 */
-		BOOL queuesNotifications = NO;
 		windowControllerClass    = nil;
-
-		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyUsesQueue];
-		if (queuesNotificationsObject) {
-			NSAssert4([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
-					  @"object for %@ in Info.plist of %@ is a %@ and therefore has no Boolean value (description follows)\n%@",
-					  GrowlDisplayPluginInfoKeyUsesQueue,
-					  bundle, [queuesNotificationsObject class], queuesNotificationsObject);
-			queuesNotifications = [queuesNotificationsObject boolValue];
-		}
-
-		if (queuesNotifications)
-			self.queue = [NSMutableArray array];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[coalescableWindows release];
-	[window release];
-	[queue release];
 	
 	[super dealloc];
 }
@@ -85,19 +60,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			thisWindow = [[windowControllerClass alloc] initWithNotification:notification plugin:self];
 		[thisWindow setNotification:notification];
 				
-		if (queue) {
-			if (window) {
-				//a notification is already up; enqueue the new one
-				[queue addObject:thisWindow];
-			} else {
-				//nothing up at the moment; just display it
-				self.window = thisWindow;
-				[thisWindow startDisplay];
-			}
-		} else {
-			//no queue; just display it
-			[thisWindow startDisplay];
-		}
+		[thisWindow startDisplay];
 		
 		if (identifier) {
 			if (!coalescableWindows) coalescableWindows = [[NSMutableDictionary alloc] init];
@@ -122,10 +85,6 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	return windowNibName;
 }
 
-- (BOOL) queuesNotifications {
-	return (queue != nil);
-}
-
 - (BOOL) requiresPositioning {
 	return YES;
 }
@@ -137,25 +96,6 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 		
 		[wc retain];
 		
-		if(queue)
-		{
-			GrowlDisplayWindowController *theWindow;
-			
-			if ([queue count] > 0U) {
-				theWindow = [queue objectAtIndex:0U];
-				
-				[theWindow startDisplay];
-				
-				if(theWindow != wc)
-					self.window = theWindow;
-				
-				[queue removeObjectAtIndex:0U];		
-			}
-			else
-			{
-				self.window = nil;
-			}
-		}
 		if (coalescableWindows) {
 			NSString *identifier = [[[wc notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 			if (identifier)
