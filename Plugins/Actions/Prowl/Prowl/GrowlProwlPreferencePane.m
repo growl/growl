@@ -311,6 +311,8 @@
 		// Don't annoy the user if we error on something valid already.
 		[[NSAlert alertWithError:error] runModal];
 	}
+	
+	[self reloadValidateColumnForApiKey:apiKey];
 }
 
 #pragma mark - GrowlProwlGeneratorDelegate
