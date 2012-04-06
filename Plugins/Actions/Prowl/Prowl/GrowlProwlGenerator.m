@@ -56,7 +56,7 @@
 		NSArray *retrieveElements = [document.rootElement elementsForName:@"retrieve"];
 		if(!retrieveElements.count) {
 			if(error)
-				*error = [NSError errorWithDomain:@"GrowlProwlGenerator" code:-1 userInfo:nil];
+				*error = [PRServerError serverErrorWithStatusCode:-1];
 		} else {
 			retrieveElement = retrieveElements.lastObject;
 		}

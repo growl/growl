@@ -126,7 +126,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 {
 	NSMutableArray *stringArray = [NSMutableArray array];
 	for(PRAPIKey *key in apiKeys) {
-		if(key.enabled) {// && key.validated) {
+		if(key.enabled && key.validated) {
 			[stringArray addObject:key.apiKey];
 		}
 	}

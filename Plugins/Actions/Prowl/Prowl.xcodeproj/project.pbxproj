@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		117B8505152E7A2000B4B531 /* GrowlProwlValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */; };
 		118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAB152BEC4300F3C167 /* Cocoa.framework */; };
 		118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAD152BEC4300F3C167 /* AppKit.framework */; };
 		118F2DB0152BEC4300F3C167 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAF152BEC4300F3C167 /* Foundation.framework */; };
@@ -147,6 +148,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		117B8503152E7A2000B4B531 /* GrowlProwlValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlValidator.h; sourceTree = "<group>"; };
+		117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlValidator.m; sourceTree = "<group>"; };
 		118F2DA8152BEC4300F3C167 /* Prowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Prowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		118F2DAB152BEC4300F3C167 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		118F2DAD152BEC4300F3C167 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -239,6 +242,8 @@
 				11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */,
 				11978EEC152D32000021C916 /* GrowlProwlGenerator.h */,
 				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
+				117B8503152E7A2000B4B531 /* GrowlProwlValidator.h */,
+				117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
@@ -468,6 +473,7 @@
 				11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */,
 				11978EF1152D35090021C916 /* PRServerError.m in Sources */,
 				11978EF5152D3DA10021C916 /* GrowlProwlWebViewWindowController.m in Sources */,
+				117B8505152E7A2000B4B531 /* GrowlProwlValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

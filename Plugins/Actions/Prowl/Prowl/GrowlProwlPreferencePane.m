@@ -1,10 +1,12 @@
 #import "GrowlProwlPreferencePane.h"
 #import "GrowlProwlGenerator.h"
+#import "GrowlProwlValidator.h"
 #import "GrowlProwlWebViewWindowController.h"
 
-@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate, GrowlProwlWebViewWindowControllerDelegate>
+@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate, GrowlProwlValidatorDelegate, GrowlProwlWebViewWindowControllerDelegate>
 @property (nonatomic, retain, readwrite) NSMutableArray *apiKeys;
-@property (nonatomic, retain) GrowlProwlGenerator *generator;
+@property (nonatomic, retain) GrowlProwlGenerator *generator; // short-lived
+@property (nonatomic, retain) GrowlProwlValidator *validator; // long-lived
 @property (nonatomic, retain) GrowlProwlWebViewWindowController *webViewWindowController;
 @end
 
@@ -15,12 +17,13 @@
 @synthesize tableView = _tableView;
 @synthesize apiKeys = _apiKeys;
 @synthesize generator = _generator;
+@synthesize validator = _validator;
 
-- (id)init
+- (id)initWithBundle:(NSBundle *)bundle
 {
-    self = [super init];
+    self = [super initWithBundle:bundle];
     if (self) {
-        
+        self.validator = [[[GrowlProwlValidator alloc] initWithDelegate:self] autorelease];
     }
     return self;
 }
@@ -29,6 +32,7 @@
 {
 	[_apiKeys release];
 	[_generator release];
+	[_validator release];
     [super dealloc];
 }
 
@@ -53,15 +57,28 @@
 	return keys;
 }
 
+- (void)didSelect
+{
+	[self validateApiKeys];
+}
+
 - (void)updateConfigurationValues
 {
 	[super updateConfigurationValues];
 	self.apiKeys = nil;
 	
+	[self validateApiKeys];
 	[self.tableView reloadData];
 }
 
-- (void)updateAPIKeys
+- (void)validateApiKeys
+{
+	for(PRAPIKey *apiKey in self.apiKeys) {
+		[self.validator validateApiKey:apiKey];
+	}
+}
+
+- (void)saveApiKeys
 {
 	NSLog(@"Updated keys: %@", self.apiKeys);
 	
@@ -77,7 +94,7 @@
 		NSLog(@"Not adding API key, contains already: %@", apiKey);
 	} else {
 		[self.apiKeys addObject:apiKey];
-		[self updateAPIKeys];
+		[self saveApiKeys];
 		
 		[self.tableView beginUpdates];
 		[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
@@ -118,7 +135,7 @@
 	[self.tableView endUpdates];
 	
 	[self.apiKeys removeObjectsAtIndexes:removeSet];
-	[self updateAPIKeys];
+	[self saveApiKeys];
 }
 
 #pragma mark - Preferences
@@ -221,13 +238,49 @@
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	PRAPIKey *apiKey = [self.apiKeys objectAtIndex:row];
+	
 	if([tableColumn.identifier isEqualToString:@"enabled"]) {
-		[[self.apiKeys objectAtIndex:row] setEnabled:[object boolValue]];
+		[apiKey setEnabled:[object boolValue]];
 	} else if([tableColumn.identifier isEqualToString:@"apikey"]) {
-		[[self.apiKeys objectAtIndex:row] setApiKey:object];
+		[apiKey setApiKey:object];
+		[self.validator validateApiKey:apiKey];
 	}
 	
-	[self updateAPIKeys];
+	[self saveApiKeys];
+}
+
+#pragma mark - GrowlProwlValidatorDelegate
+- (void)reloadValidateColumnForApiKey:(PRAPIKey *)apiKey
+{
+	NSUInteger idx = [self.apiKeys indexOfObject:apiKey];
+	if(idx != NSNotFound) {
+		[self.tableView beginUpdates];
+		[self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx]
+								  columnIndexes:[NSIndexSet indexSetWithIndex:[self.tableView columnWithIdentifier:@"validated"]]];
+		[self.tableView endUpdates];
+	}
+}
+
+- (void)validator:(GrowlProwlValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
+{
+	NSLog(@"Validated apiKey: %@", apiKey);
+	apiKey.validated = YES;
+	[self saveApiKeys];
+	[self reloadValidateColumnForApiKey:apiKey];
+}
+
+- (void)validator:(GrowlProwlValidator *)validator didInvalidateApiKey:(PRAPIKey *)apiKey
+{
+	NSLog(@"Invalidated apiKey: %@", apiKey);
+	apiKey.validated = NO;
+	[self saveApiKeys];
+	[self reloadValidateColumnForApiKey:apiKey];
+}
+
+- (void)validator:(GrowlProwlValidator *)validator didFailWithError:(NSError *)error forApiKey:(PRAPIKey *)apiKey
+{
+	[[NSAlert alertWithError:error] runModal];
 }
 
 #pragma mark - GrowlProwlGeneratorDelegate
