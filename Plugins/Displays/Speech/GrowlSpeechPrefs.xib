@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11E27</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.37</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -75,6 +75,7 @@
 											<string key="NSFrameSize">{312, 231}</string>
 											<reference key="NSSuperview" ref="713308464"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTableHeaderView" key="NSHeaderView" id="907516388">
 												<reference key="NSNextResponder" ref="408936640"/>
@@ -82,12 +83,16 @@
 												<string key="NSFrameSize">{312, 17}</string>
 												<reference key="NSSuperview" ref="408936640"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="339256096"/>
 												<reference key="NSTableView" ref="533114730"/>
 											</object>
-											<object class="_NSCornerView" key="NSCornerView">
-												<nil key="NSNextResponder"/>
+											<object class="_NSCornerView" key="NSCornerView" id="365942335">
+												<reference key="NSNextResponder" ref="665611418"/>
 												<int key="NSvFlags">-2147483392</int>
 												<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
+												<reference key="NSSuperview" ref="665611418"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="408936640"/>
 											</object>
 											<array class="NSMutableArray" key="NSTableColumns">
 												<object class="NSTableColumn" id="114804343">
@@ -189,6 +194,7 @@
 									<string key="NSFrame">{{-30, 17}, {15, 191}}</string>
 									<reference key="NSSuperview" ref="665611418"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="713308464"/>
 									<reference key="NSTarget" ref="665611418"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.97894734144210815</double>
@@ -199,6 +205,7 @@
 									<string key="NSFrame">{{-100, -100}, {297, 15}}</string>
 									<reference key="NSSuperview" ref="665611418"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="365942335"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="665611418"/>
 									<string key="NSAction">_doScroller:</string>
@@ -218,16 +225,18 @@
 									<reference key="NSBGColor" ref="748485767"/>
 									<int key="NScvFlags">4</int>
 								</object>
+								<reference ref="365942335"/>
 							</array>
 							<string key="NSFrame">{{20, 20}, {314, 249}}</string>
 							<reference key="NSSuperview" ref="1006882066"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="713308464"/>
+							<reference key="NSNextKeyView" ref="778911497"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="339256096"/>
 							<reference key="NSHScroller" ref="778911497"/>
 							<reference key="NSContentView" ref="713308464"/>
 							<reference key="NSHeaderClipView" ref="408936640"/>
+							<reference key="NSCornerView" ref="365942335"/>
 							<bytes key="NSScrollAmts">AAAAAAAAAABBmAAAQZgAAA</bytes>
 						</object>
 						<object class="NSTextField" id="898684819">
@@ -236,6 +245,7 @@
 							<string key="NSFrame">{{17, 272}, {43, 17}}</string>
 							<reference key="NSSuperview" ref="1006882066"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="665611418"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="160139005">
 								<int key="NSCellFlags">67239488</int>
@@ -256,6 +266,7 @@
 					<string key="NSFrameSize">{354, 289}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="898684819"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{213, 129}</string>
@@ -344,6 +355,38 @@
 						</object>
 					</object>
 					<int key="connectionID">30</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">headerTitle: self.nameColumnLabel</string>
+						<reference key="source" ref="114804343"/>
+						<reference key="destination" ref="181950781"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="114804343"/>
+							<reference key="NSDestination" ref="181950781"/>
+							<string key="NSLabel">headerTitle: self.nameColumnLabel</string>
+							<string key="NSBinding">headerTitle</string>
+							<string key="NSKeyPath">self.nameColumnLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">85</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.voiceLabel</string>
+						<reference key="source" ref="898684819"/>
+						<reference key="destination" ref="181950781"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="898684819"/>
+							<reference key="NSDestination" ref="181950781"/>
+							<string key="NSLabel">value: self.voiceLabel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.voiceLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">83</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -645,7 +688,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">81</int>
+			<int key="maxID">85</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -17,7 +17,7 @@
 
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.useAquaLabel = NSLocalizedString(@"Use Aqua instead of brushed metal", nil);
+      self.useAquaLabel = NSLocalizedStringFromTableInBundle(@"Use Aqua instead of brushed metal", @"Localizable", bundle, @"use aqua instead of brushed metal label");
    }
    return self;
 }

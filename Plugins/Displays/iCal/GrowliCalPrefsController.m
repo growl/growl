@@ -11,12 +11,12 @@
 #import "GrowliCalDefines.h"
 #import "GrowlDefinesInternal.h"
 
-#define GrowliCalColorPurple NSLocalizedString(@"Purple", nil)
-#define GrowliCalColorPink NSLocalizedString(@"Pink", nil)
-#define GrowliCalColorGreen NSLocalizedString(@"Green", nil)
-#define GrowliCalColorBlue NSLocalizedString(@"Blue", nil)
-#define GrowliCalColorOrange NSLocalizedString(@"Orange", nil)
-#define GrowliCalColorRed NSLocalizedString(@"Red", nil)
+#define GrowliCalColorPurple NSLocalizedStringFromTableInBundle(@"Purple", @"Localizable", bundle, nil)
+#define GrowliCalColorPink NSLocalizedStringFromTableInBundle(@"Pink", @"Localizable", bundle, nil)
+#define GrowliCalColorGreen NSLocalizedStringFromTableInBundle(@"Green", @"Localizable", bundle, nil)
+#define GrowliCalColorBlue NSLocalizedStringFromTableInBundle(@"Blue", @"Localizable", bundle, nil)
+#define GrowliCalColorOrange NSLocalizedStringFromTableInBundle(@"Orange", @"Localizable", bundle, nil)
+#define GrowliCalColorRed NSLocalizedStringFromTableInBundle(@"Red", @"Localizable", bundle, nil)
 
 @implementation GrowliCalPrefsController
 
@@ -25,7 +25,7 @@
 
 -(id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.colorLabel = NSLocalizedString(@"Color:", @"Label for pop up button to choose color");
+      self.colorLabel = NSLocalizedStringFromTableInBundle(@"Color:", @"Localizable", bundle, @"Label for pop up button to choose color");
       self.colorNames = [NSArray arrayWithObjects:GrowliCalColorPurple, 
                                                   GrowliCalColorPink, 
                                                   GrowliCalColorGreen, 

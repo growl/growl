@@ -17,7 +17,7 @@
 
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.recipientLabel = NSLocalizedString(@"Recipient:", @"Who the email of the notification should be sent to");
+      self.recipientLabel = NSLocalizedStringFromTableInBundle(@"Recipient:", @"Localizable", bundle, @"Who the email of the notification should be sent to");
    }
    return self;
 }
@@ -28,7 +28,7 @@
 }
 
 - (void)awakeFromNib {
-   [[emailField cell] setPlaceholderString:NSLocalizedString(@"Your email here", @"Placeholder string in the recipient field")];
+   [[emailField cell] setPlaceholderString:NSLocalizedStringFromTableInBundle(@"Your email here", @"Localizable", [NSBundle bundleForClass:[self class]], @"Placeholder string in the recipient field")];
 }
 
 - (NSString *) mainNibName {

@@ -17,8 +17,8 @@
 
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.voiceLabel = NSLocalizedString(@"Voice:", @"Label for table with voices");
-      self.nameColumnLabel = NSLocalizedString(@"Name", @"Column title for the name of voice");
+      self.voiceLabel = NSLocalizedStringFromTableInBundle(@"Voice:", @"Localizable", bundle, @"Label for table with voices");
+      self.nameColumnLabel = NSLocalizedStringFromTableInBundle(@"Name", @"Localizable", bundle, @"Column title for the name of voice");
    }
    return self;
 }
@@ -33,7 +33,7 @@
 	
     NSMutableDictionary *defaultChoice = [NSMutableDictionary dictionary];
     [defaultChoice setObject:GrowlSpeechSystemVoice forKey:NSVoiceIdentifier];
-    [defaultChoice setObject:NSLocalizedString(@"System Default", @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
+    [defaultChoice setObject:NSLocalizedStringFromTableInBundle(@"System Default", @"Localizable", [NSBundle bundleForClass:[self class]], @"The voice chosen as the system voice in the Speech preference pane") forKey:NSVoiceName];
     [voiceAttributes addObject:defaultChoice];
     
 	for (NSString *voiceIdentifier in [NSSpeechSynthesizer availableVoices]) {
@@ -83,7 +83,7 @@
 		if([voice isEqualToString:GrowlSpeechSystemVoice])
             voice = nil;
         NSSpeechSynthesizer *quickVoice = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
-		[quickVoice startSpeakingString:[NSString stringWithFormat:NSLocalizedString(@"This is a preview of the %@ voice.", nil), [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
+		[quickVoice startSpeakingString:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"This is a preview of the %@ voice.", @"Localizable", [NSBundle bundleForClass:[self class]], nil), [[voices objectAtIndex:row] objectForKey:NSVoiceName]]];
 		lastPreview = quickVoice;
 	}
 }
