@@ -223,7 +223,7 @@
 	return [[self.configuration valueForKey:PRPreferenceKeyOnlyWhenIdle] boolValue];	
 }
 
-- (NSArray *)apiKeys
+- (NSMutableArray *)apiKeys
 {
 	if(!_apiKeys) {
 		NSData *keyData = [self.configuration valueForKey:PRPreferenceKeyAPIKeys];
