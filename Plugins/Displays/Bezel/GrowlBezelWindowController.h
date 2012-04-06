@@ -17,6 +17,4 @@
 	BOOL					flipEnabled;
 }
 
-- (NSPoint) idealOriginInRect:(NSRect)rect forRect:(NSRect)viewFrame;
-
 @end

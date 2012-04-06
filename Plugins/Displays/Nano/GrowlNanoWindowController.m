@@ -19,8 +19,7 @@
 @implementation GrowlNanoWindowController
 
 - (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
-	NSDictionary *configDict = [notification configurationDict];
-	
+	NSDictionary *configDict = [note configurationDict];
 	//define our duration
 	
 	NSTimeInterval duration = GrowlNanoDurationPrefDefault;
@@ -83,12 +82,8 @@
 	
 	CGFloat xPosition = NSMaxX(screen) - (sizeRect.size.width + 50.0);
 	CGFloat yPosition = NSMaxY(screen);
-	if([NSMenu menuBarVisible])
-#ifdef __LP64__
+	if([self screen] == [NSScreen mainScreen] && [NSMenu menuBarVisible])
 		yPosition -= [[NSApp mainMenu] menuBarHeight];
-#else
-		yPosition-=[NSMenuView menuBarHeight];
-#endif
 	
 	[panel setFrameOrigin:NSMakePoint(xPosition, yPosition)];
 
@@ -146,6 +141,17 @@
 	[panel release];
 	
 	return self;
+}
+
+
+-(CGPoint)idealOriginInRect:(CGRect)rect {
+	CGFloat xPosition = NSMaxX(rect) - ([self window].frame.size.width + 50.0);
+	CGFloat yPosition = NSMaxY(rect);
+	
+	if([self screen] == [NSScreen mainScreen] && [NSMenu menuBarVisible])
+		yPosition -= [[NSApp mainMenu] menuBarHeight];
+	
+	return CGPointMake(xPosition, yPosition);
 }
 
 @end

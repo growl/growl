@@ -90,7 +90,7 @@
 	[view release];
 
 	panelFrame = [[panel contentView] frame];
-   panelFrame.origin = [self idealOriginInRect:[[self screen] frame] forRect:sizeRect];
+   panelFrame.origin = [self idealOriginInRect:[[self screen] frame]];
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
@@ -135,9 +135,10 @@
 #pragma mark -
 #pragma mark positioning methods
 
-- (NSPoint) idealOriginInRect:(NSRect)rect forRect:(NSRect)viewFrame {
-
-	NSPoint result;
+- (CGPoint) idealOriginInRect:(CGRect)rect {
+	CGRect viewFrame = [[self window] frame];
+	
+	CGPoint result;
 	int positionPref = BEZEL_POSITION_DEFAULT;
 	if([[self configurationDict] valueForKey:BEZEL_POSITION_PREF]){
 		positionPref = [[[self configurationDict] valueForKey:BEZEL_POSITION_PREF] intValue];

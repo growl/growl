@@ -348,6 +348,8 @@
 		BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */; };
 		BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */; };
 		BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D515065B4800828D29 /* CoreFoundation.framework */; };
+		BC7FC596152F41D60047368D /* NSScreen+GrowlScreenAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */; };
+		BC7FC597152F41D60047368D /* NSScreen+GrowlScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7FC595152F41D60047368D /* NSScreen+GrowlScreenAdditions.m */; };
 		BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32A14D6F9D300B055FE /* Localizable.strings */; };
 		BC80A32F14D7049A00B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32D14D7049A00B055FE /* Localizable.strings */; };
 		BC80A33514D7237500B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33314D7237500B055FE /* Localizable.strings */; };
@@ -1554,6 +1556,8 @@
 		BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBonjourBrowser.m; path = Core/Source/GrowlBonjourBrowser.m; sourceTree = "<group>"; };
 		BC7E26D515065B4800828D29 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		BC7E26D815065CF100828D29 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScreen+GrowlScreenAdditions.h"; path = "Plugins/PluginFramework/NSScreen+GrowlScreenAdditions.h"; sourceTree = "<group>"; };
+		BC7FC595152F41D60047368D /* NSScreen+GrowlScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScreen+GrowlScreenAdditions.m"; path = "Plugins/PluginFramework/NSScreen+GrowlScreenAdditions.m"; sourceTree = "<group>"; };
 		BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPluginPreferenceStrings.h; path = Plugins/Displays/GrowlPluginPreferenceStrings.h; sourceTree = "<group>"; };
 		BC80A32714D6F10100B055FE /* GrowlPluginPreferenceStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPluginPreferenceStrings.m; path = Plugins/Displays/GrowlPluginPreferenceStrings.m; sourceTree = "<group>"; };
 		BC80A32B14D6F9D300B055FE /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2688,6 +2692,8 @@
 				BC0CB6651524AAC10050205F /* GrowlPositionColumn.m */,
 				BC0CB6681524AAC10050205F /* GrowlQuadTreeNode.h */,
 				BC0CB6691524AAC10050205F /* GrowlQuadTreeNode.m */,
+				BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */,
+				BC7FC595152F41D60047368D /* NSScreen+GrowlScreenAdditions.m */,
 			);
 			name = "Display lifecycle/Positioning";
 			sourceTree = "<group>";
@@ -3282,6 +3288,7 @@
 				BC0CB66A1524AAC10050205F /* GrowlPositionColumn.h in Headers */,
 				BC0CB66C1524AAC10050205F /* GrowlPositionController.h in Headers */,
 				BC0CB66E1524AAC10050205F /* GrowlQuadTreeNode.h in Headers */,
+				BC7FC596152F41D60047368D /* NSScreen+GrowlScreenAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4334,6 +4341,7 @@
 				BC0CB66D1524AAC10050205F /* GrowlPositionController.m in Sources */,
 				BC0CB66F1524AAC10050205F /* GrowlQuadTreeNode.m in Sources */,
 				BC0CB6711524B08D0050205F /* GrowlDisplayBridgeController.m in Sources */,
+				BC7FC597152F41D60047368D /* NSScreen+GrowlScreenAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

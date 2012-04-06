@@ -12,6 +12,7 @@
 #import "GrowlNotification.h"
 #import "GrowlDisplayWindowController.h"
 #import "GrowlPositioningDefines.h"
+#import "NSScreen+GrowlScreenAdditions.h"
 
 @interface GrowlDisplayBridgeController ()
 
@@ -62,7 +63,7 @@
 			NSArray *screens = [NSScreen screens];
 			__block NSMutableArray *newIDs = [NSMutableArray array];
 			[screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				NSUInteger screenID = [blockSelf deviceIDForScreen:obj];
+				NSUInteger screenID = [obj screenID];
 				[newIDs addObject:[NSString stringWithFormat:@"%lu", screenID]];
 			}];
 			
@@ -109,14 +110,10 @@
 	return self;
 }
 
--(NSUInteger)deviceIDForScreen:(NSScreen*)screen {
-	return [[[screen deviceDescription] valueForKey:@"NSScreenNumber"] unsignedIntegerValue];
-}
-
 -(void)addPositionControllersForScreen:(NSScreen*)screen {
 	GrowlPositionController *controller = [[GrowlPositionController alloc] initWithScreenFrame:[screen visibleFrame]];
-	NSUInteger screenID = [self deviceIDForScreen:screen];
-	NSString *screenIDKey = [NSString stringWithFormat:@"%lu", screenID];
+	NSUInteger screenID = [screen screenID];
+	NSString *screenIDKey = [screen screenIDString];
 	NSLog(@"add screen with id %@", screenIDKey);
 
 	[controller setDeviceID:screenID];
@@ -132,7 +129,7 @@
 }
 
 -(GrowlPositionController*)positionControllerForScreen:(NSScreen*)screen {
-	return [self positionControllerForScreenID:[self deviceIDForScreen:screen]];
+	return [self positionControllerForScreenID:[screen screenID]];
 }
 
 -(GrowlPositionController*)positionControllerForWindow:(GrowlDisplayWindowController*)window
@@ -142,13 +139,13 @@
 
 -(BOOL)displayWindow:(GrowlDisplayWindowController*)window
 {
+	GrowlPositionController *controller = [self positionControllerForWindow:window];
 	if(![[window plugin] requiresPositioning]){
+		[window setOccupiedRect:[[window screen] frame]];
 		return YES;
 	}else{
 		NSDictionary *configDict = [[window notification] configurationDict];
 		GrowlPositionOrigin	position = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlTopRightCorner;
-		
-		GrowlPositionController *controller = [self positionControllerForWindow:window];
 		
 		NSSize displaySize = [window requiredSize];		
 		CGRect found = [controller canFindSpotForSize:displaySize

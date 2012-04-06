@@ -18,11 +18,10 @@
 
 - (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	NSDictionary *configDict = [note configurationDict];
-	
 
 	screenNumber = 0U;
 	if([configDict valueForKey:MUSICVIDEO_SCREEN_PREF]){
-		screenNumber = [[configDict valueForKey:MUSICVIDEO_SIZE_PREF] unsignedIntValue];
+		screenNumber = [[configDict valueForKey:MUSICVIDEO_SCREEN_PREF] intValue];
 	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
@@ -139,6 +138,15 @@
 	
 	return self;
 
+}
+
+-(CGPoint)idealOriginInRect:(CGRect)rect {
+	return [[self screen] frame].origin;
+}
+
+-(void)positionInRect:(CGRect)rect {
+	[super positionInRect:rect];
+	[[self window] setFrameTopLeftPoint:[self screen].frame.origin];
 }
 
 @end
