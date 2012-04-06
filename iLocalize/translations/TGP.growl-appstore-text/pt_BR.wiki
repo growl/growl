@@ -15,7 +15,7 @@ Muitos mais recursos IMPRESSIONANTES listados aqui.
 • Uma grande variedade de estilos vem uma com Growl. Qualquer coisa de nano, que é bem pequeno, para vídeo de música, que é enorme.
 • Crie seus próprios estilos de Growl muito facilmente com tecnologias web para dar ao Growl seu próprio visual.
 • Envie para o Growl notificações de Cocoa, AppleScript, ou pela rede.
-• Conexão de rede para que dois ou mais macs possam encaminhar notificações entre si.
+• Rede, para que dois ou mais macs possam encaminhar notificações entre si.
 • Pode funcionar com iPhone e iPad via Prowl.
 
 
