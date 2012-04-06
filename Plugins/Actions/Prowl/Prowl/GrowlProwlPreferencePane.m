@@ -305,7 +305,10 @@
 
 - (void)validator:(GrowlProwlValidator *)validator didFailWithError:(NSError *)error forApiKey:(PRAPIKey *)apiKey
 {
-	[[NSAlert alertWithError:error] runModal];
+	if(!apiKey.validated) {
+		// Don't annoy the user if we error on something valid already.
+		[[NSAlert alertWithError:error] runModal];
+	}
 }
 
 #pragma mark - GrowlProwlGeneratorDelegate
