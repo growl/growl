@@ -14,5 +14,6 @@
 @property (nonatomic, assign, readonly) id<GrowlProwlValidatorDelegate> delegate;
 
 - (void)validateApiKey:(PRAPIKey *)apiKey;
+- (BOOL)isValidatingApiKey:(PRAPIKey *)apiKey;
 
 @end

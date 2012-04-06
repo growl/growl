@@ -3,23 +3,26 @@
 
 @interface GrowlProwlValidator()
 @property (nonatomic, assign, readwrite) id<GrowlProwlValidatorDelegate> delegate;
+@property (nonatomic, retain) NSMutableSet *validatingApiKeys;
 @end
 
 @implementation GrowlProwlValidator
 @synthesize delegate = _delegate;
+@synthesize validatingApiKeys = _validatingApiKeys;
 
 - (id)initWithDelegate:(id<GrowlProwlValidatorDelegate>)delegate
 {
 	self = [super init];
 	if(self) {
 		self.delegate = delegate;
+		self.validatingApiKeys = [NSMutableSet set];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-    
+	[_validatingApiKeys release];
     [super dealloc];
 }
 
@@ -34,6 +37,11 @@
 	return [encodedString autorelease];
 }
 
+- (BOOL)isValidatingApiKey:(PRAPIKey *)apiKey
+{
+	return [self.validatingApiKeys containsObject:apiKey];
+}
+
 - (void)validateApiKey:(PRAPIKey *)apiKey
 {
 	NSMutableString *fetchURLString = [NSMutableString stringWithString:@"https://api.prowlapp.com/publicapi/verify"];
@@ -45,12 +53,16 @@
 	
 	request.HTTPMethod = @"GET";
 	
+	[self.validatingApiKeys addObject:apiKey];
+	
 	[NSURLConnection sendAsynchronousRequest:request
 									   queue:[NSOperationQueue mainQueue]
 						   completionHandler:^(NSURLResponse *response,
 											   NSData *data,
 											   NSError *error) {
 							   NSLog(@"Response: %@", response);
+							   
+							   [self.validatingApiKeys removeObject:apiKey];
 							   
 							   if(!data) {
 								   [self.delegate validator:self

@@ -71,12 +71,43 @@
 	[self.tableView reloadData];
 }
 
+#pragma mark - Validation
+- (void)validateApiKey:(PRAPIKey *)apiKey
+{
+	[self.validator validateApiKey:apiKey];
+	[self reloadValidateColumnForApiKey:apiKey];
+}
+
 - (void)validateApiKeys
 {
 	for(PRAPIKey *apiKey in self.apiKeys) {
-		[self.validator validateApiKey:apiKey];
+		[self validateApiKey:apiKey];
 	}
 }
+
+- (IBAction)didUpdateApiKey:(id)sender
+{
+	if([sender isKindOfClass:[NSTextField class]]) {
+		NSInteger idx = [self.tableView rowForView:sender];
+		if(idx != -1) {
+			PRAPIKey *apiKey = [self.apiKeys objectAtIndex:idx];
+			[self validateApiKey:apiKey];
+		}
+	} else {	
+		[self saveApiKeys];
+	}
+}
+
+- (void)reloadValidateColumnForApiKey:(PRAPIKey *)apiKey
+{
+	NSUInteger idx = [self.apiKeys indexOfObjectIdenticalTo:apiKey];
+	if(idx != NSNotFound) {
+		[self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx]
+								  columnIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfColumns)]];
+	}
+}
+
+#pragma mark - Key management
 
 - (void)saveApiKeys
 {
@@ -96,12 +127,12 @@
 		[self.apiKeys addObject:apiKey];
 		[self saveApiKeys];
 		
-		[self.tableView beginUpdates];
 		[self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:self.apiKeys.count - 1]
 							  withAnimation:NSTableViewAnimationEffectGap];
-		[self.tableView endUpdates];
 	}
 }
+
+#pragma mark - Actions
 
 - (IBAction)connect:(id)sender
 {
@@ -129,10 +160,8 @@
 	
 	NSIndexSet *removeSet = self.tableView.selectedRowIndexes;
 		
-	[self.tableView beginUpdates];
 	[self.tableView removeRowsAtIndexes:removeSet
 						  withAnimation:NSTableViewAnimationEffectGap];
-	[self.tableView endUpdates];
 	
 	[self.apiKeys removeObjectsAtIndexes:removeSet];
 	[self saveApiKeys];
@@ -217,51 +246,47 @@
 	return self.apiKeys.count;
 }
 
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	PRAPIKey *apiKey = [self.apiKeys objectAtIndex:row];
+	
+	if([tableColumn.identifier isEqualToString:@"validated"]) {
+		if([self.validator isValidatingApiKey:apiKey]) {
+			NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"validatedProgressIndicator"
+											   owner:self];
+			return cellView;
+		} else {
+			NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"validatedImage"
+											   owner:self];
+			return cellView;
+		}
+	}
+	
+	return [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
+}
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	PRAPIKey *apiKey = [self.apiKeys objectAtIndex:row];
 	
 	if([tableColumn.identifier isEqualToString:@"enabled"]) {
-		return [NSNumber numberWithBool:apiKey.enabled];
+		return apiKey;
 	} else if([tableColumn.identifier isEqualToString:@"apikey"]) {
-		return apiKey.apiKey;
+		return apiKey;
 	} else if([tableColumn.identifier isEqualToString:@"validated"]) {
-		if(apiKey.validated) {
-			return [[NSBundle bundleForClass:[self class]] imageForResource:@"checkmark"];
+		if([self.validator isValidatingApiKey:apiKey]) {
+			return [NSNumber numberWithBool:YES];
+		} else if(apiKey.validated) {
+            return [[NSBundle bundleForClass:[self class]] imageForResource:@"checkmark"];
 		} else {
-			return [[NSBundle bundleForClass:[self class]] imageForResource:@"anticheckmark"];
+            return [[NSBundle bundleForClass:[self class]] imageForResource:@"anticheckmark"];
 		}
-	} else {
-		return nil;
-	}
-}
-
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	PRAPIKey *apiKey = [self.apiKeys objectAtIndex:row];
-	
-	if([tableColumn.identifier isEqualToString:@"enabled"]) {
-		[apiKey setEnabled:[object boolValue]];
-	} else if([tableColumn.identifier isEqualToString:@"apikey"]) {
-		[apiKey setApiKey:object];
-		[self.validator validateApiKey:apiKey];
 	}
 	
-	[self saveApiKeys];
+	return nil;
 }
 
 #pragma mark - GrowlProwlValidatorDelegate
-- (void)reloadValidateColumnForApiKey:(PRAPIKey *)apiKey
-{
-	NSUInteger idx = [self.apiKeys indexOfObject:apiKey];
-	if(idx != NSNotFound) {
-		[self.tableView beginUpdates];
-		[self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx]
-								  columnIndexes:[NSIndexSet indexSetWithIndex:[self.tableView columnWithIdentifier:@"validated"]]];
-		[self.tableView endUpdates];
-	}
-}
-
 - (void)validator:(GrowlProwlValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
 {
 	NSLog(@"Validated apiKey: %@", apiKey);
