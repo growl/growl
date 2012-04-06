@@ -13,6 +13,7 @@
 #import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
+#import "GrowlPositioningDefines.h"
 #import "GrowlDisplayBridgeController.h"
 #import "NSViewAdditions.h"
 
@@ -560,7 +561,7 @@ static NSMutableDictionary *existingInstances;
 
 			break;
 	}
-	if(resize)
+	if(resize && [[self window] isVisible])
 		[[GrowlDisplayBridgeController sharedController] displayWindow:self reposition:YES];
 }
 
@@ -683,10 +684,42 @@ static NSMutableDictionary *existingInstances;
 	return size;
 }
 
+-(CGPoint)idealOriginInRect:(CGRect)rect {
+	NSRect viewFrame = [[[self window] contentView] frame];
+	NSDictionary *configDict = [[self notification] configurationDict];
+	GrowlPositionOrigin	position = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlTopRightCorner;
+	CGPoint idealOrigin;
+	
+	CGFloat padding = [self requiredDistanceFromExistingDisplays];
+		
+	switch(position){
+		case GrowlNoOrigin:
+		case GrowlTopRightCorner:
+			idealOrigin = CGPointMake(NSMaxX(rect) - NSWidth(viewFrame) - padding,
+											  NSMaxY(rect) - padding - NSHeight(viewFrame));
+			break;
+		case GrowlTopLeftCorner:
+			idealOrigin = CGPointMake(NSMinX(rect) + padding,
+											  NSMaxY(rect) - padding - NSHeight(viewFrame));
+			break;
+		case GrowlBottomLeftCorner:
+			idealOrigin = CGPointMake(NSMinX(rect) + padding,
+											  NSMinY(rect) + padding);
+			break;
+		case GrowlBottomRightCorner:
+			idealOrigin = CGPointMake(NSMaxX(rect) - NSWidth(viewFrame) - padding,
+											  NSMinY(rect) + padding);
+			break;
+			break;			
+	}
+	
+	return idealOrigin;
+}
+
 - (void) positionInRect:(CGRect)rect {
-	rect.size.width -= [self requiredDistanceFromExistingDisplays];
-	rect.size.height -= [self requiredDistanceFromExistingDisplays];
-	[[self window] setFrame:rect display:YES];
+	CGRect frame = [[self window] frame];
+	frame.origin = [self idealOriginInRect:rect];
+	[[self window] setFrame:frame display:YES];
 }
 - (void)setOccupiedRect:(CGRect)rect {
 	occupiedRect = rect;

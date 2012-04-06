@@ -139,6 +139,7 @@ typedef enum {
 - (NSDictionary*)configurationDict;
 
 - (CGSize) requiredSize;
+- (CGPoint) idealOriginInRect:(CGRect)rect;
 - (void) positionInRect:(CGRect)rect;
 - (CGFloat) requiredDistanceFromExistingDisplays;
 
