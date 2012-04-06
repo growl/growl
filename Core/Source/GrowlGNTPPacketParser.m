@@ -319,11 +319,11 @@
       [newPacket setWasInitiatedLocally:[packet wasInitiatedLocally]];
       [currentNetworkPackets setObject:newPacket
                                 forKey:[newPacket packetID]];
-      [currentNetworkPackets removeObjectForKey:[packet packetID]];
+      //[currentNetworkPackets removeObjectForKey:[packet packetID]];
       
       /* Now await incoming data using the new packet */
       [[newPacket socket] readDataToData:[GCDAsyncSocket CRLFData]
-                             withTimeout:-1
+                             withTimeout:20.0f
                                      tag:GrowlExhaustingRemainingDataRead];		
 
       [newPacket startProcessing];
