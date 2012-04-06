@@ -30,16 +30,17 @@
 @synthesize passwordLabel;
 @synthesize apiIDLabel;
 @synthesize destinationLabel;
-
+                                   
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.smsNotifications = NSLocalizedString(@"SMS Notifications", @"Title for SMS plugin");
-      self.accountRequiredLabel = NSLocalizedString(@"(Clickatell.com account required.)", @"Warning that a clickatell.com account is required");
-      self.instructions = NSLocalizedString(@"To register:\nhttp://www.clickatell.com/brochure/products/api_xml.php\n\nFor rates see:\nhttp://www.clickatell.com/brochure/pricing.php", @"Instructions for clickatell");
-      self.accountLabel = NSLocalizedString(@"Account:", @"Label for account field");
-      self.passwordLabel = NSLocalizedString(@"Password:", @"Label for password field");
-      self.apiIDLabel = NSLocalizedString(@"API ID:", @"label for API ID field");
-      self.destinationLabel = NSLocalizedString(@"Destination Number:", @"label for destination number field");
+       
+       self.smsNotifications = NSLocalizedStringFromTableInBundle(@"SMS Notifications", @"Localizable", bundle, @"Title for SMS plugin");
+      self.accountRequiredLabel = NSLocalizedStringFromTableInBundle(@"(Clickatell.com account required.)", @"Localizable", bundle, @"Warning that a clickatell.com account is required");
+      self.instructions = NSLocalizedStringFromTableInBundle(@"To register:\nhttp://www.clickatell.com/brochure/products/api_xml.php\n\nFor rates see:\nhttp://www.clickatell.com/brochure/pricing.php", @"Localizable", bundle, @"Instructions for clickatell");
+      self.accountLabel = NSLocalizedStringFromTableInBundle(@"Account:", @"Localizable", bundle, @"Label for account field");
+      self.passwordLabel = NSLocalizedStringFromTableInBundle(@"Password:", @"Localizable", bundle, @"Label for password field");
+      self.apiIDLabel = NSLocalizedStringFromTableInBundle(@"API ID:", @"Localizable", bundle, @"label for API ID field");
+      self.destinationLabel = NSLocalizedStringFromTableInBundle(@"Destination Number:", @"Localizable", bundle, @"label for destination number field");
    }
    return self;
 }

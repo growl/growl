@@ -2,16 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11E27</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.37</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<string>NSUserDefaultsController</string>
 			<string>NSComboBoxCell</string>
 			<string>NSPopUpButton</string>
 			<string>NSNumberFormatter</string>
@@ -461,7 +462,7 @@
 											<string>positiveFormat</string>
 											<string>usesGroupingSeparator</string>
 										</object>
-										<object class="NSMutableArray" key="dict.values">
+										<object class="NSArray" key="dict.values">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<boolean value="YES"/>
 											<object class="NSAttributedString" id="152087518">
@@ -600,7 +601,7 @@
 											<string>positiveFormat</string>
 											<string>usesGroupingSeparator</string>
 										</object>
-										<object class="NSMutableArray" key="dict.values">
+										<object class="NSArray" key="dict.values">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<boolean value="YES"/>
 											<object class="NSAttributedString" id="786910807">
@@ -792,7 +793,7 @@
 											<string>positiveFormat</string>
 											<string>usesGroupingSeparator</string>
 										</object>
-										<object class="NSMutableArray" key="dict.values">
+										<object class="NSArray" key="dict.values">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<boolean value="YES"/>
 											<object class="NSAttributedString" id="207509329">
@@ -859,14 +860,14 @@
 								<object class="NSComboTableView" key="NSTableView" id="806809387">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrameSize">{13, 0}</string>
+									<string key="NSFrameSize">{15, 0}</string>
 									<reference key="NSSuperview"/>
 									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSMutableArray" key="NSTableColumns">
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSTableColumn">
-											<double key="NSWidth">10</double>
+											<double key="NSWidth">12</double>
 											<double key="NSMinWidth">10</double>
 											<double key="NSMaxWidth">1000</double>
 											<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -920,7 +921,7 @@
 									</object>
 									<double key="NSRowHeight">19</double>
 									<string key="NSAction">tableViewAction:</string>
-									<int key="NSTvFlags">-765427712</int>
+									<int key="NSTvFlags">-767524864</int>
 									<reference key="NSDelegate" ref="738691050"/>
 									<reference key="NSTarget" ref="738691050"/>
 									<int key="NSColumnAutoresizingStyle">1</int>
@@ -1113,6 +1114,9 @@
 			</object>
 			<object class="NSCustomObject" id="228765101">
 				<string key="NSClassName">GrowlPluginPreferenceStrings</string>
+			</object>
+			<object class="NSUserDefaultsController" id="842869752">
+				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1408,23 +1412,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: self.growlDisplayLimitLines</string>
+						<string key="label">title: self.growlDisplayLimitLines</string>
 						<reference key="source" ref="753934810"/>
 						<reference key="destination" ref="228765101"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="753934810"/>
 							<reference key="NSDestination" ref="228765101"/>
-							<string key="NSLabel">value: self.growlDisplayLimitLines</string>
-							<string key="NSBinding">value</string>
+							<string key="NSLabel">title: self.growlDisplayLimitLines</string>
+							<string key="NSBinding">title</string>
 							<string key="NSKeyPath">self.growlDisplayLimitLines</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1236</int>
+					<int key="connectionID">1359</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4294,6 +4294,11 @@
 						<reference key="object" ref="161471568"/>
 						<reference key="parent" ref="280022210"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1356</int>
+						<reference key="object" ref="842869752"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4395,6 +4400,7 @@
 					<string>1353.IBPluginDependency</string>
 					<string>1354.IBPluginDependency</string>
 					<string>1355.IBPluginDependency</string>
+					<string>1356.IBPluginDependency</string>
 					<string>136.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
 					<string>136.IBPluginDependency</string>
 					<string>137.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints</string>
@@ -4492,7 +4498,7 @@
 					<string>987.IBPluginDependency</string>
 					<string>988.IBPluginDependency</string>
 				</object>
-				<object class="NSMutableArray" key="dict.values">
+				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4503,6 +4509,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4813,7 +4820,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1355</int>
+			<int key="maxID">1359</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4829,7 +4836,7 @@
 							<string>textColorChanged:</string>
 							<string>topColorChanged:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>id</string>
@@ -4844,7 +4851,7 @@
 							<string>textColorChanged:</string>
 							<string>topColorChanged:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">colorChanged:</string>
@@ -4881,7 +4888,7 @@
 							<string>top_normal</string>
 							<string>top_veryLow</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSColorWell</string>
 							<string>NSColorWell</string>
@@ -4922,7 +4929,7 @@
 							<string>top_normal</string>
 							<string>top_veryLow</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">color_emergency</string>
@@ -5023,7 +5030,7 @@
 							<string>_lastKeyView</string>
 							<string>_window</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSView</string>
 							<string>NSView</string>
@@ -5040,7 +5047,7 @@
 							<string>_lastKeyView</string>
 							<string>_window</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">_firstKeyView</string>
@@ -5087,10 +5094,10 @@
 				<string>NSMenuMixedState</string>
 				<string>NSSwitch</string>
 			</object>
-			<object class="NSMutableArray" key="dict.values">
+			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{9, 8}</string>
-				<string>{7, 2}</string>
+				<string>{11, 11}</string>
+				<string>{10, 3}</string>
 				<string>{15, 15}</string>
 			</object>
 		</object>

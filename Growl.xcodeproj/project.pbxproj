@@ -159,8 +159,6 @@
 		835A0AEA142C74A100B89123 /* Growl-DISPLAY.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE8142C74A100B89123 /* Growl-DISPLAY.icns */; };
 		835A0AEB142C74A100B89123 /* Growl-WKMV.icns in Resources */ = {isa = PBXBuildFile; fileRef = 835A0AE9142C74A100B89123 /* Growl-WKMV.icns */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
-		83716CCE151810A500DDD6CF /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
-		83716CDA1518128A00DDD6CF /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
 		83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DE14D3073E00587B7B /* StartAtLogin.rtf */; };
 		83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31DB14D3045400587B7B /* WhatsNew.rtf */; };
 		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
@@ -287,7 +285,6 @@
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
 		BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
-		BC2250F114D745830026D5D7 /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
 		BC2250F414D745A00026D5D7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33014D704C000B055FE /* Localizable.strings */; };
 		BC22512614D746640026D5D7 /* GrowlMailMePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A35414D7283D00B055FE /* GrowlMailMePrefs.xib */; };
 		BC256C09146D8146000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
@@ -3525,7 +3522,6 @@
 			files = (
 				BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */,
 				BC80A34914D7261400B055FE /* BrushedPrefs.xib in Resources */,
-				BC2250F114D745830026D5D7 /* iCalPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3589,8 +3585,6 @@
 				BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */,
 				83DD3AE814EF7CEB00C0028D /* StartAtLogin.rtf in Resources */,
 				83DD3AEA14EF7CEB00C0028D /* WhatsNew.rtf in Resources */,
-				83716CCE151810A500DDD6CF /* BrushedPrefs.xib in Resources */,
-				83716CDA1518128A00DDD6CF /* iCalPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
