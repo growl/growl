@@ -137,6 +137,10 @@
 #pragma mark positioning methods
 
 - (CGPoint) idealOriginInRect:(CGRect)rect {
+	BOOL shiftTopDown = NO;
+	if([self screen] == [NSScreen mainScreen] && [NSMenu menuBarVisible])
+		shiftTopDown = YES;
+	
 	CGRect viewFrame = [[self window] frame];
 	
 	CGPoint result;
@@ -153,6 +157,8 @@
 		case BEZEL_POSITION_TOPRIGHT:
 			result.x = NSMaxX(rect) - NSWidth(viewFrame) - GrowlBezelPadding;
 			result.y = NSMaxY(rect) - GrowlBezelPadding - NSHeight(viewFrame);
+			if(shiftTopDown) 
+				result.y -= [[NSApp mainMenu] menuBarHeight];
 			break;
 		case BEZEL_POSITION_BOTTOMRIGHT:
 			result.x = NSMaxX(rect) - NSWidth(viewFrame) - GrowlBezelPadding;
@@ -165,6 +171,8 @@
 		case BEZEL_POSITION_TOPLEFT:
 			result.x = rect.origin.x + GrowlBezelPadding;
 			result.y = NSMaxY(rect) - GrowlBezelPadding - NSHeight(viewFrame);
+			if(shiftTopDown)
+				result.y -= [[NSApp mainMenu] menuBarHeight];
 			break;
 	}
 	return result;
