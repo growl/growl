@@ -180,7 +180,7 @@
 		positionPref = [[[self configurationDict] valueForKey:BEZEL_POSITION_PREF] intValue];
 	}
 	
-	NSString *key = [NSString stringWithFormat:@"%@-%d", [[self screen] screenIDString], positionPref];
+	NSString *key = [NSString stringWithFormat:@"bezel-%@-%d", [[self screen] screenIDString], positionPref];
 	return key;
 }
 

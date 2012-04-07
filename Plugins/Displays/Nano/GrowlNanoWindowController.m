@@ -156,7 +156,7 @@
 }
 
 -(NSString*)displayQueueKey {
-	return [[self screen] screenIDString];
+	return [NSString stringWithFormat:@"nano-%@", [[self screen] screenIDString]];
 }
 
 @end

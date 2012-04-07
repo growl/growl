@@ -151,7 +151,7 @@
 }
 
 -(NSString*)displayQueueKey {
-	return [[self screen] screenIDString];
+	return [NSString stringWithFormat:@"musicvideo-%@", [[self screen] screenIDString]];
 }
 
 @end

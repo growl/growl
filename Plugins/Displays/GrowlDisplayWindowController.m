@@ -710,7 +710,6 @@ static NSMutableDictionary *existingInstances;
 			idealOrigin = CGPointMake(NSMaxX(rect) - NSWidth(viewFrame) - padding,
 											  NSMinY(rect) + padding);
 			break;
-			break;			
 	}
 	
 	return idealOrigin;
