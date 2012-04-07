@@ -223,6 +223,7 @@
 	}
 	
 	if(display){
+		[window setOccupiedRect:[[window screen] frame]];
 		[window foundSpaceToStart];
 		[displayedWindows addObject:window];
 		NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
