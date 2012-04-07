@@ -101,7 +101,7 @@
 					[queue enumerateObjectsUsingBlock:^(id windowObj, NSUInteger windowIDX, BOOL *windowStop) {
 						//NSLog(@"old queue key: %@ new key: %@", queueObj, [windowObj displayQueueKey]);
 						//This isn't working quite right yet
-						[self displayWindow:windowObj reposition:NO];
+						[self displayQueueWindow:windowObj];
 					}];
 					[queuingDisplayQueues removeObjectForKey:queueObj];
 				}];
@@ -196,55 +196,66 @@
 	[window release];
 }
 
--(void)displayWindow:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
+-(void)displayQueueWindow:(GrowlDisplayWindowController*)window 
 {
 	[allWindows addObject:window];
 	GrowlPositionController *controller = [self positionControllerForWindow:window];
-	if(reposition){
-		[self clearRect:[window occupiedRect] inPositionController:controller];
-		if(![self displayWindow:window]){
-			NSLog(@"Couldnt find space for coalescing notification, adding to queue");
-			[window stopDisplay];
-			[displayedWindows removeObject:window];
-			[windowQueue addObject:window];
+
+	BOOL display = YES;
+	if(![[window plugin] requiresPositioning]){
+		NSString *displayQueueKey = [window displayQueueKey];
+		if([queuingDisplayCurrentWindows valueForKey:displayQueueKey] || [queuingDisplayQueues valueForKey:displayQueueKey]){
+			display = NO;
+			NSMutableArray *queue = [queuingDisplayQueues valueForKey:displayQueueKey];
+			if(!queue){
+				queue = [NSMutableArray array];
+				[queuingDisplayQueues setValue:queue forKey:displayQueueKey];
+			}
+			[queue addObject:window];
 		}
+		NSString *screenID = [[window screen] screenIDString];
+		NSMutableSet *keys = [queueKeysByDisplayID valueForKey:screenID];
+		if(!keys){
+			keys = [NSMutableSet set];
+			[queueKeysByDisplayID setValue:keys forKey:screenID];
+		}
+		[keys addObject:displayQueueKey];
+	}
+	
+	if(display){
+		[window foundSpaceToStart];
+		[displayedWindows addObject:window];
+		NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+		if(controllerSet) [controllerSet addObject:window];
+		NSString *displayQueueKey = [window displayQueueKey];
+		[queuingDisplayCurrentWindows setValue:window forKey:displayQueueKey];
+	}
+}
+
+-(void)displayWindow:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
+{
+	
+	if(![[window plugin] requiresPositioning]){
+		[self displayQueueWindow:window];
 	}else{
-		BOOL display = YES;
-		if(![[window plugin] requiresPositioning]){
-			NSString *displayQueueKey = [window displayQueueKey];
-			if([queuingDisplayCurrentWindows valueForKey:displayQueueKey] || [queuingDisplayQueues valueForKey:displayQueueKey]){
-				display = NO;
-				NSMutableArray *queue = [queuingDisplayQueues valueForKey:displayQueueKey];
-				if(!queue){
-					queue = [NSMutableArray array];
-					[queuingDisplayQueues setValue:queue forKey:displayQueueKey];
-				}
-				[queue addObject:window];
-			}
-			NSString *screenID = [[window screen] screenIDString];
-			NSMutableSet *keys = [queueKeysByDisplayID valueForKey:screenID];
-			if(!keys){
-				keys = [NSMutableSet set];
-				[queueKeysByDisplayID setValue:keys forKey:screenID];
-			}
-			[keys addObject:displayQueueKey];
-		}
-		
-		if(display){
-			if([self displayWindow:window]){
-				[window foundSpaceToStart];
-				[displayedWindows addObject:window];
-				NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
-				if(controllerSet) [controllerSet addObject:window];
-				
-				if(![[window plugin] requiresPositioning]){
-					NSString *displayQueueKey = [window displayQueueKey];
-					[queuingDisplayCurrentWindows setValue:window forKey:displayQueueKey];
-				}
-			}else{
-				//NSLog(@"putting in queue");
+		GrowlPositionController *controller = [self positionControllerForWindow:window];
+		[allWindows addObject:window];
+		if(reposition){
+			[self clearRect:[window occupiedRect] inPositionController:controller];
+			if(![self displayWindow:window]){
+				NSLog(@"Couldnt find space for coalescing notification, adding to queue");
+				[window stopDisplay];
+				[displayedWindows removeObject:window];
 				[windowQueue addObject:window];
 			}
+		} else if([self displayWindow:window]){
+			[window foundSpaceToStart];
+			[displayedWindows addObject:window];
+			NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+			if(controllerSet) [controllerSet addObject:window];
+		}else{
+			//NSLog(@"putting in queue");
+			[windowQueue addObject:window];
 		}
 	}
 }
@@ -291,24 +302,29 @@
 	}else{
 		//Get our next window out for this windows display queue key if there is one
 		NSString *displayQueueKey = [window displayQueueKey];
-		if([queuingDisplayQueues valueForKey:displayQueueKey])
-		{
-			NSMutableArray *displayQueue = [queuingDisplayQueues valueForKey:displayQueueKey];
-			GrowlDisplayWindowController *nextWindow = [displayQueue objectAtIndex:0U];
-			[nextWindow setOccupiedRect:[[nextWindow screen] frame]];
-			[nextWindow foundSpaceToStart];
-			[displayedWindows addObject:nextWindow];
-
-			[queuingDisplayCurrentWindows setValue:nextWindow forKey:displayQueueKey];
-			[displayQueue removeObjectAtIndex:0U];
-			if(![displayQueue count]){
-				//We dont have a queue, remove it so we track properly whether to enqueue more notes
-				[queuingDisplayQueues removeObjectForKey:displayQueueKey];
+		GrowlDisplayWindowController *current = [queuingDisplayCurrentWindows valueForKey:displayQueueKey];
+		if(current == window){
+			if([queuingDisplayQueues valueForKey:displayQueueKey])
+			{
+				NSMutableArray *displayQueue = [queuingDisplayQueues valueForKey:displayQueueKey];
+				GrowlDisplayWindowController *nextWindow = [displayQueue objectAtIndex:0U];
+				[nextWindow setOccupiedRect:[[nextWindow screen] frame]];
+				[nextWindow foundSpaceToStart];
+				[displayedWindows addObject:nextWindow];
+				
+				[queuingDisplayCurrentWindows setValue:nextWindow forKey:displayQueueKey];
+				[displayQueue removeObjectAtIndex:0U];
+				if(![displayQueue count]){
+					//We dont have a queue, remove it so we track properly whether to enqueue more notes
+					[queuingDisplayQueues removeObjectForKey:displayQueueKey];
+				}
+			}else {
+				[queuingDisplayCurrentWindows removeObjectForKey:displayQueueKey];
 			}
 		}else{
-			[queuingDisplayCurrentWindows removeObjectForKey:displayQueueKey];
+			//NSLog(@"Error!, queue window %@ not the current window for queue key %@\nLikely a result of a removed screen", window, displayQueueKey);
 		}
-	}
+ 	}
 	NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[[window screen] screenIDString]];
 	if(controllerSet) [controllerSet removeObject:window];
 	[displayedWindows removeObject:window];
