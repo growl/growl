@@ -96,21 +96,30 @@
 		return [super replacementObjectForPortCoder:encoder];
 }
 
-- (NSBitmapImageRep *)GrowlBitmapImageRep
-{
-	NSData *tiffData = [self TIFFRepresentation];
-	NSBitmapImageRep *tiffRep = [NSBitmapImageRep imageRepWithData:tiffData];
-	return tiffRep;
+- (NSData *) representationWithType:(NSString*)type {
+	NSMutableData *mutableData = [NSMutableData data];
+	CGImageDestinationRef cgDestRef = CGImageDestinationCreateWithData((CFMutableDataRef)mutableData, (CFStringRef)type, 1, NULL);
+	if(cgDestRef)
+	{
+		CGImageRef imageRef = [self CGImageForProposedRect:NULL context:nil hints:nil];
+		if(imageRef)
+		{
+			CGImageDestinationAddImage(cgDestRef, imageRef, NULL);
+			CGImageDestinationFinalize(cgDestRef);
+		}
+		CFRelease(cgDestRef);
+	}
+	return mutableData;
 }
 
 - (NSData *) PNGRepresentation
 {
-	return ([[self GrowlBitmapImageRep] representationUsingType:NSPNGFileType properties:nil]);
+	return [self representationWithType:(NSString*)kUTTypePNG];
 }
 
 - (NSData *) JPEGRepresentation
 {
-	return ([[self GrowlBitmapImageRep] representationUsingType:NSJPEGFileType properties:nil]);
+	return [self representationWithType:(NSString*)kUTTypeJPEG];
 }
 
 

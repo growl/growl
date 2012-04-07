@@ -11,6 +11,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageCache.h"
 #import "NSStringAdditions.h"
+#import "GrowlImageAdditions.h"
 #import <CommonCrypto/CommonHMAC.h>
 
 @implementation GrowlHistoryNotification
@@ -68,7 +69,10 @@
    NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Image"] autorelease];
    
    NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
-   NSString *hash = [self hashForData:imageData];
+	if([imageData isKindOfClass:[NSImage class]])
+		imageData = [(NSImage*)imageData PNGRepresentation];
+
+	NSString *hash = [self hashForData:imageData];
 
    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Checksum == %@", hash];
    [request setPredicate:predicate];

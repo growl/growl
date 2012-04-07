@@ -31,6 +31,7 @@
 
 	[iconID release];
 	[iconURL release];
+	[iconData release];
 
 	[super dealloc];
 }
@@ -135,15 +136,16 @@
 - (NSData *)iconData
 {
 	NSData *data = nil;
-	if (iconID) {
-		data = [binaryDataByIdentifier objectForKey:iconID];
-	} else if (iconURL) {
-      /* FIX ME: Implement a full, asynchronous download system */
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"URL based notification icon's are not presently supported.  Support will return in a future release of Growl.app");
-      });
-      NSLog(@"Not downloading icon for notification %@ of application %@", [self notificationName], [self applicationName]);
+	if(iconData){
+		data = iconData;
+	}else{
+		if (iconID) {
+			data = [binaryDataByIdentifier objectForKey:iconID];
+		} else if (iconURL) {
+			data = [NSData dataWithContentsOfURL:iconURL];
+		}
+		if(data)
+			iconData = [data retain];
 	}
 	
 	return data;
@@ -455,8 +457,10 @@
 	NSMutableDictionary *growlDictionary = [[[super growlDictionary] mutableCopy] autorelease];
 	
 	[growlDictionary addEntriesFromDictionary:notificationDict];
-	[growlDictionary setValue:[self iconData]
-					   forKey:GROWL_NOTIFICATION_ICON_DATA];
+	NSData *data = [self iconData];
+	if(data)
+		[growlDictionary setValue:data
+								 forKey:GROWL_NOTIFICATION_ICON_DATA];
 	
 	return growlDictionary;
 }

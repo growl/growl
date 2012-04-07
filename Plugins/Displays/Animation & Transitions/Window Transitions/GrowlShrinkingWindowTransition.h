@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "GrowlWindowTransition.h"
+#import <GrowlPlugins/GrowlWindowtransition.h>
 
 @interface GrowlShrinkingWindowTransition : GrowlWindowTransition {
 	CGFloat scaleFactor;

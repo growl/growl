@@ -8,7 +8,7 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @class NSPreferencePane;
 

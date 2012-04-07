@@ -6,9 +6,9 @@
 //  Copyright 2005–2011 The Growl Project All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
-@interface GrowlSMSPrefs: NSPreferencePane {
+@interface GrowlSMSPrefs: GrowlPluginPreferencePane {
 }
 
 @property (nonatomic, retain) NSString *smsNotifications;

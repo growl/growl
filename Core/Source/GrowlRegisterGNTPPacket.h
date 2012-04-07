@@ -23,6 +23,7 @@ typedef enum {
 
 	NSString *applicationIconID;
 	NSURL *mApplicationIconURL;
+	NSData *mApplicationIconData;
 
 	int numberOfNotifications;
 }

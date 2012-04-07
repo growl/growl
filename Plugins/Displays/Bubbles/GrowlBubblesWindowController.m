@@ -7,13 +7,13 @@
 //  Copyright (c) 2004–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesWindowView.h"
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 #import "GrowlPositionController.h"
 
 @implementation GrowlBubblesWindowController
@@ -22,21 +22,24 @@
 
 #pragma mark -
 
-- (id) init {
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [note configurationDict];
+	
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
+	if([configDict valueForKey:GrowlBubblesScreen]){
+		screenNumber = [[configDict valueForKey:GrowlBubblesScreen] unsignedIntValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
-
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlBubblesDuration, GrowlBubblesPrefDomain, CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlBubblesDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	
+	NSTimeInterval duration = GrowlBubblesDurationPrefDefault;
+	if([configDict valueForKey:GrowlBubblesDuration]){
+		duration = [[configDict valueForKey:GrowlBubblesDuration] floatValue];
+	}
+	self.displayDuration = duration;
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
@@ -61,14 +64,14 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
+	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
 	[view release];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -83,87 +86,6 @@
 
 #pragma mark -
 #pragma mark positioning methods
-
-- (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	NSPoint idealOrigin;
-	
-	switch(originatingPosition){
-		case GrowlTopRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBubblesPadding,
-									  NSMaxY(rect) - GrowlBubblesPadding - NSHeight(viewFrame));
-			break;
-		case GrowlTopLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlBubblesPadding,
-									  NSMaxY(rect) - GrowlBubblesPadding - NSHeight(viewFrame));
-			break;
-		case GrowlBottomLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlBubblesPadding,
-									  NSMinY(rect) + GrowlBubblesPadding);
-			break;
-		case GrowlBottomRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBubblesPadding,
-									  NSMinY(rect) + GrowlBubblesPadding);
-			break;
-		default:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBubblesPadding,
-									  NSMaxY(rect) - GrowlBubblesPadding - NSHeight(viewFrame));
-			break;			
-	}
-	
-	return idealOrigin;	
-}
-
-- (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;			
-	}
-	
-	return directionToExpand;
-}
-
-- (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-	}
-	
-	return directionToExpand;
-}
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowlBubblesPadding;
