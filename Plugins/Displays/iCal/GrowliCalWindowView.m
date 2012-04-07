@@ -126,7 +126,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, CGFloat r
 	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
     
 	CGContextSaveGState(context);
-	CGContextClip(context);
+	//CGContextClip(context);
     
 	// Create a callback function to generate the
 	// fill clipped graphics context with our gradient
