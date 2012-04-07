@@ -25,8 +25,8 @@
 	NSDictionary *configDict = [note configurationDict];
 	int sizePref = 0;
 	screenNumber = 0U;
-	shrinkEnabled = NO;
-	flipEnabled = NO;
+	shrinkEnabled = BEZEL_SHRINK_DEFAULT;
+	flipEnabled = BEZEL_FLIP_DEFAULT;
 
 	NSTimeInterval duration = MIN_DISPLAY_TIME;
 	if([configDict valueForKey:GrowlBezelDuration]){

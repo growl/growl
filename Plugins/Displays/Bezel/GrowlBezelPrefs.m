@@ -192,7 +192,7 @@
 #pragma mark -
 
 - (BOOL) shrink {
-	BOOL shrink = YES;
+	BOOL shrink = BEZEL_FLIP_DEFAULT;
 	if([self.configuration valueForKey:BEZEL_SHRINK_PREF]){
 		shrink = [[self.configuration valueForKey:BEZEL_SHRINK_PREF] boolValue];
 	}
@@ -206,7 +206,7 @@
 #pragma mark -
 
 - (BOOL) flip {
-	BOOL flip = YES;
+	BOOL flip = BEZEL_FLIP_DEFAULT;
 	if([self.configuration valueForKey:BEZEL_FLIP_PREF]){
 		flip = [[self.configuration valueForKey:BEZEL_FLIP_PREF] boolValue];
 	}

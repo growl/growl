@@ -207,7 +207,7 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
-	[icon setFlipped:NO];
+	[icon setFlipped:YES];
 	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0];
 	[super drawRect:rect];
 }

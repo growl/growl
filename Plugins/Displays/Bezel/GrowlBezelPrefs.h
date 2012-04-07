@@ -42,6 +42,9 @@
 #define BEZEL_SIZE_NORMAL					0
 #define BEZEL_SIZE_SMALL					1
 
+#define BEZEL_FLIP_DEFAULT					NO
+#define BEZEL_SHRINK_DEFAULT				YES
+
 @interface GrowlBezelPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSSlider		*slider_opacity;
 }
