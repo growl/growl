@@ -17,6 +17,11 @@
 @synthesize generateButton = _generateButton;
 @synthesize generateProgressIndicator = _generateProgressIndicator;
 @synthesize tableView = _tableView;
+@synthesize apiKeysBox = _apiKeysBox;
+@synthesize sendingToProwlBox = _sendingToProwlBox;
+@synthesize prefixCheckbox = _prefixCheckbox;
+@synthesize minimumPriorityCheckbox = _minimumPriorityCheckbox;
+@synthesize onlyWhenIdleCheckbox = _onlyWhenIdleCheckbox;
 @synthesize apiKeys = _apiKeys;
 @synthesize generator = _generator;
 @synthesize validator = _validator;
@@ -48,6 +53,18 @@
 {
 	[super mainViewDidLoad];
 	[self refreshButtons];
+	
+	self.apiKeysBox.title = PRLocalizedString(@"API Keys", "The area in the Prowl preferences where the API keys are listed.");
+	
+	self.generateButton.title = PRLocalizedString(@"Generate", "The title for the button in the Prowl preferences which allows the user to generate (create by talking to the server) a new API key.");
+	
+	self.sendingToProwlBox.title = PRLocalizedString(@"Sending to Prowl", "The area in the Prowl preferences where the user chooses what options are available for conditionally sending to Prowl.");
+	
+	self.prefixCheckbox.title = PRLocalizedString(@"Prefix notifications with:", "The option in the Prowl preferences which, when enabled, allows the user to put text at the beginning of a notification.");
+	
+	self.minimumPriorityCheckbox.title = PRLocalizedString(@"Only when priority is at least:", "The option in the Prowl preferences which, when enabled, allows the user to select the lowest amount of priority that should be sent.");
+	
+	self.onlyWhenIdleCheckbox.title = PRLocalizedString(@"Only when Mac is idle", "The option in the Prowl preferences which, when enabled, only sends notifications to the Prowl server when Growl determines that the machine is idle.");
 	
 	[NSNotificationCenter.defaultCenter addObserver:self
 										   selector:@selector(tableViewSelectionDidChange:)

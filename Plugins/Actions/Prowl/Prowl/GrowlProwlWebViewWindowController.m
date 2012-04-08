@@ -1,4 +1,5 @@
 #import "GrowlProwlWebViewWindowController.h"
+#import "PRDefines.h"
 
 @interface GrowlProwlWebViewWindowController ()
 @property (nonatomic, assign, readwrite) id<GrowlProwlWebViewWindowControllerDelegate> delegate;
@@ -35,7 +36,8 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
+	
+	self.window.title = PRLocalizedString(@"Prowl Login", "The title for the window where the user enters their Prowl credentials to create generate API key.");
 }
 
 - (void)showWindow:(id)sender

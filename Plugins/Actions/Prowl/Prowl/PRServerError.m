@@ -1,12 +1,5 @@
-//
-//  PRServerError.m
-//  Prowl
-//
-//  Created by Zachary West on 2012-04-04.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import "PRServerError.h"
+#import "PRDefines.h"
 
 NSString *const PRServerErrorDomain = @"PRServerErrorDomain";
 
@@ -27,16 +20,16 @@ NSString *const PRServerErrorDomain = @"PRServerErrorDomain";
 		case PRStatusCodeNotAuthorized:
 		case PRStatusCodeBadRequest:
 		case PRStatusCodeNotAcceptable:
-			localizedDescription = NSLocalizedString(@"The application sent a command the server didn't understand. Please try again.", nil);
+			localizedDescription = PRLocalizedString(@"The application sent a command the server didn't understand. Please try again.", nil);
 			break;
 		case PRStatusCodeNotApproved:
-			localizedDescription = NSLocalizedString(@"You didn't log in and allow an API key to be generated.", nil);
+			localizedDescription = PRLocalizedString(@"You didn't log in and allow an API key to be generated.", nil);
 			break;
 		case PRStatusCodeInternalError:
-			localizedDescription = NSLocalizedString(@"An error occurred on the server. Please try again.", nil);
+			localizedDescription = PRLocalizedString(@"An error occurred on the server. Please try again.", nil);
 			break;
 		default:
-			localizedDescription = NSLocalizedString(@"An unknown error occured. Please try again.", nil);
+			localizedDescription = PRLocalizedString(@"An unknown error occured. Please try again.", nil);
 			break;
 	}
 	

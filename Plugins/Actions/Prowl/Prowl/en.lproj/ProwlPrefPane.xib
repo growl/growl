@@ -429,7 +429,7 @@
 																			<int key="NSColorSpace">6</int>
 																			<string key="NSCatalogName">System</string>
 																			<string key="NSColorName">controlBackgroundColor</string>
-																			<object class="NSColor" key="NSColor" id="974177699">
+																			<object class="NSColor" key="NSColor">
 																				<int key="NSColorSpace">3</int>
 																				<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 																			</object>
@@ -575,7 +575,7 @@
 											<string key="NSFrame">{{40, 16}, {23, 23}}</string>
 											<reference key="NSSuperview" ref="50470616"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="24314794"/>
+											<reference key="NSNextKeyView" ref="786663130"/>
 											<string key="NSReuseIdentifierKey">_NS:22</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="112213190">
@@ -632,31 +632,6 @@
 											<string key="NSReuseIdentifierKey">_NS:926</string>
 											<int key="NSpiFlags">28938</int>
 											<double key="NSMaxValue">100</double>
-										</object>
-										<object class="NSTextField" id="24314794">
-											<reference key="NSNextResponder" ref="50470616"/>
-											<int key="NSvFlags">293</int>
-											<string key="NSFrame">{{73, 20}, {172, 14}}</string>
-											<reference key="NSSuperview" ref="50470616"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="786663130"/>
-											<string key="NSReuseIdentifierKey">_NS:1505</string>
-											<bool key="NSEnabled">YES</bool>
-											<object class="NSTextFieldCell" key="NSCell" id="318515171">
-												<int key="NSCellFlags">68288064</int>
-												<int key="NSCellFlags2">272761856</int>
-												<string key="NSContents">Generate will create a new key.</string>
-												<reference key="NSSupport" ref="26"/>
-												<string key="NSCellIdentifier">_NS:1505</string>
-												<reference key="NSControlView" ref="24314794"/>
-												<object class="NSColor" key="NSBackgroundColor">
-													<int key="NSColorSpace">6</int>
-													<string key="NSCatalogName">System</string>
-													<string key="NSColorName">controlColor</string>
-													<reference key="NSColor" ref="974177699"/>
-												</object>
-												<reference key="NSTextColor" ref="863819152"/>
-											</object>
 										</object>
 									</array>
 									<string key="NSFrame">{{1, 1}, {342, 187}}</string>
@@ -835,6 +810,46 @@
 						<reference key="destination" ref="786663130"/>
 					</object>
 					<int key="connectionID">2368</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">apiKeysBox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="475409869"/>
+					</object>
+					<int key="connectionID">2370</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sendingToProwlBox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="376346783"/>
+					</object>
+					<int key="connectionID">2372</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">prefixCheckbox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="877729249"/>
+					</object>
+					<int key="connectionID">2373</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">minimumPriorityCheckbox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="801693906"/>
+					</object>
+					<int key="connectionID">2374</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">onlyWhenIdleCheckbox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="542970358"/>
+					</object>
+					<int key="connectionID">2375</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1310,7 +1325,6 @@
 							<reference ref="239922296"/>
 							<reference ref="790218629"/>
 							<reference ref="786663130"/>
-							<reference ref="24314794"/>
 							<reference ref="987690978"/>
 						</array>
 						<reference key="parent" ref="1006"/>
@@ -1400,20 +1414,6 @@
 						<int key="objectID">648</int>
 						<reference key="object" ref="439481436"/>
 						<reference key="parent" ref="786663130"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1591</int>
-						<reference key="object" ref="24314794"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="318515171"/>
-						</array>
-						<reference key="parent" ref="475409869"/>
-						<string key="objectName">Generate description</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1592</int>
-						<reference key="object" ref="318515171"/>
-						<reference key="parent" ref="24314794"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2260</int>
@@ -1557,8 +1557,6 @@
 				<string key="151.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="152.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="153.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1591.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1592.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2260.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="2302.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1614,7 +1612,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2368</int>
+			<int key="maxID">2375</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1631,17 +1629,12 @@
 					<string key="superclassName">GrowlPluginPreferencePane</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="add:">id</string>
-						<string key="connect:">id</string>
 						<string key="generate:">id</string>
 						<string key="remove:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="add:">
 							<string key="name">add:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="connect:">
-							<string key="name">connect:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="generate:">
@@ -1655,15 +1648,24 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addButton">NSButton</string>
+						<string key="apiKeysBox">NSBox</string>
 						<string key="generateButton">NSButton</string>
 						<string key="generateProgressIndicator">NSProgressIndicator</string>
+						<string key="minimumPriorityCheckbox">NSButton</string>
+						<string key="onlyWhenIdleCheckbox">NSButton</string>
+						<string key="prefixCheckbox">NSButton</string>
 						<string key="removeButton">NSButton</string>
+						<string key="sendingToProwlBox">NSBox</string>
 						<string key="tableView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="addButton">
 							<string key="name">addButton</string>
 							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="apiKeysBox">
+							<string key="name">apiKeysBox</string>
+							<string key="candidateClassName">NSBox</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="generateButton">
 							<string key="name">generateButton</string>
@@ -1673,9 +1675,25 @@
 							<string key="name">generateProgressIndicator</string>
 							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="minimumPriorityCheckbox">
+							<string key="name">minimumPriorityCheckbox</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="onlyWhenIdleCheckbox">
+							<string key="name">onlyWhenIdleCheckbox</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prefixCheckbox">
+							<string key="name">prefixCheckbox</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="removeButton">
 							<string key="name">removeButton</string>
 							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="sendingToProwlBox">
+							<string key="name">sendingToProwlBox</string>
+							<string key="candidateClassName">NSBox</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="tableView">
 							<string key="name">tableView</string>
