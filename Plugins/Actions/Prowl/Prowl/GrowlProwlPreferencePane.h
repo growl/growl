@@ -14,9 +14,12 @@
 @property (nonatomic, assign) BOOL prefixEnabled;
 @property (nonatomic, copy) NSString *prefix;
 
+@property (assign) IBOutlet NSButton *addButton;
+@property (assign) IBOutlet NSButton *removeButton;
 @property (assign) IBOutlet NSButton *generateButton;
 @property (assign) IBOutlet NSProgressIndicator *generateProgressIndicator;
-- (IBAction)connect:(id)sender;
+
+- (IBAction)generate:(id)sender;
 - (IBAction)add:(id)sender;
 - (IBAction)remove:(id)sender;
 @end

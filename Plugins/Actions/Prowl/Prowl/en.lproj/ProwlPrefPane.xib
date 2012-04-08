@@ -241,6 +241,7 @@
 											<string key="NSFrame">{{9, 13}, {170, 18}}</string>
 											<reference key="NSSuperview" ref="1030393072"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="29795228">
 												<int key="NSCellFlags">-2080244224</int>
@@ -620,10 +621,22 @@
 												<int key="NSPeriodicInterval">75</int>
 											</object>
 										</object>
+										<object class="NSProgressIndicator" id="987690978">
+											<reference key="NSNextResponder" ref="50470616"/>
+											<int key="NSvFlags">1313</int>
+											<object class="NSPSMatrix" key="NSDrawMatrix"/>
+											<string key="NSFrame">{{279, 18}, {16, 16}}</string>
+											<reference key="NSSuperview" ref="50470616"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="376346783"/>
+											<string key="NSReuseIdentifierKey">_NS:926</string>
+											<int key="NSpiFlags">28938</int>
+											<double key="NSMaxValue">100</double>
+										</object>
 										<object class="NSTextField" id="24314794">
 											<reference key="NSNextResponder" ref="50470616"/>
 											<int key="NSvFlags">293</int>
-											<string key="NSFrame">{{73, 20}, {199, 14}}</string>
+											<string key="NSFrame">{{73, 20}, {172, 14}}</string>
 											<reference key="NSSuperview" ref="50470616"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="786663130"/>
@@ -644,18 +657,6 @@
 												</object>
 												<reference key="NSTextColor" ref="863819152"/>
 											</object>
-										</object>
-										<object class="NSProgressIndicator" id="987690978">
-											<reference key="NSNextResponder" ref="50470616"/>
-											<int key="NSvFlags">1313</int>
-											<object class="NSPSMatrix" key="NSDrawMatrix"/>
-											<string key="NSFrame">{{279, 18}, {16, 16}}</string>
-											<reference key="NSSuperview" ref="50470616"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="376346783"/>
-											<string key="NSReuseIdentifierKey">_NS:926</string>
-											<int key="NSpiFlags">28938</int>
-											<double key="NSMaxValue">100</double>
 										</object>
 									</array>
 									<string key="NSFrame">{{1, 1}, {342, 187}}</string>
@@ -719,14 +720,6 @@
 						<reference key="destination" ref="343009274"/>
 					</object>
 					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">connect:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="786663130"/>
-					</object>
-					<int key="connectionID">701</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -818,6 +811,30 @@
 						</object>
 					</object>
 					<int key="connectionID">2327</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">removeButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="790218629"/>
+					</object>
+					<int key="connectionID">2365</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">addButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="239922296"/>
+					</object>
+					<int key="connectionID">2366</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">generate:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="786663130"/>
+					</object>
+					<int key="connectionID">2368</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1344,6 +1361,7 @@
 							<reference ref="1063767448"/>
 						</array>
 						<reference key="parent" ref="475409869"/>
+						<string key="objectName">Add</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">559</int>
@@ -1357,6 +1375,7 @@
 							<reference ref="112213190"/>
 						</array>
 						<reference key="parent" ref="475409869"/>
+						<string key="objectName">Remove</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">574</int>
@@ -1375,6 +1394,7 @@
 							<reference ref="439481436"/>
 						</array>
 						<reference key="parent" ref="475409869"/>
+						<string key="objectName">Generate</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">648</int>
@@ -1388,6 +1408,7 @@
 							<reference ref="318515171"/>
 						</array>
 						<reference key="parent" ref="475409869"/>
+						<string key="objectName">Generate description</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1592</int>
@@ -1398,6 +1419,7 @@
 						<int key="objectID">2260</int>
 						<reference key="object" ref="987690978"/>
 						<reference key="parent" ref="475409869"/>
+						<string key="objectName">Generate Progress</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">448</int>
@@ -1592,7 +1614,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2364</int>
+			<int key="maxID">2368</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1610,6 +1632,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="add:">id</string>
 						<string key="connect:">id</string>
+						<string key="generate:">id</string>
 						<string key="remove:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -1621,17 +1644,27 @@
 							<string key="name">connect:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="generate:">
+							<string key="name">generate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="remove:">
 							<string key="name">remove:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="addButton">NSButton</string>
 						<string key="generateButton">NSButton</string>
 						<string key="generateProgressIndicator">NSProgressIndicator</string>
+						<string key="removeButton">NSButton</string>
 						<string key="tableView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="addButton">
+							<string key="name">addButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="generateButton">
 							<string key="name">generateButton</string>
 							<string key="candidateClassName">NSButton</string>
@@ -1639,6 +1672,10 @@
 						<object class="IBToOneOutletInfo" key="generateProgressIndicator">
 							<string key="name">generateProgressIndicator</string>
 							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="removeButton">
+							<string key="name">removeButton</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="tableView">
 							<string key="name">tableView</string>

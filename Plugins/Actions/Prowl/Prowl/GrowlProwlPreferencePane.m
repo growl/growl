@@ -12,6 +12,8 @@
 
 @implementation GrowlProwlPreferencePane
 @synthesize webViewWindowController = _webViewWindowController;
+@synthesize addButton = _addButton;
+@synthesize removeButton = _removeButton;
 @synthesize generateButton = _generateButton;
 @synthesize generateProgressIndicator = _generateProgressIndicator;
 @synthesize tableView = _tableView;
@@ -30,6 +32,7 @@
 
 - (void)dealloc
 {
+	[NSNotificationCenter.defaultCenter removeObserver:self];
 	[_apiKeys release];
 	[_generator release];
 	[_validator release];
@@ -39,6 +42,17 @@
 - (NSString*)mainNibName
 {
 	return @"ProwlPrefPane";
+}
+
+- (void)mainViewDidLoad
+{
+	[super mainViewDidLoad];
+	[self refreshButtons];
+	
+	[NSNotificationCenter.defaultCenter addObserver:self
+										   selector:@selector(tableViewSelectionDidChange:)
+											   name:NSTableViewSelectionDidChangeNotification
+											 object:self.tableView];
 }
 
 - (NSSet *)bindingKeys
@@ -60,6 +74,12 @@
 - (void)didSelect
 {
 	[self validateApiKeys];
+}
+
+- (void)refreshButtons
+{
+	self.generateButton.enabled = !self.generator;
+	self.removeButton.enabled = !!self.tableView.numberOfSelectedRows;
 }
 
 - (void)updateConfigurationValues
@@ -136,13 +156,13 @@
 
 #pragma mark - Actions
 
-- (IBAction)connect:(id)sender
+- (IBAction)generate:(id)sender
 {
-	self.generateButton.enabled = NO;
 	[self.generateProgressIndicator startAnimation:nil];
 	self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
 															  delegate:self] autorelease];
 	[self.generator fetchToken];
+	[self refreshButtons];
 }
 
 - (IBAction)add:(id)sender
@@ -288,6 +308,11 @@
 	return nil;
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	[self refreshButtons];
+}
+
 #pragma mark - GrowlProwlValidatorDelegate
 - (void)validator:(GrowlProwlValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
 {
@@ -318,9 +343,9 @@
 #pragma mark - GrowlProwlGeneratorDelegate
 - (void)finishGenerator
 {
-	self.generateButton.enabled = YES;
 	self.generator = nil;
 	[self.generateProgressIndicator stopAnimation:nil];
+	[self refreshButtons];
 }
 
 - (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
