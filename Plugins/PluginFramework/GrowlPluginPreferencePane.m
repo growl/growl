@@ -41,7 +41,10 @@
 }
 
 -(void)setConfigurationValue:(id)value forKey:(NSString*)key {
-	[configuration setValue:value forKey:key];
+	if(value)
+		[configuration setValue:value forKey:key];
+	else
+		[configuration removeObjectForKey:key];
 	[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
 }
 
