@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby -S rake --verbose --trace --rakefile
+# -*- encoding: utf-8 -*-
+
+# it'd be fairly abnormal to install rake without RubyGems... but you never know, do you?
+require 'rubygems' unless defined?(Gem)
+
+desc "Generate localizable strings"
+task :genstrings do
+  `genstrings -s PRLocalizedString -o Prowl/en.lproj/ Prowl/*.m Prowl/*.h`
+end

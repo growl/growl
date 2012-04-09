@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		117B7D381532600D0068CBD2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 117B7D361532600D0068CBD2 /* Localizable.strings */; };
 		117B8505152E7A2000B4B531 /* GrowlProwlValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */; };
 		118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAB152BEC4300F3C167 /* Cocoa.framework */; };
 		118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAD152BEC4300F3C167 /* AppKit.framework */; };
@@ -148,6 +149,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		117B7D371532600D0068CBD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		117B8503152E7A2000B4B531 /* GrowlProwlValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlValidator.h; sourceTree = "<group>"; };
 		117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlValidator.m; sourceTree = "<group>"; };
 		118F2DA8152BEC4300F3C167 /* Prowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Prowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +195,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		117B7D4A153260250068CBD2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				117B7D361532600D0068CBD2 /* Localizable.strings */,
+				11951BF5152C120A006D3B62 /* anticheckmark.png */,
+				11951BF6152C120A006D3B62 /* checkmark.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		118F2D9D152BEC4300F3C167 = {
 			isa = PBXGroup;
 			children = (
@@ -224,9 +236,8 @@
 		118F2DB1152BEC4300F3C167 /* Prowl */ = {
 			isa = PBXGroup;
 			children = (
+				117B7D4A153260250068CBD2 /* Resources */,
 				118F2DB2152BEC4300F3C167 /* Supporting Files */,
-				11951BF5152C120A006D3B62 /* anticheckmark.png */,
-				11951BF6152C120A006D3B62 /* checkmark.png */,
 				11951BF4152C0096006D3B62 /* PRDefines.h */,
 				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
 				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
@@ -457,6 +468,7 @@
 				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
 				11978EF6152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib in Resources */,
+				117B7D381532600D0068CBD2 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +500,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		117B7D361532600D0068CBD2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				117B7D371532600D0068CBD2 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		118F2DB8152BEC4300F3C167 /* ProwlPrefPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
