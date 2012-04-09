@@ -45,6 +45,10 @@
 	return stored;
 }
 
+- (void)removeConfiguration:(NSDictionary *)config forID:(NSString *)configID {
+	[GrowlKeychainUtilities removePasswordForService:keychainServiceName accountName:configID];	
+}
+
 - (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
 	NSString	*accountNameValue = [configuration valueForKey:accountNameKey];
 	NSString	*apiIDValue = [configuration valueForKey:accountAPIIDKey];

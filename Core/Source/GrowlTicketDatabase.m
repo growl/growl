@@ -402,6 +402,9 @@
 }
 
 -(void)deletePluginConfiguration:(GrowlTicketDatabasePlugin*)plugin {
+	id instance = [plugin pluginInstanceForConfiguration];
+	if(instance && [instance conformsToProtocol:@protocol(GrowlConfigurationRemovalProtocol)])
+		[(id<GrowlConfigurationRemovalProtocol>)instance removeConfiguration:[plugin configuration] forID:[plugin configID]];
 	[managedObjectContext deleteObject:plugin];
    [self saveDatabase:NO];
 }

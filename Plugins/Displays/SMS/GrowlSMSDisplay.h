@@ -18,7 +18,7 @@
 #define destinationNumberKey	@"SMS - Destination Number"
 
 @class GrowlNotification;
-@interface GrowlSMSDisplay: GrowlActionPlugin<GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol, NSXMLParserDelegate> {
+@interface GrowlSMSDisplay: GrowlActionPlugin<GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol, GrowlConfigurationRemovalProtocol, NSXMLParserDelegate> {
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;

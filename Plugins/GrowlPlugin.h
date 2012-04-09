@@ -20,6 +20,11 @@
 - (void)dispatchNotification:(NSDictionary*)notification withConfiguration:(NSDictionary*)configuration;
 @end
 
+@protocol GrowlConfigurationRemovalProtocol <NSObject>
+@required
+- (void)removeConfiguration:(NSDictionary*)config forID:(NSString*)configID;
+@end
+
 /*!	@class	GrowlPlugin
  *	@abstract	The base plug-in class.
  *	@discussion	All Growl plug-in instances are a kind of this class, including
