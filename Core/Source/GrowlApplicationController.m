@@ -174,6 +174,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				configCopy = [[[displayConfig configuration] mutableCopy] autorelease];
 			[configCopy setValue:[NSNumber numberWithInt:[[GrowlPreferencesController sharedController] selectedPosition]]
 							  forKey:@"com.growl.positioncontroller.selectedposition"];
+			[configCopy setValue:[displayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
 			
 			void (^displayBlock)(void) = ^{
 				[displayPlugin dispatchNotification:info withConfiguration:configCopy];
