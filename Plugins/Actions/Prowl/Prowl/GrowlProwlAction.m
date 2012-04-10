@@ -18,11 +18,46 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 {
     self = [super init];
     if (self) {
-
+		self.prefDomain = @"net.weks.prowl.growlplugin";
     }
     return self;
 }
 
+- (NSDictionary *)upgradeConfigDict:(NSDictionary *)original toConfigID:(NSString *)configID
+{	
+	NSArray *originalNames = [NSArray arrayWithObjects:
+							  @"SendWithPriority",
+							  @"MinimumPriority",
+							  @"OnlyWhenIdle",
+							  @"UsePrefix",
+							  @"NotificationPrefix",
+							  nil];
+	
+	NSArray *updatedNames = [NSArray arrayWithObjects:
+							 PRPreferenceKeyMinimumPriorityEnabled,
+							 PRPreferenceKeyMinimumPriority,
+							 PRPreferenceKeyOnlyWhenIdle,
+							 PRPreferenceKeyPrefixEnabled,
+							 PRPreferenceKeyPrefix,
+							 nil];
+	
+	NSMutableDictionary *config = [NSMutableDictionary dictionary];
+
+	NSDictionary *translation = [NSDictionary dictionaryWithObjects:originalNames forKeys:updatedNames];
+	[translation enumerateKeysAndObjectsUsingBlock:^(id updatedKey, id originalKey, BOOL *stop) {
+		id originalValue = [original objectForKey:originalKey];
+		if(originalValue) {
+			[config setObject:originalValue forKey:updatedKey];
+		}
+	}];
+	
+	NSLog(@"Upgraded %@ to %@", original, config);
+	
+	//xxx we need a path for u/p -> apikey
+	//	[GrowlKeychainUtilities removePasswordForService:@"Prowl" accountName:@"ProwlPassword"];
+	
+	return config;
+}
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)

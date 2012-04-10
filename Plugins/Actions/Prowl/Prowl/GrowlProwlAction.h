@@ -2,6 +2,6 @@
 #import "PRDefines.h"
 #import "PRAPIKey.h"
 
-@interface GrowlProwlAction : GrowlActionPlugin <GrowlDispatchNotificationProtocol>
+@interface GrowlProwlAction : GrowlActionPlugin <GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol>
 
 @end
