@@ -191,8 +191,14 @@
 
 -(void)windowReadyToStart:(GrowlDisplayWindowController*)window {
 	[window retain];
-	[self displayWindow:window reposition:NO];
-	[pending removeObject:window];
+	//If pending doesn't contain us, likely webkit is telling us to update the position due to a coalescing update
+	//In that case, tell it to reposition.  Makes sure that we dont have a problem with coalescing in WebKit displays
+	if([pending containsObject:window]){
+		[self displayWindow:window reposition:NO];
+		[pending removeObject:window];
+	}else{
+		[self displayWindow:window reposition:YES];
+	}
 	[window release];
 }
 
