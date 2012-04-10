@@ -59,9 +59,9 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	return config;
 }
 
-- (GrowlPluginPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *)preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlProwlPreferencePane alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.prowlapp.growl.Prowl"]];
+		preferencePane = [[GrowlProwlPreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[GrowlProwlAction class]]];
 	
 	return preferencePane;
 }
