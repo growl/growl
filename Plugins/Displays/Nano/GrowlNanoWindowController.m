@@ -80,13 +80,6 @@
 
 	[panel setContentView:view]; // retains subview
 	[view release];
-	
-	CGFloat xPosition = NSMaxX(screen) - (sizeRect.size.width + 50.0);
-	CGFloat yPosition = NSMaxY(screen);
-	if([self screen] == [NSScreen mainScreen] && [NSMenu menuBarVisible])
-		yPosition -= [[NSApp mainMenu] menuBarHeight];
-	
-	[panel setFrameOrigin:NSMakePoint(xPosition, yPosition)];
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
@@ -95,12 +88,17 @@
 			effect = [[configDict valueForKey:Nano_EFFECT_PREF] intValue];
 		}
 		
+		self.notification = note;
+		[panel setFrameOrigin:[self idealOriginInRect:screen]];
+		CGFloat xPosition = panel.frame.origin.x;
+		CGFloat yPosition = panel.frame.origin.y;	
+		
 		switch (effect) {
 			case Nano_EFFECT_SLIDE:
 			{
 				//slider effect
 				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-				[slider setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
+				[slider setFromOrigin:panel.frame.origin toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
 				[slider setAutoReverses:YES];
 				[self addTransition:slider];
 				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
@@ -114,7 +112,7 @@
 				//wipe effect
 				[panel setFrameOrigin:NSMakePoint(xPosition, NSMaxY(screen))];
 				GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-				[wiper setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
+				[wiper setFromOrigin:panel.frame.origin toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
 				[wiper setAutoReverses:YES];
 				[self addTransition:wiper];
 				[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
@@ -146,7 +144,23 @@
 
 
 -(CGPoint)idealOriginInRect:(CGRect)rect {
-	CGFloat xPosition = NSMaxX(rect) - ([self window].frame.size.width + 50.0);
+	NanoPosition position = Nano_POSITION_DEFAULT;
+	if([[self configurationDict] valueForKey:Nano_POSITION_PREF]){
+		position = [[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+	}
+
+	CGFloat xPosition;
+	switch (position) {
+		case Nano_POSITION_RIGHT:
+			xPosition = NSMaxX(rect) - ([self window].frame.size.width + 50.0f);
+			break;
+		case Nano_POSITION_LEFT:
+			xPosition = NSMinX(rect) + 50.0f;
+			break;
+		case Nano_POSITION_CENTER:
+			xPosition = NSMinX(rect) + (rect.size.width / 2.0f) - ([self window].frame.size.width / 2.0);
+			break;
+	} 
 	CGFloat yPosition = NSMaxY(rect);
 	
 	if([self screen] == [NSScreen mainScreen] && [NSMenu menuBarVisible])
@@ -156,7 +170,11 @@
 }
 
 -(NSString*)displayQueueKey {
-	return [NSString stringWithFormat:@"nano-%@", [[self screen] screenIDString]];
+	NanoPosition position = Nano_POSITION_DEFAULT;
+	if([[self configurationDict] valueForKey:Nano_POSITION_PREF]){
+		position = [[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+	}
+	return [NSString stringWithFormat:@"nano-%@-%lu", [[self screen] screenIDString], position];
 }
 
 @end

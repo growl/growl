@@ -31,6 +31,14 @@ typedef enum {
 	Nano_EFFECT_FADE
 } NanoEffectType;
 
+#define Nano_POSITION_PREF			@"Position"
+#define Nano_POSITION_DEFAULT		Nano_POSITION_RIGHT
+typedef  enum {
+	Nano_POSITION_LEFT,
+	Nano_POSITION_CENTER,
+	Nano_POSITION_RIGHT
+} NanoPosition;
+
 #define GrowlNanoVeryLowBackgroundColor	@"Nano-Priority-VeryLow-Color"
 #define GrowlNanoModerateBackgroundColor	@"Nano-Priority-Moderate-Color"
 #define GrowlNanoNormalBackgroundColor	@"Nano-Priority-Normal-Color"
@@ -57,6 +65,8 @@ typedef enum {
 - (void) setSize:(int)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+
+@property (nonatomic, assign) NanoPosition position;
 
 - (NSColor *) textColorVeryLow;
 - (void) setTextColorVeryLow:(NSColor *)value;

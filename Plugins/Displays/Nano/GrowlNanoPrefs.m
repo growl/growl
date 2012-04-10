@@ -38,7 +38,8 @@
 				  @"textColorModerate",	
 				  @"textColorNormal",
 				  @"textColorHigh",	
-				  @"textColorEmergency", nil] retain];
+				  @"textColorEmergency",
+				  @"position", nil] retain];
 	});
 	return keys;
 }
@@ -129,6 +130,18 @@
 }
 - (void) setScreen:(int)value {
 	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:Nano_SCREEN_PREF];
+}
+
+- (NanoPosition)position {
+	NanoPosition value = Nano_POSITION_DEFAULT;
+	if([self.configuration valueForKey:Nano_POSITION_PREF]){
+		value = [[self.configuration valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+	}
+	return value;
+}
+
+- (void)setPosition:(NanoPosition)position {
+	[self setConfigurationValue:[NSNumber numberWithUnsignedInteger:position] forKey:Nano_POSITION_PREF];
 }
 
 - (NSColor *) textColorVeryLow {
