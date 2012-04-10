@@ -8,7 +8,7 @@
 
 #import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
-@interface GrowlBoxcarPreferencePane : GrowlPluginPreferencePane
+@interface GrowlBoxcarPreferencePane : GrowlPluginPreferencePane <NSURLConnectionDelegate>
 
 @property (nonatomic, retain) NSString *errorMessage;
 @property (nonatomic) BOOL validating;

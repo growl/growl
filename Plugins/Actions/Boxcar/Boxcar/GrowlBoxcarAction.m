@@ -16,12 +16,22 @@
 #import <GrowlPlugins/GrowlDefines.h>
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
+#import <GrowlPlugins/NSURL+StringEncoding.h>
+
+@interface GrowlBoxcarAction ()
+
+@property (nonatomic, retain) NSMutableArray *connections;
+
+@end
 
 @implementation GrowlBoxcarAction
+
+@synthesize connections;
 
 -(id)init{
 	if((self = [super init])){
 		self.prefDomain = BoxcarPrefDomain;
+		self.connections = [NSMutableArray array];
 	}
 	return self;
 }
@@ -60,7 +70,9 @@
 	}
 	
 	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://boxcar.io/devices/providers/%@/notifications", BoxcarProviderKey]];
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL];
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL 
+																			 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
+																		timeoutInterval:100];
 	
 	NSString *message = [NSString stringWithFormat:@"%@ - %@", [notification objectForKey:GROWL_NOTIFICATION_TITLE], [notification objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 	NSString *prefix = [configuration valueForKey:BoxcarPrefixString];
@@ -68,9 +80,9 @@
 		if(prefix && ![prefix isEqualToString:@""])
 			message = [NSString stringWithFormat:@"[%@] %@", prefix, message];
 	}
-	message = [message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	message = [NSURL encodedStringByAddingPercentEscapesToString:message];
 	
-	NSString *app = [[notification valueForKey:GROWL_APP_NAME] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *app = [NSURL encodedStringByAddingPercentEscapesToString:[notification valueForKey:GROWL_APP_NAME]];
 	
 	NSMutableString *dataString = [NSMutableString stringWithFormat:@"email=%@", email];
 	[dataString appendFormat:@"&notification[from_screen_name]=%@", app];
@@ -81,37 +93,56 @@
 	[request setHTTPBody:data];
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
 	
-	[NSURLConnection sendAsynchronousRequest:request 
-												  queue:[NSOperationQueue mainQueue]
-								  completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-									  if([response respondsToSelector:@selector(statusCode)]){
-										  NSInteger status = [(NSHTTPURLResponse*)response statusCode];
-										  switch (status) {
-											  case 200:
-												  //SUCCESS!
-												  //NSLog(@"Success notifiying");
-												  break;
-											  case 400:
-												  //Silly boxcar
-												  break;
-											  case 401:
-												  //Not added!
-												  NSLog(@"This email has not added growl!");
-												  break;
-											  case 404:
-												  //User unknown!
-												  NSLog(@"This email is unknown to boxcar!");
-												  break;
-											  default:
-												  //Unknown response
-												  NSLog(@"Unknown response code from boxcar: %lu", status);
-												  break;
-										  }
-									  }else{
-										  NSLog(@"Error! Should be able to get a status code: %@", error);
-									  }
-								  }];
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
+																					  delegate:self
+																			startImmediately:NO];
+	[connections addObject:connection];
+	[connection setDelegateQueue:[NSOperationQueue mainQueue]];
+	[connection start];
+	[connection release];
 }
+
+#pragma mark NSURLConnectionDelegate
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	if([response respondsToSelector:@selector(statusCode)]){
+		NSInteger status = [(NSHTTPURLResponse*)response statusCode];
+		switch (status) {
+			case 200:
+				//SUCCESS!
+				//NSLog(@"Success notifiying");
+				break;
+			case 400:
+				//Silly boxcar
+				break;
+			case 401:
+				//Not added!
+				NSLog(@"This email has not added growl!");
+				break;
+			case 404:
+				//User unknown!
+				NSLog(@"This email is unknown to boxcar!");
+				break;
+			default:
+				//Unknown response
+				NSLog(@"Unknown response code from boxcar: %lu", status);
+				break;
+		}
+	}else{
+		NSLog(@"Error! Should be able to get a status code");
+	}
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	NSLog(@"connection %@ failed with error %@", connection, error);
+	[connections removeObject:connection];
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	[connections removeObject:connection];
+}
+
+#pragma mark -
 
 /* Auto generated method returning our PreferencePane, do not touch */
 - (GrowlPluginPreferencePane *) preferencePane {

@@ -8,6 +8,6 @@
 
 #import <GrowlPlugins/GrowlActionPlugin.h>
 
-@interface GrowlBoxcarAction : GrowlActionPlugin <GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol>
+@interface GrowlBoxcarAction : GrowlActionPlugin <GrowlDispatchNotificationProtocol, GrowlUpgradePluginPrefsProtocol, NSURLConnectionDelegate>
 
 @end

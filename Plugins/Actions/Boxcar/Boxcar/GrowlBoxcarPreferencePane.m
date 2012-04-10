@@ -13,14 +13,25 @@
 #import "GrowlBoxcarPreferencePane.h"
 #import "BoxcarDefines.h"
 
+@interface GrowlBoxcarPreferencePane ()
+
+@property (nonatomic, retain) NSMutableArray *connections;
+@property (nonatomic, retain) NSString *testEmail;
+
+@end
+
 @implementation GrowlBoxcarPreferencePane
 
 @synthesize errorMessage;
 @synthesize validating;
 
+@synthesize connections;
+@synthesize testEmail;
+
 -(id)initWithBundle:(NSBundle *)bundle {
 	if((self = [super initWithBundle:bundle])){
 		self.validating = NO;
+		self.connections = [NSMutableArray array];
 	}
 	return self;
 }
@@ -55,13 +66,14 @@
 
 -(void)updateConfigurationValues {
 	[super updateConfigurationValues];
-	//[self checkEmailAddress:[self emailAddress]];
+	[self checkEmailAddress:[self emailAddress]];
 }
 
 -(void)checkEmailAddress:(NSString*)newAddress {
-	if(!newAddress || [[self emailAddress] isEqualToString:newAddress] || [newAddress isEqualToString:@""]){
+	if(!newAddress /*|| [[self emailAddress] isEqualToString:newAddress]*/ || [newAddress isEqualToString:@""]){
 		return;
 	}
+	self.testEmail = newAddress;
 	
 	[self setConfigurationValue:newAddress forKey:BoxcarEmail];
 	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://boxcar.io/devices/providers/%@/notifications/subscribe", BoxcarProviderKey]];
@@ -72,43 +84,16 @@
 	[request setHTTPBody:data];
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
 
-	__block GrowlBoxcarPreferencePane *blockSelf = self;
 	self.errorMessage = @"";
 	self.validating = YES;
-	[NSURLConnection sendAsynchronousRequest:request
-												  queue:[NSOperationQueue mainQueue]
-								  completionHandler:^(NSURLResponse *response, NSData *urlData, NSError *error) {
-									  blockSelf.validating = NO;
-									  if([response respondsToSelector:@selector(statusCode)]){
-										  NSInteger status = [(NSHTTPURLResponse*)response statusCode];
-										  switch (status) {
-											  case 200:
-												  //SUCCESS!
-												  blockSelf.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
-												  [self setConfigurationValue:newAddress forKey:BoxcarEmail];
-												  break;
-											  case 400:
-												  //Silly boxcar
-												  blockSelf.errorMessage = NSLocalizedString(@"Invalid Email", @"Failure adding email");
-												  NSLog(@"Boxcar no longer accepts hashes");
-												  break;
-											  case 401:
-												  //Already added!
-												  blockSelf.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
-												  break;
-											  case 404:
-												  //User unknown!
-												  blockSelf.errorMessage = NSLocalizedString(@"Unknown email", @"Failed adding boxcar, unknown email address");
-												  NSLog(@"User unknown, you will be contacted via email shortly");
-												  break;
-											  default:
-												  //Unknown response
-												  blockSelf.errorMessage = [NSString stringWithFormat:@"Error %lu", status];
-												  NSLog(@"Unknown response code from boxcar: %lu", status);
-												  break;
-										  }
-									  }
-								  }];
+	
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
+																					  delegate:self
+																			startImmediately:NO];
+	[connections addObject:connection];
+	[connection setDelegateQueue:[NSOperationQueue mainQueue]];
+	[connection start];
+	[connection release];
 }
 
 -(NSString*)emailAddress {
@@ -168,6 +153,59 @@
 }
 -(void)setMinPriority:(int)min {
 	[self setConfigurationValue:[NSNumber numberWithInt:min] forKey:BoxcarMinPriority];
+}
+
+#pragma mark NSURLConnectionDelegate
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	if([response respondsToSelector:@selector(statusCode)]){
+		NSInteger status = [(NSHTTPURLResponse*)response statusCode];
+		switch (status) {
+			case 200:
+				//SUCCESS!
+				self.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
+				[self setConfigurationValue:self.testEmail forKey:BoxcarEmail];
+				break;
+			case 400:
+				//Silly boxcar
+				self.errorMessage = NSLocalizedString(@"Invalid Email", @"Failure adding email");
+				[self willChangeValueForKey:@"emailAddress"];
+				[self setConfigurationValue:nil forKey:BoxcarEmail];
+				[self didChangeValueForKey:@"emailAddress"];
+				NSLog(@"Boxcar no longer accepts hashes");
+				break;
+			case 401:
+				//Already added!
+				self.errorMessage = NSLocalizedString(@"Registered!", @"Success adding boxcar");
+				break;
+			case 404:
+				//User unknown!
+				self.errorMessage = NSLocalizedString(@"Unknown email", @"Failed adding boxcar, unknown email address");
+				NSLog(@"User unknown, you will be contacted via email shortly");
+				break;
+			default:
+				//Unknown response
+				self.errorMessage = [NSString stringWithFormat:@"Error %lu", status];
+				NSLog(@"Unknown response code from boxcar: %lu", status);
+				break;
+		}
+	}else{
+		NSLog(@"Error! Should be able to get a status code");
+	}
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	NSLog(@"connection %@ failed with error %@", connection, error);
+	[self willChangeValueForKey:@"emailAddress"];
+	[self setConfigurationValue:nil forKey:BoxcarEmail];
+	[self didChangeValueForKey:@"emailAddress"];
+	[connections removeObject:connection];
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	self.validating = NO;
+	self.testEmail = nil;
+	[connections removeObject:connection];
 }
 
 @end
