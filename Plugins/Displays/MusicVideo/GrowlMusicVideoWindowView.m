@@ -66,7 +66,7 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 			titleRect.origin.x = 96.0;
 			titleRect.origin.y = NSHeight(bounds) - 36.0;
 			titleRect.size.width = NSWidth(bounds) - 96.0 - 16.0;
-			titleRect.size.height = 25.0;
+			titleRect.size.height = 20.0;
 			textRect.origin.y = NSHeight(bounds) - 88.0,
 				textRect.size.height = 48.0;
 			iconRect.origin.x = 8.0;
