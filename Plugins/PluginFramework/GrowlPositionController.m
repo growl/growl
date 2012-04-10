@@ -94,6 +94,7 @@
 	c_rootNode = (QuadTreeNode*)malloc(sizeof(QuadTreeNode));
 	if(c_rootNode == nil){
 		NSLog(@"ERROR! Unable to malloc root node");
+		return;
 	}
 	c_rootNode->frame = frame;
 	c_rootNode->state = GrowlQuadTreeEmptyState;
