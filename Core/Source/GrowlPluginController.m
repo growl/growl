@@ -141,7 +141,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		handlersForPlugins = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
 
 		displayPlugins = [[NSMutableArray alloc] init];
-		disabledPlugins = [[NSMutableArray alloc] init];
+		disabledPlugins = [[NSMutableSet alloc] init];
 
 		[self registerDefaultPluginHandlers];
 
@@ -405,8 +405,10 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	//Check our framework version is valid, for 2.0, we only need a framework version
 	//We don't count WebKit plugin bundles
 	if((!frameworkVersion || [frameworkVersion isEqualToString:@""]) && ![plugin isKindOfClass:[GrowlWebKitDisplayPlugin class]]){
-		NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey], plugin);
-		[disabledPlugins addObject:[bundle bundlePath]];
+		if(![disabledPlugins containsObject:[bundle bundlePath]]){
+			NSLog(@"Adding %@ to disabled plug-ins because it is incompatible with Growl version 2.0 and later", [bundle objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]);
+			[disabledPlugins addObject:[bundle bundlePath]];
+		}
 		return pluginDict;
 	}
 		
@@ -614,7 +616,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 - (NSArray *) disabledPlugins {
-	return disabledPlugins;
+	return [disabledPlugins allObjects];
 }
 
 - (BOOL) disabledPluginsPresent {

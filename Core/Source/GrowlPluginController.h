@@ -161,7 +161,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	NSMutableArray *displayPlugins;
 	
 	//These string names are used for the user-visible list.
-	NSMutableArray *disabledPlugins;
+	NSMutableSet *disabledPlugins;
 
 	//Keys: file types (extensions and HFS types); values: NSArrays of GrowlPluginHandlers.
 	NSMutableDictionary        *pluginHandlers;
