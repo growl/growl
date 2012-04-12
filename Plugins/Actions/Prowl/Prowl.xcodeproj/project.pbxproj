@@ -241,7 +241,6 @@
 				118F2DC1152BEC4300F3C167 /* PRAction.m */,
 				11F141DA15366BBC0040FB21 /* Model */,
 				11F141D815366BA40040FB21 /* Preferences */,
-				11F141D715366B980040FB21 /* Generating */,
 				117B7D4A153260250068CBD2 /* Resources */,
 				118F2DB2152BEC4300F3C167 /* Supporting Files */,
 			);
@@ -273,6 +272,7 @@
 		11F141D815366BA40040FB21 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				11F141D715366B980040FB21 /* Generating */,
 				11F141D915366BAD0040FB21 /* Validating */,
 				118F2DBD152BEC4300F3C167 /* PRPreferencePane.h */,
 				118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */,
