@@ -8,21 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		117B7D381532600D0068CBD2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 117B7D361532600D0068CBD2 /* Localizable.strings */; };
-		117B8505152E7A2000B4B531 /* GrowlProwlValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */; };
+		117B8505152E7A2000B4B531 /* PRValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 117B8504152E7A2000B4B531 /* PRValidator.m */; };
 		118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAB152BEC4300F3C167 /* Cocoa.framework */; };
 		118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAD152BEC4300F3C167 /* AppKit.framework */; };
 		118F2DB0152BEC4300F3C167 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAF152BEC4300F3C167 /* Foundation.framework */; };
-		118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */; };
-		118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */; };
+		118F2DBF152BEC4300F3C167 /* PRPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */; };
+		118F2DC2152BEC4300F3C167 /* PRAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* PRAction.m */; };
 		11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 11951BF2152BFF1E006D3B62 /* PRAPIKey.m */; };
 		11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF5152C120A006D3B62 /* anticheckmark.png */; };
 		11951BF8152C120A006D3B62 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF6152C120A006D3B62 /* checkmark.png */; };
-		11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EED152D32000021C916 /* GrowlProwlGenerator.m */; };
+		11978EEE152D32000021C916 /* PRGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EED152D32000021C916 /* PRGenerator.m */; };
 		11978EF1152D35090021C916 /* PRServerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF0152D35090021C916 /* PRServerError.m */; };
-		11978EF5152D3DA10021C916 /* GrowlProwlWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */; };
-		11978EF6152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */; };
+		11978EF5152D3DA10021C916 /* PRWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */; };
+		11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */; };
 		11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11978EF7152D3E0A0021C916 /* WebKit.framework */; };
-		11F141C415366AF30040FB21 /* ProwlPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F141C515366AF30040FB21 /* ProwlPrefPane.xib */; };
+		11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F141C515366AF30040FB21 /* PRPreferencePane.xib */; };
 		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
 /* End PBXBuildFile section */
 
@@ -150,33 +150,33 @@
 
 /* Begin PBXFileReference section */
 		117B7D371532600D0068CBD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		117B8503152E7A2000B4B531 /* GrowlProwlValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlValidator.h; sourceTree = "<group>"; };
-		117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlValidator.m; sourceTree = "<group>"; };
+		117B8503152E7A2000B4B531 /* PRValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRValidator.h; sourceTree = "<group>"; };
+		117B8504152E7A2000B4B531 /* PRValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRValidator.m; sourceTree = "<group>"; };
 		118F2DA8152BEC4300F3C167 /* Prowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Prowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		118F2DAB152BEC4300F3C167 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		118F2DAD152BEC4300F3C167 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		118F2DAF152BEC4300F3C167 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		118F2DB3152BEC4300F3C167 /* Prowl-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Prowl-Info.plist"; sourceTree = "<group>"; };
 		118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Prowl-Prefix.pch"; sourceTree = "<group>"; };
-		118F2DBD152BEC4300F3C167 /* GrowlProwlPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlProwlPreferencePane.h; sourceTree = "<group>"; };
-		118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlPreferencePane.m; sourceTree = "<group>"; };
-		118F2DC0152BEC4300F3C167 /* GrowlProwlAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlProwlAction.h; sourceTree = "<group>"; };
-		118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlAction.m; sourceTree = "<group>"; };
+		118F2DBD152BEC4300F3C167 /* PRPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRPreferencePane.h; sourceTree = "<group>"; };
+		118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRPreferencePane.m; sourceTree = "<group>"; };
+		118F2DC0152BEC4300F3C167 /* PRAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRAction.h; sourceTree = "<group>"; };
+		118F2DC1152BEC4300F3C167 /* PRAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRAction.m; sourceTree = "<group>"; };
 		118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
 		11951BF1152BFF1E006D3B62 /* PRAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAPIKey.h; sourceTree = "<group>"; };
 		11951BF2152BFF1E006D3B62 /* PRAPIKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRAPIKey.m; sourceTree = "<group>"; };
 		11951BF4152C0096006D3B62 /* PRDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRDefines.h; sourceTree = "<group>"; };
 		11951BF5152C120A006D3B62 /* anticheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anticheckmark.png; sourceTree = "<group>"; };
 		11951BF6152C120A006D3B62 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
-		11978EEC152D32000021C916 /* GrowlProwlGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlGenerator.h; sourceTree = "<group>"; };
-		11978EED152D32000021C916 /* GrowlProwlGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlGenerator.m; sourceTree = "<group>"; };
+		11978EEC152D32000021C916 /* PRGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRGenerator.h; sourceTree = "<group>"; };
+		11978EED152D32000021C916 /* PRGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRGenerator.m; sourceTree = "<group>"; };
 		11978EEF152D35090021C916 /* PRServerError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRServerError.h; sourceTree = "<group>"; };
 		11978EF0152D35090021C916 /* PRServerError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRServerError.m; sourceTree = "<group>"; };
-		11978EF2152D3DA10021C916 /* GrowlProwlWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlProwlWebViewWindowController.h; sourceTree = "<group>"; };
-		11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlProwlWebViewWindowController.m; sourceTree = "<group>"; };
-		11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlProwlWebViewWindowController.xib; sourceTree = "<group>"; };
+		11978EF2152D3DA10021C916 /* PRWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRWebViewWindowController.h; sourceTree = "<group>"; };
+		11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRWebViewWindowController.m; sourceTree = "<group>"; };
+		11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PRWebViewWindowController.xib; sourceTree = "<group>"; };
 		11978EF7152D3E0A0021C916 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		11F141C515366AF30040FB21 /* ProwlPrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProwlPrefPane.xib; sourceTree = "<group>"; };
+		11F141C515366AF30040FB21 /* PRPreferencePane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PRPreferencePane.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,25 +236,14 @@
 		118F2DB1152BEC4300F3C167 /* Prowl */ = {
 			isa = PBXGroup;
 			children = (
+				11951BF4152C0096006D3B62 /* PRDefines.h */,
+				118F2DC0152BEC4300F3C167 /* PRAction.h */,
+				118F2DC1152BEC4300F3C167 /* PRAction.m */,
+				11F141DA15366BBC0040FB21 /* Model */,
+				11F141D815366BA40040FB21 /* Preferences */,
+				11F141D715366B980040FB21 /* Generating */,
 				117B7D4A153260250068CBD2 /* Resources */,
 				118F2DB2152BEC4300F3C167 /* Supporting Files */,
-				11951BF4152C0096006D3B62 /* PRDefines.h */,
-				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
-				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
-				11978EEF152D35090021C916 /* PRServerError.h */,
-				11978EF0152D35090021C916 /* PRServerError.m */,
-				118F2DBD152BEC4300F3C167 /* GrowlProwlPreferencePane.h */,
-				118F2DBE152BEC4300F3C167 /* GrowlProwlPreferencePane.m */,
-				11F141C515366AF30040FB21 /* ProwlPrefPane.xib */,
-				118F2DC0152BEC4300F3C167 /* GrowlProwlAction.h */,
-				118F2DC1152BEC4300F3C167 /* GrowlProwlAction.m */,
-				11978EF2152D3DA10021C916 /* GrowlProwlWebViewWindowController.h */,
-				11978EF3152D3DA10021C916 /* GrowlProwlWebViewWindowController.m */,
-				11978EF4152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib */,
-				11978EEC152D32000021C916 /* GrowlProwlGenerator.h */,
-				11978EED152D32000021C916 /* GrowlProwlGenerator.m */,
-				117B8503152E7A2000B4B531 /* GrowlProwlValidator.h */,
-				117B8504152E7A2000B4B531 /* GrowlProwlValidator.m */,
 			);
 			path = Prowl;
 			sourceTree = "<group>";
@@ -267,6 +256,49 @@
 				118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		11F141D715366B980040FB21 /* Generating */ = {
+			isa = PBXGroup;
+			children = (
+				11978EF2152D3DA10021C916 /* PRWebViewWindowController.h */,
+				11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */,
+				11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */,
+				11978EEC152D32000021C916 /* PRGenerator.h */,
+				11978EED152D32000021C916 /* PRGenerator.m */,
+			);
+			name = Generating;
+			sourceTree = "<group>";
+		};
+		11F141D815366BA40040FB21 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				11F141D915366BAD0040FB21 /* Validating */,
+				118F2DBD152BEC4300F3C167 /* PRPreferencePane.h */,
+				118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */,
+				11F141C515366AF30040FB21 /* PRPreferencePane.xib */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		11F141D915366BAD0040FB21 /* Validating */ = {
+			isa = PBXGroup;
+			children = (
+				117B8503152E7A2000B4B531 /* PRValidator.h */,
+				117B8504152E7A2000B4B531 /* PRValidator.m */,
+			);
+			name = Validating;
+			sourceTree = "<group>";
+		};
+		11F141DA15366BBC0040FB21 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
+				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
+				11978EEF152D35090021C916 /* PRServerError.h */,
+				11978EF0152D35090021C916 /* PRServerError.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		BC97C9C8152C1E5D00E7BA1E /* Products */ = {
@@ -465,10 +497,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11F141C415366AF30040FB21 /* ProwlPrefPane.xib in Resources */,
+				11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */,
 				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
-				11978EF6152D3DA10021C916 /* GrowlProwlWebViewWindowController.xib in Resources */,
+				11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */,
 				117B7D381532600D0068CBD2 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,13 +529,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				118F2DBF152BEC4300F3C167 /* GrowlProwlPreferencePane.m in Sources */,
-				118F2DC2152BEC4300F3C167 /* GrowlProwlAction.m in Sources */,
+				118F2DBF152BEC4300F3C167 /* PRPreferencePane.m in Sources */,
+				118F2DC2152BEC4300F3C167 /* PRAction.m in Sources */,
 				11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */,
-				11978EEE152D32000021C916 /* GrowlProwlGenerator.m in Sources */,
+				11978EEE152D32000021C916 /* PRGenerator.m in Sources */,
 				11978EF1152D35090021C916 /* PRServerError.m in Sources */,
-				11978EF5152D3DA10021C916 /* GrowlProwlWebViewWindowController.m in Sources */,
-				117B8505152E7A2000B4B531 /* GrowlProwlValidator.m in Sources */,
+				11978EF5152D3DA10021C916 /* PRWebViewWindowController.m in Sources */,
+				117B8505152E7A2000B4B531 /* PRValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

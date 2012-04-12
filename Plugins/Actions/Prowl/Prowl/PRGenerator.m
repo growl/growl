@@ -1,15 +1,15 @@
-#import "GrowlProwlGenerator.h"
+#import "PRGenerator.h"
 #import "PRServerError.h"
 
-@interface GrowlProwlGenerator()
+@interface PRGenerator()
 @property (nonatomic, copy, readwrite) NSString *providerKey;
-@property (nonatomic, assign, readwrite) id<GrowlProwlGeneratorDelegate> delegate;
+@property (nonatomic, assign, readwrite) id<PRGeneratorDelegate> delegate;
 @property (nonatomic, copy, readwrite) NSString *token;
 @property (nonatomic, copy, readwrite) NSString *tokenURL;
 @property (nonatomic, retain, readwrite) PRAPIKey *apiKey;
 @end
 
-@implementation GrowlProwlGenerator
+@implementation PRGenerator
 @synthesize providerKey = _providerKey;
 @synthesize delegate = _delegate;
 @synthesize token = _token;
@@ -17,7 +17,7 @@
 @synthesize apiKey = _apiKey;
 
 - (id)initWithProviderKey:(NSString *)providerKey
-				 delegate:(id<GrowlProwlGeneratorDelegate>)delegate
+				 delegate:(id<PRGeneratorDelegate>)delegate
 {
 	self = [super init];
 	if(self) {

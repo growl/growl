@@ -1,16 +1,16 @@
-#import "GrowlProwlValidator.h"
+#import "PRValidator.h"
 #import "PRServerError.h"
 
-@interface GrowlProwlValidator()
-@property (nonatomic, assign, readwrite) id<GrowlProwlValidatorDelegate> delegate;
+@interface PRValidator()
+@property (nonatomic, assign, readwrite) id<PRValidatorDelegate> delegate;
 @property (nonatomic, retain) NSMutableSet *validatingApiKeys;
 @end
 
-@implementation GrowlProwlValidator
+@implementation PRValidator
 @synthesize delegate = _delegate;
 @synthesize validatingApiKeys = _validatingApiKeys;
 
-- (id)initWithDelegate:(id<GrowlProwlValidatorDelegate>)delegate
+- (id)initWithDelegate:(id<PRValidatorDelegate>)delegate
 {
 	self = [super init];
 	if(self) {

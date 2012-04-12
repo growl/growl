@@ -2,7 +2,7 @@
 #import "PRDefines.h"
 #import "PRAPIKey.h"
 
-@interface GrowlProwlPreferencePane : GrowlPluginPreferencePane
+@interface PRPreferencePane : GrowlPluginPreferencePane
 @property (nonatomic, retain, readonly) NSMutableArray *apiKeys; // array of PRAPIKey
 @property (assign) IBOutlet NSTableView *tableView;
 @property (assign) IBOutlet NSBox *apiKeysBox;

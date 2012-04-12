@@ -1,16 +1,16 @@
-#import "GrowlProwlPreferencePane.h"
-#import "GrowlProwlGenerator.h"
-#import "GrowlProwlValidator.h"
-#import "GrowlProwlWebViewWindowController.h"
+#import "PRPreferencePane.h"
+#import "PRGenerator.h"
+#import "PRValidator.h"
+#import "PRWebViewWindowController.h"
 
-@interface GrowlProwlPreferencePane() <GrowlProwlGeneratorDelegate, GrowlProwlValidatorDelegate, GrowlProwlWebViewWindowControllerDelegate>
+@interface PRPreferencePane() <PRGeneratorDelegate, PRValidatorDelegate, PRWebViewWindowControllerDelegate>
 @property (nonatomic, retain, readwrite) NSMutableArray *apiKeys;
-@property (nonatomic, retain) GrowlProwlGenerator *generator; // short-lived
-@property (nonatomic, retain) GrowlProwlValidator *validator; // long-lived
-@property (nonatomic, retain) GrowlProwlWebViewWindowController *webViewWindowController;
+@property (nonatomic, retain) PRGenerator *generator; // short-lived
+@property (nonatomic, retain) PRValidator *validator; // long-lived
+@property (nonatomic, retain) PRWebViewWindowController *webViewWindowController;
 @end
 
-@implementation GrowlProwlPreferencePane
+@implementation PRPreferencePane
 @synthesize webViewWindowController = _webViewWindowController;
 @synthesize addButton = _addButton;
 @synthesize removeButton = _removeButton;
@@ -30,7 +30,7 @@
 {
     self = [super initWithBundle:bundle];
     if (self) {
-        self.validator = [[[GrowlProwlValidator alloc] initWithDelegate:self] autorelease];
+        self.validator = [[[PRValidator alloc] initWithDelegate:self] autorelease];
     }
     return self;
 }
@@ -46,7 +46,7 @@
 
 - (NSString*)mainNibName
 {
-	return @"ProwlPrefPane";
+	return NSStringFromClass([self class]);
 }
 
 - (void)mainViewDidLoad
@@ -176,7 +176,7 @@
 - (IBAction)generate:(id)sender
 {
 	[self.generateProgressIndicator startAnimation:nil];
-	self.generator = [[[GrowlProwlGenerator alloc] initWithProviderKey:PRProviderKey
+	self.generator = [[[PRGenerator alloc] initWithProviderKey:PRProviderKey
 															  delegate:self] autorelease];
 	[self.generator fetchToken];
 	[self refreshButtons];
@@ -330,8 +330,8 @@
 	[self refreshButtons];
 }
 
-#pragma mark - GrowlProwlValidatorDelegate
-- (void)validator:(GrowlProwlValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
+#pragma mark - PRValidatorDelegate
+- (void)validator:(PRValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
 {
 	NSLog(@"Validated apiKey: %@", apiKey);
 	apiKey.validated = YES;
@@ -339,7 +339,7 @@
 	[self reloadValidateColumnForApiKey:apiKey];
 }
 
-- (void)validator:(GrowlProwlValidator *)validator didInvalidateApiKey:(PRAPIKey *)apiKey
+- (void)validator:(PRValidator *)validator didInvalidateApiKey:(PRAPIKey *)apiKey
 {
 	NSLog(@"Invalidated apiKey: %@", apiKey);
 	apiKey.validated = NO;
@@ -347,7 +347,7 @@
 	[self reloadValidateColumnForApiKey:apiKey];
 }
 
-- (void)validator:(GrowlProwlValidator *)validator didFailWithError:(NSError *)error forApiKey:(PRAPIKey *)apiKey
+- (void)validator:(PRValidator *)validator didFailWithError:(NSError *)error forApiKey:(PRAPIKey *)apiKey
 {
 	if(!apiKey.validated) {
 		// Don't annoy the user if we error on something valid already.
@@ -357,7 +357,7 @@
 	[self reloadValidateColumnForApiKey:apiKey];
 }
 
-#pragma mark - GrowlProwlGeneratorDelegate
+#pragma mark - PRGeneratorDelegate
 - (void)finishGenerator
 {
 	self.generator = nil;
@@ -365,17 +365,17 @@
 	[self refreshButtons];
 }
 
-- (void)generator:(GrowlProwlGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
+- (void)generator:(PRGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
 {
 	NSLog(@"Got retrieve URL: %@", retrieveURL);
 
-	self.webViewWindowController = [[[GrowlProwlWebViewWindowController alloc] initWithURL:retrieveURL
+	self.webViewWindowController = [[[PRWebViewWindowController alloc] initWithURL:retrieveURL
 																				  delegate:self] autorelease];
 	
 	[self.webViewWindowController showWindow:nil];
 }
 
-- (void)generator:(GrowlProwlGenerator *)generator didFetchApiKey:(PRAPIKey *)apiKey
+- (void)generator:(PRGenerator *)generator didFetchApiKey:(PRAPIKey *)apiKey
 {
 	NSLog(@"Got API key: %@", apiKey);
 	
@@ -383,14 +383,14 @@
 	[self finishGenerator];
 }
 
-- (void)generator:(GrowlProwlGenerator *)generator didFailWithError:(NSError *)error
+- (void)generator:(PRGenerator *)generator didFailWithError:(NSError *)error
 {
 	[[NSAlert alertWithError:error] runModal];
 	[self finishGenerator];
 }
 
-#pragma mark - GrowlProwlWebKitWindowControllerDelegate
-- (void)webView:(GrowlProwlWebViewWindowController *)webView didFailWithError:(NSError *)error
+#pragma mark - PRWebKitWindowControllerDelegate
+- (void)webView:(PRWebViewWindowController *)webView didFailWithError:(NSError *)error
 {
 	[[NSAlert alertWithError:error] runModal];
 	
@@ -399,13 +399,13 @@
 	[self finishGenerator];
 }
 
-- (void)webViewDidSucceed:(GrowlProwlWebViewWindowController *)webView
+- (void)webViewDidSucceed:(PRWebViewWindowController *)webView
 {
 	self.webViewWindowController = nil;
 	[self.generator fetchApiKey];
 }
 
-- (void)webViewDidCancel:(GrowlProwlWebViewWindowController *)webView
+- (void)webViewDidCancel:(PRWebViewWindowController *)webView
 {
 	self.webViewWindowController = nil;
 	[self finishGenerator];

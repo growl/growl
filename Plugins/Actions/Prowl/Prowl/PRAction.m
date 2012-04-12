@@ -1,5 +1,5 @@
-#import "GrowlProwlAction.h"
-#import "GrowlProwlPreferencePane.h"
+#import "PRAction.h"
+#import "PRPreferencePane.h"
 #import <GrowlPlugins/GrowlDefines.h>
 #import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
@@ -12,7 +12,7 @@ NSString *const PRPreferenceKeyMinimumPriorityEnabled = @"PRPreferenceKeyMinimum
 NSString *const PRPreferenceKeyPrefix = @"PRPreferenceKeyPrefix";
 NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 
-@implementation GrowlProwlAction
+@implementation PRAction
 
 - (id)init
 {
@@ -42,7 +42,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 							 nil];
 	
 	NSMutableDictionary *config = [NSMutableDictionary dictionary];
-
+	
 	NSDictionary *translation = [NSDictionary dictionaryWithObjects:originalNames forKeys:updatedNames];
 	[translation enumerateKeysAndObjectsUsingBlock:^(id updatedKey, id originalKey, BOOL *stop) {
 		id originalValue = [original objectForKey:originalKey];
@@ -61,13 +61,13 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 
 - (GrowlPluginPreferencePane *)preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlProwlPreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[GrowlProwlAction class]]];
+		preferencePane = [[PRPreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[PRAction class]]];
 	
 	return preferencePane;
 }
 
 - (void)dispatchNotification:(NSDictionary *)notification
-		  withConfiguration:(NSDictionary *)configuration
+		   withConfiguration:(NSDictionary *)configuration
 {
 	NSString *event = [notification objectForKey:GROWL_NOTIFICATION_TITLE];
 	NSString *application = [notification valueForKey:GROWL_APP_NAME];
@@ -80,7 +80,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 		
 		BOOL minimumPriorityEnabled = [[configuration valueForKey:PRPreferenceKeyMinimumPriorityEnabled] boolValue];
 		NSInteger minimumPriority = [[configuration valueForKey:PRPreferenceKeyMinimumPriority] integerValue];
-				
+		
 		if(minimumPriorityEnabled && priority < minimumPriority) {
 			return;
 		}
@@ -102,7 +102,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	if(!apiKeys.length) {
 		return;
 	}
-			
+	
 	BOOL prefixEnabled = [[configuration valueForKey:PRPreferenceKeyPrefixEnabled] boolValue];
 	NSString *prefix = [configuration valueForKey:PRPreferenceKeyPrefix];
 	if(prefixEnabled && prefix.length) {
@@ -149,10 +149,10 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 - (NSString *)encodedStringForString:(NSString *)string
 {
 	NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-																		   (CFStringRef)string, 
-																		   NULL,
-																		   (CFStringRef)@";/?:@&=+$",
-																		   kCFStringEncodingUTF8);
+																				  (CFStringRef)string, 
+																				  NULL,
+																				  (CFStringRef)@";/?:@&=+$",
+																				  kCFStringEncodingUTF8);
 	
 	return [encodedString autorelease];
 }

@@ -1,14 +1,14 @@
-#import "GrowlProwlWebViewWindowController.h"
+#import "PRWebViewWindowController.h"
 #import "PRDefines.h"
 
-@interface GrowlProwlWebViewWindowController ()
-@property (nonatomic, assign, readwrite) id<GrowlProwlWebViewWindowControllerDelegate> delegate;
+@interface PRWebViewWindowController ()
+@property (nonatomic, assign, readwrite) id<PRWebViewWindowControllerDelegate> delegate;
 @property (nonatomic, retain, readwrite) NSString *retrieveURL;
 
 @property (nonatomic, assign) BOOL successful;
 @end
 
-@implementation GrowlProwlWebViewWindowController
+@implementation PRWebViewWindowController
 @synthesize webView = _webView;
 @synthesize progressIndicator = _progressIndicator;
 @synthesize retrieveURL = _retrieveURL;
@@ -16,9 +16,9 @@
 @synthesize delegate = _delegate;
 
 - (id)initWithURL:(NSString *)retrieveURL
-		 delegate:(id<GrowlProwlWebViewWindowControllerDelegate>)delegate
+		 delegate:(id<PRWebViewWindowControllerDelegate>)delegate
 {
-	self = [super initWithWindowNibName:@"GrowlProwlWebViewWindowController"];
+	self = [super initWithWindowNibName:@"PRWebViewWindowController"];
 	if(self) {
 		self.retrieveURL = retrieveURL;
 		self.delegate = delegate;
