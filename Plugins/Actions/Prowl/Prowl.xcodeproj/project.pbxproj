@@ -299,6 +299,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 118F2DC5152BEC4300F3C167 /* Build configuration list for PBXNativeTarget "Prowl" */;
 			buildPhases = (
+				116451F715366908007EC8C7 /* Generate Localizable.strings */,
 				118F2DA4152BEC4300F3C167 /* Sources */,
 				118F2DA5152BEC4300F3C167 /* Frameworks */,
 				118F2DA6152BEC4300F3C167 /* Resources */,
@@ -473,6 +474,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		116451F715366908007EC8C7 /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -s PRLocalizedString -o Prowl/en.lproj/ Prowl/*.m Prowl/*.h";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		118F2DA4152BEC4300F3C167 /* Sources */ = {
