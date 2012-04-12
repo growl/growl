@@ -38,6 +38,20 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	[super dealloc];
 }
 
+#define HUGE_TITLE_X_SHIFT 192.0f
+#define HUGE_TITLE_Y_SHIFT 72.0f
+#define HUGE_TITLE_WIDTH_PAD 32.0f
+#define HUGE_TEXT_Y_SHIFT 176.0f
+#define HUGE_ICON_SHIFT 32.0f
+#define HUGE_ICON_SIZE 128.0f
+
+#define TITLE_X_SHIFT 96.0f
+#define TITLE_Y_SHIFT 36.0f
+#define TITLE_WIDTH_PAD 16.0f
+#define TEXT_Y_SHIFT 88.0f
+#define ICON_SHIFT 8.0f
+#define ICON_SIZE 80.0f
+
 - (void) drawRect:(NSRect)rect {
 	NSGraphicsContext *context = [NSGraphicsContext currentContext];
 	CGContextRef cgContext = [context graphicsPort];
@@ -50,29 +64,43 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 		}
 		NSRect titleRect, textRect;
 		NSRect iconRect;
+		
+		NSTextAlignment alignment = NSLeftTextAlignment;
+		if([[self configurationDict] valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF])
+			alignment = [[[self configurationDict] valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF] intValue];
 
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-			titleRect.origin.x = 192.0;
-			titleRect.origin.y = NSHeight(bounds) - 72.0;
-			titleRect.size.width = NSWidth(bounds) - 192.0 - 32.0;
+			if(alignment == NSLeftTextAlignment){
+				titleRect.origin.x = HUGE_TITLE_X_SHIFT;
+				iconRect.origin.x = HUGE_ICON_SHIFT;
+			}else{
+				titleRect.origin.x = HUGE_TITLE_WIDTH_PAD;
+				iconRect.origin.x = NSWidth(bounds) - (HUGE_ICON_SHIFT + HUGE_ICON_SIZE);
+			}
+			titleRect.origin.y = NSHeight(bounds) - HUGE_TITLE_Y_SHIFT;
+			titleRect.size.width = NSWidth(bounds) - HUGE_TITLE_X_SHIFT - HUGE_TITLE_WIDTH_PAD;
 			titleRect.size.height = 40.0;
-			textRect.origin.y = NSHeight(bounds) - 176.0;
+			textRect.origin.y = NSHeight(bounds) - HUGE_TEXT_Y_SHIFT;
 			textRect.size.height = 96.0;
-			iconRect.origin.x = 32.0;
-			iconRect.origin.y = NSHeight(bounds) - 160.0;
-			iconRect.size.width = 128.0;
-			iconRect.size.height = 128.0;
+			iconRect.origin.y = NSHeight(bounds) - (HUGE_ICON_SIZE + HUGE_ICON_SHIFT);
+			iconRect.size.width = HUGE_ICON_SIZE;
+			iconRect.size.height = HUGE_ICON_SIZE;
 		} else {
-			titleRect.origin.x = 96.0;
-			titleRect.origin.y = NSHeight(bounds) - 36.0;
-			titleRect.size.width = NSWidth(bounds) - 96.0 - 16.0;
+			if(alignment == NSLeftTextAlignment){
+				titleRect.origin.x = TITLE_X_SHIFT;
+				iconRect.origin.x = ICON_SHIFT;
+			}else{
+				titleRect.origin.x = TITLE_WIDTH_PAD;
+				iconRect.origin.x = NSWidth(bounds) - (ICON_SHIFT + ICON_SIZE);
+			}
+			titleRect.origin.y = NSHeight(bounds) - TITLE_Y_SHIFT;
+			titleRect.size.width = NSWidth(bounds) - TITLE_X_SHIFT - TITLE_WIDTH_PAD;
 			titleRect.size.height = 20.0;
-			textRect.origin.y = NSHeight(bounds) - 88.0,
-				textRect.size.height = 48.0;
-			iconRect.origin.x = 8.0;
-			iconRect.origin.y = NSHeight(bounds) - 88.0;
-			iconRect.size.width = 80.0;
-			iconRect.size.height = 80.0;
+			textRect.origin.y = NSHeight(bounds) - TEXT_Y_SHIFT;
+			textRect.size.height = 48.0;
+			iconRect.origin.y = NSHeight(bounds) - (ICON_SIZE + ICON_SHIFT);
+			iconRect.size.width = ICON_SIZE;
+			iconRect.size.height = ICON_SIZE;
 		}
 		textRect.origin.x = titleRect.origin.x;
 		textRect.size.width = titleRect.size.width;
@@ -238,8 +266,12 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	[textShadow setShadowBlurRadius:3.0];
 	[textShadow setShadowColor:[NSColor blackColor]];
 
+	NSTextAlignment alignment = NSLeftTextAlignment;
+	if([[self configurationDict] valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF])
+		alignment = [[[self configurationDict] valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF] intValue];
+	
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[paragraphStyle setAlignment:NSLeftTextAlignment];
+	[paragraphStyle setAlignment:alignment];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	[titleAttributes release];
 	titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -251,7 +283,7 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	[paragraphStyle release];
 
 	paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[paragraphStyle setAlignment:NSLeftTextAlignment];
+	[paragraphStyle setAlignment:alignment];
 	[textAttributes release];
 	textAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		textColor,                               NSForegroundColorAttributeName,

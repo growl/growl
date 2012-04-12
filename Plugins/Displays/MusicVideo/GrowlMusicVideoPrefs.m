@@ -11,6 +11,8 @@
 
 @implementation GrowlMusicVideoPrefs
 
+@synthesize textAlignment;
+
 - (NSString *) mainNibName {
 	return @"GrowlMusicVideoPrefs";
 }
@@ -148,6 +150,41 @@
 }
 - (void) setScreen:(int)value {
 	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:MUSICVIDEO_SCREEN_PREF];
+}
+
+- (NSInteger)textAlignment {
+	NSTextAlignment align = NSLeftTextAlignment;
+	if([self.configuration valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF])
+		align = [[self.configuration valueForKey:MUSICVIDEO_TEXT_ALIGN_PREF] integerValue];
+	NSInteger value;
+	switch (align) {
+		case NSLeftTextAlignment:
+			value = 0;
+			break;
+		case NSRightTextAlignment:
+			value = 1;
+			break;
+		default:
+			value = 0;
+			break;
+	}
+	return value;
+}
+
+- (void)setTextAlignment:(NSInteger)align {
+	NSTextAlignment value;
+	switch (align) {
+		case 0:
+			value = NSLeftTextAlignment;
+			break;
+		case 1:
+			value = NSRightTextAlignment;
+			break;
+		default:
+			value = NSLeftTextAlignment;
+			break;
+	}
+	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:MUSICVIDEO_TEXT_ALIGN_PREF];
 }
 
 - (NSColor *) textColorVeryLow {

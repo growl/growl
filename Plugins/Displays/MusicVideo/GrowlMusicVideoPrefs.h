@@ -33,6 +33,7 @@ typedef enum
 	MUSICVIDEO_EFFECT_FADING = 2
 } MusicVideoEffectType;
 
+#define MUSICVIDEO_TEXT_ALIGN_PREF		@"Text Alignment"
 
 #define GrowlMusicVideoVeryLowBackgroundColor	@"MusicVideo-Priority-VeryLow-Color"
 #define GrowlMusicVideoModerateBackgroundColor	@"MusicVideo-Priority-Moderate-Color"
@@ -60,6 +61,8 @@ typedef enum
 - (void) setSize:(int)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+
+@property (nonatomic, assign) NSInteger textAlignment;
 
 - (NSColor *) textColorVeryLow;
 - (void) setTextColorVeryLow:(NSColor *)value;
