@@ -135,8 +135,12 @@ NSString* const SMTPMessageKey = @"SMTPMessage";
 						username:(NSString*)authUsername 
 						password:(NSString*)authPassword 
 {
+	if(address.length == 0){
+		NSLog(@"Invalid server address");
+		return nil;
+	}
 	if ((self = [super init])) {
-		NSAssert(address.length > 0, @"Invalid server address");
+		//NSAssert(address.length > 0, @"Invalid server address");
 		self.address = address;
 		if (ports.count) self.ports = ports;
 		else self.ports = [NSArray arrayWithObjects:[NSNumber numberWithInteger:25], 
@@ -166,16 +170,16 @@ NSString* const SMTPMessageKey = @"SMTPMessage";
 	NSInteger lti = [address rangeOfString:@"<" options:0].location;
 	NSInteger gti = [address rangeOfString:@">" options:NSBackwardsSearch].location;
 	if (lti != NSNotFound) {
-		NSAssert(gti != NSNotFound, @"Invalid sender email address");
+		//NSAssert(gti != NSNotFound, @"Invalid sender email address");
 		if (gti != NSNotFound) {
-			NSAssert(lti < gti, @"Invalid sender email address");
+			//NSAssert(lti < gti, @"Invalid sender email address");
 			if (lti < gti) {
 				if (email) *email = [[address substringWithRange:NSMakeRange(lti+1, gti-lti-1)] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
 				if (desc) *desc = [[address substringToIndex:MAX(0,lti-1)] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
 			}
 		}
 	} else {
-		NSAssert(gti == NSNotFound, @"Invalid sender email address");
+		//NSAssert(gti == NSNotFound, @"Invalid sender email address");
 		if (gti == NSNotFound) {
 			if (email) *email = address;
 			if (desc) *desc = nil;
@@ -188,11 +192,20 @@ NSString* const SMTPMessageKey = @"SMTPMessage";
 				  from:(NSString*)from 
 					 to:(NSString*)toAddresses
 {
-	NSAssert(from.length > 0, @"Empty sender email address");
-	NSAssert(toAddresses.length > 0, @"Empty sender email address");
+	if(!from || from.length == 0 ||
+		!toAddresses || toAddresses.length == 0) {
+		NSLog(@"Invalid email address to: %@; from: %@", toAddresses, from);
+		return;
+	}
+	//NSAssert(from.length > 0, @"Empty sender email address");
+	//NSAssert(toAddresses.length > 0, @"Empty sender email address");
 	
 	NSHost* host = [NSHost hostWithName:self.address];
-	NSAssert(host != nil, @"Invalid server address");
+	if(!host) {
+		NSLog(@"Invalid host %@", host);
+		return;
+	}
+	//NSAssert(host != nil, @"Invalid server address");
 	
 	_SMTPConnector* connector = [[_SMTPConnector new] autorelease]; // TODO: release
 	connector.client = self;
@@ -215,7 +228,9 @@ NSString* const SMTPMessageKey = @"SMTPMessage";
 	
 	connector.to = to;
 	
-	[connector performSelectorInBackground:@selector(start) withObject:nil];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[connector start];
+	});
 }
 
 @end
@@ -597,7 +612,11 @@ CramMD5AUTH
 			self.smtpStatus = StatusAUTH;
 			self.smtpSubstatus = LoginAUTH;
 		}
-		NSAssert(self.smtpStatus == StatusAUTH, @"The server doesn't allow any authentication techniques supported by this client.");
+		if(self.smtpStatus != StatusAUTH){
+			NSLog(@"The server doesn't allow any authentication techniques supported by this client.");
+			return;
+		}
+		//NSAssert(self.smtpStatus == StatusAUTH, @"The server doesn't allow any authentication techniques supported by this client.");
 	} else
 		[self _mail];
 }
@@ -605,7 +624,7 @@ CramMD5AUTH
 -(void)handleCode:(NSInteger)code withMessage:(NSString*)message separator:(unichar)separator {
 	//	NSLog(@"HANDLE: [Status %d] Handling %d with %@", context.status, code, message);
 	
-	NSAssert2(code < 500, @"Error %d: %@", code, message);
+	//NSAssert2(code < 500, @"Error %d: %@", code, message);
 	
 	switch (self.smtpStatus) {
 		case InitialStatus: {
@@ -638,11 +657,14 @@ CramMD5AUTH
 							self.canStartTLS = YES;
 					} else
 						if (!_isTLS && self.client.tlsMode) {
-							NSAssert(self.canStartTLS && self.client.tlsMode != SMTPClientTLSModeTLSOrClose, @"Server doesn't support STARTTLS");
+							//NSAssert(self.canStartTLS && self.client.tlsMode != SMTPClientTLSModeTLSOrClose, @"Server doesn't support STARTTLS");
 							if (self.canStartTLS) {
 								[self writeLine:@"STARTTLS"];
 								self.smtpStatus = StatusSTARTTLS;
-							} else { // TLSIfPossible, not possible...
+							} else if (self.client.tlsMode == SMTPClientTLSModeTLSOrClose){
+								NSLog(@"Server doesn't support STARTTLS");
+								return;
+							}else { // TLSIfPossible, not possible...
 								[self _auth];
 							}
 						} else
@@ -768,7 +790,8 @@ CramMD5AUTH
 			}
 		} break;
 		default:
-			NSAssert2(1 == 0, @"Don't know how to act with status %d, code %d", self.smtpStatus, code);
+			//NSAssert2(1 == 0, @"Don't know how to act with status %ld, code %ld", self.smtpStatus, code);
+			NSLog(@"Don't know how to act with status %ld, code %ld", self.smtpStatus, code);
 			break;
 	}
 }
@@ -793,10 +816,12 @@ CramMD5AUTH
 }
 
 -(void)_dataTimeoutCallback:(NSTimer*)timer {
-	NSAssert(self.client.tlsMode > 0, @"Connection stalled, probably wants TLS handshake, user said no TLS");
+	//NSAssert(self.client.tlsMode > 0, @"Connection stalled, probably wants TLS handshake, user said no TLS");
 	if (self.client.tlsMode) {
 		[self startTLS];
-	} 
+	} else{
+		NSLog(@"Connection stalled, probably wants TLS handshake, user said no TLS");
+	}
 }
 
 @end
