@@ -104,13 +104,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		BC97C9F1152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
-			remoteInfo = MailMe;
-		};
 		BC97C9F3152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
@@ -149,7 +142,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		117B7D371532600D0068CBD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		117B7D371532600D0068CBD2 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		117B8503152E7A2000B4B531 /* PRValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRValidator.h; sourceTree = "<group>"; };
 		117B8504152E7A2000B4B531 /* PRValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRValidator.m; sourceTree = "<group>"; };
 		118F2DA8152BEC4300F3C167 /* Prowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Prowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -315,7 +308,6 @@
 				BC97C9EC152C1E5D00E7BA1E /* Bezel.growlView */,
 				BC97C9EE152C1E5D00E7BA1E /* Smoke.growlView */,
 				BC97C9F0152C1E5D00E7BA1E /* Nano.growlView */,
-				BC97C9F2152C1E5D00E7BA1E /* MailMe.growlView */,
 				BC97C9F4152C1E5D00E7BA1E /* MusicVideo.growlView */,
 				BC97C9F6152C1E5D00E7BA1E /* SMS.growlView */,
 				BC97C9F8152C1E5D00E7BA1E /* Unit tests.octest */,
@@ -453,13 +445,6 @@
 			fileType = wrapper.cfbundle;
 			path = Nano.growlView;
 			remoteRef = BC97C9EF152C1E5D00E7BA1E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BC97C9F2152C1E5D00E7BA1E /* MailMe.growlView */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MailMe.growlView;
-			remoteRef = BC97C9F1152C1E5D00E7BA1E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BC97C9F4152C1E5D00E7BA1E /* MusicVideo.growlView */ = {
