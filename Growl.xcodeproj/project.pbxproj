@@ -261,6 +261,9 @@
 		BC0CB66F1524AAC10050205F /* GrowlQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0CB6691524AAC10050205F /* GrowlQuadTreeNode.m */; };
 		BC0CB6711524B08D0050205F /* GrowlDisplayBridgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0CB6621524AA540050205F /* GrowlDisplayBridgeController.m */; };
 		BC0D31E414D3266100587B7B /* OldGrowl.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC0D31E214D3266100587B7B /* OldGrowl.rtf */; };
+		BC12AD67153697F700EBCF19 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0CB6671524AAC10050205F /* GrowlPositionController.m */; };
+		BC12AD68153697F700EBCF19 /* GrowlPositionColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0CB6651524AAC10050205F /* GrowlPositionColumn.m */; };
+		BC12AD69153697F700EBCF19 /* GrowlQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0CB6691524AAC10050205F /* GrowlQuadTreeNode.m */; };
 		BC1693C4151CBE6E0000A05C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
 		BC1693C6151CE3F60000A05C /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61D15103C580052E6E6 /* SGKeyCombo.m */; };
 		BC1693C7151CE3FB0000A05C /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DAA61B15103C580052E6E6 /* SGKeyCodeTranslator.m */; };
@@ -4296,6 +4299,9 @@
 				FF93C9231421958F007EAC43 /* GrowlXPCRegistrationAttempt.m in Sources */,
 				BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */,
 				BC256C18146D88BB000088C8 /* GrowlNetworkUtilities.m in Sources */,
+				BC12AD67153697F700EBCF19 /* GrowlPositionController.m in Sources */,
+				BC12AD68153697F700EBCF19 /* GrowlPositionColumn.m in Sources */,
+				BC12AD69153697F700EBCF19 /* GrowlQuadTreeNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

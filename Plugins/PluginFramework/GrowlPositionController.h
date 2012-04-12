@@ -9,7 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "GrowlPositioningDefines.h"
 
-@interface GrowlPositionController : NSObject
+#import "GrowlQuadTreeNode.h"
+
+@interface GrowlPositionController : NSObject {
+	QuadTreeNode *c_rootNode;
+	GrowlQuadTreeNode *rootNode;
+	NSMutableArray *allColumns;
+	NSMutableArray *leftColumns;
+	NSMutableArray *rightColumns;
+	CGFloat availableWidth;
+	
+	CGRect screenFrame;
+	BOOL updateFrame;
+	CGRect newFrame;
+	NSUInteger deviceID;
+}
 
 @property (nonatomic) CGRect screenFrame;
 @property (nonatomic) BOOL updateFrame;

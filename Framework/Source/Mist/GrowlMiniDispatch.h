@@ -13,17 +13,19 @@
 - (void)growlNotificationTimedOut:(id)context;
 @end
 
+@class GrowlPositionController;
 
 @interface GrowlMiniDispatch : NSObject <NSAnimationDelegate> {
-    
-	NSMutableArray *windows;
-    NSMutableArray *queuedWindows;
+	GrowlPositionController *positionController;
+	NSMutableSet *windows;
+	NSMutableArray *queuedWindows;
 	
 	id				delegate;
 	
 }
 
 @property (nonatomic,assign) id delegate;
+@property (nonatomic,retain) GrowlPositionController *positionController;
 
 - (void)displayNotification:(NSDictionary *)notification;
 

@@ -35,7 +35,14 @@ typedef enum {
 	QuadDown
 } GrowlQuadTreeDirection;
 
-@interface GrowlQuadTreeNode : NSObject
+@interface GrowlQuadTreeNode : NSObject {
+	NSInteger state;
+	CGRect frame;
+	GrowlQuadTreeNode *topLeft;
+	GrowlQuadTreeNode *topRight;
+	GrowlQuadTreeNode *bottomLeft;
+	GrowlQuadTreeNode *bottomRight;
+}
 
 -(id)initWithState:(NSInteger)newState forRect:(CGRect)aRect;
 

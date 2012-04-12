@@ -18,9 +18,9 @@
 
 #define GrowlRequiredColumnPadding 1.0f
 
-@interface GrowlPositionController () {
-	QuadTreeNode *c_rootNode;
-}
+@interface GrowlPositionController ()
+
+@property (nonatomic, assign) QuadTreeNode *c_rootNode;
 
 @property (nonatomic, retain) GrowlQuadTreeNode *rootNode;
 @property (nonatomic, retain) NSMutableArray *allColumns;
@@ -31,6 +31,8 @@
 @end
 
 @implementation GrowlPositionController
+
+@synthesize c_rootNode;
 
 @synthesize rootNode;
 @synthesize allColumns;

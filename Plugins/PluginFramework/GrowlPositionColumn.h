@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GrowlPositionColumn : NSObject
+@interface GrowlPositionColumn : NSObject {
+	CGFloat xOrigin;
+	CGFloat width;
+	NSMutableArray *rects;
+}
 
 @property (nonatomic) CGFloat xOrigin;
 @property (nonatomic) CGFloat width;

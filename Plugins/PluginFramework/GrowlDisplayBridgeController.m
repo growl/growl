@@ -14,7 +14,17 @@
 #import "GrowlPositioningDefines.h"
 #import "NSScreen+GrowlScreenAdditions.h"
 
-@interface GrowlDisplayBridgeController ()
+@interface GrowlDisplayBridgeController () {
+	NSMutableSet *pending;
+	NSMutableSet *allWindows;
+	NSMutableSet *displayedWindows;
+	NSMutableArray *windowQueue;
+	NSMutableDictionary *windowsByDisplayID;
+	NSMutableDictionary *positionControllers;
+	NSMutableDictionary *queueKeysByDisplayID;
+	NSMutableDictionary *queuingDisplayQueues;
+	NSMutableDictionary *queuingDisplayCurrentWindows;
+}
 
 @property (nonatomic, retain) NSMutableSet *pending;
 @property (nonatomic, retain) NSMutableSet *allWindows;
