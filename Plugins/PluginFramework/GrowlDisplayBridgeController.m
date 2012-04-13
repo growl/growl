@@ -315,7 +315,10 @@
 		[[self class] cancelPreviousPerformRequestsWithTarget:self
 																	selector:@selector(checkQueuedWindows) 
 																	  object:nil];
-		[self performSelector:@selector(checkQueuedWindows) withObject:nil afterDelay:.2];
+		[self performSelector:@selector(checkQueuedWindows) 
+					  withObject:nil 
+					  afterDelay:.2
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	}else{
 		//Get our next window out for this windows display queue key if there is one
 		NSString *displayQueueKey = [window displayQueueKey];

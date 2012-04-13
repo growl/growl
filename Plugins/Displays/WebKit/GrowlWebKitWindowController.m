@@ -313,7 +313,10 @@ static dispatch_queue_t __imageCacheQueue;
 
 	if ([[[frame frameView] documentView] frame].size.height < 2.0f) {
 		//Finished loading it may be, but it's not finished rendering, in which case the document view's height will be 1 px. Not good for sizing to fit. So, try again one cycle of the run loop from now.
-		[self performSelector:@selector(viewIsReady:) withObject:sender afterDelay:0.0];
+		[self performSelector:@selector(viewIsReady:) 
+					  withObject:sender 
+					  afterDelay:0.0
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	} else {
 		//It really is done, so just call through directly.
 		[self viewIsReady:(GrowlWebKitWindowView *)sender];

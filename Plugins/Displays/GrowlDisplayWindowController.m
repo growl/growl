@@ -157,7 +157,8 @@ static NSMutableDictionary *existingInstances;
 	if ([self startAllTransitions]) {
 		[self performSelector:@selector(didFinishTransitionsBeforeDisplay)
 					  withObject:nil
-					  afterDelay:transitionDuration];
+					  afterDelay:transitionDuration
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	} else {
 		[self didFinishTransitionsBeforeDisplay];
 	}
@@ -239,8 +240,9 @@ static NSMutableDictionary *existingInstances;
 	if (![[[notification auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] ||
 		![self supportsStickyNotifications]) {
 		[self performSelector:@selector(stopDisplay)
-				   withObject:nil
-				   afterDelay:(displayDuration+transitionDuration)];		
+					  withObject:nil
+					  afterDelay:(displayDuration+transitionDuration)
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];		
 	}
 	
 	displayStatus = GrowlDisplayOnScreenStatus;
@@ -407,8 +409,9 @@ static NSMutableDictionary *existingInstances;
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
 	[transition performSelector:@selector(startAnimation) 
-					 withObject:nil
-					 afterDelay:startTime];
+						  withObject:nil
+						  afterDelay:startTime
+							  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 
 	return YES;
 }

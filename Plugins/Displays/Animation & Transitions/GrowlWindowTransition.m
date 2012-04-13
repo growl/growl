@@ -101,8 +101,9 @@
 		 * so we don't falsely appear to be reversed if we're supposed to autoreverse.
 		 */
 		[self performSelector:@selector(animationDidEnd)
-				   withObject:nil
-				   afterDelay:0];
+					  withObject:nil
+					  afterDelay:0
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	}
 }
 
