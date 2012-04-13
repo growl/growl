@@ -184,6 +184,9 @@
 	[actionConfigsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
 	[displayPluginsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingName]];
 	
+	[displayPluginsTable setTarget:self];
+	[displayPluginsTable setDoubleAction:@selector(editPluginName:)];
+	
 	__block GrowlDisplaysViewController *blockSafe = self;
 	dispatch_async(dispatch_get_main_queue(), ^(void){
 		[blockSafe selectDefaultPlugin:defaultDisplayPluginName];
@@ -314,6 +317,22 @@
 	}else{
 		[[self preferencesController] setDefaultActionPluginIDArray:[NSArray array]];
 		[[defaultActionPopUp itemAtIndex:1] setState:NSOnState];
+	}
+}
+
+- (IBAction)editPluginName:(id)sender {
+	NSInteger clickedRow = [displayPluginsTable clickedRow];
+	if(clickedRow >= 0 && ![self tableView:displayPluginsTable isGroupRow:clickedRow]){
+		NSTableCellView *view = [displayPluginsTable viewAtColumn:0 row:clickedRow makeIfNecessary:YES];
+		[[view textField] setEditable:YES];
+		[[view textField] becomeFirstResponder];
+	}
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj {
+	NSTextField *textField = [obj object];
+	if ([[textField superview] isKindOfClass:[NSTableCellView class]]) {
+		[textField setEditable:NO];
 	}
 }
 

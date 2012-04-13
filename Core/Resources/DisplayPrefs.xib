@@ -97,7 +97,7 @@
 										<string key="NSFrameSize">{125, 342}</string>
 										<reference key="NSSuperview" ref="135659977"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="917453506"/>
+										<reference key="NSNextKeyView" ref="496368806"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="161028975">
 											<reference key="NSNextResponder" ref="745293565"/>
@@ -250,7 +250,7 @@
 						<string key="NSFrame">{{20, 79}, {127, 360}}</string>
 						<reference key="NSSuperview" ref="581541610"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="496368806"/>
+						<reference key="NSNextKeyView" ref="135659977"/>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="541467293"/>
 						<reference key="NSHScroller" ref="496368806"/>
@@ -1520,7 +1520,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="417800105">
-										<int key="NSCellFlags">337772097</int>
+										<int key="NSCellFlags">67239488</int>
 										<int key="NSCellFlags2">272631808</int>
 										<string key="NSContents">Table View Cell</string>
 										<reference key="NSSupport" ref="38278755"/>
@@ -1552,6 +1552,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">440</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="703671470"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">1097</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3997,7 +4005,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1096</int>
+			<int key="maxID">1097</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

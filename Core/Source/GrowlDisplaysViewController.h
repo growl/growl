@@ -11,7 +11,7 @@
 
 @class GrowlPlugin, GrowlPluginController, GrowlTicketDatabase, GrowlTicketDatabasePlugin, GrowlPluginPreferencePane;
 
-@interface GrowlDisplaysViewController : GrowlPrefsViewController <GroupedArrayControllerDelegate, NSTableViewDelegate, NSTableViewDataSource>
+@interface GrowlDisplaysViewController : GrowlPrefsViewController <GroupedArrayControllerDelegate, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic, assign) GrowlPluginController *pluginController;
 @property (nonatomic, assign) GrowlTicketDatabase *ticketDatabase;
