@@ -14,10 +14,15 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-   NSLog(@"Launching Growl");
-   if(![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"growl://"]])
-      NSLog(@"Error opening Growl! Launch Services database might be corrupt, try typing growl:// into your web browser's address field and see if growl launches");
-   [NSApp terminate:self];
+	NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/Growl" isDirectory:NO] URLByResolvingSymlinksInPath];
+	NSLog(@"Launching Growl at URL: %@", appURL);
+	NSDictionary* conf = [NSDictionary dictionary];
+	NSError* error = nil;
+	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchDefault configuration:conf error:&error];
+	if (error) {
+		NSLog(@"%@", error);
+	}
+	[NSApp terminate:nil];
 }
 
 @end

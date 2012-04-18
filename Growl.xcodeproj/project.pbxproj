@@ -375,6 +375,7 @@
 		BC9EFDFE15105F0F00534A7C /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
 		BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D815065CF100828D29 /* Carbon.framework */; };
 		BC9EFE0215105FA000534A7C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
+		BCA08220153EF89000340F16 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A60E3F13C4159B00514EF8 /* Growl.icns */; };
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
 		BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */; };
@@ -3804,6 +3805,7 @@
 				BC29B28314D12D5300C72855 /* InfoPlist.strings in Resources */,
 				BC29B28914D12D5300C72855 /* Credits.rtf in Resources */,
 				BC29B28F14D12D5300C72855 /* MainMenu.xib in Resources */,
+				BCA08220153EF89000340F16 /* Growl.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
