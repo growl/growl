@@ -1,0 +1,4 @@
+﻿/* Localized versions of Info.plist keys */
+
+CFBundleName = "HardwareGrowler";
+NSHumanReadableCopyright = "版權所有 (c) 2004-2011, Growl小組.";

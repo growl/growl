@@ -1,0 +1,23 @@
+Growl is het ultieme meldingssysteem voor de Mac. Het is de meest eenvoudige manier om direct, live of zelfs als u even weg bent, te weten wat er met andere programma's gebeurt terwijl u hard aan iets anders werkt.
+
+Op een dag waren we bezig met foto's in iPhoto terwijl we in gesprek waren in Adium. Terwijl we ook op iets belangrijks zaten uit dat gesprek zaten te wachten, moesten de hele tijd heen en weer klikken bij ieder chatbericht dat doorkwam. Hoewel we een bericht kregen, moesten ieder keer op Adium klikken om te zien wat er werd gezegd. Het idee voor Growl is geboren uit de frustratie van het heen en weer klikken om te zien wat er aan de hand is. De onmiddellijke meldingen zorgen dat u alles wat er gaande is kunt bijhouden. Met zijn gepolijste meldingen en Growl's unieke samenvattingsvenster, weet u altijd wat er gaande is, zelfs als u even weg moet bij uw Mac. 
+
+Er was nog nooit eerder iets dat meldingen zo effectief personaliseert. U kunt meldingen op diverse manieren ontvangen, zoals op scherm, via e-mail, of zelfs voorgelezen. En als u iets van webtechnologie weet (CSS/XHTML/Javascript) dan kunt u een Growl-stijl geheel naar eigen smaak inrichten.
+
+Zoveel meer geweldige functies staan hier.
+
+
+• Personaliseer uw meldingen. Kies Growl's weergave en uiterlijk.
+• Werkt ook als u dat niet doet. Kom later terug bij uw Mac en bekijk wat er in uw afwezigheid is gebeurd in de Samenvatting.
+• Eenvoudig te gebruiken Programma's-tabblad waar u bepaalt welke meldingen u ziet en welke worden tegengehouden.
+• Spraakweergave zodat u uw meldingen kunt horen, geweldig voor mensen met visuele beperking.
+• Geweldige historie van meldingen, zodat u kunt zien wat er in het verleden is gebeurd.
+• Growl wordt geleverd met een grote hoeveelheid stijlen. Alles van nano die klein is, tot en met muziekvideo die enorm is.
+• Maak uw eigen Growl-stijlen in een handomdraai op basis van webtechnologie om Growl uw eigen weergave te geven.
+• Stuur Growl-meldingen vanuit Cocoa, AppleScript, of over het netwerk.
+• Netwerkfunctionaliteit zodat twee of meer Macs meldingen kunnen doorsturen naar elkaar.
+• Werkt met de iPhone en iPad via Prowl.
+
+
+
+Growl is wat u nodig hebt. Miljoenen mensen zijn er weg van en daar hoort u binnenkort ook bij. Zeker weten!

@@ -1,0 +1,23 @@
+Growl je ten najprepracovanejší notifikačný systém pre Mac, aký existuje. Poskytuje vám ten najjednoduchší spôsob, ako byť okamžite informovaný  - v reálnom čase, alebo dokonca aj keď zrovna nesedíte u vášho Macu - o činnosti iných aplikácií, keď ste práve zaneprázdnený prácou na niečom inom.
+
+V jeden deň sme pracovali s obrázkami v iPhoto a popri tom sme viedli konverzáciu cez Adium. Čakajúc na dôležitú odpoveď, sme sa museli každú chvíľu prepínať medzi oknami aplikácií, keď nám prišla nejaká správa. Aj keď sme vedeli, že nám správa prišla, museli sme otvoriť okno so správou, aby sme si ju vedeli prečítať. Myšlienka na Growl vznikla práve z frustrácie musieť neustále prepínať medzi rôznymi oknami aplikácií, aby sme sa dozvedeli čo sa deje. Okamžité zobrazovanie hlásení aplikácií vám umožní mať prehľad o všetkom dôležitom, čo práve potrebujete vedieť. S nevnucujúcími sa hláseniami a jedinečným Growl Rollup oknom, budete vždy vedieť čo sa deje, aj keď budete nútený odisť od vášho Macu. 
+
+Nikdy nebolo možné, si tak efektívne a jednoducho prispôsobiť hlásenia podľa svojich predstáv. Prijímať hlásenia môžete rôznymi spôsobmi, zobrazením na obrazovke, emailom, dokonca si ich môžete nechať aj prečítať vaším Macom. Existuje množstvo rôznych predvolených štýlov hlásení, ďalšie si môžete stiahnuť z Internetu a ak ovládate webové technológie (CSS/XHTML/Javascript) môžete si jednoducho vytvoriť úplne vlastný štýl a podeliť sa oň s ostatnými.
+
+Množstvo ďalších ÚŽASNÝCH vlastností.
+
+
+• Prispôsobte si hlásenia. Zvoľte si prezentáciu, výzor a osobnosť vašich Growl hlásení.
+• Pracujte aj keď práve nepracujete. Po návrate k vášmu Macu si zistite čo sa dialo keď ste boli preč s funkciou Rollup..
+• Jednoduché používanie záložky Aplikácií pre kontrolu toho, ktoré hlásenia sa budú, alebo nebudú zobrazovať.
+• Špeciálny štýl hlásení Speech, ktorý vám vaše hlásenia dokonca prečíta. Skvelá funkcie pre ľudí s rôznymi zrakovými postihnutiami.
+• Úžasná história hlásení.
+• Rozsiahly a rozmanitý výber štýlov hlásení priamo v Growl. Čokoľvek od  štýlu "nano", ktorý je skutočne drobný a nenápadný, až po "music video", ktorý je jednoducho obrovský.
+• Vytvorte si veľmi jednoducho pomocou webových technológií vlastné štýly. Dajte vášmu Growl váš vlastný štýl.
+• Posielajte Growl hlásenia z Cocoa, AppleScriptu, alebo dokonca zo siete.
+• Prepojenie dvoch, alebo viacerých Macov cez sieť, vám umožní preposielanie hlásení medzi nimi.
+• Dokáže zobrazovať hlásenia aj na iPhone a iPad vďaka iOS aplikácii Prowl.
+
+
+
+Growl je to, čo potrebujete. Milujú ho milióny ľudí a vy ho budete milovať tiež. Naozaj!

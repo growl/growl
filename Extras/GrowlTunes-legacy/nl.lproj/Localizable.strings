@@ -1,0 +1,40 @@
+﻿/* This is the format used for a normal song. In the order shown in English, the parameters are length, rating, artist, composer, album, and genre */
+"%@ — %@\n%@ (Composed by %@)\n%@\n%@" = "%1$@ — %2$@\n%3$@ (Gecomponeerd door %4$@)\n%5$@\n%6$@";
+
+/* Tooltip for 'start polling' */
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes." = "Begint iTunes te vragen om nummerinformatie. U ontvangt vanaf dan Growl-meldingen van GrowlTunes.";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Gewijzigde nummers";
+
+/* No comment provided by engineer. */
+"GrowlTunes’ control status item." = "GrowlTunes' statusonderdeel.";
+"Launch iTunes" = "Start iTunes";
+
+/* menu item titles*/
+"Online Help" = "Online help";
+
+/* Online help's tooltip */
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser." = "Opent de webpagina voor GrowlTunes hulp op de Growl website in uw standaardwebbrowser.";
+"Quit Both" = "Stop beide";
+"Quit GrowlTunes" = "Stop GrowlTunes";
+"Quit iTunes" = "Stop iTunes";
+
+/* No comment provided by engineer. */
+"Quits both iTunes and GrowlTunes" = "Stopt zowel iTunes en GrowlTunes";
+"Rating" = "Beoordeling";
+"Recently Played Tunes" = "Recent gespeelde nummers";
+"Start Polling" = "Start opvragen";
+
+/* No comment provided by engineer. */
+"Started Playing" = "Gestart met spelen";
+"Stop Polling" = "Stop opvragen";
+
+/* Tooltip for 'stop polling' */
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes." = "Stopt iTunes te vragen om nummerinformatie. U ontvangt vanaf dan geen Growl-meldingen meer van GrowlTunes.";
+
+/* Tooltip for recent tracks */
+"Tells iTunes to play this track again." = "Vertelt iTunes om dit nummer opnieuw af te spelen.";
+
+/* Toggle polling tooltip */
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information." = "Schakelt het periodiek vragen aan of uit van nummerinformatie bij iTunes door GrowlTunes.";

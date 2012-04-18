@@ -1,0 +1,3 @@
+Jaka piosenka właśnie leci w iTunes? Dzięki GrowlTunes nigdy nie będziesz już zadawać sobie tego pytania. GrowlTunes pozwala zobaczyć dane aktualnie odtwarzanego w iTunes utworu, zmienić jego ocenę czy głośność muzyki. Dodatkowo, jeśli posiadasz program Growl, otrzymasz możliwość zmiany wyglądu dymków z powiadomieniami. 
+
+GrowlTunes sprawia, że korzystanie z iTunes staje się jeszcze lepszą zabawą. Bez względu na to czy jesteś w biurze lub na przyjęciu, GrowlTunes przychodzi z pomocą.

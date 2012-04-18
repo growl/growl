@@ -1,0 +1,3 @@
+#define COMPILED_ON         __DATE__
+#define COMPILED_AT         __TIME__
+#define COMPILER_VERSION    __VERSION__

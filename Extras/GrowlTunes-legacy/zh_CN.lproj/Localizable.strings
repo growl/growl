@@ -1,0 +1,12 @@
+﻿"GrowlTunes' control status item." = "GrowlTunes’ 状态控制项目。";
+
+//menu item tooltips
+"Opens the webpage for GrowlTunes help on the Growl website in your selected browser."     = "使用你的预设浏览器打开 Grow 网站上的 GrowlTunes 帮助网页。";
+
+"Tells iTunes to play this track again."         = "告诉 iTunes 重新播放该轨道。";
+
+"Quits both iTunes and GrowlTunes."       = "退出 iTunes 和 GrowlTunes。";
+
+"Turns on or off GrowlTunes' periodic asking of iTunes for track information."  = "打开或关闭 GrowlTunes 查询 iTunes 轨道信息的功能。";
+"Stops GrowlTunes from asking iTunes for track information. You will then no longer receive Growl notifications from GrowlTunes."    = "终止让 GrowlTunes 查询 iTunes轨道信息。你将不再收到 Growl 的告知。";
+"Begins asking iTunes for track information. You will then start receiving Growl notifications from GrowlTunes."   = "开始查取 iTunes 的轨道信息。 你将可以从 GrowlTunes 收到 Growl 的告知。";

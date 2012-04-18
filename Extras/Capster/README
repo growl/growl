@@ -1,0 +1,5 @@
+Capster is a Caps Lock notification tool for OS X, which uses Growl to notify the user when Caps Lock is pressed, to help in case of accidental click.
+The idea is borrowed from CapSee, but it is slightly faster, and uses Growl for notifications instead of creating a Bezel in the middle of the screen.
+
+It is released under a FreeBSD license. You can download the executable at the project's home page.
+Direct download link: http://blog.tzikis.com/wp-content/uploads/2011/03/Capster.zip

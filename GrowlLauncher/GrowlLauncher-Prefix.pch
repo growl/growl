@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'GrowlLauncher' target in the 'GrowlLauncher' project
+//
+
+#ifdef __OBJC__
+   #import <Cocoa/Cocoa.h>
+#endif

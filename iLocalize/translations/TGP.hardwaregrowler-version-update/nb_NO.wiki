@@ -1,0 +1,2 @@
+- Støtte for fransk og spansk språk
+- Romanske tekster vises ikke lengre i den svenske oversettelsen
