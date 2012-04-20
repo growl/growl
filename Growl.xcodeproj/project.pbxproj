@@ -1063,6 +1063,10 @@
 		83A55911152EDC3C00951682 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sv; path = Core/Resources/sv.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		83A55912152EDC4A00951682 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sv; path = Core/Resources/sv.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		83B8F90E152EDC0B00BF552B /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sv; path = sv.lproj/About.rtf; sourceTree = "<group>"; };
+		83C75F0715420B0C00A16FD5 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = Core/Resources/el.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		83C75F0815420B0C00A16FD5 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = Core/Resources/el.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		83C75F0915420B0C00A16FD5 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = Core/Resources/el.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		83C75F0A15420B0C00A16FD5 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = Core/Resources/el.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		83CFCCDC14ECB7F900C0D0C1 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83CFCCDD14ECB7F900C0D0C1 /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83CFCCE014ECB80100C0D0C1 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4424,6 +4428,7 @@
 				834DA1AD150B4489003B6FA5 /* ja */,
 				83A55911152EDC3C00951682 /* sv */,
 				83586725152EE02F00E96B15 /* ko */,
+				83C75F0A15420B0C00A16FD5 /* el */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -4446,6 +4451,7 @@
 				834DA1AB150B4489003B6FA5 /* ja */,
 				8351FBC8152EDC99000C13FD /* sv */,
 				83586724152EE02200E96B15 /* ko */,
+				83C75F0815420B0C00A16FD5 /* el */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -4467,6 +4473,7 @@
 				834DA1AA150B4489003B6FA5 /* ja */,
 				83A55912152EDC4A00951682 /* sv */,
 				83586723152EE00E00E96B15 /* ko */,
+				83C75F0715420B0C00A16FD5 /* el */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4709,6 +4716,7 @@
 				834DA1AC150B4489003B6FA5 /* ja */,
 				8307E07E152EDE7D004AE7BC /* sv */,
 				83FA135B152EE04D0098271F /* ko */,
+				83C75F0915420B0C00A16FD5 /* el */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
