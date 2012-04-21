@@ -270,7 +270,7 @@ task :growl_mainmenu do
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_brazilian_portuguese}.strings", "#{core_growl_resources_dir}/#{apple_brazilian_portuguese}.lproj/mainmenu.strings")
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_norwegian_bokmal}.strings", "#{core_growl_resources_dir}/#{apple_norwegian_bokmal}.lproj/mainmenu.strings")
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_japanese}.strings", "#{core_growl_resources_dir}/#{apple_japanese}.lproj/mainmenu.strings")
-    FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_korean}.strings", "#{core_growl_resources_dir}/#{apple_korean}.lproj/Localizable.strings")
+    FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_korean}.strings", "#{core_growl_resources_dir}/#{apple_korean}.lproj/mainmenu.strings")
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_simplified_chinese}.strings", "#{core_growl_resources_dir}/#{apple_simplified_chinese}.lproj/mainmenu.strings")
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_traditional_chinese}.strings", "#{core_growl_resources_dir}/#{apple_traditional_chinese}.lproj/mainmenu.strings")
     FileUtils.cp_r("#{growl_mainmenu_strings}/#{tx_spanish}.strings", "#{core_growl_resources_dir}/#{apple_spanish}.lproj/mainmenu.strings")
