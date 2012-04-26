@@ -54,7 +54,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 @synthesize lightColor;
 @synthesize textColor;
 
-- (id) initWithFrame:(NSRect) frame {
+- (id) initWithFrame:(NSRect) frame configurationDict:(NSDictionary*)configDict {
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
@@ -65,7 +65,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 
 		int size = GrowlBubblesSizePrefDefault;
-		READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &size);
+		if([configDict valueForKey:GrowlBubblesSizePref]){
+			size = [[configDict valueForKey:GrowlBubblesSizePref] intValue];
+		}
 		if (size == GrowlBubblesSizeLarge) {
 			iconSize = ICON_SIZE_LARGE_PX;
 		} else {
@@ -220,52 +222,43 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 			break;
 	}
 
-	NSData *data = nil;
 
 	CGFloat backgroundAlpha = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
+	if([[self configurationDict] valueForKey:GrowlBubblesOpacity]){
+		backgroundAlpha = [[[self configurationDict] valueForKey:GrowlBubblesOpacity] floatValue];
+	}
 	backgroundAlpha *= 0.01;
 	
-	Class NSDataClass = [NSData class];
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:NSDataClass]) {
-			self.bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-			self.bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+	NSData *data = [[self configurationDict] valueForKey:key];
+	if (data && [data isKindOfClass:[NSData class]]) {
+		self.bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+		self.bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		self.bgColor = [NSColor colorWithCalibratedRed:0.69412
-											green:0.83147
-											 blue:0.96078
-											alpha:backgroundAlpha];
+															  green:0.83147
+																blue:0.96078
+															  alpha:backgroundAlpha];
 	}
-	[data release];
-
 	data = nil;
-	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:NSDataClass]) {
+	
+	data = [[self configurationDict] valueForKey:textKey];
+	if (data && [data isKindOfClass:[NSData class]]) {
 		self.textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		self.textColor = [NSColor controlTextColor];
 	}
-	[data release];
-
 	data = nil;
-	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
-	if (data && [data isKindOfClass:NSDataClass]) {
+	
+	data = [[self configurationDict] valueForKey:topKey];
+	if (data && [data isKindOfClass:[NSData class]]) {
 		self.lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		self.lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		self.lightColor = [NSColor colorWithCalibratedRed:0.93725
-											   green:0.96863
-												blue:0.99216
-											   alpha:backgroundAlpha];
+																  green:0.96863
+																	blue:0.99216
+																  alpha:backgroundAlpha];
 	}
-	[data release];
 }
 
 - (void) setIcon:(NSImage *) anIcon {
@@ -325,7 +318,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
+		if([[self configurationDict] valueForKey:GrowlBubblesLimitPref]){
+			limitPref = [[[self configurationDict] valueForKey:GrowlBubblesLimitPref] boolValue];
+		}
 		containerSize.width = TEXT_AREA_WIDTH;
 		if (limitPref)
 			containerSize.height = lineHeight * MAX_TEXT_ROWS;
@@ -386,7 +381,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const CGFloat *inData, CGF
 - (NSInteger) descriptionRowCount {
 	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
+	if([[self configurationDict] valueForKey:GrowlBubblesLimitPref]){
+		limitPref = [[[self configurationDict] valueForKey:GrowlBubblesLimitPref] boolValue];
+	}
 	if (limitPref)
 		return MIN(rowCount, MAX_TEXT_ROWS);
 	else

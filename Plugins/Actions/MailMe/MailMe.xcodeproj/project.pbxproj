@@ -1,0 +1,550 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BCCB237715372ACB0064FD1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237615372ACB0064FD1D /* Cocoa.framework */; };
+		BCCB237915372ACB0064FD1D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237815372ACB0064FD1D /* AppKit.framework */; };
+		BCCB237B15372ACB0064FD1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237A15372ACB0064FD1D /* Foundation.framework */; };
+		BCCB238115372ACB0064FD1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCCB237F15372ACB0064FD1D /* InfoPlist.strings */; };
+		BCCB238A15372ACB0064FD1D /* GrowlMailMePreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCB238915372ACB0064FD1D /* GrowlMailMePreferencePane.m */; };
+		BCCB238D15372ACB0064FD1D /* GrowlMailMeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCB238C15372ACB0064FD1D /* GrowlMailMeAction.m */; };
+		BCCB23C615372B3B0064FD1D /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB23AD15372B0F0064FD1D /* GrowlPlugins.framework */; };
+		BCCB23CB15372B9D0064FD1D /* SMTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCB23C915372B9D0064FD1D /* SMTPClient.m */; };
+		BCCB23F71537374A0064FD1D /* MailMePrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCCB23F61537374A0064FD1D /* MailMePrefPane.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BCCB23A615372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BCCB23A815372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
+		BCCB23AA15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BCCB23AC15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+		BCCB23AE15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BCCB23B015372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BCCB23B215372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BCCB23B415372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BCCB23B615372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BCCB23B815372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BCCB23BA15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BCCB23BC15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BCCB23BE15372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BCCB23C015372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BCCB23C215372B0F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BCCB23C415372B2F0064FD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC83FC10150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BCCB237315372ACB0064FD1D /* MailMe.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MailMe.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCCB237615372ACB0064FD1D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BCCB237815372ACB0064FD1D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BCCB237A15372ACB0064FD1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BCCB237E15372ACB0064FD1D /* MailMe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MailMe-Info.plist"; sourceTree = "<group>"; };
+		BCCB238015372ACB0064FD1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCCB238215372ACB0064FD1D /* MailMe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MailMe-Prefix.pch"; sourceTree = "<group>"; };
+		BCCB238815372ACB0064FD1D /* GrowlMailMePreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlMailMePreferencePane.h; sourceTree = "<group>"; };
+		BCCB238915372ACB0064FD1D /* GrowlMailMePreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlMailMePreferencePane.m; sourceTree = "<group>"; };
+		BCCB238B15372ACB0064FD1D /* GrowlMailMeAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlMailMeAction.h; sourceTree = "<group>"; };
+		BCCB238C15372ACB0064FD1D /* GrowlMailMeAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlMailMeAction.m; sourceTree = "<group>"; };
+		BCCB239315372B0F0064FD1D /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BCCB23C815372B9D0064FD1D /* SMTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTPClient.h; sourceTree = "<group>"; };
+		BCCB23C915372B9D0064FD1D /* SMTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTPClient.m; sourceTree = "<group>"; };
+		BCCB23F61537374A0064FD1D /* MailMePrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailMePrefPane.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BCCB237015372ACB0064FD1D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCB237715372ACB0064FD1D /* Cocoa.framework in Frameworks */,
+				BCCB237915372ACB0064FD1D /* AppKit.framework in Frameworks */,
+				BCCB237B15372ACB0064FD1D /* Foundation.framework in Frameworks */,
+				BCCB23C615372B3B0064FD1D /* GrowlPlugins.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BCCB236815372ACB0064FD1D = {
+			isa = PBXGroup;
+			children = (
+				BCCB237C15372ACB0064FD1D /* MailMe */,
+				BCCB237515372ACB0064FD1D /* Frameworks */,
+				BCCB237415372ACB0064FD1D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BCCB237415372ACB0064FD1D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCCB237315372ACB0064FD1D /* MailMe.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BCCB237515372ACB0064FD1D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCCB237615372ACB0064FD1D /* Cocoa.framework */,
+				BCCB237815372ACB0064FD1D /* AppKit.framework */,
+				BCCB237A15372ACB0064FD1D /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BCCB237C15372ACB0064FD1D /* MailMe */ = {
+			isa = PBXGroup;
+			children = (
+				BCCB238815372ACB0064FD1D /* GrowlMailMePreferencePane.h */,
+				BCCB238915372ACB0064FD1D /* GrowlMailMePreferencePane.m */,
+				BCCB238B15372ACB0064FD1D /* GrowlMailMeAction.h */,
+				BCCB238C15372ACB0064FD1D /* GrowlMailMeAction.m */,
+				BCCB23C815372B9D0064FD1D /* SMTPClient.h */,
+				BCCB23C915372B9D0064FD1D /* SMTPClient.m */,
+				BCCB237D15372ACB0064FD1D /* Supporting Files */,
+			);
+			path = MailMe;
+			sourceTree = "<group>";
+		};
+		BCCB237D15372ACB0064FD1D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCCB239315372B0F0064FD1D /* Growl.xcodeproj */,
+				BCCB23F61537374A0064FD1D /* MailMePrefPane.xib */,
+				BCCB237E15372ACB0064FD1D /* MailMe-Info.plist */,
+				BCCB237F15372ACB0064FD1D /* InfoPlist.strings */,
+				BCCB238215372ACB0064FD1D /* MailMe-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BCCB239415372B0F0064FD1D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCCB23A715372B0F0064FD1D /* Growl.app */,
+				BCCB23A915372B0F0064FD1D /* GrowlLauncher.app */,
+				BCCB23AB15372B0F0064FD1D /* Growl.framework */,
+				BCCB23AD15372B0F0064FD1D /* GrowlPlugins.framework */,
+				BCCB23AF15372B0F0064FD1D /* Speech.growlView */,
+				BCCB23B115372B0F0064FD1D /* Brushed.growlView */,
+				BCCB23B315372B0F0064FD1D /* Bubbles.growlView */,
+				BCCB23B515372B0F0064FD1D /* iCal.growlView */,
+				BCCB23B715372B0F0064FD1D /* Bezel.growlView */,
+				BCCB23B915372B0F0064FD1D /* Smoke.growlView */,
+				BCCB23BB15372B0F0064FD1D /* Nano.growlView */,
+				BCCB23BD15372B0F0064FD1D /* MusicVideo.growlView */,
+				BCCB23BF15372B0F0064FD1D /* SMS.growlView */,
+				BCCB23C115372B0F0064FD1D /* Unit tests.octest */,
+				BCCB23C315372B0F0064FD1D /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BCCB237215372ACB0064FD1D /* MailMe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCCB239015372ACB0064FD1D /* Build configuration list for PBXNativeTarget "MailMe" */;
+			buildPhases = (
+				BCCB236F15372ACB0064FD1D /* Sources */,
+				BCCB237015372ACB0064FD1D /* Frameworks */,
+				BCCB237115372ACB0064FD1D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BCCB23C515372B2F0064FD1D /* PBXTargetDependency */,
+			);
+			name = MailMe;
+			productName = MailMe;
+			productReference = BCCB237315372ACB0064FD1D /* MailMe.growlView */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCCB236A15372ACB0064FD1D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = BCCB236D15372ACB0064FD1D /* Build configuration list for PBXProject "MailMe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BCCB236815372ACB0064FD1D;
+			productRefGroup = BCCB237415372ACB0064FD1D /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BCCB239415372B0F0064FD1D /* Products */;
+					ProjectRef = BCCB239315372B0F0064FD1D /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				BCCB237215372ACB0064FD1D /* MailMe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BCCB23A715372B0F0064FD1D /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BCCB23A615372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23A915372B0F0064FD1D /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BCCB23A815372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23AB15372B0F0064FD1D /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BCCB23AA15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23AD15372B0F0064FD1D /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BCCB23AC15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23AF15372B0F0064FD1D /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BCCB23AE15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23B115372B0F0064FD1D /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BCCB23B015372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23B315372B0F0064FD1D /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BCCB23B215372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23B515372B0F0064FD1D /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BCCB23B415372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23B715372B0F0064FD1D /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BCCB23B615372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23B915372B0F0064FD1D /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BCCB23B815372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23BB15372B0F0064FD1D /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BCCB23BA15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23BD15372B0F0064FD1D /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BCCB23BC15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23BF15372B0F0064FD1D /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BCCB23BE15372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23C115372B0F0064FD1D /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BCCB23C015372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCB23C315372B0F0064FD1D /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BCCB23C215372B0F0064FD1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BCCB237115372ACB0064FD1D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCB238115372ACB0064FD1D /* InfoPlist.strings in Resources */,
+				BCCB23F71537374A0064FD1D /* MailMePrefPane.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BCCB236F15372ACB0064FD1D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCB238A15372ACB0064FD1D /* GrowlMailMePreferencePane.m in Sources */,
+				BCCB238D15372ACB0064FD1D /* GrowlMailMeAction.m in Sources */,
+				BCCB23CB15372B9D0064FD1D /* SMTPClient.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BCCB23C515372B2F0064FD1D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GrowlPlugins;
+			targetProxy = BCCB23C415372B2F0064FD1D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BCCB237F15372ACB0064FD1D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCCB238015372ACB0064FD1D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BCCB238E15372ACB0064FD1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BCCB238F15372ACB0064FD1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BCCB239115372ACB0064FD1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MailMe\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MailMe/MailMe-Prefix.pch";
+				INFOPLIST_FILE = "MailMe/MailMe-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Debug;
+		};
+		BCCB239215372ACB0064FD1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MailMe\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MailMe/MailMe-Prefix.pch";
+				INFOPLIST_FILE = "MailMe/MailMe-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BCCB236D15372ACB0064FD1D /* Build configuration list for PBXProject "MailMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCCB238E15372ACB0064FD1D /* Debug */,
+				BCCB238F15372ACB0064FD1D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCCB239015372ACB0064FD1D /* Build configuration list for PBXNativeTarget "MailMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCCB239115372ACB0064FD1D /* Debug */,
+				BCCB239215372ACB0064FD1D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BCCB236A15372ACB0064FD1D /* Project object */;
+}

@@ -25,7 +25,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 @interface GrowlPositionPicker(Private)
 - (void) generateHotCornerPaths;
 - (void) resetTrackingRect;
-- (void) drawHotCorner:(NSBezierPath *)cornerPath position:(enum GrowlPositionOrigin)position;
+- (void) drawHotCorner:(NSBezierPath *)cornerPath position:(GrowlPositionOrigin)position;
 @end
 
 #pragma mark -
@@ -374,7 +374,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	}
 }
 
-- (void) drawHotCorner:(NSBezierPath *)cornerPath position:(enum GrowlPositionOrigin)position {
+- (void) drawHotCorner:(NSBezierPath *)cornerPath position:(GrowlPositionOrigin)position {
 	[NSGraphicsContext saveGraphicsState];
 	
 	BOOL mouseOver = ((rolloverPosition == position));

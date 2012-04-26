@@ -60,11 +60,15 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
     [path setClip];
     
 	CGFloat opacityPref = BEZEL_OPACITY_DEFAULT;
-	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
+	if([[self configurationDict] valueForKey:BEZEL_OPACITY_PREF]){
+		opacityPref = [[[self configurationDict] valueForKey:BEZEL_OPACITY_PREF] floatValue];
+	}
 	CGFloat alpha = opacityPref * 0.01;
 
 	int style = 0;
-	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &style);
+	if([[self configurationDict] valueForKey:BEZEL_STYLE_PREF]){
+		style = [[[self configurationDict] valueForKey:BEZEL_STYLE_PREF] intValue];
+	}
 	switch (style) {
 		default:
 		case 0:
@@ -104,7 +108,9 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 	}
 
 	int sizePref = BEZEL_SIZE_NORMAL;
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
+	if([[self configurationDict] valueForKey:BEZEL_SIZE_PREF]){
+		sizePref = [[[self configurationDict] valueForKey:BEZEL_SIZE_PREF] intValue];
+	}
 
 	// rects
 	NSRect titleRect, textRect;
@@ -254,32 +260,24 @@ static void CharcoalShadeInterpolate( void *info, const CGFloat *inData, CGFloat
 	[backgroundColor release];
 
 	Class NSDataClass = [NSData class];
-	NSData *data = nil;
+	NSData *data = [[self configurationDict] valueForKey:key];
 
-	READ_GROWL_PREF_VALUE(key, GrowlBezelPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
 			backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		backgroundColor = [NSColor blackColor];
 	}
 	[backgroundColor retain];
-	[data release];
 	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlBezelPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
+	data = [[self configurationDict] valueForKey:textKey];
 	if (data && [data isKindOfClass:NSDataClass]) {
 			textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
-	[data release];
-	data = nil;
 }
 
 - (CGFloat) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(CGFloat)width {

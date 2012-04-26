@@ -7,6 +7,7 @@
 #define CLICK_RECEIVED_NOTIFICATION_NAME @"BeepHammer Click Received"
 #define CLICK_TIMED_OUT_NOTIFICATION_NAME @"BeepHammer Click Timed Out"
 
+
 @interface BeepController (PRIVATE)
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
@@ -15,11 +16,43 @@
 - (void) notificationEditorDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
-@implementation BeepController
+@implementation BeepController {
+	IBOutlet NSPanel		*notificationPanel;			// The Add/Edit Panel
+	IBOutlet NSButton		*notificationDefault;		// Whether this notification is allowed by default
+	IBOutlet NSButton		*notificationSticky;		// Whether this notification is sticky
+	IBOutlet NSPopUpButton	*notificationPriority;		// Priority of the notification
+	IBOutlet NSTextField	*notificationDescription;	// The long description
+	IBOutlet NSImageView	*notificationImage;			// The associated image
+	IBOutlet NSTextField	*notificationTitle;			// The title of this notification
+	IBOutlet NSTextField	*notificationIdentifier;	// The identifier of this notification
+	IBOutlet NSTextField	*notificationClickContext;	// The click context of this notification
+	IBOutlet NSButton		*addEditButton;				// The OK button for the panel
+	NSString *addButtonTitle, *editButtonTitle, *mainEditButtonTitle;
+	
+	IBOutlet NSButton		*growlLoggingButton;		// The checkbox to toggle logging, removed from main pane
+	
+	IBOutlet NSMatrix		*groupingType;				// The choices for batch grouping type [selection | all]
+	IBOutlet NSTextField	*batchCountField;			// The number of notifications to post
+    
+	IBOutlet NSWindow		*mainWindow;
+	IBOutlet NSTableView	*notificationsTable;		// The table of notifications
+	IBOutlet NSButton		*addNotification;			// The button button that opens the add note pane
+	IBOutlet NSButton		*removeNotification;		// The remove button (TBR)
+	IBOutlet NSButton		*mainEditButton;			// The button on the UI to invoke a dbl-click
+	IBOutlet NSButton		*sendButton;				// The button to send a notification
+    
+    IBOutlet NSTextField    *concurrentOperationsField;
+    
+    NSOperationQueue        *sendQueue;
+    
+	//data
+	NSMutableArray			*notifications;				// The Array of notifications
+}
 
 - (id) init {
     if ((self = [super init])) {
         notifications = [[NSMutableArray alloc] init];
+        sendQueue = [[NSOperationQueue alloc] init];
     }
     return self;
 }
@@ -45,7 +78,7 @@
 	[sendButton         release];
 
     [notifications release];
-
+    [sendQueue release];
 	[super dealloc];
 }
 
@@ -156,7 +189,9 @@
 - (IBAction)sendNotification:(id)sender {
 #pragma unused(sender)
 	NSInteger selectedRow = [notificationsTable selectedRow];
-
+    
+    sendQueue.maxConcurrentOperationCount = [batchCountField integerValue];
+    
 	if (selectedRow != -1){
 		NSInteger batchCount = ([batchCountField integerValue] > 0 ? [batchCountField integerValue] : 1); // always 1
 		
@@ -166,21 +201,33 @@
 			while(batchCount > 0)
 			{
 				//send a notification for the selected table cell
-				NSDictionary *note = [notifications objectAtIndex:selectedRow];
+				__block NSDictionary *note = [[notifications objectAtIndex:selectedRow] retain];
 				
-				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-											description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-									   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
-											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
-											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-										   clickContext:(([note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && [[note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] length])
-														 ? [note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]
-														 : nil)
-											 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
-														 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
-														 nil)];	
-				
+                [sendQueue addOperationWithBlock:^{
+                    [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                    NSString *description = [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+                    description = [description stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    
+                    
+                    NSString *title = [note objectForKey:GROWL_NOTIFICATION_TITLE];
+                    title = [title stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    
+                    NSString *identifer = ([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ? [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] : nil);
+                    identifer = [identifer stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                    [GrowlApplicationBridge notifyWithTitle:title
+                                                description:description
+                                           notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
+                                                   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
+                                                   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+                                                   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+                                               clickContext:(([note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && [[note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] length])
+                                                             ? [note objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]
+                                                             : nil)
+                                                 identifier:identifer];	
+                    [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                    [note release];
+				}];
+                
 				batchCount--;
 			}
 		}
@@ -192,18 +239,32 @@
 				for(NSUInteger currentRow = 0; currentRow < [notifications count]; currentRow++)
 				{
 					//send a notification for the row
-					NSDictionary *note = [notifications objectAtIndex:currentRow];
+					__block NSDictionary *note = [[notifications objectAtIndex:currentRow] retain];
 					
-					[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-												description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-										   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
-												   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
-												   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-												   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-											   clickContext:nil
-												 identifier:([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ?
-															 [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] :
-															 nil)];
+                    [sendQueue addOperationWithBlock:^{
+                        [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                        NSString *description = [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+                        description = [description stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                        
+                        NSString *title = [note objectForKey:GROWL_NOTIFICATION_TITLE];
+                        title = [title stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+                        
+                        NSString *identifer = ([[note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] length] ? [note objectForKey:GROWL_NOTIFICATION_IDENTIFIER] : nil);
+                        identifer = [identifer stringByReplacingOccurrencesOfString:@"#RAND#" withString:[NSString stringWithFormat:@"%i",(arc4random() % 10000)]];
+
+                        [GrowlApplicationBridge notifyWithTitle:title
+                                                    description:description
+                                               notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
+                                                       iconData:[note objectForKey:GROWL_NOTIFICATION_ICON_DATA]
+                                                       priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+                                                       isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+                                                   clickContext:nil
+                                                     identifier:identifer];
+                        [NSThread sleepForTimeInterval:1 + (arc4random() % 2)];
+                        [note release];
+                    }];
+                    
+
 				}
 				
 				batchCount--;

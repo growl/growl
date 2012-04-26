@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlScaleWindowTransition.h"
+#import <GrowlPlugins/GrowlScaleWindowTransition.h>
 #import "GrowlDefinesInternal.h"	// for CGFloat
 #include <float.h>
 

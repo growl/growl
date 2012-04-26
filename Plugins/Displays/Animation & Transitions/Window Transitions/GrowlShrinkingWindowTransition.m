@@ -6,10 +6,17 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlShrinkingWindowTransition.h"
+#import <GrowlPlugins/GrowlShrinkingWindowTransition.h>
 
 
 @implementation GrowlShrinkingWindowTransition
+
+- (id) initWithWindow:(NSWindow *)inWindow {
+	if((self = [super initWithWindow:inWindow])){
+		[[inWindow contentView] setWantsLayer:YES];
+	}
+	return self;
+}
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(NSAnimationProgress)inProgress {
 	if (aWindow) {
@@ -31,6 +38,13 @@
 			default:
 				break;
 		}
+		inProgress = direction == GrowlForwardTransition ? inProgress : 1.0f - inProgress;
+		if(inProgress > 1.0f)
+			inProgress = 1.0f;
+		if(inProgress <= 0.0f)
+			inProgress = 0.01f;
+		CATransform3D scale = CATransform3DMakeScale(inProgress, inProgress, 1.0f);
+		[[[[self window] contentView] layer] setTransform:scale];
 	}
 }
 

@@ -27,26 +27,26 @@
 	[mistViewForSetup sizeToFit];
 	
 	NSRect mistRect = mistViewForSetup.frame;
-   NSPanel *tempWindow = [[NSPanel alloc] initWithContentRect:mistRect
-                                                    styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
-                                                      backing:NSBackingStoreBuffered
-                                                        defer:YES];
-
-   self = [super initWithWindow:tempWindow];
+    NSPanel *tempWindow = [[NSPanel alloc] initWithContentRect:mistRect
+                                                     styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
+                                                       backing:NSBackingStoreBuffered
+                                                         defer:YES];
+    
+    self = [super initWithWindow:tempWindow];
 	if (self) {
 		mistView = [mistViewForSetup retain];
-      [tempWindow setBecomesKeyOnlyIfNeeded:YES];
-      [tempWindow setHidesOnDeactivate:NO];
-      [tempWindow setCanHide:NO];
+        [tempWindow setBecomesKeyOnlyIfNeeded:YES];
+        [tempWindow setHidesOnDeactivate:NO];
+        [tempWindow setCanHide:NO];
 		[tempWindow setContentView:mistView];
 		[tempWindow setOpaque:NO];
 		[tempWindow setBackgroundColor:[NSColor clearColor]];
 		[tempWindow setLevel:GrowlVisualDisplayWindowLevel];
-//We won't have this on 10.6, define it so we don't have issues on 10.6
+        //We won't have this on 10.6, define it so we don't have issues on 10.6
 #define NSWindowCollectionBehaviorFullScreenAuxiliary 1 << 8
-      [tempWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorFullScreenAuxiliary];
+        [tempWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorFullScreenAuxiliary];
 		[tempWindow setAcceptsMouseMovedEvents:YES];
-      [tempWindow setOneShot:YES];
+        [tempWindow setOneShot:YES];
 		userInfo = [info retain];
 		delegate = aDelegate;
 		visible = NO;
@@ -179,8 +179,8 @@
 
 - (void)closeAllNotifications
 {
-   if([[self delegate] respondsToSelector:@selector(closeAllNotifications:)])
-      [[self delegate] closeAllNotifications:self];
+    if([[self delegate] respondsToSelector:@selector(closeAllNotifications:)])
+        [[self delegate] closeAllNotifications:self];
 }
 
 @end

@@ -47,6 +47,7 @@
 	
 	[applicationIconID release];
 	[mApplicationIconURL release];
+	[mApplicationIconData release];
 	
 	[super dealloc];
 }
@@ -98,19 +99,19 @@
 - (NSData *)applicationIconData
 {
 	NSData *data = nil;
-	if (applicationIconID) {
-		data = [binaryDataByIdentifier objectForKey:applicationIconID];
-	} else if (mApplicationIconURL) {
-      /* FIX ME: Implement a full, asynchronous download system */
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"URL based application icon's are not presently supported.  Support will return in a future release of Growl.app");
-      });
-      NSLog(@"Not downloading icon for application %@", [self applicationName]);
-	} 
-   if(!data) {
-      data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
-   }
+	if (mApplicationIconData){
+		data = mApplicationIconData;
+	}else{
+		if (applicationIconID) {
+			data = [binaryDataByIdentifier objectForKey:applicationIconID];
+		} else if (mApplicationIconURL) {
+			data = [NSData dataWithContentsOfURL:mApplicationIconURL];
+		} 
+		if(!data) {
+			data = [[NSImage imageNamed:NSImageNameNetwork] PNGRepresentation];
+		}
+		mApplicationIconData = [data retain];
+	}
 
 	return data;
 }
@@ -305,6 +306,7 @@
 	NSMutableArray *allNotifications = [NSMutableArray array];
 	NSMutableArray *defaultNotifications = [NSMutableArray array];
 	NSMutableDictionary *humanReadableNames = [NSMutableDictionary dictionary];
+	NSMutableDictionary *notificationIcons = [NSMutableDictionary dictionary];
 	
 	for (NSDictionary *notification in notifications) {
 		NSString *notificationName = [notification objectForKey:GROWL_NOTIFICATION_NAME];
@@ -317,6 +319,16 @@
 							  forKey:notificationName];
 
 		/* XXX We aren't using GROWL_NOTIFICATION_ICON_ID / GROWL_NOTIFICATION_ICON_URL at all */
+		NSString *noteIconID = [notification valueForKey:GROWL_NOTIFICATION_ICON_ID];
+		NSURL *noteIconURL = [notification valueForKey:GROWL_NOTIFICATION_ICON_URL];
+		NSData *noteIconData = nil;
+		if (noteIconID) {
+			noteIconData = [binaryDataByIdentifier objectForKey:noteIconID];
+		} else if (noteIconURL) {
+			noteIconData = [NSData dataWithContentsOfURL:noteIconURL];
+		}
+		if(noteIconData)
+			[notificationIcons setValue:noteIconData forKey:notificationName];
 	}
 	
 	[growlDictionary setValue:allNotifications
@@ -327,6 +339,10 @@
 					   forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	[growlDictionary setValue:host
 					   forKey:GROWL_UDP_REMOTE_ADDRESS];
+	
+	if([notificationIcons count] > 0)
+		[growlDictionary setValue:notificationIcons
+								 forKey:GROWL_NOTIFICATIONS_ICONS];
 	
 	return growlDictionary;
 }

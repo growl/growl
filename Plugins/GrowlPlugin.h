@@ -8,7 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class NSPreferencePane;
+@class GrowlPluginPreferencePane;
+
+@protocol GrowlUpgradePluginPrefsProtocol <NSObject>
+@required
+- (NSDictionary*)upgradeConfigDict:(NSDictionary*)original toConfigID:(NSString*)configID;
+@end
+
+@protocol GrowlDispatchNotificationProtocol <NSObject>
+@required
+- (void)dispatchNotification:(NSDictionary*)notification withConfiguration:(NSDictionary*)configuration;
+@end
+
+@protocol GrowlConfigurationRemovalProtocol <NSObject>
+@required
+- (void)removeConfiguration:(NSDictionary*)config forID:(NSString*)configID;
+@end
 
 /*!	@class	GrowlPlugin
  *	@abstract	The base plug-in class.
@@ -20,7 +35,7 @@
 	NSBundle *pluginBundle;
 	NSString *pluginPathName;
 
-	NSPreferencePane *preferencePane;
+	GrowlPluginPreferencePane *preferencePane;
 	NSString	     *prefDomain;
 }
 
@@ -98,6 +113,6 @@
  *	 The default implementation of this method returns <code>nil</code>.
  *	@result	The preference pane. Can be <code>nil</code>.
  */
-@property (nonatomic, assign) NSPreferencePane *preferencePane;
+@property (nonatomic, assign) GrowlPluginPreferencePane *preferencePane;
 
 @end

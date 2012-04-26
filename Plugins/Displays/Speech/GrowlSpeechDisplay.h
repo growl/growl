@@ -7,16 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlActionPlugin.h>
 
-@interface GrowlSpeechDisplay : GrowlDisplayPlugin<NSSpeechSynthesizerDelegate> {
+@interface GrowlSpeechDisplay : GrowlActionPlugin <GrowlDispatchNotificationProtocol, NSSpeechSynthesizerDelegate> {
     NSMutableArray *speech_queue;
     NSSpeechSynthesizer *syn;
+	dispatch_queue_t speech_dispatch_queue;
 }
 
 @property (retain) NSMutableArray *speech_queue;
 @property (retain) NSSpeechSynthesizer *syn;
+@property (nonatomic, assign) BOOL paused;
 
-- (void)speakNotification:(NSString*)notificationToSpeak;
+- (void)speakNotification:(NSString*)notificationToSpeak withConfiguration:(NSDictionary*)config;
 
 @end

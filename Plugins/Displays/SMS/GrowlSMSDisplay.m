@@ -5,22 +5,12 @@
 //  Created by Diggory Laycock
 //  Copyright 2005–2011 The Growl Project All rights reserved.
 //
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowlSMSDisplay.h"
 #import "GrowlSMSPrefs.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotification.h"
-#include <Security/SecKeychain.h>
-#include <Security/SecKeychainItem.h>
-
-#define keychainServiceName "GrowlSMS"
-#define keychainAccountName "SMSWebServicePassword"
-
-#define GrowlSMSPrefDomain		@"com.Growl.SMS"
-#define accountNameKey			@"SMS - Account Name"
-#define accountAPIIDKey			@"SMS - Account API ID"
-#define destinationNumberKey	@"SMS - Destination Number"
-
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GrowlSMSDisplay
 
@@ -30,6 +20,7 @@
 		xmlHoldingStringValue = [[NSMutableString alloc] init];
 		waitingForResponse = NO;
 		creditBalance = 0.0;
+		self.prefDomain = GrowlSMSPrefDomain;
 	}
 	return self;
 }
@@ -41,65 +32,45 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.SMS"]];
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlNotification *)notification {
-	NSString	*accountNameValue = nil;
-	NSString	*apiIDValue = nil;
-	NSString	*destinationNumberValue = nil;
+- (NSDictionary*)upgradeConfigDict:(NSDictionary*)stored toConfigID:(NSString*)configID {
+	NSString *password = [GrowlKeychainUtilities passwordForServiceName:keychainServiceName accountName:keychainAccountName];
+	[GrowlKeychainUtilities removePasswordForService:keychainServiceName accountName:keychainAccountName];
+	[GrowlKeychainUtilities setPassword:password forService:keychainServiceName accountName:configID];
+	return stored;
+}
 
-	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &destinationNumberValue);
-	if(destinationNumberValue)
-		CFMakeCollectable(destinationNumberValue);
-	[destinationNumberValue autorelease];
-	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &apiIDValue);
-	if(apiIDValue)
-		CFMakeCollectable(apiIDValue);
-	[apiIDValue autorelease];
-	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &accountNameValue);
-	if(accountNameValue)
-		CFMakeCollectable(accountNameValue);
-	[accountNameValue autorelease];
+- (void)removeConfiguration:(NSDictionary *)config forID:(NSString *)configID {
+	[GrowlKeychainUtilities removePasswordForService:keychainServiceName accountName:configID];	
+}
+
+- (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
+	NSString	*accountNameValue = [configuration valueForKey:accountNameKey];
+	NSString	*apiIDValue = [configuration valueForKey:accountAPIIDKey];
+	NSString	*destinationNumberValue = [configuration valueForKey:destinationNumberKey];
 
 	if (!([destinationNumberValue length] && [apiIDValue length] && [accountNameValue length])) {
 		NSLog(@"SMS display: Cannot send SMS - not enough details in preferences.");
 		return;
 	}
 
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 
 	//	Fetch the SMS password from the keychain
-	unsigned char *password;
-	UInt32 passwordLength;
-	OSStatus status;
-	status = SecKeychainFindGenericPassword(NULL,
-											(UInt32)strlen(keychainServiceName), keychainServiceName,
-											(UInt32)strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
-
-	CFStringRef passwordString;
-	if (status == noErr) {
-		passwordString = CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
-		SecKeychainItemFreeContent(NULL, password);
-	} else {
-		if (status != errSecItemNotFound)
-			NSLog(@"SMS display: Failed to retrieve SMS Account password from keychain. Error: %d", (int)status);
-		passwordString = CFSTR("");
-	}
-
+	NSString *password = [GrowlKeychainUtilities passwordForServiceName:keychainServiceName accountName:[configuration valueForKey:GROWL_PLUGIN_CONFIG_ID]];
 
 	NSString *localHostName = [[NSHost currentHost] name];
 	NSString *smsSendCommand = [[NSString alloc] initWithFormat:
 		@"<clickAPI><sendMsg><api_id>%@</api_id><user>%@</user><password>%@</password><to>+%@</to><text>(%@) %@ (Growl from %@)</text><from>Growl</from></sendMsg></clickAPI>",
 		apiIDValue,
 		accountNameValue,
-		passwordString,
+		password,
 		destinationNumberValue,
 		title,
 		desc,
@@ -114,14 +85,10 @@
 		@"<clickAPI><getBalance><api_id>%@</api_id><user>%@</user><password>%@</password></getBalance></clickAPI>",
 		apiIDValue,
 		accountNameValue,
-		passwordString];
-
-	CFRelease(passwordString);
+		password];
 
 	[self sendXMLCommand:checkBalanceCommand];
 	[checkBalanceCommand release];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:notification userInfo:nil];
 }
 
 
@@ -413,11 +380,6 @@
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
 	// NSLog(@"SMS display: connectionDidFinishLoading:");
 	[self connectionDidRespond];
-}
-
-
-- (BOOL) requiresPositioning {
-	return NO;
 }
 
 @end
