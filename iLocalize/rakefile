@@ -105,30 +105,17 @@ shortcodes = {
     :th_TH => 'th'
 }
 
-starts = {
-    :growlaction =>      growl_action_strings,
-    :pluginprefs =>      growl_pluginpref_strings,
-    :growllocalizable => growl_localizable_strings,
-    :mainmenu =>         growl_mainmenu_strings,
-    :bezel =>            growl_bezel_display_strings,
-    :ical =>             growl_ical_display_strings,
-    :sms =>              growl_sms_display_strings,
-    :mailme =>           growl_mailme_display_strings,
-    :speech =>           growl_speech_display_strings,
-    :brushed =>          growl_brushed_display_strings,
-}
-
-destinations = {
-    :growlaction =>      "#{growlaction_dir}/%%lproj%%/InfoPlist.strings",
-    :pluginprefs =>      "#{core_growl_resources_dir}/%%lproj%%/PluginPrefStrings.strings",
-    :growllocalizable => "#{core_growl_resources_dir}/%%lproj%%/Localizable.strings",
-    :mainmenu =>         "#{core_growl_resources_dir}/%%lproj%%/mainmenu.strings",
-    :bezel =>            "#{bezel_display_destination}/%%lproj%%/Localizable.strings",
-    :ical =>             "#{ical_display_destination}/%%lproj%%/Localizable.strings",
-    :sms =>              "#{sms_display_destination}/%%lproj%%/Localizable.strings",
-    :mailme =>           "#{mailme_display_destination}/%%lproj%%/Localizable.strings",
-    :speech =>           "#{speech_display_destination}/%%lproj%%/Localizable.strings",
-    :brushed =>          "#{brushed_display_destination}/%%lproj%%/Localizable.strings",
+growl_translations = {
+    :growlaction => {:source => growl_action_strings,         :destination => "#{growlaction_dir}/%%lproj%%/InfoPlist.strings"},
+    :pluginprefs => {:source => growl_pluginpref_strings,     :destination => "#{core_growl_resources_dir}/%%lproj%%/PluginPrefStrings.strings"},
+    :growlmain =>   {:source => growl_localizable_strings,    :destination => "#{core_growl_resources_dir}/%%lproj%%/Localizable.strings"},
+    :mainmenu =>    {:source => growl_mainmenu_strings,       :destination => "#{core_growl_resources_dir}/%%lproj%%/mainmenu.strings"},
+    :bezel =>       {:source => growl_bezel_display_strings,  :destination => "#{bezel_display_destination}/%%lproj%%/Localizable.strings"},
+    :ical =>        {:source => growl_ical_display_strings,   :destination => "#{ical_display_destination}/%%lproj%%/Localizable.strings"},
+    :sms =>         {:source => growl_sms_display_strings,    :destination => "#{sms_display_destination}/%%lproj%%/Localizable.strings"},
+    :mailme =>      {:source => growl_mailme_display_strings, :destination => "#{mailme_display_destination}/%%lproj%%/Localizable.strings"},
+    :speech =>      {:source => growl_speech_display_strings, :destination => "#{speech_display_destination}/%%lproj%%/Localizable.strings"},
+    :brushed =>     {:source => growl_brushed_display_strings,:destination => "#{brushed_display_destination}/%%lproj%%/Localizable.strings"},
 }
 
 #################
@@ -165,16 +152,14 @@ task :translate, :source, :destination do |t, args|
     end
 end
 
-desc "update growl"
+desc "update all growl.app bundled translations"
 task :update_growl do
-
-    starts.each_pair do |start_key, start|
-        puts "translating #{start_key}"
-        Rake::Task[:translate].invoke(start, destinations[start_key])
-        Rake::Task[:translate].reenable
-#        puts "done translating #{start_key}"
+    growl_translations.each_pair do |key, value|
+        puts "copying translations for #{key}"
+        #the hash in growl_translations has the right keys for the :translate task
+        Rake::Task[:translate].execute(value)
     end
-  puts "Done Updating Growl"
+    puts "Done Updating Growl"
 end
 
 desc "update shortcut recorder"
