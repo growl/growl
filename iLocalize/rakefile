@@ -122,10 +122,8 @@ growl_translations = {
 # End Variables #
 #################
 
-desc "Direct translation method, provide source in iLocalize and destination with lproj folder listed as %%lproj%%"
+desc "Direct translation method, provide source in iLocalize and destination with lproj folder listed as %%lproj%%, rake translate[<source>,<destination>]"
 task :translate, :source, :destination do |t, args|
-    curdir = FileUtils.pwd()
-    FileUtils.cd("#{ilocalize_dir}")
     if args.count < 2
         puts "Not enough arguments! Need source and destination"
         return
@@ -133,6 +131,13 @@ task :translate, :source, :destination do |t, args|
     
     source = args[:source]
     destination = args[:destination]
+    if !destination.include?("%%lproj%%")
+        puts "Destination doesn't contain %%lproj%%, without it, we wont know where to put the translated files"
+        return
+    end
+    
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
     shortcodes.each_pair do |key, value|
 #        puts "translating #{key} to #{value}"
         strings = "#{key}.strings"
