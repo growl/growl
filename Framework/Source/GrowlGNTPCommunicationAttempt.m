@@ -314,7 +314,7 @@ enum {
    
 	if (!attemptSucceeded) {
 		if (!socketError) {
-			NSString *reason = self.responseParseErrorString ? self.responseParseErrorString || @"Unknown error, possibly unable to connect";
+			NSString *reason = self.responseParseErrorString ? self.responseParseErrorString : @"Unknown error, possibly unable to connect";
 			NSDictionary *dict = [NSDictionary dictionaryWithObject:reason  forKey:NSLocalizedDescriptionKey];
 			socketError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:dict];
 		}
