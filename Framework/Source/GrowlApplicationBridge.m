@@ -75,8 +75,6 @@ static GrowlMiniDispatch *miniDispatch = nil;
 static id<GrowlApplicationBridgeDelegate> delegate = nil;
 static BOOL		growlLaunched = NO;
 
-static NSMutableArray	*queuedGrowlNotifications = nil;
-
 static BOOL registeredWithGrowl = NO;
 //Do not touch the attempts variable directly! Use the +attempts method every time, to ensure that the array exists.
 static NSMutableArray *_attempts = nil;
