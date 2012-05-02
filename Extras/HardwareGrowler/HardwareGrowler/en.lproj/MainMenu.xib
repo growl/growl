@@ -1314,7 +1314,6 @@
 							<string key="NSFrame">{{17, 16}, {283, 26}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="221836017">
@@ -1333,22 +1332,23 @@
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<nil key="NSMenuItem"/>
+								<object class="NSMenuItem" key="NSMenuItem" id="517946498">
+									<reference key="NSMenu" ref="889745736"/>
+									<string key="NSTitle">Menu</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<int key="NSState">1</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+									<string key="NSAction">_popUpItemAction:</string>
+									<reference key="NSTarget" ref="221836017"/>
+								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
 								<object class="NSMenu" key="NSMenu" id="889745736">
 									<string key="NSTitle">OtherViews</string>
 									<array class="NSMutableArray" key="NSMenuItems">
-										<object class="NSMenuItem" id="517946498">
-											<reference key="NSMenu" ref="889745736"/>
-											<string key="NSTitle">Menu</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="35465992"/>
-											<reference key="NSMixedImage" ref="502551668"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="221836017"/>
-										</object>
+										<reference ref="517946498"/>
 										<object class="NSMenuItem" id="511625246">
 											<reference key="NSMenu" ref="889745736"/>
 											<string key="NSTitle">Dock</string>
@@ -2196,6 +2196,14 @@
 						<reference key="destination" ref="2170542"/>
 					</object>
 					<int key="connectionID">599</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">onLoginSwitch</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="166661152"/>
+					</object>
+					<int key="connectionID">663</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3611,7 +3619,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">662</int>
+			<int key="maxID">663</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3620,6 +3628,7 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="iconPopUp">NSPopUpButton</string>
+						<string key="onLoginSwitch">GrowlOnSwitch</string>
 						<string key="statusMenu">NSMenu</string>
 						<string key="window">NSWindow</string>
 					</dictionary>
@@ -3627,6 +3636,10 @@
 						<object class="IBToOneOutletInfo" key="iconPopUp">
 							<string key="name">iconPopUp</string>
 							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="onLoginSwitch">
+							<string key="name">onLoginSwitch</string>
+							<string key="candidateClassName">GrowlOnSwitch</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="statusMenu">
 							<string key="name">statusMenu</string>

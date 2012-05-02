@@ -22,8 +22,8 @@ typedef enum {
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 	
-	NSPopUpButton *iconPopUp;
-	GrowlOnSwitch *onLoginSwitch;
+	IBOutlet NSPopUpButton *iconPopUp;
+	IBOutlet GrowlOnSwitch *onLoginSwitch;
 	
 	HWGrowlIconState oldIconValue;
 	BOOL oldOnLoginValue;

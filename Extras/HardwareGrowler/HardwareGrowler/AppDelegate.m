@@ -219,7 +219,7 @@
 	}
 	else if(object == onLoginSwitch && [keyPath isEqualToString:@"state"])
 	{
-		[[[NSUserDefaultsController sharedUserDefaultsController] defaults] setBool:[(GrowlOnSwitch*)object state] forKey:@"OnLogin"];
+		[[[NSUserDefaultsController sharedUserDefaultsController] defaults] setBool:![(GrowlOnSwitch*)object state] forKey:@"OnLogin"];
 		[[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
 	}
 }
