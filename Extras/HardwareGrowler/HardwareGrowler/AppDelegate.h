@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl/GrowlApplicationBridge.h>
 
-@class GrowlOnSwitch;
+@class GrowlOnSwitch, HWGrowlPluginController;
 
 typedef enum { 
 	kShowIconInMenu = 0,
@@ -27,6 +27,8 @@ typedef enum {
 	
 	HWGrowlIconState oldIconValue;
 	BOOL oldOnLoginValue;
+	
+	HWGrowlPluginController *pluginController;
 }
 
 @property (nonatomic, retain) NSString *showDevices;
@@ -44,5 +46,6 @@ typedef enum {
 
 @property (assign) IBOutlet NSWindow *window;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *iconPopUp;
+@property (nonatomic, retain) HWGrowlPluginController *pluginController;
 
 @end

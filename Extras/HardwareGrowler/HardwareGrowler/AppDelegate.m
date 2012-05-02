@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "GrowlOnSwitch.h"
+#import "HWGrowlPluginController.h"
 #import <ServiceManagement/ServiceManagement.h>
 
 #define ShowDevicesTitle     NSLocalizedString(@"Show Connected Devices at Launch", nil)
@@ -22,6 +23,7 @@
 
 @synthesize window = _window;
 @synthesize iconPopUp;
+@synthesize pluginController;
 
 @synthesize showDevices;
 @synthesize groupNetworkTitle;
@@ -67,6 +69,8 @@
 						 forKeyPath:@"state" 
 							 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
 							 context:nil];
+	
+	self.pluginController = [[[HWGrowlPluginController alloc] init] autorelease];
 }
 
 - (IBAction)showPreferences:(id)sender
