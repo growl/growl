@@ -16,7 +16,148 @@
 		BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCB80611155154CA0088C69A /* HWGrowler.icns */; };
 		BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80612155154CA0088C69A /* menubarIcon_Normal.png */; };
 		BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80613155154CA0088C69A /* menubarIcon_Selected.png */; };
+		BCB806981551595A0088C69A /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCB80673155158DA0088C69A /* Growl.framework */; };
+		BCB806991551597C0088C69A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB80673155158DA0088C69A /* Growl.framework */; };
+		BCB806A415515A560088C69A /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A015515A560088C69A /* Common.xcconfig */; };
+		BCB806A515515A560088C69A /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A115515A560088C69A /* Debug.xcconfig */; };
+		BCB806A615515A560088C69A /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A215515A560088C69A /* Localization.xcconfig */; };
+		BCB806A715515A560088C69A /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A315515A560088C69A /* Release.xcconfig */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BCB8066E155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BCB80670155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
+		BCB80672155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BCB80674155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+		BCB80676155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BCB80678155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BCB8067A155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BCB8067C155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BCB8067E155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BCB80680155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BCB80682155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BCB80684155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BCB80686155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BCB80688155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BCB8068A155158DA0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BCB8068D155158EF0088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BCB8068F155158F50088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BCB80697155159420088C69A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BCB806981551595A0088C69A /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BCB805E7155153330088C69A /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,6 +176,11 @@
 		BCB80611155154CA0088C69A /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = HWGrowler.icns; path = Resources/HWGrowler.icns; sourceTree = SOURCE_ROOT; };
 		BCB80612155154CA0088C69A /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Normal.png; path = Resources/menubarIcon_Normal.png; sourceTree = SOURCE_ROOT; };
 		BCB80613155154CA0088C69A /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Selected.png; path = Resources/menubarIcon_Selected.png; sourceTree = SOURCE_ROOT; };
+		BCB8065B155158DA0088C69A /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BCB806A015515A560088C69A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		BCB806A115515A560088C69A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		BCB806A215515A560088C69A /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		BCB806A315515A560088C69A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */,
+				BCB806991551597C0088C69A /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +199,7 @@
 		BCB805DC155153330088C69A = {
 			isa = PBXGroup;
 			children = (
+				BCB8069F15515A0D0088C69A /* Xcconfigs */,
 				BCB805F1155153330088C69A /* HardwareGrowler */,
 				BCB805EA155153330088C69A /* Frameworks */,
 				BCB805E8155153330088C69A /* Products */,
@@ -99,6 +247,7 @@
 		BCB805F2155153330088C69A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BCB8065B155158DA0088C69A /* Growl.xcodeproj */,
 				BCB8060C155154B80088C69A /* Images */,
 				BCB805F3155153330088C69A /* HardwareGrowler-Info.plist */,
 				BCB805F4155153330088C69A /* InfoPlist.strings */,
@@ -119,6 +268,39 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		BCB8065C155158DA0088C69A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCB8066F155158DA0088C69A /* Growl.app */,
+				BCB80671155158DA0088C69A /* GrowlLauncher.app */,
+				BCB80673155158DA0088C69A /* Growl.framework */,
+				BCB80675155158DA0088C69A /* GrowlPlugins.framework */,
+				BCB80677155158DA0088C69A /* Speech.growlView */,
+				BCB80679155158DA0088C69A /* Brushed.growlView */,
+				BCB8067B155158DA0088C69A /* Bubbles.growlView */,
+				BCB8067D155158DA0088C69A /* iCal.growlView */,
+				BCB8067F155158DA0088C69A /* Bezel.growlView */,
+				BCB80681155158DA0088C69A /* Smoke.growlView */,
+				BCB80683155158DA0088C69A /* Nano.growlView */,
+				BCB80685155158DA0088C69A /* MusicVideo.growlView */,
+				BCB80687155158DA0088C69A /* SMS.growlView */,
+				BCB80689155158DA0088C69A /* Unit tests.octest */,
+				BCB8068B155158DA0088C69A /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BCB8069F15515A0D0088C69A /* Xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				BCB806A015515A560088C69A /* Common.xcconfig */,
+				BCB806A115515A560088C69A /* Debug.xcconfig */,
+				BCB806A215515A560088C69A /* Localization.xcconfig */,
+				BCB806A315515A560088C69A /* Release.xcconfig */,
+			);
+			name = Xcconfigs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,10 +311,14 @@
 				BCB805E3155153330088C69A /* Sources */,
 				BCB805E4155153330088C69A /* Frameworks */,
 				BCB805E5155153330088C69A /* Resources */,
+				BCB80697155159420088C69A /* CopyFiles */,
+				BCB806961551591C0088C69A /* Growl XPC */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BCB80690155158F50088C69A /* PBXTargetDependency */,
+				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
 			productName = HardwareGrowler;
@@ -157,12 +343,126 @@
 			mainGroup = BCB805DC155153330088C69A;
 			productRefGroup = BCB805E8155153330088C69A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BCB8065C155158DA0088C69A /* Products */;
+					ProjectRef = BCB8065B155158DA0088C69A /* Growl.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				BCB805E6155153330088C69A /* HardwareGrowler */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BCB8066F155158DA0088C69A /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BCB8066E155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80671155158DA0088C69A /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BCB80670155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80673155158DA0088C69A /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BCB80672155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80675155158DA0088C69A /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BCB80674155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80677155158DA0088C69A /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BCB80676155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80679155158DA0088C69A /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BCB80678155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB8067B155158DA0088C69A /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BCB8067A155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB8067D155158DA0088C69A /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BCB8067C155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB8067F155158DA0088C69A /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BCB8067E155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80681155158DA0088C69A /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BCB80680155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80683155158DA0088C69A /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BCB80682155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80685155158DA0088C69A /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BCB80684155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80687155158DA0088C69A /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BCB80686155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB80689155158DA0088C69A /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BCB80688155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCB8068B155158DA0088C69A /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BCB8068A155158DA0088C69A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BCB805E5155153330088C69A /* Resources */ = {
@@ -175,10 +475,31 @@
 				BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */,
 				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
+				BCB806A415515A560088C69A /* Common.xcconfig in Resources */,
+				BCB806A515515A560088C69A /* Debug.xcconfig in Resources */,
+				BCB806A615515A560088C69A /* Localization.xcconfig in Resources */,
+				BCB806A715515A560088C69A /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BCB806961551591C0088C69A /* Growl XPC */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Growl XPC";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/../../scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BCB805E3155153330088C69A /* Sources */ = {
@@ -191,6 +512,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BCB8068E155158EF0088C69A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GNTPClientService;
+			targetProxy = BCB8068D155158EF0088C69A /* PBXContainerItemProxy */;
+		};
+		BCB80690155158F50088C69A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Growl.framework;
+			targetProxy = BCB8068F155158F50088C69A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BCB805F4155153330088C69A /* InfoPlist.strings */ = {
@@ -267,10 +601,12 @@
 		};
 		BCB80606155153330088C69A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -278,14 +614,55 @@
 		};
 		BCB80607155153330088C69A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
+		};
+		BCB806A815515A860088C69A /* Localization */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Localization;
+		};
+		BCB806A915515A860088C69A /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
+				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Localization;
 		};
 /* End XCBuildConfiguration section */
 
@@ -294,19 +671,21 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCB80603155153330088C69A /* Debug */,
+				BCB806A815515A860088C69A /* Localization */,
 				BCB80604155153330088C69A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		BCB80605155153330088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCB80606155153330088C69A /* Debug */,
+				BCB806A915515A860088C69A /* Localization */,
 				BCB80607155153330088C69A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
