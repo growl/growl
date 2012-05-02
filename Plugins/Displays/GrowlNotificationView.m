@@ -6,8 +6,8 @@
 //  Copyright 2005-2006  Jamie Kirkpatrick. All rights reserved.
 //
 
-#import "GrowlNotificationView.h"
-
+#import <GrowlPlugins/GrowlNotificationView.h>
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlNotificationView
 
@@ -106,8 +106,9 @@ static NSButton *gCloseButton;
 	 * so do a re-display on the next run loop.
 	 */
 	[self performSelector:@selector(display)
-			   withObject:nil
-			   afterDelay:0];
+				  withObject:nil
+				  afterDelay:0
+					  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	
 	if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
@@ -152,5 +153,11 @@ static NSButton *gCloseButton;
 - (void) setIcon:(NSImage *)anIcon {
 }
 - (void) sizeToFit {};
+
+-(NSDictionary*)configurationDict {
+	if([[[self window] windowController] respondsToSelector:@selector(configurationDict)])
+		return [[[self window] windowController] configurationDict];
+	return nil;
+}
 
 @end

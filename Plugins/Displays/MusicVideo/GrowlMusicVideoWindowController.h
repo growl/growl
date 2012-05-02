@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
 
 @class GrowlMusicVideoWindowView;
 

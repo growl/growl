@@ -14,7 +14,7 @@
 - (id) performDefaultImplementation {
     
     //we always say yes, because this is not a toggle command
-    [[GrowlPreferencesController sharedInstance] setRollupShown:YES];
+    [[GrowlPreferencesController sharedController] setRollupShown:YES];
     
     return nil;
 }

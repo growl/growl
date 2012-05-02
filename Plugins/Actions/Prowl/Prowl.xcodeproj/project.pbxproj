@@ -1,0 +1,644 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		117B7D381532600D0068CBD2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 117B7D361532600D0068CBD2 /* Localizable.strings */; };
+		117B8505152E7A2000B4B531 /* PRValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 117B8504152E7A2000B4B531 /* PRValidator.m */; };
+		118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAB152BEC4300F3C167 /* Cocoa.framework */; };
+		118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAD152BEC4300F3C167 /* AppKit.framework */; };
+		118F2DB0152BEC4300F3C167 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118F2DAF152BEC4300F3C167 /* Foundation.framework */; };
+		118F2DBF152BEC4300F3C167 /* PRPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */; };
+		118F2DC2152BEC4300F3C167 /* PRAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 118F2DC1152BEC4300F3C167 /* PRAction.m */; };
+		11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 11951BF2152BFF1E006D3B62 /* PRAPIKey.m */; };
+		11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF5152C120A006D3B62 /* anticheckmark.png */; };
+		11951BF8152C120A006D3B62 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 11951BF6152C120A006D3B62 /* checkmark.png */; };
+		11978EEE152D32000021C916 /* PRGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EED152D32000021C916 /* PRGenerator.m */; };
+		11978EF1152D35090021C916 /* PRServerError.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF0152D35090021C916 /* PRServerError.m */; };
+		11978EF5152D3DA10021C916 /* PRWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */; };
+		11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */; };
+		11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11978EF7152D3E0A0021C916 /* WebKit.framework */; };
+		11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F141C515366AF30040FB21 /* PRPreferencePane.xib */; };
+		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC97C9DB152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = Growl.app;
+		};
+		BC97C9DD152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
+		BC97C9DF152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		BC97C9E1152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+		BC97C9E3152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		BC97C9E5152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		BC97C9E7152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		BC97C9E9152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
+		BC97C9EB152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		BC97C9ED152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		BC97C9EF152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
+			remoteInfo = Nano;
+		};
+		BC97C9F3152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
+		};
+		BC97C9F5152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		BC97C9F7152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 31E184D61084628D0011C78B;
+			remoteInfo = "Unit tests";
+		};
+		BC97C9F9152C1E5D00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FF93C8E314218EB3007EAC43;
+			remoteInfo = GNTPClientService;
+		};
+		BC97C9FB152C1E6C00E7BA1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC83FC10150087EB000504F9;
+			remoteInfo = GrowlPlugins;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		117B7D371532600D0068CBD2 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		117B8503152E7A2000B4B531 /* PRValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRValidator.h; sourceTree = "<group>"; };
+		117B8504152E7A2000B4B531 /* PRValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRValidator.m; sourceTree = "<group>"; };
+		118F2DA8152BEC4300F3C167 /* Prowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Prowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		118F2DAB152BEC4300F3C167 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		118F2DAD152BEC4300F3C167 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		118F2DAF152BEC4300F3C167 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		118F2DB3152BEC4300F3C167 /* Prowl-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Prowl-Info.plist"; sourceTree = "<group>"; };
+		118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Prowl-Prefix.pch"; sourceTree = "<group>"; };
+		118F2DBD152BEC4300F3C167 /* PRPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRPreferencePane.h; sourceTree = "<group>"; };
+		118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRPreferencePane.m; sourceTree = "<group>"; };
+		118F2DC0152BEC4300F3C167 /* PRAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRAction.h; sourceTree = "<group>"; };
+		118F2DC1152BEC4300F3C167 /* PRAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRAction.m; sourceTree = "<group>"; };
+		118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		11951BF1152BFF1E006D3B62 /* PRAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAPIKey.h; sourceTree = "<group>"; };
+		11951BF2152BFF1E006D3B62 /* PRAPIKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRAPIKey.m; sourceTree = "<group>"; };
+		11951BF4152C0096006D3B62 /* PRDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PRDefines.h; sourceTree = "<group>"; };
+		11951BF5152C120A006D3B62 /* anticheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anticheckmark.png; sourceTree = "<group>"; };
+		11951BF6152C120A006D3B62 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		11978EEC152D32000021C916 /* PRGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRGenerator.h; sourceTree = "<group>"; };
+		11978EED152D32000021C916 /* PRGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRGenerator.m; sourceTree = "<group>"; };
+		11978EEF152D35090021C916 /* PRServerError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRServerError.h; sourceTree = "<group>"; };
+		11978EF0152D35090021C916 /* PRServerError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRServerError.m; sourceTree = "<group>"; };
+		11978EF2152D3DA10021C916 /* PRWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRWebViewWindowController.h; sourceTree = "<group>"; };
+		11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRWebViewWindowController.m; sourceTree = "<group>"; };
+		11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PRWebViewWindowController.xib; sourceTree = "<group>"; };
+		11978EF7152D3E0A0021C916 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		11F141C515366AF30040FB21 /* PRPreferencePane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PRPreferencePane.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		118F2DA5152BEC4300F3C167 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */,
+				BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */,
+				118F2DAC152BEC4300F3C167 /* Cocoa.framework in Frameworks */,
+				118F2DAE152BEC4300F3C167 /* AppKit.framework in Frameworks */,
+				118F2DB0152BEC4300F3C167 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		117B7D4A153260250068CBD2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				117B7D361532600D0068CBD2 /* Localizable.strings */,
+				11951BF5152C120A006D3B62 /* anticheckmark.png */,
+				11951BF6152C120A006D3B62 /* checkmark.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		118F2D9D152BEC4300F3C167 = {
+			isa = PBXGroup;
+			children = (
+				118F2DB1152BEC4300F3C167 /* Prowl */,
+				118F2DAA152BEC4300F3C167 /* Frameworks */,
+				118F2DA9152BEC4300F3C167 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		118F2DA9152BEC4300F3C167 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				118F2DA8152BEC4300F3C167 /* Prowl.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		118F2DAA152BEC4300F3C167 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				11978EF7152D3E0A0021C916 /* WebKit.framework */,
+				118F2DAB152BEC4300F3C167 /* Cocoa.framework */,
+				118F2DAD152BEC4300F3C167 /* AppKit.framework */,
+				118F2DAF152BEC4300F3C167 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		118F2DB1152BEC4300F3C167 /* Prowl */ = {
+			isa = PBXGroup;
+			children = (
+				11951BF4152C0096006D3B62 /* PRDefines.h */,
+				118F2DC0152BEC4300F3C167 /* PRAction.h */,
+				118F2DC1152BEC4300F3C167 /* PRAction.m */,
+				11F141DA15366BBC0040FB21 /* Model */,
+				11F141D815366BA40040FB21 /* Preferences */,
+				117B7D4A153260250068CBD2 /* Resources */,
+				118F2DB2152BEC4300F3C167 /* Supporting Files */,
+			);
+			path = Prowl;
+			sourceTree = "<group>";
+		};
+		118F2DB2152BEC4300F3C167 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */,
+				118F2DB3152BEC4300F3C167 /* Prowl-Info.plist */,
+				118F2DB7152BEC4300F3C167 /* Prowl-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		11F141D715366B980040FB21 /* Generating */ = {
+			isa = PBXGroup;
+			children = (
+				11978EF2152D3DA10021C916 /* PRWebViewWindowController.h */,
+				11978EF3152D3DA10021C916 /* PRWebViewWindowController.m */,
+				11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */,
+				11978EEC152D32000021C916 /* PRGenerator.h */,
+				11978EED152D32000021C916 /* PRGenerator.m */,
+			);
+			name = Generating;
+			sourceTree = "<group>";
+		};
+		11F141D815366BA40040FB21 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				11F141D715366B980040FB21 /* Generating */,
+				11F141D915366BAD0040FB21 /* Validating */,
+				118F2DBD152BEC4300F3C167 /* PRPreferencePane.h */,
+				118F2DBE152BEC4300F3C167 /* PRPreferencePane.m */,
+				11F141C515366AF30040FB21 /* PRPreferencePane.xib */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		11F141D915366BAD0040FB21 /* Validating */ = {
+			isa = PBXGroup;
+			children = (
+				117B8503152E7A2000B4B531 /* PRValidator.h */,
+				117B8504152E7A2000B4B531 /* PRValidator.m */,
+			);
+			name = Validating;
+			sourceTree = "<group>";
+		};
+		11F141DA15366BBC0040FB21 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				11951BF1152BFF1E006D3B62 /* PRAPIKey.h */,
+				11951BF2152BFF1E006D3B62 /* PRAPIKey.m */,
+				11978EEF152D35090021C916 /* PRServerError.h */,
+				11978EF0152D35090021C916 /* PRServerError.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BC97C9C8152C1E5D00E7BA1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC97C9DC152C1E5D00E7BA1E /* Growl.app */,
+				BC97C9DE152C1E5D00E7BA1E /* GrowlLauncher.app */,
+				BC97C9E0152C1E5D00E7BA1E /* Growl.framework */,
+				BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */,
+				BC97C9E4152C1E5D00E7BA1E /* Speech.growlView */,
+				BC97C9E6152C1E5D00E7BA1E /* Brushed.growlView */,
+				BC97C9E8152C1E5D00E7BA1E /* Bubbles.growlView */,
+				BC97C9EA152C1E5D00E7BA1E /* iCal.growlView */,
+				BC97C9EC152C1E5D00E7BA1E /* Bezel.growlView */,
+				BC97C9EE152C1E5D00E7BA1E /* Smoke.growlView */,
+				BC97C9F0152C1E5D00E7BA1E /* Nano.growlView */,
+				BC97C9F4152C1E5D00E7BA1E /* MusicVideo.growlView */,
+				BC97C9F6152C1E5D00E7BA1E /* SMS.growlView */,
+				BC97C9F8152C1E5D00E7BA1E /* Unit tests.octest */,
+				BC97C9FA152C1E5D00E7BA1E /* com.company.application.GNTPClientService.xpc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		118F2DA7152BEC4300F3C167 /* Prowl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 118F2DC5152BEC4300F3C167 /* Build configuration list for PBXNativeTarget "Prowl" */;
+			buildPhases = (
+				116451F715366908007EC8C7 /* Generate Localizable.strings */,
+				118F2DA4152BEC4300F3C167 /* Sources */,
+				118F2DA5152BEC4300F3C167 /* Frameworks */,
+				118F2DA6152BEC4300F3C167 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC97C9FC152C1E6C00E7BA1E /* PBXTargetDependency */,
+			);
+			name = Prowl;
+			productName = Prowl;
+			productReference = 118F2DA8152BEC4300F3C167 /* Prowl.growlView */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		118F2D9F152BEC4300F3C167 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 118F2DA2152BEC4300F3C167 /* Build configuration list for PBXProject "Prowl" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 118F2D9D152BEC4300F3C167;
+			productRefGroup = 118F2DA9152BEC4300F3C167 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BC97C9C8152C1E5D00E7BA1E /* Products */;
+					ProjectRef = 118F2DCE152BEC5600F3C167 /* Growl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				118F2DA7152BEC4300F3C167 /* Prowl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BC97C9DC152C1E5D00E7BA1E /* Growl.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Growl.app;
+			remoteRef = BC97C9DB152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9DE152C1E5D00E7BA1E /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BC97C9DD152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9E0152C1E5D00E7BA1E /* Growl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Growl.framework;
+			remoteRef = BC97C9DF152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BC97C9E1152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9E4152C1E5D00E7BA1E /* Speech.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Speech.growlView;
+			remoteRef = BC97C9E3152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9E6152C1E5D00E7BA1E /* Brushed.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Brushed.growlView;
+			remoteRef = BC97C9E5152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9E8152C1E5D00E7BA1E /* Bubbles.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bubbles.growlView;
+			remoteRef = BC97C9E7152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9EA152C1E5D00E7BA1E /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = BC97C9E9152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9EC152C1E5D00E7BA1E /* Bezel.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Bezel.growlView;
+			remoteRef = BC97C9EB152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9EE152C1E5D00E7BA1E /* Smoke.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Smoke.growlView;
+			remoteRef = BC97C9ED152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9F0152C1E5D00E7BA1E /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = BC97C9EF152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9F4152C1E5D00E7BA1E /* MusicVideo.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MusicVideo.growlView;
+			remoteRef = BC97C9F3152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9F6152C1E5D00E7BA1E /* SMS.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SMS.growlView;
+			remoteRef = BC97C9F5152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9F8152C1E5D00E7BA1E /* Unit tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit tests.octest";
+			remoteRef = BC97C9F7152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC97C9FA152C1E5D00E7BA1E /* com.company.application.GNTPClientService.xpc */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = com.company.application.GNTPClientService.xpc;
+			remoteRef = BC97C9F9152C1E5D00E7BA1E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		118F2DA6152BEC4300F3C167 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */,
+				11951BF7152C120A006D3B62 /* anticheckmark.png in Resources */,
+				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
+				11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */,
+				117B7D381532600D0068CBD2 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		116451F715366908007EC8C7 /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -s PRLocalizedString -o Prowl/en.lproj/ Prowl/*.m Prowl/*.h";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		118F2DA4152BEC4300F3C167 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				118F2DBF152BEC4300F3C167 /* PRPreferencePane.m in Sources */,
+				118F2DC2152BEC4300F3C167 /* PRAction.m in Sources */,
+				11951BF3152BFF1E006D3B62 /* PRAPIKey.m in Sources */,
+				11978EEE152D32000021C916 /* PRGenerator.m in Sources */,
+				11978EF1152D35090021C916 /* PRServerError.m in Sources */,
+				11978EF5152D3DA10021C916 /* PRWebViewWindowController.m in Sources */,
+				117B8505152E7A2000B4B531 /* PRValidator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC97C9FC152C1E6C00E7BA1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GrowlPlugins;
+			targetProxy = BC97C9FB152C1E6C00E7BA1E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		117B7D361532600D0068CBD2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				117B7D371532600D0068CBD2 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		118F2DC3152BEC4300F3C167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		118F2DC4152BEC4300F3C167 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		118F2DC6152BEC4300F3C167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
+				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Debug;
+		};
+		118F2DC7152BEC4300F3C167 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
+				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		118F2DA2152BEC4300F3C167 /* Build configuration list for PBXProject "Prowl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				118F2DC3152BEC4300F3C167 /* Debug */,
+				118F2DC4152BEC4300F3C167 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		118F2DC5152BEC4300F3C167 /* Build configuration list for PBXNativeTarget "Prowl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				118F2DC6152BEC4300F3C167 /* Debug */,
+				118F2DC7152BEC4300F3C167 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 118F2D9F152BEC4300F3C167 /* Project object */;
+}

@@ -30,7 +30,7 @@
 
 @implementation GrowlSmokeWindowView
 
-- (id) initWithFrame:(NSRect)frame {
+- (id) initWithFrame:(NSRect)frame configurationDict:(NSDictionary*)configDict {
 	if ((self = [super initWithFrame:frame])) {
 		textFont = [[NSFont systemFontOfSize:GrowlSmokeTextFontSize] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
@@ -41,7 +41,9 @@
 		[textShadow setShadowBlurRadius:3.0];
 
 		int size = GrowlSmokeSizePrefDefault;
-		READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &size);
+		if([configDict valueForKey:GrowlSmokeSizePref]){
+			size = [[configDict valueForKey:GrowlSmokeSizePref] intValue];
+		}
 		if (size == GrowlSmokeSizeLarge)
 			iconSize = GrowlSmokeIconSizeLarge;
 		else
@@ -97,7 +99,9 @@
 	// calculate bounds based on icon-float pref on or off
 	CGRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
+	if([[self configurationDict] valueForKey:GrowlSmokeFloatIconPref]){
+		floatIcon = [[[self configurationDict] valueForKey:GrowlSmokeFloatIconPref] boolValue];
+	}
 	if (floatIcon) {
 		CGFloat sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5);
 
@@ -214,7 +218,9 @@
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = GrowlSmokeLimitPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+		if([[self configurationDict] valueForKey:GrowlSmokeLimitPref]){
+			limitPref = [[[self configurationDict] valueForKey:GrowlSmokeLimitPref] boolValue];
+		}
 		containerSize.width = GrowlSmokeTextAreaWidth;
 		if (limitPref)
 			containerSize.height = lineHeight * GrowlSmokeMaxLines;
@@ -274,38 +280,33 @@
 	}
 
 	CGFloat backgroundAlpha = GrowlSmokeAlphaPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+	if([[self configurationDict] valueForKey:GrowlSmokeAlphaPref]){
+		backgroundAlpha = [[[self configurationDict] valueForKey:GrowlSmokeAlphaPref] floatValue];
+	}
 	backgroundAlpha *= 0.01;
 
 	[bgColor release];
 
 	Class NSDataClass = [NSData class];
-	NSData *data = nil;
+	NSData *data = [[self configurationDict] valueForKey:key];
 
-	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass]) {
-			bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-			bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		bgColor = [NSColor colorWithCalibratedWhite:0.1 alpha:backgroundAlpha];
 	}
 	[bgColor retain];
-	[data release];
 	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
+	data = [[self configurationDict] valueForKey:textKey];
 	if (data && [data isKindOfClass:NSDataClass]) {
-			textColor = [NSUnarchiver unarchiveObjectWithData:data];
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
-	[data release];
 	data = nil;
 	
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5 ofColor:[NSColor blackColor]]];
@@ -347,7 +348,9 @@
 - (NSInteger) descriptionRowCount {
 	NSInteger rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlSmokeLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+	if([[self configurationDict] valueForKey:GrowlSmokeLimitPref]){
+		limitPref = [[[self configurationDict] valueForKey:GrowlSmokeLimitPref] boolValue];
+	}
 	if (limitPref)
 		return MIN(rowCount, GrowlSmokeMaxLines);
 	else

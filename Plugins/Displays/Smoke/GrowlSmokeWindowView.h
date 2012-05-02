@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowlSmokeWindowView : GrowlNotificationView {
 	BOOL				haveTitle;
@@ -34,6 +34,8 @@
 	NSLayoutManager		*titleLayoutManager;
 	NSRange				titleRange;
 }
+
+- (id) initWithFrame:(NSRect)frame configurationDict:(NSDictionary*)configDict;
 
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;

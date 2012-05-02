@@ -44,8 +44,6 @@
 -(IBAction)selectedTabChanged:(id)sender;
 -(void)releaseTab:(GrowlPrefsViewController*)tab;
 
--(void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
-
 #pragma mark Properties
 @property (retain) NSString *networkAddressString;
 @property (retain) GrowlPrefsViewController *currentViewController;

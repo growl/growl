@@ -9,12 +9,12 @@
 #import "GNTPForwarder.h"
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
-#import "GrowlKeychainUtilities.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlNetworkUtilities.h"
 #import "GrowlBonjourBrowser.h"
 #import "GrowlNetworkObserver.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GNTPForwarder
 

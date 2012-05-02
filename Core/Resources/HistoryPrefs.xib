@@ -1803,15 +1803,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">managedObjectContext: historyController.managedObjectContext</string>
+						<string key="label">managedObjectContext: notificationDatabase.managedObjectContext</string>
 						<reference key="source" ref="973969291"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="973969291"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">managedObjectContext: historyController.managedObjectContext</string>
+							<string key="NSLabel">managedObjectContext: notificationDatabase.managedObjectContext</string>
 							<string key="NSBinding">managedObjectContext</string>
-							<string key="NSKeyPath">historyController.managedObjectContext</string>
+							<string key="NSKeyPath">notificationDatabase.managedObjectContext</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>

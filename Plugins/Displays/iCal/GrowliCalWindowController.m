@@ -8,13 +8,13 @@
 //  Copyright (c) 2004–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlWindowtransition.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
 #import "GrowliCalWindowController.h"
 #import "GrowliCalWindowView.h"
 #import "GrowliCalPrefsController.h"
 #import "GrowliCalDefines.h"
-#import "GrowlNotification.h"
-#import "GrowlWindowTransition.h"
-#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowliCalWindowController
 
@@ -22,21 +22,23 @@
 
 #pragma mark -
 
-- (id) init {
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
+	NSDictionary *configDict = [notification configurationDict];
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &screenNumber);
+	if([configDict valueForKey:GrowliCalScreen]){
+		screenNumber = [[configDict valueForKey:GrowliCalScreen] unsignedIntegerValue];
+	}
 	NSArray *screens = [NSScreen screens];
 	NSUInteger screensCount = [screens count];
 	if (screensCount) {
 		[self setScreen:((screensCount >= (screenNumber + 1)) ? [screens objectAtIndex:screenNumber] : [screens objectAtIndex:0])];
 	}
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowliCalDuration, GrowliCalPrefDomain, CFNumberRef, &prefsDuration);	
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowliCalDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowliCalDurationPrefDefault;
+	if([configDict valueForKey:GrowliCalDuration]){
+		duration = [[configDict valueForKey:GrowliCalDuration] floatValue];
+	}
+	self.displayDuration = duration;
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
@@ -61,14 +63,14 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowliCalWindowView *view = [[GrowliCalWindowView alloc] initWithFrame:panelFrame];
+	GrowliCalWindowView *view = [[GrowliCalWindowView alloc] initWithFrame:panelFrame configurationDict:configDict];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
 	[view release];
 
 	// call super so everything else is set up...
-	if ((self = [super initWithWindow:panel])) {
+	if ((self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		// set up the transitions...
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
@@ -84,87 +86,6 @@
 
 #pragma mark -
 #pragma mark positioning methods
-
-- (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSRect viewFrame = [[[self window] contentView] frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	NSPoint idealOrigin;
-	
-	switch(originatingPosition){
-		case GrowlTopRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowliCalPadding,
-									  NSMaxY(rect) - GrowliCalPadding - NSHeight(viewFrame));
-			break;
-		case GrowlTopLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowliCalPadding,
-									  NSMaxY(rect) - GrowliCalPadding - NSHeight(viewFrame));
-			break;
-		case GrowlBottomLeftPosition:
-			idealOrigin = NSMakePoint(NSMinX(rect) + GrowliCalPadding,
-									  NSMinY(rect) + GrowliCalPadding);
-			break;
-		case GrowlBottomRightPosition:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowliCalPadding,
-									  NSMinY(rect) + GrowliCalPadding);
-			break;
-		default:
-			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowliCalPadding,
-									  NSMaxY(rect) - GrowliCalPadding - NSHeight(viewFrame));
-			break;			
-	}
-	
-	return idealOrigin;	
-}
-
-- (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;			
-	}
-	
-	return directionToExpand;
-}
-
-- (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-	}
-	
-	return directionToExpand;
-}
 
 - (CGFloat) requiredDistanceFromExistingDisplays {
 	return GrowliCalPadding;

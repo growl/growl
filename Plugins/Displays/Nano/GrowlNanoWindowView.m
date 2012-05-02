@@ -68,7 +68,9 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 	if (needsDisplay) {
 		// rects and sizes
 		int sizePref = 0;
-		READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
+		if([[self configurationDict] valueForKey:Nano_SIZE_PREF]){
+			sizePref = [[[self configurationDict] valueForKey:Nano_SIZE_PREF] intValue];
+		}
 		NSRect titleRect, textRect;
 		NSRect iconRect;
 
@@ -117,7 +119,9 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 		addRoundedBottomToPath(cgContext, b, 10.0);
 
 		CGFloat opacityPref = Nano_DEFAULT_OPACITY;
-		READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
+		if([[self configurationDict] valueForKey:Nano_OPACITY_PREF]){
+			opacityPref = [[[self configurationDict] valueForKey:Nano_OPACITY_PREF] floatValue];
+		}
 		CGFloat alpha = opacityPref * 0.01;
 		[[backgroundColor colorWithAlphaComponent:alpha] set];
 		CGContextFillPath(cgContext);
@@ -144,7 +148,9 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 	// draw cache to screen
 	NSRect imageRect = rect;
 	int effect = Nano_EFFECT_SLIDE;
-	READ_GROWL_PREF_BOOL(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
+	if([[self configurationDict] valueForKey:Nano_EFFECT_PREF]){
+		effect = [[[self configurationDict] valueForKey:Nano_EFFECT_PREF] intValue];
+	}
 	if (effect == Nano_EFFECT_SLIDE) {
 		if (CGLayerCreateWithContext)
 			imageRect.origin.y = 0.0;
@@ -219,38 +225,35 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, CGFloat radius) {
 	[backgroundColor release];
 
 	CGFloat opacityPref = Nano_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
+	if([[self configurationDict] valueForKey:Nano_OPACITY_PREF]){
+		opacityPref = [[[self configurationDict] valueForKey:Nano_OPACITY_PREF] floatValue];
+	}
 	CGFloat alpha = opacityPref * 0.01;
 
 	Class NSDataClass = [NSData class];
-	NSData *data = nil;
+	NSData *data = [[self configurationDict] valueForKey:key];
 
-	READ_GROWL_PREF_VALUE(key, GrowlNanoPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
 		backgroundColor = [NSColor blackColor];
 	backgroundColor = [[backgroundColor colorWithAlphaComponent:alpha] retain];
-	[data release];
-	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlNanoPrefDomain, NSData *, &data);
-	if(data)
-		CFMakeCollectable(data);		
+	data = nil;
+	data = [[self configurationDict] valueForKey:textKey];
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
 		textColor = [NSColor whiteColor];
 	[textColor retain];
-	[data release];
 
 	CGFloat titleFontSize;
 	CGFloat textFontSize;
 	int sizePref = 0;
-	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
+	if([[self configurationDict] valueForKey:Nano_SIZE_PREF]){
+		sizePref = [[[self configurationDict] valueForKey:Nano_SIZE_PREF] intValue];
+	}
 
 	if (sizePref == Nano_SIZE_HUGE) {
 		titleFontSize = 14.0;

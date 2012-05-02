@@ -17,7 +17,7 @@
 #import "GrowlTCPPathway.h"
 
 #import "GrowlDefines.h"
-#import "GrowlNotification.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 @interface GrowlGNTPInitialHeaderItem : NSObject <GNTPOutgoingItem>
 {

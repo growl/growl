@@ -17,7 +17,7 @@
 #import "GrowlNetworkUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlBonjourBrowser.h"
-#import "GrowlKeychainUtilities.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GNTPSubscriptionController
 

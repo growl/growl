@@ -6,7 +6,6 @@
 //	Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlNotificationDisplayBridge.h"
 #import "GrowlWebKitDisplayPlugin.h"
 #import "GrowlWebKitDefines.h"
 #import "GrowlWebKitPrefsController.h"
@@ -35,7 +34,7 @@
 	return self;
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane) {
 		// load GrowlWebKitPrefsController dynamically so that GHA does not
 		// have to link against it and all of its dependencies

@@ -6,13 +6,12 @@
 //	Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlDisplayPlugin.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlLog.h"
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
+#import "GrowlDisplayBridgeController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
-#import "GrowlNotification.h"
+#import <GrowlPlugins/GrowlNotification.h>
 
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
@@ -24,86 +23,51 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 		/*determine whether this display should enqueue notifications when a
 		 *	notification is already being displayed.
 		 */
-		BOOL queuesNotifications = NO;
 		windowControllerClass    = nil;
-
-		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:GrowlDisplayPluginInfoKeyUsesQueue];
-		if (queuesNotificationsObject) {
-			NSAssert4([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
-					  @"object for %@ in Info.plist of %@ is a %@ and therefore has no Boolean value (description follows)\n%@",
-					  GrowlDisplayPluginInfoKeyUsesQueue,
-					  bundle, [queuesNotificationsObject class], queuesNotificationsObject);
-			queuesNotifications = [queuesNotificationsObject boolValue];
-		}
-
-		if (queuesNotifications)
-			queue = [[NSMutableArray alloc] init];
-		else
-			activeBridges = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-    [activeBridges release];
-	[coalescableBridges release];
-    [bridge release];
-    [queue release];
-
+	[coalescableWindows release];
+	
 	[super dealloc];
 }
 
 #pragma mark -
 
-- (void) displayNotification:(GrowlNotification *)notification {
+- (void)dispatchNotification:(NSDictionary *)noteDict withConfiguration:(NSDictionary *)configuration {
+	GrowlNotification *notification = [GrowlNotification notificationWithDictionary:noteDict 
+																					  configurationDict:configuration];
 	NSString *windowNibName = [self windowNibName];
-	GrowlNotificationDisplayBridge *thisBridge = nil;
+	GrowlDisplayWindowController *thisWindow = nil;
 	
 	NSString *identifier = [[notification auxiliaryDictionary] valueForKey:GROWL_NOTIFICATION_IDENTIFIER];
-
+	
 	if (identifier) {
-		thisBridge = [coalescableBridges objectForKey:identifier];
+		thisWindow = [coalescableWindows objectForKey:identifier];
 	}
 	
-	if (thisBridge) {
+	if (thisWindow) {
 		//Tell the bridge to update its displayed notification
-		[thisBridge setNotification:notification];
-
+		[thisWindow updateToNotification:notification];
+		
 	} else {
 		//No existing bridge on this identifier, or no identifier. Create one.
 		if (windowNibName)
-			thisBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-															 notification:notification
-															windowNibName:windowNibName
-													windowControllerClass:windowControllerClass];
+			thisWindow = [[windowControllerClass alloc] initWithWindowNibName:windowNibName];
 		else
-			thisBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-															 notification:notification
-													windowControllerClass:windowControllerClass];
-		
-		[thisBridge makeWindowControllers];
-		[thisBridge setNotification:notification];
-
-		if (queue) {
-			if (bridge) {
-				//a notification is already up; enqueue the new one
-				[queue addObject:thisBridge];
-			} else {
-				//nothing up at the moment; just display it
-				[[thisBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-				bridge = [thisBridge retain];
-			}
-		} else {
-			//no queue; just display it
-			[[thisBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-			[activeBridges addObject:thisBridge];
-		}
+			thisWindow = [[windowControllerClass alloc] initWithNotification:notification plugin:self];
+		[thisWindow setNotification:notification];
+				
+		[thisWindow startDisplay];
 		
 		if (identifier) {
-			if (!coalescableBridges) coalescableBridges = [[NSMutableDictionary alloc] init];
-			[coalescableBridges setObject:thisBridge
-								   forKey:identifier];
+			if (!coalescableWindows) coalescableWindows = [[NSMutableDictionary alloc] init];
+			[coalescableWindows setObject:thisWindow
+										  forKey:identifier];
 		}
+		[thisWindow release];
 	}
 }
 
@@ -121,56 +85,25 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	return windowNibName;
 }
 
-- (BOOL) queuesNotifications {
-	return (queue != nil);
+- (BOOL) requiresPositioning {
+	return YES;
 }
 
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	GrowlNotificationDisplayBridge *theBridge;
-
-	[wc retain];
-	//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-	GrowlNotificationDisplayBridge *bridgeFromWC = [[[wc bridge] retain] autorelease];
-
-
-	if(queue)
-	{
-		[bridge removeWindowController:wc];
-
-		if ([queue count] > 0U) {
-			theBridge = [queue objectAtIndex:0U];
-			[[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-
-			if (bridge != theBridge) {
-				[bridge release];
-				bridge = [theBridge retain];
-			}
-			[queue removeObjectAtIndex:0U];		
+	@autoreleasepool {
+		
+		[wc retain];
+		
+		if (coalescableWindows) {
+			NSString *identifier = [[[wc notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+			if (identifier)
+				[coalescableWindows removeObjectForKey:identifier];
 		}
-		else
-		{
-			[bridge release];
-			bridge = nil;
-		}
-	} else {
-		//Keep the bridge alive for the life of this pool, in case it would otherwise die here before we ask it for its notification's coalescing identifier in the next compound statement.
-		theBridge = bridgeFromWC;
-		[theBridge removeWindowController:wc];
-		[activeBridges removeObjectIdenticalTo:theBridge];
+		
+		[wc release];
 	}
-
-	if (coalescableBridges) {
-        NSString *identifier = [[[bridgeFromWC notification] auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
-		if (identifier)
-			[coalescableBridges removeObjectForKey:identifier];
-	}
-
-	[wc release];
-
-	[pool release];
 }
 
 @end
