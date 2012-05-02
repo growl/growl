@@ -13,6 +13,9 @@
 		BCB805FC155153330088C69A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BCB805FA155153330088C69A /* Credits.rtf */; };
 		BCB805FF155153330088C69A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805FE155153330088C69A /* AppDelegate.m */; };
 		BCB80602155153330088C69A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCB80600155153330088C69A /* MainMenu.xib */; };
+		BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCB80611155154CA0088C69A /* HWGrowler.icns */; };
+		BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80612155154CA0088C69A /* menubarIcon_Normal.png */; };
+		BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80613155154CA0088C69A /* menubarIcon_Selected.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		BCB805FD155153330088C69A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BCB805FE155153330088C69A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		BCB80601155153330088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BCB80611155154CA0088C69A /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = HWGrowler.icns; path = Resources/HWGrowler.icns; sourceTree = SOURCE_ROOT; };
+		BCB80612155154CA0088C69A /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Normal.png; path = Resources/menubarIcon_Normal.png; sourceTree = SOURCE_ROOT; };
+		BCB80613155154CA0088C69A /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Selected.png; path = Resources/menubarIcon_Selected.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,7 @@
 		BCB805F2155153330088C69A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BCB8060C155154B80088C69A /* Images */,
 				BCB805F3155153330088C69A /* HardwareGrowler-Info.plist */,
 				BCB805F4155153330088C69A /* InfoPlist.strings */,
 				BCB805F7155153330088C69A /* main.m */,
@@ -100,6 +107,16 @@
 				BCB805FA155153330088C69A /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BCB8060C155154B80088C69A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BCB80611155154CA0088C69A /* HWGrowler.icns */,
+				BCB80612155154CA0088C69A /* menubarIcon_Normal.png */,
+				BCB80613155154CA0088C69A /* menubarIcon_Selected.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,6 +172,9 @@
 				BCB805F6155153330088C69A /* InfoPlist.strings in Resources */,
 				BCB805FC155153330088C69A /* Credits.rtf in Resources */,
 				BCB80602155153330088C69A /* MainMenu.xib in Resources */,
+				BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */,
+				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
+				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +306,7 @@
 				BCB80607155153330088C69A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
