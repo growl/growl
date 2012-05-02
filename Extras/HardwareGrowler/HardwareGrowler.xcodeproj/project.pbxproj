@@ -22,6 +22,14 @@
 		BCB806A515515A560088C69A /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A115515A560088C69A /* Debug.xcconfig */; };
 		BCB806A615515A560088C69A /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A215515A560088C69A /* Localization.xcconfig */; };
 		BCB806A715515A560088C69A /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A315515A560088C69A /* Release.xcconfig */; };
+		BCB806B015515C4E0088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCB806B615515C4E0088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB806B415515C4E0088C69A /* InfoPlist.strings */; };
+		BCB806B815515C4E0088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB806B715515C4E0088C69A /* main.m */; };
+		BCB806BC15515C4E0088C69A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BCB806BA15515C4E0088C69A /* Credits.rtf */; };
+		BCB806BF15515C4E0088C69A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB806BE15515C4E0088C69A /* AppDelegate.m */; };
+		BCB806C215515C4E0088C69A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCB806C015515C4E0088C69A /* MainMenu.xib */; };
+		BCB806C715515C820088C69A /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCB80611155154CA0088C69A /* HWGrowler.icns */; };
+		BCB806D115515DA20088C69A /* HardwareGrowlerLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +152,13 @@
 			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
+		BCB806CE15515D700088C69A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCB806AD15515C4E0088C69A;
+			remoteInfo = HardwareGrowlerLauncher;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -154,6 +169,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCB806981551595A0088C69A /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB806D015515D740088C69A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				BCB806D115515DA20088C69A /* HardwareGrowlerLauncher.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +206,15 @@
 		BCB806A115515A560088C69A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		BCB806A215515A560088C69A /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
 		BCB806A315515A560088C69A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
+		BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowlerLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB806B315515C4E0088C69A /* HardwareGrowlerLauncher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HardwareGrowlerLauncher-Info.plist"; sourceTree = "<group>"; };
+		BCB806B515515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCB806B715515C4E0088C69A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BCB806B915515C4E0088C69A /* HardwareGrowlerLauncher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HardwareGrowlerLauncher-Prefix.pch"; sourceTree = "<group>"; };
+		BCB806BB15515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BCB806BD15515C4E0088C69A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BCB806BE15515C4E0088C69A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BCB806C115515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +227,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCB806AB15515C4E0088C69A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB806B015515C4E0088C69A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -201,6 +243,7 @@
 			children = (
 				BCB8069F15515A0D0088C69A /* Xcconfigs */,
 				BCB805F1155153330088C69A /* HardwareGrowler */,
+				BCB806B115515C4E0088C69A /* HardwareGrowlerLauncher */,
 				BCB805EA155153330088C69A /* Frameworks */,
 				BCB805E8155153330088C69A /* Products */,
 			);
@@ -210,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				BCB805E7155153330088C69A /* HardwareGrowler.app */,
+				BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -301,6 +345,29 @@
 			name = Xcconfigs;
 			sourceTree = "<group>";
 		};
+		BCB806B115515C4E0088C69A /* HardwareGrowlerLauncher */ = {
+			isa = PBXGroup;
+			children = (
+				BCB806BD15515C4E0088C69A /* AppDelegate.h */,
+				BCB806BE15515C4E0088C69A /* AppDelegate.m */,
+				BCB806C015515C4E0088C69A /* MainMenu.xib */,
+				BCB806B215515C4E0088C69A /* Supporting Files */,
+			);
+			path = HardwareGrowlerLauncher;
+			sourceTree = "<group>";
+		};
+		BCB806B215515C4E0088C69A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCB806B315515C4E0088C69A /* HardwareGrowlerLauncher-Info.plist */,
+				BCB806B415515C4E0088C69A /* InfoPlist.strings */,
+				BCB806B715515C4E0088C69A /* main.m */,
+				BCB806B915515C4E0088C69A /* HardwareGrowlerLauncher-Prefix.pch */,
+				BCB806BA15515C4E0088C69A /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -311,18 +378,37 @@
 				BCB805E3155153330088C69A /* Sources */,
 				BCB805E4155153330088C69A /* Frameworks */,
 				BCB805E5155153330088C69A /* Resources */,
+				BCB806D015515D740088C69A /* CopyFiles */,
 				BCB80697155159420088C69A /* CopyFiles */,
 				BCB806961551591C0088C69A /* Growl XPC */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BCB806CF15515D700088C69A /* PBXTargetDependency */,
 				BCB80690155158F50088C69A /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
 			productName = HardwareGrowler;
 			productReference = BCB805E7155153330088C69A /* HardwareGrowler.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BCB806AD15515C4E0088C69A /* HardwareGrowlerLauncher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB806C315515C4E0088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowlerLauncher" */;
+			buildPhases = (
+				BCB806AA15515C4E0088C69A /* Sources */,
+				BCB806AB15515C4E0088C69A /* Frameworks */,
+				BCB806AC15515C4E0088C69A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HardwareGrowlerLauncher;
+			productName = HardwareGrowlerLauncher;
+			productReference = BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -352,6 +438,7 @@
 			projectRoot = "";
 			targets = (
 				BCB805E6155153330088C69A /* HardwareGrowler */,
+				BCB806AD15515C4E0088C69A /* HardwareGrowlerLauncher */,
 			);
 		};
 /* End PBXProject section */
@@ -482,6 +569,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCB806AC15515C4E0088C69A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB806C715515C820088C69A /* HWGrowler.icns in Resources */,
+				BCB806B615515C4E0088C69A /* InfoPlist.strings in Resources */,
+				BCB806BC15515C4E0088C69A /* Credits.rtf in Resources */,
+				BCB806C215515C4E0088C69A /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -511,6 +609,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCB806AA15515C4E0088C69A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB806B815515C4E0088C69A /* main.m in Sources */,
+				BCB806BF15515C4E0088C69A /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -523,6 +630,11 @@
 			isa = PBXTargetDependency;
 			name = Growl.framework;
 			targetProxy = BCB8068F155158F50088C69A /* PBXContainerItemProxy */;
+		};
+		BCB806CF15515D700088C69A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCB806AD15515C4E0088C69A /* HardwareGrowlerLauncher */;
+			targetProxy = BCB806CE15515D700088C69A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -547,6 +659,30 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCB80601155153330088C69A /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BCB806B415515C4E0088C69A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCB806B515515C4E0088C69A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCB806BA15515C4E0088C69A /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCB806BB15515C4E0088C69A /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BCB806C015515C4E0088C69A /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCB806C115515C4E0088C69A /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -664,6 +800,45 @@
 			};
 			name = Localization;
 		};
+		BCB806C415515C4E0088C69A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
+				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BCB806C515515C4E0088C69A /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
+				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Localization;
+		};
+		BCB806C615515C4E0088C69A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
+				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -686,6 +861,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		BCB806C315515C4E0088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowlerLauncher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB806C415515C4E0088C69A /* Debug */,
+				BCB806C515515C4E0088C69A /* Localization */,
+				BCB806C615515C4E0088C69A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
