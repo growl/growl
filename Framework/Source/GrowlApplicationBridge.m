@@ -458,6 +458,11 @@ static struct {
 		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
 		regDict = [self bestRegistrationDictionary];
+	
+	if(!regDict){
+		NSLog(@"Cannot register without a registration dictionary!");
+		return NO;
+	}
 
    attemptingToRegister = YES;
    

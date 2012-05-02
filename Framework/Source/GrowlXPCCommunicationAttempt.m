@@ -163,22 +163,25 @@
 
 - (BOOL) sendMessageWithPurpose:(NSString *)purpose
 {
-    if (!xpcConnection)
-        return NO;
-    
-    xpc_object_t xpcMessage = xpc_dictionary_create(NULL, NULL, 0);
-    
-    // Add the known parameters, yay!
-    xpc_dictionary_set_string(xpcMessage, "GrowlDictType", [purpose UTF8String]);
-    
-    xpc_object_t growlDict = [(NSObject*)self.dictionary newXPCObject];
-    xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
-    xpc_release(growlDict);
-    
-    xpc_connection_send_message(xpcConnection, xpcMessage);
-    xpc_release(xpcMessage);
-    
-    return YES;
+	if (!xpcConnection)
+		return NO;
+	
+	xpc_object_t xpcMessage = xpc_dictionary_create(NULL, NULL, 0);
+	
+	// Add the known parameters, yay!
+	xpc_dictionary_set_string(xpcMessage, "GrowlDictType", [purpose UTF8String]);
+	
+	xpc_object_t growlDict = [(NSObject*)self.dictionary newXPCObject];
+	if(growlDict){
+		xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
+		xpc_release(growlDict);
+		xpc_connection_send_message(xpcConnection, xpcMessage);
+	}else{
+		NSLog(@"Error generating XPC message for dictionary: %@", dictionary);
+	}
+	xpc_release(xpcMessage);
+	
+	return YES;
 }
 
 @end
