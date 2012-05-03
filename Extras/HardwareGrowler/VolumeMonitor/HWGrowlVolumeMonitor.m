@@ -1,0 +1,281 @@
+//
+//  HWGrowlVolumeMonitor.m
+//  HardwareGrowler
+//
+//  Created by Daniel Siemer on 5/3/12.
+//  Copyright (c) 2012 The Growl Project, LLC. All rights reserved.
+//
+
+#import "HWGrowlVolumeMonitor.h"
+
+#define VolumeNotifierUnmountWaitSeconds	600.0
+#define VolumeEjectCacheInfoIndex			0
+#define VolumeEjectCacheTimerIndex			1
+
+@implementation VolumeInfo
+
+@synthesize iconData;
+@synthesize path;
+@synthesize name;
+
++ (NSImage*)ejectIconImage {
+	static NSImage *_ejectIconImage = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_ejectIconImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kEjectMediaIcon)] retain];
+	});
+	return _ejectIconImage;
+}
+
++ (NSData*)mountIconData {
+	static NSData *_mountIconData = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_mountIconData = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericRemovableMediaIcon)] TIFFRepresentation] retain];
+	});
+	return _mountIconData;
+}
+
++ (VolumeInfo *) volumeInfoForMountWithPath:(NSString *)aPath {
+	return [[[VolumeInfo alloc] initForMountWithPath:aPath] autorelease];
+}
+
++ (VolumeInfo *) volumeInfoForUnmountWithPath:(NSString *)aPath {
+	return [[[VolumeInfo alloc] initForUnmountWithPath:aPath] autorelease];
+}
+
+- (id) initForMountWithPath:(NSString *)aPath {
+	if ((self = [self initWithPath:aPath])) {
+		if (path) {
+			iconData = [[[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation] retain];
+		} else {
+			self.iconData = [VolumeInfo mountIconData];
+		}
+	}
+	
+	return self;
+}
+
+- (id) initForUnmountWithPath:(NSString *)aPath {
+	if ((self = [self initWithPath:aPath])) {
+		if (path) {
+			//Get the icon for the volume.
+			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+			NSSize iconSize = [icon size];
+			//Also get the standard Eject icon.
+			NSImage *ejectIcon = [VolumeInfo ejectIconImage];
+			[ejectIcon setScalesWhenResized:NO]; //Use the high-res rep instead.
+			NSSize ejectIconSize = [ejectIcon size];
+			
+			//Badge the volume icon with the Eject icon. This is what we'll pass off te Growl.
+			//The badge's width and height are 2/3 of the overall icon's width and height. If they were 1/2, it would look small (so I found in testing —boredzo). This looks pretty good.
+			[icon lockFocus];
+			
+			[ejectIcon drawInRect:NSMakeRect( /*origin.x*/ iconSize.width * (1.0f / 3.0f), /*origin.y*/ 0.0f, /*width*/ iconSize.width * (2.0f / 3.0f), /*height*/ iconSize.height * (2.0f / 3.0f) )
+							 fromRect:(NSRect){ NSZeroPoint, ejectIconSize }
+							operation:NSCompositeSourceOver
+							 fraction:1.0f];
+			
+			//For some reason, passing [icon TIFFRepresentation] only passes the unbadged volume icon to Growl, even though writing the same TIFF data out to a file and opening it in Preview does show the badge. If anybody can figure that out, you're welcome to do so. Until then:
+			//We get a NSBIR for the current focused view (the image), and make PNG data from it. (There is no reason why this could not be TIFF if we wanted it to be. I just generally prefer PNG. —boredzo)
+			NSBitmapImageRep *imageRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){ NSZeroPoint, iconSize }] autorelease];
+			iconData = [[imageRep representationUsingType:NSPNGFileType properties:nil] retain];
+			
+			[icon unlockFocus];
+		} else {
+			iconData = [[[VolumeInfo ejectIconImage] TIFFRepresentation] retain];
+		}
+	}
+	
+	return self;
+}
+
+- (id) initWithPath:(NSString *)aPath {
+	if ((self = [super init])) {
+		if (aPath) {
+			path = [aPath retain];
+			name = [[[NSFileManager defaultManager] displayNameAtPath:path] retain];
+		}
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[path release];
+	path = nil;
+	
+	[name release];
+	name = nil;
+	
+	[iconData release];
+	iconData = nil;
+	
+	[super dealloc];
+}
+
+- (NSString *) description {
+	NSMutableDictionary *desc = [NSMutableDictionary dictionary];
+	
+	if (name)
+		[desc setObject:name forKey:@"name"];
+	if (path)
+		[desc setObject:path forKey:@"path"];
+	if (iconData)
+		[desc setObject:@"<yes>" forKey:@"iconData"];
+	
+	return [desc description];
+}
+
+@end
+
+@interface HWGrowlVolumeMonitor ()
+
+@property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
+@property (nonatomic, retain) NSMutableDictionary *ejectCache;
+
+@end
+
+@implementation HWGrowlVolumeMonitor
+
+@synthesize delegate;
+@synthesize ejectCache;
+
+-(id)init {
+	if((self = [super init])){
+		self.ejectCache = [NSMutableDictionary dictionary];
+		
+		NSNotificationCenter *center = [[NSWorkspace sharedWorkspace] notificationCenter];
+		
+		[center addObserver:self selector:@selector(volumeDidMount:) name:NSWorkspaceDidMountNotification object:nil];
+		//Note that we must use both WILL and DID unmount, so we can only get the volume's icon before the volume has finished unmounting.
+		//The icon and data is stored during WILL unmount, and then displayed during DID unmount.
+		[center addObserver:self selector:@selector(volumeDidUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
+		[center addObserver:self selector:@selector(volumeWillUnmount:) name:NSWorkspaceWillUnmountNotification object:nil];
+		
+		__block HWGrowlVolumeMonitor *blockSelf = self;
+		if([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]){
+			NSArray *paths = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
+			[paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				[blockSelf sendMountNotificationForVolume:[VolumeInfo volumeInfoForMountWithPath:obj] mounted:YES];
+			}];
+		}
+	}
+	return self;
+}
+
+- (void)dealloc {
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	
+	[ejectCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		[[obj objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
+	}];		
+	
+	[ejectCache release];
+	ejectCache = nil;
+
+	[super dealloc];
+}
+
+- (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {
+	NSString *context = mounted ? [volume path] : nil;
+	NSString *type = mounted ? @"VolumeMounted" : @"VolumeUnmounted";
+	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? @"Mounted" : @"Unmounted"];
+	[delegate notifyWithName:type
+							 title:title
+					 description:mounted ? @"Click to open" : nil
+							  icon:[volume iconData]
+			  identifierString:[volume path]
+				  contextString:context 
+							plugin:self];
+}
+
+- (void) staleEjectItemTimerFired:(NSTimer *)theTimer {
+	VolumeInfo *info = [theTimer userInfo];
+	
+	[ejectCache removeObjectForKey:[info path]];
+}
+
+- (void) volumeDidMount:(NSNotification *)aNotification {
+	//send notification
+	VolumeInfo *volume = [VolumeInfo volumeInfoForMountWithPath:[[aNotification userInfo] objectForKey:@"NSDevicePath"]];
+	[self sendMountNotificationForVolume:volume mounted:YES];
+}
+
+- (void) volumeWillUnmount:(NSNotification *)aNotification {
+	NSString *path = [[aNotification userInfo] objectForKey:@"NSDevicePath"];
+	
+	if (path) {
+		VolumeInfo *info = [VolumeInfo volumeInfoForUnmountWithPath:path];
+		NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:VolumeNotifierUnmountWaitSeconds
+																		  target:self
+																		selector:@selector(staleEjectItemTimerFired:)
+																		userInfo:info
+																		 repeats:NO];
+		
+		// need to invalidate the timer for a previous item if it exists
+		NSArray *cacheItem = [ejectCache objectForKey:path];
+		if (cacheItem)
+			[[cacheItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
+		
+		[ejectCache setObject:[NSArray arrayWithObjects:info, timer, nil] forKey:path];
+	}
+}
+
+- (void) volumeDidUnmount:(NSNotification *)aNotification {
+	VolumeInfo *info = nil;
+	NSString *path = [[aNotification userInfo] objectForKey:@"NSDevicePath"];
+	NSArray *cacheItem = path ? [ejectCache objectForKey:path] : nil;
+	
+	if (cacheItem)
+		info = [cacheItem objectAtIndex:VolumeEjectCacheInfoIndex];
+	else
+		info = [VolumeInfo volumeInfoForUnmountWithPath:path];
+	
+	//Send notification
+	[self sendMountNotificationForVolume:info mounted:NO];
+	
+	if (cacheItem) {
+		[[cacheItem objectAtIndex:VolumeEjectCacheTimerIndex] invalidate];
+		// we need to remove the item from the cache AFTER calling volumeDidUnmount so that "info" stays
+		// retained long enough to be useful. After this next call, "info" is no longer valid.
+		[ejectCache removeObjectForKey:path];
+		info = nil;
+	}
+}
+
+#pragma mark HWGrowlPluginProtocol
+
+-(void)setDelegate:(id<HWGrowlPluginControllerProtocol>)aDelegate{
+	delegate = aDelegate;
+}
+-(id<HWGrowlPluginControllerProtocol>)delegate {
+	return delegate;
+}
+-(id)preferencePane {
+	return nil;
+}
+
+#pragma mark HWGrowlPluginNotifierProtocol
+
+-(NSArray*)noteNames {
+	return [NSArray arrayWithObjects:@"VolumeMounted", @"VolumeUnmounted", nil];
+}
+-(NSDictionary*)localizedNames {
+	return [NSDictionary dictionaryWithObjectsAndKeys:@"Volume Mounted", @"VolumeMounted",
+			  @"Volume Unmounted", @"VolumeUnmounted", nil];
+}
+-(NSDictionary*)noteDescriptions {
+	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when a volume is mounted", @"VolumeMounted",
+			  @"Sent when a volume is unmounted", @"VolumeUnmounted", nil];
+}
+-(NSArray*)defaultNotifications {
+	return [NSArray arrayWithObjects:@"VolumeMounted", @"VolumeUnmounted", nil];
+}
+
+-(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked {
+	if(clicked)
+		[[NSWorkspace sharedWorkspace] openFile:contextString];
+}
+
+@end

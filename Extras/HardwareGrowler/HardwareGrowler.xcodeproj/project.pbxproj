@@ -42,6 +42,10 @@
 		BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3631552D1C500F49280 /* NSStringAdditions.m */; };
 		BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */; };
 		BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */; };
+		BCECA38D155322D200F49280 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCECA394155322D200F49280 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCECA392155322D200F49280 /* InfoPlist.strings */; };
+		BCECA3AB155322FD00F49280 /* HWGrowlVolumeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */; };
+		BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCECA38C155322D200F49280 /* VolumeMonitor.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +182,13 @@
 			remoteGlobalIDString = BCB807461551A6E90088C69A;
 			remoteInfo = NetworkMonitor;
 		};
+		BCECA3AC155325CC00F49280 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCECA38B155322D200F49280;
+			remoteInfo = VolumeMonitor;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -209,6 +220,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */,
 				BCB807671551A7250088C69A /* NetworkMonitor.bundle in Copy Plugins */,
 			);
 			name = "Copy Plugins";
@@ -269,6 +281,13 @@
 		BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BCECA3691552D24C00F49280 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
 		BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
+		BCECA38C155322D200F49280 /* VolumeMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VolumeMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCECA38E155322D200F49280 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BCECA391155322D200F49280 /* VolumeMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VolumeMonitor-Info.plist"; sourceTree = "<group>"; };
+		BCECA393155322D200F49280 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCECA395155322D200F49280 /* VolumeMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VolumeMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BCECA3A9155322FD00F49280 /* HWGrowlVolumeMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlVolumeMonitor.h; sourceTree = "<group>"; };
+		BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlVolumeMonitor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +318,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCECA389155322D200F49280 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCECA38D155322D200F49280 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -320,6 +347,7 @@
 				BCB805E7155153330088C69A /* HardwareGrowler.app */,
 				BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */,
 				BCB807471551A6E90088C69A /* NetworkMonitor.bundle */,
+				BCECA38C155322D200F49280 /* VolumeMonitor.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -340,6 +368,7 @@
 				BCB805F0155153330088C69A /* Foundation.framework */,
 				BCB8070615517EE10088C69A /* ServiceManagement.framework */,
 				BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */,
+				BCECA38E155322D200F49280 /* CoreData.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -470,6 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				BCB8076B1551A7820088C69A /* HardwareGrowlPlugin.h */,
+				BCECA38F155322D200F49280 /* VolumeMonitor */,
 				BCB8074A1551A6EA0088C69A /* NetworkMonitor */,
 			);
 			name = Plugins;
@@ -485,6 +515,27 @@
 				BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		BCECA38F155322D200F49280 /* VolumeMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BCECA3A9155322FD00F49280 /* HWGrowlVolumeMonitor.h */,
+				BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */,
+				BCECA390155322D200F49280 /* Supporting Files */,
+			);
+			name = VolumeMonitor;
+			path = ../VolumeMonitor;
+			sourceTree = "<group>";
+		};
+		BCECA390155322D200F49280 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCECA391155322D200F49280 /* VolumeMonitor-Info.plist */,
+				BCECA392155322D200F49280 /* InfoPlist.strings */,
+				BCECA395155322D200F49280 /* VolumeMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -505,6 +556,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BCECA3AD155325CC00F49280 /* PBXTargetDependency */,
 				BCB807651551A6F10088C69A /* PBXTargetDependency */,
 				BCB806CF15515D700088C69A /* PBXTargetDependency */,
 				BCB80690155158F50088C69A /* PBXTargetDependency */,
@@ -549,6 +601,23 @@
 			productReference = BCB807471551A6E90088C69A /* NetworkMonitor.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		BCECA38B155322D200F49280 /* VolumeMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCECA3A7155322D200F49280 /* Build configuration list for PBXNativeTarget "VolumeMonitor" */;
+			buildPhases = (
+				BCECA388155322D200F49280 /* Sources */,
+				BCECA389155322D200F49280 /* Frameworks */,
+				BCECA38A155322D200F49280 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VolumeMonitor;
+			productName = VolumeMonitor;
+			productReference = BCECA38C155322D200F49280 /* VolumeMonitor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -578,6 +647,7 @@
 				BCB805E6155153330088C69A /* HardwareGrowler */,
 				BCB806AD15515C4E0088C69A /* HardwareGrowlerLauncher */,
 				BCB807461551A6E90088C69A /* NetworkMonitor */,
+				BCECA38B155322D200F49280 /* VolumeMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -727,6 +797,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCECA38A155322D200F49280 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCECA394155322D200F49280 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -779,6 +857,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCECA388155322D200F49280 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCECA3AB155322FD00F49280 /* HWGrowlVolumeMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -801,6 +887,11 @@
 			isa = PBXTargetDependency;
 			target = BCB807461551A6E90088C69A /* NetworkMonitor */;
 			targetProxy = BCB807641551A6F10088C69A /* PBXContainerItemProxy */;
+		};
+		BCECA3AD155325CC00F49280 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCECA38B155322D200F49280 /* VolumeMonitor */;
+			targetProxy = BCECA3AC155325CC00F49280 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -857,6 +948,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCB8074E1551A6EA0088C69A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCECA392155322D200F49280 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCECA393155322D200F49280 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1088,6 +1187,51 @@
 			};
 			name = Release;
 		};
+		BCECA396155322D200F49280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
+				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BCECA397155322D200F49280 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
+				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Localization;
+		};
+		BCECA398155322D200F49280 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
+				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1130,6 +1274,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		BCECA3A7155322D200F49280 /* Build configuration list for PBXNativeTarget "VolumeMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCECA396155322D200F49280 /* Debug */,
+				BCECA397155322D200F49280 /* Localization */,
+				BCECA398155322D200F49280 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
