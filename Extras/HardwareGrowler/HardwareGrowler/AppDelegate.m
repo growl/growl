@@ -115,10 +115,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	[self expiryCheck];
-		
-	[GrowlApplicationBridge setGrowlDelegate:self];
-	[GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
-		
 	[self initTitles];
 	
 	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 

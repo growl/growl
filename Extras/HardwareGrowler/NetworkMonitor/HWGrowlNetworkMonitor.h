@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HardwareGrowlPlugin.h"
 
-@interface HWGrowlNetworkMonitor : NSObject <HWGrowlPluginProtocol>
+@interface HWGrowlNetworkMonitor : NSObject <HWGrowlPluginProtocol, HWGrowlPluginNotifierProtocol>
 
 @end

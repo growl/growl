@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Growl/Growl.h>
 #import "HardwareGrowlPlugin.h"
 
-@interface HWGrowlPluginController : NSObject <HWGrowlPluginControllerProtocol>
+@interface HWGrowlPluginController : NSObject <HWGrowlPluginControllerProtocol, GrowlApplicationBridgeDelegate>
 
 -(void)loadPlugins;
 

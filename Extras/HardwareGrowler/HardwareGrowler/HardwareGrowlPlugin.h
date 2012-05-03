@@ -10,6 +10,13 @@
 
 @protocol HWGrowlPluginControllerProtocol <NSObject>
 @required
+-(void)notifyWithName:(NSString*)name 
+					 title:(NSString*)title
+			 description:(NSString*)description
+					  icon:(NSData*)iconData
+	  identifierString:(NSString*)identifier
+		  contextString:(NSString*)context
+					plugin:(id)plugin;
 
 @end
 
@@ -18,14 +25,25 @@
 -(void)setDelegate:(id<HWGrowlPluginControllerProtocol>)aDelegate;
 -(id<HWGrowlPluginControllerProtocol>)delegate;
 -(id)preferencePane;
+
+@end
+
+@protocol HWGrowlPluginNotifierProtocol <NSObject>
+@required
 -(NSArray*)noteNames;
 -(NSDictionary*)localizedNames;
 -(NSDictionary*)noteDescriptions;
 -(NSArray*)defaultNotifications;
 
 @optional
--(void)noteClosed:(NSDictionary*)note byClick:(BOOL)clicked;
+-(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked;
 
 @end
 
+/* Used for purely stat monitoring plugins */
+@protocol HWGrowlPluginMonitorProtocol <NSObject>
+@optional
+-(NSView*)menuBarSizedView;
+-(NSView*)menuViewOfWidth:(CGFloat)width;
 
+@end

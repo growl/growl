@@ -38,6 +38,10 @@
 		BCB807671551A7250088C69A /* NetworkMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCB807471551A6E90088C69A /* NetworkMonitor.bundle */; };
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
+		BCECA3611552CDC300F49280 /* GrowlNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3601552CDC300F49280 /* GrowlNetworkObserver.m */; };
+		BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3631552D1C500F49280 /* NSStringAdditions.m */; };
+		BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */; };
+		BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,7 +254,6 @@
 		BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = ../../../Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BCB8070615517EE10088C69A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		BCB807471551A6E90088C69A /* NetworkMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCB807491551A6EA0088C69A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BCB8074C1551A6EA0088C69A /* NetworkMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NetworkMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCB8074E1551A6EA0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCB807501551A6EA0088C69A /* NetworkMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NetworkMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -259,6 +262,13 @@
 		BCB8076B1551A7820088C69A /* HardwareGrowlPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HardwareGrowlPlugin.h; path = ../HardwareGrowler/HardwareGrowlPlugin.h; sourceTree = "<group>"; };
 		BCB8076D1551A82A0088C69A /* HWGrowlPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlPluginController.h; sourceTree = "<group>"; };
 		BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPluginController.m; sourceTree = "<group>"; };
+		BCECA35F1552CDC300F49280 /* GrowlNetworkObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkObserver.h; path = ../../../Core/Source/GrowlNetworkObserver.h; sourceTree = "<group>"; };
+		BCECA3601552CDC300F49280 /* GrowlNetworkObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkObserver.m; path = ../../../Core/Source/GrowlNetworkObserver.m; sourceTree = "<group>"; };
+		BCECA3621552D1C500F49280 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
+		BCECA3631552D1C500F49280 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = ../../../Common/Source/NSStringAdditions.m; sourceTree = "<group>"; };
+		BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BCECA3691552D24C00F49280 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
+		BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */,
+				BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,10 +336,10 @@
 		BCB805ED155153330088C69A /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCB8070615517EE10088C69A /* ServiceManagement.framework */,
 				BCB805EE155153330088C69A /* AppKit.framework */,
 				BCB805F0155153330088C69A /* Foundation.framework */,
-				BCB807491551A6EA0088C69A /* CoreData.framework */,
+				BCB8070615517EE10088C69A /* ServiceManagement.framework */,
+				BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -434,6 +445,12 @@
 			children = (
 				BCB807681551A7510088C69A /* HWGrowlNetworkMonitor.h */,
 				BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */,
+				BCECA35F1552CDC300F49280 /* GrowlNetworkObserver.h */,
+				BCECA3601552CDC300F49280 /* GrowlNetworkObserver.m */,
+				BCECA3621552D1C500F49280 /* NSStringAdditions.h */,
+				BCECA3631552D1C500F49280 /* NSStringAdditions.m */,
+				BCECA3691552D24C00F49280 /* GrowlNetworkUtilities.h */,
+				BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */,
 				BCB8074B1551A6EA0088C69A /* Supporting Files */,
 			);
 			name = NetworkMonitor;
@@ -756,6 +773,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */,
+				BCECA3611552CDC300F49280 /* GrowlNetworkObserver.m in Sources */,
+				BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */,
+				BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,6 +1129,7 @@
 				BCB807531551A6EA0088C69A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

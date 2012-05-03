@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Growl/GrowlApplicationBridge.h>
 
 @class GrowlOnSwitch, HWGrowlPluginController;
 
@@ -18,7 +17,7 @@ typedef enum {
 	kDontShowIcon = 3
 } HWGrowlIconState;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, GrowlApplicationBridgeDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 	
