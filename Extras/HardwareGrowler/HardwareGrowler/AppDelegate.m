@@ -40,6 +40,7 @@
 
 @synthesize toolbar;
 @synthesize tabView;
+@synthesize tableView;
 @synthesize containerView;
 @synthesize placeholderView;
 @synthesize currentView;
@@ -251,6 +252,27 @@
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.HardwareGrowlLauncher"), enabled)){
       //NSLog(@"Failure Setting HardwareGrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
+}
+
+#pragma mark Module Table
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification {
+	NSInteger selection = [tableView selectedRow];
+	NSView *newView = nil;
+	if(selection >= 0 && (NSUInteger)selection < [[pluginController plugins] count]){
+		id<HWGrowlPluginProtocol> plugin = [[pluginController plugins] objectAtIndex:selection];
+		if([plugin preferencePane]){
+			newView = [plugin preferencePane];
+		}else{
+			newView = placeholderView;
+		}
+	}else
+		newView = placeholderView;
+	[newView setFrameSize:[containerView frame].size];
+	if([currentView superview])
+		[currentView removeFromSuperview];
+	[containerView addSubview:newView];
+	self.currentView = newView;
 }
 
 #pragma mark Toolbar

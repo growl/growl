@@ -169,7 +169,21 @@
 	[super dealloc];
 }
 
-- (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {	
+- (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {
+	NSArray *exceptions = [[NSUserDefaults standardUserDefaults] objectForKey:@"HWGVolumeMonitorExceptions"];
+	__block BOOL found = NO;
+	[exceptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *justAString = [obj valueForKey:@"justastring"];
+		if([justAString caseInsensitiveCompare:[volume path]] == NSOrderedSame ||
+			[justAString caseInsensitiveCompare:[volume name]] == NSOrderedSame)
+		{
+			found = YES;
+			*stop = YES;
+		}
+	}];
+	if(found)
+		return;
+	
 	NSString *context = mounted ? [volume path] : nil;
 	NSString *type = mounted ? @"VolumeMounted" : @"VolumeUnmounted";
 	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? @"Mounted" : @"Unmounted"];
@@ -247,7 +261,7 @@
 -(NSString*)pluginDisplayName{
 	return @"Volume Monitor";
 }
--(id)preferencePane {
+-(NSView*)preferencePane {
 	return nil;
 }
 

@@ -12,6 +12,8 @@
 
 @interface HWGrowlPluginController : NSObject <HWGrowlPluginControllerProtocol, GrowlApplicationBridgeDelegate>
 
+@property (nonatomic, retain) NSMutableArray *plugins;
+
 -(void)loadPlugins;
 
 @end

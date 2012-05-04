@@ -52,7 +52,7 @@
 -(NSString*)pluginDisplayName {
 	return @"Network Monitor";
 }
--(id)preferencePane {
+-(NSView*)preferencePane {
 	return nil;
 }
 

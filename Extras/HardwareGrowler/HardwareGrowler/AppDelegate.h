@@ -17,7 +17,7 @@ typedef enum {
 	kDontShowIcon = 3
 } HWGrowlIconState;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSToolbarDelegate, NSTableViewDelegate> {
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 	
@@ -49,6 +49,7 @@ typedef enum {
 
 @property (nonatomic, assign) IBOutlet NSToolbar *toolbar;
 @property (nonatomic, assign) IBOutlet NSTabView *tabView;
+@property (nonatomic, assign) IBOutlet NSTableView *tableView;
 @property (nonatomic, assign) IBOutlet NSView *containerView;
 @property (nonatomic, retain) IBOutlet NSView *placeholderView;
 @property (nonatomic, assign) IBOutlet NSView *currentView;

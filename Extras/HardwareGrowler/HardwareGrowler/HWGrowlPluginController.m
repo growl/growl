@@ -10,7 +10,6 @@
 
 @interface HWGrowlPluginController ()
 
-@property (nonatomic, retain) NSMutableArray *plugins;
 @property (nonatomic, retain) NSMutableArray *notifiers;
 @property (nonatomic, retain) NSMutableArray *monitors;
 
