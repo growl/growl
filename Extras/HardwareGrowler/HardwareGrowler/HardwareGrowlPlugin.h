@@ -36,6 +36,7 @@
 -(NSArray*)defaultNotifications;
 
 @optional
+-(void)fireOnLaunchNotes;
 -(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked;
 
 @end

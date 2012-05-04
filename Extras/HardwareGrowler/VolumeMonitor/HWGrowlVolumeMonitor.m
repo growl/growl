@@ -152,14 +152,6 @@
 		//The icon and data is stored during WILL unmount, and then displayed during DID unmount.
 		[center addObserver:self selector:@selector(volumeDidUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
 		[center addObserver:self selector:@selector(volumeWillUnmount:) name:NSWorkspaceWillUnmountNotification object:nil];
-		
-		__block HWGrowlVolumeMonitor *blockSelf = self;
-		if([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]){
-			NSArray *paths = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
-			[paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				[blockSelf sendMountNotificationForVolume:[VolumeInfo volumeInfoForMountWithPath:obj] mounted:YES];
-			}];
-		}
 	}
 	return self;
 }
@@ -177,7 +169,7 @@
 	[super dealloc];
 }
 
-- (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {
+- (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {	
 	NSString *context = mounted ? [volume path] : nil;
 	NSString *type = mounted ? @"VolumeMounted" : @"VolumeUnmounted";
 	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? @"Mounted" : @"Unmounted"];
@@ -273,6 +265,13 @@
 	return [NSArray arrayWithObjects:@"VolumeMounted", @"VolumeUnmounted", nil];
 }
 
+-(void)fireOnLaunchNotes{
+	NSArray *paths = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
+	__block HWGrowlVolumeMonitor *blockSelf = self;
+	[paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[blockSelf sendMountNotificationForVolume:[VolumeInfo volumeInfoForMountWithPath:obj] mounted:YES];
+	}];
+}
 -(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked {
 	if(clicked)
 		[[NSWorkspace sharedWorkspace] openFile:contextString];

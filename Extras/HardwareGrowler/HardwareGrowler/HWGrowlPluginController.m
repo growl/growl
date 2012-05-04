@@ -36,6 +36,9 @@
 		
 		[GrowlApplicationBridge setGrowlDelegate:self];
 		[GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
+		
+		if([[NSUserDefaults standardUserDefaults] boolForKey:@"OnLogin"])
+			[self fireOnLaunchNotes];
 	}
 	return self;
 }
@@ -74,6 +77,13 @@
 			}
 		}];
 	}
+}
+
+-(void)fireOnLaunchNotes {
+	[notifiers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj respondsToSelector:@selector(fireOnLaunchNotes)])
+			[obj fireOnLaunchNotes];
+	}];
 }
 
 -(void)notifyWithName:(NSString*)name 
