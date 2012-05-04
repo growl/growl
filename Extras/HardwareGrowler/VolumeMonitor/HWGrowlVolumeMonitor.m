@@ -141,6 +141,8 @@
 @synthesize delegate;
 @synthesize ejectCache;
 
+@synthesize prefsView;
+
 -(id)init {
 	if((self = [super init])){
 		self.ejectCache = [NSMutableDictionary dictionary];
@@ -171,6 +173,7 @@
 
 - (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {
 	NSArray *exceptions = [[NSUserDefaults standardUserDefaults] objectForKey:@"HWGVolumeMonitorExceptions"];
+	NSLog(@"%@", exceptions);
 	__block BOOL found = NO;
 	[exceptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSString *justAString = [obj valueForKey:@"justastring"];
@@ -262,7 +265,11 @@
 	return @"Volume Monitor";
 }
 -(NSView*)preferencePane {
-	return nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		[NSBundle loadNibNamed:@"VolumeMonitorPrefs" owner:self];
+	});
+	return prefsView;
 }
 
 #pragma mark HWGrowlPluginNotifierProtocol

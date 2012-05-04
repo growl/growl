@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
 		BCB805F8155153330088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805F7155153330088C69A /* main.m */; };
@@ -229,6 +230,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
 		BCB805E7155153330088C69A /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB805EB155153330088C69A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCB805EE155153330088C69A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -522,6 +524,7 @@
 			children = (
 				BCECA3A9155322FD00F49280 /* HWGrowlVolumeMonitor.h */,
 				BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */,
+				BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */,
 				BCECA390155322D200F49280 /* Supporting Files */,
 			);
 			name = VolumeMonitor;
@@ -802,6 +805,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCECA394155322D200F49280 /* InfoPlist.strings in Resources */,
+				BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
