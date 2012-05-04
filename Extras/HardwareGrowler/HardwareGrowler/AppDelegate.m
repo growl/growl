@@ -38,6 +38,12 @@
 @synthesize iconInBoth;
 @synthesize noIcon;
 
+@synthesize toolbar;
+@synthesize tabView;
+@synthesize containerView;
+@synthesize placeholderView;
+@synthesize currentView;
+
 - (void)dealloc
 {
     [super dealloc];
@@ -114,6 +120,12 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[[self toolbar] setVisible:YES];
+	if([[[self toolbar] items] count] == 0){
+		[[self toolbar] insertItemWithItemIdentifier:@"General" atIndex:0];
+		[[self toolbar] insertItemWithItemIdentifier:@"Modules" atIndex:1];
+	}
+	[self selectTabIndex:0];
 	[self expiryCheck];
 	[self initTitles];
 	
@@ -239,6 +251,38 @@
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.HardwareGrowlLauncher"), enabled)){
       //NSLog(@"Failure Setting HardwareGrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
+}
+
+#pragma mark Toolbar
+
+-(void)selectTabIndex:(NSInteger)tab {
+	if(tab < 0 || tab > 1)
+		tab = 0;
+	[toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%ld", tab]];
+	[tabView selectTabViewItemAtIndex:tab];
+}
+
+-(IBAction)selectTab:(id)sender {
+	[self selectTabIndex:[sender tag]];
+}
+
+-(BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
+	return YES;
+}
+
+-(NSArray*)toolbarSelectableItemIdentifiers:(NSToolbar*)aToolbar
+{
+	return [NSArray arrayWithObjects:@"0", @"1", nil];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+   return [NSArray arrayWithObjects:@"0", @"1", nil];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)aToolbar 
+{
+   return [NSArray arrayWithObjects:@"0", @"1", nil];
 }
 
 #ifdef BETA

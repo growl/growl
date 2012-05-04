@@ -49,6 +49,9 @@
 -(id<HWGrowlPluginControllerProtocol>)delegate {
 	return delegate;
 }
+-(NSString*)pluginDisplayName {
+	return @"Network Monitor";
+}
 -(id)preferencePane {
 	return nil;
 }

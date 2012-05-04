@@ -24,6 +24,7 @@
 @required
 -(void)setDelegate:(id<HWGrowlPluginControllerProtocol>)aDelegate;
 -(id<HWGrowlPluginControllerProtocol>)delegate;
+-(NSString*)pluginDisplayName;
 -(id)preferencePane;
 
 @end

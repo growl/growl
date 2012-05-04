@@ -47,4 +47,10 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet NSPopUpButton *iconPopUp;
 @property (nonatomic, retain) HWGrowlPluginController *pluginController;
 
+@property (nonatomic, assign) IBOutlet NSToolbar *toolbar;
+@property (nonatomic, assign) IBOutlet NSTabView *tabView;
+@property (nonatomic, assign) IBOutlet NSView *containerView;
+@property (nonatomic, retain) IBOutlet NSView *placeholderView;
+@property (nonatomic, assign) IBOutlet NSView *currentView;
+
 @end

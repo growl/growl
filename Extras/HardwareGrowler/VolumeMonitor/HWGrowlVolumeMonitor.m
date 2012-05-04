@@ -244,6 +244,9 @@
 -(id<HWGrowlPluginControllerProtocol>)delegate {
 	return delegate;
 }
+-(NSString*)pluginDisplayName{
+	return @"Volume Monitor";
+}
 -(id)preferencePane {
 	return nil;
 }
