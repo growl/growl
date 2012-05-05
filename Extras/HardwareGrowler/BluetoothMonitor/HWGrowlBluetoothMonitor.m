@@ -42,7 +42,7 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 
 -(void)postRegistrationInit {
 	self.starting = YES;
-	self.connectionNotification = IOBluetoothRegisterForDeviceConnectNotifications(bluetoothConnection, &self);
+	self.connectionNotification = IOBluetoothRegisterForDeviceConnectNotifications(bluetoothConnection, self);
 	self.starting = NO;
 }
 

@@ -76,7 +76,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 																	  kIOFirstPublishNotification,
 																	  myMatchDictionary,
 																	  usbDeviceAdded,
-																	  &self,
+																	  self,
 																	  &addedIterator);
 	
 	if (matchingResult)
@@ -93,7 +93,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 																		 kIOTerminatedNotification,
 																		 myMatchDictionary,
 																		 usbDeviceRemoved,
-																		 &self,
+																		 self,
 																		 &removedIterator);
 	
 	// Matching notification must be "primed" by iterating over the
