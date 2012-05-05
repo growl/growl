@@ -38,7 +38,7 @@
 		
 		[self postRegistrationInit];
 		
-		if([self firstLaunchEnabled])
+		if([self onLaunchEnabled])
 			[self fireOnLaunchNotes];
 	}
 	return self;

@@ -13,6 +13,11 @@
 		BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.bundle */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
+		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
+		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
+		BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */; };
+		BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
 		BCB805F8155153330088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805F7155153330088C69A /* main.m */; };
@@ -61,6 +66,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC523C211555686000548427;
 			remoteInfo = USBMonitor;
+		};
+		BCA26B6E15558817009C5ABC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCA26B5C155585C0009C5ABC;
+			remoteInfo = BluetoothMonitor;
 		};
 		BCB8066E155158DA0088C69A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -233,6 +245,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */,
 				BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */,
 				BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */,
 				BCB807671551A7250088C69A /* NetworkMonitor.bundle in Copy Plugins */,
@@ -251,6 +264,13 @@
 		BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlUSBMonitor.m; sourceTree = "<group>"; };
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
+		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
+		BCA26B63155585C0009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCA26B65155585C0009C5ABC /* BluetoothMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BluetoothMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BCA26B6A155585FA009C5ABC /* HWGrowlBluetoothMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlBluetoothMonitor.h; sourceTree = "<group>"; };
+		BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlBluetoothMonitor.m; sourceTree = "<group>"; };
+		BCA26B7015558837009C5ABC /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 		BCB805E7155153330088C69A /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB805EB155153330088C69A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCB805EE155153330088C69A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -322,6 +342,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26B5A155585C0009C5ABC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */,
+				BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E4155153330088C69A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -381,6 +410,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BCA26B5F155585C0009C5ABC /* BluetoothMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BCA26B6A155585FA009C5ABC /* HWGrowlBluetoothMonitor.h */,
+				BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */,
+				BCA26B60155585C0009C5ABC /* Supporting Files */,
+			);
+			name = BluetoothMonitor;
+			path = ../BluetoothMonitor;
+			sourceTree = "<group>";
+		};
+		BCA26B60155585C0009C5ABC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */,
+				BCA26B62155585C0009C5ABC /* InfoPlist.strings */,
+				BCA26B65155585C0009C5ABC /* BluetoothMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		BCB805DC155153330088C69A = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +451,7 @@
 				BCB807471551A6E90088C69A /* NetworkMonitor.bundle */,
 				BCECA38C155322D200F49280 /* VolumeMonitor.bundle */,
 				BC523C221555686000548427 /* USBMonitor.bundle */,
+				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -423,6 +474,7 @@
 				BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */,
 				BCECA38E155322D200F49280 /* CoreData.framework */,
 				BC523C3515556BE500548427 /* IOKit.framework */,
+				BCA26B7015558837009C5ABC /* IOBluetooth.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -556,6 +608,7 @@
 				BCECA38F155322D200F49280 /* VolumeMonitor */,
 				BCB8074A1551A6EA0088C69A /* NetworkMonitor */,
 				BC523C241555686000548427 /* USBMonitor */,
+				BCA26B5F155585C0009C5ABC /* BluetoothMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -614,6 +667,23 @@
 			productReference = BC523C221555686000548427 /* USBMonitor.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		BCA26B5C155585C0009C5ABC /* BluetoothMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCA26B66155585C0009C5ABC /* Build configuration list for PBXNativeTarget "BluetoothMonitor" */;
+			buildPhases = (
+				BCA26B59155585C0009C5ABC /* Sources */,
+				BCA26B5A155585C0009C5ABC /* Frameworks */,
+				BCA26B5B155585C0009C5ABC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BluetoothMonitor;
+			productName = BluetoothMonitor;
+			productReference = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		BCB805E6155153330088C69A /* HardwareGrowler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCB80605155153330088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowler" */;
@@ -629,6 +699,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BCA26B6F15558817009C5ABC /* PBXTargetDependency */,
 				BC523C3315556B4500548427 /* PBXTargetDependency */,
 				BCECA3AD155325CC00F49280 /* PBXTargetDependency */,
 				BCB807651551A6F10088C69A /* PBXTargetDependency */,
@@ -723,6 +794,7 @@
 				BCB807461551A6E90088C69A /* NetworkMonitor */,
 				BCECA38B155322D200F49280 /* VolumeMonitor */,
 				BC523C211555686000548427 /* USBMonitor */,
+				BCA26B5C155585C0009C5ABC /* BluetoothMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -844,6 +916,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26B5B155585C0009C5ABC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E5155153330088C69A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -917,6 +997,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26B59155585C0009C5ABC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E3155153330088C69A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -965,6 +1053,11 @@
 			target = BC523C211555686000548427 /* USBMonitor */;
 			targetProxy = BC523C3215556B4500548427 /* PBXContainerItemProxy */;
 		};
+		BCA26B6F15558817009C5ABC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCA26B5C155585C0009C5ABC /* BluetoothMonitor */;
+			targetProxy = BCA26B6E15558817009C5ABC /* PBXContainerItemProxy */;
+		};
 		BCB8068E155158EF0088C69A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GNTPClientService;
@@ -997,6 +1090,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC523C281555686000548427 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCA26B62155585C0009C5ABC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCA26B63155585C0009C5ABC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1105,6 +1206,54 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		BCA26B67155585C0009C5ABC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "BluetoothMonitor/BluetoothMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BCA26B68155585C0009C5ABC /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "BluetoothMonitor/BluetoothMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Localization;
+		};
+		BCA26B69155585C0009C5ABC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "BluetoothMonitor/BluetoothMonitor-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1391,6 +1540,16 @@
 				BC523C2C1555686000548427 /* Debug */,
 				BC523C2D1555686000548427 /* Localization */,
 				BC523C2E1555686000548427 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BCA26B66155585C0009C5ABC /* Build configuration list for PBXNativeTarget "BluetoothMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCA26B67155585C0009C5ABC /* Debug */,
+				BCA26B68155585C0009C5ABC /* Localization */,
+				BCA26B69155585C0009C5ABC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
