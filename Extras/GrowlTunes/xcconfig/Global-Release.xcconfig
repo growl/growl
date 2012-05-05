@@ -1,0 +1,19 @@
+#include "Global-Common.xcconfig"
+
+
+// deployment
+DEPLOYMENT_POSTPROCESSING = YES
+DSTROOT = /
+
+
+// code generation
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES
+GCC_OPTIMIZATION_LEVEL = s
+
+
+// preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = $(COMMON_GCC_PREPROCESSOR_DEFINITIONS) NS_BLOCK_ASSERTIONS NDEBUG
+
+
+// interface builder compiler
+IBC_FLATTEN_NIBS = YES

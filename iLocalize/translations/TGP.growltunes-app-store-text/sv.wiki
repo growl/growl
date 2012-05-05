@@ -1,0 +1,3 @@
+Vilken låt började just spelas av iTunes? Med GrowlTunes behöver du inte ställa dig den frågan längre. Du vet det redan! GrowlTunes gör det enkelt att se vilket spår som spelas, och ger dig ännu mer kontroll. Till exempel kan du ändra betyg på dina låtar, och styra iTunes' volym. Om du har Growl kan du till och med ändra hur meddelandena ska se ut. 
+
+GrowlTunes gör det ännu roligare att använda iTunes. Vare sig du är på kontoret eller på en fest, är GrowlTunes praktiskt när du helt enkelt vill veta.

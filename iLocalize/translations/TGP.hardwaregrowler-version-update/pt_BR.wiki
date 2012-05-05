@@ -1,0 +1,2 @@
+- Adicionadas traduções para Francês e Espanhol.
+- Resolvido um problema com a tradução para Sueco exibindo em Romeno.

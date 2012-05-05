@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "专辑";
+
+/* No comment provided by engineer. */
+"Album Artist" = "专辑表演者";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "专辑表演者或表演者";
+
+/* No comment provided by engineer. */
+"Artist" = "表演者";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "前置iTunes";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "轨道改变";
+
+/* No comment provided by engineer. */
+"Comment" = "注释";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "格式配置";
+
+/* No comment provided by engineer. */
+"Description" = "描述";
+
+/* No comment provided by engineer. */
+"Episode ID" = "专题节目ID";
+
+/* No comment provided by engineer. */
+"Episode Number" = "专题节目编号";
+
+/* No comment provided by engineer. */
+"Long Description" = "长描述";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "长描述，注释，或描述";
+
+/* No comment provided by engineer. */
+"Name" = "名称";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "当iTunes活动时通知";
+
+/* No comment provided by engineer. */
+"Paused" = "已暂停";
+
+/* No comment provided by engineer. */
+"Play Time" = "播放时间";
+
+/* No comment provided by engineer. */
+"Quit Both" = "全部退出";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "退出GrowlTunes";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "退出iTunes";
+
+/* No comment provided by engineer. */
+"Rating" = "评价";
+
+/* No comment provided by engineer. */
+"Season Number" = "季数";
+
+/* No comment provided by engineer. */
+"Show" = "节目";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "启动iTunes";
+
+/* No comment provided by engineer. */
+"Started" = "已开始";
+
+/* No comment provided by engineer. */
+"Stopped" = "已停止";
+
+/* No comment provided by engineer. */
+"Stream Title" = "流标题";
+
+/* No comment provided by engineer. */
+"Track Count" = "轨道总数";
+
+/* No comment provided by engineer. */
+"Track Number" = "轨道数";
+
+/* No comment provided by engineer. */
+"Video Kind" = "视频类型";
+
+/* No comment provided by engineer. */
+"Volume" = "音量";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "← 上一首";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "→ 下一首";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "▶ 播放/暂停";

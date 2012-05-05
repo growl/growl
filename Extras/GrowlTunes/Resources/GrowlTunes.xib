@@ -1,0 +1,1741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
+	<data>
+		<int key="IBDocument.SystemTarget">1060</int>
+		<string key="IBDocument.SystemVersion">11D50</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string key="NS.object.0">1938</string>
+		</object>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSMenu</string>
+			<string>NSMenuItem</string>
+			<string>NSSliderCell</string>
+			<string>NSLevelIndicatorCell</string>
+			<string>NSSlider</string>
+			<string>NSUserDefaultsController</string>
+			<string>NSLevelIndicator</string>
+			<string>NSCustomObject</string>
+		</array>
+		<array key="IBDocument.PluginDependencies">
+			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+		</array>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
+		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
+			<object class="NSCustomObject" id="1001">
+				<string key="NSClassName">NSObject</string>
+			</object>
+			<object class="NSCustomObject" id="1003">
+				<string key="NSClassName">FirstResponder</string>
+			</object>
+			<object class="NSCustomObject" id="1004">
+				<string key="NSClassName">NSApplication</string>
+			</object>
+			<object class="NSCustomObject" id="456576518">
+				<string key="NSClassName">GrowlTunesController</string>
+			</object>
+			<object class="NSCustomObject" id="461929346">
+				<string key="NSClassName">ITunesConductor</string>
+			</object>
+			<object class="NSUserDefaultsController" id="412292238">
+				<bool key="NSSharedInstance">YES</bool>
+			</object>
+			<object class="NSMenu" id="154069724">
+				<string key="NSTitle">StatusMenu</string>
+				<array class="NSMutableArray" key="NSMenuItems">
+					<object class="NSMenuItem" id="412116810">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle">Current Item</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<object class="NSCustomResource" key="NSOnImage" id="1046102276">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuCheckmark</string>
+						</object>
+						<object class="NSCustomResource" key="NSMixedImage" id="241691520">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuMixedState</string>
+						</object>
+					</object>
+					<object class="NSMenuItem" id="1041304298">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="978221467">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">▶ Play/Pause</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="11909680">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">→ Next Track</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="135633956">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">← Previous Track</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="510808420">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="811089115">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle">Rating</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+						<string key="NSAction">submenuAction:</string>
+						<object class="NSMenu" key="NSSubmenu" id="1062568319">
+							<string key="NSTitle">Rating</string>
+							<array class="NSMutableArray" key="NSMenuItems">
+								<object class="NSMenuItem" id="964064586">
+									<reference key="NSMenu" ref="1062568319"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsHidden">YES</bool>
+									<string key="NSTitle">Rating Level</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="1046102276"/>
+									<reference key="NSMixedImage" ref="241691520"/>
+								</object>
+							</array>
+						</object>
+					</object>
+					<object class="NSMenuItem" id="635452151">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle">Volume</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+						<string key="NSAction">submenuAction:</string>
+						<object class="NSMenu" key="NSSubmenu" id="456947620">
+							<string key="NSTitle">Volume</string>
+							<array class="NSMutableArray" key="NSMenuItems">
+								<object class="NSMenuItem" id="901100865">
+									<reference key="NSMenu" ref="456947620"/>
+									<string key="NSTitle">Volume Level</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="1046102276"/>
+									<reference key="NSMixedImage" ref="241691520"/>
+								</object>
+							</array>
+						</object>
+					</object>
+					<object class="NSMenuItem" id="64021113">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Bring iTunes to Front</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="577532816">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<bool key="NSIsHidden">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="195040871">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Quit Both</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="886883638">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Start iTunes</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="233668226">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Quit iTunes</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="251643716">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Quit GrowlTunes</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+						<int key="NSTag">2</int>
+					</object>
+					<object class="NSMenuItem" id="846954912">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="711512972">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Notify when iTunes is active</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<int key="NSState">1</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="607217587">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Start at login</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="960405232">
+						<reference key="NSMenu" ref="154069724"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="958702569">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Configure Formatting</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+					</object>
+					<object class="NSMenuItem" id="146429450">
+						<reference key="NSMenu" ref="154069724"/>
+						<string key="NSTitle">Configure Logging</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1046102276"/>
+						<reference key="NSMixedImage" ref="241691520"/>
+						<string key="NSAction">submenuAction:</string>
+						<object class="NSMenu" key="NSSubmenu" id="497001373">
+							<string key="NSTitle">Configure Logging</string>
+							<array class="NSMutableArray" key="NSMenuItems"/>
+						</object>
+					</object>
+				</array>
+			</object>
+			<object class="NSLevelIndicator" id="927031288">
+				<nil key="NSNextResponder"/>
+				<int key="NSvFlags">300</int>
+				<string key="NSFrameSize">{65, 13}</string>
+				<string key="NSReuseIdentifierKey">_NS:2200</string>
+				<bool key="NSEnabled">YES</bool>
+				<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
+					<int key="NSCellFlags">406453824</int>
+					<int key="NSCellFlags2">34048</int>
+					<string key="NSCellIdentifier">_NS:2200</string>
+					<reference key="NSControlView" ref="927031288"/>
+					<double key="NSValue">2</double>
+					<double key="NSMaxValue">5</double>
+					<double key="NSWarningValue">5</double>
+					<double key="NSCriticalValue">5</double>
+					<int key="NSIndicatorStyle">3</int>
+				</object>
+			</object>
+			<object class="NSSlider" id="883374320">
+				<nil key="NSNextResponder"/>
+				<int key="NSvFlags">270</int>
+				<string key="NSFrameSize">{104, 21}</string>
+				<string key="NSReuseIdentifierKey">_NS:779</string>
+				<bool key="NSEnabled">YES</bool>
+				<object class="NSSliderCell" key="NSCell" id="979485101">
+					<int key="NSCellFlags">-2079981824</int>
+					<int key="NSCellFlags2">32768</int>
+					<string key="NSContents"/>
+					<string key="NSCellIdentifier">_NS:779</string>
+					<reference key="NSControlView" ref="883374320"/>
+					<double key="NSMaxValue">100</double>
+					<double key="NSMinValue">0.0</double>
+					<double key="NSValue">100</double>
+					<double key="NSAltIncValue">0.0</double>
+					<int key="NSNumberOfTickMarks">0</int>
+					<int key="NSTickMarkPosition">0</int>
+					<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
+					<bool key="NSVertical">NO</bool>
+				</object>
+			</object>
+		</array>
+		<object class="IBObjectContainer" key="IBDocument.Objects">
+			<array class="NSMutableArray" key="connectionRecords">
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="456576518"/>
+					</object>
+					<int key="connectionID">2</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitGrowlTunes:</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="251643716"/>
+					</object>
+					<int key="connectionID">36</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">statusItemMenu</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="154069724"/>
+					</object>
+					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">configureFormatting:</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="958702569"/>
+					</object>
+					<int key="connectionID">62</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">conductor</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="461929346"/>
+					</object>
+					<int key="connectionID">200</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitGrowlTunesAndITunes:</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="195040871"/>
+					</object>
+					<int key="connectionID">274</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">currentTrackMenuItem</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="412116810"/>
+					</object>
+					<int key="connectionID">368</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">loggingMenu</string>
+						<reference key="source" ref="456576518"/>
+						<reference key="destination" ref="497001373"/>
+					</object>
+					<int key="connectionID">444</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="154069724"/>
+						<reference key="destination" ref="456576518"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringQuitGrowlTunes</string>
+						<reference key="source" ref="251643716"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="251643716"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringQuitGrowlTunes</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringQuitGrowlTunes</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">413</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.enableFormattingConfiguration</string>
+						<reference key="source" ref="958702569"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="958702569"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">hidden: values.enableFormattingConfiguration</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.enableFormattingConfiguration</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringConfigureFormatting</string>
+						<reference key="source" ref="958702569"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="958702569"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringConfigureFormatting</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringConfigureFormatting</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">417</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="577532816"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="577532816"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">343</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view</string>
+						<reference key="source" ref="964064586"/>
+						<reference key="destination" ref="927031288"/>
+					</object>
+					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: isPlaying</string>
+						<reference key="source" ref="964064586"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector" id="692397669">
+							<reference key="NSSource" ref="964064586"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">enabled: isPlaying</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">225</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isPlaying</string>
+						<reference key="source" ref="964064586"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="964064586"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="692397669"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">226</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: isPlaying</string>
+						<reference key="source" ref="927031288"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector" id="19727330">
+							<reference key="NSSource" ref="927031288"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">enabled: isPlaying</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">233</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isPlaying</string>
+						<reference key="source" ref="927031288"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="927031288"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="19727330"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">234</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: currentTrack.rating</string>
+						<reference key="source" ref="927031288"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="927031288"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">value: currentTrack.rating</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">currentTrack.rating</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
+								<boolean value="NO" key="NSConditionallySetsEnabled"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">TrackRatingLevelIndicatorValueTransformer</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">237</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isPlaying</string>
+						<reference key="source" ref="811089115"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector" id="491838567">
+							<reference key="NSSource" ref="811089115"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">220</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringRating</string>
+						<reference key="source" ref="811089115"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="811089115"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringRating</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringRating</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">421</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: self.currentTrack.isStream</string>
+						<reference key="source" ref="811089115"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="811089115"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden2: self.currentTrack.isStream</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">self.currentTrack.isStream</string>
+							<dictionary key="NSOptions">
+								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
+								<integer value="-1" key="NSNoSelectionPlaceholder"/>
+								<integer value="-1" key="NSNotApplicablePlaceholder"/>
+								<integer value="-1" key="NSNullPlaceholder"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="491838567"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">428</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: noMeansNo</string>
+						<reference key="source" ref="412116810"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector" id="241963018">
+							<reference key="NSSource" ref="412116810"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">enabled: noMeansNo</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">noMeansNo</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">163</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isPlaying</string>
+						<reference key="source" ref="412116810"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="412116810"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="241963018"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">216</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: currentTrack.name</string>
+						<reference key="source" ref="412116810"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="412116810"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">title: currentTrack.name</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">currentTrack.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">218</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">playPause:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="978221467"/>
+					</object>
+					<int key="connectionID">261</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">previousTrack:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="135633956"/>
+					</object>
+					<int key="connectionID">262</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">nextTrack:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="11909680"/>
+					</object>
+					<int key="connectionID">263</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quit:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="233668226"/>
+					</object>
+					<int key="connectionID">272</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">run:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="886883638"/>
+					</object>
+					<int key="connectionID">273</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">activate:</string>
+						<reference key="source" ref="461929346"/>
+						<reference key="destination" ref="64021113"/>
+					</object>
+					<int key="connectionID">310</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="978221467"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="978221467"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">278</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringPlayPause</string>
+						<reference key="source" ref="978221467"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="978221467"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringPlayPause</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringPlayPause</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">398</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="510808420"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="510808420"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">291</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="11909680"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="11909680"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">282</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringNextTrack</string>
+						<reference key="source" ref="11909680"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="11909680"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringNextTrack</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringNextTrack</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">400</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="135633956"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="135633956"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">287</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringPreviousTrack</string>
+						<reference key="source" ref="135633956"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="135633956"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringPreviousTrack</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringPreviousTrack</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">402</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="233668226"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="233668226"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">295</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringQuitITunes</string>
+						<reference key="source" ref="233668226"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="233668226"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringQuitITunes</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringQuitITunes</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">411</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="195040871"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="195040871"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">304</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringQuitBoth</string>
+						<reference key="source" ref="195040871"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="195040871"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringQuitBoth</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringQuitBoth</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">408</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="886883638"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="886883638"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">299</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringStartITunes</string>
+						<reference key="source" ref="886883638"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="886883638"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringStartITunes</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringStartITunes</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">406</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.enableFormattingConfiguration</string>
+						<reference key="source" ref="960405232"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="960405232"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">hidden: values.enableFormattingConfiguration</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.enableFormattingConfiguration</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">271</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="64021113"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="64021113"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">309</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringBringITunesToFront</string>
+						<reference key="source" ref="64021113"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="64021113"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringBringITunesToFront</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringBringITunesToFront</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">404</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="635452151"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="635452151"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">336</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringVolume</string>
+						<reference key="source" ref="635452151"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="635452151"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringVolume</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringVolume</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">423</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="901100865"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="901100865"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">341</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view</string>
+						<reference key="source" ref="901100865"/>
+						<reference key="destination" ref="883374320"/>
+					</object>
+					<int key="connectionID">342</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: volume</string>
+						<reference key="source" ref="883374320"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="883374320"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">value: volume</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">volume</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
+								<boolean value="NO" key="NSConditionallySetsEnabled"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">321</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isRunning</string>
+						<reference key="source" ref="883374320"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="883374320"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">344</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.isPlaying</string>
+						<reference key="source" ref="1041304298"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1041304298"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: self.isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">387</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.notifyWhenITunesIsFrontmost</string>
+						<reference key="source" ref="711512972"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="711512972"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">value: values.notifyWhenITunesIsFrontmost</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.notifyWhenITunesIsFrontmost</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
+								<boolean value="NO" key="NSConditionallySetsEnabled"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">396</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringNotifyWithITunesActive</string>
+						<reference key="source" ref="711512972"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="711512972"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringNotifyWithITunesActive</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringNotifyWithITunesActive</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">415</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.enableLoggingConfiguration</string>
+						<reference key="source" ref="146429450"/>
+						<reference key="destination" ref="412292238"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="146429450"/>
+							<reference key="NSDestination" ref="412292238"/>
+							<string key="NSLabel">hidden: values.enableLoggingConfiguration</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.enableLoggingConfiguration</string>
+							<dictionary key="NSOptions">
+								<integer value="1" key="NSNullPlaceholder"/>
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">443</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.stringStartAtLogin</string>
+						<reference key="source" ref="607217587"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="607217587"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">title: self.stringStartAtLogin</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.stringStartAtLogin</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">447</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.loginController.enabled</string>
+						<reference key="source" ref="607217587"/>
+						<reference key="destination" ref="456576518"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="607217587"/>
+							<reference key="NSDestination" ref="456576518"/>
+							<string key="NSLabel">value: self.loginController.enabled</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.loginController.enabled</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
+								<boolean value="NO" key="NSConditionallySetsEnabled"/>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">469</int>
+				</object>
+			</array>
+			<object class="IBMutableOrderedSet" key="objectRecords">
+				<array key="orderedObjects">
+					<object class="IBObjectRecord">
+						<int key="objectID">0</int>
+						<array key="object" id="0"/>
+						<reference key="children" ref="1000"/>
+						<nil key="parent"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">-2</int>
+						<reference key="object" ref="1001"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">File's Owner</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">-1</int>
+						<reference key="object" ref="1003"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">First Responder</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">-3</int>
+						<reference key="object" ref="1004"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Application</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1</int>
+						<reference key="object" ref="456576518"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">GrowlTunesController</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">3</int>
+						<reference key="object" ref="154069724"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="251643716"/>
+							<reference ref="577532816"/>
+							<reference ref="811089115"/>
+							<reference ref="412116810"/>
+							<reference ref="886883638"/>
+							<reference ref="958702569"/>
+							<reference ref="978221467"/>
+							<reference ref="11909680"/>
+							<reference ref="135633956"/>
+							<reference ref="510808420"/>
+							<reference ref="960405232"/>
+							<reference ref="233668226"/>
+							<reference ref="64021113"/>
+							<reference ref="635452151"/>
+							<reference ref="195040871"/>
+							<reference ref="1041304298"/>
+							<reference ref="711512972"/>
+							<reference ref="846954912"/>
+							<reference ref="146429450"/>
+							<reference ref="607217587"/>
+						</array>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">GrowlTunes Menu</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">4</int>
+						<reference key="object" ref="251643716"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">61</int>
+						<reference key="object" ref="958702569"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="577532816"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">82</int>
+						<reference key="object" ref="412292238"/>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">110</int>
+						<reference key="object" ref="927031288"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="785474649"/>
+						</array>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Rating Level</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">111</int>
+						<reference key="object" ref="785474649"/>
+						<reference key="parent" ref="927031288"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">144</int>
+						<reference key="object" ref="811089115"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="1062568319"/>
+						</array>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">145</int>
+						<reference key="object" ref="1062568319"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="964064586"/>
+						</array>
+						<reference key="parent" ref="811089115"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">109</int>
+						<reference key="object" ref="964064586"/>
+						<reference key="parent" ref="1062568319"/>
+						<string key="objectName">Rating Level Menu Item</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">154</int>
+						<reference key="object" ref="412116810"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">199</int>
+						<reference key="object" ref="461929346"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">iTunes Conductor</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">257</int>
+						<reference key="object" ref="978221467"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">258</int>
+						<reference key="object" ref="510808420"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">259</int>
+						<reference key="object" ref="11909680"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">260</int>
+						<reference key="object" ref="135633956"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">264</int>
+						<reference key="object" ref="233668226"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">265</int>
+						<reference key="object" ref="195040871"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">266</int>
+						<reference key="object" ref="886883638"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">267</int>
+						<reference key="object" ref="960405232"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">305</int>
+						<reference key="object" ref="64021113"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">312</int>
+						<reference key="object" ref="635452151"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="456947620"/>
+						</array>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">313</int>
+						<reference key="object" ref="456947620"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="901100865"/>
+						</array>
+						<reference key="parent" ref="635452151"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">314</int>
+						<reference key="object" ref="901100865"/>
+						<reference key="parent" ref="456947620"/>
+						<string key="objectName">Volume Slider Menu Item</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">315</int>
+						<reference key="object" ref="883374320"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="979485101"/>
+						</array>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Volume Slider</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">316</int>
+						<reference key="object" ref="979485101"/>
+						<reference key="parent" ref="883374320"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">383</int>
+						<reference key="object" ref="1041304298"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">388</int>
+						<reference key="object" ref="711512972"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">389</int>
+						<reference key="object" ref="846954912"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">435</int>
+						<reference key="object" ref="146429450"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="497001373"/>
+						</array>
+						<reference key="parent" ref="154069724"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">436</int>
+						<reference key="object" ref="497001373"/>
+						<array class="NSMutableArray" key="children"/>
+						<reference key="parent" ref="146429450"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">445</int>
+						<reference key="object" ref="607217587"/>
+						<reference key="parent" ref="154069724"/>
+					</object>
+				</array>
+			</object>
+			<dictionary class="NSMutableDictionary" key="flattenedProperties">
+				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="109.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="110.CustomClassName">GTLevelIndicator</string>
+				<string key="110.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="111.CustomClassName">GTLevelIndicatorCell</string>
+				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="144.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="145.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="154.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="199.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="257.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="258.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="259.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="260.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="264.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="265.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="266.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="3.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">AccessibilityDescription</string>
+					<object class="IBAccessibilityAttribute" key="NS.object.0">
+						<string key="name">AccessibilityDescription</string>
+						<reference key="object" ref="154069724"/>
+						<string key="accessibilityValue">GrowlTunes Menu</string>
+					</object>
+				</object>
+				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="305.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="312.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="313.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="383.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="388.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="389.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<object class="NSMutableDictionary" key="4.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">ToolTip</string>
+					<object class="IBToolTipAttribute" key="NS.object.0">
+						<string key="name">ToolTip</string>
+						<reference key="object" ref="251643716"/>
+						<string key="toolTip">Quit GrowlTunes</string>
+					</object>
+				</object>
+				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="435.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="436.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="445.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			</dictionary>
+			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
+			<nil key="activeLocalization"/>
+			<dictionary class="NSMutableDictionary" key="localizations"/>
+			<nil key="sourceID"/>
+			<int key="maxID">469</int>
+		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">FormattedItemViewController</string>
+					<string key="superclassName">NSViewController</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="artworkView">NSImageView</string>
+						<string key="details">NSString</string>
+						<string key="detailsField">NSTextField</string>
+						<string key="formattedDescription">NSDictionary</string>
+						<string key="icon">NSImage</string>
+						<string key="title">NSString</string>
+						<string key="titleField">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="artworkView">
+							<string key="name">artworkView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="details">
+							<string key="name">details</string>
+							<string key="candidateClassName">NSString</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailsField">
+							<string key="name">detailsField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="formattedDescription">
+							<string key="name">formattedDescription</string>
+							<string key="candidateClassName">NSDictionary</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="icon">
+							<string key="name">icon</string>
+							<string key="candidateClassName">NSImage</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="title">
+							<string key="name">title</string>
+							<string key="candidateClassName">NSString</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="titleField">
+							<string key="name">titleField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FormattedItemViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GTLevelIndicator</string>
+					<string key="superclassName">NSLevelIndicator</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GTLevelIndicator.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GTLevelIndicatorCell</string>
+					<string key="superclassName">NSLevelIndicatorCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GTLevelIndicatorCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlTunesController</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="configureFormatting:">id</string>
+						<string key="quitGrowlTunes:">id</string>
+						<string key="quitGrowlTunesAndITunes:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="configureFormatting:">
+							<string key="name">configureFormatting:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitGrowlTunes:">
+							<string key="name">quitGrowlTunes:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitGrowlTunesAndITunes:">
+							<string key="name">quitGrowlTunesAndITunes:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="conductor">ITunesConductor</string>
+						<string key="currentTrackController">FormattedItemViewController</string>
+						<string key="currentTrackMenuItem">NSMenuItem</string>
+						<string key="loggingMenu">NSMenu</string>
+						<string key="statusItemMenu">NSMenu</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="conductor">
+							<string key="name">conductor</string>
+							<string key="candidateClassName">ITunesConductor</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="currentTrackController">
+							<string key="name">currentTrackController</string>
+							<string key="candidateClassName">FormattedItemViewController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="currentTrackMenuItem">
+							<string key="name">currentTrackMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loggingMenu">
+							<string key="name">loggingMenu</string>
+							<string key="candidateClassName">NSMenu</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="statusItemMenu">
+							<string key="name">statusItemMenu</string>
+							<string key="candidateClassName">NSMenu</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlTunesController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ITunesConductor</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="activate:">id</string>
+						<string key="nextTrack:">id</string>
+						<string key="playPause:">id</string>
+						<string key="previousTrack:">id</string>
+						<string key="quit:">id</string>
+						<string key="run:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="activate:">
+							<string key="name">activate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nextTrack:">
+							<string key="name">nextTrack:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="playPause:">
+							<string key="name">playPause:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="previousTrack:">
+							<string key="name">previousTrack:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quit:">
+							<string key="name">quit:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="run:">
+							<string key="name">run:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ITunesConductor.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
+		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1060" key="NS.object.0"/>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
+			<real value="4200" key="NS.object.0"/>
+		</object>
+		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NSMenuCheckmark">{11, 11}</string>
+			<string key="NSMenuMixedState">{10, 3}</string>
+		</dictionary>
+	</data>
+</archive>

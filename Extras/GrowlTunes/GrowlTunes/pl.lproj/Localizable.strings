@@ -1,0 +1,101 @@
+/* No comment provided by engineer. */
+"Album" = "Album";
+
+/* No comment provided by engineer. */
+"Album Artist" = "Wykonawca albumu";
+
+/* No comment provided by engineer. */
+"Album Artist or Artist" = "Wykonawca albumu lub wykonawca";
+
+/* No comment provided by engineer. */
+"Artist" = "Wykonawca";
+
+/* No comment provided by engineer. */
+"Bring iTunes to Front" = "Przenieś iTunes na wierzch";
+
+/* No comment provided by engineer. */
+"Changed Tracks" = "Zmieniono ścieżkę";
+
+/* No comment provided by engineer. */
+"Comment" = "Komentarz";
+
+/* No comment provided by engineer. */
+"Configure Formatting" = "Konfiguruj formatowanie";
+
+/* No comment provided by engineer. */
+"Description" = "Opis";
+
+/* No comment provided by engineer. */
+"Episode ID" = "Kod odcinka";
+
+/* No comment provided by engineer. */
+"Episode Number" = "Numer odcinka";
+
+/* No comment provided by engineer. */
+"Long Description" = "Rozszerzony opis";
+
+/* No comment provided by engineer. */
+"Long Description, Comment, or Description" = "Rozszerzony opis, komentarz lub opis";
+
+/* No comment provided by engineer. */
+"Name" = "Nazwa";
+
+/* No comment provided by engineer. */
+"Notify when iTunes is active" = "Powiadom gdy iTunes jest włączone";
+
+/* No comment provided by engineer. */
+"Paused" = "Wstrzymano";
+
+/* No comment provided by engineer. */
+"Play Time" = "Czas";
+
+/* No comment provided by engineer. */
+"Quit Both" = "Zakończ oba";
+
+/* No comment provided by engineer. */
+"Quit GrowlTunes" = "Zakończ GrowlTunes";
+
+/* No comment provided by engineer. */
+"Quit iTunes" = "Zakończ iTunes";
+
+/* No comment provided by engineer. */
+"Rating" = "Ocena";
+
+/* No comment provided by engineer. */
+"Season Number" = "Numer sezonu";
+
+/* No comment provided by engineer. */
+"Show" = "Program";
+
+/* No comment provided by engineer. */
+"Start iTunes" = "Uruchom iTunes";
+
+/* No comment provided by engineer. */
+"Started" = "Uruchomiono";
+
+/* No comment provided by engineer. */
+"Stopped" = "Zatrzymano";
+
+/* No comment provided by engineer. */
+"Stream Title" = "Strumieniuj pozycję";
+
+/* No comment provided by engineer. */
+"Track Count" = "Liczba ścieżek";
+
+/* No comment provided by engineer. */
+"Track Number" = "Numer ścieżki";
+
+/* No comment provided by engineer. */
+"Video Kind" = "Rodzaj wideo";
+
+/* No comment provided by engineer. */
+"Volume" = "Głośność";
+
+/* No comment provided by engineer. */
+"← Previous Track" = "← Poprzednia ścieżka";
+
+/* No comment provided by engineer. */
+"→ Next Track" = "→ Następna ścieżka";
+
+/* No comment provided by engineer. */
+"▶ Play/Pause" = "▶ Odtwarzanie/Pauza";

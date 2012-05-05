@@ -1,0 +1,2 @@
+- Aggiunte localizzazioni Francese e Spagnolo.
+- Risolto un problema con la localizzazione Svedese mostrata in Rumeno.

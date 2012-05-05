@@ -1,0 +1,193 @@
+#!/usr/bin/env ruby -S rake --verbose --trace --rakefile
+# -*- encoding: utf-8 -*-
+
+# it'd be fairly abnormal to install rake without RubyGems... but you never know, do you?
+require 'rubygems' unless defined?(Gem)
+
+
+##################
+# Path Variables #
+##################
+
+toplevel_dir                         = File.expand_path '..'
+                                  
+                                  
+#Transifex files                  
+ilocalize_dir                        = File.join(toplevel_dir, "iLocalize") # growl-dev/iLocalize
+translation_dir                      = File.join(ilocalize_dir, "translations") # growl-dev/iLocalize/translations
+
+#Core Growl
+core_growl_dir                       = File.join(toplevel_dir, "Core") #growl-dev/Core
+core_growl_resources_dir             = File.join(core_growl_dir, "Resources") #growl-dev/Core/Resources
+
+                                  
+#Display Plugins                  
+plugins_dir                          = File.join(toplevel_dir, "Plugins") # growl-dev/Plugins
+displays_dir                         = File.join(plugins_dir, "Displays") # growl-dev/Plugins/Displays
+
+#Automator
+system_plugins_dir                   = File.join(plugins_dir, "System") #growl-dev/Plugins/System
+growlaction_dir                      = File.join(system_plugins_dir, "GrowlAction") #growl-dev/Plugins/System/GrowlAction
+
+                                  
+#Extras                           
+extras_dir                           = File.join(toplevel_dir, "Extras") #growl-dev/Extras
+capster_dir                          = File.join(extras_dir, "Capster") #growl-dev/Extras/Capster
+capster_subdir                       = File.join(capster_dir, "Growl Caps Notifier") #growl-dev/Extras/Capster/Growl Caps Notifier
+hardwaregrowler_dir                  = File.join(extras_dir, "HardwareGrowler") #growl-dev/Extras/HardwareGrowler
+growltunes_dir                       = File.join(extras_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes
+growltunes_subdir                    = File.join(growltunes_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes/GrowlTunes
+
+#Extras
+capster_localizable_strings          = File.join(translation_dir, "TGP.capster-localizable-strings-file")
+growltunes_localizable_strings       = File.join(translation_dir, "TGP.growltunes-localizable-strings-file")
+hardwaregrowler_localizable_strings  = File.join(translation_dir, "TGP.hardwaregrowler-localizable-strings")
+
+#Growl Display Plugins
+growl_bezel_display_strings          = File.join(translation_dir, "TGP.growl-bezel-display-plugin-localizable-string")
+growl_ical_display_strings           = File.join(translation_dir, "TGP.growl-ical-display-localizable-string")
+growl_sms_display_strings            = File.join(translation_dir, "TGP.growl-sms-display-localizable-strings")
+growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-strings")
+growl_speech_display_strings         = File.join(translation_dir, "TGP.growl-speech-display-localizable-string")
+growl_brushed_display_strings        = File.join(translation_dir, "TGP.growl-brushed-localizable-string")
+
+#Growl Global Localizable Files
+growl_pluginpref_strings             = File.join(translation_dir, "TGP.growl-pluginprefstrings-strings-file")
+growl_action_strings                 = File.join(translation_dir, "TGP.growl-automator-action-localizable-strings")
+growl_localizable_strings            = File.join(translation_dir, "TGP.growl-localizable-strings-file")
+growl_mainmenu_strings               = File.join(translation_dir, "TGP.growl-mainmenu-strings-file")
+
+
+
+
+#Display Destinations
+ical_display_destination             = File.join(displays_dir, "iCal")
+bezel_display_destination            = File.join(displays_dir, "Bezel") # growl-dev/Plugins/Displays/Bezel
+sms_display_destination              = File.join(displays_dir, "SMS")
+mailme_display_destination           = File.join(displays_dir, "MailMe")
+speech_display_destination           = File.join(displays_dir, "Speech")
+brushed_display_destination          = File.join(displays_dir, "Brushed")
+
+#ShortcutRecorder Paths
+
+sr_destination                       = File.join(toplevel_dir, "../shortcutrecorder/Framework/Localizations")
+sr_source                            = File.join(translation_dir, "TGP.shortcutrecorder-localizable-strings")
+
+
+#Growl Global Localizable Files Destinations
+
+
+shortcodes = {
+    :sk => 'sk',
+    :pt_BR => 'pt-BR',
+    :nb_NO => 'nb',
+    :ja => 'ja',
+    :ko => 'ko',
+    :zh_CN => 'zh-Hans',
+    :zh_TW => 'zh-Hant',
+    :cs => 'cs',
+    :el => 'el',
+    :es_ES => 'es',
+    :fr => 'fr',
+    :nl => 'nl',
+    :pt_PT => 'pt_PT',
+    :ru_RU => 'ru',
+    :ro_RO => 'ro',
+    :pl => 'pl',
+    :de => 'de',
+    :da => 'da',
+    :sv => 'sv',
+    :et => 'et',
+    :he => 'he',
+    :ar => 'ar',
+    :lv_LV => 'lv',
+    :it => 'it',
+    :th_TH => 'th'
+}
+
+growl_translations = {
+    :growlaction => {:source => growl_action_strings,         :destination => "#{growlaction_dir}/%%lproj%%/InfoPlist.strings"},
+    :pluginprefs => {:source => growl_pluginpref_strings,     :destination => "#{core_growl_resources_dir}/%%lproj%%/PluginPrefStrings.strings"},
+    :growlmain =>   {:source => growl_localizable_strings,    :destination => "#{core_growl_resources_dir}/%%lproj%%/Localizable.strings"},
+    :mainmenu =>    {:source => growl_mainmenu_strings,       :destination => "#{core_growl_resources_dir}/%%lproj%%/mainmenu.strings"},
+    :bezel =>       {:source => growl_bezel_display_strings,  :destination => "#{bezel_display_destination}/%%lproj%%/Localizable.strings"},
+    :ical =>        {:source => growl_ical_display_strings,   :destination => "#{ical_display_destination}/%%lproj%%/Localizable.strings"},
+    :sms =>         {:source => growl_sms_display_strings,    :destination => "#{sms_display_destination}/%%lproj%%/Localizable.strings"},
+    :mailme =>      {:source => growl_mailme_display_strings, :destination => "#{mailme_display_destination}/%%lproj%%/Localizable.strings"},
+    :speech =>      {:source => growl_speech_display_strings, :destination => "#{speech_display_destination}/%%lproj%%/Localizable.strings"},
+    :brushed =>     {:source => growl_brushed_display_strings,:destination => "#{brushed_display_destination}/%%lproj%%/Localizable.strings"},
+}
+
+
+
+
+extras_translations = {
+    :capster =>         {:source => capster_localizable_strings,         :destination => "#{capster_subdir}/%%lproj%%/Localizable.strings"},
+    :growltunes =>      {:source => growltunes_localizable_strings,      :destination => "#{growltunes_subdir}/%%lproj%%/Localizable.strings"},
+    :hardwaregrowler => {:source => hardwaregrowler_localizable_strings, :destination => "#{hardwaregrowler_dir}/%%lproj%%/Localizable.strings"},
+}
+
+#################
+# End Variables #
+#################
+
+desc "Direct translation method, provide source in iLocalize and destination with lproj folder listed as %%lproj%%, rake translate[<source>,<destination>]"
+task :translate, :source, :destination do |t, args|
+    if args.count < 2
+        puts "Not enough arguments! Need source and destination"
+        return
+    end
+    
+    source = args[:source]
+    destination = args[:destination]
+    if !destination.include?("%%lproj%%")
+        puts "Destination doesn't contain %%lproj%%, without it, we wont know where to put the translated files"
+        return
+    end
+    
+    curdir = FileUtils.pwd()
+    FileUtils.cd("#{ilocalize_dir}")
+    shortcodes.each_pair do |key, value|
+#        puts "translating #{key} to #{value}"
+        strings = "#{key}.strings"
+        lproj = "#{value}.lproj"
+        
+        destCopy = Marshal.load(Marshal.dump(destination))
+        destCopy["%%lproj%%"] = lproj
+
+        destDir = File.dirname(destCopy)
+        if File.exist?("#{source}/#{strings}") and File.exist?(destDir)
+#            puts "from #{source}/#{strings} to #{destCopy}"
+            FileUtils.cp_r("#{source}/#{strings}", "#{destCopy}")
+#        else
+#            puts "Either start or destination doesn't exist"
+        end
+#        puts "Done with #{key}"
+    end
+end
+
+desc "update all growl.app bundled translations"
+task :update_growl do
+    growl_translations.each_pair do |key, value|
+        puts "copying translations for #{key}"
+        #the hash in growl_translations has the right keys for the :translate task
+        Rake::Task[:translate].execute(value)
+    end
+    puts "Done Updating Growl"
+end
+
+
+desc "update all growl.app bundled translations"
+task :update_extras do
+    extras_translations.each_pair do |key, value|
+        puts "copying translations for #{key}"
+        #the hash in extrasl_translations has the right keys for the :translate task
+        Rake::Task[:translate].execute(value)
+    end
+    puts "Done Updating Extras"
+end
+
+desc "update shortcut recorder"
+task :update_sr do
+    Rake::Task[:translate].invoke(sr_source, "#{sr_destination}/%%lproj%%/ShortcutRecorder.strings")
+end

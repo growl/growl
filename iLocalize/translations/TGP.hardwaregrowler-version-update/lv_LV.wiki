@@ -1,0 +1,2 @@
+- Papildināts ar tulkojumu franču un zviedru valodā.
+- Izlabota kļūda, zviedru tulkojuma vietā rādot rumāņu valodu.

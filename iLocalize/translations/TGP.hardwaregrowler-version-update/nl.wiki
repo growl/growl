@@ -1,0 +1,2 @@
+- Franse en Spaanse vertaling toegevoegd.
+- Probleem opgelost met de Zweedse vertaling die in het Roemeens werd weergegeven.

@@ -1,0 +1,2 @@
+- Französische und spanische Übersetzungen hinzugefügt
+- Ein Problem mit der Anzeige der schwedischen Übersetzung in Rumänisch behoben
