@@ -18,6 +18,8 @@
 		  contextString:(NSString*)context
 					plugin:(id)plugin;
 
+-(BOOL)onLaunchEnabled;
+
 @end
 
 @protocol HWGrowlPluginProtocol <NSObject>
@@ -37,6 +39,7 @@
 -(NSArray*)defaultNotifications;
 
 @optional
+-(void)postRegistrationInit;
 -(void)fireOnLaunchNotes;
 -(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked;
 

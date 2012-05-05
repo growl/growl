@@ -54,7 +54,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 	return self;
 }
 
--(void)fireOnLaunchNotes {
+-(void)postRegistrationInit {
 	[self registerForUSBNotifications];
 }
 
@@ -125,8 +125,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 	//	NSLog(@"USB Device Added Notification.");
 	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
-		Boolean keyExistsAndHasValidFormat;
-		if (self.notificationsArePrimed || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat)) {
+		if (self.notificationsArePrimed || [delegate onLaunchEnabled]) {
 			kern_return_t	nameResult;
 			io_name_t		deviceNameChars;
 			kern_return_t	idResult;
