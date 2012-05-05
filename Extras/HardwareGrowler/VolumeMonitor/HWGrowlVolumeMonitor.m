@@ -173,7 +173,6 @@
 
 - (void) sendMountNotificationForVolume:(VolumeInfo*)volume mounted:(BOOL)mounted {
 	NSArray *exceptions = [[NSUserDefaults standardUserDefaults] objectForKey:@"HWGVolumeMonitorExceptions"];
-	NSLog(@"%@", exceptions);
 	__block BOOL found = NO;
 	[exceptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSString *justAString = [obj valueForKey:@"justastring"];
