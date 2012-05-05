@@ -18,6 +18,11 @@
 		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
 		BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */; };
 		BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
+		BCA26B881555B3F5009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCA26B8E1555B3F5009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B8C1555B3F5009C5ABC /* InfoPlist.strings */; };
+		BCA26BA51555B46F009C5ABC /* HWGrowlFirewireMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */; };
+		BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */; };
+		BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
 		BCB805F8155153330088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805F7155153330088C69A /* main.m */; };
@@ -73,6 +78,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BCA26B5C155585C0009C5ABC;
 			remoteInfo = BluetoothMonitor;
+		};
+		BCA26BAB1555B64E009C5ABC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCA26B861555B3F5009C5ABC;
+			remoteInfo = FirewireMonitor;
 		};
 		BCB8066E155158DA0088C69A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -245,6 +257,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */,
 				BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */,
 				BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */,
 				BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */,
@@ -271,6 +284,12 @@
 		BCA26B6A155585FA009C5ABC /* HWGrowlBluetoothMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlBluetoothMonitor.h; sourceTree = "<group>"; };
 		BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlBluetoothMonitor.m; sourceTree = "<group>"; };
 		BCA26B7015558837009C5ABC /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
+		BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirewireMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26B8B1555B3F5009C5ABC /* FirewireMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FirewireMonitor-Info.plist"; sourceTree = "<group>"; };
+		BCA26B8D1555B3F5009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCA26B8F1555B3F5009C5ABC /* FirewireMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FirewireMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BCA26BA31555B46F009C5ABC /* HWGrowlFirewireMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlFirewireMonitor.h; sourceTree = "<group>"; };
+		BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlFirewireMonitor.m; sourceTree = "<group>"; };
 		BCB805E7155153330088C69A /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB805EB155153330088C69A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCB805EE155153330088C69A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -348,6 +367,15 @@
 			files = (
 				BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */,
 				BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCA26B841555B3F5009C5ABC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26B881555B3F5009C5ABC /* Cocoa.framework in Frameworks */,
+				BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,6 +459,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BCA26B891555B3F5009C5ABC /* FirewireMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BCA26BA31555B46F009C5ABC /* HWGrowlFirewireMonitor.h */,
+				BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */,
+				BCA26B8A1555B3F5009C5ABC /* Supporting Files */,
+			);
+			name = FirewireMonitor;
+			path = ../FirewireMonitor;
+			sourceTree = "<group>";
+		};
+		BCA26B8A1555B3F5009C5ABC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCA26B8B1555B3F5009C5ABC /* FirewireMonitor-Info.plist */,
+				BCA26B8C1555B3F5009C5ABC /* InfoPlist.strings */,
+				BCA26B8F1555B3F5009C5ABC /* FirewireMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		BCB805DC155153330088C69A = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +501,7 @@
 				BCECA38C155322D200F49280 /* VolumeMonitor.bundle */,
 				BC523C221555686000548427 /* USBMonitor.bundle */,
 				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */,
+				BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -609,6 +659,7 @@
 				BCB8074A1551A6EA0088C69A /* NetworkMonitor */,
 				BC523C241555686000548427 /* USBMonitor */,
 				BCA26B5F155585C0009C5ABC /* BluetoothMonitor */,
+				BCA26B891555B3F5009C5ABC /* FirewireMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -684,6 +735,23 @@
 			productReference = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		BCA26B861555B3F5009C5ABC /* FirewireMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCA26BA11555B3F5009C5ABC /* Build configuration list for PBXNativeTarget "FirewireMonitor" */;
+			buildPhases = (
+				BCA26B831555B3F5009C5ABC /* Sources */,
+				BCA26B841555B3F5009C5ABC /* Frameworks */,
+				BCA26B851555B3F5009C5ABC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FirewireMonitor;
+			productName = FirewireMonitor;
+			productReference = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		BCB805E6155153330088C69A /* HardwareGrowler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCB80605155153330088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowler" */;
@@ -699,6 +767,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
 				BCA26B6F15558817009C5ABC /* PBXTargetDependency */,
 				BC523C3315556B4500548427 /* PBXTargetDependency */,
 				BCECA3AD155325CC00F49280 /* PBXTargetDependency */,
@@ -795,6 +864,7 @@
 				BCECA38B155322D200F49280 /* VolumeMonitor */,
 				BC523C211555686000548427 /* USBMonitor */,
 				BCA26B5C155585C0009C5ABC /* BluetoothMonitor */,
+				BCA26B861555B3F5009C5ABC /* FirewireMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -924,6 +994,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26B851555B3F5009C5ABC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26B8E1555B3F5009C5ABC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E5155153330088C69A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1005,6 +1083,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26B831555B3F5009C5ABC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26BA51555B46F009C5ABC /* HWGrowlFirewireMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E3155153330088C69A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1058,6 +1144,11 @@
 			target = BCA26B5C155585C0009C5ABC /* BluetoothMonitor */;
 			targetProxy = BCA26B6E15558817009C5ABC /* PBXContainerItemProxy */;
 		};
+		BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCA26B861555B3F5009C5ABC /* FirewireMonitor */;
+			targetProxy = BCA26BAB1555B64E009C5ABC /* PBXContainerItemProxy */;
+		};
 		BCB8068E155158EF0088C69A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GNTPClientService;
@@ -1098,6 +1189,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCA26B63155585C0009C5ABC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCA26B8C1555B3F5009C5ABC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCA26B8D1555B3F5009C5ABC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1254,6 +1353,51 @@
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "BluetoothMonitor/BluetoothMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		BCA26B901555B3F5009C5ABC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
+				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BCA26B911555B3F5009C5ABC /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
+				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Localization;
+		};
+		BCA26B921555B3F5009C5ABC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
+				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1550,6 +1694,16 @@
 				BCA26B67155585C0009C5ABC /* Debug */,
 				BCA26B68155585C0009C5ABC /* Localization */,
 				BCA26B69155585C0009C5ABC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BCA26BA11555B3F5009C5ABC /* Build configuration list for PBXNativeTarget "FirewireMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCA26B901555B3F5009C5ABC /* Debug */,
+				BCA26B911555B3F5009C5ABC /* Localization */,
+				BCA26B921555B3F5009C5ABC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
