@@ -23,6 +23,11 @@
 		BCA26BA51555B46F009C5ABC /* HWGrowlFirewireMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */; };
 		BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */; };
 		BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
+		BCA26BB41555BB1B009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCA26BBA1555BB1B009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26BB81555BB1B009C5ABC /* InfoPlist.strings */; };
+		BCAA1764155784C800D9E4ED /* HWGrowlPowerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */; };
+		BCAA17671557858700D9E4ED /* PowerMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */; };
+		BCAA1778155804A000D9E4ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
 		BCB805F8155153330088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805F7155153330088C69A /* main.m */; };
@@ -85,6 +90,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BCA26B861555B3F5009C5ABC;
 			remoteInfo = FirewireMonitor;
+		};
+		BCAA17651557857C00D9E4ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCA26BB21555BB1A009C5ABC;
+			remoteInfo = PowerMonitor;
 		};
 		BCB8066E155158DA0088C69A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -257,6 +269,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCAA17671557858700D9E4ED /* PowerMonitor.bundle in Copy Plugins */,
 				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */,
 				BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */,
 				BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */,
@@ -290,6 +303,12 @@
 		BCA26B8F1555B3F5009C5ABC /* FirewireMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FirewireMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BCA26BA31555B46F009C5ABC /* HWGrowlFirewireMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlFirewireMonitor.h; sourceTree = "<group>"; };
 		BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlFirewireMonitor.m; sourceTree = "<group>"; };
+		BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PowerMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26BB71555BB1B009C5ABC /* PowerMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PowerMonitor-Info.plist"; sourceTree = "<group>"; };
+		BCA26BB91555BB1B009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCA26BBB1555BB1B009C5ABC /* PowerMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PowerMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BCAA1762155784C800D9E4ED /* HWGrowlPowerMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlPowerMonitor.h; sourceTree = "<group>"; };
+		BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPowerMonitor.m; sourceTree = "<group>"; };
 		BCB805E7155153330088C69A /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB805EB155153330088C69A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCB805EE155153330088C69A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -376,6 +395,15 @@
 			files = (
 				BCA26B881555B3F5009C5ABC /* Cocoa.framework in Frameworks */,
 				BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCA26BB01555BB1A009C5ABC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26BB41555BB1B009C5ABC /* Cocoa.framework in Frameworks */,
+				BCAA1778155804A000D9E4ED /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +508,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BCA26BB51555BB1B009C5ABC /* PowerMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BCAA1762155784C800D9E4ED /* HWGrowlPowerMonitor.h */,
+				BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */,
+				BCA26BB61555BB1B009C5ABC /* Supporting Files */,
+			);
+			name = PowerMonitor;
+			path = ../PowerMonitor;
+			sourceTree = "<group>";
+		};
+		BCA26BB61555BB1B009C5ABC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCA26BB71555BB1B009C5ABC /* PowerMonitor-Info.plist */,
+				BCA26BB81555BB1B009C5ABC /* InfoPlist.strings */,
+				BCA26BBB1555BB1B009C5ABC /* PowerMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		BCB805DC155153330088C69A = {
 			isa = PBXGroup;
 			children = (
@@ -502,6 +551,7 @@
 				BC523C221555686000548427 /* USBMonitor.bundle */,
 				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */,
 				BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */,
+				BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -660,6 +710,7 @@
 				BC523C241555686000548427 /* USBMonitor */,
 				BCA26B5F155585C0009C5ABC /* BluetoothMonitor */,
 				BCA26B891555B3F5009C5ABC /* FirewireMonitor */,
+				BCA26BB51555BB1B009C5ABC /* PowerMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -752,6 +803,23 @@
 			productReference = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		BCA26BB21555BB1A009C5ABC /* PowerMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCA26BBC1555BB1B009C5ABC /* Build configuration list for PBXNativeTarget "PowerMonitor" */;
+			buildPhases = (
+				BCA26BAF1555BB1A009C5ABC /* Sources */,
+				BCA26BB01555BB1A009C5ABC /* Frameworks */,
+				BCA26BB11555BB1A009C5ABC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PowerMonitor;
+			productName = PowerMonitor;
+			productReference = BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		BCB805E6155153330088C69A /* HardwareGrowler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCB80605155153330088C69A /* Build configuration list for PBXNativeTarget "HardwareGrowler" */;
@@ -767,6 +835,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BCAA17661557857C00D9E4ED /* PBXTargetDependency */,
 				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
 				BCA26B6F15558817009C5ABC /* PBXTargetDependency */,
 				BC523C3315556B4500548427 /* PBXTargetDependency */,
@@ -865,6 +934,7 @@
 				BC523C211555686000548427 /* USBMonitor */,
 				BCA26B5C155585C0009C5ABC /* BluetoothMonitor */,
 				BCA26B861555B3F5009C5ABC /* FirewireMonitor */,
+				BCA26BB21555BB1A009C5ABC /* PowerMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -1002,6 +1072,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26BB11555BB1A009C5ABC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA26BBA1555BB1B009C5ABC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E5155153330088C69A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1091,6 +1169,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCA26BAF1555BB1A009C5ABC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCAA1764155784C800D9E4ED /* HWGrowlPowerMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCB805E3155153330088C69A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1149,6 +1235,11 @@
 			target = BCA26B861555B3F5009C5ABC /* FirewireMonitor */;
 			targetProxy = BCA26BAB1555B64E009C5ABC /* PBXContainerItemProxy */;
 		};
+		BCAA17661557857C00D9E4ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCA26BB21555BB1A009C5ABC /* PowerMonitor */;
+			targetProxy = BCAA17651557857C00D9E4ED /* PBXContainerItemProxy */;
+		};
 		BCB8068E155158EF0088C69A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GNTPClientService;
@@ -1197,6 +1288,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCA26B8D1555B3F5009C5ABC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCA26BB81555BB1B009C5ABC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCA26BB91555BB1B009C5ABC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1402,6 +1501,93 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		BCA26BBD1555BB1B009C5ABC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
+				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wpointer-arith",
+					"-Wformat=2",
+					"-Wstrict-overflow=4",
+					"-Wbad-function-cast",
+					"-Winline",
+					"-Wstrict-aliasing",
+					"-Wno-unused-parameter",
+					"-Wno-format-nonliteral",
+					"-Wno-multichar",
+					"-Wno-arc-performSelector-leaks",
+				);
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BCA26BBE1555BB1B009C5ABC /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
+				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wpointer-arith",
+					"-Wformat=2",
+					"-Wstrict-overflow=4",
+					"-Wbad-function-cast",
+					"-Winline",
+					"-Wstrict-aliasing",
+					"-Wno-unused-parameter",
+					"-Wno-format-nonliteral",
+					"-Wno-multichar",
+					"-Wno-arc-performSelector-leaks",
+				);
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Localization;
+		};
+		BCA26BBF1555BB1B009C5ABC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
+				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wpointer-arith",
+					"-Wformat=2",
+					"-Wstrict-overflow=4",
+					"-Wbad-function-cast",
+					"-Winline",
+					"-Wstrict-aliasing",
+					"-Wno-unused-parameter",
+					"-Wno-format-nonliteral",
+					"-Wno-multichar",
+					"-Wno-arc-performSelector-leaks",
+				);
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1706,6 +1892,17 @@
 				BCA26B921555B3F5009C5ABC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BCA26BBC1555BB1B009C5ABC /* Build configuration list for PBXNativeTarget "PowerMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCA26BBD1555BB1B009C5ABC /* Debug */,
+				BCA26BBE1555BB1B009C5ABC /* Localization */,
+				BCA26BBF1555BB1B009C5ABC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BCB805E1155153330088C69A /* Build configuration list for PBXProject "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
