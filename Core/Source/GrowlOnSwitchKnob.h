@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GrowlOnSwitchKnob : NSView
+@interface GrowlOnSwitchKnob : NSView {
+	BOOL pressed;
+}
 
 @property (nonatomic) BOOL pressed;
 

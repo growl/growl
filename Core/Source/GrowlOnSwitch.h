@@ -14,7 +14,14 @@
 
 @class GrowlOnSwitchKnob;
 
-@interface GrowlOnSwitch : NSControl
+@interface GrowlOnSwitch : NSControl {
+	GrowlOnSwitchKnob *knob;
+	NSTextField *onLabel;
+	NSTextField *offLabel;
+	
+	BOOL state;
+	CGPoint mouseLoc;
+}
 
 @property (nonatomic, retain) GrowlOnSwitchKnob *knob;
 @property (nonatomic, retain) NSTextField *onLabel;

@@ -18,6 +18,7 @@ typedef enum {
 } HWGrowlIconState;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSToolbarDelegate, NSTableViewDelegate> {
+	NSWindow *_window;
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 	
@@ -28,6 +29,27 @@ typedef enum {
 	BOOL oldOnLoginValue;
 	
 	HWGrowlPluginController *pluginController;
+		
+	NSToolbar *toolbar;
+	NSTabView *tabView;
+	NSTableView *tableView;
+	NSView *containerView;
+	NSView *placeholderView;
+	NSView *currentView;
+	
+	NSString *showDevices;
+	NSString *groupNetworkTitle;
+	NSString *quitTitle;
+	NSString *preferencesTitle;
+	NSString *openPreferencesTitle;
+	NSString *iconTitle;
+	NSString *startAtLoginTitle;
+	
+	NSString *iconInMenu;
+	NSString *iconInDock;
+	NSString *iconInBoth;
+	NSString *noIcon;
+	
 }
 
 @property (nonatomic, retain) NSString *showDevices;

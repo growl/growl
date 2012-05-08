@@ -10,7 +10,11 @@
 #import <Growl/Growl.h>
 #import "HardwareGrowlPlugin.h"
 
-@interface HWGrowlPluginController : NSObject <HWGrowlPluginControllerProtocol, GrowlApplicationBridgeDelegate>
+@interface HWGrowlPluginController : NSObject <HWGrowlPluginControllerProtocol, GrowlApplicationBridgeDelegate> {
+	NSMutableArray *plugins;
+	NSMutableArray *notifiers;
+	NSMutableArray *monitors;
+}
 
 @property (nonatomic, retain) NSMutableArray *plugins;
 
