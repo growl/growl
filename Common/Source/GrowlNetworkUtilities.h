@@ -7,8 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @interface GrowlNetworkUtilities : NSObject
+
++(NSArray*)routableIPAddresses;
++(NSString*)getPrimaryIPOfType:(NSString*)type fromStore:(SCDynamicStoreRef)dynStore;
 
 +(NSString*)localHostName;
 
