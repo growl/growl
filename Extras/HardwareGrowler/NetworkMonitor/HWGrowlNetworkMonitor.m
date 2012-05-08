@@ -10,12 +10,64 @@
 #import "GrowlNetworkUtilities.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
+#include <sys/socket.h>
+#include <sys/sockio.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+#include <net/if_media.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+
+/* @"Link Status" == 1 seems to mean disconnected */
+#define AIRPORT_DISCONNECTED 1
+
+static struct ifmedia_description ifm_subtype_ethernet_descriptions[] = IFM_SUBTYPE_ETHERNET_DESCRIPTIONS;
+static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_OPTION_DESCRIPTIONS;
+
+typedef enum {
+	HWGAirPortInterface,
+	HWGEthernetInterface,
+} NetworkInterfaceType;
+
+@interface HWGrowlNetworkInterfaceStatus : NSObject;
+
+@property (nonatomic, retain) NSString *interface;
+@property (nonatomic, retain) NSDictionary *status;
+@property (nonatomic, assign) NetworkInterfaceType type;
+
+-(id)initForInterface:(NSString*)anInterface ofType:(NetworkInterfaceType)aType withStatus:(NSDictionary*)theStatus;
+
+@end
+
+@implementation HWGrowlNetworkInterfaceStatus
+
+@synthesize interface;
+@synthesize status;
+@synthesize type;
+
+-(id)initForInterface:(NSString *)anInterface 
+					ofType:(NetworkInterfaceType)aType 
+			  withStatus:(NSDictionary *)theStatus 
+{
+	if((self = [super init])){
+		self.interface = anInterface;
+		self.type = aType;
+		self.status = theStatus;
+	}
+	return self;
+}
+
+@end
+
 @interface HWGrowlNetworkMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
 
 @property (nonatomic, assign) SCDynamicStoreRef dynStore;
 @property (nonatomic, assign) CFRunLoopSourceRef rlSrc;
+
+@property (nonatomic, retain) NSMutableDictionary *networkInterfaceStates;
 
 @end
 
@@ -24,9 +76,11 @@
 @synthesize delegate;
 @synthesize rlSrc;
 @synthesize dynStore;
+@synthesize networkInterfaceStates;
 
 -(id)init {
 	if((self = [super init])){
+		self.networkInterfaceStates = [NSMutableDictionary dictionary];
 		[self startObserving];
 	}
 	return self;
@@ -37,6 +91,8 @@
 		CFRunLoopRemoveSource(CFRunLoopGetMain(), rlSrc, kCFRunLoopDefaultMode);
    if (dynStore)
 		CFRelease(dynStore);
+	
+	[networkInterfaceStates release];
 	[super dealloc];
 }
 
@@ -92,7 +148,224 @@
 }
 
 -(void)updateInterfaces {
+	NSDictionary *interfaces = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface"));
+	NSArray *interfaceNames = [interfaces objectForKey:@"Interfaces"];
+	[interfaceNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if (![obj hasPrefix:@"en"] || [obj length] < 3 || !isdigit([obj characterAtIndex:2])) {
+			return;
+		}
+		
+		//Check against airport first
+		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", obj];
+		NSDictionary *status = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+		if(status) {
+			//NSLog(@"%@ is an AirPort link", obj);
+			[self updateInterface:obj forType:HWGAirPortInterface withStatus:status];			
+			[status release];
+			return;
+		}
+		
+		key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", obj];
+		status = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+		if(status) {
+			//NSLog(@"%@ is an Ethernet link", obj);
+			[self updateInterface:obj forType:HWGEthernetInterface withStatus:status];			
+			[status release];
+			return;
+		}
+	}];
+	[interfaces release];
+}
+
+-(void)updateInterface:(NSString*)interface forType:(NetworkInterfaceType)type withStatus:(NSDictionary*)status {
+	HWGrowlNetworkInterfaceStatus *new = [[[HWGrowlNetworkInterfaceStatus alloc] initForInterface:interface
+																														ofType:type
+																												  withStatus:status] autorelease];	
+	if(type == HWGAirPortInterface)
+		[self updateAirportWithInterface:new];
+	else if(type == HWGEthernetInterface)
+		[self updateLinkWithInterface:new];
 	
+	[networkInterfaceStates setObject:new forKey:interface];
+}
+
+-(void)updateAirportWithInterface:(HWGrowlNetworkInterfaceStatus*)interface {
+	NSString *interfaceString = [interface interface];
+	NSDictionary *newValue = [interface status];
+	NSDictionary *existing = [(HWGrowlNetworkInterfaceStatus*)[networkInterfaceStates objectForKey:interfaceString] status];
+	//	NSLog(CFSTR("AirPort event"));
+	
+	NSData *newBSSID = nil;
+	if (newValue)
+		newBSSID = [newValue objectForKey:@"BSSID"];
+	
+	NSData *oldBSSID = nil;
+	if (existing)
+		oldBSSID = [existing objectForKey:@"BSSID"];
+	
+	if (newValue && oldBSSID != newBSSID && !(newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
+		NSNumber *linkStatus = [newValue objectForKey:@"Link Status"];
+		NSNumber *powerStatus = [newValue objectForKey:@"Power Status"];
+		if (linkStatus || powerStatus) {
+			int status = 0;
+			if (linkStatus) {
+				status = [linkStatus intValue];
+			} else if (powerStatus) {
+				status = [powerStatus intValue];
+				status = !status;
+			}
+			NSString *networkName = nil;
+			if (status == AIRPORT_DISCONNECTED) {
+				networkName = [existing objectForKey:@"SSID_STR"];
+				if (!networkName)
+					networkName = [existing objectForKey:@"SSID"];
+				[self airportDisconnected:networkName];
+			} else {
+				networkName = [newValue objectForKey:@"SSID_STR"];
+				if (!networkName)
+					networkName = [newValue objectForKey:@"SSID"];
+				if(networkName && newBSSID){
+					[self airportConnected:networkName bssid:newBSSID];
+				}
+			}
+		}
+	}
+}
+
+-(void)airportDisconnected:(NSString*)networkName {
+	[delegate notifyWithName:@"AirportDisconnected"
+							 title:NSLocalizedString(@"AirPort Disconnected", @"")
+					 description:[NSString stringWithFormat:@"Left network %@.", networkName]
+							  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+			  identifierString:@"HWGrowlAirPort"
+				  contextString:nil 
+							plugin:self];
+}
+
+-(void)airportConnected:(NSString*)name bssid:(NSData*)data {
+	const unsigned char *bssidBytes = [data bytes];
+	
+	NSString *bssid = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+							 bssidBytes[0],
+							 bssidBytes[1],
+							 bssidBytes[2],
+							 bssidBytes[3],
+							 bssidBytes[4],
+							 bssidBytes[5]];
+	NSString *description = [NSString stringWithFormat:NSLocalizedString(@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@", ""),
+									 name,
+									 bssid];
+	
+	[delegate notifyWithName:@"AirportConnected"
+							 title:NSLocalizedString(@"AirPort Connected", @"")
+					 description:description
+							  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+			  identifierString:@"HWGrowlAirPort"
+				  contextString:nil
+							plugin:self];
+}
+
+-(void)updateLinkWithInterface:(HWGrowlNetworkInterfaceStatus*)interface {
+	NSString *interfaceString = [interface interface];
+	NSDictionary *newValue = [interface status];
+	NSDictionary *existing = [(HWGrowlNetworkInterfaceStatus*)[networkInterfaceStates objectForKey:interfaceString] status];
+	int newActive = [[newValue objectForKey:@"Active"] intValue];
+	int oldActive = [[existing objectForKey:@"Active"] intValue];
+	
+	NSString *noteName = nil;
+	NSString *noteTitle = nil;
+	NSString *noteDescription = nil;
+	if (newActive && !oldActive) {
+		noteName = @"NetworkLinkUp";
+		noteTitle = NSLocalizedString(@"Network Link Up", @"");
+		noteDescription = [NSString stringWithFormat:
+								 NSLocalizedString(@"Interface:\t%@\nMedia:\t%@", "The first %@ will be replaced with the interface (en0, en1, etc) second %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex'"),
+								 interfaceString,
+								 [self getMediaForInterface:interfaceString]];
+		
+	} else if (!newActive && oldActive) {
+		noteName = @"NetworkLinkDown";
+		noteTitle = @"Network Link Down";
+		noteDescription = [NSString stringWithFormat:NSLocalizedString(@"Interface:\t%@", nil), interfaceString];
+	}
+	
+	if(noteName){
+		[delegate notifyWithName:noteName
+								 title:noteTitle
+						 description:noteDescription
+								  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+				  identifierString:@"HWGrowlNetworkLink"
+					  contextString:nil
+								plugin:self];
+	}
+}
+
+/* TO DO: REWRITE ME WITH BETTER METHODS OF GETTING INFO */
+- (NSString *)getMediaForInterface:(NSString*)interfaceString {
+	// This is all made by looking through Darwin's src/network_cmds/ifconfig.tproj.
+	// There's no pretty way to get media stuff; I've stripped it down to the essentials
+	// for what I'm doing.
+	
+	const char *interface = [interfaceString UTF8String];
+	size_t length = strlen(interface);
+	if (length >= IFNAMSIZ)
+		NSLog(@"Interface name too long");
+	
+	int s = socket(AF_INET, SOCK_DGRAM, 0);
+	if (s < 0) {
+		NSLog(@"Can't open datagram socket");
+		return NULL;
+	}
+	struct ifmediareq ifmr;
+	memset(&ifmr, 0, sizeof(ifmr));
+	strncpy(ifmr.ifm_name, interface, sizeof(ifmr.ifm_name));
+	
+	if (ioctl(s, SIOCGIFMEDIA, (caddr_t)&ifmr) < 0) {
+		// Media not supported.
+		close(s);
+		return NULL;
+	}
+	
+	close(s);
+	
+	// Now ifmr.ifm_current holds the selected type (probably auto-select)
+	// ifmr.ifm_active holds details (100baseT <full-duplex> or similar)
+	// We only want the ifm_active bit.
+	
+	const char *type = "Unknown";
+	
+	// We'll only look in the Ethernet list. I don't care about anything else.
+	struct ifmedia_description *desc;
+	for (desc = ifm_subtype_ethernet_descriptions; desc->ifmt_string; ++desc) {
+		if (IFM_SUBTYPE(ifmr.ifm_active) == desc->ifmt_word) {
+			type = desc->ifmt_string;
+			break;
+		}
+	}
+	
+	NSMutableString *options = nil;
+	
+	// And fill in the duplex settings.
+	for (desc = ifm_shared_option_descriptions; desc->ifmt_string; desc++) {
+		if (ifmr.ifm_active & desc->ifmt_word) {
+			if (options) {
+				[options appendFormat:@",%s", desc->ifmt_string];
+			} else {
+				options = [NSMutableString stringWithUTF8String:desc->ifmt_string];
+			}
+		}
+	}
+	
+	NSString *media;
+	if (options) {
+		media = [NSString stringWithFormat:@"%s <%@>",
+					type,
+					options];
+	} else {
+		media = [NSString stringWithUTF8String:type];
+	}
+	
+	return media;
 }
 
 -(void)updateIP {
@@ -139,16 +412,24 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 #pragma mark HWGrowlPluginNotifierProtocol
 
 -(NSArray*)noteNames {
-	return [NSArray arrayWithObject:@"IPAddressChange"];
+	return [NSArray arrayWithObjects:@"IPAddressChange", @"NetworkLinkUp", @"NetworkLinkDown", @"AirportConnected", @"AirportDisconnected", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObject:@"IP Address Changed" forKey:@"IPAddressChange"];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"IP Address Changed", @""), @"IPAddressChange",
+			  NSLocalizedString(@"Network Link Up", @""), @"NetworkLinkUp",
+			  NSLocalizedString(@"Network Link Down", @""), @"NetworkLinkDown", 
+			  NSLocalizedString(@"AirPort Connected", @""), @"AirportConnected", 
+			  NSLocalizedString(@"AirPort Disconnected", @""), @"AirportDisconnected", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObject:@"Sent when the systems IP address changes" forKey:@"IPAddressChange"];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when the systems IP address changes", @""), @"IPAddressChange", 
+			  NSLocalizedString(@"Sent when an Ethernet link starts", @""), @"NetworkLinkUp",
+			  NSLocalizedString(@"Sent when an Ethernet link goes down", @""), @"NetworkLinkDown", 
+			  NSLocalizedString(@"Sent when AirPort connects to a network", @""), @"AirportConnected", 
+			  NSLocalizedString(@"Sent when AirPort disconnects from a network", @""), @"AirportDisconnected", nil];
 }
 -(NSArray*)defaultNotifications {
-	return [NSArray arrayWithObject:@"IPAddressChange"];
+	return [NSArray arrayWithObjects:@"IPAddressChange", @"NetworkLinkUp", @"NetworkLinkDown", @"AirportConnected", @"AirportDisconnected", nil];
 }
 
 @end

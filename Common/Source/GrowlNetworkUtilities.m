@@ -75,9 +75,8 @@
 			}
 			CFRelease(ipInfo);
 		}
-	}   
-   if (newValue)
       CFRelease(newValue);
+	}   
    return returnIP;
 }
 
