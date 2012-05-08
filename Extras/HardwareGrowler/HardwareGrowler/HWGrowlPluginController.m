@@ -51,14 +51,12 @@
 	if(pluginBundles) {
 		__block HWGrowlPluginController *blockSelf = self;
 		[pluginBundles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			BOOL success = NO;
 			NSString *bundlePath = [pluginsPath stringByAppendingPathComponent:obj];
 			NSBundle *pluginBundle = [NSBundle bundleWithPath:bundlePath];
 			if(pluginBundle && [pluginBundle load]){
 				id plugin = [[[pluginBundle principalClass] alloc] init];
 				if(plugin){ 
 					if([plugin conformsToProtocol:@protocol(HWGrowlPluginProtocol)]){
-						success = YES;
 						[plugin setDelegate:self];
 						[blockSelf.plugins addObject:plugin];
 						if([plugin conformsToProtocol:@protocol(HWGrowlPluginNotifierProtocol)])

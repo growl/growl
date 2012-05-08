@@ -148,8 +148,8 @@ typedef enum {
 }
 
 -(void)updateInterfaces {
-	NSDictionary *interfaces = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface"));
-	NSArray *interfaceNames = [interfaces objectForKey:@"Interfaces"];
+	CFDictionaryRef interfaces = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface"));
+	NSArray *interfaceNames = [(NSDictionary*)interfaces objectForKey:@"Interfaces"];
 	[interfaceNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		if (![obj hasPrefix:@"en"] || [obj length] < 3 || !isdigit([obj characterAtIndex:2])) {
 			return;
@@ -157,24 +157,24 @@ typedef enum {
 		
 		//Check against airport first
 		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", obj];
-		NSDictionary *status = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+		CFDictionaryRef status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
 		if(status) {
 			//NSLog(@"%@ is an AirPort link", obj);
-			[self updateInterface:obj forType:HWGAirPortInterface withStatus:status];			
-			[status release];
+			[self updateInterface:obj forType:HWGAirPortInterface withStatus:(NSDictionary*)status];			
+			CFRelease(status);
 			return;
 		}
 		
 		key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", obj];
-		status = (NSDictionary*)SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+		status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
 		if(status) {
 			//NSLog(@"%@ is an Ethernet link", obj);
-			[self updateInterface:obj forType:HWGEthernetInterface withStatus:status];			
-			[status release];
+			[self updateInterface:obj forType:HWGEthernetInterface withStatus:(NSDictionary*)status];			
+			CFRelease(status);
 			return;
 		}
 	}];
-	[interfaces release];
+	CFRelease(interfaces);
 }
 
 -(void)updateInterface:(NSString*)interface forType:(NetworkInterfaceType)type withStatus:(NSDictionary*)status {

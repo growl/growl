@@ -40,6 +40,12 @@
 	return self;
 }
 
+-(void)dealloc {
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
+	CFRelease(notificationRunLoopSource);
+	[super dealloc];
+}
+
 -(void)fireOnLaunchNotes {
 	[self powerSourceChanged];
 }
@@ -100,6 +106,7 @@
 					}
 				}
 			}
+			CFRelease(powerSourcesList);
 		}
 			break;
 		case HGUPSPower:
@@ -193,7 +200,7 @@
 			CFNumberRef currentCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
 			CFNumberRef maxCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
 			
-			CFIndex currentCapacity, maxCapacity, sourceCapacity;
+			CFIndex currentCapacity, maxCapacity, sourceCapacity = -1;
 			
 			if (CFNumberGetValue(currentCapacityNum, kCFNumberCFIndexType, &currentCapacity) &&
 				 CFNumberGetValue(maxCapacityNum, kCFNumberCFIndexType, &maxCapacity))
@@ -203,6 +210,8 @@
 				percentageCapacity = sourceCapacity;
 		}
 	}
+	CFRelease(sourcesBlob);
+	CFRelease(powerSourcesList);
 	return percentageCapacity;
 }
 
