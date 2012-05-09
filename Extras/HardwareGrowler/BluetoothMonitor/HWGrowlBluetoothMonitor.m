@@ -56,7 +56,6 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 									  withKeyPath:@"values.SuppressBluetoothModuleWarn"
 											options:nil];
 			[alert runModal];
-			[alert release];
 		}
 		[self release];
 		return nil;
