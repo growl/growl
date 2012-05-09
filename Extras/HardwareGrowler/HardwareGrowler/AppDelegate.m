@@ -256,11 +256,28 @@
 
 #pragma mark Module Table
 
+-(IBAction)moduleCheckbox:(id)sender {
+	NSInteger selection = [tableView clickedRow];
+	if(selection >= 0 && (NSUInteger)selection < [[pluginController plugins] count]){
+		NSMutableDictionary *pluginDict = [[pluginController plugins] objectAtIndex:selection];
+		NSString *identifier = [[NSBundle bundleForClass:[[pluginDict objectForKey:@"plugin"] class]] bundleIdentifier];
+		NSNumber *disabled = [pluginDict objectForKey:@"disabled"];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		NSMutableDictionary *disabledDict = [[[defaults objectForKey:@"DisabledPlugins"] mutableCopy] autorelease];
+		if(!disabledDict)
+			disabledDict = [NSMutableDictionary dictionary];
+		[disabledDict setObject:disabled forKey:identifier];
+		[defaults setObject:disabledDict forKey:@"DisabledPlugins"];
+		[defaults synchronize];
+	}
+}
+
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSInteger selection = [tableView selectedRow];
 	NSView *newView = nil;
 	if(selection >= 0 && (NSUInteger)selection < [[pluginController plugins] count]){
-		id<HWGrowlPluginProtocol> plugin = [[pluginController plugins] objectAtIndex:selection];
+		id<HWGrowlPluginProtocol> plugin = [[[pluginController plugins] objectAtIndex:selection] objectForKey:@"plugin"];
 		if([plugin preferencePane]){
 			newView = [plugin preferencePane];
 		}else{

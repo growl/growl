@@ -49,40 +49,54 @@
 	NSArray *pluginBundles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginsPath 
 																										  error:nil];
 	if(pluginBundles) {
+		NSDictionary *disabledPlugins = [[NSUserDefaults standardUserDefaults] objectForKey:@"DisabledPlugins"];
+		
 		__block HWGrowlPluginController *blockSelf = self;
 		[pluginBundles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			NSString *bundlePath = [pluginsPath stringByAppendingPathComponent:obj];
 			NSBundle *pluginBundle = [NSBundle bundleWithPath:bundlePath];
-			if(pluginBundle && [pluginBundle load]){
+			if(pluginBundle && [pluginBundle load])
+			{
+				NSString *bundleID = [pluginBundle bundleIdentifier];
 				id plugin = [[[pluginBundle principalClass] alloc] init];
-				if(plugin){ 
-					if([plugin conformsToProtocol:@protocol(HWGrowlPluginProtocol)]){
+				if(plugin)
+				{ 
+					if([plugin conformsToProtocol:@protocol(HWGrowlPluginProtocol)])
+					{
 						[plugin setDelegate:self];
-						[blockSelf.plugins addObject:plugin];
+						BOOL disabled = NO;
+						if(disabledPlugins && [disabledPlugins objectForKey:bundleID])
+							disabled = [[disabledPlugins objectForKey:bundleID] boolValue];
+						
+						NSMutableDictionary *pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:plugin, @"plugin", 
+																	  [NSNumber numberWithBool:disabled], @"disabled", nil];
+						[blockSelf.plugins addObject:pluginDict];
+						
 						if([plugin conformsToProtocol:@protocol(HWGrowlPluginNotifierProtocol)])
 							[blockSelf.notifiers addObject:plugin];
 						if([plugin conformsToProtocol:@protocol(HWGrowlPluginMonitorProtocol)])
 							[blockSelf.monitors addObject:plugin];
-						
 					}else{
 						NSLog(@"%@ does not conform to HWGrowlPluginProtocol", NSStringFromClass([pluginBundle principalClass]));
 					}
 					[plugin release];
 				}else{
-					NSLog(@"We couldn't instantiate %@ for plugin %@", NSStringFromClass([pluginBundle principalClass]), [pluginBundle bundleIdentifier]);
+					NSLog(@"We couldn't instantiate %@ for plugin %@", NSStringFromClass([pluginBundle principalClass]), bundleID);
 				}
 			}else{
 				NSLog(@"%@ is not a bundle or could not be loaded", bundlePath);
 			}
 		}];
 	}
-	
+	[plugins sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [[[obj1 objectForKey:@"plugin"] pluginDisplayName] compare:[[obj2 objectForKey:@"plugin"] pluginDisplayName]];
+	}];
 }
 			
 -(void)postRegistrationInit {
 	[plugins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		if([obj respondsToSelector:@selector(postRegistrationInit)])
-			[obj postRegistrationInit];
+		if([[obj objectForKey:@"plugin"] respondsToSelector:@selector(postRegistrationInit)])
+			[[obj objectForKey:@"plugin"] postRegistrationInit];
 	}];
 }
 
@@ -101,6 +115,17 @@
 		  contextString:(NSString*)context
 					plugin:(id)plugin
 {
+	__block BOOL disabled = NO;
+	[plugins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj objectForKey:@"plugin"] == plugin) 
+		{
+			disabled = [[obj objectForKey:@"disabled"] boolValue];
+			*stop = YES;
+		}
+	}];
+	if(disabled)
+		return;
+	
 	NSString *contextCombined = nil;
 	if(context && [context rangeOfString:@" : "].location != NSNotFound) {
 		NSLog(@"found \" : \" in context string %@", context);
@@ -120,7 +145,7 @@
 }
 
 -(BOOL)onLaunchEnabled {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"OnLogin"];
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"];
 }
 
 -(void)growlNotificationClosed:(id)clickContext viaClick:(BOOL)click {

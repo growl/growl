@@ -1552,6 +1552,7 @@
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{21, 83}, {241, 18}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="51660978">
@@ -2689,6 +2690,14 @@
 					<int key="connectionID">714</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">moduleCheckbox:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="3545934"/>
+					</object>
+					<int key="connectionID">726</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">title: self.openPreferencesTitle</string>
 						<reference key="source" ref="2170542"/>
@@ -2834,39 +2843,55 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.pluginDisplayName</string>
+						<string key="label">value: arrangedObjects.disabled</string>
+						<reference key="source" ref="351882312"/>
+						<reference key="destination" ref="500802743"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="351882312"/>
+							<reference key="NSDestination" ref="500802743"/>
+							<string key="NSLabel">value: arrangedObjects.disabled</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.disabled</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">723</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.plugin.pluginDisplayName</string>
 						<reference key="source" ref="860792576"/>
 						<reference key="destination" ref="500802743"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="860792576"/>
 							<reference key="NSDestination" ref="500802743"/>
-							<string key="NSLabel">value: arrangedObjects.pluginDisplayName</string>
+							<string key="NSLabel">value: arrangedObjects.plugin.pluginDisplayName</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.pluginDisplayName</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEditable</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
+							<string key="NSKeyPath">arrangedObjects.plugin.pluginDisplayName</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">712</int>
+					<int key="connectionID">718</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.OnLogin</string>
+						<string key="label">value: values.ShowExisting</string>
 						<reference key="source" ref="48118041"/>
 						<reference key="destination" ref="203159283"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="48118041"/>
 							<reference key="NSDestination" ref="203159283"/>
-							<string key="NSLabel">value: values.OnLogin</string>
+							<string key="NSLabel">value: values.ShowExisting</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.OnLogin</string>
+							<string key="NSKeyPath">values.ShowExisting</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">715</int>
+					<int key="connectionID">725</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2882,7 +2907,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">708</int>
+					<int key="connectionID">722</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4365,7 +4390,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">715</int>
+			<int key="maxID">726</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
