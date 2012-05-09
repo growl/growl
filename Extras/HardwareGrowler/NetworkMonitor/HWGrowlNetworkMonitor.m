@@ -235,7 +235,7 @@ typedef enum {
 -(void)airportDisconnected:(NSString*)networkName {
 	[delegate notifyWithName:@"AirportDisconnected"
 							 title:NSLocalizedString(@"AirPort Disconnected", @"")
-					 description:[NSString stringWithFormat:@"Left network %@.", networkName]
+					 description:[NSString stringWithFormat:NSLocalizedString(@"Left network %@.", @""), networkName]
 							  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
 			  identifierString:@"HWGrowlAirPort"
 				  contextString:nil 
@@ -285,7 +285,7 @@ typedef enum {
 		
 	} else if (!newActive && oldActive) {
 		noteName = @"NetworkLinkDown";
-		noteTitle = @"Network Link Down";
+		noteTitle = NSLocalizedString(@"Network Link Down", @"");
 		noteDescription = [NSString stringWithFormat:NSLocalizedString(@"Interface:\t%@", nil), interfaceString];
 	}
 	
@@ -375,8 +375,8 @@ typedef enum {
 		combined = nil;
 	
 	[delegate notifyWithName:@"IPAddressChange"
-							 title:@"IP Addresses Updated"
-					 description:combined ? combined : @"No routable IP addresses"
+							 title:NSLocalizedString(@"IP Addresses Updated", @"")
+					 description:combined ? combined : NSLocalizedString(@"No routable IP addresses", @"")
 							  icon:nil
 			  identifierString:@"HWGrowlIPAddressChange"
 				  contextString:nil

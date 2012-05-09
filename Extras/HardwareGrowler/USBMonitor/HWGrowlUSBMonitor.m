@@ -235,12 +235,12 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	return [NSArray arrayWithObjects:@"USBConnected", @"USBDisconnected", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"USB Connected", @"USBConnected",
-			  @"USB Disconnected", @"USBDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"USB Connected", @""), @"USBConnected",
+			  NSLocalizedString(@"USB Disconnected", @""), @"USBDisconnected", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when a USB Device is connected", @"USBConnected",
-			  @"Sent when a USB Device is disconnected", @"USBDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when a USB Device is connected", @""), @"USBConnected",
+			  NSLocalizedString(@"Sent when a USB Device is disconnected", @""), @"USBDisconnected", nil];
 }
 -(NSArray*)defaultNotifications {
 	return [NSArray arrayWithObjects:@"USBConnected", @"USBDisconnected", nil];

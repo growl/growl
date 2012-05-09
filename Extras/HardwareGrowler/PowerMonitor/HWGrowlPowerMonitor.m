@@ -225,7 +225,7 @@
 			result = NSLocalizedString(@"Battery Power", @"");
 			break;
 		case HGUPSPower:
-			result = NSLocalizedString(@"HGUPSPower", @"");
+			result = NSLocalizedString(@"UPS Power", @"");
 			break;
 		case HGUnknownPower:
 		default:
@@ -261,12 +261,12 @@ static void powerSourceChanged(void *context) {
 	return [NSArray arrayWithObjects:@"PowerChange", @"PowerWarning", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Power Changed", @"PowerChange",
-			  @"Power Warning", @"Power Warning", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Power Changed", @""), @"PowerChange",
+			  NSLocalizedString(@"Power Warning", @""), @"Power Warning", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when the type or status of power changed", @"PowerChange",
-			  @"Sent when the battery is getting low", @"PowerWarning", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when the type or status of power changed", @""), @"PowerChange",
+			  NSLocalizedString(@"Sent when the battery is getting low", @""), @"PowerWarning", nil];
 }
 -(NSArray*)defaultNotifications {
 	return [NSArray arrayWithObjects:@"PowerChange", @"PowerWarning", nil];

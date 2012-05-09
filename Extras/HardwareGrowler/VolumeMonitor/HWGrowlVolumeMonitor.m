@@ -188,7 +188,7 @@
 	
 	NSString *context = mounted ? [volume path] : nil;
 	NSString *type = mounted ? @"VolumeMounted" : @"VolumeUnmounted";
-	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? @"Mounted" : @"Unmounted"];
+	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? NSLocalizedString(@"Mounted", @"") : NSLocalizedString(@"Unmounted", @"")];
 	[delegate notifyWithName:type
 							 title:title
 					 description:mounted ? @"Click to open" : nil
@@ -277,12 +277,12 @@
 	return [NSArray arrayWithObjects:@"VolumeMounted", @"VolumeUnmounted", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Volume Mounted", @"VolumeMounted",
-			  @"Volume Unmounted", @"VolumeUnmounted", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Volume Mounted", @""), @"VolumeMounted",
+			  NSLocalizedString(@"Volume Unmounted", @""), @"VolumeUnmounted", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when a volume is mounted", @"VolumeMounted",
-			  @"Sent when a volume is unmounted", @"VolumeUnmounted", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when a volume is mounted", @""), @"VolumeMounted",
+			  NSLocalizedString(@"Sent when a volume is unmounted", @""), @"VolumeUnmounted", nil];
 }
 -(NSArray*)defaultNotifications {
 	return [NSArray arrayWithObjects:@"VolumeMounted", @"VolumeUnmounted", nil];

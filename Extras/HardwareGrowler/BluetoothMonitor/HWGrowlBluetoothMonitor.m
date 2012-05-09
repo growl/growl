@@ -130,12 +130,12 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 	return [NSArray arrayWithObjects:@"BluetoothConnected", @"BluetoothDisconnected", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Bluetooth Connected", @"BluetoothConnected",
-			  @"Bluetooth Disconnected", @"BluetoothDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Bluetooth Connected", @""), @"BluetoothConnected",
+			  NSLocalizedString(@"Bluetooth Disconnected", @""), @"BluetoothDisconnected", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when a Bluetooth Device is connected", @"BluetoothConnected",
-			  @"Sent when a Bluetooth Device is disconnected", @"BluetoothDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when a Bluetooth Device is connected", @""), @"BluetoothConnected",
+			  NSLocalizedString(@"Sent when a Bluetooth Device is disconnected", @""), @"BluetoothDisconnected", nil];
 }
 -(NSArray*)defaultNotifications {
 	return [NSArray arrayWithObjects:@"BluetoothConnected", @"BluetoothDisconnected", nil];

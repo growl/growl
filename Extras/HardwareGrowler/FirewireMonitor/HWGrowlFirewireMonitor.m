@@ -208,12 +208,12 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	return [NSArray arrayWithObjects:@"FirewireConnected", @"FirewireDisconnected", nil];
 }
 -(NSDictionary*)localizedNames {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Firewire Connected", @"FirewireConnected",
-			  @"Firewire Disconnected", @"FirewireDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Firewire Connected", @""), @"FirewireConnected",
+			  NSLocalizedString(@"Firewire Disconnected", @""), @"FirewireDisconnected", nil];
 }
 -(NSDictionary*)noteDescriptions {
-	return [NSDictionary dictionaryWithObjectsAndKeys:@"Sent when a Firewire Device is connected", @"FirewireConnected",
-			  @"Sent when a Firewire Device is disconnected", @"FirewireDisconnected", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when a Firewire Device is connected", @""), @"FirewireConnected",
+			  NSLocalizedString(@"Sent when a Firewire Device is disconnected", @""), @"FirewireDisconnected", nil];
 }
 -(NSArray*)defaultNotifications {
 	return [NSArray arrayWithObjects:@"FirewireConnected", @"FirewireDisconnected", nil];
