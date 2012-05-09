@@ -33,7 +33,35 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 	[super dealloc];
 }
 
+#ifndef NSFoundationVersionNumber10_7
+#define NSFoundationVersionNumber10_7   833.1
+#endif
+#ifndef NSFoundationVersionNumber10_7_3
+#define NSFoundationVersionNumber10_7_3 833.24
+#endif
 -(id)init {
+	if((BOOL)isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7) &&
+		(BOOL)isless(NSFoundationVersionNumber, NSFoundationVersionNumber10_7_3))
+	{
+		NSLog(@"Bluetooth Module does not work on 10.7-10.7.2, please upgrade to 10.7.3");
+		if(![[NSUserDefaults standardUserDefaults] boolForKey:@"SuppressBluetoothModuleWarn"]){
+			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Bluetooth Module on OSX Lion requires 10.7.3", @"")
+														defaultButton:NSLocalizedString(@"Ok", @"") 
+													 alternateButton:nil
+														  otherButton:nil
+										informativeTextWithFormat:NSLocalizedString(@"In order to receive notifications about Bluetooth devices on OSX Lion, please upgrade to 10.7.3 or above", @"")];
+			alert.showsSuppressionButton = YES;
+			[[alert suppressionButton] bind:NSValueBinding
+										  toObject:[NSUserDefaultsController sharedUserDefaultsController]
+									  withKeyPath:@"values.SuppressBluetoothModuleWarn"
+											options:nil];
+			[alert runModal];
+			[alert release];
+		}
+		[self release];
+		return nil;
+	}
+	
 	if((self = [super init])){
 		
 	}
