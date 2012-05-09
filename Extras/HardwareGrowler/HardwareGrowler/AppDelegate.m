@@ -12,7 +12,6 @@
 #import <ServiceManagement/ServiceManagement.h>
 
 #define ShowDevicesTitle     NSLocalizedString(@"Show Connected Devices at Launch", nil)
-#define GroupNetworkTitle    NSLocalizedString(@"Group Network Notifications", nil)
 #define QuitTitle	           NSLocalizedString(@"Quit HardwareGrowler", nil)
 #define PreferencesTitle     NSLocalizedString(@"Preferences...", nil)
 #define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
@@ -26,7 +25,6 @@
 @synthesize pluginController;
 
 @synthesize showDevices;
-@synthesize groupNetworkTitle;
 @synthesize quitTitle;
 @synthesize preferencesTitle;
 @synthesize openPreferencesTitle;
@@ -39,6 +37,8 @@
 @synthesize noIcon;
 
 @synthesize toolbar;
+@synthesize generalItem;
+@synthesize modulesItem;
 @synthesize tabView;
 @synthesize tableView;
 @synthesize containerView;
@@ -55,6 +55,9 @@
 	self.iconInDock = NSLocalizedString(@"Show icon in the dock", @"display the icon only in the dock");
 	self.iconInBoth = NSLocalizedString(@"Show icon in both", @"display the icon in both the menubar and the dock");
 	self.noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");            
+	
+	[generalItem setLabel:NSLocalizedString(@"General", @"")];
+	[modulesItem setLabel:NSLocalizedString(@"Modules", @"")];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 																				[NSNumber numberWithInteger:1], @"OnLogin",
@@ -111,7 +114,6 @@
 
 - (void) initTitles{
 	self.showDevices = ShowDevicesTitle;
-	self.groupNetworkTitle = GroupNetworkTitle;
 	self.quitTitle = QuitTitle;
 	self.preferencesTitle = PreferencesTitle;
 	self.openPreferencesTitle = OpenPreferencesTitle;

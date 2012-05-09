@@ -31,6 +31,8 @@ typedef enum {
 	HWGrowlPluginController *pluginController;
 		
 	NSToolbar *toolbar;
+	NSToolbarItem *generalItem;
+	NSToolbarItem *modulesItem;
 	NSTabView *tabView;
 	NSTableView *tableView;
 	NSView *containerView;
@@ -38,7 +40,6 @@ typedef enum {
 	NSView *currentView;
 	
 	NSString *showDevices;
-	NSString *groupNetworkTitle;
 	NSString *quitTitle;
 	NSString *preferencesTitle;
 	NSString *openPreferencesTitle;
@@ -52,13 +53,12 @@ typedef enum {
 	
 }
 
-@property (nonatomic, retain) NSString *showDevices;
-@property (nonatomic, retain) NSString *groupNetworkTitle;
-@property (nonatomic, retain) NSString *quitTitle;
-@property (nonatomic, retain) NSString *preferencesTitle;
-@property (nonatomic, retain) NSString *openPreferencesTitle;
-@property (nonatomic, retain) NSString *iconTitle;
-@property (nonatomic, retain) NSString *startAtLoginTitle;
+@property (nonatomic, retain) IBOutlet NSString *showDevices;
+@property (nonatomic, retain) IBOutlet NSString *quitTitle;
+@property (nonatomic, retain) IBOutlet NSString *preferencesTitle;
+@property (nonatomic, retain) IBOutlet NSString *openPreferencesTitle;
+@property (nonatomic, retain) IBOutlet NSString *iconTitle;
+@property (nonatomic, retain) IBOutlet NSString *startAtLoginTitle;
 
 @property (nonatomic, retain) NSString *iconInMenu;
 @property (nonatomic, retain) NSString *iconInDock;
@@ -70,6 +70,8 @@ typedef enum {
 @property (nonatomic, retain) HWGrowlPluginController *pluginController;
 
 @property (nonatomic, assign) IBOutlet NSToolbar *toolbar;
+@property (nonatomic, assign) IBOutlet NSToolbarItem *generalItem;
+@property (nonatomic, assign) IBOutlet NSToolbarItem *modulesItem;
 @property (nonatomic, assign) IBOutlet NSTabView *tabView;
 @property (nonatomic, assign) IBOutlet NSTableView *tableView;
 @property (nonatomic, assign) IBOutlet NSView *containerView;
