@@ -13,10 +13,12 @@
 
 #define ShowDevicesTitle     NSLocalizedString(@"Show Connected Devices at Launch", nil)
 #define QuitTitle	           NSLocalizedString(@"Quit HardwareGrowler", nil)
-#define PreferencesTitle     NSLocalizedString(@"Preferences...", nil)
+#define PreferencesTitle     NSLocalizedString(@"Preferences", nil)
 #define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
 #define IconTitle            NSLocalizedString(@"Icon:", nil)
 #define StartAtLoginTitle    NSLocalizedString(@"Start HardwareGrowler at Login:", nil)
+#define NoPluginPrefsTitle   NSLocalizedString(@"No Preferences", @"")
+#define ModuleLabel          NSLocalizedString(@"Modules", @"")
 
 @implementation AppDelegate
 
@@ -30,6 +32,8 @@
 @synthesize openPreferencesTitle;
 @synthesize iconTitle;
 @synthesize startAtLoginTitle;
+@synthesize noPluginPrefsTitle;
+@synthesize moduleLabel;
 
 @synthesize iconInMenu;
 @synthesize iconInDock;
@@ -47,14 +51,28 @@
 
 - (void)dealloc
 {
-    [super dealloc];
+	[showDevices release];
+	[quitTitle release];
+	[preferencesTitle release];
+	[openPreferencesTitle release];
+	[iconTitle release];
+	[startAtLoginTitle release];
+	[noPluginPrefsTitle release];
+	[moduleLabel release];
+	
+	[iconInMenu release];
+	[iconInDock release];
+	[iconInBoth release];
+	[noIcon release];
+	[pluginController release];
+	[super dealloc];
 }
 
 - (void) awakeFromNib {
 	self.iconInMenu = NSLocalizedString(@"Show icon in the menubar", @"default option for where the icon should be seen");
 	self.iconInDock = NSLocalizedString(@"Show icon in the dock", @"display the icon only in the dock");
 	self.iconInBoth = NSLocalizedString(@"Show icon in both", @"display the icon in both the menubar and the dock");
-	self.noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");            
+	self.noIcon = NSLocalizedString(@"No icon visible", @"display no icon at all");
 	
 	[generalItem setLabel:NSLocalizedString(@"General", @"")];
 	[modulesItem setLabel:NSLocalizedString(@"Modules", @"")];
@@ -119,6 +137,8 @@
 	self.openPreferencesTitle = OpenPreferencesTitle;
 	self.iconTitle = IconTitle;
 	self.startAtLoginTitle = StartAtLoginTitle;
+	self.noPluginPrefsTitle = NoPluginPrefsTitle;
+	self.moduleLabel = ModuleLabel;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification

@@ -1612,7 +1612,7 @@
 																<int key="NSvFlags">256</int>
 																<string key="NSFrameSize">{196, 189}</string>
 																<reference key="NSSuperview" ref="622453849"/>
-																<reference key="NSNextKeyView" ref="189566171"/>
+																<reference key="NSNextKeyView" ref="985891473"/>
 																<string key="NSReuseIdentifierKey">_NS:13</string>
 																<bool key="NSEnabled">YES</bool>
 																<object class="NSTableHeaderView" key="NSHeaderView" id="559067571">
@@ -1784,7 +1784,7 @@
 												</array>
 												<string key="NSFrame">{{20, 20}, {198, 207}}</string>
 												<reference key="NSSuperview" ref="35266007"/>
-												<reference key="NSNextKeyView" ref="985891473"/>
+												<reference key="NSNextKeyView" ref="622453849"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<int key="NSsFlags">133682</int>
 												<reference key="NSVScroller" ref="189566171"/>
@@ -2550,6 +2550,22 @@
 					<int key="connectionID">703</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.preferencesTitle</string>
+						<reference key="source" ref="972006081"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="972006081"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">title: self.preferencesTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.preferencesTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">738</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">addFontTrait:</string>
 						<reference key="source" ref="755631768"/>
@@ -2904,6 +2920,22 @@
 						</object>
 					</object>
 					<int key="connectionID">718</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.noPluginPrefsTitle</string>
+						<reference key="source" ref="725970683"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="725970683"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">value: self.noPluginPrefsTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.noPluginPrefsTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">735</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4434,7 +4466,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">733</int>
+			<int key="maxID">738</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4448,6 +4480,7 @@
 						<string key="iconPopUp">NSPopUpButton</string>
 						<string key="iconTitle">NSString</string>
 						<string key="modulesItem">NSToolbarItem</string>
+						<string key="noPluginPrefsTitle">NSString</string>
 						<string key="onLoginSwitch">GrowlOnSwitch</string>
 						<string key="openPreferencesTitle">NSString</string>
 						<string key="placeholderView">NSView</string>
@@ -4485,6 +4518,10 @@
 						<object class="IBToOneOutletInfo" key="modulesItem">
 							<string key="name">modulesItem</string>
 							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noPluginPrefsTitle">
+							<string key="name">noPluginPrefsTitle</string>
+							<string key="candidateClassName">NSString</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="onLoginSwitch">
 							<string key="name">onLoginSwitch</string>

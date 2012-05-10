@@ -45,12 +45,13 @@ typedef enum {
 	NSString *openPreferencesTitle;
 	NSString *iconTitle;
 	NSString *startAtLoginTitle;
+	NSString *noPluginPrefsTitle;
+	NSString *moduleLabel;
 	
 	NSString *iconInMenu;
 	NSString *iconInDock;
 	NSString *iconInBoth;
 	NSString *noIcon;
-	
 }
 
 @property (nonatomic, retain) IBOutlet NSString *showDevices;
@@ -59,6 +60,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet NSString *openPreferencesTitle;
 @property (nonatomic, retain) IBOutlet NSString *iconTitle;
 @property (nonatomic, retain) IBOutlet NSString *startAtLoginTitle;
+@property (nonatomic, retain) IBOutlet NSString *noPluginPrefsTitle;
+@property (nonatomic, retain) IBOutlet NSString *moduleLabel;
 
 @property (nonatomic, retain) NSString *iconInMenu;
 @property (nonatomic, retain) NSString *iconInDock;
