@@ -40,10 +40,6 @@
 		BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80613155154CA0088C69A /* menubarIcon_Selected.png */; };
 		BCB806981551595A0088C69A /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = BCB80673155158DA0088C69A /* Growl.framework */; };
 		BCB806991551597C0088C69A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB80673155158DA0088C69A /* Growl.framework */; };
-		BCB806A415515A560088C69A /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A015515A560088C69A /* Common.xcconfig */; };
-		BCB806A515515A560088C69A /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A115515A560088C69A /* Debug.xcconfig */; };
-		BCB806A615515A560088C69A /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A215515A560088C69A /* Localization.xcconfig */; };
-		BCB806A715515A560088C69A /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCB806A315515A560088C69A /* Release.xcconfig */; };
 		BCB806B015515C4E0088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB806B615515C4E0088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB806B415515C4E0088C69A /* InfoPlist.strings */; };
 		BCB806B815515C4E0088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB806B715515C4E0088C69A /* main.m */; };
@@ -282,6 +278,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC3530AE155C1402005D2EA2 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		BC3530AF155C1402005D2EA2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		BC3530B0155C1402005D2EA2 /* Localization.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		BC3530B1155C1402005D2EA2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		BC4FC622155C04B700EE65EC /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		BC4FC627155C05C700EE65EC /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC523C221555686000548427 /* USBMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -326,10 +326,6 @@
 		BCB80612155154CA0088C69A /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Normal.png; path = Resources/menubarIcon_Normal.png; sourceTree = SOURCE_ROOT; };
 		BCB80613155154CA0088C69A /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Selected.png; path = Resources/menubarIcon_Selected.png; sourceTree = SOURCE_ROOT; };
 		BCB8065B155158DA0088C69A /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../Growl.xcodeproj; sourceTree = "<group>"; };
-		BCB806A015515A560088C69A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
-		BCB806A115515A560088C69A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
-		BCB806A215515A560088C69A /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
-		BCB806A315515A560088C69A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowlerLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB806B315515C4E0088C69A /* HardwareGrowlerLauncher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HardwareGrowlerLauncher-Info.plist"; sourceTree = "<group>"; };
 		BCB806B515515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -643,10 +639,10 @@
 		BCB8069F15515A0D0088C69A /* Xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				BCB806A015515A560088C69A /* Common.xcconfig */,
-				BCB806A115515A560088C69A /* Debug.xcconfig */,
-				BCB806A215515A560088C69A /* Localization.xcconfig */,
-				BCB806A315515A560088C69A /* Release.xcconfig */,
+				BC3530AE155C1402005D2EA2 /* Common.xcconfig */,
+				BC3530AF155C1402005D2EA2 /* Debug.xcconfig */,
+				BC3530B0155C1402005D2EA2 /* Localization.xcconfig */,
+				BC3530B1155C1402005D2EA2 /* Release.xcconfig */,
 			);
 			name = Xcconfigs;
 			sourceTree = "<group>";
@@ -1088,10 +1084,6 @@
 				BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */,
 				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
-				BCB806A415515A560088C69A /* Common.xcconfig in Resources */,
-				BCB806A515515A560088C69A /* Debug.xcconfig in Resources */,
-				BCB806A615515A560088C69A /* Localization.xcconfig in Resources */,
-				BCB806A715515A560088C69A /* Release.xcconfig in Resources */,
 				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
 				BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */,
 			);
@@ -1385,7 +1377,7 @@
 /* Begin XCBuildConfiguration section */
 		BC523C2C1555686000548427 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
@@ -1400,7 +1392,7 @@
 		};
 		BC523C2D1555686000548427 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
@@ -1415,7 +1407,7 @@
 		};
 		BC523C2E1555686000548427 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
@@ -1430,7 +1422,7 @@
 		};
 		BCA26B67155585C0009C5ABC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
@@ -1446,7 +1438,7 @@
 		};
 		BCA26B68155585C0009C5ABC /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
@@ -1462,7 +1454,7 @@
 		};
 		BCA26B69155585C0009C5ABC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
@@ -1478,7 +1470,7 @@
 		};
 		BCA26B901555B3F5009C5ABC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
@@ -1493,7 +1485,7 @@
 		};
 		BCA26B911555B3F5009C5ABC /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
@@ -1508,7 +1500,7 @@
 		};
 		BCA26B921555B3F5009C5ABC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
@@ -1523,7 +1515,7 @@
 		};
 		BCA26BBD1555BB1B009C5ABC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
@@ -1552,7 +1544,7 @@
 		};
 		BCA26BBE1555BB1B009C5ABC /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
@@ -1581,7 +1573,7 @@
 		};
 		BCA26BBF1555BB1B009C5ABC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
@@ -1655,7 +1647,7 @@
 		};
 		BCB80606155153330088C69A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
@@ -1673,7 +1665,7 @@
 		};
 		BCB80607155153330088C69A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
@@ -1717,7 +1709,7 @@
 		};
 		BCB806A915515A860088C69A /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
@@ -1735,7 +1727,7 @@
 		};
 		BCB806C415515C4E0088C69A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
@@ -1753,7 +1745,7 @@
 		};
 		BCB806C515515C4E0088C69A /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
@@ -1771,7 +1763,7 @@
 		};
 		BCB806C615515C4E0088C69A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
@@ -1789,7 +1781,7 @@
 		};
 		BCB807511551A6EA0088C69A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
@@ -1804,7 +1796,7 @@
 		};
 		BCB807521551A6EA0088C69A /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
@@ -1819,7 +1811,7 @@
 		};
 		BCB807531551A6EA0088C69A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
@@ -1834,7 +1826,7 @@
 		};
 		BCECA396155322D200F49280 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A115515A560088C69A /* Debug.xcconfig */;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
@@ -1849,7 +1841,7 @@
 		};
 		BCECA397155322D200F49280 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A215515A560088C69A /* Localization.xcconfig */;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
@@ -1864,7 +1856,7 @@
 		};
 		BCECA398155322D200F49280 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCB806A315515A560088C69A /* Release.xcconfig */;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
