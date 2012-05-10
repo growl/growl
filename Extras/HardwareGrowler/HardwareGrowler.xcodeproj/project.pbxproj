@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4FC622155C04B700EE65EC /* MainMenu.xib */; };
+		BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4FC626155C05C700EE65EC /* Localizable.strings */; };
 		BC523C231555686000548427 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC523C291555686000548427 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC523C271555686000548427 /* InfoPlist.strings */; };
 		BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */; };
@@ -33,7 +35,6 @@
 		BCB805F8155153330088C69A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805F7155153330088C69A /* main.m */; };
 		BCB805FC155153330088C69A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BCB805FA155153330088C69A /* Credits.rtf */; };
 		BCB805FF155153330088C69A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB805FE155153330088C69A /* AppDelegate.m */; };
-		BCB80602155153330088C69A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCB80600155153330088C69A /* MainMenu.xib */; };
 		BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCB80611155154CA0088C69A /* HWGrowler.icns */; };
 		BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80612155154CA0088C69A /* menubarIcon_Normal.png */; };
 		BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BCB80613155154CA0088C69A /* menubarIcon_Selected.png */; };
@@ -281,6 +282,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC4FC622155C04B700EE65EC /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		BC4FC627155C05C700EE65EC /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC523C221555686000548427 /* USBMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC523C261555686000548427 /* USBMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "USBMonitor-Info.plist"; sourceTree = "<group>"; };
 		BC523C281555686000548427 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -319,7 +322,6 @@
 		BCB805FB155153330088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		BCB805FD155153330088C69A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BCB805FE155153330088C69A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BCB80601155153330088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BCB80611155154CA0088C69A /* HWGrowler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = HWGrowler.icns; path = Resources/HWGrowler.icns; sourceTree = SOURCE_ROOT; };
 		BCB80612155154CA0088C69A /* menubarIcon_Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Normal.png; path = Resources/menubarIcon_Normal.png; sourceTree = SOURCE_ROOT; };
 		BCB80613155154CA0088C69A /* menubarIcon_Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubarIcon_Selected.png; path = Resources/menubarIcon_Selected.png; sourceTree = SOURCE_ROOT; };
@@ -595,7 +597,8 @@
 			children = (
 				BCB8065B155158DA0088C69A /* Growl.xcodeproj */,
 				BCB8060C155154B80088C69A /* Images */,
-				BCB80600155153330088C69A /* MainMenu.xib */,
+				BC4FC622155C04B700EE65EC /* MainMenu.xib */,
+				BC4FC626155C05C700EE65EC /* Localizable.strings */,
 				BCB805F3155153330088C69A /* HardwareGrowler-Info.plist */,
 				BCB805F4155153330088C69A /* InfoPlist.strings */,
 				BCB805F7155153330088C69A /* main.m */,
@@ -821,6 +824,7 @@
 			buildPhases = (
 				BCB805E3155153330088C69A /* Sources */,
 				BCB805E4155153330088C69A /* Frameworks */,
+				BC4FC625155C051E00EE65EC /* Generate Localizable.strings */,
 				BCB80697155159420088C69A /* Copy Frameworks */,
 				BCB805E5155153330088C69A /* Resources */,
 				BCB807661551A6F40088C69A /* Copy Plugins */,
@@ -1081,7 +1085,6 @@
 			files = (
 				BCB805F6155153330088C69A /* InfoPlist.strings in Resources */,
 				BCB805FC155153330088C69A /* Credits.rtf in Resources */,
-				BCB80602155153330088C69A /* MainMenu.xib in Resources */,
 				BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */,
 				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
@@ -1089,6 +1092,8 @@
 				BCB806A515515A560088C69A /* Debug.xcconfig in Resources */,
 				BCB806A615515A560088C69A /* Localization.xcconfig in Resources */,
 				BCB806A715515A560088C69A /* Release.xcconfig in Resources */,
+				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
+				BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1128,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		BC4FC625155C051E00EE65EC /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/*/*.h",
+				"$(SRCROOT)/*/*.m",
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+				"$(SRCROOT)/HardwareGrowler/en.lproj/Localizable.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o ./HardwareGrowler/en.lproj ./*/*.h ./*/*.m ";
+		};
 		BCB806961551591C0088C69A /* Growl XPC */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1262,6 +1284,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BC4FC626155C05C700EE65EC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC4FC627155C05C700EE65EC /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BC523C271555686000548427 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1308,14 +1338,6 @@
 				BCB805FB155153330088C69A /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		BCB80600155153330088C69A /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BCB80601155153330088C69A /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		BCB806B415515C4E0088C69A /* InfoPlist.strings */ = {
