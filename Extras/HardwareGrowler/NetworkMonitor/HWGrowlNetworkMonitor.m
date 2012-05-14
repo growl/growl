@@ -68,6 +68,7 @@ typedef enum {
 @property (nonatomic, assign) CFRunLoopSourceRef rlSrc;
 
 @property (nonatomic, retain) NSMutableDictionary *networkInterfaceStates;
+@property (nonatomic, retain) NSString *previousIPCombined;
 
 @end
 
@@ -77,9 +78,11 @@ typedef enum {
 @synthesize rlSrc;
 @synthesize dynStore;
 @synthesize networkInterfaceStates;
+@synthesize previousIPCombined;
 
 -(id)init {
 	if((self = [super init])){
+		self.previousIPCombined = nil;
 		self.networkInterfaceStates = [NSMutableDictionary dictionary];
 		[self startObserving];
 	}
@@ -371,16 +374,21 @@ typedef enum {
 -(void)updateIP {
 	NSArray *routable = [GrowlNetworkUtilities routableIPAddresses];
 	NSString *combined = [routable componentsJoinedByString:@"\n"];
+	if([combined isEqualToString:previousIPCombined])
+		return;
+		
 	if([combined isEqualToString:@""])
 		combined = nil;
 	
 	[delegate notifyWithName:@"IPAddressChange"
 							 title:NSLocalizedString(@"IP Addresses Updated", @"")
 					 description:combined ? combined : NSLocalizedString(@"No routable IP addresses", @"")
-							  icon:nil
+							  icon:[NSImage imageNamed:NSImageNameNetwork]
 			  identifierString:@"HWGrowlIPAddressChange"
 				  contextString:nil
 							plugin:self];
+	
+	self.previousIPCombined = combined;
 }
 
 static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
