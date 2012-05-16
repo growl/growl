@@ -19,14 +19,18 @@
 @property (nonatomic, assign) HGPowerSource lastPowerSource;
 @property (nonatomic, assign) NSTimeInterval lastKnownTime;
 
+@property (nonatomic, retain) NSTimer *refireTimer;
+
 @end
 
 @implementation HWGrowlPowerMonitor
 
+@synthesize prefsView;
 @synthesize delegate;
 @synthesize notificationRunLoopSource;
 @synthesize lastPowerSource;
 @synthesize lastKnownTime;
+@synthesize refireTimer;
 
 -(id)init {
 	if((self = [super init])){
@@ -43,14 +47,96 @@
 -(void)dealloc {
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
 	CFRelease(notificationRunLoopSource);
+	[refireTimer invalidate];
+	[refireTimer release];
 	[super dealloc];
 }
 
 -(void)fireOnLaunchNotes {
-	[self powerSourceChanged];
+	[self powerSourceChanged:YES];
+	[self checkTimer];
 }
 
--(void)powerSourceChanged {
+-(BOOL)refireOnBattery {
+	BOOL result = YES;
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"RefireOnBattery"])
+		result = [[NSUserDefaults standardUserDefaults] boolForKey:@"RefireOnBattery"];
+	return result;
+}
+-(void)setRefireOnBattery:(BOOL)refire {
+	[[NSUserDefaults standardUserDefaults] setBool:refire forKey:@"RefireOnBattery"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[self checkTimer];
+}
+
+-(CGFloat)refireTime {
+	CGFloat result = 10.0f;
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"PowerRefireTime"])
+		result = [[NSUserDefaults standardUserDefaults] boolForKey:@"PowerRefireTime"];
+	return result;
+}
+-(void)setRefireTime:(CGFloat)time {
+	[[NSUserDefaults standardUserDefaults] setFloat:time forKey:@"PowerRefireTime"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[self stopTimer];
+	[self checkTimer];
+}
+
+-(BOOL)enableRefire {
+	BOOL result = YES;
+	if([[NSUserDefaults standardUserDefaults] objectForKey:@"EnablePowerRefire"])
+		result = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePowerRefire"];
+	return result;
+}
+-(void)setEnableRefire:(BOOL)enable {
+	[[NSUserDefaults standardUserDefaults] setBool:enable forKey:@"EnablePowerRefire"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[self checkTimer];
+}
+
+-(void)checkTimer {
+	if(refireTimer) {
+		/* Conditions under which we stop:
+		 * refire is disabled, or we are on AC and we only want to fire on battery
+		 */
+		if(![self enableRefire] || (lastPowerSource == HGACPower && [self refireOnBattery]))
+			[self stopTimer];
+	} else {
+		/* Conditions under which we start:
+		 * refire is enabled, and we are not on AC or we only want to fire on battery
+		 */
+		if([self enableRefire] && (lastPowerSource != HGACPower || ![self refireOnBattery]))
+			[self startTimer];
+	}
+}
+
+-(void)startTimer {	
+	if(refireTimer)
+		return;
+	
+//	NSLog(@"start timer");
+	self.refireTimer = [NSTimer timerWithTimeInterval:[self refireTime] * 60.0f
+															 target:self 
+														  selector:@selector(timerFire:)
+														  userInfo:nil
+															repeats:YES];
+	[[NSRunLoop mainRunLoop] addTimer:refireTimer forMode:NSDefaultRunLoopMode];
+}
+
+-(void)stopTimer {
+	if(!refireTimer)
+		return;
+	
+//	NSLog(@"stop timer");
+	[refireTimer invalidate];
+	self.refireTimer = nil;
+}
+
+-(void)timerFire:(NSTimer*)timer {
+	[self powerSourceChanged:YES];
+}
+
+-(void)powerSourceChanged:(BOOL)force {
 	BOOL changedType = NO;
 	CFTypeRef sourcesBlob = IOPSCopyPowerSourcesInfo();
 	NSString *source = (NSString*)IOPSGetProvidingPowerSourceType(sourcesBlob);
@@ -68,7 +154,7 @@
 	
 	if(currentSource != lastPowerSource)
 		changedType = YES;
-	
+		
 	CFTimeInterval remaining = kIOPSTimeRemainingUnknown;
 	switch (currentSource) {
 		case HGACPower:
@@ -132,7 +218,7 @@
 	if(warnLevel != kIOPSLowBatteryWarningNone)
 		warnBattery = YES;
 	
-	if(changedType || sendTime || warnBattery){
+	if(changedType || sendTime || warnBattery || force){
 		NSString *title = nil;
 		NSString *name = nil;
 		NSString *localizedSource = [self localizedNameForSource:currentSource];
@@ -237,7 +323,8 @@
 
 static void powerSourceChanged(void *context) {
 	HWGrowlPowerMonitor *monitor = (HWGrowlPowerMonitor*)context;
-	[monitor powerSourceChanged];		
+	[monitor powerSourceChanged:NO];
+	[monitor checkTimer];
 }
 
 #pragma mark HWGrowlPluginProtocol
@@ -252,7 +339,11 @@ static void powerSourceChanged(void *context) {
 	return @"Power Monitor";
 }
 -(NSView*)preferencePane {
-	return nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		[NSBundle loadNibNamed:@"PowerMonitorPrefs" owner:self];
+	});
+	return prefsView;
 }
 
 #pragma mark HWGrowlPluginNotifierProtocol

@@ -14,6 +14,7 @@
 		BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */; };
 		BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.bundle */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
+		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
@@ -291,6 +292,7 @@
 		BC523C2F155568A000548427 /* HWGrowlUSBMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlUSBMonitor.h; sourceTree = "<group>"; };
 		BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlUSBMonitor.m; sourceTree = "<group>"; };
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerMonitorPrefs.xib; sourceTree = "<group>"; };
 		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
 		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 			children = (
 				BCAA1762155784C800D9E4ED /* HWGrowlPowerMonitor.h */,
 				BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */,
+				BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */,
 				BCA26BB61555BB1B009C5ABC /* Supporting Files */,
 			);
 			name = PowerMonitor;
@@ -1072,6 +1075,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA26BBA1555BB1B009C5ABC /* InfoPlist.strings in Resources */,
+				BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
