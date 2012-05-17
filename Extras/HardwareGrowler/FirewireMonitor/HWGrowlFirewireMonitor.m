@@ -96,7 +96,7 @@
 -(void)fwDeviceName:(NSString*)deviceName added:(BOOL)added {
 	NSString *title = added ? NSLocalizedString(@"Firewire Connection", @"") : NSLocalizedString(@"Firewire Disconnection", @"");
 	
-	[delegate notifyWithName:added ? @"FirewireConnected" : @"FireDisconnected"
+	[delegate notifyWithName:added ? @"FirewireConnected" : @"FirewireDisconnected"
 							 title:title
 					 description:deviceName
 							  icon:nil
