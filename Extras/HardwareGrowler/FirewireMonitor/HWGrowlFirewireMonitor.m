@@ -121,7 +121,7 @@ static void fwDeviceAdded(void *refCon, io_iterator_t iterator) {
 	[monitor fwDeviceAdded:iterator];
 }
 
--(void)fwDeviceRemvoed:(io_iterator_t)iterator {
+-(void)fwDeviceRemoved:(io_iterator_t)iterator {
 	io_object_t thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
 		NSString *deviceName = [self nameForFireWireObject:thisObject];
@@ -132,7 +132,7 @@ static void fwDeviceAdded(void *refCon, io_iterator_t iterator) {
 
 static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	HWGrowlFirewireMonitor *monitor = (HWGrowlFirewireMonitor*)refCon;
-	[monitor fwDeviceRemvoed:iterator];
+	[monitor fwDeviceRemoved:iterator];
 }
 
 #pragma mark -
@@ -182,7 +182,7 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	if (kIOReturnSuccess != removeNoteResult)
 		NSLog(@"Couldn't add device removal notification");
 	else
-		[self fwDeviceRemvoed:removedIterator];
+		[self fwDeviceRemoved:removedIterator];
 	
 	self.notificationsArePrimed = YES;
 }
