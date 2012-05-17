@@ -16,6 +16,11 @@
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
+		BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC755253156528AA00CB0542 /* InfoPlist.strings */; };
+		BC75526C1565291400CB0542 /* HWGrowlThunderboltMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */; };
+		BC75526F15652B9B00CB0542 /* ThunderboltMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */; };
+		BC75527015652BB100CB0542 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
 		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
@@ -73,6 +78,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC523C211555686000548427;
 			remoteInfo = USBMonitor;
+		};
+		BC7552861565489100CB0542 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC75524D156528AA00CB0542;
+			remoteInfo = ThunderboltMonitor;
 		};
 		BCA26B6E15558817009C5ABC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -266,6 +278,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.bundle in Copy Plugins */,
 				BCAA17671557858700D9E4ED /* PowerMonitor.bundle in Copy Plugins */,
 				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */,
 				BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */,
@@ -294,6 +307,12 @@
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerMonitorPrefs.xib; sourceTree = "<group>"; };
 		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
+		BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThunderboltMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC755252156528AA00CB0542 /* ThunderboltMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThunderboltMonitor-Info.plist"; sourceTree = "<group>"; };
+		BC755254156528AA00CB0542 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC755256156528AA00CB0542 /* ThunderboltMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThunderboltMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BC75526A1565291400CB0542 /* HWGrowlThunderboltMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlThunderboltMonitor.h; sourceTree = "<group>"; };
+		BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlThunderboltMonitor.m; sourceTree = "<group>"; };
 		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26B63155585C0009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -374,6 +393,15 @@
 			files = (
 				BC523C231555686000548427 /* Cocoa.framework in Frameworks */,
 				BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC75524B156528AA00CB0542 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */,
+				BC75527015652BB100CB0542 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +487,27 @@
 				BC523C261555686000548427 /* USBMonitor-Info.plist */,
 				BC523C271555686000548427 /* InfoPlist.strings */,
 				BC523C2A1555686000548427 /* USBMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC755250156528AA00CB0542 /* ThunderboltMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BC75526A1565291400CB0542 /* HWGrowlThunderboltMonitor.h */,
+				BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */,
+				BC755251156528AA00CB0542 /* Supporting Files */,
+			);
+			name = ThunderboltMonitor;
+			path = ../ThunderboltMonitor;
+			sourceTree = "<group>";
+		};
+		BC755251156528AA00CB0542 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC755252156528AA00CB0542 /* ThunderboltMonitor-Info.plist */,
+				BC755253156528AA00CB0542 /* InfoPlist.strings */,
+				BC755256156528AA00CB0542 /* ThunderboltMonitor-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -550,6 +599,7 @@
 				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */,
 				BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */,
 				BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */,
+				BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -708,6 +758,7 @@
 				BCA26B5F155585C0009C5ABC /* BluetoothMonitor */,
 				BCA26B891555B3F5009C5ABC /* FirewireMonitor */,
 				BCA26BB51555BB1B009C5ABC /* PowerMonitor */,
+				BC755250156528AA00CB0542 /* ThunderboltMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -764,6 +815,23 @@
 			name = USBMonitor;
 			productName = USBMonitor;
 			productReference = BC523C221555686000548427 /* USBMonitor.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		BC75524D156528AA00CB0542 /* ThunderboltMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC755268156528AA00CB0542 /* Build configuration list for PBXNativeTarget "ThunderboltMonitor" */;
+			buildPhases = (
+				BC75524A156528AA00CB0542 /* Sources */,
+				BC75524B156528AA00CB0542 /* Frameworks */,
+				BC75524C156528AA00CB0542 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThunderboltMonitor;
+			productName = ThunderboltMonitor;
+			productReference = BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCA26B5C155585C0009C5ABC /* BluetoothMonitor */ = {
@@ -833,6 +901,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				BC7552871565489100CB0542 /* PBXTargetDependency */,
+				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 				BCAA17661557857C00D9E4ED /* PBXTargetDependency */,
 				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
 				BCA26B6F15558817009C5ABC /* PBXTargetDependency */,
@@ -841,7 +911,6 @@
 				BCB807651551A6F10088C69A /* PBXTargetDependency */,
 				BCB806CF15515D700088C69A /* PBXTargetDependency */,
 				BCB80690155158F50088C69A /* PBXTargetDependency */,
-				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
 			productName = HardwareGrowler;
@@ -933,6 +1002,7 @@
 				BCA26B5C155585C0009C5ABC /* BluetoothMonitor */,
 				BCA26B861555B3F5009C5ABC /* FirewireMonitor */,
 				BCA26BB21555BB1A009C5ABC /* PowerMonitor */,
+				BC75524D156528AA00CB0542 /* ThunderboltMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -1054,6 +1124,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BC75524C156528AA00CB0542 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCA26B5B155585C0009C5ABC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1166,6 +1244,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BC75524A156528AA00CB0542 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC75526C1565291400CB0542 /* HWGrowlThunderboltMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCA26B59155585C0009C5ABC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1237,6 +1323,11 @@
 			target = BC523C211555686000548427 /* USBMonitor */;
 			targetProxy = BC523C3215556B4500548427 /* PBXContainerItemProxy */;
 		};
+		BC7552871565489100CB0542 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC75524D156528AA00CB0542 /* ThunderboltMonitor */;
+			targetProxy = BC7552861565489100CB0542 /* PBXContainerItemProxy */;
+		};
 		BCA26B6F15558817009C5ABC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BCA26B5C155585C0009C5ABC /* BluetoothMonitor */;
@@ -1292,6 +1383,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC523C281555686000548427 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC755253156528AA00CB0542 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC755254156528AA00CB0542 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1416,6 +1515,51 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		BC755257156528AA00CB0542 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
+				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BC755258156528AA00CB0542 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
+				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Localization;
+		};
+		BC755259156528AA00CB0542 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
+				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1882,6 +2026,16 @@
 				BC523C2C1555686000548427 /* Debug */,
 				BC523C2D1555686000548427 /* Localization */,
 				BC523C2E1555686000548427 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BC755268156528AA00CB0542 /* Build configuration list for PBXNativeTarget "ThunderboltMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC755257156528AA00CB0542 /* Debug */,
+				BC755258156528AA00CB0542 /* Localization */,
+				BC755259156528AA00CB0542 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
