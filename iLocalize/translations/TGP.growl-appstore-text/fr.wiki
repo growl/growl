@@ -9,6 +9,14 @@ Bien d'autres fonctionnalités impressionantes sont listées ici.
 
 • Personnalisez vous notifications. Choisissez l'apparence de Growl.
 • Continue de travailler même si ce n'est pas votre cas. Revenez sur votre Mac and passez en revue ce qui s'est passé en votre absence avec l'Historique.
+• Un onglet Applications simile d’emploi pour contrôler ce que vous recevez et ce qui est bloqué.
+• Lecture de l’affichage pour entendre vos notifications. Très pratique pour ceux dont la vision est limitée.
+• Génial historique de notiifications vous permettant de savoir ce qui s’est passé.
+• Un large éventail de styles fournis avec Growl. Depuis le tout petit nano, justqu’à l’énorme Music Video.
+• Composez vos propres styles Growl facilement avec des technologies du Web pour donner votre propre touche à Growl.
+• Envoyez des notifications Growl depuis Cocoa, AppleScript ou par réseau.
+• Mise en réseau pour que deux Mac ou plus puissent se rediriger des notifications l’un à l’autre.
+• Peut fonctionner sur iPhone et iPad avec Prowl.
 
 
 

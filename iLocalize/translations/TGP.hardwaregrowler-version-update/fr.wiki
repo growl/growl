@@ -1,2 +1,2 @@
-- Added French and Spanish localizations.
-- Resolved an issue with the Swedish localization displaying in Romanian.
+- Ajout des localisations en français et espagnol.
+- Correction d’un problème avec la localisation suédoise qui s’affichait en roumain.
