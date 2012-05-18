@@ -88,6 +88,7 @@ shortcodes = {
     :cs => 'cs',
     :el => 'el',
     :es_ES => 'es',
+    :es_MX => 'es-MX',
     :fr => 'fr',
     :nl => 'nl',
     :pt_PT => 'pt_PT',
