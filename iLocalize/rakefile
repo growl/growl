@@ -161,7 +161,8 @@ task :translate, :source, :destination do |t, args|
 #            puts "from #{source}/#{strings} to #{destCopy}"
             FileUtils.cp_r("#{source}/#{strings}", "#{destCopy}")
 #        else
-#            puts "Either start or destination doesn't exist"
+#           puts "#{destCopy} is missing"
+
         end
 #        puts "Done with #{key}"
     end
