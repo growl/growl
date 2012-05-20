@@ -261,7 +261,7 @@
 	return delegate;
 }
 -(NSString*)pluginDisplayName{
-	return @"Volume Monitor";
+	return NSLocalizedString(@"Volume Monitor", @"");
 }
 -(NSView*)preferencePane {
 	static dispatch_once_t onceToken;

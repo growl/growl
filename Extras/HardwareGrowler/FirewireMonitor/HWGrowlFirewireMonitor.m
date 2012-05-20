@@ -196,7 +196,7 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	return delegate;
 }
 -(NSString*)pluginDisplayName {
-	return @"Firewire Monitor";
+	return NSLocalizedString(@"Firewire Monitor", @"");
 }
 -(NSView*)preferencePane {
 	return nil;
