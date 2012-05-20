@@ -89,8 +89,8 @@
 	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
 		if (notificationsArePrimed || [delegate onLaunchEnabled]) {
-			NSString *deviceName = [self nameForThunderboltObject:thisObject];
-			NSLog(@"hello %@", deviceName);
+			//NSString *deviceName = [self nameForThunderboltObject:thisObject];
+			//NSLog(@"hello %@", deviceName);
 			//[self tbDeviceName:deviceName added:YES];
 		}
 		IOObjectRelease(thisObject);
@@ -105,8 +105,8 @@ static void tbDeviceAdded(void *refCon, io_iterator_t iterator) {
 -(void)tbDeviceRemoved:(io_iterator_t)iterator {
 	io_object_t thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
-		NSString *deviceName = [self nameForThunderboltObject:thisObject];
-		NSLog(@"goodbye %@", deviceName);
+		//NSString *deviceName = [self nameForThunderboltObject:thisObject];
+		//NSLog(@"goodbye %@", deviceName);
 		//[self tbDeviceName:deviceName added:NO];		
 		IOObjectRelease(thisObject);
 	}
