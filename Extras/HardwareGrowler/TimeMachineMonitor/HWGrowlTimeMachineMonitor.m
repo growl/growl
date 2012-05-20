@@ -135,7 +135,10 @@
 			[self parseLogDatabase];
 		});
 	}else {
-		NSLog(@"WARNING: Time Machine Montior relies on parsing the console log, and it is taking too long to parse due to high volume of messages, you may see high CPU usage as a result");
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			NSLog(@"WARNING: The Time Machine Montior relies on parsing the console log, and it is taking too long to parse due to high volume of messages, you may see high CPU usage as a result");
+		});
 	}
 }
 
