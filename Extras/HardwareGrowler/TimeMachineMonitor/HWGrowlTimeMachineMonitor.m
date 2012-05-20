@@ -116,16 +116,15 @@
 		if(lastEndTime)
 			[NSString stringWithFormat:NSLocalizedString(@"%@ since last back-up", @""), [self stringWithTimeInterval:[lastStartTime timeIntervalSinceDate:lastEndTime]]];
 		else
-			NSLocalizedString(@"Either this is your first back-up, or your previous one was so long ago that it is no longer in the system log.", /*comment*/ @"");
+			NSLocalizedString(@"First backup, or no previous backup found in the system log", @"");
 		[delegate notifyWithName:@"TimeMachineStart"
-								 title:NSLocalizedString(@"Time Machine started", /*comment*/ @"") 
+								 title:NSLocalizedString(@"Time Machine started", @"") 
 						 description:description
 								  icon:[self timeMachineIcon]
 				  identifierString:@"HWGTimeMachineMonitor"
 					  contextString:nil
 								plugin:self];
 	});
-	//This method is as re-entrant as an emergency exit door.
 }
 
 - (void) pollLogDatabase:(NSTimer *)timer {
