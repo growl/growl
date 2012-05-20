@@ -9,6 +9,8 @@
 #import "HWGrowlTimeMachineMonitor.h"
 #include <asl.h>
 
+#define ASL_UNDOC_KEY_TIME_NSEC "TimeNanoSec"
+
 @interface HWGrowlTimeMachineMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
@@ -37,7 +39,7 @@
 	if((self = [super init])){
 		parsing = NO;
 		
-		self.tmQueue = dispatch_queue_create(@"com.growl.HardwareGrowler.tmmonitorqueue", DISPATCH_QUEUE_SERIAL);
+		self.tmQueue = dispatch_queue_create("com.growl.HardwareGrowler.tmmonitorqueue", DISPATCH_QUEUE_SERIAL);
 	}
 	return self;
 }
@@ -47,7 +49,7 @@
 	[pollTimer invalidate];
 	[pollTimer release];
 	[lastStartTime release];
-	[lastSearchtime release];
+	[lastSearchTime release];
 	[lastEndTime release];
 	[super dealloc];
 }
@@ -60,8 +62,8 @@
 	static NSData *data = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSString *path = [self fullPathForApplication:@"Time Machine"];
-		NSImage *appIcon = path ? [self iconForFile:path] : nil;
+		NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Time Machine"];
+		NSImage *appIcon = path ? [[NSWorkspace sharedWorkspace] iconForFile:path] : nil;
 		data = [[appIcon TIFFRepresentation] retain];
 	});
 	return data;
@@ -126,8 +128,6 @@
 	//This method is as re-entrant as an emergency exit door.
 }
 
--(void)post
-
 - (void) pollLogDatabase:(NSTimer *)timer {
 	//We really shouldn't pile parse upon parse
 	if(!parsing){
@@ -162,7 +162,7 @@
 		
 		const char *msgUTF8 = asl_get(msg, ASL_KEY_MSG);
 		NSString *message = [NSString stringWithUTF8String:msgUTF8];
-		if (strcmp(msgUTF8, "Starting standard backup") == 0) {
+		if ([message compare:@"Starting standard backup"] == 0) {
 			[lastStartTime release];
 			lastStartTime = [lastFoundMessageDate retain];
 			lastWasCanceled = NO;
@@ -219,7 +219,7 @@
 	
 	//If a Time Machine back-up is running now, post the notification even if we are on our first run.
 	if ((!postGrowlNotifications) && (!lastWasCanceled) && ((!lastEndTime) || ([lastStartTime compare:lastEndTime] == NSOrderedDescending))) {
-		[self postBackupStartedNotification];
+		//[self postBackupStartedNotification];
 	}
 	
 	if (numFoundMessages > 0) {
