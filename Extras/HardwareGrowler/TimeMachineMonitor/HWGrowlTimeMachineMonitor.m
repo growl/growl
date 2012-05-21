@@ -113,17 +113,18 @@
    __block HWGrowlTimeMachineMonitor *blockSelf = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSString *description = nil;
-		if(blockSelf.lastEndTime)
-			description = [NSString stringWithFormat:NSLocalizedString(@"%@ since last back-up", @""), [blockSelf stringWithTimeInterval:[blockSelf.lastStartTime timeIntervalSinceDate:blockSelf.lastEndTime]]];
+		NSString *timeString = [blockSelf stringWithTimeInterval:[blockSelf->lastStartTime timeIntervalSinceDate:blockSelf->lastEndTime]];
+		if(blockSelf->lastEndTime)
+			description = [NSString stringWithFormat:NSLocalizedString(@"%@ since last back-up", @""), timeString];
 		else
 			description = NSLocalizedString(@"First backup, or no previous backup found in the system log", @"");
-		[blockSelf.delegate notifyWithName:@"TimeMachineStart"
-                                   title:NSLocalizedString(@"Time Machine started", @"") 
-                             description:description
-                                    icon:[blockSelf timeMachineIcon]
-                        identifierString:@"HWGTimeMachineMonitor"
-                           contextString:nil
-                                  plugin:blockSelf];
+		[blockSelf->delegate notifyWithName:@"TimeMachineStart"
+												title:NSLocalizedString(@"Time Machine started", @"") 
+										description:description
+												 icon:[blockSelf timeMachineIcon]
+								 identifierString:@"HWGTimeMachineMonitor"
+									 contextString:nil
+											  plugin:blockSelf];
 	});
 }
 
@@ -162,71 +163,77 @@
 	
 	NSUInteger numFoundMessages = 0UL;
 	NSDate *lastFoundMessageDate = nil;
-	
-	aslmsg msg;
-	while ((msg = aslresponse_next(response))) {
-		++numFoundMessages;
-		lastFoundMessageDate = [self dateFromASLMessage:msg];
-		
-		const char *msgUTF8 = asl_get(msg, ASL_KEY_MSG);
-		NSString *message = [NSString stringWithUTF8String:msgUTF8];
-		if ([message compare:@"Starting standard backup"] == NSOrderedSame) {
-			self.lastStartTime = lastFoundMessageDate;
-			lastWasCanceled = NO;
+	if(response != NULL){
+		aslmsg msg;
+		while ((msg = aslresponse_next(response))) {
+			++numFoundMessages;
+			lastFoundMessageDate = [self dateFromASLMessage:msg];
 			
-			if (postGrowlNotifications) {
-				[self postBackupStartedNotification];
-			}
-			
-		} else if (strcmp(msgUTF8, "Backup completed successfully.") == NSOrderedSame) {
-			self.lastEndTime = lastFoundMessageDate;
-			lastWasCanceled = NO;
-			
-			if (postGrowlNotifications) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					NSString *timeString = [blockSelf stringWithTimeInterval:[blockSelf.lastEndTime timeIntervalSinceDate:blockSelf.lastStartTime]];
-					[blockSelf.delegate notifyWithName:@"TimeMachineFinish"
-														  title:NSLocalizedString(@"Time Machine finished", @"")
-												  description:[NSString stringWithFormat:NSLocalizedString(@"Back-up took %@", @""), timeString]
-															icon:[blockSelf timeMachineIcon]
-											identifierString:@"HWGTimeMachineMonitor"
-												contextString:nil
-														 plugin:blockSelf];
-				});
-			}
-			
-		} 
-		else if ([message compare:@"Backup canceled."] == NSOrderedSame || 
-					[message compare:@"Backup failed"] == NSOrderedSame) 
-		{
-			NSDate *date = lastFoundMessageDate;
-			lastWasCanceled = YES;
-			BOOL wasFailure = ([message compare:@"Backup failed"] == NSOrderedSame);
-			
-			if (postGrowlNotifications) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					NSString *description = nil;
-					NSString *timeString = [blockSelf stringWithTimeInterval:[date timeIntervalSinceDate:blockSelf.lastStartTime]];
-					if(wasFailure)
-						description = [NSString stringWithFormat:NSLocalizedString(@"Failed after %@", @""), timeString];
-					else
-						description = [NSString stringWithFormat:NSLocalizedString(@"Canceled after %@", @""), timeString];
-					[blockSelf.delegate notifyWithName:wasFailure ? @"TimeMachineFailed" : @"TimeMachineCanceled"
-														  title:wasFailure ? NSLocalizedString(@"Time Machine Failed", @"") : NSLocalizedString(@"Time Machine Canceled", @"")
-												  description:description
-															icon:[blockSelf timeMachineIcon]
-											identifierString:@"HWGTimeMachineMonitor"
-												contextString:nil
-														 plugin:blockSelf];
-				});
-			}
-		} 
+			const char *msgUTF8 = asl_get(msg, ASL_KEY_MSG);
+			NSString *message = [NSString stringWithUTF8String:msgUTF8];
+			if ([message compare:@"Starting standard backup"] == NSOrderedSame) {
+				self.lastStartTime = lastFoundMessageDate;
+				lastWasCanceled = NO;
+				
+				if (postGrowlNotifications) {
+					[self postBackupStartedNotification];
+				}
+				
+			} else if ([message compare:@"Backup completed successfully."] == NSOrderedSame) {
+				self.lastEndTime = lastFoundMessageDate;
+				lastWasCanceled = NO;
+				
+				if (postGrowlNotifications) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						NSString *timeString = [blockSelf stringWithTimeInterval:[blockSelf->lastEndTime timeIntervalSinceDate:blockSelf->lastStartTime]];
+						[blockSelf->delegate notifyWithName:@"TimeMachineFinish"
+																title:NSLocalizedString(@"Time Machine finished", @"")
+														description:[NSString stringWithFormat:NSLocalizedString(@"Back-up took %@", @""), timeString]
+																 icon:[blockSelf timeMachineIcon]
+												 identifierString:@"HWGTimeMachineMonitor"
+													 contextString:nil
+															  plugin:blockSelf];
+					});
+				}
+				
+			} 
+			else if ([message compare:@"Backup canceled."] == NSOrderedSame || 
+						[message compare:@"Backup failed"] == NSOrderedSame) 
+			{
+				NSDate *date = lastFoundMessageDate;
+				lastWasCanceled = YES;
+				BOOL wasFailure = ([message compare:@"Backup failed"] == NSOrderedSame);
+				
+				if (postGrowlNotifications) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						NSString *description = nil;
+						NSString *timeString = [blockSelf stringWithTimeInterval:[date timeIntervalSinceDate:blockSelf->lastStartTime]];
+						if(wasFailure)
+							description = [NSString stringWithFormat:NSLocalizedString(@"Failed after %@", @""), timeString];
+						else
+							description = [NSString stringWithFormat:NSLocalizedString(@"Canceled after %@", @""), timeString];
+						[blockSelf->delegate notifyWithName:wasFailure ? @"TimeMachineFailed" : @"TimeMachineCanceled"
+																title:wasFailure ? NSLocalizedString(@"Time Machine Failed", @"") : NSLocalizedString(@"Time Machine Canceled", @"")
+														description:description
+																 icon:[blockSelf timeMachineIcon]
+												 identifierString:@"HWGTimeMachineMonitor"
+													 contextString:nil
+															  plugin:blockSelf];
+					});
+				}
+			} 
+		}
+		aslresponse_free(response);
 	}
-	aslresponse_free(response);
-	asl_free(query);
+	if(query)
+		asl_free(query);
 	
 	//If a Time Machine back-up is running now, post the notification even if we are on our first run.
-	if ((!postGrowlNotifications) && (!lastWasCanceled) && ((!lastEndTime) || ([lastStartTime compare:lastEndTime] == NSOrderedDescending))) {
+	if (numFoundMessages > 0 &&
+		 !postGrowlNotifications &&
+		 !lastWasCanceled && 
+		 (!lastEndTime || [lastStartTime compare:lastEndTime] == NSOrderedDescending)) 
+	{
 		[self postBackupStartedNotification];
 	}
 	
