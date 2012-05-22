@@ -48,6 +48,7 @@
 @synthesize tableView;
 @synthesize moduleColumn;
 @synthesize containerView;
+@synthesize noPrefsLabel;
 @synthesize placeholderView;
 @synthesize currentView;
 
@@ -101,6 +102,23 @@
 							 context:nil];
 	
 	self.pluginController = [[[HWGrowlPluginController alloc] init] autorelease];
+	
+	
+	NSShadow *shadow = [[NSShadow alloc] init];
+	[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:.75]];
+	[shadow setShadowOffset:CGSizeMake(0.0, -1.0)];
+	
+	NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:13.0f], NSFontAttributeName,
+									  [NSColor colorWithDeviceWhite:0.5f alpha:1.0f], NSForegroundColorAttributeName,
+									  shadow, NSShadowAttributeName, nil];
+	NSMutableAttributedString *noPrefsAttributed = [[NSMutableAttributedString alloc] initWithString:NoPluginPrefsTitle 
+																													  attributes:attrDict];
+	[noPrefsAttributed setAlignment:NSCenterTextAlignment range:NSMakeRange(0, [noPrefsAttributed length])];
+
+	
+	[noPrefsLabel setAttributedStringValue:noPrefsAttributed];
+	[shadow release];
+	[noPrefsAttributed release];
 	
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
    [moduleColumn setDataCell:imageTextCell];
@@ -317,6 +335,7 @@
 		[currentView removeFromSuperview];
 	[containerView addSubview:newView];
 	self.currentView = newView;
+	[_window recalculateKeyViewLoop];
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -330,7 +349,7 @@
 			static dispatch_once_t onceToken;
 			dispatch_once(&onceToken, ^{
 				placeholder = [[NSImage imageNamed:NSImageNameAdvanced] retain];
-				[placeholder setSize:CGSizeMake(24.0f, 24.0f)];
+				[placeholder setSize:CGSizeMake(32.0f, 32.0f)];
 			});
 			[cell setImage:placeholder];
 		}
