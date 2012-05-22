@@ -413,6 +413,9 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"Network Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	return nil;
 }

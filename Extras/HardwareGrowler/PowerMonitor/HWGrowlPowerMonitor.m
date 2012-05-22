@@ -338,6 +338,9 @@ static void powerSourceChanged(void *context) {
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"Power Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{

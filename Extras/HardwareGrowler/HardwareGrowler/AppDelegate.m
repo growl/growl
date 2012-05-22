@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "GrowlOnSwitch.h"
 #import "HWGrowlPluginController.h"
+#import "ACImageAndTextCell.h"
 #import <ServiceManagement/ServiceManagement.h>
 
 #define ShowDevicesTitle     NSLocalizedString(@"Show Connected Devices at Launch", nil)
@@ -17,7 +18,7 @@
 #define OpenPreferencesTitle NSLocalizedString(@"Open HardwareGrowler Preferences...", nil)
 #define IconTitle            NSLocalizedString(@"Icon:", nil)
 #define StartAtLoginTitle    NSLocalizedString(@"Start HardwareGrowler at Login:", nil)
-#define NoPluginPrefsTitle   NSLocalizedString(@"No Preferences", @"")
+#define NoPluginPrefsTitle   NSLocalizedString(@"There are no preferences available for this monitor.", @"")
 #define ModuleLabel          NSLocalizedString(@"Modules", @"")
 
 @implementation AppDelegate
@@ -45,6 +46,7 @@
 @synthesize modulesItem;
 @synthesize tabView;
 @synthesize tableView;
+@synthesize moduleColumn;
 @synthesize containerView;
 @synthesize placeholderView;
 @synthesize currentView;
@@ -99,6 +101,9 @@
 							 context:nil];
 	
 	self.pluginController = [[[HWGrowlPluginController alloc] init] autorelease];
+	
+	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
+   [moduleColumn setDataCell:imageTextCell];
 }
 
 - (IBAction)showPreferences:(id)sender
@@ -312,6 +317,25 @@
 		[currentView removeFromSuperview];
 	[containerView addSubview:newView];
 	self.currentView = newView;
+}
+
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+	if (aTableColumn == moduleColumn) {
+		NSCell *cell = [aTableColumn dataCellForRow:rowIndex];
+		id<HWGrowlPluginProtocol> plugin = [[[pluginController plugins] objectAtIndex:rowIndex] objectForKey:@"plugin"];
+		if([plugin preferenceIcon])
+			[cell setImage:[plugin preferenceIcon]];
+		else{
+			static NSImage *placeholder = nil;
+			static dispatch_once_t onceToken;
+			dispatch_once(&onceToken, ^{
+				placeholder = [[NSImage imageNamed:NSImageNameAdvanced] retain];
+				[placeholder setSize:CGSizeMake(24.0f, 24.0f)];
+			});
+			[cell setImage:placeholder];
+		}
+   }
+	return nil;
 }
 
 #pragma mark Toolbar

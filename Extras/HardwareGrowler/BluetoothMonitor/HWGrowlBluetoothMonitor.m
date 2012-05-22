@@ -120,6 +120,9 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"Bluetooth Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	return nil;
 }

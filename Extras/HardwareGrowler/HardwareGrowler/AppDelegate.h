@@ -35,6 +35,7 @@ typedef enum {
 	NSToolbarItem *modulesItem;
 	NSTabView *tabView;
 	NSTableView *tableView;
+	NSTableColumn *moduleColumn;
 	NSView *containerView;
 	NSView *placeholderView;
 	NSView *currentView;
@@ -76,6 +77,7 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet NSToolbarItem *generalItem;
 @property (nonatomic, assign) IBOutlet NSToolbarItem *modulesItem;
 @property (nonatomic, assign) IBOutlet NSTabView *tabView;
+@property (nonatomic, assign) IBOutlet NSTableColumn *moduleColumn;
 @property (nonatomic, assign) IBOutlet NSTableView *tableView;
 @property (nonatomic, assign) IBOutlet NSView *containerView;
 @property (nonatomic, retain) IBOutlet NSView *placeholderView;

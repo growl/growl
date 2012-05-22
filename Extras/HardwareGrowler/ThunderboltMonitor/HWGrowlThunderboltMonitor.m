@@ -180,6 +180,9 @@ static void tbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"Thunderbolt Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	return nil;
 }

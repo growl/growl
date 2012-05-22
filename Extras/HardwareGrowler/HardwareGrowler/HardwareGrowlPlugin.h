@@ -27,6 +27,7 @@
 -(void)setDelegate:(id<HWGrowlPluginControllerProtocol>)aDelegate;
 -(id<HWGrowlPluginControllerProtocol>)delegate;
 -(NSString*)pluginDisplayName;
+-(NSImage*)preferenceIcon;
 -(NSView*)preferencePane;
 
 @end

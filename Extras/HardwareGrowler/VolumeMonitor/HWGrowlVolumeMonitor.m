@@ -263,6 +263,9 @@
 -(NSString*)pluginDisplayName{
 	return NSLocalizedString(@"Volume Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{

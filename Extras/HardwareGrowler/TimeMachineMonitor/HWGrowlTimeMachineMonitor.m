@@ -258,6 +258,9 @@
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"TimeMachine Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	return nil;
 }

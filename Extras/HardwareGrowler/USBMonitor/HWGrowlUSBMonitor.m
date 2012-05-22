@@ -225,6 +225,9 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 -(NSString*)pluginDisplayName {
 	return NSLocalizedString(@"USB Monitor", @"");
 }
+-(NSImage*)preferenceIcon {
+	return nil;
+}
 -(NSView*)preferencePane {
 	return nil;
 }
