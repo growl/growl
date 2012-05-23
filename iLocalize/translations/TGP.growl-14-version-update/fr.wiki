@@ -1,0 +1,32 @@
+Général
+- Ré-écriture de l’interface des onglets ! Une refonte en profondeur qui devrait être bien plus facile à utiliser.
+- Déplacement des contrôles de l’enroulement dans un onglet distinct.
+- Améliorations majeures du support réseau.
+
+Refonte du panneau de préférences
+- Nouvel interrupteur d’activation/désactivation.
+- Ajout du support de l’utilisation du clavier pour choisir les positions.
+- Réorganisation de l’onglet Général.
+- Onglet Réseau — Ajout du support des abonnements.
+- Onglet Historique — Le menu contextuel pour la table de l’historique permettant d’aller aux réglages de l’app/des notifications.
+- L’onglet Enrouler est maintenant utilisé pour tout ce qui concerne la fenêtre des enroulements.
+- L’ajout d’un nouvel écran ne devrait plus nécessiter de relancer Growl.
+
+Réseau
+- Support de Notification-Callback-Target, un champ d’URL dans GNTP. En cliquant le lien, Growl indiue à OSX comment ouvrir le lien (par ex. dans le navigateur par défaut pour une URL http://)
+- Support des abonnements : abonnez-vous à toutes les applications sur une machine distante.
+- Améliorations générales de l’authentification en réseau et supression de la nécessité d’utiliser des en-têtes de mots de passe si le champt de mot de passe est vide.
+- Correction d’un plantage du support réseau lié à la résolution des adresses.
+- Mise en cache des adresses et observation des modifications réseau pour purger la cache.
+
+AppleScript
+- Support du retour sur clic, comme pour Notification-Callback-Target dans GNTP
+
+Correction de bogues
+- Résolution d’un plantage à la création d’une passerelle de module externe WebKit.
+- Résolution d’un plantage à la redirection.
+- Résolution d’un soucis où l’affichage de la Parole attend que le message précédant se termine, provoquant une utilisation excessive de CPU.
+- Résolution d’un plantage avec CFErrorGetDomain pour l’afficher des styles de WebKit.
+- Correction d’une duplication dans les listes de modules externes d’affichage à la réinstallation.
+- Notification-Callback-Target est maintenant respecté — et utilisé — même sans en-tête de méthode.
+- Correction d’un problème de tri à la suppression d’une seule entrée dans la liste de l’historique.

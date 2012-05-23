@@ -1,0 +1,31 @@
+Generell
+- Redesign der Anwendungs-Tabs! Dies ist eine bedeutende Überarbeitung, welche die Nutzung wesentlich vereinfacht
+- Rollup-Einstellungen in separates Tab verschoben
+- Wichtige Netzwerk-Verbesserungen
+
+Überarbeitungen des Einstellungsfensters
+- Neuer Schieberegler für Ein-/Aus-Wechsel
+- Neues Layout der herkömmlichen Tabs
+- Netzwerk-Tab - Unterstützung für Aktivierungen hinzugefügt
+- Verlauf-Tab, kontextabhängiges Menü für Verlaufstabelle und das passende Aufrufen der jeweiligen Anwendungs-/Benachrichtigungseinstellungen.
+- Der Rollup-Tab beherbergt die neuen Einstellungen für das Rollup-Fenster
+- Hinzufügen einer neuen Anzeige benötigt keinen Growl-Neustart mehr
+
+Netzwerk
+- Unterstützung von GNTP-Callback-Zielen. OS X wird durch Growl veranlasst zu entscheiden, wie URLs zu öffnen sind (ähnlich wie der Standard-Browser eine HTTP-URL öffnet)
+- Aktivierungsunterstützung für Anwendungen auf entfernten Rechnern
+- Generelle Verbesserungen der Netzwerk-Authentifizierung, kein Zwang mehr ein Passwort einzugeben, wenn initial überhaupt keines gesetzt wurde
+- Netzwerk-Abstürze in Bezug auf Adressauflösung behoben
+- 
+
+AppleScript
+- URL-Klick-Feedback-Support, ähnlich der GNTP-Callback-Ziele von Benachrichtigungen
+
+Fehlerbehebungen
+- Absturz der Webkit-Plugin-Bridge beim Erstellen behoben
+- Absturz beim Weiterleiten behoben
+- Problem bezüglich der Sprachausgabe, welche auf die vorige Nachricht wartet und die CPU komplett auslastet, behoben.
+- Absturz der CFErrorGetDomain für WebKit-Anzeige-Designs behoben
+- Notification-Callback-Target wird nun berücksichtigt und verwendet, auch ohne Method-Header
+- Problem mit korrupten Verlaufsdatenbanken behoben
+- Sortierungsproblem beim Löschen eines einzelnen Eintrags aus dem Verlauf behoben

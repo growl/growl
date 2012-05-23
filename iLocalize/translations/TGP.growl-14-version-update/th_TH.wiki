@@ -1,0 +1,34 @@
+ทั่วไป
+- ดีไซน์แท๊บ Applications ใหม่หมด ทำให้ใช้ง่ายขึ้น
+- แยกการควบคุม Rollup ไปแท็บใหม่
+- เพิ่มประสิทธิภาพในด้านการทำงานบนเครือข่าย
+
+ปรับปรุงหน้าต่างตั้งค่า
+- สวิชต์ปิดเปิดเป็น slider แบบใหม่
+- เพิ่มการเลือกตำแหน่งด้วยคีย์บอร์ด
+- จัดวางแท็บ ทั่วไป แบบใหม่
+- เพิ่มการรองรับ Subscription ในแท็บ เครือข่าย
+- แท็บ ประวัติ เพิ่มเมนูเพื่อข้ามไปการตั้งค่าของแอพฯ/การแจ้งเตือน
+- แท็บ Rollup ใหม่สำหรับจัดการหน้าต่าง Rollup
+- การเพิ่มรูปแบบ display ใหม่ ไม่ต้องรีสตาร์ท Growl แล้ว
+
+เครือข่าย
+- รองรับ Notification-Callback-Target, เพิ่มช่อง URL ใน GNTP เมื่อคลิก Growl จะให้ OS X จัดการว่าจะเปิด URL อย่างไร (เช่น ใช้เบราเซอร์ในการเปิด http:// URL)
+- รองรับการลงชื่อ Subscription เพื่อบอกรับการแจ้งเตือนจากแอพฯ จากเครื่องบนเครือข่าย
+- การปรับปรุงทั่วไปในส่วนของลงชื่อเข้าใช้จากเครือข่าย ยกเลิกการต้องใช้รหัสผ่าน และใช้ headers ของรหัสผ่านถ้าไม่ได้กำหนดรหัสผ่าน
+- แก้ไขการปิดเอง ที่เกี่ยวกับเครือข่าย และ address data resolution
+- ผูกกับ local socket เท่านั้น เมื่อไม่ได้รับข้อความจากภายนอก
+- จัดการเรื่องแคชข้อมูล และสังเกตการเปลี่ยนแปลงบนเครือข่ายเพื่อล้างแคช
+
+AppleScript
+- รองรับ feedback จากการคลิก URL เหมือนใน Notification-Callback-Target ใน GNTP
+
+Bug fixes
+- Resolved a crash with webkit plugin bridge on creation.
+- Resolved a crash with forwarding.
+- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
+- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
+- Fixed duplicate listings of display plugins on reinstall.
+- Notification-Callback-Target is now respected, and used, even without the method header.
+- Worked around problems with corrupt history databases.
+- Fixed a sorting problem when deleting a single entry in the history list.

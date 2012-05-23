@@ -1,0 +1,34 @@
+Generale
+- Pannello Applicazioni ridisegnato! Questa è una modifica importante e dovrebbe essere molto più semplice da usare.
+- i Controlli del raggruppamento delle notifiche sono stati spostati in un pannello separato.
+- Grandi migliorie nella rete.
+
+Revisione del Pannello Preferenze
+- Nuovo pulsante on/off.
+- Aggiunto supporto alla tastiera per controllo posizione
+- Ridisegnato il pannello Generale
+- Pannello rete - Aggiunto supporto per sottoscrizioni
+- Pannello cronologia, menú contestuale nella tabella per andare direttamente al settario delle notifiche dell'applicazione.
+- Pannello Raggruppamento è dove si trovano tutti i controlli relativi alla finestra di riepilogo.
+- Aggiungere un nuovo stile non richiede il riavvio di Growl.
+
+Rete
+- Supporto per notifiche Callback-Target, un campo URL in GNTP. Quando cliccato, Growl fa capire ad OSX come aprire l'URL (come il browser predefinito per http://url).
+- Supporto Sottoscrizioni, sottoscrivi a tutte le applicazioni nella macchina remota.
+- Miglioramenti generali nell'autenticazione di rete, rimossa la richiesta, ed uso delle intestazioni della password se il campo password è vuoto.
+- Risolto crash di rete relativo all'indirizzamento dei dati.
+- Aggancio al socket locale solo se non in attesa di notifiche in entrata.
+- Cache indirizzamento dati, ed osservazione dei cambiamenti della rete per la pulizia della cache.
+
+Applescript
+- Supporto per feedback URL, come per le notifiche Callback-Target in GNTP
+
+Risoluzione problemi
+- Risolto crash  durante la creazione di plugin webkit.
+- Risolto crash con inoltro.
+- Risolto un problema dove le notifiche vocali aspettavano che il messaggio precedente finisse causando un sovraccarico della CPU.
+- Risolto crash CFErrorGetDomain per gli stili Webkit.
+- Sistemato la doppia visualizzazione nella lista degli stili quando reinstallato.
+- Notifiche Callback-Target sono ora rispettate, ed usate, anche senza intestazione del metodo.
+- Aggiustato problema con archivio della cronologia corrotto.
+- Risolto problema di ordinamento quando si cancella una singola voce nella lista della cronologia. 

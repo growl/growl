@@ -1,0 +1,34 @@
+Geral
+- Guia de Aplicativos Redesenhada! Esta é uma grande mudança, e deve estar muito mais fácil de usar.
+- Movidos os controles do Agregamento para uma guia separada.
+- Grandes melhoramentos na rede.
+
+Painel de Preferências revisto:
+- Novo botão de slider para ligar/desativar opções
+- Adicionado suporte a teclado para selecionar posição.
+- Guia Geral com novo layout.
+- Guia Rede - Adicionado suporte para inscrição
+- Guia de Histórico, menu contextual para tabela de histórico para pular para as configurações de aplicativo/notificação
+- Guia Agrupamento é o novo centro de controles relacionado à janela de Agrupamento.
+- Adicionar um novo visual não deve mais exigir que Growl seja reiniciado.
+
+Rede
+- Suporte a Notification-Callback-Target, um campo de URL em GNTP. Ao clicar, Growl deixa que OSX se cuide para abrir a URL (como, por exemplo, o navegador padrão para uma URL http://)
+- Suporte a inscrição, inscreva-se a todos aplicativos em uma máquina remota.
+- Melhoramentos gerais a autenticação de rede, removida necessidade, e uso de cabeçalhos de senha caso o campo de senha esteja vazio.
+- Correção de falha de rede relacionada a resolução de dados de endereço.
+- Vinculação a socket local somente se não estiver ouvindo notificações recebidas.
+- Cache de dados de endreço, e observação de alterações da rede para limpar caches.
+
+Applescript
+- Suporte a feedback de clique em URL, mesmo que Notification-Callback-Target em GNTP
+
+Correção de Bugs
+- Resolvida uma falha com with bridge do plugin webkit na criação.
+- Resolvida uma falha com encaminhamento.
+- Resolvido um problema no qual a exibição de Fala espera por mensagens anteriores para completar estar sugando a CPU.
+- Resolvida uma falha com CFErrorGetDomain para Estilos de Exibição.
+- Corrigidas listagens duplicadas de visualização de plugins ao reinstalar.
+- Notification-Callback-Target agora é respeitado, e usado, mesmo sem o cabeçalho do método.
+- Contornados os problemas de base de dados de histórico corrompidas.
+- Corrigido um problema de ordenação ao deletar um registro da lista de histórico.
