@@ -21,6 +21,7 @@
 		BC75526C1565291400CB0542 /* HWGrowlThunderboltMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */; };
 		BC75526F15652B9B00CB0542 /* ThunderboltMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */; };
 		BC75527015652BB100CB0542 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
+		BC9757AB156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */; };
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
 		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
@@ -326,6 +327,7 @@
 		BC755256156528AA00CB0542 /* ThunderboltMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThunderboltMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BC75526A1565291400CB0542 /* HWGrowlThunderboltMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlThunderboltMonitor.h; sourceTree = "<group>"; };
 		BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlThunderboltMonitor.m; sourceTree = "<group>"; };
+		BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MonitorPrefs-DefaultIcon.png"; path = "Resources/MonitorPrefs-DefaultIcon.png"; sourceTree = SOURCE_ROOT; };
 		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26B63155585C0009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -541,6 +543,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BC9757A9156C2D2B0080CF24 /* BundleIcons */ = {
+			isa = PBXGroup;
+			children = (
+				BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */,
+			);
+			name = BundleIcons;
+			sourceTree = "<group>";
+		};
 		BCA26B5F155585C0009C5ABC /* BluetoothMonitor */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,6 +700,7 @@
 		BCB8060C155154B80088C69A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BC9757A9156C2D2B0080CF24 /* BundleIcons */,
 				BCB80611155154CA0088C69A /* HWGrowler.icns */,
 				BCB80612155154CA0088C69A /* menubarIcon_Normal.png */,
 				BCB80613155154CA0088C69A /* menubarIcon_Selected.png */,
@@ -1241,6 +1252,7 @@
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
 				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
 				BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */,
+				BC9757AB156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
