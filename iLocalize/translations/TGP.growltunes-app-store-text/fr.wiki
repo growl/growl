@@ -1,3 +1,3 @@
-Quel air vient de se lancer dans iTunes ? Avec GrowlTunes, vous n’aurez plus besoin de vous poser la question, vous le saurez tout simplement. GrowlTunes permet de voir facilement quel air est en train de passer et vous offre encore plus de contrôle que ça, comme la possibilité de changer la note d’un air ou le volume dans iTunes. Si vous avez Growl, vous pouvez également changer l’aspect des notifications. 
+Quel morceau vient démarrer dans iTunes ? Avec GrowlTunes, vous ne vous poserez plus la question, vous le saurez tout simplement. GrowlTunes permet de voir facilement ce qui est à l'écoute. Et il offre encore plus, comme la possibilité de changer le classement des morceaux ou bien le volume d'iTunes. Si vous possédez Growl, vous pourrez également changer l'apparence des notifications.  
 
-GrowlTunes facilite l’utilisation d’iTunes. Au bureau, ou en soirée, GrowlTunes est vraiment pratique quand vous shouaitez simplement jeter un coup d’œil.
+GrowlTunes améliore l’utilisation d’iTunes. Pour le travail, ou la détente, GrowlTunes est véritablement pratique pour qui veut savoir.
