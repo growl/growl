@@ -305,8 +305,17 @@
 	NSInteger selection = [tableView clickedRow];
 	if(selection >= 0 && (NSUInteger)selection < [[pluginController plugins] count]){
 		NSMutableDictionary *pluginDict = [[pluginController plugins] objectAtIndex:selection];
-		NSString *identifier = [[NSBundle bundleForClass:[[pluginDict objectForKey:@"plugin"] class]] bundleIdentifier];
+		id<HWGrowlPluginProtocol> plugin = [pluginDict objectForKey:@"plugin"];
+		NSString *identifier = [[NSBundle bundleForClass:[plugin class]] bundleIdentifier];
 		NSNumber *disabled = [pluginDict objectForKey:@"disabled"];
+		
+		if([disabled boolValue]){
+			if([plugin respondsToSelector:@selector(stopObserving)])
+				[plugin stopObserving];
+		}else{
+			if([plugin respondsToSelector:@selector(startObserving)])
+				[plugin startObserving];
+		}
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSMutableDictionary *disabledDict = [[[defaults objectForKey:@"DisabledPlugins"] mutableCopy] autorelease];

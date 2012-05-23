@@ -148,6 +148,18 @@
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"];
 }
 
+-(BOOL)pluginDisabled:(id)plugin {
+	__block BOOL disabled = NO;
+	[plugins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj objectForKey:@"plugin"] == plugin) 
+		{
+			disabled = [[obj objectForKey:@"disabled"] boolValue];
+			*stop = YES;
+		}
+	}];
+	return disabled;
+}
+
 -(void)growlNotificationClosed:(id)clickContext viaClick:(BOOL)click {
 	NSArray *components = [clickContext componentsSeparatedByString:@" : "];
 	if([components count] < 2)

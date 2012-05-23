@@ -68,6 +68,12 @@
 }
 
 - (void) startMonitoringTheLogs {
+	if(self.pollTimer)
+		return;
+	
+	if([delegate pluginDisabled:self])
+		return;
+	
 	self.pollTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
 																	  target:self
 																	selector:@selector(pollLogDatabase:)
@@ -77,6 +83,9 @@
    [self pollLogDatabase:pollTimer];
 }
 - (void) stopMonitoringTheLogs {
+	if(!pollTimer)
+		return;
+	
 	[pollTimer invalidate];
 	self.pollTimer = nil;
 }
@@ -263,6 +272,12 @@
 }
 -(NSView*)preferencePane {
 	return nil;
+}
+-(void)startObserving {
+	[self startMonitoringTheLogs];
+}
+-(void)stopObserving {
+	[self stopMonitoringTheLogs];
 }
 
 #pragma mark HWGrowlPluginNotifierProtocol

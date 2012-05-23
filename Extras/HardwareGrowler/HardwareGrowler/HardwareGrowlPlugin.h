@@ -19,6 +19,7 @@
 					plugin:(id)plugin;
 
 -(BOOL)onLaunchEnabled;
+-(BOOL)pluginDisabled:(id)plugin;
 
 @end
 
@@ -29,6 +30,10 @@
 -(NSString*)pluginDisplayName;
 -(NSImage*)preferenceIcon;
 -(NSView*)preferencePane;
+
+@optional
+-(void)startObserving;
+-(void)stopObserving;
 
 @end
 
