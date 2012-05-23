@@ -15,11 +15,11 @@
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>HWGM</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(HWG_VERSION)</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>$(HWG_VERSION)</string>
 	<key>NSHumanReadableCopyright</key>

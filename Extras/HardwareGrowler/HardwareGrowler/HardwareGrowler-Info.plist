@@ -26,13 +26,43 @@
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.6.6</string>
+	<key>LSUIElement</key>
+	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 The Growl Project, LLC. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>LSUIElement</key>
-	<true/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.item</string>
+				<string>public.composite-content</string>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Hardware Growl Monitor</string>
+			<key>UTTypeIconFile</key>
+			<string>HWGrowler</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.HardwareGrowl.monitor</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<array>
+					<string>HWGM</string>
+				</array>
+				<key>public.filename-extension</key>
+				<array>
+					<string>hwgrowlmonitor</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -12,30 +12,30 @@
 		BC523C231555686000548427 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC523C291555686000548427 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC523C271555686000548427 /* InfoPlist.strings */; };
 		BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */; };
-		BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.bundle */; };
+		BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
 		BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC755253156528AA00CB0542 /* InfoPlist.strings */; };
 		BC75526C1565291400CB0542 /* HWGrowlThunderboltMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */; };
-		BC75526F15652B9B00CB0542 /* ThunderboltMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */; };
+		BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */; };
 		BC75527015652BB100CB0542 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC9757AB156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */; };
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
 		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
-		BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */; };
+		BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */; };
 		BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCA26B881555B3F5009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B8E1555B3F5009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B8C1555B3F5009C5ABC /* InfoPlist.strings */; };
 		BCA26BA51555B46F009C5ABC /* HWGrowlFirewireMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */; };
-		BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */; };
+		BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */; };
 		BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCA26BB41555BB1B009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26BBA1555BB1B009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26BB81555BB1B009C5ABC /* InfoPlist.strings */; };
 		BCAA1764155784C800D9E4ED /* HWGrowlPowerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */; };
-		BCAA17671557858700D9E4ED /* PowerMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */; };
+		BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */; };
 		BCAA1778155804A000D9E4ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
@@ -60,7 +60,7 @@
 		BCB8070815517EE90088C69A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB8070615517EE10088C69A /* ServiceManagement.framework */; };
 		BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB8074F1551A6EA0088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB8074D1551A6EA0088C69A /* InfoPlist.strings */; };
-		BCB807671551A7250088C69A /* NetworkMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCB807471551A6E90088C69A /* NetworkMonitor.bundle */; };
+		BCB807671551A7250088C69A /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */; };
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
 		BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */; };
@@ -70,11 +70,11 @@
 		BCECA38D155322D200F49280 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCECA394155322D200F49280 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCECA392155322D200F49280 /* InfoPlist.strings */; };
 		BCECA3AB155322FD00F49280 /* HWGrowlVolumeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */; };
-		BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCECA38C155322D200F49280 /* VolumeMonitor.bundle */; };
+		BCECA3AE1553364A00F49280 /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */; };
 		BCF6236A156878CC00AB4676 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCF62370156878CC00AB4676 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCF6236E156878CC00AB4676 /* InfoPlist.strings */; };
 		BCF6237C15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF6237B15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m */; };
-		BCF6237F156890C700AB4676 /* TimeMachineMonitor.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCF62369156878CC00AB4676 /* TimeMachineMonitor.bundle */; };
+		BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,14 +291,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				BCF6237F156890C700AB4676 /* TimeMachineMonitor.bundle in Copy Plugins */,
-				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.bundle in Copy Plugins */,
-				BCAA17671557858700D9E4ED /* PowerMonitor.bundle in Copy Plugins */,
-				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.bundle in Copy Plugins */,
-				BCA26B6D15558810009C5ABC /* BluetoothMonitor.bundle in Copy Plugins */,
-				BC523C3415556B6200548427 /* USBMonitor.bundle in Copy Plugins */,
-				BCECA3AE1553364A00F49280 /* VolumeMonitor.bundle in Copy Plugins */,
-				BCB807671551A7250088C69A /* NetworkMonitor.bundle in Copy Plugins */,
+				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
+				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */,
+				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
+				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */,
+				BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */,
+				BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */,
+				BCECA3AE1553364A00F49280 /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */,
+				BCB807671551A7250088C69A /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,7 +312,7 @@
 		BC3530B1155C1402005D2EA2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		BC4FC622155C04B700EE65EC /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		BC4FC627155C05C700EE65EC /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BC523C221555686000548427 /* USBMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC523C261555686000548427 /* USBMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "USBMonitor-Info.plist"; sourceTree = "<group>"; };
 		BC523C281555686000548427 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC523C2A1555686000548427 /* USBMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "USBMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -321,27 +321,27 @@
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerMonitorPrefs.xib; sourceTree = "<group>"; };
 		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
-		BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThunderboltMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThunderboltMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC755252156528AA00CB0542 /* ThunderboltMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThunderboltMonitor-Info.plist"; sourceTree = "<group>"; };
 		BC755254156528AA00CB0542 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC755256156528AA00CB0542 /* ThunderboltMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThunderboltMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BC75526A1565291400CB0542 /* HWGrowlThunderboltMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlThunderboltMonitor.h; sourceTree = "<group>"; };
 		BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlThunderboltMonitor.m; sourceTree = "<group>"; };
 		BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MonitorPrefs-DefaultIcon.png"; path = "Resources/MonitorPrefs-DefaultIcon.png"; sourceTree = SOURCE_ROOT; };
-		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26B63155585C0009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCA26B65155585C0009C5ABC /* BluetoothMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BluetoothMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BCA26B6A155585FA009C5ABC /* HWGrowlBluetoothMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlBluetoothMonitor.h; sourceTree = "<group>"; };
 		BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlBluetoothMonitor.m; sourceTree = "<group>"; };
 		BCA26B7015558837009C5ABC /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
-		BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirewireMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirewireMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B8B1555B3F5009C5ABC /* FirewireMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FirewireMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26B8D1555B3F5009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCA26B8F1555B3F5009C5ABC /* FirewireMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FirewireMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BCA26BA31555B46F009C5ABC /* HWGrowlFirewireMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlFirewireMonitor.h; sourceTree = "<group>"; };
 		BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlFirewireMonitor.m; sourceTree = "<group>"; };
-		BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PowerMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PowerMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26BB71555BB1B009C5ABC /* PowerMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PowerMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26BB91555BB1B009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCA26BBB1555BB1B009C5ABC /* PowerMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PowerMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 		BCB806F6155178340088C69A /* GrowlOnSwitchKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchKnob.h; path = ../../../Core/Source/GrowlOnSwitchKnob.h; sourceTree = "<group>"; };
 		BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = ../../../Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BCB8070615517EE10088C69A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		BCB807471551A6E90088C69A /* NetworkMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB8074C1551A6EA0088C69A /* NetworkMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NetworkMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCB8074E1551A6EA0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCB807501551A6EA0088C69A /* NetworkMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NetworkMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -394,14 +394,14 @@
 		BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BCECA3691552D24C00F49280 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
 		BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
-		BCECA38C155322D200F49280 /* VolumeMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VolumeMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VolumeMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCECA38E155322D200F49280 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BCECA391155322D200F49280 /* VolumeMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VolumeMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCECA393155322D200F49280 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCECA395155322D200F49280 /* VolumeMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VolumeMonitor-Prefix.pch"; sourceTree = "<group>"; };
 		BCECA3A9155322FD00F49280 /* HWGrowlVolumeMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlVolumeMonitor.h; sourceTree = "<group>"; };
 		BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlVolumeMonitor.m; sourceTree = "<group>"; };
-		BCF62369156878CC00AB4676 /* TimeMachineMonitor.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeMachineMonitor.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeMachineMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF6236D156878CC00AB4676 /* TimeMachineMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TimeMachineMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCF6236F156878CC00AB4676 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCF62371156878CC00AB4676 /* TimeMachineMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimeMachineMonitor-Prefix.pch"; sourceTree = "<group>"; };
@@ -632,14 +632,14 @@
 			children = (
 				BCB805E7155153330088C69A /* HardwareGrowler.app */,
 				BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */,
-				BCB807471551A6E90088C69A /* NetworkMonitor.bundle */,
-				BCECA38C155322D200F49280 /* VolumeMonitor.bundle */,
-				BC523C221555686000548427 /* USBMonitor.bundle */,
-				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */,
-				BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */,
-				BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */,
-				BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */,
-				BCF62369156878CC00AB4676 /* TimeMachineMonitor.bundle */,
+				BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */,
+				BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */,
+				BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */,
+				BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */,
+				BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */,
+				BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */,
+				BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */,
+				BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -879,7 +879,7 @@
 			);
 			name = USBMonitor;
 			productName = USBMonitor;
-			productReference = BC523C221555686000548427 /* USBMonitor.bundle */;
+			productReference = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BC75524D156528AA00CB0542 /* ThunderboltMonitor */ = {
@@ -896,7 +896,7 @@
 			);
 			name = ThunderboltMonitor;
 			productName = ThunderboltMonitor;
-			productReference = BC75524E156528AA00CB0542 /* ThunderboltMonitor.bundle */;
+			productReference = BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCA26B5C155585C0009C5ABC /* BluetoothMonitor */ = {
@@ -913,7 +913,7 @@
 			);
 			name = BluetoothMonitor;
 			productName = BluetoothMonitor;
-			productReference = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.bundle */;
+			productReference = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCA26B861555B3F5009C5ABC /* FirewireMonitor */ = {
@@ -930,7 +930,7 @@
 			);
 			name = FirewireMonitor;
 			productName = FirewireMonitor;
-			productReference = BCA26B871555B3F5009C5ABC /* FirewireMonitor.bundle */;
+			productReference = BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCA26BB21555BB1A009C5ABC /* PowerMonitor */ = {
@@ -947,7 +947,7 @@
 			);
 			name = PowerMonitor;
 			productName = PowerMonitor;
-			productReference = BCA26BB31555BB1A009C5ABC /* PowerMonitor.bundle */;
+			productReference = BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCB805E6155153330088C69A /* HardwareGrowler */ = {
@@ -1014,7 +1014,7 @@
 			);
 			name = NetworkMonitor;
 			productName = NetworkMonitor;
-			productReference = BCB807471551A6E90088C69A /* NetworkMonitor.bundle */;
+			productReference = BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCECA38B155322D200F49280 /* VolumeMonitor */ = {
@@ -1031,7 +1031,7 @@
 			);
 			name = VolumeMonitor;
 			productName = VolumeMonitor;
-			productReference = BCECA38C155322D200F49280 /* VolumeMonitor.bundle */;
+			productReference = BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCF62368156878CC00AB4676 /* TimeMachineMonitor */ = {
@@ -1048,7 +1048,7 @@
 			);
 			name = TimeMachineMonitor;
 			productName = TimeMachineMonitor;
-			productReference = BCF62369156878CC00AB4676 /* TimeMachineMonitor.bundle */;
+			productReference = BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1604,7 +1604,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -1619,7 +1619,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -1634,7 +1634,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -1649,7 +1649,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -1664,7 +1664,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -1679,7 +1679,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -1695,7 +1695,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -1711,7 +1711,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -1727,7 +1727,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -1742,7 +1742,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -1757,7 +1757,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -1772,7 +1772,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -1801,7 +1801,7 @@
 					"-Wno-multichar",
 					"-Wno-arc-performSelector-leaks",
 				);
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -1830,7 +1830,7 @@
 					"-Wno-multichar",
 					"-Wno-arc-performSelector-leaks",
 				);
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -1859,7 +1859,7 @@
 					"-Wno-multichar",
 					"-Wno-arc-performSelector-leaks",
 				);
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -2053,7 +2053,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -2068,7 +2068,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -2083,7 +2083,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -2098,7 +2098,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -2113,7 +2113,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -2128,7 +2128,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
@@ -2143,7 +2143,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Debug;
 		};
@@ -2158,7 +2158,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Localization;
 		};
@@ -2173,7 +2173,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
 			name = Release;
 		};
