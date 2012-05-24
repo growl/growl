@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'USBMonitor' target in the 'USBMonitor' project
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+#endif

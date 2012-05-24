@@ -30,6 +30,17 @@
 #define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
 #define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
 
+// This may not be the best solution. Rather not use __has_feature(arc). 
+#ifdef __clang_major__ 
+#if __clang_major__ > 2
+#define AUTORELEASEPOOL_START @autoreleasepool {
+#define AUTORELEASEPOOL_END }
+#endif
+#else
+#define AUTORELEASEPOOL_START NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#define AUTORELEASEPOOL_END [pool drain];
+#endif
+
 @interface GrowlApplicationBridge (PRIVATE)
 
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
@@ -61,9 +72,8 @@ static NSData	*appIconData = nil;
 static GrowlMiniDispatch *miniDispatch = nil;
 #endif
 
-static id		delegate = nil;
+static id<GrowlApplicationBridgeDelegate> delegate = nil;
 static BOOL		growlLaunched = NO;
-
 
 static BOOL registeredWithGrowl = NO;
 //Do not touch the attempts variable directly! Use the +attempts method every time, to ensure that the array exists.
@@ -81,6 +91,17 @@ static BOOL    hasGNTP = NO;
 static BOOL    shouldUseBuiltInNotifications = YES;
 
 static dispatch_queue_t notificationQueue_Queue;
+
+static struct {
+    unsigned int growlNotificationWasClicked : 1;
+    unsigned int growlNotificationTimedOut : 1;
+    unsigned int registrationDictionaryForGrowl : 1;
+    unsigned int applicationNameForGrowl : 1;
+    unsigned int applicationIconForGrowl : 1;
+    unsigned int applicationIconDataForGrowl : 1;
+    unsigned int growlIsReady : 1;
+    unsigned int hasNetworkClientEntitlement : 1;
+} _delegateRespondsTo;
 
 #pragma mark -
 
@@ -109,14 +130,23 @@ static dispatch_queue_t notificationQueue_Queue;
 	return _attempts;
 }
 
-+ (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
++ (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 	if (inDelegate != delegate) {
-		[delegate release];
+		[delegate autorelease];
 		delegate = [inDelegate retain];
-	}
-
+	} 
+    
+    _delegateRespondsTo.growlNotificationWasClicked = [delegate respondsToSelector:@selector(growlNotificationWasClicked:)];
+    _delegateRespondsTo.growlNotificationTimedOut = [delegate respondsToSelector:@selector(growlNotificationTimedOut:)];
+    _delegateRespondsTo.registrationDictionaryForGrowl = [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)];
+    _delegateRespondsTo.applicationNameForGrowl = [delegate respondsToSelector:@selector(applicationNameForGrowl)];
+    _delegateRespondsTo.applicationIconForGrowl = [delegate respondsToSelector:@selector(applicationIconForGrowl)];
+    _delegateRespondsTo.applicationIconDataForGrowl = [delegate respondsToSelector:@selector(applicationIconDataForGrowl)];
+    _delegateRespondsTo.growlIsReady = [delegate respondsToSelector:@selector(growlIsReady)];
+    _delegateRespondsTo.hasNetworkClientEntitlement = [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)];
+    
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [[self bestRegistrationDictionary] retain];
 
@@ -148,7 +178,7 @@ static dispatch_queue_t notificationQueue_Queue;
 	int pid = [[NSProcessInfo processInfo] processIdentifier];
 	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+	if (_delegateRespondsTo.growlNotificationWasClicked)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
@@ -162,7 +192,7 @@ static dispatch_queue_t notificationQueue_Queue;
 	/* We also look for notifications which arne't pid-specific but which are for our application */
 	growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@",
 									appName, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+	if (_delegateRespondsTo.growlNotificationWasClicked)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
@@ -175,7 +205,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+	if (_delegateRespondsTo.growlNotificationTimedOut)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
@@ -189,7 +219,7 @@ static dispatch_queue_t notificationQueue_Queue;
 	/* We also look for notifications which arne't pid-specific but which are for our application */
 	growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%@",
 									 appName, GROWL_DISTRIBUTED_NOTIFICATION_TIMED_OUT_SUFFIX];
-	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+	if (_delegateRespondsTo.growlNotificationTimedOut)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
@@ -428,6 +458,11 @@ static dispatch_queue_t notificationQueue_Queue;
 		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
 		regDict = [self bestRegistrationDictionary];
+	
+	if(!regDict){
+		NSLog(@"Cannot register without a registration dictionary!");
+		return NO;
+	}
 
    attemptingToRegister = YES;
    
@@ -485,7 +520,7 @@ static dispatch_queue_t notificationQueue_Queue;
 + (NSDictionary *) registrationDictionaryFromDelegate {
 	NSDictionary *regDict = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)])
+	if (delegate && _delegateRespondsTo.registrationDictionaryForGrowl)
 		regDict = [delegate registrationDictionaryForGrowl];
 
 	return regDict;
@@ -646,7 +681,7 @@ static dispatch_queue_t notificationQueue_Queue;
 + (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {
 	NSString *applicationNameForGrowl = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)])
+	if (delegate && _delegateRespondsTo.applicationNameForGrowl)
 		applicationNameForGrowl = [delegate applicationNameForGrowl];
 
 	if (!applicationNameForGrowl) {
@@ -662,9 +697,9 @@ static dispatch_queue_t notificationQueue_Queue;
 	NSData *iconData = nil;
 
 	if (delegate) {
-		if ([delegate respondsToSelector:@selector(applicationIconForGrowl)])
+		if (_delegateRespondsTo.applicationIconForGrowl)
 			iconData = (NSData *)[delegate applicationIconForGrowl];
-		else if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)])
+		else if (_delegateRespondsTo.applicationIconDataForGrowl)
 			iconData = [delegate applicationIconDataForGrowl];
 	}
 
@@ -687,16 +722,16 @@ static dispatch_queue_t notificationQueue_Queue;
  *	delegate responds to growlNotificationWasClicked:.
  */
 + (void) growlNotificationWasClicked:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[delegate growlNotificationWasClicked:
-		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool drain];
+    AUTORELEASEPOOL_START
+        [delegate growlNotificationWasClicked:
+         [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+    AUTORELEASEPOOL_END
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[delegate growlNotificationTimedOut:
-		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
-	[pool drain];
+	AUTORELEASEPOOL_START
+        [delegate growlNotificationTimedOut:
+         [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+    AUTORELEASEPOOL_END
 }
 
 #pragma mark -
@@ -716,37 +751,35 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 
 + (void) _growlIsReady:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-   //We may have gotten a new version of growl
-   [self _growlIsReachableUpdateCache:YES];
-	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
-	growlLaunched = YES;
-
-	//Inform our delegate if it is interested
-	if ([delegate respondsToSelector:@selector(growlIsReady)])
-		[delegate growlIsReady];
-
-	//Post a notification locally
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
-														object:nil
-													  userInfo:nil];
-
-	//Stop observing for GROWL_IS_READY
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
-															   name:GROWL_IS_READY
-															 object:nil];
-
-	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
-	if (registerWhenGrowlIsReady) {
-		[self reregisterGrowlNotifications];
-		registerWhenGrowlIsReady = NO;
-	} else {
-		registeredWithGrowl = YES;
-      [self _emptyQueue];
-	}
-
-	[pool drain];
+    AUTORELEASEPOOL_START
+        //We may have gotten a new version of growl
+        [self _growlIsReachableUpdateCache:YES];
+        //Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
+        growlLaunched = YES;
+        
+        //Inform our delegate if it is interested
+        if (_delegateRespondsTo.growlIsReady)
+            [delegate growlIsReady];
+        
+        //Post a notification locally
+        [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+                                                            object:nil
+                                                          userInfo:nil];
+        
+        //Stop observing for GROWL_IS_READY
+        [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+                                                                   name:GROWL_IS_READY
+                                                                 object:nil];
+        
+        //register (fixes #102: this is necessary if we got here by Growl having just been installed)
+        if (registerWhenGrowlIsReady) {
+            [self reregisterGrowlNotifications];
+            registerWhenGrowlIsReady = NO;
+        } else {
+            registeredWithGrowl = YES;
+            [self _emptyQueue];
+        }
+    AUTORELEASEPOOL_END
 }
 
 + (BOOL) _growlIsReachableUpdateCache:(BOOL)update
@@ -826,7 +859,7 @@ static dispatch_queue_t notificationQueue_Queue;
    NSString *suffix = [NSString stringWithFormat:@"Containers/%@/Data", [[NSBundle mainBundle] bundleIdentifier]];
    if([homeDirectory hasSuffix:suffix]){
       sandboxed = YES;
-      if(delegate && [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)])
+      if(delegate && _delegateRespondsTo.hasNetworkClientEntitlement)
          networkClient = [delegate hasNetworkClientEntitlement];
       else
          networkClient = NO;
@@ -895,12 +928,12 @@ static dispatch_queue_t notificationQueue_Queue;
 
 + (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   if(delegate && [delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+   if(delegate && _delegateRespondsTo.growlNotificationWasClicked)
       [delegate growlNotificationWasClicked:context];
 }
 + (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   if(delegate && [delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+   if(delegate && _delegateRespondsTo.growlNotificationTimedOut)
       [delegate growlNotificationTimedOut:context];
 }
 

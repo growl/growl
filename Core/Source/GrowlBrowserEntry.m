@@ -9,8 +9,8 @@
 #import "GrowlBrowserEntry.h"
 #import "GNTPForwarder.h"
 #import "NSStringAdditions.h"
-#import "GrowlKeychainUtilities.h"
 #import "GNTPKey.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GrowlBrowserEntry
 @synthesize computerName = _name;

@@ -121,7 +121,8 @@
    
 	BOOL success;
 
-	asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+	asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self 
+														  delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
 	success = [asyncSocket acceptOnInterface:@"localhost" port:port error:(error ? error : NULL)];
 	NSLog(@"%@ now accepting (%@)", asyncSocket, (error ? *error : NULL));
     if (port == 0) {
@@ -156,7 +157,8 @@
    if(remoteRunning)
       return success;
    
-   remoteSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+   remoteSocket = [[GCDAsyncSocket alloc] initWithDelegate:self 
+															delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
    success = [remoteSocket acceptOnPort:port error:(error ? error : NULL)];
    NSLog(@"%@ now accepting (%@)", remoteSocket, (error ? *error : NULL));
    if (port == 0) {

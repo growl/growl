@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import <PreferencePanes/PreferencePanes.h>
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 #define GrowlMusicVideoPrefDomain			@"com.Growl.MusicVideo"
 
@@ -33,6 +33,7 @@ typedef enum
 	MUSICVIDEO_EFFECT_FADING = 2
 } MusicVideoEffectType;
 
+#define MUSICVIDEO_TEXT_ALIGN_PREF		@"Text Alignment"
 
 #define GrowlMusicVideoVeryLowBackgroundColor	@"MusicVideo-Priority-VeryLow-Color"
 #define GrowlMusicVideoModerateBackgroundColor	@"MusicVideo-Priority-Moderate-Color"
@@ -46,7 +47,7 @@ typedef enum
 #define GrowlMusicVideoHighTextColor			@"MusicVideo-Priority-High-Text-Color"
 #define GrowlMusicVideoEmergencyTextColor		@"MusicVideo-Priority-Emergency-Text-Color"
 
-@interface GrowlMusicVideoPrefs : NSPreferencePane {
+@interface GrowlMusicVideoPrefs : GrowlPluginPreferencePane {
 	IBOutlet NSSlider *slider_opacity;
 }
 
@@ -60,6 +61,8 @@ typedef enum
 - (void) setSize:(int)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+
+@property (nonatomic, assign) NSInteger textAlignment;
 
 - (NSColor *) textColorVeryLow;
 - (void) setTextColorVeryLow:(NSColor *)value;

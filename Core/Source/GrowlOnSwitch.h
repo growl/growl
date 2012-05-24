@@ -3,7 +3,7 @@
 //  GrowlSlider
 //
 //  Created by Daniel Siemer on 1/10/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 The Growl Project, LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -14,7 +14,14 @@
 
 @class GrowlOnSwitchKnob;
 
-@interface GrowlOnSwitch : NSControl
+@interface GrowlOnSwitch : NSControl {
+	GrowlOnSwitchKnob *knob;
+	NSTextField *onLabel;
+	NSTextField *offLabel;
+	
+	BOOL state;
+	CGPoint mouseLoc;
+}
 
 @property (nonatomic, retain) GrowlOnSwitchKnob *knob;
 @property (nonatomic, retain) NSTextField *onLabel;

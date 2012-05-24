@@ -6,7 +6,7 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
 
 @interface GrowlBezelWindowController : GrowlDisplayWindowController {
 
@@ -16,7 +16,5 @@
 	BOOL					shrinkEnabled;
 	BOOL					flipEnabled;
 }
-
-- (NSPoint) idealOriginInRect:(NSRect)rect forRect:(NSRect)viewFrame;
 
 @end

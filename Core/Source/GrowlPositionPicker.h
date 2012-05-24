@@ -16,7 +16,7 @@
 
 extern NSString *GrowlPositionPickerChangedSelectionNotification;
 
-extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
+extern NSString *NSStringFromGrowlPositionOrigin(GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSControl {	
 	NSUInteger					selectedPosition;

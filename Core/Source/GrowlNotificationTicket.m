@@ -9,7 +9,7 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
-#import "GrowlDisplayPlugin.h"
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
 
 @implementation GrowlNotificationTicket
 
@@ -87,7 +87,8 @@
 						 displayPluginName:(NSString *)display
 									 sound:(NSString *)inSound
 {
-	if ((self = [self init])) {
+    self = [super init];
+	if (self) {
 		self.name                       = inName;
 		self.humanReadableName          = inHumanReadableName;
 		self.notificationDescription    = inNotificationDescription;

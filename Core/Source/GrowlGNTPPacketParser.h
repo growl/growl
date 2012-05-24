@@ -21,6 +21,7 @@ typedef enum {
 
 @interface GrowlGNTPPacketParser : NSObject <GrowlGNTPPacketDelegate> {
 	NSMutableDictionary *currentNetworkPackets;
+	dispatch_queue_t currentPacketQueue;
 }
 
 + (GrowlGNTPPacketParser *)sharedParser;

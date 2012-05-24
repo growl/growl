@@ -7,9 +7,11 @@
 //
 
 #import "GroupController.h"
+#import "GroupedArrayController.h"
 
 @implementation GroupController
 
+@synthesize owner;
 @synthesize groupID;
 @synthesize groupArray;
 @synthesize showGroup;
@@ -26,6 +28,15 @@
     }
     
     return self;
+}
+
+-(void)setShowGroup:(BOOL)newGroup {
+	if(owner){
+		owner.transitionGroup = YES;
+	}
+	[self willChangeValueForKey:@"showGroup"];
+	showGroup = newGroup;
+	[self didChangeValueForKey:@"showGroup"];
 }
 
 -(void)dealloc

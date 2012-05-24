@@ -15,11 +15,11 @@
 #import "GrowlSubscribeGNTPPacket.h"
 #import "GNTPKey.h"
 #import "GCDAsyncSocket.h"
-#import "GrowlKeychainUtilities.h"
 #import "GrowlNetworkUtilities.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlNetworkObserver.h"
 #import "NSStringAdditions.h"
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GNTPSubscriberEntry
 

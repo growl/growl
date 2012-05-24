@@ -1,0 +1,213 @@
+/* Type of IP address */
+"6to4 relay" = "releu 6>4";
+
+/* No comment provided by engineer. */
+"AirPort Connected" = "AirPort conectat";
+
+/* No comment provided by engineer. */
+"Airport connected" = "Airport conectat";
+
+/* No comment provided by engineer. */
+"Airport disconnected" = "Airport deconectat";
+
+/* No comment provided by engineer. */
+"AirPort Disconnected" = "AirPort deconectat";
+
+/* No comment provided by engineer. */
+"Battery charging..." = "Se încarcă bateria...";
+
+/* Type of IP address */
+"Benchmark" = "Performanță";
+
+/* No comment provided by engineer. */
+"Bluetooth Connection" = "Conexiune Bluetooth";
+
+/* No comment provided by engineer. */
+"Bluetooth Device Connected" = "Dispozitiv Bluetooth conectat";
+
+/* No comment provided by engineer. */
+"Bluetooth Device Disconnected" = "Dispozitiv Bluetooth deconectat";
+
+/* No comment provided by engineer. */
+"Bluetooth Disconnection" = "Deconectare Bluetooth";
+
+/* No comment provided by engineer. */
+"Current charge: %d%%" = "Încărcat: %d%%";
+
+/* No comment provided by engineer. */
+"Ethernet activated" = "Rețea activată";
+
+/* No comment provided by engineer. */
+"Ethernet deactivated" = "Rețea dezactivată";
+
+/* No comment provided by engineer. */
+"FireWire Connection" = "Conexiune prin cablu";
+
+/* No comment provided by engineer. */
+"FireWire Device Connected" = "Dispozitiv cu cablu conectat";
+
+/* No comment provided by engineer. */
+"FireWire Device Disconnected" = "Dispozitiv cu cablu deconectat ";
+
+/* No comment provided by engineer. */
+"FireWire Disconnection" = "Deconectare cablu";
+
+/* No comment provided by engineer. */
+"Group Network Notifications" = "Grup rețea de notificări";
+
+/* No comment provided by engineer. */
+"Interface:\ten0" = "Interfață:\ten0";
+
+/* The %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex' */
+"Interface:\ten0\nMedia:\t%@" = "Interfață:\ten0\nMedia:\t%@";
+
+/* No comment provided by engineer. */
+"IP Acquired" = "IP primit";
+
+/* No comment provided by engineer. */
+"IP address acquired" = "Adresă IP primită";
+
+/* No comment provided by engineer. */
+"IP address released" = "Adresă IP expediată";
+
+/* No comment provided by engineer. */
+"IP Released" = "IP expediat";
+
+/* No comment provided by engineer. */
+"Joined network.\nSSID:\t\t%@\nBSSID:\t%@" = "Rețea anexatăconectată.\nSSID:\t\t%1$@\nBSSID:\t%2$@";
+
+/* No comment provided by engineer. */
+"Left network %@." = "A părăsit rețeaua %@.   ";
+
+/* Type of IP address */
+"Link-local" = "Legătură locală";
+
+/* Type of IP address */
+"Loopback" = "Dă înapoi";
+
+/* No comment provided by engineer. */
+"Network Link Down" = "Rețea căzută";
+
+/* No comment provided by engineer. */
+"Network Link Up" = "Rețea activă";
+
+/* No comment provided by engineer. */
+"New primary IP: %@ (%@)" = "Noul IP primar: %1$@ (%2$@)";
+
+/* No comment provided by engineer. */
+"No IP address now" = "Nicio adresă IP acum";
+
+/* No comment provided by engineer. */
+"On A/C power" = "Consumator de curent alternativ";
+
+/* No comment provided by engineer. */
+"On battery power" = "Consumator de curent continuu";
+
+/* No comment provided by engineer. */
+"On UPS power" = "Consum de curent prin UPS";
+
+/* No comment provided by engineer. */
+"Preferences..." = "Preferințe...";
+
+/* Type of IP address */
+"Private" = "Privat";
+
+/* Type of IP address */
+"Public" = "Public";
+
+/* No comment provided by engineer. */
+"Quit HardwareGrowler" = "Închide";
+
+/* Type of IP address */
+"Reserved" = "Rezervat";
+
+/* No comment provided by engineer. */
+"Show Connected Devices at Launch" = "Afișează dispozitivele conectate în momentul pornire";
+
+/* No comment provided by engineer. */
+"Switched to A/C Power" = "Comută pe curent alternetiv";
+
+/* No comment provided by engineer. */
+"Switched to Battery Power" = "Comută pe curent continuu";
+
+/* No comment provided by engineer. */
+"Switched to UPS Power" = "Comută pe curent prin UPS";
+
+/* No comment provided by engineer. */
+"Sync finished" = "Sincronizare terminată";
+
+/* No comment provided by engineer. */
+"Sync started" = "A început sincronizarea";
+
+/* Type of IP address */
+"Test" = "Test";
+
+/* No comment provided by engineer. */
+"This setting will take effect when Hardware Growler restarts" = "Configurărea va avea efect la următoarea repornire a HardwareGrowler";
+
+/* No comment provided by engineer. */
+"Time remaining: %i minutes" = "Timp rămas: %i minute";
+
+/* No comment provided by engineer. */
+"Time to charge: %i minutes" = "Timp pentru încărcare: %i minute";
+
+/* No comment provided by engineer. */
+"Unnamed FireWire Device" = "Dispozitiv cablat fără nume";
+
+/* No comment provided by engineer. */
+"USB 2.0 Bus" = "Magistrală USB 2.0";
+
+/* No comment provided by engineer. */
+"USB Bus" = "Magistrală USB";
+
+/* No comment provided by engineer. */
+"USB Connection" = "Conexiune USB";
+
+/* No comment provided by engineer. */
+"USB Device Connected" = "Dispozitiv USB conectat";
+
+/* No comment provided by engineer. */
+"USB Device Disconnected" = "Dispozitiv USB deconectat";
+
+/* No comment provided by engineer. */
+"USB Disconnection" = "Deconectare USB";
+
+/* No comment provided by engineer. */
+"Volume Mounted" = "Volum atașat";
+
+/* No comment provided by engineer. */
+"Volume Unmounted" = "Volum detașat";
+
+/* No comment provided by engineer. */
+"Open HardwareGrowler Preferences..." = "Preferințe...";
+
+/* display the icon in both the menubar and the dock */
+"Show icon in both" = "afișată în Doc și bara de meniu";
+
+/* display the icon only in the dock */
+"Show icon in the dock" = "afișată în Doc";
+
+/* default option for where the icon should be seen */
+"Show icon in the menubar" = "afișată în bara de meniu";
+
+/* display no icon at all */
+"No icon visible" = "neafișată";
+
+/* No comment provided by engineer. */
+"Icon:" = "Pictogramă:";
+
+/* No comment provided by engineer. */
+"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder." = "Pictograma nu va fi afișată în Doc și nici în bara de meniu.\n\nPentru accesarea preferințelor, accesează HardwareGrowler din tabloul de lansare (Launchpad) sau deschide HardwareGrowler în Finder.";
+
+/* No comment provided by engineer. */
+"Warning! Enabling this option will cause HardwareGrowler to run in the background" = "Avertisment! HardwareGrowler va funcționa în continuu din spatele cortinei.";
+
+/* No comment provided by engineer. */
+"Alert! Enabling this option will add HardwareGrowler to your login items" = "Atenție! HardwareGrowler va porni în mod automat imediat după autentificare";
+
+/* No comment provided by engineer. */
+"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times" = "HardwareGrowler va porni de fiecare dată în mod automat imediat după autentificare, astfel încât să fie disponibil aplicațiilor care se folosesc de el tot timpul";
+
+/* No comment provided by engineer. */
+"Start HardwareGrowler at Login:" = "Pornește HardwareGrowler imediat la autentificare:";
+

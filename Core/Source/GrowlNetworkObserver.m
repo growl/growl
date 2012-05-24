@@ -9,6 +9,7 @@
 #import "GrowlNetworkObserver.h"
 
 #import "NSStringAdditions.h"
+#import "GrowlNetworkUtilities.h"
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <ifaddrs.h>
@@ -104,85 +105,25 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
    self.routableCombined = nil;
 }
 
--(NSString*)getPrimaryIPOfType:(NSString*)type
-{
-   NSString *returnIP = nil;
-   NSString *primaryKey = [NSString stringWithFormat:@"State:/Network/Global/%@", type];
-   CFDictionaryRef newValue = SCDynamicStoreCopyValue(dynStore, (CFStringRef)primaryKey);
-   if (newValue) {
-		//Get a key to look up the actual IPv4 info in the dynStore
-		NSString *ipKey = [NSString stringWithFormat:@"State:/Network/Interface/%@/%@",
-                           [(NSDictionary*)newValue objectForKey:@"PrimaryInterface"], type];
-		CFDictionaryRef ipInfo = SCDynamicStoreCopyValue(dynStore, (CFStringRef)ipKey);
-		if (ipInfo) {
-			CFArrayRef addrs = CFDictionaryGetValue(ipInfo, CFSTR("Addresses"));
-			if (addrs && CFArrayGetCount(addrs)) {
-				CFStringRef ip = CFArrayGetValueAtIndex(addrs, 0);
-				returnIP = [NSString stringWithString:(NSString*)ip];
-			}
-			CFRelease(ipInfo);
-		}
-	}   
-   if (newValue)
-      CFRelease(newValue);
-   return returnIP;
-}
-
 -(void)updateAddresses
-{
-   NSMutableString *newString = nil;
-   struct ifaddrs *interfaces = NULL;
-   struct ifaddrs *current = NULL;
-   
-   if(getifaddrs(&interfaces) == 0)
-   {
-      current = interfaces;
-      while (current != NULL) {
-         NSString *currentString = nil;
-         
-         NSString *interface = [NSString stringWithUTF8String:current->ifa_name];
-         
-         if(![interface isEqualToString:@"lo0"] && ![interface isEqualToString:@"utun0"])
-         {
-            if (current->ifa_addr->sa_family == AF_INET) {
-               char stringBuffer[INET_ADDRSTRLEN];
-               struct sockaddr_in *ipv4 = (struct sockaddr_in *)current->ifa_addr;
-               if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, INET_ADDRSTRLEN))
-                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
-            } else if (current->ifa_addr->sa_family == AF_INET6) {
-               char stringBuffer[INET6_ADDRSTRLEN];
-               struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)current->ifa_addr;
-               if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, INET6_ADDRSTRLEN))
-                  currentString = [NSString stringWithFormat:@"%s", stringBuffer];
-            }          
-            
-            if(currentString && ![currentString isLocalHost]){
-               if(!newString){
-                  newString = [[currentString mutableCopy] autorelease];
-               }else{
-                  if(!routableArray)
-                     self.routableArray = [NSMutableArray array];
-                  [routableArray addObject:currentString];
-                  [newString appendFormat:@"\n%@", currentString];
-               }
-            }
-         }
-         
-         current = current->ifa_next;
-      }
-   }
+{   
+	NSArray *routable = [GrowlNetworkUtilities routableIPAddresses];
+	NSString *newString = [routable componentsJoinedByString:@"\n"];
+	if([newString isEqualToString:@""])
+		newString = nil;
+	
    if(newString){
+		self.routableArray = routable;
       self.routableCombined = newString;
    }else{
       self.routableCombined = nil;
       self.routableArray = nil;
    }
-   freeifaddrs(interfaces);
    
    [[NSNotificationCenter defaultCenter] postNotificationName:IPAddressesUpdateNotification object:self];
    
-   NSString *ipv4Primary = [self getPrimaryIPOfType:@"IPv4"];
-   NSString *ipv6Primary = [self getPrimaryIPOfType:@"IPv6"];
+   NSString *ipv4Primary = [GrowlNetworkUtilities getPrimaryIPOfType:@"IPv4" fromStore:dynStore];
+   NSString *ipv6Primary = [GrowlNetworkUtilities getPrimaryIPOfType:@"IPv6" fromStore:dynStore];
    if(ipv4Primary || ipv6Primary){
       NSString *newPrimary;
       if(ipv4Primary)

@@ -8,7 +8,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlNotificationView.h"
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 @interface GrowlNanoWindowView : GrowlNotificationView {
 	NSImage				*icon;

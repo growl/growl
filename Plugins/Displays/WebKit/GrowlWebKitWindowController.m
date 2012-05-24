@@ -6,6 +6,10 @@
 //  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlDisplayPlugin.h>
+#import <GrowlPlugins/GrowlFadingWindowTransition.h>
+#import "GrowlDisplayBridgeController.h"
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
@@ -14,13 +18,10 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
-#import "GrowlNotification.h"
 #import "NSMutableStringAdditions.h"
-#import "GrowlNotificationDisplayBridge.h"
-#import "GrowlDisplayPlugin.h"
-#import "GrowlFadingWindowTransition.h"
 #import "GrowlImageAdditions.h"
 #import "NSStringAdditions.h"
+#import "GrowlPositioningDefines.h"
 
 /*
  * A panel that always pretends to be the key window.
@@ -92,22 +93,22 @@ static dispatch_queue_t __imageCacheQueue;
    });
 }
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {	
+- (id) initWithNotification:(GrowlNotification *)note plugin:(GrowlDisplayPlugin *)aPlugin {
 	// init the window used to init
+	NSDictionary *configDict = [note configurationDict];
+	
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0, 0.0, 270.0, 1.0)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
-	if (!(self = [super initWithWindow:panel])) {
+	if (!(self = [super initWithWindow:panel andPlugin:aPlugin])) {
 		[panel release];
 		return nil;
 	}
 
-	GrowlDisplayPlugin *plugin = [displayBridge display];
-
 	// Read the template file....exit on error...
 	NSError *error = nil;
-	NSBundle *displayBundle = [plugin bundle];
+	NSBundle *displayBundle = [aPlugin bundle];
 	NSString *templateFile = [displayBundle pathForResource:@"template" ofType:@"html"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
 		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
@@ -123,18 +124,19 @@ static dispatch_queue_t __imageCacheQueue;
 
 	// Read the prefs for the plugin...
 	unsigned theScreenNo = 0U;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, [plugin prefDomain], &theScreenNo);
+	if([configDict valueForKey:GrowlWebKitScreenPref]){
+		theScreenNo = [[configDict valueForKey:GrowlWebKitScreenPref] unsignedIntValue];
+	}
 	[self setScreenNumber:theScreenNo];
 
-	CFNumberRef prefsDuration = NULL;
-	READ_GROWL_PREF_VALUE(GrowlWebKitDurationPref, [plugin prefDomain], CFNumberRef, &prefsDuration);
-	[self setDisplayDuration:(prefsDuration ?
-							  [(NSNumber *)prefsDuration doubleValue] :
-							  GrowlWebKitDurationPrefDefault)];
-	if (prefsDuration) CFRelease(prefsDuration);
+	NSTimeInterval duration = GrowlWebKitDurationPrefDefault;
+	if([configDict valueForKey:GrowlWebKitDurationPref]){
+		duration = [[configDict valueForKey:GrowlWebKitDurationPref] floatValue];
+	}
+	self.displayDuration = duration;
 	
 	// Read the plugin specifics from the info.plist
-	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
+	NSDictionary *styleInfo = [displayBundle infoDictionary];
 	BOOL hasShadow = NO;
 	hasShadow =	[(NSNumber *)[styleInfo valueForKey:@"GrowlHasShadow"] boolValue];
 	paddingX = GrowlWebKitPadding;
@@ -177,8 +179,6 @@ static dispatch_queue_t __imageCacheQueue;
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
 	[view release];
 
-	[self setBridge:displayBridge];
-
 	// set up the transitions...
 	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 	[self addTransition:fader];
@@ -189,6 +189,10 @@ static dispatch_queue_t __imageCacheQueue;
 	[panel release];
 
 	return self;
+}
+
+- (void)startDisplay {
+	[[GrowlDisplayBridgeController sharedController] addPendingWindow:self];
 }
 
 - (void)stopDisplay {
@@ -255,7 +259,9 @@ static dispatch_queue_t __imageCacheQueue;
 	[GrowlWebKitWindowController setCachedImage:iconData forKey:cacheKey];
 	
 	CGFloat opacity = 95.0;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
+	if([[self configurationDict] valueForKey:GrowlWebKitOpacityPref]){
+		opacity = [[[self configurationDict] valueForKey:GrowlWebKitOpacityPref] floatValue];
+	}
 	opacity *= 0.01;
 
 	NSString *titleHTML = [title stringByEscapingForHTML];
@@ -307,7 +313,10 @@ static dispatch_queue_t __imageCacheQueue;
 
 	if ([[[frame frameView] documentView] frame].size.height < 2.0f) {
 		//Finished loading it may be, but it's not finished rendering, in which case the document view's height will be 1 px. Not good for sizing to fit. So, try again one cycle of the run loop from now.
-		[self performSelector:@selector(viewIsReady:) withObject:sender afterDelay:0.0];
+		[self performSelector:@selector(viewIsReady:) 
+					  withObject:sender 
+					  afterDelay:0.0
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	} else {
 		//It really is done, so just call through directly.
 		[self viewIsReady:(GrowlWebKitWindowView *)sender];
@@ -319,11 +328,9 @@ static dispatch_queue_t __imageCacheQueue;
 		[myWindow enableFlushWindow];
 
 	[view sizeToFit];
-
-	//Update our new frame
-	[[GrowlPositionController sharedInstance] positionDisplay:self];
-
 	[myWindow invalidateShadow];
+	
+	[[GrowlDisplayBridgeController sharedController] windowReadyToStart:self];
 }
 
 - (void) setNotification:(GrowlNotification *)theNotification {
@@ -352,25 +359,26 @@ static dispatch_queue_t __imageCacheQueue;
 #pragma mark positioning methods
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
-	NSView *contentView = [[self window] contentView];
-	NSRect viewFrame = [contentView frame];
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
+	NSRect viewFrame = [[[self window] contentView] frame];
+	NSDictionary *configDict = [[self notification] configurationDict];
+	GrowlPositionOrigin	position = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlTopRightCorner;
 	NSPoint idealOrigin;
 
-	switch(originatingPosition){
-		case GrowlTopRightPosition:
+	switch(position){
+		case GrowlNoOrigin:
+		case GrowlTopRightCorner:
 			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - paddingX,
 									  NSMaxY(rect) - paddingY - NSHeight(viewFrame));
 			break;
-		case GrowlTopLeftPosition:
+		case GrowlTopLeftCorner:
 			idealOrigin = NSMakePoint(NSMinX(rect) + paddingX,
 									  NSMaxY(rect) - paddingY - NSHeight(viewFrame));
 			break;
-		case GrowlBottomLeftPosition:
+		case GrowlBottomLeftCorner:
 			idealOrigin = NSMakePoint(NSMinX(rect) + paddingX,
 									  NSMinY(rect) + paddingY);
 			break;
-		case GrowlBottomRightPosition:
+		case GrowlBottomRightCorner:
 			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - paddingX,
 									  NSMinY(rect) + paddingY);
 			break;
@@ -383,58 +391,8 @@ static dispatch_queue_t __imageCacheQueue;
 	return idealOrigin;	
 }
 
-- (enum GrowlExpansionDirection) primaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlUpExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlDownExpansionDirection;
-			break;			
-	}
-	
-	return directionToExpand;
-}
-
-- (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	enum GrowlPosition originatingPosition = [[GrowlPositionController sharedInstance] originPosition];
-	enum GrowlExpansionDirection directionToExpand;
-	
-	switch(originatingPosition){
-		case GrowlTopLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlTopRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		case GrowlBottomLeftPosition:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-		case GrowlBottomRightPosition:
-			directionToExpand = GrowlLeftExpansionDirection;
-			break;
-		default:
-			directionToExpand = GrowlRightExpansionDirection;
-			break;
-	}
-	
-	return directionToExpand;
-}
-
 - (CGFloat) requiredDistanceFromExistingDisplays {
-	return paddingY;
+	return MAX(paddingX, paddingY);
 }
 
 @end
