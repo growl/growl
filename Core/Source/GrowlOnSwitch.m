@@ -57,7 +57,7 @@
       [[offView cell] setAttributedStringValue:attrOffTitle];
       self.offLabel = offView;
       [self addSubview:offView positioned:NSWindowBelow relativeTo:knob];
-      [offView setToolTip:@"Are you happy now Gemmel?"];
+      //[offView setToolTip:@"Are you happy now Gemmel?"];
       [offView release];
       [attrOffTitle release];
       
