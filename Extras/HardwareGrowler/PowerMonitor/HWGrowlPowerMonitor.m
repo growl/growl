@@ -339,7 +339,12 @@ static void powerSourceChanged(void *context) {
 	return NSLocalizedString(@"Power Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
-	return nil;
+	static NSImage *_icon = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_icon = [[NSImage imageNamed:@"HWGPrefsPower"] retain];
+	});
+	return _icon;
 }
 -(NSView*)preferencePane {
 	static dispatch_once_t onceToken;

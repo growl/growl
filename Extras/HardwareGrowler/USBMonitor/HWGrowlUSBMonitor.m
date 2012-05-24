@@ -226,7 +226,12 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	return NSLocalizedString(@"USB Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
-	return nil;
+	static NSImage *_icon = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_icon = [[NSImage imageNamed:@"HWGPrefsUSB"] retain];
+	});
+	return _icon;
 }
 -(NSView*)preferencePane {
 	return nil;

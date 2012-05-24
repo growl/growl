@@ -181,7 +181,12 @@ static void tbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	return NSLocalizedString(@"Thunderbolt Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
-	return nil;
+	static NSImage *_icon = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_icon = [[NSImage imageNamed:@"HWGPrefsThunderbolt"] retain];
+	});
+	return _icon;
 }
 -(NSView*)preferencePane {
 	return nil;

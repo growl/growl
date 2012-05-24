@@ -15,6 +15,14 @@
 		BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
+		BC6E09B7156EB51B00A03126 /* HWGPrefsBluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */; };
+		BC6E09B8156EB51B00A03126 /* HWGPrefsDrivesVolumes.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */; };
+		BC6E09B9156EB51B00A03126 /* HWGPrefsFireWire.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */; };
+		BC6E09BA156EB51B00A03126 /* HWGPrefsNetwork.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B2156EB51B00A03126 /* HWGPrefsNetwork.png */; };
+		BC6E09BB156EB51B00A03126 /* HWGPrefsPower.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B3156EB51B00A03126 /* HWGPrefsPower.png */; };
+		BC6E09BC156EB51B00A03126 /* HWGPrefsThunderbolt.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B4156EB51B00A03126 /* HWGPrefsThunderbolt.png */; };
+		BC6E09BD156EB51B00A03126 /* HWGPrefsTimeMachine.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B5156EB51B00A03126 /* HWGPrefsTimeMachine.png */; };
+		BC6E09BE156EB51B00A03126 /* HWGPrefsUSB.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B6156EB51B00A03126 /* HWGPrefsUSB.png */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
 		BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC755253156528AA00CB0542 /* InfoPlist.strings */; };
@@ -320,6 +328,14 @@
 		BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlUSBMonitor.m; sourceTree = "<group>"; };
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerMonitorPrefs.xib; sourceTree = "<group>"; };
+		BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsBluetooth.png; path = Resources/HWGPrefsBluetooth.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsDrivesVolumes.png; path = Resources/HWGPrefsDrivesVolumes.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsFireWire.png; path = Resources/HWGPrefsFireWire.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B2156EB51B00A03126 /* HWGPrefsNetwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsNetwork.png; path = Resources/HWGPrefsNetwork.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B3156EB51B00A03126 /* HWGPrefsPower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsPower.png; path = Resources/HWGPrefsPower.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B4156EB51B00A03126 /* HWGPrefsThunderbolt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsThunderbolt.png; path = Resources/HWGPrefsThunderbolt.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B5156EB51B00A03126 /* HWGPrefsTimeMachine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsTimeMachine.png; path = Resources/HWGPrefsTimeMachine.png; sourceTree = SOURCE_ROOT; };
+		BC6E09B6156EB51B00A03126 /* HWGPrefsUSB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsUSB.png; path = Resources/HWGPrefsUSB.png; sourceTree = SOURCE_ROOT; };
 		BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeMonitorPrefs.xib; sourceTree = "<group>"; };
 		BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThunderboltMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC755252156528AA00CB0542 /* ThunderboltMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThunderboltMonitor-Info.plist"; sourceTree = "<group>"; };
@@ -547,6 +563,14 @@
 			isa = PBXGroup;
 			children = (
 				BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */,
+				BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */,
+				BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */,
+				BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */,
+				BC6E09B2156EB51B00A03126 /* HWGPrefsNetwork.png */,
+				BC6E09B3156EB51B00A03126 /* HWGPrefsPower.png */,
+				BC6E09B4156EB51B00A03126 /* HWGPrefsThunderbolt.png */,
+				BC6E09B5156EB51B00A03126 /* HWGPrefsTimeMachine.png */,
+				BC6E09B6156EB51B00A03126 /* HWGPrefsUSB.png */,
 			);
 			name = BundleIcons;
 			sourceTree = "<group>";
@@ -1253,6 +1277,14 @@
 				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
 				BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */,
 				BC9757AB156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png in Resources */,
+				BC6E09B7156EB51B00A03126 /* HWGPrefsBluetooth.png in Resources */,
+				BC6E09B8156EB51B00A03126 /* HWGPrefsDrivesVolumes.png in Resources */,
+				BC6E09B9156EB51B00A03126 /* HWGPrefsFireWire.png in Resources */,
+				BC6E09BA156EB51B00A03126 /* HWGPrefsNetwork.png in Resources */,
+				BC6E09BB156EB51B00A03126 /* HWGPrefsPower.png in Resources */,
+				BC6E09BC156EB51B00A03126 /* HWGPrefsThunderbolt.png in Resources */,
+				BC6E09BD156EB51B00A03126 /* HWGPrefsTimeMachine.png in Resources */,
+				BC6E09BE156EB51B00A03126 /* HWGPrefsUSB.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

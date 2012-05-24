@@ -264,7 +264,12 @@
 	return NSLocalizedString(@"Volume Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
-	return nil;
+	static NSImage *_icon = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_icon = [[NSImage imageNamed:@"HWGPrefsDrivesVolumes"] retain];
+	});
+	return _icon;
 }
 -(NSView*)preferencePane {
 	static dispatch_once_t onceToken;
