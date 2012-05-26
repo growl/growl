@@ -1089,6 +1089,7 @@
 		839FBCBB1570AD3C00DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		839FBCBC1570AD3C00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/Welcome.rtf"; sourceTree = "<group>"; };
 		839FBCBD1570AD3C00DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = Core/Resources/th.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		839FBD151570B01600DAA858 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = es; path = Core/Resources/es.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		83A2C56014ECC07A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		83A2C56214ECC08A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		83A2C56814ECC0D000AF96FA /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = Core/Resources/ro.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -4547,6 +4548,7 @@
 				839FBCAC1570AC9100DAA858 /* ro */,
 				839FBCB11570ACF700DAA858 /* ru */,
 				839FBCB51570AD2700DAA858 /* th */,
+				839FBD151570B01600DAA858 /* es */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
