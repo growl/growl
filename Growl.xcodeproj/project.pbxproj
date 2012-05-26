@@ -1061,6 +1061,34 @@
 		8381E47C1512ABAA00DD02B5 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8381E47E1512ABCA00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8381E4801512ABD700DD02B5 /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		839FBCA21570ABE600DAA858 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = Core/Resources/da.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		839FBCA31570ABF600DAA858 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = Core/Resources/da.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		839FBCA41570ABF600DAA858 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = Core/Resources/da.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		839FBCA51570AC2E00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "pt-BR.lproj/About.rtf"; sourceTree = "<group>"; };
+		839FBCA61570AC3C00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/OldGrowl.rtf"; sourceTree = "<group>"; };
+		839FBCA71570AC3C00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/StartAtLogin.rtf"; sourceTree = "<group>"; };
+		839FBCA81570AC3C00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/WhatsNew.rtf"; sourceTree = "<group>"; };
+		839FBCA91570AC7000DAA858 /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt_PT; path = Core/Resources/pt_PT.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		839FBCAA1570AC7000DAA858 /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt_PT; path = Core/Resources/pt_PT.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		839FBCAB1570AC7000DAA858 /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt_PT; path = Core/Resources/pt_PT.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		839FBCAC1570AC9100DAA858 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = Core/Resources/ro.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		839FBCAD1570AC9100DAA858 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = Core/Resources/ro.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		839FBCAE1570AC9100DAA858 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = Core/Resources/ro.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		839FBCAF1570ACA800DAA858 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = ro.lproj/About.rtf; sourceTree = "<group>"; };
+		839FBCB01570ACE600DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/About.rtf; sourceTree = "<group>"; };
+		839FBCB11570ACF700DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		839FBCB21570ACF700DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		839FBCB31570ACF700DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		839FBCB41570AD1400DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = th.lproj/About.rtf; sourceTree = "<group>"; };
+		839FBCB51570AD2700DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = Core/Resources/th.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		839FBCB61570AD2700DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = Core/Resources/th.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		839FBCB71570AD2700DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = Core/Resources/th.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		839FBCB81570AD3C00DAA858 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = Core/Resources/da.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		839FBCB91570AD3C00DAA858 /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt_PT; path = Core/Resources/pt_PT.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		839FBCBA1570AD3C00DAA858 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = Core/Resources/ro.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		839FBCBB1570AD3C00DAA858 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = Core/Resources/ru.lproj/Welcome.rtf; sourceTree = "<group>"; };
+		839FBCBC1570AD3C00DAA858 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "Core/Resources/pt-BR.lproj/Welcome.rtf"; sourceTree = "<group>"; };
+		839FBCBD1570AD3C00DAA858 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = th; path = Core/Resources/th.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		83A2C56014ECC07A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		83A2C56214ECC08A00AF96FA /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = Core/Resources/sk.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		83A2C56814ECC0D000AF96FA /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = Core/Resources/ro.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -3386,6 +3414,8 @@
 				"pt-Br",
 				pt_PT,
 				"es-MX",
+				th,
+				pt_PT,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
@@ -4359,6 +4389,10 @@
 				83716DC71518204E00DDD6CF /* pt_PT */,
 				83B8F90E152EDC0B00BF552B /* sv */,
 				83DDEA411565E946000D8A72 /* es-MX */,
+				839FBCA51570AC2E00DAA858 /* pt-BR */,
+				839FBCAF1570ACA800DAA858 /* ro */,
+				839FBCB01570ACE600DAA858 /* ru */,
+				839FBCB41570AD1400DAA858 /* th */,
 			);
 			name = About.rtf;
 			path = Core/Resources;
@@ -4446,6 +4480,12 @@
 				83C75F0A15420B0C00A16FD5 /* el */,
 				83DDEA401565E933000D8A72 /* es-MX */,
 				837B668E1570A84900D1FA93 /* cs */,
+				839FBCA21570ABE600DAA858 /* da */,
+				839FBCA81570AC3C00DAA858 /* pt-BR */,
+				839FBCAB1570AC7000DAA858 /* pt_PT */,
+				839FBCAE1570AC9100DAA858 /* ro */,
+				839FBCB31570ACF700DAA858 /* ru */,
+				839FBCB71570AD2700DAA858 /* th */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -4471,6 +4511,12 @@
 				83C75F0815420B0C00A16FD5 /* el */,
 				83DDEA3E1565E914000D8A72 /* es-MX */,
 				837B668C1570A82A00D1FA93 /* cs */,
+				839FBCA41570ABF600DAA858 /* da */,
+				839FBCA71570AC3C00DAA858 /* pt-BR */,
+				839FBCAA1570AC7000DAA858 /* pt_PT */,
+				839FBCAD1570AC9100DAA858 /* ro */,
+				839FBCB21570ACF700DAA858 /* ru */,
+				839FBCB61570AD2700DAA858 /* th */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -4495,6 +4541,12 @@
 				83C75F0715420B0C00A16FD5 /* el */,
 				83DDEA3F1565E929000D8A72 /* es-MX */,
 				837B668D1570A83800D1FA93 /* cs */,
+				839FBCA31570ABF600DAA858 /* da */,
+				839FBCA61570AC3C00DAA858 /* pt-BR */,
+				839FBCA91570AC7000DAA858 /* pt_PT */,
+				839FBCAC1570AC9100DAA858 /* ro */,
+				839FBCB11570ACF700DAA858 /* ru */,
+				839FBCB51570AD2700DAA858 /* th */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4742,6 +4794,12 @@
 				83C75F0915420B0C00A16FD5 /* el */,
 				83DDEA3D1565E903000D8A72 /* es-MX */,
 				83D186271570A8ED00ABFEB6 /* cs */,
+				839FBCB81570AD3C00DAA858 /* da */,
+				839FBCB91570AD3C00DAA858 /* pt_PT */,
+				839FBCBA1570AD3C00DAA858 /* ro */,
+				839FBCBB1570AD3C00DAA858 /* ru */,
+				839FBCBC1570AD3C00DAA858 /* pt-BR */,
+				839FBCBD1570AD3C00DAA858 /* th */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
