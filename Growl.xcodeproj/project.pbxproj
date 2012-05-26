@@ -1049,6 +1049,9 @@
 		83716DCE1518211900DDD6CF /* pt_PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83716DCF1518213400DDD6CF /* pt_PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83716DD01518214A00DDD6CF /* pt_PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/Localizable.strings; sourceTree = "<group>"; };
+		837B668C1570A82A00D1FA93 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = Core/Resources/cs.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
+		837B668D1570A83800D1FA93 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = Core/Resources/cs.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		837B668E1570A84900D1FA93 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = Core/Resources/cs.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		8381E46A1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8381E46B1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		8381E46C1512A89D00DD02B5 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Core/Resources/sv.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
@@ -1075,6 +1078,7 @@
 		83CFCCE014ECB80100C0D0C1 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83CFCCE214ECB80100C0D0C1 /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83CFCCE514ECBA6500C0D0C1 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83D186271570A8ED00ABFEB6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = Core/Resources/cs.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		83DD3ACD14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		83DD3ACE14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		83DD3ACF14EF76F800C0028D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = Core/Resources/it.lproj/Welcome.rtf; sourceTree = "<group>"; };
@@ -4441,6 +4445,7 @@
 				83586725152EE02F00E96B15 /* ko */,
 				83C75F0A15420B0C00A16FD5 /* el */,
 				83DDEA401565E933000D8A72 /* es-MX */,
+				837B668E1570A84900D1FA93 /* cs */,
 			);
 			name = WhatsNew.rtf;
 			sourceTree = "<group>";
@@ -4465,6 +4470,7 @@
 				83586724152EE02200E96B15 /* ko */,
 				83C75F0815420B0C00A16FD5 /* el */,
 				83DDEA3E1565E914000D8A72 /* es-MX */,
+				837B668C1570A82A00D1FA93 /* cs */,
 			);
 			name = StartAtLogin.rtf;
 			sourceTree = "<group>";
@@ -4488,6 +4494,7 @@
 				83586723152EE00E00E96B15 /* ko */,
 				83C75F0715420B0C00A16FD5 /* el */,
 				83DDEA3F1565E929000D8A72 /* es-MX */,
+				837B668D1570A83800D1FA93 /* cs */,
 			);
 			name = OldGrowl.rtf;
 			sourceTree = "<group>";
@@ -4734,6 +4741,7 @@
 				83FA135B152EE04D0098271F /* ko */,
 				83C75F0915420B0C00A16FD5 /* el */,
 				83DDEA3D1565E903000D8A72 /* es-MX */,
+				83D186271570A8ED00ABFEB6 /* cs */,
 			);
 			name = Welcome.rtf;
 			sourceTree = "<group>";
