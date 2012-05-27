@@ -1,34 +1,33 @@
 General
-- Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
-- Moved Rollup controls to separate tab.
-- Major improvements to networking.
+- ¡Rediseño del tab de aplicaciones! Este es un cambio casi total y debe ser mucho más fácil de usar.
+- Se movieron los controles del Resumen a una tab separada.
+- Mejoras mayores en red.
 
-Preference Pane overhaul
-- New slider switch for on/off switches
-- Added keyboard support to position picker.
-- General Tab Relayout.
-- Networking tab - Add support for subscription
-- History Tab, contextual menu for history table to jump to the app/notification settings
-- Rollup tab is the new home of controls related to the Rollup window.
-- Adding a new display should not require a restart of Growl now.
+Revisión al panel de preferencias.
+- Nuevo slider para prender o apagar opciones.
+- Soporte para posicionar el "picker" con el teclado.
+- Cambió la estructura de la tab General.
+- Tab de Red – se agregó soporte a suscripciones.
+- Tab de historial, menú contextual de la tabla del historial para saltar a las preferencias de notificación/aplicación.
+- La tab de Resumen es el nuevo hogar de todos los controles relacionados con el Resumen.
+- Agregar un nuevo estilo no debe requerir que Growl reinicie.
 
-Networking
-- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
-- Subscription support, subscribe to all applications on a remote machine.
-- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
-- Fix networking crash related to address data resolution.
-- Bind to local socket only if not listening for incoming notifications.
-- Address data caching, and observation of network changes to clear caches
+Red
+ - Soporte para Notification-Callback-Target, un campo URL en GNTP. Al hacer click, Growl deja que OSX intente abrir el URL (por ejemplo, usando el browser predeterminado para una url http).
+- Soporte de suscripciones, suscribirse a todas las aplicaciones de una máquina remota.
+- Mejoras generales de autenticación de red, se eliminó el requisito, y uso,  de headers de contraseña si el campo de contraseña está en blanco.
+- Se corrigió un error relativo a la resolución de dirección de datos
+- Enlazar sólo al socket local si no se esperan notificaciones entrantes.
+- Cache de dirección de datos y se observarn cambios en la red para borrar los caches.
 
 Applescript
-- URL click feedback support, same as Notification-Callback-Target in GNTP
+- Soporte a click de URL, igual que Notification-Callback-Target en GNTP
 
-Bug fixes
-- Resolved a crash with webkit plugin bridge on creation.
-- Resolved a crash with forwarding.
-- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
-- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
-- Fixed duplicate listings of display plugins on reinstall.
-- Notification-Callback-Target is now respected, and used, even without the method header.
-- Worked around problems with corrupt history databases.
-- Fixed a sorting problem when deleting a single entry in the history list.
+Solución de errores
+- Se resolvió un error fatal al crear el puente de webkit plugin.
+- Se resolvió un error fatal al reenviar notificaciones.
+- Se resolvió un problema en el que el estilo de habla espera a que termine el mensaje anterior, drenando CPU.
+- Se resolció un error fatal con CFErrorGetDomain en los estilos visuales WebKit.
+- Notification-Callback-Target es respetada, y usada, aunque carezca del header de método.
+- Se resolvieron problemas de bases de datos corruptas de historiales.
+- Se resolvió un problema de orden cuando se borraba un sólo item de la lista de historial.
