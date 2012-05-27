@@ -32,7 +32,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 +(BOOL)previousVersionOlder
 {
-   NSString *current = @"1.4b9";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   NSString *current = @"1.4b10";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
 }
