@@ -34,6 +34,7 @@
 @optional
 -(void)startObserving;
 -(void)stopObserving;
+-(BOOL)enabledByDefault;
 
 @end
 

@@ -15,6 +15,16 @@
 		BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
+		BC5BF7EC15752CEF0088443E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BC5BF7F215752CEF0088443E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF7F015752CEF0088443E /* InfoPlist.strings */; };
+		BC5BF7FA15752D4D0088443E /* HWGrowlKeyboardMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */; };
+		BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */; };
+		BC5BF80A15754B110088443E /* caps_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80415754B110088443E /* caps_off.png */; };
+		BC5BF80B15754B110088443E /* caps_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80515754B110088443E /* caps_on.png */; };
+		BC5BF80C15754B110088443E /* fn_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80615754B110088443E /* fn_off.png */; };
+		BC5BF80D15754B110088443E /* fn_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80715754B110088443E /* fn_on.png */; };
+		BC5BF80E15754B110088443E /* numlock_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80815754B110088443E /* numlock_off.png */; };
+		BC5BF80F15754B110088443E /* numlock_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80915754B110088443E /* numlock_on.png */; };
 		BC6E09B7156EB51B00A03126 /* HWGPrefsBluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */; };
 		BC6E09B8156EB51B00A03126 /* HWGPrefsDrivesVolumes.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */; };
 		BC6E09B9156EB51B00A03126 /* HWGPrefsFireWire.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */; };
@@ -92,6 +102,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC523C211555686000548427;
 			remoteInfo = USBMonitor;
+		};
+		BC5BF7FB15752F8B0088443E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC5BF7EA15752CEF0088443E;
+			remoteInfo = KeyboardMonitor;
 		};
 		BC7552861565489100CB0542 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -299,6 +316,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
 				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
@@ -328,6 +346,18 @@
 		BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlUSBMonitor.m; sourceTree = "<group>"; };
 		BC523C3515556BE500548427 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PowerMonitorPrefs.xib; sourceTree = "<group>"; };
+		BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyboardMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC5BF7EF15752CEF0088443E /* KeyboardMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KeyboardMonitor-Info.plist"; sourceTree = "<group>"; };
+		BC5BF7F115752CEF0088443E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC5BF7F315752CEF0088443E /* KeyboardMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KeyboardMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BC5BF7F815752D4D0088443E /* HWGrowlKeyboardMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlKeyboardMonitor.h; sourceTree = "<group>"; };
+		BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlKeyboardMonitor.m; sourceTree = "<group>"; };
+		BC5BF80415754B110088443E /* caps_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = caps_off.png; path = "../../Capster/Growl Caps Notifier/caps_off.png"; sourceTree = "<group>"; };
+		BC5BF80515754B110088443E /* caps_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = caps_on.png; path = "../../Capster/Growl Caps Notifier/caps_on.png"; sourceTree = "<group>"; };
+		BC5BF80615754B110088443E /* fn_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fn_off.png; path = "../../Capster/Growl Caps Notifier/fn_off.png"; sourceTree = "<group>"; };
+		BC5BF80715754B110088443E /* fn_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fn_on.png; path = "../../Capster/Growl Caps Notifier/fn_on.png"; sourceTree = "<group>"; };
+		BC5BF80815754B110088443E /* numlock_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numlock_off.png; path = "../../Capster/Growl Caps Notifier/numlock_off.png"; sourceTree = "<group>"; };
+		BC5BF80915754B110088443E /* numlock_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numlock_on.png; path = "../../Capster/Growl Caps Notifier/numlock_on.png"; sourceTree = "<group>"; };
 		BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsBluetooth.png; path = Resources/HWGPrefsBluetooth.png; sourceTree = SOURCE_ROOT; };
 		BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsDrivesVolumes.png; path = Resources/HWGPrefsDrivesVolumes.png; sourceTree = SOURCE_ROOT; };
 		BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsFireWire.png; path = Resources/HWGPrefsFireWire.png; sourceTree = SOURCE_ROOT; };
@@ -435,6 +465,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BC5BF7E815752CEF0088443E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5BF7EC15752CEF0088443E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC75524B156528AA00CB0542 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,6 +574,40 @@
 				BC523C2A1555686000548427 /* USBMonitor-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC5BF7ED15752CEF0088443E /* KeyboardMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BF7F815752D4D0088443E /* HWGrowlKeyboardMonitor.h */,
+				BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */,
+				BC5BF7EE15752CEF0088443E /* Supporting Files */,
+			);
+			name = KeyboardMonitor;
+			path = ../KeyboardMonitor;
+			sourceTree = "<group>";
+		};
+		BC5BF7EE15752CEF0088443E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BF7EF15752CEF0088443E /* KeyboardMonitor-Info.plist */,
+				BC5BF7F015752CEF0088443E /* InfoPlist.strings */,
+				BC5BF7F315752CEF0088443E /* KeyboardMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC5BF80315754ABF0088443E /* NotificationIcons */ = {
+			isa = PBXGroup;
+			children = (
+				BC5BF80415754B110088443E /* caps_off.png */,
+				BC5BF80515754B110088443E /* caps_on.png */,
+				BC5BF80615754B110088443E /* fn_off.png */,
+				BC5BF80715754B110088443E /* fn_on.png */,
+				BC5BF80815754B110088443E /* numlock_off.png */,
+				BC5BF80915754B110088443E /* numlock_on.png */,
+			);
+			name = NotificationIcons;
 			sourceTree = "<group>";
 		};
 		BC755250156528AA00CB0542 /* ThunderboltMonitor */ = {
@@ -664,6 +736,7 @@
 				BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */,
 				BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */,
 				BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */,
+				BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -724,6 +797,7 @@
 		BCB8060C155154B80088C69A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BC5BF80315754ABF0088443E /* NotificationIcons */,
 				BC9757A9156C2D2B0080CF24 /* BundleIcons */,
 				BCB80611155154CA0088C69A /* HWGrowler.icns */,
 				BCB80612155154CA0088C69A /* menubarIcon_Normal.png */,
@@ -825,6 +899,7 @@
 				BCA26BB51555BB1B009C5ABC /* PowerMonitor */,
 				BC755250156528AA00CB0542 /* ThunderboltMonitor */,
 				BCF6236B156878CC00AB4676 /* TimeMachineMonitor */,
+				BC5BF7ED15752CEF0088443E /* KeyboardMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -904,6 +979,23 @@
 			name = USBMonitor;
 			productName = USBMonitor;
 			productReference = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		BC5BF7EA15752CEF0088443E /* KeyboardMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC5BF7F415752CEF0088443E /* Build configuration list for PBXNativeTarget "KeyboardMonitor" */;
+			buildPhases = (
+				BC5BF7E715752CEF0088443E /* Sources */,
+				BC5BF7E815752CEF0088443E /* Frameworks */,
+				BC5BF7E915752CEF0088443E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KeyboardMonitor;
+			productName = KeyboardMonitor;
+			productReference = BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BC75524D156528AA00CB0542 /* ThunderboltMonitor */ = {
@@ -990,6 +1082,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
 				BCF6237E156890B400AB4676 /* PBXTargetDependency */,
 				BC7552871565489100CB0542 /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
@@ -1111,6 +1204,7 @@
 				BCA26BB21555BB1A009C5ABC /* PowerMonitor */,
 				BC75524D156528AA00CB0542 /* ThunderboltMonitor */,
 				BCF62368156878CC00AB4676 /* TimeMachineMonitor */,
+				BC5BF7EA15752CEF0088443E /* KeyboardMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -1232,6 +1326,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BC5BF7E915752CEF0088443E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5BF7F215752CEF0088443E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC75524C156528AA00CB0542 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1285,6 +1387,12 @@
 				BC6E09BC156EB51B00A03126 /* HWGPrefsThunderbolt.png in Resources */,
 				BC6E09BD156EB51B00A03126 /* HWGPrefsTimeMachine.png in Resources */,
 				BC6E09BE156EB51B00A03126 /* HWGPrefsUSB.png in Resources */,
+				BC5BF80A15754B110088443E /* caps_off.png in Resources */,
+				BC5BF80B15754B110088443E /* caps_on.png in Resources */,
+				BC5BF80C15754B110088443E /* fn_off.png in Resources */,
+				BC5BF80D15754B110088443E /* fn_on.png in Resources */,
+				BC5BF80E15754B110088443E /* numlock_off.png in Resources */,
+				BC5BF80F15754B110088443E /* numlock_on.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1366,6 +1474,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC5BF7E715752CEF0088443E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5BF7FA15752D4D0088443E /* HWGrowlKeyboardMonitor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1457,6 +1573,11 @@
 			target = BC523C211555686000548427 /* USBMonitor */;
 			targetProxy = BC523C3215556B4500548427 /* PBXContainerItemProxy */;
 		};
+		BC5BF7FC15752F8B0088443E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC5BF7EA15752CEF0088443E /* KeyboardMonitor */;
+			targetProxy = BC5BF7FB15752F8B0088443E /* PBXContainerItemProxy */;
+		};
 		BC7552871565489100CB0542 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BC75524D156528AA00CB0542 /* ThunderboltMonitor */;
@@ -1522,6 +1643,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC523C281555686000548427 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC5BF7F015752CEF0088443E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC5BF7F115752CEF0088443E /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1662,6 +1791,51 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Release;
+		};
+		BC5BF7F515752CEF0088443E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
+				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Debug;
+		};
+		BC5BF7F615752CEF0088443E /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
+				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Localization;
+		};
+		BC5BF7F715752CEF0088443E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
+				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -2221,6 +2395,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		BC5BF7F415752CEF0088443E /* Build configuration list for PBXNativeTarget "KeyboardMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC5BF7F515752CEF0088443E /* Debug */,
+				BC5BF7F615752CEF0088443E /* Localization */,
+				BC5BF7F715752CEF0088443E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		BC755268156528AA00CB0542 /* Build configuration list for PBXNativeTarget "ThunderboltMonitor" */ = {
 			isa = XCConfigurationList;

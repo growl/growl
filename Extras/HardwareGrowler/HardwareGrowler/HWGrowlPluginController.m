@@ -67,6 +67,8 @@
 						BOOL disabled = NO;
 						if(disabledPlugins && [disabledPlugins objectForKey:bundleID])
 							disabled = [[disabledPlugins objectForKey:bundleID] boolValue];
+						else if([plugin respondsToSelector:@selector(enabledByDefault)])
+							disabled = ![plugin enabledByDefault];
 						
 						NSMutableDictionary *pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:plugin, @"plugin", 
 																	  [NSNumber numberWithBool:disabled], @"disabled", nil];
@@ -187,7 +189,8 @@
 	[notifiers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		id<HWGrowlPluginNotifierProtocol> notifier = obj;
 		[allNotes addObjectsFromArray:[notifier noteNames]];
-		[defaultNotes addObjectsFromArray:[notifier defaultNotifications]];
+		if([notifier defaultNotifications])
+			[defaultNotes addObjectsFromArray:[notifier defaultNotifications]];
 		[descriptions addEntriesFromDictionary:[notifier noteDescriptions]];
 		[localizedNames addEntriesFromDictionary:[notifier localizedNames]];
 	}];
