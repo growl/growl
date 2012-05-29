@@ -92,14 +92,14 @@ self.NAME ## Flag = NAME;
 		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"fn"]){
 		name = newState ? @"FNPressed" : @"FNReleased";
-		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Pressed", @"");
+		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
 		identifier = @"HWGrowlFNKey";
 		iconData = newState ? [[NSImage imageNamed:@"fn_on"] TIFFRepresentation] : [[NSImage imageNamed:@"fn_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"shift"]){
 		name = newState ? @"ShiftPressed" : @"ShiftReleased";
-		title = newState ? NSLocalizedString(@"Shift Key Pressed", @"") : NSLocalizedString(@"Shift Key Presed", @"");
+		title = newState ? NSLocalizedString(@"Shift Key Pressed", @"") : NSLocalizedString(@"Shift Key Released", @"");
 		identifier = @"HWGrowlShiftKey";
-		//iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
 	}else {
 		return;
 	}
@@ -173,7 +173,7 @@ self.NAME ## Flag = NAME;
 			  NSLocalizedString(@"Shift Key Released", @""), @"ShiftReleased", nil];
 }
 -(NSArray*)defaultNotifications {
-	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"NumLockOn", @"NumLockOff", @"FNPressed", @"FNReleased", nil];
+	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"NumLockOn", @"NumLockOff", @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
 }
 
 @end
