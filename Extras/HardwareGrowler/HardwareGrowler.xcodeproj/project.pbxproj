@@ -25,6 +25,7 @@
 		BC5BF80D15754B110088443E /* fn_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80715754B110088443E /* fn_on.png */; };
 		BC5BF80E15754B110088443E /* numlock_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80815754B110088443E /* numlock_off.png */; };
 		BC5BF80F15754B110088443E /* numlock_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF80915754B110088443E /* numlock_on.png */; };
+		BC5BF8271576599F0088443E /* KeyboardMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF816157658810088443E /* KeyboardMonitorPrefs.xib */; };
 		BC6E09B7156EB51B00A03126 /* HWGPrefsBluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */; };
 		BC6E09B8156EB51B00A03126 /* HWGPrefsDrivesVolumes.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */; };
 		BC6E09B9156EB51B00A03126 /* HWGPrefsFireWire.png in Resources */ = {isa = PBXBuildFile; fileRef = BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */; };
@@ -358,6 +359,7 @@
 		BC5BF80715754B110088443E /* fn_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fn_on.png; path = "../../Capster/Growl Caps Notifier/fn_on.png"; sourceTree = "<group>"; };
 		BC5BF80815754B110088443E /* numlock_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numlock_off.png; path = "../../Capster/Growl Caps Notifier/numlock_off.png"; sourceTree = "<group>"; };
 		BC5BF80915754B110088443E /* numlock_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = numlock_on.png; path = "../../Capster/Growl Caps Notifier/numlock_on.png"; sourceTree = "<group>"; };
+		BC5BF816157658810088443E /* KeyboardMonitorPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyboardMonitorPrefs.xib; sourceTree = "<group>"; };
 		BC6E09AF156EB51B00A03126 /* HWGPrefsBluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsBluetooth.png; path = Resources/HWGPrefsBluetooth.png; sourceTree = SOURCE_ROOT; };
 		BC6E09B0156EB51B00A03126 /* HWGPrefsDrivesVolumes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsDrivesVolumes.png; path = Resources/HWGPrefsDrivesVolumes.png; sourceTree = SOURCE_ROOT; };
 		BC6E09B1156EB51B00A03126 /* HWGPrefsFireWire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HWGPrefsFireWire.png; path = Resources/HWGPrefsFireWire.png; sourceTree = SOURCE_ROOT; };
@@ -581,6 +583,7 @@
 			children = (
 				BC5BF7F815752D4D0088443E /* HWGrowlKeyboardMonitor.h */,
 				BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */,
+				BC5BF816157658810088443E /* KeyboardMonitorPrefs.xib */,
 				BC5BF7EE15752CEF0088443E /* Supporting Files */,
 			);
 			name = KeyboardMonitor;
@@ -1331,6 +1334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5BF7F215752CEF0088443E /* InfoPlist.strings in Resources */,
+				BC5BF8271576599F0088443E /* KeyboardMonitorPrefs.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2404,6 +2408,7 @@
 				BC5BF7F715752CEF0088443E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BC755268156528AA00CB0542 /* Build configuration list for PBXNativeTarget "ThunderboltMonitor" */ = {
 			isa = XCConfigurationList;

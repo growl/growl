@@ -18,6 +18,14 @@ typedef enum {
 @interface HWGrowlKeyboardMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
+@property (nonatomic, retain) IBOutlet NSView *prefsView;
+
+@property (nonatomic, retain) NSString *notifyForLabel;
+@property (nonatomic, retain) NSString *capsLockLabel;
+@property (nonatomic, retain) NSString *numLockLabel;
+@property (nonatomic, retain) NSString *fnKeyLabel;
+@property (nonatomic, retain) NSString *shifyKeyLabel;
+
 @property (nonatomic) BOOL capsFlag;
 @property (nonatomic) BOOL numlockFlag;
 @property (nonatomic) BOOL fnFlag;
@@ -28,11 +36,46 @@ typedef enum {
 @implementation HWGrowlKeyboardMonitor
 
 @synthesize delegate;
+@synthesize prefsView;
+
+@synthesize notifyForLabel;
+@synthesize capsLockLabel;
+@synthesize numLockLabel;
+@synthesize fnKeyLabel;
+@synthesize shifyKeyLabel;
 
 @synthesize capsFlag;
 @synthesize numlockFlag;
 @synthesize fnFlag;
 @synthesize shiftFlag;
+
+-(id)init {
+	if((self = [super init])){
+		//Bleh, not happy with this really, but eh
+		NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
+		if(!enabledDict){
+			//Our default keys are caps and numlock, with fn and shift being disabled by default
+			NSDictionary *defaultKeys = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"capslock",
+												  [NSNumber numberWithBool:YES], @"numlock",
+												  [NSNumber numberWithBool:NO], @"fnkey",
+												  [NSNumber numberWithBool:NO], @"shiftkey", nil];
+			[[NSUserDefaults standardUserDefaults] setObject:defaultKeys 
+																	forKey:@"hwgkeyboardkeysenabled"];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+		}
+		
+		self.notifyForLabel = NSLocalizedString(@"Notify For:", @"Label over list of checkboxes for notifying for certain keys");
+		self.capsLockLabel = NSLocalizedString(@"Caps Lock", @"");
+		self.numLockLabel = NSLocalizedString(@"Num Lock", @"");
+		self.fnKeyLabel = NSLocalizedString(@"FN Key", @"");
+		self.shifyKeyLabel = NSLocalizedString(@"Shift Key", @"");
+	}
+	return self;
+}
+
+-(void)dealloc {
+	[super dealloc];
+}
 
 -(void)postRegistrationInit {
 	[self initFlags];
@@ -80,22 +123,28 @@ self.NAME ## Flag = NAME;
 	NSString *identifier = nil;
 	NSData *iconData = nil;
 	
+	NSString *enabledKey = nil;
+	
 	if([type isEqualToString:@"caps"]){
+		enabledKey = @"capslock";
 		name = newState ? @"CapsLockOn" : @"CapsLockOff";
 		title = newState ? NSLocalizedString(@"Caps Lock On", @"") : NSLocalizedString(@"Caps Lock Off", @"");
 		identifier = @"HWGrowlCaps";
 		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"numlock"]){
+		enabledKey = @"numlock";
 		name = newState ? @"NumLockOn" : @"NumLockOff";
 		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
 		identifier = @"HWGrowlNumLock";
 		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"fn"]){
+		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
 		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
 		identifier = @"HWGrowlFNKey";
 		iconData = newState ? [[NSImage imageNamed:@"fn_on"] TIFFRepresentation] : [[NSImage imageNamed:@"fn_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"shift"]){
+		enabledKey = @"shiftkey";
 		name = newState ? @"ShiftPressed" : @"ShiftReleased";
 		title = newState ? NSLocalizedString(@"Shift Key Pressed", @"") : NSLocalizedString(@"Shift Key Released", @"");
 		identifier = @"HWGrowlShiftKey";
@@ -103,6 +152,11 @@ self.NAME ## Flag = NAME;
 	}else {
 		return;
 	}
+	
+	//Check that we are enabled in the keyboard monitor's preferences
+	NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
+	if(![[enabledDict valueForKey:enabledKey] boolValue])
+		return;
 	
 	[delegate notifyWithName:name
 							 title:title
@@ -141,7 +195,11 @@ self.NAME ## Flag = NAME;
 	return _icon;
 }
 -(NSView*)preferencePane {
-	return nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		[NSBundle loadNibNamed:@"KeyboardMonitorPrefs" owner:self];
+	});
+	return prefsView;
 }
 -(BOOL)enabledByDefault {
 	return NO;
