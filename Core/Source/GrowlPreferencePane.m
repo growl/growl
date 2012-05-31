@@ -93,6 +93,9 @@
          [currentViewController viewDidLoad];
    }
    firstOpen = NO;
+	
+	ProcessSerialNumber psn = { 0, kCurrentProcess };
+	TransformProcessType(&psn, kProcessTransformToForegroundApplication);
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -103,6 +106,13 @@
    //This should be seperate when the window has actually closed, but eh
    if([currentViewController respondsToSelector:@selector(viewDidUnload)])
       [currentViewController viewDidUnload];
+	
+	if([preferencesController menuState] == GrowlNoMenu || [preferencesController menuState] == GrowlStatusMenu){
+		dispatch_async(dispatch_get_main_queue(), ^{
+			ProcessSerialNumber psn = { 0, kCurrentProcess };
+			TransformProcessType(&psn, kProcessTransformToUIElementApplication);
+		});
+	}
 }
 
 #pragma mark -

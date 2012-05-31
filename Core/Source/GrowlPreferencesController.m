@@ -425,7 +425,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    if([self menuState] != GrowlDockMenu && [self menuState] != GrowlBothMenus)
       return;
 
-   if(![self boolForKey:GrowlRelaunchWarnSuppress]){
+/*   if(![self boolForKey:GrowlRelaunchWarnSuppress]){
       NSAlert *alert = [[NSAlert alloc] init];
       [alert setMessageText:NSLocalizedString(@"Growl must restart for this change to take effect.",nil)];
       [alert setShowsSuppressionButton:YES];
@@ -434,7 +434,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          [self setBool:YES forKey:GrowlRelaunchWarnSuppress];
       }
       [alert release];
-   }
+   }*/
 }
 
 - (BOOL) isBackgroundAllowed {
