@@ -1086,7 +1086,6 @@
 		8351FBC8152EDC99000C13FD /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = sv; path = Core/Resources/sv.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		8352D86C1565E8A500265E6F /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8352D86D1565E8A500265E6F /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "Core/Resources/es-MX.lproj/mainmenu.strings"; sourceTree = "<group>"; };
-		8352D86E1565E8A500265E6F /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "Core/Resources/es-MX.lproj/PluginPrefStrings.strings"; sourceTree = "<group>"; };
 		83586723152EE00E00E96B15 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = Core/Resources/ko.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
 		83586724152EE02200E96B15 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = Core/Resources/ko.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		83586725152EE02F00E96B15 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = Core/Resources/ko.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
@@ -1191,7 +1190,6 @@
 		83DD3AF514F0B41900C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83DD3AF614F0B42900C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83DD3AF714F0B43500C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/mainmenu.strings; sourceTree = "<group>"; };
-		83DD3AF814F0B44A00C0028D /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = Core/Resources/pl.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		83DDEA3D1565E903000D8A72 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "es-MX"; path = "Core/Resources/es-MX.lproj/Welcome.rtf"; sourceTree = "<group>"; };
 		83DDEA3E1565E914000D8A72 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "es-MX"; path = "Core/Resources/es-MX.lproj/StartAtLogin.rtf"; sourceTree = "<group>"; };
 		83DDEA3F1565E929000D8A72 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "es-MX"; path = "Core/Resources/es-MX.lproj/OldGrowl.rtf"; sourceTree = "<group>"; };
