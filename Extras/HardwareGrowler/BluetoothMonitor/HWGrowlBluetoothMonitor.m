@@ -10,15 +10,12 @@
 #import <stdlib.h>
 #import <IOBluetooth/IOBluetooth.h>
 
-static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef);
-static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef);
-
 @interface HWGrowlBluetoothMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
 @property (nonatomic, assign) BOOL starting;
 
-@property (nonatomic, assign) IOBluetoothUserNotificationRef connectionNotification;
+@property (nonatomic, assign) IOBluetoothUserNotification *connectionNotification;
 
 @end
 
@@ -29,7 +26,8 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 @synthesize connectionNotification;
 
 -(void)dealloc {
-	IOBluetoothUserNotificationUnregister(connectionNotification);
+	[connectionNotification unregister];
+	connectionNotification = nil;
 	[super dealloc];
 }
 
@@ -69,7 +67,8 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 
 -(void)postRegistrationInit {
 	self.starting = YES;
-	self.connectionNotification = IOBluetoothRegisterForDeviceConnectNotifications(bluetoothConnection, self);
+	self.connectionNotification = [IOBluetoothDevice registerForConnectNotifications:self 
+																									selector:@selector(bluetoothConnection:device:)];
 	self.starting = NO;
 }
 
@@ -85,28 +84,21 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 							plugin:self];
 }
 
--(void)bluetoothDisconnection:(IOBluetoothObjectRef)objectRef  {
-	[self bluetoothName:[IOBluetoothDevice withDeviceRef:objectRef].name connected:NO];	
-}
-
-static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
-	// NSLog(@"BT Device Disconnection: %@" , [device name]);
-	HWGrowlBluetoothMonitor *monitor = (HWGrowlBluetoothMonitor*)userRefCon;
-	[monitor bluetoothDisconnection:objectRef];
+-(void)bluetoothDisconnection:(IOBluetoothUserNotification*)note 
+							  device:(IOBluetoothDevice*)device
+{
+	[self bluetoothName:[device name] connected:NO];
+	[note unregister];
 	
-	IOBluetoothUserNotificationUnregister(inRef);
 }
 
--(void)bluetoothConnection:(IOBluetoothObjectRef)objectRef {
+-(void)bluetoothConnection:(IOBluetoothUserNotification*)note 
+						  device:(IOBluetoothDevice*)device 
+{
 	if (!starting || [delegate onLaunchEnabled])
-		[self bluetoothName:[IOBluetoothDevice withDeviceRef:objectRef].name connected:YES];
+		[self bluetoothName:[device name] connected:YES];
 	
-	IOBluetoothDeviceRegisterForDisconnectNotification(objectRef, bluetoothDisconnection, self);
-}
-
-static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
-	HWGrowlBluetoothMonitor *monitor = (HWGrowlBluetoothMonitor*)userRefCon;
-	[monitor bluetoothConnection:objectRef];
+	[device registerForDisconnectNotification:self selector:@selector(bluetoothDisconnection:device:)];
 }
 
 #pragma mark HWGrowlPluginProtocol
