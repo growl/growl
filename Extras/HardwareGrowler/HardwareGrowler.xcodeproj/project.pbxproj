@@ -83,6 +83,11 @@
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
 		BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */; };
+		BCE83C6615804D2C005570DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
+		BCE83C6C15804D2C005570DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE83C6A15804D2C005570DD /* InfoPlist.strings */; };
+		BCE83C7615804F8B005570DD /* HWGrowlPhoneMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE83C7515804F8B005570DD /* HWGrowlPhoneMonitor.m */; };
+		BCE83C7715805108005570DD /* PhoneMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */; };
+		BCE83C781580580C005570DD /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3631552D1C500F49280 /* NSStringAdditions.m */; };
 		BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */; };
 		BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */; };
@@ -272,6 +277,13 @@
 			remoteGlobalIDString = BCB807461551A6E90088C69A;
 			remoteInfo = NetworkMonitor;
 		};
+		BCE83C7215804D38005570DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB805DE155153330088C69A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCE83C6415804D2C005570DD;
+			remoteInfo = PhoneMonitor;
+		};
 		BCECA3AC155325CC00F49280 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BCB805DE155153330088C69A /* Project object */;
@@ -317,6 +329,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCE83C7715805108005570DD /* PhoneMonitor.hwgrowlmonitor in Copy Plugins */,
 				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
 				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */,
@@ -437,6 +450,12 @@
 		BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPluginController.m; sourceTree = "<group>"; };
 		BCD47568156BCDD000F81910 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = ../../../Common/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = ../../../Common/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
+		BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhoneMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCE83C6915804D2C005570DD /* PhoneMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhoneMonitor-Info.plist"; sourceTree = "<group>"; };
+		BCE83C6B15804D2C005570DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BCE83C6D15804D2C005570DD /* PhoneMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BCE83C7415804F8B005570DD /* HWGrowlPhoneMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlPhoneMonitor.h; sourceTree = "<group>"; };
+		BCE83C7515804F8B005570DD /* HWGrowlPhoneMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPhoneMonitor.m; sourceTree = "<group>"; };
 		BCECA3621552D1C500F49280 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
 		BCECA3631552D1C500F49280 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = ../../../Common/Source/NSStringAdditions.m; sourceTree = "<group>"; };
 		BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -535,6 +554,15 @@
 			files = (
 				BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */,
 				BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCE83C6215804D2C005570DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCE83C6615804D2C005570DD /* Cocoa.framework in Frameworks */,
+				BCE83C781580580C005570DD /* IOBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,6 +768,7 @@
 				BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */,
 				BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */,
 				BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */,
+				BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -903,6 +932,7 @@
 				BC755250156528AA00CB0542 /* ThunderboltMonitor */,
 				BCF6236B156878CC00AB4676 /* TimeMachineMonitor */,
 				BC5BF7ED15752CEF0088443E /* KeyboardMonitor */,
+				BCE83C6715804D2C005570DD /* PhoneMonitor */,
 			);
 			name = Plugins;
 			path = NetworkMonitor;
@@ -919,6 +949,27 @@
 				BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		BCE83C6715804D2C005570DD /* PhoneMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BCE83C7415804F8B005570DD /* HWGrowlPhoneMonitor.h */,
+				BCE83C7515804F8B005570DD /* HWGrowlPhoneMonitor.m */,
+				BCE83C6815804D2C005570DD /* Supporting Files */,
+			);
+			name = PhoneMonitor;
+			path = ../PhoneMonitor;
+			sourceTree = "<group>";
+		};
+		BCE83C6815804D2C005570DD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCE83C6915804D2C005570DD /* PhoneMonitor-Info.plist */,
+				BCE83C6A15804D2C005570DD /* InfoPlist.strings */,
+				BCE83C6D15804D2C005570DD /* PhoneMonitor-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		BCECA38F155322D200F49280 /* VolumeMonitor */ = {
@@ -1085,6 +1136,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BCE83C7315804D38005570DD /* PBXTargetDependency */,
 				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
 				BCF6237E156890B400AB4676 /* PBXTargetDependency */,
 				BC7552871565489100CB0542 /* PBXTargetDependency */,
@@ -1135,6 +1187,23 @@
 			name = NetworkMonitor;
 			productName = NetworkMonitor;
 			productReference = BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		BCE83C6415804D2C005570DD /* PhoneMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCE83C6E15804D2D005570DD /* Build configuration list for PBXNativeTarget "PhoneMonitor" */;
+			buildPhases = (
+				BCE83C6115804D2C005570DD /* Sources */,
+				BCE83C6215804D2C005570DD /* Frameworks */,
+				BCE83C6315804D2C005570DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhoneMonitor;
+			productName = PhoneMonitor;
+			productReference = BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BCECA38B155322D200F49280 /* VolumeMonitor */ = {
@@ -1208,6 +1277,7 @@
 				BC75524D156528AA00CB0542 /* ThunderboltMonitor */,
 				BCF62368156878CC00AB4676 /* TimeMachineMonitor */,
 				BC5BF7EA15752CEF0088443E /* KeyboardMonitor */,
+				BCE83C6415804D2C005570DD /* PhoneMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -1419,6 +1489,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCE83C6315804D2C005570DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCE83C6C15804D2C005570DD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCECA38A155322D200F49280 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1553,6 +1631,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCE83C6115804D2C005570DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCE83C7615804F8B005570DD /* HWGrowlPhoneMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCECA388155322D200F49280 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1621,6 +1707,11 @@
 			isa = PBXTargetDependency;
 			target = BCB807461551A6E90088C69A /* NetworkMonitor */;
 			targetProxy = BCB807641551A6F10088C69A /* PBXContainerItemProxy */;
+		};
+		BCE83C7315804D38005570DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCE83C6415804D2C005570DD /* PhoneMonitor */;
+			targetProxy = BCE83C7215804D38005570DD /* PBXContainerItemProxy */;
 		};
 		BCECA3AD155325CC00F49280 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1735,6 +1826,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCB8074E1551A6EA0088C69A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BCE83C6A15804D2C005570DD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCE83C6B15804D2C005570DD /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2297,6 +2396,54 @@
 			};
 			name = Release;
 		};
+		BCE83C6F15804D2D005570DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "PhoneMonitor/PhoneMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Debug;
+		};
+		BCE83C7015804D2D005570DD /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "PhoneMonitor/PhoneMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Localization;
+		};
+		BCE83C7115804D2D005570DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INFOPLIST_FILE = "PhoneMonitor/PhoneMonitor-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = hwgrowlmonitor;
+			};
+			name = Release;
+		};
 		BCECA396155322D200F49280 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
@@ -2489,6 +2636,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		BCE83C6E15804D2D005570DD /* Build configuration list for PBXNativeTarget "PhoneMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCE83C6F15804D2D005570DD /* Debug */,
+				BCE83C7015804D2D005570DD /* Localization */,
+				BCE83C7115804D2D005570DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		BCECA3A7155322D200F49280 /* Build configuration list for PBXNativeTarget "VolumeMonitor" */ = {
 			isa = XCConfigurationList;
