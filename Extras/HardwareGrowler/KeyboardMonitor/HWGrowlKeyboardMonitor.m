@@ -154,8 +154,8 @@ self.NAME ## Flag = NAME;
 	}
 	
 	//Check that we are enabled in the keyboard monitor's preferences
-	NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
-	if(![[enabledDict valueForKey:enabledKey] boolValue])
+	NSNumber *enabled = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKeyPath:[NSString stringWithFormat:@"hwgkeyboardkeysenabled.%@", enabledKey]];
+	if(![enabled boolValue])
 		return;
 	
 	[delegate notifyWithName:name
