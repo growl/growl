@@ -136,7 +136,7 @@ self.NAME ## Flag = NAME;
 		name = newState ? @"NumLockOn" : @"NumLockOff";
 		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
 		identifier = @"HWGrowlNumLock";
-		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"numlock_on"] TIFFRepresentation] : [[NSImage imageNamed:@"numlock_off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"fn"]){
 		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
