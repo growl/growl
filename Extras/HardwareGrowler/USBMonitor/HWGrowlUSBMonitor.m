@@ -208,8 +208,11 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 	if (([deviceName compare:@"OHCI Root Hub Simulation"] == NSOrderedSame) ||
 		 ([deviceName compare:@"UHCI Root Hub Simulation"] == NSOrderedSame)) {
 		newName = NSLocalizedString(@"USB Bus", @"");
-	} else if ([deviceName compare:@"EHCI Root Hub Simulation"] == NSOrderedSame) {
+	} else if ([deviceName compare:@"EHCI Root Hub Simulation"] == NSOrderedSame ||
+				  [deviceName compare:@"XHCI Root Hub USB 2.0 Simulation"] == NSOrderedSame) {
 		newName = NSLocalizedString(@"USB 2.0 Bus", @"");
+	} else if ([deviceName compare:@"XHCI Root Hub SS Simulation"] == NSOrderedSame) {
+		newName = NSLocalizedString(@"USB 3.0 Bus", @"");
 	}
 	return newName;
 }
