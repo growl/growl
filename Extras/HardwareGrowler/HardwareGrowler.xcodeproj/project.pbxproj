@@ -38,7 +38,6 @@
 		BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC755253156528AA00CB0542 /* InfoPlist.strings */; };
 		BC75526C1565291400CB0542 /* HWGrowlThunderboltMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC75526B1565291400CB0542 /* HWGrowlThunderboltMonitor.m */; };
-		BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC75524E156528AA00CB0542 /* ThunderboltMonitor.hwgrowlmonitor */; };
 		BC75527015652BB100CB0542 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC9757AB156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9757AA156C2D700080CF24 /* MonitorPrefs-DefaultIcon.png */; };
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
@@ -115,13 +114,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC5BF7EA15752CEF0088443E;
 			remoteInfo = KeyboardMonitor;
-		};
-		BC7552861565489100CB0542 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCB805DE155153330088C69A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BC75524D156528AA00CB0542;
-			remoteInfo = ThunderboltMonitor;
 		};
 		BCA26B6E15558817009C5ABC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -332,7 +324,6 @@
 				BCE83C7715805108005570DD /* PhoneMonitor.hwgrowlmonitor in Copy Plugins */,
 				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
-				BC75526F15652B9B00CB0542 /* ThunderboltMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */,
@@ -1139,7 +1130,6 @@
 				BCE83C7315804D38005570DD /* PBXTargetDependency */,
 				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
 				BCF6237E156890B400AB4676 /* PBXTargetDependency */,
-				BC7552871565489100CB0542 /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 				BCAA17661557857C00D9E4ED /* PBXTargetDependency */,
 				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
@@ -1667,11 +1657,6 @@
 			isa = PBXTargetDependency;
 			target = BC5BF7EA15752CEF0088443E /* KeyboardMonitor */;
 			targetProxy = BC5BF7FB15752F8B0088443E /* PBXContainerItemProxy */;
-		};
-		BC7552871565489100CB0542 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BC75524D156528AA00CB0542 /* ThunderboltMonitor */;
-			targetProxy = BC7552861565489100CB0542 /* PBXContainerItemProxy */;
 		};
 		BCA26B6F15558817009C5ABC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2645,6 +2630,7 @@
 				BCE83C7115804D2D005570DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BCECA3A7155322D200F49280 /* Build configuration list for PBXNativeTarget "VolumeMonitor" */ = {
 			isa = XCConfigurationList;
