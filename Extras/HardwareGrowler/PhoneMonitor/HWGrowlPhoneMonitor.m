@@ -62,7 +62,16 @@
 	}
 	
 	if((self = [super init])){
-		
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"HandsFreeDeviceSDPRecord" ofType:@"plist"];
+		NSDictionary *serviceDict = [NSDictionary dictionaryWithContentsOfFile:path]; 
+		if(serviceDict){
+			IOReturn result = IOBluetoothAddServiceDict((CFDictionaryRef)serviceDict, NULL);
+			if(result != kIOReturnSuccess){
+				NSLog(@"Error 0x%x", result);
+			}
+		}else{
+			NSLog(@"couldnt read");
+		}
 	}
 	return self;
 }
@@ -80,6 +89,12 @@
 	NSLog(@"disconnected");
 	self.phone = nil;
 	[note	unregister];
+}
+
+/* UNDOCUMETED DELEGATE CALL */
+-(void)handsFree:(IOBluetoothDevice*)device incomingCallFrom:(NSString*)number {
+	NSLog(@"Call %@", number);
+	[(IOBluetoothHandsFreeDevice*)device acceptCall];
 }
 
 -(void)handsFree:(IOBluetoothHandsFreeDevice *)device 
@@ -112,8 +127,8 @@
 {
 	if(device.isHandsFreeAudioGateway){
 		NSLog(@"%@", [device name]);
-		if(IOBluetoothLaunchHandsFreeAgent([device addressString]))
-			NSLog(@"agent launched?");
+		//if(IOBluetoothLaunchHandsFreeAgent([device addressString]))
+		//	NSLog(@"agent launched?");
 		
 		NSDictionary *scoDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																			 forKey:@"Autoconfig hidden"];
@@ -130,18 +145,24 @@
 			}
 		}
 		
+		__block HWGrowlPhoneMonitor *blockSelf = self;
 		double delayInSeconds = 5.0;
 		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 			IOBluetoothHandsFreeDevice *handsFree = [[IOBluetoothHandsFreeDevice alloc] initWithDevice:device 
 																														 delegate:self];
-			if(handsFree)
+			if(handsFree){
 				NSLog(@"yay!");
-			[handsFree connect];
-			self.phone = handsFree;
-			[handsFree release];
+				
+				[handsFree setSupportedFeatures:handsFree.supportedFeatures | IOBluetoothHandsFreeDeviceFeatureCLIPresentation];
+				[handsFree connect];
+				[blockSelf setPhone:handsFree];
+				[handsFree release];
+				[device registerForDisconnectNotification:blockSelf selector:@selector(bluetoothDisconnection:device:)];
+			}else{
+				NSLog(@"Sigh");
+			}
 		});
-		[device registerForDisconnectNotification:self selector:@selector(bluetoothDisconnection:device:)];
 	}
 }
 
@@ -166,6 +187,11 @@
 }
 -(NSView*)preferencePane {
 	return nil;
+}
+
+-(void)fireOnLaunchNotes {
+	IOBluetoothDevice *device = [IOBluetoothDevice deviceWithAddressString:@"<insert device address here for testing>"];
+	[device openConnection];
 }
 
 #pragma mark HWGrowlPluginNotifierProtocol

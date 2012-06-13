@@ -8,5 +8,10 @@
 	<true/>
 	<key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
 	<string>/private/var/log/asl/</string>
+	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
+	<dict>
+		<key>com.apple.handsFreeAgent</key>
+		<string></string>
+	</dict>
 </dict>
 </plist>
