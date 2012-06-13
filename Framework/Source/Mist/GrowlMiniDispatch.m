@@ -181,7 +181,7 @@
 {
 	[windows enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
 		if([obj respondsToSelector:@selector(mistViewDismissed:)])
-			[obj mistViewDismissed:NO];
+			[obj mistViewDismissed:YES];
 	}];
 }
 
