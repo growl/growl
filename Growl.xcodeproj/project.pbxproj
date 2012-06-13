@@ -5090,6 +5090,7 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
+				SDKROOT = macosx10.8;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Localization;
@@ -5766,6 +5767,7 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
+				SDKROOT = macosx10.8;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Debug;
@@ -5794,6 +5796,7 @@
 					0xC0000000,
 				);
 				PRODUCT_NAME = Growl;
+				SDKROOT = macosx10.8;
 				WARNING_LDFLAGS = "-Wassign-intercept";
 			};
 			name = Release;

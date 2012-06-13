@@ -215,7 +215,7 @@
 }
 
 -(NSString*)description {
-	return [NSString stringWithFormat:@"%@ rect: %@ state %d", [super description], NSStringFromRect(frame), state];
+	return [NSString stringWithFormat:@"%@ rect: %@ state %ld", [super description], NSStringFromRect(frame), state];
 }
 
 @end

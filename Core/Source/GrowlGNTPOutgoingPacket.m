@@ -344,11 +344,11 @@
 - (NSString *)description
 {
 	NSMutableString *description = [NSMutableString string];
-	[description appendFormat:@"<%@: %x: \"", NSStringFromClass([self class]), self];
+	[description appendFormat:@"<%@: %x: \"", NSStringFromClass([self class]), (unsigned int)self];
 	
 	for(NSObject<GNTPOutgoingItem> *item in [self outgoingItems]) {
 		if ([item isKindOfClass:[GrowlGNTPBinaryChunk class]]) {
-			[description appendFormat:@"Binary chunk %@, length %d\n",
+			[description appendFormat:@"Binary chunk %@, length %lu\n",
 			 [(GrowlGNTPBinaryChunk *)item identifier], [(GrowlGNTPBinaryChunk *)item length]];
 		} else {
 			NSString *string = [[[NSString alloc] initWithData:[item GNTPRepresentation]
