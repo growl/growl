@@ -86,7 +86,6 @@
 		BCE83C6615804D2C005570DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCE83C6C15804D2C005570DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE83C6A15804D2C005570DD /* InfoPlist.strings */; };
 		BCE83C7615804F8B005570DD /* HWGrowlPhoneMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE83C7515804F8B005570DD /* HWGrowlPhoneMonitor.m */; };
-		BCE83C7715805108005570DD /* PhoneMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */; };
 		BCE83C781580580C005570DD /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3631552D1C500F49280 /* NSStringAdditions.m */; };
 		BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */; };
@@ -270,13 +269,6 @@
 			remoteGlobalIDString = BCB807461551A6E90088C69A;
 			remoteInfo = NetworkMonitor;
 		};
-		BCE83C7215804D38005570DD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCB805DE155153330088C69A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BCE83C6415804D2C005570DD;
-			remoteInfo = PhoneMonitor;
-		};
 		BCECA3AC155325CC00F49280 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BCB805DE155153330088C69A /* Project object */;
@@ -322,7 +314,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				BCE83C7715805108005570DD /* PhoneMonitor.hwgrowlmonitor in Copy Plugins */,
 				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
@@ -1130,7 +1121,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				BCE83C7315804D38005570DD /* PBXTargetDependency */,
 				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
 				BCF6237E156890B400AB4676 /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
@@ -1696,11 +1686,6 @@
 			isa = PBXTargetDependency;
 			target = BCB807461551A6E90088C69A /* NetworkMonitor */;
 			targetProxy = BCB807641551A6F10088C69A /* PBXContainerItemProxy */;
-		};
-		BCE83C7315804D38005570DD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BCE83C6415804D2C005570DD /* PhoneMonitor */;
-			targetProxy = BCE83C7215804D38005570DD /* PBXContainerItemProxy */;
 		};
 		BCECA3AD155325CC00F49280 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
