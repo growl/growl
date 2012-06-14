@@ -419,11 +419,11 @@
 		BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowlerLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB806B315515C4E0088C69A /* HardwareGrowlerLauncher-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HardwareGrowlerLauncher-Info.plist"; sourceTree = "<group>"; };
 		BCB806B515515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		BCB806B715515C4E0088C69A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BCB806B715515C4E0088C69A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BCB806B915515C4E0088C69A /* HardwareGrowlerLauncher-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HardwareGrowlerLauncher-Prefix.pch"; sourceTree = "<group>"; };
 		BCB806BB15515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		BCB806BD15515C4E0088C69A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		BCB806BE15515C4E0088C69A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BCB806BD15515C4E0088C69A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		BCB806BE15515C4E0088C69A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BCB806C115515C4E0088C69A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BCB806D8155172120088C69A /* HardwareGrowler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowler.entitlements; sourceTree = "<group>"; };
 		BCB806E81551721E0088C69A /* HardwareGrowlerLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowlerLauncher.entitlements; sourceTree = "<group>"; };
@@ -439,7 +439,7 @@
 		BCB807681551A7510088C69A /* HWGrowlNetworkMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlNetworkMonitor.h; sourceTree = "<group>"; };
 		BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlNetworkMonitor.m; sourceTree = "<group>"; };
 		BCB8076B1551A7820088C69A /* HardwareGrowlPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HardwareGrowlPlugin.h; path = ../HardwareGrowler/HardwareGrowlPlugin.h; sourceTree = "<group>"; };
-		BCB8076D1551A82A0088C69A /* HWGrowlPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWGrowlPluginController.h; sourceTree = "<group>"; };
+		BCB8076D1551A82A0088C69A /* HWGrowlPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HWGrowlPluginController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPluginController.m; sourceTree = "<group>"; };
 		BCD47568156BCDD000F81910 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = ../../../Common/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = ../../../Common/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };

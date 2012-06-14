@@ -95,13 +95,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		BC19A16015198CE300A0CA64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BC19A13615198CE300A0CA64 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
-			remoteInfo = MailMe;
-		};
 		BC19A16215198CE300A0CA64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BC19A13615198CE300A0CA64 /* Growl.xcodeproj */;
@@ -149,11 +142,11 @@
 		BCEA7EEB1517CD4400E98B1F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCEA7EED1517CD4400E98B1F /* Boxcar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Boxcar-Prefix.pch"; sourceTree = "<group>"; };
 		BCEA7EEF1517CD4400E98B1F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BoxcarPrefPane.xib; sourceTree = "<group>"; };
-		BCEA7EF31517CD4500E98B1F /* GrowlBoxcarPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlBoxcarPreferencePane.h; sourceTree = "<group>"; };
-		BCEA7EF41517CD4500E98B1F /* GrowlBoxcarPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlBoxcarPreferencePane.m; sourceTree = "<group>"; };
-		BCEA7EF61517CD4500E98B1F /* GrowlBoxcarAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlBoxcarAction.h; sourceTree = "<group>"; };
-		BCEA7EF71517CD4500E98B1F /* GrowlBoxcarAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlBoxcarAction.m; sourceTree = "<group>"; };
-		BCEA7EFE1517CD7200E98B1F /* BoxcarDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxcarDefines.h; sourceTree = "<group>"; };
+		BCEA7EF31517CD4500E98B1F /* GrowlBoxcarPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlBoxcarPreferencePane.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		BCEA7EF41517CD4500E98B1F /* GrowlBoxcarPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlBoxcarPreferencePane.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		BCEA7EF61517CD4500E98B1F /* GrowlBoxcarAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlBoxcarAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		BCEA7EF71517CD4500E98B1F /* GrowlBoxcarAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlBoxcarAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		BCEA7EFE1517CD7200E98B1F /* BoxcarDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BoxcarDefines.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +178,6 @@
 				BC19A15B15198CE300A0CA64 /* Bezel.growlView */,
 				BC19A15D15198CE300A0CA64 /* Smoke.growlView */,
 				BC19A15F15198CE300A0CA64 /* Nano.growlView */,
-				BC19A16115198CE300A0CA64 /* MailMe.growlView */,
 				BC19A16315198CE300A0CA64 /* MusicVideo.growlView */,
 				BC19A16515198CE300A0CA64 /* SMS.growlView */,
 				BC19A16715198CE300A0CA64 /* Unit tests.octest */,
@@ -374,13 +366,6 @@
 			fileType = wrapper.cfbundle;
 			path = Nano.growlView;
 			remoteRef = BC19A15E15198CE300A0CA64 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BC19A16115198CE300A0CA64 /* MailMe.growlView */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MailMe.growlView;
-			remoteRef = BC19A16015198CE300A0CA64 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BC19A16315198CE300A0CA64 /* MusicVideo.growlView */ = {

@@ -3,7 +3,7 @@
 //  Boxcar
 //
 //  Created by Daniel Siemer on 3/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 The Growl Project, LLC. All rights reserved.
 //
 //  This class represents your plugin's preference pane.  There will be only one instance, but possibly many configurations
 //  In order to access a configuration values, use the NSMutableDictionary *configuration for getting them. 
