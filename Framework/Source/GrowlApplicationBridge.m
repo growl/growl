@@ -89,6 +89,9 @@ static NSData	*appIconData = nil;
 
 #if !GROWLHELPERAPP
 static GrowlMiniDispatch *miniDispatch = nil;
+#endif
+
+#if !GROWLHELPERAPP && defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
 static GrowlAppleNotificationDelegate *appleNotificationDelegate = nil;
 #endif
 
@@ -124,6 +127,8 @@ static struct {
 } _delegateRespondsTo;
 
 #pragma mark -
+
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
 
 // Obnoxiously, the Mountain Lion notification center requires an
 // instanced class as a delegate or will not work.  So, here we are
@@ -188,6 +193,8 @@ static struct {
 }
 
 @end
+
+#endif // MAC_OS_X_VERSION_10_8
 
 #pragma mark -
 
@@ -538,6 +545,7 @@ static struct {
 
 + (void) _fireAppleNotificationCenter:(NSDictionary *)growlDict
 {
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
    BOOL defaultOnly = YES;
    if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY])
       defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY] boolValue];
@@ -568,6 +576,7 @@ static struct {
    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
    [appleNotification release];
+#endif
 }
 
 #pragma mark -
