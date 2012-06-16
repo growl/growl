@@ -23,6 +23,12 @@
 #import "GrowlHistoryViewController.h"
 #import "GrowlRollupPrefsViewController.h"
 
+@interface GrowlPreferencePane ()
+
+@property (nonatomic, assign) ProcessSerialNumber previousPSN;
+
+@end
+
 @implementation GrowlPreferencePane
 @synthesize networkAddressString;
 @synthesize currentViewController;
@@ -36,6 +42,8 @@
 @synthesize rollupItem;
 @synthesize historyItem;
 @synthesize aboutItem;
+
+@synthesize previousPSN;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -75,16 +83,8 @@
 - (void)showWindow:(id)sender
 {   
    [toolbar setVisible:YES];
-    //if we're visible but not on the active space then go ahead and close the window
-    if ([self.window isVisible] && ![self.window isOnActiveSpace])
-        [self.window orderOut:self];
-        
-    //we change the collection behavior so that the window is brought over to the active space
-    //instead of restoring its position on its previous home. If we don't perform a collection
-    //behavior reset the window will cause us to space jump.
-    [self.window setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
-    [super showWindow:sender];
-    [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+	
+	[super showWindow:sender];
    
    if(!firstOpen){
       if([currentViewController respondsToSelector:@selector(viewWillLoad)])
@@ -96,6 +96,20 @@
 	
 	ProcessSerialNumber psn = { 0, kCurrentProcess };
 	TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+	NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
+	[nc addObserverForName:NSWorkspaceDidActivateApplicationNotification
+						 object:nil
+						  queue:[NSOperationQueue mainQueue]
+					usingBlock:^(NSNotification *note) {
+						ProcessSerialNumber newFrontPSN;
+						GetFrontProcess(&newFrontPSN);
+						ProcessSerialNumber growlPsn = { 0, kCurrentProcess };
+						Boolean result;
+						SameProcess(&newFrontPSN, &growlPsn, &result);
+						if(!result){
+							GetFrontProcess(&previousPSN);
+						}
+					}];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -111,6 +125,7 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			ProcessSerialNumber psn = { 0, kCurrentProcess };
 			TransformProcessType(&psn, kProcessTransformToUIElementApplication);
+			SetFrontProcess(&previousPSN);
 		});
 	}
 }
