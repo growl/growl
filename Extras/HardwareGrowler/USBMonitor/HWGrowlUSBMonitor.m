@@ -116,7 +116,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 							 title:title
 					 description:deviceName
 							  icon:nil
-			  identifierString:[NSString stringWithFormat:@"%lu", deviceID]
+			  identifierString:[NSString stringWithFormat:@"%llu", deviceID]
 				  contextString:nil
 							plugin:self];
 }

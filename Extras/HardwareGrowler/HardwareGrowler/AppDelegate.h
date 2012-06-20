@@ -10,7 +10,7 @@
 
 @class GrowlOnSwitch, HWGrowlPluginController;
 
-typedef enum { 
+typedef enum : NSInteger {
 	kShowIconInMenu = 0,
 	kShowIconInDock = 1,
 	kShowIconInBoth = 2,

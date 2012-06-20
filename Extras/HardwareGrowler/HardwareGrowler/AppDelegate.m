@@ -290,10 +290,6 @@
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
-   NSURL *urlOfLoginItem = [[NSURL URLWithString:path] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlLauncher.app"];
-   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
-      //NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
-   }
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.HardwareGrowlLauncher"), enabled)){
       //NSLog(@"Failure Setting HardwareGrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
