@@ -4075,7 +4075,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then \necho \"Resigning\"\nruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nfi";
+			shellScript = "genstrings -o ./Plugins/PluginFramework/en.lproj ./Plugins/Displays/GrowlPluginPreferenceStrings.h ";
 			showEnvVarsInLog = 0;
 		};
 		BCCAB95F151684C000E83EBB /* Resign/Validate */ = {
