@@ -1,0 +1,309 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC452BE31592623100A299D5 /* GNTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC452BE21592623100A299D5 /* GNTPServer.m */; };
+		BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7F3FA01592189F009F308F /* Cocoa.framework */; };
+		BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FA9159218A0009F308F /* InfoPlist.strings */; };
+		BC7F3FAD159218A0009F308F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FAC159218A0009F308F /* main.m */; };
+		BC7F3FB1159218A0009F308F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FAF159218A0009F308F /* Credits.rtf */; };
+		BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FB3159218A0009F308F /* AppDelegate.m */; };
+		BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FB5159218A0009F308F /* MainMenu.xib */; };
+		BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1250915935A460052C495 /* GCDAsyncSocket.m */; };
+		BCB1250D15935AA10052C495 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1250B15935A7B0052C495 /* Security.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BC452BE11592623100A299D5 /* GNTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPServer.h; sourceTree = "<group>"; };
+		BC452BE21592623100A299D5 /* GNTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPServer.m; sourceTree = "<group>"; };
+		BC7F3F9C1592189F009F308F /* GNTPTestServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GNTPTestServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC7F3FA01592189F009F308F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BC7F3FA3159218A0009F308F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BC7F3FA5159218A0009F308F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BC7F3FA8159218A0009F308F /* GNTPTestServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GNTPTestServer-Info.plist"; sourceTree = "<group>"; };
+		BC7F3FAA159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC7F3FAC159218A0009F308F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC7F3FAE159218A0009F308F /* GNTPTestServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GNTPTestServer-Prefix.pch"; sourceTree = "<group>"; };
+		BC7F3FB0159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BC7F3FB2159218A0009F308F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BC7F3FB3159218A0009F308F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BC7F3FB6159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BCB1250815935A460052C495 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
+		BCB1250915935A460052C495 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
+		BCB1250B15935A7B0052C495 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC7F3F991592189F009F308F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */,
+				BCB1250D15935AA10052C495 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC7F3F911592189F009F308F = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA6159218A0009F308F /* GNTPTestServer */,
+				BC7F3F9F1592189F009F308F /* Frameworks */,
+				BC7F3F9D1592189F009F308F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC7F3F9D1592189F009F308F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3F9C1592189F009F308F /* GNTPTestServer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC7F3F9F1592189F009F308F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA01592189F009F308F /* Cocoa.framework */,
+				BC7F3FA2159218A0009F308F /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC7F3FA2159218A0009F308F /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA3159218A0009F308F /* AppKit.framework */,
+				BC7F3FA5159218A0009F308F /* Foundation.framework */,
+				BCB1250B15935A7B0052C495 /* Security.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BC7F3FA6159218A0009F308F /* GNTPTestServer */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FB2159218A0009F308F /* AppDelegate.h */,
+				BC7F3FB3159218A0009F308F /* AppDelegate.m */,
+				BC452BE11592623100A299D5 /* GNTPServer.h */,
+				BC452BE21592623100A299D5 /* GNTPServer.m */,
+				BCB1250815935A460052C495 /* GCDAsyncSocket.h */,
+				BCB1250915935A460052C495 /* GCDAsyncSocket.m */,
+				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
+				BC7F3FA7159218A0009F308F /* Supporting Files */,
+			);
+			path = GNTPTestServer;
+			sourceTree = "<group>";
+		};
+		BC7F3FA7159218A0009F308F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA8159218A0009F308F /* GNTPTestServer-Info.plist */,
+				BC7F3FA9159218A0009F308F /* InfoPlist.strings */,
+				BC7F3FAC159218A0009F308F /* main.m */,
+				BC7F3FAE159218A0009F308F /* GNTPTestServer-Prefix.pch */,
+				BC7F3FAF159218A0009F308F /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC7F3F9B1592189F009F308F /* GNTPTestServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC7F3FBA159218A0009F308F /* Build configuration list for PBXNativeTarget "GNTPTestServer" */;
+			buildPhases = (
+				BC7F3F981592189F009F308F /* Sources */,
+				BC7F3F991592189F009F308F /* Frameworks */,
+				BC7F3F9A1592189F009F308F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GNTPTestServer;
+			productName = GNTPTestServer;
+			productReference = BC7F3F9C1592189F009F308F /* GNTPTestServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC7F3F931592189F009F308F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "The Growl Project, LLC";
+			};
+			buildConfigurationList = BC7F3F961592189F009F308F /* Build configuration list for PBXProject "GNTPTestServer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC7F3F911592189F009F308F;
+			productRefGroup = BC7F3F9D1592189F009F308F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC7F3F9B1592189F009F308F /* GNTPTestServer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC7F3F9A1592189F009F308F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */,
+				BC7F3FB1159218A0009F308F /* Credits.rtf in Resources */,
+				BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC7F3F981592189F009F308F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC7F3FAD159218A0009F308F /* main.m in Sources */,
+				BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */,
+				BC452BE31592623100A299D5 /* GNTPServer.m in Sources */,
+				BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BC7F3FA9159218A0009F308F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FAA159218A0009F308F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC7F3FAF159218A0009F308F /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FB0159218A0009F308F /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BC7F3FB5159218A0009F308F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FB6159218A0009F308F /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BC7F3FB8159218A0009F308F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BC7F3FB9159218A0009F308F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BC7F3FBB159218A0009F308F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GNTPTestServer/GNTPTestServer-Prefix.pch";
+				INFOPLIST_FILE = "GNTPTestServer/GNTPTestServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC7F3FBC159218A0009F308F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GNTPTestServer/GNTPTestServer-Prefix.pch";
+				INFOPLIST_FILE = "GNTPTestServer/GNTPTestServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC7F3F961592189F009F308F /* Build configuration list for PBXProject "GNTPTestServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC7F3FB8159218A0009F308F /* Debug */,
+				BC7F3FB9159218A0009F308F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC7F3FBA159218A0009F308F /* Build configuration list for PBXNativeTarget "GNTPTestServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC7F3FBB159218A0009F308F /* Debug */,
+				BC7F3FBC159218A0009F308F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC7F3F931592189F009F308F /* Project object */;
+}
