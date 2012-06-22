@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSTimeInterval lastKnownTime;
 
 @property (nonatomic, retain) NSTimer *refireTimer;
+@property (nonatomic, assign) BOOL lastWarnState;
 
 @end
 
@@ -31,6 +32,7 @@
 @synthesize lastPowerSource;
 @synthesize lastKnownTime;
 @synthesize refireTimer;
+@synthesize lastWarnState;
 
 -(id)init {
 	if((self = [super init])){
@@ -40,6 +42,7 @@
 			CFRunLoopAddSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
 		lastPowerSource = HGUnknownPower;
 		lastKnownTime = kIOPSTimeRemainingUnknown;
+		lastWarnState = NO;
 	}
 	return self;
 }
@@ -217,6 +220,13 @@
 	IOPSLowBatteryWarningLevel warnLevel = IOPSGetBatteryWarningLevel();
 	if(warnLevel != kIOPSLowBatteryWarningNone)
 		warnBattery = YES;
+	
+	if(lastWarnState && warnBattery)
+		warnBattery = NO;
+	else if(!lastWarnState && warnBattery)
+		lastWarnState = YES;
+	else if(lastWarnState && !warnBattery)
+		lastWarnState = NO;
 	
 	if(changedType || sendTime || warnBattery || force){
 		NSString *title = nil;
