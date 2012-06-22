@@ -88,12 +88,6 @@
 	[generalItem setLabel:NSLocalizedString(@"General", @"")];
 	[modulesItem setLabel:NSLocalizedString(@"Modules", @"")];
 	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-																				[NSNumber numberWithInteger:1], @"OnLogin",
-																				[NSNumber numberWithBool:YES], @"ShowExisting",
-																				[NSNumber numberWithBool:NO], @"GroupNetwork",
-																				[NSNumber numberWithInteger:0], @"Visibility", nil]];
-	
 	NSNumber *visibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"Visibility"];
 	if(visibility == nil || [visibility integerValue] == kShowIconInDock || [visibility integerValue] == kShowIconInBoth){
 		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
@@ -219,6 +213,12 @@
 	[self expiryCheck];
 	[self initTitles];
 	
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+																				[NSNumber numberWithBool:NO], @"OnLogin",
+																				[NSNumber numberWithBool:YES], @"ShowExisting",
+																				[NSNumber numberWithBool:NO], @"GroupNetwork",
+																				[NSNumber numberWithInteger:0], @"Visibility", nil]];
+	
 	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 
 																				 forKeyPath:@"values.Visibility" 
 																					 options:NSKeyValueObservingOptionNew 
@@ -241,32 +241,45 @@
 								change:(NSDictionary*)change 
 							  context:(void*)context
 {
+	NSUserDefaultsController *defaultController = [NSUserDefaultsController sharedUserDefaultsController];
 	if([keyPath isEqualToString:@"values.Visibility"])
 	{
-		
-		NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
+		NSNumber *value = [[defaultController defaults] valueForKey:@"Visibility"];
 		HWGrowlIconState index   = [value integerValue];
 		switch (index) {
 			case kDontShowIcon:
-				[NSApp activateIgnoringOtherApps:YES];
-				NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause HardwareGrowler to run in the background", nil)
-															defaultButton:NSLocalizedString(@"Ok", nil)
-														 alternateButton:NSLocalizedString(@"Cancel", nil)
-															  otherButton:nil
-											informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.", nil)];
-				NSInteger allow = [alert runModal];
-				if(allow == NSAlertDefaultReturn)
+				if(![[defaultController defaults] boolForKey:@"SuppressNoIconWarn"])
 				{
+					[NSApp activateIgnoringOtherApps:YES];
+					NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause HardwareGrowler to run in the background", nil)
+																defaultButton:NSLocalizedString(@"Ok", nil)
+															 alternateButton:NSLocalizedString(@"Cancel", nil)
+																  otherButton:nil
+												informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.", nil)];
+					alert.showsSuppressionButton = YES;
+					[[alert suppressionButton] bind:NSValueBinding
+												  toObject:defaultController
+											  withKeyPath:@"values.SuppressNoIconWarn"
+													options:nil];
+					NSInteger allow = [alert runModal];
+					if(allow == NSAlertDefaultReturn)
+					{
+						[self warnUserAboutIcons];
+						[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+						[statusItem release];
+						statusItem = nil;
+					}
+					else
+					{
+						[[defaultController defaults] setInteger:oldIconValue forKey:@"Visibility"];
+						[[defaultController defaults] synchronize];
+						[iconPopUp selectItemAtIndex:oldIconValue];
+					}
+				}else{
 					[self warnUserAboutIcons];
 					[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 					[statusItem release];
 					statusItem = nil;
-				}
-				else
-				{
-					[[[NSUserDefaultsController sharedUserDefaultsController] defaults] setInteger:oldIconValue forKey:@"Visibility"];
-					[[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
-					[iconPopUp selectItemAtIndex:oldIconValue];
 				}
 				break;
 			case kShowIconInBoth:
@@ -292,37 +305,47 @@
 	}
 	else if ([keyPath isEqualToString:@"values.OnLogin"])
 	{
-		BOOL state = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"OnLogin"];
-		if(!state && (oldOnLoginValue != state))
+		BOOL state = [[defaultController defaults] boolForKey:@"OnLogin"];
+		if(state && (oldOnLoginValue != state))
 		{
-			[NSApp activateIgnoringOtherApps:YES];
-			NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add HardwareGrowler to your login items", nil)
-														defaultButton:NSLocalizedString(@"Ok", nil)
-													 alternateButton:NSLocalizedString(@"Cancel", nil)
-														  otherButton:nil
-										informativeTextWithFormat:NSLocalizedString(@"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times", nil)];
-			NSInteger allow = [alert runModal];
-			if(allow == NSAlertDefaultReturn)
+			if(![[defaultController defaults] boolForKey:@"SuppressStartAtLogin"])
 			{
-				[self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:YES];
-			}
-			else
-			{
-				[self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
-				[[[NSUserDefaultsController sharedUserDefaultsController] defaults] setBool:oldOnLoginValue forKey:@"OnLogin"];
-				[[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
-				[onLoginSwitch setState:oldOnLoginValue];
+				[NSApp activateIgnoringOtherApps:YES];
+				NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add HardwareGrowler to your login items", nil)
+															defaultButton:NSLocalizedString(@"Ok", nil)
+														 alternateButton:NSLocalizedString(@"Cancel", nil)
+															  otherButton:nil
+											informativeTextWithFormat:NSLocalizedString(@"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times", nil)];
+				alert.showsSuppressionButton = YES;
+				[[alert suppressionButton] bind:NSValueBinding
+											  toObject:defaultController
+										  withKeyPath:@"values.SupressStartAtLogin"
+												options:nil];
+				NSInteger allow = [alert runModal];
+				if(allow == NSAlertDefaultReturn)
+				{
+					[self setStartAtLogin:YES];
+				}
+				else
+				{
+					[self setStartAtLogin:NO];
+					[[defaultController defaults] setBool:oldOnLoginValue forKey:@"OnLogin"];
+					[[defaultController defaults] synchronize];
+					[onLoginSwitch setState:oldOnLoginValue];
+				}
+			}else{
+				[self setStartAtLogin:YES];
 			}
 		}
-		else
-			[self setStartAtLogin:[[NSBundle mainBundle] bundlePath] enabled:NO];
-		
+		else{
+			[self setStartAtLogin:NO];
+		}
 		oldOnLoginValue = state;
 	}
 	else if(object == onLoginSwitch && [keyPath isEqualToString:@"state"])
 	{
-		[[[NSUserDefaultsController sharedUserDefaultsController] defaults] setBool:![(GrowlOnSwitch*)object state] forKey:@"OnLogin"];
-		[[[NSUserDefaultsController sharedUserDefaultsController] defaults] synchronize];
+		[[defaultController values] setValue:[NSNumber numberWithBool:[onLoginSwitch state]] forKey:@"OnLogin"];
+		[defaultController save:nil];
 	}
 }
 
@@ -335,9 +358,9 @@
 	}
 }
 
-- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
-   if(!SMLoginItemSetEnabled(CFSTR("com.growl.HardwareGrowlLauncher"), enabled)){
-      //NSLog(@"Failure Setting HardwareGrowlLauncher to %@start at login", flag ? @"" : @"not ");
+- (void) setStartAtLogin:(BOOL)enabled {
+   if(!SMLoginItemSetEnabled(CFSTR("com.growl.HardwareGrowlerLauncher"), enabled)){
+      //NSLog(@"Failure Setting HardwareGrowlLauncher to %@start at login", enabled ? @"" : @"not ");
    }
 }
 

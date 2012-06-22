@@ -22,11 +22,11 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(HWG_VERSION)</string>
+	<key>LSBackgroundOnly</key>
+	<true/>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSMultipleInstancesProhibited</key>
-	<true/>
-	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 The Growl Project, LLC. All rights reserved.</string>
