@@ -17,7 +17,7 @@ typedef enum : NSInteger {
 	kDontShowIcon = 3
 } HWGrowlIconState;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSToolbarDelegate, NSTableViewDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSToolbarDelegate, NSTableViewDelegate, NSWindowDelegate> {
 	NSWindow *_window;
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;

@@ -21,6 +21,12 @@
 #define NoPluginPrefsTitle   NSLocalizedString(@"There are no preferences available for this monitor.", @"")
 #define ModuleLabel          NSLocalizedString(@"Modules", @"")
 
+@interface AppDelegate ()
+
+@property (nonatomic, assign) ProcessSerialNumber previousPSN;
+
+@end
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -51,6 +57,8 @@
 @synthesize noPrefsLabel;
 @synthesize placeholderView;
 @synthesize currentView;
+
+@synthesize previousPSN;
 
 - (void)dealloc
 {
@@ -124,6 +132,9 @@
    [moduleColumn setDataCell:imageTextCell];
 }
 
+#ifndef NSFoundationVersionNumber10_7
+#define NSFoundationVersionNumber10_7   833.1
+#endif
 - (IBAction)showPreferences:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
@@ -133,6 +144,39 @@
       [self.window setFrameUsingName:@"HWGrowlerPrefsWindowFrame" force:YES];
    }
 	[self.window makeKeyAndOrderFront:sender];
+	
+	if((BOOL)isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7)) {
+		ProcessSerialNumber psn = { 0, kCurrentProcess };
+		TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+		NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
+		[nc addObserverForName:NSWorkspaceDidActivateApplicationNotification
+							 object:nil
+							  queue:[NSOperationQueue mainQueue]
+						usingBlock:^(NSNotification *note) {
+							ProcessSerialNumber newFrontPSN;
+							GetFrontProcess(&newFrontPSN);
+							ProcessSerialNumber growlPsn = { 0, kCurrentProcess };
+							Boolean result;
+							SameProcess(&newFrontPSN, &growlPsn, &result);
+							if(!result){
+								GetFrontProcess(&previousPSN);
+							}
+						}];
+	}
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+	if((BOOL)isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7)) {
+		NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
+		HWGrowlIconState visibility = [value integerValue];
+		if(visibility == kDontShowIcon || visibility == kShowIconInMenu){
+			dispatch_async(dispatch_get_main_queue(), ^{
+				ProcessSerialNumber psn = { 0, kCurrentProcess };
+				TransformProcessType(&psn, kProcessTransformToUIElementApplication);
+				SetFrontProcess(&previousPSN);
+			});
+		}
+	}
 }
 
 - (void) initMenu{
@@ -284,9 +328,11 @@
 
 - (void)warnUserAboutIcons
 {
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
-	[alert runModal];    
+	if((BOOL)isless(NSFoundationVersionNumber, NSFoundationVersionNumber10_7)) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setMessageText:NSLocalizedString(@"This setting will take effect when Hardware Growler restarts",nil)];
+		[alert runModal];
+	}
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)enabled {
