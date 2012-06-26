@@ -284,6 +284,9 @@
 -(void)stopObserving {
 	[self stopMonitoringTheLogs];
 }
+-(BOOL)enabledByDefault {
+	return NO;
+}
 
 #pragma mark HWGrowlPluginNotifierProtocol
 
