@@ -60,6 +60,17 @@
 
 @synthesize previousPSN;
 
++(void)initialize
+{
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+																				[NSNumber numberWithBool:NO], @"OnLogin",
+																				[NSNumber numberWithBool:YES], @"ShowExisting",
+																				[NSNumber numberWithBool:NO], @"GroupNetwork",
+																				[NSNumber numberWithInteger:0], @"Visibility", nil]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[super initialize];
+}
+
 - (void)dealloc
 {
 	[showDevices release];
@@ -212,13 +223,7 @@
 	[self selectTabIndex:0];
 	[self expiryCheck];
 	[self initTitles];
-	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-																				[NSNumber numberWithBool:NO], @"OnLogin",
-																				[NSNumber numberWithBool:YES], @"ShowExisting",
-																				[NSNumber numberWithBool:NO], @"GroupNetwork",
-																				[NSNumber numberWithInteger:0], @"Visibility", nil]];
-	
+		
 	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self 
 																				 forKeyPath:@"values.Visibility" 
 																					 options:NSKeyValueObservingOptionNew 
