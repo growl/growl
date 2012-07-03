@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */; };
+		BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */; };
+		BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */; };
+		BC3B7A6715A325850001CD97 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */; };
+		BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */; };
+		BC3B7A6C15A325C40001CD97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */; };
 		BC452BE31592623100A299D5 /* GNTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC452BE21592623100A299D5 /* GNTPServer.m */; };
 		BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7F3FA01592189F009F308F /* Cocoa.framework */; };
 		BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FA9159218A0009F308F /* InfoPlist.strings */; };
@@ -19,6 +25,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = ../../../Core/Source/GNTPKey.h; sourceTree = "<group>"; };
+		BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = ../../../Core/Source/GNTPKey.m; sourceTree = "<group>"; };
+		BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
+		BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = ../../../Common/Source/NSStringAdditions.m; sourceTree = "<group>"; };
+		BC3B7A6115A1E86F0001CD97 /* GNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPPacket.h; sourceTree = "<group>"; };
+		BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPPacket.m; sourceTree = "<group>"; };
+		BC3B7A6515A325380001CD97 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = ../../../Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
+		BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPDefines.m; path = ../../../Core/Source/GrowlGNTPDefines.m; sourceTree = "<group>"; };
+		BC3B7A6815A325AF0001CD97 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
+		BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
+		BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BC452BE11592623100A299D5 /* GNTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPServer.h; sourceTree = "<group>"; };
 		BC452BE21592623100A299D5 /* GNTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPServer.m; sourceTree = "<group>"; };
 		BC7F3F9C1592189F009F308F /* GNTPTestServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GNTPTestServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC3B7A6C15A325C40001CD97 /* SystemConfiguration.framework in Frameworks */,
 				BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */,
 				BCB1250D15935AA10052C495 /* Security.framework in Frameworks */,
 			);
@@ -51,6 +69,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */ = {
+			isa = PBXGroup;
+			children = (
+				BC3B7A6515A325380001CD97 /* GrowlGNTPDefines.h */,
+				BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */,
+				BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */,
+				BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */,
+				BC3B7A6815A325AF0001CD97 /* GrowlNetworkUtilities.h */,
+				BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */,
+				BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */,
+				BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */,
+				BCB1250815935A460052C495 /* GCDAsyncSocket.h */,
+				BCB1250915935A460052C495 /* GCDAsyncSocket.m */,
+			);
+			name = CurrentGrowlCode;
+			sourceTree = "<group>";
+		};
 		BC7F3F911592189F009F308F = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +115,7 @@
 		BC7F3FA2159218A0009F308F /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */,
 				BC7F3FA3159218A0009F308F /* AppKit.framework */,
 				BC7F3FA5159218A0009F308F /* Foundation.framework */,
 				BCB1250B15935A7B0052C495 /* Security.framework */,
@@ -94,8 +130,9 @@
 				BC7F3FB3159218A0009F308F /* AppDelegate.m */,
 				BC452BE11592623100A299D5 /* GNTPServer.h */,
 				BC452BE21592623100A299D5 /* GNTPServer.m */,
-				BCB1250815935A460052C495 /* GCDAsyncSocket.h */,
-				BCB1250915935A460052C495 /* GCDAsyncSocket.m */,
+				BC3B7A6115A1E86F0001CD97 /* GNTPPacket.h */,
+				BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */,
+				BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */,
 				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
 				BC7F3FA7159218A0009F308F /* Supporting Files */,
 			);
@@ -182,6 +219,11 @@
 				BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */,
 				BC452BE31592623100A299D5 /* GNTPServer.m in Sources */,
 				BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */,
+				BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */,
+				BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */,
+				BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */,
+				BC3B7A6715A325850001CD97 /* GrowlGNTPDefines.m in Sources */,
+				BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

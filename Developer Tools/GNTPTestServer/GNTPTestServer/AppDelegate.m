@@ -7,10 +7,18 @@
 //
 
 #import "AppDelegate.h"
+#import "GNTPServer.h"
+
+@interface AppDelegate ()
+
+@property (nonatomic, retain) GNTPServer *server;
+
+@end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize server = _server;
 
 - (void)dealloc
 {
@@ -20,6 +28,8 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
+	self.server = [[[GNTPServer alloc] init] autorelease];
+	[self.server startServer];
 }
 
 @end

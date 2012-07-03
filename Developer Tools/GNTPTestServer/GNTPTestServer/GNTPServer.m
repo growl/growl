@@ -7,6 +7,10 @@
 //
 
 #import "GNTPServer.h"
+#import "GNTPKey.h"
+#import "NSStringAdditions.h"
+#import "GNTPPacket.h"
+#import "GrowlGNTPDefines.h"
 
 @interface GNTPServer ()
 
@@ -48,6 +52,38 @@
 	[self.socketsByGUID removeAllObjects];
 }
 
++ (NSData*)doubleCLRF {
+	static NSData *_doubleCLRF = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_doubleCLRF = [[NSData alloc] initWithBytes:"\x0D\x0A\x0D\x0A" length:4];
+	});
+	return _doubleCLRF;
+}
+
+- (void)dumpSocket:(GCDAsyncSocket*)sock
+{
+	NSString *guid = [[sock userData] retain];
+	[self.socketsByGUID removeObjectForKey:guid];
+	[self.packetsByGUID removeObjectForKey:guid];
+}
+
+- (void)dumpSocket:(GCDAsyncSocket*)sock
+	  withErrorCode:(GrowlGNTPErrorCode)code
+  errorDescription:(NSString*)description
+{
+	//Write the error out in GNTP format to the socket, and have the socket disconnect after writing
+//	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
+//   [outgoingPacket setAction:GrowlGNTPErrorResponseType];
+//   [outgoingPacket addHeaderItems:[packet headersForResult]];
+//   [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
+//                                                                   value:errDescrip]];
+//   if(code != 0)
+//      [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Code" 
+//                                                                      value:[NSString stringWithFormat:@"%d", code]]];
+//   [outgoingPacket writeToSocket:[packet socket]];
+}
+
 #pragma mark GCDAsyncSocketDelegate
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket {
@@ -62,6 +98,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
 	NSData *readToData = nil;
+	NSData *responseData = nil;
 	NSUInteger readToLength = 0;
 	long readToTag = -1;
 	if(tag == 0){
@@ -71,14 +108,140 @@
 			//Read the security header for testing it
 			readToData = [GCDAsyncSocket CRLFData];
 			readToTag = 1;
+		}else if([initialString caseInsensitiveCompare:@"<Pol"] == NSOrderedSame){
+			static NSData *_flashResponse = nil;
+			static dispatch_once_t onceToken;
+			dispatch_once(&onceToken, ^{
+				NSMutableData *mutableResponse = [[[@"<?xml version=\"1.0\"?>"
+																"<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">"
+																"<cross-domain-policy> "
+																"<site-control permitted-cross-domain-policies=\"master-only\"/>"
+																"<allow-access-from domain=\"*\" to-ports=\"*\" />"
+																"</cross-domain-policy>" dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
+				[mutableResponse appendData:[GCDAsyncSocket ZeroData]];
+				_flashResponse = [mutableResponse copy];
+			});
+			responseData = _flashResponse;
+			readToTag = -2;
+
+		}/*else if([initialString caseInsensitiveCompare:@"webs"] == NSOrderedSame){
+			//This needs us to read more data before we can finish
+		}*/else{
+			[self dumpSocket:sock
+				withErrorCode:GrowlGNTPUnknownProtocolErrorCode
+			errorDescription:[NSString stringWithFormat:@"Growl does not recognize the protocol beginning with %@", initialString]];
+			return;
 		}
-		//Other first 4 bytes might be Flash policy, '<Pol' or WebSocket's 'webs'
 	}else if(tag == 1){
-		//Use the security parser to test the header and see if this is allowed
+		NSString *identifierLine = [NSString stringWithUTF8String:[data bytes]];
+		NSArray *items = [identifierLine componentsSeparatedByString:@" "];
+		NSString *action = nil;
+		if ([items count] < 3) {
+			/* We need at least version, action, encryption ID, so this identiifer line is invalid */
+			NSLog(@"%@ doesn't have enough information...", identifierLine);
+			
+			[self dumpSocket:sock
+				withErrorCode:GrowlGNTPRequiredHeaderMissingErrorCdoe
+			errorDescription:[NSString stringWithFormat:@"Growl does not have enough information in %@ to parse", identifierLine]];
+			return;
+		}
+		
+		//NSLog(@"items: %@", items);
+		/* GNTP was eaten by our first-four byte read, so we start at the version number, /1.0 */
+		if ([[items objectAtIndex:0] isEqualToString:@"/1.0"]) {
+			/* We only support version 1.0 at this time */
+			action = [items objectAtIndex:1];
+			BOOL authorized = YES;
+			GrowlGNTPErrorCode errorCode = 0;
+			NSString *errorDescription = nil;
+			GNTPKey *key = [GNTPPacket keyForSecurityHeaders:items 
+																errorCode:&errorCode 
+															 description:&errorDescription];
+			if(!key){
+				//Even for a packet with no encryption or password, we should get back a GNTPKey if there was success
+				authorized = NO;
+				[self dumpSocket:sock 
+					withErrorCode:errorCode 
+				errorDescription:errorDescription];
+			}else{
+				if(![GNTPPacket isAuthorizedPacketType:action
+														 withKey:key
+													  forSocket:sock
+													  errorCode:&errorCode 
+													description:&errorDescription]){
+					authorized = NO;
+					[self dumpSocket:sock 
+						withErrorCode:errorCode 
+					errorDescription:errorDescription];
+				}
+			}
+			
+			if(authorized){
+				GNTPPacket *packet = nil;
+				//Build a packet for each specific type
+				//Replace each of these with GNTPNotificationPacket, GNTPRegistrationPacket GNTPSubscriptionPacket
+				if([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame){
+					packet = [[[GNTPPacket alloc] init] autorelease];
+				}else if([action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame){
+					packet = [[[GNTPPacket alloc] init] autorelease];					
+				}else if([action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
+					packet = [[[GNTPPacket alloc] init] autorelease];
+				}else{
+					[self dumpSocket:sock
+						withErrorCode:GrowlGNTPInvalidRequestErrorCode
+					errorDescription:[NSString stringWithFormat:@"Growl server does not understand action type: %@", action]];
+				}
+				
+				//Setup the initial packet here
+				if(packet){
+					[packet setKey:key];
+					[packet setConnectedHost:[sock connectedHost]];
+					[self.packetsByGUID setObject:packet forKey:[sock userData]];
+					
+					//Get our next read to value/tag
+					readToData = [GNTPServer doubleCLRF];
+					readToTag = 2;
+				}
+			}
+		}else{
+			/* Unsupported version of the spec */
+			[self dumpSocket:sock
+			 withErrorCode:GrowlGNTPUnknownProtocolVersionErrorCode
+			errorDescription:[NSString stringWithFormat:@"Growl does not support version string: %@", [items objectAtIndex:0]]];
+			return;
+		}
 	}else if(tag == 2){
 		//Pass the data to the packet and get our next read data/tag/length
-	}else{
+		NSString *guid = [sock userData];
+		GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
+		NSString *identifierLine = [NSString stringWithUTF8String:[data bytes]];
+		NSArray *items = [identifierLine componentsSeparatedByString:@"\r\n"];
+		[items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
+				return;
+			
+			NSInteger location = [(NSString*)obj rangeOfString:@": "].location;
+			if(location != NSNotFound){
+				NSString *key = [obj substringToIndex:location];
+				NSString *value = [obj substringFromIndex:location + 2];
+				[[packet gntpDictionary] setObject:value forKey:key];
+			}else{
+				NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
+			}
+		}];
+		NSLog(@"dictionary so far: %@", [packet gntpDictionary]);
 		
+		if([packet validate]){
+			//Get the response we need to send and whether the socket needs to stay open
+		}else{
+			//get where we are headed next reading wise
+		}
+		//check our type of packet and get next read sequence if any
+	}else if(tag == 3){
+		//Data block reading
+		NSString *guid = [sock userData];
+		GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
+		[packet parseDataBlock:data];
 	}
 	
 	//If we know what we are reading to next, read
@@ -92,11 +255,19 @@
 								 tag:readToTag];
 	}else {
 		//The only question in here is if we have something to write out? eh...
+		if(responseData && readToTag < -1){
+			[sock writeData:responseData withTimeout:5 tag:readToTag];
+		}else{
+			//If we dont have anything to write, dump socket
+			[self dumpSocket:sock];
+		}
 	}
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
 	//Not sure if we need this
+	if(tag == -2)
+		[self dumpSocket:sock];
 }
 
 /* Both of these two methods ensure we aren't waiting too long on the next piece
@@ -132,6 +303,7 @@
 						withError:(NSError *)err 
 {
 	//Clean up
+	[self dumpSocket:sock];
 }
 
 @end

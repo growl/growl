@@ -11,4 +11,7 @@
 
 @interface GNTPServer : NSObject <GCDAsyncSocketDelegate>
 
+-(void)startServer;
+-(void)stopServer;
+
 @end
