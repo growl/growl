@@ -17,6 +17,9 @@
 @property (nonatomic, retain) NSString* connectedHost;
 @property (nonatomic, retain) NSMutableDictionary *gntpDictionary;
 @property (nonatomic, retain) NSMutableDictionary *growlDictionary;
+@property (nonatomic, retain) NSMutableArray *dataBlockIdentifiers;
+@property (nonatomic, assign) NSInteger state;
+@property (nonatomic, assign) BOOL keepAlive;
 
 +(BOOL)isValidKey:(GNTPKey*)key
 		forPassword:(NSString*)password;
@@ -31,7 +34,12 @@
 							  errorCode:(GrowlGNTPErrorCode*)errCode
 							description:(NSString**)errDescription;
 
++(void)headerKey:(NSString**)headerKey 
+			  value:(NSString**)value 
+	forHeaderLine:(NSString*)headerLine;
+
 -(BOOL)validate;
--(void)parseDataBlock:(NSData*)data;
+-(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;
+-(NSInteger)parseDataBlock:(NSData*)data;
 
 @end

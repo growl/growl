@@ -10,6 +10,7 @@
 #import "GNTPKey.h"
 #import "NSStringAdditions.h"
 #import "GNTPPacket.h"
+#import "GNTPRegisterPacket.h"
 #import "GrowlGNTPDefines.h"
 
 @interface GNTPServer ()
@@ -82,6 +83,7 @@
 //      [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Code" 
 //                                                                      value:[NSString stringWithFormat:@"%d", code]]];
 //   [outgoingPacket writeToSocket:[packet socket]];
+	[sock disconnect];
 }
 
 #pragma mark GCDAsyncSocketDelegate
@@ -124,8 +126,9 @@
 			responseData = _flashResponse;
 			readToTag = -2;
 
-		}/*else if([initialString caseInsensitiveCompare:@"webs"] == NSOrderedSame){
-			//This needs us to read more data before we can finish
+		}/*else if([initialString caseInsensitiveCompare:@"GET "] == NSOrderedSame){
+			//This needs us to read more data before we can finish the websocket
+		   readToTag = 101;
 		}*/else{
 			[self dumpSocket:sock
 				withErrorCode:GrowlGNTPUnknownProtocolErrorCode
@@ -133,7 +136,8 @@
 			return;
 		}
 	}else if(tag == 1){
-		NSString *identifierLine = [NSString stringWithUTF8String:[data bytes]];
+		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - 2];
+		NSString *identifierLine = [[[NSString alloc] initWithCString:[trimmedData bytes] encoding:NSUTF8StringEncoding] autorelease];
 		NSArray *items = [identifierLine componentsSeparatedByString:@" "];
 		NSString *action = nil;
 		if ([items count] < 3) {
@@ -183,7 +187,7 @@
 				if([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame){
 					packet = [[[GNTPPacket alloc] init] autorelease];
 				}else if([action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame){
-					packet = [[[GNTPPacket alloc] init] autorelease];					
+					packet = [[[GNTPRegisterPacket alloc] init] autorelease];					
 				}else if([action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
 					packet = [[[GNTPPacket alloc] init] autorelease];
 				}else{
@@ -214,34 +218,32 @@
 		//Pass the data to the packet and get our next read data/tag/length
 		NSString *guid = [sock userData];
 		GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
-		NSString *identifierLine = [NSString stringWithUTF8String:[data bytes]];
-		NSArray *items = [identifierLine componentsSeparatedByString:@"\r\n"];
-		[items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
-				return;
-			
-			NSInteger location = [(NSString*)obj rangeOfString:@": "].location;
-			if(location != NSNotFound){
-				NSString *key = [obj substringToIndex:location];
-				NSString *value = [obj substringFromIndex:location + 2];
-				[[packet gntpDictionary] setObject:value forKey:key];
-			}else{
-				NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
-			}
-		}];
-		NSLog(@"dictionary so far: %@", [packet gntpDictionary]);
-		
-		if([packet validate]){
-			//Get the response we need to send and whether the socket needs to stay open
+		NSInteger result = [packet parseDataBlock:data];
+		if(result > 0){
+			//Segments in GNTP are all seperated by a double CLRF
+			//Packet maintains its state, with sub classes providing specifics for the type of packet (ie, notes in a registration packet)
+			readToTag = 2;
+			readToData = [GNTPServer doubleCLRF];
+		}else if(result < 0){
+			//Dump socket/packet with appropriate error
 		}else{
-			//get where we are headed next reading wise
+			/* Done reading the packet
+			 *	validate it
+			 *	respond ok/error to it
+			 * convert it
+			 * pass it off to core growl
+			 * Determine if we need to hold socket open after reply:
+			 * * If we need to send feedback later
+			 * * If we are going to reuse this socket for another packet
+			 */
+			if([packet isKindOfClass:[GNTPRegisterPacket class]]){
+				NSLog(@"registering: %@ with notes: %@", [packet gntpDictionary], [(GNTPRegisterPacket*)packet notificationDicts]);
+			}
 		}
-		//check our type of packet and get next read sequence if any
-	}else if(tag == 3){
-		//Data block reading
-		NSString *guid = [sock userData];
-		GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
-		[packet parseDataBlock:data];
+	}else if(tag == 101){
+		//read in the rest of a websocket, and reply, and then setup a read of the first bit of the socket
+	}else{
+		//We shouldn't have an unknown read tag, dump the socket
 	}
 	
 	//If we know what we are reading to next, read

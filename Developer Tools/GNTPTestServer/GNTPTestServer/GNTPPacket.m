@@ -17,6 +17,9 @@
 @synthesize connectedHost;
 @synthesize gntpDictionary = _gntpDictionary;
 @synthesize growlDictionary = _growlDictionary;
+@synthesize dataBlockIdentifiers = _dataBlockIdentifiers;
+@synthesize state = _state;
+@synthesize keepAlive = _keepAlive;
 
 +(BOOL)isValidKey:(GNTPKey*)key
 		forPassword:(NSString*)password
@@ -202,10 +205,25 @@
 	return key;
 }
 
++(void)headerKey:(NSString**)headerKey 
+			  value:(NSString**)value 
+	forHeaderLine:(NSString*)headerLine 
+{
+	NSInteger location = [headerLine rangeOfString:@": "].location;
+	if(location != NSNotFound){
+		*headerKey = [[[headerLine substringToIndex:location] retain] autorelease];
+		*value = [[[headerLine substringFromIndex:location + 2] retain] autorelease];
+	}else{
+		NSLog(@"Unable to find ': ' that seperates key and value in %@", headerLine);
+	}
+}
+
 -(id)init {
 	if((self = [super init])){
 		_gntpDictionary = [[NSMutableDictionary alloc] init];
 		_growlDictionary = [[NSMutableDictionary alloc] init];
+		_dataBlockIdentifiers = [[NSMutableArray alloc] init];
+		_state = 0;
 	}
 	return self;
 }
@@ -220,8 +238,62 @@
 	return YES;
 }
 
--(void)parseDataBlock:(NSData *)data {
-	
+-(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue {
+	//If there are any special case generic keys, handle them here
+	NSRange resourceRange = [stringValue rangeOfString:@"x-growl-resource://"];
+	if([headerKey caseInsensitiveCompare:@"CONNECTION"] == NSOrderedSame){
+		//We need to setup keep alive here
+		self.keepAlive = YES;
+	}else if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+		//This is a resource ID; add the ID to the array of waiting IDs
+		NSString *dataBlockID = [stringValue substringFromIndex:resourceRange.location + resourceRange.length];
+		[self.dataBlockIdentifiers addObject:dataBlockID];
+	}else{
+		[self.gntpDictionary setObject:stringValue forKey:headerKey];
+	}
+}
+
+-(NSInteger)parseDataBlock:(NSData*)data {
+	NSInteger result = 0;
+	__block GNTPPacket *blockSelf = self;
+	switch (_state) {
+		case 0:
+		{
+			//Our initial header block
+			NSString *headerBlock = [NSString stringWithUTF8String:[data bytes]];
+			NSArray *headers = [headerBlock componentsSeparatedByString:@"\r\n"];
+			[headers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
+					return;
+				
+				NSString *headerKey = nil;
+				NSString *headerValue = nil;
+				[GNTPPacket headerKey:&headerKey value:&headerValue forHeaderLine:obj];
+				if(headerKey && headerValue){
+					[blockSelf parseHeaderKey:headerKey value:headerValue];
+				}else{
+					NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
+				}
+			}];
+			_state = 1;
+			result = [self.dataBlockIdentifiers count];
+			break;
+		}
+		case 1:
+			//Reading in a header for data blocks
+			break;
+		case 2:
+			//Reading in a data block
+			
+/*			result = [self.dataBlockIdentifiers count];
+			if([self.dataBlockIdentifiers count] == 0){
+				self.state = 999;
+			}*/
+			break;
+		default:
+			break;
+	}
+	return result;
 }
 
 @end
