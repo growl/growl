@@ -10,6 +10,15 @@
 #import "GNTPKey.h"
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
+#import "GNTPServer.h"
+
+@interface GNTPPacket ()
+
+@property (nonatomic, retain) NSString *incomingDataIdentifier;
+@property (nonatomic, assign) NSInteger incomingDataLength;
+@property (nonatomic, assign) BOOL incomingDataHeaderRead;
+
+@end
 
 @implementation GNTPPacket
 
@@ -20,6 +29,10 @@
 @synthesize dataBlockIdentifiers = _dataBlockIdentifiers;
 @synthesize state = _state;
 @synthesize keepAlive = _keepAlive;
+
+@synthesize incomingDataIdentifier;
+@synthesize incomingDataLength;
+@synthesize incomingDataHeaderRead;
 
 +(BOOL)isValidKey:(GNTPKey*)key
 		forPassword:(NSString*)password
@@ -76,17 +89,17 @@
    
    //There are a number of cases in which a password isn't required, some are optional
    BOOL passwordRequired = YES;
-//   BOOL isResponseType = ([action caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
-//                          [action caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
-//                          [action caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
+	//   BOOL isResponseType = ([action caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
+	//                          [action caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
+	//                          [action caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
    
    if([conHost isLocalHost] && [key hashAlgorithm] == GNTPNoHash && [key encryptionAlgorithm] == GNTPNone)
       return YES;
    
    //This is mainly for future reference, responses are supposed to have security by spec, but it isn't implemented in GfW or Growl.app
-//   if(!NO/*[[GrowlPreferencesController sharedController] boolForKey:@"RequireSecureGNTPResponses"]*/ && isResponseType){
-//      passwordRequired = NO;
-//   }
+	//   if(!NO/*[[GrowlPreferencesController sharedController] boolForKey:@"RequireSecureGNTPResponses"]*/ && isResponseType){
+	//      passwordRequired = NO;
+	//   }
    
    //New setting to allow no encryption when password is empty
    NSString *remotePassword = @"TESTING"/*[preferences remotePassword]*/;
@@ -108,25 +121,25 @@
       return YES;
    
    //At this point, we know we need a password, for decryption, or just authorization
-//   if(isResponseType){
-//      //check hash against the origin packet, regardless of subscription or not, this should be valid
-//		/*      if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)*/
-//		return YES;
-//   }else{
-      //Try our remote password
-		if([GNTPPacket isValidKey:key
-						  forPassword:remotePassword])
+	//   if(isResponseType){
+	//      //check hash against the origin packet, regardless of subscription or not, this should be valid
+	//		/*      if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)*/
+	//		return YES;
+	//   }else{
+	//Try our remote password
+	if([GNTPPacket isValidKey:key
+					  forPassword:remotePassword])
+		return YES;
+	
+	//If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
+	NSString *subscriptionPassword = @"SUBSCRIPTION"/*[[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost]*/;
+	if(subscriptionPassword &&
+		![subscriptionPassword isEqualToString:@""] &&
+		[GNTPPacket isValidKey:key
+					  forPassword:subscriptionPassword]) {
 			return YES;
-		
-		//If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
-		NSString *subscriptionPassword = @"SUBSCRIPTION"/*[[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost]*/;
-		if(subscriptionPassword &&
-			![subscriptionPassword isEqualToString:@""] &&
-			[GNTPPacket isValidKey:key
-						  forPassword:subscriptionPassword]) {
-				return YES;
-			}
-//   }
+		}
+	//   }
    
    return NO;
 }
@@ -205,17 +218,37 @@
 	return key;
 }
 
-+(void)headerKey:(NSString**)headerKey 
-			  value:(NSString**)value 
-	forHeaderLine:(NSString*)headerLine 
++(NSString*)headerKeyFromHeader:(NSString*)header {
+	NSInteger location = [header rangeOfString:@": "].location;
+	if(location != NSNotFound)
+		return [header substringToIndex:location];
+	return nil;
+}
+
++(NSString*)headerValueFromHeader:(NSString*)header{
+	NSInteger location = [header rangeOfString:@": "].location;
+	if(location != NSNotFound)
+		return [header substringFromIndex:location + 2];
+	return nil;
+}
+
++(void)enumerateHeaders:(NSString*)headersString 
+				  withBlock:(GNTPHeaderBlock)headerBlock 
 {
-	NSInteger location = [headerLine rangeOfString:@": "].location;
-	if(location != NSNotFound){
-		*headerKey = [[[headerLine substringToIndex:location] retain] autorelease];
-		*value = [[[headerLine substringFromIndex:location + 2] retain] autorelease];
-	}else{
-		NSLog(@"Unable to find ': ' that seperates key and value in %@", headerLine);
-	}
+	NSArray *headers = [headersString componentsSeparatedByString:@"\r\n"];
+	[headers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
+			return;
+		
+		NSString *headerKey = [GNTPPacket headerKeyFromHeader:obj];
+		NSString *headerValue = [GNTPPacket headerValueFromHeader:obj];
+		if(headerKey && headerValue){
+			if(headerBlock(headerKey, headerValue))
+				*stop = YES;
+		}else{
+			NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
+		}
+	}];
 }
 
 -(id)init {
@@ -224,6 +257,9 @@
 		_growlDictionary = [[NSMutableDictionary alloc] init];
 		_dataBlockIdentifiers = [[NSMutableArray alloc] init];
 		_state = 0;
+		incomingDataLength = 0;
+		incomingDataHeaderRead = NO;
+		incomingDataIdentifier = nil;
 	}
 	return self;
 }
@@ -231,11 +267,73 @@
 -(void)dealloc {
 	self.gntpDictionary = nil;
 	self.growlDictionary = nil;
+	self.dataBlockIdentifiers = nil;
+	self.incomingDataIdentifier = nil;
 	[super dealloc];
 }
 
 -(BOOL)validate {
 	return YES;
+}
+
+-(void)parseResourceDataHeader:(NSData*)data {
+	NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+	NSLog(@"data block header: %@", headersString);
+	__block NSString *newId = nil;
+	__block NSString *newLength = nil;
+	[GNTPPacket enumerateHeaders:headersString 
+							 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+								 if([headerKey caseInsensitiveCompare:@"Identifier"] == NSOrderedSame){
+									 newId = [headerValue retain];
+									 NSLog(@"%@", headerValue);
+								 }else if([headerKey caseInsensitiveCompare:@"Length"] == NSOrderedSame){
+									 NSLog(@"%@", headerValue);
+									 newLength = [headerValue retain];
+								 }else {
+									 //NSLog(@"No other headers we care about here");
+								 }
+								 if(newId && newLength)
+									 return YES;
+								 return NO;
+							 }];
+	if(!newId || !newLength){
+		NSLog(@"Error! Could not find id and length in header");
+	}else{
+		self.incomingDataHeaderRead = YES;
+		self.incomingDataIdentifier = newId;
+		self.incomingDataLength = [newLength integerValue];
+	}
+	[newId release];
+	[newLength release];
+}
+
+-(void)parseResourceDataBlock:(NSData*)data {
+	NSLog(@"expected %lu, incoming %lu", incomingDataLength, [data length] - [[GNTPServer doubleCLRF] length]);
+	NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
+	
+	//Decrypt trimmed data block
+	
+	if([trimmed length] != incomingDataLength)
+		NSLog(@"Gah! Read data block and stated data length not the same!");
+	else
+		[self receivedResourceDataBlock:trimmed forIdentifier:incomingDataIdentifier];
+	[self.dataBlockIdentifiers removeObject:incomingDataIdentifier];
+}
+
+-(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier {
+	__block NSMutableArray *keysToReplace = [NSMutableArray array];
+	[self.gntpDictionary enumerateKeysAndObjectsUsingBlock:^(id aKey, id obj, BOOL *stop) {
+		NSRange resourceRange = [obj rangeOfString:@"x-growl-resource://"];
+		if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+			NSString *dataBlockID = [obj substringFromIndex:resourceRange.location + resourceRange.length];
+			if([identifier isEqualToString:dataBlockID]){
+				[keysToReplace addObject:aKey];
+			}
+		}
+	}];
+	[keysToReplace enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[self.gntpDictionary setObject:data forKey:obj];
+	}];
 }
 
 -(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue {
@@ -248,6 +346,7 @@
 		//This is a resource ID; add the ID to the array of waiting IDs
 		NSString *dataBlockID = [stringValue substringFromIndex:resourceRange.location + resourceRange.length];
 		[self.dataBlockIdentifiers addObject:dataBlockID];
+		[self.gntpDictionary setObject:stringValue forKey:headerKey];
 	}else{
 		[self.gntpDictionary setObject:stringValue forKey:headerKey];
 	}
@@ -260,37 +359,62 @@
 		case 0:
 		{
 			//Our initial header block
-			NSString *headerBlock = [NSString stringWithUTF8String:[data bytes]];
-			NSArray *headers = [headerBlock componentsSeparatedByString:@"\r\n"];
-			[headers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
-					return;
-				
-				NSString *headerKey = nil;
-				NSString *headerValue = nil;
-				[GNTPPacket headerKey:&headerKey value:&headerValue forHeaderLine:obj];
-				if(headerKey && headerValue){
-					[blockSelf parseHeaderKey:headerKey value:headerValue];
-				}else{
-					NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
-				}
-			}];
-			_state = 1;
+			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+			[GNTPPacket enumerateHeaders:headersString 
+									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+										 [blockSelf parseHeaderKey:headerKey value:headerValue];
+										 return NO;
+									 }];
 			result = [self.dataBlockIdentifiers count];
+			if(result == 0)
+				self.state = 999;
+			else
+				self.state = 1;
 			break;
 		}
 		case 1:
 			//Reading in a header for data blocks
+			if(incomingDataHeaderRead){
+				NSLog(@"Error! Should never be in this state thinking a header has been read");
+				result = -1;
+				break;
+			}
+			NSLog(@"Remaining Data block identifiers: %lu", [self.dataBlockIdentifiers count]);
+			
+			[self parseResourceDataHeader:data];
+			if(incomingDataHeaderRead){
+				self.state = 2;
+				result = 1;
+			}else{
+				result = -1;
+				NSLog(@"Unable to validate data block header");
+				break;
+			}
 			break;
 		case 2:
 			//Reading in a data block
+			if(!incomingDataHeaderRead){
+				NSLog(@"Error! Should never be in this state thinking a header has not been read");
+				result = -1;
+				break;
+			}
+			[self parseResourceDataBlock:data];
 			
-/*			result = [self.dataBlockIdentifiers count];
+			result = [self.dataBlockIdentifiers count];
 			if([self.dataBlockIdentifiers count] == 0){
 				self.state = 999;
-			}*/
+			}else{
+				incomingDataHeaderRead = NO;
+				self.state = 1;
+				self.incomingDataLength = 0;
+				self.incomingDataIdentifier = nil;
+			}
+			break;
+		case 999:
+			result = 0;
 			break;
 		default:
+			NSLog(@"OH NOES! Unknown State in main parser");
 			break;
 	}
 	return result;

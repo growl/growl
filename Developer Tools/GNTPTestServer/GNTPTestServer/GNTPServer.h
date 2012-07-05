@@ -14,4 +14,6 @@
 -(void)startServer;
 -(void)stopServer;
 
++ (NSData*)doubleCLRF;
+
 @end

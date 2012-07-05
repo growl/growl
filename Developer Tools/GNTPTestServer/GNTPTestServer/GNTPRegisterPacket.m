@@ -39,10 +39,19 @@
 	return YES;
 }
 
+-(void)receivedResourceDataBlock:(NSData *)data forIdentifier:(NSString *)identifier {
+	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		//check the icon, its the main thing that will need replacing
+	}];
+	//pass it back up to super in case there are things that need replacing up there
+	[super receivedResourceDataBlock:data forIdentifier:identifier];
+}
+
 -(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue
 {
 	if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCountHeader] == NSOrderedSame){
 		self.totalNotifications = [stringValue integerValue];
+		NSLog(@"Total notifications: %ld", self.totalNotifications);
 		if(self.totalNotifications == 0)
 			NSLog(@"Error parsing %@ as an integer for a number of notifications", stringValue);
 	}else{
@@ -50,58 +59,50 @@
 	}
 }
 
--(NSInteger)parseDataBlock:(NSData *)data 
+-(NSInteger)parseDataBlock:(NSData *)data
 {
 	NSInteger result = 0;
 	switch (self.state) {
-		case 0:
-			result = [super parseDataBlock:data];
-			if(self.totalNotifications == 0)
-				result = -1;
-			else
-				result += self.totalNotifications;
-			self.state = 101;
-			break;
 		case 101:
 		{
 			//Reading in notifications
 			//break it down
 			NSString *noteHeaderBlock = [NSString stringWithUTF8String:[data bytes]];
-			NSArray *noteHeaders = [noteHeaderBlock componentsSeparatedByString:@"\r\n"];
-			NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-			[noteHeaders enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
-					return;
-				
-				NSString *headerKey = nil;
-				NSString *headerValue = nil;
-				[GNTPPacket headerKey:&headerKey value:&headerValue forHeaderLine:obj];
-				if(headerKey && headerValue){
-					[dictionary setObject:headerValue forKey:headerKey];
-				}else{
-					NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
-				}
-			}];
+			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+			[GNTPPacket enumerateHeaders:noteHeaderBlock
+									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+										 NSRange resourceRange = [headerValue rangeOfString:@"x-growl-resource://"];
+										 if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+											 //This is a resource ID; add the ID to the array of waiting IDs
+											 NSString *dataBlockID = [headerValue substringFromIndex:resourceRange.location + resourceRange.length];
+											 [self.dataBlockIdentifiers addObject:dataBlockID];
+										 }
+										 [dictionary setObject:headerValue forKey:headerKey];
+										 return NO;
+									 }];
 			//validate
 			if(![self validateNoteDictionary:dictionary]){
 				NSLog(@"Unable to validate notification %@ in registration packet", dictionary);
 			}else{
 				[self.notificationDicts addObject:dictionary];
 			}
+			[dictionary release];
 			//Even if we can't validate it, we did read it, skip it and move on
 			self.readNotifications++;
-			result = self.totalNotifications - self.readNotifications + [self.dataBlockIdentifiers count];
-			if(self.totalNotifications == self.readNotifications && [self.dataBlockIdentifiers count] > 0){
-				self.state = 2; //Notifications
-			}else if(self.totalNotifications == self.readNotifications && [self.dataBlockIdentifiers count] == 0){
-				self.state = 999;
-			}else if(self.totalNotifications > self.readNotifications) {
-				self.state = 101;
-			}
+			NSLog(@"Remaining notifications: %ld", self.totalNotifications - self.readNotifications);
 			break;
 		}
 		default:
+			[super parseDataBlock:data];
 			break;
+	}
+	if(self.totalNotifications == 0)
+		result = -1;
+	else
+		result = (self.totalNotifications - self.readNotifications) + [self.dataBlockIdentifiers count];
+	
+	if(self.totalNotifications - self.readNotifications > 0) {
+		self.state = 101; //More notifications to read, read them, otherwise state is controlled by the call to super parseDataBlock
 	}
 	return result;
 }

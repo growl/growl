@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GNTPKey.h"
 
+typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
+
 @class GNTPKey, GNTPPacket, GCDAsyncSocket;
 
 @interface GNTPPacket : NSObject
@@ -34,11 +36,13 @@
 							  errorCode:(GrowlGNTPErrorCode*)errCode
 							description:(NSString**)errDescription;
 
-+(void)headerKey:(NSString**)headerKey 
-			  value:(NSString**)value 
-	forHeaderLine:(NSString*)headerLine;
++(NSString*)headerKeyFromHeader:(NSString*)header;
++(NSString*)headerValueFromHeader:(NSString*)header;
++(void)enumerateHeaders:(NSString*)headersString 
+				  withBlock:(GNTPHeaderBlock)headerBlock;
 
 -(BOOL)validate;
+-(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier;
 -(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;
 -(NSInteger)parseDataBlock:(NSData*)data;
 
