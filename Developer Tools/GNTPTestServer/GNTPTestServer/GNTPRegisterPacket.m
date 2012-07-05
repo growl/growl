@@ -36,7 +36,7 @@
 
 -(BOOL)validateNoteDictionary:(NSDictionary*)noteDict {
 	
-	return YES;
+	return [noteDict valueForKey:GrowlGNTPNotificationName] != nil;
 }
 
 -(void)receivedResourceDataBlock:(NSData *)data forIdentifier:(NSString *)identifier {
@@ -51,7 +51,6 @@
 {
 	if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCountHeader] == NSOrderedSame){
 		self.totalNotifications = [stringValue integerValue];
-		NSLog(@"Total notifications: %ld", self.totalNotifications);
 		if(self.totalNotifications == 0)
 			NSLog(@"Error parsing %@ as an integer for a number of notifications", stringValue);
 	}else{
@@ -89,7 +88,14 @@
 			[dictionary release];
 			//Even if we can't validate it, we did read it, skip it and move on
 			self.readNotifications++;
-			NSLog(@"Remaining notifications: %ld", self.totalNotifications - self.readNotifications);
+			
+			if(self.totalNotifications - self.readNotifications == 0) {
+				if([self.dataBlockIdentifiers count] > 0)
+					self.state = 1;
+				else{
+					self.state = 999;
+				}
+			}
 			break;
 		}
 		default:
@@ -104,6 +110,7 @@
 	if(self.totalNotifications - self.readNotifications > 0) {
 		self.state = 101; //More notifications to read, read them, otherwise state is controlled by the call to super parseDataBlock
 	}
+	
 	return result;
 }
 

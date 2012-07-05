@@ -246,7 +246,7 @@
 			if(headerBlock(headerKey, headerValue))
 				*stop = YES;
 		}else{
-			NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
+			//NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
 		}
 	}];
 }
@@ -308,7 +308,6 @@
 }
 
 -(void)parseResourceDataBlock:(NSData*)data {
-	NSLog(@"expected %lu, incoming %lu", incomingDataLength, [data length] - [[GNTPServer doubleCLRF] length]);
 	NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
 	
 	//Decrypt trimmed data block
