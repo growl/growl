@@ -23,6 +23,7 @@
 
 @implementation GNTPServer
 
+@synthesize delegate = _delegate;
 @synthesize localSocket = _localSocket;
 @synthesize socketsByGUID = _socketsByGUID;
 @synthesize packetsByGUID = _packetsByGUID;
@@ -65,25 +66,19 @@
 - (void)dumpSocket:(GCDAsyncSocket*)sock
 {
 	NSString *guid = [[sock userData] retain];
+	[sock disconnect];
 	[self.socketsByGUID removeObjectForKey:guid];
 	[self.packetsByGUID removeObjectForKey:guid];
+	NSLog(@"count: %lu", [self.socketsByGUID count]);
 }
 
 - (void)dumpSocket:(GCDAsyncSocket*)sock
 	  withErrorCode:(GrowlGNTPErrorCode)code
   errorDescription:(NSString*)description
 {
-	//Write the error out in GNTP format to the socket, and have the socket disconnect after writing
-//	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacket];
-//   [outgoingPacket setAction:GrowlGNTPErrorResponseType];
-//   [outgoingPacket addHeaderItems:[packet headersForResult]];
-//   [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Description"
-//                                                                   value:errDescrip]];
-//   if(code != 0)
-//      [outgoingPacket addHeaderItem:[GrowlGNTPHeaderItem headerItemWithName:@"Error-Code" 
-//                                                                      value:[NSString stringWithFormat:@"%d", code]]];
-//   [outgoingPacket writeToSocket:[packet socket]];
-	[sock disconnect];
+	NSString *errorString = [NSString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@", code, description];
+	NSData *errorData = [NSData dataWithBytes:[errorString UTF8String] length:[errorString length]];
+	[sock writeData:errorData withTimeout:5.0 tag:-2];
 }
 
 #pragma mark GCDAsyncSocketDelegate
@@ -198,6 +193,7 @@
 				
 				//Setup the initial packet here
 				if(packet){
+					[packet setAction:action];
 					[packet setKey:key];
 					[packet setConnectedHost:[sock connectedHost]];
 					[self.packetsByGUID setObject:packet forKey:[sock userData]];
@@ -236,8 +232,30 @@
 			 * * If we need to send feedback later
 			 * * If we are going to reuse this socket for another packet
 			 */
-			if([packet isKindOfClass:[GNTPRegisterPacket class]]){
-				NSLog(@"registering: %@ with notes: %@", [packet gntpDictionary], [(GNTPRegisterPacket*)packet notificationDicts]);
+			if([packet validate]){
+				//Send ok
+				responseData = [packet responseData];
+				NSTimeInterval keepAliveFor = [packet requestedTimeAlive];
+				if(keepAliveFor > 0.0)
+					readToTag = -1;
+				else
+					readToTag = -2;
+				
+				if([packet keepAlive])
+					NSLog(@"We should read to the end of GNTP/1.0");
+				
+				NSDictionary *growlDict = [packet convertedGrowlDict];
+				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
+					[self.delegate registerWithDictionary:growlDict];
+				}else if([[packet action] caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame){
+					[self.delegate notifyWithDictionary:growlDict];
+				}
+			}else{
+				//Send error
+				NSLog(@"Could not validate packet!");
+				[self dumpSocket:sock 
+					withErrorCode:GrowlGNTPInvalidRequestErrorCode
+				errorDescription:@"Unable to validate packet"];
 			}
 		}
 	}else if(tag == 101){
@@ -257,7 +275,7 @@
 								 tag:readToTag];
 	}else {
 		//The only question in here is if we have something to write out? eh...
-		if(responseData && readToTag < -1){
+		if(responseData && readToTag <= -1){
 			[sock writeData:responseData withTimeout:5 tag:readToTag];
 		}else{
 			//If we dont have anything to write, dump socket

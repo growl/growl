@@ -16,9 +16,9 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 @interface GNTPPacket : NSObject
 
 @property (nonatomic, retain) GNTPKey *key;
-@property (nonatomic, retain) NSString* connectedHost;
+@property (nonatomic, retain) NSString *connectedHost;
+@property (nonatomic, retain) NSString *action;
 @property (nonatomic, retain) NSMutableDictionary *gntpDictionary;
-@property (nonatomic, retain) NSMutableDictionary *growlDictionary;
 @property (nonatomic, retain) NSMutableArray *dataBlockIdentifiers;
 @property (nonatomic, assign) NSInteger state;
 @property (nonatomic, assign) BOOL keepAlive;
@@ -41,9 +41,13 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 +(void)enumerateHeaders:(NSString*)headersString 
 				  withBlock:(GNTPHeaderBlock)headerBlock;
 
--(BOOL)validate;
--(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier;
--(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;
 -(NSInteger)parseDataBlock:(NSData*)data;
+-(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;
+-(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier;
+
+-(BOOL)validate;
+-(NSData*)responseData;
+-(NSTimeInterval)requestedTimeAlive;
+-(NSDictionary*)convertedGrowlDict;
 
 @end

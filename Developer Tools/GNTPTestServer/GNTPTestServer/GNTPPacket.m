@@ -24,8 +24,8 @@
 
 @synthesize key;
 @synthesize connectedHost;
+@synthesize action = _action;
 @synthesize gntpDictionary = _gntpDictionary;
-@synthesize growlDictionary = _growlDictionary;
 @synthesize dataBlockIdentifiers = _dataBlockIdentifiers;
 @synthesize state = _state;
 @synthesize keepAlive = _keepAlive;
@@ -254,7 +254,6 @@
 -(id)init {
 	if((self = [super init])){
 		_gntpDictionary = [[NSMutableDictionary alloc] init];
-		_growlDictionary = [[NSMutableDictionary alloc] init];
 		_dataBlockIdentifiers = [[NSMutableArray alloc] init];
 		_state = 0;
 		incomingDataLength = 0;
@@ -266,28 +265,106 @@
 
 -(void)dealloc {
 	self.gntpDictionary = nil;
-	self.growlDictionary = nil;
 	self.dataBlockIdentifiers = nil;
 	self.incomingDataIdentifier = nil;
 	[super dealloc];
 }
 
--(BOOL)validate {
-	return YES;
+-(NSInteger)parseDataBlock:(NSData*)data {
+	NSInteger result = 0;
+	__block GNTPPacket *blockSelf = self;
+	switch (_state) {
+		case 0:
+		{
+			//Our initial header block
+			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+			[GNTPPacket enumerateHeaders:headersString 
+									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+										 [blockSelf parseHeaderKey:headerKey value:headerValue];
+										 return NO;
+									 }];
+			result = [self.dataBlockIdentifiers count];
+			if(result == 0)
+				self.state = 999;
+			else
+				self.state = 1;
+			break;
+		}
+		case 1:
+			//Reading in a header for data blocks
+			if(incomingDataHeaderRead){
+				NSLog(@"Error! Should never be in this state thinking a header has been read");
+				result = -1;
+				break;
+			}
+			
+			[self parseResourceDataHeader:data];
+			if(incomingDataHeaderRead){
+				self.state = 2;
+				result = 1;
+			}else{
+				result = -1;
+				NSLog(@"Unable to validate data block header");
+				break;
+			}
+			break;
+		case 2:
+			//Reading in a data block
+			if(!incomingDataHeaderRead){
+				NSLog(@"Error! Should never be in this state thinking a header has not been read");
+				result = -1;
+				break;
+			}
+			[self parseResourceDataBlock:data];
+			
+			result = [self.dataBlockIdentifiers count];
+			if([self.dataBlockIdentifiers count] == 0){
+				self.state = 999;
+			}else{
+				incomingDataHeaderRead = NO;
+				self.state = 1;
+				self.incomingDataLength = 0;
+				self.incomingDataIdentifier = nil;
+			}
+			break;
+		case 999:
+			result = 0;
+			break;
+		default:
+			NSLog(@"OH NOES! Unknown State in main parser");
+			break;
+	}
+	return result;
+}
+
+-(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue {
+	//If there are any special case generic keys, handle them here
+	NSRange resourceRange = [stringValue rangeOfString:@"x-growl-resource://"];
+	if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+		//This is a resource ID; add the ID to the array of waiting IDs
+		NSString *dataBlockID = [stringValue substringFromIndex:resourceRange.location + resourceRange.length];
+		[self.dataBlockIdentifiers addObject:dataBlockID];
+		[self.gntpDictionary setObject:stringValue forKey:headerKey];
+	}else if([headerKey caseInsensitiveCompare:@"CONNECTION"] == NSOrderedSame){
+		//We need to setup keep alive here
+		if([stringValue caseInsensitiveCompare:@"Keep-Alive"] == NSOrderedSame)
+			self.keepAlive = YES;
+		else
+			self.keepAlive = NO;
+	}else{
+		[self.gntpDictionary setObject:stringValue forKey:headerKey];
+	}
 }
 
 -(void)parseResourceDataHeader:(NSData*)data {
 	NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
-	NSLog(@"data block header: %@", headersString);
 	__block NSString *newId = nil;
 	__block NSString *newLength = nil;
 	[GNTPPacket enumerateHeaders:headersString 
 							 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
 								 if([headerKey caseInsensitiveCompare:@"Identifier"] == NSOrderedSame){
 									 newId = [headerValue retain];
-									 NSLog(@"%@", headerValue);
 								 }else if([headerKey caseInsensitiveCompare:@"Length"] == NSOrderedSame){
-									 NSLog(@"%@", headerValue);
 									 newLength = [headerValue retain];
 								 }else {
 									 //NSLog(@"No other headers we care about here");
@@ -335,88 +412,24 @@
 	}];
 }
 
--(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue {
-	//If there are any special case generic keys, handle them here
-	NSRange resourceRange = [stringValue rangeOfString:@"x-growl-resource://"];
-	if([headerKey caseInsensitiveCompare:@"CONNECTION"] == NSOrderedSame){
-		//We need to setup keep alive here
-		self.keepAlive = YES;
-	}else if(resourceRange.location != NSNotFound && resourceRange.location == 0){
-		//This is a resource ID; add the ID to the array of waiting IDs
-		NSString *dataBlockID = [stringValue substringFromIndex:resourceRange.location + resourceRange.length];
-		[self.dataBlockIdentifiers addObject:dataBlockID];
-		[self.gntpDictionary setObject:stringValue forKey:headerKey];
-	}else{
-		[self.gntpDictionary setObject:stringValue forKey:headerKey];
-	}
+-(BOOL)validate {
+	return YES;
 }
-
--(NSInteger)parseDataBlock:(NSData*)data {
-	NSInteger result = 0;
-	__block GNTPPacket *blockSelf = self;
-	switch (_state) {
-		case 0:
-		{
-			//Our initial header block
-			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
-			[GNTPPacket enumerateHeaders:headersString 
-									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
-										 [blockSelf parseHeaderKey:headerKey value:headerValue];
-										 return NO;
-									 }];
-			result = [self.dataBlockIdentifiers count];
-			if(result == 0)
-				self.state = 999;
-			else
-				self.state = 1;
-			break;
-		}
-		case 1:
-			//Reading in a header for data blocks
-			if(incomingDataHeaderRead){
-				NSLog(@"Error! Should never be in this state thinking a header has been read");
-				result = -1;
-				break;
-			}
-			NSLog(@"Remaining Data block identifiers: %lu", [self.dataBlockIdentifiers count]);
-			
-			[self parseResourceDataHeader:data];
-			if(incomingDataHeaderRead){
-				self.state = 2;
-				result = 1;
-			}else{
-				result = -1;
-				NSLog(@"Unable to validate data block header");
-				break;
-			}
-			break;
-		case 2:
-			//Reading in a data block
-			if(!incomingDataHeaderRead){
-				NSLog(@"Error! Should never be in this state thinking a header has not been read");
-				result = -1;
-				break;
-			}
-			[self parseResourceDataBlock:data];
-			
-			result = [self.dataBlockIdentifiers count];
-			if([self.dataBlockIdentifiers count] == 0){
-				self.state = 999;
-			}else{
-				incomingDataHeaderRead = NO;
-				self.state = 1;
-				self.incomingDataLength = 0;
-				self.incomingDataIdentifier = nil;
-			}
-			break;
-		case 999:
-			result = 0;
-			break;
-		default:
-			NSLog(@"OH NOES! Unknown State in main parser");
-			break;
-	}
+-(NSString*)responseString {
+	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n\r\n", self.action];
+}
+-(NSData*)responseData {
+	NSString *responseString = [self responseString];
+	return [NSData dataWithBytes:[responseString UTF8String] length:[responseString length]];
+}
+-(NSTimeInterval)requestedTimeAlive {
+	NSTimeInterval result = 0.0;
+	if(self.keepAlive)
+		result = 5.0;
 	return result;
+}
+-(NSDictionary*)convertedGrowlDict {
+	return self.gntpDictionary;
 }
 
 @end

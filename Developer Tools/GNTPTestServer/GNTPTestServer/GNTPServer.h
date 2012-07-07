@@ -9,7 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "GCDAsyncSocket.h"
 
+@protocol GNTPServerDelegate <NSObject>
+
+-(void)registerWithDictionary:(NSDictionary*)dictionary;
+-(void)notifyWithDictionary:(NSDictionary*)dictionary;
+-(void)subscribeWithDictionary:(NSDictionary*)dictionary;
+
+-(BOOL)isNoteRegistered:(NSString*)noteName forApp:(NSString*)appName onHost:(NSString*)host;
+
+@end
+
 @interface GNTPServer : NSObject <GCDAsyncSocketDelegate>
+
+@property (nonatomic, assign) id<GNTPServerDelegate> delegate;
 
 -(void)startServer;
 -(void)stopServer;
