@@ -42,6 +42,11 @@
 -(void)receivedResourceDataBlock:(NSData *)data forIdentifier:(NSString *)identifier {
 	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		//check the icon, its the main thing that will need replacing
+		id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
+		if([icon isKindOfClass:[NSString class]] && [icon rangeOfString:identifier].location != NSNotFound){
+			//Found an icon that matches the ID
+			[obj setObject:data forKey:identifier];
+		}
 	}];
 	//pass it back up to super in case there are things that need replacing up there
 	[super receivedResourceDataBlock:data forIdentifier:identifier];
@@ -112,6 +117,57 @@
 	}
 	
 	return result;
+}
+
+-(NSDictionary*)convertedGrowlDict {
+	NSMutableDictionary *convertedDict = [[[super convertedGrowlDict] mutableCopy] autorelease];
+	NSMutableArray *notificationNames = [NSMutableArray arrayWithCapacity:[self.notificationDicts count]];
+	NSMutableDictionary *displayNames = [NSMutableDictionary dictionary];
+	//2.0 framework should be upgraded to include descriptions
+	NSMutableDictionary *notificationDescriptions = [NSMutableDictionary dictionary];
+	NSMutableArray *enabledNotes = [NSMutableArray array];
+	//Should really upgrade 2.0 to support note icons during registration;
+	NSMutableDictionary *noteIcons = [NSMutableDictionary dictionary];
+	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *notificationName = [obj objectForKey:GrowlGNTPNotificationName];
+		NSString *displayName = [obj objectForKey:GrowlGNTPNotificationDisplayName];
+		NSString *enabledString = [obj objectForKey:GrowlGNTPNotificationEnabled];
+		NSString *description = [obj objectForKey:@"X-Notification-Description"];
+		id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
+		NSData *iconData = nil;
+		if([icon isKindOfClass:[NSString class]]){
+			//Download the URL if it can be made;
+			NSURL *url = [NSURL URLWithString:icon];
+			if(url)
+				iconData = [NSData dataWithContentsOfURL:url];
+		}else if([icon isKindOfClass:[NSData class]]){
+			iconData = icon;
+		}
+		if(notificationName){
+			[notificationNames addObject:notificationName];
+			if(displayName)
+				[displayNames setObject:displayName forKey:notificationName];
+			if(description)
+				[notificationDescriptions setObject:description forKey:notificationName];
+			if(enabledString && 
+				([enabledString caseInsensitiveCompare:@"Yes"] == NSOrderedSame || 
+				[enabledString caseInsensitiveCompare:@"True"] == NSOrderedSame))
+			{
+				[enabledNotes addObject:notificationName];
+			}
+			if(iconData)
+				[noteIcons setObject:iconData forKey:notificationName];
+		}else{
+			NSLog(@"Unable to process note without name!");
+		}
+	}];
+	
+	[convertedDict setObject:notificationNames forKey:@"AllNotifications"];
+	[convertedDict setObject:enabledNotes forKey:@"DefaultNotifications"];
+	[convertedDict setObject:displayNames forKey:@"HumanReadableNames"];
+	[convertedDict setObject:notificationDescriptions forKey:@"NotificationDescriptions"];
+	[convertedDict setObject:noteIcons forKey:@"NotificationIcons"];
+	return [[convertedDict copy] autorelease];
 }
 
 @end
