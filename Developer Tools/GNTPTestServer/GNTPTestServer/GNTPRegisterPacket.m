@@ -7,6 +7,7 @@
 //
 
 #import "GNTPRegisterPacket.h"
+#import "GNTPServer.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 
@@ -33,7 +34,6 @@
 }
 
 -(BOOL)validateNoteDictionary:(NSDictionary*)noteDict {
-	
 	return [noteDict valueForKey:GrowlGNTPNotificationName] != nil;
 }
 
@@ -45,7 +45,9 @@
 		{
 			//Reading in notifications
 			//break it down
-			NSString *noteHeaderBlock = [NSString stringWithUTF8String:[data bytes]];
+			//No need to handle the extra CLRF's after the last line
+			NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:([data length] - [[GNTPServer doubleCLRF] length])];
+			NSString *noteHeaderBlock = [NSString stringWithUTF8String:[trimmedData bytes]];
 			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 			[GNTPPacket enumerateHeaders:noteHeaderBlock
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
@@ -56,13 +58,16 @@
 												 NSString *dataBlockID = [headerValue substringFromIndex:resourceRange.location + resourceRange.length];
 												 [self.dataBlockIdentifiers addObject:dataBlockID];
 											 }
-											 [dictionary setObject:headerValue forKey:headerKey];
 										 }
+										 [dictionary setObject:headerValue forKey:headerKey];
 										 return NO;
 									 }];
 			//validate
 			if(![self validateNoteDictionary:dictionary]){
-				NSLog(@"Unable to validate notification %@ in registration packet", dictionary);
+				if([[dictionary allValues] count] > 0)
+					NSLog(@"Unable to validate notification %@ in registration packet", dictionary);
+				else
+					NSLog(@"Empty note dict misread?");
 			}else{
 				[self.notificationDicts addObject:dictionary];
 			}
