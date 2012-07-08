@@ -11,6 +11,7 @@
 #import "NSStringAdditions.h"
 #import "GNTPPacket.h"
 #import "GNTPRegisterPacket.h"
+#import "GNTPNotifyPacket.h"
 #import "GrowlGNTPDefines.h"
 
 @interface GNTPServer ()
@@ -180,7 +181,7 @@
 				//Build a packet for each specific type
 				//Replace each of these with GNTPNotificationPacket, GNTPRegistrationPacket GNTPSubscriptionPacket
 				if([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame){
-					packet = [[[GNTPPacket alloc] init] autorelease];
+					packet = [[[GNTPNotifyPacket alloc] init] autorelease];
 				}else if([action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame){
 					packet = [[[GNTPRegisterPacket alloc] init] autorelease];					
 				}else if([action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
@@ -247,7 +248,7 @@
 				NSDictionary *growlDict = [packet convertedGrowlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
 					[self.delegate registerWithDictionary:growlDict];
-				}else if([[packet action] caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame){
+				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
 					[self.delegate notifyWithDictionary:growlDict];
 				}
 			}else{

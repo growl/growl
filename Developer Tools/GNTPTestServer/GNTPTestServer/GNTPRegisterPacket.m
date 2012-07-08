@@ -30,37 +30,9 @@
 	return self;
 }
 
--(BOOL)validate {
-	return [super validate];
-}
-
 -(BOOL)validateNoteDictionary:(NSDictionary*)noteDict {
 	
 	return [noteDict valueForKey:GrowlGNTPNotificationName] != nil;
-}
-
--(void)receivedResourceDataBlock:(NSData *)data forIdentifier:(NSString *)identifier {
-	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		//check the icon, its the main thing that will need replacing
-		id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
-		if([icon isKindOfClass:[NSString class]] && [icon rangeOfString:identifier].location != NSNotFound){
-			//Found an icon that matches the ID
-			[obj setObject:data forKey:identifier];
-		}
-	}];
-	//pass it back up to super in case there are things that need replacing up there
-	[super receivedResourceDataBlock:data forIdentifier:identifier];
-}
-
--(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue
-{
-	if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCountHeader] == NSOrderedSame){
-		self.totalNotifications = [stringValue integerValue];
-		if(self.totalNotifications == 0)
-			NSLog(@"Error parsing %@ as an integer for a number of notifications", stringValue);
-	}else{
-		[super parseHeaderKey:headerKey value:stringValue];
-	}
 }
 
 -(NSInteger)parseDataBlock:(NSData *)data
@@ -119,6 +91,34 @@
 	return result;
 }
 
+-(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue
+{
+	if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCountHeader] == NSOrderedSame){
+		self.totalNotifications = [stringValue integerValue];
+		if(self.totalNotifications == 0)
+			NSLog(@"Error parsing %@ as an integer for a number of notifications", stringValue);
+	}else{
+		[super parseHeaderKey:headerKey value:stringValue];
+	}
+}
+
+-(void)receivedResourceDataBlock:(NSData *)data forIdentifier:(NSString *)identifier {
+	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		//check the icon, its the main thing that will need replacing
+		id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
+		if([icon isKindOfClass:[NSString class]] && [icon rangeOfString:identifier].location != NSNotFound){
+			//Found an icon that matches the ID
+			[obj setObject:data forKey:identifier];
+		}
+	}];
+	//pass it back up to super in case there are things that need replacing up there
+	[super receivedResourceDataBlock:data forIdentifier:identifier];
+}
+
+-(BOOL)validate {
+	return [super validate];
+}
+
 -(NSDictionary*)convertedGrowlDict {
 	NSMutableDictionary *convertedDict = [[[super convertedGrowlDict] mutableCopy] autorelease];
 	NSMutableArray *notificationNames = [NSMutableArray arrayWithCapacity:[self.notificationDicts count]];
@@ -130,21 +130,30 @@
 	NSMutableDictionary *noteIcons = [NSMutableDictionary dictionary];
 	[self.notificationDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSString *notificationName = [obj objectForKey:GrowlGNTPNotificationName];
-		NSString *displayName = [obj objectForKey:GrowlGNTPNotificationDisplayName];
-		NSString *enabledString = [obj objectForKey:GrowlGNTPNotificationEnabled];
-		NSString *description = [obj objectForKey:@"X-Notification-Description"];
-		id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
-		NSData *iconData = nil;
-		if([icon isKindOfClass:[NSString class]]){
-			//Download the URL if it can be made;
-			NSURL *url = [NSURL URLWithString:icon];
-			if(url)
-				iconData = [NSData dataWithContentsOfURL:url];
-		}else if([icon isKindOfClass:[NSData class]]){
-			iconData = icon;
-		}
 		if(notificationName){
 			[notificationNames addObject:notificationName];
+			
+			NSString *displayName = [obj objectForKey:GrowlGNTPNotificationDisplayName];
+			NSString *enabledString = [obj objectForKey:GrowlGNTPNotificationEnabled];
+			NSString *description = [obj objectForKey:@"X-Notification-Description"];
+			id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
+			NSData *iconData = nil;
+			
+			if([icon isKindOfClass:[NSString class]]){
+				/* 
+				 * Download the URL if it can be made;
+				 * We will get away with this blocking download method
+				 * because this will be happening on a concurrent queue
+				 */
+				NSURL *url = [NSURL URLWithString:icon];
+				if(url)
+					iconData = [NSData dataWithContentsOfURL:url];
+				else
+					NSLog(@"Icon String: %@ is not a URL, and was not retrieved by the packet as a resource", icon);
+			}else if([icon isKindOfClass:[NSData class]]){
+				iconData = icon;
+			}
+			
 			if(displayName)
 				[displayNames setObject:displayName forKey:notificationName];
 			if(description)

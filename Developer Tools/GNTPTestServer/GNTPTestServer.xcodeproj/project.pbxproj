@@ -21,6 +21,7 @@
 		BC7F3FB1159218A0009F308F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FAF159218A0009F308F /* Credits.rtf */; };
 		BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FB3159218A0009F308F /* AppDelegate.m */; };
 		BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FB5159218A0009F308F /* MainMenu.xib */; };
+		BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */; };
 		BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1250915935A460052C495 /* GCDAsyncSocket.m */; };
 		BCB1250D15935AA10052C495 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1250B15935A7B0052C495 /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,8 @@
 		BC7F3FB2159218A0009F308F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BC7F3FB3159218A0009F308F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		BC7F3FB6159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPNotifyPacket.h; sourceTree = "<group>"; };
+		BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPNotifyPacket.m; sourceTree = "<group>"; };
 		BCB1250815935A460052C495 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		BCB1250915935A460052C495 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		BCB1250B15935A7B0052C495 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -137,6 +140,8 @@
 				BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */,
 				BC3B7A7615A497510001CD97 /* GNTPRegisterPacket.h */,
 				BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */,
+				BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */,
+				BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */,
 				BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */,
 				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
 				BC7F3FA7159218A0009F308F /* Supporting Files */,
@@ -230,6 +235,7 @@
 				BC3B7A6715A325850001CD97 /* GrowlGNTPDefines.m in Sources */,
 				BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */,
 				BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */,
+				BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
