@@ -7,6 +7,8 @@
 //
 
 #import "GNTPNotifyPacket.h"
+#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 /*
  * We dont need to override the state machine for a Notification Packet
@@ -18,7 +20,6 @@
 
 @property (nonatomic, retain) NSString *callbackString;
 @property (nonatomic, retain) NSString *callbackType;
-@property (nonatomic, retain) NSString *callbackURL;
 
 @end
 
@@ -26,21 +27,17 @@
 
 @synthesize callbackString = _callbackString;
 @synthesize callbackType = _callbackType;
-@synthesize callbackURL = _callbackURL;
 
 -(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue {
 	/* 
 	 * Special cases in a notification: 
 	 * click context
 	 * click context type
-	 * callback url
 	 */
 	if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame){
 		self.callbackString = stringValue;
 	}else if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame){
 		self.callbackType = stringValue;
-	}else if([headerKey caseInsensitiveCompare:GrowlGNTPNotificationCallbackTarget] == NSOrderedSame){
-		self.callbackURL = stringValue;
 	}else
 		[super parseHeaderKey:headerKey value:stringValue];
 }
@@ -49,8 +46,8 @@
 	return [super validate];
 }
 
--(NSDictionary*)convertedGrowlDict {
-	NSMutableDictionary *convertedDict = [[[super convertedGrowlDict] mutableCopy] autorelease];
+-(NSMutableDictionary*)convertedGrowlDict {
+	NSMutableDictionary *convertedDict = [[super convertedGrowlDict] retain];
 	if(self.callbackString){
 		BOOL insertAsIs = YES;
 		if(self.callbackType){
@@ -62,22 +59,20 @@
 																								  error:nil];
 				if(clickContext){
 					insertAsIs = NO;
-					[convertedDict setObject:clickContext forKey:@"NotificationClickContext"];
+					[convertedDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 				}
 			}
 			//We can easily add support here for other types
 		}
 		
+		//We dont really know the type, just the stuff the string back in
 		if(insertAsIs){
-			//We dont really know the type, just the stuff the string back in
-			[convertedDict setObject:self.callbackString forKey:@"NotificationClickContext"];
-			[convertedDict setObject:self.callbackType forKey:GrowlGNTPNotificationCallbackContextType];
+			[convertedDict setObject:self.callbackString forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 		}
+		[convertedDict setObject:self.callbackType forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 	}
-	if(self.callbackURL)
-		[convertedDict setObject:self.callbackURL forKey:@"NotificationCallbackURLTarget"];
 	
-	return [[convertedDict copy] autorelease];
+	return [convertedDict autorelease];
 }
 
 @end

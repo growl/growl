@@ -18,6 +18,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSString *connectedHost;
 @property (nonatomic, retain) NSString *action;
+@property (nonatomic, retain) NSDictionary *growlDict;
 @property (nonatomic, retain) NSMutableDictionary *gntpDictionary;
 @property (nonatomic, retain) NSMutableArray *dataBlockIdentifiers;
 @property (nonatomic, assign) NSInteger state;
@@ -48,6 +49,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 -(BOOL)validate;
 -(NSData*)responseData;
 -(NSTimeInterval)requestedTimeAlive;
--(NSDictionary*)convertedGrowlDict;
+//DO NOT TOUCH, FOR SUBCLASSES, USE @property growlDict
+-(NSMutableDictionary*)convertedGrowlDict;
 
 @end

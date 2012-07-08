@@ -7,8 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "GrowlGNTPDefines.h"
 #import "NSStringAdditions.h"
+#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 @interface AppDelegate ()
 
@@ -38,17 +39,17 @@
 
 //File the dictionary under its hostname - appname for test
 -(void)registerWithDictionary:(NSDictionary*)dictionary {
-	NSString *appName = [dictionary valueForKey:GrowlGNTPApplicationNameHeader];
-	NSString *hostName = [dictionary valueForKey:GrowlGNTPOriginMachineName];
+	NSString *appName = [dictionary valueForKey:GROWL_APP_NAME];
+	NSString *hostName = [dictionary valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
 	NSString *combined = appName;
 	if(hostName && ![hostName isLocalHost])
 		combined = [NSString stringWithFormat:@"%@-%@", hostName, appName];
-	//NSLog(@"Registering: %@\n for key: %@", dictionary, combined);
+	NSLog(@"Registering: %@\n for key: %@", dictionary, combined);
 	[self.registeredApps setObject:dictionary forKey:combined];
 }
 //Do a crude note display for test
 -(void)notifyWithDictionary:(NSDictionary*)dictionary {
-	//NSLog(@"Notifying: %@", dictionary);
+	NSLog(@"Notifying: %@", dictionary);
 }
 //Do nothing except log for test?
 -(void)subscribeWithDictionary:(NSDictionary*)dictionary {
@@ -62,7 +63,7 @@
 		combined = [NSString stringWithFormat:@"%@-%@", host, appName];
 	NSDictionary *registeredDict = [self.registeredApps objectForKey:combined];
 	if(registeredDict){
-		NSArray *registeredNotes = [registeredDict objectForKey:@"AllNotifications"];
+		NSArray *registeredNotes = [registeredDict objectForKey:GROWL_NOTIFICATIONS_ALL];
 		if([registeredNotes containsObject:noteName])
 			registered = YES;
 	}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */; };
 		BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */; };
 		BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */; };
 		BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */; };
@@ -27,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../../Common/Source/GrowlDefines.h; sourceTree = "<group>"; };
+		BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../../Common/Source/GrowlDefinesInternal.h; sourceTree = "<group>"; };
+		BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDefinesInternal.m; path = ../../../Common/Source/GrowlDefinesInternal.m; sourceTree = "<group>"; };
 		BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = ../../../Core/Source/GNTPKey.h; sourceTree = "<group>"; };
 		BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = ../../../Core/Source/GNTPKey.m; sourceTree = "<group>"; };
 		BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
@@ -78,6 +82,9 @@
 		BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */ = {
 			isa = PBXGroup;
 			children = (
+				BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */,
+				BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */,
+				BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */,
 				BC3B7A6515A325380001CD97 /* GrowlGNTPDefines.h */,
 				BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */,
 				BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */,
@@ -236,6 +243,7 @@
 				BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */,
 				BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */,
 				BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */,
+				BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

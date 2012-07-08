@@ -7,6 +7,8 @@
 //
 
 #import "GNTPRegisterPacket.h"
+#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 @interface GNTPRegisterPacket ()
 
@@ -47,13 +49,15 @@
 			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 			[GNTPPacket enumerateHeaders:noteHeaderBlock
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
-										 NSRange resourceRange = [headerValue rangeOfString:@"x-growl-resource://"];
-										 if(resourceRange.location != NSNotFound && resourceRange.location == 0){
-											 //This is a resource ID; add the ID to the array of waiting IDs
-											 NSString *dataBlockID = [headerValue substringFromIndex:resourceRange.location + resourceRange.length];
-											 [self.dataBlockIdentifiers addObject:dataBlockID];
+										 if([headerValue isKindOfClass:[NSString class]]) {
+											 NSRange resourceRange = [headerValue rangeOfString:@"x-growl-resource://"];
+											 if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+												 //This is a resource ID; add the ID to the array of waiting IDs
+												 NSString *dataBlockID = [headerValue substringFromIndex:resourceRange.location + resourceRange.length];
+												 [self.dataBlockIdentifiers addObject:dataBlockID];
+											 }
+											 [dictionary setObject:headerValue forKey:headerKey];
 										 }
-										 [dictionary setObject:headerValue forKey:headerKey];
 										 return NO;
 									 }];
 			//validate
@@ -116,11 +120,11 @@
 }
 
 -(BOOL)validate {
-	return [super validate];
+	return [super validate] && self.totalNotifications == [self.notificationDicts count];
 }
 
 -(NSDictionary*)convertedGrowlDict {
-	NSMutableDictionary *convertedDict = [[[super convertedGrowlDict] mutableCopy] autorelease];
+	NSMutableDictionary *convertedDict = [[super convertedGrowlDict] retain];
 	NSMutableArray *notificationNames = [NSMutableArray arrayWithCapacity:[self.notificationDicts count]];
 	NSMutableDictionary *displayNames = [NSMutableDictionary dictionary];
 	//2.0 framework should be upgraded to include descriptions
@@ -171,12 +175,16 @@
 		}
 	}];
 	
-	[convertedDict setObject:notificationNames forKey:@"AllNotifications"];
-	[convertedDict setObject:enabledNotes forKey:@"DefaultNotifications"];
-	[convertedDict setObject:displayNames forKey:@"HumanReadableNames"];
-	[convertedDict setObject:notificationDescriptions forKey:@"NotificationDescriptions"];
-	[convertedDict setObject:noteIcons forKey:@"NotificationIcons"];
-	return [[convertedDict copy] autorelease];
+	[convertedDict setObject:notificationNames forKey:GROWL_NOTIFICATIONS_ALL];
+	if([enabledNotes count] > 0)
+		[convertedDict setObject:enabledNotes forKey:GROWL_NOTIFICATIONS_DEFAULT];
+	if([[displayNames allValues] count] > 0)
+		[convertedDict setObject:displayNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	if([[notificationDescriptions allValues] count] > 0)
+		[convertedDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+	if([noteIcons count] > 0)
+		[convertedDict setObject:noteIcons forKey:@"NotificationIcons"];
+	return [convertedDict autorelease];
 }
 
 @end

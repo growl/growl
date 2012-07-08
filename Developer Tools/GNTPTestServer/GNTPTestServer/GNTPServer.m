@@ -70,7 +70,6 @@
 	[sock disconnect];
 	[self.socketsByGUID removeObjectForKey:guid];
 	[self.packetsByGUID removeObjectForKey:guid];
-	NSLog(@"count: %lu", [self.socketsByGUID count]);
 }
 
 - (void)dumpSocket:(GCDAsyncSocket*)sock
@@ -245,7 +244,7 @@
 				if([packet keepAlive])
 					NSLog(@"We should read to the end of GNTP/1.0");
 				
-				NSDictionary *growlDict = [packet convertedGrowlDict];
+				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
 					[self.delegate registerWithDictionary:growlDict];
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
@@ -287,8 +286,9 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
 	//Not sure if we need this
-	if(tag == -2)
+	if(tag == -2){
 		[self dumpSocket:sock];
+	}
 }
 
 /* Both of these two methods ensure we aren't waiting too long on the next piece

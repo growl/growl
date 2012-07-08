@@ -11,6 +11,8 @@
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
 #import "GNTPServer.h"
+#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 @interface GNTPPacket ()
 
@@ -22,9 +24,10 @@
 
 @implementation GNTPPacket
 
-@synthesize key;
+@synthesize key = _key;
 @synthesize connectedHost;
 @synthesize action = _action;
+@synthesize growlDict = _growlDict;
 @synthesize gntpDictionary = _gntpDictionary;
 @synthesize dataBlockIdentifiers = _dataBlockIdentifiers;
 @synthesize state = _state;
@@ -264,9 +267,11 @@
 }
 
 -(void)dealloc {
+	self.growlDict = nil;
 	self.gntpDictionary = nil;
 	self.dataBlockIdentifiers = nil;
 	self.incomingDataIdentifier = nil;
+	self.key = nil;
 	[super dealloc];
 }
 
@@ -351,6 +356,14 @@
 			self.keepAlive = YES;
 		else
 			self.keepAlive = NO;
+	}else if([headerKey caseInsensitiveCompare:@"Received"] == NSOrderedSame){
+		NSMutableArray *receivedValues = [self.gntpDictionary valueForKey:headerKey];
+		if (!receivedValues) {
+			receivedValues = [NSMutableArray array];
+			[self.gntpDictionary setObject:receivedValues
+											forKey:headerKey];
+		}
+		[receivedValues addObject:stringValue];
 	}else{
 		[self.gntpDictionary setObject:stringValue forKey:headerKey];
 	}
@@ -399,11 +412,13 @@
 -(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier {
 	__block NSMutableArray *keysToReplace = [NSMutableArray array];
 	[self.gntpDictionary enumerateKeysAndObjectsUsingBlock:^(id aKey, id obj, BOOL *stop) {
-		NSRange resourceRange = [obj rangeOfString:@"x-growl-resource://"];
-		if(resourceRange.location != NSNotFound && resourceRange.location == 0){
-			NSString *dataBlockID = [obj substringFromIndex:resourceRange.location + resourceRange.length];
-			if([identifier isEqualToString:dataBlockID]){
-				[keysToReplace addObject:aKey];
+		if([obj isKindOfClass:[NSString class]]){
+			NSRange resourceRange = [obj rangeOfString:@"x-growl-resource://"];
+			if(resourceRange.location != NSNotFound && resourceRange.location == 0){
+				NSString *dataBlockID = [obj substringFromIndex:resourceRange.location + resourceRange.length];
+				if([identifier isEqualToString:dataBlockID]){
+					[keysToReplace addObject:aKey];
+				}
 			}
 		}
 	}];
@@ -428,8 +443,79 @@
 		result = 5.0;
 	return result;
 }
--(NSDictionary*)convertedGrowlDict {
-	return self.gntpDictionary;
+
++(NSDictionary*)gntpToGrowlMatchingDict {
+	static NSDictionary *_matchingDict = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_matchingDict = [[NSDictionary dictionaryWithObjectsAndKeys:GROWL_APP_NAME, GrowlGNTPApplicationNameHeader,
+								GROWL_APP_ICON_DATA, GrowlGNTPApplicationIconHeader,
+								GROWL_NOTIFICATION_ICON_DATA, GrowlGNTPNotificationIcon,
+								GROWL_NOTIFICATION_IDENTIFIER, GrowlGNTPNotificationID,
+								GROWL_NOTIFICATION_NAME, GrowlGNTPNotificationName,
+								GROWL_NOTIFICATION_TITLE, GrowlGNTPNotificationTitle,
+								GROWL_NOTIFICATION_DESCRIPTION, GrowlGNTPNotificationText,
+								GROWL_NOTIFICATION_STICKY, GrowlGNTPNotificationSticky,
+								GROWL_NOTIFICATION_PRIORITY, GrowlGNTPNotificationPriority,
+								GROWL_NOTIFICATION_CALLBACK_URL_TARGET, GrowlGNTPNotificationCallbackTarget,
+								GROWL_NOTIFICATION_GNTP_RECEIVED, @"Received",
+								GROWL_NOTIFICATION_GNTP_SENT_BY, @"Sent-By",
+								GROWL_GNTP_ORIGIN_MACHINE, GrowlGNTPOriginMachineName,
+								GROWL_GNTP_ORIGIN_SOFTWARE_NAME, GrowlGNTPOriginSoftwareName,
+								GROWL_GNTP_ORIGIN_SOFTWARE_VERSION, GrowlGNTPOriginSoftwareVersion,
+								GROWL_GNTP_ORIGIN_PLATFORM_NAME, GrowlGNTPOriginPlatformName,
+								GROWL_GNTP_ORIGIN_PLATFORM_VERSION, GrowlGNTPOriginPlatformVersion, nil] retain];
+	});
+	return _matchingDict;
+}
++(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey {
+	return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
+}
+
+-(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey {
+	id convertedObj = obj;
+	if([growlKey isEqualToString:GROWL_NOTIFICATION_STICKY]){
+		if([obj caseInsensitiveCompare:@"Yes"] == NSOrderedSame || 
+			[obj caseInsensitiveCompare:@"True"] == NSOrderedSame)
+		{
+			convertedObj = [NSNumber numberWithBool:YES];
+		}else {
+			convertedObj = [NSNumber numberWithBool:YES];
+		}
+	}else if([growlKey isEqualToString:GROWL_NOTIFICATION_PRIORITY]){
+		convertedObj = [NSNumber numberWithInteger:[obj integerValue]];
+	}else if([growlKey isEqualToString:GROWL_APP_ICON_DATA] ||
+				[growlKey isEqualToString:GROWL_NOTIFICATION_ICON_DATA])
+	{
+		if([obj isKindOfClass:[NSString class]]){
+			NSURL *url = [NSURL URLWithString:obj];
+			if(url)
+				convertedObj = [NSData dataWithContentsOfURL:url];
+			else
+				NSLog(@"Icon String: %@ is not a URL, and was not retrieved by the packet as a resource", obj);
+		}//There is no else, either its already data, or we dont know what to do with it
+	}
+	return convertedObj;
+}
+-(NSMutableDictionary*)convertedGrowlDict {
+	NSMutableDictionary *convertedDict = [NSMutableDictionary dictionary];
+	[self.gntpDictionary enumerateKeysAndObjectsUsingBlock:^(id gntpKey, id obj, BOOL *stop) {
+		NSString *growlDictKey = [GNTPPacket growlDictKeyForGNTPKey:gntpKey];
+		if(!growlDictKey){
+			//If there isn't a growl dict key, just stuff the object in there normal like
+			[convertedDict setObject:obj forKey:gntpKey];
+		}else{
+			id convertedObj = [self convertedObjectFromGNTPObject:obj forGrowlKey:growlDictKey];
+			[convertedDict setObject:convertedObj forKey:growlDictKey];
+		}
+	}];
+	return convertedDict;
+}
+-(NSDictionary*)growlDict {
+	if(!_growlDict){
+		_growlDict = [[self convertedGrowlDict] copy];
+	}
+	return _growlDict;
 }
 
 @end
