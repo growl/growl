@@ -260,7 +260,7 @@
 		
 		switch (currentSource) {
 			case HGACPower:
-				if(remaining != kIOPSTimeRemainingUnknown)
+				if(remaining != kIOPSTimeRemainingUnknown || (havePercent && percentage < 95))
 					imageData = [[NSImage imageNamed:@"Power-Charging"] TIFFRepresentation];
 				else
 					imageData = [[NSImage imageNamed:@"Power-Plugged"] TIFFRepresentation];
