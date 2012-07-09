@@ -254,6 +254,34 @@
 	}];
 }
 
++(NSDictionary*)gntpToGrowlMatchingDict {
+	static NSDictionary *_matchingDict = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_matchingDict = [[NSDictionary dictionaryWithObjectsAndKeys:GROWL_APP_NAME, GrowlGNTPApplicationNameHeader,
+								GROWL_APP_ICON_DATA, GrowlGNTPApplicationIconHeader,
+								GROWL_NOTIFICATION_ICON_DATA, GrowlGNTPNotificationIcon,
+								GROWL_NOTIFICATION_IDENTIFIER, GrowlGNTPNotificationID,
+								GROWL_NOTIFICATION_NAME, GrowlGNTPNotificationName,
+								GROWL_NOTIFICATION_TITLE, GrowlGNTPNotificationTitle,
+								GROWL_NOTIFICATION_DESCRIPTION, GrowlGNTPNotificationText,
+								GROWL_NOTIFICATION_STICKY, GrowlGNTPNotificationSticky,
+								GROWL_NOTIFICATION_PRIORITY, GrowlGNTPNotificationPriority,
+								GROWL_NOTIFICATION_CALLBACK_URL_TARGET, GrowlGNTPNotificationCallbackTarget,
+								GROWL_NOTIFICATION_GNTP_RECEIVED, @"Received",
+								GROWL_NOTIFICATION_GNTP_SENT_BY, @"Sent-By",
+								GROWL_GNTP_ORIGIN_MACHINE, GrowlGNTPOriginMachineName,
+								GROWL_GNTP_ORIGIN_SOFTWARE_NAME, GrowlGNTPOriginSoftwareName,
+								GROWL_GNTP_ORIGIN_SOFTWARE_VERSION, GrowlGNTPOriginSoftwareVersion,
+								GROWL_GNTP_ORIGIN_PLATFORM_NAME, GrowlGNTPOriginPlatformName,
+								GROWL_GNTP_ORIGIN_PLATFORM_VERSION, GrowlGNTPOriginPlatformVersion, nil] retain];
+	});
+	return _matchingDict;
+}
++(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey {
+	return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
+}
+
 -(id)init {
 	if((self = [super init])){
 		_gntpDictionary = [[NSMutableDictionary alloc] init];
@@ -442,34 +470,6 @@
 	if(self.keepAlive)
 		result = 5.0;
 	return result;
-}
-
-+(NSDictionary*)gntpToGrowlMatchingDict {
-	static NSDictionary *_matchingDict = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		_matchingDict = [[NSDictionary dictionaryWithObjectsAndKeys:GROWL_APP_NAME, GrowlGNTPApplicationNameHeader,
-								GROWL_APP_ICON_DATA, GrowlGNTPApplicationIconHeader,
-								GROWL_NOTIFICATION_ICON_DATA, GrowlGNTPNotificationIcon,
-								GROWL_NOTIFICATION_IDENTIFIER, GrowlGNTPNotificationID,
-								GROWL_NOTIFICATION_NAME, GrowlGNTPNotificationName,
-								GROWL_NOTIFICATION_TITLE, GrowlGNTPNotificationTitle,
-								GROWL_NOTIFICATION_DESCRIPTION, GrowlGNTPNotificationText,
-								GROWL_NOTIFICATION_STICKY, GrowlGNTPNotificationSticky,
-								GROWL_NOTIFICATION_PRIORITY, GrowlGNTPNotificationPriority,
-								GROWL_NOTIFICATION_CALLBACK_URL_TARGET, GrowlGNTPNotificationCallbackTarget,
-								GROWL_NOTIFICATION_GNTP_RECEIVED, @"Received",
-								GROWL_NOTIFICATION_GNTP_SENT_BY, @"Sent-By",
-								GROWL_GNTP_ORIGIN_MACHINE, GrowlGNTPOriginMachineName,
-								GROWL_GNTP_ORIGIN_SOFTWARE_NAME, GrowlGNTPOriginSoftwareName,
-								GROWL_GNTP_ORIGIN_SOFTWARE_VERSION, GrowlGNTPOriginSoftwareVersion,
-								GROWL_GNTP_ORIGIN_PLATFORM_NAME, GrowlGNTPOriginPlatformName,
-								GROWL_GNTP_ORIGIN_PLATFORM_VERSION, GrowlGNTPOriginPlatformVersion, nil] retain];
-	});
-	return _matchingDict;
-}
-+(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey {
-	return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
 }
 
 -(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey {

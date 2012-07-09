@@ -44,12 +44,12 @@
 	NSString *combined = appName;
 	if(hostName && ![hostName isLocalHost])
 		combined = [NSString stringWithFormat:@"%@-%@", hostName, appName];
-	NSLog(@"Registering: %@\n for key: %@", dictionary, combined);
+	NSLog(@"Registering: %@\n for key: %@", [dictionary valueForKey:GROWL_APP_NAME], combined);
 	[self.registeredApps setObject:dictionary forKey:combined];
 }
 //Do a crude note display for test
 -(void)notifyWithDictionary:(NSDictionary*)dictionary {
-	NSLog(@"Notifying: %@", dictionary);
+	NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
 }
 //Do nothing except log for test?
 -(void)subscribeWithDictionary:(NSDictionary*)dictionary {
