@@ -16,6 +16,7 @@
 		BC3B7A6C15A325C40001CD97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */; };
 		BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */; };
 		BC452BE31592623100A299D5 /* GNTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC452BE21592623100A299D5 /* GNTPServer.m */; };
+		BC4E243C15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */; };
 		BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7F3FA01592189F009F308F /* Cocoa.framework */; };
 		BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FA9159218A0009F308F /* InfoPlist.strings */; };
 		BC7F3FAD159218A0009F308F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FAC159218A0009F308F /* main.m */; };
@@ -46,6 +47,8 @@
 		BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPRegisterPacket.m; sourceTree = "<group>"; };
 		BC452BE11592623100A299D5 /* GNTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPServer.h; sourceTree = "<group>"; };
 		BC452BE21592623100A299D5 /* GNTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPServer.m; sourceTree = "<group>"; };
+		BC4E243A15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlDispatchMutableDictionary.h; sourceTree = "<group>"; };
+		BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlDispatchMutableDictionary.m; sourceTree = "<group>"; };
 		BC7F3F9C1592189F009F308F /* GNTPTestServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GNTPTestServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC7F3FA01592189F009F308F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BC7F3FA3159218A0009F308F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -149,6 +152,8 @@
 				BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */,
 				BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */,
 				BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */,
+				BC4E243A15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.h */,
+				BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */,
 				BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */,
 				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
 				BC7F3FA7159218A0009F308F /* Supporting Files */,
@@ -244,6 +249,7 @@
 				BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */,
 				BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */,
 				BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */,
+				BC4E243C15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

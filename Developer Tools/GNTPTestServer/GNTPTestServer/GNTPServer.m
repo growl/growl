@@ -13,12 +13,16 @@
 #import "GNTPRegisterPacket.h"
 #import "GNTPNotifyPacket.h"
 #import "GrowlGNTPDefines.h"
+#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
+
+#import "GrowlDispatchMutableDictionary.h"
 
 @interface GNTPServer ()
 
 @property (nonatomic, retain) GCDAsyncSocket *localSocket;
-@property (nonatomic, retain) NSMutableDictionary *socketsByGUID;
-@property (nonatomic, retain) NSMutableDictionary *packetsByGUID;
+@property (nonatomic, retain) GrowlDispatchMutableDictionary *socketsByGUID;
+@property (nonatomic, retain) GrowlDispatchMutableDictionary *packetsByGUID;
 
 @end
 
@@ -31,15 +35,18 @@
 
 -(id)init {
 	if((self = [super init])){
-		self.socketsByGUID = [NSMutableDictionary dictionary];
-		self.packetsByGUID = [NSMutableDictionary dictionary];
+		dispatch_queue_t dispatchQueue = dispatch_queue_create("com.growl.GNTPServer.dictionaryQueue", DISPATCH_QUEUE_CONCURRENT);
+		self.socketsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
+		self.packetsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
+		//retained in the dictionaries
+		dispatch_release(dispatchQueue);
 	}
 	return self;
 }
 
 -(void)startServer {
 	self.localSocket = [[[GCDAsyncSocket alloc] initWithDelegate:self 
-																  delegateQueue:dispatch_get_main_queue()] autorelease];
+																  delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)] autorelease];
 	[self.localSocket acceptOnInterface:@"localhost" 
 									  port:23053 
 									 error:nil];
@@ -49,7 +56,7 @@
 	[self.localSocket disconnect];
 	self.localSocket = nil;
 	[self.packetsByGUID removeAllObjects];
-	[self.socketsByGUID enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+	[[self.socketsByGUID allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		[obj disconnect];
 	}];
 	[self.socketsByGUID removeAllObjects];
@@ -73,10 +80,14 @@
 }
 
 - (void)dumpSocket:(GCDAsyncSocket*)sock
+		  actionType:(NSString*)action
 	  withErrorCode:(GrowlGNTPErrorCode)code
   errorDescription:(NSString*)description
 {
-	NSString *errorString = [NSString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@", code, description];
+	NSMutableString *errorString = [NSMutableString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@\r\n", code, description];
+	if(action)
+		[errorString appendFormat:@"Response-Action: %@\r\n", action];
+	[errorString appendString:@"\r\n"];
 	NSData *errorData = [NSData dataWithBytes:[errorString UTF8String] length:[errorString length]];
 	[sock writeData:errorData withTimeout:5.0 tag:-2];
 }
@@ -126,6 +137,7 @@
 		   readToTag = 101;
 		}*/else{
 			[self dumpSocket:sock
+					actionType:nil
 				withErrorCode:GrowlGNTPUnknownProtocolErrorCode
 			errorDescription:[NSString stringWithFormat:@"Growl does not recognize the protocol beginning with %@", initialString]];
 			return;
@@ -140,6 +152,7 @@
 			NSLog(@"%@ doesn't have enough information...", identifierLine);
 			
 			[self dumpSocket:sock
+					actionType:nil
 				withErrorCode:GrowlGNTPRequiredHeaderMissingErrorCdoe
 			errorDescription:[NSString stringWithFormat:@"Growl does not have enough information in %@ to parse", identifierLine]];
 			return;
@@ -159,7 +172,8 @@
 			if(!key){
 				//Even for a packet with no encryption or password, we should get back a GNTPKey if there was success
 				authorized = NO;
-				[self dumpSocket:sock 
+				[self dumpSocket:sock
+						actionType:action
 					withErrorCode:errorCode 
 				errorDescription:errorDescription];
 			}else{
@@ -169,7 +183,8 @@
 													  errorCode:&errorCode 
 													description:&errorDescription]){
 					authorized = NO;
-					[self dumpSocket:sock 
+					[self dumpSocket:sock
+							actionType:action
 						withErrorCode:errorCode 
 					errorDescription:errorDescription];
 				}
@@ -187,6 +202,7 @@
 					packet = [[[GNTPPacket alloc] init] autorelease];
 				}else{
 					[self dumpSocket:sock
+							actionType:action
 						withErrorCode:GrowlGNTPInvalidRequestErrorCode
 					errorDescription:[NSString stringWithFormat:@"Growl server does not understand action type: %@", action]];
 				}
@@ -206,14 +222,15 @@
 		}else{
 			/* Unsupported version of the spec */
 			[self dumpSocket:sock
-			 withErrorCode:GrowlGNTPUnknownProtocolVersionErrorCode
+					actionType:nil
+				withErrorCode:GrowlGNTPUnknownProtocolVersionErrorCode
 			errorDescription:[NSString stringWithFormat:@"Growl does not support version string: %@", [items objectAtIndex:0]]];
 			return;
 		}
 	}else if(tag == 2){
 		//Pass the data to the packet and get our next read data/tag/length
 		NSString *guid = [sock userData];
-		GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
+		GNTPPacket *packet = [[self.packetsByGUID objectForKey:guid] retain];
 		NSInteger result = [packet parseDataBlock:data];
 		if(result > 0){
 			//Segments in GNTP are all seperated by a double CLRF
@@ -246,22 +263,40 @@
 				
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
-					[self.delegate registerWithDictionary:growlDict];
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self.delegate registerWithDictionary:growlDict];
+					});
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
-					[self.delegate notifyWithDictionary:growlDict];
+					if([self.delegate isNoteRegistered:[growlDict objectForKey:GROWL_NOTIFICATION_NAME]
+														 forApp:[growlDict objectForKey:GROWL_APP_NAME]
+														 onHost:[growlDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]])
+					{
+						dispatch_async(dispatch_get_main_queue(), ^{
+							[self.delegate notifyWithDictionary:growlDict];
+						});
+					}else{
+						[self dumpSocket:sock
+								actionType:[packet action]
+							withErrorCode:GrowlGNTPUnknownNotificationErrorCode
+						errorDescription:[NSString stringWithFormat:@"%@ is not registered for %@", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
+												[growlDict objectForKey:GROWL_APP_NAME]]];
+					}
 				}
 			}else{
 				//Send error
 				NSLog(@"Could not validate packet!");
-				[self dumpSocket:sock 
+				[self dumpSocket:sock
+						actionType:[packet action]
 					withErrorCode:GrowlGNTPInvalidRequestErrorCode
 				errorDescription:@"Unable to validate packet"];
 			}
 		}
+		[packet release];
 	}else if(tag == 101){
 		//read in the rest of a websocket, and reply, and then setup a read of the first bit of the socket
 	}else{
 		//We shouldn't have an unknown read tag, dump the socket
+		[self dumpSocket:sock];
 	}
 	
 	//If we know what we are reading to next, read

@@ -24,6 +24,13 @@
 @synthesize server = _server;
 @synthesize registeredApps = _registeredApps;
 
+-(id)init {
+	if((self = [super init])){
+		self.registeredApps = [NSMutableDictionary dictionary];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -59,7 +66,7 @@
 -(BOOL)isNoteRegistered:(NSString*)noteName forApp:(NSString*)appName onHost:(NSString*)host {
 	BOOL registered = NO;
 	NSString *combined = appName;
-	if(host)
+	if(host && ![host isEqualToString:@""] && ![host isLocalHost])
 		combined = [NSString stringWithFormat:@"%@-%@", host, appName];
 	NSDictionary *registeredDict = [self.registeredApps objectForKey:combined];
 	if(registeredDict){
