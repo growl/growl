@@ -181,7 +181,7 @@
 	static NSImage *_icon = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		//_icon = [[NSImage imageNamed:@"HWGPrefsDrivesVolumes"] retain];
+		_icon = [[NSImage imageNamed:@"HWGPrefsPhone"] retain];
 	});
 	return _icon;
 }

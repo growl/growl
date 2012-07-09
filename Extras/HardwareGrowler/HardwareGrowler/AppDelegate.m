@@ -427,8 +427,7 @@
 			static NSImage *placeholder = nil;
 			static dispatch_once_t onceToken;
 			dispatch_once(&onceToken, ^{
-				placeholder = [[NSImage imageNamed:@"MonitorPrefs-DefaultIcon"] retain];
-				[placeholder setSize:CGSizeMake(32.0f, 32.0f)];
+				placeholder = [[NSImage imageNamed:@"HWGPrefsDefault"] retain];
 			});
 			[cell setImage:placeholder];
 		}

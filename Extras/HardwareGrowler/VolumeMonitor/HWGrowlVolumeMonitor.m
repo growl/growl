@@ -22,7 +22,7 @@
 	static NSImage *_ejectIconImage = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		_ejectIconImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kEjectMediaIcon)] retain];
+		_ejectIconImage = [[NSImage imageNamed:@"DisksVolumes-Eject"] retain];
 	});
 	return _ejectIconImage;
 }
@@ -71,7 +71,7 @@
 			//The badge's width and height are 2/3 of the overall icon's width and height. If they were 1/2, it would look small (so I found in testing —boredzo). This looks pretty good.
 			[icon lockFocus];
 			
-			[ejectIcon drawInRect:NSMakeRect( /*origin.x*/ iconSize.width * (1.0f / 3.0f), /*origin.y*/ 0.0f, /*width*/ iconSize.width * (2.0f / 3.0f), /*height*/ iconSize.height * (2.0f / 3.0f) )
+			[ejectIcon drawInRect:CGRectMake(0.0f, 0.0f, iconSize.width, iconSize.width)
 							 fromRect:(NSRect){ NSZeroPoint, ejectIconSize }
 							operation:NSCompositeSourceOver
 							 fraction:1.0f];

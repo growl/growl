@@ -99,7 +99,7 @@
 	[delegate notifyWithName:added ? @"FirewireConnected" : @"FirewireDisconnected"
 							 title:title
 					 description:deviceName
-							  icon:nil
+							  icon:added ? [[NSImage imageNamed:@"FireWire-On"] TIFFRepresentation] : [[NSImage imageNamed:@"FireWire-Off"] TIFFRepresentation]
 			  identifierString:deviceName
 				  contextString:nil
 							plugin:self];

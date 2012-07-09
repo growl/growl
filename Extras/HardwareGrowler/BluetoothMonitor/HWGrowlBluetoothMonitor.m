@@ -78,7 +78,7 @@
 	[delegate notifyWithName:connected ? @"BluetoothConnected" : @"BluetoothDisconnected"
 							 title:title
 					 description:name
-							  icon:nil
+							  icon:connected ? [[NSImage imageNamed:@"Bluetooth-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Bluetooth-Off"] TIFFRepresentation]
 			  identifierString:name
 				  contextString:nil
 							plugin:self];

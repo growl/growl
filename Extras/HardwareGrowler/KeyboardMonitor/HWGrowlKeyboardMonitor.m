@@ -130,25 +130,25 @@ self.NAME ## Flag = NAME;
 		name = newState ? @"CapsLockOn" : @"CapsLockOff";
 		title = newState ? NSLocalizedString(@"Caps Lock On", @"") : NSLocalizedString(@"Caps Lock Off", @"");
 		identifier = @"HWGrowlCaps";
-		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"Capster-CapsLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-CapsLock-Off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"numlock"]){
 		enabledKey = @"numlock";
 		name = newState ? @"NumLockOn" : @"NumLockOff";
 		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
 		identifier = @"HWGrowlNumLock";
-		iconData = newState ? [[NSImage imageNamed:@"numlock_on"] TIFFRepresentation] : [[NSImage imageNamed:@"numlock_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"Capster-NumLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-NumLock-Off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"fn"]){
 		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
 		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
 		identifier = @"HWGrowlFNKey";
-		iconData = newState ? [[NSImage imageNamed:@"fn_on"] TIFFRepresentation] : [[NSImage imageNamed:@"fn_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"Capster-FnKey-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-FnKey-Off"] TIFFRepresentation];
 	}else if ([type isEqualToString:@"shift"]){
 		enabledKey = @"shiftkey";
 		name = newState ? @"ShiftPressed" : @"ShiftReleased";
 		title = newState ? NSLocalizedString(@"Shift Key Pressed", @"") : NSLocalizedString(@"Shift Key Released", @"");
 		identifier = @"HWGrowlShiftKey";
-		iconData = newState ? [[NSImage imageNamed:@"caps_on"] TIFFRepresentation] : [[NSImage imageNamed:@"caps_off"] TIFFRepresentation];
+		iconData = newState ? [[NSImage imageNamed:@"Capster-Shift-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-Shift-Off"] TIFFRepresentation];
 	}else {
 		return;
 	}
@@ -190,7 +190,7 @@ self.NAME ## Flag = NAME;
 	static NSImage *_icon = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		//_icon = [[NSImage imageNamed:@"HWGPrefsDrivesVolumes"] retain];
+		_icon = [[NSImage imageNamed:@"HWGPrefsCapster"] retain];
 	});
 	return _icon;
 }

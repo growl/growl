@@ -205,8 +205,8 @@ typedef enum {
 	NSData *oldBSSID = nil;
 	if (existing)
 		oldBSSID = [existing objectForKey:@"BSSID"];
-	
-	if (newValue && oldBSSID != newBSSID && !(newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
+		
+	if (newValue && ![oldBSSID isEqualToData:newBSSID] && !(newBSSID && oldBSSID && CFEqual(oldBSSID, newBSSID))) {
 		NSNumber *linkStatus = [newValue objectForKey:@"Link Status"];
 		NSNumber *powerStatus = [newValue objectForKey:@"Power Status"];
 		if (linkStatus || powerStatus) {
@@ -239,7 +239,7 @@ typedef enum {
 	[delegate notifyWithName:@"AirportDisconnected"
 							 title:NSLocalizedString(@"AirPort Disconnected", @"")
 					 description:[NSString stringWithFormat:NSLocalizedString(@"Left network %@.", @""), networkName]
-							  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+							  icon:[[NSImage imageNamed:@"Network-Wifi-Off"] TIFFRepresentation]
 			  identifierString:@"HWGrowlAirPort"
 				  contextString:nil 
 							plugin:self];
@@ -262,7 +262,7 @@ typedef enum {
 	[delegate notifyWithName:@"AirportConnected"
 							 title:NSLocalizedString(@"AirPort Connected", @"")
 					 description:description
-							  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+							  icon:[[NSImage imageNamed:@"Network-Wifi-4"] TIFFRepresentation]
 			  identifierString:@"HWGrowlAirPort"
 				  contextString:nil
 							plugin:self];
@@ -278,6 +278,7 @@ typedef enum {
 	NSString *noteName = nil;
 	NSString *noteTitle = nil;
 	NSString *noteDescription = nil;
+	NSData *imageData = nil;
 	if (newActive && !oldActive) {
 		noteName = @"NetworkLinkUp";
 		noteTitle = NSLocalizedString(@"Network Link Up", @"");
@@ -285,18 +286,19 @@ typedef enum {
 								 NSLocalizedString(@"Interface:\t%@\nMedia:\t%@", "The first %@ will be replaced with the interface (en0, en1, etc) second %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex'"),
 								 interfaceString,
 								 [self getMediaForInterface:interfaceString]];
-		
+		imageData = [[NSImage imageNamed:@"Network-Ethernet-On"] TIFFRepresentation];
 	} else if (!newActive && oldActive) {
 		noteName = @"NetworkLinkDown";
 		noteTitle = NSLocalizedString(@"Network Link Down", @"");
 		noteDescription = [NSString stringWithFormat:NSLocalizedString(@"Interface:\t%@", nil), interfaceString];
+		imageData = [[NSImage imageNamed:@"Network-Ethernet-Off"] TIFFRepresentation];
 	}
 	
 	if(noteName){
 		[delegate notifyWithName:noteName
 								 title:noteTitle
 						 description:noteDescription
-								  icon:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation]
+								  icon:imageData
 				  identifierString:@"HWGrowlNetworkLink"
 					  contextString:nil
 								plugin:self];
@@ -377,13 +379,17 @@ typedef enum {
 	if([combined isEqualToString:previousIPCombined])
 		return;
 		
-	if([combined isEqualToString:@""])
+	NSData *imageData = nil;
+	if([combined isEqualToString:@""]) {
 		combined = nil;
-	
+		imageData = [[NSImage imageNamed:@"Network-Generic-Off"] TIFFRepresentation];
+	}else{
+		imageData = [[NSImage imageNamed:@"Network-Generic-On"] TIFFRepresentation];
+	}
 	[delegate notifyWithName:@"IPAddressChange"
 							 title:NSLocalizedString(@"IP Addresses Updated", @"")
 					 description:combined ? combined : NSLocalizedString(@"No routable IP addresses", @"")
-							  icon:[NSImage imageNamed:NSImageNameNetwork]
+							  icon:imageData
 			  identifierString:@"HWGrowlIPAddressChange"
 				  contextString:nil
 							plugin:self];

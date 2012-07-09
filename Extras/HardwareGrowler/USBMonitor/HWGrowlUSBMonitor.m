@@ -115,7 +115,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 	[delegate notifyWithName:added ? @"USBConnected" : @"USBDisconnected"
 							 title:title
 					 description:deviceName
-							  icon:nil
+							  icon:added ? [[NSImage imageNamed:@"USB-On"] TIFFRepresentation] : [[NSImage imageNamed:@"USB-Off"] TIFFRepresentation]
 			  identifierString:[NSString stringWithFormat:@"%llu", deviceID]
 				  contextString:nil
 							plugin:self];

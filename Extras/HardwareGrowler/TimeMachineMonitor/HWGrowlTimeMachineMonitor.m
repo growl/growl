@@ -130,7 +130,7 @@
 		[blockSelf->delegate notifyWithName:@"TimeMachineStart"
 												title:NSLocalizedString(@"Time Machine started", @"") 
 										description:description
-												 icon:[blockSelf timeMachineIcon]
+												 icon:[[NSImage imageNamed:@"TimeMachine-On"] TIFFRepresentation]
 								 identifierString:@"HWGTimeMachineMonitor"
 									 contextString:nil
 											  plugin:blockSelf];
@@ -198,7 +198,7 @@
 						[blockSelf->delegate notifyWithName:@"TimeMachineFinish"
 																title:NSLocalizedString(@"Time Machine finished", @"")
 														description:[NSString stringWithFormat:NSLocalizedString(@"Back-up took %@", @""), timeString]
-																 icon:[blockSelf timeMachineIcon]
+																 icon:[[NSImage imageNamed:@"TimeMachine-Off"] TIFFRepresentation]
 												 identifierString:@"HWGTimeMachineMonitor"
 													 contextString:nil
 															  plugin:blockSelf];
@@ -224,7 +224,7 @@
 						[blockSelf->delegate notifyWithName:wasFailure ? @"TimeMachineFailed" : @"TimeMachineCanceled"
 																title:wasFailure ? NSLocalizedString(@"Time Machine Failed", @"") : NSLocalizedString(@"Time Machine Canceled", @"")
 														description:description
-																 icon:[blockSelf timeMachineIcon]
+																 icon:[[NSImage imageNamed:@"TimeMachine-Failed"] TIFFRepresentation]
 												 identifierString:@"HWGTimeMachineMonitor"
 													 contextString:nil
 															  plugin:blockSelf];

@@ -208,7 +208,7 @@
 			break;
 	}
 	BOOL sendTime = NO;
-	if(remaining >= 0.0f && (changedType || (remaining == kIOPSTimeRemainingUnknown) != (lastKnownTime == kIOPSTimeRemainingUnknown)))
+	if(remaining != kIOPSTimeRemainingUnknown && (changedType || (remaining == kIOPSTimeRemainingUnknown) != (lastKnownTime == kIOPSTimeRemainingUnknown)))
 		sendTime = YES;
 	
 	BOOL havePercent = NO;
@@ -233,10 +233,11 @@
 		NSString *name = nil;
 		NSString *localizedSource = [self localizedNameForSource:currentSource];
 		NSMutableString *description = nil;
+		NSData *imageData = nil;
 		if(!warnBattery){
 			name = @"PowerChange";
 			title = [NSString stringWithFormat:NSLocalizedString(@"On %@", @"Format string for On <power type>"), localizedSource];
-			if(remaining < 0.0f) {
+			if(remaining == kIOPSTimeRemainingUnknown) {
 				description = (currentSource == HGACPower) ? [NSMutableString stringWithString:NSLocalizedString(@"Battery charging", @"")] : nil;
 			} else {
 				NSUInteger minutesRemaining = (NSUInteger)(remaining / 60.0f);
@@ -257,10 +258,37 @@
 			else description = [NSMutableString stringWithFormat:NSLocalizedString(@"Current Level: %ld%%", @""), percentage];
 		}
 		
+		switch (currentSource) {
+			case HGACPower:
+				if(remaining != kIOPSTimeRemainingUnknown)
+					imageData = [[NSImage imageNamed:@"Power-Charging"] TIFFRepresentation];
+				else
+					imageData = [[NSImage imageNamed:@"Power-Plugged"] TIFFRepresentation];
+				break;
+			case HGBatteryPower:
+			case HGUPSPower:
+				if(havePercent){
+					NSInteger adjusted = (NSInteger)roundf((CGFloat)percentage / 10.0f);
+					NSString *imageName = [NSString stringWithFormat:@"Power-%ld0", adjusted];
+					if(adjusted == 0)
+						imageName = @"Power-0";
+					imageData = [[NSImage imageNamed:imageName] TIFFRepresentation];
+				}
+				if(!imageData){
+					imageData = [[NSImage imageNamed:@"Power-NoBattery"] TIFFRepresentation];
+				}
+				break;
+			case HGUnknownPower:
+			default:
+				//Shouldn't get to either of these
+				imageData = [[NSImage imageNamed:@"Power-BatteryFailure"] TIFFRepresentation];
+				break;
+		}
+		
 		[delegate notifyWithName:name
 								 title:title
 						 description:description
-								  icon:nil
+								  icon:imageData
 				  identifierString:name
 					  contextString:nil
 								plugin:self];
