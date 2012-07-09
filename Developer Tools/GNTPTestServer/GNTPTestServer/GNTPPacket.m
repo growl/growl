@@ -310,7 +310,8 @@
 		case 0:
 		{
 			//Our initial header block
-			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+			NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
+			NSString *headersString = [NSString stringWithUTF8String:[trimmedData bytes]];
 			[GNTPPacket enumerateHeaders:headersString 
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
 										 [blockSelf parseHeaderKey:headerKey value:headerValue];
@@ -398,7 +399,8 @@
 }
 
 -(void)parseResourceDataHeader:(NSData*)data {
-	NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+	NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
+	NSString *headersString = [NSString stringWithUTF8String:[trimmedData bytes]];
 	__block NSString *newId = nil;
 	__block NSString *newLength = nil;
 	[GNTPPacket enumerateHeaders:headersString 
