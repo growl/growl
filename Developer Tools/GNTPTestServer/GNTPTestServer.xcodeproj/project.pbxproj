@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */; };
+		BC30D41415AC5F8D00F18913 /* GrowlMiniDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */; };
+		BC30D41515AC5F8D00F18913 /* GrowlMistView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */; };
+		BC30D41615AC5F8D00F18913 /* GrowlMistWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */; };
+		BC30D41715AC5F8D00F18913 /* NSImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */; };
+		BC30D41E15AC613300F18913 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41B15AC613300F18913 /* GrowlPositionController.m */; };
+		BC30D41F15AC613300F18913 /* GrowlQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */; };
+		BC30D42215AC619700F18913 /* GrowlPositionColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D42115AC619700F18913 /* GrowlPositionColumn.m */; };
 		BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */; };
 		BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */; };
 		BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */; };
@@ -32,6 +39,21 @@
 		BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../../Common/Source/GrowlDefines.h; sourceTree = "<group>"; };
 		BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../../Common/Source/GrowlDefinesInternal.h; sourceTree = "<group>"; };
 		BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDefinesInternal.m; path = ../../../Common/Source/GrowlDefinesInternal.m; sourceTree = "<group>"; };
+		BC30D40C15AC5F8D00F18913 /* GrowlMiniDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMiniDispatch.h; path = ../../../Framework/Source/Mist/GrowlMiniDispatch.h; sourceTree = "<group>"; };
+		BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMiniDispatch.m; path = ../../../Framework/Source/Mist/GrowlMiniDispatch.m; sourceTree = "<group>"; };
+		BC30D40E15AC5F8D00F18913 /* GrowlMistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMistView.h; path = ../../../Framework/Source/Mist/GrowlMistView.h; sourceTree = "<group>"; };
+		BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistView.m; path = ../../../Framework/Source/Mist/GrowlMistView.m; sourceTree = "<group>"; };
+		BC30D41015AC5F8D00F18913 /* GrowlMistWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMistWindowController.h; path = ../../../Framework/Source/Mist/GrowlMistWindowController.h; sourceTree = "<group>"; };
+		BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistWindowController.m; path = ../../../Framework/Source/Mist/GrowlMistWindowController.m; sourceTree = "<group>"; };
+		BC30D41215AC5F8D00F18913 /* NSImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSImageAdditions.h; path = ../../../Framework/Source/Mist/NSImageAdditions.h; sourceTree = "<group>"; };
+		BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSImageAdditions.m; path = ../../../Framework/Source/Mist/NSImageAdditions.m; sourceTree = "<group>"; };
+		BC30D41A15AC613300F18913 /* GrowlPositionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositionController.h; path = ../../../Plugins/PluginFramework/GrowlPositionController.h; sourceTree = "<group>"; };
+		BC30D41B15AC613300F18913 /* GrowlPositionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionController.m; path = ../../../Plugins/PluginFramework/GrowlPositionController.m; sourceTree = "<group>"; };
+		BC30D41C15AC613300F18913 /* GrowlQuadTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlQuadTreeNode.h; path = ../../../Plugins/PluginFramework/GrowlQuadTreeNode.h; sourceTree = "<group>"; };
+		BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlQuadTreeNode.m; path = ../../../Plugins/PluginFramework/GrowlQuadTreeNode.m; sourceTree = "<group>"; };
+		BC30D42015AC619700F18913 /* GrowlPositionColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositionColumn.h; path = ../../../Plugins/PluginFramework/GrowlPositionColumn.h; sourceTree = "<group>"; };
+		BC30D42115AC619700F18913 /* GrowlPositionColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionColumn.m; path = ../../../Plugins/PluginFramework/GrowlPositionColumn.m; sourceTree = "<group>"; };
+		BC30D42315AC62D100F18913 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = ../../../Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
 		BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = ../../../Core/Source/GNTPKey.h; sourceTree = "<group>"; };
 		BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = ../../../Core/Source/GNTPKey.m; sourceTree = "<group>"; };
 		BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
@@ -82,9 +104,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC30D41915AC5F9500F18913 /* Mist */ = {
+			isa = PBXGroup;
+			children = (
+				BC30D40C15AC5F8D00F18913 /* GrowlMiniDispatch.h */,
+				BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */,
+				BC30D40E15AC5F8D00F18913 /* GrowlMistView.h */,
+				BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */,
+				BC30D41015AC5F8D00F18913 /* GrowlMistWindowController.h */,
+				BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */,
+				BC30D41215AC5F8D00F18913 /* NSImageAdditions.h */,
+				BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */,
+				BC30D41A15AC613300F18913 /* GrowlPositionController.h */,
+				BC30D41B15AC613300F18913 /* GrowlPositionController.m */,
+				BC30D42015AC619700F18913 /* GrowlPositionColumn.h */,
+				BC30D42115AC619700F18913 /* GrowlPositionColumn.m */,
+				BC30D41C15AC613300F18913 /* GrowlQuadTreeNode.h */,
+				BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */,
+				BC30D42315AC62D100F18913 /* GrowlPositioningDefines.h */,
+			);
+			name = Mist;
+			sourceTree = "<group>";
+		};
 		BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */ = {
 			isa = PBXGroup;
 			children = (
+				BC30D41915AC5F9500F18913 /* Mist */,
 				BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */,
 				BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */,
 				BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */,
@@ -250,6 +295,13 @@
 				BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */,
 				BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */,
 				BC4E243C15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m in Sources */,
+				BC30D41415AC5F8D00F18913 /* GrowlMiniDispatch.m in Sources */,
+				BC30D41515AC5F8D00F18913 /* GrowlMistView.m in Sources */,
+				BC30D41615AC5F8D00F18913 /* GrowlMistWindowController.m in Sources */,
+				BC30D41715AC5F8D00F18913 /* NSImageAdditions.m in Sources */,
+				BC30D41E15AC613300F18913 /* GrowlPositionController.m in Sources */,
+				BC30D41F15AC613300F18913 /* GrowlQuadTreeNode.m in Sources */,
+				BC30D42215AC619700F18913 /* GrowlPositionColumn.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

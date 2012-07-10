@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "GNTPServer.h"
+#import "GrowlMiniDispatch.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, GNTPServerDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, GNTPServerDelegate, GrowlMiniDispatchDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 

@@ -241,6 +241,11 @@
 			readToData = [GNTPServer doubleCLRF];
 		}else if(result < 0){
 			//Dump socket/packet with appropriate error
+			NSLog(@"Could not validate packet!");
+			[self dumpSocket:sock
+					actionType:[packet action]
+				withErrorCode:GrowlGNTPInvalidRequestErrorCode
+			errorDescription:@"Unable to validate packet"];
 		}else{
 			/* Done reading the packet
 			 *	validate it

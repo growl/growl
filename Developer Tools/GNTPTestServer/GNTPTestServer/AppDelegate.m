@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) GNTPServer *server;
 @property (nonatomic, retain) NSMutableDictionary *registeredApps;
+@property (nonatomic, retain) GrowlMiniDispatch *mistDispatch;
 
 @end
 
@@ -23,6 +24,7 @@
 @synthesize window = _window;
 @synthesize server = _server;
 @synthesize registeredApps = _registeredApps;
+@synthesize mistDispatch = _mistDispatch;
 
 -(id)init {
 	if((self = [super init])){
@@ -33,7 +35,8 @@
 
 - (void)dealloc
 {
-    [super dealloc];
+	self.registeredApps = nil;
+	[super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -42,6 +45,9 @@
 	self.server = [[[GNTPServer alloc] init] autorelease];
 	self.server.delegate = (id<GNTPServerDelegate>)self;
 	[self.server startServer];
+	
+	self.mistDispatch = [[[GrowlMiniDispatch alloc] init] autorelease];
+	self.mistDispatch.delegate = (id<GrowlMiniDispatchDelegate>)self;
 }
 
 //File the dictionary under its hostname - appname for test
@@ -56,7 +62,8 @@
 }
 //Do a crude note display for test
 -(void)notifyWithDictionary:(NSDictionary*)dictionary {
-	NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
+	//NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
+	[self.mistDispatch displayNotification:dictionary];
 }
 //Do nothing except log for test?
 -(void)subscribeWithDictionary:(NSDictionary*)dictionary {
@@ -77,5 +84,12 @@
 	return registered;
 }
 
+/* Modify the context sent in to a GUID we can use to get the full real dictionary to deal with the server with */
+- (void)growlNotificationWasClicked:(id)context {
+	
+}
+- (void)growlNotificationTimedOut:(id)context {
+	
+}
 
 @end
