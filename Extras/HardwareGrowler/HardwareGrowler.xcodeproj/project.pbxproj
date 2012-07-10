@@ -131,7 +131,6 @@
 		BCF6236A156878CC00AB4676 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCF62370156878CC00AB4676 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCF6236E156878CC00AB4676 /* InfoPlist.strings */; };
 		BCF6237C15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF6237B15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m */; };
-		BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCF62369156878CC00AB4676 /* TimeMachineMonitor.hwgrowlmonitor */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,13 +309,6 @@
 			remoteGlobalIDString = BCECA38B155322D200F49280;
 			remoteInfo = VolumeMonitor;
 		};
-		BCF6237D156890B400AB4676 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCB805DE155153330088C69A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BCF62368156878CC00AB4676;
-			remoteInfo = TimeMachineMonitor;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -349,7 +341,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCF6237F156890C700AB4676 /* TimeMachineMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */,
 				BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */,
@@ -1280,7 +1271,6 @@
 			);
 			dependencies = (
 				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
-				BCF6237E156890B400AB4676 /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
 				BCAA17661557857C00D9E4ED /* PBXTargetDependency */,
 				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
@@ -1883,11 +1873,6 @@
 			isa = PBXTargetDependency;
 			target = BCECA38B155322D200F49280 /* VolumeMonitor */;
 			targetProxy = BCECA3AC155325CC00F49280 /* PBXContainerItemProxy */;
-		};
-		BCF6237E156890B400AB4676 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BCF62368156878CC00AB4676 /* TimeMachineMonitor */;
-			targetProxy = BCF6237D156890B400AB4676 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
