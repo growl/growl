@@ -45,6 +45,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 +(NSDictionary*)gntpToGrowlMatchingDict;
 +(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey;
 
+-(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data;
 -(NSInteger)parseDataBlock:(NSData*)data;
 -(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;
 -(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier;

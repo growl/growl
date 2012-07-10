@@ -46,8 +46,7 @@
 			//Reading in notifications
 			//break it down
 			//No need to handle the extra CLRF's after the last line
-			NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:([data length] - [[GNTPServer doubleCLRF] length])];
-			NSString *noteHeaderBlock = [NSString stringWithUTF8String:[trimmedData bytes]];
+			NSString *noteHeaderBlock = [NSString stringWithUTF8String:[data bytes]];
 			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 			[GNTPPacket enumerateHeaders:noteHeaderBlock
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {

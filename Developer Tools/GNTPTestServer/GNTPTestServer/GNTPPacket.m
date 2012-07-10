@@ -303,6 +303,42 @@
 	[super dealloc];
 }
 
+-(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data {
+	if([self.key encryptionAlgorithm] == GNTPNone)
+		return [self parseDataBlock:data];
+	
+	NSData *decryptedData = data;
+	NSInteger result = -1;
+	switch (self.state) {
+		//Initial Headers, could include registration
+		case 0:
+		{
+			decryptedData = [self.key decrypt:data];
+			NSString *allHeaders = [NSString stringWithUTF8String:[decryptedData bytes]];
+			NSMutableArray *portions = [[[allHeaders componentsSeparatedByString:@"\r\n\r\n"] mutableCopy] autorelease];
+			if([portions count] > 0) {
+				do {
+					NSString *current = [portions objectAtIndex:0];
+					result = [self parseDataBlock:[NSData dataWithBytes:[current UTF8String] length:[current length]]];
+					[portions removeObjectAtIndex:0];
+				} while (result > 0 && [portions count] > 0);
+			}else
+				result = -1;
+			break;
+		}
+		//Data blocks
+		case 2:
+			result = [self parseDataBlock:[self.key decrypt:data]];
+			break;
+		//Everything else
+		case 1:			
+		default:
+			result = [self parseDataBlock:data];
+			break;
+	}
+	return result;
+}
+
 -(NSInteger)parseDataBlock:(NSData*)data {
 	NSInteger result = 0;
 	__block GNTPPacket *blockSelf = self;
@@ -310,8 +346,7 @@
 		case 0:
 		{
 			//Our initial header block
-			NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
-			NSString *headersString = [NSString stringWithUTF8String:[trimmedData bytes]];
+			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
 			[GNTPPacket enumerateHeaders:headersString 
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
 										 [blockSelf parseHeaderKey:headerKey value:headerValue];
@@ -399,8 +434,7 @@
 }
 
 -(void)parseResourceDataHeader:(NSData*)data {
-	NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
-	NSString *headersString = [NSString stringWithUTF8String:[trimmedData bytes]];
+	NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
 	__block NSString *newId = nil;
 	__block NSString *newLength = nil;
 	[GNTPPacket enumerateHeaders:headersString 
@@ -428,14 +462,10 @@
 }
 
 -(void)parseResourceDataBlock:(NSData*)data {
-	NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
-	
-	//Decrypt trimmed data block
-	
-	if([trimmed length] != incomingDataLength)
+	if([data length] != incomingDataLength)
 		NSLog(@"Gah! Read data block and stated data length not the same!");
 	else
-		[self receivedResourceDataBlock:trimmed forIdentifier:incomingDataIdentifier];
+		[self receivedResourceDataBlock:data forIdentifier:incomingDataIdentifier];
 	[self.dataBlockIdentifiers removeObject:incomingDataIdentifier];
 }
 

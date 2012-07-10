@@ -231,7 +231,9 @@
 		//Pass the data to the packet and get our next read data/tag/length
 		NSString *guid = [sock userData];
 		GNTPPacket *packet = [[self.packetsByGUID objectForKey:guid] retain];
-		NSInteger result = [packet parseDataBlock:data];
+		//All our data in here is a double clrf trailed
+		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
+		NSInteger result = [packet parsePossiblyEncryptedDataBlock:trimmedData];
 		if(result > 0){
 			//Segments in GNTP are all seperated by a double CLRF
 			//Packet maintains its state, with sub classes providing specifics for the type of packet (ie, notes in a registration packet)
