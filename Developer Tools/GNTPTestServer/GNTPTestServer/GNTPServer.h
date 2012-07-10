@@ -23,9 +23,12 @@
 
 @property (nonatomic, assign) id<GNTPServerDelegate> delegate;
 
++ (NSData*)doubleCLRF;
+
 -(void)startServer;
 -(void)stopServer;
 
-+ (NSData*)doubleCLRF;
+-(void)notificationClicked:(NSDictionary*)dictionary;
+-(void)notificationTimedOut:(NSDictionary*)dictionary;
 
 @end

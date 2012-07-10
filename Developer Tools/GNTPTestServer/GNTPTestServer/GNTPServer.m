@@ -15,6 +15,7 @@
 #import "GrowlGNTPDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "ISO8601DateFormatter.h"
 
 #import "GrowlDispatchMutableDictionary.h"
 
@@ -77,6 +78,7 @@
 	[sock disconnect];
 	[self.socketsByGUID removeObjectForKey:guid];
 	[self.packetsByGUID removeObjectForKey:guid];
+	[guid release];
 }
 
 - (void)dumpSocket:(GCDAsyncSocket*)sock
@@ -90,6 +92,77 @@
 	[errorString appendString:@"\r\n"];
 	NSData *errorData = [NSData dataWithBytes:[errorString UTF8String] length:[errorString length]];
 	[sock writeData:errorData withTimeout:5.0 tag:-2];
+}
+
+-(void)sendFeedback:(BOOL)clicked forDictionary:(NSDictionary*)dictionary {
+	NSString *guid = [dictionary valueForKey:@"GNTPGUID"];
+	//Get our socket and origin packet for these
+	GCDAsyncSocket *socket = [self.socketsByGUID objectForKey:guid];
+	GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
+	if(socket && packet){
+		//Build a feedback response
+		//This should support encrypting replies at some point
+		NSMutableString *response = [NSMutableString stringWithString:@"GNTP/1.0 -CALLBACK NONE\r\n"];
+		[response appendFormat:@"Application-Name: %@\r\n", [dictionary valueForKey:GROWL_APP_NAME]];
+		if([dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER])
+			[response appendFormat:@"Notification-ID: %@", [dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+		[response appendFormat:@"Notification-Callback-Result: %@\r\n", clicked ? @"CLICKED" : @"TIMEOUT"];
+		
+		static ISO8601DateFormatter *_dateFormatter = nil;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			_dateFormatter = [[ISO8601DateFormatter alloc] init];
+		});
+		[response appendFormat:@"Notification-Callback-Timestamp: %@\r\n", [_dateFormatter stringFromDate:[NSDate date]]];
+		
+		NSString *contextType = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+		id context = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+		NSString *contextString = nil;
+		if([context isKindOfClass:[NSString class]]){
+			//Go ahead and set it regardless
+			contextString = context;
+		}else{
+			if([contextType caseInsensitiveCompare:@"PLIST"]){
+				if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
+					NSData *propertyListData = [NSPropertyListSerialization dataWithPropertyList:context
+																												 format:kCFPropertyListXMLFormat_v1_0
+																												options:0
+																												  error:NULL];
+					if(propertyListData){
+						contextString = [NSString stringWithUTF8String:[propertyListData bytes]];
+					}
+				}
+				if(!contextString){
+					NSLog(@"Error generating context string from supposed plist: %@\r\n", context);
+				}
+			}
+		}
+		if(contextString){
+			//If we can't get a context formed into a string, this isn't worth sending
+			[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
+			[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
+			[response appendString:@"\r\n"];
+			NSData *feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
+			[socket writeData:feedbackData
+					withTimeout:5.0
+							  tag:-2];
+		}else{
+			[self dumpSocket:socket];
+		}
+	}else{
+		//NSLog(@"Socket and/or packet have disappeared out from under us");
+		if(socket)
+			[self dumpSocket:socket];
+		else if(packet){
+			[self.packetsByGUID removeObjectForKey:guid];
+		}
+	}
+}
+-(void)notificationClicked:(NSDictionary*)dictionary {
+	[self sendFeedback:YES forDictionary:dictionary];
+}
+-(void)notificationTimedOut:(NSDictionary*)dictionary {
+	[self sendFeedback:NO forDictionary:dictionary];
 }
 
 #pragma mark GCDAsyncSocketDelegate
@@ -212,6 +285,7 @@
 					[packet setAction:action];
 					[packet setKey:key];
 					[packet setConnectedHost:[sock connectedHost]];
+					[packet setGuid:[sock userData]];
 					[self.packetsByGUID setObject:packet forKey:[sock userData]];
 					
 					//Get our next read to value/tag
@@ -317,8 +391,10 @@
 								 tag:readToTag];
 	}else {
 		//The only question in here is if we have something to write out? eh...
-		if(responseData && readToTag <= -1){
+		if(responseData && readToTag < -1){
 			[sock writeData:responseData withTimeout:5 tag:readToTag];
+		}else if(readToTag == -1){
+			//We do nothing!
 		}else{
 			//If we dont have anything to write, dump socket
 			[self dumpSocket:sock];

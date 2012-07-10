@@ -46,6 +46,15 @@
 	return [super validate];
 }
 
+-(NSTimeInterval)requestedTimeAlive {
+	//determine what type of feedback we are expecting to send
+	NSTimeInterval result = [super requestedTimeAlive];
+	//Crude
+	if(self.callbackString && ![self.gntpDictionary valueForKey:GrowlGNTPNotificationCallbackTarget])
+		result = 10.0;
+	return result;
+}
+
 -(NSMutableDictionary*)convertedGrowlDict {
 	NSMutableDictionary *convertedDict = [[super convertedGrowlDict] retain];
 	if(self.callbackString){
@@ -65,7 +74,7 @@
 			//We can easily add support here for other types
 		}
 		
-		//We dont really know the type, just the stuff the string back in
+		//We dont really know the type, or couldn't convert it, just the stuff the string back in
 		if(insertAsIs){
 			[convertedDict setObject:self.callbackString forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 		}

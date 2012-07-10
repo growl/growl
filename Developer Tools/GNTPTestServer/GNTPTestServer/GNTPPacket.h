@@ -17,6 +17,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSString *connectedHost;
+@property (nonatomic, retain) NSString *guid;
 @property (nonatomic, retain) NSString *action;
 @property (nonatomic, retain) NSDictionary *growlDict;
 @property (nonatomic, retain) NSMutableDictionary *gntpDictionary;

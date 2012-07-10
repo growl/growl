@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) GNTPServer *server;
 @property (nonatomic, retain) NSMutableDictionary *registeredApps;
+@property (nonatomic, retain) NSMutableDictionary *displayedNotifications;
 @property (nonatomic, retain) GrowlMiniDispatch *mistDispatch;
 
 @end
@@ -24,11 +25,13 @@
 @synthesize window = _window;
 @synthesize server = _server;
 @synthesize registeredApps = _registeredApps;
+@synthesize displayedNotifications = _displayedNotifications;
 @synthesize mistDispatch = _mistDispatch;
 
 -(id)init {
 	if((self = [super init])){
 		self.registeredApps = [NSMutableDictionary dictionary];
+		self.displayedNotifications = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
@@ -63,7 +66,15 @@
 //Do a crude note display for test
 -(void)notifyWithDictionary:(NSDictionary*)dictionary {
 	//NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
-	[self.mistDispatch displayNotification:dictionary];
+	NSString *guid = [dictionary objectForKey:@"GNTPGUID"];
+	[self.displayedNotifications setObject:dictionary forKey:guid];
+	
+	//We stored the real dict in with a guid
+	//replace the context we get from mini dispatch with the GUID so we can look
+	//up the real dict and its real context
+	NSMutableDictionary *growlDictCopy = [[dictionary mutableCopy] autorelease];
+	[growlDictCopy setObject:guid forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	[self.mistDispatch displayNotification:growlDictCopy];
 }
 //Do nothing except log for test?
 -(void)subscribeWithDictionary:(NSDictionary*)dictionary {
@@ -84,12 +95,18 @@
 	return registered;
 }
 
-/* Modify the context sent in to a GUID we can use to get the full real dictionary to deal with the server with */
+//Pass the full dict back into the server for now
 - (void)growlNotificationWasClicked:(id)context {
-	
+	NSDictionary *growlDict = [[self.displayedNotifications objectForKey:context] retain];
+	[self.displayedNotifications removeObjectForKey:context];
+	[self.server notificationClicked:growlDict];
+	[growlDict release];
 }
 - (void)growlNotificationTimedOut:(id)context {
-	
+	NSDictionary *growlDict = [[self.displayedNotifications objectForKey:context] retain];
+	[self.displayedNotifications removeObjectForKey:context];
+	[self.server notificationTimedOut:growlDict];
+	[growlDict release];
 }
 
 @end

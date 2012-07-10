@@ -25,7 +25,8 @@
 @implementation GNTPPacket
 
 @synthesize key = _key;
-@synthesize connectedHost;
+@synthesize connectedHost = _connectedHost;
+@synthesize guid = _guid;
 @synthesize action = _action;
 @synthesize growlDict = _growlDict;
 @synthesize gntpDictionary = _gntpDictionary;
@@ -541,6 +542,7 @@
 			[convertedDict setObject:convertedObj forKey:growlDictKey];
 		}
 	}];
+	[convertedDict setObject:self.guid forKey:@"GNTPGUID"];
 	return convertedDict;
 }
 -(NSDictionary*)growlDict {
