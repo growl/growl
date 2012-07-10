@@ -10,4 +10,6 @@
 
 @interface GNTPNotifyPacket : GNTPPacket
 
++(NSData*)feedbackData:(BOOL)clicked forGrowlDictionary:(NSDictionary*)dictionary;
+
 @end

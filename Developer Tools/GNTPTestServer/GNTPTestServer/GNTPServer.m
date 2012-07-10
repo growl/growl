@@ -15,7 +15,6 @@
 #import "GrowlGNTPDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "ISO8601DateFormatter.h"
 
 #import "GrowlDispatchMutableDictionary.h"
 
@@ -72,6 +71,16 @@
 	return _doubleCLRF;
 }
 
++ (NSData*)gntpEndData {
+	static NSData *_gntpEndData = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSString *endString = @"GNTP/1.0 END\r\n\r\n";
+		_gntpEndData = [[NSData dataWithBytes:[endString UTF8String] length:[endString length]] retain];
+	});
+	return _gntpEndData;
+}
+
 - (void)dumpSocket:(GCDAsyncSocket*)sock
 {
 	NSString *guid = [[sock userData] retain];
@@ -96,66 +105,21 @@
 
 -(void)sendFeedback:(BOOL)clicked forDictionary:(NSDictionary*)dictionary {
 	NSString *guid = [dictionary valueForKey:@"GNTPGUID"];
-	//Get our socket and origin packet for these
+	//Get our socket for sending the response
 	GCDAsyncSocket *socket = [self.socketsByGUID objectForKey:guid];
-	GNTPPacket *packet = [self.packetsByGUID objectForKey:guid];
-	if(socket && packet){
-		//Build a feedback response
-		//This should support encrypting replies at some point
-		NSMutableString *response = [NSMutableString stringWithString:@"GNTP/1.0 -CALLBACK NONE\r\n"];
-		[response appendFormat:@"Application-Name: %@\r\n", [dictionary valueForKey:GROWL_APP_NAME]];
-		if([dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER])
-			[response appendFormat:@"Notification-ID: %@", [dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER]];
-		[response appendFormat:@"Notification-Callback-Result: %@\r\n", clicked ? @"CLICKED" : @"TIMEOUT"];
-		
-		static ISO8601DateFormatter *_dateFormatter = nil;
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			_dateFormatter = [[ISO8601DateFormatter alloc] init];
-		});
-		[response appendFormat:@"Notification-Callback-Timestamp: %@\r\n", [_dateFormatter stringFromDate:[NSDate date]]];
-		
-		NSString *contextType = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
-		id context = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-		NSString *contextString = nil;
-		if([context isKindOfClass:[NSString class]]){
-			//Go ahead and set it regardless
-			contextString = context;
-		}else{
-			if([contextType caseInsensitiveCompare:@"PLIST"]){
-				if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
-					NSData *propertyListData = [NSPropertyListSerialization dataWithPropertyList:context
-																												 format:kCFPropertyListXMLFormat_v1_0
-																												options:0
-																												  error:NULL];
-					if(propertyListData){
-						contextString = [NSString stringWithUTF8String:[propertyListData bytes]];
-					}
-				}
-				if(!contextString){
-					NSLog(@"Error generating context string from supposed plist: %@\r\n", context);
-				}
-			}
-		}
-		if(contextString){
-			//If we can't get a context formed into a string, this isn't worth sending
-			[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
-			[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
-			[response appendString:@"\r\n"];
-			NSData *feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
-			[socket writeData:feedbackData
-					withTimeout:5.0
-							  tag:-2];
-		}else{
-			[self dumpSocket:socket];
-		}
+	NSData *feedbackData = [GNTPNotifyPacket feedbackData:clicked forGrowlDictionary:dictionary];
+	if(socket && feedbackData){
+		long writeTag = 0;
+		if(![[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue])
+			writeTag = -2;
+		[socket writeData:feedbackData withTimeout:5.0 tag:writeTag];
 	}else{
-		//NSLog(@"Socket and/or packet have disappeared out from under us");
-		if(socket)
+		/*If we have a socket, and we want to keep it alive
+		 * not being able to send feedback isn't the end of the world
+		 * Otherwise, just dump the socket
+		 */
+		if(socket && ![[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue])
 			[self dumpSocket:socket];
-		else if(packet){
-			[self.packetsByGUID removeObjectForKey:guid];
-		}
 	}
 }
 -(void)notificationClicked:(NSDictionary*)dictionary {
@@ -181,6 +145,7 @@
 	NSData *readToData = nil;
 	NSData *responseData = nil;
 	NSUInteger readToLength = 0;
+	NSTimeInterval keepAliveFor = 5.0;
 	long readToTag = -1;
 	if(tag == 0){
 		//Parse our first 4 bytes
@@ -333,14 +298,17 @@
 			if([packet validate]){
 				//Send ok
 				responseData = [packet responseData];
-				NSTimeInterval keepAliveFor = [packet requestedTimeAlive];
+				keepAliveFor = [packet requestedTimeAlive];
 				if(keepAliveFor > 0.0)
 					readToTag = -1;
 				else
 					readToTag = -2;
 				
-				if([packet keepAlive])
+				if([packet keepAlive]){
+					readToTag = 99;
+					readToData = [GNTPServer gntpEndData];
 					NSLog(@"We should read to the end of GNTP/1.0");
+				}
 				
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
@@ -363,6 +331,8 @@
 												[growlDict objectForKey:GROWL_APP_NAME]]];
 					}
 				}
+				//Whatever happened, we are done with it, let the server move on
+				[self.packetsByGUID removeObjectForKey:[packet guid]];
 			}else{
 				//Send error
 				NSLog(@"Could not validate packet!");
@@ -373,8 +343,17 @@
 			}
 		}
 		[packet release];
+	}else if(tag == 99){
+		//We are reading in the end of a packet, and setting up to read the next
+		//Dont care about the data read, just that we read it
+		//Set up a new first 4 byte read so we can be on our way through the normal parse cycle
+		//Yes, its redundant, at this point we should know its a gntp request, but dont want to force the machine to handle both ways
+		readToLength = 4;
+		readToTag = 0;
+		
 	}else if(tag == 101){
 		//read in the rest of a websocket, and reply, and then setup a read of the first bit of the socket
+		[self dumpSocket:sock];
 	}else{
 		//We shouldn't have an unknown read tag, dump the socket
 		[self dumpSocket:sock];
@@ -383,18 +362,18 @@
 	//If we know what we are reading to next, read
 	if(readToData && readToTag >= 0){
 		[sock readDataToData:readToData
-					withTimeout:5.0
+					withTimeout:keepAliveFor
 							  tag:readToTag];
 	}else if(readToTag >= 0 && readToLength >= 1){
 		[sock readDataToLength:readToLength
-					  withTimeout:5.0
+					  withTimeout:keepAliveFor
 								 tag:readToTag];
 	}else {
 		//The only question in here is if we have something to write out? eh...
 		if(responseData && readToTag < -1){
 			[sock writeData:responseData withTimeout:5 tag:readToTag];
 		}else if(readToTag == -1){
-			//We do nothing!
+			//We do nothing! Waiting to send feedback
 		}else{
 			//If we dont have anything to write, dump socket
 			[self dumpSocket:sock];

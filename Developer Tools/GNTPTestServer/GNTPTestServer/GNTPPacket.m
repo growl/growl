@@ -291,6 +291,7 @@
 		incomingDataLength = 0;
 		incomingDataHeaderRead = NO;
 		incomingDataIdentifier = nil;
+		self.keepAlive = NO;
 	}
 	return self;
 }
@@ -501,7 +502,7 @@
 -(NSTimeInterval)requestedTimeAlive {
 	NSTimeInterval result = 0.0;
 	if(self.keepAlive)
-		result = 5.0;
+		result = 15.0;
 	return result;
 }
 
@@ -543,6 +544,7 @@
 		}
 	}];
 	[convertedDict setObject:self.guid forKey:@"GNTPGUID"];
+	[convertedDict setObject:[NSNumber numberWithBool:self.keepAlive] forKey:@"GNTP-Keep-Alive"];
 	return convertedDict;
 }
 -(NSDictionary*)growlDict {

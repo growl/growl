@@ -10,6 +10,8 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 
+#import "ISO8601DateFormatter.h"
+
 /*
  * We dont need to override the state machine for a Notification Packet
  * We do need to override handling certain header keys
@@ -27,6 +29,56 @@
 
 @synthesize callbackString = _callbackString;
 @synthesize callbackType = _callbackType;
+
++(NSData*)feedbackData:(BOOL)clicked forGrowlDictionary:(NSDictionary*)dictionary {
+	NSData *feedbackData = nil;
+	
+	//Build a feedback response
+	//This should support encrypting replies at some point
+	NSMutableString *response = [NSMutableString stringWithString:@"GNTP/1.0 -CALLBACK NONE\r\n"];
+	[response appendFormat:@"Application-Name: %@\r\n", [dictionary valueForKey:GROWL_APP_NAME]];
+	if([dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER])
+		[response appendFormat:@"Notification-ID: %@", [dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+	[response appendFormat:@"Notification-Callback-Result: %@\r\n", clicked ? @"CLICKED" : @"TIMEOUT"];
+	
+	static ISO8601DateFormatter *_dateFormatter = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_dateFormatter = [[ISO8601DateFormatter alloc] init];
+	});
+	[response appendFormat:@"Notification-Callback-Timestamp: %@\r\n", [_dateFormatter stringFromDate:[NSDate date]]];
+	
+	NSString *contextType = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+	id context = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	NSString *contextString = nil;
+	if([context isKindOfClass:[NSString class]]){
+		//Go ahead and set it regardless
+		contextString = context;
+	}else{
+		if([contextType caseInsensitiveCompare:@"PLIST"]){
+			if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
+				NSData *propertyListData = [NSPropertyListSerialization dataWithPropertyList:context
+																											 format:kCFPropertyListXMLFormat_v1_0
+																											options:0
+																											  error:NULL];
+				if(propertyListData){
+					contextString = [NSString stringWithUTF8String:[propertyListData bytes]];
+				}
+			}
+			if(!contextString){
+				NSLog(@"Error generating context string from supposed plist: %@\r\n", context);
+			}
+		}
+	}
+	if(contextString){
+		//If we can't get a context formed into a string, this isn't worth sending
+		[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
+		[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
+		[response appendString:@"\r\n"];
+		feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
+	}
+	return feedbackData;
+}
 
 -(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue {
 	/* 
@@ -51,7 +103,7 @@
 	NSTimeInterval result = [super requestedTimeAlive];
 	//Crude
 	if(self.callbackString && ![self.gntpDictionary valueForKey:GrowlGNTPNotificationCallbackTarget])
-		result = 10.0;
+		result = (result < 10.0) ? 10.0 : result;
 	return result;
 }
 
