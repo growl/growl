@@ -342,6 +342,11 @@
 		BC6BD66414CA166A000D0B0D /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66114CA1669000D0B0D /* GrowlOnSwitch.m */; };
 		BC6BD66514CA166A000D0B0D /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */; };
 		BC780D18149655F000B190F7 /* GrowlBonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */; };
+		BC79CBE415ACE3CA0081DCBE /* GNTPNotifyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBDB15ACE3CA0081DCBE /* GNTPNotifyPacket.m */; };
+		BC79CBE515ACE3CA0081DCBE /* GNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBDD15ACE3CA0081DCBE /* GNTPPacket.m */; };
+		BC79CBE615ACE3CA0081DCBE /* GNTPRegisterPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBDF15ACE3CA0081DCBE /* GNTPRegisterPacket.m */; };
+		BC79CBE715ACE3CA0081DCBE /* GNTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBE115ACE3CA0081DCBE /* GNTPServer.m */; };
+		BC79CBE815ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBE315ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m */; };
 		BC7E26D715065B6300828D29 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D515065B4800828D29 /* CoreFoundation.framework */; };
 		BC7FC596152F41D60047368D /* NSScreen+GrowlScreenAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC7FC597152F41D60047368D /* NSScreen+GrowlScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7FC595152F41D60047368D /* NSScreen+GrowlScreenAdditions.m */; };
@@ -1534,6 +1539,16 @@
 		BC6BD66314CA166A000D0B0D /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BC780D16149655F000B190F7 /* GrowlBonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlBonjourBrowser.h; path = Core/Source/GrowlBonjourBrowser.h; sourceTree = "<group>"; };
 		BC780D17149655F000B190F7 /* GrowlBonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBonjourBrowser.m; path = Core/Source/GrowlBonjourBrowser.m; sourceTree = "<group>"; };
+		BC79CBDA15ACE3CA0081DCBE /* GNTPNotifyPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPNotifyPacket.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPNotifyPacket.h"; sourceTree = "<group>"; };
+		BC79CBDB15ACE3CA0081DCBE /* GNTPNotifyPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPNotifyPacket.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPNotifyPacket.m"; sourceTree = "<group>"; };
+		BC79CBDC15ACE3CA0081DCBE /* GNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPPacket.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPPacket.h"; sourceTree = "<group>"; };
+		BC79CBDD15ACE3CA0081DCBE /* GNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPPacket.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPPacket.m"; sourceTree = "<group>"; };
+		BC79CBDE15ACE3CA0081DCBE /* GNTPRegisterPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPRegisterPacket.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPRegisterPacket.h"; sourceTree = "<group>"; };
+		BC79CBDF15ACE3CA0081DCBE /* GNTPRegisterPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPRegisterPacket.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPRegisterPacket.m"; sourceTree = "<group>"; };
+		BC79CBE015ACE3CA0081DCBE /* GNTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPServer.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPServer.h"; sourceTree = "<group>"; };
+		BC79CBE115ACE3CA0081DCBE /* GNTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPServer.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPServer.m"; sourceTree = "<group>"; };
+		BC79CBE215ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDispatchMutableDictionary.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GrowlDispatchMutableDictionary.h"; sourceTree = "<group>"; };
+		BC79CBE315ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDispatchMutableDictionary.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GrowlDispatchMutableDictionary.m"; sourceTree = "<group>"; };
 		BC7E26D515065B4800828D29 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		BC7E26D815065CF100828D29 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScreen+GrowlScreenAdditions.h"; path = "Plugins/PluginFramework/NSScreen+GrowlScreenAdditions.h"; sourceTree = "<group>"; };
@@ -2818,6 +2833,23 @@
 			name = Tickets;
 			sourceTree = "<group>";
 		};
+		BC79CBD415ACE3AD0081DCBE /* NewGNTP */ = {
+			isa = PBXGroup;
+			children = (
+				BC79CBE015ACE3CA0081DCBE /* GNTPServer.h */,
+				BC79CBE115ACE3CA0081DCBE /* GNTPServer.m */,
+				BC79CBDC15ACE3CA0081DCBE /* GNTPPacket.h */,
+				BC79CBDD15ACE3CA0081DCBE /* GNTPPacket.m */,
+				BC79CBDE15ACE3CA0081DCBE /* GNTPRegisterPacket.h */,
+				BC79CBDF15ACE3CA0081DCBE /* GNTPRegisterPacket.m */,
+				BC79CBDA15ACE3CA0081DCBE /* GNTPNotifyPacket.h */,
+				BC79CBDB15ACE3CA0081DCBE /* GNTPNotifyPacket.m */,
+				BC79CBE215ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.h */,
+				BC79CBE315ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m */,
+			);
+			name = NewGNTP;
+			sourceTree = "<group>";
+		};
 		BC979861146ACF9100511A9B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3039,6 +3071,7 @@
 				EED7068E08C743EB004651D0 /* Controllers */,
 				BC6058E114F41F8C00399510 /* Databases */,
 				34A266260EBE3F4100C66E44 /* GNTP */,
+				BC79CBD415ACE3AD0081DCBE /* NewGNTP */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				CB34BEC507E09557001D7D7C /* Notifications */,
 				070B86340A08814D0093150E /* Utilities */,
@@ -4393,6 +4426,11 @@
 				BC4B073F1501489F006151B3 /* GrowlTicketDatabaseCompoundAction.m in Sources */,
 				BC4B0742150148C4006151B3 /* GrowlTicketDatabaseDisplay.m in Sources */,
 				BCECE8381508409A008DD685 /* GrowlCompoundActionPreferencePane.m in Sources */,
+				BC79CBE415ACE3CA0081DCBE /* GNTPNotifyPacket.m in Sources */,
+				BC79CBE515ACE3CA0081DCBE /* GNTPPacket.m in Sources */,
+				BC79CBE615ACE3CA0081DCBE /* GNTPRegisterPacket.m in Sources */,
+				BC79CBE715ACE3CA0081DCBE /* GNTPServer.m in Sources */,
+				BC79CBE815ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

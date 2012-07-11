@@ -18,6 +18,13 @@
 
 #import "GrowlDispatchMutableDictionary.h"
 
+#if GROWLHELPERAPP
+#import "GrowlApplicationController.h"
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
+#import "GrowlTicketDatabaseNotification.h"
+#endif
+
 @interface GNTPServer ()
 
 @property (nonatomic, retain) GCDAsyncSocket *localSocket;
@@ -108,9 +115,10 @@
 	//Get our socket for sending the response
 	GCDAsyncSocket *socket = [self.socketsByGUID objectForKey:guid];
 	NSData *feedbackData = [GNTPNotifyPacket feedbackData:clicked forGrowlDictionary:dictionary];
+	BOOL keepAlive = [dictionary objectForKey:@"GNTP-Keep-Alive"] ? [[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue] : NO;
 	if(socket && feedbackData){
 		long writeTag = 0;
-		if(![[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue])
+		if(!keepAlive)
 			writeTag = -2;
 		[socket writeData:feedbackData withTimeout:5.0 tag:writeTag];
 	}else{
@@ -118,7 +126,7 @@
 		 * not being able to send feedback isn't the end of the world
 		 * Otherwise, just dump the socket
 		 */
-		if(socket && ![[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue])
+		if(socket && !keepAlive)
 			[self dumpSocket:socket];
 	}
 }
@@ -313,9 +321,40 @@
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
 					dispatch_async(dispatch_get_main_queue(), ^{
+#if GROWLHELPERAPP
+						[[GrowlApplicationController sharedController] registerApplicationWithDictionary:growlDict];
+#else
 						[self.delegate registerWithDictionary:growlDict];
+#endif
 					});
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
+#if GROWLHELPERAPP
+					__block GrowlNotificationResult notifyResult = GrowlNotificationResultPosted;
+					dispatch_sync(dispatch_get_main_queue(), ^{
+						notifyResult = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:growlDict];
+					});
+					switch (notifyResult) {
+						case GrowlNotificationResultDisabled:
+							[self dumpSocket:sock
+									actionType:[packet action]
+								withErrorCode:GrowlGNTPUserDisabledErrorCode
+							errorDescription:[NSString stringWithFormat:@"Note %@ was disabled by the user", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
+													[growlDict objectForKey:GROWL_APP_NAME]]];
+							responseData = nil;
+							break;
+						case GrowlNotificationResultNotRegistered:
+							[self dumpSocket:sock
+									actionType:[packet action]
+								withErrorCode:GrowlGNTPUnknownNotificationErrorCode
+							errorDescription:[NSString stringWithFormat:@"%@ is not registered for %@", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
+													[growlDict objectForKey:GROWL_APP_NAME]]];
+							responseData = nil;
+							break;
+						case GrowlNotificationResultPosted:
+						default:
+							break;
+					}
+#else
 					if([self.delegate isNoteRegistered:[growlDict objectForKey:GROWL_NOTIFICATION_NAME]
 														 forApp:[growlDict objectForKey:GROWL_APP_NAME]
 														 onHost:[growlDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]])
@@ -330,6 +369,7 @@
 						errorDescription:[NSString stringWithFormat:@"%@ is not registered for %@", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
 												[growlDict objectForKey:GROWL_APP_NAME]]];
 					}
+#endif
 				}
 				//Whatever happened, we are done with it, let the server move on
 				[self.packetsByGUID removeObjectForKey:[packet guid]];

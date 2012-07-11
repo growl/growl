@@ -17,7 +17,7 @@
 @interface GNTPPacket ()
 
 @property (nonatomic, retain) NSString *incomingDataIdentifier;
-@property (nonatomic, assign) NSInteger incomingDataLength;
+@property (nonatomic, assign) NSUInteger incomingDataLength;
 @property (nonatomic, assign) BOOL incomingDataHeaderRead;
 
 @end
