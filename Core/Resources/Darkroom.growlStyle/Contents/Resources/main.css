@@ -9,7 +9,7 @@
 
 table {
 	display: block;
-	border: 1px solid rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.85);
 	border-radius: 9px;
 	-webkit-box-shadow: 0px 1px rgba(255,255,255,0.15) inset;
 	background-image: -webkit-linear-gradient(top,
@@ -17,12 +17,14 @@ table {
 							rgba(40,40,40,0.971) 22px,
 							rgba(24,24,24,0.971) 23px,
 							rgba(13,13,13,0.971));
+	background-repeat: no-repeat;
+
 	margin: 4px;
-	max-width: 230px;
+	max-width: 300px;
 	table-layout: fixed;
 	border-spacing: 0px;
-	padding: 6px;
-	padding-bottom: 4px;
+	padding: 5px;
+	padding-bottom: 3px;
 	padding-right: 2px;
 }
 
@@ -53,10 +55,10 @@ table.emergency {
 }
 
 img#icon {
-	height: 36px;
-	min-width: 36px;
-	margin: 2px;
-	margin-right: 8px;
+	height: 32px;
+	min-width: 32px;
+	margin: 0px;
+	margin-right: 5px;
 	border-radius: 2px;
 }
 
