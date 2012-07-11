@@ -557,6 +557,9 @@
 			[convertedDict setObject:convertedObj forKey:growlDictKey];
 		}
 	}];
+	//Give it an internal ID regardless
+	if(![convertedDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID])
+		[convertedDict setObject:[[NSProcessInfo processInfo] globallyUniqueString] forKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	[convertedDict setObject:self.guid forKey:@"GNTPGUID"];
 	[convertedDict setObject:[NSNumber numberWithBool:self.keepAlive] forKey:@"GNTP-Keep-Alive"];
 	return convertedDict;
