@@ -14,6 +14,10 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 
+#if GROWLHELPERAPP
+#import "GNTPSubscriptionController.h"
+#endif
+
 @interface GNTPPacket ()
 
 @property (nonatomic, retain) NSString *incomingDataIdentifier;
@@ -70,47 +74,52 @@
       *errDescription = NSLocalizedString(@"We encountered an error parsing the packet, we don't know where it came from", @"GNTP error");
       return NO;
    }
-   
-   //GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-   
+#if GROWLHELPERAPP
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if(![conHost isLocalHost])
    {
       /* These two cases are for if the socket has to be open for subscription, but not remote notes/registration, or vice versa */
-      if(!YES/*[preferences isGrowlServerEnabled]*/ && ([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame ||
-																		  [action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame))
+      if(![preferences isGrowlServerEnabled] && ([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame ||
+																 [action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame))
       {
          *errCode = GrowlGNTPUnauthorizedErrorCode;
          *errDescription = NSLocalizedString(@"Incoming remote notifications and registrations have been disabled by the user", @"GNTP unauthorized packet error message");
          return NO;
       }
       
-      if(!YES/*[preferences isSubscriptionAllowed]*/ && [action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame) {
+      if(![preferences isSubscriptionAllowed] && [action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame) {
          *errCode = GrowlGNTPUnauthorizedErrorCode;
          *errDescription = NSLocalizedString(@"Incoming subscription requests have been disabled by the user", @"GNTP unathorized packet error message");
          return NO;
       }
    }
+#endif
    
    //There are a number of cases in which a password isn't required, some are optional
    BOOL passwordRequired = YES;
-	//   BOOL isResponseType = ([action caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
-	//                          [action caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
-	//                          [action caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
+	BOOL isResponseType = ([action caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame || 
+								  [action caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame ||
+								  [action caseInsensitiveCompare:GrowlGNTPCallbackTypeHeader] == NSOrderedSame);
    
    if([conHost isLocalHost] && [key hashAlgorithm] == GNTPNoHash && [key encryptionAlgorithm] == GNTPNone)
       return YES;
    
    //This is mainly for future reference, responses are supposed to have security by spec, but it isn't implemented in GfW or Growl.app
-	//   if(!NO/*[[GrowlPreferencesController sharedController] boolForKey:@"RequireSecureGNTPResponses"]*/ && isResponseType){
-	//      passwordRequired = NO;
-	//   }
+#if GROWLHELPERAPP
+   if(![preferences boolForKey:@"RequireSecureGNTPResponses"] && isResponseType){
+      passwordRequired = NO;
+   }
+#endif
    
    //New setting to allow no encryption when password is empty
-   NSString *remotePassword = @"TESTING"/*[preferences remotePassword]*/;
-   if(!NO/*[preferences boolForKey:@"RequireGNTPSecurityWhenPasswordEmpty"]*/) {
+   NSString *remotePassword = @"TESTING";
+#if GROWLHELPERAPP
+	remotePassword = [preferences remotePassword];
+   if(![preferences boolForKey:@"RequireGNTPSecurityWhenPasswordEmpty"]) {
       if(!remotePassword || [remotePassword isEqualToString:@""])
          passwordRequired = NO;
    }
+#endif
    
    //Despite all the above, if we have an encryption algorithm, we require a password setup to decrypt
    if([key encryptionAlgorithm] != GNTPNone)
@@ -125,25 +134,29 @@
       return YES;
    
    //At this point, we know we need a password, for decryption, or just authorization
-	//   if(isResponseType){
-	//      //check hash against the origin packet, regardless of subscription or not, this should be valid
-	//		/*      if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)*/
-	//		return YES;
-	//   }else{
-	//Try our remote password
-	if([GNTPPacket isValidKey:key
-					  forPassword:remotePassword])
-		return YES;
-	
-	//If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
-	NSString *subscriptionPassword = @"SUBSCRIPTION"/*[[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost]*/;
-	if(subscriptionPassword &&
-		![subscriptionPassword isEqualToString:@""] &&
-		[GNTPPacket isValidKey:key
-					  forPassword:subscriptionPassword]) {
+	if(isResponseType){
+		//check hash against the origin packet, regardless of subscription or not, this should be valid
+		//if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)
+			return YES;
+	}else{
+		//Try our remote password
+		if([GNTPPacket isValidKey:key
+						  forPassword:remotePassword])
+			return YES;
+		
+		//If we've gotten here, we are going to assume its a subscription passworded REGISTER or SUBSCRIBE
+		NSString *subscriptionPassword = @"SUBSCRIPTION";
+#if GROWLHELPERAPP
+		subscriptionPassword = [[GNTPSubscriptionController sharedController] passwordForLocalSubscriber:conHost];
+#endif
+		if(subscriptionPassword &&
+			![subscriptionPassword isEqualToString:@""] &&
+			[GNTPPacket isValidKey:key
+						  forPassword:subscriptionPassword]) 
+		{
 			return YES;
 		}
-	//   }
+	}
    
    return NO;
 }
