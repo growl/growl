@@ -38,7 +38,7 @@
 	NSMutableString *response = [NSMutableString stringWithString:@"GNTP/1.0 -CALLBACK NONE\r\n"];
 	[response appendFormat:@"Application-Name: %@\r\n", [dictionary valueForKey:GROWL_APP_NAME]];
 	if([dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER])
-		[response appendFormat:@"Notification-ID: %@", [dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+		[response appendFormat:@"Notification-ID: %@\r\n", [dictionary valueForKey:GROWL_NOTIFICATION_IDENTIFIER]];
 	[response appendFormat:@"Notification-Callback-Result: %@\r\n", clicked ? @"CLICKED" : @"TIMEOUT"];
 	
 	static ISO8601DateFormatter *_dateFormatter = nil;
