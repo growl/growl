@@ -9,6 +9,7 @@
 #import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
 #import "GrowlBonjourBrowser.h"
+#import "GrowlGNTPPacketParser.h"
 #import "GrowlGNTPPacket.h"
 #import "GrowlErrorGNTPPacket.h"
 #import "GrowlGNTPOutgoingPacket.h"

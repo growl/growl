@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "GCDAsyncSocket.h"
+#import "GrowlDefinesInternal.h"
 
 @protocol GNTPServerDelegate <NSObject>
 
 -(void)registerWithDictionary:(NSDictionary*)dictionary;
--(void)notifyWithDictionary:(NSDictionary*)dictionary;
--(void)subscribeWithDictionary:(NSDictionary*)dictionary;
-
--(BOOL)isNoteRegistered:(NSString*)noteName forApp:(NSString*)appName onHost:(NSString*)host;
+-(GrowlNotificationResult)notifyWithDictionary:(NSDictionary*)dictionary;
+//-(void)subscribeWithDictionary:(NSDictionary*)dictionary;
 
 @end
 
@@ -23,9 +22,11 @@
 
 @property (nonatomic, assign) id<GNTPServerDelegate> delegate;
 
+-(id)initWithInterface:(NSString*)interface;
+
 + (NSData*)doubleCLRF;
 
--(void)startServer;
+-(BOOL)startServer;
 -(void)stopServer;
 
 -(void)notificationClicked:(NSDictionary*)dictionary;

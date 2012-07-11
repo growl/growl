@@ -13,12 +13,6 @@
 
 @class GrowlNotificationCenter, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
 
-typedef enum {
-	GrowlNotificationResultPosted,
-	GrowlNotificationResultNotRegistered,
-	GrowlNotificationResultDisabled
-} GrowlNotificationResult;
-
 @interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;

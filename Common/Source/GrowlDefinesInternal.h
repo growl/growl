@@ -196,6 +196,12 @@
  */
 #define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
 
+typedef enum {
+	GrowlNotificationResultPosted,
+	GrowlNotificationResultNotRegistered,
+	GrowlNotificationResultDisabled
+} GrowlNotificationResult;
+
 #if GROWLHELPERAPP
 extern NSString *const GrowlErrorDomain;
 
@@ -225,6 +231,7 @@ enum GrowlPriority {
 	GrowlPriorityHigh      =  1,
 	GrowlPriorityEmergency =  2
 };
+
 
 #endif
 

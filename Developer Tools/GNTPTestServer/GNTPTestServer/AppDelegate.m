@@ -45,7 +45,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
-	self.server = [[[GNTPServer alloc] init] autorelease];
+	self.server = [[[GNTPServer alloc] initWithInterface:nil] autorelease];
 	self.server.delegate = (id<GNTPServerDelegate>)self;
 	[self.server startServer];
 	
@@ -64,17 +64,25 @@
 	[self.registeredApps setObject:dictionary forKey:combined];
 }
 //Do a crude note display for test
--(void)notifyWithDictionary:(NSDictionary*)dictionary {
-	//NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
-	NSString *guid = [dictionary objectForKey:@"GNTPGUID"];
-	[self.displayedNotifications setObject:dictionary forKey:guid];
+-(GrowlNotificationResult)notifyWithDictionary:(NSDictionary*)dictionary {
+	if(![self isNoteRegistered:[dictionary valueForKey:GROWL_NOTIFICATION_NAME]
+							  forApp:[dictionary valueForKey:GROWL_APP_NAME]
+							  onHost:[dictionary valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]])
+		return GrowlNotificationResultNotRegistered;
 	
-	//We stored the real dict in with a guid
-	//replace the context we get from mini dispatch with the GUID so we can look
-	//up the real dict and its real context
-	NSMutableDictionary *growlDictCopy = [[dictionary mutableCopy] autorelease];
-	[growlDictCopy setObject:guid forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	[self.mistDispatch displayNotification:growlDictCopy];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSString *guid = [dictionary objectForKey:@"GNTPGUID"];
+		[self.displayedNotifications setObject:dictionary forKey:guid];
+		
+		//We stored the real dict in with a guid
+		//replace the context we get from mini dispatch with the GUID so we can look
+		//up the real dict and its real context
+		NSMutableDictionary *growlDictCopy = [[dictionary mutableCopy] autorelease];
+		[growlDictCopy setObject:guid forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+		[self.mistDispatch displayNotification:growlDictCopy];
+	});
+	return GrowlNotificationResultPosted;
+	//NSLog(@"Notifying: %@", [dictionary valueForKey:GROWL_NOTIFICATION_TITLE]);
 }
 //Do nothing except log for test?
 -(void)subscribeWithDictionary:(NSDictionary*)dictionary {

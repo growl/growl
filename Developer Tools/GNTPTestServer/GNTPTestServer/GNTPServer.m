@@ -18,16 +18,10 @@
 
 #import "GrowlDispatchMutableDictionary.h"
 
-#if GROWLHELPERAPP
-#import "GrowlApplicationController.h"
-#import "GrowlTicketDatabase.h"
-#import "GrowlTicketDatabaseApplication.h"
-#import "GrowlTicketDatabaseNotification.h"
-#endif
-
 @interface GNTPServer ()
 
-@property (nonatomic, retain) GCDAsyncSocket *localSocket;
+@property (nonatomic, retain) GCDAsyncSocket *server;
+@property (nonatomic, retain) NSString *interfaceString;
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *socketsByGUID;
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *packetsByGUID;
 
@@ -36,32 +30,50 @@
 @implementation GNTPServer
 
 @synthesize delegate = _delegate;
-@synthesize localSocket = _localSocket;
+@synthesize server = _server;
+@synthesize interfaceString = _interfaceString;
 @synthesize socketsByGUID = _socketsByGUID;
 @synthesize packetsByGUID = _packetsByGUID;
 
--(id)init {
+
+-(id)initWithInterface:(NSString *)interface {
 	if((self = [super init])){
-		dispatch_queue_t dispatchQueue = dispatch_queue_create("com.growl.GNTPServer.dictionaryQueue", DISPATCH_QUEUE_CONCURRENT);
+		NSString *dispatchQueueID = [NSString stringWithFormat:@"com.growl.GNTPServer.%@.dictionaryQueue", interface != nil ? interface : @"remote"];
+		dispatch_queue_t dispatchQueue = dispatch_queue_create([dispatchQueueID UTF8String], DISPATCH_QUEUE_CONCURRENT);
 		self.socketsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		self.packetsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		//retained in the dictionaries
 		dispatch_release(dispatchQueue);
+		self.interfaceString = interface;
 	}
 	return self;
 }
 
--(void)startServer {
-	self.localSocket = [[[GCDAsyncSocket alloc] initWithDelegate:self 
-																  delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)] autorelease];
-	[self.localSocket acceptOnInterface:@"localhost" 
-									  port:23053 
-									 error:nil];
+-(BOOL)startServer {
+	if(self.server)
+		return YES;
+	
+	self.server = [[[GCDAsyncSocket alloc] initWithDelegate:self 
+															delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)] autorelease];
+	NSError *error = nil;
+	if(![self.server acceptOnInterface:self.interfaceString
+														port:23053 
+													  error:&error])
+	{
+		NSLog(@"There was an error starting the server! %@", error);
+		[self.server disconnect];
+		self.server = nil;
+		return NO;
+	}
+	return YES;
 }
 
 -(void)stopServer {
-	[self.localSocket disconnect];
-	self.localSocket = nil;
+	if(!self.server)
+		return;
+	
+	[self.server disconnect];
+	self.server = nil;
 	[self.packetsByGUID removeAllObjects];
 	[[self.socketsByGUID allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		[obj disconnect];
@@ -112,22 +124,30 @@
 
 -(void)sendFeedback:(BOOL)clicked forDictionary:(NSDictionary*)dictionary {
 	NSString *guid = [dictionary valueForKey:@"GNTPGUID"];
-	//Get our socket for sending the response
-	GCDAsyncSocket *socket = [self.socketsByGUID objectForKey:guid];
-	NSData *feedbackData = [GNTPNotifyPacket feedbackData:clicked forGrowlDictionary:dictionary];
-	BOOL keepAlive = [dictionary objectForKey:@"GNTP-Keep-Alive"] ? [[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue] : NO;
-	if(socket && feedbackData){
-		long writeTag = 0;
-		if(!keepAlive)
-			writeTag = -2;
-		[socket writeData:feedbackData withTimeout:5.0 tag:writeTag];
-	}else{
-		/*If we have a socket, and we want to keep it alive
-		 * not being able to send feedback isn't the end of the world
-		 * Otherwise, just dump the socket
-		 */
-		if(socket && !keepAlive)
-			[self dumpSocket:socket];
+	//If there isn't a GUID, this wasn't a GNTPServer originated note
+	//And we shouldn't worry about sending feedback
+	if(guid){
+		//Get our socket for sending the response
+		GCDAsyncSocket *socket = [self.socketsByGUID objectForKey:guid];
+		//If we dont have a socket, can't send feedback, so don't worry about it
+		//The note might have been a different server instance
+		if(socket){
+			NSData *feedbackData = [GNTPNotifyPacket feedbackData:clicked forGrowlDictionary:dictionary];
+			BOOL keepAlive = [dictionary objectForKey:@"GNTP-Keep-Alive"] ? [[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue] : NO;
+			if(feedbackData){
+				long writeTag = 0;
+				if(!keepAlive)
+					writeTag = -2;
+				[socket writeData:feedbackData withTimeout:5.0 tag:writeTag];
+			}else{
+				/*If we have a socket, and we want to keep it alive
+				 * not being able to send feedback isn't the end of the world
+				 * Otherwise, just dump the socket
+				 */
+				if(!keepAlive)
+					[self dumpSocket:socket];
+			}
+		}
 	}
 }
 -(void)notificationClicked:(NSDictionary*)dictionary {
@@ -321,18 +341,10 @@
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
 					dispatch_async(dispatch_get_main_queue(), ^{
-#if GROWLHELPERAPP
-						[[GrowlApplicationController sharedController] registerApplicationWithDictionary:growlDict];
-#else
 						[self.delegate registerWithDictionary:growlDict];
-#endif
 					});
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
-#if GROWLHELPERAPP
-					__block GrowlNotificationResult notifyResult = GrowlNotificationResultPosted;
-					dispatch_sync(dispatch_get_main_queue(), ^{
-						notifyResult = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:growlDict];
-					});
+					GrowlNotificationResult notifyResult = [self.delegate notifyWithDictionary:growlDict];
 					switch (notifyResult) {
 						case GrowlNotificationResultDisabled:
 							[self dumpSocket:sock
@@ -354,22 +366,6 @@
 						default:
 							break;
 					}
-#else
-					if([self.delegate isNoteRegistered:[growlDict objectForKey:GROWL_NOTIFICATION_NAME]
-														 forApp:[growlDict objectForKey:GROWL_APP_NAME]
-														 onHost:[growlDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]])
-					{
-						dispatch_async(dispatch_get_main_queue(), ^{
-							[self.delegate notifyWithDictionary:growlDict];
-						});
-					}else{
-						[self dumpSocket:sock
-								actionType:[packet action]
-							withErrorCode:GrowlGNTPUnknownNotificationErrorCode
-						errorDescription:[NSString stringWithFormat:@"%@ is not registered for %@", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
-												[growlDict objectForKey:GROWL_APP_NAME]]];
-					}
-#endif
 				}
 				//Whatever happened, we are done with it, let the server move on
 				[self.packetsByGUID removeObjectForKey:[packet guid]];

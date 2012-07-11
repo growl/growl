@@ -8,10 +8,11 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlApplicationController.h"
 
 @protocol GrowlNotificationProtocol
 - (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict;
-- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
+- (GrowlNotificationResult) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
 - (bycopy NSString *) growlVersion;
 @end
 

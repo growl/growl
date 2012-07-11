@@ -8,6 +8,7 @@
 
 #import "GNTPSubscriptionController.h"
 #import "GrowlPreferencesController.h"
+#import "GrowlGNTPPacketParser.m"
 #import "GrowlGNTPPacket.h"
 #import "GrowlSubscribeGNTPPacket.h"
 #import "GNTPSubscriberEntry.h"

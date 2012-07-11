@@ -14,6 +14,7 @@
 #import "GrowlNetworkUtilities.h"
 #import "GrowlBonjourBrowser.h"
 #import "GrowlNetworkObserver.h"
+#import "GrowlGNTPPacketParser.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GNTPForwarder

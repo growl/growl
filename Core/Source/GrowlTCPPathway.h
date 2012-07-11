@@ -7,8 +7,7 @@
 //
 
 #import "GrowlRemotePathway.h"
-#import "GrowlGNTPPacketParser.h"
-#import "GrowlTCPServer.h"
+#import "GNTPServer.h"
 
 @class MD5Authenticator;
 
@@ -24,12 +23,6 @@
 - (NSString *) GNTPRepresentationAsString;
 @end
 
-@interface GrowlTCPPathway : GrowlRemotePathway <GrowlTCPServerDelegate, NSNetServiceDelegate> {
-	GrowlTCPServer			*tcpServer;
-	
-	GrowlGNTPPacketParser	*networkPacketParser;
-}
+@interface GrowlTCPPathway : GrowlRemotePathway
 
-@property (nonatomic, retain) GrowlTCPServer *tcpServer;
-@property (nonatomic, retain) GrowlGNTPPacketParser	*networkPacketParser;
 @end

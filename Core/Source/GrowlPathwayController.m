@@ -62,7 +62,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 				[self installPathway:pw];
 		}
 
-		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
+		GrowlPathway *rpw = [[GrowlTCPPathway alloc] init];
 		[self installPathway:rpw];
 		[rpw release];
 

@@ -82,9 +82,11 @@
 }
 
 -(void)removeObjectForKey:(id)aKey {
-	dispatch_barrier_sync(self.dispatchQueue, ^{
-		[self.dictionary removeObjectForKey:aKey];
-	});
+	if(aKey){
+		dispatch_barrier_sync(self.dispatchQueue, ^{
+			[self.dictionary removeObjectForKey:aKey];
+		});
+	}
 }
 
 -(void)removeAllObjects {

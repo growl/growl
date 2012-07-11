@@ -186,8 +186,8 @@
 		[convertedDict setObject:displayNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	if([[notificationDescriptions allValues] count] > 0)
 		[convertedDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
-	if([noteIcons count] > 0)
-		[convertedDict setObject:noteIcons forKey:@"NotificationIcons"];
+	if([[noteIcons allValues] count] > 0)
+		[convertedDict setObject:noteIcons forKey:GROWL_NOTIFICATIONS_ICONS];
 	return [convertedDict autorelease];
 }
 

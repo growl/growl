@@ -19,10 +19,11 @@
 	}
 }
 
-- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
+- (GrowlNotificationResult) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
 	if (enabled) {
-		[super postNotificationWithDictionary:dict];
+		return [super postNotificationWithDictionary:dict];
 	}
+	return GrowlNotificationResultDisabled;
 }
 
 #pragma mark -
