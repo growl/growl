@@ -10,6 +10,7 @@
 #import "GNTPServer.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlImageAdditions.h"
 
 @interface GNTPRegisterPacket ()
 
@@ -25,11 +26,61 @@
 @synthesize notificationDicts = _notificationDicts;
 
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary *)dict {
-	return [super gntpDictFromGrowlDict:dict];
+	NSMutableDictionary *converted = [super gntpDictFromGrowlDict:dict];
+	NSArray *allNotes = [dict valueForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotes = [dict valueForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSDictionary *noteIcons = [dict valueForKey:GROWL_NOTIFICATIONS_ICONS];
+	NSDictionary *humanReadableNames = [dict valueForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	NSDictionary *descriptions = [dict valueForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+	
+	NSMutableArray *convertedNotes = [NSMutableArray arrayWithCapacity:[allNotes count]];
+	[allNotes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSMutableDictionary *noteDict = [NSMutableDictionary dictionary];
+		[noteDict setObject:obj forKey:GrowlGNTPNotificationName];
+		
+		if([defaultNotes containsObject:obj]){
+			[noteDict setObject:@"Yes" forKey:GrowlGNTPNotificationEnabled];
+		}else{
+			[noteDict setObject:@"No" forKey:GrowlGNTPNotificationEnabled];
+		}
+		
+		id iconObject = [noteIcons objectForKey:obj];
+		if(iconObject){
+			if([iconObject isKindOfClass:[NSImage class]])
+				iconObject = [iconObject PNGRepresentation];
+			//Add to the data blocks
+			NSString *dataIdentifier = [GNTPPacket identifierForBinaryData:iconObject];
+			NSMutableDictionary *dataDict = [converted objectForKey:@"GNTPDATABLOCKS"];
+			if(!dataDict){
+				dataDict = [NSMutableDictionary dictionary];
+				[converted setObject:dataDict forKey:@"GNTPDATABLOCKS"];
+			}
+			[dataDict setObject:iconObject forKey:dataIdentifier];
+			[noteDict setObject:[NSString stringWithFormat:@"x-growl-resource://%@", dataIdentifier] forKey:GrowlGNTPNotificationIcon];
+		}
+		if([humanReadableNames objectForKey:obj])
+			[noteDict setObject:[humanReadableNames objectForKey:obj] forKey:GrowlGNTPNotificationDisplayName];
+		if([descriptions objectForKey:obj])
+			[noteDict setObject:[descriptions objectForKey:obj] forKey:@"X-Notification-Description"];
+		
+		[convertedNotes addObject:noteDict];
+	 }];
+	[converted setObject:[NSString stringWithFormat:@"%lu", [allNotes count]] forKey:GrowlGNTPNotificationCountHeader];
+	[converted setObject:convertedNotes	forKey:GROWL_NOTIFICATIONS_ALL];
+	return converted;
 }
 
 +(NSString*)headersForGNTPDictionary:(NSDictionary *)dict {
-	return [super headersForGNTPDictionary:dict];
+	NSMutableString *headers = [[[super headersForGNTPDictionary:dict] mutableCopy] autorelease];
+	NSArray *allNotes = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
+	[allNotes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		//Seperate our the notes from each other
+		[headers appendString:@"\r\n"];
+		[obj enumerateKeysAndObjectsUsingBlock:^(id key, id innerObj, BOOL *innerStop) {
+			[headers appendFormat:@"%@: %@\r\n", key, innerObj];
+		}];
+	}];	
+	return [[headers copy] autorelease];
 }
 
 -(id)init {

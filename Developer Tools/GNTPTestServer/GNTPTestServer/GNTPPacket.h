@@ -55,13 +55,10 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict;
 +(NSString*)headersForGNTPDictionary:(NSDictionary*)dict;
-+(NSData*)gntpDataFromGNTPDictionary:(NSDictionary*)dict
-										ofType:(NSString*)type
-									  withKey:(GNTPKey*)encryptionKey;
 +(NSData*)gntpDataFromGrowlDictionary:(NSDictionary*)dict 
 										 ofType:(NSString*)type
 										withKey:(GNTPKey*)encryptionKey;
-
++ (NSString *)identifierForBinaryData:(NSData *)data;
 
 #pragma mark Packet
 -(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data;

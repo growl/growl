@@ -353,8 +353,8 @@
 	return _matchingDict;
 }
 +(NSString*)gntpKeyForGrowlDictKey:(NSString*)growlKey {
-	if([[GNTPPacket growlToGNTPMatchingDict] objectForKey:growlKey])
-		return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:growlKey];
+	if([[self growlToGNTPMatchingDict] objectForKey:growlKey])
+		return [[self growlToGNTPMatchingDict] objectForKey:growlKey];
 	return nil;
 }
 +(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString*)gntpKey {
@@ -383,6 +383,8 @@
 			converted = @"Keep-Alive";
 		else
 			converted = @"Close";
+	}else if([gntpKey isEqualToString:@"Received"]){
+		converted = obj;
 	}
 	return converted;
 }
@@ -398,18 +400,18 @@
 	return growlDict;
 }
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict {
-	__block NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 	[dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-		NSString *gntpKey = [GNTPPacket gntpKeyForGrowlDictKey:key];
+		NSString *gntpKey = [self gntpKeyForGrowlDictKey:key];
 		if(gntpKey){
-			id convertedValue = [GNTPPacket convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
+			id convertedValue = [self convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
 			if(convertedValue){
 				if([convertedValue isKindOfClass:[NSString class]]){
 					//stuff in the regular header
 					[dictionary setObject:convertedValue forKey:gntpKey];
 				}else if([convertedValue isKindOfClass:[NSData class]]){
 					//stuff a header into the binary header
-					NSString *dataIdentifier = [GNTPPacket identifierForBinaryData:convertedValue];
+					NSString *dataIdentifier = [self identifierForBinaryData:convertedValue];
 					NSMutableDictionary *dataDict = [dictionary objectForKey:@"GNTPDATABLOCKS"];
 					if(!dataDict){
 						dataDict = [NSMutableDictionary dictionary];
@@ -417,6 +419,8 @@
 					}
 					[dataDict setObject:convertedValue forKey:dataIdentifier];
 					[dictionary setObject:[NSString stringWithFormat:@"x-growl-resource://%@", dataIdentifier] forKey:gntpKey];
+				}else if([gntpKey caseInsensitiveCompare:@"Received"] == NSOrderedSame){
+					[dictionary setObject:convertedValue forKey:@"Received"];
 				}else{
 					NSLog(@"%@ for key %@ is an unknown data type for putting in a GNTP dictioanry", convertedValue, gntpKey);
 				}
@@ -428,8 +432,15 @@
 +(NSString*)headersForGNTPDictionary:(NSDictionary*)dict {
 	__block NSMutableString *headerBlock = [NSMutableString string];
 	[dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-		if(![key isEqualToString:@"GNTPDATABLOCKS"])
-			[headerBlock appendFormat:@"%@: %@\r\n", key, obj];
+		if(![key isEqualToString:@"GNTPDATABLOCKS"]){
+			if([obj isKindOfClass:[NSString class]])
+				[headerBlock appendFormat:@"%@: %@\r\n", key, obj];
+			else if([key isEqualToString:@"Received"]){
+				[obj enumerateObjectsUsingBlock:^(id innerObj, NSUInteger idx, BOOL *innerStop) {
+					[headerBlock appendFormat:@"Received: %@\r\n", innerObj];
+				}];
+			}
+		}
 	}];
 	return [[headerBlock copy] autorelease];
 }
@@ -437,7 +448,7 @@
 										 ofType:(NSString*)type
 										withKey:(GNTPKey*)encryptionKey
 {
-	NSDictionary *gntpDict = [GNTPPacket gntpDictFromGrowlDict:[GNTPPacket growlDictFilledInForConversion:growlDict]];
+	NSDictionary *gntpDict = [self gntpDictFromGrowlDict:[self growlDictFilledInForConversion:growlDict]];
 	BOOL encrypt = [encryptionKey encryptionAlgorithm] != GNTPNone;
 	
 	NSMutableString *packetString = [NSMutableString stringWithFormat:@"GNTP/1.0 %@ %@", type, [encryptionKey encryption]];
@@ -447,7 +458,7 @@
 	[packetString appendString:@"\r\n"];
 	
 	NSMutableData *packetData = [[packetString dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-	NSString *headers = [GNTPPacket headersForGNTPDictionary:gntpDict];
+	NSString *headers = [self headersForGNTPDictionary:gntpDict];
 	//Encrypt them if need be
 	NSData *headerData = [headers dataUsingEncoding:NSUTF8StringEncoding];
 	if(encrypt)
@@ -455,6 +466,7 @@
 	else
 		[packetData appendData:headerData];
 	[packetData appendData:[GCDAsyncSocket CRLFData]];
+	//NSLog(@"%@\r\n%@", packetString, headers);
 	
 	NSMutableDictionary *dataBlocks = [gntpDict objectForKey:@"GNTPDATABLOCKS"];
 	if(dataBlocks){
@@ -471,7 +483,6 @@
 	}
 	if([[gntpDict valueForKey:@"Connection"] isEqualToString:@"Keep-Alive"])
 		[packetData appendData:[GNTPServer gntpEndData]];
-	
 	return packetData;
 }
 
@@ -540,6 +551,8 @@
 		}
 		//Data blocks
 		case 2:
+			if([data length] != incomingDataLength)
+				NSLog(@"Gah! Read data block and stated data length not the same!");
 			result = [self parseDataBlock:[self.key decrypt:data]];
 			break;
 		//Everything else
@@ -674,10 +687,7 @@
 }
 
 -(void)parseResourceDataBlock:(NSData*)data {
-	if([data length] != incomingDataLength)
-		NSLog(@"Gah! Read data block and stated data length not the same!");
-	else
-		[self receivedResourceDataBlock:data forIdentifier:incomingDataIdentifier];
+	[self receivedResourceDataBlock:data forIdentifier:incomingDataIdentifier];
 	[self.dataBlockIdentifiers removeObject:incomingDataIdentifier];
 }
 
