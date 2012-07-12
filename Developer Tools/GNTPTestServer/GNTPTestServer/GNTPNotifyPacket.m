@@ -81,6 +81,10 @@
 	return feedbackData;
 }
 
++(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString *)gntpKey {
+	return [super convertedObjectFromGNTPObject:obj forGrowlKey:gntpKey];
+}
+
 -(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue {
 	/* 
 	 * Special cases in a notification: 

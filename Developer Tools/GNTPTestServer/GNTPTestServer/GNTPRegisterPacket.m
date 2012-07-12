@@ -24,6 +24,14 @@
 @synthesize readNotifications = _readNotifications;
 @synthesize notificationDicts = _notificationDicts;
 
++(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary *)dict {
+	return [super gntpDictFromGrowlDict:dict];
+}
+
++(NSString*)headersForGNTPDictionary:(NSDictionary *)dict {
+	return [super headersForGNTPDictionary:dict];
+}
+
 -(id)init {
 	if((self = [super init])){
 		_totalNotifications = 0;

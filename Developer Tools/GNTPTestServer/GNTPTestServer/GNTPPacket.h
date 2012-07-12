@@ -43,9 +43,27 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 +(void)enumerateHeaders:(NSString*)headersString 
 				  withBlock:(GNTPHeaderBlock)headerBlock;
 
+#pragma mark Conversion Methods
 +(NSDictionary*)gntpToGrowlMatchingDict;
 +(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey;
++(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey;
++(NSDictionary*)growlToGNTPMatchingDict;
++(NSString*)gntpKeyForGrowlDictKey:(NSString*)growlKey;
++(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString*)gntpKey;
 
+#pragma mark Packet Building
+
++(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict;
++(NSString*)headersForGNTPDictionary:(NSDictionary*)dict;
++(NSData*)gntpDataFromGNTPDictionary:(NSDictionary*)dict
+										ofType:(NSString*)type
+									  withKey:(GNTPKey*)encryptionKey;
++(NSData*)gntpDataFromGrowlDictionary:(NSDictionary*)dict 
+										 ofType:(NSString*)type
+										withKey:(GNTPKey*)encryptionKey;
+
+
+#pragma mark Packet
 -(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data;
 -(NSInteger)parseDataBlock:(NSData*)data;
 -(void)parseHeaderKey:(NSString*)headerKey value:(NSString*)stringValue;

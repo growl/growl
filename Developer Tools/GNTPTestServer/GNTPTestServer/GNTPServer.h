@@ -25,6 +25,7 @@
 -(id)initWithInterface:(NSString*)interface;
 
 + (NSData*)doubleCLRF;
++ (NSData*)gntpEndData;
 
 -(BOOL)startServer;
 -(void)stopServer;
