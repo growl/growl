@@ -294,7 +294,9 @@
 	return _matchingDict;
 }
 +(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey {
-	return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
+	if([[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey])
+		return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
+	return gntpKey;
 }
 
 -(id)init {

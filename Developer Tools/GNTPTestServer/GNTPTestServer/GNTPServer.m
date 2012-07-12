@@ -118,6 +118,7 @@
 	if(action)
 		[errorString appendFormat:@"Response-Action: %@\r\n", action];
 	[errorString appendString:@"\r\n"];
+	//NSLog(@"Write: %@", errorString);
 	NSData *errorData = [NSData dataWithBytes:[errorString UTF8String] length:[errorString length]];
 	[sock writeData:errorData withTimeout:5.0 tag:-2];
 }
@@ -198,10 +199,12 @@
 			responseData = _flashResponse;
 			readToTag = -2;
 
-		}/*else if([initialString caseInsensitiveCompare:@"GET "] == NSOrderedSame){
+		}else if([initialString caseInsensitiveCompare:@"GET "] == NSOrderedSame){
 			//This needs us to read more data before we can finish the websocket
 		   readToTag = 101;
-		}*/else{
+			//This might not be right
+			readToData = [GNTPServer doubleCLRF];
+		}else{
 			[self dumpSocket:sock
 					actionType:nil
 				withErrorCode:GrowlGNTPUnknownProtocolErrorCode
@@ -388,7 +391,7 @@
 		readToTag = 0;
 		
 	}else if(tag == 101){
-		//read in the rest of a websocket, and reply, and then setup a read of the first bit of the socket
+		//We've read in the rest of a websocket, parse and reply, and then setup a read of the first bit of the socket
 		[self dumpSocket:sock];
 	}else{
 		//We shouldn't have an unknown read tag, dump the socket

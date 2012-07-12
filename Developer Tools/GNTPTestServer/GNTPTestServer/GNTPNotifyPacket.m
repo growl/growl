@@ -55,7 +55,7 @@
 		//Go ahead and set it regardless
 		contextString = context;
 	}else{
-		if([contextType caseInsensitiveCompare:@"PLIST"]){
+		if([contextType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
 			if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
 				NSData *propertyListData = [NSPropertyListSerialization dataWithPropertyList:context
 																											 format:kCFPropertyListXMLFormat_v1_0
@@ -75,6 +75,7 @@
 		[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
 		[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
 		[response appendString:@"\r\n"];
+		//NSLog(@"%@", response);
 		feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
 	}
 	return feedbackData;

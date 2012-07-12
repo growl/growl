@@ -45,6 +45,13 @@ enum {
 
 @synthesize connection;
 
+-(id)initWithDictionary:(NSDictionary *)dict {
+	if((self = [super initWithDictionary:dict])){
+		attemptSucceeded = NO;
+	}
+	return self;
+}
+
 - (void) dealloc {
 	[callbackHeaderItems release];
     
@@ -65,7 +72,7 @@ enum {
 }
 
 - (void) failed {
-	NSLog(@"%@ failed because %@", self, self.error);
+	//NSLog(@"%@ failed because %@", self, self.error);
 	[super failed];
 	[socket release];
 	socket = nil;
@@ -275,6 +282,11 @@ enum {
       }
    }];
    
+	if(!result || !context || !contextType){
+		self.responseParseErrorString = @"Unable to parse feedback response";
+		return;
+	}
+	
    NSString *resultString = [result headerValue];
    int resultValue = 0;
    if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClicked] == NSOrderedSame || 
@@ -311,8 +323,8 @@ enum {
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
-    if(socketError && [socketError code] != 7)
-        NSLog(@"Got disconnected: %@", socketError);
+    //if(socketError && [socketError code] != 7)
+    //    NSLog(@"Got disconnected: %@", socketError);
     
 	if (!attemptSucceeded) {
 		if (!socketError) {
@@ -324,7 +336,7 @@ enum {
 		self.error = socketError;
 		if (socketError)
 			[self failed];
-        [self finished];
+		[self finished];
         
 		return;
 	}
