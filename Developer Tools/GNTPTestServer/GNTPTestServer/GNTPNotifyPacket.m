@@ -82,7 +82,60 @@
 }
 
 +(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString *)gntpKey {
-	return [super convertedObjectFromGNTPObject:obj forGrowlKey:gntpKey];
+	id converted = [super convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
+	if(converted)
+		return converted;
+	
+	if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationCallbackTarget] == NSOrderedSame){
+		if([obj isKindOfClass:[NSURL class]])
+			converted = [obj absoluteString];
+	}else if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationSticky] == NSOrderedSame){
+		if([obj boolValue])
+		{
+			converted = @"True";
+		}else {
+			converted = @"False";
+		}
+	}else if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationPriority] == NSOrderedSame){
+		converted = [NSString stringWithFormat:@"%ld", [obj integerValue]];
+	} 
+	return converted;
+}
+
++(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary *)dict {
+	NSMutableDictionary *converted = [super gntpDictFromGrowlDict:dict];
+	
+	//We wont bother checking the context type we stored unless its a string
+	NSString *contextType = nil;
+	id context = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	NSString *contextString = nil;
+	if(context){
+		if([context isKindOfClass:[NSString class]]){
+			contextString = context;
+			if([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE])
+				contextType = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+			else
+				contextType = @"String";
+		}else if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
+			NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:context
+																								 format:kCFPropertyListXMLFormat_v1_0
+																								options:0 
+																								  error:NULL];
+			if(plistData){
+				contextString = [NSString stringWithUTF8String:[plistData bytes]];
+			}
+			contextType = @"Plist";
+		}else if([context isKindOfClass:[NSURL class]]){
+			contextString = [context absoluteString];
+			contextType = @"URL";
+		}
+		if(contextString && contextType){
+			[converted setObject:contextType forKey:GrowlGNTPNotificationCallbackContextType];
+			[converted setObject:contextString forKey:GrowlGNTPNotificationCallbackContext];
+		}
+	}
+	
+	return converted;
 }
 
 -(void)parseHeaderKey:(NSString *)headerKey value:(NSString *)stringValue {
@@ -115,25 +168,25 @@
 -(NSMutableDictionary*)convertedGrowlDict {
 	NSMutableDictionary *convertedDict = [[super convertedGrowlDict] retain];
 	if(self.callbackString){
-		BOOL insertAsIs = YES;
+		id convertedContext = nil;
 		if(self.callbackType){
+			//We can easily add support here for other types
 			if([self.callbackType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
 				//Convert to a plist and check
-				id clickContext = [NSPropertyListSerialization propertyListWithData:[self.callbackType dataUsingEncoding:NSUTF8StringEncoding]
-																								options:0
-																								 format:NULL
-																								  error:nil];
-				if(clickContext){
-					insertAsIs = NO;
-					[convertedDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-				}
+				convertedContext = [NSPropertyListSerialization propertyListWithData:[self.callbackType dataUsingEncoding:NSUTF8StringEncoding]
+																								 options:0
+																								  format:NULL
+																									error:nil];
+			}else if([self.callbackType caseInsensitiveCompare:@"URL"] == NSOrderedSame){
+				convertedContext = [NSURL URLWithString:self.callbackString];
 			}
-			//We can easily add support here for other types
 		}
 		
 		//We dont really know the type, or couldn't convert it, just the stuff the string back in
-		if(insertAsIs){
+		if(!convertedContext){
 			[convertedDict setObject:self.callbackString forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+		}else{
+			[convertedDict setObject:convertedContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 		}
 		[convertedDict setObject:self.callbackType forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 	}

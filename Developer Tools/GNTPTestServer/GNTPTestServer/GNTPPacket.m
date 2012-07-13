@@ -361,16 +361,7 @@
 	if([obj isKindOfClass:[NSString class]])
 		return obj;
 	id converted = nil;
-	if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationSticky] == NSOrderedSame){
-		if([obj boolValue])
-		{
-			converted = @"True";
-		}else {
-			converted = @"False";
-		}
-	}else if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationPriority] == NSOrderedSame){
-		converted = [NSString stringWithFormat:@"%ld", [obj integerValue]];
-	}else if([gntpKey caseInsensitiveCompare:GrowlGNTPApplicationIconHeader] == NSOrderedSame ||
+	if([gntpKey caseInsensitiveCompare:GrowlGNTPApplicationIconHeader] == NSOrderedSame ||
 				[gntpKey caseInsensitiveCompare:GrowlGNTPNotificationIcon] == NSOrderedSame)
 	{
 		if([obj isKindOfClass:[NSData class]])
