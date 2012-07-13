@@ -376,6 +376,10 @@
 		BC86961C15114B090034963A /* GrowlKeychainUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC86961F15114B560034963A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
 		BC8B2323146DB0F7004E8971 /* Rollup.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8B2322146DB0F7004E8971 /* Rollup.png */; };
+		BC8FD39115B0CC200007CC12 /* GrowlXPCCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C9191421958F007EAC43 /* GrowlXPCCommunicationAttempt.m */; };
+		BC8FD39215B0CC200007CC12 /* GrowlXPCNotificationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91B1421958F007EAC43 /* GrowlXPCNotificationAttempt.m */; };
+		BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91D1421958F007EAC43 /* GrowlXPCRegistrationAttempt.m */; };
+		BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 3112428D13CBE56B0055A2AD /* GrowlCommunicationAttempt.m */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
@@ -705,6 +709,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC83FC10150087EB000504F9;
 			remoteInfo = GrowlPlugins;
+		};
+		BC8FD39515B0CC470007CC12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
+			remoteInfo = GNTPClientService;
 		};
 		BC9EFDF915105EDE00534A7C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3515,6 +3526,7 @@
 				34A96E300C95F6AE00F46006 /* Copy Automator Plugin */,
 				BC29B29D14D12E4800C72855 /* Copy Launcher */,
 				93A042C6138215C400C46F0A /* Copy QuickLook Plugin */,
+				BC8FD39715B0CC6E0007CC12 /* Copy XPC */,
 				BCCAB95F151684C000E83EBB /* Resign/Validate */,
 			);
 			buildRules = (
@@ -3524,6 +3536,7 @@
 				BC29B29C14D12E3700C72855 /* PBXTargetDependency */,
 				BC83FC261500893F000504F9 /* PBXTargetDependency */,
 				BC9EFE0015105F2300534A7C /* PBXTargetDependency */,
+				BC8FD39615B0CC470007CC12 /* PBXTargetDependency */,
 				BCC7F9C71503D90A005FFE04 /* PBXTargetDependency */,
 				BCC7F9C91503D90A005FFE04 /* PBXTargetDependency */,
 				955430E807E04683005534FA /* PBXTargetDependency */,
@@ -4095,6 +4108,20 @@
 			shellPath = /bin/bash;
 			shellScript = "source embedVCSData.sh\n";
 		};
+		BC8FD39715B0CC6E0007CC12 /* Copy XPC */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy XPC";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
 		BCC7F9801503C08B005FFE04 /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4429,6 +4456,10 @@
 				BC79CBE715ACE3CA0081DCBE /* GNTPServer.m in Sources */,
 				BC79CBE815ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m in Sources */,
 				BC1AF92A15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
+				BC8FD39115B0CC200007CC12 /* GrowlXPCCommunicationAttempt.m in Sources */,
+				BC8FD39215B0CC200007CC12 /* GrowlXPCNotificationAttempt.m in Sources */,
+				BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */,
+				BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4604,6 +4635,11 @@
 			isa = PBXTargetDependency;
 			target = BC83FC10150087EB000504F9 /* GrowlPlugins */;
 			targetProxy = BC83FC251500893F000504F9 /* PBXContainerItemProxy */;
+		};
+		BC8FD39615B0CC470007CC12 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF93C8E214218EB3007EAC43 /* GNTPClientService */;
+			targetProxy = BC8FD39515B0CC470007CC12 /* PBXContainerItemProxy */;
 		};
 		BC9EFE0015105F2300534A7C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

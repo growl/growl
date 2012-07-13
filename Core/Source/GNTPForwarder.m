@@ -10,18 +10,28 @@
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlNetworkUtilities.h"
 #import "GrowlBonjourBrowser.h"
 #import "GrowlNetworkObserver.h"
-#import "GrowlGNTPPacketParser.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
+
+#import "GrowlXPCCommunicationAttempt.h"
+#import "GrowlXPCNotificationAttempt.h"
+#import "GrowlXPCRegistrationAttempt.h"
+
+@interface GNTPForwarder ()
+
+@property (nonatomic, retain) NSMutableArray *attemptArray;
+
+@end
 
 @implementation GNTPForwarder
 
 @synthesize preferences;
 @synthesize destinations;
 @synthesize alreadyBrowsing;
+
+@synthesize attemptArray = _attemptArray;
 
 + (GNTPForwarder*)sharedController {
    static GNTPForwarder *instance;
@@ -157,20 +167,7 @@
 
 #pragma mark Forwarding support
 
-/*!
- * @brief Get address data for a Growl server
- *
- * @param name The name of the server
- * @result An NSData which contains a (struct sockaddr *)'s data. This may actually be a sockaddr_in or a sockaddr_in6.
- */
-
-- (void)mainThread_sendViaTCP:(NSDictionary *)sendingDetails
-{
-	[[GrowlGNTPPacketParser sharedParser] sendPacket:[sendingDetails objectForKey:@"Packet"]
-                                          toAddress:[sendingDetails objectForKey:@"Destination"]];
-}
-
-- (void)sendViaTCP:(GrowlGNTPOutgoingPacket *)packet
+- (void)sendViaXPC:(GrowlXPCCommunicationAttempt *)attempt
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
    
@@ -194,12 +191,17 @@
 				NSLog(@"Could not obtain destination address for %@", [obj computerName]);
 				return;
 			}
-			[packet setKey:[(GrowlBrowserEntry*)obj key]];
+			
+			NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
+			[sendingDetails setObject:destAddress forKey:@"GNTPAddressData"];
+			if([obj password])
+				[sendingDetails setObject:[obj password] forKey:@"GNTPPassword"];
+			[attempt setSendingDetails:sendingDetails];
+			[attempt setDelegate:self];
          dispatch_async(dispatch_get_main_queue(), ^{
-            [blockForwarder mainThread_sendViaTCP:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                   destAddress, @"Destination",
-                                                   packet, @"Packet",
-                                                   nil]];
+				//send note
+				[[blockForwarder attemptArray] addObject:attempt];
+				[attempt begin];
          });
 		}       
    }];
@@ -209,12 +211,12 @@
 
 - (void)forwardNotification:(NSDictionary *)dict
 {
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType
-                                                                                   forDict:dict];
+	GrowlXPCCommunicationAttempt *attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:dict];
    __block GNTPForwarder *blockForwarder = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [blockForwarder sendViaTCP:outgoingPacket];
+      [blockForwarder sendViaXPC:attempt];
    });
+	[attempt release];
 }
 
 - (void)appRegistered:(NSNotification*)dict 
@@ -225,12 +227,12 @@
 
 - (void)forwardRegistration:(NSDictionary *)dict
 {
-	GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType
-                                                                                   forDict:dict];
+	GrowlXPCCommunicationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
    __block GNTPForwarder *blockForwarder = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [blockForwarder sendViaTCP:outgoingPacket];
+      [blockForwarder sendViaXPC:attempt];
    });
+	[attempt release];
 }
 
 -(void)addressChanged:(NSNotification*)note
@@ -324,5 +326,30 @@
    }
 }
 
+#pragma mark GrowlCommunicationDelegate
+
+- (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
+	//Do nothing
+}
+- (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
+	//Do nothing
+}
+- (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
+	__block GNTPForwarder *blockForwarder = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[blockForwarder attemptArray] removeObject:attempt];
+	});
+}
+- (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
+	//Do something!
+}
+
+//Sent after success
+- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
+	//Send click
+}
+- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
+	//Send timeout
+}
 
 @end
