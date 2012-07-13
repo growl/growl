@@ -12,6 +12,7 @@
 #import "GNTPPacket.h"
 #import "GNTPRegisterPacket.h"
 #import "GNTPNotifyPacket.h"
+#import "GNTPUtilities.h"
 #import "GrowlGNTPDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
@@ -79,25 +80,6 @@
 		[obj disconnect];
 	}];
 	[self.socketsByGUID removeAllObjects];
-}
-
-+ (NSData*)doubleCLRF {
-	static NSData *_doubleCLRF = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		_doubleCLRF = [[NSData alloc] initWithBytes:"\x0D\x0A\x0D\x0A" length:4];
-	});
-	return _doubleCLRF;
-}
-
-+ (NSData*)gntpEndData {
-	static NSData *_gntpEndData = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		NSString *endString = @"GNTP/1.0 END\r\n\r\n";
-		_gntpEndData = [[NSData dataWithBytes:[endString UTF8String] length:[endString length]] retain];
-	});
-	return _gntpEndData;
 }
 
 - (void)dumpSocket:(GCDAsyncSocket*)sock
@@ -203,7 +185,7 @@
 			//This needs us to read more data before we can finish the websocket
 		   readToTag = 101;
 			//This might not be right
-			readToData = [GNTPServer doubleCLRF];
+			readToData = [GNTPUtilities doubleCRLF];
 		}else{
 			[self dumpSocket:sock
 					actionType:nil
@@ -248,6 +230,7 @@
 			}else{
 				if(![GNTPPacket isAuthorizedPacketType:action
 														 withKey:key
+													  originKey:nil
 													  forSocket:sock
 													  errorCode:&errorCode 
 													description:&errorDescription]){
@@ -285,7 +268,7 @@
 					[self.packetsByGUID setObject:packet forKey:[sock userData]];
 					
 					//Get our next read to value/tag
-					readToData = [GNTPServer doubleCLRF];
+					readToData = [GNTPUtilities doubleCRLF];
 					readToTag = 2;
 				}
 			}
@@ -302,13 +285,13 @@
 		NSString *guid = [sock userData];
 		GNTPPacket *packet = [[self.packetsByGUID objectForKey:guid] retain];
 		//All our data in here is a double clrf trailed
-		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPServer doubleCLRF] length]];
+		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPUtilities doubleCRLF] length]];
 		NSInteger result = [packet parsePossiblyEncryptedDataBlock:trimmedData];
 		if(result > 0){
 			//Segments in GNTP are all seperated by a double CLRF
 			//Packet maintains its state, with sub classes providing specifics for the type of packet (ie, notes in a registration packet)
 			readToTag = 2;
-			readToData = [GNTPServer doubleCLRF];
+			readToData = [GNTPUtilities doubleCRLF];
 		}else if(result < 0){
 			//Dump socket/packet with appropriate error
 			NSLog(@"Could not validate packet!");
@@ -337,7 +320,7 @@
 				
 				if([packet keepAlive]){
 					readToTag = 99;
-					readToData = [GNTPServer gntpEndData];
+					readToData = [GNTPUtilities gntpEndData];
 					NSLog(@"We should read to the end of GNTP/1.0");
 				}
 				

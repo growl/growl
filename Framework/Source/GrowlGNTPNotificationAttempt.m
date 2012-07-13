@@ -9,7 +9,7 @@
 #import "GrowlGNTPNotificationAttempt.h"
 
 #import "GrowlDefines.h"
-#import "GrowlGNTPOutgoingPacket.h"
+#import "GNTPNotifyPacket.h"
 
 @implementation GrowlGNTPNotificationAttempt
 
@@ -17,8 +17,8 @@
 	return GrowlCommunicationAttemptTypeNotify;
 }
 
-- (GrowlGNTPOutgoingPacket *) packet {
-	return [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_NotifyType forDict:self.dictionary];
+-(NSData*)outgoingData {
+	return [GNTPNotifyPacket gntpDataFromGrowlDictionary:self.dictionary ofType:@"NOTIFY" withKey:self.key];
 }
 
 - (BOOL) expectsCallback {

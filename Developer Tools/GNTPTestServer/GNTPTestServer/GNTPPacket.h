@@ -13,7 +13,21 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 
 @class GNTPKey, GNTPPacket, GCDAsyncSocket;
 
-@interface GNTPPacket : NSObject
+@interface GNTPPacket : NSObject {
+	GNTPKey *_key;
+	NSString *_connectedHost;
+	NSString *_guid;
+	NSString *_action;
+	NSDictionary *_growlDict;
+	NSMutableDictionary *_gntpDictionary;
+	NSMutableArray *_dataBlockIdentifiers;
+	NSInteger _state;
+	BOOL _keepAlive;
+	
+	NSString *_incomingDataIdentifier;
+	NSUInteger _incomingDataLength;
+	BOOL _incomingDataHeaderRead;
+}
 
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSString *connectedHost;
@@ -30,6 +44,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 
 +(BOOL)isAuthorizedPacketType:(NSString*)action
 							 withKey:(GNTPKey*)key
+						  originKey:(GNTPKey*)originKey
 						  forSocket:(GCDAsyncSocket*)socket
 						  errorCode:(GrowlGNTPErrorCode*)errCode
 						description:(NSString**)errDescription;

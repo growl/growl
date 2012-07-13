@@ -45,6 +45,8 @@ enum {
 
 @synthesize connection;
 
+@synthesize key = _key;
+
 -(id)initWithDictionary:(NSDictionary *)dict {
 	if((self = [super initWithDictionary:dict])){
 		attemptSucceeded = NO;
@@ -62,7 +64,7 @@ enum {
 	[super dealloc];
 }
 
-- (GrowlGNTPOutgoingPacket *) packet {
+-(NSData*)outgoingData {
 	NSAssert1(NO, @"Subclass dropped the ball: Communication attempt %@  does not know how to create a GNTP packet", self);
 	return nil;
 }
@@ -125,19 +127,25 @@ enum {
 	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:tag];
 }
 
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
-    GrowlGNTPOutgoingPacket *outPacket = [self packet];
-    
-    if(password){
-        GNTPKey *key = [[GNTPKey alloc] initWithPassword:password
-                                           hashAlgorithm:GNTPSHA512
-                                     encryptionAlgorithm:GNTPNone];
-        [outPacket setKey:key];
-        [key release];
-    }
-    [outPacket writeToSocket:sock];
-	//After we send in our request, the notifications system will send back a response consisting of at least one line.
-	[self readOneLineFromSocket:sock tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {	
+	if(password){
+		self.key = [[GNTPKey alloc] initWithPassword:password
+												 hashAlgorithm:GNTPSHA512
+										 encryptionAlgorithm:GNTPNone];
+	}else{
+		self.key = [[GNTPKey alloc] initWithPassword:nil
+												 hashAlgorithm:GNTPNoHash
+										 encryptionAlgorithm:GNTPNone];
+	}
+	
+	NSData *outData = [self outgoingData];
+	if(outData){
+		[socket writeData:outData withTimeout:5.0 tag:-1];
+		[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+	}else{
+		self.error = [NSError errorWithDomain:@"GNTPErrorDomain" code:GrowlGNTPInternalServerErrorErrorCode userInfo:nil];
+		[self failed];
+	}
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {

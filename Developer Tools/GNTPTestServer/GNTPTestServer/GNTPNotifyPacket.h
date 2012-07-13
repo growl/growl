@@ -8,7 +8,10 @@
 
 #import "GNTPPacket.h"
 
-@interface GNTPNotifyPacket : GNTPPacket
+@interface GNTPNotifyPacket : GNTPPacket {
+	NSString *_callbackString;
+	NSString *_callbackType;
+}
 
 +(NSData*)feedbackData:(BOOL)clicked forGrowlDictionary:(NSDictionary*)dictionary;
 

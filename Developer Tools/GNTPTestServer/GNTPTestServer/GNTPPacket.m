@@ -10,7 +10,7 @@
 #import "GNTPKey.h"
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
-#import "GNTPServer.h"
+#import "GNTPUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GCDAsyncSocket.h"
@@ -40,9 +40,9 @@
 @synthesize state = _state;
 @synthesize keepAlive = _keepAlive;
 
-@synthesize incomingDataIdentifier;
-@synthesize incomingDataLength;
-@synthesize incomingDataHeaderRead;
+@synthesize incomingDataIdentifier = _incomingDataIdentifier;
+@synthesize incomingDataLength = _incomingDataLength;
+@synthesize incomingDataHeaderRead = _incomingDataHeaderRead;
 
 #pragma mark Validation Methods
 +(BOOL)isValidKey:(GNTPKey*)key
@@ -63,6 +63,7 @@
 }
 + (BOOL)isAuthorizedPacketType:(NSString*)action
 							  withKey:(GNTPKey*)key
+							originKey:(GNTPKey*)originKey
 							forSocket:(GCDAsyncSocket*)socket
 							errorCode:(GrowlGNTPErrorCode*)errCode
 						 description:(NSString**)errDescription
@@ -138,7 +139,7 @@
    //At this point, we know we need a password, for decryption, or just authorization
 	if(isResponseType){
 		//check hash against the origin packet, regardless of subscription or not, this should be valid
-		//if ([HexEncode([[[self originPacket] key] keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)
+		if (originKey && [HexEncode([originKey keyHash]) caseInsensitiveCompare:HexEncode([key keyHash])] == NSOrderedSame)
 			return YES;
 	}else{
 		//Try our remote password
@@ -469,11 +470,11 @@
 			NSMutableString *header = [NSMutableString stringWithFormat:@"Identifier: %@\r\nLength: %lu\r\n\r\n", key, [encrypted length]];
 			[packetData appendData:[header dataUsingEncoding:NSUTF8StringEncoding]];
 			[packetData appendData:encrypted];
-			[packetData appendData:[GNTPServer doubleCLRF]];
+			[packetData appendData:[GNTPUtilities doubleCRLF]];
 		}];
 	}
 	if([[gntpDict valueForKey:@"Connection"] isEqualToString:@"Keep-Alive"])
-		[packetData appendData:[GNTPServer gntpEndData]];
+		[packetData appendData:[GNTPUtilities gntpEndData]];
 	return packetData;
 }
 
@@ -500,9 +501,9 @@
 		_gntpDictionary = [[NSMutableDictionary alloc] init];
 		_dataBlockIdentifiers = [[NSMutableArray alloc] init];
 		_state = 0;
-		incomingDataLength = 0;
-		incomingDataHeaderRead = NO;
-		incomingDataIdentifier = nil;
+		_incomingDataLength = 0;
+		_incomingDataHeaderRead = NO;
+		_incomingDataIdentifier = nil;
 		self.keepAlive = NO;
 	}
 	return self;
@@ -542,7 +543,7 @@
 		}
 		//Data blocks
 		case 2:
-			if([data length] != incomingDataLength)
+			if([data length] != self.incomingDataLength)
 				NSLog(@"Gah! Read data block and stated data length not the same!");
 			result = [self parseDataBlock:[self.key decrypt:data]];
 			break;
@@ -577,14 +578,14 @@
 		}
 		case 1:
 			//Reading in a header for data blocks
-			if(incomingDataHeaderRead){
+			if(self.incomingDataHeaderRead){
 				NSLog(@"Error! Should never be in this state thinking a header has been read");
 				result = -1;
 				break;
 			}
 			
 			[self parseResourceDataHeader:data];
-			if(incomingDataHeaderRead){
+			if(self.incomingDataHeaderRead){
 				self.state = 2;
 				result = 1;
 			}else{
@@ -595,7 +596,7 @@
 			break;
 		case 2:
 			//Reading in a data block
-			if(!incomingDataHeaderRead){
+			if(!self.incomingDataHeaderRead){
 				NSLog(@"Error! Should never be in this state thinking a header has not been read");
 				result = -1;
 				break;
@@ -606,7 +607,7 @@
 			if([self.dataBlockIdentifiers count] == 0){
 				self.state = 999;
 			}else{
-				incomingDataHeaderRead = NO;
+				self.incomingDataHeaderRead = NO;
 				self.state = 1;
 				self.incomingDataLength = 0;
 				self.incomingDataIdentifier = nil;
@@ -678,8 +679,8 @@
 }
 
 -(void)parseResourceDataBlock:(NSData*)data {
-	[self receivedResourceDataBlock:data forIdentifier:incomingDataIdentifier];
-	[self.dataBlockIdentifiers removeObject:incomingDataIdentifier];
+	[self receivedResourceDataBlock:data forIdentifier:self.incomingDataIdentifier];
+	[self.dataBlockIdentifiers removeObject:self.incomingDataIdentifier];
 }
 
 -(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier {

@@ -7,7 +7,6 @@
 //
 
 #import "GNTPRegisterPacket.h"
-#import "GNTPServer.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"

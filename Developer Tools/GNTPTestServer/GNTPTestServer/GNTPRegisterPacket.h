@@ -8,7 +8,12 @@
 
 #import "GNTPPacket.h"
 
-@interface GNTPRegisterPacket : GNTPPacket
+@interface GNTPRegisterPacket : GNTPPacket {
+	NSUInteger _totalNotifications;
+	NSUInteger _readNotifications;
+	NSMutableArray *_notificationDicts;
+
+}
 
 @property (nonatomic, retain) NSMutableArray *notificationDicts;
 
