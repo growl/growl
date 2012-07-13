@@ -15,6 +15,8 @@
 
 @implementation GrowlXPCCommunicationAttempt
 
+@synthesize sendingDetails;
+
 + (NSString*)XPCBundleID
 {
     return [NSString stringWithFormat:@"%@.GNTPClientService", [[NSBundle mainBundle] bundleIdentifier]];
@@ -166,21 +168,30 @@
 	if (!xpcConnection)
 		return NO;
 	
-	xpc_object_t xpcMessage = xpc_dictionary_create(NULL, NULL, 0);
+	NSMutableDictionary *messageDict = [NSMutableDictionary dictionary];
+	[messageDict setObject:purpose forKey:@"GrowlDictType"];
+	[messageDict setObject:self.dictionary forKey:@"GrowlDict"];
+	if(self.sendingDetails){
+		//Get our host/address/password to send
+		NSString *host = [sendingDetails objectForKey:@"GNTPHost"];
+		NSString *password = [sendingDetails objectForKey:@"GNTPPassword"];
+		NSData *addressData = [sendingDetails objectForKey:@"GNTPAddressData"];
+		if(host)
+			[messageDict setObject:host forKey:@"GNTPHost"];
+		if(password)
+			[messageDict setObject:password forKey:@"GNTPPassword"];
+		if(addressData)
+			[messageDict objectForKey:@"GNTPAddressData"];
+	}
 	
-	// Add the known parameters, yay!
-	xpc_dictionary_set_string(xpcMessage, "GrowlDictType", [purpose UTF8String]);
-	
-	xpc_object_t growlDict = [(NSObject*)self.dictionary newXPCObject];
-	if(growlDict){
-		xpc_dictionary_set_value(xpcMessage, "GrowlDict", growlDict);
-		xpc_release(growlDict);
+	xpc_object_t xpcMessage = [(NSObject*)messageDict newXPCObject];
+	if(xpcMessage){
 		xpc_connection_send_message(xpcConnection, xpcMessage);
+		xpc_release(xpcMessage);
 	}else{
 		NSLog(@"Error generating XPC message for dictionary: %@", dictionary);
+		return NO;
 	}
-	xpc_release(xpcMessage);
-	
 	return YES;
 }
 

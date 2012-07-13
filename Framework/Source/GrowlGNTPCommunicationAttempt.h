@@ -24,6 +24,7 @@
 	int responseReadType;
 	
 	NSString *host;
+	NSData *_addressData;
 	NSString *password;
 	
 	//For the XPC version
@@ -35,6 +36,7 @@
 @property (nonatomic) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0);
 @property (nonatomic, retain) NSArray *callbackHeaderItems;
 @property (nonatomic, retain) GNTPKey *key;
+@property (nonatomic, retain) NSData *addressData;
 
 //Lazily constructs the packet for self.dictionary.
 -(NSData*)outgoingData;

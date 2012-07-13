@@ -16,7 +16,10 @@
     
     NSString *                          notificationUuid;
     
+	NSDictionary *sendingDetails;
 }
+
+@property (nonatomic, retain) NSDictionary *sendingDetails;
 
 + (BOOL)canCreateConnection;
 - (NSString *)purpose;

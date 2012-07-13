@@ -46,6 +46,7 @@ enum {
 @synthesize callbackHeaderItems;
 
 @synthesize connection;
+@synthesize addressData = _addressData;
 
 @synthesize key = _key;
 
@@ -91,21 +92,28 @@ enum {
 	NSAssert1(socket == nil, @"%@ appears to already be sending!", self);
 	//GrowlGNTPOutgoingPacket *packet = [self packet];
 	socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    responseReadType = -1;
-    
-    NSString *hostToUse = nil;
-    if(!self.host || [host isLocalHost])
-        hostToUse = @"localhost";
-    else
-        hostToUse = host;
-    
+	
+	responseReadType = -1;
+	
 	NSError *errorReturned = nil;
-	if (![socket connectToHost:hostToUse
-                        onPort:GROWL_TCP_PORT
-                   withTimeout:15.0
-                         error:&errorReturned])
-	{
+	BOOL result = NO;
+	if(self.addressData){
+		result = [socket connectToAddress:self.addressData
+									 withTimeout:15.0
+											 error:&errorReturned];
+	}else{
+		NSString *hostToUse = nil;
+		if(!self.host || [host isLocalHost])
+			hostToUse = @"localhost";
+		else
+			hostToUse = host;
+		
+		result = [socket connectToHost:hostToUse
+										onPort:GROWL_TCP_PORT
+								 withTimeout:15.0
+										 error:&errorReturned];
+	}
+	if(!result){
 		NSLog(@"Failed to connect: %@", errorReturned);
 		self.error = errorReturned;
 		[self failed];
@@ -243,7 +251,7 @@ enum {
 		NSString *headersString = [NSString stringWithUTF8String:[decrypted bytes]];
 		NSArray *headerArray = [headersString componentsSeparatedByString:@"\r\n"];
 		[headerArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			NSMutableData *headerData = [(NSString*)obj dataUsingEncoding:NSUTF8StringEncoding];
+			NSMutableData *headerData = [[[(NSString*)obj dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
 			//Components seperated by string creates strings without the \r\n, add them back on so it behaves the same as the above function;
 			[headerData appendData:[GCDAsyncSocket CRLFData]];
 			if(![self parseHeaderData:headerData])

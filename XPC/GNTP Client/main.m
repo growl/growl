@@ -50,6 +50,7 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 		NSString *purpose = [dict valueForKey:@"GrowlDictType"];
 		NSDictionary *growlDict = [dict objectForKey:@"GrowlDict"];
 		
+		NSData *address = [dict objectForKey:@"GNTPAddressData"];
 		NSString *host = [dict valueForKey:@"GNTPHost"];
 		NSString *pass = [dict valueForKey:@"GNTPPassword"];
 		
@@ -64,6 +65,7 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 		if(attempt){
 			attempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
 			attempt.host = host;
+			attempt.addressData = address;
 			attempt.password = pass;
 			attempt.connection = peer;
 
