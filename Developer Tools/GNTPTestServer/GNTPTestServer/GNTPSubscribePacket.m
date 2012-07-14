@@ -10,4 +10,16 @@
 
 @implementation GNTPSubscribePacket
 
++(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString *)gntpKey {
+	id converted = [super convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
+	if(converted)
+		return converted;
+	if([gntpKey isEqualToString:GrowlGNTPSubscriberPort]){
+		if([obj integerValue] > 0 && [obj integerValue] != GROWL_TCP_PORT)
+			converted = [NSString stringWithFormat:@"%ld", [obj integerValue]];
+	}
+	
+	return converted;
+}
+
 @end

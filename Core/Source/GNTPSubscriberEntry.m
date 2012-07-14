@@ -9,11 +9,6 @@
 #import "GNTPSubscriberEntry.h"
 #import "GNTPSubscriptionController.h"
 #import "GrowlBonjourBrowser.h"
-#import "GrowlGNTPPacketParser.h"
-#import "GrowlGNTPPacket.h"
-#import "GrowlErrorGNTPPacket.h"
-#import "GrowlGNTPOutgoingPacket.h"
-#import "GrowlSubscribeGNTPPacket.h"
 #import "GNTPKey.h"
 #import "GCDAsyncSocket.h"
 #import "GrowlNetworkUtilities.h"
@@ -360,7 +355,8 @@
     */
    __block GNTPSubscriberEntry *blockSelf = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSDictionary *dict = [NSDictionary dictionaryWithObject:[blockSelf subscriberID] forKey:GrowlGNTPSubscriberID];
+      NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[blockSelf subscriberID], GrowlGNTPSubscriberID,
+									 [GrowlNetworkUtilities localHostName], GrowlGNTPSubscriberName, nil];
       GrowlGNTPOutgoingPacket *packet = [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_SubscribeType forDict:dict];
       [packet setKey:[blockSelf key]];
       

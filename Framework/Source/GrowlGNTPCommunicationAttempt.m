@@ -197,6 +197,7 @@ enum {
 				BOOL closeConnection = NO;
 				BOOL decrypt = ([returnKey encryptionAlgorithm] != GNTPNone);
 				if ([responseType caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame) {
+					//Need to read more data for subscription, result includes ttl for system
 					attemptSucceeded = YES;
 					[self succeeded];
 					

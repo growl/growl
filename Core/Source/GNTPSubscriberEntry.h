@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class GNTPKey, GrowlGNTPPacket, GrowlOkGNTPPacket, GrowlSubscribeGNTPPacket;
+@class GNTPKey, GrowlGNTPPacket, GrowlOkGNTPPacket;
 
 @interface GNTPSubscriberEntry : NSObject
 

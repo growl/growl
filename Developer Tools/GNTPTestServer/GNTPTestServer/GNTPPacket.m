@@ -11,9 +11,12 @@
 #import "GCDAsyncSocket.h"
 #import "NSStringAdditions.h"
 #import "GNTPUtilities.h"
+#import "GrowlNetworkUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GCDAsyncSocket.h"
+#import "ISO8601DateFormatter.h"
+#import "GrowlOperatingSystemVersion.h"
 #import <CommonCrypto/CommonHMAC.h>
 
 #if GROWLHELPERAPP
@@ -297,8 +300,8 @@
 	return _matchingDict;
 }
 +(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey {
-	if([[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey])
-		return [[GNTPPacket gntpToGrowlMatchingDict] objectForKey:gntpKey];
+	if([[self gntpToGrowlMatchingDict] objectForKey:gntpKey])
+		return [[self gntpToGrowlMatchingDict] objectForKey:gntpKey];
 	return gntpKey;
 }
 +(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey {
@@ -349,6 +352,9 @@
 								GrowlGNTPOriginSoftwareVersion, GROWL_GNTP_ORIGIN_SOFTWARE_VERSION,
 								GrowlGNTPOriginPlatformName, GROWL_GNTP_ORIGIN_PLATFORM_NAME,
 								GrowlGNTPOriginPlatformVersion, GROWL_GNTP_ORIGIN_PLATFORM_VERSION,
+								GrowlGNTPSubscriberName, GrowlGNTPSubscriberName,
+								GrowlGNTPSubscriberID, GrowlGNTPSubscriberID,
+								GrowlGNTPSubscriberPort, GrowlGNTPSubscriberPort,
 								@"Connection", @"Connection", nil] retain];
 	});
 	return _matchingDict;
@@ -382,13 +388,73 @@
 }
 
 #pragma mark Packet Building
+/* Ensure we have all the nesescary headers as Growl headers
+ * Things that might be missing:
+ * computer id info
+ * internal id
+ * Connection type
+ */
 +(NSDictionary*)growlDictFilledInForConversion:(NSDictionary*)growlDict {
-	/* Ensure we have all the nesescary headers as Growl headers
-	 * Things that might be missing:
-	 * computer id info
-	 * internal id
-	 * Connection type
-	 */
+	NSMutableDictionary *dictCopy = [[growlDict mutableCopy] autorelease];
+	if(![dictCopy objectForKey:GROWL_NOTIFICATION_INTERNAL_ID])
+		[dictCopy setObject:[[NSProcessInfo processInfo] globallyUniqueString] forKey:GROWL_NOTIFICATION_INTERNAL_ID];
+		
+	//Sent/Reived headers
+	NSString *hostName = [GrowlNetworkUtilities localHostName];
+
+	NSMutableArray *previousRecieved = [dictCopy valueForKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+	/* New received header */
+	if ([dictCopy valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]) {
+		ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+		NSString *nowAsISO8601 = [formatter stringFromDate:[NSDate date]];
+		
+		/* Received: From <hostname> by <hostname> [with Growl] [id <identifier>]; <ISO 8601 date> */
+		NSString *nextReceived = [NSString stringWithFormat:@"From %@ by %@ with Growl%@; %@",
+										  [dictCopy valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY],
+										  hostName, 
+										  ([dictCopy valueForKey:GROWL_NOTIFICATION_INTERNAL_ID] ? [NSString stringWithFormat:@" id %@", [dictCopy valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]] : @""),
+										  nowAsISO8601];
+		if(!previousRecieved){
+			previousRecieved = [NSMutableArray array];
+			[dictCopy setObject:previousRecieved forKey:GROWL_NOTIFICATION_GNTP_RECEIVED];
+		}
+		[previousRecieved addObject:nextReceived];
+	}
+
+	[dictCopy setObject:hostName forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+
+	if (![dictCopy objectForKey:GROWL_GNTP_ORIGIN_MACHINE]) {
+		/* No origin machine --> We are the origin */
+		static BOOL determinedMachineInfo = NO;
+		static NSString *growlName = nil;
+		static NSString *growlVersion = nil;
+		static NSString *platformVersion = nil;
+		
+		if (!determinedMachineInfo) {
+			NSUInteger major, minor, bugFix;
+			GrowlGetSystemVersion(&major, &minor, &bugFix);
+			
+			platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
+			NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+			if ([[thisBundle bundleIdentifier] isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]) {
+				//This bundle *is* Growl!
+				growlName = [@"Growl" copy];
+			} else {
+				//This bundle is the Growl framework or an application that built the sources directly in.
+				growlName = [@"Growl.framework" copy];
+			}
+			
+			growlVersion = [[[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
+			determinedMachineInfo = YES;
+		}
+		
+		[dictCopy setObject:hostName forKey:GROWL_GNTP_ORIGIN_MACHINE];
+		[dictCopy setObject:growlName forKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+		[dictCopy setObject:growlVersion forKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+		[dictCopy setObject:@"Mac OS X" forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
+		[dictCopy setObject:platformVersion forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
+	}
+	
 	return growlDict;
 }
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict {
@@ -701,8 +767,37 @@
 	}];
 }
 
+- (BOOL)hasBeenReceivedPreviously
+{
+	__block BOOL result = NO;
+	NSArray *receivedHeaders = [self.gntpDictionary objectForKey:@"Received"];
+	NSString *myHostString;
+	
+   NSString *hostName = [GrowlNetworkUtilities localHostName];
+	
+	/* Check if this host received it previously */
+	myHostString = [NSString stringWithFormat:@"by %@", hostName];
+	[receivedHeaders enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj rangeOfString:myHostString].location != NSNotFound){
+			result = YES;
+			*stop = YES;
+		}
+	}];
+	
+	/* Check if this host sent it previously */
+	myHostString = [NSString stringWithFormat:@"From %@", hostName];
+	[receivedHeaders enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj rangeOfString:myHostString].location != NSNotFound){
+			result = YES;
+			*stop = YES;
+		}
+	}];
+	
+	return result;
+}
+
 -(BOOL)validate {
-	return YES;
+	return [self hasBeenReceivedPreviously];
 }
 -(NSString*)responseString {
 	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n\r\n", self.action];

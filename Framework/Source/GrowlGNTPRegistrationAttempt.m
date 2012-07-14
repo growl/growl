@@ -15,11 +15,6 @@
 + (GrowlCommunicationAttemptType) attemptType {
 	return GrowlCommunicationAttemptTypeRegister;
 }
-/*
-- (GrowlGNTPOutgoingPacket *) packet {
-	return [GrowlGNTPOutgoingPacket outgoingPacketOfType:GrowlGNTPOutgoingPacket_RegisterType forDict:self.dictionary];
-}
-*/
 
 -(NSData*)outgoingData {
 	return [GNTPRegisterPacket gntpDataFromGrowlDictionary:self.dictionary ofType:@"REGISTER" withKey:self.key];

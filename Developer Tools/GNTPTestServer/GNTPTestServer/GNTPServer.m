@@ -58,7 +58,7 @@
 															delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)] autorelease];
 	NSError *error = nil;
 	if(![self.server acceptOnInterface:self.interfaceString
-														port:23053 
+														port:GROWL_TCP_PORT 
 													  error:&error])
 	{
 		NSLog(@"There was an error starting the server! %@", error);
