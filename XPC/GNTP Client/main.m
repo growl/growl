@@ -61,8 +61,8 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			
 		}else if ([purpose caseInsensitiveCompare:@"notification"] == NSOrderedSame) {
 			attempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:growlDict] autorelease];
-		}else if ([purpose caseInsensitiveCompare:@"subscribe"] == NSOrderedSame{
-			attempt = [[[GrowlGNTPRegistrationAttempt alloc initWithDictionary:growlDict] autorelease];
+		}else if ([purpose caseInsensitiveCompare:@"subscribe"] == NSOrderedSame){
+			attempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:growlDict] autorelease];
 		}
 		if(attempt){
 			attempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;

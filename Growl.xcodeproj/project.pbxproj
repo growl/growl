@@ -274,6 +274,7 @@
 		BC29B2A614D130CF00C72855 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC29B2A514D130CE00C72855 /* ServiceManagement.framework */; };
 		BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */; };
 		BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */; };
+		BC348E6715B2198200DEFB7C /* GNTPSubscribePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3CE15B12C0B0007CC12 /* GNTPSubscribePacket.m */; };
 		BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC38547E1497B717001F026B /* GrowlNetworkObserver.m */; };
 		BC39BD4315068C2C00F2B56A /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC3C0794146C1FA700E7BBB0 /* GrowlDisplaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */; };
@@ -367,13 +368,11 @@
 		BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
 		BC8FD3CF15B12C0B0007CC12 /* GNTPSubscribePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3CE15B12C0B0007CC12 /* GNTPSubscribePacket.m */; };
 		BC8FD3F315B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8FD3F115B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h */; };
-		BC8FD3F415B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */; };
 		BC8FD3F515B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */; };
 		BC8FD3F615B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */; };
 		BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8FD3FB15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h */; };
 		BC8FD3FE15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
 		BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
-		BC8FD40015B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
@@ -4424,7 +4423,6 @@
 				BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */,
 				BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */,
 				BC8FD3CF15B12C0B0007CC12 /* GNTPSubscribePacket.m in Sources */,
-				BC8FD3F415B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */,
 				BC8FD3FE15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4472,7 +4470,7 @@
 				BC1AF92C15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
 				BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */,
 				BC8FD3F615B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */,
-				BC8FD40015B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */,
+				BC348E6715B2198200DEFB7C /* GNTPSubscribePacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

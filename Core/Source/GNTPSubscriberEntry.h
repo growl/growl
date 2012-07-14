@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlCommunicationAttempt.h"
 
-@class GNTPKey, GrowlGNTPPacket, GrowlOkGNTPPacket;
+@class GNTPKey, GNTPSubscribePacket, GrowlXPCSubscriptionAttempt;
 
-@interface GNTPSubscriberEntry : NSObject
+@interface GNTPSubscriberEntry : NSObject <GrowlCommunicationAttemptDelegate>
 
 @property (nonatomic, retain) NSString *computerName;
 @property (nonatomic, retain) NSString *addressString;
@@ -36,6 +37,8 @@
 @property (nonatomic) BOOL subscriptionError;
 @property (nonatomic, retain) NSString* subscriptionErrorDescription;
 
+@property (nonatomic, retain) GrowlXPCSubscriptionAttempt *subscriptionAttempt;
+
 -(id)initWithName:(NSString*)name
     addressString:(NSString*)addrString
            domain:(NSString*)aDomain
@@ -50,10 +53,10 @@
              port:(NSInteger)port;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
--(id)initWithPacket:(GrowlSubscribeGNTPPacket*)packet;
+-(id)initWithPacket:(GNTPSubscribePacket*)packet;
 
--(void)updateRemoteWithPacket:(GrowlSubscribeGNTPPacket*)packet;
--(void)updateLocalWithPacket:(GrowlGNTPPacket*)packet;
+-(void)updateRemoteWithPacket:(GNTPSubscribePacket*)packet;
+-(void)updateLocalWithPacket:(NSDictionary*)dict;
 -(void)subscribe;
 
 -(void)invalidate;

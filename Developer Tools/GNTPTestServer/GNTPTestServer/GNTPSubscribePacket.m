@@ -7,6 +7,7 @@
 //
 
 #import "GNTPSubscribePacket.h"
+#import "GrowlDefinesInternal.h"
 
 @implementation GNTPSubscribePacket
 

@@ -11,15 +11,17 @@
 
 @interface GrowlXPCCommunicationAttempt : GrowlCommunicationAttempt {
 @private
-    
-    xpc_connection_t                    xpcConnection;
-    
-    NSString *                          notificationUuid;
-    
+	
+	xpc_connection_t                    xpcConnection;
+	
+	NSString *                          notificationUuid;
+	
 	NSDictionary *sendingDetails;
+	NSDictionary *responseDict;
 }
 
 @property (nonatomic, retain) NSDictionary *sendingDetails;
+@property (nonatomic, retain) NSDictionary *responseDict;
 
 + (BOOL)canCreateConnection;
 - (NSString *)purpose;

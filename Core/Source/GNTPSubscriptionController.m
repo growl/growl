@@ -146,10 +146,10 @@
    [preferences setObject:saveItems forKey:saveKey];
 }
 
--(BOOL)addRemoteSubscriptionFromPacket:(GrowlSubscribeGNTPPacket*)packet {
+-(BOOL)addRemoteSubscriptionFromPacket:(GNTPSubscribePacket*)packet {
    if(![packet isKindOfClass:[GNTPSubscribePacket class]])
       return NO;
-   
+/*
    GNTPSubscriberEntry *entry = [remoteSubscriptions valueForKey:[packet subscriberID]];
    if(entry){
       //We need to update the entry
@@ -165,28 +165,28 @@
       [self didChangeValueForKey:@"remoteSubscriptionsArray"];
       [entry release];
    }
-   [self saveSubscriptions:YES];
+   [self saveSubscriptions:YES];*/
    return YES;
 }
 
--(void)updateLocalSubscriptionWithPacket:(GrowlGNTPPacket*)packet {
+-(void)updateLocalSubscriptionWithPacket:(NSDictionary*)packet {
    /*
     * Update the appropriate local subscription item with its new TTL, and have it set its timer to fire appropriately
     */   
-   __block GNTPSubscriberEntry *entry = nil;
-   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([[obj addressString] caseInsensitiveCompare:[packet connectedHost]] == NSOrderedSame){
-         entry = obj;
-      }
-   }];
-   
-   if(!entry) {
-      NSLog(@"Error: Cant find Local subscription entry for host: %@", [packet connectedHost]);
-      return;
-   }
-   
-   [entry updateLocalWithPacket:packet];
-   [self saveSubscriptions:NO];
+//   __block GNTPSubscriberEntry *entry = nil;
+//   [localSubscriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//      if([[obj addressString] caseInsensitiveCompare:[packet connectedHost]] == NSOrderedSame){
+//         entry = obj;
+//      }
+//   }];
+//   
+//   if(!entry) {
+//      NSLog(@"Error: Cant find Local subscription entry for host: %@", [packet connectedHost]);
+//      return;
+//   }
+//   
+//   [entry updateLocalWithPacket:packet];
+//   [self saveSubscriptions:NO];
 }
 
 #pragma mark UI Related
