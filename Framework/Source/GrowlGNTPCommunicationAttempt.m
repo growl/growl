@@ -33,8 +33,8 @@ enum {
 };
 
 enum {
-    GrowlGNTPCommAttemptReadFeedback = 1,
-    GrowlGNTPCommAttemptReadError,
+	GrowlGNTPCommAttemptReadFeedback = 1,
+	GrowlGNTPCommAttemptReadError,
 };
 
 @implementation GrowlGNTPCommunicationAttempt
@@ -58,12 +58,12 @@ enum {
 }
 
 - (void) dealloc {
-	[callbackHeaderItems release];
-    
-    [socket synchronouslySetDelegate:nil];
-    [socket release];
-    socket = nil;
-    
+	self.callbackHeaderItems = nil;
+	
+	[socket synchronouslySetDelegate:nil];
+	[socket release];
+	socket = nil;
+	
 	[super dealloc];
 }
 
@@ -283,7 +283,6 @@ enum {
 				//We shouldn't be here, only packets we should be reading responses for is feedback and error
 				break;
 		}
-		[callbackHeaderItems release]; callbackHeaderItems = nil;
 		[self finished];
 		[socket disconnect];
 		return NO;
@@ -304,21 +303,21 @@ enum {
 		if(code != nil && description != nil)
 			*stop = YES;
 	}];
-    
-    if(code){
-        GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[code integerValue];
-        if(errCode == GrowlGNTPUserDisabledErrorCode)
-            [self stopAttempts];
-        if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
-            errCode == GrowlGNTPUnknownNotificationErrorCode) &&
-           [self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
-            NSLog(@"Failed to notify due to missing registration, queue and reregister");
-            [self queueAndReregister];
-        }
-    }else{
-        NSLog(@"No error code, assuming failed");
-        [self failed];
-    }
+	
+	if(code){
+		GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[code integerValue];
+		if(errCode == GrowlGNTPUserDisabledErrorCode)
+			[self stopAttempts];
+		if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
+			 errCode == GrowlGNTPUnknownNotificationErrorCode) &&
+			[self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
+			NSLog(@"Failed to notify due to missing registration, queue and reregister");
+			[self queueAndReregister];
+		}
+	}else{
+		NSLog(@"No error code, assuming failed");
+		[self failed];
+	}
 }
 
 - (void)parseFeedback
@@ -360,7 +359,7 @@ enum {
                                                                  error:NULL];
    else
       clickContext = context;
-         
+	
    switch (resultValue) {
       case 1:
          //it was clicked
@@ -378,25 +377,25 @@ enum {
 }
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)socketError {
-    //if(socketError && [socketError code] != 7)
-    //    NSLog(@"Got disconnected: %@", socketError);
-    
+	//if(socketError && [socketError code] != 7)
+	//    NSLog(@"Got disconnected: %@", socketError);
+	
 	if (!attemptSucceeded) {
 		if (!socketError) {
 			NSString *reason = self.responseParseErrorString ? self.responseParseErrorString : @"Unknown error, possibly unable to connect";
 			NSDictionary *dict = [NSDictionary dictionaryWithObject:reason  forKey:NSLocalizedDescriptionKey];
 			socketError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:dict];
 		}
-        
+		
 		self.error = socketError;
 		if (socketError)
 			[self failed];
 		[self finished];
-        
+		
 		return;
 	}
-    
-    [self finished];
+	
+	[self finished];
 }
 
 @end
