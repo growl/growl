@@ -19,7 +19,7 @@
 	GCDAsyncSocket *socket;
 	NSString *responseParseErrorString, *bogusResponse;
 	NSString *callbackType;
-	NSMutableArray *callbackHeaderItems;
+	NSMutableDictionary *callbackHeaderItems;
 	BOOL attemptSucceeded;
 	int responseReadType;
 	
@@ -34,7 +34,7 @@
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0);
-@property (nonatomic, retain) NSArray *callbackHeaderItems;
+@property (nonatomic, retain) NSMutableDictionary *callbackHeaderItems;
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSData *addressData;
 

@@ -10,7 +10,7 @@
 
 #import "GNTPPacket.h"
 #import "GNTPUtilities.h"
-#import "GrowlGNTPHeaderItem.h"
+#import "GNTPPacket.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlGNTPNotificationAttempt.h"
 #import "NSStringAdditions.h"
@@ -123,14 +123,15 @@ enum {
 /* We read to a triple CRLF, one for the last line of the packet, 2 for finishing the packet */ 
 - (void) readRestOfPacket:(GCDAsyncSocket*)sock
 {
-    static NSData *triple = nil;
-    if(!triple){
-        NSMutableData *data = [NSMutableData dataWithData:[GCDAsyncSocket CRLFData]];
-        [data appendData:[GCDAsyncSocket CRLFData]];
-        [data appendData:[GCDAsyncSocket CRLFData]];
-        triple = [data copy];
-    }
-    [sock readDataToData:triple withTimeout: -1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
+	static NSData *triple = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSMutableData *data = [NSMutableData dataWithData:[GCDAsyncSocket CRLFData]];
+		[data appendData:[GCDAsyncSocket CRLFData]];
+		[data appendData:[GCDAsyncSocket CRLFData]];
+		triple = [data copy];
+	});
+	[sock readDataToData:triple withTimeout: -1 tag:GrowlGNTPCommAttemptReadExtraPacketData];
 }
 
 - (void) readOneLineFromSocket:(GCDAsyncSocket *)sock tag:(long)tag {
@@ -242,7 +243,9 @@ enum {
 		}
       
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
-		if([self parseHeaderData:data]){
+		NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GCDAsyncSocket CRLFData] length]];
+		NSString *header = [trimmed length] > 0 ? [NSString stringWithUTF8String:[trimmed bytes]] : @"";
+		if([self parseHeader:header]){
 			[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
 		}
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseEncrypted){
@@ -251,22 +254,21 @@ enum {
 		NSString *headersString = [NSString stringWithUTF8String:[decrypted bytes]];
 		NSArray *headerArray = [headersString componentsSeparatedByString:@"\r\n"];
 		[headerArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			NSMutableData *headerData = [[[(NSString*)obj dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
 			//Components seperated by string creates strings without the \r\n, add them back on so it behaves the same as the above function;
-			[headerData appendData:[GCDAsyncSocket CRLFData]];
-			if(![self parseHeaderData:headerData])
+			if(![self parseHeader:obj])
 				*stop = YES;
 		}];
 	}
 }
 
-- (BOOL)parseHeaderData:(NSData*)data {
-	NSError *headerItemError = nil;
-	GrowlGNTPHeaderItem *headerItem = [GrowlGNTPHeaderItem headerItemFromData:data error:&headerItemError];
-	if (headerItem != [GrowlGNTPHeaderItem separatorHeaderItem]){
+- (BOOL)parseHeader:(NSString*)string {
+	NSLog(@"%@", string);
+	NSString *headerKey = [GNTPPacket headerKeyFromHeader:string];
+	NSString *headerValue = [GNTPPacket headerValueFromHeader:string];
+	if (headerKey && headerValue){
 		if(!callbackHeaderItems)
-			callbackHeaderItems = [[NSMutableArray alloc] init];
-		[callbackHeaderItems addObject:headerItem];
+			self.callbackHeaderItems = [NSMutableDictionary dictionary];
+		[callbackHeaderItems setObject:headerValue forKey:headerKey];
 		return YES;
 	}else{
 		//Empty line: End of headers.
@@ -291,23 +293,20 @@ enum {
 - (void)parseError
 {
    //We need error code, and error description
-   __block GrowlGNTPHeaderItem *code = nil;
-   __block GrowlGNTPHeaderItem *description = nil;
-   [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
-      {
-         if([[obj headerName] caseInsensitiveCompare:@"Error-Code"] == NSOrderedSame)
-            code = obj;
-         if([[obj headerName] caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame)
-            description = obj;
-            
-            if(code != nil && description != nil)
-                *stop = YES;
-        }
-    }];
+   __block NSString *code = nil;
+   __block NSString *description = nil;
+   [callbackHeaderItems enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if([key caseInsensitiveCompare:@"Error-Code"] == NSOrderedSame)
+			code = obj;
+		if([key caseInsensitiveCompare:@"Error-Description"] == NSOrderedSame)
+			description = obj;
+		
+		if(code != nil && description != nil)
+			*stop = YES;
+	}];
     
     if(code){
-        GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[[code headerValue] integerValue];
+        GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[code integerValue];
         if(errCode == GrowlGNTPUserDisabledErrorCode)
             [self stopAttempts];
         if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
@@ -324,22 +323,19 @@ enum {
 
 - (void)parseFeedback
 {
-   __block GrowlGNTPHeaderItem *result = nil;
-   __block GrowlGNTPHeaderItem *context = nil;
-   __block GrowlGNTPHeaderItem *contextType = nil;
-   [callbackHeaderItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      if([obj isKindOfClass:[GrowlGNTPHeaderItem class]] && obj != [GrowlGNTPHeaderItem separatorHeaderItem])
-      {
-         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame)
-            result = obj;
-         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame)
-            context = obj;
-         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame)
-            contextType = obj;
-
-         if(result != nil && context != nil && contextType != nil)
-            *stop = YES;
-      }
+   __block NSString *result = nil;
+   __block NSString *context = nil;
+   __block NSString *contextType = nil;
+   [callbackHeaderItems enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if([key caseInsensitiveCompare:GrowlGNTPNotificationCallbackResult] == NSOrderedSame)
+			result = obj;
+		if([key caseInsensitiveCompare:GrowlGNTPNotificationCallbackContext] == NSOrderedSame)
+			context = obj;
+		if([key caseInsensitiveCompare:GrowlGNTPNotificationCallbackContextType] == NSOrderedSame)
+			contextType = obj;
+		
+		if(result != nil && context != nil && contextType != nil)
+			*stop = YES;
    }];
    
 	if(!result || !context || !contextType){
@@ -347,24 +343,23 @@ enum {
 		return;
 	}
 	
-   NSString *resultString = [result headerValue];
    int resultValue = 0;
-   if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClicked] == NSOrderedSame || 
-      [resultString caseInsensitiveCompare:GrowlGNTPCallbackClick] == NSOrderedSame)
+   if([result caseInsensitiveCompare:GrowlGNTPCallbackClicked] == NSOrderedSame || 
+      [result caseInsensitiveCompare:GrowlGNTPCallbackClick] == NSOrderedSame)
       resultValue = 1;
-   else if([resultString caseInsensitiveCompare:GrowlGNTPCallbackClosed] == NSOrderedSame || 
-           [resultString caseInsensitiveCompare:GrowlGNTPCallbackClose] == NSOrderedSame)
+   else if([result caseInsensitiveCompare:GrowlGNTPCallbackClosed] == NSOrderedSame || 
+           [result caseInsensitiveCompare:GrowlGNTPCallbackClose] == NSOrderedSame)
       resultValue = 2;
    
    id clickContext = nil;
    
-   if([[contextType headerValue] caseInsensitiveCompare:@"PList"] == NSOrderedSame)
-      clickContext = [NSPropertyListSerialization propertyListWithData:[[context headerValue] dataUsingEncoding:NSUTF8StringEncoding] 
+   if([contextType caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+      clickContext = [NSPropertyListSerialization propertyListWithData:[context dataUsingEncoding:NSUTF8StringEncoding] 
                                                                options:0
                                                                 format:NULL
                                                                  error:NULL];
    else
-      clickContext = [context headerValue];
+      clickContext = context;
          
    switch (resultValue) {
       case 1:

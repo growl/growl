@@ -380,6 +380,9 @@
 		BC8FD39215B0CC200007CC12 /* GrowlXPCNotificationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91B1421958F007EAC43 /* GrowlXPCNotificationAttempt.m */; };
 		BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91D1421958F007EAC43 /* GrowlXPCRegistrationAttempt.m */; };
 		BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 3112428D13CBE56B0055A2AD /* GrowlCommunicationAttempt.m */; };
+		BC8FD3A815B124EA0007CC12 /* GrowlGNTPPacketParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C9F210E71BC23002314EE /* GrowlGNTPPacketParser.m */; };
+		BC8FD3C615B127620007CC12 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
+		BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
@@ -4262,6 +4265,7 @@
 				BC1AF91B15B0567900CD47F9 /* GNTPRegisterPacket.m in Sources */,
 				BC1AF91C15B0567900CD47F9 /* GNTPNotifyPacket.m in Sources */,
 				BC1AF92B15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
+				BC8FD3C615B127620007CC12 /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4460,6 +4464,7 @@
 				BC8FD39215B0CC200007CC12 /* GrowlXPCNotificationAttempt.m in Sources */,
 				BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */,
 				BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */,
+				BC8FD3A815B124EA0007CC12 /* GrowlGNTPPacketParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4505,6 +4510,7 @@
 				BC1AF91F15B0567C00CD47F9 /* GNTPRegisterPacket.m in Sources */,
 				BC1AF92015B0567C00CD47F9 /* GNTPNotifyPacket.m in Sources */,
 				BC1AF92C15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
+				BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

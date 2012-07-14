@@ -84,11 +84,11 @@
         [response setValue:@"notification" forKey:@"GrowlActionType"];
     }
     
-    [[(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([[obj headerName] isEqualToString:@"Error-Code"])
-            [response setValue:[obj headerValue] forKey:[obj headerName]];
-        if([[obj headerName] isEqualToString:@"Error-Description"])
-            [response setValue:[obj headerValue] forKey:[obj headerName]];
+    [[(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if([key isEqualToString:@"Error-Code"])
+            [response setValue:obj forKey:key];
+        if([key isEqualToString:@"Error-Description"])
+            [response setValue:obj forKey:key];
     }];
     
     [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
