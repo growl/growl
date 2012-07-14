@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlCommunicationAttempt.h"
 
 @class GrowlPreferencesController, GrowlSubscribeGNTPPacket, GrowlGNTPPacket;
 
-@interface GNTPSubscriptionController : NSObject
+@interface GNTPSubscriptionController : NSObject <GrowlCommunicationAttemptDelegate>
 
 //Remote are those that have subscribed to us
 //Local are those that we subscribe to

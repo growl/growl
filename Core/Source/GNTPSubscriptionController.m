@@ -8,23 +8,31 @@
 
 #import "GNTPSubscriptionController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlGNTPPacketParser.m"
-#import "GrowlGNTPPacket.h"
 #import "GrowlSubscribeGNTPPacket.h"
 #import "GNTPSubscriberEntry.h"
+#import "GrowlXPCCommunicationAttempt.h"
+#import "GrowlXPCNotificationAttempt.h"
+#import "GrowlXPCRegistrationAttempt.h"
 
-#import "GrowlGNTPOutgoingPacket.h"
 #import "GrowlGNTPDefines.h"
 #import "GrowlNetworkUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlBonjourBrowser.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 
+@interface GNTPSubscriptionController ()
+
+@property (nonatomic, retain) NSMutableArray *attemptArray;
+
+@end
+
 @implementation GNTPSubscriptionController
 
 @synthesize remoteSubscriptions;
 @synthesize localSubscriptions;
 @synthesize subscriberID;
+
+@synthesize attemptArray = _attemptArray;
 
 @synthesize preferences;
 
@@ -41,6 +49,8 @@
    if((self = [super init])) {
       self.preferences = [GrowlPreferencesController sharedController];
       
+		self.attemptArray = [NSMutableArray array];
+		
       self.subscriberID = [preferences GNTPSubscriberID];
       if(!subscriberID || [subscriberID isEqualToString:@""]) {
          self.subscriberID = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -236,35 +246,45 @@
    return [password autorelease];
 }
 
--(void)forwardGrowlDict:(NSDictionary*)dict ofType:(GrowlGNTPOutgoingPacketType)type {
+-(void)forwardAttempt:(GrowlXPCCommunicationAttempt*)attempt {
    if(![preferences isSubscriptionAllowed])
       return;
 
+	__block GNTPSubscriptionController *blockSubscriber = self;
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
          return;
       
-      GrowlGNTPOutgoingPacket *outgoingPacket = [GrowlGNTPOutgoingPacket outgoingPacketOfType:type
-                                                                                      forDict:dict];
-      GNTPKey *cryptoKey = [[[GNTPKey alloc] initWithPassword:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]]
-                                               hashAlgorithm:GNTPSHA512
-                                         encryptionAlgorithm:GNTPNone] autorelease];
-      [outgoingPacket setKey:cryptoKey];
-      NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
-      dispatch_async(dispatch_get_main_queue(), ^{
-         [[GrowlGNTPPacketParser sharedParser] sendPacket:outgoingPacket
-                                                toAddress:coercedAddress];
-      });
-   }];
+		NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
+		NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
+		[sendingDetails setObject:coercedAddress forKey:@"GNTPAddressData"];
+		if([preferences remotePassword])
+			[sendingDetails setObject:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]] forKey:@"GNTPPassword"];
+		[attempt setSendingDetails:sendingDetails];
+		[attempt setDelegate:self];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			//send note
+			[[blockSubscriber attemptArray] addObject:attempt];
+			[attempt begin];
+		});
+	}];
 }
 
 -(void)forwardNotification:(NSDictionary*)noteDict {
-   [self forwardGrowlDict:noteDict ofType:GrowlGNTPOutgoingPacket_NotifyType];
+	GrowlXPCNotificationAttempt *attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:noteDict];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[self forwardAttempt:attempt];
+	});
+	[attempt release];
 }
 
 /* Hande forwarding registrations */
 -(void)appRegistered:(NSNotification*)note {
-   [self forwardGrowlDict:[note userInfo] ofType:GrowlGNTPOutgoingPacket_RegisterType];
+	GrowlXPCRegistrationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:[note userInfo]];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[self forwardAttempt:attempt];
+	});
+	[attempt release];
 }
 
 #pragma mark Table bindings accessor
@@ -368,5 +388,30 @@
    }
 }
 
+#pragma mark GrowlCommunicationAttemptDelegate
+
+- (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
+	//Do nothing
+}
+- (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
+	//Do nothing
+}
+- (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
+	__block GNTPSubscriptionController *blockSubscriber = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[blockSubscriber	attemptArray] removeObject:attempt];
+	});
+}
+- (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
+	//Do something!
+}
+
+//Sent after success
+- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
+	//Send click
+}
+- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
+	//Send timeout
+}
 
 @end
