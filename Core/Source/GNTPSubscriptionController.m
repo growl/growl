@@ -8,8 +8,8 @@
 
 #import "GNTPSubscriptionController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlSubscribeGNTPPacket.h"
 #import "GNTPSubscriberEntry.h"
+#import "GNTPSubscribePacket.h"
 #import "GrowlXPCCommunicationAttempt.h"
 #import "GrowlXPCNotificationAttempt.h"
 #import "GrowlXPCRegistrationAttempt.h"
@@ -147,7 +147,7 @@
 }
 
 -(BOOL)addRemoteSubscriptionFromPacket:(GrowlSubscribeGNTPPacket*)packet {
-   if(![packet isKindOfClass:[GrowlSubscribeGNTPPacket class]])
+   if(![packet isKindOfClass:[GNTPSubscribePacket class]])
       return NO;
    
    GNTPSubscriberEntry *entry = [remoteSubscriptions valueForKey:[packet subscriberID]];

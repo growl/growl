@@ -11,7 +11,6 @@
 #import "GrowlGNTPCommunicationAttempt.h"
 #import "GrowlGNTPRegistrationAttempt.h"
 #import "GrowlGNTPNotificationAttempt.h"
-#import "GrowlGNTPHeaderItem.h"
 
 #import "NSObject+XPCHelpers.h"
 

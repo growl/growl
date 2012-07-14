@@ -33,6 +33,8 @@
 		BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FB3159218A0009F308F /* AppDelegate.m */; };
 		BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FB5159218A0009F308F /* MainMenu.xib */; };
 		BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */; };
+		BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */; };
+		BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */; };
 		BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1250915935A460052C495 /* GCDAsyncSocket.m */; };
 		BCB1250D15935AA10052C495 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1250B15935A7B0052C495 /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,10 @@
 		BC7F3FB6159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPNotifyPacket.h; sourceTree = "<group>"; };
 		BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPNotifyPacket.m; sourceTree = "<group>"; };
+		BC8FD3E515B12FD90007CC12 /* GNTPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPUtilities.h; sourceTree = "<group>"; };
+		BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPUtilities.m; sourceTree = "<group>"; };
+		BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = ../../../Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
+		BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = ../../../Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 		BCB1250815935A460052C495 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		BCB1250915935A460052C495 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		BCB1250B15935A7B0052C495 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -151,6 +157,8 @@
 				BCB1250915935A460052C495 /* GCDAsyncSocket.m */,
 				BC79CBB015AC79240081DCBE /* ISO8601DateFormatter.h */,
 				BC79CBB115AC79240081DCBE /* ISO8601DateFormatter.m */,
+				BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */,
+				BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */,
 			);
 			name = CurrentGrowlCode;
 			sourceTree = "<group>";
@@ -209,6 +217,8 @@
 				BC79CBB915ACBE470081DCBE /* GNTPSubscribePacket.m */,
 				BC4E243A15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.h */,
 				BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */,
+				BC8FD3E515B12FD90007CC12 /* GNTPUtilities.h */,
+				BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */,
 				BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */,
 				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
 				BC7F3FA7159218A0009F308F /* Supporting Files */,
@@ -314,6 +324,8 @@
 				BC30D42215AC619700F18913 /* GrowlPositionColumn.m in Sources */,
 				BC79CBB215AC79240081DCBE /* ISO8601DateFormatter.m in Sources */,
 				BC79CBBA15ACBE470081DCBE /* GNTPSubscribePacket.m in Sources */,
+				BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */,
+				BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
