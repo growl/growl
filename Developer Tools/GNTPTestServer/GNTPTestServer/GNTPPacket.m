@@ -35,6 +35,7 @@
 
 @synthesize key = _key;
 @synthesize connectedHost = _connectedHost;
+@synthesize connectedAddress = _connectedAddress;
 @synthesize guid = _guid;
 @synthesize action = _action;
 @synthesize growlDict = _growlDict;

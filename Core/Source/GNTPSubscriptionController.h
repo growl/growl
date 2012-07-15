@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlCommunicationAttempt.h"
 
-@class GrowlPreferencesController, GrowlSubscribeGNTPPacket, GrowlGNTPPacket;
+@class GrowlPreferencesController, GNTPSubscribePacket, GrowlGNTPPacket;
 
 @interface GNTPSubscriptionController : NSObject <GrowlCommunicationAttemptDelegate>
 
@@ -26,9 +26,7 @@
 -(void)saveSubscriptions:(BOOL)remote;
 
 #pragma mark Updates from the packet system
--(BOOL)addRemoteSubscriptionFromPacket:(GrowlSubscribeGNTPPacket*)packet;
--(void)updateLocalSubscriptionWithPacket:(GrowlGNTPPacket*)packet;
-
+-(BOOL)addRemoteSubscriptionFromPacket:(GNTPSubscribePacket*)packet;
 -(NSString*)passwordForLocalSubscriber:(NSString*)host;
 
 #pragma mark UI related

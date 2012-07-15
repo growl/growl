@@ -98,7 +98,6 @@
 		31E1863F1084B7500011C78B /* TestVersionComparisonBetweenStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */; };
 		31E60C5613D2AA2A00669E2A /* GrowlOperatingSystemVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F909330EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.h */; };
 		31E60C5713D2AA2C00669E2A /* GrowlOperatingSystemVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F909340EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m */; };
-		340903280E3DEB8400FCB0F7 /* GrowlTCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */; };
 		3433458A0790E3D600C84B15 /* Speech.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508B10767C87B006EA5CB /* Speech.growlView */; };
 		3433458C0790E3D600C84B15 /* MusicVideo.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508B30767C87B006EA5CB /* MusicVideo.growlView */; };
 		3433458D0790E3D600C84B15 /* Bezel.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 0AB508B40767C87B006EA5CB /* Bezel.growlView */; };
@@ -995,8 +994,6 @@
 		31E1863D1084B7500011C78B /* TestVersionComparisonBetweenStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionComparisonBetweenStrings.h; sourceTree = "<group>"; };
 		31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparisonBetweenStrings.m; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
-		340903260E3DEB8400FCB0F7 /* GrowlTCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTCPServer.h; path = Core/Source/GrowlTCPServer.h; sourceTree = "<group>"; };
-		340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTCPServer.m; path = Core/Source/GrowlTCPServer.m; sourceTree = "<group>"; };
 		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
 		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
@@ -2303,8 +2300,6 @@
 			children = (
 				072DE9B809A10DEB006516DD /* GrowlTCPPathway.h */,
 				072DE9B909A10DEB006516DD /* GrowlTCPPathway.m */,
-				340903260E3DEB8400FCB0F7 /* GrowlTCPServer.h */,
-				340903270E3DEB8400FCB0F7 /* GrowlTCPServer.m */,
 			);
 			name = "TCP Server (GNTP)";
 			sourceTree = "<group>";
@@ -4340,7 +4335,6 @@
 				070C5DB009A7978F004F1E8C /* GrowlPathwayController.m in Sources */,
 				34422F720BF3ED2E001DA9ED /* GrowlApplication.m in Sources */,
 				31340CDD0D5B8E7100B9BEE0 /* GrowlPropertyListFilePathway.m in Sources */,
-				340903280E3DEB8400FCB0F7 /* GrowlTCPServer.m in Sources */,
 				34F909350EC1FAAE00566EE6 /* GrowlOperatingSystemVersion.m in Sources */,
 				938CAEEE1080E64A00259421 /* GrowlGNTPDefines.m in Sources */,
 				938CB10C1081250600259421 /* GNTPKey.m in Sources */,

@@ -10,6 +10,7 @@
 #import "GNTPServer.h"
 #import "GrowlNotification.h"
 #import "GrowlNetworkUtilities.h"
+#import "GNTPSubscriptionController.h"
 
 @interface GrowlTCPPathway ()
 @property (nonatomic, retain) GNTPServer *localServer;
@@ -129,6 +130,10 @@
 
 - (GrowlNotificationResult)notifyWithDictionary:(NSDictionary *)dictionary {
 	return [super postNotificationWithDictionary:dictionary];
+}
+
+-(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet {
+	[[GNTPSubscriptionController sharedController] addRemoteSubscriptionFromPacket:packet];
 }
 
 @end

@@ -10,11 +10,13 @@
 #import "GCDAsyncSocket.h"
 #import "GrowlDefinesInternal.h"
 
+@class GNTPSubscribePacket;
+
 @protocol GNTPServerDelegate <NSObject>
 
 -(void)registerWithDictionary:(NSDictionary*)dictionary;
 -(GrowlNotificationResult)notifyWithDictionary:(NSDictionary*)dictionary;
-//-(void)subscribeWithDictionary:(NSDictionary*)dictionary;
+-(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet;
 
 @end
 

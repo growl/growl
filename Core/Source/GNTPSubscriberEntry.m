@@ -15,6 +15,8 @@
 #import "GrowlNetworkObserver.h"
 #import "NSStringAdditions.h"
 #import "GCDAsyncSocket.h"
+#import "GNTPPacket.h"
+#import "GNTPSubscribePacket.h"
 #import "GrowlXPCSubscriptionAttempt.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 
@@ -137,24 +139,24 @@
 }
 
 -(id)initWithPacket:(GNTPSubscribePacket*)packet {
-//   if((self = [self initWithName:[packet subscriberName]
-//                   addressString:[packet connectedHost]
-//                          domain:@"local."
-//                         address:[[packet socket] connectedAddress]
-//                            uuid:[[NSProcessInfo processInfo] globallyUniqueString]
-//                    subscriberID:[packet subscriberID]
-//                          remote:YES
-//                          manual:NO
-//                             use:YES
-//                     initialTime:[NSDate date] 
-//                      timeToLive:[packet ttl]
-//                            port:[packet subscriberPort]]))
-//   {
-//      /*
-//       * Setup time out time out timer
-//       */
-//      active = YES;
-//   }
+   if((self = [self initWithName:[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberName]
+                   addressString:[packet connectedHost]
+                          domain:@"local."
+                         address:[packet connectedAddress]
+                            uuid:[[NSProcessInfo processInfo] globallyUniqueString]
+                    subscriberID:[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberID]
+                          remote:YES
+                          manual:NO
+                             use:YES
+                     initialTime:[NSDate date] 
+                      timeToLive:[[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberName] integerValue]
+                            port:[[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue]]))
+   {
+      /*
+       * Setup time out time out timer
+       */
+      active = YES;
+   }
    return self;
 }
 
@@ -202,28 +204,29 @@
 -(void)updateRemoteWithPacket:(GNTPSubscribePacket*)packet {
    if(!remote)
       return;
- /*  
+   
    self.initialTime = [NSDate date];
-   self.timeToLive = [packet ttl];
+   self.timeToLive = [[[packet gntpDictionary] objectForKey:GrowlGNTPResponseSubscriptionTTL] integerValue];
    self.validTime = [initialTime dateByAddingTimeInterval:timeToLive];
-   self.lastKnownAddress = [[packet socket] connectedAddress];
-   self.subscriberPort = [packet subscriberPort];
-   active = YES;*/
+   self.lastKnownAddress = [packet connectedAddress];
+   self.subscriberPort = [[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue];
+   active = YES;
    [self save];
 }
 
--(void)updateLocalWithPacket:(NSDictionary*)packet {
+-(void)updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)packet error:(BOOL)wasError {
    if(remote)
       return;
- /*  
+
+	NSDictionary *dict = [packet responseDict];
    self.attemptingToSubscribe = NO;
-   if([packet isKindOfClass:[GrowlOkGNTPPacket class]]){
-      self.addressString = [packet connectedHost];
+   if(wasError){
+      self.addressString = [dict valueForKey:@"GNTPAddressString"];
       self.initialTime = [NSDate date];
       __block NSInteger time = 0;
-      [[packet customHeaders] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         if([[obj headerName] caseInsensitiveCompare:GrowlGNTPResponseSubscriptionTTL] == NSOrderedSame){
-            time = [[obj headerValue] integerValue];
+      [dict enumerateKeysAndObjectsUsingBlock:^(id dictKey, id obj, BOOL *stop) {
+         if([dictKey caseInsensitiveCompare:GrowlGNTPResponseSubscriptionTTL] == NSOrderedSame){
+            time = [obj integerValue];
             *stop = YES;
          }
       }];
@@ -234,18 +237,20 @@
       self.subscriptionError = NO;
       self.subscriptionErrorDescription = nil;
       [self resubscribeTimerStart];
-   }else if([packet isKindOfClass:[GrowlErrorGNTPPacket class]]){
+   }else{
       self.addressString = nil;
       self.initialTime = [NSDate distantPast];
       self.timeToLive = 0;
       self.subscriptionError = YES;
+		GrowlGNTPErrorCode reason = (GrowlGNTPErrorCode)[[dict objectForKey:@"Error-Code"] integerValue];
+		NSString *description = [dict objectForKey:@"Error-Description"];
       self.subscriptionErrorDescription = [NSString stringWithFormat:NSLocalizedString(@"There was an error subscribing to the remote machine:\ncode: %d\ndescription: %@", 
                                                                                        @"Error description format for subscription error returned display"),
-                                                                                       [(GrowlErrorGNTPPacket*)packet errorCode], 
-                                                                                       [(GrowlErrorGNTPPacket*)packet errorDescription]];
+																													reason, 
+                                                                                       description];
       self.validTime = nil;
       [self invalidate];
-   }*/
+   }
    [self save];
 }
 
@@ -373,6 +378,8 @@
 		[self.subscriptionAttempt setSendingDetails:sendingDetails];
 		[self.subscriptionAttempt setDelegate:self];
 
+		self.addressString = [GCDAsyncSocket hostFromAddress:destAddress];
+		
       dispatch_async(dispatch_get_main_queue(), ^{
 			[self.subscriptionAttempt begin];
       });
@@ -440,11 +447,14 @@
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPSubscriberEntry *blockSubscriber = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[blockSubscriber updateLocalWithPacket:[(GrowlXPCCommunicationAttempt*)attempt responseDict]];
+		[blockSubscriber updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)attempt error:NO];
 	});
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
-	//Do nothing
+	__block GNTPSubscriberEntry *blockSubscriber = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[blockSubscriber updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)attempt error:YES];
+	});
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPSubscriberEntry *blockSubscriber = self;

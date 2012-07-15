@@ -12,6 +12,7 @@
 #import "GNTPPacket.h"
 #import "GNTPRegisterPacket.h"
 #import "GNTPNotifyPacket.h"
+#import "GNTPSubscribePacket.h"
 #import "GNTPUtilities.h"
 #import "GrowlGNTPDefines.h"
 #import "GrowlDefines.h"
@@ -251,7 +252,7 @@
 				}else if([action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame){
 					packet = [[[GNTPRegisterPacket alloc] init] autorelease];					
 				}else if([action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame){
-					packet = [[[GNTPPacket alloc] init] autorelease];
+					packet = [[[GNTPSubscribePacket alloc] init] autorelease];
 				}else{
 					[self dumpSocket:sock
 							actionType:action
@@ -264,6 +265,7 @@
 					[packet setAction:action];
 					[packet setKey:key];
 					[packet setConnectedHost:[sock connectedHost]];
+					[packet setConnectedAddress:[sock connectedAddress]];
 					[packet setGuid:[sock userData]];
 					[self.packetsByGUID setObject:packet forKey:[sock userData]];
 					
@@ -352,6 +354,10 @@
 						default:
 							break;
 					}
+				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self.delegate registerWithDictionary:growlDict];
+					});
 				}
 				//Whatever happened, we are done with it, let the server move on
 				[self.packetsByGUID removeObjectForKey:[packet guid]];

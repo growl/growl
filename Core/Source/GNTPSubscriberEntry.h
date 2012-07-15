@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlCommunicationAttempt.h"
 
-@class GNTPKey, GNTPSubscribePacket, GrowlXPCSubscriptionAttempt;
+@class GNTPKey, GNTPSubscribePacket, GrowlXPCCommunicationAttempt, GrowlXPCSubscriptionAttempt;
 
 @interface GNTPSubscriberEntry : NSObject <GrowlCommunicationAttemptDelegate>
 
@@ -56,7 +56,7 @@
 -(id)initWithPacket:(GNTPSubscribePacket*)packet;
 
 -(void)updateRemoteWithPacket:(GNTPSubscribePacket*)packet;
--(void)updateLocalWithPacket:(NSDictionary*)dict;
+-(void)updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)packet error:(BOOL)wasError;
 -(void)subscribe;
 
 -(void)invalidate;
