@@ -23,6 +23,6 @@
 - (NSString *) GNTPRepresentationAsString;
 @end
 
-@interface GrowlTCPPathway : GrowlRemotePathway
+@interface GrowlTCPPathway : GrowlPathway
 
 @end
