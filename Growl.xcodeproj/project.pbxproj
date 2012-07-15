@@ -369,7 +369,6 @@
 		BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7580838CA1E00106CA3 /* NSStringAdditions.m */; };
 		BC8FD3CF15B12C0B0007CC12 /* GNTPSubscribePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3CE15B12C0B0007CC12 /* GNTPSubscribePacket.m */; };
 		BC8FD3F315B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8FD3F115B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h */; };
-		BC8FD3F615B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */; };
 		BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8FD3FB15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h */; };
 		BC8FD3FE15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
 		BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
@@ -4465,7 +4464,6 @@
 				BC1AF92015B0567C00CD47F9 /* GNTPNotifyPacket.m in Sources */,
 				BC1AF92C15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
 				BC8FD3C715B127630007CC12 /* NSStringAdditions.m in Sources */,
-				BC8FD3F615B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m in Sources */,
 				BC348E6715B2198200DEFB7C /* GNTPSubscribePacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

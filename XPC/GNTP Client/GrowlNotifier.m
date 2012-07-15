@@ -11,7 +11,6 @@
 #import "GrowlGNTPCommunicationAttempt.h"
 #import "GrowlGNTPRegistrationAttempt.h"
 #import "GrowlGNTPNotificationAttempt.h"
-#import "GrowlGNTPSubscriptionAttempt.h"
 
 #import "NSObject+XPCHelpers.h"
 
@@ -66,12 +65,12 @@
 		result = @"registration";
 	}else if([attempt isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
 		result = @"notification";
-	}else if([attempt isKindOfClass:[GrowlGNTPSubscriptionAttempt class]]){
+	}/*else if([attempt isKindOfClass:[GrowlGNTPSubscriptionAttempt class]]){
 		result = @"subscribe";
-	}else {
+	}*/else {
 		result = @"unknown";
 	}
-	return nil;
+	return result;
 }
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt{
@@ -79,11 +78,7 @@
 	[response setValue:[NSNumber numberWithBool:YES] forKey:@"Success"];
 	
 	[response setObject:[self actionTypeForAttempt:attempt] forKey:@"GrowlActionType"];
-	
-	if([attempt isKindOfClass:[GrowlGNTPSubscriptionAttempt class]]){
-		//Get the info we need
-	}
-	
+		
 	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt{

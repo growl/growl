@@ -78,7 +78,7 @@
 		[obj enumerateKeysAndObjectsUsingBlock:^(id key, id innerObj, BOOL *innerStop) {
 			[headers appendFormat:@"%@: %@\r\n", key, innerObj];
 		}];
-	}];	
+	}];
 	return [[headers copy] autorelease];
 }
 
