@@ -35,6 +35,7 @@
 		BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */; };
 		BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */; };
 		BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */; };
+		BC949E5415B3020700AD6489 /* GrowlOperatingSystemVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */; };
 		BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1250915935A460052C495 /* GCDAsyncSocket.m */; };
 		BCB1250D15935AA10052C495 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1250B15935A7B0052C495 /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -97,6 +98,8 @@
 		BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPUtilities.m; sourceTree = "<group>"; };
 		BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = ../../../Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
 		BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = ../../../Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
+		BC949E5215B3020700AD6489 /* GrowlOperatingSystemVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOperatingSystemVersion.h; path = ../../../Common/Source/GrowlOperatingSystemVersion.h; sourceTree = "<group>"; };
+		BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOperatingSystemVersion.m; path = ../../../Common/Source/GrowlOperatingSystemVersion.m; sourceTree = "<group>"; };
 		BCB1250815935A460052C495 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		BCB1250915935A460052C495 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		BCB1250B15935A7B0052C495 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -159,6 +162,8 @@
 				BC79CBB115AC79240081DCBE /* ISO8601DateFormatter.m */,
 				BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */,
 				BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */,
+				BC949E5215B3020700AD6489 /* GrowlOperatingSystemVersion.h */,
+				BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */,
 			);
 			name = CurrentGrowlCode;
 			sourceTree = "<group>";
@@ -326,6 +331,7 @@
 				BC79CBBA15ACBE470081DCBE /* GNTPSubscribePacket.m in Sources */,
 				BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */,
 				BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */,
+				BC949E5415B3020700AD6489 /* GrowlOperatingSystemVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
