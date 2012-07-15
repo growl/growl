@@ -143,6 +143,8 @@ enum {
 		self.key = [[GNTPKey alloc] initWithPassword:password
 												 hashAlgorithm:GNTPSHA512
 										 encryptionAlgorithm:GNTPNone];
+		[self.key generateSalt];
+		[self.key generateKey];
 	}else{
 		self.key = [[GNTPKey alloc] initWithPassword:nil
 												 hashAlgorithm:GNTPNoHash

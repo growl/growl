@@ -183,7 +183,7 @@
 		if(password)
 			[messageDict setObject:password forKey:@"GNTPPassword"];
 		if(addressData)
-			[messageDict objectForKey:@"GNTPAddressData"];
+			[messageDict setObject:addressData forKey:@"GNTPAddressData"];
 	}
 	
 	xpc_object_t xpcMessage = [(NSObject*)messageDict newXPCObject];
