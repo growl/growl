@@ -23,4 +23,16 @@
 	return converted;
 }
 
+-(NSString*)responseString {
+	NSMutableString *returnHeaders = [NSMutableString string];
+	[returnHeaders appendFormat:@"%@: %ld\r\n", GrowlGNTPResponseSubscriptionTTL, 3600];
+	return [[super responseString] stringByAppendingString:returnHeaders];
+}
+
+-(BOOL)validate {
+	return [super validate] && 
+	[self.gntpDictionary objectForKey:GrowlGNTPSubscriberID] &&
+	[self.gntpDictionary objectForKey:GrowlGNTPSubscriberName];
+}
+
 @end

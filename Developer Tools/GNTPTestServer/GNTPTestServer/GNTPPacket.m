@@ -775,7 +775,6 @@
 	NSString *myHostString;
 	
    NSString *hostName = [GrowlNetworkUtilities localHostName];
-	
 	/* Check if this host received it previously */
 	myHostString = [NSString stringWithFormat:@"by %@", hostName];
 	[receivedHeaders enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -798,13 +797,13 @@
 }
 
 -(BOOL)validate {
-	return [self hasBeenReceivedPreviously];
+	return ![self hasBeenReceivedPreviously];
 }
 -(NSString*)responseString {
-	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n\r\n", self.action];
+	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n", self.action];
 }
 -(NSData*)responseData {
-	NSString *responseString = [self responseString];
+	NSString *responseString = [[self responseString] stringByAppendingString:@"\r\n"];
 	return [NSData dataWithBytes:[responseString UTF8String] length:[responseString length]];
 }
 -(NSTimeInterval)requestedTimeAlive {

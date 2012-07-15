@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlCommunicationAttempt.h"
 
-@class GNTPKey, GNTPSubscribePacket, GrowlXPCCommunicationAttempt, GrowlXPCSubscriptionAttempt;
+@class GNTPKey, GNTPSubscribePacket, GrowlGNTPCommunicationAttempt, GrowlGNTPSubscriptionAttempt;
 
 @interface GNTPSubscriberEntry : NSObject <GrowlCommunicationAttemptDelegate>
 
@@ -37,7 +37,7 @@
 @property (nonatomic) BOOL subscriptionError;
 @property (nonatomic, retain) NSString* subscriptionErrorDescription;
 
-@property (nonatomic, retain) GrowlXPCSubscriptionAttempt *subscriptionAttempt;
+@property (nonatomic, retain) GrowlGNTPSubscriptionAttempt *subscriptionAttempt;
 
 -(id)initWithName:(NSString*)name
     addressString:(NSString*)addrString
@@ -56,7 +56,7 @@
 -(id)initWithPacket:(GNTPSubscribePacket*)packet;
 
 -(void)updateRemoteWithPacket:(GNTPSubscribePacket*)packet;
--(void)updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)packet error:(BOOL)wasError;
+-(void)updateLocalWithPacket:(GrowlGNTPCommunicationAttempt*)packet error:(BOOL)wasError;
 -(void)subscribe;
 
 -(void)invalidate;

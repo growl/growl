@@ -17,7 +17,7 @@
 #import "GCDAsyncSocket.h"
 #import "GNTPPacket.h"
 #import "GNTPSubscribePacket.h"
-#import "GrowlXPCSubscriptionAttempt.h"
+#import "GrowlGNTPSubscriptionAttempt.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
 
 @implementation GNTPSubscriberEntry
@@ -214,14 +214,14 @@
    [self save];
 }
 
--(void)updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)packet error:(BOOL)wasError {
+-(void)updateLocalWithPacket:(GrowlGNTPSubscriptionAttempt*)packet error:(BOOL)wasError {
    if(remote)
       return;
 
-	NSDictionary *dict = [packet responseDict];
+	NSDictionary *dict = [packet callbackHeaderItems];
    self.attemptingToSubscribe = NO;
    if(wasError){
-      self.addressString = [dict valueForKey:@"GNTPAddressString"];
+      self.addressString = [GCDAsyncSocket hostFromAddress:[packet addressData]];
       self.initialTime = [NSDate date];
       __block NSInteger time = 0;
       [dict enumerateKeysAndObjectsUsingBlock:^(id dictKey, id obj, BOOL *stop) {
@@ -365,17 +365,14 @@
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[blockSelf subscriberID], GrowlGNTPSubscriberID,
 									 [GrowlNetworkUtilities localHostName], GrowlGNTPSubscriberName, nil];
-		self.subscriptionAttempt = [[GrowlXPCSubscriptionAttempt alloc] initWithDictionary:dict];
-		
-		NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
-      
+		self.subscriptionAttempt = [[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:dict];
+		      
       NSData *destAddress = lastKnownAddress;
       if(!destAddress){
          destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
          self.lastKnownAddress = destAddress;
       }
-		[sendingDetails setObject:destAddress forKey:@"GNTPAddressData"];
-		[self.subscriptionAttempt setSendingDetails:sendingDetails];
+		[self.subscriptionAttempt setAddressData:destAddress];
 		[self.subscriptionAttempt setDelegate:self];
 
 		self.addressString = [GCDAsyncSocket hostFromAddress:destAddress];
@@ -447,13 +444,13 @@
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPSubscriberEntry *blockSubscriber = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[blockSubscriber updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)attempt error:NO];
+		[blockSubscriber updateLocalWithPacket:(GrowlGNTPSubscriptionAttempt*)attempt error:NO];
 	});
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPSubscriberEntry *blockSubscriber = self;
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[blockSubscriber updateLocalWithPacket:(GrowlXPCCommunicationAttempt*)attempt error:YES];
+		[blockSubscriber updateLocalWithPacket:(GrowlGNTPSubscriptionAttempt*)attempt error:YES];
 	});
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {

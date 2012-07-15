@@ -84,6 +84,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 -(void)receivedResourceDataBlock:(NSData*)data forIdentifier:(NSString*)identifier;
 
 -(BOOL)validate;
+-(NSString*)responseString;
 -(NSData*)responseData;
 -(NSTimeInterval)requestedTimeAlive;
 //DO NOT TOUCH, FOR SUBCLASSES, USE @property growlDict

@@ -274,6 +274,8 @@
 		BC3390CD140C210600E708F8 /* GrowlControlDisableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CA140C210500E708F8 /* GrowlControlDisableInNetworkScriptCommand.m */; };
 		BC3390CE140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3390CC140C210600E708F8 /* GrowlControlEnableInNetworkScriptCommand.m */; };
 		BC348E6715B2198200DEFB7C /* GNTPSubscribePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3CE15B12C0B0007CC12 /* GNTPSubscribePacket.m */; };
+		BC348E6815B2638B00DEFB7C /* GrowlGNTPCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = 313B8FB813CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.m */; };
+		BC348E6915B2639900DEFB7C /* GrowlGNTPSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */; };
 		BC38547F1497B717001F026B /* GrowlNetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BC38547E1497B717001F026B /* GrowlNetworkObserver.m */; };
 		BC39BD4315068C2C00F2B56A /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC3C0794146C1FA700E7BBB0 /* GrowlDisplaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */; };
@@ -2809,12 +2811,12 @@
 		BC8FD3F915B1A9CC0007CC12 /* GNTP */ = {
 			isa = PBXGroup;
 			children = (
+				313B8FB713CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.h */,
+				313B8FB813CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.m */,
 				313B8FAA13CED9450075C9A3 /* GrowlGNTPRegistrationAttempt.h */,
 				313B8FAB13CED9450075C9A3 /* GrowlGNTPRegistrationAttempt.m */,
 				313B8FB113CED9BF0075C9A3 /* GrowlGNTPNotificationAttempt.h */,
 				313B8FB213CED9BF0075C9A3 /* GrowlGNTPNotificationAttempt.m */,
-				313B8FB713CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.h */,
-				313B8FB813CEDC530075C9A3 /* GrowlGNTPCommunicationAttempt.m */,
 				BC8FD3F115B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h */,
 				BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */,
 			);
@@ -4418,6 +4420,8 @@
 				BC8FD39415B0CC200007CC12 /* GrowlCommunicationAttempt.m in Sources */,
 				BC8FD3CF15B12C0B0007CC12 /* GNTPSubscribePacket.m in Sources */,
 				BC8FD3FE15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */,
+				BC348E6815B2638B00DEFB7C /* GrowlGNTPCommunicationAttempt.m in Sources */,
+				BC348E6915B2639900DEFB7C /* GrowlGNTPSubscriptionAttempt.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

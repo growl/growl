@@ -12,7 +12,6 @@
 #import "GNTPUtilities.h"
 #import "GNTPPacket.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlGNTPNotificationAttempt.h"
 #import "NSStringAdditions.h"
 
 #import "GCDAsyncSocket.h"
@@ -35,6 +34,7 @@ enum {
 enum {
 	GrowlGNTPCommAttemptReadFeedback = 1,
 	GrowlGNTPCommAttemptReadError,
+	GrowlGNTPCommAttemptReadOk,
 };
 
 @implementation GrowlGNTPCommunicationAttempt
@@ -199,14 +199,23 @@ enum {
 				if ([responseType caseInsensitiveCompare:GrowlGNTPOKResponseType] == NSOrderedSame) {
 					//Need to read more data for subscription, result includes ttl for system
 					attemptSucceeded = YES;
-					[self succeeded];
-					
-					[self readRestOfPacket:socket];
-					closeConnection = ![self expectsCallback];
-					if(!closeConnection){
-						[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
+					if([self isKindOfClass:NSClassFromString(@"GrowlGNTPSubscriptionAttempt")]){
+						//We need the ok packet's headers to make this work
+						responseReadType = GrowlGNTPCommAttemptReadOk;
+						if(decrypt){
+							[socket readDataToData:[GNTPUtilities doubleCRLF] withTimeout:5.0 tag:GrowlGNTPCommAttemptReadPhaseEncrypted];
+						}else{
+							[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
+						}
+					}else{
+						[self succeeded];
+						
+						[self readRestOfPacket:socket];
+						closeConnection = ![self expectsCallback];
+						if(!closeConnection){
+							[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
 					}
-					
+					}
 				} else if ([responseType caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {            
 					/* We need to know what we are getting for an error, which is in a seperate header */
 					responseReadType = GrowlGNTPCommAttemptReadError;
@@ -280,6 +289,9 @@ enum {
 			case GrowlGNTPCommAttemptReadFeedback:
 				[self parseFeedback];
 				break;
+			case GrowlGNTPCommAttemptReadOk:
+				[self succeeded];
+				break;
 			default:
 				//We shouldn't be here, only packets we should be reading responses for is feedback and error
 				break;
@@ -311,7 +323,7 @@ enum {
 			[self stopAttempts];
 		if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
 			 errCode == GrowlGNTPUnknownNotificationErrorCode) &&
-			[self isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
+			[self isKindOfClass:NSClassFromString(@"GrowlGNTPNotificationAttempt")]){
 			NSLog(@"Failed to notify due to missing registration, queue and reregister");
 			[self queueAndReregister];
 		}
