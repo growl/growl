@@ -171,6 +171,8 @@
 							  errorCode:(GrowlGNTPErrorCode*)errCode
 							description:(NSString**)errDescription
 {
+	//NSLog(@"headers: %@", headers);
+	BOOL errorSet = NO;
 	GNTPKey *key = [[[GNTPKey alloc] init] autorelease];
 	
 	NSArray *encryptionSubstrings = [[headers objectAtIndex:2] componentsSeparatedByString:@":"];
@@ -184,18 +186,20 @@
 			[key setIV:HexUnencode([encryptionSubstrings objectAtIndex:1])];
 		else {
 			if ([key encryptionAlgorithm] != GNTPNone) {
+				errorSet = YES;
 				*errCode = GrowlGNTPUnauthorizedErrorCode;
 				*errDescription = NSLocalizedString(@"Missing initialization vector for encryption", /*comment*/ @"GNTP packet parsing error");
 				key = nil;
 			}
 		}
 	}else{
+		errorSet = YES;
 		*errCode = GrowlGNTPUnauthorizedErrorCode;
 		*errDescription = [NSString stringWithFormat:NSLocalizedString(@"Unsupported encryption type, %@", @"GNTP packet with an unsupported encryption algorithm"), packetEncryptionAlgorithm];
 		key = nil;
 	}
 	
-	if(!errDescription && errCode == 0 && key != nil)
+	if(!errorSet)
 	{
 		BOOL hashStringError = NO;
 		if([headers count] == 4)
@@ -229,7 +233,7 @@
 		
 		if(hashStringError)
 		{
-			if(!errDescription && errCode == 0)
+			if(!errorSet)
 			{
 				NSLog(@"There was a missing <hashalgorithm>:<keyHash>.<keySalt> with encryption or remote, set error and return appropriately");
 				*errCode = GrowlGNTPUnauthorizedErrorCode;

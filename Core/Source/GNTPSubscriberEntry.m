@@ -342,6 +342,7 @@
       self.initialTime = [NSDate distantPast];
       self.subscriptionError = YES;
       self.attemptingToSubscribe = NO;
+		self.subscriptionAttempt = nil;
       if(remote){
          self.subscriptionErrorDescription = NSLocalizedString(@"This should never happen! -(void)subscribe should only ever be called on local entries", @"");
       }else if(!use){
@@ -363,23 +364,32 @@
     */
    __block GNTPSubscriberEntry *blockSelf = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[blockSelf subscriberID], GrowlGNTPSubscriberID,
-									 [GrowlNetworkUtilities localHostName], GrowlGNTPSubscriberName, nil];
-		self.subscriptionAttempt = [[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:dict];
-		      
       NSData *destAddress = lastKnownAddress;
       if(!destAddress){
          destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
          self.lastKnownAddress = destAddress;
       }
-		[self.subscriptionAttempt setAddressData:destAddress];
-		[self.subscriptionAttempt setDelegate:self];
-
-		self.addressString = [GCDAsyncSocket hostFromAddress:destAddress];
-		
-      dispatch_async(dispatch_get_main_queue(), ^{
-			[self.subscriptionAttempt begin];
-      });
+		if(destAddress){
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[blockSelf subscriberID], GrowlGNTPSubscriberID,
+										 [GrowlNetworkUtilities localHostName], GrowlGNTPSubscriberName, nil];
+			self.subscriptionAttempt = [[[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:dict] autorelease];
+			
+			[self.subscriptionAttempt setAddressData:destAddress];
+			[self.subscriptionAttempt setDelegate:self];
+			
+			self.addressString = [GCDAsyncSocket hostFromAddress:destAddress];
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self.subscriptionAttempt begin];
+			});
+		}else{
+			timeToLive = 0;
+			self.initialTime = [NSDate distantPast];
+			self.subscriptionError = YES;
+			self.attemptingToSubscribe = NO;
+			self.subscriptionErrorDescription = @"Unable to resolve address";
+			self.subscriptionAttempt = nil;
+		}
    });
 }
 

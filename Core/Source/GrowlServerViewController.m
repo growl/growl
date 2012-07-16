@@ -205,10 +205,12 @@
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
    [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
+	[networkTableView noteNumberOfRowsChanged];
 }
 
 - (IBAction)newManualForwader:(id)sender {
    [forwarder newManualEntry];
+	[networkTableView noteNumberOfRowsChanged];
 }
 
 - (IBAction)newManualSubscription:(id)sender
