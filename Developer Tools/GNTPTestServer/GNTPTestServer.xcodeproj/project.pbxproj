@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */; };
+		BC30D41415AC5F8D00F18913 /* GrowlMiniDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */; };
+		BC30D41515AC5F8D00F18913 /* GrowlMistView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */; };
+		BC30D41615AC5F8D00F18913 /* GrowlMistWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */; };
+		BC30D41715AC5F8D00F18913 /* NSImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */; };
+		BC30D41E15AC613300F18913 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41B15AC613300F18913 /* GrowlPositionController.m */; };
+		BC30D41F15AC613300F18913 /* GrowlQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */; };
+		BC30D42215AC619700F18913 /* GrowlPositionColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = BC30D42115AC619700F18913 /* GrowlPositionColumn.m */; };
+		BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */; };
+		BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */; };
+		BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */; };
+		BC3B7A6715A325850001CD97 /* GrowlGNTPDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */; };
+		BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */; };
+		BC3B7A6C15A325C40001CD97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */; };
+		BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */; };
+		BC452BE31592623100A299D5 /* GNTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC452BE21592623100A299D5 /* GNTPServer.m */; };
+		BC4E243C15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */; };
+		BC79CBB215AC79240081DCBE /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBB115AC79240081DCBE /* ISO8601DateFormatter.m */; };
+		BC79CBBA15ACBE470081DCBE /* GNTPSubscribePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79CBB915ACBE470081DCBE /* GNTPSubscribePacket.m */; };
+		BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7F3FA01592189F009F308F /* Cocoa.framework */; };
+		BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FA9159218A0009F308F /* InfoPlist.strings */; };
+		BC7F3FAD159218A0009F308F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FAC159218A0009F308F /* main.m */; };
+		BC7F3FB1159218A0009F308F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FAF159218A0009F308F /* Credits.rtf */; };
+		BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7F3FB3159218A0009F308F /* AppDelegate.m */; };
+		BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7F3FB5159218A0009F308F /* MainMenu.xib */; };
+		BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */; };
+		BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */; };
+		BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */; };
+		BC949E5415B3020700AD6489 /* GrowlOperatingSystemVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */; };
+		BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1250915935A460052C495 /* GCDAsyncSocket.m */; };
+		BCB1250D15935AA10052C495 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1250B15935A7B0052C495 /* Security.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = ../../../Common/Source/GrowlDefines.h; sourceTree = "<group>"; };
+		BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefinesInternal.h; path = ../../../Common/Source/GrowlDefinesInternal.h; sourceTree = "<group>"; };
+		BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDefinesInternal.m; path = ../../../Common/Source/GrowlDefinesInternal.m; sourceTree = "<group>"; };
+		BC30D40C15AC5F8D00F18913 /* GrowlMiniDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMiniDispatch.h; path = ../../../Framework/Source/Mist/GrowlMiniDispatch.h; sourceTree = "<group>"; };
+		BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMiniDispatch.m; path = ../../../Framework/Source/Mist/GrowlMiniDispatch.m; sourceTree = "<group>"; };
+		BC30D40E15AC5F8D00F18913 /* GrowlMistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMistView.h; path = ../../../Framework/Source/Mist/GrowlMistView.h; sourceTree = "<group>"; };
+		BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistView.m; path = ../../../Framework/Source/Mist/GrowlMistView.m; sourceTree = "<group>"; };
+		BC30D41015AC5F8D00F18913 /* GrowlMistWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMistWindowController.h; path = ../../../Framework/Source/Mist/GrowlMistWindowController.h; sourceTree = "<group>"; };
+		BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMistWindowController.m; path = ../../../Framework/Source/Mist/GrowlMistWindowController.m; sourceTree = "<group>"; };
+		BC30D41215AC5F8D00F18913 /* NSImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSImageAdditions.h; path = ../../../Framework/Source/Mist/NSImageAdditions.h; sourceTree = "<group>"; };
+		BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSImageAdditions.m; path = ../../../Framework/Source/Mist/NSImageAdditions.m; sourceTree = "<group>"; };
+		BC30D41A15AC613300F18913 /* GrowlPositionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositionController.h; path = ../../../Plugins/PluginFramework/GrowlPositionController.h; sourceTree = "<group>"; };
+		BC30D41B15AC613300F18913 /* GrowlPositionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionController.m; path = ../../../Plugins/PluginFramework/GrowlPositionController.m; sourceTree = "<group>"; };
+		BC30D41C15AC613300F18913 /* GrowlQuadTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlQuadTreeNode.h; path = ../../../Plugins/PluginFramework/GrowlQuadTreeNode.h; sourceTree = "<group>"; };
+		BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlQuadTreeNode.m; path = ../../../Plugins/PluginFramework/GrowlQuadTreeNode.m; sourceTree = "<group>"; };
+		BC30D42015AC619700F18913 /* GrowlPositionColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositionColumn.h; path = ../../../Plugins/PluginFramework/GrowlPositionColumn.h; sourceTree = "<group>"; };
+		BC30D42115AC619700F18913 /* GrowlPositionColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionColumn.m; path = ../../../Plugins/PluginFramework/GrowlPositionColumn.m; sourceTree = "<group>"; };
+		BC30D42315AC62D100F18913 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = ../../../Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
+		BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPKey.h; path = ../../../Core/Source/GNTPKey.h; sourceTree = "<group>"; };
+		BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPKey.m; path = ../../../Core/Source/GNTPKey.m; sourceTree = "<group>"; };
+		BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../../Common/Source/NSStringAdditions.h; sourceTree = "<group>"; };
+		BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = ../../../Common/Source/NSStringAdditions.m; sourceTree = "<group>"; };
+		BC3B7A6115A1E86F0001CD97 /* GNTPPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPPacket.h; sourceTree = "<group>"; };
+		BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPPacket.m; sourceTree = "<group>"; };
+		BC3B7A6515A325380001CD97 /* GrowlGNTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPDefines.h; path = ../../../Core/Source/GrowlGNTPDefines.h; sourceTree = "<group>"; };
+		BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPDefines.m; path = ../../../Core/Source/GrowlGNTPDefines.m; sourceTree = "<group>"; };
+		BC3B7A6815A325AF0001CD97 /* GrowlNetworkUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNetworkUtilities.h; path = ../../../Common/Source/GrowlNetworkUtilities.h; sourceTree = "<group>"; };
+		BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNetworkUtilities.m; path = ../../../Common/Source/GrowlNetworkUtilities.m; sourceTree = "<group>"; };
+		BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BC3B7A7615A497510001CD97 /* GNTPRegisterPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPRegisterPacket.h; sourceTree = "<group>"; };
+		BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPRegisterPacket.m; sourceTree = "<group>"; };
+		BC452BE11592623100A299D5 /* GNTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPServer.h; sourceTree = "<group>"; };
+		BC452BE21592623100A299D5 /* GNTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPServer.m; sourceTree = "<group>"; };
+		BC4E243A15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlDispatchMutableDictionary.h; sourceTree = "<group>"; };
+		BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlDispatchMutableDictionary.m; sourceTree = "<group>"; };
+		BC79CBB015AC79240081DCBE /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISO8601DateFormatter.h; path = ../../../external_dependencies/iso8601parser/ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		BC79CBB115AC79240081DCBE /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISO8601DateFormatter.m; path = ../../../external_dependencies/iso8601parser/ISO8601DateFormatter.m; sourceTree = "<group>"; };
+		BC79CBB815ACBE470081DCBE /* GNTPSubscribePacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPSubscribePacket.h; sourceTree = "<group>"; };
+		BC79CBB915ACBE470081DCBE /* GNTPSubscribePacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPSubscribePacket.m; sourceTree = "<group>"; };
+		BC7F3F9C1592189F009F308F /* GNTPTestServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GNTPTestServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC7F3FA01592189F009F308F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BC7F3FA3159218A0009F308F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BC7F3FA5159218A0009F308F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BC7F3FA8159218A0009F308F /* GNTPTestServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GNTPTestServer-Info.plist"; sourceTree = "<group>"; };
+		BC7F3FAA159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC7F3FAC159218A0009F308F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC7F3FAE159218A0009F308F /* GNTPTestServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GNTPTestServer-Prefix.pch"; sourceTree = "<group>"; };
+		BC7F3FB0159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BC7F3FB2159218A0009F308F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BC7F3FB3159218A0009F308F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BC7F3FB6159218A0009F308F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPNotifyPacket.h; sourceTree = "<group>"; };
+		BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPNotifyPacket.m; sourceTree = "<group>"; };
+		BC8FD3E515B12FD90007CC12 /* GNTPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNTPUtilities.h; sourceTree = "<group>"; };
+		BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GNTPUtilities.m; sourceTree = "<group>"; };
+		BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = ../../../Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
+		BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = ../../../Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
+		BC949E5215B3020700AD6489 /* GrowlOperatingSystemVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOperatingSystemVersion.h; path = ../../../Common/Source/GrowlOperatingSystemVersion.h; sourceTree = "<group>"; };
+		BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOperatingSystemVersion.m; path = ../../../Common/Source/GrowlOperatingSystemVersion.m; sourceTree = "<group>"; };
+		BCB1250815935A460052C495 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
+		BCB1250915935A460052C495 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = ../../../external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
+		BCB1250B15935A7B0052C495 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC7F3F991592189F009F308F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC3B7A6C15A325C40001CD97 /* SystemConfiguration.framework in Frameworks */,
+				BC7F3FA1159218A0009F308F /* Cocoa.framework in Frameworks */,
+				BCB1250D15935AA10052C495 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC30D41915AC5F9500F18913 /* Mist */ = {
+			isa = PBXGroup;
+			children = (
+				BC30D40C15AC5F8D00F18913 /* GrowlMiniDispatch.h */,
+				BC30D40D15AC5F8D00F18913 /* GrowlMiniDispatch.m */,
+				BC30D40E15AC5F8D00F18913 /* GrowlMistView.h */,
+				BC30D40F15AC5F8D00F18913 /* GrowlMistView.m */,
+				BC30D41015AC5F8D00F18913 /* GrowlMistWindowController.h */,
+				BC30D41115AC5F8D00F18913 /* GrowlMistWindowController.m */,
+				BC30D41215AC5F8D00F18913 /* NSImageAdditions.h */,
+				BC30D41315AC5F8D00F18913 /* NSImageAdditions.m */,
+				BC30D41A15AC613300F18913 /* GrowlPositionController.h */,
+				BC30D41B15AC613300F18913 /* GrowlPositionController.m */,
+				BC30D42015AC619700F18913 /* GrowlPositionColumn.h */,
+				BC30D42115AC619700F18913 /* GrowlPositionColumn.m */,
+				BC30D41C15AC613300F18913 /* GrowlQuadTreeNode.h */,
+				BC30D41D15AC613300F18913 /* GrowlQuadTreeNode.m */,
+				BC30D42315AC62D100F18913 /* GrowlPositioningDefines.h */,
+			);
+			name = Mist;
+			sourceTree = "<group>";
+		};
+		BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */ = {
+			isa = PBXGroup;
+			children = (
+				BC30D41915AC5F9500F18913 /* Mist */,
+				BC006BAD15A9CA9600643FA8 /* GrowlDefines.h */,
+				BC006BAF15A9D14000643FA8 /* GrowlDefinesInternal.h */,
+				BC006BB015A9D14000643FA8 /* GrowlDefinesInternal.m */,
+				BC3B7A6515A325380001CD97 /* GrowlGNTPDefines.h */,
+				BC3B7A6615A325850001CD97 /* GrowlGNTPDefines.m */,
+				BC3B7A5E15A1E1890001CD97 /* NSStringAdditions.h */,
+				BC3B7A5F15A1E1890001CD97 /* NSStringAdditions.m */,
+				BC3B7A6815A325AF0001CD97 /* GrowlNetworkUtilities.h */,
+				BC3B7A6915A325AF0001CD97 /* GrowlNetworkUtilities.m */,
+				BC3B7A5A15A1DFCA0001CD97 /* GNTPKey.h */,
+				BC3B7A5B15A1DFCA0001CD97 /* GNTPKey.m */,
+				BCB1250815935A460052C495 /* GCDAsyncSocket.h */,
+				BCB1250915935A460052C495 /* GCDAsyncSocket.m */,
+				BC79CBB015AC79240081DCBE /* ISO8601DateFormatter.h */,
+				BC79CBB115AC79240081DCBE /* ISO8601DateFormatter.m */,
+				BC8FD3E915B130060007CC12 /* GrowlImageAdditions.h */,
+				BC8FD3EA15B130060007CC12 /* GrowlImageAdditions.m */,
+				BC949E5215B3020700AD6489 /* GrowlOperatingSystemVersion.h */,
+				BC949E5315B3020700AD6489 /* GrowlOperatingSystemVersion.m */,
+			);
+			name = CurrentGrowlCode;
+			sourceTree = "<group>";
+		};
+		BC7F3F911592189F009F308F = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA6159218A0009F308F /* GNTPTestServer */,
+				BC7F3F9F1592189F009F308F /* Frameworks */,
+				BC7F3F9D1592189F009F308F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC7F3F9D1592189F009F308F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3F9C1592189F009F308F /* GNTPTestServer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC7F3F9F1592189F009F308F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA01592189F009F308F /* Cocoa.framework */,
+				BC7F3FA2159218A0009F308F /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC7F3FA2159218A0009F308F /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC3B7A6B15A325C40001CD97 /* SystemConfiguration.framework */,
+				BC7F3FA3159218A0009F308F /* AppKit.framework */,
+				BC7F3FA5159218A0009F308F /* Foundation.framework */,
+				BCB1250B15935A7B0052C495 /* Security.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		BC7F3FA6159218A0009F308F /* GNTPTestServer */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FB2159218A0009F308F /* AppDelegate.h */,
+				BC7F3FB3159218A0009F308F /* AppDelegate.m */,
+				BC452BE11592623100A299D5 /* GNTPServer.h */,
+				BC452BE21592623100A299D5 /* GNTPServer.m */,
+				BC3B7A6115A1E86F0001CD97 /* GNTPPacket.h */,
+				BC3B7A6215A1E86F0001CD97 /* GNTPPacket.m */,
+				BC3B7A7615A497510001CD97 /* GNTPRegisterPacket.h */,
+				BC3B7A7715A497510001CD97 /* GNTPRegisterPacket.m */,
+				BC89F2D715A91DFC007B038C /* GNTPNotifyPacket.h */,
+				BC89F2D815A91DFC007B038C /* GNTPNotifyPacket.m */,
+				BC79CBB815ACBE470081DCBE /* GNTPSubscribePacket.h */,
+				BC79CBB915ACBE470081DCBE /* GNTPSubscribePacket.m */,
+				BC4E243A15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.h */,
+				BC4E243B15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m */,
+				BC8FD3E515B12FD90007CC12 /* GNTPUtilities.h */,
+				BC8FD3E615B12FD90007CC12 /* GNTPUtilities.m */,
+				BC3B7A6415A1E8760001CD97 /* CurrentGrowlCode */,
+				BC7F3FB5159218A0009F308F /* MainMenu.xib */,
+				BC7F3FA7159218A0009F308F /* Supporting Files */,
+			);
+			path = GNTPTestServer;
+			sourceTree = "<group>";
+		};
+		BC7F3FA7159218A0009F308F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC7F3FA8159218A0009F308F /* GNTPTestServer-Info.plist */,
+				BC7F3FA9159218A0009F308F /* InfoPlist.strings */,
+				BC7F3FAC159218A0009F308F /* main.m */,
+				BC7F3FAE159218A0009F308F /* GNTPTestServer-Prefix.pch */,
+				BC7F3FAF159218A0009F308F /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC7F3F9B1592189F009F308F /* GNTPTestServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC7F3FBA159218A0009F308F /* Build configuration list for PBXNativeTarget "GNTPTestServer" */;
+			buildPhases = (
+				BC7F3F981592189F009F308F /* Sources */,
+				BC7F3F991592189F009F308F /* Frameworks */,
+				BC7F3F9A1592189F009F308F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GNTPTestServer;
+			productName = GNTPTestServer;
+			productReference = BC7F3F9C1592189F009F308F /* GNTPTestServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC7F3F931592189F009F308F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "The Growl Project, LLC";
+			};
+			buildConfigurationList = BC7F3F961592189F009F308F /* Build configuration list for PBXProject "GNTPTestServer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC7F3F911592189F009F308F;
+			productRefGroup = BC7F3F9D1592189F009F308F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC7F3F9B1592189F009F308F /* GNTPTestServer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC7F3F9A1592189F009F308F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC7F3FAB159218A0009F308F /* InfoPlist.strings in Resources */,
+				BC7F3FB1159218A0009F308F /* Credits.rtf in Resources */,
+				BC7F3FB7159218A0009F308F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC7F3F981592189F009F308F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC7F3FAD159218A0009F308F /* main.m in Sources */,
+				BC7F3FB4159218A0009F308F /* AppDelegate.m in Sources */,
+				BC452BE31592623100A299D5 /* GNTPServer.m in Sources */,
+				BCB1250A15935A460052C495 /* GCDAsyncSocket.m in Sources */,
+				BC3B7A5C15A1DFCA0001CD97 /* GNTPKey.m in Sources */,
+				BC3B7A6015A1E1890001CD97 /* NSStringAdditions.m in Sources */,
+				BC3B7A6315A1E86F0001CD97 /* GNTPPacket.m in Sources */,
+				BC3B7A6715A325850001CD97 /* GrowlGNTPDefines.m in Sources */,
+				BC3B7A6A15A325AF0001CD97 /* GrowlNetworkUtilities.m in Sources */,
+				BC3B7A7815A497520001CD97 /* GNTPRegisterPacket.m in Sources */,
+				BC89F2D915A91DFC007B038C /* GNTPNotifyPacket.m in Sources */,
+				BC006BB115A9D14000643FA8 /* GrowlDefinesInternal.m in Sources */,
+				BC4E243C15AB3F8E004DC127 /* GrowlDispatchMutableDictionary.m in Sources */,
+				BC30D41415AC5F8D00F18913 /* GrowlMiniDispatch.m in Sources */,
+				BC30D41515AC5F8D00F18913 /* GrowlMistView.m in Sources */,
+				BC30D41615AC5F8D00F18913 /* GrowlMistWindowController.m in Sources */,
+				BC30D41715AC5F8D00F18913 /* NSImageAdditions.m in Sources */,
+				BC30D41E15AC613300F18913 /* GrowlPositionController.m in Sources */,
+				BC30D41F15AC613300F18913 /* GrowlQuadTreeNode.m in Sources */,
+				BC30D42215AC619700F18913 /* GrowlPositionColumn.m in Sources */,
+				BC79CBB215AC79240081DCBE /* ISO8601DateFormatter.m in Sources */,
+				BC79CBBA15ACBE470081DCBE /* GNTPSubscribePacket.m in Sources */,
+				BC8FD3E715B12FD90007CC12 /* GNTPUtilities.m in Sources */,
+				BC8FD3EB15B130060007CC12 /* GrowlImageAdditions.m in Sources */,
+				BC949E5415B3020700AD6489 /* GrowlOperatingSystemVersion.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BC7F3FA9159218A0009F308F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FAA159218A0009F308F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC7F3FAF159218A0009F308F /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FB0159218A0009F308F /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BC7F3FB5159218A0009F308F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC7F3FB6159218A0009F308F /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BC7F3FB8159218A0009F308F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BC7F3FB9159218A0009F308F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BC7F3FBB159218A0009F308F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GNTPTestServer/GNTPTestServer-Prefix.pch";
+				INFOPLIST_FILE = "GNTPTestServer/GNTPTestServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC7F3FBC159218A0009F308F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GNTPTestServer/GNTPTestServer-Prefix.pch";
+				INFOPLIST_FILE = "GNTPTestServer/GNTPTestServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC7F3F961592189F009F308F /* Build configuration list for PBXProject "GNTPTestServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC7F3FB8159218A0009F308F /* Debug */,
+				BC7F3FB9159218A0009F308F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC7F3FBA159218A0009F308F /* Build configuration list for PBXNativeTarget "GNTPTestServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC7F3FBB159218A0009F308F /* Debug */,
+				BC7F3FBC159218A0009F308F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC7F3F931592189F009F308F /* Project object */;
+}

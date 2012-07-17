@@ -7,73 +7,133 @@
 //
 
 #import "GrowlTCPPathway.h"
-#import "GrowlTCPServer.h"
-#import "GrowlGNTPPacketParser.h"
+#import "GNTPServer.h"
+#import "GrowlNotification.h"
+#import "GrowlNetworkUtilities.h"
+#import "GNTPSubscriptionController.h"
 
-#include <SystemConfiguration/SystemConfiguration.h>
+@interface GrowlTCPPathway ()
+@property (nonatomic, retain) GNTPServer *localServer;
+@property (nonatomic, retain) GNTPServer *remoteServer;
+@property (nonatomic, retain) NSNetService *netService;
+@end
 
 @implementation GrowlTCPPathway
-@synthesize networkPacketParser;
-@synthesize tcpServer;
+
+@synthesize localServer = _localServer;
+@synthesize remoteServer = _remoteServer;
+@synthesize netService = _netService;
 
 - (id)init
 {
 	if ((self = [super init])) {
-		self.networkPacketParser = [GrowlGNTPPacketParser sharedParser];
+		self.localServer = [[GNTPServer alloc] initWithInterface:@"localhost"];
+		self.localServer.delegate = (id<GNTPServerDelegate>)self;
+		[self.localServer startServer];
 		
-		/* We always want the TCP server to be running to allow localhost connections.
-		 * We'll ultimately ignore connections from outside localhost if networking is not enabled.
-		 */
-		self.tcpServer = [[[GrowlTCPServer alloc] init] autorelease];
-
-		/* GrowlTCPServer will use our host name by default for publishing, which is what we want. */
-		[self.tcpServer setType:@"_gntp._tcp."];
-		[self.tcpServer setPort:GROWL_TCP_PORT];
-		[self.tcpServer setDelegate:self];
+		self.remoteServer = [[GNTPServer alloc] initWithInterface:nil];
+		self.remoteServer.delegate = (id<GNTPServerDelegate>)self;
 		
-		NSError *error = nil;
-		if (![self.tcpServer start:&error])
-			NSLog(@"Error starting Growl TCP server: %@", error);
-		[[self.tcpServer netService] setDelegate:self];
-      
-      [self.tcpServer preferencesChanged:nil];
+		[[NSNotificationCenter defaultCenter] addObserverForName:GROWL_NOTIFICATION_CLICKED
+																		  object:nil
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:^(NSNotification *note) {
+																		 GrowlNotification *growlNote = [note object];
+																		 NSDictionary *growlDict = [growlNote dictionaryRepresentation];
+																		 [self.localServer notificationClicked:growlDict];
+																		 [self.remoteServer notificationClicked:growlDict];
+																	 }];
+		[[NSNotificationCenter defaultCenter] addObserverForName:GROWL_NOTIFICATION_TIMED_OUT
+																		  object:nil
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:^(NSNotification *note) {
+																		 GrowlNotification *growlNote = [note object];
+																		 NSDictionary *growlDict = [growlNote dictionaryRepresentation];
+																		 [self.localServer notificationTimedOut:growlDict];
+																		 [self.remoteServer notificationTimedOut:growlDict];
+																	 }];
+		
+		void(^noteBlock)(NSNotification*) = ^(NSNotification *note) {
+			if(![note object] || [[note object] isEqualToString:GrowlStartServerKey] ||
+				[[note object] isEqualToString:GrowlSubscriptionEnabledKey])
+			{
+				if([[GrowlPreferencesController sharedController] isGrowlServerEnabled] ||
+					[[GrowlPreferencesController sharedController] isSubscriptionAllowed])
+				{
+					if([self.remoteServer startServer]){
+						[self publish];
+					}
+				}else{
+					[self.remoteServer stopServer];
+					[self unpublish];
+				}
+			}
+		};
+		[[NSNotificationCenter defaultCenter] addObserverForName:GrowlPreferencesChanged
+																		  object:nil
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:noteBlock];
+		noteBlock(nil);
 	}
 		
 	return self;
 }
 
 - (void)dealloc
-{		
-	[tcpServer stop];
-	[tcpServer release];
-	
-	[networkPacketParser release];
-	
+{
+	[self.localServer stopServer];
+	self.localServer = nil;
 	[super dealloc];
 }
 
-#pragma mark -
-
-- (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-	NSLog(@"WARNING: could not publish Growl service. Error: %@", errorDict);
+- (void)publish
+{
+   // we can only publish the service if we have a type to publish with
+   if (!self.netService && 
+		 ([[GrowlPreferencesController sharedController] isGrowlServerEnabled] || 
+		  [[GrowlPreferencesController sharedController] isSubscriptionAllowed])) 
+	{
+		NSLog(@"publishing");
+      NSString *publishingDomain = @"";
+      NSString *publishingName = nil;
+		NSString *thisHostName = [GrowlNetworkUtilities localHostName];
+		if ([thisHostName hasSuffix:@".local"]) {
+			publishingName = [thisHostName substringToIndex:([thisHostName length] - 6)];
+		}else
+			publishingName = thisHostName;
+      
+      self.netService = [[[NSNetService alloc] initWithDomain:publishingDomain 
+																			type:@"_gntp._tcp." 
+																			name:publishingName 
+																			port:GROWL_TCP_PORT] autorelease];
+      NSDictionary * txtRecordDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: @"1.0", @"version", @"mac", @"platform", nil];
+      [self.netService setTXTRecordData:[NSNetService dataFromTXTRecordDictionary:txtRecordDataDictionary]];
+      [self.netService publish];
+   }
 }
 
-#pragma mark -
-
-- (BOOL) connection:(NSConnection *)ancestor shouldMakeNewConnection:(NSConnection *)conn {
-	[conn setDelegate:[ancestor delegate]];
-	return YES;
+- (void)unpublish
+{
+	if(!self.netService)
+		return;
+	
+   NSLog(@"unpublishing");
+   [self.netService stop];
+	self.netService = nil;
 }
  
-#pragma mark -
+#pragma mark GNTPServerDelegate
 
-/*!
- * @brief The TCP server accepted a new socket. Pass it to the network packet parser.
- */
-- (void)didAcceptNewSocket:(GCDAsyncSocket *)sock
-{
-	//NSLog(@"%@: Telling %@ we accepted on socket %@ with FD %i", self, networkPacketParser, sock, [sock socket4FD]);
-	[networkPacketParser didAcceptNewSocket:sock];
+- (void)registerWithDictionary:(NSDictionary *)dictionary {
+	[super registerApplicationWithDictionary:dictionary];
+}
+
+- (GrowlNotificationResult)notifyWithDictionary:(NSDictionary *)dictionary {
+	return [super postNotificationWithDictionary:dictionary];
+}
+
+-(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet {
+	[[GNTPSubscriptionController sharedController] addRemoteSubscriptionFromPacket:packet];
 }
 
 @end

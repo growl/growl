@@ -9,15 +9,10 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlDefinesInternal.h"
 #import "GrowlApplicationBridge.h"
 
 @class GrowlNotificationCenter, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
-
-typedef enum {
-	GrowlNotificationResultPosted,
-	GrowlNotificationResultNotRegistered,
-	GrowlNotificationResultDisabled
-} GrowlNotificationResult;
 
 @interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	// local GrowlNotificationCenter

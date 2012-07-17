@@ -9,35 +9,37 @@
 #import "GrowlCommunicationAttempt.h"
 #import <xpc/xpc.h>
 
-@class GrowlGNTPOutgoingPacket;
 @class GCDAsyncSocket;
+@class GNTPKey;
 
 @interface GrowlGNTPCommunicationAttempt : GrowlCommunicationAttempt
 {
-    @private
-    
-	GrowlGNTPOutgoingPacket *packet;
+@private
+	GNTPKey *_key;
 	GCDAsyncSocket *socket;
 	NSString *responseParseErrorString, *bogusResponse;
 	NSString *callbackType;
-	NSMutableArray *callbackHeaderItems;
+	NSMutableDictionary *callbackHeaderItems;
 	BOOL attemptSucceeded;
-    int responseReadType;
-    
-    NSString *host;
-    NSString *password;
-    
-    //For the XPC version
-    xpc_connection_t connection;
+	int responseReadType;
+	
+	NSString *host;
+	NSData *_addressData;
+	NSString *password;
+	
+	//For the XPC version
+	xpc_connection_t connection;
 }
 
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0);
-@property (nonatomic, retain) NSArray *callbackHeaderItems;
+@property (nonatomic, retain) NSMutableDictionary *callbackHeaderItems;
+@property (nonatomic, retain) GNTPKey *key;
+@property (nonatomic, retain) NSData *addressData;
 
 //Lazily constructs the packet for self.dictionary.
-- (GrowlGNTPOutgoingPacket *) packet;
+-(NSData*)outgoingData;
 
 //Returns NO. Subclasses may overrido to conditionally or unconditionally return YES.
 - (BOOL) expectsCallback;

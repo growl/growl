@@ -11,7 +11,6 @@
 #import "GrowlGNTPCommunicationAttempt.h"
 #import "GrowlGNTPRegistrationAttempt.h"
 #import "GrowlGNTPNotificationAttempt.h"
-#import "GrowlGNTPHeaderItem.h"
 
 #import "NSObject+XPCHelpers.h"
 
@@ -60,40 +59,43 @@
     [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 
+-(NSString*)actionTypeForAttempt:(GrowlCommunicationAttempt*)attempt{
+	NSString *result = nil;
+	if([attempt isKindOfClass:[GrowlGNTPRegistrationAttempt class]]){
+		result = @"registration";
+	}else if([attempt isKindOfClass:[GrowlGNTPNotificationAttempt class]]){
+		result = @"notification";
+	}/*else if([attempt isKindOfClass:[GrowlGNTPSubscriptionAttempt class]]){
+		result = @"subscribe";
+	}*/else {
+		result = @"unknown";
+	}
+	return result;
+}
+
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt{
-    NSMutableDictionary *response = [NSMutableDictionary dictionary];
-    [response setValue:[NSNumber numberWithBool:YES] forKey:@"Success"];
-    
-    if([attempt isKindOfClass:[GrowlGNTPRegistrationAttempt class]]){
-        [response setValue:@"registration" forKey:@"GrowlActionType"];
-    }else{
-        //We should only have GNTP Registration and Notification
-        [response setValue:@"notification" forKey:@"GrowlActionType"];
-    }
-    
-    [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
+	NSMutableDictionary *response = [NSMutableDictionary dictionary];
+	[response setValue:[NSNumber numberWithBool:YES] forKey:@"Success"];
+	
+	[response setObject:[self actionTypeForAttempt:attempt] forKey:@"GrowlActionType"];
+		
+	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt{
-    __block NSMutableDictionary *response = [NSMutableDictionary dictionary];
-    [response setValue:[NSNumber numberWithBool:NO] forKey:@"Success"];
-    
-    if([attempt isKindOfClass:[GrowlGNTPRegistrationAttempt class]]){
-        [response setValue:@"registration" forKey:@"GrowlActionType"];
-    }else{
-        //We should only have GNTP Registration and Notification for now
-        [response setValue:@"notification" forKey:@"GrowlActionType"];
-    }
-    
-    [[(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([[obj headerName] isEqualToString:@"Error-Code"])
-            [response setValue:[obj headerValue] forKey:[obj headerName]];
-        if([[obj headerName] isEqualToString:@"Error-Description"])
-            [response setValue:[obj headerValue] forKey:[obj headerName]];
-    }];
-    
-    [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
-    
-    [currentAttempts removeObject:attempt];
+	__block NSMutableDictionary *response = [NSMutableDictionary dictionary];
+	[response setValue:[NSNumber numberWithBool:NO] forKey:@"Success"];
+	[response setObject:[self actionTypeForAttempt:attempt] forKey:@"GrowlActionType"];
+	
+	[[(GrowlGNTPCommunicationAttempt*)attempt callbackHeaderItems] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if([key isEqualToString:@"Error-Code"])
+			[response setValue:obj forKey:key];
+		if([key isEqualToString:@"Error-Description"])
+			[response setValue:obj forKey:key];
+	}];
+	
+	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
+	
+	[currentAttempts removeObject:attempt];
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
     NSDictionary *response = [NSDictionary dictionaryWithObject:@"finishedAttempt" forKey:@"GrowlActionType"];
