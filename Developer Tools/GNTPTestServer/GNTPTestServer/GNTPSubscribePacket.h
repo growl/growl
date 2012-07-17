@@ -10,4 +10,6 @@
 
 @interface GNTPSubscribePacket : GNTPPacket
 
+@property (nonatomic, assign) NSUInteger ttl;
+
 @end

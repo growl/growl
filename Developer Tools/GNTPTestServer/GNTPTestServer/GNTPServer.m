@@ -359,6 +359,10 @@
 					dispatch_async(dispatch_get_main_queue(), ^{
 						[self.delegate registerWithDictionary:growlDict];
 					});
+				}else if([packet isKindOfClass:[GNTPSubscribePacket class]]){
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self.delegate subscribeWithDictionary:(GNTPSubscribePacket*)packet];
+					});
 				}
 				//Whatever happened, we are done with it, let the server move on
 				[self.packetsByGUID removeObjectForKey:[packet guid]];

@@ -11,6 +11,8 @@
 
 @implementation GNTPSubscribePacket
 
+@synthesize ttl = _ttl;
+
 +(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString *)gntpKey {
 	id converted = [super convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
 	if(converted)
@@ -23,9 +25,16 @@
 	return converted;
 }
 
+-(id)init {
+	if((self = [super init])){
+		self.ttl = 3600;
+	}
+	return self;
+}
+
 -(NSString*)responseString {
 	NSMutableString *returnHeaders = [NSMutableString string];
-	[returnHeaders appendFormat:@"%@: %ld\r\n", GrowlGNTPResponseSubscriptionTTL, 3600];
+	[returnHeaders appendFormat:@"%@: %lu\r\n", GrowlGNTPResponseSubscriptionTTL, self.ttl];
 	return [[super responseString] stringByAppendingString:returnHeaders];
 }
 

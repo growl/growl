@@ -149,7 +149,7 @@
                           manual:NO
                              use:YES
                      initialTime:[NSDate date] 
-                      timeToLive:[[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberName] integerValue]
+                      timeToLive:[packet ttl]
                             port:[[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue]]))
    {
       /*
@@ -373,7 +373,7 @@
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[blockSelf subscriberID], GrowlGNTPSubscriberID,
 										 [GrowlNetworkUtilities localHostName], GrowlGNTPSubscriberName, nil];
 			self.subscriptionAttempt = [[[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:dict] autorelease];
-			
+			[self.subscriptionAttempt setPassword:self.password];
 			[self.subscriptionAttempt setAddressData:destAddress];
 			[self.subscriptionAttempt setDelegate:self];
 			
@@ -469,7 +469,7 @@
 	});
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
-	//Do something!
+	//Do nothing!
 }
 
 //Sent after success
