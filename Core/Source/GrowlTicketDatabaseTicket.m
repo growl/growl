@@ -78,7 +78,7 @@
 		if(self.parent)
 			return [self.parent resolvedDisplayOrigin];
 		else
-			return [[GrowlPreferencesController sharedController] selectedPosition];
+			return (GrowlPositionOrigin)[[GrowlPreferencesController sharedController] selectedPosition];
 	}
 }
 

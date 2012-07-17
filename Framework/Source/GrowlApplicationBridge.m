@@ -78,6 +78,9 @@
 + (void) _fireMiniDispatch:(NSDictionary*)growlDict;
 + (void) _fireAppleNotificationCenter:(NSDictionary*)growlDict;
 
++ (void) _growlNotificationCenterOn:(NSNotification *)notification;
++ (void) _growlNotificationCenterOff:(NSNotification *)notification;
+
 @end
 
 @class GrowlAppleNotificationDelegate;
@@ -111,6 +114,7 @@ static BOOL    networkClient = NO;
 static BOOL    hasGNTP = NO;
 
 static BOOL    shouldUseBuiltInNotifications = YES;
+static BOOL    shouldUseNotificationCenterAlways = NO;
 
 static dispatch_queue_t notificationQueue_Queue;
 
@@ -261,7 +265,17 @@ static struct {
 			  selector:@selector(_growlIsReady:)
 				  name:GROWL_IS_READY
 				object:nil];
+   
+   [NSDNC addObserver:self
+             selector:@selector(_growlNotificationCenterOn:)
+                 name:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_ON
+               object:nil];
 
+   [NSDNC addObserver:self
+             selector:@selector(_growlNotificationCenterOff:)
+                 name:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_OFF
+               object:nil];
+   
 	/* Watch for notification clicks if our delegate responds to the
 	 * growlNotificationWasClicked: selector. Notifications will come in on a
 	 * unique notification name based on our app name, pid and
@@ -323,6 +337,15 @@ static struct {
 	[growlNotificationTimedOutName release];
 
 	[self reregisterGrowlNotifications];
+
+   // Query if we're using Notification Center directly, via the Big Magic Switch.
+   //
+   // Sadly, this will generate an update to everyone else, but there's
+   // not a lot of way around that.
+   //
+   [NSDNC postNotificationName:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_QUERY
+                        object:nil
+                      userInfo:nil deliverImmediately:YES];
 }
 
 + (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate {
@@ -379,6 +402,27 @@ static struct {
 	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
+   BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
+   
+   // Do we have notification center disabled?
+   if (useNotificationCenter && !shouldUseNotificationCenterAlways) {
+      if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE]) {
+         useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+      }
+   }
+   
+   // If we have notification center on, we must set this accordingly.
+   //
+   // Ideally, this would be set by the notification center delivery callback, but as we
+   // are not guaranteed instant delivery, by that point the GNTP packet may already
+   // have been built.  As such, we need to set it here instead.
+   //
+   if (useNotificationCenter && (shouldUseNotificationCenterAlways || [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS])) {
+      if (![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
+         [noteDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
+      }
+   }
+   
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];
 }
@@ -389,13 +433,15 @@ static struct {
    BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
    BOOL alwaysCopyNC = NO;
    
-   // Do we have notification center disabled?
-   if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
-      useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+   // Do we have notification center disabled?  (Only valid if it hasn't been turned on directly in Growl.)
+   if (!shouldUseNotificationCenterAlways) {
+      if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
+         useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+   }
    
    // If we have notification center set to always-on, we must send.
-   if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
-      alwaysCopyNC = ![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS];
+   if (useNotificationCenter && (shouldUseNotificationCenterAlways || [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS])) {
+      alwaysCopyNC = shouldUseNotificationCenterAlways || ![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS];
       if (alwaysCopyNC) {
          [self _fireAppleNotificationCenter:userInfo];
       }
@@ -556,7 +602,7 @@ static struct {
    if (!NSClassFromString(@"NSUserNotificationCenter"))
       return;
 
-   NSMutableDictionary *notificationDict = [[NSMutableDictionary alloc] init];
+   NSMutableDictionary *notificationDict = [[[NSMutableDictionary alloc] init] autorelease];
    if ([growlDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
       [notificationDict setObject:[growlDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
    if ([growlDict objectForKey:GROWL_NOTIFICATION_STICKY])
@@ -936,6 +982,16 @@ static struct {
     AUTORELEASEPOOL_END
 }
 
++ (void) _growlNotificationCenterOn:(NSNotification *)notification
+{
+   shouldUseNotificationCenterAlways = YES;
+}
+
++ (void) _growlNotificationCenterOff:(NSNotification *)notification
+{
+   shouldUseNotificationCenterAlways = NO;
+}
+
 + (BOOL) _growlIsReachableUpdateCache:(BOOL)update
 {
    static BOOL _cached = NO;
@@ -1051,8 +1107,13 @@ static struct {
 			 */
          
          BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-         if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
-            useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+         if (useNotificationCenter) {
+            // If we don't have the global 'always use' on, we check the user defaults.
+            if (!shouldUseNotificationCenterAlways) {
+               if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
+                  useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+            }
+         }
 
          // If we always send to notification center, we don't need a fallback display as we've already done that.
          BOOL needsFallback = YES;

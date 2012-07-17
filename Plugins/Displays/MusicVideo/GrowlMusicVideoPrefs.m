@@ -184,7 +184,7 @@
 			value = NSLeftTextAlignment;
 			break;
 	}
-	[self setConfigurationValue:[NSNumber numberWithInt:value] forKey:MUSICVIDEO_TEXT_ALIGN_PREF];
+	[self setConfigurationValue:[NSNumber numberWithUnsignedLong:value] forKey:MUSICVIDEO_TEXT_ALIGN_PREF];
 }
 
 - (NSColor *) textColorVeryLow {

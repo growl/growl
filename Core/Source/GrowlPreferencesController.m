@@ -238,13 +238,40 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
    NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlLauncher.app"];
-   if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
+   if(!LSRegisterURL((/* __bridge */ CFURLRef)urlOfLoginItem, YES)){
       //NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
    }
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlLauncher"), flag)){
       //NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
    [self setBool:flag forKey:GrowlShouldStartAtLogin];
+}
+
+#pragma mark -
+#pragma mark Growl Notification Center integration
+
+- (BOOL) shouldUseAppleNotifications
+{
+   return [self boolForKey:GrowlUseAppleNotifications];
+}
+
+- (void) setUseAppleNotifications:(BOOL)appleNotifications
+{
+   [self setBool:appleNotifications forKey:GrowlUseAppleNotifications];
+   
+   if (NSClassFromString(@"NSUserNotificationCenter")) {
+      NSString *notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_OFF;
+      
+      if (appleNotifications) {
+         notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_ON;
+      }
+
+      // Update our running apps as well.
+      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:notificationCenterEnabledNotice
+                                                                     object:nil
+                                                                   userInfo:nil
+                                                         deliverImmediately:YES];
+   }
 }
 
 #pragma mark -
@@ -583,7 +610,11 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
         if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
             [self willChangeValueForKey:@"selectedPreferenceTab"];
             [self didChangeValueForKey:@"selectedPreferenceTab"];
-        }	
+        }
+        if (!object || [object isEqualToString:GrowlUseAppleNotifications]) {
+            [self willChangeValueForKey:@"useAppleNotifications"];
+            [self didChangeValueForKey:@"useAppleNotifications"];
+        }
 	}
 }
 

@@ -48,6 +48,72 @@
 #include "CFURLAdditions.h"
 #import "GrowlImageTransformer.h"
 
+#pragma mark Notification Center Support
+
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
+
+@implementation GrowlApplicationNotificationCenterDelegate
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
+{
+   NSDictionary *growlNotificationDict = [notification userInfo];
+   GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
+   
+   [center removeDeliveredNotification:notification];
+   
+   // Toss the click context back to the hosting app.
+   [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+                                                       object:growlNotification
+                                                     userInfo:nil];
+}
+
+- (void)expireNotification:(NSDictionary *)dict
+{
+   NSUserNotification *notification = [dict objectForKey:@"notification"];
+   NSUserNotificationCenter *center = [dict objectForKey:@"center"];
+   NSDictionary *growlNotificationDict = [notification userInfo];
+   GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
+   
+   // Remove the notification
+   [center removeDeliveredNotification:notification];
+   
+   // Send the 'timed out' call to the hosting application
+   [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
+                                                       object:growlNotification
+                                                     userInfo:nil];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
+{
+   // If we're not sticky, let's wait about 60 seconds and then remove the notification.
+   if (![[[notification userInfo] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]) {
+      // (This should probably be made nicer down the road, but right now this works for a first testing cut.)
+      
+      // Make sure we're using the same center, though this should always be the default.
+      NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:notification,@"notification",center,@"center",nil];
+      
+      NSInteger lifetime = 120;
+      
+      // If the duration is set to 0, we never manually expire notifications
+      if (lifetime) {
+         [self performSelector:@selector(expireNotification:) withObject:dict afterDelay:lifetime];
+      }
+   }
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
+{
+   // This will be called if the notification is being omitted.  This happens in
+   // two cases: first, if the application is already focused, and second if
+   // the computer is in a DND mode.  For now, we're going to just return YES to
+   // mimic normal Growl behavior.  Down the road, we may want to make this logic fancier.
+   
+   return YES;
+}
+
+@end
+#endif
+
 @interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
@@ -172,7 +238,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			NSMutableDictionary *configCopy = nil;
 			if([displayConfig respondsToSelector:@selector(configuration)])
 				configCopy = [[[displayConfig configuration] mutableCopy] autorelease];
-			[configCopy setValue:[NSNumber numberWithInt:[[GrowlPreferencesController sharedController] selectedPosition]]
+			[configCopy setValue:[NSNumber numberWithLong:[[GrowlPreferencesController sharedController] selectedPosition]]
 							  forKey:@"com.growl.positioncontroller.selectedposition"];
 			[configCopy setValue:[displayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
 			
@@ -188,6 +254,42 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			NSLog(@"Invalid object for displaying a preview: %@", displayConfig);
 		}
 	}
+}
+
+
+- (void) _fireAppleNotificationCenter:(NSDictionary *)growlDict
+{
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
+   // If we're not on 10.8, there's no point in doing this.
+   if (!NSClassFromString(@"NSUserNotificationCenter"))
+      return;
+   
+   // If the app uses Growl 2.0 framework and already fired this off itself, we
+   // can safely ignore this, as the work has been done for us.
+   if ([[growlDict objectForKey:GROWL_NOTIFICATION_ALREADY_SHOWN] boolValue])
+      return;
+
+   // We want to preserve all the notification state, but we can't pass the icon
+   // data in, or OS X will whine about the userinfo being too large.
+   NSMutableDictionary *notificationDict = [[growlDict mutableCopy] autorelease];
+   [notificationDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+   [notificationDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
+   
+   NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
+   appleNotification.title = [growlDict objectForKey:GROWL_APP_NAME];
+   appleNotification.subtitle = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
+   appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+   appleNotification.userInfo = notificationDict;
+   
+   // If we ever add support for action buttons in Growl (please), we'll want to add those here.
+   if (!appleNotificationDelegate) {
+      appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
+   }
+   
+   [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
+   [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+   [appleNotification release];
+#endif
 }
 
 #pragma mark Dispatching notifications
@@ -296,16 +398,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		
 		if(![preferences squelchMode])
 		{
-			GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
-			GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
-			NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
-			[configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
-			[configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
-			if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
-				[display dispatchNotification:aDict withConfiguration:configCopy];
-			}else{
-				NSLog(@"%@ for config %@ does not conform to GrowlDispatchNotificationProtocol", display, [resolvedDisplayConfig displayName]);
-			}
+         if ([preferences shouldUseAppleNotifications]) {
+            // We ignore display preferences, and use Notification Center instead.
+            [self _fireAppleNotificationCenter:aDict];
+         }
+         else {
+            GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
+            GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
+            NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
+            [configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
+            [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
+            if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+               [display dispatchNotification:aDict withConfiguration:configCopy];
+            }else{
+               NSLog(@"%@ for config %@ does not conform to GrowlDispatchNotificationProtocol", display, [resolvedDisplayConfig displayName]);
+            }
+         }
 			
 			NSSet *configSet = [notification resolvedActionConfigSet];
 			[configSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -755,7 +863,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	[GrowlNetworkObserver sharedObserver];
 	[GNTPForwarder sharedController];
 	[GNTPSubscriptionController sharedController];
-	
+   
 	//register value transformer
 	id transformer = [[[GrowlImageTransformer alloc] init] autorelease];
 	[NSValueTransformer setValueTransformer:transformer forName:@"GrowlImageTransformer"];
@@ -838,6 +946,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	                                                               object:nil
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
+   
+   // Now we check if we have notification center
+   if (NSClassFromString(@"NSUserNotificationCenter")) {
+      // We do!  Are we supposed to use it?
+      NSString *notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_OFF;
+
+      if ([preferences shouldUseAppleNotifications]) {
+         notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_ON;
+      }
+      
+      [[NSDistributedNotificationCenter defaultCenter] postNotificationName:notificationCenterEnabledNotice
+                                                                     object:nil
+                                                                   userInfo:nil
+                                                         deliverImmediately:YES];
+   }
+   
 	growlFinishedLaunching = YES;
    
    if(urlOnLaunch){

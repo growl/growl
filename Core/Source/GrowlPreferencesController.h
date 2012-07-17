@@ -53,6 +53,8 @@
 #define GrowlAllowStartAtLogin      XSTR("GrowlAllowStartAtLogin")
 #define GrowlShouldStartAtLogin     XSTR("ShouldStartGrowlAtLogin")
 
+#define GrowlUseAppleNotifications  XSTR("ShouldUseAppleNotifications")
+
 #define GrowlRollupShown            XSTR("GrowlRollupShown")
 #define GrowlRollupEnabled          XSTR("GrowlRollupEnabled")
 #define GrowlRollupAutomatic        XSTR("GrowlRollupAutomatic")
@@ -103,6 +105,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setAllowStartAtLogin:(BOOL)start;
 - (BOOL) shouldStartGrowlAtLogin;
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
+
+- (BOOL) shouldUseAppleNotifications;
+- (void) setUseAppleNotifications:(BOOL)appleNotifications;
+
 
 - (void) setSquelchMode:(BOOL)squelch;
 - (BOOL) squelchMode;

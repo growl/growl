@@ -62,6 +62,7 @@ NSString *GrowlGNTPNotificationPriority = @"Notification-Priority";
 NSString *GrowlGNTPNotificationCallbackContext = @"Notification-Callback-Context";
 NSString *GrowlGNTPNotificationCallbackContextType = @"Notification-Callback-Context-Type";
 NSString *GrowlGNTPNotificationCallbackTarget = @"Notification-Callback-Target";
+NSString *GrowlGNTPXNotificationAlreadyShown = @"X-Notification-Already-Shown";
 
 #pragma mark Subscribe Headers
 //Subscribe

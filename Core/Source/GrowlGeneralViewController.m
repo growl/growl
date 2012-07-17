@@ -22,17 +22,23 @@
 @synthesize globalPositionPicker;
 @synthesize startAtLoginSwitch;
 @synthesize recorderControl;
+@synthesize useAppleNotificationCenterSwitch;
+@synthesize useAppleNotificationCenterLabelField;
+@synthesize growlClawLogo;
+@synthesize additionalDownloadsButton;
 
 @synthesize additionalDownloadsButtonTitle;
 @synthesize startGrowlAtLoginLabel;
 @synthesize defaultStartingPositionLabel;
 @synthesize iconMenuOptionsList;
 @synthesize closeAllNotificationsTitle;
+@synthesize useAppleNotificationCenterLabel;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.additionalDownloadsButtonTitle = NSLocalizedString(@"Additional Downloads", @"Button title for opening growl.info to downloads page");
       self.startGrowlAtLoginLabel = NSLocalizedString(@"Start Growl at Login", @"Start Growl at Login switch label");
+      self.useAppleNotificationCenterLabel = NSLocalizedString(@"Use Mac OS X Notifications", @"Use Mac OS X Notifications switch label");
       self.defaultStartingPositionLabel = NSLocalizedString(@"Default starting position for notifications", @"Label for the global default starting position picker");
       self.iconMenuOptionsList = [NSArray arrayWithObjects:NSLocalizedString(@"Show icon in the menubar", @"Growl will have a menu bar icon only"),
                                                            NSLocalizedString(@"Show icon in the dock", @"Growl will have an icon only in the dock"),
@@ -50,7 +56,26 @@
                         forKeyPath:@"state" 
                            options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                            context:nil];
-
+   
+   [useAppleNotificationCenterSwitch setState:[self.preferencesController shouldUseAppleNotifications]];
+   [useAppleNotificationCenterSwitch addObserver:self
+                                forKeyPath:@"state"
+                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+                                   context:nil];
+   
+   // Check if we have Notification Center support.
+   // If so, we hide the Growl logo and show the on/off switch there.
+   // If not, we hide those controls, and change the globalPositionPicker's nextKeyView
+   // back to the "Additional Downloads" button.
+   BOOL hasNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
+   [growlClawLogo setHidden:hasNotificationCenter];
+   [useAppleNotificationCenterSwitch setHidden:!hasNotificationCenter];
+   [useAppleNotificationCenterLabelField setHidden:!hasNotificationCenter];
+   
+   if (!hasNotificationCenter) {
+      globalPositionPicker.nextKeyView = additionalDownloadsButton;
+   }
+   
 	// bind the global position picker programmatically since its a custom view, register for notification so we can handle updating manually
 	[globalPositionPicker bind:@"selectedPosition" 
                      toObject:self.preferencesController 
@@ -73,6 +98,7 @@
     [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
     [additionalDownloadsButtonTitle release];
     [startGrowlAtLoginLabel release];
+    [useAppleNotificationCenterLabel release];
     [closeAllNotificationsTitle release];
     [defaultStartingPositionLabel release];
     [iconMenuOptionsList release];
@@ -82,6 +108,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
    if(object == startAtLoginSwitch && [keyPath isEqualToString:@"state"])
       [self startGrowlAtLogin:nil];
+   if (object == useAppleNotificationCenterSwitch && [keyPath isEqualToString:@"state"])
+      [self useAppleNotificationCenter:nil];
 }
 
 - (void) updatePosition:(NSNotification *)notification {
@@ -109,6 +137,11 @@
    }else{
       [self.preferencesController setShouldStartGrowlAtLogin:NO];
    }
+}
+
+-(IBAction)useAppleNotificationCenter:(id)sender
+{
+   [self.preferencesController setUseAppleNotifications:[useAppleNotificationCenterSwitch state]];
 }
 
 -(IBAction)launchAdditionalDownloads:(id)sender{

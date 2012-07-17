@@ -135,7 +135,7 @@
 - (NanoPosition)position {
 	NanoPosition value = Nano_POSITION_DEFAULT;
 	if([self.configuration valueForKey:Nano_POSITION_PREF]){
-		value = [[self.configuration valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+		value = (int)[[self.configuration valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
 	}
 	return value;
 }

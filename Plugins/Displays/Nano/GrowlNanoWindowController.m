@@ -146,7 +146,7 @@
 -(CGPoint)idealOriginInRect:(CGRect)rect {
 	NanoPosition position = Nano_POSITION_DEFAULT;
 	if([[self configurationDict] valueForKey:Nano_POSITION_PREF]){
-		position = [[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+		position = (unsigned int)[[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
 	}
 
 	CGFloat xPosition;
@@ -172,9 +172,9 @@
 -(NSString*)displayQueueKey {
 	NanoPosition position = Nano_POSITION_DEFAULT;
 	if([[self configurationDict] valueForKey:Nano_POSITION_PREF]){
-		position = [[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
+		position = (unsigned int)[[[self configurationDict] valueForKey:Nano_POSITION_PREF] unsignedIntegerValue];
 	}
-	return [NSString stringWithFormat:@"nano-%@-%lu", [[self screen] screenIDString], position];
+	return [NSString stringWithFormat:@"nano-%@-%u", [[self screen] screenIDString], position];
 }
 
 @end

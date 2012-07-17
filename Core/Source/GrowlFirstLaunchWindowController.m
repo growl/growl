@@ -134,7 +134,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 -(void)showCurrent
 {
-   self.progressLabel = [NSString stringWithFormat:@"%d/%d", current + 1, [launchViews count]];
+   self.progressLabel = [NSString stringWithFormat:@"%lu/%lu", current + 1, [launchViews count]];
    [progressIndicator setDoubleValue:(double)(current + 1)];
    if(current == [launchViews count] - 1){
       self.continueButtonTitle = NSLocalizedString(@"Done", @"Continue button title when done");

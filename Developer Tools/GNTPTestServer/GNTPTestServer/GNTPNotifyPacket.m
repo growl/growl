@@ -96,6 +96,13 @@
 		}else {
 			converted = @"False";
 		}
+   }else if ([gntpKey caseInsensitiveCompare:GrowlGNTPXNotificationAlreadyShown] == NSOrderedSame) {
+		if([obj boolValue])
+		{
+			converted = @"True";
+		}else {
+			converted = @"False";
+		}
 	}else if([gntpKey caseInsensitiveCompare:GrowlGNTPNotificationPriority] == NSOrderedSame){
 		converted = [NSString stringWithFormat:@"%ld", [obj integerValue]];
 	} 

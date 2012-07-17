@@ -5166,6 +5166,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Localization;
@@ -5820,6 +5821,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -5851,6 +5853,7 @@
 				"OTHER_CFLAGS[arch=x86_64]" = "-fvisibility=default";
 				PRODUCT_NAME = Growl;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;

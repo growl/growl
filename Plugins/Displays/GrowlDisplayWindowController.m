@@ -51,10 +51,10 @@ static NSMutableDictionary *existingInstances;
 	if (!existingInstances)
 		existingInstances = [[NSMutableDictionary alloc] init];
 
-	NSDictionary *classInstances = [existingInstances objectForKey:self];
+	NSDictionary *classInstances = [existingInstances objectForKey:NSStringFromClass(self)];
 	if (!classInstances) {
 		classInstances = [[NSMutableDictionary alloc] init];
-		[existingInstances setObject:classInstances forKey:self];
+		[existingInstances setObject:classInstances forKey:NSStringFromClass(self)];
 		[classInstances release];
 	}
 	[classInstances setValue:instance forKey:ident];
@@ -322,8 +322,9 @@ static NSMutableDictionary *existingInstances;
 - (BOOL) addTransition:(GrowlWindowTransition *)transition {
 	[transition setWindow:[self window]];
 	[transition setDelegate:self];
-	if (![windowTransitions objectForKey:[transition class]]) {
-		[windowTransitions setObject:transition forKey:[transition class]];
+   NSString *classString = NSStringFromClass([transition class]);
+	if (![windowTransitions objectForKey:classString]) {
+		[windowTransitions setObject:transition forKey:classString];
 		return TRUE;
 	}
 	return FALSE;

@@ -62,6 +62,8 @@
 	<true/>
 	<key>ShouldStartGrowlAtLogin</key>
 	<false/>
+	<key>ShouldUseAppleNotifications</key>
+	<false/>
 	<key>IdleByTime</key>
 	<true/>
 	<key>IdleByScreensaver</key>

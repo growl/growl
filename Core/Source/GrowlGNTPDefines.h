@@ -239,7 +239,7 @@ extern NSString *GrowlGNTPNotificationCallbackContext;
 
 /* @brief Notification-Callback-Context-Type: <string>
  * @discussion The type of data being passed in Notification-Callback-Context (will be passed back in the callback unmodified). This does not need to be of any pre-defined type, it is only a convenience to the sending application.
- * @optional unless Notification-Callbak-Context is defined
+ * @optional unless Notification-Callback-Context is defined
  */
 extern NSString *GrowlGNTPNotificationCallbackContextType;
 
@@ -248,6 +248,15 @@ extern NSString *GrowlGNTPNotificationCallbackContextType;
  * @optional
  */
 extern NSString *GrowlGNTPNotificationCallbackTarget;
+
+/* @brief X-Notification-Already-Shown: <string>
+ * @discussion An optional extended field to describe whether a notification has already been shown.
+ *   This is used, for instance, in cases where you wish display to be handled local to the application,
+ *   but still want to be able to run Growl automation actions on the notification.  Currently only used
+ *   by Notification Center support on Mac OS X, to avoid doubled notifications.
+ * @optional
+ */
+extern NSString *GrowlGNTPXNotificationAlreadyShown;
 
 #pragma mark Subscribe Headers
 //Subscribe

@@ -16,13 +16,19 @@
 @property (nonatomic, assign) IBOutlet GrowlPositionPicker *globalPositionPicker;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *startAtLoginSwitch;
 @property (assign) IBOutlet SRRecorderControl *recorderControl;
+@property (nonatomic, assign) IBOutlet NSImageView *growlClawLogo;
+@property (nonatomic, assign) IBOutlet GrowlOnSwitch *useAppleNotificationCenterSwitch;
+@property (nonatomic, assign) IBOutlet NSTextField *useAppleNotificationCenterLabelField;
+@property (nonatomic, assign) IBOutlet NSButton *additionalDownloadsButton;
 
 @property (nonatomic, retain) NSString *closeAllNotificationsTitle;
 @property (nonatomic, retain) NSString *additionalDownloadsButtonTitle;
 @property (nonatomic, retain) NSString *startGrowlAtLoginLabel;
+@property (nonatomic, retain) NSString *useAppleNotificationCenterLabel;
 @property (nonatomic, retain) NSString *defaultStartingPositionLabel;
 @property (nonatomic, retain) NSArray *iconMenuOptionsList;
 
 -(IBAction)startGrowlAtLogin:(id)sender;
+-(IBAction)useAppleNotificationCenter:(id)sender;
 
 @end

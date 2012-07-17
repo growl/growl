@@ -99,7 +99,7 @@
 																		  object:preferencePane
 																			queue:[NSOperationQueue mainQueue]
 																	 usingBlock:^(NSNotification *note) {
-																		 SpeechHotKey hotKey = [[[note userInfo] valueForKey:@"hotKeyType"] integerValue];
+																		 SpeechHotKey hotKey = (int)[[[note userInfo] valueForKey:@"hotKeyType"] integerValue];
 																		 [blockSelf updateKeyCombo:hotKey];
 																	 }];
 	}

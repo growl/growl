@@ -339,7 +339,7 @@
 							[self dumpSocket:sock
 									actionType:[packet action]
 								withErrorCode:GrowlGNTPUserDisabledErrorCode
-							errorDescription:[NSString stringWithFormat:@"Note %@ was disabled by the user", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
+							errorDescription:[NSString stringWithFormat:@"Note %@ in %@ was disabled by the user", [growlDict objectForKey:GROWL_NOTIFICATION_NAME], 
 													[growlDict objectForKey:GROWL_APP_NAME]]];
 							responseData = nil;
 							break;

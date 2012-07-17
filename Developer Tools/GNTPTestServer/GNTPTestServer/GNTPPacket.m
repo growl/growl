@@ -291,6 +291,7 @@
 								GROWL_NOTIFICATION_NAME, GrowlGNTPNotificationName,
 								GROWL_NOTIFICATION_TITLE, GrowlGNTPNotificationTitle,
 								GROWL_NOTIFICATION_DESCRIPTION, GrowlGNTPNotificationText,
+                        GROWL_NOTIFICATION_ALREADY_SHOWN, GrowlGNTPXNotificationAlreadyShown,
 								GROWL_NOTIFICATION_STICKY, GrowlGNTPNotificationSticky,
 								GROWL_NOTIFICATION_PRIORITY, GrowlGNTPNotificationPriority,
 								GROWL_NOTIFICATION_CALLBACK_URL_TARGET, GrowlGNTPNotificationCallbackTarget,
@@ -311,13 +312,13 @@
 }
 +(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey {
 	id convertedObj = obj;
-	if([growlKey isEqualToString:GROWL_NOTIFICATION_STICKY]){
+	if([growlKey isEqualToString:GROWL_NOTIFICATION_STICKY] || [growlKey isEqualToString:GROWL_NOTIFICATION_ALREADY_SHOWN]){
 		if([obj caseInsensitiveCompare:@"Yes"] == NSOrderedSame || 
 			[obj caseInsensitiveCompare:@"True"] == NSOrderedSame)
 		{
 			convertedObj = [NSNumber numberWithBool:YES];
 		}else {
-			convertedObj = [NSNumber numberWithBool:YES];
+			convertedObj = [NSNumber numberWithBool:NO];
 		}
 	}else if([growlKey isEqualToString:GROWL_NOTIFICATION_PRIORITY]){
 		convertedObj = [NSNumber numberWithInteger:[obj integerValue]];
@@ -347,6 +348,7 @@
 								GrowlGNTPNotificationName, GROWL_NOTIFICATION_NAME,
 								GrowlGNTPNotificationTitle, GROWL_NOTIFICATION_TITLE,
 								GrowlGNTPNotificationText, GROWL_NOTIFICATION_DESCRIPTION,
+                        GrowlGNTPXNotificationAlreadyShown, GROWL_NOTIFICATION_ALREADY_SHOWN,
 								GrowlGNTPNotificationSticky, GROWL_NOTIFICATION_STICKY,
 								GrowlGNTPNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 								GrowlGNTPNotificationCallbackTarget, GROWL_NOTIFICATION_CALLBACK_URL_TARGET,

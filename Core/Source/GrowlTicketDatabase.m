@@ -183,7 +183,7 @@
 				if([[config pluginType] caseInsensitiveCompare:@"GrowlDisplay"] == NSOrderedSame &&
 					!firstDisplayUUID)
 				{
-					firstDisplayUUID = firstDisplayUUID;
+					firstDisplayUUID = [config configID];
 				}
 				if([[config pluginType] caseInsensitiveCompare:@"GrowlDisplay"] == NSOrderedSame&& 
 					[[config displayName] caseInsensitiveCompare:defaultStyleName] == NSOrderedSame){

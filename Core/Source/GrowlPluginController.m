@@ -734,7 +734,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 					NSUInteger count = [pluginHumanReadableNames countForObject:humanReadableName];
 					[pluginHumanReadableNames addObject:humanReadableName];
 					if (count > 1U)
-						humanReadableName = [NSString stringWithFormat:@"%@ %u", humanReadableName, count];
+						humanReadableName = [NSString stringWithFormat:@"%@ %lu", humanReadableName, count];
 				}
 			}
 		}
