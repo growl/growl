@@ -209,7 +209,7 @@
    self.timeToLive = [packet ttl];
    self.validTime = [self.initialTime dateByAddingTimeInterval:self.timeToLive];
    self.lastKnownAddress = [packet connectedAddress];
-   self.subscriberPort = [[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue];
+   self.subscriberPort = [[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] ? [[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue] : GROWL_TCP_PORT;
    self.active = YES;
    [self save];
 }
