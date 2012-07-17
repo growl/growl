@@ -206,7 +206,7 @@
       return;
    
    self.initialTime = [NSDate date];
-   self.timeToLive = [[[packet gntpDictionary] objectForKey:GrowlGNTPResponseSubscriptionTTL] integerValue];
+   self.timeToLive = [packet ttl];
    self.validTime = [self.initialTime dateByAddingTimeInterval:self.timeToLive];
    self.lastKnownAddress = [packet connectedAddress];
    self.subscriberPort = [[[packet gntpDictionary] objectForKey:GrowlGNTPSubscriberPort] integerValue];
@@ -223,15 +223,7 @@
    if(!wasError){
       self.addressString = [GCDAsyncSocket hostFromAddress:[packet addressData]];
       self.initialTime = [NSDate date];
-      __block NSInteger time = 0;
-      [dict enumerateKeysAndObjectsUsingBlock:^(id dictKey, id obj, BOOL *stop) {
-         if([dictKey caseInsensitiveCompare:GrowlGNTPResponseSubscriptionTTL] == NSOrderedSame){
-            time = [obj integerValue];
-            *stop = YES;
-         }
-      }];
-      if(time == 0)
-         time = 100;
+		NSInteger time = [dict objectForKey:GrowlGNTPResponseSubscriptionTTL] ? [[dict objectForKey:GrowlGNTPResponseSubscriptionTTL] integerValue] : 100;
       self.timeToLive = time;
       self.validTime = [self.initialTime dateByAddingTimeInterval:self.timeToLive];
       self.subscriptionError = NO;
