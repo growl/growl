@@ -16,7 +16,7 @@
 }
 
 -(NSData*)outgoingData {
-	return [GNTPSubscribePacket gntpDataFromGrowlDictionary:self.dictionary ofType:@"NOTIFY" withKey:self.key];
+	return [GNTPSubscribePacket gntpDataFromGrowlDictionary:self.dictionary ofType:@"SUBSCRIBE" withKey:self.key];
 }
 
 @end
