@@ -235,18 +235,20 @@
       if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
          return;
       
-		NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
 		NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
-		[sendingDetails setObject:coercedAddress forKey:@"GNTPAddressData"];
-		if([preferences remotePassword])
-			[sendingDetails setObject:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]] forKey:@"GNTPPassword"];
-		[attempt setSendingDetails:sendingDetails];
-		[attempt setDelegate:self];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			//send note
-			[[blockSubscriber attemptArray] addObject:attempt];
-			[attempt begin];
-		});
+		if(coercedAddress){
+			NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
+			[sendingDetails setObject:coercedAddress forKey:@"GNTPAddressData"];
+			if([preferences remotePassword])
+				[sendingDetails setObject:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]] forKey:@"GNTPPassword"];
+			[attempt setSendingDetails:sendingDetails];
+			[attempt setDelegate:self];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				//send note
+				[[blockSubscriber attemptArray] addObject:attempt];
+				[attempt begin];
+			});
+		}
 	}];
 }
 
