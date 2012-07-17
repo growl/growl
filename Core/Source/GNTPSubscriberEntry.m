@@ -220,7 +220,7 @@
 
 	NSDictionary *dict = [packet callbackHeaderItems];
    self.attemptingToSubscribe = NO;
-   if(wasError){
+   if(!wasError){
       self.addressString = [GCDAsyncSocket hostFromAddress:[packet addressData]];
       self.initialTime = [NSDate date];
       __block NSInteger time = 0;
