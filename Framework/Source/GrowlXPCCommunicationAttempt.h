@@ -10,13 +10,18 @@
 #import <xpc/xpc.h>
 
 @interface GrowlXPCCommunicationAttempt : GrowlCommunicationAttempt {
-    @private
-    
-    xpc_connection_t                    xpcConnection;
-    
-    NSString *                          notificationUuid;
-    
+@private
+	
+	xpc_connection_t                    xpcConnection;
+	
+	NSString *                          notificationUuid;
+	
+	NSDictionary *sendingDetails;
+	NSDictionary *responseDict;
 }
+
+@property (nonatomic, retain) NSDictionary *sendingDetails;
+@property (nonatomic, retain) NSDictionary *responseDict;
 
 + (BOOL)canCreateConnection;
 - (NSString *)purpose;

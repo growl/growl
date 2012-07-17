@@ -25,14 +25,15 @@
 	NSDictionary *cachedDictionaryRepresentation;
 }
 
-+ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict;
-- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict;
++ (GrowlNotification *) notificationWithDictionary:(NSDictionary *)dict configurationDict:(NSDictionary*)config;
+- (GrowlNotification *) initWithDictionary:(NSDictionary *)dict configurationDict:(NSDictionary*)config;
 
 //You can pass nil for description.
 - (GrowlNotification *) initWithName:(NSString *)newName
-                                applicationName:(NSString *)newAppName
-                                          title:(NSString *)newTitle
-                                    description:(NSString *)newDesc;
+							applicationName:(NSString *)newAppName
+										 title:(NSString *)newTitle
+								 description:(NSString *)newDesc
+						configureationDict:(NSDictionary*)config;
 
 #pragma mark -
 
@@ -75,5 +76,6 @@
 @property(nonatomic, assign) NSInteger priority;
 
 @property(nonatomic, copy) NSDictionary *auxiliaryDictionary;
+@property(nonatomic, retain) NSDictionary *configurationDict;
 
 @end

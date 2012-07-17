@@ -23,9 +23,9 @@
 #import "GrowlHistoryViewController.h"
 #import "GrowlRollupPrefsViewController.h"
 
-@interface GrowlPreferencePane (PRIVATE)
+@interface GrowlPreferencePane ()
 
-- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault;
+@property (nonatomic, assign) ProcessSerialNumber previousPSN;
 
 @end
 
@@ -42,6 +42,8 @@
 @synthesize rollupItem;
 @synthesize historyItem;
 @synthesize aboutItem;
+
+@synthesize previousPSN;
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -81,16 +83,8 @@
 - (void)showWindow:(id)sender
 {   
    [toolbar setVisible:YES];
-    //if we're visible but not on the active space then go ahead and close the window
-    if ([self.window isVisible] && ![self.window isOnActiveSpace])
-        [self.window orderOut:self];
-        
-    //we change the collection behavior so that the window is brought over to the active space
-    //instead of restoring its position on its previous home. If we don't perform a collection
-    //behavior reset the window will cause us to space jump.
-    [self.window setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces];
-    [super showWindow:sender];
-    [self.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+	
+	[super showWindow:sender];
    
    if(!firstOpen){
       if([currentViewController respondsToSelector:@selector(viewWillLoad)])
@@ -99,6 +93,23 @@
          [currentViewController viewDidLoad];
    }
    firstOpen = NO;
+	
+	ProcessSerialNumber psn = { 0, kCurrentProcess };
+	TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+	NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
+	[nc addObserverForName:NSWorkspaceDidActivateApplicationNotification
+						 object:nil
+						  queue:[NSOperationQueue mainQueue]
+					usingBlock:^(NSNotification *note) {
+						ProcessSerialNumber newFrontPSN;
+						GetFrontProcess(&newFrontPSN);
+						ProcessSerialNumber growlPsn = { 0, kCurrentProcess };
+						Boolean result;
+						SameProcess(&newFrontPSN, &growlPsn, &result);
+						if(!result){
+							GetFrontProcess(&previousPSN);
+						}
+					}];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -109,6 +120,14 @@
    //This should be seperate when the window has actually closed, but eh
    if([currentViewController respondsToSelector:@selector(viewDidUnload)])
       [currentViewController viewDidUnload];
+	
+	if([preferencesController menuState] == GrowlNoMenu || [preferencesController menuState] == GrowlStatusMenu){
+		dispatch_async(dispatch_get_main_queue(), ^{
+			ProcessSerialNumber psn = { 0, kCurrentProcess };
+			TransformProcessType(&psn, kProcessTransformToUIElementApplication);
+			SetFrontProcess(&previousPSN);
+		});
+	}
 }
 
 #pragma mark -
@@ -125,13 +144,11 @@
  * @brief Called when a GrowlPreferencesChanged notification is received.
  */
 - (void) reloadPreferences:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   id object = [notification object];
-   if(!object || [object isEqualToString:GrowlSelectedPrefPane])
-      [self setSelectedTab:[preferencesController selectedPreferenceTab]];
-	
-	[pool release];
+	@autoreleasepool{
+        id object = [notification object];
+        if(!object || [object isEqualToString:GrowlSelectedPrefPane])
+            [self setSelectedTab:[preferencesController selectedPreferenceTab]];
+	}
 }
 
 #pragma mark -
@@ -265,48 +282,5 @@
    }
    [prefViewControllers removeObjectForKey:[[tab class] nibName]];
 }
-
-#pragma mark Display pop-up menus
-
-//Empties the pop-up menu and fills it out with a menu item for each display, optionally including a special menu item for the default display, selecting the menu item whose name is nameOfSelectedDisplay.
-- (void) populateDisplaysPopUpButton:(NSPopUpButton *)popUp nameOfSelectedDisplay:(NSString *)nameOfSelectedDisplay includeDefaultMenuItem:(BOOL)includeDefault {
-	NSMenu *menu = [popUp menu];
-	NSString *nameOfDisplay = nil, *displayNameOfDisplay;
-
-	NSMenuItem *selectedItem = nil;
-
-	[popUp removeAllItems];
-
-	if (includeDefault) {
-		displayNameOfDisplay = NSLocalizedStringFromTableInBundle(@"Default", nil, [NSBundle bundleForClass:[self class]], /*comment*/ @"Title of menu item for default display");
-		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
-										   action:NULL
-									keyEquivalent:@""];
-		[item setRepresentedObject:nil];
-
-		if (!nameOfSelectedDisplay)
-			selectedItem = item;
-
-		[menu addItem:[NSMenuItem separatorItem]];
-	}
-
-   NSArray *plugins = [[[GrowlPluginController sharedController] displayPlugins] valueForKey:GrowlPluginInfoKeyName];
-	for (nameOfDisplay in [plugins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]) {
-		displayNameOfDisplay = [[pluginController pluginDictionaryWithName:nameOfDisplay] pluginHumanReadableName];
-		if (!displayNameOfDisplay)
-			displayNameOfDisplay = nameOfDisplay;
-
-		NSMenuItem *item = [menu addItemWithTitle:displayNameOfDisplay
-										   action:NULL
-									keyEquivalent:@""];
-		[item setRepresentedObject:nameOfDisplay];
-
-		if (nameOfSelectedDisplay && [nameOfSelectedDisplay respondsToSelector:@selector(isEqualToString:)] && [nameOfSelectedDisplay isEqualToString:nameOfDisplay])
-			selectedItem = item;
-	}
-
-	[popUp selectItem:selectedItem];
-}
-
 
 @end

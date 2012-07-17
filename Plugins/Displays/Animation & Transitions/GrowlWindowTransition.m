@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlWindowTransition.h"
+#import <GrowlPlugins/GrowlWindowtransition.h>
 
 @implementation GrowlWindowTransition
 
@@ -79,10 +79,7 @@
 }
 
 - (void) dealloc {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[window release];
-	[pool release];
-
 	[super dealloc];
 }
 
@@ -104,8 +101,9 @@
 		 * so we don't falsely appear to be reversed if we're supposed to autoreverse.
 		 */
 		[self performSelector:@selector(animationDidEnd)
-				   withObject:nil
-				   afterDelay:0];
+					  withObject:nil
+					  afterDelay:0
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	}
 }
 

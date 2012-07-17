@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlPlugin.h"
+#import <GrowlPlugins/GrowlPlugin.h>
 
-@class GrowlNotification, GrowlNotificationDisplayBridge;
+@class GrowlNotification;
 @class GrowlDisplayWindowController;
 
 //Info.plist keys for plug-in bundles.
@@ -20,27 +20,12 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
  * @class GrowlDisplayPlugin
  * @abstract Base class for all display plugins.
  */
-@interface GrowlDisplayPlugin : GrowlPlugin {
+@interface GrowlDisplayPlugin : GrowlPlugin <GrowlDispatchNotificationProtocol> {
 	Class          windowControllerClass;
 	
 	//for all displays
-	NSMutableDictionary *coalescableBridges;
-	
-	//for non-queueing displays
-	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
-
-	//for queueing displays
-	GrowlNotificationDisplayBridge *bridge;
-	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
+	NSMutableDictionary *coalescableWindows;
 }
-
-/*!	@method	displayNotification:
- *	@abstract	Display a notification to the user.
- *	@param	notification	The notification to display.
- *  @discussion Unless you have a specific reason to override this method you should not do so.
- *  All the magic should happen in the window controller's <code>setNotification:</code>
- */
-- (void) displayNotification:(GrowlNotification *)notification;
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in
@@ -62,6 +47,6 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
 /* */
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc;
 
-- (BOOL) queuesNotifications;
+- (BOOL) requiresPositioning;
 
 @end

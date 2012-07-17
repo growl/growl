@@ -6,7 +6,7 @@
 //  Copyright 2005-2006 Ofri Wolfus. All rights reserved.
 //
 
-#import "GrowlSlidingWindowTransition.h"
+#import <GrowlPlugins/GrowlSlidingWindowTransition.h>
 
 @implementation GrowlSlidingWindowTransition
 

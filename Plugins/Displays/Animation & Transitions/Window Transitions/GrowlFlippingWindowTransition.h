@@ -6,7 +6,7 @@
 //  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlWindowTransition.h"
+#import <GrowlPlugins/GrowlWindowtransition.h>
 
 @interface GrowlFlippingWindowTransition : GrowlWindowTransition {
 	BOOL    flipsX;

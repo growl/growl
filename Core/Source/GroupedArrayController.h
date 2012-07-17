@@ -11,7 +11,7 @@
 @class GrowlNotificationDatabase, GroupedArrayController;
 
 @protocol GroupedArrayControllerDelegate <NSObject>
-
+@optional
 -(void)groupedControllerUpdatedTotalCount:(GroupedArrayController*)groupedController;
 -(void)groupedControllerBeginUpdates:(GroupedArrayController*)groupedController;
 -(void)groupedControllerEndUpdates:(GroupedArrayController*)groupedController;
@@ -29,8 +29,9 @@
     managedObjectContext:(NSManagedObjectContext*)aContext;
 
 @property (nonatomic, assign) id<GroupedArrayControllerDelegate> delegate;
-@property (nonatomic) BOOL grouped;
-@property (nonatomic, retain) NSManagedObjectContext *context;
+@property (nonatomic, assign) NSManagedObjectContext *context;
+@property (nonatomic, assign) NSTableView *tableView; 
+@property (nonatomic, retain) NSPredicate *filterPredicate; 
 @property (nonatomic, retain) NSString *entityName;
 @property (nonatomic, retain) NSString *basePredicateString;
 @property (nonatomic, retain) NSString *groupKey;
@@ -38,6 +39,12 @@
 @property (nonatomic, retain) NSMutableDictionary *groupControllers;
 @property (nonatomic, retain) NSArrayController *countController;
 @property (nonatomic, retain) NSArray *arrangedObjects;
+@property (nonatomic, copy) NSComparator groupCompareBlock;
+@property (nonatomic, retain) id selection;
+@property (nonatomic) BOOL grouped;
+@property (nonatomic) BOOL doNotShowSingleGroupHeader;
+@property (nonatomic) BOOL showEmptyGroups;
+@property (nonatomic) BOOL transitionGroup;
 
 -(NSArray*)arrangedObjects;
 -(void)toggleGrouped;
@@ -45,5 +52,17 @@
 -(NSArray*)updatedArray;
 -(void)updateArray;
 -(void)updateArrayGroups;
+
+-(NSUInteger)indexOfFirstNonGroupItem;
+-(id)selection;
+-(NSArray*)selectedObjects;
+
+-(void)updatedTotalCount;
+-(void)beginUpdates;
+-(void)endUpdates;
+-(void)insertIndexes:(NSIndexSet*)indexSet;
+-(void)removeIndexes:(NSIndexSet*)indexSet;
+-(void)moveIndex:(NSUInteger)start toIndex:(NSUInteger)end;
+
 
 @end

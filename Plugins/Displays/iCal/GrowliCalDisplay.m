@@ -9,11 +9,11 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotification.h>
 #import "GrowliCalDisplay.h"
+#import "GrowliCalDefines.h"
 #import "GrowliCalWindowController.h"
 #import "GrowliCalPrefsController.h"
-#import "GrowlNotification.h"
-#import "GrowlNotificationDisplayBridge.h"
 
 @implementation GrowliCalDisplay
 
@@ -22,6 +22,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowliCalWindowController");
+		self.prefDomain = GrowliCalPrefDomain;
 	}
 	return self;
 }
@@ -31,14 +32,10 @@
 	[super dealloc];
 }
 
-- (NSPreferencePane *) preferencePane {
+- (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowliCalPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.iCal"]];
 	return preferencePane;
-}
-
-- (BOOL)requiresPositioning {
-	return YES;
 }
 
 @end

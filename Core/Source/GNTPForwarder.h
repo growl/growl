@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GrowlCommunicationAttempt.h"
+
 @class GrowlPreferencesController;
 
-@interface GNTPForwarder : NSObject
+@interface GNTPForwarder : NSObject <GrowlCommunicationAttemptDelegate>
 
 @property (nonatomic, assign) GrowlPreferencesController *preferences;
 @property (nonatomic, retain) NSMutableArray *destinations;

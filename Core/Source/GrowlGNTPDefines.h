@@ -65,7 +65,7 @@ GrowlGNTPCallback_Clicked
  * An internal server error occurred while processing the request
  *
  */
-enum _GrowlGNTPErrorCode {
+enum {
 	GrowlGNTPReservedErrorCode = 100,
 	GrowlGNTPRequestTimedOutErrorCode = 200,
 	GrowlGNTPNetworkFailureErrorCode = 201,
@@ -78,7 +78,7 @@ enum _GrowlGNTPErrorCode {
 	GrowlGNTPUnknownNotificationErrorCode = 402,
     GrowlGNTPUserDisabledErrorCode = 404,
 	GrowlGNTPInternalServerErrorErrorCode = 500,
-};
+} _GrowlGNTPErrorCode;
 
 typedef NSInteger GrowlGNTPErrorCode;
 
@@ -93,13 +93,15 @@ extern NSString *GrowlGNTPAES;
 extern NSString *GrowlGNTPDES;
 extern NSString *GrowlGNTP3DES;
 
-typedef enum
+enum
 {
 	GNTPNone,
 	GNTPAES,
 	GNTPDES,
 	GNTP3DES
-} GrowlGNTPEncryptionAlgorithm;
+} _GrowlGNTPEncryptionAlgorithm;
+
+typedef NSInteger GrowlGNTPEncryptionAlgorithm;
 
 typedef enum
 {

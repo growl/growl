@@ -6,8 +6,8 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlPlugin.h"
-
+#import <GrowlPlugins/GrowlPlugin.h>
+#import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
 @implementation GrowlPlugin
 

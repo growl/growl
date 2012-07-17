@@ -6,10 +6,10 @@
 //  Copyright 2005–2011 The Growl Project. All rights reserved.
 //
 
+#import <GrowlPlugins/GrowlNotificationView.h>
 #import "GrowlWebKitWindowView.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlWebKitDefines.h"
-#import "GrowlNotificationView.h"
 
 @interface NSView (MouseOver)
 - (void) _updateMouseoverWithFakeEvent;
@@ -21,7 +21,10 @@
 		[self setUIDelegate:self];
 		closeButtonRect = NSZeroRect;
 		// we need a minor delay to allow the window frame to be properly set before testing
-		[self performSelector:@selector(testInitialMouseLocation) withObject:nil afterDelay:0.2];
+		[self performSelector:@selector(testInitialMouseLocation) 
+					  withObject:nil 
+					  afterDelay:0.2
+						  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
 	}
 	return self;
 }

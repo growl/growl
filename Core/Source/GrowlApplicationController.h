@@ -9,44 +9,27 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlDefinesInternal.h"
 #import "GrowlApplicationBridge.h"
-#import "GrowlAbstractSingletonObject.h"
 
-@class GrowlNotificationCenter, GrowlTicketController, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
+@class GrowlNotificationCenter, GrowlMenu, GrowlFirstLaunchWindowController, GrowlPreferencePane;
 
-typedef enum {
-	GrowlNotificationResultPosted,
-	GrowlNotificationResultNotRegistered,
-	GrowlNotificationResultDisabled
-} GrowlNotificationResult;
-
-@interface GrowlApplicationController : GrowlAbstractSingletonObject {
-	GrowlTicketController		*ticketController;
-
+@interface GrowlApplicationController : NSObject<NSApplicationDelegate> {
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;
-	GrowlNotificationCenter		*growlNotificationCenter;
-
-	GrowlDisplayPlugin			*defaultDisplayPlugin;
-
-	BOOL						growlIsEnabled;
-	BOOL						growlFinishedLaunching;
-	BOOL						quitAfterOpen;
-
-	NSDictionary				*versionInfo;
-	NSImage						*growlIcon;
-	NSData						*growlIconData;
+	GrowlNotificationCenter	*growlNotificationCenter;
 	
-	CFRunLoopTimerRef			updateTimer;
-	    
-    GrowlMenu                   *statusMenu;
-    
-    GrowlFirstLaunchWindowController *firstLaunchWindow;
-    
-    NSString                    *audioDeviceIdentifier;
-   NSString                     *urlOnLaunch;
+	BOOL							growlFinishedLaunching;
+	
+	NSDictionary				*versionInfo;
+	
+	GrowlMenu					*statusMenu;
+	
+	GrowlFirstLaunchWindowController *firstLaunchWindow;
+	
+   NSString						*urlOnLaunch;
    
-   GrowlPreferencePane *preferencesWindow;
+   GrowlPreferencePane		*preferencesWindow;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -72,11 +55,8 @@ typedef enum {
 #pragma mark Accessors
 
 //To be used by the GAB pathway if it can't register its connection (which means that there's already a GHA running).
-- (BOOL) quitAfterOpen;
-- (void) setQuitAfterOpen:(BOOL)flag;
 - (IBAction)quitWithWarning:(id)sender;
 
-@property (retain) NSString                    *audioDeviceIdentifier;
 @property (retain) GrowlMenu                   *statusMenu;
 
 @end

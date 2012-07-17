@@ -6,16 +6,13 @@
 //  Copyright 2005-2006 Peter Hosey. All rights reserved.
 //
 
-#import "GrowlAbstractSingletonObject.h"
 
 @class GrowlApplicationTicket;
 
-@interface GrowlTicketController: GrowlAbstractSingletonObject
+@interface GrowlTicketController: NSObject
 {
 	NSMutableDictionary *ticketsByApplicationName;
 }
-
-+ (id) sharedController;
 
 - (NSArray *) allSavedTickets;
 

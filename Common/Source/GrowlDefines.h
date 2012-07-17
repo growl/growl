@@ -99,6 +99,14 @@
 *  This key is optional.
 */
 #define GROWL_NOTIFICATIONS_DESCRIPTIONS		XSTR("NotificationDescriptions")
+/*! @defined GROWL_NOTIFICATIONS_ICONS
+ *  @abstract A dictionary of icons for each notification
+ *  @discussion This is an NSDictionary whose keys are GROWL_NOTIFICATION_NAME strings and whose objects are
+ *  icons for each notification, for GNTP spec
+ *
+ *  This key is optional.
+ */
+#define GROWL_NOTIFICATIONS_ICONS XSTR("NotificationIcons")
 
 /*!	@defined	GROWL_TICKET_VERSION
  *	@abstract	The version of your registration ticket.
@@ -337,5 +345,7 @@
 
 
 #define GROWL_POSITION_PREFERENCE_KEY			@"GrowlSelectedPosition"
+
+#define GROWL_PLUGIN_CONFIG_ID XSTR("GrowlPluginConfigurationID")
 
 #endif //ndef _GROWLDEFINES_H

@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
-#import "GrowlAbstractSingletonObject.h"
 
 @class GrowlPlugin, GrowlDisplayPlugin;
 
@@ -38,6 +37,16 @@
  *Currently, this protocol mainly exists for code self-documentation. But you
  *	should still use it, regardless of whether you find that important.
  */
+
+@optional 
+- (BOOL)loadPluginWithBundle:(NSBundle *)bundle;
+- (BOOL)loadPluginAtPath:(NSString *)path;
+- (BOOL)loadPluginAtURL:(NSURL *)URL;
+
+- (void)growlPluginControllerWillAddPluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerDidAddPluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerWillRemovePluginHandler:(NSNotification *)note;
+- (void)growlPluginControllerDidRemovePluginHandler:(NSNotification *)note;
 
 @end
 
@@ -127,7 +136,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 
 @end
 
-@interface GrowlPluginController : GrowlAbstractSingletonObject <GrowlPluginHandler> {
+@interface GrowlPluginController : NSObject <GrowlPluginHandler> {
 	//Keys: plug-in IDs; values: plug-in description dictionaries.
 	NSMutableDictionary       *pluginsByIdentifier;
 	//Keys: bundle IDs; values: plug-in description dictionaries.
@@ -152,7 +161,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	NSMutableArray *displayPlugins;
 	
 	//These string names are used for the user-visible list.
-	NSMutableArray *disabledPlugins;
+	NSMutableSet *disabledPlugins;
 
 	//Keys: file types (extensions and HFS types); values: NSArrays of GrowlPluginHandlers.
 	NSMutableDictionary        *pluginHandlers;
@@ -188,6 +197,8 @@ extern NSString *GrowlPluginInfoKeyInstance;        //Description dicts only
 	struct FSEventStreamContext pluginsDirectoryEventStreamContext;
 	FSEventStreamRef pluginsDirectoryEventStream;
 }
+
+@property (nonatomic, retain) NSMutableDictionary *pluginsByBundleIdentifier;
 
 + (GrowlPluginController *) sharedController;
 

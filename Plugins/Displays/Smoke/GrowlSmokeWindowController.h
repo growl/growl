@@ -6,7 +6,7 @@
 //  Copyright 2004–2011 The Growl Project. All rights reserved.
 //
 
-#import "GrowlDisplayWindowController.h"
+#import <GrowlPlugins/GrowlDisplayWindowController.h>
 
 @class GrowlNotification;
 

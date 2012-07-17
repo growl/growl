@@ -15,15 +15,14 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlProcessUtilities.h"
 #import "NSStringAdditions.h"
-#import "GrowlIdleStatusController.h"
 #import "GrowlNotificationDatabase.h"
-#import "GrowlNotificationDatabase+GHAAdditions.h"
 #import "GrowlApplicationController.h"
-#import "GrowlKeychainUtilities.h"
 #include "CFURLAdditions.h"
-#import "SGKeyCombo.h"
-#import "SGHotKey.h"
-#import "SGHotKeyCenter.h"
+#import <GrowlPlugins/SGKeyCombo.h>
+#import <GrowlPlugins/SGHotKey.h>
+#import <GrowlPlugins/SGHotKeyCenter.h>
+#import <GrowlPlugins/GrowlKeychainUtilities.h>
+#import <GrowlPlugins/GrowlIdleStatusObserver.h>
 #import <ShortcutRecorder/ShortcutRecorder.h>
 
 #import <ServiceManagement/ServiceManagement.h>
@@ -54,48 +53,58 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 @implementation GrowlPreferencesController
+@synthesize idleThreshold;
+@synthesize idleMultiplier;
+@synthesize useIdleByTime;
+@synthesize useIdleByScreensaver;
+@synthesize useIdleByScreenLock;
+@synthesize idleTimeExceptionApps;
+
 @synthesize rollupKeyCombo;
 @synthesize closeAllCombo;
 
 + (GrowlPreferencesController *) sharedController {
-	return [self sharedInstance];
+	static GrowlPreferencesController *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
 }
 
-- (id) initSingleton {
-	if ((self = [super initSingleton])) {
+- (id) init {
+	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-			selector:@selector(growlPreferencesChanged:)
-			name:GrowlPreferencesChanged
-			object:nil];
-		loginItems = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, /*options*/ NULL);
-        
-        //configure for rollup hotkey
-        [self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
-        
-        NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
-        NSNumber *modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboFlags];
-        if(code && modifiers)
-            self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
-
-        //configure for close all hotkey
-        [self addObserver:self forKeyPath:@"closeAllCombo" options:NSKeyValueObservingOptionNew context:&self];
-        
-        code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboCode];
-        modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboFlags];
-        if(code && modifiers)
-            self.closeAllCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
-
+															  selector:@selector(growlPreferencesChanged:)
+																	name:GrowlPreferencesChanged
+																 object:nil];
+		
+		//configure for rollup hotkey
+		[self addObserver:self forKeyPath:@"rollupKeyCombo" options:NSKeyValueObservingOptionNew context:&self];
+		
+		NSNumber *code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboCode];
+		NSNumber *modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlRollupKeyComboFlags];
+		if(code && modifiers)
+			self.rollupKeyCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+		
+		//configure for close all hotkey
+		[self addObserver:self forKeyPath:@"closeAllCombo" options:NSKeyValueObservingOptionNew context:&self];
+		
+		code = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboCode];
+		modifiers = [[NSUserDefaults standardUserDefaults] objectForKey:GrowlCloseAllKeyComboFlags];
+		if(code && modifiers)
+			self.closeAllCombo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+		
 	}
 	return self;
 }
 
-- (void) destroy {
+- (void) dealloc {
     [self removeObserver:self forKeyPath:@"rollupKeyCombo"];
     [self removeObserver:self forKeyPath:@"closeAllCombo"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	CFRelease(loginItems);
 
-	[super destroy];
+	[super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -151,7 +160,14 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 		[helperAppDefaults setPersistentDomain:inDefaults forName:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
 	}
 	[helperAppDefaults release];
-	SYNCHRONIZE_GROWL_PREFS();
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
+	self.idleThreshold = [self objectForKey:GrowlIdleThresholdKey];
+	self.idleMultiplier = [self integerForKey:GrowlIdleMultiplierKey];
+	self.useIdleByTime = [self boolForKey:GrowlIdleByTimeKey];
+	self.useIdleByScreensaver = [self boolForKey:GrowlIdleByScreensaverKey];
+	self.useIdleByScreenLock = [self boolForKey:GrowlIdleByScreenLockKey];
+	self.idleTimeExceptionApps = [self objectForKey:GrowlIdleTimeExceptionsKey];
 }
 
 - (id) objectForKey:(NSString *)key {
@@ -162,23 +178,12 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 }
 
 - (void) setObject:(id)object forKey:(NSString *)key {
-	CFPreferencesSetAppValue((CFStringRef)key,
-							 (CFPropertyListRef)object,
-							 (CFStringRef)GROWL_HELPERAPP_BUNDLE_IDENTIFIER);
-
-	SYNCHRONIZE_GROWL_PREFS();
+	[[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 
 	int pid = getpid();
-	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
-	CFStringRef pidKey = CFSTR("pid");
-	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&pidKey, (const void **)&pidValue, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFRelease(pidValue);
-	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 (CFStringRef)GrowlPreferencesChanged,
-										 /*object*/ key,
-										 /*userInfo*/ userInfo,
-										 /*deliverImmediately*/ false);
-	CFRelease(userInfo);
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pid] forKey:@"pid"];	
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key userInfo:userInfo];
 }
 
 - (BOOL) boolForKey:(NSString *)key {
@@ -216,55 +221,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setObject:[NSNumber numberWithUnsignedShort:theShort] forKey:key];
 }
 
-- (void) synchronize {
-	SYNCHRONIZE_GROWL_PREFS();
-}
-
 #pragma mark -
 #pragma mark Start-at-login control
-
-- (void) upgradeStartAtLogin {
-	Boolean    foundIt = false;
-   
-   LSSharedFileListItemRef existingItem = NULL;
-
-	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] bundlePath];
-	if(pathToGHA) {
-		//get the file url to GHA.
-		CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
-		
-		UInt32 seed = 0U;
-		NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItems, &seed)) autorelease];
-		for (id itemObject in currentLoginItems) {
-			LSSharedFileListItemRef item = (LSSharedFileListItemRef)itemObject;
-			
-			UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-			CFURLRef URL = NULL;
-			OSStatus err = LSSharedFileListItemResolve(item, resolutionFlags, &URL, /*outRef*/ NULL);
-			if (err == noErr) {
-				foundIt = CFEqual(URL, urlToGHA);
-				CFRelease(URL);
-				
-				if (foundIt){
-               existingItem = item;
-					break;
-            }
-			}
-		}
-		
-		CFRelease(urlToGHA);
-	}
-	else {
-		NSLog(@"Growl: your install is corrupt, you will need to reinstall\nyour Growl.app is:%@", pathToGHA);
-	}
-	
-	if(foundIt && existingItem != NULL) {
-      NSLog(@"Found current copy of Growl.app in this user's login items, removing it and replacing it with the new sandbox friendly method");
-      LSSharedFileListItemRemove(loginItems, existingItem);
-      [self setShouldStartGrowlAtLogin:YES];
-   }
-}
 
 - (BOOL) allowStartAtLogin{
     return [self boolForKey:GrowlAllowStartAtLogin];
@@ -281,10 +239,10 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag {
    NSURL *urlOfLoginItem = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"Contents/Library/LoginItems/GrowlLauncher.app"];
    if(!LSRegisterURL((__bridge CFURLRef)urlOfLoginItem, YES)){
-      NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
+      //NSLog(@"Failure registering %@ with Launch Services", [urlOfLoginItem description]);
    }
    if(!SMLoginItemSetEnabled(CFSTR("com.growl.GrowlLauncher"), flag)){
-      NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
+      //NSLog(@"Failure Setting GrowlLauncher to %@start at login", flag ? @"" : @"not ");
    }
    [self setBool:flag forKey:GrowlShouldStartAtLogin];
 }
@@ -336,17 +294,57 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 	[self setObject:name forKey:GrowlDisplayPluginKey];
 }
 
-- (NSNumber*) idleThreshold {
-#ifdef __LP64__
-	return [NSNumber numberWithInteger:[self integerForKey:GrowlStickyIdleThresholdKey]];
-#else
-	return [NSNumber numberWithInt:[self integerForKey:GrowlStickyIdleThresholdKey]];
-#endif
+- (NSArray *) defaultActionPluginIDArray {
+	return [self objectForKey:GrowlActionPluginsKey];
+}
+- (void) setDefaultActionPluginIDArray:(NSArray*)actions {
+	[self setObject:actions forKey:GrowlActionPluginsKey];
+}
+							  
+#pragma mark Idle Detection
+
+-(void)updateIdleThreshold {
+	NSTimeInterval threshold = [idleThreshold doubleValue];
+	threshold *= (NSTimeInterval)idleMultiplier;
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithDouble:threshold] forKey:@"idleThreshold"];
 }
 
 - (void) setIdleThreshold:(NSNumber*)value {
-	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
-   GrowlIdleStatusController_setThreshold([value intValue]);
+	if(idleThreshold)
+		[idleThreshold release];
+	idleThreshold = [value retain];
+	[self setObject:value forKey:GrowlIdleThresholdKey];
+	[self updateIdleThreshold];
+}
+
+- (void) setIdleMultiplier:(NSUInteger)value {
+	idleMultiplier = value;
+	[self setInteger:value forKey:GrowlIdleMultiplierKey];
+	[self updateIdleThreshold];
+}
+
+- (void) setUseIdleByTime:(BOOL)value	{
+	useIdleByTime = value;
+	[self setBool:value forKey:GrowlIdleByTimeKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useTime"];
+}
+- (void) setUseIdleByScreensaver:(BOOL)value {
+	useIdleByScreensaver = value;
+	[self setBool:value forKey:GrowlIdleByScreensaverKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useScreensaver"];
+}
+- (void) setUseIdleByScreenLock:(BOOL)value	{
+	useIdleByScreenLock = value;
+	[self setBool:value forKey:GrowlIdleByScreenLockKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:[NSNumber numberWithBool:value] forKey:@"useLock"];
+}
+
+- (void)setIdleTimeExceptionApps:(NSArray *)array {
+	if(idleTimeExceptionApps)
+		[idleTimeExceptionApps release];
+	idleTimeExceptionApps = [array retain];
+	[self setObject:array forKey:GrowlIdleTimeExceptionsKey];
+	[[GrowlIdleStatusObserver sharedObserver] setValue:array forKey:@"applicationExceptions"];
 }
 
 #pragma mark Logging
@@ -418,7 +416,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          return;
    }
    
-   [[GrowlApplicationController sharedInstance] updateMenu:state];
+   [[GrowlApplicationController sharedController] updateMenu:state];
    [self setInteger:state forKey:GrowlMenuState];
 }
 
@@ -427,7 +425,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    if([self menuState] != GrowlDockMenu && [self menuState] != GrowlBothMenus)
       return;
 
-   if(![self boolForKey:GrowlRelaunchWarnSuppress]){
+/*   if(![self boolForKey:GrowlRelaunchWarnSuppress]){
       NSAlert *alert = [[NSAlert alloc] init];
       [alert setMessageText:NSLocalizedString(@"Growl must restart for this change to take effect.",nil)];
       [alert setShowsSuppressionButton:YES];
@@ -436,7 +434,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
          [self setBool:YES forKey:GrowlRelaunchWarnSuppress];
       }
       [alert release];
-   }
+   }*/
 }
 
 - (BOOL) isBackgroundAllowed {
@@ -563,32 +561,30 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSString *object = [notification object];
-//	NSLog(@"%s: %@\n", __func__, object);
-	SYNCHRONIZE_GROWL_PREFS();
-	if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
-		[self willChangeValueForKey:@"defaultDisplayPluginName"];
-		[self didChangeValueForKey:@"defaultDisplayPluginName"];
+	@autoreleasepool {
+        NSString *object = [notification object];
+    //	NSLog(@"%s: %@\n", __func__, object);
+        if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
+            [self willChangeValueForKey:@"defaultDisplayPluginName"];
+            [self didChangeValueForKey:@"defaultDisplayPluginName"];
+        }
+        if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
+            [self willChangeValueForKey:@"growlMenuEnabled"];
+            [self didChangeValueForKey:@"growlMenuEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
+            [self willChangeValueForKey:@"forwardingEnabled"];
+            [self didChangeValueForKey:@"forwardingEnabled"];
+        }
+        if (!object || [object isEqualToString:GrowlIdleThresholdKey]) {
+            [self willChangeValueForKey:@"idleThreshold"];
+            [self didChangeValueForKey:@"idleThreshold"];
+        }
+        if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
+            [self willChangeValueForKey:@"selectedPreferenceTab"];
+            [self didChangeValueForKey:@"selectedPreferenceTab"];
+        }	
 	}
-	if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
-		[self willChangeValueForKey:@"growlMenuEnabled"];
-		[self didChangeValueForKey:@"growlMenuEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
-		[self willChangeValueForKey:@"forwardingEnabled"];
-		[self didChangeValueForKey:@"forwardingEnabled"];
-	}
-	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
-		[self willChangeValueForKey:@"idleThreshold"];
-		[self didChangeValueForKey:@"idleThreshold"];
-	}
-	if (!object || [object isEqualToString:GrowlSelectedPrefPane]) {
-		[self willChangeValueForKey:@"selectedPreferenceTab"];
-		[self didChangeValueForKey:@"selectedPreferenceTab"];
-	}	
-	[pool release];
 }
 
 @end

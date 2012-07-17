@@ -9,11 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface GrowlWebKitPluginHandler : GrowlAbstractSingletonObject <GrowlPluginHandler> {
+@interface GrowlWebKitPluginHandler : NSObject <GrowlPluginHandler> {
 
 }
++ (GrowlWebKitPluginHandler *)sharedInstance;
 
-- (id) initSingleton;
 - (BOOL) loadPluginAtPath:(NSString *)path;
 
 @end
