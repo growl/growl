@@ -462,9 +462,9 @@
 	
 	return growlDict;
 }
-+(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict {
++(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)growlDict {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-	[dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+	[growlDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		NSString *gntpKey = [self gntpKeyForGrowlDictKey:key];
 		if(gntpKey){
 			id convertedValue = [self convertedObjectFromGrowlObject:obj forGNTPKey:gntpKey];
@@ -529,7 +529,7 @@
 	else
 		[packetData appendData:headerData];
 	[packetData appendData:[GCDAsyncSocket CRLFData]];
-	//NSLog(@"%@\r\n%@", packetString, headers);
+	//NSLog(@"%@%@", packetString, headers);
 	
 	NSMutableDictionary *dataBlocks = [gntpDict objectForKey:@"GNTPDATABLOCKS"];
 	if(dataBlocks){

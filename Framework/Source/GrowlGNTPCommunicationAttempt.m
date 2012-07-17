@@ -274,7 +274,7 @@ enum {
 }
 
 - (BOOL)parseHeader:(NSString*)string {
-	NSLog(@"%@", string);
+	//NSLog(@"%@", string);
 	NSString *headerKey = [GNTPPacket headerKeyFromHeader:string];
 	NSString *headerValue = [GNTPPacket headerValueFromHeader:string];
 	if (headerKey && headerValue){
