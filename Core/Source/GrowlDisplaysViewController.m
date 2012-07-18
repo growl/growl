@@ -374,8 +374,17 @@
 }
 
 -(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)displayPlugin {
-	if(returnCode == NSAlertDefaultReturn && displayPlugin != nil && [(id)displayPlugin isKindOfClass:[GrowlTicketDatabasePlugin class]])
+	if(returnCode == NSAlertDefaultReturn && displayPlugin != nil && [(id)displayPlugin isKindOfClass:[GrowlTicketDatabasePlugin class]]){
+		if(pluginPrefPane && [pluginPrefPane respondsToSelector:@selector(setPluginConfiguration:)])
+			[pluginPrefPane setValue:nil forKey:@"pluginConfiguration"];		
+		
 		[[GrowlTicketDatabase sharedInstance] deletePluginConfiguration:(GrowlTicketDatabasePlugin*)displayPlugin];
+	}
+	//Not the prettiest, but it makes sure we avoid empty selection
+	NSUInteger firstNonGroupItem = [self.pluginConfigGroupController indexOfFirstNonGroupItem];
+	if(firstNonGroupItem != NSNotFound){
+		[self.displayPluginsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:firstNonGroupItem] byExtendingSelection:NO];
+	}
 }
 
 - (IBAction)deleteConfiguration:(id)sender {

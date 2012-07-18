@@ -246,7 +246,8 @@
 	
 	[[self.countController arrangedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSString *groupName = [obj valueForKeyPath:blockSafeSelf.groupKey];
-		[added addObject:groupName];
+		if(groupName)
+			[added addObject:groupName];
 	}];
 	
 	[removed minusSet:added];
