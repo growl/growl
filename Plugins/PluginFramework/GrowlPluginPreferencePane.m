@@ -16,36 +16,54 @@
 
 @implementation GrowlPluginPreferencePane
 
-@synthesize pluginConfiguration;
-@synthesize configuration;
+@synthesize pluginConfiguration = _pluginConfiguration;
+@synthesize configuration = _configuration;
 @synthesize configurationID = _configurationID;
 
 -(void)setPluginConfiguration:(NSManagedObject *)plugin {
-	if(self.pluginConfiguration) {
-		[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
-		[pluginConfiguration release];
-	}
-	[self willChangeValueForKey:@"pluginConfiguration"];
-	pluginConfiguration = [plugin retain];
-	[self didChangeValueForKey:@"pluginConfiguration"];
-	if([plugin valueForKey:@"configuration"])
-		self.configuration = [[[plugin valueForKey:@"configuration"] mutableCopy] autorelease];
-	else
+	if(!plugin){
+		if(self.pluginConfiguration){
+			//We really only do this pre deletion, so it shouldn't ne nesescary to save out the config, but eh
+			[_pluginConfiguration setValue:[[self.configuration copy] autorelease] forKey:@"configuration"];
+			[_pluginConfiguration release];
+			[self willChangeValueForKey:@"pluginConfiguration"];
+			_pluginConfiguration = nil;
+			[self didChangeValueForKey:@"pluginConfiguration"];
+		}
 		self.configuration = [NSMutableDictionary dictionary];
-	
-	if(_configurationID)
-		[_configurationID release];
-	_configurationID = [[plugin valueForKey:@"configID"] copy];
-	
+		
+		if(_configurationID)
+			[_configurationID release];
+		_configurationID = nil;
+	}else{
+		if(self.pluginConfiguration) {
+			[_pluginConfiguration setValue:[[self.configuration copy] autorelease] forKey:@"configuration"];
+			[_pluginConfiguration release];
+		}
+		[self willChangeValueForKey:@"pluginConfiguration"];
+		_pluginConfiguration = [plugin retain];
+		[self didChangeValueForKey:@"pluginConfiguration"];
+		if([plugin valueForKey:@"configuration"])
+			self.configuration = [[[plugin valueForKey:@"configuration"] mutableCopy] autorelease];
+		else
+			self.configuration = [NSMutableDictionary dictionary];
+		
+		if(_configurationID)
+			[_configurationID release];
+		_configurationID = [[plugin valueForKey:@"configID"] copy];
+		
+	}
 	[self updateConfigurationValues];
 }
 
 -(void)setConfigurationValue:(id)value forKey:(NSString*)key {
 	if(value)
-		[configuration setValue:value forKey:key];
+		[self.configuration setValue:value forKey:key];
 	else
-		[configuration removeObjectForKey:key];
-	[pluginConfiguration setValue:[[configuration copy] autorelease] forKey:@"configuration"];
+		[self.configuration removeObjectForKey:key];
+	
+	if(self.pluginConfiguration)
+		[self.pluginConfiguration setValue:[[self.configuration copy] autorelease] forKey:@"configuration"];
 }
 
 -(void)updateConfigurationValues {
