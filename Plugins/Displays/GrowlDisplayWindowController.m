@@ -334,7 +334,7 @@ static NSMutableDictionary *existingInstances;
 	[transition setDelegate:nil];
 	[transition setWindow:nil];
 	
-	[windowTransitions removeObjectForKey:[transition class]];
+	[windowTransitions removeObjectForKey:NSStringFromClass([transition class])];
 }
 
 - (void) setStartPercentage:(NSUInteger)start endPercentage:(NSUInteger)end forTransition:(GrowlWindowTransition *)transition {
@@ -418,7 +418,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (BOOL) startTransitionOfKind:(Class)transitionClass {
-	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
+	GrowlWindowTransition *transition = [windowTransitions objectForKey:NSStringFromClass(transitionClass)];
 	if (transition)
 		return [self startTransition:transition];
 	return NO;
@@ -441,7 +441,7 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) stopTransitionOfKind:(Class)transitionClass {
-	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
+	GrowlWindowTransition *transition = [windowTransitions objectForKey:NSStringFromClass(transitionClass)];
 	if (transition)
 		[self stopTransition:transition];
 }
