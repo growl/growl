@@ -26,6 +26,8 @@
 @property (nonatomic, retain) NSString *interfaceString;
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *socketsByGUID;
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *packetsByGUID;
+@property (nonatomic, retain) GrowlDispatchMutableDictionary *timeoutsByGUID;
+@property (nonatomic, assign) dispatch_source_t timeoutTimer;
 
 @end
 
@@ -36,7 +38,8 @@
 @synthesize interfaceString = _interfaceString;
 @synthesize socketsByGUID = _socketsByGUID;
 @synthesize packetsByGUID = _packetsByGUID;
-
+@synthesize timeoutsByGUID = _timeoutsByGUID;
+@synthesize timeoutTimer = _timeoutTimer;
 
 -(id)initWithInterface:(NSString *)interface {
 	if((self = [super init])){
@@ -44,11 +47,35 @@
 		dispatch_queue_t dispatchQueue = dispatch_queue_create([dispatchQueueID UTF8String], DISPATCH_QUEUE_CONCURRENT);
 		self.socketsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		self.packetsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
+		self.timeoutsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		//retained in the dictionaries
 		dispatch_release(dispatchQueue);
 		self.interfaceString = interface;
+		[self startTimeoutTimer];
 	}
 	return self;
+}
+
+-(void)startTimeoutTimer {
+	if(self.timeoutTimer == NULL){
+		self.timeoutTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+		
+		dispatch_source_set_event_handler(self.timeoutTimer, ^{ @autoreleasepool {
+			[self doTimeoutCheck];
+		}});
+		
+		dispatch_source_t theTimeoutTimer = self.timeoutTimer;
+		dispatch_source_set_cancel_handler(self.timeoutTimer, ^{
+			dispatch_release(theTimeoutTimer);
+			self.timeoutTimer = NULL;
+		});
+		
+#define CHECK_TIME_NSEC (15l * NSEC_PER_SEC)
+		dispatch_time_t tt = dispatch_time(DISPATCH_TIME_NOW, CHECK_TIME_NSEC);
+		
+		dispatch_source_set_timer(self.timeoutTimer, tt, CHECK_TIME_NSEC, 0);
+		dispatch_resume(self.timeoutTimer);
+	}
 }
 
 -(BOOL)startServer {
@@ -83,13 +110,37 @@
 	[self.socketsByGUID removeAllObjects];
 }
 
-- (void)dumpSocket:(GCDAsyncSocket*)sock fromDisconnect:(BOOL)isDisconnected
+- (void)doTimeoutCheck {
+	NSDictionary *timeoutDict = [self.timeoutsByGUID dictionaryCopy];
+	NSMutableSet *guidsToDump = [NSMutableSet set];
+	[timeoutDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if([obj isKindOfClass:[NSDate class]]){
+			NSDate *timeout = obj;
+			if([timeout compare:[NSDate date]] == NSOrderedAscending){
+				[guidsToDump addObject:key];
+			}
+		}
+	}];
+	[guidsToDump enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		NSLog(@"Dumping socket with GUID %@ due to timeout", obj);
+		[self dumpSocketByGUID:obj fromDisconnect:NO];
+	}];
+}
+
+- (void)dumpSocketByGUID:(NSString*)guid fromDisconnect:(BOOL)isDisconnected
 {
-	NSString *guid = [[sock userData] retain];
+	GCDAsyncSocket *sock = [self.socketsByGUID objectForKey:guid];
 	if(!isDisconnected)
 		[sock disconnect];
 	[self.socketsByGUID removeObjectForKey:guid];
 	[self.packetsByGUID removeObjectForKey:guid];
+	[self.timeoutsByGUID removeObjectForKey:guid];
+}
+
+- (void)dumpSocket:(GCDAsyncSocket*)sock fromDisconnect:(BOOL)isDisconnected
+{
+	NSString *guid = [[sock userData] retain];
+	[self dumpSocketByGUID:guid fromDisconnect:isDisconnected];
 	[guid release];
 }
 
@@ -159,6 +210,7 @@
 	NSData *responseData = nil;
 	NSUInteger readToLength = 0;
 	NSTimeInterval keepAliveFor = 5.0;
+	NSString *guid = [sock userData];
 	long readToTag = -1;
 	long writeToTag = 1;
 	if(tag == 0){
@@ -269,8 +321,8 @@
 					[packet setKey:key];
 					[packet setConnectedHost:[sock connectedHost]];
 					[packet setConnectedAddress:[sock connectedAddress]];
-					[packet setGuid:[sock userData]];
-					[self.packetsByGUID setObject:packet forKey:[sock userData]];
+					[packet setGuid:guid];
+					[self.packetsByGUID setObject:packet forKey:guid];
 					
 					//Get our next read to value/tag
 					readToData = [GNTPUtilities doubleCRLF];
@@ -287,7 +339,6 @@
 		}
 	}else if(tag == 2){
 		//Pass the data to the packet and get our next read data/tag/length
-		NSString *guid = [sock userData];
 		GNTPPacket *packet = [[self.packetsByGUID objectForKey:guid] retain];
 		//All our data in here is a double clrf trailed
 		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPUtilities doubleCRLF] length]];
@@ -367,7 +418,7 @@
 					});
 				}
 				//Whatever happened, we are done with it, let the server move on
-				[self.packetsByGUID removeObjectForKey:[packet guid]];
+				[self.packetsByGUID removeObjectForKey:guid];
 			}else{
 				//Send error
 				NSLog(@"Could not validate packet!");
@@ -407,6 +458,8 @@
 	if(responseData){
 		[sock writeData:responseData withTimeout:keepAliveFor tag:writeToTag];
 	}
+	
+	[self.timeoutsByGUID setObject:[NSDate dateWithTimeIntervalSinceNow:(keepAliveFor > 0.0) ? keepAliveFor : 5.0] forKey:guid];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {

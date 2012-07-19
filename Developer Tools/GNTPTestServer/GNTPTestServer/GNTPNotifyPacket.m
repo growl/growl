@@ -168,7 +168,7 @@
 	NSTimeInterval result = [super requestedTimeAlive];
 	//Crude
 	if(self.callbackString && ![self.gntpDictionary valueForKey:GrowlGNTPNotificationCallbackTarget])
-		result = (result < 10.0) ? 10.0 : result;
+		result = (result < 15.0) ? 15.0 : result;
 	return result;
 }
 

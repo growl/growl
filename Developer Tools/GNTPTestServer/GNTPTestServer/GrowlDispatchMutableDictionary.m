@@ -81,6 +81,14 @@
 	return [array autorelease];
 }
 
+-(NSDictionary*)dictionaryCopy {
+	__block NSDictionary *copy = nil;
+	dispatch_sync(self.dispatchQueue, ^{
+		copy = [self.dictionary copy];
+	});
+	return [copy autorelease];
+}
+
 -(void)removeObjectForKey:(id)aKey {
 	if(aKey){
 		dispatch_barrier_sync(self.dispatchQueue, ^{
