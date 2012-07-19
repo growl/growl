@@ -28,6 +28,7 @@
 	NSMutableDictionary *converted = [super gntpDictFromGrowlDict:dict];
 	NSArray *allNotes = [dict valueForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray *defaultNotes = [dict valueForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	BOOL useNumberDefaults = [defaultNotes count] > 0 ? [[defaultNotes objectAtIndex:0] isKindOfClass:[NSNumber class]] : NO; //If count is 0, doesn't really matter
 	NSDictionary *noteIcons = [dict valueForKey:GROWL_NOTIFICATIONS_ICONS];
 	NSDictionary *humanReadableNames = [dict valueForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	NSDictionary *descriptions = [dict valueForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
@@ -37,7 +38,8 @@
 		NSMutableDictionary *noteDict = [NSMutableDictionary dictionary];
 		[noteDict setObject:obj forKey:GrowlGNTPNotificationName];
 		
-		if([defaultNotes containsObject:obj]){
+		id defaultObj = useNumberDefaults ? [NSNumber numberWithUnsignedInteger:idx] : obj;
+		if([defaultNotes containsObject:defaultObj]){
 			[noteDict setObject:@"Yes" forKey:GrowlGNTPNotificationEnabled];
 		}else{
 			[noteDict setObject:@"No" forKey:GrowlGNTPNotificationEnabled];
