@@ -83,10 +83,11 @@
 	[self.socketsByGUID removeAllObjects];
 }
 
-- (void)dumpSocket:(GCDAsyncSocket*)sock
+- (void)dumpSocket:(GCDAsyncSocket*)sock fromDisconnect:(BOOL)isDisconnected
 {
 	NSString *guid = [[sock userData] retain];
-	[sock disconnect];
+	if(!isDisconnected)
+		[sock disconnect];
 	[self.socketsByGUID removeObjectForKey:guid];
 	[self.packetsByGUID removeObjectForKey:guid];
 	[guid release];
@@ -100,7 +101,7 @@
 	NSMutableString *errorString = [NSMutableString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@\r\n", code, description];
 	if(action)
 		[errorString appendFormat:@"Response-Action: %@\r\n", action];
-	[errorString appendString:@"\r\n"];
+	[errorString appendString:@"\r\n\r\n"];
 	//NSLog(@"Write: %@", errorString);
 	NSData *errorData = [NSData dataWithBytes:[errorString UTF8String] length:[errorString length]];
 	[sock writeData:errorData withTimeout:5.0 tag:-2];
@@ -129,7 +130,7 @@
 				 * Otherwise, just dump the socket
 				 */
 				if(!keepAlive)
-					[self dumpSocket:socket];
+					[self dumpSocket:socket fromDisconnect:NO];
 			}
 		}
 	}
@@ -159,6 +160,7 @@
 	NSUInteger readToLength = 0;
 	NSTimeInterval keepAliveFor = 5.0;
 	long readToTag = -1;
+	long writeToTag = 1;
 	if(tag == 0){
 		//Parse our first 4 bytes
 		NSString *initialString = [NSString stringWithUTF8String:[data bytes]];
@@ -317,9 +319,9 @@
 				responseData = [packet responseData];
 				keepAliveFor = [packet requestedTimeAlive];
 				if(keepAliveFor > 0.0)
-					readToTag = -1;
+					writeToTag = -1;
 				else
-					readToTag = -2;
+					writeToTag = -2;
 				
 				if([packet keepAlive]){
 					readToTag = 99;
@@ -386,10 +388,10 @@
 		
 	}else if(tag == 101){
 		//We've read in the rest of a websocket, parse and reply, and then setup a read of the first bit of the socket
-		[self dumpSocket:sock];
+		[self dumpSocket:sock fromDisconnect:NO];
 	}else{
 		//We shouldn't have an unknown read tag, dump the socket
-		[self dumpSocket:sock];
+		[self dumpSocket:sock fromDisconnect:NO];
 	}
 	
 	//If we know what we are reading to next, read
@@ -401,23 +403,20 @@
 		[sock readDataToLength:readToLength
 					  withTimeout:keepAliveFor
 								 tag:readToTag];
-	}else {
-		//The only question in here is if we have something to write out? eh...
-		if(responseData && readToTag < -1){
-			[sock writeData:responseData withTimeout:5 tag:readToTag];
-		}else if(readToTag == -1){
-			//We do nothing! Waiting to send feedback
-		}else{
-			//If we dont have anything to write, dump socket
-			[self dumpSocket:sock];
-		}
+	}
+	if(responseData){
+		[sock writeData:responseData withTimeout:keepAliveFor tag:writeToTag];
 	}
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
 	//Not sure if we need this
 	if(tag == -2){
-		[self dumpSocket:sock];
+		double delayInSeconds = 2.0;
+		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+			[self dumpSocket:sock fromDisconnect:NO];
+		});
 	}
 }
 
@@ -454,7 +453,7 @@
 						withError:(NSError *)err 
 {
 	//Clean up
-	[self dumpSocket:sock];
+	[self dumpSocket:sock fromDisconnect:YES];
 }
 
 @end

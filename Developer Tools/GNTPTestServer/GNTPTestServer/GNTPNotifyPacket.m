@@ -74,7 +74,7 @@
 		//If we can't get a context formed into a string, this isn't worth sending
 		[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
 		[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
-		[response appendString:@"\r\n"];
+		[response appendString:@"\r\n\r\n"];
 		//NSLog(@"%@", response);
 		feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
 	}

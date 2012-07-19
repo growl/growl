@@ -809,7 +809,7 @@
 	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n", self.action];
 }
 -(NSData*)responseData {
-	NSString *responseString = [[self responseString] stringByAppendingString:@"\r\n"];
+	NSString *responseString = [[self responseString] stringByAppendingString:@"\r\n\r\n"];
 	return [NSData dataWithBytes:[responseString UTF8String] length:[responseString length]];
 }
 -(NSTimeInterval)requestedTimeAlive {
