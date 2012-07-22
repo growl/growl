@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC19A16C15198D1900A0CA64 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC19A15115198CE300A0CA64 /* GrowlPlugins.framework */; };
+		BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
 		BCEA7EE21517CD4400E98B1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE11517CD4400E98B1F /* Cocoa.framework */; };
 		BCEA7EE41517CD4400E98B1F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE31517CD4400E98B1F /* AppKit.framework */; };
 		BCEA7EE61517CD4400E98B1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE51517CD4400E98B1F /* Foundation.framework */; };
@@ -134,6 +135,7 @@
 
 /* Begin PBXFileReference section */
 		BC19A13615198CE300A0CA64 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BC8058FC15BB742900E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCEA7EDE1517CD4400E98B1F /* Boxcar.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Boxcar.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEA7EE11517CD4400E98B1F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCEA7EE31517CD4400E98B1F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -234,6 +236,7 @@
 				BCEA7EE91517CD4400E98B1F /* Boxcar-Info.plist */,
 				BCEA7EEA1517CD4400E98B1F /* InfoPlist.strings */,
 				BCEA7EED1517CD4400E98B1F /* Boxcar-Prefix.pch */,
+				BC8058FB15BB742900E852B9 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			buildPhases = (
 				BCEA7EDA1517CD4400E98B1F /* Sources */,
 				BCEA7EDB1517CD4400E98B1F /* Frameworks */,
+				BC8058EA15BB6FAD00E852B9 /* Generate Localizable.strings */,
 				BCEA7EDC1517CD4400E98B1F /* Resources */,
 			);
 			buildRules = (
@@ -405,10 +409,31 @@
 			files = (
 				BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */,
 				BCEA7EF01517CD4400E98B1F /* BoxcarPrefPane.xib in Resources */,
+				BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC8058EA15BB6FAD00E852B9 /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Boxcar/*.h",
+				"$(SRCROOT)/Boxcar/*.m",
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+				"$(SRCROOT)/Boxcar/en.lproj/Localizable.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o ./Boxcar/en.lproj/ ./Boxcar/*.h ./Boxcar/*.m";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BCEA7EDA1517CD4400E98B1F /* Sources */ = {
@@ -431,6 +456,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BC8058FB15BB742900E852B9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC8058FC15BB742900E852B9 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BCEA7EEA1517CD4400E98B1F /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

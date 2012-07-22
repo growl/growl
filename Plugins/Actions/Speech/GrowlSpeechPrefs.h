@@ -23,8 +23,6 @@
 @property (nonatomic, assign) IBOutlet SRRecorderControl *skipShortcut;
 @property (nonatomic, assign) IBOutlet SRRecorderControl *clickShortcut;
 
-@property (nonatomic, retain) NSString *voiceLabel;
-@property (nonatomic, retain) NSString *nameColumnLabel;
 @property (nonatomic, retain) NSArray *voices;
 
 @property (nonatomic, assign) BOOL useLimit;

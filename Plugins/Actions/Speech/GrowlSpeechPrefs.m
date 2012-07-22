@@ -13,13 +13,27 @@
 #import <GrowlPlugins/SGHotKey.h>
 #import <GrowlPlugins/SGKeyCombo.h>
 
+@interface GrowlSpeechPrefs ()
+
+@property (nonatomic, retain) NSString *voiceLabel;
+@property (nonatomic, retain) NSString *limitCharCheckboxTitle;
+@property (nonatomic, retain) NSString *charactersLabel;
+@property (nonatomic, retain) NSString *rateAdjustCheckbox;
+@property (nonatomic, retain) NSString *slowLabel;
+@property (nonatomic, retain) NSString *fastLabel;
+@property (nonatomic, retain) NSString *volumeAdjustCheckbox;
+@property (nonatomic, retain) NSString *globalHotkeysBoxLabel;
+@property (nonatomic, retain) NSString *pauseResumeLabel;
+@property (nonatomic, retain) NSString *skipNoteLabel;
+@property (nonatomic, retain) NSString *clickNoteLabel;
+
+@end
+
 @implementation GrowlSpeechPrefs
 @synthesize pauseShortcut;
 @synthesize skipShortcut;
 @synthesize clickShortcut;
 @synthesize voices;
-@synthesize voiceLabel;
-@synthesize nameColumnLabel;
 
 @synthesize useLimit;
 @synthesize characterLimit;
@@ -28,12 +42,49 @@
 @synthesize useVolume;
 @synthesize volume;
 
+@synthesize voiceLabel;
+@synthesize limitCharCheckboxTitle;
+@synthesize charactersLabel;
+@synthesize rateAdjustCheckbox;
+@synthesize slowLabel;
+@synthesize fastLabel;
+@synthesize volumeAdjustCheckbox;
+@synthesize globalHotkeysBoxLabel;
+@synthesize pauseResumeLabel;
+@synthesize skipNoteLabel;
+@synthesize clickNoteLabel;
+
 - (id)initWithBundle:(NSBundle *)bundle {
    if((self = [super initWithBundle:bundle])){
-      self.voiceLabel = NSLocalizedString(@"Voice:", @"Label for table with voices");
-      self.nameColumnLabel = NSLocalizedString(@"Name", @"Column title for the name of voice");
-   }
+      self.voiceLabel = NSLocalizedStringFromTableInBundle(@"Voice:", @"Localizable", bundle, @"Label for popup with voices");
+		self.limitCharCheckboxTitle = NSLocalizedStringFromTableInBundle(@"Limit to", @"Localizable", bundle, @"Limit speech display to a given amount of characters");
+		self.charactersLabel = NSLocalizedStringFromTableInBundle(@"characters", @"Localizable", bundle, @"label for the unit in the box for character limit");
+		self.rateAdjustCheckbox = NSLocalizedStringFromTableInBundle(@"Adjust rate:", @"Localizable", bundle, @"Rate adjustment slider checkbox");
+		self.slowLabel = NSLocalizedStringFromTableInBundle(@"Slow", @"Localizable", bundle, @"Label speech slower");
+		self.fastLabel = NSLocalizedStringFromTableInBundle(@"Fast:", @"Localizable", bundle, @"Label for speech faster");
+		self.volumeAdjustCheckbox = NSLocalizedStringFromTableInBundle(@"Volume:", @"Localizable", bundle, @"Volume adjustment checkcbox");
+		self.globalHotkeysBoxLabel = NSLocalizedStringFromTableInBundle(@"Global Hotkeys:", @"Localizable", bundle, @"Label for box containing global hot keys for the speech display");
+		self.pauseResumeLabel = NSLocalizedStringFromTableInBundle(@"Pause/Resume", @"Localizable", bundle, @"Label for hotkey recorder for pause/resume the speech display");
+		self.skipNoteLabel = NSLocalizedStringFromTableInBundle(@"Skip Note", @"Localizable", bundle, @"Label for hotkey recorder for skipping the current note");
+		self.clickNoteLabel = NSLocalizedStringFromTableInBundle(@"Click Note", @"Localizable", bundle, @"Label for hotkey recorder for 'clicking' the current note being spoken");
+	}
    return self;
+}
+
+-(void)dealloc {
+	self.voices = nil;
+	self.voiceLabel = nil;
+	self.limitCharCheckboxTitle = nil;
+	self.charactersLabel = nil;
+	self.rateAdjustCheckbox = nil;
+	self.slowLabel = nil;
+	self.fastLabel = nil;
+	self.volumeAdjustCheckbox = nil;
+	self.globalHotkeysBoxLabel = nil;
+	self.pauseResumeLabel = nil;
+	self.skipNoteLabel = nil;
+	self.clickNoteLabel = nil;
+	[super dealloc];
 }
 
 - (NSString *) mainNibName {
@@ -72,13 +123,6 @@
 	NSUInteger clickModifiers = [[defaults valueForKey:GrowlSpeechClickKeyModifierPref] unsignedIntegerValue];
 	KeyCombo clickCombo = {SRCarbonToCocoaFlags(clickModifiers), clickCode};
 	[self.clickShortcut setKeyCombo:clickCombo];
-}
-
-- (void) dealloc {
-	[voices release];
-   [voiceLabel release];
-   [nameColumnLabel release];
-	[super dealloc];
 }
 
 -(void)updateVoiceList {

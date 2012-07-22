@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC80590315BB74A000E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
 		BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7960151265C70052EB51 /* Cocoa.framework */; };
 		BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7969151265C70052EB51 /* InfoPlist.strings */; };
 		BCAD79D01512661B0052EB51 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */; };
@@ -94,13 +95,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		BCAD799C151265DB0052EB51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
-			remoteInfo = MailMe;
-		};
 		BCAD799E151265DB0052EB51 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BCAD7972151265DB0052EB51 /* Growl.xcodeproj */;
@@ -139,6 +133,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC80590215BB74A000E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCAD7963151265C70052EB51 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -229,6 +224,7 @@
 				BCAD7969151265C70052EB51 /* InfoPlist.strings */,
 				BCAD796C151265C70052EB51 /* SoundAction-Prefix.pch */,
 				BCAD7A1015126F7E0052EB51 /* GrowlSoundActionPrefPane.xib */,
+				BC80590115BB74A000E852B9 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -247,7 +243,6 @@
 				BCAD7997151265DB0052EB51 /* Bezel.growlView */,
 				BCAD7999151265DB0052EB51 /* Smoke.growlView */,
 				BCAD799B151265DB0052EB51 /* Nano.growlView */,
-				BCAD799D151265DB0052EB51 /* MailMe.growlView */,
 				BCAD799F151265DB0052EB51 /* MusicVideo.growlView */,
 				BCAD79A1151265DB0052EB51 /* SMS.growlView */,
 				BCAD79A3151265DB0052EB51 /* Unit tests.octest */,
@@ -265,6 +260,7 @@
 			buildPhases = (
 				BCAD7959151265C70052EB51 /* Sources */,
 				BCAD795A151265C70052EB51 /* Frameworks */,
+				BC8058D915BB6D7900E852B9 /* Generate Localizable.strings */,
 				BCAD795B151265C70052EB51 /* Resources */,
 			);
 			buildRules = (
@@ -386,13 +382,6 @@
 			remoteRef = BCAD799A151265DB0052EB51 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BCAD799D151265DB0052EB51 /* MailMe.growlView */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MailMe.growlView;
-			remoteRef = BCAD799C151265DB0052EB51 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		BCAD799F151265DB0052EB51 /* MusicVideo.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -430,10 +419,31 @@
 			files = (
 				BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */,
 				BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */,
+				BC80590315BB74A000E852B9 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC8058D915BB6D7900E852B9 /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/SoundAction/*.h",
+				"$(SRCROOT)/SoundAction/*.m",
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+				"$(SRCROOT)/SoundAction/en.lproj/Localizable.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o ./SoundAction/en.lproj/ ./SoundAction/*.h ./SoundAction/*.m";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BCAD7959151265C70052EB51 /* Sources */ = {
@@ -456,6 +466,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BC80590115BB74A000E852B9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC80590215BB74A000E852B9 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BCAD7969151265C70052EB51 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

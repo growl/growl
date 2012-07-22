@@ -14,6 +14,12 @@
 @synthesize growlDisplayDuration;
 
 @synthesize growlDisplayPriority;
+@synthesize growlDisplayPriorityLow;
+@synthesize growlDisplayPriorityModerate;
+@synthesize growlDisplayPriorityNormal;
+@synthesize growlDisplayPriorityHigh;
+@synthesize growlDisplayPriorityEmergency;
+
 @synthesize growlDisplayTextColor;
 @synthesize growlDisplayBackgroundColor;
 
@@ -36,6 +42,12 @@
       self.growlDisplayDuration = GrowlDisplayDuration;
       
       self.growlDisplayPriority = GrowlDisplayPriority;
+		self.growlDisplayPriorityLow = GrowlDisplayPriorityLow;
+		self.growlDisplayPriorityModerate = GrowlDisplayPriorityModerate;
+		self.growlDisplayPriorityNormal = GrowlDisplayPriorityNormal;
+		self.growlDisplayPriorityHigh = GrowlDisplayPriorityHigh;
+		self.growlDisplayPriorityEmergency = GrowlDisplayPriorityEmergency;
+		
       self.growlDisplayTextColor = GrowlDisplayTextColor;
       self.growlDisplayBackgroundColor = GrowlDisplayBackgroundColor;
       

@@ -8,11 +8,31 @@
 
 #import "GrowlCompoundActionPreferencePane.h"
 
+@interface GrowlCompoundActionPreferencePane ()
+
+@property (nonatomic, retain) NSString *actionsColumnTitle;
+
+@end
+
 @implementation GrowlCompoundActionPreferencePane
 
 @synthesize chosenArrayController;
 @synthesize availableArrayController;
 @synthesize addWindow;
+
+@synthesize actionsColumnTitle;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.actionsColumnTitle = NSLocalizedString(@"Actions:", @"Actions column title");
+	}
+	return self;
+}
+
+-(void)dealloc {
+	self.actionsColumnTitle = nil;
+	[super dealloc];
+}
 
 -(NSString*)mainNibName {
 	return @"CompoundActionPrefs";

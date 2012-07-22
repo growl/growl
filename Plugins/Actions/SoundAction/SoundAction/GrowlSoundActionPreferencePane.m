@@ -9,13 +9,33 @@
 #import "GrowlSoundActionPreferencePane.h"
 #import "GrowlSoundActionDefines.h"
 
+@interface GrowlSoundActionPreferencePane ()
+
+@property (nonatomic, retain) NSString *soundTableTitle;
+@property (nonatomic, retain) NSString *volumeLabel;
+
+@end
+
 @implementation GrowlSoundActionPreferencePane
 
 @synthesize sounds;
 @synthesize soundTableView;
 @synthesize soundVolume;
 
+@synthesize soundTableTitle;
+@synthesize volumeLabel;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.soundTableTitle = NSLocalizedStringFromTableInBundle(@"Sounds", @"Localizable", bundle, @"Sounds table title");
+		self.volumeLabel = NSLocalizedStringFromTableInBundle(@"Volume:", @"Localizable", bundle, @"Volume slider label");
+	}
+	return self;
+}
+
 -(void)dealloc {
+	self.soundTableTitle = nil;
+	self.volumeLabel = nil;
 	[sounds release];
 	[super dealloc];
 }

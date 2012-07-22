@@ -23,7 +23,9 @@ core_growl_resources_dir             = File.join(core_growl_dir, "Resources") #g
                                   
 #Display Plugins                  
 plugins_dir                          = File.join(toplevel_dir, "Plugins") # growl-dev/Plugins
+plugins_framework_dir                = File.join(plugins_dir, "PluginFramework") #growl-dev/Plugins/PluginFramework
 displays_dir                         = File.join(plugins_dir, "Displays") # growl-dev/Plugins/Displays
+actions_dir                          = File.join(plugins_dir, "Actions") # growl-dev/Plugins/Actions
 
 #Automator
 system_plugins_dir                   = File.join(plugins_dir, "System") #growl-dev/Plugins/System
@@ -34,7 +36,7 @@ growlaction_dir                      = File.join(system_plugins_dir, "GrowlActio
 extras_dir                           = File.join(toplevel_dir, "Extras") #growl-dev/Extras
 capster_dir                          = File.join(extras_dir, "Capster") #growl-dev/Extras/Capster
 capster_subdir                       = File.join(capster_dir, "Growl Caps Notifier") #growl-dev/Extras/Capster/Growl Caps Notifier
-hardwaregrowler_dir                  = File.join(extras_dir, "HardwareGrowler") #growl-dev/Extras/HardwareGrowler
+hardwaregrowler_dir                  = File.join(extras_dir, "HardwareGrowler/HardwareGrowler") #growl-dev/Extras/HardwareGrowler/HardwareGrowler
 growltunes_dir                       = File.join(extras_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes
 growltunes_subdir                    = File.join(growltunes_dir, "GrowlTunes") #growl-dev/Extras/GrowlTunes/GrowlTunes
 
@@ -46,10 +48,17 @@ hardwaregrowler_localizable_strings  = File.join(translation_dir, "TGP.hardwareg
 #Growl Display Plugins
 growl_bezel_display_strings          = File.join(translation_dir, "TGP.growl-bezel-display-plugin-localizable-string")
 growl_ical_display_strings           = File.join(translation_dir, "TGP.growl-ical-display-localizable-string")
+growl_brushed_display_strings        = File.join(translation_dir, "TGP.growl-brushed-localizable-string")
+growl_musicvideo_display_strings     = File.join(translation_dir, "TGP.growl-musicvideo-localizable-strings")
+growl_nano_display_strings           = File.join(translation_dir, "TGP.growl-nano-localizable-strings")
+
+#Growl Action Plugins
 growl_sms_display_strings            = File.join(translation_dir, "TGP.growl-sms-display-localizable-strings")
 growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-strings")
 growl_speech_display_strings         = File.join(translation_dir, "TGP.growl-speech-display-localizable-string")
-growl_brushed_display_strings        = File.join(translation_dir, "TGP.growl-brushed-localizable-string")
+growl_sound_action_strings           = File.join(translation_dir, "TGP.growl-sound-action-localizable-strings")
+growl_boxcar_action_strings          = File.join(translation_dir, "TGP.growl-boxcar-action-localizable-strings")
+growl_prowl_action_strings           = File.join(translation_dir, "TGP.growl-prowl-action-localizable-strings")
 
 #Growl Global Localizable Files
 growl_pluginpref_strings             = File.join(translation_dir, "TGP.growl-pluginprefstrings-strings-file")
@@ -58,15 +67,20 @@ growl_localizable_strings            = File.join(translation_dir, "TGP.growl-loc
 growl_mainmenu_strings               = File.join(translation_dir, "TGP.growl-mainmenu-strings-file")
 
 
-
-
 #Display Destinations
 ical_display_destination             = File.join(displays_dir, "iCal")
 bezel_display_destination            = File.join(displays_dir, "Bezel") # growl-dev/Plugins/Displays/Bezel
-sms_display_destination              = File.join(displays_dir, "SMS")
-mailme_display_destination           = File.join(displays_dir, "MailMe")
-speech_display_destination           = File.join(displays_dir, "Speech")
 brushed_display_destination          = File.join(displays_dir, "Brushed")
+musicvideo_display_destination       = File.join(displays_dir, "MusicVideo")
+nano_display_destination             = File.join(displays_dir, "Nano")
+
+#Action Destinations
+mailme_action_destination            = File.join(actions_dir, "MailMe/MailMe") #growl-dev/Plugins/Actions/MailMe/MailMe
+sms_action_destination               = File.join(actions_dir, "SMS")
+speech_action_destination            = File.join(actions_dir, "Speech")
+sound_action_destination             = File.join(actions_dir, "SoundAction/SoundAction")
+boxcar_action_destination            = File.join(actions_dir, "Boxcar/Boxcar")
+prowl_action_destination             = File.join(actions_dir, "Prowl/Prowl")
 
 #ShortcutRecorder Paths
 
@@ -107,24 +121,33 @@ shortcodes = {
 }
 
 growl_translations = {
-    :growlaction => {:source => growl_action_strings,         :destination => "#{growlaction_dir}/%%lproj%%/InfoPlist.strings"},
-    :pluginprefs => {:source => growl_pluginpref_strings,     :destination => "#{core_growl_resources_dir}/%%lproj%%/PluginPrefStrings.strings"},
-    :growlmain =>   {:source => growl_localizable_strings,    :destination => "#{core_growl_resources_dir}/%%lproj%%/Localizable.strings"},
-    :mainmenu =>    {:source => growl_mainmenu_strings,       :destination => "#{core_growl_resources_dir}/%%lproj%%/mainmenu.strings"},
-    :bezel =>       {:source => growl_bezel_display_strings,  :destination => "#{bezel_display_destination}/%%lproj%%/Localizable.strings"},
-    :ical =>        {:source => growl_ical_display_strings,   :destination => "#{ical_display_destination}/%%lproj%%/Localizable.strings"},
-    :sms =>         {:source => growl_sms_display_strings,    :destination => "#{sms_display_destination}/%%lproj%%/Localizable.strings"},
-    :mailme =>      {:source => growl_mailme_display_strings, :destination => "#{mailme_display_destination}/%%lproj%%/Localizable.strings"},
-    :speech =>      {:source => growl_speech_display_strings, :destination => "#{speech_display_destination}/%%lproj%%/Localizable.strings"},
-    :brushed =>     {:source => growl_brushed_display_strings,:destination => "#{brushed_display_destination}/%%lproj%%/Localizable.strings"},
+    #Core:
+    :pluginprefs => {:source => growl_pluginpref_strings,         :destination => "#{plugins_framework_dir}/%%lproj%%/PluginPrefStrings.strings"},
+    :growlmain   => {:source => growl_localizable_strings,        :destination => "#{core_growl_resources_dir}/%%lproj%%/Localizable.strings"},
+    :mainmenu    => {:source => growl_mainmenu_strings,           :destination => "#{core_growl_resources_dir}/%%lproj%%/mainmenu.strings"},
+    #Displays:
+	 :bezel       => {:source => growl_bezel_display_strings,      :destination => "#{bezel_display_destination}/%%lproj%%/Localizable.strings"},
+    :ical        => {:source => growl_ical_display_strings,       :destination => "#{ical_display_destination}/%%lproj%%/Localizable.strings"},
+    :brushed     => {:source => growl_brushed_display_strings,    :destination => "#{brushed_display_destination}/%%lproj%%/Localizable.strings"},
+    :musicvideo  => {:source => growl_musicvideo_display_strings, :destination => "#{musicvideo_display_destination}/%%lproj%%/Localizable.strings"},
+    :nano        => {:source => growl_nano_display_strings,       :destination => "#{nano_display_destination}/%%lproj%%/Localizable.strings"},
+	 #Actions
+	 :mailme      => {:source => growl_mailme_display_strings,     :destination => "#{mailme_action_destination}/%%lproj%%/Localizable.strings"},
+    :sms         => {:source => growl_sms_display_strings,        :destination => "#{sms_action_destination}/%%lproj%%/Localizable.strings"},
+    :speech      => {:source => growl_speech_display_strings,     :destination => "#{speech_action_destination}/%%lproj%%/Localizable.strings"},
+    :sound       => {:source => growl_sound_action_strings,       :destination => "#{sound_action_destination}/%%lproj%%/Localizable.strings"},
+    :boxcar      => {:source => growl_boxcar_action_strings,      :destination => "#{boxcar_action_destination}/%%lproj%%/Localizable.strings"},
+    :prowl       => {:source => growl_prowl_action_strings,       :destination => "#{prowl_action_destination}/%%lproj%%/Localizable.strings"},
+    #Misc
+	 :growlaction => {:source => growl_action_strings,             :destination => "#{growlaction_dir}/%%lproj%%/InfoPlist.strings"},
 }
 
 
 
 
 extras_translations = {
-    :capster =>         {:source => capster_localizable_strings,         :destination => "#{capster_subdir}/%%lproj%%/Localizable.strings"},
-    :growltunes =>      {:source => growltunes_localizable_strings,      :destination => "#{growltunes_subdir}/%%lproj%%/Localizable.strings"},
+    :capster         => {:source => capster_localizable_strings,         :destination => "#{capster_subdir}/%%lproj%%/Localizable.strings"},
+    :growltunes      => {:source => growltunes_localizable_strings,      :destination => "#{growltunes_subdir}/%%lproj%%/Localizable.strings"},
     :hardwaregrowler => {:source => hardwaregrowler_localizable_strings, :destination => "#{hardwaregrowler_dir}/%%lproj%%/Localizable.strings"},
 }
 

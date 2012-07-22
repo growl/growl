@@ -25,6 +25,24 @@
 @property (nonatomic, retain) NSString *messageTo;
 @property (nonatomic, retain) NSString *messageSubject;
 
+@property (nonatomic, retain) IBOutlet NSString *fromLabel;
+@property (nonatomic, retain) IBOutlet NSString *toLabel;
+@property (nonatomic, retain) IBOutlet NSString *prefixLabel;
+
+@property (nonatomic, retain) IBOutlet NSString *smtpBoxLabel;
+
+@property (nonatomic, retain) IBOutlet NSString *addressLabel;
+@property (nonatomic, retain) IBOutlet NSString *portLabel;
+
+@property (nonatomic, retain) IBOutlet NSString *securityLabel;
+@property (nonatomic, retain) IBOutlet NSString *noneLabel;
+@property (nonatomic, retain) IBOutlet NSString *tlsLabel;
+@property (nonatomic, retain) IBOutlet NSString *tlsOrCloseLabel;
+
+@property (nonatomic, retain) IBOutlet NSString *authenticationCheckboxLabel;
+@property (nonatomic, retain) IBOutlet NSString *usernameLabel;
+@property (nonatomic, retain) IBOutlet NSString *passwordLabel;
+
 @end
 
 @implementation GrowlMailMePreferencePane
@@ -38,6 +56,56 @@
 @synthesize messageFrom;
 @synthesize messageTo;
 @synthesize messageSubject;
+
+@synthesize fromLabel;
+@synthesize toLabel;
+@synthesize prefixLabel;
+@synthesize smtpBoxLabel;
+@synthesize addressLabel;
+@synthesize portLabel;
+@synthesize securityLabel;
+@synthesize noneLabel;
+@synthesize tlsLabel;
+@synthesize tlsOrCloseLabel;
+@synthesize authenticationCheckboxLabel;
+@synthesize usernameLabel;
+@synthesize passwordLabel;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.fromLabel = NSLocalizedStringFromTableInBundle(@"From:", @"Localizable", bundle, @"Title for from field");
+		self.toLabel = NSLocalizedStringFromTableInBundle(@"To:", @"Localizable", bundle, @"Title for to field");
+		self.prefixLabel = NSLocalizedStringFromTableInBundle(@"Subject prefix:", @"Localizable", bundle, @"Title for subject prefix field");
+		self.smtpBoxLabel = NSLocalizedStringFromTableInBundle(@"SMTP Server:", @"Localizable", bundle, @"Title for box containing SMTP server details");
+		self.addressLabel = NSLocalizedStringFromTableInBundle(@"Address:", @"Localizable", bundle, @"SMTP Server address");
+		self.portLabel = NSLocalizedStringFromTableInBundle(@"Port:", @"Localizable", bundle, @"SMTP Server port");
+		self.securityLabel = NSLocalizedStringFromTableInBundle(@"Security:", @"Localizable", bundle, @"Security options title");
+		self.noneLabel = NSLocalizedStringFromTableInBundle(@"None", @"Localizable", bundle, @"No security option");
+		self.tlsLabel = NSLocalizedStringFromTableInBundle(@"TLS if possible", @"Localizable", bundle, @"TLS if possible security option");
+		self.tlsOrCloseLabel = NSLocalizedStringFromTableInBundle(@"TLS or close", @"Localizable", bundle, @"TLS or close security option");
+		self.authenticationCheckboxLabel = NSLocalizedStringFromTableInBundle(@"Authentication", @"Localizable", bundle, @"Authentication checkbox");
+		self.usernameLabel = NSLocalizedStringFromTableInBundle(@"Username:", @"Localizable", bundle, @"Username field");
+		self.passwordLabel = NSLocalizedStringFromTableInBundle(@"Password:", @"Localizable", bundle, @"password field");
+	}
+	return self;
+}
+
+-(void)dealloc {
+	self.fromLabel = nil;
+	self.toLabel = nil;
+	self.prefixLabel = nil;
+	self.smtpBoxLabel = nil;
+	self.addressLabel = nil;
+	self.portLabel = nil;
+	self.securityLabel = nil;
+	self.noneLabel = nil;
+	self.tlsLabel = nil;
+	self.tlsOrCloseLabel = nil;
+	self.authenticationCheckboxLabel = nil;
+	self.usernameLabel = nil;
+	self.passwordLabel = nil;
+	[super dealloc];
+}
 
 -(NSString*)mainNibName {
 	return @"MailMePrefPane";

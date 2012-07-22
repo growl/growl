@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC80590015BB746D00E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FE15BB746C00E852B9 /* Localizable.strings */; };
 		BCCB237715372ACB0064FD1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237615372ACB0064FD1D /* Cocoa.framework */; };
 		BCCB237915372ACB0064FD1D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237815372ACB0064FD1D /* AppKit.framework */; };
 		BCCB237B15372ACB0064FD1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237A15372ACB0064FD1D /* Foundation.framework */; };
@@ -134,6 +135,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC8058FF15BB746C00E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCCB237315372ACB0064FD1D /* MailMe.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MailMe.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCCB237615372ACB0064FD1D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCCB237815372ACB0064FD1D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -215,6 +217,7 @@
 				BCCB237E15372ACB0064FD1D /* MailMe-Info.plist */,
 				BCCB237F15372ACB0064FD1D /* InfoPlist.strings */,
 				BCCB238215372ACB0064FD1D /* MailMe-Prefix.pch */,
+				BC8058FE15BB746C00E852B9 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 			buildPhases = (
 				BCCB236F15372ACB0064FD1D /* Sources */,
 				BCCB237015372ACB0064FD1D /* Frameworks */,
+				BC8058C815BB63F500E852B9 /* Generate Localizable.strings */,
 				BCCB237115372ACB0064FD1D /* Resources */,
 			);
 			buildRules = (
@@ -408,10 +412,31 @@
 			files = (
 				BCCB238115372ACB0064FD1D /* InfoPlist.strings in Resources */,
 				BCCB23F71537374A0064FD1D /* MailMePrefPane.xib in Resources */,
+				BC80590015BB746D00E852B9 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC8058C815BB63F500E852B9 /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/MailMe/*.h",
+				"$(SRCROOT)/MailMe/*.m",
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+				"$(SRCROOT)/MailMe/en.lproj/Localizable.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o ./MailMe/en.lproj/ ./MailMe/*.h ./MailMe/*.m";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BCCB236F15372ACB0064FD1D /* Sources */ = {
@@ -435,6 +460,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BC8058FE15BB746C00E852B9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC8058FF15BB746C00E852B9 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BCCB237F15372ACB0064FD1D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

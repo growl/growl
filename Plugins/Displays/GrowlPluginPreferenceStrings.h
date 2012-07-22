@@ -14,6 +14,12 @@
 #define GrowlDisplayDuration NSLocalizedStringFromTable(@"Duration:", @"PluginPrefStrings", @"How long a notification will stay on screen")
 
 #define GrowlDisplayPriority NSLocalizedStringFromTable(@"Priority: (low to high)", @"PluginPrefStrings", @"Label for columns of color wells for various priority levels")
+#define GrowlDisplayPriorityLow NSLocalizedStringFromTable(@"Very Low", @"PluginPrefStrings", @"Notification Priority Very Low")
+#define GrowlDisplayPriorityModerate NSLocalizedStringFromTable(@"Moderate", @"PluginPrefStrings", @"Notification Priority Moderate")
+#define GrowlDisplayPriorityNormal NSLocalizedStringFromTable(@"Normal", @"PluginPrefStrings", @"Notification Priority Normal")
+#define GrowlDisplayPriorityHigh NSLocalizedStringFromTable(@"High", @"PluginPrefStrings", @"Notification Priority High")
+#define GrowlDisplayPriorityEmergency NSLocalizedStringFromTable(@"Emergency", @"PluginPrefStrings", @"Notification Priority Emergency")
+
 #define GrowlDisplayTextColor NSLocalizedStringFromTable(@"Text", @"PluginPrefStrings", @"Label for row of color wells for the text element of the plugin")
 #define GrowlDisplayBackgroundColor NSLocalizedStringFromTable(@"Background", @"PluginPrefStrings", @"Label for row of color wells for the background of the plugin")
 
@@ -36,6 +42,12 @@
 @property (nonatomic, retain) NSString *growlDisplayDuration;
 
 @property (nonatomic, retain) NSString *growlDisplayPriority;
+@property (nonatomic, retain) NSString *growlDisplayPriorityLow;
+@property (nonatomic, retain) NSString *growlDisplayPriorityModerate;
+@property (nonatomic, retain) NSString *growlDisplayPriorityNormal;
+@property (nonatomic, retain) NSString *growlDisplayPriorityHigh;
+@property (nonatomic, retain) NSString *growlDisplayPriorityEmergency;
+
 @property (nonatomic, retain) NSString *growlDisplayTextColor;
 @property (nonatomic, retain) NSString *growlDisplayBackgroundColor;
 

@@ -18,6 +18,11 @@
 @property (nonatomic, retain) NSMutableArray *connections;
 @property (nonatomic, retain) NSString *testEmail;
 
+@property (nonatomic, retain) NSString *emailLabel;
+@property (nonatomic, retain) NSString *onlyIfPriorityLabel;
+@property (nonatomic, retain) NSString *onlyIfIdleLabel;
+@property (nonatomic, retain) NSString *prefixLabel;
+
 @end
 
 @implementation GrowlBoxcarPreferencePane
@@ -28,12 +33,28 @@
 @synthesize connections;
 @synthesize testEmail;
 
+@synthesize emailLabel;
+@synthesize onlyIfPriorityLabel;
+@synthesize onlyIfIdleLabel;
+@synthesize prefixLabel;
+
 -(id)initWithBundle:(NSBundle *)bundle {
 	if((self = [super initWithBundle:bundle])){
 		self.validating = NO;
 		self.connections = [NSMutableArray array];
+		
+		self.emailLabel = NSLocalizedStringFromTableInBundle(@"Email Address:", @"Localizable", bundle, @"Boxcar email address field label");
+		self.onlyIfPriorityLabel = NSLocalizedStringFromTableInBundle(@"Only send if priority is at least:", @"Localizable", bundle, @"Checkbox for sending only if priority is above a certain value");
+		self.onlyIfIdleLabel = NSLocalizedStringFromTableInBundle(@"Only send if idle:", @"Localizable", bundle, @"Checkbox for only sending if idle by growl's idle detection");
+		self.prefixLabel = NSLocalizedStringFromTableInBundle(@"Prefix notifications with:", @"Localizable", bundle, @"Prefix notifications to boxcar checkbox");
 	}
 	return self;
+}
+
+-(void)dealloc {
+	self.connections = nil;
+	self.testEmail = nil;
+	[super dealloc];
 }
 
 -(NSString*)mainNibName {
