@@ -382,9 +382,7 @@
 				
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
-					dispatch_async(dispatch_get_main_queue(), ^{
-						[self.delegate registerWithDictionary:growlDict];
-					});
+					[self.delegate registerWithDictionary:growlDict];
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
 					GrowlNotificationResult notifyResult = [self.delegate notifyWithDictionary:growlDict];
 					switch (notifyResult) {
