@@ -387,6 +387,8 @@
 		BCAC76F515BB797400B0C6D5 /* GrowlSpeechPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCAC76F315BB797400B0C6D5 /* GrowlSpeechPrefs.xib */; };
 		BCAC76F915BB798100B0C6D5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAC76F715BB798100B0C6D5 /* Localizable.strings */; };
 		BCAD79F31512675C0052EB51 /* SoundAction.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = BCAD79F01512664F0052EB51 /* SoundAction.growlView */; };
+		BCAD872D15BB8AEE00A80055 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872B15BB8AEE00A80055 /* Localizable.strings */; };
+		BCAD873015BB8CD000A80055 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872E15BB8CD000A80055 /* Localizable.strings */; };
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
 		BCAEAA6815347BCB00D00D6D /* NSURL+StringEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = BCAEAA6615347BCB00D00D6D /* NSURL+StringEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCAEAA6915347BCB00D00D6D /* NSURL+StringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAEAA6715347BCB00D00D6D /* NSURL+StringEncoding.m */; };
@@ -1583,6 +1585,8 @@
 		BCAC76F415BB797400B0C6D5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plugins/Actions/Speech/Info.plist; sourceTree = "<group>"; };
 		BCAC76F815BB798100B0C6D5 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Plugins/Actions/Speech/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SoundAction.xcodeproj; path = Plugins/Actions/SoundAction/SoundAction.xcodeproj; sourceTree = "<group>"; };
+		BCAD872C15BB8AEE00A80055 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BCAD872F15BB8CD000A80055 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD8A6E13E2FCA5000292F4 /* GroupedArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupedArrayController.h; path = Core/Source/GroupedArrayController.h; sourceTree = "<group>"; };
 		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
 		BCAEAA6615347BCB00D00D6D /* NSURL+StringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSURL+StringEncoding.h"; path = "Plugins/PluginFramework/NSURL+StringEncoding.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -2166,6 +2170,7 @@
 			children = (
 				95125DED0802D428007FF92A /* Info.plist */,
 				BC80A35614D7288500B055FE /* GrowlMusicVideoPrefs.xib */,
+				BCAD872B15BB8AEE00A80055 /* Localizable.strings */,
 				0A7F62500767C84E00E1C1E4 /* GrowlMusicVideoDisplay.h */,
 				0A7F62510767C84E00E1C1E4 /* GrowlMusicVideoDisplay.m */,
 				0A7F62520767C84E00E1C1E4 /* GrowlMusicVideoPrefs.h */,
@@ -2394,6 +2399,7 @@
 			children = (
 				93BC37B6095A66950002B365 /* Info.plist */,
 				BC80A35814D728BD00B055FE /* GrowlNanoPrefs.xib */,
+				BCAD872E15BB8CD000A80055 /* Localizable.strings */,
 				93BC37AE095A66950002B365 /* GrowlNanoDisplay.h */,
 				93BC37AF095A66950002B365 /* GrowlNanoDisplay.m */,
 				93BC37B0095A66950002B365 /* GrowlNanoPrefs.h */,
@@ -3791,6 +3797,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC80A35714D7288500B055FE /* GrowlMusicVideoPrefs.xib in Resources */,
+				BCAD872D15BB8AEE00A80055 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3806,6 +3813,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC80A35914D728BD00B055FE /* GrowlNanoPrefs.xib in Resources */,
+				BCAD873015BB8CD000A80055 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4095,7 +4103,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "genstrings -o Plugins/Displays/MusicVideo/en.lproj Plugins/Displays/MusicVideo/*.h Plugins/MusicVideo/iCal/*.m";
+			shellScript = "genstrings -o Plugins/Displays/MusicVideo/en.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m";
 		};
 		BC98735E15BB848D00606BDA /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5043,6 +5051,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				BCAC76F815BB798100B0C6D5 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BCAD872B15BB8AEE00A80055 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCAD872C15BB8AEE00A80055 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BCAD872E15BB8CD000A80055 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCAD872F15BB8CD000A80055 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

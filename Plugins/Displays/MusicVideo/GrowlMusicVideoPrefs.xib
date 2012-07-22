@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2182</string>
@@ -1028,7 +1028,6 @@
 							<string key="NSFrame">{{121, 9}, {102, 26}}</string>
 							<reference key="NSSuperview" ref="708156860"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="947734615">
@@ -1043,24 +1042,23 @@
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="451849089">
-									<reference key="NSMenu" ref="9846281"/>
-									<string key="NSTitle">Left</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<int key="NSState">1</int>
-									<reference key="NSOnImage" ref="401182493"/>
-									<reference key="NSMixedImage" ref="180008386"/>
-									<string key="NSAction">_popUpItemAction:</string>
-									<reference key="NSTarget" ref="947734615"/>
-								</object>
+								<nil key="NSMenuItem"/>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
 								<object class="NSMenu" key="NSMenu" id="9846281">
 									<string key="NSTitle">OtherViews</string>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<reference ref="451849089"/>
+										<object class="NSMenuItem" id="451849089">
+											<reference key="NSMenu" ref="9846281"/>
+											<string key="NSTitle">Left</string>
+											<string key="NSKeyEquiv"/>
+											<int key="NSKeyEquivModMask">1048576</int>
+											<int key="NSMnemonicLoc">2147483647</int>
+											<reference key="NSOnImage" ref="401182493"/>
+											<reference key="NSMixedImage" ref="180008386"/>
+											<string key="NSAction">_popUpItemAction:</string>
+											<reference key="NSTarget" ref="947734615"/>
+										</object>
 										<object class="NSMenuItem" id="905509004">
 											<reference key="NSMenu" ref="9846281"/>
 											<string key="NSTitle">Right</string>
@@ -1076,6 +1074,7 @@
 									</object>
 									<reference key="NSMenuFont" ref="836138348"/>
 								</object>
+								<int key="NSSelectedIndex">-1</int>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -1790,6 +1789,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.justificationLabel</string>
+						<reference key="source" ref="656941366"/>
+						<reference key="destination" ref="360963841"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="656941366"/>
+							<reference key="NSDestination" ref="360963841"/>
+							<string key="NSLabel">value: self.justificationLabel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.justificationLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectedTag: self.textAlignment</string>
 						<reference key="source" ref="819294095"/>
 						<reference key="destination" ref="360963841"/>
@@ -1803,6 +1818,38 @@
 						</object>
 					</object>
 					<int key="connectionID">1107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.leftJustification</string>
+						<reference key="source" ref="451849089"/>
+						<reference key="destination" ref="360963841"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="451849089"/>
+							<reference key="NSDestination" ref="360963841"/>
+							<string key="NSLabel">title: self.leftJustification</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.leftJustification</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1111</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.rightJustification</string>
+						<reference key="source" ref="905509004"/>
+						<reference key="destination" ref="360963841"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="905509004"/>
+							<reference key="NSDestination" ref="360963841"/>
+							<string key="NSLabel">title: self.rightJustification</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.rightJustification</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1113</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4460,7 +4507,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1107</int>
+			<int key="maxID">1113</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2182</string>
@@ -40,7 +40,7 @@
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="826213717">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="474498476">
-				<string key="NSClassName">GrowlMusicVideoPrefs</string>
+				<string key="NSClassName">GrowlNanoPrefs</string>
 			</object>
 			<object class="NSCustomObject" id="688720231">
 				<string key="NSClassName">FirstResponder</string>
@@ -1043,23 +1043,24 @@
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<nil key="NSMenuItem"/>
+								<object class="NSMenuItem" key="NSMenuItem" id="309573200">
+									<reference key="NSMenu" ref="898879476"/>
+									<string key="NSTitle">Left</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<int key="NSState">1</int>
+									<reference key="NSOnImage" ref="974697"/>
+									<reference key="NSMixedImage" ref="903751366"/>
+									<string key="NSAction">_popUpItemAction:</string>
+									<reference key="NSTarget" ref="689024628"/>
+								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
 								<object class="NSMenu" key="NSMenu" id="898879476">
 									<string key="NSTitle">OtherViews</string>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="NSMenuItem" id="309573200">
-											<reference key="NSMenu" ref="898879476"/>
-											<string key="NSTitle">Left</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="974697"/>
-											<reference key="NSMixedImage" ref="903751366"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="689024628"/>
-										</object>
+										<reference ref="309573200"/>
 										<object class="NSMenuItem" id="164541382">
 											<reference key="NSMenu" ref="898879476"/>
 											<string key="NSTitle">Center</string>
@@ -1087,7 +1088,6 @@
 									</object>
 									<reference key="NSMenuFont" ref="662265905"/>
 								</object>
-								<int key="NSSelectedIndex">-1</int>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -1806,6 +1806,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.positionLabel</string>
+						<reference key="source" ref="404646324"/>
+						<reference key="destination" ref="474498476"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="404646324"/>
+							<reference key="NSDestination" ref="474498476"/>
+							<string key="NSLabel">value: self.positionLabel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.positionLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1243</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectedTag: self.position</string>
 						<reference key="source" ref="1030163468"/>
 						<reference key="destination" ref="474498476"/>
@@ -1819,6 +1835,54 @@
 						</object>
 					</object>
 					<int key="connectionID">1234</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.leftPosition</string>
+						<reference key="source" ref="309573200"/>
+						<reference key="destination" ref="474498476"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="309573200"/>
+							<reference key="NSDestination" ref="474498476"/>
+							<string key="NSLabel">title: self.leftPosition</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.leftPosition</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1236</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.centerPosition</string>
+						<reference key="source" ref="164541382"/>
+						<reference key="destination" ref="474498476"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="164541382"/>
+							<reference key="NSDestination" ref="474498476"/>
+							<string key="NSLabel">title: self.centerPosition</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.centerPosition</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1241</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.rightPosition</string>
+						<reference key="source" ref="908657617"/>
+						<reference key="destination" ref="474498476"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="908657617"/>
+							<reference key="NSDestination" ref="474498476"/>
+							<string key="NSLabel">title: self.rightPosition</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.rightPosition</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1240</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4488,13 +4552,13 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1234</int>
+			<int key="maxID">1243</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">GrowlMusicVideoPrefs</string>
+					<string key="className">GrowlNanoPrefs</string>
 					<string key="superclassName">GrowlPluginPreferencePane</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">slider_opacity</string>
@@ -4509,7 +4573,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GrowlMusicVideoPrefs.h</string>
+						<string key="minorKey">./Classes/GrowlNanoPrefs.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

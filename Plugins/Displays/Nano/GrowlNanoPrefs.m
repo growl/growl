@@ -10,7 +10,39 @@
 #import "GrowlNanoPrefs.h"
 #import "GrowlDefinesInternal.h"
 
+@interface GrowlNanoPrefs ()
+
+@property (nonatomic, retain) NSString *positionLabel;
+@property (nonatomic, retain) NSString *leftPosition;
+@property (nonatomic, retain) NSString *centerPosition;
+@property (nonatomic, retain) NSString *rightPosition;
+
+@end
+
 @implementation GrowlNanoPrefs
+
+@synthesize positionLabel;
+@synthesize leftPosition;
+@synthesize centerPosition;
+@synthesize rightPosition;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.positionLabel = NSLocalizedStringFromTableInBundle(@"Position:", @"Localizable", bundle, @"Nano screen position");
+		self.leftPosition = NSLocalizedStringFromTableInBundle(@"Left", @"Localizable", bundle, @"Nano screen position left");
+		self.centerPosition = NSLocalizedStringFromTableInBundle(@"Center", @"Localizable", bundle, @"Nano screen position center");
+		self.rightPosition = NSLocalizedStringFromTableInBundle(@"Right", @"Localizable", bundle, @"Nano screen position right");
+	}
+	return self;
+}
+
+-(void)dealloc {
+	self.positionLabel = nil;
+	self.leftPosition = nil;
+	self.centerPosition = nil;
+	self.rightPosition = nil;
+	[super dealloc];
+}
 
 - (NSString *) mainNibName {
 	return @"GrowlNanoPrefs";

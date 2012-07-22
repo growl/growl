@@ -9,9 +9,37 @@
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
 
+@interface GrowlMusicVideoPrefs ()
+
+@property (nonatomic, retain) NSString *justificationLabel;
+@property (nonatomic, retain) NSString *leftJustification;
+@property (nonatomic, retain) NSString *rightJustification;
+
+@end
+
 @implementation GrowlMusicVideoPrefs
 
 @synthesize textAlignment;
+
+@synthesize justificationLabel;
+@synthesize leftJustification;
+@synthesize rightJustification;
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+		self.justificationLabel = NSLocalizedStringFromTableInBundle(@"Justification:", @"Localizable", bundle, @"MusicVideo justification pop up label");
+		self.leftJustification = NSLocalizedStringFromTableInBundle(@"Left", @"Localizable", bundle, @"MusicVideo left aligned");
+		self.rightJustification = NSLocalizedStringFromTableInBundle(@"Right", @"Localizable", bundle, @"MusicVideo right alligned");
+	}
+	return self;
+}
+
+-(void)dealloc {
+	self.justificationLabel = nil;
+	self.leftJustification = nil;
+	self.rightJustification = nil;
+	[super dealloc];
+}
 
 - (NSString *) mainNibName {
 	return @"GrowlMusicVideoPrefs";
