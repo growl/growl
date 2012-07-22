@@ -129,7 +129,7 @@
 }
 
 - (GrowlNotificationResult)notifyWithDictionary:(NSDictionary *)dictionary {
-	return [super postNotificationWithDictionary:dictionary];
+	return [super resultOfPostNotificationWithDictionary:dictionary];
 }
 
 -(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet {

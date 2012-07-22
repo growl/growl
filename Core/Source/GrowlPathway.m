@@ -28,13 +28,21 @@
 	return YES;
 }
 
-- (GrowlNotificationResult) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
+- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)dict {
+	@autoreleasepool {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:dict];
+		});
+	}
+}
+
+- (GrowlNotificationResult)resultOfPostNotificationWithDictionary:(bycopy NSDictionary *)notification {
 	__block GrowlNotificationResult result = GrowlNotificationResultNotRegistered;
 	@autoreleasepool {
 		dispatch_sync(dispatch_get_main_queue(), ^{
-			result = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:dict];
+			result = [[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:notification];
 		});
-    }
+	}
 	return result;
 }
 

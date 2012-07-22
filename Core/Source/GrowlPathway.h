@@ -12,7 +12,8 @@
 
 @protocol GrowlNotificationProtocol
 - (BOOL) registerApplicationWithDictionary:(bycopy NSDictionary *)dict;
-- (GrowlNotificationResult) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
+- (oneway void) postNotificationWithDictionary:(bycopy NSDictionary *)notification;
+- (GrowlNotificationResult)resultOfPostNotificationWithDictionary:(bycopy NSDictionary *)notification;
 - (bycopy NSString *) growlVersion;
 @end
 
