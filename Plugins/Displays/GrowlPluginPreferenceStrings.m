@@ -14,7 +14,7 @@
 @synthesize growlDisplayDuration;
 
 @synthesize growlDisplayPriority;
-@synthesize growlDisplayPriorityLow;
+@synthesize growlDisplayPriorityVeryLow;
 @synthesize growlDisplayPriorityModerate;
 @synthesize growlDisplayPriorityNormal;
 @synthesize growlDisplayPriorityHigh;
@@ -42,7 +42,7 @@
       self.growlDisplayDuration = GrowlDisplayDuration;
       
       self.growlDisplayPriority = GrowlDisplayPriority;
-		self.growlDisplayPriorityLow = GrowlDisplayPriorityLow;
+		self.growlDisplayPriorityVeryLow = GrowlDisplayPriorityLow;
 		self.growlDisplayPriorityModerate = GrowlDisplayPriorityModerate;
 		self.growlDisplayPriorityNormal = GrowlDisplayPriorityNormal;
 		self.growlDisplayPriorityHigh = GrowlDisplayPriorityHigh;
@@ -73,6 +73,12 @@
    [growlDisplayDuration release];
    
    [growlDisplayPriority release];
+	self.growlDisplayPriorityVeryLow = nil;
+	self.growlDisplayPriorityModerate = nil;
+	self.growlDisplayPriorityNormal = nil;
+	self.growlDisplayPriorityHigh = nil;
+	self.growlDisplayPriorityEmergency = nil;
+	
    [growlDisplayTextColor release];
    [growlDisplayBackgroundColor release];
    

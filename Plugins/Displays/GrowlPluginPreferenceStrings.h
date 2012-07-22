@@ -42,7 +42,7 @@
 @property (nonatomic, retain) NSString *growlDisplayDuration;
 
 @property (nonatomic, retain) NSString *growlDisplayPriority;
-@property (nonatomic, retain) NSString *growlDisplayPriorityLow;
+@property (nonatomic, retain) NSString *growlDisplayPriorityVeryLow;
 @property (nonatomic, retain) NSString *growlDisplayPriorityModerate;
 @property (nonatomic, retain) NSString *growlDisplayPriorityNormal;
 @property (nonatomic, retain) NSString *growlDisplayPriorityHigh;
