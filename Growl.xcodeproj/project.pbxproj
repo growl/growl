@@ -1227,7 +1227,7 @@
 		93BC37B2095A66950002B365 /* GrowlNanoWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlNanoWindowController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		93BC37B3095A66950002B365 /* GrowlNanoWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlNanoWindowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		93BC37B4095A66950002B365 /* GrowlNanoWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlNanoWindowView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		93BC37B5095A66950002B365 /* GrowlNanoWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlNanoWindowView.m; sourceTree = "<group>"; };
+		93BC37B5095A66950002B365 /* GrowlNanoWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNanoWindowView.m; sourceTree = "<group>"; };
 		93BC37B6095A66950002B365 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlWipeWindowTransition.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -3341,9 +3341,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE27690855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "MusicVideo" */;
 			buildPhases = (
-				0A7F5FE90767C7B300E1C1E4 /* Resources */,
 				0A7F5FEB0767C7B300E1C1E4 /* Sources */,
 				0A7F5FF00767C7B300E1C1E4 /* Frameworks */,
+				BC98735D15BB845800606BDA /* Generate Localizable.strings */,
+				0A7F5FE90767C7B300E1C1E4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -3399,9 +3400,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 93BC379B095A662B0002B365 /* Build configuration list for PBXNativeTarget "Nano" */;
 			buildPhases = (
-				93BC378F095A662B0002B365 /* Resources */,
 				93BC3791095A662B0002B365 /* Sources */,
 				93BC3797095A662B0002B365 /* Frameworks */,
+				BC98735E15BB848D00606BDA /* Generate Localizable.strings */,
+				93BC378F095A662B0002B365 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -4080,6 +4082,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "XPC_START=\"$BUILT_PRODUCTS_DIR\"\nXPC_SCRIPT=\"$SRCROOT/scripts/xpc-rename-move.rb\"\nruby \"$XPC_SCRIPT\" \"$XPC_START\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$CODE_SIGN_IDENTITY\"";
+		};
+		BC98735D15BB845800606BDA /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/MusicVideo/en.lproj Plugins/Displays/MusicVideo/*.h Plugins/MusicVideo/iCal/*.m";
+		};
+		BC98735E15BB848D00606BDA /* Generate Localizable.strings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Localizable.strings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "genstrings -o Plugins/Displays/Nano/en.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m";
 		};
 		BCC7F9801503C08B005FFE04 /* Generate Localizable.strings */ = {
 			isa = PBXShellScriptBuildPhase;
