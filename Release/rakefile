@@ -289,4 +289,13 @@ namespace "package" do
     system "zip -r -y #{$product_root}/Growl-#{$growl_version}-SDK.zip Growl-#{$growl_version}-SDK/"
 
   end
+  
+
 end
+
+desc "developer id codesign HWG"
+task :codesign_hwg do
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Frameworks/Growl.framework/"
+end
+
