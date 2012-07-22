@@ -538,6 +538,9 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) updateToNotification:(GrowlNotification *)theNotification {
+	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT 
+																		 object:[self notification]
+																	  userInfo:nil];
 	CGSize start = [self requiredSize];
 	[self setNotification:theNotification];
 	CGSize end = [self requiredSize];
