@@ -136,7 +136,9 @@ static struct {
 // Obnoxiously, the Mountain Lion notification center requires an
 // instanced class as a delegate or will not work.  So, here we are
 // with this.
-@interface GrowlAppleNotificationDelegate : NSObject <NSUserNotificationCenterDelegate>
+@interface GrowlAppleNotificationDelegate : NSObject <NSUserNotificationCenterDelegate> {
+   NSMutableArray       *pendingNotifications;
+}
 @end
 
 @implementation GrowlAppleNotificationDelegate
@@ -193,6 +195,12 @@ static struct {
    // notifications.  Down the road, we may want to make this logic fancier.
    
    return YES;
+}
+
+- (void)dealloc
+{
+   [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+   [super dealloc];
 }
 
 @end

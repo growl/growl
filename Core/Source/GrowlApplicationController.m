@@ -111,6 +111,12 @@
    return YES;
 }
 
+- (void)dealloc
+{
+   [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+   [super dealloc];
+}
+
 @end
 #endif
 
@@ -197,6 +203,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
 	
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
+   [appleNotificationDelegate release]; appleNotificationDelegate = nil;
+#endif
+   
 	[super dealloc];
 }
 
