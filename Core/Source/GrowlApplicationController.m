@@ -123,6 +123,7 @@
 @interface GrowlApplicationController (PRIVATE)
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
+- (void) notificationCenterQuery:(NSNotification *)notification;
 @end
 
 /*applications that go full-screen (games in particular) are expected to capture
@@ -905,6 +906,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	
 	[self versionDictionary];
 	
+   NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+   [dnc addObserver:self
+           selector:@selector(notificationCenterQuery:)
+               name:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_QUERY
+             object:nil];
+   
 	NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"GrowlDefaults" withExtension:@"plist"];
 	NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfURL:fileURL];
 	if (defaultDefaults) {
@@ -1086,6 +1093,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	GrowlNotification *growlNotification = [notification object];
 	
 	[self growlNotificationDict:[growlNotification dictionaryRepresentation] didCloseViaNotificationClick:NO onLocalMachine:YES];
+}
+
+- (void) notificationCenterQuery:(NSNotification *)notification {
+   NSString *notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_OFF;
+   
+   if (NSClassFromString(@"NSUserNotificationCenter")) {
+      // We have notification center!  Are we supposed to use it?
+      
+      if ([[GrowlPreferencesController sharedController] shouldUseAppleNotifications]) {
+         notificationCenterEnabledNotice = GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_ON;
+      }
+   }
+
+   // Inform applications.  Unfortunately, this means telling everyone, but
+   // it's the only way to guarantee an app gets this information when querying.
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:notificationCenterEnabledNotice
+                                                                  object:nil
+                                                                userInfo:nil
+                                                      deliverImmediately:YES];
 }
 
 @end
