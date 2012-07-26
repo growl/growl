@@ -291,16 +291,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    appleNotification.title = [growlDict objectForKey:GROWL_APP_NAME];
    appleNotification.subtitle = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
    appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-   appleNotification.userInfo = notificationDict;
-   
-   // If we ever add support for action buttons in Growl (please), we'll want to add those here.
-   if (!appleNotificationDelegate) {
-      appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
-   }
-   
-   [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
-   [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-   [appleNotification release];
+	@try {
+		appleNotification.userInfo = notificationDict;
+		
+		// If we ever add support for action buttons in Growl (please), we'll want to add those here.
+		if (!appleNotificationDelegate) {
+			appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
+		}
+		
+		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
+		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+		[appleNotification release];
+		
+	}
+	@catch (NSException *exception) {
+		NSLog(@"caught exception, dict too big: %@", notificationDict);
+	}
+	@finally {
+		
+	}
 #endif
 }
 
