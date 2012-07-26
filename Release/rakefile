@@ -275,6 +275,9 @@ namespace "package" do
     FileUtils.ln_s("../../../Framework/Growl.framework", "Developer Tools/MultiGrowl/external/Growl.framework")
     FileUtils.ln_s("../../../../Framework/legacy/Growl.framework", "Developer Tools/MultiGrowl/external/legacy/Growl.framework")
 
+    #copy over the SDK readme
+    FileUtils.cp_r("#{$src_root}/Developer Tools/Growl SDK Readme.rtf", "#{$destdir}/Growl-#{$growl_version}-SDK")
+
     # copy over XPC and its script
     FileUtils.cp_r("#{$build_root}/gntpclientxpc/#{$configuration}/com.company.application.GNTPClientService.xpc", "XPC Client")
     FileUtils.cp("#{$src_root}/scripts/xpc-rename-move.rb", "XPC Client")
