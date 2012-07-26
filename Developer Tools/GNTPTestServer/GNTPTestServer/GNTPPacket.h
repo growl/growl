@@ -67,6 +67,7 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 +(NSDictionary*)growlToGNTPMatchingDict;
 +(NSString*)gntpKeyForGrowlDictKey:(NSString*)growlKey;
 +(id)convertedObjectFromGrowlObject:(id)obj forGNTPKey:(NSString*)gntpKey;
++(NSData*)convertedDataForIconObject:(id)obj;
 
 #pragma mark Packet Building
 

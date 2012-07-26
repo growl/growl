@@ -69,34 +69,38 @@
    NSFetchRequest *request = [[[NSFetchRequest alloc] initWithEntityName:@"Image"] autorelease];
    
    NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
-	if([imageData isKindOfClass:[NSImage class]])
+	if(imageData && [imageData isKindOfClass:[NSImage class]])
 		imageData = [(NSImage*)imageData PNGRepresentation];
 
-	NSString *hash = [self hashForData:imageData];
-
-   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Checksum == %@", hash];
-   [request setPredicate:predicate];
-   
-   NSError *error = nil;
-   NSArray *cacheResult = [[self managedObjectContext] executeFetchRequest:request error:&error];
-   if(error){
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-      return;
-   }
-   
-   if ([cacheResult count] > 0) {
-      self.Image = [cacheResult objectAtIndex:0];
-   }else{
-      GrowlImageCache *newCache = [NSEntityDescription insertNewObjectForEntityForName:@"Image" 
-                                                                inManagedObjectContext:[self managedObjectContext]];
-      [newCache setImage:imageData andHash:hash];
-      self.Image = newCache;
-   }
-   
-   NSMutableDictionary *mutableDict = [[noteDict mutableCopyWithZone:nil] autorelease];
-   [mutableDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
-   [mutableDict removeObjectForKey:GROWL_APP_ICON_DATA];
-   self.GrowlDictionary = mutableDict;
+	if(imageData && [imageData isKindOfClass:[NSData class]])
+	{
+		NSString *hash = [self hashForData:imageData];
+		
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Checksum == %@", hash];
+		[request setPredicate:predicate];
+		
+		NSError *error = nil;
+		NSArray *cacheResult = [[self managedObjectContext] executeFetchRequest:request error:&error];
+		if(error){
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			return;
+		}
+		
+		if ([cacheResult count] > 0) {
+			self.Image = [cacheResult objectAtIndex:0];
+		}else{
+			GrowlImageCache *newCache = [NSEntityDescription insertNewObjectForEntityForName:@"Image"
+																						 inManagedObjectContext:[self managedObjectContext]];
+			[newCache setImage:imageData andHash:hash];
+			self.Image = newCache;
+		}
+		
+	}
+	NSMutableDictionary *mutableDict = [[noteDict mutableCopyWithZone:nil] autorelease];
+	[mutableDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+	[mutableDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
+	[mutableDict removeObjectForKey:GROWL_APP_ICON_DATA];
+	self.GrowlDictionary = mutableDict;
 }
 
 -(NSString*)hashForData:(NSData*)data

@@ -325,16 +325,27 @@
 	}else if([growlKey isEqualToString:GROWL_APP_ICON_DATA] ||
 				[growlKey isEqualToString:GROWL_NOTIFICATION_ICON_DATA])
 	{
-		if([obj isKindOfClass:[NSString class]]){
-			NSURL *url = [NSURL URLWithString:obj];
-			if(url)
-				convertedObj = [NSData dataWithContentsOfURL:url];
-			else
-				NSLog(@"Icon String: %@ is not a URL, and was not retrieved by the packet as a resource", obj);
-		}//There is no else, either its already data, or we dont know what to do with it
+		convertedObj = [self convertedDataForIconObject:obj];
 	}
 	return convertedObj;
 }
++(NSData*)convertedDataForIconObject:(id)obj {
+	NSData *data = nil;
+	if([obj isKindOfClass:[NSData data]]){
+		data = obj;
+	}else if([obj isKindOfClass:[NSString class]]){
+		NSURL *url = [NSURL URLWithString:obj];
+		if(url){
+			data = [NSData dataWithContentsOfURL:url];
+		}
+	}
+	if(!data){
+		NSLog(@"Icon Object: %@ is not a URL or data, or could not retrieved by the packet as a resource, inserting placeholder icon", obj);
+		data = [[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation];
+	}
+	return data;
+}
+
 #pragma mark Growl to GNTP
 +(NSDictionary*)growlToGNTPMatchingDict {
 	static NSDictionary *_matchingDict = nil;

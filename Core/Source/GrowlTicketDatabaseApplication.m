@@ -110,7 +110,13 @@
 -(void)registerWithDictionary:(NSDictionary *)regDict {
 	__block GrowlTicketDatabaseApplication *blockSelf = self;
    void (^regBlock)(void) = ^{
-		blockSelf.iconData = [regDict objectForKey:GROWL_APP_ICON_DATA];
+		
+		id icon = [regDict objectForKey:GROWL_APP_ICON_DATA];
+		if(icon && [icon isKindOfClass:[NSImage class]])
+			icon = [(NSImage*)icon TIFFRepresentation];
+		if(icon && [icon isKindOfClass:[NSData class]])
+			blockSelf.iconData = icon;
+		
 		blockSelf.name = [regDict objectForKey:GROWL_APP_NAME];
 		blockSelf.appID = [regDict objectForKey:GROWL_APP_ID];
 		blockSelf.positionType = [NSNumber numberWithInteger:0];	
@@ -154,7 +160,9 @@
 			note.enabled = note.defaultEnabled;
 			
 			NSData *iconData = [notificationIcons valueForKey:name];
-			if(iconData)
+			if(iconData && [iconData isKindOfClass:[NSImage class]])
+				iconData = [(NSImage*)iconData TIFFRepresentation];
+			if(iconData && [iconData isKindOfClass:[NSData class]])
 				note.iconData = iconData;
 		}];
 	};

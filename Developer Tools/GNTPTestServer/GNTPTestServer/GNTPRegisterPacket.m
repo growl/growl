@@ -205,23 +205,8 @@
 			NSString *enabledString = [obj objectForKey:GrowlGNTPNotificationEnabled];
 			NSString *description = [obj objectForKey:@"X-Notification-Description"];
 			id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
-			NSData *iconData = nil;
-			
-			if([icon isKindOfClass:[NSString class]]){
-				/* 
-				 * Download the URL if it can be made;
-				 * We will get away with this blocking download method
-				 * because this will be happening on a concurrent queue
-				 */
-				NSURL *url = [NSURL URLWithString:icon];
-				if(url)
-					iconData = [NSData dataWithContentsOfURL:url];
-				else
-					NSLog(@"Icon String: %@ is not a URL, and was not retrieved by the packet as a resource", icon);
-			}else if([icon isKindOfClass:[NSData class]]){
-				iconData = icon;
-			}
-			
+			NSData *iconData = [GNTPPacket convertedDataForIconObject:icon];
+						
 			if(displayName)
 				[displayNames setObject:displayName forKey:notificationName];
 			if(description)
