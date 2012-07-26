@@ -301,14 +301,12 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		
 		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
 		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-		[appleNotification release];
-		
 	}
 	@catch (NSException *exception) {
-		NSLog(@"caught exception, dict too big: %@", notificationDict);
+		NSLog(@"caught exception, dict too big to send to Notification Center");
 	}
 	@finally {
-		
+		[appleNotification release];
 	}
 #endif
 }
