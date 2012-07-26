@@ -67,7 +67,7 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification	{
 	NSInteger selectedRow = [soundTableView selectedRow];
-	if(selectedRow > 0 && selectedRow < [sounds count]){
+	if(selectedRow > 0 && (NSUInteger)selectedRow < [sounds count]){
 		NSString *soundName = [sounds objectAtIndex:selectedRow];
 		if([[self soundName] caseInsensitiveCompare:soundName] != NSOrderedSame){
 			[self setSoundName:soundName];

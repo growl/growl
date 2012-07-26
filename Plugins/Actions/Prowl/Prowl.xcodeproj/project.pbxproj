@@ -23,6 +23,10 @@
 		11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */; };
 		11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11978EF7152D3E0A0021C916 /* WebKit.framework */; };
 		11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F141C515366AF30040FB21 /* PRPreferencePane.xib */; };
+		BC1FE6BD15C0EFC400E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6B915C0EFC400E27306 /* Common.xcconfig */; };
+		BC1FE6BE15C0EFC400E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */; };
+		BC1FE6BF15C0EFC400E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */; };
+		BC1FE6C015C0EFC400E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */; };
 		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
 /* End PBXBuildFile section */
 
@@ -170,6 +174,10 @@
 		11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PRWebViewWindowController.xib; sourceTree = "<group>"; };
 		11978EF7152D3E0A0021C916 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		11F141C515366AF30040FB21 /* PRPreferencePane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PRPreferencePane.xib; sourceTree = "<group>"; };
+		BC1FE6B915C0EFC400E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +209,7 @@
 		118F2D9D152BEC4300F3C167 = {
 			isa = PBXGroup;
 			children = (
+				BC1FE6A815C0EFB900E27306 /* xcconfigs */,
 				118F2DB1152BEC4300F3C167 /* Prowl */,
 				118F2DAA152BEC4300F3C167 /* Frameworks */,
 				118F2DA9152BEC4300F3C167 /* Products */,
@@ -292,6 +301,17 @@
 				11978EF0152D35090021C916 /* PRServerError.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		BC1FE6A815C0EFB900E27306 /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				BC1FE6B915C0EFC400E27306 /* Common.xcconfig */,
+				BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */,
+				BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */,
+				BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */,
+			);
+			name = xcconfigs;
 			sourceTree = "<group>";
 		};
 		BC97C9C8152C1E5D00E7BA1E /* Products */ = {
@@ -487,6 +507,10 @@
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
 				11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */,
 				117B7D381532600D0068CBD2 /* Localizable.strings in Resources */,
+				BC1FE6BD15C0EFC400E27306 /* Common.xcconfig in Resources */,
+				BC1FE6BE15C0EFC400E27306 /* Debug.xcconfig in Resources */,
+				BC1FE6BF15C0EFC400E27306 /* Localization.xcconfig in Resources */,
+				BC1FE6C015C0EFC400E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +572,7 @@
 /* Begin XCBuildConfiguration section */
 		118F2DC3152BEC4300F3C167 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -574,6 +599,7 @@
 		};
 		118F2DC4152BEC4300F3C167 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -593,11 +619,13 @@
 		};
 		118F2DC6152BEC4300F3C167 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
 				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = growlView;
@@ -606,18 +634,57 @@
 		};
 		118F2DC7152BEC4300F3C167 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
 				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Release;
+		};
+		BC1FE6C115C0EFE100E27306 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Localization;
+		};
+		BC1FE6C215C0EFE100E27306 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
+				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Localization;
 		};
 /* End XCBuildConfiguration section */
 
@@ -627,6 +694,7 @@
 			buildConfigurations = (
 				118F2DC3152BEC4300F3C167 /* Debug */,
 				118F2DC4152BEC4300F3C167 /* Release */,
+				BC1FE6C115C0EFE100E27306 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -636,6 +704,7 @@
 			buildConfigurations = (
 				118F2DC6152BEC4300F3C167 /* Debug */,
 				118F2DC7152BEC4300F3C167 /* Release */,
+				BC1FE6C215C0EFE100E27306 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

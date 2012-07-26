@@ -104,10 +104,10 @@
 	dispatch_async(sound_queue, ^{
 		blockSelf.currentSound = nil;
 		if([blockSelf.queuedSounds count] > 0){
-			NSSound *sound = [blockSelf.queuedSounds objectAtIndex:0U];
+			NSSound *newSound = [blockSelf.queuedSounds objectAtIndex:0U];
 			[blockSelf.queuedSounds removeObjectAtIndex:0U];
-			blockSelf.currentSound = sound;
-			[sound play];
+			blockSelf.currentSound = newSound;
+			[newSound play];
 		}
 	});
 }

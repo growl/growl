@@ -384,7 +384,7 @@ enum {
 	if (stream == _istream && event == NSStreamEventHasBytesAvailable) {
 		// DLog(@"%@ has bytes available", self);
 		while (YES) {
-			NSUInteger maxLength = 2048;
+			NSInteger maxLength = 2048;
 			uint8_t buffer[maxLength];
 			NSInteger length = [_istream read:buffer maxLength:maxLength];
 			
@@ -465,7 +465,7 @@ enum {
 -(void)trySendingDataNow {
 	NSUInteger length = _obuffer.length;
 	if (length && self.connectionStatus == ConnectionStatusOk) {
-		NSUInteger sentLength = [_ostream write:(uint8_t*)_obuffer.bytes maxLength:length];
+		NSInteger sentLength = [_ostream write:(uint8_t*)_obuffer.bytes maxLength:length];
 		if (sentLength != -1) {
 			[_obuffer replaceBytesInRange:NSMakeRange(0,sentLength) withBytes:nil length:0];
 			//            NSLog(@"Sent %d bytes", sentLength);
@@ -869,7 +869,7 @@ CramMD5AUTH
 -(NSString*)hex {
 	NSMutableString* stringBuffer = [NSMutableString stringWithCapacity:([self length] * 2)];
 	const unsigned char* dataBuffer = (unsigned char*)[self bytes];
-	for (int i = 0; i < [self length]; ++i)
+	for (NSUInteger i = 0; i < [self length]; ++i)
 		[stringBuffer appendFormat:@"%02lX", (unsigned long)dataBuffer[i]];
 	return [[stringBuffer copy] autorelease];
 }

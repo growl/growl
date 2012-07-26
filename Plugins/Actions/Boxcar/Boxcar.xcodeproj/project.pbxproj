@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		BC19A16C15198D1900A0CA64 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC19A15115198CE300A0CA64 /* GrowlPlugins.framework */; };
+		BC1FE6D815C0F00200E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D415C0F00200E27306 /* Common.xcconfig */; };
+		BC1FE6D915C0F00200E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D515C0F00200E27306 /* Debug.xcconfig */; };
+		BC1FE6DA15C0F00200E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D615C0F00200E27306 /* Localization.xcconfig */; };
+		BC1FE6DB15C0F00200E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D715C0F00200E27306 /* Release.xcconfig */; };
 		BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
 		BCEA7EE21517CD4400E98B1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE11517CD4400E98B1F /* Cocoa.framework */; };
 		BCEA7EE41517CD4400E98B1F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE31517CD4400E98B1F /* AppKit.framework */; };
@@ -135,6 +139,10 @@
 
 /* Begin PBXFileReference section */
 		BC19A13615198CE300A0CA64 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BC1FE6D415C0F00200E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		BC1FE6D515C0F00200E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		BC1FE6D615C0F00200E27306 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		BC1FE6D715C0F00200E27306 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		BC8058FC15BB742900E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCEA7EDE1517CD4400E98B1F /* Boxcar.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Boxcar.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEA7EE11517CD4400E98B1F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -188,9 +196,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BC1FE6C315C0EFF700E27306 /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				BC1FE6D415C0F00200E27306 /* Common.xcconfig */,
+				BC1FE6D515C0F00200E27306 /* Debug.xcconfig */,
+				BC1FE6D615C0F00200E27306 /* Localization.xcconfig */,
+				BC1FE6D715C0F00200E27306 /* Release.xcconfig */,
+			);
+			name = xcconfigs;
+			sourceTree = "<group>";
+		};
 		BCEA7ED31517CD4400E98B1F = {
 			isa = PBXGroup;
 			children = (
+				BC1FE6C315C0EFF700E27306 /* xcconfigs */,
 				BCEA7EE71517CD4400E98B1F /* Boxcar */,
 				BCEA7EE01517CD4400E98B1F /* Frameworks */,
 				BCEA7EDF1517CD4400E98B1F /* Products */,
@@ -410,6 +430,10 @@
 				BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */,
 				BCEA7EF01517CD4400E98B1F /* BoxcarPrefPane.xib in Resources */,
 				BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */,
+				BC1FE6D815C0F00200E27306 /* Common.xcconfig in Resources */,
+				BC1FE6D915C0F00200E27306 /* Debug.xcconfig in Resources */,
+				BC1FE6DA15C0F00200E27306 /* Localization.xcconfig in Resources */,
+				BC1FE6DB15C0F00200E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,8 +507,51 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		BC1FE6DC15C0F01100E27306 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D615C0F00200E27306 /* Localization.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREFIX_HEADER = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Localization;
+		};
+		BC1FE6DD15C0F01100E27306 /* Localization */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D615C0F00200E27306 /* Localization.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Boxcar\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Boxcar/Boxcar-Prefix.pch";
+				INFOPLIST_FILE = "Boxcar/Boxcar-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Localization;
+		};
 		BCEA7EF91517CD4500E98B1F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D515C0F00200E27306 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -503,6 +570,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREFIX_HEADER = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -511,6 +579,7 @@
 		};
 		BCEA7EFA1517CD4500E98B1F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D715C0F00200E27306 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -523,6 +592,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_PREFIX_HEADER = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
@@ -530,6 +600,7 @@
 		};
 		BCEA7EFC1517CD4500E98B1F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D515C0F00200E27306 /* Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -540,6 +611,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Boxcar/Boxcar-Prefix.pch";
 				INFOPLIST_FILE = "Boxcar/Boxcar-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -549,6 +621,7 @@
 		};
 		BCEA7EFD1517CD4500E98B1F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1FE6D715C0F00200E27306 /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -559,6 +632,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Boxcar/Boxcar-Prefix.pch";
 				INFOPLIST_FILE = "Boxcar/Boxcar-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -574,6 +648,7 @@
 			buildConfigurations = (
 				BCEA7EF91517CD4500E98B1F /* Debug */,
 				BCEA7EFA1517CD4500E98B1F /* Release */,
+				BC1FE6DC15C0F01100E27306 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -583,6 +658,7 @@
 			buildConfigurations = (
 				BCEA7EFC1517CD4500E98B1F /* Debug */,
 				BCEA7EFD1517CD4500E98B1F /* Release */,
+				BC1FE6DD15C0F01100E27306 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
