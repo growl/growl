@@ -331,7 +331,7 @@
 }
 +(NSData*)convertedDataForIconObject:(id)obj {
 	NSData *data = nil;
-	if([obj isKindOfClass:[NSData data]]){
+	if([obj isKindOfClass:[NSData class]]){
 		data = obj;
 	}else if([obj isKindOfClass:[NSString class]]){
 		NSURL *url = [NSURL URLWithString:obj];
