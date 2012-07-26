@@ -283,6 +283,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    // We want to preserve all the notification state, but we can't pass the icon
    // data in, or OS X will whine about the userinfo being too large.
    NSMutableDictionary *notificationDict = [[growlDict mutableCopy] autorelease];
+	[notificationDict removeObjectForKey:GROWL_APP_ICON_DATA];
    [notificationDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
    [notificationDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
    
