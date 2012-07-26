@@ -38,7 +38,7 @@ NSString *const PRServerErrorDomain = @"PRServerErrorDomain";
 
 - (NSString *)localizedFailureReason
 {
-	return [NSString stringWithFormat:@"%d", self.code];
+	return [NSString stringWithFormat:@"%ld", self.code];
 }
 
 @end

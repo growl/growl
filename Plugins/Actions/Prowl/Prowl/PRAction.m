@@ -179,7 +179,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	[bodyString appendFormat:@"&application=%@", [self encodedStringForString:application]];
 	[bodyString appendFormat:@"&event=%@", [self encodedStringForString:event]];
 	[bodyString appendFormat:@"&description=%@", [self encodedStringForString:description]];
-	[bodyString appendFormat:@"&priority=%d", priority];
+	[bodyString appendFormat:@"&priority=%ld", priority];
 	return [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 

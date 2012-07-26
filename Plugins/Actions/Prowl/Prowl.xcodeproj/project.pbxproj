@@ -344,7 +344,7 @@
 		118F2D9F152BEC4300F3C167 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 118F2DA2152BEC4300F3C167 /* Build configuration list for PBXProject "Prowl" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -594,6 +594,7 @@
 		118F2DC6152BEC4300F3C167 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
 				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";
@@ -607,6 +608,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Prowl/Prowl-Prefix.pch";
 				INFOPLIST_FILE = "Prowl/Prowl-Info.plist";

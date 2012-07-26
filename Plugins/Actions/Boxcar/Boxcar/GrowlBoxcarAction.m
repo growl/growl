@@ -87,7 +87,7 @@
 	NSMutableString *dataString = [NSMutableString stringWithFormat:@"email=%@", email];
 	[dataString appendFormat:@"&notification[from_screen_name]=%@", app];
 	[dataString	appendFormat:@"&notification[message]=%@", message];
-	[dataString appendFormat:@"&notification[priority]=%d", priority];
+	[dataString appendFormat:@"&notification[priority]=%ld", priority];
 	NSData *data = [NSData dataWithBytes:[dataString UTF8String] length:[dataString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:data];
