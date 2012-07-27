@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BC19A16C15198D1900A0CA64 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC19A15115198CE300A0CA64 /* GrowlPlugins.framework */; };
-		BC1FE6D815C0F00200E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D415C0F00200E27306 /* Common.xcconfig */; };
-		BC1FE6D915C0F00200E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D515C0F00200E27306 /* Debug.xcconfig */; };
-		BC1FE6DA15C0F00200E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D615C0F00200E27306 /* Localization.xcconfig */; };
-		BC1FE6DB15C0F00200E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6D715C0F00200E27306 /* Release.xcconfig */; };
 		BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
 		BCEA7EE21517CD4400E98B1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE11517CD4400E98B1F /* Cocoa.framework */; };
 		BCEA7EE41517CD4400E98B1F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE31517CD4400E98B1F /* AppKit.framework */; };
@@ -430,10 +426,6 @@
 				BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */,
 				BCEA7EF01517CD4400E98B1F /* BoxcarPrefPane.xib in Resources */,
 				BC8058FD15BB742900E852B9 /* Localizable.strings in Resources */,
-				BC1FE6D815C0F00200E27306 /* Common.xcconfig in Resources */,
-				BC1FE6D915C0F00200E27306 /* Debug.xcconfig in Resources */,
-				BC1FE6DA15C0F00200E27306 /* Localization.xcconfig in Resources */,
-				BC1FE6DB15C0F00200E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

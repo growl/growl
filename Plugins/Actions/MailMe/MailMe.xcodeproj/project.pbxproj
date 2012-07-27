@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC1FE70E15C0F08B00E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE70A15C0F08B00E27306 /* Common.xcconfig */; };
-		BC1FE70F15C0F08B00E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE70B15C0F08B00E27306 /* Debug.xcconfig */; };
-		BC1FE71015C0F08B00E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE70C15C0F08B00E27306 /* Localization.xcconfig */; };
-		BC1FE71115C0F08B00E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE70D15C0F08B00E27306 /* Release.xcconfig */; };
 		BC80590015BB746D00E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FE15BB746C00E852B9 /* Localizable.strings */; };
 		BCCB237715372ACB0064FD1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237615372ACB0064FD1D /* Cocoa.framework */; };
 		BCCB237915372ACB0064FD1D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237815372ACB0064FD1D /* AppKit.framework */; };
@@ -433,10 +429,6 @@
 				BCCB238115372ACB0064FD1D /* InfoPlist.strings in Resources */,
 				BCCB23F71537374A0064FD1D /* MailMePrefPane.xib in Resources */,
 				BC80590015BB746D00E852B9 /* Localizable.strings in Resources */,
-				BC1FE70E15C0F08B00E27306 /* Common.xcconfig in Resources */,
-				BC1FE70F15C0F08B00E27306 /* Debug.xcconfig in Resources */,
-				BC1FE71015C0F08B00E27306 /* Localization.xcconfig in Resources */,
-				BC1FE71115C0F08B00E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

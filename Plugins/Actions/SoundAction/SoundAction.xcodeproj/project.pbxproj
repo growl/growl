@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC1FE6F315C0F04700E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6EF15C0F04700E27306 /* Common.xcconfig */; };
-		BC1FE6F415C0F04700E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6F015C0F04700E27306 /* Debug.xcconfig */; };
-		BC1FE6F515C0F04700E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6F115C0F04700E27306 /* Localization.xcconfig */; };
-		BC1FE6F615C0F04700E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6F215C0F04700E27306 /* Release.xcconfig */; };
 		BC80590315BB74A000E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
 		BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7960151265C70052EB51 /* Cocoa.framework */; };
 		BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7969151265C70052EB51 /* InfoPlist.strings */; };
@@ -440,10 +436,6 @@
 				BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */,
 				BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */,
 				BC80590315BB74A000E852B9 /* Localizable.strings in Resources */,
-				BC1FE6F315C0F04700E27306 /* Common.xcconfig in Resources */,
-				BC1FE6F415C0F04700E27306 /* Debug.xcconfig in Resources */,
-				BC1FE6F515C0F04700E27306 /* Localization.xcconfig in Resources */,
-				BC1FE6F615C0F04700E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

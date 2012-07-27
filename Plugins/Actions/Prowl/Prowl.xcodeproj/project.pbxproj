@@ -23,10 +23,6 @@
 		11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */; };
 		11978EF8152D3E0A0021C916 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11978EF7152D3E0A0021C916 /* WebKit.framework */; };
 		11F141C415366AF30040FB21 /* PRPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F141C515366AF30040FB21 /* PRPreferencePane.xib */; };
-		BC1FE6BD15C0EFC400E27306 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6B915C0EFC400E27306 /* Common.xcconfig */; };
-		BC1FE6BE15C0EFC400E27306 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */; };
-		BC1FE6BF15C0EFC400E27306 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */; };
-		BC1FE6C015C0EFC400E27306 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BC1FE6BC15C0EFC400E27306 /* Release.xcconfig */; };
 		BC97C9FD152C1E7800E7BA1E /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC97C9E2152C1E5D00E7BA1E /* GrowlPlugins.framework */; };
 /* End PBXBuildFile section */
 
@@ -507,10 +503,6 @@
 				11951BF8152C120A006D3B62 /* checkmark.png in Resources */,
 				11978EF6152D3DA10021C916 /* PRWebViewWindowController.xib in Resources */,
 				117B7D381532600D0068CBD2 /* Localizable.strings in Resources */,
-				BC1FE6BD15C0EFC400E27306 /* Common.xcconfig in Resources */,
-				BC1FE6BE15C0EFC400E27306 /* Debug.xcconfig in Resources */,
-				BC1FE6BF15C0EFC400E27306 /* Localization.xcconfig in Resources */,
-				BC1FE6C015C0EFC400E27306 /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
