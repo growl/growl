@@ -98,6 +98,8 @@
       if (lifetime) {
          [self performSelector:@selector(expireNotification:) withObject:dict afterDelay:lifetime];
       }
+		
+		[dict release];
    }
 }
 

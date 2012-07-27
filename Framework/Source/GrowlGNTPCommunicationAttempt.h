@@ -18,7 +18,6 @@
 	GNTPKey *_key;
 	GCDAsyncSocket *socket;
 	NSString *responseParseErrorString, *bogusResponse;
-	NSString *callbackType;
 	NSMutableDictionary *callbackHeaderItems;
 	BOOL attemptSucceeded;
 	int responseReadType;

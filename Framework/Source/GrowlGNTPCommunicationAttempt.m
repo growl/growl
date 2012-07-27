@@ -140,15 +140,15 @@ enum {
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {	
 	if(password){
-		self.key = [[GNTPKey alloc] initWithPassword:password
+		self.key = [[[GNTPKey alloc] initWithPassword:password
 												 hashAlgorithm:GNTPSHA512
-										 encryptionAlgorithm:GNTPNone];
+										 encryptionAlgorithm:GNTPNone] autorelease];
 		[self.key generateSalt];
 		[self.key generateKey];
 	}else{
-		self.key = [[GNTPKey alloc] initWithPassword:nil
+		self.key = [[[GNTPKey alloc] initWithPassword:nil
 												 hashAlgorithm:GNTPNoHash
-										 encryptionAlgorithm:GNTPNone];
+										 encryptionAlgorithm:GNTPNone] autorelease];
 	}
 	
 	NSData *outData = [self outgoingData];

@@ -13,9 +13,7 @@
 @private
 	
 	xpc_connection_t                    xpcConnection;
-	
-	NSString *                          notificationUuid;
-	
+		
 	NSDictionary *sendingDetails;
 	NSDictionary *responseDict;
 }

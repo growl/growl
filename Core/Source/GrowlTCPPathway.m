@@ -27,11 +27,11 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		self.localServer = [[GNTPServer alloc] initWithInterface:@"localhost"];
+		self.localServer = [[[GNTPServer alloc] initWithInterface:@"localhost"] autorelease];
 		self.localServer.delegate = (id<GNTPServerDelegate>)self;
 		[self.localServer startServer];
 		
-		self.remoteServer = [[GNTPServer alloc] initWithInterface:nil];
+		self.remoteServer = [[[GNTPServer alloc] initWithInterface:nil] autorelease];
 		self.remoteServer.delegate = (id<GNTPServerDelegate>)self;
 		
 		[[NSNotificationCenter defaultCenter] addObserverForName:GROWL_NOTIFICATION_CLICKED

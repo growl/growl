@@ -97,7 +97,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
                                                                              oldBlock, @"actionBlock",
                                                                              FirstLaunchOldGrowlButton, @"actionTitle", nil];
           [views addObject:oldDict];
-          Block_release(oldBlock);
+          [oldBlock release];
        }
        
        self.launchViews = [[views copy] autorelease];

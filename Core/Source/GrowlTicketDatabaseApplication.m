@@ -134,17 +134,18 @@
 		id inDefaults = [regDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 		if (!inDefaults) inDefaults = allNotificationNames;
 		
-		[allNotificationNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {      
+		[allNotificationNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			//Note names should ALWAYS be a string
+			if (![obj isKindOfClass:[NSString class]])
+				return;
+			
 			GrowlTicketDatabaseNotification *note = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlNotificationTicket"
 																										 inManagedObjectContext:[blockSelf managedObjectContext]];
 			
 			[note setParent:blockSelf];
 			
-			NSString *name;
-			if ([obj isKindOfClass:[NSString class]]) {
-				name = obj;
-				note.name = obj;
-			}
+			NSString *name = obj;
+			note.name = name;
 			//Set the human readable name if we were supplied one
 			if([humanReadableNames objectForKey:name])
 				note.humanReadableName = [humanReadableNames objectForKey:name];
@@ -193,17 +194,17 @@
 		__block NSUInteger added = 0;
 		NSMutableArray *newNotesArray = [NSMutableArray arrayWithCapacity:[allNotificationNames count]];
 		[allNotificationNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			if([obj isKindOfClass:[NSString class]])
+				return;
+			
 			GrowlTicketDatabaseNotification *note = [blockSelf notificationTicketForName:obj];
 			if(!note){
 				note = [NSEntityDescription insertNewObjectForEntityForName:@"GrowlNotificationTicket"
 																 inManagedObjectContext:[blockSelf managedObjectContext]];
 				[note setParent:blockSelf];
 				
-				NSString *name;
-				if ([obj isKindOfClass:[NSString class]]) {
-					name = obj;
-					note.name = obj;
-				}
+				NSString *name = obj;
+				note.name = name;
 				//Set the human readable name if we were supplied one
 				if([humanReadableNames objectForKey:name])
 					note.humanReadableName = [humanReadableNames objectForKey:name];
