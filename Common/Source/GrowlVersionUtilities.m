@@ -255,11 +255,6 @@ CFComparisonResult compareVersionStrings(NSString* a, NSString* b) {
 	parsed_a = parseVersionString(a, &v_a);
 	parsed_b = parseVersionString(b, &v_b);
 
-	NSString *aDesc = createVersionDescription(v_a), *bDesc = createVersionDescription(v_b);
-
-	if (aDesc) CFRelease(aDesc);
-	if (bDesc) CFRelease(bDesc);
-
 	//strings that could not be parsed sort above strings that could.
 	if (!parsed_a) {
 		return parsed_b ? kCFCompareLessThan : kCFCompareEqualTo;
