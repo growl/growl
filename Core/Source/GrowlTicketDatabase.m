@@ -285,6 +285,8 @@
       appBlock();
    else
       [managedObjectContext performBlockAndWait:appBlock];
+	
+	[self saveDatabase:NO];
    
    return app != nil;
 }
