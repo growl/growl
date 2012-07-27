@@ -205,7 +205,9 @@
 			NSString *enabledString = [obj objectForKey:GrowlGNTPNotificationEnabled];
 			NSString *description = [obj objectForKey:@"X-Notification-Description"];
 			id icon = [obj objectForKey:GrowlGNTPNotificationIcon];
-			NSData *iconData = [GNTPPacket convertedDataForIconObject:icon];
+			NSData *iconData = nil;
+			if(icon)
+				iconData = [GNTPPacket convertedDataForIconObject:icon];
 						
 			if(displayName)
 				[displayNames setObject:displayName forKey:notificationName];
