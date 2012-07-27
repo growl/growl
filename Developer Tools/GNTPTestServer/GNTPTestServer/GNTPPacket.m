@@ -533,7 +533,7 @@
 	}
 	[packetString appendString:@"\r\n"];
 	
-	NSMutableData *packetData = [[packetString dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+	NSMutableData *packetData = [[[packetString dataUsingEncoding:NSUTF8StringEncoding] mutableCopy] autorelease];
 	NSString *headers = [self headersForGNTPDictionary:gntpDict];
 	//Encrypt them if need be
 	NSData *headerData = [headers dataUsingEncoding:NSUTF8StringEncoding];
