@@ -472,8 +472,7 @@
 		[dictCopy setObject:@"Mac OS X" forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
 		[dictCopy setObject:platformVersion forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
 	}
-	
-	return growlDict;
+	return dictCopy;
 }
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)growlDict {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -542,7 +541,7 @@
 	else
 		[packetData appendData:headerData];
 	[packetData appendData:[GCDAsyncSocket CRLFData]];
-	//NSLog(@"%@%@", packetString, headers);
+	NSLog(@"%@%@", packetString, headers);
 	
 	NSMutableDictionary *dataBlocks = [gntpDict objectForKey:@"GNTPDATABLOCKS"];
 	if(dataBlocks){
