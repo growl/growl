@@ -194,7 +194,7 @@
 		__block NSUInteger added = 0;
 		NSMutableArray *newNotesArray = [NSMutableArray arrayWithCapacity:[allNotificationNames count]];
 		[allNotificationNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			if([obj isKindOfClass:[NSString class]])
+			if(![obj isKindOfClass:[NSString class]])
 				return;
 			
 			GrowlTicketDatabaseNotification *note = [blockSelf notificationTicketForName:obj];
