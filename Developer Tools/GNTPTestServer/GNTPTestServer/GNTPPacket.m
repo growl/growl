@@ -846,6 +846,13 @@
 		[convertedDict setObject:[[NSProcessInfo processInfo] globallyUniqueString] forKey:GROWL_NOTIFICATION_INTERNAL_ID];
 	[convertedDict setObject:self.guid forKey:@"GNTPGUID"];
 	[convertedDict setObject:[NSNumber numberWithBool:self.keepAlive] forKey:@"GNTP-Keep-Alive"];
+	
+	//Add in appropriate data for origin if it isnt there
+	if(![convertedDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY]){
+		[convertedDict setObject:self.connectedHost ? self.connectedHost : NSLocalizedString(@"Unknown Host", @"Received from an unknown host")
+								forKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+	}
+	
 	return convertedDict;
 }
 -(NSDictionary*)growlDict {
