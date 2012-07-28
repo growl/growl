@@ -549,7 +549,7 @@ static BOOL awoken = NO;
 	__block NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
 	[actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
 		NSUInteger index = [[blockSelf.actionConfigsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id testObj, NSUInteger testIDX, BOOL *testStop) {
-			if([[testObj configID] caseInsensitiveCompare:obj] == NSOrderedSame){
+			if([[testObj configID] caseInsensitiveCompare:[obj configID]] == NSOrderedSame){
 				return YES;
 			}
 			return NO;

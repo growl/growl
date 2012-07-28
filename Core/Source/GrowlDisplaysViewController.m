@@ -210,7 +210,7 @@
 	__block NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
 	[actions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSUInteger index = [[blockSelf.actionConfigsArrayController arrangedObjects] indexOfObjectPassingTest:^BOOL(id testObj, NSUInteger testIDX, BOOL *testStop) {
-			if([[testObj configID] caseInsensitiveCompare:obj] == NSOrderedSame){
+			if([[testObj configID] caseInsensitiveCompare:[obj configID]] == NSOrderedSame){
 				return YES;
 			}
 			return NO;
