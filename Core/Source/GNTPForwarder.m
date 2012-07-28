@@ -13,7 +13,12 @@
 #import "GrowlNetworkUtilities.h"
 #import "GrowlBonjourBrowser.h"
 #import "GrowlNetworkObserver.h"
+#import "GrowlDefines.h"
+#import "GrowlGNTPDefines.h"
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
+
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
 
 #import "GrowlXPCCommunicationAttempt.h"
 #import "GrowlXPCNotificationAttempt.h"
@@ -22,6 +27,7 @@
 @interface GNTPForwarder ()
 
 @property (nonatomic, retain) NSMutableArray *attemptArray;
+@property (nonatomic, retain) NSMutableArray *attemptQueue;
 
 @end
 
@@ -191,7 +197,7 @@
 				NSLog(@"Could not obtain destination address for %@", [obj computerName]);
 				return;
 			}
-			
+
 			NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
 			[sendingDetails setObject:destAddress forKey:@"GNTPAddressData"];
 			if([obj password])
@@ -329,10 +335,31 @@
 #pragma mark GrowlCommunicationDelegate
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
-	//Do nothing
+	__block GNTPForwarder *blockForwarder = self;
+	if([attempt attemptType] == GrowlCommunicationAttemptTypeRegister){
+		//Not the most efficient way to do this, we could probably add in checks about whether the succesfull registration had anything to do with the queued notes
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if([blockForwarder attemptQueue]){
+				[[blockForwarder attemptQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+					if([obj isKindOfClass:[NSDictionary class]])
+						[blockForwarder forwardNotification:obj];
+				}];
+			}
+			[blockForwarder setAttemptQueue:nil];
+		});
+	}
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
-	//Do nothing
+	__block GNTPForwarder *blockForwarder = self;
+	if([attempt attemptType] == GrowlCommunicationAttemptTypeRegister){
+		//Not the most efficient way to do this, we could probably add in checks about whether the succesfull registration had anything to do with the queued notes
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if([blockForwarder attemptQueue]){
+				NSLog(@"Failed to register with %lu notes in the queue", [[blockForwarder attemptQueue] count]);
+				[blockForwarder setAttemptQueue:nil];
+			}
+		});
+	}
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPForwarder *blockForwarder = self;
@@ -341,7 +368,21 @@
 	});
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
-	//Do something!
+	__block GNTPForwarder *blockForwarder = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSString *appName = [[attempt dictionary] valueForKey:GROWL_APP_NAME];
+		GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:nil];
+		NSDictionary *dictionary = [ticket registrationFormatDictionary];
+		//We should have a dictionary, but just to be safe
+		if(dictionary){
+			[self forwardRegistration:dictionary];
+			if(![blockForwarder attemptQueue]){
+				[blockForwarder setAttemptQueue:[NSMutableArray array]];
+			}
+			[[blockForwarder attemptQueue] addObject:[attempt dictionary]];
+			[[blockForwarder attemptArray] removeObject:attempt];
+		}
+	});
 }
 
 //Sent after success

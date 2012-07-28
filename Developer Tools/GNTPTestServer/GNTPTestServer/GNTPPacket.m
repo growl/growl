@@ -116,6 +116,10 @@
    if(![preferences boolForKey:@"RequireSecureGNTPResponses"] && isResponseType){
       passwordRequired = NO;
    }
+#else
+	if(isResponseType){
+		passwordRequired = NO;
+	}
 #endif
    
    //New setting to allow no encryption when password is empty
@@ -541,7 +545,7 @@
 	else
 		[packetData appendData:headerData];
 	[packetData appendData:[GCDAsyncSocket CRLFData]];
-	NSLog(@"%@%@", packetString, headers);
+	//NSLog(@"%@%@", packetString, headers);
 	
 	NSMutableDictionary *dataBlocks = [gntpDict objectForKey:@"GNTPDATABLOCKS"];
 	if(dataBlocks){

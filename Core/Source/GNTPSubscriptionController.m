@@ -15,6 +15,9 @@
 #import "GrowlXPCRegistrationAttempt.h"
 
 #import "GrowlGNTPDefines.h"
+#import "GrowlDefines.h"
+#import "GrowlTicketDatabase.h"
+#import "GrowlTicketDatabaseApplication.h"
 #import "GrowlNetworkUtilities.h"
 #import "NSStringAdditions.h"
 #import "GrowlBonjourBrowser.h"
@@ -23,6 +26,7 @@
 @interface GNTPSubscriptionController ()
 
 @property (nonatomic, retain) NSMutableArray *attemptArray;
+@property (nonatomic, retain) NSMutableArray *attemptQueue;
 
 @end
 
@@ -260,13 +264,17 @@
 	[attempt release];
 }
 
-/* Hande forwarding registrations */
--(void)appRegistered:(NSNotification*)note {
-	GrowlXPCRegistrationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:[note userInfo]];
+-(void)forwardRegistration:(NSDictionary*)dict {
+	GrowlXPCRegistrationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[self forwardAttempt:attempt];
 	});
 	[attempt release];
+}
+
+/* Hande forwarding registrations */
+-(void)appRegistered:(NSNotification*)note {
+	[self forwardNotification:[note userInfo]];
 }
 
 #pragma mark Table bindings accessor
@@ -373,10 +381,31 @@
 #pragma mark GrowlCommunicationAttemptDelegate
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
-	//Do nothing
+	__block GNTPSubscriptionController *blockSubscriber = self;
+	if([attempt attemptType] == GrowlCommunicationAttemptTypeRegister){
+		//Not the most efficient way to do this, we could probably add in checks about whether the succesfull registration had anything to do with the queued notes
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if([blockSubscriber attemptQueue]){
+				[[blockSubscriber attemptQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+					if([obj isKindOfClass:[NSDictionary class]])
+						[blockSubscriber forwardNotification:obj];
+				}];
+			}
+			[blockSubscriber setAttemptQueue:nil];
+		});
+	}
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
-	//Do nothing
+	__block GNTPSubscriptionController *blockSubscriber = self;
+	if([attempt attemptType] == GrowlCommunicationAttemptTypeRegister){
+		//Not the most efficient way to do this, we could probably add in checks about whether the succesfull registration had anything to do with the queued notes
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if([blockSubscriber attemptQueue]){
+				NSLog(@"Failed to register with %lu notes in the queue", [[blockSubscriber attemptQueue] count]);
+				[blockSubscriber setAttemptQueue:nil];
+			}
+		});
+	}
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
 	__block GNTPSubscriptionController *blockSubscriber = self;
@@ -385,7 +414,21 @@
 	});
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
-	//Do something!
+	__block GNTPSubscriptionController *blockSubscriber = self;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSString *appName = [[attempt dictionary] valueForKey:GROWL_APP_NAME];
+		GrowlTicketDatabaseApplication *ticket = [[GrowlTicketDatabase sharedInstance] ticketForApplicationName:appName hostName:nil];
+		NSDictionary *dictionary = [ticket registrationFormatDictionary];
+		//We should have a dictionary, but just to be safe
+		if(dictionary){
+			[blockSubscriber forwardRegistration:dictionary];
+			if(![blockSubscriber attemptQueue]){
+				[blockSubscriber setAttemptQueue:[NSMutableArray array]];
+			}
+			[[blockSubscriber attemptQueue] addObject:[attempt dictionary]];
+			[[blockSubscriber attemptArray] removeObject:attempt];
+		}
+	});
 }
 
 //Sent after success
