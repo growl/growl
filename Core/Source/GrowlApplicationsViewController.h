@@ -28,6 +28,8 @@
 @property (nonatomic, assign) IBOutlet NSPopUpButton *notificationDisplayMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *actionMenuButton;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *notificationActionMenuButton;
+@property (nonatomic, assign) IBOutlet NSButton *enableLogging;
+@property (nonatomic, assign) IBOutlet NSMatrix *positionPickerRadioButton;
 @property (nonatomic, assign) NSIndexSet *selectedNotificationIndexes;
 
 @property (nonatomic, assign) IBOutlet NSScrollView *applicationScrollView;

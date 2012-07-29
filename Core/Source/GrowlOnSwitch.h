@@ -7,30 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TMSliderControl.h"
 
-#define knobInset 1.0f
-#define knobDoubleInset (2.0f * knobInset)
-#define onSwitchRadius 6.0f
+@interface GrowlOnSwitch : TMSliderControl
 
-@class GrowlOnSwitchKnob;
-
-@interface GrowlOnSwitch : NSControl {
-	GrowlOnSwitchKnob *knob;
-	NSTextField *onLabel;
-	NSTextField *offLabel;
-	
-	BOOL state;
-	CGPoint mouseLoc;
-}
-
-@property (nonatomic, retain) GrowlOnSwitchKnob *knob;
-@property (nonatomic, retain) NSTextField *onLabel;
-@property (nonatomic, retain) NSTextField *offLabel;
-
-@property (nonatomic) BOOL state;
-@property (nonatomic) CGPoint mouseLoc;
-
--(void)updatePosition;
--(void)silentSetState:(BOOL)newState;
+@property (nonatomic, retain) IBOutlet NSTextField *onLabel;
+@property (nonatomic, retain) IBOutlet NSTextField *offLabel;
 
 @end

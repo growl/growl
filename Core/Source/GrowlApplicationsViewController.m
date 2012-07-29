@@ -72,6 +72,7 @@ static BOOL awoken = NO;
 @synthesize actionMenuButton;
 @synthesize notificationActionMenuButton;
 @synthesize selectedNotificationIndexes;
+@synthesize enableLogging;
 
 @synthesize applicationScrollView;
 @synthesize canRemoveTicket;
@@ -595,6 +596,12 @@ static BOOL awoken = NO;
 	}
 }
 
+- (void)setEnabled:(BOOL)enabled
+{
+    [appOnSwitch setEnabled:enabled];
+    [appPositionPicker setEnabled:enabled];
+}
+
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSInteger index = [growlApplications selectedRow];
 	if(index >= 0 && index < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
@@ -603,9 +610,8 @@ static BOOL awoken = NO;
 		if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
 		{
 			self.enableApplicationLabel = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"Label for application on/off switch"), [ticket name]];
-			[displayMenuButton setEnabled:YES];
-			[notificationDisplayMenuButton setEnabled:YES];
-			
+            [self setEnabled:YES];
+            
 			//Give it a chance to update its contents before trying to tell it to arrange.
 			__block GrowlApplicationsViewController *blockSelf = self;
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -624,9 +630,7 @@ static BOOL awoken = NO;
 			if(first != NSNotFound)
 				[growlApplications selectRowIndexes:[NSIndexSet indexSetWithIndex:first] byExtendingSelection:NO];
 		}
-		[appOnSwitch setState:NO];
-		[displayMenuButton setEnabled:NO];
-		[notificationDisplayMenuButton setEnabled:NO];
+        [self setEnabled:NO];
 	}
 }
 

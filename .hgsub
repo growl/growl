@@ -3,3 +3,4 @@ external_dependencies/cocoaasyncsocket = [git]git://github.com/growl/CocoaAsyncS
 external_dependencies/shortcutrecorder = [svn]http://shortcutrecorder.googlecode.com/svn/trunk
 external_dependencies/SGHotKeysLib = [git]git://github.com/growl/SGHotKeysLib.git
 external_dependencies/cocoalumberjack = [git]git://github.com/growl/CocoaLumberjack.git
+external_dependencies/tmslidercontrol = [git]git://github.com/growl/TMSliderControl.git

@@ -32,6 +32,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 
 @implementation GrowlPositionPicker
 @synthesize selectedPosition;
+@synthesize enabled;
 
 + (void) initialize {
 	if (self != [GrowlPositionPicker class])
@@ -52,7 +53,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 		[self generateHotCornerPaths];
 		selectedPosition = GrowlTopRightCorner;
 		rolloverPosition = GrowlNoOrigin;
-		
+		enabled = YES;
+        
 		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueObservingOptionNew context:self];
 	}
 	return self;
@@ -95,7 +97,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	}
 	
 	// draw the background image...
-	[backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:1.0];
+	[backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:(self.enabled ? 1.0 : 0.25)];
 	
 	// select the appropriate hotcorner before drawing
 	//[self setSelectedPosition:[associatedController selectedPosition]];
@@ -153,31 +155,36 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 - (void) mouseMoved:(NSEvent *)theEvent {
-	if ( !mouseOverView )
-		return;
-	
-	// did the mouse hit any of the hotcorners...?
-	NSUInteger lastHit = rolloverPosition;
-	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	if ([topLeftHotCorner containsPoint:mouseLoc]) {
-		rolloverPosition = GrowlTopLeftCorner;
-	} else if ([topRightHotCorner containsPoint:mouseLoc]) {
-		rolloverPosition = GrowlTopRightCorner;
-	} else if ([bottomRightHotCorner containsPoint:mouseLoc]) {
-		rolloverPosition = GrowlBottomRightCorner;
-	} else if ([bottomLeftHotCorner containsPoint:mouseLoc]) {
-		rolloverPosition = GrowlBottomLeftCorner;
-	} else {
-		rolloverPosition = GrowlNoOrigin;
-	}
-	
-	// do we need to redisplay...?
-	if (lastHit != rolloverPosition )
-		[self setNeedsDisplay:YES];
+    if(self.enabled)
+    {
+        if ( !mouseOverView )
+            return;
+        
+        // did the mouse hit any of the hotcorners...?
+        NSUInteger lastHit = rolloverPosition;
+        NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+        if ([topLeftHotCorner containsPoint:mouseLoc]) {
+            rolloverPosition = GrowlTopLeftCorner;
+        } else if ([topRightHotCorner containsPoint:mouseLoc]) {
+            rolloverPosition = GrowlTopRightCorner;
+        } else if ([bottomRightHotCorner containsPoint:mouseLoc]) {
+            rolloverPosition = GrowlBottomRightCorner;
+        } else if ([bottomLeftHotCorner containsPoint:mouseLoc]) {
+            rolloverPosition = GrowlBottomLeftCorner;
+        } else {
+            rolloverPosition = GrowlNoOrigin;
+        }
+        
+        // do we need to redisplay...?
+        if (lastHit != rolloverPosition )
+            [self setNeedsDisplay:YES];
+    }
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	// did the mouse hit any of the hotcorners...?
+	if(self.enabled)
+    {
+        // did the mouse hit any of the hotcorners...?
 	NSUInteger lastHit = selectedPosition;
 	NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if ([topLeftHotCorner containsPoint:mouseLoc]) {
@@ -193,6 +200,7 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	// do we need to redisplay...?
 	if (lastHit != selectedPosition )
 		[self setNeedsDisplay:YES];
+    }
 }
 
 - (void)swapSide {
@@ -244,19 +252,23 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 - (void)moveLeft:(id)sender {
-   [self swapSide];
+    if(self.enabled)
+        [self swapSide];
 }
 
 - (void)moveRight:(id)sender {
-   [self swapSide];
+    if(self.enabled)
+        [self swapSide];
 }
 
 - (void)moveUp:(id)sender {
-   [self swapVertical];
+    if(self.enabled)
+        [self swapVertical];
 }
 
 - (void)moveDown:(id)sender {
-   [self swapVertical];
+    if(self.enabled)
+        [self swapVertical];
 }
 
 - (void)cyclePosition {
