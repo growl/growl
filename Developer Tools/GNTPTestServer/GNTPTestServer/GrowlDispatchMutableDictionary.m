@@ -81,6 +81,14 @@
 	return [array autorelease];
 }
 
+-(NSUInteger)objectCount {
+	__block NSUInteger count = 0;
+	dispatch_sync(self.dispatchQueue, ^{
+		count = [[self.dictionary allValues] count];
+	});
+	return count;
+}
+
 -(NSDictionary*)dictionaryCopy {
 	__block NSDictionary *copy = nil;
 	dispatch_sync(self.dispatchQueue, ^{

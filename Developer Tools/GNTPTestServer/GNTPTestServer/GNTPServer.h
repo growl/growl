@@ -18,6 +18,9 @@
 -(GrowlNotificationResult)notifyWithDictionary:(NSDictionary*)dictionary;
 -(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet;
 
+@optional
+-(NSUInteger)totalSocketCount;
+
 @end
 
 @interface GNTPServer : NSObject <GCDAsyncSocketDelegate>
@@ -31,5 +34,7 @@
 
 -(void)notificationClicked:(NSDictionary*)dictionary;
 -(void)notificationTimedOut:(NSDictionary*)dictionary;
+
+-(NSUInteger)socketCount;
 
 @end

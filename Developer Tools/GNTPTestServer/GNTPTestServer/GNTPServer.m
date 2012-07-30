@@ -127,6 +127,10 @@
 	}];
 }
 
+- (NSUInteger)socketCount {
+	return [self.socketsByGUID objectCount];
+}
+
 - (void)dumpSocketByGUID:(NSString*)guid fromDisconnect:(BOOL)isDisconnected
 {
 	GCDAsyncSocket *sock = [self.socketsByGUID objectForKey:guid];
@@ -196,7 +200,15 @@
 #pragma mark GCDAsyncSocketDelegate
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket {
-	if([[self.socketsByGUID allValues] count] < 200){
+	BOOL accept = NO;
+	if([self.delegate respondsToSelector:@selector(totalSocketCount)]){
+		if([self.delegate totalSocketCount] < 200)
+			accept = YES;
+	}else if([self socketCount] < 200){
+		accept = YES;
+	}
+	if(accept)
+	{
 		NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
 		[newSocket setUserData:guid];
 		[newSocket setAutoDisconnectOnClosedReadStream:NO];

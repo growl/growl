@@ -16,6 +16,7 @@
 -(void)setObject:(id)anObject forKey:(id)aKey;
 -(id)objectForKey:(id)aKey;
 -(NSArray*)allValues;
+-(NSUInteger)objectCount;
 -(NSDictionary*)dictionaryCopy;
 -(void)removeObjectForKey:(id)aKey;
 -(void)removeAllObjects;

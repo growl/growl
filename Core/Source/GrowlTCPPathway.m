@@ -136,4 +136,8 @@
 	[[GNTPSubscriptionController sharedController] addRemoteSubscriptionFromPacket:packet];
 }
 
+-(NSUInteger)totalSocketCount {
+	return [self.remoteServer socketCount] + [self.localServer socketCount];
+}
+
 @end
