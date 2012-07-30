@@ -196,13 +196,21 @@
 #pragma mark GCDAsyncSocketDelegate
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket {
-	NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
-	[newSocket setUserData:guid];
-	[newSocket setAutoDisconnectOnClosedReadStream:NO];
-	[self.socketsByGUID setObject:newSocket forKey:guid];
-	[newSocket readDataToLength:4
-						 withTimeout:5.0f
-									tag:0];
+	if([[self.socketsByGUID allValues] count] < 200){
+		NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
+		[newSocket setUserData:guid];
+		[newSocket setAutoDisconnectOnClosedReadStream:NO];
+		[self.socketsByGUID setObject:newSocket forKey:guid];
+		[newSocket readDataToLength:4
+							 withTimeout:5.0f
+										tag:0];		
+	}else{
+		[newSocket disconnect];
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			NSLog(@"Too many sockets coming in, will dump any incoming sockets when we already have 200 open.  This message will only display once.");
+		});
+	}
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
