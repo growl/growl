@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">12A239</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
-		<string key="IBDocument.AppKitVersion">1179.1</string>
-		<string key="IBDocument.HIToolboxVersion">620.00</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2549</string>
@@ -67,6 +67,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{57, 16}, {96, 32}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="688419596"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="629932773">
@@ -107,6 +108,7 @@
 										</object>
 										<string key="NSFrameSize">{198, 337}</string>
 										<reference key="NSSuperview" ref="492497104"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="495670562"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -213,6 +215,7 @@
 								</object>
 								<string key="NSFrame">{{1, 1}, {198, 337}}</string>
 								<reference key="NSSuperview" ref="996883073"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="402141847"/>
 								<reference key="NSDocView" ref="402141847"/>
 								<reference key="NSBGColor" ref="81375413"/>
@@ -223,6 +226,7 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-30, 17}, {15, 307}}</string>
 								<reference key="NSSuperview" ref="996883073"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="492497104"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="996883073"/>
@@ -234,6 +238,7 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{1, 364}, {278, 15}}</string>
 								<reference key="NSSuperview" ref="996883073"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1016915430"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
@@ -244,6 +249,7 @@
 						</object>
 						<string key="NSFrame">{{0, 20}, {200, 339}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="403443924"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="403443924"/>
@@ -252,21 +258,22 @@
 						<bytes key="NSScrollAmts">AAAAAAAAAABCGAAAQhgAAA</bytes>
 						<double key="NSMinMagnification">0.25</double>
 						<double key="NSMaxMagnification">4</double>
-						<double key="NMagnification">1</double>
+						<double key="NSMagnification">1</double>
 					</object>
 					<object class="NSTabView" id="688419596">
 						<reference key="NSNextResponder" ref="1071633353"/>
 						<int key="NSvFlags">12</int>
 						<string key="NSFrame">{{201, 10}, {518, 373}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
-						<reference key="NSNextKeyView" ref="627777441"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="117729626"/>
 						<string key="NSReuseIdentifierKey">_NS:608</string>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSTabViewItem" id="684945542">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="627777441">
-									<reference key="NSNextResponder" ref="688419596"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -491,7 +498,6 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{17, 17}, {150, 100}}</string>
 											<reference key="NSSuperview" ref="627777441"/>
-											<reference key="NSNextKeyView" ref="688419596"/>
 											<string key="NSClassName">GrowlPositionPicker</string>
 											<string key="NSExtension">NSView</string>
 										</object>
@@ -661,7 +667,6 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {498, 327}}</string>
-									<reference key="NSSuperview" ref="688419596"/>
 									<reference key="NSNextKeyView" ref="573448072"/>
 									<string key="NSReuseIdentifierKey">_NS:610</string>
 								</object>
@@ -672,7 +677,7 @@
 							<object class="NSTabViewItem" id="89361643">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="117729626">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="688419596"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -694,6 +699,7 @@
 															</object>
 															<string key="NSFrameSize">{267, 324}</string>
 															<reference key="NSSuperview" ref="408422449"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="327832183"/>
 															<string key="NSReuseIdentifierKey">_NS:1828</string>
 															<bool key="NSEnabled">YES</bool>
@@ -758,6 +764,7 @@
 													</object>
 													<string key="NSFrameSize">{267, 324}</string>
 													<reference key="NSSuperview" ref="178183968"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="482467695"/>
 													<string key="NSReuseIdentifierKey">_NS:1826</string>
 													<reference key="NSDocView" ref="482467695"/>
@@ -769,6 +776,7 @@
 													<int key="NSvFlags">-2147483392</int>
 													<string key="NSFrame">{{252, 0}, {15, 324}}</string>
 													<reference key="NSSuperview" ref="178183968"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="906372649"/>
 													<string key="NSReuseIdentifierKey">_NS:1845</string>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -781,6 +789,7 @@
 													<int key="NSvFlags">-2147483392</int>
 													<string key="NSFrame">{{-100, -100}, {251, 15}}</string>
 													<reference key="NSSuperview" ref="178183968"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="408422449"/>
 													<string key="NSReuseIdentifierKey">_NS:1847</string>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -792,6 +801,7 @@
 											</object>
 											<string key="NSFrame">{{-3, 0}, {267, 324}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="171378551"/>
 											<string key="NSReuseIdentifierKey">_NS:1824</string>
 											<int key="NSsFlags">133648</int>
@@ -801,13 +811,14 @@
 											<bytes key="NSScrollAmts">QSAAAEEgAABCEAAAQhAAAA</bytes>
 											<double key="NSMinMagnification">0.25</double>
 											<double key="NSMaxMagnification">4</double>
-											<double key="NMagnification">1</double>
+											<double key="NSMagnification">1</double>
 										</object>
 										<object class="NSTextField" id="310544168">
 											<reference key="NSNextResponder" ref="117729626"/>
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 184}, {102, 17}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="880373760"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="912812097">
@@ -826,6 +837,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 152}, {186, 26}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="745129468"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="185103032">
@@ -901,6 +913,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{270, 308}, {119, 18}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="575061216"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="1066349011">
@@ -925,6 +938,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 130}, {54, 17}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="997215901"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="827866477">
@@ -943,6 +957,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 292}, {88, 17}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="92722424"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="657580404">
@@ -961,6 +976,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 98}, {186, 26}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="409964640"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="701446668">
@@ -1060,6 +1076,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{269, 260}, {186, 26}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="888476947"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="253715775">
@@ -1144,6 +1161,8 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{269, 17}, {206, 76}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:360</string>
 											<string key="NSAntiCompressionPriority">{250, 750}</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1164,6 +1183,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{269, 238}, {56, 17}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="726655872"/>
 											<string key="NSReuseIdentifierKey">_NS:1505</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1184,6 +1204,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{268, 206}, {187, 26}}</string>
 											<reference key="NSSuperview" ref="117729626"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="310544168"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1277,6 +1298,8 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {498, 327}}</string>
+									<reference key="NSSuperview" ref="688419596"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="178183968"/>
 									<string key="NSReuseIdentifierKey">_NS:620</string>
 								</object>
@@ -1285,13 +1308,13 @@
 								<reference key="NSTabView" ref="688419596"/>
 							</object>
 						</object>
-						<reference key="NSSelectedTabViewItem" ref="684945542"/>
+						<reference key="NSSelectedTabViewItem" ref="89361643"/>
 						<reference key="NSFont" ref="1042336600"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="627777441"/>
+							<reference ref="117729626"/>
 						</object>
 					</object>
 					<object class="NSButton" id="125073062">
@@ -1299,6 +1322,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{-9, -1}, {209, 23}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="996883073"/>
 						<string key="NSReuseIdentifierKey">_NS:687</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1323,6 +1347,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 363}, {198, 22}}</string>
 						<reference key="NSSuperview" ref="1071633353"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="125073062"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1392,6 +1417,7 @@
 				</object>
 				<string key="NSFrameSize">{732, 389}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="816490617"/>
 			</object>
 			<object class="NSArrayController" id="231750306">
@@ -1825,7 +1851,7 @@
 						<string key="label">enabled: self.ticketsArrayController.selection</string>
 						<reference key="source" ref="575061216"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="488814394">
 							<reference key="NSSource" ref="575061216"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: self.ticketsArrayController.selection</string>
@@ -1850,6 +1876,42 @@
 						</object>
 					</object>
 					<int key="connectionID">8655</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: self.preferencesController.shouldUseAppleNotifications</string>
+						<reference key="source" ref="575061216"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="575061216"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: self.preferencesController.shouldUseAppleNotifications</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">self.preferencesController.shouldUseAppleNotifications</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>NSNegateBoolean</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="488814394"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">8676</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2219,7 +2281,7 @@
 						<string key="label">enabled: self.ticketsArrayController.selection</string>
 						<reference key="source" ref="3456622"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="1023669527">
 							<reference key="NSSource" ref="3456622"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">enabled: self.ticketsArrayController.selection</string>
@@ -2244,6 +2306,42 @@
 						</object>
 					</object>
 					<int key="connectionID">8652</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: self.preferencesController.shouldUseAppleNotifications</string>
+						<reference key="source" ref="3456622"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="3456622"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled2: self.preferencesController.shouldUseAppleNotifications</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">self.preferencesController.shouldUseAppleNotifications</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>NSNegateBoolean</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="1023669527"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">8669</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -6495,9 +6593,414 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">8665</int>
+			<int key="maxID">8676</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">GroupedArrayController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GroupedArrayController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlAbstractDatabase</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlAbstractDatabase.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlApplicationsViewController</string>
+					<string key="superclassName">GrowlPrefsViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>deleteTicket:</string>
+							<string>getApplications:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>deleteTicket:</string>
+							<string>getApplications:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">deleteTicket:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">getApplications:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>actionConfigsArrayController</string>
+							<string>actionMenuButton</string>
+							<string>appOnSwitch</string>
+							<string>appPositionPicker</string>
+							<string>appSettingsTabView</string>
+							<string>applicationScrollView</string>
+							<string>applicationsNameAndIconColumn</string>
+							<string>displayMenuButton</string>
+							<string>displayPluginsArrayController</string>
+							<string>enableLogging</string>
+							<string>growlApplications</string>
+							<string>notificationActionMenuButton</string>
+							<string>notificationDisplayMenuButton</string>
+							<string>notificationsArrayController</string>
+							<string>notificationsTable</string>
+							<string>positionPickerRadioButton</string>
+							<string>ticketDatabase</string>
+							<string>ticketsArrayController</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSArrayController</string>
+							<string>NSPopUpButton</string>
+							<string>GrowlOnSwitch</string>
+							<string>GrowlPositionPicker</string>
+							<string>NSTabView</string>
+							<string>NSScrollView</string>
+							<string>NSTableColumn</string>
+							<string>NSPopUpButton</string>
+							<string>NSArrayController</string>
+							<string>NSButton</string>
+							<string>NSTableView</string>
+							<string>NSPopUpButton</string>
+							<string>NSPopUpButton</string>
+							<string>NSArrayController</string>
+							<string>NSTableView</string>
+							<string>NSMatrix</string>
+							<string>GrowlTicketDatabase</string>
+							<string>GroupedArrayController</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>actionConfigsArrayController</string>
+							<string>actionMenuButton</string>
+							<string>appOnSwitch</string>
+							<string>appPositionPicker</string>
+							<string>appSettingsTabView</string>
+							<string>applicationScrollView</string>
+							<string>applicationsNameAndIconColumn</string>
+							<string>displayMenuButton</string>
+							<string>displayPluginsArrayController</string>
+							<string>enableLogging</string>
+							<string>growlApplications</string>
+							<string>notificationActionMenuButton</string>
+							<string>notificationDisplayMenuButton</string>
+							<string>notificationsArrayController</string>
+							<string>notificationsTable</string>
+							<string>positionPickerRadioButton</string>
+							<string>ticketDatabase</string>
+							<string>ticketsArrayController</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">actionConfigsArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">actionMenuButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">appOnSwitch</string>
+								<string key="candidateClassName">GrowlOnSwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">appPositionPicker</string>
+								<string key="candidateClassName">GrowlPositionPicker</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">appSettingsTabView</string>
+								<string key="candidateClassName">NSTabView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">applicationScrollView</string>
+								<string key="candidateClassName">NSScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">applicationsNameAndIconColumn</string>
+								<string key="candidateClassName">NSTableColumn</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">displayMenuButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">displayPluginsArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">enableLogging</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">growlApplications</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notificationActionMenuButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notificationDisplayMenuButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notificationsArrayController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notificationsTable</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">positionPickerRadioButton</string>
+								<string key="candidateClassName">NSMatrix</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ticketDatabase</string>
+								<string key="candidateClassName">GrowlTicketDatabase</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ticketsArrayController</string>
+								<string key="candidateClassName">GroupedArrayController</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlApplicationsViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlNotificationSettingsCellView</string>
+					<string key="superclassName">NSTableCellView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">toggleEnabled:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">toggleEnabled:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">toggleEnabled:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">enableCheckBox</string>
+						<string key="NS.object.0">NSButton</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">enableCheckBox</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">enableCheckBox</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlNotificationSettingsCellView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlNotificationSettingsRowView</string>
+					<string key="superclassName">NSTableRowView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlNotificationSettingsRowView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlNotificationSettingsScrollView</string>
+					<string key="superclassName">NSScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlNotificationSettingsScrollView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlNotificationSettingsTableView</string>
+					<string key="superclassName">NSTableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlNotificationSettingsTableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlOnSwitch</string>
+					<string key="superclassName">TMSliderControl</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>offLabel</string>
+							<string>onLabel</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>offLabel</string>
+							<string>onLabel</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">offLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">onLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlOnSwitch.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlOnSwitchLabel</string>
+					<string key="superclassName">NSTextField</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlOnSwitchLabel.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlPositionPicker</string>
+					<string key="superclassName">NSControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlPositionPicker.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlPrefsViewController</string>
+					<string key="superclassName">NSViewController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlPrefsViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GrowlTicketDatabase</string>
+					<string key="superclassName">GrowlAbstractDatabase</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GrowlTicketDatabase.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSLayoutConstraint</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTableRowView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSTableRowView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RRTableView</string>
+					<string key="superclassName">NSTableView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">deleteControl</string>
+						<string key="NS.object.0">NSControl</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">deleteControl</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">deleteControl</string>
+							<string key="candidateClassName">NSControl</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/RRTableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TMSliderControl</string>
+					<string key="superclassName">NSControl</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>moveLeft:</string>
+							<string>moveRight:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>moveLeft:</string>
+							<string>moveRight:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">moveLeft:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">moveRight:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/TMSliderControl.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
