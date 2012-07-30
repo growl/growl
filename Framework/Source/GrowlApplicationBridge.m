@@ -1104,7 +1104,7 @@ static struct {
 }
 + (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
    if(attempt.nextAttempt == nil){
-      NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
+      //NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
       if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
          attemptingToRegister = NO;
 			
