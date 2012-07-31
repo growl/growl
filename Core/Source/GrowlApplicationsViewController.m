@@ -299,7 +299,7 @@ static BOOL awoken = NO;
 	if(app) 
 		ticket = [ticketsArrayController selection];
 	else if(!app && noteIndex != NSNotFound)
-		[[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+		ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
 	if(!ticket)
 		return;
 	
@@ -324,7 +324,7 @@ static BOOL awoken = NO;
 	if(app) 
 		ticket = [ticketsArrayController selection];
 	else if(!app && noteIndex != NSNotFound)
-		[[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
+		ticket = [[notificationsArrayController arrangedObjects] objectAtIndex:noteIndex];
 	if(!ticket)
 		return;
 	
