@@ -52,35 +52,57 @@
 
 #if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
 
+@interface GrowlApplicationNotificationCenterDelegate ()
+
+@property (nonatomic, retain) NSMutableDictionary *growlDicts;
+
+@end
+
+
 @implementation GrowlApplicationNotificationCenterDelegate
+
+- (id)init {
+	if((self = [super init])){
+		self.growlDicts = [NSMutableDictionary dictionary];
+	}
+	return self;
+}
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
-   NSDictionary *growlNotificationDict = [notification userInfo];
-   GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
-   
-   [center removeDeliveredNotification:notification];
-   
-   // Toss the click context back to the hosting app.
-   [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-                                                       object:growlNotification
-                                                     userInfo:nil];
+	NSString *noteKey = [[notification userInfo] valueForKey:@"AppleNotificationID"];
+   NSDictionary *growlNotificationDict = [self.growlDicts valueForKey:noteKey];
+	if(growlNotificationDict){
+		GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
+		
+		[center removeDeliveredNotification:notification];
+		
+		// Toss the click context back to the hosting app.
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+																			 object:growlNotification
+																		  userInfo:nil];
+		[self.growlDicts removeObjectForKey:noteKey];
+	}
 }
 
 - (void)expireNotification:(NSDictionary *)dict
 {
    NSUserNotification *notification = [dict objectForKey:@"notification"];
    NSUserNotificationCenter *center = [dict objectForKey:@"center"];
-   NSDictionary *growlNotificationDict = [notification userInfo];
-   GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
-   
-   // Remove the notification
-   [center removeDeliveredNotification:notification];
-   
-   // Send the 'timed out' call to the hosting application
-   [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-                                                       object:growlNotification
-                                                     userInfo:nil];
+	NSString *noteKey = [[notification userInfo] valueForKey:@"AppleNotificationID"];
+   NSDictionary *growlNotificationDict = [self.growlDicts valueForKey:noteKey];
+	if(growlNotificationDict){
+		GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
+		
+		// Remove the notification
+		[center removeDeliveredNotification:notification];
+		
+		// Send the 'timed out' call to the hosting application
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
+																			 object:growlNotification
+																		  userInfo:nil];
+		[self.growlDicts removeObjectForKey:noteKey];
+	}
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
@@ -116,6 +138,7 @@
 - (void)dealloc
 {
    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+	self.growlDicts = nil;
    [super dealloc];
 }
 
@@ -293,23 +316,19 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    appleNotification.title = [growlDict objectForKey:GROWL_APP_NAME];
    appleNotification.subtitle = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
    appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-	@try {
-		appleNotification.userInfo = notificationDict;
-		
-		// If we ever add support for action buttons in Growl (please), we'll want to add those here.
-		if (!appleNotificationDelegate) {
-			appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
-		}
-		
-		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
-		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-	}
-	@catch (NSException *exception) {
-		NSLog(@"caught exception, dict too big to send to Notification Center");
-	}
-	@finally {
-		[appleNotification release];
-	}
+	
+	NSString *noteKey = [[NSProcessInfo processInfo] globallyUniqueString];
+	appleNotification.userInfo = [NSDictionary dictionaryWithObject:noteKey forKey:@"AppleNotificationID"];
+	
+	// If we ever add support for action buttons in Growl (please), we'll want to add those here.
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
+	});
+	[appleNotificationDelegate.growlDicts setObject:notificationDict forKey:noteKey];
+	
+	[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
+	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
 #endif
 }
 
