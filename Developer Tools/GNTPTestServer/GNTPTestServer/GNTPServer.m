@@ -122,7 +122,7 @@
 		}
 	}];
 	[guidsToDump enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-		NSLog(@"Dumping socket with GUID %@ due to timeout", obj);
+		//NSLog(@"Dumping socket with GUID %@ due to timeout", obj);
 		[self dumpSocketByGUID:obj fromDisconnect:NO];
 	}];
 }
