@@ -22,6 +22,11 @@
 @property (nonatomic, retain) NSTimer *refireTimer;
 @property (nonatomic, assign) BOOL lastWarnState;
 
+@property (nonatomic, retain) NSString *refireBatteryStatusLabel;
+@property (nonatomic, retain) NSString *refireEveryLabel;
+@property (nonatomic, retain) NSString *minutesLabel;
+@property (nonatomic, retain) NSString *refireOnlyOnBatteryLabel;
+
 @end
 
 @implementation HWGrowlPowerMonitor
@@ -43,6 +48,11 @@
 		lastPowerSource = HGUnknownPower;
 		lastKnownTime = kIOPSTimeRemainingUnknown;
 		lastWarnState = NO;
+		
+		self.refireBatteryStatusLabel = NSLocalizedString(@"Refire battery status", @"Label for checkbox that sets battery status to redisplay every so often");
+		self.refireEveryLabel = NSLocalizedString(@"Refire every:", @"Label for box for putting in the amount of time between refire");
+		self.minutesLabel = NSLocalizedString(@"minutes", @"Unit label for how often to refire the battery status");
+		self.refireOnlyOnBatteryLabel = NSLocalizedString(@"Refire only on battery", @"Label for checkbox that sets whether to only show battery status every x minutes when on battery pwoer");
 	}
 	return self;
 }
@@ -52,6 +62,11 @@
 	CFRelease(notificationRunLoopSource);
 	[refireTimer invalidate];
 	[refireTimer release];
+	
+	self.refireBatteryStatusLabel = nil;
+	self.refireEveryLabel = nil;
+	self.minutesLabel = nil;
+	self.refireOnlyOnBatteryLabel = nil;
 	[super dealloc];
 }
 

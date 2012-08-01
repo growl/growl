@@ -109,7 +109,6 @@
 		BCB806C715515C820088C69A /* HWGrowler.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCB80611155154CA0088C69A /* HWGrowler.icns */; };
 		BCB806D115515DA20088C69A /* HardwareGrowlerLauncher.app in Copy Launcher */ = {isa = PBXBuildFile; fileRef = BCB806AE15515C4E0088C69A /* HardwareGrowlerLauncher.app */; };
 		BCB806F8155178340088C69A /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB806F5155178340088C69A /* GrowlOnSwitch.m */; };
-		BCB806F9155178340088C69A /* GrowlOnSwitchKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */; };
 		BCB8070815517EE90088C69A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB8070615517EE10088C69A /* ServiceManagement.framework */; };
 		BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB8074F1551A6EA0088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB8074D1551A6EA0088C69A /* InfoPlist.strings */; };
@@ -117,6 +116,13 @@
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
 		BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */; };
+		BCE3BC1C15C9619000B0BFFB /* TMSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE3BC1B15C9619000B0BFFB /* TMSliderControl.m */; };
+		BCE3BC2115C961A500B0BFFB /* OverlayMask.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC1D15C961A500B0BFFB /* OverlayMask.png */; };
+		BCE3BC2215C961A500B0BFFB /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC1E15C961A500B0BFFB /* SliderHandle.png */; };
+		BCE3BC2315C961A500B0BFFB /* SliderHandleDown.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC1F15C961A500B0BFFB /* SliderHandleDown.png */; };
+		BCE3BC2415C961A500B0BFFB /* SliderWell.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC2015C961A500B0BFFB /* SliderWell.png */; };
+		BCE3BC2715C9620E00B0BFFB /* GrowlOnSwitchLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE3BC2615C9620E00B0BFFB /* GrowlOnSwitchLabel.m */; };
+		BCE3BC2915C9640700B0BFFB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE3BC2815C9640600B0BFFB /* QuartzCore.framework */; };
 		BCE83C6615804D2C005570DD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCE83C6C15804D2C005570DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE83C6A15804D2C005570DD /* InfoPlist.strings */; };
 		BCE83C7615804F8B005570DD /* HWGrowlPhoneMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE83C7515804F8B005570DD /* HWGrowlPhoneMonitor.m */; };
@@ -479,8 +485,6 @@
 		BCB806E81551721E0088C69A /* HardwareGrowlerLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HardwareGrowlerLauncher.entitlements; sourceTree = "<group>"; };
 		BCB806F4155178340088C69A /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = ../../../Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
 		BCB806F5155178340088C69A /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = ../../../Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
-		BCB806F6155178340088C69A /* GrowlOnSwitchKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchKnob.h; path = ../../../Core/Source/GrowlOnSwitchKnob.h; sourceTree = "<group>"; };
-		BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchKnob.m; path = ../../../Core/Source/GrowlOnSwitchKnob.m; sourceTree = "<group>"; };
 		BCB8070615517EE10088C69A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB8074C1551A6EA0088C69A /* NetworkMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NetworkMonitor-Info.plist"; sourceTree = "<group>"; };
@@ -493,6 +497,15 @@
 		BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWGrowlPluginController.m; sourceTree = "<group>"; };
 		BCD47568156BCDD000F81910 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = ../../../Common/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = ../../../Common/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
+		BCE3BC1A15C9619000B0BFFB /* TMSliderControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMSliderControl.h; path = ../../../external_dependencies/tmslidercontrol/TMSliderControl.h; sourceTree = "<group>"; };
+		BCE3BC1B15C9619000B0BFFB /* TMSliderControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMSliderControl.m; path = ../../../external_dependencies/tmslidercontrol/TMSliderControl.m; sourceTree = "<group>"; };
+		BCE3BC1D15C961A500B0BFFB /* OverlayMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OverlayMask.png; path = ../../../external_dependencies/tmslidercontrol/OverlayMask.png; sourceTree = "<group>"; };
+		BCE3BC1E15C961A500B0BFFB /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandle.png; path = ../../../external_dependencies/tmslidercontrol/SliderHandle.png; sourceTree = "<group>"; };
+		BCE3BC1F15C961A500B0BFFB /* SliderHandleDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandleDown.png; path = ../../../external_dependencies/tmslidercontrol/SliderHandleDown.png; sourceTree = "<group>"; };
+		BCE3BC2015C961A500B0BFFB /* SliderWell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderWell.png; path = ../../../external_dependencies/tmslidercontrol/SliderWell.png; sourceTree = "<group>"; };
+		BCE3BC2515C9620E00B0BFFB /* GrowlOnSwitchLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchLabel.h; path = ../../../Core/Source/GrowlOnSwitchLabel.h; sourceTree = "<group>"; };
+		BCE3BC2615C9620E00B0BFFB /* GrowlOnSwitchLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitchLabel.m; path = ../../../Core/Source/GrowlOnSwitchLabel.m; sourceTree = "<group>"; };
+		BCE3BC2815C9640600B0BFFB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BCE83C6515804D2C005570DD /* PhoneMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhoneMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCE83C6915804D2C005570DD /* PhoneMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhoneMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCE83C6B15804D2C005570DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -577,6 +590,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE3BC2915C9640700B0BFFB /* QuartzCore.framework in Frameworks */,
 				BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */,
 				BCB806991551597C0088C69A /* Growl.framework in Frameworks */,
 				BCB8070815517EE90088C69A /* ServiceManagement.framework in Frameworks */,
@@ -918,6 +932,7 @@
 		BCB805ED155153330088C69A /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCE3BC2815C9640600B0BFFB /* QuartzCore.framework */,
 				BCB805EE155153330088C69A /* AppKit.framework */,
 				BCB805F0155153330088C69A /* Foundation.framework */,
 				BCB8070615517EE10088C69A /* ServiceManagement.framework */,
@@ -1076,12 +1091,26 @@
 			children = (
 				BCB806F4155178340088C69A /* GrowlOnSwitch.h */,
 				BCB806F5155178340088C69A /* GrowlOnSwitch.m */,
-				BCB806F6155178340088C69A /* GrowlOnSwitchKnob.h */,
-				BCB806F7155178340088C69A /* GrowlOnSwitchKnob.m */,
+				BCE3BC2515C9620E00B0BFFB /* GrowlOnSwitchLabel.h */,
+				BCE3BC2615C9620E00B0BFFB /* GrowlOnSwitchLabel.m */,
+				BCE3BC1915C9615E00B0BFFB /* TMSliderControl */,
 				BCD47568156BCDD000F81910 /* ACImageAndTextCell.h */,
 				BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		BCE3BC1915C9615E00B0BFFB /* TMSliderControl */ = {
+			isa = PBXGroup;
+			children = (
+				BCE3BC1D15C961A500B0BFFB /* OverlayMask.png */,
+				BCE3BC1E15C961A500B0BFFB /* SliderHandle.png */,
+				BCE3BC1F15C961A500B0BFFB /* SliderHandleDown.png */,
+				BCE3BC2015C961A500B0BFFB /* SliderWell.png */,
+				BCE3BC1A15C9619000B0BFFB /* TMSliderControl.h */,
+				BCE3BC1B15C9619000B0BFFB /* TMSliderControl.m */,
+			);
+			name = TMSliderControl;
 			sourceTree = "<group>";
 		};
 		BCE83C6715804D2C005570DD /* PhoneMonitor */ = {
@@ -1377,7 +1406,7 @@
 		BCB805DE155153330088C69A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = BCB805E1155153330088C69A /* Build configuration list for PBXProject "HardwareGrowler" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1633,6 +1662,10 @@
 				BC006CAE15AB161800643FA8 /* TimeMachine-Failed.tif in Resources */,
 				BC006CAF15AB161800643FA8 /* TimeMachine-Off.tif in Resources */,
 				BC006CB015AB161800643FA8 /* TimeMachine-On.tif in Resources */,
+				BCE3BC2115C961A500B0BFFB /* OverlayMask.png in Resources */,
+				BCE3BC2215C961A500B0BFFB /* SliderHandle.png in Resources */,
+				BCE3BC2315C961A500B0BFFB /* SliderHandleDown.png in Resources */,
+				BCE3BC2415C961A500B0BFFB /* SliderWell.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1772,9 +1805,10 @@
 				BCB805F8155153330088C69A /* main.m in Sources */,
 				BCB805FF155153330088C69A /* AppDelegate.m in Sources */,
 				BCB806F8155178340088C69A /* GrowlOnSwitch.m in Sources */,
-				BCB806F9155178340088C69A /* GrowlOnSwitchKnob.m in Sources */,
 				BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */,
 				BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */,
+				BCE3BC1C15C9619000B0BFFB /* TMSliderControl.m in Sources */,
+				BCE3BC2715C9620E00B0BFFB /* GrowlOnSwitchLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2012,6 +2046,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
@@ -2027,6 +2062,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
@@ -2042,6 +2078,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "USBMonitor/USBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "USBMonitor/USBMonitor-Info.plist";
@@ -2057,6 +2094,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
 				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
@@ -2072,6 +2110,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
 				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
@@ -2087,6 +2126,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KeyboardMonitor/KeyboardMonitor-Prefix.pch";
 				INFOPLIST_FILE = "KeyboardMonitor/KeyboardMonitor-Info.plist";
@@ -2102,6 +2142,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
 				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
@@ -2117,6 +2158,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
 				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
@@ -2132,6 +2174,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ThunderboltMonitor/ThunderboltMonitor-Prefix.pch";
 				INFOPLIST_FILE = "ThunderboltMonitor/ThunderboltMonitor-Info.plist";
@@ -2147,6 +2190,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2163,6 +2207,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2179,6 +2224,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BluetoothMonitor/BluetoothMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2195,6 +2241,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
 				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
@@ -2210,6 +2257,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
 				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
@@ -2225,6 +2273,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirewireMonitor/FirewireMonitor-Prefix.pch";
 				INFOPLIST_FILE = "FirewireMonitor/FirewireMonitor-Info.plist";
@@ -2240,6 +2289,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
 				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
@@ -2269,6 +2319,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
 				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
@@ -2298,6 +2349,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PowerMonitor/PowerMonitor-Prefix.pch";
 				INFOPLIST_FILE = "PowerMonitor/PowerMonitor-Info.plist";
@@ -2375,6 +2427,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
@@ -2393,6 +2446,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
@@ -2437,6 +2491,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowler/HardwareGrowler.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowler/HardwareGrowler-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowler/HardwareGrowler-Info.plist";
@@ -2455,6 +2510,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
@@ -2473,6 +2529,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
@@ -2491,6 +2548,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = HardwareGrowlerLauncher/HardwareGrowlerLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Prefix.pch";
 				INFOPLIST_FILE = "HardwareGrowlerLauncher/HardwareGrowlerLauncher-Info.plist";
@@ -2506,6 +2564,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
 				INFOPLIST_FILE = "NetworkMonitor/NetworkMonitor-Info.plist";
@@ -2521,6 +2580,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
 				INFOPLIST_FILE = "NetworkMonitor/NetworkMonitor-Info.plist";
@@ -2536,6 +2596,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NetworkMonitor/NetworkMonitor-Prefix.pch";
 				INFOPLIST_FILE = "NetworkMonitor/NetworkMonitor-Info.plist";
@@ -2551,6 +2612,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2567,6 +2629,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2583,6 +2646,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhoneMonitor/PhoneMonitor-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -2599,6 +2663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
 				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
@@ -2614,6 +2679,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
 				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
@@ -2629,6 +2695,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VolumeMonitor/VolumeMonitor-Prefix.pch";
 				INFOPLIST_FILE = "VolumeMonitor/VolumeMonitor-Info.plist";
@@ -2644,6 +2711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530AF155C1402005D2EA2 /* Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TimeMachineMonitor/TimeMachineMonitor-Prefix.pch";
 				INFOPLIST_FILE = "TimeMachineMonitor/TimeMachineMonitor-Info.plist";
@@ -2659,6 +2727,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B0155C1402005D2EA2 /* Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TimeMachineMonitor/TimeMachineMonitor-Prefix.pch";
 				INFOPLIST_FILE = "TimeMachineMonitor/TimeMachineMonitor-Info.plist";
@@ -2674,6 +2743,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC3530B1155C1402005D2EA2 /* Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TimeMachineMonitor/TimeMachineMonitor-Prefix.pch";
 				INFOPLIST_FILE = "TimeMachineMonitor/TimeMachineMonitor-Info.plist";

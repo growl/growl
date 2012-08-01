@@ -133,6 +133,7 @@
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
 @property (nonatomic, retain) NSMutableDictionary *ejectCache;
+@property (nonatomic, retain) NSString *ignoredVolumeColumnTitle;
 
 @end
 
@@ -154,6 +155,8 @@
 		//The icon and data is stored during WILL unmount, and then displayed during DID unmount.
 		[center addObserver:self selector:@selector(volumeDidUnmount:) name:NSWorkspaceDidUnmountNotification object:nil];
 		[center addObserver:self selector:@selector(volumeWillUnmount:) name:NSWorkspaceWillUnmountNotification object:nil];
+		
+		self.ignoredVolumeColumnTitle = NSLocalizedString(@"Ignored Drives:", @"Title for colum in table of ignored volumes");
 	}
 	return self;
 }
@@ -167,7 +170,8 @@
 	
 	[ejectCache release];
 	ejectCache = nil;
-
+	
+	self.ignoredVolumeColumnTitle = nil;
 	[super dealloc];
 }
 
