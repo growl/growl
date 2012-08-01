@@ -205,8 +205,6 @@
 		95FC347607E0458E00BD8674 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		95FC347707E0458E00BD8674 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		95FC347807E0458E00BD8674 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
-		A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412509E37A65009EF9BD /* closebox_pressed.png */; };
-		A1CC412809E37A65009EF9BD /* closebox.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412609E37A65009EF9BD /* closebox.png */; };
 		BC00437013F6D16A00EED11C /* GrowlRollupGroupCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC00436F13F6D16A00EED11C /* GrowlRollupGroupCellView.m */; };
 		BC00439A13F6DF6500EED11C /* GroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC00439913F6DF6500EED11C /* GroupController.m */; };
 		BC038449140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC038448140AA8640091BCD1 /* GrowlFirstLaunchWindowController.m */; };
@@ -439,6 +437,8 @@
 		BCE3BBF715C8C24B00B0BFFB /* PositionPickerBackground.tif in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BBEC15C8C24A00B0BFFB /* PositionPickerBackground.tif */; };
 		BCE3BBF815C8C24B00B0BFFB /* Rollup.tif in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BBED15C8C24A00B0BFFB /* Rollup.tif */; };
 		BCE3BBF915C8C24B00B0BFFB /* squelch.tif in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BBEE15C8C24A00B0BFFB /* squelch.tif */; };
+		BCE3BBFC15C8D8C700B0BFFB /* closebox_pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BBFA15C8D8C700B0BFFB /* closebox_pressed.tif */; };
+		BCE3BBFD15C8D8C700B0BFFB /* closebox.tif in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BBFB15C8D8C700B0BFFB /* closebox.tif */; };
 		BCEC766014CF7ACF00A0B44D /* WebKitPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCEC765F14CF7ACF00A0B44D /* WebKitPrefs.xib */; };
 		BCECE8381508409A008DD685 /* GrowlCompoundActionPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECE8371508409A008DD685 /* GrowlCompoundActionPreferencePane.m */; };
 		BCECE84A15086FF4008DD685 /* CompoundActionPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCECE84915086FF4008DD685 /* CompoundActionPrefs.xib */; };
@@ -1369,8 +1369,6 @@
 		95FC347907E0458E00BD8674 /* Brushed.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Brushed.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		95FC34D807E0458E00BD8674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plugins/Displays/Brushed/Info.plist; sourceTree = SOURCE_ROOT; };
 		A14BBE0E06EE1D5600530EED /* GrowlDisplayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayProtocol.h; path = Plugins/Displays/GrowlDisplayProtocol.h; sourceTree = "<group>"; };
-		A1CC412509E37A65009EF9BD /* closebox_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = closebox_pressed.png; path = Core/Resources/closebox_pressed.png; sourceTree = "<group>"; };
-		A1CC412609E37A65009EF9BD /* closebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = closebox.png; path = Core/Resources/closebox.png; sourceTree = "<group>"; };
 		BC00436E13F6D16A00EED11C /* GrowlRollupGroupCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlRollupGroupCellView.h; path = Core/Source/GrowlRollupGroupCellView.h; sourceTree = "<group>"; };
 		BC00436F13F6D16A00EED11C /* GrowlRollupGroupCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlRollupGroupCellView.m; path = Core/Source/GrowlRollupGroupCellView.m; sourceTree = "<group>"; };
 		BC00439813F6DF6500EED11C /* GroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupController.h; path = Core/Source/GroupController.h; sourceTree = "<group>"; };
@@ -1655,6 +1653,8 @@
 		BCE3BBEC15C8C24A00B0BFFB /* PositionPickerBackground.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PositionPickerBackground.tif; path = Core/Resources/PositionPickerBackground.tif; sourceTree = "<group>"; };
 		BCE3BBED15C8C24A00B0BFFB /* Rollup.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Rollup.tif; path = Core/Resources/Rollup.tif; sourceTree = "<group>"; };
 		BCE3BBEE15C8C24A00B0BFFB /* squelch.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = squelch.tif; path = Core/Resources/squelch.tif; sourceTree = "<group>"; };
+		BCE3BBFA15C8D8C700B0BFFB /* closebox_pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = closebox_pressed.tif; path = Core/Resources/closebox_pressed.tif; sourceTree = "<group>"; };
+		BCE3BBFB15C8D8C700B0BFFB /* closebox.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = closebox.tif; path = Core/Resources/closebox.tif; sourceTree = "<group>"; };
 		BCEC765F14CF7ACF00A0B44D /* WebKitPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebKitPrefs.xib; path = Core/Resources/WebKitPrefs.xib; sourceTree = "<group>"; };
 		BCECE8361508409A008DD685 /* GrowlCompoundActionPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlCompoundActionPreferencePane.h; path = Plugins/Actions/CompoundAction/GrowlCompoundActionPreferencePane.h; sourceTree = SOURCE_ROOT; };
 		BCECE8371508409A008DD685 /* GrowlCompoundActionPreferencePane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlCompoundActionPreferencePane.m; path = Plugins/Actions/CompoundAction/GrowlCompoundActionPreferencePane.m; sourceTree = SOURCE_ROOT; };
@@ -3077,10 +3077,10 @@
 			children = (
 				835A0ADF142C732A00B89123 /* Document Icons */,
 				93A60E0513C4101600514EF8 /* styles */,
-				A1CC412509E37A65009EF9BD /* closebox_pressed.png */,
-				A1CC412609E37A65009EF9BD /* closebox.png */,
 				CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */,
 				BC6058B214F3F20C00399510 /* container-migration.plist */,
+				BCE3BBFA15C8D8C700B0BFFB /* closebox_pressed.tif */,
+				BCE3BBFB15C8D8C700B0BFFB /* closebox.tif */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3876,8 +3876,6 @@
 			files = (
 				95D89BC308242AD80068A4BD /* template.html in Resources */,
 				52861FF006DC463E00D3A356 /* GrowlDefaults.plist in Resources */,
-				A1CC412709E37A65009EF9BD /* closebox_pressed.png in Resources */,
-				A1CC412809E37A65009EF9BD /* closebox.png in Resources */,
 				93A60E4013C4159B00514EF8 /* Growl.icns in Resources */,
 				932177BC13E4AB9F00157729 /* Growl.sdef in Resources */,
 				BC94845613FB21690036382B /* Growl_512x512.png in Resources */,
@@ -3925,6 +3923,8 @@
 				BCE3BBF715C8C24B00B0BFFB /* PositionPickerBackground.tif in Resources */,
 				BCE3BBF815C8C24B00B0BFFB /* Rollup.tif in Resources */,
 				BCE3BBF915C8C24B00B0BFFB /* squelch.tif in Resources */,
+				BCE3BBFC15C8D8C700B0BFFB /* closebox_pressed.tif in Resources */,
+				BCE3BBFD15C8D8C700B0BFFB /* closebox.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
