@@ -73,16 +73,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 }
 
 + (NSImage*)imageForCurrentOS {
-    NSImage *result = nil;
-    
-    if(floor(NSAppKitVersionNumber) <= 1138)
-        result = [[NSImage alloc] initByReferencingFile:@"/Library/Desktop Pictures/Andromeda Galaxy.jpg"];
-    else if(floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6)
-        result = [[NSImage alloc] initByReferencingFile:@"/Library/Desktop Pictures/Nature/Aurora.jpg"];
-    else
-        result = [[NSImage alloc] initByReferencingFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"PositionPickerBackground" ofType:@"jpg"]];
-    
-    return [result autorelease];
+	NSImage *result = [NSImage imageNamed:@"PositionPickerBackground"];
+	return result;
 }
 #pragma mark -
 #pragma mark NSView overrides

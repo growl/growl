@@ -109,9 +109,9 @@
       [statusItem setHighlightMode:YES];
       GrowlMenuImageView *buttonView = [[GrowlMenuImageView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 24.0, [[NSStatusBar systemStatusBar] thickness])];
       buttonView.menuItem = self;
-       buttonView.mainImage = (id)[NSImage imageNamed:@"growlmenu.png"];
-       buttonView.alternateImage = (id)[NSImage imageNamed:@"growlmenu-alt.png"];
-       buttonView.squelchImage = (id)[NSImage imageNamed:@"squelch.png"];
+       buttonView.mainImage = (id)[NSImage imageNamed:@"growlmenu"];
+       buttonView.alternateImage = (id)[NSImage imageNamed:@"growlmenu-alt"];
+       buttonView.squelchImage = (id)[NSImage imageNamed:@"squelch"];
 
       [statusItem setView:buttonView];
       [self setImage:[NSNumber numberWithBool:![preferences squelchMode]]];

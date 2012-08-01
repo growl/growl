@@ -87,8 +87,8 @@ static NSButton *gCloseButton;
 	    [gCloseButton setBordered:NO];
 	    [gCloseButton setButtonType:NSMomentaryChangeButton];
 	    [gCloseButton setImagePosition:NSImageOnly];
-	    [gCloseButton setImage:[NSImage imageNamed:@"closebox.png"]];
-	    [gCloseButton setAlternateImage:[NSImage imageNamed:@"closebox_pressed.png"]];
+	    [gCloseButton setImage:[NSImage imageNamed:@"closebox"]];
+	    [gCloseButton setAlternateImage:[NSImage imageNamed:@"closebox_pressed"]];
 	}
 	return gCloseButton;
 }
