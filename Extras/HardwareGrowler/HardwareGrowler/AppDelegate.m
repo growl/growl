@@ -262,13 +262,12 @@
 																  otherButton:nil
 												informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause HardwareGrowler to run without showing a dock icon or a menu item.\n\nTo access preferences, tap HardwareGrowler in Launchpad, or open HardwareGrowler in Finder.", nil)];
 					alert.showsSuppressionButton = YES;
-					[[alert suppressionButton] bind:NSValueBinding
-												  toObject:defaultController
-											  withKeyPath:@"values.SuppressNoIconWarn"
-													options:nil];
 					NSInteger allow = [alert runModal];
 					if(allow == NSAlertDefaultReturn)
 					{
+						if([[alert suppressionButton] state] == NSOnState){
+							[[defaultController defaults] setBool:YES forKey:@"SuppressNoIconWarn"];
+						}
 						[self warnUserAboutIcons];
 						[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
 						[statusItem release];
@@ -322,13 +321,12 @@
 															  otherButton:nil
 											informativeTextWithFormat:NSLocalizedString(@"Allowing this will let HardwareGrowler launch everytime you login, so that it is available for applications which use it at all times", nil)];
 				alert.showsSuppressionButton = YES;
-				[[alert suppressionButton] bind:NSValueBinding
-											  toObject:defaultController
-										  withKeyPath:@"values.SupressStartAtLogin"
-												options:nil];
 				NSInteger allow = [alert runModal];
 				if(allow == NSAlertDefaultReturn)
 				{
+					if([[alert suppressionButton] state] == NSOnState){
+						[[defaultController defaults] setBool:YES forKey:@"SuppressStartAtLogin"];
+					}
 					[self setStartAtLogin:YES];
 				}
 				else
