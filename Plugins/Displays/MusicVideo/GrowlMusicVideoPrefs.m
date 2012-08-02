@@ -109,11 +109,11 @@
 		effect = [[self.configuration valueForKey:MUSICVIDEO_EFFECT_PREF] intValue];
 	}
 	switch (effect) {
+		case MUSICVIDEO_EFFECT_WIPE:
 		default:
 			effect = MUSICVIDEO_EFFECT_SLIDE;
 			
 		case MUSICVIDEO_EFFECT_SLIDE:
-		case MUSICVIDEO_EFFECT_WIPE:
 		case MUSICVIDEO_EFFECT_FADING:
 			;
 		
@@ -126,8 +126,10 @@
 			NSLog(@"(Music Video) Invalid effect number %u (slide is %u; wipe is %u)", newEffect, MUSICVIDEO_EFFECT_SLIDE, MUSICVIDEO_EFFECT_WIPE);
 			break;
 
-		case MUSICVIDEO_EFFECT_SLIDE:
 		case MUSICVIDEO_EFFECT_WIPE:
+			NSLog(@"Wipe not supported");
+			newEffect = MUSICVIDEO_EFFECT_SLIDE;
+		case MUSICVIDEO_EFFECT_SLIDE:
 		case MUSICVIDEO_EFFECT_FADING:
 			[self setConfigurationValue:[NSNumber numberWithUnsignedInt:newEffect] forKey:MUSICVIDEO_EFFECT_PREF];
 	}

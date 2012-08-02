@@ -95,11 +95,12 @@
 		effect = [[self.configuration valueForKey:Nano_EFFECT_PREF] unsignedIntValue];
 	}
 	switch (effect) {
+		case Nano_EFFECT_WIPE:
 		default:
 			effect = Nano_EFFECT_SLIDE;
 			
 		case Nano_EFFECT_SLIDE:
-		case Nano_EFFECT_WIPE:
+		case Nano_EFFECT_FADE:
 			;
 	}
 	return (unsigned)effect;
