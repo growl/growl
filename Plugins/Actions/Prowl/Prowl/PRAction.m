@@ -131,7 +131,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 								   return;
 							   }
 							   
-							   NSLog(@"Got data: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+							   //NSLog(@"Got data: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
 							   
 							   NSInteger statusCode = 0;
 							   if([response respondsToSelector:@selector(statusCode)]) {
@@ -139,7 +139,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 							   }
 							   
 							   if(statusCode == 200) {
-								   NSLog(@"Posted notification!");
+								   //NSLog(@"Posted notification!");
 							   } else {
 								   NSLog(@"Error response: %@ %@", response, [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
 							   }

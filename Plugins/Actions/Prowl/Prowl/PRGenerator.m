@@ -88,7 +88,7 @@
 							   
 							   NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
 							   
-							   NSLog(@"Got back XML: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+							   //NSLog(@"Got back XML: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
 							   
 							   if(statusCode == 200) {
 								   NSXMLElement *retrieveElement = [self retrieveElementFromData:data error:&error];

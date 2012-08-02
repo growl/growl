@@ -150,7 +150,7 @@
 
 - (void)saveApiKeys
 {
-	NSLog(@"Updated keys: %@", self.apiKeys);
+	//NSLog(@"Updated keys: %@", self.apiKeys);
 	
 	NSData *archivedKeys = [NSKeyedArchiver archivedDataWithRootObject:self.apiKeys];
 	
@@ -161,7 +161,7 @@
 - (void)addApiKey:(PRAPIKey *)apiKey
 {
 	if([self.apiKeys containsObject:apiKey]) {
-		NSLog(@"Not adding API key, contains already: %@", apiKey);
+		//NSLog(@"Not adding API key, contains already: %@", apiKey);
 	} else {
 		[self.apiKeys addObject:apiKey];
 		[self saveApiKeys];
@@ -333,7 +333,7 @@
 #pragma mark - PRValidatorDelegate
 - (void)validator:(PRValidator *)validator didValidateApiKey:(PRAPIKey *)apiKey
 {
-	NSLog(@"Validated apiKey: %@", apiKey);
+	//NSLog(@"Validated apiKey: %@", apiKey);
 	apiKey.validated = YES;
 	[self saveApiKeys];
 	[self reloadValidateColumnForApiKey:apiKey];
@@ -367,7 +367,7 @@
 
 - (void)generator:(PRGenerator *)generator didFetchTokenURL:(NSString *)retrieveURL
 {
-	NSLog(@"Got retrieve URL: %@", retrieveURL);
+	//NSLog(@"Got retrieve URL: %@", retrieveURL);
 
 	self.webViewWindowController = [[[PRWebViewWindowController alloc] initWithURL:retrieveURL
 																				  delegate:self] autorelease];
@@ -377,7 +377,7 @@
 
 - (void)generator:(PRGenerator *)generator didFetchApiKey:(PRAPIKey *)apiKey
 {
-	NSLog(@"Got API key: %@", apiKey);
+	//NSLog(@"Got API key: %@", apiKey);
 	
 	[self addApiKey:apiKey];	
 	[self finishGenerator];

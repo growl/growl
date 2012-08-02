@@ -60,7 +60,7 @@
 						   completionHandler:^(NSURLResponse *response,
 											   NSData *data,
 											   NSError *error) {
-							   NSLog(@"Response: %@", response);
+							   //NSLog(@"Response: %@", response);
 							   
 							   [self.validatingApiKeys removeObject:apiKey];
 							   
@@ -71,7 +71,7 @@
 								   return;
 							   }
 							   
-							   NSLog(@"Got back XML: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+							   //NSLog(@"Got back XML: %@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
 							   
 							   NSXMLDocument *document = [[[NSXMLDocument alloc] initWithData:data options:0 error:&error] autorelease];
 							   
