@@ -107,7 +107,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (void) setShouldStartGrowlAtLogin:(BOOL)flag;
 
 - (BOOL) shouldUseAppleNotifications;
-- (void) setUseAppleNotifications:(BOOL)appleNotifications;
+- (void) setShouldUseAppleNotifications:(BOOL)appleNotifications;
 
 
 - (void) setSquelchMode:(BOOL)squelch;

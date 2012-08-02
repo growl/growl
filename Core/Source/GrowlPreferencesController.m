@@ -255,7 +255,7 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    return [self boolForKey:GrowlUseAppleNotifications];
 }
 
-- (void) setUseAppleNotifications:(BOOL)appleNotifications
+- (void) setShouldUseAppleNotifications:(BOOL)appleNotifications
 {
    [self setBool:appleNotifications forKey:GrowlUseAppleNotifications];
    
@@ -612,8 +612,8 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
             [self didChangeValueForKey:@"selectedPreferenceTab"];
         }
         if (!object || [object isEqualToString:GrowlUseAppleNotifications]) {
-            [self willChangeValueForKey:@"useAppleNotifications"];
-            [self didChangeValueForKey:@"useAppleNotifications"];
+            [self willChangeValueForKey:@"shouldUseAppleNotifications"];
+            [self didChangeValueForKey:@"shouldUseAppleNotifications"];
         }
 	}
 }

@@ -141,7 +141,7 @@
 
 -(IBAction)useAppleNotificationCenter:(id)sender
 {
-   [self.preferencesController setUseAppleNotifications:[useAppleNotificationCenterSwitch state]];
+   [self.preferencesController setShouldUseAppleNotifications:[useAppleNotificationCenterSwitch state]];
 }
 
 -(IBAction)launchAdditionalDownloads:(id)sender{
