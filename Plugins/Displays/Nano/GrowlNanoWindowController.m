@@ -124,14 +124,19 @@
 			}
 			case Nano_EFFECT_FADE:
 			{
-				[panel setAlphaValue:0.0];
-				[panel setFrameOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
-				
 				GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 				[self addTransition:fader];
 				[self setStartPercentage:0 endPercentage:100 forTransition:fader];
 				[fader setAutoReverses:YES];
 				[fader release];
+				
+				CGPoint frameOrigin = CGPointMake(xPosition, yPosition - frameHeight);
+				GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+				[slider setFromOrigin:frameOrigin toOrigin:frameOrigin];
+				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+				[slider setAutoReverses:YES];
+				[self addTransition:slider];
+				[slider release];
 				break;
 			}
 		}
