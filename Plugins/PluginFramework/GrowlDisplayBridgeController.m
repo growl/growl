@@ -111,7 +111,7 @@
 					[queue enumerateObjectsUsingBlock:^(id windowObj, NSUInteger windowIDX, BOOL *windowStop) {
 						//NSLog(@"old queue key: %@ new key: %@", queueObj, [windowObj displayQueueKey]);
 						//This isn't working quite right yet
-						[self displayQueueWindow:windowObj];
+						[blockSelf displayQueueWindow:windowObj];
 					}];
 					[queuingDisplayQueues removeObjectForKey:queueObj];
 				}];
@@ -170,16 +170,26 @@
 
 -(GrowlPositionController*)positionControllerForWindow:(GrowlDisplayWindowController*)window
 {
-	return [self positionControllerForScreen:[window screen]];
+	GrowlPositionController* result = nil;
+	@try {
+		result = [self positionControllerForScreen:[window screen]];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"Caught Exception: %@ trying to get the position controller for window %@", exception, window);
+	}
+	@finally {
+		
+	}
+	return result;
 }
 
 -(BOOL)displayWindow:(GrowlDisplayWindowController*)window
 {
-	GrowlPositionController *controller = [self positionControllerForWindow:window];
 	if(![[window plugin] requiresPositioning]){
 		[window setOccupiedRect:[[window screen] frame]];
 		return YES;
 	}else{
+		GrowlPositionController *controller = [self positionControllerForWindow:window];
 		NSDictionary *configDict = [[window notification] configurationDict];
 		GrowlPositionOrigin	position = configDict ? [[configDict valueForKey:@"com.growl.positioncontroller.selectedposition"] intValue] : GrowlTopRightCorner;
 		
@@ -215,8 +225,6 @@
 -(void)displayQueueWindow:(GrowlDisplayWindowController*)window 
 {
 	[allWindows addObject:window];
-	GrowlPositionController *controller = [self positionControllerForWindow:window];
-
 	BOOL display = YES;
 	if(![[window plugin] requiresPositioning]){
 		NSString *displayQueueKey = [window displayQueueKey];
@@ -242,7 +250,7 @@
 		[window setOccupiedRect:[[window screen] frame]];
 		[window foundSpaceToStart];
 		[displayedWindows addObject:window];
-		NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [controller deviceID]]];
+		NSMutableSet *controllerSet = [windowsByDisplayID valueForKey:[NSString stringWithFormat:@"%lu", [[window screen] screenID]]];
 		if(controllerSet) [controllerSet addObject:window];
 		NSString *displayQueueKey = [window displayQueueKey];
 		[queuingDisplayCurrentWindows setValue:window forKey:displayQueueKey];
@@ -251,7 +259,6 @@
 
 -(void)displayWindow:(GrowlDisplayWindowController*)window reposition:(BOOL)reposition
 {
-	
 	if(![[window plugin] requiresPositioning]){
 		[self displayQueueWindow:window];
 	}else{
@@ -307,8 +314,8 @@
 
 -(void)takeDownDisplay:(GrowlDisplayWindowController*)window
 {
-	GrowlPositionController *controller = [self positionControllerForWindow:window];
 	if([[window plugin] requiresPositioning]){
+		GrowlPositionController *controller = [self positionControllerForWindow:window];
 		CGRect clearRect = [window occupiedRect];
 		[self clearRect:clearRect inPositionController:controller];
 		
