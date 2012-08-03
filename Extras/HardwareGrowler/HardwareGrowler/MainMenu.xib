@@ -1405,7 +1405,7 @@
 											<object class="NSCustomView" id="166661152">
 												<reference key="NSNextResponder" ref="550899564"/>
 												<int key="NSvFlags">268</int>
-												<string key="NSFrame">{{60, 156}, {100, 30}}</string>
+												<string key="NSFrame">{{63, 157}, {93, 28}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="46816451"/>
@@ -1590,7 +1590,7 @@
 											<object class="NSTextField" id="46816451">
 												<reference key="NSNextResponder" ref="550899564"/>
 												<int key="NSvFlags">268</int>
-												<string key="NSFrame">{{165, 160}, {32, 22}}</string>
+												<string key="NSFrame">{{161, 160}, {32, 22}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="344794784"/>
@@ -4179,8 +4179,8 @@
 							<reference ref="344794784"/>
 							<reference ref="48118041"/>
 							<reference ref="86066140"/>
-							<reference ref="166661152"/>
 							<reference ref="509407633"/>
+							<reference ref="166661152"/>
 							<reference ref="46816451"/>
 						</array>
 						<reference key="parent" ref="107040842"/>
