@@ -99,7 +99,6 @@ static BOOL awoken = NO;
 
 -(void)dealloc {
    [ticketsArrayController removeObserver:self forKeyPath:@"selection"];
-   [appOnSwitch removeObserver:self forKeyPath:@"state"];
    
    [enableApplicationLabel release];
    [enableLoggingLabel release];
@@ -187,7 +186,6 @@ static BOOL awoken = NO;
 	NSSortDescriptor *ascendingHumanReadable = [NSSortDescriptor sortDescriptorWithKey:@"humanReadableName" ascending:YES];
 	[notificationsArrayController setSortDescriptors:[NSArray arrayWithObject:ascendingHumanReadable]];
 	
-   [appOnSwitch addObserver:self forKeyPath:@"state" options:0 context:nil];
    [appSettingsTabView selectTabViewItemAtIndex:0];
 
    self.canRemoveTicket = NO;
@@ -239,19 +237,6 @@ static BOOL awoken = NO;
 		if ([selection count] > 0 && [[selection objectAtIndex:0] respondsToSelector:@selector(setSelectedPosition:)])
 			[(GrowlTicketDatabaseApplication*)[selection objectAtIndex:0] setSelectedPosition:[NSNumber numberWithInteger:[appPositionPicker selectedPosition]]];
 	}
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-   if([keyPath isEqualToString:@"state"] && object == appOnSwitch){
-      NSInteger index = [growlApplications selectedRow];
-      if(index >= 0 && index < (NSInteger)[[ticketsArrayController arrangedObjects] count]){
-         GrowlTicketDatabaseApplication *ticket = [[ticketsArrayController arrangedObjects] objectAtIndex:index];
-         if([ticket isKindOfClass:[GrowlTicketDatabaseApplication class]])
-         {
-            ticket.enabled = [NSNumber numberWithBool:[appOnSwitch state]];
-         }
-      }
-   }
 }
 
 - (IBAction)getApplications:(id)sender {
