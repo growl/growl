@@ -40,14 +40,14 @@
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.additionalDownloadsButtonTitle = NSLocalizedString(@"Additional Downloads", @"Button title for opening growl.info to downloads page");
       self.startGrowlAtLoginLabel = NSLocalizedString(@"Start Growl at Login", @"Start Growl at Login switch label");
-      self.useAppleNotificationCenterLabel = NSLocalizedString(@"Use Mac OS X Notifications", @"Use Mac OS X Notifications switch label");
+      self.useAppleNotificationCenterLabel = NSLocalizedString(@"OS X Notifications", @"Use Mac OS X Notifications switch label");
       self.defaultStartingPositionLabel = NSLocalizedString(@"Default starting position for notifications", @"Label for the global default starting position picker");
       self.iconMenuOptionsList = [NSArray arrayWithObjects:NSLocalizedString(@"Show icon in the menubar", @"Growl will have a menu bar icon only"),
                                                            NSLocalizedString(@"Show icon in the dock", @"Growl will have an icon only in the dock"),
                                                            NSLocalizedString(@"Show icon in both", @"Growl will have an icon in the menu and the dock"),
                                                            NSLocalizedString(@"No icon visible", @"Growl will run compeletely in the background"), nil];
        self.closeAllNotificationsTitle = NSLocalizedString(@"Close all notifications", @"close all open notifications");
-		self.appleNotificationCenterExplanation = NSLocalizedString(@"By turning this switch on, notifications will be sent to OS X's Notification Center for visual display. You can still use actions through Growl.", @"Explanation for what the big magic notification center switch means");
+		self.appleNotificationCenterExplanation = NSLocalizedString(@"Disable Growl visual controls and foward notifications to OS X", @"Explanation for what the big magic notification center switch means");
    }
    return self;
 }
