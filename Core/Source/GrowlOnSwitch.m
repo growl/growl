@@ -66,4 +66,16 @@
    return YES;
 }
 
+- (void)setHidden:(BOOL)flag {
+	[super setHidden:flag];
+	[self.onLabel setHidden:flag];
+	[self.offLabel setHidden:flag];
+}
+
+- (void)setEnabled:(BOOL)flag {
+	[super setEnabled:flag];
+	[self.onLabel setEnabled:flag];
+	[self.offLabel setEnabled:flag];
+}
+
 @end

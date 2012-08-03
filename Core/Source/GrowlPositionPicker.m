@@ -76,6 +76,12 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
 	NSImage *result = [NSImage imageNamed:@"PositionPickerBackground"];
 	return result;
 }
+
+- (void)setEnabled:(BOOL)flag {
+	enabled = flag;
+	[self setNeedsDisplay];
+}
+
 #pragma mark -
 #pragma mark NSView overrides
 
