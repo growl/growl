@@ -90,7 +90,7 @@
 -(CGFloat)refireTime {
 	CGFloat result = 10.0f;
 	if([[NSUserDefaults standardUserDefaults] objectForKey:@"PowerRefireTime"])
-		result = [[NSUserDefaults standardUserDefaults] boolForKey:@"PowerRefireTime"];
+		result = [[NSUserDefaults standardUserDefaults] floatForKey:@"PowerRefireTime"];
 	return result;
 }
 -(void)setRefireTime:(CGFloat)time {
