@@ -24,6 +24,7 @@
 @synthesize recorderControl;
 @synthesize useAppleNotificationCenterSwitch;
 @synthesize useAppleNotificationCenterLabelField;
+@synthesize useAppleNotificationCenterExplanationField;
 @synthesize growlClawLogo;
 @synthesize additionalDownloadsButton;
 
@@ -33,6 +34,7 @@
 @synthesize iconMenuOptionsList;
 @synthesize closeAllNotificationsTitle;
 @synthesize useAppleNotificationCenterLabel;
+@synthesize appleNotificationCenterExplanation;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
@@ -45,6 +47,7 @@
                                                            NSLocalizedString(@"Show icon in both", @"Growl will have an icon in the menu and the dock"),
                                                            NSLocalizedString(@"No icon visible", @"Growl will run compeletely in the background"), nil];
        self.closeAllNotificationsTitle = NSLocalizedString(@"Close all notifications", @"close all open notifications");
+		self.appleNotificationCenterExplanation = NSLocalizedString(@"By turning this switch on, notifications will be sent to OS X's Notification Center for visual display. You can still use actions through Growl.", @"Explanation for what the big magic notification center switch means");
    }
    return self;
 }
@@ -71,6 +74,7 @@
    [growlClawLogo setHidden:hasNotificationCenter];
    [useAppleNotificationCenterSwitch setHidden:!hasNotificationCenter];
    [useAppleNotificationCenterLabelField setHidden:!hasNotificationCenter];
+	[useAppleNotificationCenterExplanationField setHidden:!hasNotificationCenter];
    
    if (!hasNotificationCenter) {
       globalPositionPicker.nextKeyView = additionalDownloadsButton;
