@@ -329,6 +329,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	
 	[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
 	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+   [appleNotification release];
 #endif
 }
 
