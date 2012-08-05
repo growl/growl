@@ -147,7 +147,8 @@ static struct {
 {
    AUTORELEASEPOOL_START
    // Toss the click context back to the hosting app.
-   [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:[[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+   if([[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
+      [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:[[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
    // Remove the notification, so it doesn't sit around forever.
    [center removeDeliveredNotification:notification];
    AUTORELEASEPOOL_END
@@ -162,7 +163,8 @@ static struct {
    [center removeDeliveredNotification:notification];
    
    // Send the 'timed out' call to the hosting application
-   [[GrowlApplicationBridge growlDelegate] growlNotificationTimedOut:[[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+   if([[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationTimedOut:)])
+      [[GrowlApplicationBridge growlDelegate] growlNotificationTimedOut:[[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
