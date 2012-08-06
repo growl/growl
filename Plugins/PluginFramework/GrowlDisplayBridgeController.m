@@ -81,7 +81,7 @@
 			[blockSelf addPositionControllersForScreen:obj];
 		}];
 		
-		void (^screenChangeBlock)(NSNotification*) = ^(NSNotification *note){
+/*		void (^screenChangeBlock)(NSNotification*) = ^(NSNotification *note){
 			NSArray *screens = [NSScreen screens];
 			__block NSMutableArray *newIDs = [NSMutableArray array];
 			[screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -141,9 +141,72 @@
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidChangeScreenParametersNotification
 																		  object:nil
 																			queue:[NSOperationQueue mainQueue]
-																	 usingBlock:screenChangeBlock];
+																	 usingBlock:screenChangeBlock];*/
+      
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(displayChangeNotification:)
+                                                   name:NSApplicationDidChangeScreenParametersNotification
+                                                 object:nil];
 	}
 	return self;
+}
+
+-(void)displayChangeNotification:(NSNotification*)note {
+   __block GrowlDisplayBridgeController *blockSelf = self;
+   NSArray *screens = [NSScreen screens];
+   __block NSMutableArray *newIDs = [NSMutableArray array];
+   [screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      NSUInteger screenID = [obj screenID];
+      [newIDs addObject:[NSString stringWithFormat:@"%lu", screenID]];
+   }];
+   
+   __block NSMutableArray *toRemove = [NSMutableArray array];
+   [self.positionControllers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+      if(![newIDs containsObject:key])
+         [toRemove addObject:key];
+   }];
+   
+   if([toRemove count]) NSLog(@"Removing %lu positioning controller(s)", [toRemove count]);
+   [[self.positionControllers dictionaryWithValuesForKeys:toRemove] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+      NSMutableSet *displayed = [blockSelf.windowsByDisplayID valueForKey:key];
+      [blockSelf.displayedWindows minusSet:displayed];
+      [blockSelf.allWindows minusSet:displayed];
+      [blockSelf.positionControllers removeObjectForKey:key];
+      [blockSelf.windowsByDisplayID removeObjectForKey:key];
+      
+      NSMutableSet *queueKeys = [blockSelf.queueKeysByDisplayID valueForKey:key];
+      [queueKeys enumerateObjectsUsingBlock:^(id queueObj, BOOL *queueStop) {
+         [blockSelf.queuingDisplayCurrentWindows removeObjectForKey:queueObj];
+         //tell these to redisplay
+         NSMutableArray *queue = [queuingDisplayQueues valueForKey:queueObj];
+         [queue enumerateObjectsUsingBlock:^(id windowObj, NSUInteger windowIDX, BOOL *windowStop) {
+            //NSLog(@"old queue key: %@ new key: %@", queueObj, [windowObj displayQueueKey]);
+            //This isn't working quite right yet
+            [blockSelf displayQueueWindow:windowObj];
+         }];
+         [queuingDisplayQueues removeObjectForKey:queueObj];
+      }];
+      [blockSelf.queueKeysByDisplayID removeObjectForKey:key];
+   }];
+   
+   [screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      CGRect newRect = [obj visibleFrame];
+      GrowlPositionController *controller = [blockSelf positionControllerForScreen:obj];
+      if(!controller){
+         [blockSelf addPositionControllersForScreen:obj];
+      }else{
+         CGRect currentRect = [controller screenFrame];
+         if(!CGRectEqualToRect(newRect, currentRect))
+         {
+            if([controller isFrameFree:[controller screenFrame]])
+               [controller setScreenFrame:newRect];
+            else{
+               [controller setUpdateFrame:YES];
+               [controller setNewFrame:newRect];
+            }
+         }
+      }
+   }];
 }
 
 -(void)addPositionControllersForScreen:(NSScreen*)screen {
