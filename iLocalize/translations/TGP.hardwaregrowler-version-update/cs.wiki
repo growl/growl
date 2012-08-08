@@ -1,0 +1,2 @@
+- Přidána francouzská a španělská lokalizace
+- Vyřešen problém se španělskou lokalizací

@@ -1,0 +1,33 @@
+Hlavní
+- Přepracován vzhled aplikace a aplikačních panelů!
+- Přehled přesunut do zvláštního panelu.
+- Významné změny v síťové vrstvě.
+
+Panel předvoleb
+- Nový přepínač Zapnuto/Vypnuto
+- Přidána podpora klávesnice pro zjišťování pozice.
+- Přepracován vzhled a styl panelů
+- Panel Síť - přidána podpora pro odebírání
+- Panel Historie, kontextová nabídka pro tabulku historie pro rychle zobrazení historie upozornění jedné aplikace.
+- Panel Přehled je v samostatném panelu.
+- Při přidání nové obrazovky není již třeba znovu spouštět Growl.
+
+Síťová vrstva
+- Podpora Notification-Callback-Target, URL odkaz v GNTP. Po klepnutí na upozornění Growl otevře zadané URL ve výchozím prohlížeči (výchozí URL: http://url).
+- Podpora odebírání, nyní lze odebírat upozornění ze všech aplikací ze vzdáleného stroje.
+- Významná vylepšení v oblastí autentifikace.
+- Opravena chyba, která způsobovala pád při síťové komunikaci.
+- Vylepšena správa vyrovnávací paměti. 
+
+AppleScript
+- Aktivní URL odkaz, stejný jako Notification-Callback-Target také v GNTP
+
+Opravy chyb
+- Opravena chyba, která způsobovala pád zásuvného modulu WebKit
+- Opravena chyba, která způsobovala pád při předávání upozornění.
+- Opravena chyba v modulu Předčítání, která způsoboval nadměrnou spotřebu procesorového času.
+- Opravena chyba, která způsobovala pád v metodě CFErrorGetDomain při zobrazování upozornění.
+- Opraven zdvojený výpis zásuvných modulů po reinstalaci.
+- Notification-Callback-Target je nyní používaný dokonce i bez hlavičky metody.
+- Vyřešen problém při poškození databáze historie.
+- Vyřešen problém ve třídění, při smazání záznamu v historii. 

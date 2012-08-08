@@ -1,0 +1,25 @@
+Growl je nejpropracovanější systém zobrazování upozornění a výstrah pro Mac OS X, jaký existuje. Poskytuje vám nejjednodušší způsob jak být okamžitě – v reálném čase informovaný o stavu systému a aplikací, dokonce i když nesedíte u počítače nebo když pracujete na něčem jiném.
+
+V jeden den sme pracovali s obrázky v iPhoto a při tom jsme vedli rozhovor v aplikaci Adium. Čekajíc na důležitou odpověď, jsme se museli každou chvíli přepínat mezi okny aplikace, když nám přišla nějaká zpráva. I když jsme věděli, že nám zpráva přišla, museli jsme otevřít okno se zprávou, abychom jsme si ji mohli přečíst. Myšlenka na Growl vznikla právě z frustrace muset se neustále přepínat mezi různými okny aplikací, abychom se dozvědeli co se děje. Okamžité zobrazování hlášení aplikací vám umožní mít přehled o všem důležitém, co právě potřebujete vědět. S nevnucujícími se upozorněními a jedinečným oknem přehledu Growl, budete vždy vědět co se děje, i když budete nucen odejít od svého počítače. 
+
+Nikdy nebylo možné, si tak efektivně a jednoduše přizpůsobit upozornění podle svých představ. Přijímat upozornění můžete různými způsoby, zobrazením na obrazovce, e-mailem a dokonce si je můžete nechat přečíst vaším počítačem. Existuje mnoho různých předdefinovaných stylů upozornění, mnoho dalších si můžete zkopírovat z Internetu a pokud ovládáte webové technológie (CSS/XHTML/Javascript) můžete si jednoduše vytvořit váš osobitý styl a poskytnout ho ostatním.
+
+A obsahuje mnoho dalších úžasných vlastností.
+
+
+• Přizpůsobte si vzhled upozornění Growl přesně podle sebe.
+• Pracujte i když právě nepracujete. Po návratu k vašemu počítači, pomocí funkce Přehled, zjistíte co se stalo když jste byl pryč.
+• Jednoduché používání záložky aplikací pro pčizpůsobení, která upozorněné se budou či nebudou zobrazovat.
+• Speciální styl upozornění Předčítání, který vám hlášení dokonce přečte. Skvělá funkce pro uživatele se zrakovým postižením.
+• Úžasná historie upozornění.
+• Rozsáhlý a rozmanitý výběr stylů upozornění přímo v programu Growl. Od nenápadného stylu „nano“, který se skutečně malý a nenápadný, až po „music video“, který je prostě nepřehlédnutelný.
+• Vytvořte si veľmi snadno pomocí webových technologií vlastní styly. Dejte upozorněním Growl váš osobitý styl.
+• Posílejte upozornění Growl z Cocoa aplikací, AppleScriptu nebo dokonce ze sítě.
+• Propojení dvou nebo více, počítačů prostřednictvím sítě, vám umožní přeposílání upozornění mezi nimi.
+• Dokáže zobrazovat upozornění i na iPhone a iPad díky iOS aplikaci Prowl.
+
+
+
+
+Growl je to, co skutečně potřebujete. Milují ho miliony lidí a vy ho budete milovat také!
+

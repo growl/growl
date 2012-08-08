@@ -1,0 +1,7 @@
+HardwareGrowler je nejlepší způsob zjistit stav a změny stavů hardware vašeho počítače. Chcete-li vědět co se děje s vaším počítačem potřebujete HardwareGrowler. 
+
+Když odpojíte síťový adaptér, HardwareGrowler spusí nastavenou akci a dá vám o tom vědět. Budete upozorněni na připojení zařízení jako je např. klávesnice, flash disk nebo dokonce USB náhlavní souprava.
+
+HardwareGrowler vám dá také vědět, když se změní nastavení sítě. Když se změní spojení bezdrátového připojení k jinému přístupovému bodu nebo se změní IP adresa, budete na to upozorněni. 
+
+HardwareGrowler je to, co potřebujete když chcete vědět vše o vašem hardware. HardwareGrowler používá Growl pro zobrazování upozornění nebo to umí přímo sám. Je jednoduché ho používat, je jednoduché ho nastavit, HardwareGrowler je pro všechny, kdo chtějí vědět.
