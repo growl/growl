@@ -77,8 +77,8 @@
       conHost = [socket connectedHost];
    else{
       NSLog(@"We dont know what host sent this (will show as missing hash string error)");
-      *errCode = GrowlGNTPInternalServerErrorErrorCode;
-      *errDescription = NSLocalizedString(@"We encountered an error parsing the packet, we don't know where it came from", @"GNTP error");
+      if (errCode) *errCode = GrowlGNTPInternalServerErrorErrorCode;
+      if (errDescription) *errDescription = NSLocalizedString(@"We encountered an error parsing the packet, we don't know where it came from", @"GNTP error");
       return NO;
    }
 #if GROWLHELPERAPP
@@ -89,14 +89,14 @@
       if(![preferences isGrowlServerEnabled] && ([action caseInsensitiveCompare:GrowlGNTPNotificationMessageType] == NSOrderedSame ||
 																 [action caseInsensitiveCompare:GrowlGNTPRegisterMessageType] == NSOrderedSame))
       {
-         *errCode = GrowlGNTPUnauthorizedErrorCode;
-         *errDescription = NSLocalizedString(@"Incoming remote notifications and registrations have been disabled by the user", @"GNTP unauthorized packet error message");
+         if (errCode) *errCode = GrowlGNTPUnauthorizedErrorCode;
+         if (errDescription) *errDescription = NSLocalizedString(@"Incoming remote notifications and registrations have been disabled by the user", @"GNTP unauthorized packet error message");
          return NO;
       }
       
       if(![preferences isSubscriptionAllowed] && [action caseInsensitiveCompare:GrowlGNTPSubscribeMessageType] == NSOrderedSame) {
-         *errCode = GrowlGNTPUnauthorizedErrorCode;
-         *errDescription = NSLocalizedString(@"Incoming subscription requests have been disabled by the user", @"GNTP unathorized packet error message");
+         if (errCode) *errCode = GrowlGNTPUnauthorizedErrorCode;
+         if (errDescription) *errDescription = NSLocalizedString(@"Incoming subscription requests have been disabled by the user", @"GNTP unathorized packet error message");
          return NO;
       }
    }
