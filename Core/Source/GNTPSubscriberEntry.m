@@ -329,6 +329,14 @@
 }
 
 -(void)subscribe {
+   //Lets not fire this instantly or repeatedly, just to be certain
+   [GNTPSubscriberEntry cancelPreviousPerformRequestsWithTarget:self selector:@selector(subscribeDelay) object:nil];
+   [self performSelector:@selector(subscribeDelay)
+              withObject:nil
+              afterDelay:.2];
+}
+
+-(void)subscribeDelay {
    //Can't subscribe if this is a remote entry
    //Can't subscribe if this entry isn't set to be used
    //Can't subscribe without a computer name
