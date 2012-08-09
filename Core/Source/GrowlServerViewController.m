@@ -130,6 +130,10 @@
       self.computerColumnTitle = NSLocalizedString(@"Computer Name", @"Column title for a computer entry");
       self.passwordColumnTitle = NSLocalizedString(@"Password", @"Column title for a password");
       self.validColumnTitle = NSLocalizedString(@"Valid until:", @"Column title for how long a subscriber is valid for");
+   
+      self.subscriptionController = [GNTPSubscriptionController sharedController];
+      self.forwarder = [GNTPForwarder sharedController];
+      [GrowlNetworkObserver sharedObserver];
    }
    return self;
 }
@@ -159,16 +163,11 @@
 }
 
 - (void) awakeFromNib {
-   self.forwarder = [GNTPForwarder sharedController];
-   self.subscriptionController = [GNTPSubscriptionController sharedController];
-
    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
    [nc addObserver:self 
           selector:@selector(reloadPrefs:) 
               name:GrowlPreferencesChanged 
             object:nil];
-   
-   [GrowlNetworkObserver sharedObserver];
    
    [nc addObserver:self
           selector:@selector(updateAddresses:)
@@ -205,12 +204,10 @@
 - (IBAction) removeSelectedForwardDestination:(id)sender
 {
    [forwarder removeEntryAtIndex:[networkTableView selectedRow]];
-	[networkTableView noteNumberOfRowsChanged];
 }
 
 - (IBAction)newManualForwader:(id)sender {
    [forwarder newManualEntry];
-	[networkTableView noteNumberOfRowsChanged];
 }
 
 - (IBAction)newManualSubscription:(id)sender
