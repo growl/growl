@@ -147,8 +147,9 @@
 			
 			if ([addresses count]) {
 				/* DNS lookup success! Make a copy, as releasing host will deallocate it. */
-                NSData *result = [[[addresses objectAtIndex:0] copy] autorelease];
-                CFRelease(host);
+            NSData *result = [[[addresses objectAtIndex:0] copy] autorelease];
+            CFRelease(host);
+            result = [[[self addressData:result coercedToPort:GROWL_TCP_PORT] copy] autorelease];
 				return result;
 			}
 		}
