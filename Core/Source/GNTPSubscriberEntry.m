@@ -303,6 +303,8 @@
    if(_computerName)
       [_computerName release];
    _computerName = [name retain];
+
+   self.lastKnownAddress = nil;
    
    //If this is a manual computer, we should try subscribing after updating the name
    if(self.manual)
