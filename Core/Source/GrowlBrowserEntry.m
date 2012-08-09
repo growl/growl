@@ -109,6 +109,15 @@
 	[owner writeForwardDestinations];
 }
 
+-(void)setComputerName:(NSString *)name
+{
+   if(_name)
+      [_name release];
+   _name = [name retain];
+   
+   self.lastKnownAddress = nil;
+}
+
 - (void) setOwner:(GNTPForwarder *)pref {
 	owner = pref;
 }

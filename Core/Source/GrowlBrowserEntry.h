@@ -38,7 +38,7 @@
 - (void) setOwner:(GNTPForwarder *)pref;
 
 @property (retain) NSString *uuid;
-@property (retain) NSString *computerName;
+@property (nonatomic, retain) NSString *computerName;
 @property (nonatomic, assign) BOOL use;
 @property (nonatomic, assign) BOOL active;
 @property (assign) BOOL manualEntry;
