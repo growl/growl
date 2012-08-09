@@ -378,7 +378,11 @@
 	//Not the prettiest, but it makes sure we avoid empty selection
 	NSUInteger firstNonGroupItem = [self.pluginConfigGroupController indexOfFirstNonGroupItem];
 	if(firstNonGroupItem != NSNotFound){
-		[self.displayPluginsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:firstNonGroupItem] byExtendingSelection:NO];
+      double delayInSeconds = .2;
+      dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+      dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+         [self.displayPluginsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:firstNonGroupItem] byExtendingSelection:NO];
+      });
 	}
 }
 
@@ -596,7 +600,12 @@
 			}
 		}
 		[displayName setStringValue:newDisplayName];
-	}
+	}else{
+      [self loadViewForDisplay:nil];
+      [displayAuthor setStringValue:@""];
+      [displayVersion setStringValue:@""];
+      [displayName setStringValue:@""];
+   }
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification {
