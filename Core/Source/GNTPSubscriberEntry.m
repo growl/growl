@@ -271,6 +271,8 @@
 		_active = flag;
       if(self.active && self.use && !self.remote)
          [self subscribe];
+   }else{
+      _active = YES;
    }
 }
 
