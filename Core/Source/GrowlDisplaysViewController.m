@@ -154,7 +154,7 @@
 		self.noDefaultDisplayPluginLabel = NSLocalizedString(@"No Default Display", @"Setting for no visual display");
 		
 		self.awokeFromNib = NO;
-	}
+   }
    return self;
 }
 
@@ -349,11 +349,6 @@
 - (IBAction) endDisabledDisplays:(id)sender {
 	[NSApp endSheet:disabledDisplaysSheet];
 	[disabledDisplaysSheet orderOut:disabledDisplaysSheet];
-}
-
-// Returns a boolean based on whether any disabled displays are present, used for the 'hidden' binding of the button on the tab
-- (BOOL)hasDisabledDisplays {
-	return [pluginController disabledPluginsPresent];
 }
 
 - (IBAction)addCompoundConfiguration:(id)sender {

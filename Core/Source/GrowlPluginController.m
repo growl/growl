@@ -411,7 +411,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		}
 		return pluginDict;
 	}
-		
+   
 	//Look up the identifier for the plugin. We try to look up the identifier by the instance, by the bundle; and by the pathname, in that order.
 	NSString *identifier = nil;
 	if (plugin)
@@ -420,50 +420,50 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		identifier = [pluginIdentifiersByBundle   objectForKey:bundle];
 	else if (path)
 		identifier = [pluginIdentifiersByPath     objectForKey:path];
-
+   
 	/* If we have an identifier, look up the plug-in dictionary.
 	 * If we have a plug-in dictionary but no instance (the identifier was retrieved by bundle or by path), attempt to retrieve the instance from the dictionary.
 	 */
 	pluginDict = identifier ? [pluginsByIdentifier objectForKey:identifier] : nil;
 	if (pluginDict && !plugin)
 		plugin = [pluginDict pluginInstance];
-
+   
 	//Assert that we have an instance OR a bundle. We need at least one to proceed.
 	NSAssert1(plugin || bundle, @"Cannot load plug-ins lazily without a bundle (path: %@)", path);
-
+   
 	//Get the plug-in's name, author, and version. All three come from the plug-in instance if it exists and responds to -name/-author/-version; if both requirements are not satisfied, the information is retrieved from the bundle's Info.plist.
-	NSString *name    = plugin ? ([plugin respondsToSelector:@selector(name)] ? [plugin name] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]) 
-								: [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+	NSString *name    = plugin ? ([plugin respondsToSelector:@selector(name)] ? [plugin name] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey])
+   : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
 	NSString *author  = plugin ? ([plugin respondsToSelector:@selector(author)] ? [plugin author] : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor])
-							    : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor];
+   : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor];
 	NSString *version = plugin ? ([plugin respondsToSelector:@selector(version)] ? [plugin version] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey])
-							    : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-
+   : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+   
 	//If we don't have a pathname, get it as the bundle's pathname.
 	if (!path)
 		path = [bundle bundlePath];
 	NSString *extension = [path pathExtension];
 	NSString *fileTypeString = nil;
 	OSType fileType = 0;
-
+   
 	//Assert that we have a name, author, and version. (We got the path first so we can use it in the assertion message.)
 	NSAssert5((name != nil) && (author != nil) && (version != nil),
-			  @"Cannot load plug-in at path %@ (plug-in instance's class: %@). One of these is (null), but they must all not be:\n"
-			  @"\t"@"   name: %@\n"
-			  @"\t"@" author: %@\n"
-			  @"\t"@"version: %@\n",
-			  path, [plugin class], name, author, version);
-
+             @"Cannot load plug-in at path %@ (plug-in instance's class: %@). One of these is (null), but they must all not be:\n"
+             @"\t"@"   name: %@\n"
+             @"\t"@" author: %@\n"
+             @"\t"@"version: %@\n",
+             path, [plugin class], name, author, version);
+   
 	//In case we got the names from the plug-in instance and it gave us a mutable string for some reason, make copies for ourselves.
 	//Note: This isn't a performance hit when the strings are immutable. -copy = -retain in that situation. Thanks, Apple!
 	name    = [name    copy];
 	author  = [author  copy];
 	version = [version copy];
-
+   
 	//If we don't have an identifier yet, forge it.
 	if (!identifier)
 		identifier = [NSString stringWithFormat:@"Name: %@ Author: %@ Path: %@", name, author, path];
-
+   
 	//If we don't have an instance but we do have a bundle, see if we've previously queued the bundle for lazy instantiation.
 	if (!plugin && bundle) {
 		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle]) {
@@ -479,12 +479,14 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 				[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
 			} else {
 				//Couldn't instantiate the plug-in, perhaps because of an architecture mismatch. Put it into disabled plug-ins.
-				NSLog(@"Adding %@ to disabled plug-ins because we could not instantiate its class %@ (from bundle %@)", name, [bundle principalClass], bundle);
-				[disabledPlugins addObject:[bundle bundlePath]];
+				NSLog(@"Adding %@ to disabled plug-ins because we could not instantiate its class %@ (from bundle %@)", name, NSStringFromClass([bundle principalClass]), bundle);
+            [self willChangeValueForKey:@"disabledPluginsPresent"];
+            [disabledPlugins addObject:[bundle bundlePath]];
+            [self didChangeValueForKey:@"disabledPluginsPresent"];
 			}
 		}
 	}
-
+   
 	/*If we don't actually have a plug-in dictionary, create it.
 	 *Elements of a plug-in dictionary:
 	 *	Plug-in name
@@ -498,20 +500,20 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	BOOL pluginDictIsNew = !pluginDict;
 	if (!pluginDict) {
 		pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			name,                 GrowlPluginInfoKeyName,
-			author,               GrowlPluginInfoKeyAuthor,
-			version,              GrowlPluginInfoKeyVersion,
-			path,                 GrowlPluginInfoKeyPath,
-			identifier,           GrowlPluginInfoKeyIdentifier,
-			nil];
+                    name,                 GrowlPluginInfoKeyName,
+                    author,               GrowlPluginInfoKeyAuthor,
+                    version,              GrowlPluginInfoKeyVersion,
+                    path,                 GrowlPluginInfoKeyPath,
+                    identifier,           GrowlPluginInfoKeyIdentifier,
+                    nil];
 		NSString *description = ([plugin respondsToSelector:@selector(pluginDescription)] ? [plugin pluginDescription] : nil);
 		
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
-
+      
 		[[NSWorkspace sharedWorkspace] getFileType:&fileTypeString creatorCode:NULL forFile:path];
 		fileType = fileTypeString ? NSHFSTypeCodeFromFileType(fileTypeString) : 0;
-
+      
 		//Record the file types (HFS and filename extension) that the plug-in possessed at this time. These help determine what kind of plug-in it is (e.g. .growlView = custom view; .growlStyle = WebKit display).
 		NSSet *types = nil;
 		if (extension) {
@@ -521,11 +523,11 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 				types = [NSSet setWithObject:extension];
 		} else if (fileType)
 			types = [NSSet setWithObject:fileTypeString];
-
+      
 		if (types)
 			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
 	}
-
+   
 	//We have a bundle. If no previous bundle was stored in the plug-in dictionary (why wouldn't there be?), store this bundle there. Also register the identifier as being the one for this bundle.
 	if (bundle) {
 		if (![pluginDict objectForKey:GrowlPluginInfoKeyBundle])
@@ -538,80 +540,86 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
 		[pluginIdentifiersByInstance setObject:identifier forKey:plugin];
 	}
-
+   
 	//If we just created the dictionary (and got done filling it out), start storing it in places.
 	if (pluginDictIsNew) {
 		[pluginsByIdentifier setObject:pluginDict forKey:identifier];
 		[pluginIdentifiersByPath setObject:identifier forKey:path];
-
-	#define ADD_TO_DICT(dictName, key, value)                                          \
-			do {                                                                        \
-				NSHashTable *plugins = [dictName objectForKey:key];                     \
-				if (plugins)                                                              \
-					[plugins addObject:value];                                             \
-				else                                                                        \
-					[dictName setObject:[self makeHashTableWithObject:value] forKey:key];    \
-			} while(0)
+      
+#define ADD_TO_DICT(dictName, key, value)                                          \
+do {                                                                        \
+NSHashTable *plugins = [dictName objectForKey:key];                     \
+if (plugins)                                                              \
+[plugins addObject:value];                                             \
+else                                                                        \
+[dictName setObject:[self makeHashTableWithObject:value] forKey:key];    \
+} while(0)
 		ADD_TO_DICT(pluginsByName,     name,                     pluginDict);
 		ADD_TO_DICT(pluginsByAuthor,   author,                   pluginDict);
 		ADD_TO_DICT(pluginsByVersion,  version,                  pluginDict);
 		ADD_TO_DICT(pluginsByFilename, [path lastPathComponent], pluginDict);
-
+      
 		ADD_TO_DICT(pluginsByType, extension, pluginDict);
 		ADD_TO_DICT(pluginsByType, fileTypeString,  pluginDict);
-	#undef ADD_TO_DICT
+#undef ADD_TO_DICT
 	}
-
+   
 	//Release our copies.
 	[name    release];
 	[author  release];
 	[version release];
-
+   
 	//Invalidate non-display plug-in caches.
 	[cache_allPlugins release];
-	 cache_allPlugins = nil;
+   cache_allPlugins = nil;
 	[cache_allPluginsArray release];
-	 cache_allPluginsArray = nil;
+   cache_allPluginsArray = nil;
 	[cache_registeredPluginTypes release];
-	 cache_registeredPluginTypes = nil;
+   cache_registeredPluginTypes = nil;
 	[cache_registeredPluginNames release];
-	 cache_registeredPluginNames = nil;
+   cache_registeredPluginNames = nil;
 	[cache_registeredPluginNamesArray release];
-	 cache_registeredPluginNamesArray = nil;
-
+   cache_registeredPluginNamesArray = nil;
+   
 	//Special handling if this plug-in is a display.
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
 		//If it doesn't conform to GrowlDispatchNotificationProtocol, it's old. Add it as a disabled plug-in.
 		if(plugin && ![plugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]) {
-			NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [pluginDict objectForKey:GrowlPluginInfoKeyName], plugin);
-			[disabledPlugins addObject:[pluginDict objectForKey:GrowlPluginInfoKeyPath]];
-		} 
-		else {
-			//It conforms to GrowlDispatchNotificationProtocol, so add it as a(n enabled) display plug-in.
-			// we also test to see if this plugin is already in the plugin's list, because it might have been
-            //lazily loaded and if so, it already has an entry in the list.
-         NSUInteger index = [displayPlugins indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            return [identifier caseInsensitiveCompare:[obj valueForKey:GrowlPluginInfoKeyIdentifier]] == NSOrderedSame;
-         }];
+         NSLog(@"Adding %@ to disabled plug-ins because %@ is incompatible with Growl version 2.0 and later", [bundle bundlePath], plugin);
+         [self willChangeValueForKey:@"disabledPluginsPresent"];
+         [disabledPlugins addObject:[bundle bundlePath]];
+         [self didChangeValueForKey:@"disabledPluginsPresent"];
+      }
+      
+      NSUInteger index = [displayPlugins indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+         return [identifier caseInsensitiveCompare:[obj valueForKey:GrowlPluginInfoKeyIdentifier]] == NSOrderedSame;
+      }];
+      if(![disabledPlugins containsObject:[pluginDict objectForKey:GrowlPluginInfoKeyPath]]){
          if(index == NSNotFound){
             [displayPlugins addObject:pluginDict];
          }else{
             [displayPlugins replaceObjectAtIndex:index withObject:pluginDict];
          }
-		}
+      }else{
+         //We need to remove this, we tried to lazy instantiate it and failed
+         if(index != NSNotFound){
+            NSLog(@"Removing plugin %@ from display plugins list", [pluginDict objectForKey:GrowlPluginInfoKeyName]);
+            [displayPlugins removeObjectAtIndex:index];
+         }
+      }
 		
 		//Invalidate display plug-in cache.
 		[self willChangeValueForKey:@"displayPlugins"];
-        [cache_displayPlugins release];
-		 cache_displayPlugins = nil;
-        [self didChangeValueForKey:@"displayPlugins"];
+      [cache_displayPlugins release];
+      cache_displayPlugins = nil;
+      [self didChangeValueForKey:@"displayPlugins"];
 	}
-
+   
 	//Store the bundle identifier so we know we've loaded it.
 	if (bundleIdentifier) {
 		[pluginsByBundleIdentifier setObject:pluginDict forKey:bundleIdentifier];
 	}
-
+   
 	return pluginDict;
 }
 

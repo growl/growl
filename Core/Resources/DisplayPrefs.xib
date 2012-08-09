@@ -101,7 +101,7 @@
 										<string key="NSFrameSize">{125, 342}</string>
 										<reference key="NSSuperview" ref="135659977"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="496368806"/>
+										<reference key="NSNextKeyView" ref="917453506"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -258,7 +258,7 @@
 						<string key="NSFrame">{{20, 79}, {127, 360}}</string>
 						<reference key="NSSuperview" ref="581541610"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="135659977"/>
+						<reference key="NSNextKeyView" ref="496368806"/>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="541467293"/>
 						<reference key="NSHScroller" ref="496368806"/>
@@ -347,6 +347,7 @@
 										<string key="NSFrame">{{331, 13}, {41, 13}}</string>
 										<reference key="NSSuperview" ref="1024986121"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:3944</string>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="206504742">
@@ -1414,26 +1415,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: hasDisabledDisplays</string>
-						<reference key="source" ref="109880051"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="109880051"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden: hasDisabledDisplays</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">hasDisabledDisplays</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">78</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">title: self.showDisabledButtonTitle</string>
 						<reference key="source" ref="109880051"/>
 						<reference key="destination" ref="1001"/>
@@ -1455,6 +1436,26 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="937010657"/>
 					</object>
 					<int key="connectionID">414</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: pluginController.disabledPluginsPresent</string>
+						<reference key="source" ref="109880051"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="109880051"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">hidden: pluginController.disabledPluginsPresent</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">pluginController.disabledPluginsPresent</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1141</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4104,7 +4105,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1139</int>
+			<int key="maxID">1141</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

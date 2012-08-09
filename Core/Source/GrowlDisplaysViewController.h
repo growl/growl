@@ -51,7 +51,6 @@
 
 - (IBAction) showDisabledDisplays:(id)sender;
 - (IBAction) endDisabledDisplays:(id)sender;
-- (BOOL)hasDisabledDisplays;
 - (IBAction)addConfiguration:(id)sender;
 - (IBAction)deleteConfiguration:(id)sender;
 
