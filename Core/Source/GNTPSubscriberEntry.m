@@ -99,7 +99,6 @@
       self.active = self.manual;
       self.subscriptionError = NO;
       self.subscriptionErrorDescription = nil;
-      self.lastKnownAddress = nil;
       
       [[NSNotificationCenter defaultCenter] addObserver:self
                                                selector:@selector(primaryIPChanged:)
@@ -286,6 +285,8 @@
       }
    }
    if(!self.use && !self.remote){
+      self.lastKnownAddress = nil;
+      self.subscriptionAttempt = nil;
       self.attemptingToSubscribe = NO;
       self.subscriptionError = NO;
       self.subscriptionErrorDescription = nil;
@@ -328,6 +329,16 @@
    [self subscribe];
 }
 
+- (void) setLastKnownAddress:(NSData *)address {
+   //If someone is trying to set the address data and we aren't allowed to do caching at the moment, nil it
+   //Unlike forwarding, we do have a situation where we must have address data stored, subscribed machines we must know their address data to send
+   if(!self.remote && ![[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] && address)
+      address = nil;
+   if(_lastKnownAddress)
+      [_lastKnownAddress release];
+   _lastKnownAddress = [address retain];
+}
+
 -(void)subscribe {
    //Lets not fire this instantly or repeatedly, just to be certain
    [GNTPSubscriberEntry cancelPreviousPerformRequestsWithTarget:self selector:@selector(subscribeDelay) object:nil];
@@ -368,7 +379,7 @@
     */
    __block GNTPSubscriberEntry *blockSelf = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSData *destAddress = self.lastKnownAddress;
+      NSData *destAddress = [[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] ? blockSelf.lastKnownAddress : nil;
       if(!destAddress){
          destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
          self.lastKnownAddress = destAddress;
@@ -415,8 +426,9 @@
    if(self.computerName)     [buildDict setValue:self.computerName forKey:@"computerName"];
    if(self.addressString)    [buildDict setValue:self.addressString forKey:@"addressString"];
    if(self.domain)           [buildDict setValue:self.domain forKey:@"domain"];
-   if(self.lastKnownAddress) [buildDict setValue:self.lastKnownAddress forKey:@"address"];
    if(self.initialTime)      [buildDict setValue:self.initialTime forKey:@"initialTime"];
+   //We only need last known address if this is a remote host, local entries can redo lookup
+   if(self.lastKnownAddress && self.remote) [buildDict setValue:self.lastKnownAddress forKey:@"address"];
    [buildDict setValue:[NSNumber numberWithBool:self.use] forKey:@"use"];
    [buildDict setValue:[NSNumber numberWithBool:self.remote] forKey:@"remote"];
    [buildDict setValue:[NSNumber numberWithBool:self.manual] forKey:@"manual"];   
