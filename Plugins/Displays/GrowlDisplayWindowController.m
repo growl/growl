@@ -255,6 +255,8 @@ static NSMutableDictionary *existingInstances;
 	}
 	self.finished = YES;
 	
+	[self retain];
+	
 	[self cancelDisplayDelayedPerforms];
 	
 	//Clear the rect we reserved...
@@ -269,12 +271,11 @@ static NSMutableDictionary *existingInstances;
 	
 	[plugin displayWindowControllerDidTakeDownWindow:self];
 	
-	/* LAST THING 
-	 * Do not call anything after this point
-	 * we will be dealloced after GrowlDisplayBridgeController 
-	 * takes us down
-	 */
 	[[GrowlDisplayBridgeController sharedController] takeDownDisplay:self];
+	
+	/* This object should now be deallocated.
+	 */
+	[self release];
 }
 
 - (void) didDisplayNotification {
