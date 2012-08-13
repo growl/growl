@@ -379,7 +379,16 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		
 		if (iconData)
 			[aDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-		
+      else{
+         static NSData *defaultIconData = nil;
+         static dispatch_once_t onceToken;
+         dispatch_once(&onceToken, ^{
+            defaultIconData = [[[NSImage imageNamed:NSImageNameApplicationIcon] TIFFRepresentation] retain];
+         });
+         
+         [aDict setObject:defaultIconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+      }
+
 		// If app icon present, convert to NSImage
 		iconData = nil;
 		sourceIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
@@ -391,6 +400,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		}
 		if (iconData)
 			[aDict setObject:iconData forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+      else{
+         static NSData *defaultIconData = nil;
+         static dispatch_once_t onceToken;
+         dispatch_once(&onceToken, ^{
+            defaultIconData = [[[NSImage imageNamed:NSImageNameApplicationIcon] TIFFRepresentation] retain];
+         });
+         
+         [aDict setObject:defaultIconData forKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+      }
 		
 		// To avoid potential exceptions, make sure we have both text and title
 		if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
