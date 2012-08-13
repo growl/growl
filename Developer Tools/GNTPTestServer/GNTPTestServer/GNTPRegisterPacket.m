@@ -226,6 +226,10 @@
 		}
 	}];
 	
+   if(![convertedDict objectForKey:GROWL_APP_ICON_DATA]){
+      [convertedDict setObject:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation] forKey:GROWL_APP_ICON_DATA];
+   }
+   
 	[convertedDict setObject:notificationNames forKey:GROWL_NOTIFICATIONS_ALL];
 	if([enabledNotes count] > 0)
 		[convertedDict setObject:enabledNotes forKey:GROWL_NOTIFICATIONS_DEFAULT];
