@@ -169,6 +169,8 @@
 		}
 	}
    
+   if (errCode) *errCode = GrowlGNTPUnauthorizedErrorCode;
+   if (errDescription) *errDescription = NSLocalizedString(@"There was an error parsing the key for validity", @"");
    return NO;
 }
 +(GNTPKey*)keyForSecurityHeaders:(NSArray*)headers 
