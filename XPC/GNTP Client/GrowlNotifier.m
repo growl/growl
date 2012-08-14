@@ -14,6 +14,12 @@
 
 #import "NSObject+XPCHelpers.h"
 
+@interface GrowlNotifier ()
+
+@property (nonatomic, assign) dispatch_queue_t attemptArrayQueue;
+
+@end
+
 @implementation GrowlNotifier
 
 @synthesize currentAttempts;
@@ -24,6 +30,8 @@
     if (self) {
         // Initialization code here.
         self.currentAttempts = [NSMutableArray array];
+       NSString *attemptArrayQueueName = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".attemptArrayQueue"];
+       self.attemptArrayQueue = dispatch_queue_create([attemptArrayQueueName UTF8String], DISPATCH_QUEUE_SERIAL);
     }
     
     return self;
@@ -38,8 +46,11 @@
 
 - (void) sendCommunicationAttempt:(GrowlCommunicationAttempt *)attempt 
 {
-    [currentAttempts addObject:attempt];
-    [attempt begin];
+   __block GrowlNotifier *blockSelf = self;
+   dispatch_sync(_attemptArrayQueue, ^{
+      [[blockSelf currentAttempts] addObject:attempt];
+   });
+   [attempt begin];
 }
 
 -(void)sendXPCMessage:(id)nsMessage connection:(xpc_connection_t)connection
@@ -95,13 +106,19 @@
 	
 	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 	
-	[currentAttempts removeObject:attempt];
+   __block GrowlNotifier *blockSelf = self;
+   dispatch_async(_attemptArrayQueue, ^{
+      [[blockSelf currentAttempts] removeObject:attempt];
+   });
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
-    NSDictionary *response = [NSDictionary dictionaryWithObject:@"finishedAttempt" forKey:@"GrowlActionType"];
-    
-    [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
-    [currentAttempts removeObject:attempt];
+   NSDictionary *response = [NSDictionary dictionaryWithObject:@"finishedAttempt" forKey:@"GrowlActionType"];
+   
+   [self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
+   __block GrowlNotifier *blockSelf = self;
+   dispatch_async(_attemptArrayQueue, ^{
+      [[blockSelf currentAttempts] removeObject:attempt];
+   });
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
     //we will have to ask our host app for the reg dict again via XPC
