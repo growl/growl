@@ -1,8 +1,12 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
-{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid2\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid1}}
-{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid2\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid102\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid103\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li2160\lin2160 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid202\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid203\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li2160\lin2160 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\})}{\leveltext\leveltemplateid301\'02\'00);}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid401\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid402\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid5}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}}
 \margl1440\margr1440\vieww33400\viewh18800\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
@@ -68,14 +72,87 @@ The documentation for implementation is at our {\field{\*\fldinst{HYPERLINK "htt
 Growl and Notification Center on 10.8
 \b0 \
 \
-The release of 10.8 means that you will now need to include Notification Center in your notification solution. The Growl 2 framework introduces support for Notification Center. It will work like this:\
+The release of 10.8 means that you will now need to include Notification Center in your notification solution. Here is a short summary of how this change will work.\
 \
-If on 10.6 or 10.7 and Growl is not present, then use Mist (the built-in notification in the framework).\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls2\ilvl0\cf0 {\listtext	\'95	}Pre-Notification Center support:\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440
+\ls2\ilvl1\cf0 {\listtext	1.	}Growl.app is installed\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160
+\ls2\ilvl2\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Notification tickets are sent to the Growl.app which displays them and performs actions and displays notifications as configured by the user\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440
+\ls2\ilvl1\cf0 {\listtext	2.	}Growl.app is not installed\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160
+\ls2\ilvl2\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Growl's Mist system displays default notifications based on the app's configuration.\
+\pard\pardeftab720\sa260
+\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls3\ilvl0\cf0 {\listtext	\'95	}Post-Notification Center support, with Growl 2\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440
+\ls3\ilvl1\cf0 {\listtext	1.	}Growl.app is installed, and the user has configured growl to 
+\i NOT
+\i0  use NC\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160
+\ls3\ilvl2\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Notifications work as before. Notification tickets are sent to the Growl.app which displays them and performs actions and displays notifications as configured by the user\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440
+\ls3\ilvl1\cf0 {\listtext	2.	}Growl.app is installed, and the user has configured Growl.app to use NC\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160
+\ls3\ilvl2\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Growl.framework detects this state 
+\b from within the app
+\b0  and notifications are sent directly to NC from the app's process. Additionally, notification tickets are sent to growl which performs any associated actions. 
+\i Growl.app displays nothing.
+\i0 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440
+\ls3\ilvl1\cf0 {\listtext	3.	}Growl.app is 
+\b not
+\b0  installed\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160
+\ls3\ilvl2\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Growl.framework detects this state 
+\b from within the app
+\b0  and notifications are sent directly to NC from the app's process. Nothing else is done.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
 \
-If on 10.8 and Growl is not present, then use Notification Center.\
 \
-If Growl is running, use Growl.\
+Here is a more detailed explanation:\
 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls4\ilvl0\cf0 {\listtext	1)	}The framework basically has a 'send to notification center' flag. If Growl is not running, this flag is true. Alternatively, if Growl *is* running, the framework will be told whether or not the big 'Use OS X Notifications' switch is flipped, and the flag set from that.\
+{\listtext	2)	}If this flag is set to true, when the app generates a Growl notification, the notification will also be packaged up and sent to Notification Center. Since the app is sending the notification itself, it appears with the appropriate app icon and title. If Growl is running, the notification is also sent to Growl with a special GNTP header field set, to mark that it's already been shown. Growl will then handle any automation/actions necessary, but won't do the visual displays.\
+{\listtext	3)	}If the flag is set to false, notifications go to Growl as normal, without the 'do not display this visually' GNTP header.\
+{\listtext	4)	}If Growl receives a notification without the 'do not display this visually' bit set \'97 such as from a legacy version of the framework \'97 while the 'Use OS X Notifications' switch is flipped to true, then it will pass the notification on to Notification Center itself. The downside here is that the notification will be sent by Growl rather than the host app, and thus will have the Growl icon and title, though the subtitle portion is used to label which app made it. On the upside, it means legacy Growl notifications can appear in Notification Center.\
+\pard\pardeftab720
+\cf0 \
+In either case, Growl notifications passed to Notification Center are left up for two minutes and then expired; this emulates Growl notifications fading away and avoids cluttering Notification Center with 8 billion little status notifications. If the 'sticky' bit is set, of course, the notification is not expired.\
+\
+In essence, you just write notifications like normal, and then things Just Work. If the user has Growl installed, it uses their visual display or uses Notification Center, as per the user's preferences. If the user does not have Growl installed and is on Mountain Lion, it uses Notification Center. If the user does not have Growl installed and is on Lion or Snow Leopard, it uses the framework's built-in 'Mist' system.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+Finally, another way to explain the scenario.\
+\
+\
+The Growl 2 framework introduces support for Notification Center. It will work like this:\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural
+\ls5\ilvl0\cf0 {\listtext	\uc0\u8259 	}If on 10.6 or 10.7 and Growl is not present, then use Mist (the built-in notification in the framework).\
+{\listtext	\uc0\u8259 	}Else, if on 10.8 and Growl is not present, then use Notification Center.\
+{\listtext	\uc0\u8259 	}If Growl is running, use Growl.\
+{\listtext	\uc0\u8259 	}If the Notification Center switch in Growl is on\
+\pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural
+\ls5\ilvl1\cf0 {\listtext	\uc0\u8259 	}Use Notification Center to display notifications direct from applications. \
+{\listtext	\uc0\u8259 	}Use Growl to execute actions\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
 You can also always send to Notification Center. Look in the Headers inside of the framework for documentation on this, specifically in GrowlDefines.h.\
 \
 
@@ -84,7 +161,14 @@ You can also always send to Notification Center. Look in the Headers inside of t
 \
 We document a lot of the Sandboxing bits on our Cocoa Developer Guide. However, keep in mind that if you use the XPC Client, that you also need to update that when you update the framework.\
 \
+
+\b Building
+\b0 \
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 \
+Ensure that you are building in 64 bit.\
+\
+\
+\
+\
+\
 }
