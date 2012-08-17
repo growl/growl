@@ -197,12 +197,7 @@
 		}
 		[convertedDict setObject:self.callbackType forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 	}
-   
-   
-   if(![convertedDict objectForKey:GROWL_NOTIFICATION_ICON_DATA]){
-      [convertedDict setObject:[[NSImage imageNamed:NSImageNameNetwork] TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON_DATA];
-   }
-	
+   	
 	return [convertedDict autorelease];
 }
 
