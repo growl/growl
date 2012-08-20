@@ -748,6 +748,7 @@
 								</object>
 								<reference key="NSMenuFont" ref="38278755"/>
 							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<bool key="NSPullDown">YES</bool>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
@@ -1669,6 +1670,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.defaultActionsLabel</string>
+						<reference key="source" ref="491040344"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="491040344"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: self.defaultActionsLabel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.defaultActionsLabel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1146</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="520708057"/>
 						<reference key="destination" ref="663653224"/>
@@ -1707,6 +1724,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">653</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.noActionsTitle</string>
+						<reference key="source" ref="581193427"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="581193427"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.noActionsTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.noActionsTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1152</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1759,6 +1792,54 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">1024</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.addConfigButtonTitle</string>
+						<reference key="source" ref="934500677"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="934500677"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.addConfigButtonTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.addConfigButtonTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.addCompoundOption</string>
+						<reference key="source" ref="378470871"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="378470871"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.addCompoundOption</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.addCompoundOption</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">title: self.defaultActionPopUpTitle</string>
+						<reference key="source" ref="800540362"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="800540362"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">title: self.defaultActionPopUpTitle</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.defaultActionPopUpTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1149</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4105,7 +4186,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1141</int>
+			<int key="maxID">1152</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

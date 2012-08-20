@@ -123,6 +123,12 @@
 @synthesize displayStylesColumnTitle;
 @synthesize noDefaultDisplayPluginLabel;
 
+@synthesize defaultActionsLabel;
+@synthesize addConfigButtonTitle;
+@synthesize defaultActionPopUpTitle;
+@synthesize addCompoundOption;
+@synthesize noActionsTitle;
+
 @synthesize awokeFromNib;
 
 #pragma mark "Display" tab pane
@@ -145,7 +151,7 @@
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
       self.pluginController = [GrowlPluginController sharedController];
 		self.ticketDatabase = [GrowlTicketDatabase sharedInstance];
-   
+      
       self.defaultStyleLabel = NSLocalizedString(@"Default Style", @"Default style picker label");
       self.showDisabledButtonTitle = NSLocalizedString(@"Show Disabled", @"Button title which shows a list of disabled plugins");
       self.getMoreStylesButtonTitle = NSLocalizedString(@"Get more styles", @"Button title which opens growl.info to the styles page");
@@ -153,6 +159,12 @@
       self.displayStylesColumnTitle = NSLocalizedString(@"Display Styles", @"Column title for Display Styles");
 		self.noDefaultDisplayPluginLabel = NSLocalizedString(@"No Default Display", @"Setting for no visual display");
 		
+      self.defaultActionsLabel = NSLocalizedString(@"Default Actions", @"Label for selectiong default actions");
+      self.addConfigButtonTitle = NSLocalizedString(@"Add Config", @"Button to add a configuration");
+      self.defaultActionPopUpTitle = NSLocalizedString(@"Actions", @"Title to go on Actions pop up");
+      self.addCompoundOption = NSLocalizedString(@"Add Compound", @"Option to add a compound action config");
+      self.noActionsTitle = NSLocalizedString(@"No Default Actions", @"Don't do any actions");
+      
 		self.awokeFromNib = NO;
    }
    return self;

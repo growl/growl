@@ -55,6 +55,13 @@
 @property (nonatomic, retain) NSString *priorityHigh;
 @property (nonatomic, retain) NSString *priorityEmergency;
 
+@property (nonatomic, retain) NSString *globalDefaultTitle;
+@property (nonatomic, retain) NSString *appDefaultTitle;
+@property (nonatomic, retain) NSString *noDefaultDisplayTitle;
+@property (nonatomic, retain) NSString *noDefaultActionTitle;
+@property (nonatomic, retain) NSString *actionsPopupTitle;
+@property (nonatomic, retain) NSString *actionsPopupLabel;
+
 - (BOOL) canRemoveTicket;
 - (void) setCanRemoveTicket:(BOOL)flag;
 - (IBAction)getApplications:(id)sender;

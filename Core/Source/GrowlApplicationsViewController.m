@@ -97,6 +97,13 @@ static BOOL awoken = NO;
 @synthesize priorityHigh;
 @synthesize priorityEmergency;
 
+@synthesize globalDefaultTitle;
+@synthesize appDefaultTitle;
+@synthesize noDefaultActionTitle;
+@synthesize noDefaultDisplayTitle;
+@synthesize actionsPopupTitle;
+@synthesize actionsPopupLabel;
+
 -(void)dealloc {
    [ticketsArrayController removeObserver:self forKeyPath:@"selection"];
    
@@ -118,6 +125,14 @@ static BOOL awoken = NO;
    [priorityNormal release];
    [priorityHigh release];
    [priorityEmergency release];
+   
+   self.globalDefaultTitle = nil;
+   self.appDefaultTitle = nil;
+   self.noDefaultActionTitle = nil;
+   self.noDefaultActionTitle = nil;
+   self.actionsPopupTitle = nil;
+   self.actionsPopupLabel = nil;
+
    [super dealloc];
 }
 
@@ -145,6 +160,13 @@ static BOOL awoken = NO;
       self.priorityNormal = NSLocalizedString(@"Normal", @"Normal notification priority");
       self.priorityHigh = NSLocalizedString(@"High", @"High notification priority");
       self.priorityEmergency = NSLocalizedString(@"Emergency", @"Emergency notification priority");
+      
+      self.globalDefaultTitle = NSLocalizedString(@"Global Default", @"Use the global defaults from the displays tab");
+      self.appDefaultTitle = NSLocalizedString(@"Application Default", @"Use the application's defaults");
+      self.noDefaultActionTitle = NSLocalizedString(@"No Actions", @"Use no actions");
+		self.noDefaultDisplayTitle = NSLocalizedString(@"No Default Display", @"Setting for no visual display");
+      self.actionsPopupTitle = NSLocalizedString(@"Actions", @"Title to go on the actions pop up");
+      self.actionsPopupLabel = NSLocalizedString(@"Actions:", @"Title to go above the actions pop up on");
 	}
    return self;
 }

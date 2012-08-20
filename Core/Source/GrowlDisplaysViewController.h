@@ -44,6 +44,12 @@
 @property (nonatomic, retain) NSString *displayStylesColumnTitle;
 @property (nonatomic, retain) NSString *noDefaultDisplayPluginLabel;
 
+@property (nonatomic, retain) NSString *defaultActionsLabel;
+@property (nonatomic, retain) NSString *addConfigButtonTitle;
+@property (nonatomic, retain) NSString *defaultActionPopUpTitle;
+@property (nonatomic, retain) NSString *addCompoundOption;
+@property (nonatomic, retain) NSString *noActionsTitle;
+
 @property (nonatomic) BOOL awokeFromNib;
 
 - (void)selectDefaultPlugin:(NSString*)pluginID;

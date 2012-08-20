@@ -15,20 +15,22 @@
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-   if((self = [super initWithFrame:frameRect])){      
-      
-      NSString *offString = NSLocalizedString(@"OFF", @"If the string is too long, use O");
-      [self.offLabel setStringValue:offString];
-      
-      NSString *onString = NSLocalizedString(@"ON", @"If the string is too long, use I");
-      [self.onLabel setStringValue:onString];
-      
+   if((self = [super initWithFrame:frameRect])){
       [self addObserver:self 
              forKeyPath:@"state" 
                 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                 context:nil];
    }
    return self;
+}
+
+- (void)awakeFromNib {
+   NSString *offString = NSLocalizedString(@"OFF", @"If the string is too long, use O");
+   [self.offLabel setStringValue:offString];
+   
+   NSString *onString = NSLocalizedString(@"ON", @"If the string is too long, use I");
+   [self.onLabel setStringValue:onString];
+   [super awakeFromNib];
 }
 
 - (void)dealloc
