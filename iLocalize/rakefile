@@ -183,8 +183,8 @@ task :translate, :source, :destination do |t, args|
         if File.exist?("#{source}/#{strings}") and File.exist?(destDir)
 #            puts "from #{source}/#{strings} to #{destCopy}"
             FileUtils.cp_r("#{source}/#{strings}", "#{destCopy}")
-        else
-           puts "#{destCopy} is missing"
+#        else
+#           puts "#{destCopy} is missing"
 
         end
 #        puts "Done with #{key}"
