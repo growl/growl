@@ -1,0 +1,4 @@
+Capster har nå oppdatert grafikk.
+Capster kan nå spille av en lyd når du trykker på Caps Lock knappen.
+Du kan nå få notifikasjon for Funksjons-knappen ( FN )
+Du kan nå få notifikasjoner for Num Lock knappen.

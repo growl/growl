@@ -1,0 +1,4 @@
+- uaktualniony wygląd
+- teraz Capster może odtwarzać dźwięk po wciśnięciu klawisza Caps Lock
+- możesz otrzymywać powiadomienia po wciśnięciu klawisza funkcyjnego
+- możesz otrzymywać powiadomienia po wciśnięciu klawisza Num Lock

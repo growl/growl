@@ -1,0 +1,3 @@
+Händer det att du av misstag trycker på tangenten Caps Lock (skiftlås) i tid och otid? Om det är så, är Capster precis vad du behöver. Detta verktyg, som är enkelt att använda, talar om för dig när du tryckt in Caps Lock – antingen själv, eller genom Growl.
+
+När du trycker på tangenten Caps Lock, ändras även Capsters menyikon. För den som skriver utan att titta på tangentbordet, är detta ett utmärkt sätt att bibehålla fokus på skärmen.

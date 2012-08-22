@@ -3,77 +3,136 @@ host = https://www.transifex.net
 
 [TGP.capster-localizable-strings-file]
 file_filter = translations/TGP.capster-localizable-strings-file/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growltunes-localizable-strings-file]
 file_filter = translations/TGP.growltunes-localizable-strings-file/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.hardwaregrowler-localizable-strings]
 file_filter = translations/TGP.hardwaregrowler-localizable-strings/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growltunes-app-store-text]
 file_filter = translations/TGP.growltunes-app-store-text/<lang>.wiki
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-localizable-strings-file]
 file_filter = translations/TGP.growl-localizable-strings-file/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-mainmenu-strings-file]
 file_filter = translations/TGP.growl-mainmenu-strings-file/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-pluginprefstrings-strings-file]
 file_filter = translations/TGP.growl-pluginprefstrings-strings-file/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.hardwaregrowler-app-store-text_1]
 file_filter = translations/TGP.hardwaregrowler-app-store-text_1/<lang>.wiki
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.hardwaregrowler-version-update]
 file_filter = translations/TGP.hardwaregrowler-version-update/<lang>.wiki
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-brushed-localizable-string]
 file_filter = translations/TGP.growl-brushed-localizable-string/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-ical-display-localizable-string]
 file_filter = translations/TGP.growl-ical-display-localizable-string/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-bezel-display-plugin-localizable-string]
 file_filter = translations/TGP.growl-bezel-display-plugin-localizable-string/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-speech-display-localizable-string]
 file_filter = translations/TGP.growl-speech-display-localizable-string/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-mailme-display-localizable-strings]
 file_filter = translations/TGP.growl-mailme-display-localizable-strings/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-sms-display-localizable-strings]
 file_filter = translations/TGP.growl-sms-display-localizable-strings/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-automator-action-localizable-strings]
 file_filter = translations/TGP.growl-automator-action-localizable-strings/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.shortcutrecorder-localizable-strings]
 file_filter = translations/TGP.shortcutrecorder-localizable-strings/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-appstore-text]
 file_filter = translations/TGP.growl-appstore-text/<lang>.wiki
+host = https://www.transifex.com
 source_lang = en
 
 [TGP.growl-14-version-update]
 file_filter = translations/TGP.growl-14-version-update/<lang>.wiki
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.capster-app-store-text]
+file_filter = translations/TGP.capster-app-store-text/<lang>.txt
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.capster-30-version-update]
+file_filter = translations/TGP.capster-30-version-update/<lang>.txt
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-boxcar-display-plugin]
+file_filter = translations/TGP.growl-boxcar-display-plugin/<lang>.strings
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-mailme-display-localizable-plugin]
+file_filter = translations/TGP.growl-mailme-display-localizable-plugin/<lang>.strings
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-prowl-display-plugin]
+file_filter = translations/TGP.growl-prowl-display-plugin/<lang>.strings
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-soundaction-display-plugin]
+file_filter = translations/TGP.growl-soundaction-display-plugin/<lang>.strings
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-music-video-display-plugin]
+file_filter = translations/TGP.growl-music-video-display-plugin/<lang>.strings
+host = https://www.transifex.com
+source_lang = en
+
+[TGP.growl-nano-display-plugin]
+file_filter = translations/TGP.growl-nano-display-plugin/<lang>.strings
+host = https://www.transifex.com
 source_lang = en
 

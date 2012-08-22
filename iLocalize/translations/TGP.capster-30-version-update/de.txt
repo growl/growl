@@ -1,0 +1,4 @@
+- Caster beinhaltet aktualisierte Grafiken.
+- Capster kann fortan akustisch auf sich aufmerksam machen, sobald die Feststelltaste gedrückt wurde.
+- Sie können nun Benachrichtigungen für die Funktionstaste (FN) erhalten.
+- Sie können nun Benachrichtigungen für die NumLock-Taste erhalten.

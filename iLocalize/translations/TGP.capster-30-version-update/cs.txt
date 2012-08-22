@@ -1,0 +1,4 @@
+- Capster nyní obsahuje aktualizovaný vzhled
+- Capster nyní umožňuje přehrát zvuk při stisknutí Zámku přeřaďovače (CapsLock)
+- Nyní můžete získat upozornění při stisku jakékoliv Funkční klávesy (F1–F19).
+- Nyní můžete získat upozornění při stisku Zámku číselného bloku (NumLock)

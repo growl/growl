@@ -1,0 +1,4 @@
+- Capster heeft nu een nieuwe look
+- Capster kan nu geluiden afspelen wanneer u de Caps Lock-toets indrukt
+- U kunt nu meldingen krijgen voor de Functie (FN)-toets
+- U kunt nu meldingen krijgen voor de Num Lock-toets

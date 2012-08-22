@@ -1,0 +1,3 @@
+Bommer du på tastene og trykker på Caps Lock hele tiden? Da er Capster det du trenger. Denne enkle å bruke applikasjon forteller deg når Caps Lock er trykket på, enten selv eller via Growl.
+
+Når du trykker på Caps Lock knappen, vil menylinje ikonet forandre seg også. For folk som bruker "Touch-Metoden" er det en fin måte å holde styr på knappen, mens du fokuserer på skjermen.

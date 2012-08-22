@@ -1,0 +1,3 @@
+你是否经常误按Caps Lock键？是的话，Capster正是你所需要的。Capster通过Growl或自带的通知在Caps Lock按下时告诉你。
+
+Capster的Menu Bar图标也会在按下Caps Lock键时改变。对于习惯于盲打的用户，Capster帮助你把注意力集中在屏幕上。

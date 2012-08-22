@@ -1,0 +1,3 @@
+¿Presionas, accidentalmente, la tecla de mayúsculas todo el tiempo? Entonces Capster es exactamente lo que necesitas. Esta sencilla aplicación te dirá, por si misma o a través de Growl, cuando hayas presionado la tecla de mayúsculas.
+
+Cuando presiones la tecla de mayúsculas, el ícono de menú de Capster también cambiará. Esta es una manera sensacional de mantener el enfoque en la pantalla.

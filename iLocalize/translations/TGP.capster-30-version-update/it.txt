@@ -1,0 +1,4 @@
+- Capster ora include grafica aggiornata.
+- Capster ora può emettere un suono quando premi il tasto Blocco Maiuscole.
+- Ora puoi avere le notifiche anche dal tasto Funzione (fn).
+- Ora puoi avere le notifiche anche dal tasto Blocco Numerico.

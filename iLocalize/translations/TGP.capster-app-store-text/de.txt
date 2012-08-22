@@ -1,0 +1,3 @@
+Drücken Sie ständig aus Versehen die Feststelltaste? Falls ja, dürfte Capster genau das Richtige für Sie sein. Diese einfach zu handhabende Anwendung meldet sich, sobald Sie die Feststelltaste drücken - entweder selbst oder via Growl.
+
+Wenn Sie die Feststelltaste drücken, wird sich Capsters Menü-Symbol ebenfalls ändern, somit können Sie sich weiterhin auf den Bildschirm konzentrieren.

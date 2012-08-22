@@ -1,2 +1,2 @@
-- Added French and Spanish localizations.
-- Resolved an issue with the Swedish localization displaying in Romanian.
+- 增加法語及西班牙語語系
+- 解決瑞典語顯示成羅馬尼亞語的問題

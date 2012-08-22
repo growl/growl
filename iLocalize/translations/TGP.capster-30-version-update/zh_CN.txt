@@ -1,0 +1,4 @@
+- Capster更新了图片。
+- Capster可在按下Caps Lock时发出提示音。
+- 功能键(FN)按下时可发出通知。
+- Num Lock键按下时可发出通知。

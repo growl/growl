@@ -1,0 +1,4 @@
+- Capster obsahuje nový artwork
+- Capster dokáže na stlačenie klávesy Caps Lock upozorniť už aj zvukom 
+- Možnosť notifikovať aj stlačenia klávesy (Fn)
+- Možnosť notifikovať aj stlačenia klávesy Num Lock

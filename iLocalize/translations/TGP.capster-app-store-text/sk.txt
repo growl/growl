@@ -1,0 +1,3 @@
+Často sa vám stáva, že náhodne prepnete Caps Lock, aj keď je to to posledné, čo by ste práve chceli spraviť? Ak áno, Capster je presne to, čo potrebujete. Táto jednoduchá aplikácia vás informuje, keď stlačíte Caps Lock, sama, alebo pomocou aplikácie Growl.
+
+Po stlačení klávesy Caps Lock, sa zmení aj Capster ikona v menu bare. Pre ľudí píšucich hmatovou metódou, alebo strojopisom, je to skvelý spôsob, ako pri písaní udržať pozornosť na obrazovke.

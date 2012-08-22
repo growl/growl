@@ -1,0 +1,3 @@
+Você acidentalmente pressiona Caps Lock o tempo inteiro? Caso a resposta seja sim, então Capster é exatamente o que você precisa. Esta aplicação fácil de usar vai dizer a você quando Caps Lock for pressionada, seja por conta própria ou através do Growl.
+
+Quando você pressiona a tecla Caps Lock, a barra de menu do Capster vai mudar também. Para escritores por toque esta é uma ótima forma de manter o foco na tela.

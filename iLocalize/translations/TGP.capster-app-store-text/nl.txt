@@ -1,0 +1,3 @@
+Drukt u constant per ongeluk op de Caps Lock-toets? Als dat zo is dan is Capster exact wat u nodig hebt. Dit eenvoudig te gebruiken programma vertelt u, zelf of via Growl, wanneer u Caps Lock heeft ingedrukt.
+
+Wanneer u de Caps Lock-teost heeft ingedrukt verandert ook het menubalksymbool. Voor blindtypisten is dit een uitstekende manier om focus op het scherm te houden.

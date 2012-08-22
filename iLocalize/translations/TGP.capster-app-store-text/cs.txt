@@ -1,0 +1,3 @@
+Stává se vám často, že si stále omylem zapínáte zámek přeřaďovače neboli CapsLock? Jestliže ano, program Capster je přesně to, co potřebujete. Tento jednoduchý program vám vždy oznámí zapnutí zámku přeřaďovače skrze Growl.
+
+Když stisknete zámek přeřaďovače ikona v řádku nabídek se změní.

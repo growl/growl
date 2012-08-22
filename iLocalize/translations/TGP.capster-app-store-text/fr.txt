@@ -1,0 +1,3 @@
+Il vous arrive tout le temps d'appuyer accidentellement sur la touche de Verrouillage Majuscule ? Alors Capster est fait pour vous. Cette application très simple vous avertira de chaque appui sur cette touche, via Growl ou par elle-même.
+
+Chaque fois que vous appuierez sur Verrouillage Majuscule, l'icône de Capster dans la barre des menus changera aussi. Pour les dactylos, c'est un formidable moyen de garder les yeux sur l'écran.

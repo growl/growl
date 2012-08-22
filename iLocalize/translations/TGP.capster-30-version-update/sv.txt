@@ -1,0 +1,4 @@
+– Capster har nu uppdaterat grafiskt pynt.
+– Capster kan nu spela upp ett ljud när du trycker på Caps lock/skiftlås.
+– Du kan nu få meddelanden angående funktionstangenten (Fn).
+– Du kan nu få meddelanden angående Num Lock- (siffertangentbords-)tangenten.

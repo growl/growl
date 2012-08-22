@@ -1,0 +1,3 @@
+Ti capita spesso di premere accidentalmente il blocco maiuscole? se è così allora Capster è esattamente quello di cui hai bisogno. Questa semplicissima applicazione di dirà quando hai premuto il blocco maiuscole, sia da sola che tramite Growl.
+
+Quando premi il blocco maiuscole, l'Icona sul barra menù cambia. Per chi digita senza guardare la tastiera è un buon metodo per non distrarsi.

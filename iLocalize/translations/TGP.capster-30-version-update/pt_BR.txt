@@ -1,0 +1,4 @@
+- Capster agora inclui arte atualizada.
+- Capster agora pode produzir sons quando for pressionada a tecla de Caps Lock.
+- Você agora pode obter notificações para a tecla Function (FN).
+- Você agora pode obter notificações para a tecla Num Lock.
