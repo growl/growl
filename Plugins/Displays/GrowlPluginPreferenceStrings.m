@@ -38,31 +38,33 @@
 
 -(id)init {
    if((self = [super init])){
-      self.growlDisplayOpacity = GrowlDisplayOpacity;
-      self.growlDisplayDuration = GrowlDisplayDuration;
+      NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
       
-      self.growlDisplayPriority = GrowlDisplayPriority;
-		self.growlDisplayPriorityVeryLow = GrowlDisplayPriorityLow;
-		self.growlDisplayPriorityModerate = GrowlDisplayPriorityModerate;
-		self.growlDisplayPriorityNormal = GrowlDisplayPriorityNormal;
-		self.growlDisplayPriorityHigh = GrowlDisplayPriorityHigh;
-		self.growlDisplayPriorityEmergency = GrowlDisplayPriorityEmergency;
-		
-      self.growlDisplayTextColor = GrowlDisplayTextColor;
-      self.growlDisplayBackgroundColor = GrowlDisplayBackgroundColor;
+      self.growlDisplayOpacity = NSLocalizedStringFromTableInBundle(@"Opacity:", @"PluginPrefStrings", frameworkBundle, @"How clear the display is");
+      self.growlDisplayDuration = NSLocalizedStringFromTableInBundle(@"Duration:", @"PluginPrefStrings", frameworkBundle, @"How long a notification will stay on screen");
       
-      self.growlDisplayLimitLines = GrowlDisplayLimitLines;
-      self.growlDisplayScreen = GrowlDisplayScreen;
-      self.growlDisplaySize = GrowlDisplaySize;
-      self.growlDisplaySizeNormal = GrowlDisplaySizeNormal;
-      self.growlDisplaySizeLarge = GrowlDisplaySizeLarge;
-      self.growlDisplaySizeSmall = GrowlDisplaySizeSmall;
+      self.growlDisplayPriority = NSLocalizedStringFromTableInBundle(@"Priority: (low to high)", @"PluginPrefStrings", frameworkBundle, @"Label for columns of color wells for various priority levels");
+      self.growlDisplayPriorityVeryLow = NSLocalizedStringFromTableInBundle(@"Very Low", @"PluginPrefStrings", frameworkBundle, @"Notification Priority Very Low");
+      self.growlDisplayPriorityModerate = NSLocalizedStringFromTableInBundle(@"Moderate", @"PluginPrefStrings", frameworkBundle, @"Notification Priority Moderate");
+      self.growlDisplayPriorityNormal = NSLocalizedStringFromTableInBundle(@"Normal", @"PluginPrefStrings", frameworkBundle, @"Notification Priority Normal");
+      self.growlDisplayPriorityHigh = NSLocalizedStringFromTableInBundle(@"High", @"PluginPrefStrings", frameworkBundle, @"Notification Priority High");
+      self.growlDisplayPriorityEmergency = NSLocalizedStringFromTableInBundle(@"Emergency", @"PluginPrefStrings", frameworkBundle, @"Notification Priority Emergency");
       
-      self.growlDisplayFloatingIcon = GrowlDisplayFloatingIcon;
+      self.growlDisplayTextColor = NSLocalizedStringFromTableInBundle(@"Text", @"PluginPrefStrings", frameworkBundle, @"Label for row of color wells for the text element of the plugin");
+      self.growlDisplayBackgroundColor = NSLocalizedStringFromTableInBundle(@"Background", @"PluginPrefStrings", frameworkBundle, @"Label for row of color wells for the background of the plugin");
       
-      self.effectLabel = GrowlDisplayEffect;
-      self.slideEffect = GrowlDisplayEffectSlide;
-      self.fadeEffect = GrowlDisplayEffectFade;
+      self.growlDisplayLimitLines = NSLocalizedStringFromTableInBundle(@"Limit to 2-5 lines", @"PluginPrefStrings", frameworkBundle, @"Checkbox to limit the display to 2-5 lines");
+      self.growlDisplayScreen = NSLocalizedStringFromTableInBundle(@"Screen:", @"PluginPrefStrings", frameworkBundle, @"Label for box to select screen for display to use");
+      self.growlDisplaySize = NSLocalizedStringFromTableInBundle(@"Size:", @"PluginPrefStrings", frameworkBundle, @"Label for pop up box for selecting the size of the display");
+      self.growlDisplaySizeNormal = NSLocalizedStringFromTableInBundle(@"Normal", @"PluginPrefStrings", frameworkBundle, @"Normal size for the display");
+      self.growlDisplaySizeLarge = NSLocalizedStringFromTableInBundle(@"Large", @"PluginPrefStrings", frameworkBundle, @"Large size for the display");
+      self.growlDisplaySizeSmall = NSLocalizedStringFromTableInBundle(@"Small", @"PluginPrefStrings", frameworkBundle, @"Small size for the display");
+      
+      self.growlDisplayFloatingIcon = NSLocalizedStringFromTableInBundle(@"Floating Icon", @"PluginPrefStrings", frameworkBundle, @"Label for checkbox that says to do a floating icon");
+      
+      self.effectLabel = NSLocalizedStringFromTableInBundle(@"Effect:", @"PluginPrefStrings", frameworkBundle, @"Label for the effect to use");
+      self.slideEffect = NSLocalizedStringFromTableInBundle(@"Slide", @"PluginPrefStrings", frameworkBundle, @"A slide effect");
+      self.fadeEffect = NSLocalizedStringFromTableInBundle(@"Fade", @"PluginPrefStrings", frameworkBundle, @"A fade effect");
    }
    return self;
 }

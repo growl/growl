@@ -379,6 +379,7 @@
 		BCA4468215E674B900BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAC76F715BB798100B0C6D5 /* Localizable.strings */; };
 		BCA446A215E6764D00BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872B15BB8AEE00A80055 /* Localizable.strings */; };
 		BCA446BB15E676D800BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872E15BB8CD000A80055 /* Localizable.strings */; };
+		BCA446BC15E678D600BF4FDA /* GrowlPluginPreferenceStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCA9D4631422228A00C98C98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA9D4621422228A00C98C98 /* main.m */; };
 		BCA9D468142222A500C98C98 /* GNTPClientService.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BCA9D466142222A500C98C98 /* GNTPClientService.entitlements */; };
 		BCAB1EC414780674005E2BB0 /* GNTPForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAB1EC314780674005E2BB0 /* GNTPForwarder.m */; };
@@ -400,7 +401,6 @@
 		BCC7F9181502CB04005FFE04 /* GrowlPluginPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = BCC7F9161502CB04005FFE04 /* GrowlPluginPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCC7F9191502CB04005FFE04 /* GrowlPluginPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC7F9171502CB04005FFE04 /* GrowlPluginPreferencePane.m */; };
 		BCC7F91C1502CF7B005FFE04 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
-		BCC7F97E1503BFF5005FFE04 /* GrowlPluginPreferenceStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCC7F9A81503C7EF005FFE04 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
 		BCC7F9A91503C7F5005FFE04 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
 		BCC7F9AA1503C7F9005FFE04 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC83FC11150087EB000504F9 /* GrowlPlugins.framework */; };
@@ -3314,7 +3314,6 @@
 				FF93C91E1421958F007EAC43 /* GrowlXPCCommunicationAttempt.h in Headers */,
 				FF93C9201421958F007EAC43 /* GrowlXPCNotificationAttempt.h in Headers */,
 				FF93C9221421958F007EAC43 /* GrowlXPCRegistrationAttempt.h in Headers */,
-				BCC7F97E1503BFF5005FFE04 /* GrowlPluginPreferenceStrings.h in Headers */,
 				BC1AF92915B05A4300CD47F9 /* GNTPUtilities.h in Headers */,
 				BC8FD3F315B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h in Headers */,
 				BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */,
@@ -3355,6 +3354,7 @@
 				BCAEAA6815347BCB00D00D6D /* NSURL+StringEncoding.h in Headers */,
 				BCEAC79515E66888007C3814 /* GrowlPlugins-Prefix.pch in Headers */,
 				BC47859615E66B0F00B6451A /* GrowlPlugins-Prefix.pch in Headers */,
+				BCA446BC15E678D600BF4FDA /* GrowlPluginPreferenceStrings.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
