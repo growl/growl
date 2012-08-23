@@ -123,7 +123,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
         {
             SGHotKey *rollupKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:showHideHotKey];
             [[SGHotKeyCenter sharedCenter] unregisterHotKey:rollupKey];
-            
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:GrowlRollupKeyComboCode];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:GrowlRollupKeyComboFlags];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }
     else if([keyPath isEqualToString:@"closeAllCombo"])
@@ -140,7 +142,9 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
         {
             SGHotKey *rollupKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:closeAllHotKey];
             [[SGHotKeyCenter sharedCenter] unregisterHotKey:rollupKey];
-            
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:GrowlCloseAllKeyComboCode];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:GrowlCloseAllKeyComboFlags];
+            [[NSUserDefaults standardUserDefaults] synchronize];           
         }
     }
 }
