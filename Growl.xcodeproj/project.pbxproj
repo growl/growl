@@ -165,6 +165,10 @@
 		93E7128513FE04200025D733 /* GrowlControlPauseScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128413FE04200025D733 /* GrowlControlPauseScriptCommand.m */; };
 		93E7128813FE05170025D733 /* GrowlControlResumeScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128713FE05160025D733 /* GrowlControlResumeScriptCommand.m */; };
 		93E7129013FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E7128F13FF4DA80025D733 /* GrowlControlCloseAllScriptCommand.m */; };
+		93F2172C15E5C43E00343EB1 /* OverlayMask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F2172815E5C43E00343EB1 /* OverlayMask@2x.png */; };
+		93F2172D15E5C43E00343EB1 /* SliderHandle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F2172915E5C43E00343EB1 /* SliderHandle@2x.png */; };
+		93F2172E15E5C43E00343EB1 /* SliderHandleDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F2172A15E5C43E00343EB1 /* SliderHandleDown@2x.png */; };
+		93F2172F15E5C43E00343EB1 /* SliderWell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93F2172B15E5C43E00343EB1 /* SliderWell@2x.png */; };
 		93FB21AA1391B52C002E1F86 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */; };
 		953F5CF107403B67008E2AEB /* GrowlNotifyScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */; };
 		953F5D3807403BC7008E2AEB /* GrowlRegisterScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */; };
@@ -1299,6 +1303,10 @@
 		93EC276C1421BEB600F94A35 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = da; path = da.lproj/About.rtf; sourceTree = "<group>"; };
 		93EC27701421BEFA00F94A35 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93EC27711421BF0000F94A35 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
+		93F2172815E5C43E00343EB1 /* OverlayMask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "OverlayMask@2x.png"; path = "external_dependencies/tmslidercontrol/OverlayMask@2x.png"; sourceTree = "<group>"; };
+		93F2172915E5C43E00343EB1 /* SliderHandle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandle@2x.png"; path = "external_dependencies/tmslidercontrol/SliderHandle@2x.png"; sourceTree = "<group>"; };
+		93F2172A15E5C43E00343EB1 /* SliderHandleDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandleDown@2x.png"; path = "external_dependencies/tmslidercontrol/SliderHandleDown@2x.png"; sourceTree = "<group>"; };
+		93F2172B15E5C43E00343EB1 /* SliderWell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderWell@2x.png"; path = "external_dependencies/tmslidercontrol/SliderWell@2x.png"; sourceTree = "<group>"; };
 		93FB21A71391B524002E1F86 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		950568E30812C2960096EC5C /* GrowlLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlLog.h; path = Core/Source/GrowlLog.h; sourceTree = "<group>"; };
@@ -2365,6 +2373,10 @@
 		934B85D215C26F4C0056A72A /* TMSliderControl */ = {
 			isa = PBXGroup;
 			children = (
+				93F2172815E5C43E00343EB1 /* OverlayMask@2x.png */,
+				93F2172915E5C43E00343EB1 /* SliderHandle@2x.png */,
+				93F2172A15E5C43E00343EB1 /* SliderHandleDown@2x.png */,
+				93F2172B15E5C43E00343EB1 /* SliderWell@2x.png */,
 				934B85E615C271540056A72A /* OverlayMask.png */,
 				934B85DD15C2704F0056A72A /* SliderHandle.png */,
 				934B85DE15C2704F0056A72A /* SliderHandleDown.png */,
@@ -3925,6 +3937,10 @@
 				BCE3BBF915C8C24B00B0BFFB /* squelch.tif in Resources */,
 				BCE3BBFC15C8D8C700B0BFFB /* closebox_pressed.tif in Resources */,
 				BCE3BBFD15C8D8C700B0BFFB /* closebox.tif in Resources */,
+				93F2172C15E5C43E00343EB1 /* OverlayMask@2x.png in Resources */,
+				93F2172D15E5C43E00343EB1 /* SliderHandle@2x.png in Resources */,
+				93F2172E15E5C43E00343EB1 /* SliderHandleDown@2x.png in Resources */,
+				93F2172F15E5C43E00343EB1 /* SliderWell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
