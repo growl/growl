@@ -49,16 +49,16 @@ hardwaregrowler_localizable_strings  = File.join(translation_dir, "TGP.hardwareg
 growl_bezel_display_strings          = File.join(translation_dir, "TGP.growl-bezel-display-plugin-localizable-string")
 growl_ical_display_strings           = File.join(translation_dir, "TGP.growl-ical-display-localizable-string")
 growl_brushed_display_strings        = File.join(translation_dir, "TGP.growl-brushed-localizable-string")
-growl_musicvideo_display_strings     = File.join(translation_dir, "TGP.growl-musicvideo-localizable-strings")
-growl_nano_display_strings           = File.join(translation_dir, "TGP.growl-nano-localizable-strings")
+growl_musicvideo_display_strings     = File.join(translation_dir, "TGP.growl-music-video-display-plugin")
+growl_nano_display_strings           = File.join(translation_dir, "TGP.growl-nano-display-plugin")
 
 #Growl Action Plugins
 growl_sms_display_strings            = File.join(translation_dir, "TGP.growl-sms-display-localizable-strings")
 growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-strings")
 growl_speech_display_strings         = File.join(translation_dir, "TGP.growl-speech-display-localizable-string")
-growl_sound_action_strings           = File.join(translation_dir, "TGP.growl-sound-action-localizable-strings")
-growl_boxcar_action_strings          = File.join(translation_dir, "TGP.growl-boxcar-action-localizable-strings")
-growl_prowl_action_strings           = File.join(translation_dir, "TGP.growl-prowl-action-localizable-strings")
+growl_sound_action_strings           = File.join(translation_dir, "TGP.growl-soundaction-display-plugin")
+growl_boxcar_action_strings          = File.join(translation_dir, "TGP.growl-boxcar-display-plugin")
+growl_prowl_action_strings           = File.join(translation_dir, "TGP.growl-prowl-display-plugin")
 
 #Growl Global Localizable Files
 growl_pluginpref_strings             = File.join(translation_dir, "TGP.growl-pluginprefstrings-strings-file")
