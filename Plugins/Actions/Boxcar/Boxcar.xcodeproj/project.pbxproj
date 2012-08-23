@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		BC19A16C15198D1900A0CA64 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC19A15115198CE300A0CA64 /* GrowlPlugins.framework */; };
 		BC47859815E66CC200B6451A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
+		BCA446F115E67EE300BF4FDA /* BoxcarPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */; };
 		BCEA7EE21517CD4400E98B1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE11517CD4400E98B1F /* Cocoa.framework */; };
 		BCEA7EE41517CD4400E98B1F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE31517CD4400E98B1F /* AppKit.framework */; };
 		BCEA7EE61517CD4400E98B1F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE51517CD4400E98B1F /* Foundation.framework */; };
 		BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCEA7EEA1517CD4400E98B1F /* InfoPlist.strings */; };
-		BCEA7EF01517CD4400E98B1F /* BoxcarPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCEA7EEE1517CD4400E98B1F /* BoxcarPrefPane.xib */; };
 		BCEA7EF51517CD4500E98B1F /* GrowlBoxcarPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEA7EF41517CD4500E98B1F /* GrowlBoxcarPreferencePane.m */; };
 		BCEA7EF81517CD4500E98B1F /* GrowlBoxcarAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BCEA7EF71517CD4500E98B1F /* GrowlBoxcarAction.m */; };
 /* End PBXBuildFile section */
@@ -152,6 +152,7 @@
 		BC61356F15E661C300686C89 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC61357115E661CA00686C89 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8058FC15BB742900E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoxcarPrefPane.xib; sourceTree = "<group>"; };
 		BCEA7EDE1517CD4400E98B1F /* Boxcar.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Boxcar.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEA7EE11517CD4400E98B1F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCEA7EE31517CD4400E98B1F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -159,7 +160,6 @@
 		BCEA7EE91517CD4400E98B1F /* Boxcar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Boxcar-Info.plist"; sourceTree = "<group>"; };
 		BCEA7EEB1517CD4400E98B1F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCEA7EED1517CD4400E98B1F /* Boxcar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Boxcar-Prefix.pch"; sourceTree = "<group>"; };
-		BCEA7EEF1517CD4400E98B1F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BoxcarPrefPane.xib; sourceTree = "<group>"; };
 		BCEA7EF31517CD4500E98B1F /* GrowlBoxcarPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlBoxcarPreferencePane.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BCEA7EF41517CD4500E98B1F /* GrowlBoxcarPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlBoxcarPreferencePane.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BCEA7EF61517CD4500E98B1F /* GrowlBoxcarAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GrowlBoxcarAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -260,7 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				BC19A13615198CE300A0CA64 /* Growl.xcodeproj */,
-				BCEA7EEE1517CD4400E98B1F /* BoxcarPrefPane.xib */,
+				BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */,
 				BCEA7EE91517CD4400E98B1F /* Boxcar-Info.plist */,
 				BCEA7EEA1517CD4400E98B1F /* InfoPlist.strings */,
 				BCEA7EED1517CD4400E98B1F /* Boxcar-Prefix.pch */,
@@ -448,8 +448,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */,
-				BCEA7EF01517CD4400E98B1F /* BoxcarPrefPane.xib in Resources */,
 				BC47859815E66CC200B6451A /* Localizable.strings in Resources */,
+				BCA446F115E67EE300BF4FDA /* BoxcarPrefPane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,14 +522,6 @@
 				BCEA7EEB1517CD4400E98B1F /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		BCEA7EEE1517CD4400E98B1F /* BoxcarPrefPane.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BCEA7EEF1517CD4400E98B1F /* en */,
-			);
-			name = BoxcarPrefPane.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
