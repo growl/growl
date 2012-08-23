@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC80590315BB74A000E852B9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
+		BC4785CE15E671D100B6451A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
 		BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7960151265C70052EB51 /* Cocoa.framework */; };
 		BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7969151265C70052EB51 /* InfoPlist.strings */; };
 		BCAD79D01512661B0052EB51 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */; };
@@ -137,6 +137,17 @@
 		BC1FE6F015C0F04700E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		BC1FE6F115C0F04700E27306 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
 		BC1FE6F215C0F04700E27306 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = "<group>"; };
+		BC4785A815E6709000B6451A /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785BA15E6709C00B6451A /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785BC15E670A800B6451A /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785BE15E670BF00B6451A /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785C015E670C900B6451A /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785C215E670D300B6451A /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785C415E670DD00B6451A /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785C615E6715D00B6451A /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4785C815E6716500B6451A /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC4785CA15E6716C00B6451A /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC4785CC15E6717400B6451A /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC80590215BB74A000E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -303,6 +314,17 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				cs,
+				de,
+				fr,
+				it,
+				ko,
+				nb,
+				nl,
+				pl,
+				"pt-BR",
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -435,7 +457,7 @@
 			files = (
 				BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */,
 				BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */,
-				BC80590315BB74A000E852B9 /* Localizable.strings in Resources */,
+				BC4785CE15E671D100B6451A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +508,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC80590215BB74A000E852B9 /* en */,
+				BC4785A815E6709000B6451A /* cs */,
+				BC4785BA15E6709C00B6451A /* de */,
+				BC4785BC15E670A800B6451A /* fr */,
+				BC4785BE15E670BF00B6451A /* it */,
+				BC4785C015E670C900B6451A /* ko */,
+				BC4785C215E670D300B6451A /* nb */,
+				BC4785C415E670DD00B6451A /* nl */,
+				BC4785C615E6715D00B6451A /* pl */,
+				BC4785C815E6716500B6451A /* pt-BR */,
+				BC4785CA15E6716C00B6451A /* zh-Hans */,
+				BC4785CC15E6717400B6451A /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
