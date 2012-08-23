@@ -75,20 +75,22 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSNumber *code = [defaults valueForKey:codePref];
 	NSNumber *modifiers = [defaults valueForKey:modifierPref];
-
+    SGKeyCombo *combo = nil;
+    
 	if(code && modifiers){
-		SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
-		if(combo.keyCode){
-			SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:identifier
-																			keyCombo:combo 
-																			  target:self 
-																			  action:keySelector] autorelease];
-			[[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
-		}else{
-			SGHotKey *hotKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:identifier];
-			[[SGHotKeyCenter sharedCenter] unregisterHotKey:hotKey];
-		}
-	}
+		combo = [SGKeyCombo keyComboWithKeyCode:[code integerValue] modifiers:[modifiers unsignedIntegerValue]];
+    }
+    
+    if(combo && combo.keyCode) {
+        SGHotKey *hotKey = [[[SGHotKey alloc] initWithIdentifier:identifier
+                                                        keyCombo:combo
+                                                          target:self
+                                                          action:keySelector] autorelease];
+        [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+    }else{
+        SGHotKey *hotKey = [[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:identifier];
+        [[SGHotKeyCenter sharedCenter] unregisterHotKey:hotKey];
+    }
 }
 
 - (GrowlPluginPreferencePane *) preferencePane {

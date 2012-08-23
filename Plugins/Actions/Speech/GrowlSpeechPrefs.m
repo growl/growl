@@ -283,13 +283,22 @@
 		modifierPref = GrowlSpeechClickKeyModifierPref;
 	}
 	
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:combo.keyCode] 
-															forKey:codePref];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:combo.modifiers] 
-															forKey:modifierPref];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlSpeechHotKeyChanged 
+    if(combo)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:combo.keyCode]
+                                                  forKey:codePref];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithUnsignedInteger:combo.modifiers]
+                                                  forKey:modifierPref];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+	}
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:codePref];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:modifierPref];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlSpeechHotKeyChanged
 																		 object:self 
 																	  userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:type] 
 																														forKey:@"hotKeyType"]];
