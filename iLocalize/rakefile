@@ -54,7 +54,7 @@ growl_nano_display_strings           = File.join(translation_dir, "TGP.growl-nan
 
 #Growl Action Plugins
 growl_sms_display_strings            = File.join(translation_dir, "TGP.growl-sms-display-localizable-strings")
-growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-strings")
+growl_mailme_display_strings         = File.join(translation_dir, "TGP.growl-mailme-display-localizable-plugin")
 growl_speech_display_strings         = File.join(translation_dir, "TGP.growl-speech-display-localizable-string")
 growl_sound_action_strings           = File.join(translation_dir, "TGP.growl-soundaction-display-plugin")
 growl_boxcar_action_strings          = File.join(translation_dir, "TGP.growl-boxcar-display-plugin")
