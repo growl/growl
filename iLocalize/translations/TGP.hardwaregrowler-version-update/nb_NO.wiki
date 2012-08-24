@@ -1,2 +1,9 @@
+HardwareGrowler 2
+
+-Hardwaregrowler har blitt omskrevet fra bunnen av. Du kan nå slå på og av spesifikke funksjoner i Hardwaregrowler.  Har lagt til funksjon slik at du ignorere stasjoner ved navn. - Nettverks monitor har blitt drastisk forbedret. Lagt til støtte for IPv6.  Lagt til støtte for USB Ethernet adaptere. -Lagt til støtte for notifikasjonssenter   når Growl ikke er tilstede ved 10.8.
+Capsters funksjoner er nå i i Hardwaregrowler.  Du kan nå se notifikasjonene for tastepress på Capslock, Numlock, FN og shift-knappene. - Strøm monitoren har flere kontroller når den vil fyre av en notifikasjon.
+
+HardwareGrowler 1.3.2
+
 - Støtte for fransk og spansk språk
 - Romanske tekster vises ikke lengre i den svenske oversettelsen

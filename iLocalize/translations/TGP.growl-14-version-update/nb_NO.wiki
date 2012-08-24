@@ -1,3 +1,16 @@
+Growl 2 forandringer
+
+Generelt - Nå kompatibelt med OSX notifikasjons senter på 10.8 - Nå kompatibilitet med Prowl og Boxcar tjenester som handlings-vinduer. - Rollup har nå bedre inaktivitets oppdagelse. - Growl kjører nå i "Sandbox" .
+
+Preferanser - PÅ / AV knappen i Growl skal nå være enklere å forstå.
+
+Visning - "Speech" introduserer nå større kontroll.  Separerer handlings-vinduer fra visuelle vinduer. "Music Video" kan nå venstre og høyrejustere tekst.  Fikser høydeproblemer for multilinje notifikasjoner i "Music Video". Nano kan nå vises på flere lokasjoner, venstre midt og høyre. Nå lagt til en "Sound action" visning. la til en måte å ikke ha noen visuelle notifikasjoner. 
+
+Bug fiks - Fikset høy CPU / Prosessor bruk. Fikset flere typer kræsj. Snarveier kan nå tilbakestilles.
+
+
+Growl 1.4 Forandringer.
+
 General
 - Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
 - Moved Rollup controls to separate tab.
