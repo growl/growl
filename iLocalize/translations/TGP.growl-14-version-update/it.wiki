@@ -1,3 +1,31 @@
+Cambiamenti in Growl 2
+
+Generali
+-Aggiunto supporto al centro notifiche di OSX 10.8.
+-Aggiunto supporto ai servizi Prowl e Boxcar come azione di notifica.
+-Raggruppamento ha una verifica di inattività migliore.
+-Growl è adesso sandboxed.
+
+Preferenze
+-Gli switch ON/OFF in Growl dovrebbero essere più comprensibili ora.
+
+Visualizzazione
+-La funzione speech introduce ora maggiori controlli.
+-Separazioni tra le notifiche di Azione e di Visualizzazione.
+-Musica e Video possono ora allineare il testo a destra e sinistra.
+-Riparato il problema nella visualizzazione del testo multilinea in Musica e Video.
+-Nano può ora essere visualizzata in più posizioni, sinistra, destra e centro.
+-Aggiunta una Azione Suono.
+-Aggiunta la possibilità di non avere nessuna notifica visualizzata.
+
+Sistemazione problemi
+-Risolto l'alto impegno della CPU.
+-Risolti vari blocchi del programma.
+-Scorciatoie possono ora essere deselezionate.
+
+
+Cambiamenti in Growl 1.4
+
 Generale
 - Pannello Applicazioni ridisegnato! Questa è una modifica importante e dovrebbe essere molto più semplice da usare.
 - i Controlli del raggruppamento delle notifiche sono stati spostati in un pannello separato.

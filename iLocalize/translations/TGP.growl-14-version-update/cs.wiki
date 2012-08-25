@@ -1,3 +1,31 @@
+Změny v Growl 2
+
+Hlavní změny
+- Přidána podpora pro upozornění OS X v 10.8.
+- Přidána podpora pro služby Prowl a Boxcar jako zobrazovací akce.
+- Přehlked nyní lépe rozpozná čas nečinnosti.
+- Growl nyní běží v sandboxu.
+
+Předvolby
+- Přepínač I/0 (Zapnuto/Vypnuto) je nyní v aplikaci Growl srozumitelnější.
+
+Zobrazení
+- Předčítání má více možností.
+- Oddělili se akce upozornění od vizuálních upozornění.
+- Text v tématu Music Video může být také zarovnán vlevo nebo vpravo.
+- Opraveny problémy s celkovou výškou ve víceřádkových upozornění v tématu Music Video.
+- Téma Nano se nyní může zobrazovat na více místech, vlevo, uprostřed a vpravo.
+- Přidáno nové téma SoundAction.
+- Přidána možnost nezobrazovat žádná vizuální upozornění.
+
+Oprava chyb
+- Opravena chyba, která způsobovala nadměrné zatěžování CPU.
+- Opraveny mnohé pády aplikace.
+- Klávesové zkratky nemusejí být přiřazeny.
+
+
+Změny v Growl 1.4
+
 Hlavní
 - Přepracován vzhled aplikace a aplikačních panelů!
 - Přehled přesunut do zvláštního panelu.

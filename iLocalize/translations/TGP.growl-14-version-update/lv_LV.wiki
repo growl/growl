@@ -1,3 +1,16 @@
+Growl 2 izmaiņas
+
+Vispārigi⏎ - Pievienots OS X 10.8 versijas Notification Center atbalsts.⏎ - Pievienots Prowl nu Boxcar servisu paziņojumu atbalsts⏎ - Uzlabots dīkstāves noteikšanas mehānisms kopsavilkumam.⏎ - Growl tagad darbojas Sandbox drošības režīmā.
+
+Iestatījumi⏎ - Padarīta saprotamāka JĀ/NĒ slēdža funkcionalitāte.
+
+Izskats⏎ - Vairāk konfigurācijas iespēju runas paziņojumiem.⏎ - Nodalīti darbību un izskata stili.⏎ - Mūzikas video tagad var līdzināt tekstu pa labi un pa kreisi.⏎ - Uzlabots izskats vairāku rindu paziņojumiem mūzikas video stilam.⏎ - Nano tagad var parādīt paziņojumus dažādās vietās, pa labi, pa kreisi un centrā.⏎ - Pievienots SoundAction stils.⏎ - Pievienota iespēja nerādīt nekādus vizuālus paziņojumus.
+
+Izlabotās kļūdas⏎ - Problēma ar augstu CPU noslodzi.⏎ - Dažādas programmas avārijas.⏎ - Īsceļus tagad var atiestatīt.
+
+
+Growl 1.4 izmaiņas
+
 Vispārīgi
 - Pārveidota programmu cilne! Pēc pamatīgas pārbūves tagad tai vajadzētu kļūt daudz vieglāk lietojamai.
 - Kopsavilkuma pārvaldība pārnesta atsevišķā cilnē.
