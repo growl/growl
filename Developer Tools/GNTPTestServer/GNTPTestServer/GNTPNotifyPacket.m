@@ -180,7 +180,7 @@
 			//We can easily add support here for other types
 			if([self.callbackType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
 				//Convert to a plist and check
-				convertedContext = [NSPropertyListSerialization propertyListWithData:[self.callbackType dataUsingEncoding:NSUTF8StringEncoding]
+				convertedContext = [NSPropertyListSerialization propertyListWithData:[self.callbackString dataUsingEncoding:NSUTF8StringEncoding]
 																								 options:0
 																								  format:NULL
 																									error:nil];
