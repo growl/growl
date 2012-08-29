@@ -477,7 +477,7 @@
          {
             //This has a bundle id, it isn't one of our bundles or our XPC
             //They must have compiled us in
-            growlName = bundleID;
+            growlName = [bundleID copy];
          } else {
             //This bundle is either GrowlNotify, or something else weird happened
             growlName = [@"GrowlNotify" copy];
@@ -488,7 +488,7 @@
 #ifdef GROWL_VERSION_STRING
             growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
 #else
-            growlVersion = @"Unknown Version";
+            growlVersion = [@"Unknown Version" copy];
 #endif
          }
 			determinedMachineInfo = YES;
