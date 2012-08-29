@@ -18,6 +18,7 @@
 #import "ISO8601DateFormatter.h"
 #import "GrowlOperatingSystemVersion.h"
 #import <CommonCrypto/CommonHMAC.h>
+#import "GrowlVersion.h"
 
 #if GROWLHELPERAPP
 #import "GNTPSubscriptionController.h"
@@ -460,15 +461,36 @@
 			
 			platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
 			NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
-			if ([[thisBundle bundleIdentifier] isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]) {
+         NSString *bundleID = [thisBundle bundleIdentifier];
+			if ([bundleID isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] ||
+             [bundleID isEqualToString:@"com.Growl.GrowlHelperApp.GNTPClientService"])
+         {
 				//This bundle *is* Growl!
 				growlName = [@"Growl" copy];
-			} else {
-				//This bundle is the Growl framework or an application that built the sources directly in.
+			} else if([bundleID caseInsensitiveCompare:@"com.growl.growlframework"] == NSOrderedSame ||
+                   [bundleID hasSuffix:@"GNTPClientService"])
+         {
+				//This bundle is the Growl framework or its XPC.
 				growlName = [@"Growl.framework" copy];
-			}
+			} else if ([[NSBundle mainBundle] bundleIdentifier] &&
+                    [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:bundleID])
+         {
+            //This has a bundle id, it isn't one of our bundles or our XPC
+            //They must have compiled us in
+            growlName = bundleID;
+         } else {
+            //This bundle is either GrowlNotify, or something else weird happened
+            growlName = [@"GrowlNotify" copy];
+         }
 			
 			growlVersion = [[[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
+         if(!growlVersion){
+#ifdef GROWL_VERSION_STRING
+            growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
+#else
+            growlVersion = @"Unknown Version";
+#endif
+         }
 			determinedMachineInfo = YES;
 		}
 		
