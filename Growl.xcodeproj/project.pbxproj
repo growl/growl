@@ -396,6 +396,7 @@
 		BCBCDD76121BA00300C07D0D /* GrowlHistoryNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD75121BA00300C07D0D /* GrowlHistoryNotification.m */; };
 		BCBCDDAC121BA07A00C07D0D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBCDD90121BA05100C07D0D /* CoreData.framework */; };
 		BCC1D47914C741B4007F8C8D /* GrowlNotificationSettingsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC1D47814C741B4007F8C8D /* GrowlNotificationSettingsCellView.m */; };
+		BCC4933815EE46CB0078D28D /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 93E4EEA5141EFCA0005A26CF /* About.rtf */; };
 		BCC55C631530A4EB00740ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		BCC79AB313FD5364003CFCB9 /* GrowlAppleScriptSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC79AB213FD5364003CFCB9 /* GrowlAppleScriptSupport.m */; };
 		BCC7F9181502CB04005FFE04 /* GrowlPluginPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = BCC7F9161502CB04005FFE04 /* GrowlPluginPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4017,6 +4018,7 @@
 				93F2172D15E5C43E00343EB1 /* SliderHandle@2x.png in Resources */,
 				93F2172E15E5C43E00343EB1 /* SliderHandleDown@2x.png in Resources */,
 				93F2172F15E5C43E00343EB1 /* SliderWell@2x.png in Resources */,
+				BCC4933815EE46CB0078D28D /* About.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
