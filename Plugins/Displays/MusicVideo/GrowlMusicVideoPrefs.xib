@@ -554,7 +554,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="537646371">
 								<int key="NSCellFlags">67108928</int>
-								<int key="NSCellFlags2">71305216</int>
+								<int key="NSCellFlags2">4196352</int>
 								<string key="NSContents">Screen:</string>
 								<reference key="NSSupport" ref="836138348"/>
 								<reference key="NSControlView" ref="591041837"/>
@@ -648,7 +648,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="958709622">
 								<int key="NSCellFlags">67108928</int>
-								<int key="NSCellFlags2">71305216</int>
+								<int key="NSCellFlags2">4196352</int>
 								<string key="NSContents">Effect:</string>
 								<reference key="NSSupport" ref="836138348"/>
 								<reference key="NSControlView" ref="75058708"/>
@@ -1040,7 +1040,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="155456261">
 								<int key="NSCellFlags">68157504</int>
-								<int key="NSCellFlags2">272630784</int>
+								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Justification:</string>
 								<reference key="NSSupport" ref="836138348"/>
 								<string key="NSCellIdentifier">_NS:1505</string>

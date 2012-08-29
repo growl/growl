@@ -77,7 +77,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="710878508">
 								<int key="NSCellFlags">67108928</int>
-								<int key="NSCellFlags2">71305216</int>
+								<int key="NSCellFlags2">4196352</int>
 								<string key="NSContents">Opacity:</string>
 								<object class="NSFont" key="NSSupport" id="662265905">
 									<string key="NSName">LucidaGrande</string>
@@ -1040,7 +1040,7 @@
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="891651256">
 								<int key="NSCellFlags">68157504</int>
-								<int key="NSCellFlags2">272630784</int>
+								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Position:  </string>
 								<reference key="NSSupport" ref="662265905"/>
 								<string key="NSCellIdentifier">_NS:1505</string>
@@ -2061,7 +2061,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="325770147">
+							<object class="IBNSLayoutConstraint" id="265290540">
 								<reference key="firstItem" ref="879332781"/>
 								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
@@ -2221,7 +2221,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="579562211">
+							<object class="IBNSLayoutConstraint" id="492978337">
 								<reference key="firstItem" ref="1002200858"/>
 								<int key="firstAttribute">11</int>
 								<int key="relation">0</int>
@@ -2925,7 +2925,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="800377651">
+							<object class="IBNSLayoutConstraint" id="89528122">
 								<reference key="firstItem" ref="329010509"/>
 								<int key="firstAttribute">11</int>
 								<int key="relation">0</int>
@@ -3413,7 +3413,7 @@
 						<reference key="object" ref="268664640"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBNSLayoutConstraint" id="904172625">
+							<object class="IBNSLayoutConstraint" id="46082889">
 								<reference key="firstItem" ref="268664640"/>
 								<int key="firstAttribute">7</int>
 								<int key="relation">0</int>
@@ -4075,22 +4075,22 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1262</int>
-						<reference key="object" ref="904172625"/>
+						<reference key="object" ref="46082889"/>
 						<reference key="parent" ref="268664640"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1263</int>
-						<reference key="object" ref="800377651"/>
+						<reference key="object" ref="89528122"/>
 						<reference key="parent" ref="26878776"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1264</int>
-						<reference key="object" ref="579562211"/>
+						<reference key="object" ref="492978337"/>
 						<reference key="parent" ref="26878776"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1265</int>
-						<reference key="object" ref="325770147"/>
+						<reference key="object" ref="265290540"/>
 						<reference key="parent" ref="26878776"/>
 					</object>
 				</object>
@@ -4417,7 +4417,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<reference ref="904172625"/>
+						<reference ref="46082889"/>
 					</object>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4472,7 +4472,7 @@
 						<reference ref="233730144"/>
 						<reference ref="407393943"/>
 						<reference ref="730996799"/>
-						<reference ref="800377651"/>
+						<reference ref="89528122"/>
 						<reference ref="271198682"/>
 						<reference ref="166663645"/>
 						<reference ref="308556053"/>
@@ -4516,7 +4516,7 @@
 						<reference ref="376953614"/>
 						<reference ref="1742325"/>
 						<reference ref="1000881682"/>
-						<reference ref="579562211"/>
+						<reference ref="492978337"/>
 						<reference ref="350726453"/>
 						<reference ref="857807963"/>
 						<reference ref="1043422160"/>
@@ -4526,7 +4526,7 @@
 						<reference ref="649306188"/>
 						<reference ref="709083858"/>
 						<reference ref="756579875"/>
-						<reference ref="325770147"/>
+						<reference ref="265290540"/>
 						<reference ref="1007420889"/>
 						<reference ref="161129820"/>
 						<reference ref="59764338"/>
