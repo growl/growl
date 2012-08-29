@@ -94,13 +94,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		34FBA2F60CA0551E00958660 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
-			remoteInfo = MailMe;
-		};
 		34FBA2F80CA0551E00958660 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
@@ -135,6 +128,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
 			remoteInfo = GNTPClientService;
+		};
+		BCCDE09215EEB9290044C36D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC29B27714D12D5300C72855;
+			remoteInfo = GrowlLauncher;
+		};
+		BCCDE09415EEB9290044C36D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34FBA2C70CA0551E00958660 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -245,7 +252,9 @@
 			isa = PBXGroup;
 			children = (
 				34FBA2DF0CA0551E00958660 /* Growl.app */,
+				BCCDE09315EEB9290044C36D /* GrowlLauncher.app */,
 				34FBA2E30CA0551E00958660 /* Growl.framework */,
+				BCCDE09515EEB9290044C36D /* GrowlPlugins.framework */,
 				34FBA2E90CA0551E00958660 /* Speech.growlView */,
 				34FBA2EB0CA0551E00958660 /* Brushed.growlView */,
 				34FBA2ED0CA0551E00958660 /* Bubbles.growlView */,
@@ -253,7 +262,6 @@
 				34FBA2F10CA0551E00958660 /* Bezel.growlView */,
 				34FBA2F30CA0551E00958660 /* Smoke.growlView */,
 				34FBA2F50CA0551E00958660 /* Nano.growlView */,
-				34FBA2F70CA0551E00958660 /* MailMe.growlView */,
 				34FBA2F90CA0551E00958660 /* MusicVideo.growlView */,
 				34FBA2FB0CA0551E00958660 /* SMS.growlView */,
 				31F7A218109058860049993D /* Unit tests.octest */,
@@ -305,7 +313,7 @@
 		073B925106855E0F0068C763 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 95E4A3920855C1A3006B3F45 /* Build configuration list for PBXProject "BeepHammer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -401,13 +409,6 @@
 			remoteRef = 34FBA2F40CA0551E00958660 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		34FBA2F70CA0551E00958660 /* MailMe.growlView */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MailMe.growlView;
-			remoteRef = 34FBA2F60CA0551E00958660 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		34FBA2F90CA0551E00958660 /* MusicVideo.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -427,6 +428,20 @@
 			fileType = wrapper.cfbundle;
 			path = com.company.application.GNTPClientService.xpc;
 			remoteRef = BC1FA62A14224CB300F1C147 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCDE09315EEB9290044C36D /* GrowlLauncher.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GrowlLauncher.app;
+			remoteRef = BCCDE09215EEB9290044C36D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BCCDE09515EEB9290044C36D /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BCCDE09415EEB9290044C36D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -514,6 +529,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BeepHammer.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -535,6 +551,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BeepHammer.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/$(CONFIGURATION)\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
